@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CALO-RPD Studio Experiment Configuration",
+  "type": "object",
+  "required": ["case_name", "algorithms", "runs", "master_seed", "population_size", "budget", "objective", "variables", "scenarios"],
+  "properties": {
+    "case_name": {"type": "string"},
+    "algorithms": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "runs": {"type": "integer", "minimum": 1},
+    "master_seed": {"type": "integer", "minimum": 0},
+    "population_size": {"type": "integer", "minimum": 2},
+    "parallel_workers": {"type": "integer", "minimum": 1}
+  },
+  "additionalProperties": true
+}

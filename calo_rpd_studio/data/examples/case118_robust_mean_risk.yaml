@@ -1,0 +1,47 @@
+name: IEEE 118-bus robust mean-risk comparison
+case_name: case118
+algorithms: [CALO, TLBO, PSO, CLPSO, QODE, GWO, MVO]
+runs: 30
+master_seed: 2026
+population_size: 80
+max_iterations: 2000
+budget:
+  policy: equal_evaluations
+  max_evaluations: 30000
+  wall_clock_seconds: null
+objective:
+  kind: multi_objective
+  weight_loss: 0.6
+  weight_voltage_deviation: 0.25
+  weight_l_index: 0.15
+  loss_scale: 100.0
+  voltage_deviation_scale: 5.0
+  l_index_scale: 1.0
+variables:
+  generator_voltages: true
+  transformer_taps: true
+  shunt_compensation: true
+  discrete_transformer_taps: true
+  discrete_shunts: true
+  transformer_minimum: 0.9
+  transformer_maximum: 1.1
+  transformer_step: 0.0125
+  shunt_controls: []
+robust_objective:
+  aggregation: mean_risk
+  risk_lambda: 1.0
+  cvar_alpha: 0.95
+scenarios:
+  mode: monte_carlo
+  count: 30
+  active_load_std: 0.08
+  reactive_load_std: 0.08
+  branch_outages: []
+  generator_outages: []
+  renewable_bus: 0
+  renewable_rated_mw: 0.0
+  renewable_mean_capacity_factor: 0.5
+  renewable_std_capacity_factor: 0.15
+algorithm_parameters: {}
+output_directory: results_data
+parallel_workers: 4
