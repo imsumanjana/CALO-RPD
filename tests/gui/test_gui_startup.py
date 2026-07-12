@@ -136,3 +136,48 @@ def test_result_review_opens_selected_run_in_validation(qtbot, tmp_path, monkeyp
     assert window.workflow.results_reviewed is True
     assert window.stack.currentIndex() == 10
     assert selected == {"experiment_id": "experiment-1", "run_id": "run-1"}
+
+
+def test_live_plot_auto_mode_uses_violation_before_feasibility(qtbot, tmp_path):
+    from calo_rpd_studio.app.experiment_manager import ExperimentManager
+    from calo_rpd_studio.app.state_manager import AppState
+    from calo_rpd_studio.gui.panels.live_optimization_panel import LiveOptimizationPanel
+
+    state = AppState(tmp_path / "live-auto.sqlite")
+    panel = LiveOptimizationPanel(state, ExperimentManager(state))
+    qtbot.addWidget(panel)
+    panel.update_progress({
+        "algorithm": "TLBO",
+        "run_index": 1,
+        "iteration": 1,
+        "evaluations": 20,
+        "best_feasible_objective": float("nan"),
+        "best_constraint_violation": 0.25,
+        "feasible": False,
+    })
+    assert panel.metric.currentText() == panel.AUTO_MODE
+    assert panel.violation_series["TLBO"][1] == [0.25]
+    assert panel.plot.axis.lines
+    assert panel.plot.axis.get_ylabel() == "Best normalized constraint violation"
+
+
+def test_live_plot_explicit_objective_without_feasibility_shows_message(qtbot, tmp_path):
+    from calo_rpd_studio.app.experiment_manager import ExperimentManager
+    from calo_rpd_studio.app.state_manager import AppState
+    from calo_rpd_studio.gui.panels.live_optimization_panel import LiveOptimizationPanel
+
+    state = AppState(tmp_path / "live-message.sqlite")
+    panel = LiveOptimizationPanel(state, ExperimentManager(state))
+    qtbot.addWidget(panel)
+    panel.update_progress({
+        "algorithm": "PSO",
+        "run_index": 1,
+        "iteration": 1,
+        "evaluations": 10,
+        "best_feasible_objective": float("nan"),
+        "best_constraint_violation": 0.4,
+        "feasible": False,
+    })
+    panel.metric.setCurrentText(panel.OBJECTIVE_MODE)
+    assert not panel.plot.axis.lines
+    assert any("No feasible incumbent" in text.get_text() for text in panel.plot.axis.texts)

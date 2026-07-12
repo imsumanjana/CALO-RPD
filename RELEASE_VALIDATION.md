@@ -1,46 +1,22 @@
-# CALO-RPD Studio 1.0.6 — Release Validation Record
+# CALO-RPD Studio 1.0.8 — Release Validation Record
 
-## Scope
+## Release focus
 
-Version 1.0.6 corrects the post-experiment result-review transition and adds selective series export to scientific plots while preserving the guided workflow, square live preview, popup plot tools, high-resolution export, optimization engine, CALO architecture, statistics, validation, and reproducibility features.
+Version 1.0.8 corrects the Live Optimization empty-plot behavior while preserving scientifically valid convergence semantics.
 
-## Result-review workflow
+The Live Optimization page now:
 
-- A selected Results Explorer row is explicitly tracked as the reviewed run.
-- Confirming review marks the workflow step complete.
-- Validation & Audit is unlocked immediately.
-- The reviewed experiment and run are transferred to Validation & Audit.
-- The application navigates to Validation & Audit automatically.
+- defaults to **Automatic (recommended)** convergence selection;
+- shows best normalized constraint violation while any monitored optimizer has not yet produced a feasible incumbent;
+- switches to best-feasible objective convergence when all currently represented optimizers have feasible histories;
+- displays an explicit explanatory message instead of a visually blank canvas when the selected metric has no valid data;
+- reloads stored convergence histories after experiment completion or cancellation so results remain visible when the page is opened after a run.
 
-## Selective series export
+## Automated checks in the packaging environment
 
-- Export checkboxes are built from the currently available legend-capable series in the preview.
-- Displayed legend-name overrides are reflected in checkbox text.
-- Users may export all or any subset of available series.
-- Non-selected series are temporarily hidden only during save.
-- Export legends are rebuilt from selected visible series only.
-- Preview line visibility and legend content are restored after saving.
-- Empty selection is rejected when selectable series exist.
+- Python source compilation: PASS
+- Automated test suite: 35 passed, 17 skipped
+- GUI-only tests skipped because PyQt6 was not installed in the packaging environment
+- PYPOWER cross-validation tests skipped because PYPOWER was not installed in the packaging environment
 
-## Existing figure guarantees retained
-
-- Live Optimization uses an exact 1:1 square preview.
-- Live Optimization content scrolls vertically when screen height requires it.
-- Live-plot PNG, SVG, and PDF exports remain exact square outputs.
-- PNG DPI remains selectable from 600 through 2400 with 600 as the default.
-- Plot tools remain separated into Text & labels, Plot appearance, Export figure, and Style profiles popups.
-
-## Repository automation
-
-- No `.github/workflows` directory is included.
-- The guided workflow is implemented inside CALO-RPD Studio only.
-
-## Validation performed in this build environment
-
-- Python source compilation completed successfully for `calo_rpd_studio` and `tests`.
-- Automated tests: **34 passed, 14 skipped**.
-- The skipped tests require PyQt6 and PYPOWER, which are not installed in this build environment.
-- Selective-series export tests passed, including temporary filtering of saved curves and legend entries followed by full preview restoration.
-- Empty export selection is rejected when selectable plot series exist.
-- GUI regression coverage was added for dynamic export-series checkboxes and reviewed-run navigation; these tests run when PyQt6 is available.
-- No `.github/workflows` directory is present.
+The skipped tests are included in the repository and are expected to run in a fully provisioned application environment.

@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.0.8 — 2026-07-12
+
+- Fixed an empty Live Optimization plot when no feasible incumbent had yet been found.
+- Added Automatic convergence mode, which displays constraint-violation progress until feasibility is available for every monitored optimizer, then switches to best-feasible objective.
+- Added explicit informative empty-state messages instead of blank Matplotlib canvases.
+- Live Optimization now reloads stored convergence histories after experiment completion or cancellation, so the plot remains available when the page is opened after the run.
+- Synchronized application version labels and provenance with the release version.
+
+## 1.0.7
+
+- Corrected Live Optimization convergence semantics: objective convergence now uses best feasible objective and constraint convergence is shown separately.
+- Changed convergence x-axis from iteration count to objective-function evaluations for fair cross-algorithm comparison.
+- Prevented repeated runs from being concatenated into one false convergence curve; the live view now resets per repeated run.
+- Added convergence metric selector for best feasible objective and best normalized constraint violation.
+- Fixed Results Explorer row selection so selected-run details and the review-to-validation transition always work.
+- Made review-to-validation navigation atomic and independent of signal ordering.
+- Updated statistical convergence to evaluation-aligned median best-feasible histories when v1.0.7 telemetry is available.
+
 ## 1.0.6 — 2026-07-12
 
 - Fixed the Results Explorer review action so confirming a selected run now unlocks and immediately opens Validation & Audit on that exact run.

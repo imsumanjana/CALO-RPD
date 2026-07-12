@@ -1,6 +1,6 @@
 # CALO-RPD Studio
 
-**CALO-RPD Studio 1.0.6** is a scientific desktop platform for deterministic and
+**CALO-RPD Studio 1.0.8** is a scientific desktop platform for deterministic and
 robust optimal reactive power dispatch (ORPD), reproducible comparison of twenty
 optimizers, and research on the **Cognitive Adaptive Learning Optimizer (CALO)**.
 

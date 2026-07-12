@@ -12,4 +12,4 @@ def collect_provenance():
     for p in PACKAGES:
         try:versions[p]=md.version(p)
         except md.PackageNotFoundError:versions[p]='not-installed'
-    return {'software_version':'1.0.6','git_commit':_git_commit(),'python_version':platform.python_version(),'platform':platform.platform(),'processor':platform.processor(),'cpu_count':psutil.cpu_count(logical=True),'memory_bytes':psutil.virtual_memory().total,'dependencies':versions}
+    return {'software_version':'1.0.8','git_commit':_git_commit(),'python_version':platform.python_version(),'platform':platform.platform(),'processor':platform.processor(),'cpu_count':psutil.cpu_count(logical=True),'memory_bytes':psutil.virtual_memory().total,'dependencies':versions}

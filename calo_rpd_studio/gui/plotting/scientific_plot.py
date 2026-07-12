@@ -89,6 +89,28 @@ class ScientificPlotWidget(QWidget):
     def clear(self) -> None:
         self.axis.clear()
 
+
+    def show_message(self, message: str, *, title: str | None = None, xlabel: str | None = None, ylabel: str | None = None) -> None:
+        """Render an informative empty-state message instead of a visually blank chart."""
+        self.axis.clear()
+        self.axis.text(
+            0.5,
+            0.5,
+            str(message),
+            transform=self.axis.transAxes,
+            ha="center",
+            va="center",
+            wrap=True,
+        )
+        meta = self.manager.records[self.plot_id].metadata
+        if title is not None:
+            meta["title"] = title
+        if xlabel is not None:
+            meta["xlabel"] = xlabel
+        if ylabel is not None:
+            meta["ylabel"] = ylabel
+        self.manager.apply(self.plot_id, self.style)
+
     def plot_series(self, series, title=None, xlabel=None, ylabel=None) -> None:
         self.axis.clear()
         for label, values in series.items():
@@ -101,3 +123,27 @@ class ScientificPlotWidget(QWidget):
         if ylabel is not None:
             meta["ylabel"] = ylabel
         self.manager.apply(self.plot_id, self.style)
+    def plot_xy_series(self, series, title=None, xlabel=None, ylabel=None) -> None:
+        """Plot mapping of label -> (x_values, y_values) without inventing an x-axis.
+
+        This is used for convergence plots where objective-function evaluation count is the
+        scientifically fair comparison axis and different optimizers may record at different
+        evaluation intervals.
+        """
+        self.axis.clear()
+        for label, pair in series.items():
+            if pair is None or len(pair) != 2:
+                continue
+            x_values, y_values = pair
+            if not x_values or not y_values:
+                continue
+            self.axis.plot(x_values, y_values, label=label)
+        meta = self.manager.records[self.plot_id].metadata
+        if title is not None:
+            meta["title"] = title
+        if xlabel is not None:
+            meta["xlabel"] = xlabel
+        if ylabel is not None:
+            meta["ylabel"] = ylabel
+        self.manager.apply(self.plot_id, self.style)
+

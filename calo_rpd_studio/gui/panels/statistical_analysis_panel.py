@@ -76,9 +76,9 @@ class StatisticalAnalysisPanel(WorkspacePage):
             ylabel="Objective",
         )
         self.convergence = ScientificPlotWidget(
-            title="Mean convergence",
-            xlabel="Recorded iteration",
-            ylabel="Best objective",
+            title="Median best-feasible convergence",
+            xlabel="Objective-function evaluations",
+            ylabel="Best feasible objective",
         )
         self.tabs.addTab(self.boxplot, "Distribution")
         self.tabs.addTab(self.convergence, "Convergence")
@@ -111,11 +111,17 @@ class StatisticalAnalysisPanel(WorkspacePage):
             if not rows:
                 raise ValueError("The selected experiment contains no completed optimization runs.")
             groups: dict[str, list[float]] = {}
-            convergence: dict[str, list[list[float]]] = {}
+            convergence: dict[str, list[tuple[list[int], list[float]]]] = {}
             for row in rows:
                 data = json.loads(row["result_json"])
                 groups.setdefault(row["algorithm"], []).append(float(data["best_objective"]))
-                convergence.setdefault(row["algorithm"], []).append(data["convergence_history"])
+                metadata = data.get("metadata", {})
+                evaluations = metadata.get("convergence_evaluations", [])
+                feasible_history = metadata.get("best_feasible_objective_history", [])
+                if evaluations and feasible_history and len(evaluations) == len(feasible_history):
+                    convergence.setdefault(row["algorithm"], []).append(
+                        ([int(x) for x in evaluations], [float(y) for y in feasible_history])
+                    )
 
             self.table.setRowCount(len(groups))
             for row_index, (algorithm, values) in enumerate(sorted(groups.items())):
@@ -151,20 +157,39 @@ class StatisticalAnalysisPanel(WorkspacePage):
             )
             self.boxplot.manager.apply(self.boxplot.plot_id, self.boxplot.style)
 
-            mean_series: dict[str, list[float]] = {}
+            median_series: dict[str, tuple[list[int], list[float]]] = {}
             for algorithm, runs in convergence.items():
                 if not runs:
                     continue
-                length = min(len(history) for history in runs)
-                mean_series[algorithm] = np.mean(
-                    [history[:length] for history in runs],
-                    axis=0,
-                ).tolist()
-            self.convergence.plot_series(
-                mean_series,
-                "Mean convergence",
-                "Recorded iteration",
-                "Best objective",
+                max_evaluation = max((max(xs) for xs, _ in runs if xs), default=0)
+                if max_evaluation <= 0:
+                    continue
+                # Use a common evaluation grid and carry the most recent recorded feasible best
+                # forward. NaNs before first feasibility are excluded from the cross-run median.
+                grid = np.unique(
+                    np.concatenate([np.asarray(xs, dtype=int) for xs, _ in runs if xs])
+                )
+                aligned = []
+                for xs, ys in runs:
+                    x_arr = np.asarray(xs, dtype=int)
+                    y_arr = np.asarray(ys, dtype=float)
+                    values = np.full(grid.shape, np.nan, dtype=float)
+                    for gi, gx in enumerate(grid):
+                        pos = np.searchsorted(x_arr, gx, side="right") - 1
+                        if pos >= 0:
+                            values[gi] = y_arr[pos]
+                    aligned.append(values)
+                matrix = np.vstack(aligned)
+                with np.errstate(all="ignore"):
+                    median = np.nanmedian(matrix, axis=0)
+                valid = np.isfinite(median)
+                if np.any(valid):
+                    median_series[algorithm] = (grid[valid].tolist(), median[valid].tolist())
+            self.convergence.plot_xy_series(
+                median_series,
+                "Median best-feasible convergence",
+                "Objective-function evaluations",
+                "Best feasible objective",
             )
             task.finish(f"Statistical analysis completed for {len(groups)} algorithm group(s)")
             self.analysis_completed.emit()

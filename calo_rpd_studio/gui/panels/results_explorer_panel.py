@@ -5,11 +5,13 @@ import json
 
 from PyQt6.QtCore import pyqtSignal
 from PyQt6.QtWidgets import (
+    QAbstractItemView,
     QComboBox,
     QGroupBox,
     QHBoxLayout,
     QHeaderView,
     QLabel,
+    QMessageBox,
     QPushButton,
     QTableWidget,
     QTableWidgetItem,
@@ -71,9 +73,12 @@ class ResultsExplorerPanel(WorkspacePage):
         )
         self.table.setAlternatingRowColors(True)
         self.table.verticalHeader().setVisible(False)
+        self.table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
+        self.table.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
         self.table.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch)
         self.table.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeMode.ResizeToContents)
         self.table.itemSelectionChanged.connect(self.show_selected)
+        self.table.cellClicked.connect(lambda *_: self.show_selected())
         self.layout_root.addWidget(self.table, 2)
 
         details_box = QGroupBox("Selected run details")
@@ -160,14 +165,26 @@ class ResultsExplorerPanel(WorkspacePage):
             for column, value in enumerate(values):
                 self.table.setItem(row_index, column, QTableWidgetItem(str(value)))
 
+        # A visible first row is an actionable selection. This avoids the previous state where a
+        # cell appeared highlighted but selectedRows() returned nothing because selection behavior
+        # was cell-based.
+        if rows:
+            self.table.selectRow(0)
+            self.show_selected()
+
     def show_selected(self) -> None:
-        selected = self.table.selectionModel().selectedRows()
-        if not selected:
+        row_index = self.table.currentRow()
+        if row_index < 0 or row_index >= len(self._rows):
+            selected = self.table.selectionModel().selectedRows()
+            row_index = selected[0].row() if selected else -1
+        if row_index < 0 or row_index >= len(self._rows):
             self._selected_experiment_id = ""
             self._selected_run_id = ""
+            self.details.clear()
             self.review_button.setEnabled(False)
             return
-        row = self._rows[selected[0].row()]
+
+        row = self._rows[row_index]
         data = json.loads(row["result_json"])
         self._selected_experiment_id = str(row["experiment_id"])
         self._selected_run_id = str(row["id"])
@@ -177,6 +194,10 @@ class ResultsExplorerPanel(WorkspacePage):
                 {
                     "run_id": row["id"],
                     "algorithm": row["algorithm"],
+                    "run": int(row["run_index"]) + 1,
+                    "objective": data.get("best_objective"),
+                    "feasible": data.get("feasible"),
+                    "total_constraint_violation": data.get("total_constraint_violation"),
                     "decoded_controls": data.get("decoded_controls", {}),
                     "objective_components": data.get("objective_components", {}),
                     "termination_reason": data.get("termination_reason"),
@@ -188,8 +209,15 @@ class ResultsExplorerPanel(WorkspacePage):
         )
 
     def _confirm_review(self) -> None:
-        """Complete the review and immediately open the selected run in validation."""
+        """Complete review and immediately request validation of the exact selected run."""
         if not self._selected_experiment_id or not self._selected_run_id:
+            self.show_selected()
+        if not self._selected_experiment_id or not self._selected_run_id:
+            QMessageBox.information(
+                self,
+                "Select a result",
+                "Select one completed run before continuing to independent validation.",
+            )
             return
         self.state.current_experiment_id = self._selected_experiment_id
         self.review_completed.emit()
