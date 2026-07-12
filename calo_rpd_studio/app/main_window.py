@@ -137,8 +137,15 @@ class MainWindow(QMainWindow):
         self.experiment_manager.failed.connect(lambda _: self.workflow.mark_experiment_stopped())
         self.pages[8].analysis_completed.connect(self.workflow.mark_statistics_completed)
         self.pages[9].review_completed.connect(self.workflow.mark_results_reviewed)
+        self.pages[9].validation_requested.connect(self._open_reviewed_run_for_validation)
         self.state.runs_changed.connect(self._refresh_verified_count)
         self.workflow.changed.connect(self._refresh_workflow)
+
+    def _open_reviewed_run_for_validation(self, experiment_id: str, run_id: str) -> None:
+        """Open Validation & Audit on the run just reviewed by the user."""
+        self.pages[10].select_run(experiment_id, run_id)
+        self.state.task_status.finish("Result review confirmed; selected run is ready for validation")
+        self._set_workspace(10)
 
     def _create_global_status_bar(self) -> None:
         self.global_status = GlobalStatusBarWidget()
@@ -271,7 +278,7 @@ class MainWindow(QMainWindow):
         QMessageBox.information(
             self,
             "About CALO-RPD Studio",
-            "CALO-RPD Studio 1.0.5\n"
+            "CALO-RPD Studio 1.0.6\n"
             "Cognitive Adaptive Learning Optimizer for Robust Reactive Power Dispatch\n\n"
             "Guided scientific optimization, reproducible benchmarking, validation, statistics, and publication export.",
         )

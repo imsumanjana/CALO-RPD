@@ -20,6 +20,7 @@ from PyQt6.QtWidgets import (
     QLabel,
     QLineEdit,
     QPushButton,
+    QScrollArea,
     QSizePolicy,
     QSpinBox,
     QToolButton,
@@ -168,6 +169,7 @@ class PlotFormattingToolbar(QWidget):
         self.style = deepcopy(plot_widget.style)
         self._loading = False
         self._syncing_square_size = False
+        self.export_series_checks: dict[str, QCheckBox] = {}
 
         layout = QHBoxLayout(self)
         layout.setContentsMargins(8, 6, 8, 6)
@@ -384,6 +386,41 @@ class PlotFormattingToolbar(QWidget):
             "Choose the output format and publication resolution. Square plots retain an exact 1:1 export canvas.",
             self,
         )
+        self.export_series_section = _ToolSection("Series to export")
+        series_note = QLabel(
+            "Choose which previewed series are included in the saved figure. The exported legend is rebuilt from the checked series only."
+        )
+        series_note.setObjectName("PlotToolPopupNote")
+        series_note.setWordWrap(True)
+        self.export_series_section.content.addWidget(series_note)
+
+        selection_actions = QWidget()
+        selection_actions_layout = QHBoxLayout(selection_actions)
+        selection_actions_layout.setContentsMargins(0, 0, 0, 0)
+        selection_actions_layout.setSpacing(8)
+        self.select_all_series = QPushButton("Select all")
+        self.clear_all_series = QPushButton("Clear all")
+        selection_actions_layout.addWidget(self.select_all_series)
+        selection_actions_layout.addWidget(self.clear_all_series)
+        selection_actions_layout.addStretch(1)
+        self.export_series_section.content.addWidget(selection_actions)
+
+        self.export_series_scroll = QScrollArea()
+        self.export_series_scroll.setObjectName("ExportSeriesScroll")
+        self.export_series_scroll.setWidgetResizable(True)
+        self.export_series_scroll.setFrameShape(QFrame.Shape.NoFrame)
+        self.export_series_scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        self.export_series_scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
+        self.export_series_scroll.setMaximumHeight(210)
+        self.export_series_body = QWidget()
+        self.export_series_grid = QGridLayout(self.export_series_body)
+        self.export_series_grid.setContentsMargins(0, 0, 0, 0)
+        self.export_series_grid.setHorizontalSpacing(12)
+        self.export_series_grid.setVerticalSpacing(6)
+        self.export_series_scroll.setWidget(self.export_series_body)
+        self.export_series_section.content.addWidget(self.export_series_scroll)
+        self.export_popup.layout_root.addWidget(self.export_series_section)
+
         export = _ToolSection("Output")
         self.export_format = QComboBox()
         self.export_format.addItems(["PNG", "SVG", "PDF"])
@@ -494,6 +531,8 @@ class PlotFormattingToolbar(QWidget):
         ):
             widget.valueChanged.connect(self._general_changed)
 
+        self.select_all_series.clicked.connect(lambda: self._set_all_export_series(True))
+        self.clear_all_series.clicked.connect(lambda: self._set_all_export_series(False))
         self.export_format.currentTextChanged.connect(self._sync_export_controls)
         self.width.valueChanged.connect(self._square_width_changed)
         self.height.valueChanged.connect(self._square_height_changed)
@@ -514,6 +553,7 @@ class PlotFormattingToolbar(QWidget):
             return
         self._hide_popups_except(popup)
         if popup is self.export_popup:
+            self._refresh_export_series_options()
             self._sync_export_controls()
         popup.adjustSize()
         popup.show()
@@ -622,6 +662,62 @@ class PlotFormattingToolbar(QWidget):
         self.bold.setChecked(bold)
         self.italic.setChecked(italic)
         self._loading = False
+
+    def _clear_export_series_grid(self) -> None:
+        while self.export_series_grid.count():
+            item = self.export_series_grid.takeAt(0)
+            widget = item.widget()
+            if widget is not None:
+                widget.deleteLater()
+
+    def _refresh_export_series_options(self) -> None:
+        """Build export checkboxes from the legend-capable series in the current preview."""
+        widget = self._plot_widget()
+        previous = {key: check.isChecked() for key, check in self.export_series_checks.items()}
+        self._clear_export_series_grid()
+        self.export_series_checks = {}
+        options = widget.export_series_options() if widget else []
+        self.export_series_section.setVisible(bool(options))
+        if not options:
+            self.export_button.setEnabled(True)
+            return
+
+        columns = 2 if len(options) > 5 else 1
+        for index, (original_label, display_label) in enumerate(options):
+            check = QCheckBox(display_label)
+            check.setToolTip(f"Export series: {display_label}")
+            check.setProperty("seriesKey", original_label)
+            check.setChecked(previous.get(original_label, True))
+            check.toggled.connect(self._update_export_button_state)
+            row = index // columns
+            column = index % columns
+            self.export_series_grid.addWidget(check, row, column)
+            self.export_series_checks[original_label] = check
+        for column in range(columns):
+            self.export_series_grid.setColumnStretch(column, 1)
+        self._update_export_button_state()
+
+    def _set_all_export_series(self, checked: bool) -> None:
+        for checkbox in self.export_series_checks.values():
+            checkbox.setChecked(checked)
+        self._update_export_button_state()
+
+    def _selected_export_series(self) -> set[str] | None:
+        if not self.export_series_checks:
+            return None
+        return {
+            key
+            for key, checkbox in self.export_series_checks.items()
+            if checkbox.isChecked()
+        }
+
+    def _update_export_button_state(self, *_args) -> None:
+        selected = self._selected_export_series()
+        self.export_button.setEnabled(selected is None or bool(selected))
+        if selected is not None and not selected:
+            self.export_button.setToolTip("Select at least one series to export.")
+        else:
+            self.export_button.setToolTip("")
 
     def _sync_export_controls(self, *_args) -> None:
         widget = self._plot_widget()
@@ -822,4 +918,5 @@ class PlotFormattingToolbar(QWidget):
             width,
             height,
             square=square,
+            selected_series=self._selected_export_series(),
         )

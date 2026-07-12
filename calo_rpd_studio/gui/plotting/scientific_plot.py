@@ -73,6 +73,15 @@ class ScientificPlotWidget(QWidget):
             self.canvas.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
             layout.addWidget(self.canvas, 1)
 
+
+    def export_series_options(self) -> list[tuple[str, str]]:
+        """Return ``(original_label, displayed_legend_label)`` pairs for export selection."""
+        output: list[tuple[str, str]] = []
+        for label in self.manager.series_labels(self.plot_id):
+            display = self.style.legend_label_overrides.get(label, label)
+            output.append((label, display))
+        return output
+
     def apply_style(self, style) -> None:
         self.style = deepcopy(style)
         self.manager.apply(self.plot_id, self.style)

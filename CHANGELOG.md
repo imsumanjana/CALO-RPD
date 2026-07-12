@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.0.6 — 2026-07-12
+
+- Fixed the Results Explorer review action so confirming a selected run now unlocks and immediately opens Validation & Audit on that exact run.
+- Added explicit reviewed-run handoff from Results Explorer to Validation & Audit.
+- Added export-time series selection generated from the legend-capable series currently available in the plot preview.
+- Added Select all and Clear all actions for export series.
+- Exported figures now include only checked data series and only the corresponding legend entries, while the live preview is restored unchanged after saving.
+- Preserved square live preview, exact square export, organized popup plot tools, and 600–2400 DPI PNG selection.
+
 ## 1.0.5 — 2026-07-12
 
 - Replaced the dense always-visible plot-formatting control area with a compact four-icon tool strip.

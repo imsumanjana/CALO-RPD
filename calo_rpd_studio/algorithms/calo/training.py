@@ -190,7 +190,7 @@ def train_policy(config: TrainingConfig, output_path, progress_callback=None, ca
     output = Path(output_path)
     output.parent.mkdir(parents=True, exist_ok=True)
     metadata = {
-        "software_version": "1.0.5",
+        "software_version": "1.0.6",
         "training_seed": config.seed,
         "training_configuration": asdict(config),
         "training_problem_identifiers": [

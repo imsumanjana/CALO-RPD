@@ -1,49 +1,46 @@
-# CALO-RPD Studio 1.0.5 — Release Validation Record
+# CALO-RPD Studio 1.0.6 — Release Validation Record
 
-## Scope of this release
+## Scope
 
-Version 1.0.5 reorganizes the scientific plot controls while preserving the optimization, ORPD, CALO, guided workflow, task-status, result-storage, statistical-analysis, validation, square-preview, and high-resolution export behavior from version 1.0.4.
+Version 1.0.6 corrects the post-experiment result-review transition and adds selective series export to scientific plots while preserving the guided workflow, square live preview, popup plot tools, high-resolution export, optimization engine, CALO architecture, statistics, validation, and reproducibility features.
 
-### Organized plot editing tools
+## Result-review workflow
 
-- Every scientific plot uses a compact four-icon tool strip instead of an always-expanded formatting panel.
-- **Text & labels** opens a dedicated popup for typography, title, axis labels, tick labels, legend text, and annotation styling.
-- **Plot appearance** opens a dedicated popup for scales, limits, grids, axis width, line style, line width, markers, and series visibility.
-- **Export figure** opens a dedicated popup for PNG, SVG, and PDF export settings.
-- **Style profiles** opens a dedicated popup for save, load, reset, and apply-to-all actions.
-- The visible plot toolbar contains no internal scroll area and no permanently expanded grid of editing controls.
-- Plot edits continue to redraw the active Matplotlib figure immediately.
+- A selected Results Explorer row is explicitly tracked as the reviewed run.
+- Confirming review marks the workflow step complete.
+- Validation & Audit is unlocked immediately.
+- The reviewed experiment and run are transferred to Validation & Audit.
+- The application navigates to Validation & Audit automatically.
 
-### Live Optimization plotting and export
+## Selective series export
 
-- Live convergence preview remains an exact 1:1 square Matplotlib canvas.
-- The Live Optimization content area retains vertical scrolling when screen height is insufficient.
-- Live-plot export remains square for PNG, SVG, and PDF.
-- PNG resolution remains selectable from 600 through 2400 DPI, with 600 DPI as the default.
-- Square export locks width and height and disables tight cropping to preserve final 1:1 dimensions.
+- Export checkboxes are built from the currently available legend-capable series in the preview.
+- Displayed legend-name overrides are reflected in checkbox text.
+- Users may export all or any subset of available series.
+- Non-selected series are temporarily hidden only during save.
+- Export legends are rebuilt from selected visible series only.
+- Preview line visibility and legend content are restored after saving.
+- Empty selection is rejected when selectable series exist.
 
-### Repository automation
+## Existing figure guarantees retained
+
+- Live Optimization uses an exact 1:1 square preview.
+- Live Optimization content scrolls vertically when screen height requires it.
+- Live-plot PNG, SVG, and PDF exports remain exact square outputs.
+- PNG DPI remains selectable from 600 through 2400 with 600 as the default.
+- Plot tools remain separated into Text & labels, Plot appearance, Export figure, and Style profiles popups.
+
+## Repository automation
 
 - No `.github/workflows` directory is included.
-- The guided scientific workflow remains entirely inside the CALO-RPD Studio desktop application.
+- The guided workflow is implemented inside CALO-RPD Studio only.
 
-## Validation performed in the build environment
+## Validation performed in this build environment
 
 - Python source compilation completed successfully for `calo_rpd_studio` and `tests`.
-- Automated test result: **32 passed, 12 skipped**.
-- The skipped tests require PyQt6 and PYPOWER, which were not installed in the build environment used for this package.
-- Non-GUI square-export regression tests passed.
-- GUI source files, including the popup-based plot tools, were successfully byte-compiled.
-- A GUI regression test was added to verify the four focused plot tools and the absence of an internal scroll area in the compact toolbar; it is skipped when PyQt6 is unavailable.
-
-## Recommended local verification
-
-In the project virtual environment, run:
-
-```powershell
-python -m pip install -e ".[dev]"
-python -m pytest -q
-python main.py
-```
-
-On a system with PyQt6 and PYPOWER installed, the skipped GUI and scientific cross-validation tests should run normally.
+- Automated tests: **34 passed, 14 skipped**.
+- The skipped tests require PyQt6 and PYPOWER, which are not installed in this build environment.
+- Selective-series export tests passed, including temporary filtering of saved curves and legend entries followed by full preview restoration.
+- Empty export selection is rejected when selectable plot series exist.
+- GUI regression coverage was added for dynamic export-series checkboxes and reviewed-run navigation; these tests run when PyQt6 is available.
+- No `.github/workflows` directory is present.

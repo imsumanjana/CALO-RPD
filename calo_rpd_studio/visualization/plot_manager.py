@@ -37,6 +37,54 @@ class PlotManager:
         self.apply(pid)
         return pid
 
+    @staticmethod
+    def _valid_series_label(label: str) -> bool:
+        return bool(label and not str(label).startswith("_"))
+
+    def series_labels(self, plot_id: str) -> list[str]:
+        """Return unique plotted line labels in preview/legend order."""
+        labels: list[str] = []
+        seen: set[str] = set()
+        for line in self.records[plot_id].axis.lines:
+            label = str(line.get_label())
+            if self._valid_series_label(label) and label not in seen:
+                labels.append(label)
+                seen.add(label)
+        return labels
+
+    def _update_legend(self, rec: PlotRecord, *, visible_only: bool = False) -> None:
+        s = rec.style
+        ax = rec.axis
+        handles, labels = ax.get_legend_handles_labels()
+        valid = []
+        for handle, label in zip(handles, labels):
+            label = str(label)
+            if not self._valid_series_label(label):
+                continue
+            if visible_only and hasattr(handle, "get_visible") and not handle.get_visible():
+                continue
+            display_label = s.legend_label_overrides.get(label, label)
+            valid.append((handle, display_label))
+
+        old = ax.get_legend()
+        if old:
+            old.remove()
+        if s.show_legend and valid:
+            legend_handles, legend_labels = zip(*valid)
+            ax.legend(
+                legend_handles,
+                legend_labels,
+                loc=s.legend_location,
+                ncol=s.legend_columns,
+                frameon=s.legend_frame,
+                prop={
+                    "family": s.legend_font,
+                    "size": s.legend_size,
+                    "weight": "bold" if s.legend_bold else "normal",
+                    "style": "italic" if s.legend_italic else "normal",
+                },
+            )
+
     def apply(self, plot_id, style=None):
         rec = self.records[plot_id]
         if style is not None:
@@ -93,27 +141,7 @@ class PlotManager:
             line.set_marker(s.marker)
             line.set_markersize(s.marker_size)
             line.set_visible(s.series_visible)
-        handles, labels = ax.get_legend_handles_labels()
-        labels = [s.legend_label_overrides.get(label, label) for label in labels]
-        valid = [(h, label) for h, label in zip(handles, labels) if label and not label.startswith("_")]
-        old = ax.get_legend()
-        if old:
-            old.remove()
-        if s.show_legend and valid:
-            handles, labels = zip(*valid)
-            ax.legend(
-                handles,
-                labels,
-                loc=s.legend_location,
-                ncol=s.legend_columns,
-                frameon=s.legend_frame,
-                prop={
-                    "family": s.legend_font,
-                    "size": s.legend_size,
-                    "weight": "bold" if s.legend_bold else "normal",
-                    "style": "italic" if s.legend_italic else "normal",
-                },
-            )
+        self._update_legend(rec)
         rec.figure.tight_layout()
         canvas = getattr(rec.figure, "canvas", None)
         if canvas:
@@ -135,16 +163,40 @@ class PlotManager:
         height=None,
         *,
         square=False,
+        selected_series: set[str] | list[str] | tuple[str, ...] | None = None,
     ):
-        """Export a registered figure.
+        """Export a registered figure, optionally with only selected line series.
+
+        ``selected_series`` contains the original Matplotlib line labels, not display
+        overrides. Non-selected labelled lines are hidden only for the export. The live
+        preview is restored exactly after saving. The export legend is rebuilt from the
+        visible selected series, so no unselected legend entry is written to the file.
 
         When ``square`` is true, the physical figure page is forced to 1:1. Tight
         cropping is deliberately disabled because cropping can change the final pixel
         dimensions and violate the exact square-output contract.
         """
         rec = self.records[plot_id]
-        old = rec.figure.get_size_inches().copy()
+        old_size = rec.figure.get_size_inches().copy()
+        line_visibility = [(line, bool(line.get_visible())) for line in rec.axis.lines]
+        selectable = set(self.series_labels(plot_id))
+        requested = None if selected_series is None else set(selected_series)
+        if requested is not None:
+            unknown = requested.difference(selectable)
+            if unknown:
+                raise ValueError(f"Unknown plot series selected for export: {sorted(unknown)}")
+            if selectable and not requested:
+                raise ValueError("Select at least one plotted series before exporting.")
+
         try:
+            if requested is not None:
+                for line in rec.axis.lines:
+                    label = str(line.get_label())
+                    if self._valid_series_label(label):
+                        line.set_visible(label in requested)
+                self._update_legend(rec, visible_only=True)
+                rec.figure.tight_layout()
+
             if square:
                 side = float(width or height or 7.2)
                 rec.figure.set_size_inches(side, side, forward=True)
@@ -160,5 +212,12 @@ class PlotManager:
                 bbox_inches=bbox,
             )
         finally:
-            rec.figure.set_size_inches(old, forward=True)
+            rec.figure.set_size_inches(old_size, forward=True)
+            for line, was_visible in line_visibility:
+                line.set_visible(was_visible)
+            self._update_legend(rec, visible_only=False)
+            rec.figure.tight_layout()
+            canvas = getattr(rec.figure, "canvas", None)
+            if canvas:
+                canvas.draw_idle()
         return Path(path)

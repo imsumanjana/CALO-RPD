@@ -1,6 +1,6 @@
 # CALO-RPD Studio
 
-**CALO-RPD Studio 1.0.5** is a scientific desktop platform for deterministic and
+**CALO-RPD Studio 1.0.6** is a scientific desktop platform for deterministic and
 robust optimal reactive power dispatch (ORPD), reproducible comparison of twenty
 optimizers, and research on the **Cognitive Adaptive Learning Optimizer (CALO)**.
 
@@ -47,11 +47,11 @@ Whale Optimization, and Imperialist Competitive Algorithm.
 
 ## Organized plot editing tools
 
-Each scientific figure now uses a compact four-icon plot tool strip rather than displaying every formatting control at once. The **Text & labels** popup contains font family, independent font size, bold/italic, title, axis-label, tick-label, legend, and annotation controls. The **Plot appearance** popup contains axes, limits, grids, lines, and markers. The **Export figure** popup contains PNG/SVG/PDF settings, including 600–2400 DPI PNG export and exact square export for the live plot. The **Style profiles** popup contains save, load, reset, and apply-to-all actions. This keeps the plot area uncluttered while preserving the full publication-formatting feature set.
+Each scientific figure now uses a compact four-icon plot tool strip rather than displaying every formatting control at once. The **Text & labels** popup contains font family, independent font size, bold/italic, title, axis-label, tick-label, legend, and annotation controls. The **Plot appearance** popup contains axes, limits, grids, lines, and markers. The **Export figure** popup contains PNG/SVG/PDF settings, checkbox selection for the legend-capable series currently visible in the preview, 600–2400 DPI PNG export, and exact square export for the live plot. The **Style profiles** popup contains save, load, reset, and apply-to-all actions. This keeps the plot area uncluttered while preserving the full publication-formatting feature set.
 
 ## Live plot and figure export
 
-The Live Optimization workspace displays its convergence preview on a fixed 1:1 square plotting surface. The workspace scrolls vertically when the available screen height is smaller than the square preview, so the plot is never stretched or compressed. Live-plot exports are also square. PNG export supports user-selectable resolution from **600 to 2400 DPI**; SVG and PDF remain vector exports.
+The Live Optimization workspace displays its convergence preview on a fixed 1:1 square plotting surface. The workspace scrolls vertically when the available screen height is smaller than the square preview, so the plot is never stretched or compressed. Live-plot exports are also square. Before saving, the export popup lists the current preview series by legend name so the user can save only selected curves; the exported legend is reduced to those same selected series. PNG export supports user-selectable resolution from **600 to 2400 DPI**; SVG and PDF remain vector exports.
 
 This repository does not include GitHub Actions automation. The guided workflow described below is application behavior inside CALO-RPD Studio, not a GitHub CI/CD workflow.
 
@@ -67,8 +67,8 @@ The GUI enforces the research sequence instead of exposing every workspace at on
 6. **Experiment Manager** — pass the fairness audit; only then are experiment run buttons enabled.
 7. **Live Optimization** — becomes available when an experiment starts.
 8. **Statistical Analysis** — becomes available after the experiment completes.
-9. **Results Explorer** — becomes available after statistical analysis; confirm result review before validation.
-10. **Validation & Audit** — independently re-evaluate stored decisions.
+9. **Results Explorer** — becomes available after statistical analysis; selecting a run and confirming review automatically opens Validation & Audit on that exact run.
+10. **Validation & Audit** — independently re-evaluate the reviewed stored decision.
 11. **Publication Export** — unlocks only after at least one result from the current experiment is verified.
 
 Dashboard and Application Settings remain available throughout. Changing an upstream scientific stage invalidates dependent downstream workflow state.

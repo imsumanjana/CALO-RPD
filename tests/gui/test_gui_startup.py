@@ -88,3 +88,51 @@ def test_plot_toolbar_uses_four_focused_popup_tools(qtbot):
     assert toolbar.plot_popup.isVisible() is False
     assert toolbar.export_popup.isVisible() is False
     assert toolbar.style_popup.isVisible() is False
+
+
+def test_export_popup_series_checkboxes_follow_preview_legend(qtbot):
+    from calo_rpd_studio.gui.plotting.scientific_plot import ScientificPlotWidget
+
+    widget = ScientificPlotWidget(square_preview=True, square_export=True, square_preview_size=520)
+    qtbot.addWidget(widget)
+    widget.plot_series(
+        {"CALO": [3.0, 2.0, 1.0], "PSO": [3.2, 2.5, 2.1]},
+        "Convergence",
+        "Iteration",
+        "Objective",
+    )
+    toolbar = widget.format_toolbar
+    toolbar._refresh_export_series_options()
+    assert set(toolbar.export_series_checks) == {"CALO", "PSO"}
+    assert all(check.isChecked() for check in toolbar.export_series_checks.values())
+    toolbar.export_series_checks["PSO"].setChecked(False)
+    assert toolbar._selected_export_series() == {"CALO"}
+
+
+def test_result_review_opens_selected_run_in_validation(qtbot, tmp_path, monkeypatch):
+    from calo_rpd_studio.app.experiment_manager import ExperimentManager
+    from calo_rpd_studio.app.main_window import MainWindow
+    from calo_rpd_studio.app.settings_manager import SettingsManager
+    from calo_rpd_studio.app.state_manager import AppState
+
+    state = AppState(tmp_path / "review-navigation.sqlite")
+    window = MainWindow(state, ExperimentManager(state), SettingsManager())
+    qtbot.addWidget(window)
+    for key in ("power_system", "orpd", "algorithms", "calo", "scenarios"):
+        window.workflow.mark_completed(key)
+    window.workflow.mark_experiment_completed()
+    window.workflow.mark_statistics_completed()
+
+    selected = {}
+
+    def fake_select_run(experiment_id, run_id):
+        selected["experiment_id"] = experiment_id
+        selected["run_id"] = run_id
+
+    monkeypatch.setattr(window.pages[10], "select_run", fake_select_run)
+    window.pages[9].review_completed.emit()
+    window.pages[9].validation_requested.emit("experiment-1", "run-1")
+
+    assert window.workflow.results_reviewed is True
+    assert window.stack.currentIndex() == 10
+    assert selected == {"experiment_id": "experiment-1", "run_id": "run-1"}

@@ -21,7 +21,10 @@ from calo_rpd_studio.gui.widgets.workspace_page import WorkspacePage
 
 
 class ResultsExplorerPanel(WorkspacePage):
+    """Inspect stored runs and explicitly hand the selected run to validation."""
+
     review_completed = pyqtSignal()
+    validation_requested = pyqtSignal(str, str)
 
     def __init__(self, state, parent=None) -> None:
         super().__init__(
@@ -31,6 +34,8 @@ class ResultsExplorerPanel(WorkspacePage):
         )
         self.state = state
         self._rows: list[dict] = []
+        self._selected_experiment_id = ""
+        self._selected_run_id = ""
 
         filters = QHBoxLayout()
         self.experiment = QComboBox()
@@ -82,7 +87,7 @@ class ResultsExplorerPanel(WorkspacePage):
         self.review_button = QPushButton("Confirm result review and continue to validation")
         self.review_button.setObjectName("PrimaryButton")
         self.review_button.setEnabled(False)
-        self.review_button.clicked.connect(self.review_completed.emit)
+        self.review_button.clicked.connect(self._confirm_review)
         self.layout_root.addWidget(self.review_button)
 
         state.runs_changed.connect(self.refresh_experiments)
@@ -107,10 +112,13 @@ class ResultsExplorerPanel(WorkspacePage):
 
     def refresh(self) -> None:
         experiment_id = self.experiment.currentData()
+        self._selected_experiment_id = ""
+        self._selected_run_id = ""
+        self.details.clear()
+        self.review_button.setEnabled(False)
         if not experiment_id:
             self.table.setRowCount(0)
             self._rows = []
-            self.review_button.setEnabled(False)
             return
 
         rows = self.state.database.list_runs(experiment_id)
@@ -153,11 +161,16 @@ class ResultsExplorerPanel(WorkspacePage):
                 self.table.setItem(row_index, column, QTableWidgetItem(str(value)))
 
     def show_selected(self) -> None:
-        rows = self.table.selectionModel().selectedRows()
-        if not rows:
+        selected = self.table.selectionModel().selectedRows()
+        if not selected:
+            self._selected_experiment_id = ""
+            self._selected_run_id = ""
+            self.review_button.setEnabled(False)
             return
-        row = self._rows[rows[0].row()]
+        row = self._rows[selected[0].row()]
         data = json.loads(row["result_json"])
+        self._selected_experiment_id = str(row["experiment_id"])
+        self._selected_run_id = str(row["id"])
         self.review_button.setEnabled(True)
         self.details.setPlainText(
             json.dumps(
@@ -173,3 +186,11 @@ class ResultsExplorerPanel(WorkspacePage):
                 allow_nan=True,
             )
         )
+
+    def _confirm_review(self) -> None:
+        """Complete the review and immediately open the selected run in validation."""
+        if not self._selected_experiment_id or not self._selected_run_id:
+            return
+        self.state.current_experiment_id = self._selected_experiment_id
+        self.review_completed.emit()
+        self.validation_requested.emit(self._selected_experiment_id, self._selected_run_id)

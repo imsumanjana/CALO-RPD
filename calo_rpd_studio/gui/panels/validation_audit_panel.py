@@ -81,6 +81,18 @@ class ValidationAuditPanel(WorkspacePage):
                 row["id"],
             )
 
+
+    def select_run(self, experiment_id: str, run_id: str) -> None:
+        """Select a reviewed run so validation opens on the intended record."""
+        self.refresh_experiments()
+        experiment_index = self.experiment.findData(experiment_id)
+        if experiment_index >= 0:
+            self.experiment.setCurrentIndex(experiment_index)
+        self.refresh_runs()
+        run_index = self.run.findData(run_id)
+        if run_index >= 0:
+            self.run.setCurrentIndex(run_index)
+
     def validate(self) -> None:
         run_id = self.run.currentData()
         if not run_id:
