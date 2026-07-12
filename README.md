@@ -1,6 +1,6 @@
 # CALO-RPD Studio
 
-**CALO-RPD Studio 1.0.3** is a scientific desktop platform for deterministic and
+**CALO-RPD Studio 1.0.5** is a scientific desktop platform for deterministic and
 robust optimal reactive power dispatch (ORPD), reproducible comparison of twenty
 optimizers, and research on the **Cognitive Adaptive Learning Optimizer (CALO)**.
 
@@ -28,7 +28,7 @@ python main.py
 calo-rpd-studio
 ```
 
-## Command-line workflows
+## Command-line tools
 
 ```bash
 calo-rpd-benchmark --case case30 --algorithms CALO,TLBO,PSO --runs 5 --budget 5000
@@ -43,6 +43,17 @@ CALO, TLBO, PSO, CLPSO, MTLA-DE, QODE, Dragonfly, Simulated Annealing,
 Salp Swarm, continuous-domain Ant Colony Optimization, Bat, Crow Search,
 Firefly, Flower Pollination, Grasshopper, Grey Wolf, Moth-Flame, Multi-Verse,
 Whale Optimization, and Imperialist Competitive Algorithm.
+
+
+## Organized plot editing tools
+
+Each scientific figure now uses a compact four-icon plot tool strip rather than displaying every formatting control at once. The **Text & labels** popup contains font family, independent font size, bold/italic, title, axis-label, tick-label, legend, and annotation controls. The **Plot appearance** popup contains axes, limits, grids, lines, and markers. The **Export figure** popup contains PNG/SVG/PDF settings, including 600–2400 DPI PNG export and exact square export for the live plot. The **Style profiles** popup contains save, load, reset, and apply-to-all actions. This keeps the plot area uncluttered while preserving the full publication-formatting feature set.
+
+## Live plot and figure export
+
+The Live Optimization workspace displays its convergence preview on a fixed 1:1 square plotting surface. The workspace scrolls vertically when the available screen height is smaller than the square preview, so the plot is never stretched or compressed. Live-plot exports are also square. PNG export supports user-selectable resolution from **600 to 2400 DPI**; SVG and PDF remain vector exports.
+
+This repository does not include GitHub Actions automation. The guided workflow described below is application behavior inside CALO-RPD Studio, not a GitHub CI/CD workflow.
 
 ## Guided scientific workflow
 

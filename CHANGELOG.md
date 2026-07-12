@@ -1,5 +1,22 @@
 # Changelog
 
+## 1.0.5 — 2026-07-12
+
+- Replaced the dense always-visible plot-formatting control area with a compact four-icon tool strip.
+- Added focused popup editors for Text & labels, Plot appearance, Export figure, and Style profiles.
+- Kept independent typography controls for titles, axis labels, tick labels, legends, and annotations.
+- Preserved square live preview, exact square export, and 600–2400 DPI PNG selection.
+- Added theme styling and GUI regression coverage for the popup-based plot tools.
+
+## 1.0.4 — 2026-07-12
+
+- Live Optimization now uses an exact 1:1 square Matplotlib preview.
+- Live Optimization content is vertically scrollable so the square plot is never compressed on shorter displays.
+- Live-plot exports are forced to an exact square page/canvas for PNG, SVG, and PDF.
+- PNG export now provides a selectable 600–2400 DPI range with a 600 DPI default.
+- Square exports lock width and height together and disable tight cropping to preserve exact 1:1 output dimensions.
+- GitHub Actions workflow files were removed; the guided scientific workflow remains entirely inside the desktop software.
+
 ## 1.0.3 — 2026-07-11
 
 - Reworked the desktop shell and visual system for a sharper modern interface.

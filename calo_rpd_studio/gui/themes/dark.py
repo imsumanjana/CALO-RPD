@@ -428,3 +428,66 @@ DARK_STYLESHEET += r"""
 DARK_STYLESHEET += r"""
 #GlobalTaskState[taskState="cancelled"] { color: #d6b978; }
 """
+
+# Compact plot editing tools and focused popup editors.
+DARK_STYLESHEET += r"""
+#PlotToolStrip {
+    background: #151e2c;
+    border: 1px solid #2a3548;
+    border-radius: 10px;
+}
+#PlotToolStripLabel {
+    color: #8d9aaf;
+    font-size: 8.8pt;
+    font-weight: 700;
+    padding: 0 5px 0 2px;
+}
+#PlotToolStripSeparator {
+    color: #2a3548;
+    max-height: 24px;
+}
+QToolButton#PlotToolButton {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    padding: 5px;
+}
+QToolButton#PlotToolButton:hover {
+    background: #1b2738;
+    border-color: #344258;
+}
+QToolButton#PlotToolButton:pressed {
+    background: #1c315b;
+    border-color: #36598f;
+}
+#PlotToolPopup {
+    background: #151e2c;
+    border: 1px solid #344258;
+    border-radius: 12px;
+}
+#PlotToolPopupTitle {
+    color: #f4f7fb;
+    font-size: 12.5pt;
+    font-weight: 750;
+}
+#PlotToolPopupDescription {
+    color: #8d9aaf;
+    font-size: 9pt;
+}
+#PlotToolPopupDivider {
+    color: #2a3548;
+}
+#PlotToolSectionTitle {
+    color: #d8e0eb;
+    font-size: 9pt;
+    font-weight: 750;
+    padding-top: 2px;
+}
+#PlotToolPopupNote {
+    color: #aeb9ca;
+    background: #111923;
+    border: 1px solid #2b374a;
+    border-radius: 7px;
+    padding: 7px 9px;
+}
+"""

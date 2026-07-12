@@ -35,7 +35,7 @@ class ApplicationSettingsPanel(WorkspacePage):
         information = SectionCard("Application")
         info = QFormLayout()
         info.addRow("Name", QLabel("CALO-RPD Studio"))
-        info.addRow("Version", QLabel("1.0.3"))
+        info.addRow("Version", QLabel("1.0.5"))
         info.addRow("Result database", QLabel(state.database.path))
         information.layout_root.addLayout(info)
         self.layout_root.addWidget(information)

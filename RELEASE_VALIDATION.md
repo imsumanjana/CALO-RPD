@@ -1,43 +1,49 @@
-# CALO-RPD Studio 1.0.3 — Release Validation Record
+# CALO-RPD Studio 1.0.5 — Release Validation Record
 
-Release date: 2026-07-11
+## Scope of this release
 
-## Functional changes reviewed
+Version 1.0.5 reorganizes the scientific plot controls while preserving the optimization, ORPD, CALO, guided workflow, task-status, result-storage, statistical-analysis, validation, square-preview, and high-resolution export behavior from version 1.0.4.
 
-- Guided workflow manager added with prerequisite locking and downstream invalidation.
-- Sidebar states distinguish locked, recommended, completed, optional, and available workspaces.
-- Persistent workflow guide shows the next required action.
-- Power System validation controls are sequential: load case → base AC power flow → independent cross-validation.
-- Experiment execution is disabled until the fairness audit passes.
-- New experiments invalidate prior post-experiment workflow progression for the active session.
-- Statistical Analysis, Results Explorer, Validation & Audit, and Publication Export follow a controlled post-experiment sequence.
-- Publication Export remains locked until the current experiment contains an independently verified result.
-- Persistent bottom task bar reports Ready/Busy/Completed/Failed state, task detail, progress, elapsed time, and safe cancellation where supported.
-- CALO policy training reports epoch/episode progress and supports safe cancellation.
-- Comparative and CALO analysis runs report overall progress across run items.
-- Experiment cancellation no longer marks the workflow as a completed experiment; completed partial runs are retained.
+### Organized plot editing tools
 
-## Verification performed in the build environment
+- Every scientific plot uses a compact four-icon tool strip instead of an always-expanded formatting panel.
+- **Text & labels** opens a dedicated popup for typography, title, axis labels, tick labels, legend text, and annotation styling.
+- **Plot appearance** opens a dedicated popup for scales, limits, grids, axis width, line style, line width, markers, and series visibility.
+- **Export figure** opens a dedicated popup for PNG, SVG, and PDF export settings.
+- **Style profiles** opens a dedicated popup for save, load, reset, and apply-to-all actions.
+- The visible plot toolbar contains no internal scroll area and no permanently expanded grid of editing controls.
+- Plot edits continue to redraw the active Matplotlib figure immediately.
 
-- Python source compilation: passed.
-- Core automated tests available in the build environment: **31 passed**.
-- GUI tests: **6 skipped** because PyQt6 is not installed in the build container.
-- Scientific PYPOWER cross-validation tests: **3 skipped** because PYPOWER is not installed in the build container.
-- CALO training progress callback smoke check: passed (1 epoch, 1 episode, 100% progress, checkpoint written).
-- The previous 1.0.2 release had already validated the GUI and PYPOWER paths in an environment containing those dependencies; version 1.0.3 changes were additionally checked by source compilation and the available automated core suite.
+### Live Optimization plotting and export
 
-## Required local verification after installation
+- Live convergence preview remains an exact 1:1 square Matplotlib canvas.
+- The Live Optimization content area retains vertical scrolling when screen height is insufficient.
+- Live-plot export remains square for PNG, SVG, and PDF.
+- PNG resolution remains selectable from 600 through 2400 DPI, with 600 DPI as the default.
+- Square export locks width and height and disables tight cropping to preserve final 1:1 dimensions.
 
-Run the complete suite in the project virtual environment, where PyQt6 and PYPOWER are installed:
+### Repository automation
+
+- No `.github/workflows` directory is included.
+- The guided scientific workflow remains entirely inside the CALO-RPD Studio desktop application.
+
+## Validation performed in the build environment
+
+- Python source compilation completed successfully for `calo_rpd_studio` and `tests`.
+- Automated test result: **32 passed, 12 skipped**.
+- The skipped tests require PyQt6 and PYPOWER, which were not installed in the build environment used for this package.
+- Non-GUI square-export regression tests passed.
+- GUI source files, including the popup-based plot tools, were successfully byte-compiled.
+- A GUI regression test was added to verify the four focused plot tools and the absence of an internal scroll area in the compact toolbar; it is skipped when PyQt6 is unavailable.
+
+## Recommended local verification
+
+In the project virtual environment, run:
 
 ```powershell
+python -m pip install -e ".[dev]"
 python -m pytest -q
-```
-
-Then launch:
-
-```powershell
 python main.py
 ```
 
-The expected initial workflow state is Dashboard + Power System + Application Settings available, with downstream scientific workspaces locked until prerequisites are completed.
+On a system with PyQt6 and PYPOWER installed, the skipped GUI and scientific cross-validation tests should run normally.
