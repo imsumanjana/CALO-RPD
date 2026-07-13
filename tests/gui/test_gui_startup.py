@@ -181,3 +181,25 @@ def test_live_plot_explicit_objective_without_feasibility_shows_message(qtbot, t
     panel.metric.setCurrentText(panel.OBJECTIVE_MODE)
     assert not panel.plot.axis.lines
     assert any("No feasible incumbent" in text.get_text() for text in panel.plot.axis.texts)
+
+
+def test_experiment_manager_uses_guided_scrollable_order_without_compression(qtbot, tmp_path):
+    from PyQt6.QtWidgets import QScrollArea
+    from calo_rpd_studio.app.experiment_manager import ExperimentManager
+    from calo_rpd_studio.app.state_manager import AppState
+    from calo_rpd_studio.gui.panels.experiment_manager_panel import ExperimentManagerPanel
+
+    state = AppState(tmp_path / "experiment-layout.sqlite")
+    panel = ExperimentManagerPanel(state, ExperimentManager(state))
+    qtbot.addWidget(panel)
+
+    assert isinstance(panel.body_scroll, QScrollArea)
+    assert panel.body_scroll.objectName() == "ExperimentManagerScroll"
+    assert panel.body_scroll.horizontalScrollBarPolicy().name == "ScrollBarAlwaysOff"
+    assert panel.body_layout.indexOf(panel.setup_card) < panel.body_layout.indexOf(panel.fairness_card)
+    assert panel.body_layout.indexOf(panel.fairness_card) < panel.body_layout.indexOf(panel.execution_card)
+    assert panel.body_layout.indexOf(panel.execution_card) < panel.body_layout.indexOf(panel.queue_card)
+    assert panel.compare.isEnabled() is False
+    assert panel.calo.isEnabled() is False
+    for widget in (panel.runs, panel.population, panel.policy, panel.budget, panel.wall, panel.maxit, panel.workers, panel.seed):
+        assert widget.minimumHeight() >= 32

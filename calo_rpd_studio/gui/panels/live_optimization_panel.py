@@ -277,9 +277,11 @@ class LiveOptimizationPanel(WorkspacePage):
         if self.current_run_index is None:
             self.current_run_index = run_index
         elif run_index != self.current_run_index:
-            self.current_run_index = run_index
-            self.objective_series = {}
-            self.violation_series = {}
+            # In process-parallel campaigns, telemetry from several repeated runs can arrive
+            # concurrently. Keep one repeated run on the live canvas instead of interleaving or
+            # repeatedly clearing unrelated traces. The completed experiment can later reload
+            # a stored repeated run from the database.
+            return
 
         self.labels["Algorithm"].setText(algorithm)
         self.labels["Repeated run"].setText(str(run_index))

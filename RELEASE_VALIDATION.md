@@ -1,22 +1,26 @@
-# CALO-RPD Studio 1.0.8 — Release Validation Record
+# CALO-RPD Studio 1.1.0 — Release Validation Record
 
-## Release focus
+Version 1.1.0 adds persistent experiment-history and referenced trace-data cleanup while preserving the scientific execution, plotting, validation, and publication workflow introduced in earlier releases.
 
-Version 1.0.8 corrects the Live Optimization empty-plot behavior while preserving scientifically valid convergence semantics.
+## Release verification
 
-The Live Optimization page now:
+- 60 automated tests passed.
+- PyQt6 GUI tests passed in offscreen Qt mode.
+- IEEE scientific tests passed with PYPOWER available.
+- Ruff static analysis passed.
+- Python source compilation passed.
+- Wheel and source-distribution builds completed successfully.
 
-- defaults to **Automatic (recommended)** convergence selection;
-- shows best normalized constraint violation while any monitored optimizer has not yet produced a feasible incumbent;
-- switches to best-feasible objective convergence when all currently represented optimizers have feasible histories;
-- displays an explicit explanatory message instead of a visually blank canvas when the selected metric has no valid data;
-- reloads stored convergence histories after experiment completion or cancellation so results remain visible when the page is opened after a run.
+## History-management verification
 
-## Automated checks in the packaging environment
+Automated tests verify that:
 
-- Python source compilation: PASS
-- Automated test suite: 35 passed, 17 skipped
-- GUI-only tests skipped because PyQt6 was not installed in the packaging environment
-- PYPOWER cross-validation tests skipped because PYPOWER was not installed in the packaging environment
+- deleting one run removes only that run, its validation records, and its referenced trace file;
+- deleting one experiment removes all completed runs, failed-run records, validation records, and referenced trace files belonging to that experiment;
+- deleting all history removes all experiment records and referenced trace files;
+- other experiments and unrelated files are preserved;
+- database WAL checkpointing and compaction complete after destructive history operations;
+- Results Explorer and Application Settings expose history management without source-code access;
+- destructive controls are disabled while a scientific task is active.
 
-The skipped tests are included in the repository and are expected to run in a fully provisioned application environment.
+External publication-export folders are intentionally not removed automatically because they are independent user-managed copies.

@@ -19,6 +19,7 @@ from PyQt6.QtWidgets import (
     QVBoxLayout,
 )
 
+from calo_rpd_studio.gui.dialogs.experiment_history_dialog import ExperimentHistoryDialog
 from calo_rpd_studio.gui.widgets.workspace_page import WorkspacePage
 
 
@@ -48,6 +49,8 @@ class ResultsExplorerPanel(WorkspacePage):
         self.validation.addItems(["unverified", "verified", "failed"])
         refresh = QPushButton("Refresh")
         refresh.clicked.connect(self.refresh)
+        manage_history = QPushButton("Manage history")
+        manage_history.clicked.connect(self._manage_history)
         filters.addWidget(QLabel("Experiment"))
         filters.addWidget(self.experiment, 1)
         filters.addWidget(QLabel("Algorithm"))
@@ -55,6 +58,7 @@ class ResultsExplorerPanel(WorkspacePage):
         filters.addWidget(QLabel("Validation"))
         filters.addWidget(self.validation)
         filters.addWidget(refresh)
+        filters.addWidget(manage_history)
         self.layout_root.addLayout(filters)
 
         self.table = QTableWidget(0, 9)
@@ -207,6 +211,13 @@ class ResultsExplorerPanel(WorkspacePage):
                 allow_nan=True,
             )
         )
+
+
+    def _manage_history(self) -> None:
+        """Open the dedicated destructive-history manager and refresh this workspace afterwards."""
+        dialog = ExperimentHistoryDialog(self.state, self)
+        dialog.exec()
+        self.refresh_experiments()
 
     def _confirm_review(self) -> None:
         """Complete review and immediately request validation of the exact selected run."""

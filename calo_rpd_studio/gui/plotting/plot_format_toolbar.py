@@ -235,7 +235,7 @@ class PlotFormattingToolbar(QWidget):
         self.text_popup = _PlotToolPopup(
             "Text & labels",
             "Edit displayed text and control typography independently for titles, axes, ticks, legends, and annotations.",
-            self,
+            self.plot_widget_ref(),
         )
 
         typography = _ToolSection("Typography")
@@ -308,7 +308,7 @@ class PlotFormattingToolbar(QWidget):
         self.plot_popup = _PlotToolPopup(
             "Plot appearance",
             "Adjust axes and data styling without changing the underlying numerical results.",
-            self,
+            self.plot_widget_ref(),
         )
 
         axes = _ToolSection("Axes & grid")
@@ -384,7 +384,7 @@ class PlotFormattingToolbar(QWidget):
         self.export_popup = _PlotToolPopup(
             "Export figure",
             "Choose the output format and publication resolution. Square plots retain an exact 1:1 export canvas.",
-            self,
+            self.plot_widget_ref(),
         )
         self.export_series_section = _ToolSection("Series to export")
         series_note = QLabel(
@@ -462,7 +462,7 @@ class PlotFormattingToolbar(QWidget):
         self.style_popup = _PlotToolPopup(
             "Style profiles",
             "Reuse a publication style or apply the current style consistently across compatible figures.",
-            self,
+            self.plot_widget_ref(),
         )
         self.save_style = QPushButton("Save current style…")
         self.load_style = QPushButton("Load style profile…")

@@ -11,4 +11,5 @@ def validate_fairness(config):
     if config.budget.policy is BudgetPolicy.ALGORITHM_NATIVE:warnings.append('Algorithm-native limits do not provide a universal equal-cost comparison.')
     if config.budget.policy is BudgetPolicy.EQUAL_WALL_CLOCK:warnings.append('Wall-clock comparisons depend on hardware, operating-system load, and implementation details; retain full provenance.')
     if len(set(config.algorithms))!=len(config.algorithms):errors.append('Each primary algorithm may appear only once in one comparison protocol.')
+    if config.parallel_workers>1:warnings.append('Parallel throughput mode runs independent optimizer jobs concurrently. Objective-quality comparisons remain valid under the common evaluation protocol, but per-run wall-clock times are affected by CPU contention; use one worker for strict runtime ranking.')
     return FairnessReport(not errors,errors,warnings)

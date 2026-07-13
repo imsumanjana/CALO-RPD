@@ -10,7 +10,7 @@ from calo_rpd_studio.gui.panels.results_explorer_panel import ResultsExplorerPan
 
 
 def test_results_explorer_selects_full_row_and_emits_validation_request(tmp_path):
-    app = QApplication.instance() or QApplication([])
+    QApplication.instance() or QApplication([])
     state = AppState(tmp_path / "results.sqlite")
     exp_id = state.database.create_experiment(state.config, {})
     # Minimal direct record insertion through database connection for GUI selection behavior.

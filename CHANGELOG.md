@@ -1,5 +1,37 @@
 # Changelog
 
+## 1.1.0
+
+- Added complete local experiment-history management for removing obsolete completed runs or entire experiments.
+- Deleting a run also removes its validation records and the referenced compressed convergence/final-population trace array.
+- Deleting an experiment removes its completed runs, failed-run records, validation records, and all referenced local trace-array files.
+- Added guarded **Delete all experiment history** with an explicit `DELETE ALL` confirmation phrase.
+- Added automatic SQLite WAL checkpointing and database compaction after destructive history operations.
+- Added storage summaries showing experiment, run, validation, failure, trace-file, and referenced trace-storage counts.
+- Added **Manage history** to Results Explorer and a globally accessible **Experiment history** section in Application Settings.
+- External publication-export folders are deliberately left untouched because they are independent user-managed copies.
+- Added integration and GUI regression coverage for history deletion and trace cleanup.
+
+## 1.0.10
+
+- Reorganized the Experiment Manager into an explicit three-step workflow: configuration, fairness audit, then study execution.
+- Moved the fairness audit ahead of all comparison and ablation controls so the required sequence is visually unambiguous.
+- Added a page-level vertical scroll area only to the genuinely long Experiment Manager workspace, preventing Qt from compressing spin boxes, combo boxes, labels, and buttons on laptop-height displays.
+- Preserved a fixed workspace header, disabled horizontal scrolling, and retained full-width responsive controls.
+- Added minimum control heights and a dedicated run-queue section for consistent readability.
+
+## 1.0.9
+
+- Connected the Experiment Manager's Parallel workers setting to the GUI execution backend using spawn-safe CPU process parallelism across independent optimizer/run jobs.
+- Added throttled inter-process progress telemetry, safe cancellation, parent-only SQLite persistence, and exact run/algorithm queue updates.
+- Added canonical execution planning so the GUI and backend agree on the exact number and identity of jobs.
+- Clarified the difference between the primary 20-algorithm comparison and the seven-variant CALO ablation study.
+- Added explicit job-count summaries and a confirmation dialog before CALO ablation execution.
+- Added a recommended CPU worker selector and guidance that GPU/disk utilization is expected to remain low for this CPU-bound workload.
+- Added a fairness notice that parallel throughput mode is not suitable for strict wall-clock runtime ranking because jobs contend for CPU resources.
+- Prevented interleaved process-parallel telemetry from mixing repeated runs on the live convergence canvas.
+
+
 ## 1.0.8 — 2026-07-12
 
 - Fixed an empty Live Optimization plot when no feasible incumbent had yet been found.

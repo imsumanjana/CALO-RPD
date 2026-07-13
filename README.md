@@ -1,6 +1,6 @@
 # CALO-RPD Studio
 
-**CALO-RPD Studio 1.0.8** is a scientific desktop platform for deterministic and
+**CALO-RPD Studio 1.1.0** is a scientific desktop platform for deterministic and
 robust optimal reactive power dispatch (ORPD), reproducible comparison of twenty
 optimizers, and research on the **Cognitive Adaptive Learning Optimizer (CALO)**.
 
@@ -98,3 +98,20 @@ with metadata and a SHA-256 checksum. See `docs/reproducibility.md`.
 MIT License. Scientific results remain the responsibility of the experimenter;
 all comparative claims should be based on the complete predefined protocol and
 verified raw results.
+
+## Experiment execution modes
+
+The Experiment Manager provides two distinct workflows:
+
+- **Primary Algorithm Comparison** runs exactly the algorithms selected on the Algorithms page. Selecting all twenty algorithms and five repeated runs therefore creates 100 independent jobs.
+- **CALO Ablation Study** runs seven fixed CALO/TLBO variants for mechanism analysis. Five repeated runs therefore create 35 jobs. Primary algorithm checkboxes are intentionally not used by this study.
+
+When `Parallel workers` is greater than one, independent jobs are executed in separate CPU processes for faster benchmark throughput. AC power flow and the baseline metaheuristics are primarily CPU workloads, so low GPU and disk utilization is expected. Use one worker when comparing wall-clock runtime as a scientific metric; concurrent jobs contend for CPU resources and therefore should not be used for strict timing rankings.
+
+## Experiment history and trace cleanup
+
+CALO-RPD Studio 1.1.0 can remove obsolete local experiment history without manually editing SQLite files or result directories. Open **Results Explorer → Manage history** or **Application Settings → Experiment history** to inspect stored experiments and their referenced trace storage.
+
+The history manager can delete a selected completed run, a complete experiment, or all stored experiment history. Run deletion removes its validation records and referenced compressed `.npz` convergence/final-population array. Experiment deletion additionally removes failed-run records and every referenced trace file owned by that experiment. Full-history deletion requires typing `DELETE ALL`.
+
+External publication-export directories are intentionally not deleted automatically because they are independent user-managed copies. Destructive history actions are disabled while a scientific task is active.
