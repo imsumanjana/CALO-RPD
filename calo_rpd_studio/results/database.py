@@ -39,7 +39,10 @@ class ResultDatabase:
         schema = """
         CREATE TABLE IF NOT EXISTS experiments(
             id TEXT PRIMARY KEY, created_at TEXT NOT NULL, name TEXT NOT NULL,
-            config_json TEXT NOT NULL, provenance_json TEXT NOT NULL
+            config_json TEXT NOT NULL, provenance_json TEXT NOT NULL,
+            data_role TEXT NOT NULL DEFAULT 'excluded',
+            learning_eligible INTEGER NOT NULL DEFAULT 0,
+            learning_locked INTEGER NOT NULL DEFAULT 0
         );
         CREATE TABLE IF NOT EXISTS runs(
             id TEXT PRIMARY KEY, experiment_id TEXT NOT NULL, algorithm TEXT NOT NULL,
@@ -64,19 +67,34 @@ class ResultDatabase:
         """
         with self.connect() as con:
             con.executescript(schema)
+            # Forward-compatible migration for repositories created before v1.3.0. Existing
+            # experiments are deliberately excluded from learning until the user classifies them.
+            columns = {row["name"] for row in con.execute("PRAGMA table_info(experiments)").fetchall()}
+            if "data_role" not in columns:
+                con.execute("ALTER TABLE experiments ADD COLUMN data_role TEXT NOT NULL DEFAULT 'excluded'")
+            if "learning_eligible" not in columns:
+                con.execute("ALTER TABLE experiments ADD COLUMN learning_eligible INTEGER NOT NULL DEFAULT 0")
+            if "learning_locked" not in columns:
+                con.execute("ALTER TABLE experiments ADD COLUMN learning_locked INTEGER NOT NULL DEFAULT 0")
 
     def create_experiment(self, config, provenance):
         experiment_id = str(uuid.uuid4())
         now = datetime.now(timezone.utc).isoformat()
         with self._lock, self.connect() as con:
             con.execute(
-                "INSERT INTO experiments VALUES(?,?,?,?,?)",
+                """INSERT INTO experiments(
+                    id,created_at,name,config_json,provenance_json,
+                    data_role,learning_eligible,learning_locked
+                ) VALUES(?,?,?,?,?,?,?,?)""",
                 (
                     experiment_id,
                     now,
                     config.name,
                     json.dumps(config.to_dict(), allow_nan=True),
                     json.dumps(provenance, allow_nan=True),
+                    "excluded",
+                    0,
+                    0,
                 ),
             )
         return experiment_id
@@ -214,6 +232,65 @@ class ResultDatabase:
                     "SELECT * FROM experiments ORDER BY created_at DESC"
                 ).fetchall()
             ]
+
+
+    # ------------------------------------------------------------------
+    # Historical-learning classification
+    # ------------------------------------------------------------------
+
+    def set_experiment_learning_role(
+        self,
+        experiment_id: str,
+        role: str,
+        *,
+        eligible: bool = False,
+        locked: bool | None = None,
+    ) -> dict:
+        """Classify one experiment for leakage-aware historical learning.
+
+        Only ``train`` experiments may be learning-eligible. Validation and test experiments are
+        always excluded from model/algorithm updates. A locked experiment cannot be reclassified
+        until it is explicitly unlocked.
+        """
+        role = str(role).strip().lower()
+        allowed = {"train", "validation", "test", "excluded"}
+        if role not in allowed:
+            raise ValueError(f"Unsupported experiment data role: {role}")
+        eligible = bool(eligible and role == "train")
+        with self._lock, self.connect() as con:
+            row = con.execute(
+                "SELECT learning_locked FROM experiments WHERE id=?", (experiment_id,)
+            ).fetchone()
+            if row is None:
+                raise KeyError(f"Unknown experiment: {experiment_id}")
+            current_locked = bool(row["learning_locked"])
+            if current_locked and locked is not False:
+                raise RuntimeError(
+                    "This experiment learning classification is locked. Unlock it before changing the role."
+                )
+            next_locked = current_locked if locked is None else bool(locked)
+            con.execute(
+                "UPDATE experiments SET data_role=?,learning_eligible=?,learning_locked=? WHERE id=?",
+                (role, int(eligible), int(next_locked), experiment_id),
+            )
+        return self.get_experiment(experiment_id)
+
+    def list_learning_experiments(
+        self, *, role: str | None = None, eligible_only: bool = False
+    ) -> list[dict]:
+        query = "SELECT * FROM experiments"
+        where = []
+        args: list = []
+        if role is not None:
+            where.append("data_role=?")
+            args.append(str(role).strip().lower())
+        if eligible_only:
+            where.append("learning_eligible=1")
+        if where:
+            query += " WHERE " + " AND ".join(where)
+        query += " ORDER BY created_at DESC"
+        with self.connect() as con:
+            return [dict(row) for row in con.execute(query, args).fetchall()]
 
     # ------------------------------------------------------------------
     # History and trace management

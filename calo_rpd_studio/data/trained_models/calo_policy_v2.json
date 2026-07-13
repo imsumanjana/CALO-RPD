@@ -1,0 +1,274 @@
+{
+  "algorithm": "CALO",
+  "calo_core": "v2",
+  "training_method": "PPO",
+  "training_config": {
+    "epochs": 24,
+    "episodes_per_epoch": 12,
+    "horizon": 28,
+    "seed": 2026,
+    "learning_rate": 0.0003,
+    "gamma": 0.98,
+    "gae_lambda": 0.95,
+    "clip_ratio": 0.2,
+    "entropy_weight": 0.01,
+    "value_weight": 0.5,
+    "ppo_epochs": 4,
+    "minibatch_size": 128,
+    "hidden_dim": 96,
+    "population_size": 20,
+    "rollout_workers": 12,
+    "ppo_device": "auto",
+    "cpu_threads_per_worker": 1,
+    "development_cases": [],
+    "allow_final_benchmark_training": false,
+    "historical_repository": "C:\\Users\\User\\Downloads\\calo-rpd-studio-v1.0.0\\calo-rpd-studio\\historical_experience_v1.3.json",
+    "use_historical_trajectories": true,
+    "historical_pretraining_epochs": 4
+  },
+  "training_seed": 2026,
+  "state_dimension": 24,
+  "execution": {
+    "rollout_workers": 12,
+    "ppo_device": "cuda:0",
+    "cuda_available": true,
+    "cuda_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "xpu_available": false,
+    "xpu_name": "",
+    "xpu_sidecar_available": true,
+    "architecture": "parallel CPU rollout collection plus centralized PPO update on the selected accelerator"
+  },
+  "curriculum": [
+    "continuous unconstrained",
+    "constrained continuous",
+    "mixed discrete-continuous",
+    "narrow feasible region"
+  ],
+  "development_cases": [],
+  "final_publication_benchmarks_used_for_training": false,
+  "historical_pretraining": {
+    "enabled": true,
+    "samples": 0,
+    "epochs": 0,
+    "mean_loss": null
+  },
+  "historical_data_policy": "eligible TRAIN experiments only; validation/test experiments excluded; old trajectories used only for offline pretraining, never as PPO on-policy rollouts",
+  "history": [
+    {
+      "epoch": 1,
+      "curriculum_stage": 1,
+      "mean_loss": -0.03022088420887788,
+      "mean_episode_return": 0.8377205593803981,
+      "rollout_workers": 12,
+      "ppo_device": "cuda:0",
+      "transitions": 336
+    },
+    {
+      "epoch": 2,
+      "curriculum_stage": 1,
+      "mean_loss": -0.031550030844906964,
+      "mean_episode_return": 0.9714080250935857,
+      "rollout_workers": 12,
+      "ppo_device": "cuda:0",
+      "transitions": 336
+    },
+    {
+      "epoch": 3,
+      "curriculum_stage": 1,
+      "mean_loss": -0.03571919553602735,
+      "mean_episode_return": 0.7877101766551431,
+      "rollout_workers": 12,
+      "ppo_device": "cuda:0",
+      "transitions": 336
+    },
+    {
+      "epoch": 4,
+      "curriculum_stage": 1,
+      "mean_loss": -0.04165596623594562,
+      "mean_episode_return": 0.774443884631231,
+      "rollout_workers": 12,
+      "ppo_device": "cuda:0",
+      "transitions": 336
+    },
+    {
+      "epoch": 5,
+      "curriculum_stage": 1,
+      "mean_loss": -0.0214522792181621,
+      "mean_episode_return": 0.8937468558520264,
+      "rollout_workers": 12,
+      "ppo_device": "cuda:0",
+      "transitions": 336
+    },
+    {
+      "epoch": 6,
+      "curriculum_stage": 2,
+      "mean_loss": 0.002542609659334024,
+      "mean_episode_return": 1.516397491933147,
+      "rollout_workers": 12,
+      "ppo_device": "cuda:0",
+      "transitions": 336
+    },
+    {
+      "epoch": 7,
+      "curriculum_stage": 2,
+      "mean_loss": -0.023688709052900474,
+      "mean_episode_return": 1.5581361234661486,
+      "rollout_workers": 12,
+      "ppo_device": "cuda:0",
+      "transitions": 336
+    },
+    {
+      "epoch": 8,
+      "curriculum_stage": 2,
+      "mean_loss": -0.01690596016123891,
+      "mean_episode_return": 1.574103616564529,
+      "rollout_workers": 12,
+      "ppo_device": "cuda:0",
+      "transitions": 336
+    },
+    {
+      "epoch": 9,
+      "curriculum_stage": 2,
+      "mean_loss": -0.0018616369925439358,
+      "mean_episode_return": 1.8931858094825402,
+      "rollout_workers": 12,
+      "ppo_device": "cuda:0",
+      "transitions": 336
+    },
+    {
+      "epoch": 10,
+      "curriculum_stage": 2,
+      "mean_loss": -0.01954103463018934,
+      "mean_episode_return": 1.557604212296482,
+      "rollout_workers": 12,
+      "ppo_device": "cuda:0",
+      "transitions": 336
+    },
+    {
+      "epoch": 11,
+      "curriculum_stage": 3,
+      "mean_loss": 0.05082935777803262,
+      "mean_episode_return": 2.6050288630044363,
+      "rollout_workers": 12,
+      "ppo_device": "cuda:0",
+      "transitions": 336
+    },
+    {
+      "epoch": 12,
+      "curriculum_stage": 3,
+      "mean_loss": 0.032306974908957876,
+      "mean_episode_return": 2.119909853824211,
+      "rollout_workers": 12,
+      "ppo_device": "cuda:0",
+      "transitions": 336
+    },
+    {
+      "epoch": 13,
+      "curriculum_stage": 3,
+      "mean_loss": 0.04347772337496281,
+      "mean_episode_return": 2.9099779414074347,
+      "rollout_workers": 12,
+      "ppo_device": "cuda:0",
+      "transitions": 336
+    },
+    {
+      "epoch": 14,
+      "curriculum_stage": 3,
+      "mean_loss": 0.018791490700095892,
+      "mean_episode_return": 2.6709995195600205,
+      "rollout_workers": 12,
+      "ppo_device": "cuda:0",
+      "transitions": 336
+    },
+    {
+      "epoch": 15,
+      "curriculum_stage": 3,
+      "mean_loss": 0.045169735327363014,
+      "mean_episode_return": 2.388039042388023,
+      "rollout_workers": 12,
+      "ppo_device": "cuda:0",
+      "transitions": 336
+    },
+    {
+      "epoch": 16,
+      "curriculum_stage": 3,
+      "mean_loss": 0.045743664571394525,
+      "mean_episode_return": 2.7609458776543114,
+      "rollout_workers": 12,
+      "ppo_device": "cuda:0",
+      "transitions": 336
+    },
+    {
+      "epoch": 17,
+      "curriculum_stage": 4,
+      "mean_loss": 0.15723681713764867,
+      "mean_episode_return": 4.546502153935717,
+      "rollout_workers": 12,
+      "ppo_device": "cuda:0",
+      "transitions": 336
+    },
+    {
+      "epoch": 18,
+      "curriculum_stage": 4,
+      "mean_loss": 0.10084446473047137,
+      "mean_episode_return": 4.722572135925936,
+      "rollout_workers": 12,
+      "ppo_device": "cuda:0",
+      "transitions": 336
+    },
+    {
+      "epoch": 19,
+      "curriculum_stage": 4,
+      "mean_loss": 0.11613306635990739,
+      "mean_episode_return": 4.05489411541084,
+      "rollout_workers": 12,
+      "ppo_device": "cuda:0",
+      "transitions": 336
+    },
+    {
+      "epoch": 20,
+      "curriculum_stage": 4,
+      "mean_loss": 0.0672654331040879,
+      "mean_episode_return": 4.215985201164359,
+      "rollout_workers": 12,
+      "ppo_device": "cuda:0",
+      "transitions": 336
+    },
+    {
+      "epoch": 21,
+      "curriculum_stage": 4,
+      "mean_loss": 0.10491432854905725,
+      "mean_episode_return": 3.919168446226306,
+      "rollout_workers": 12,
+      "ppo_device": "cuda:0",
+      "transitions": 336
+    },
+    {
+      "epoch": 22,
+      "curriculum_stage": 4,
+      "mean_loss": 0.05957008417074879,
+      "mean_episode_return": 4.412367365353567,
+      "rollout_workers": 12,
+      "ppo_device": "cuda:0",
+      "transitions": 336
+    },
+    {
+      "epoch": 23,
+      "curriculum_stage": 4,
+      "mean_loss": 0.07880137814208865,
+      "mean_episode_return": 4.526255965810298,
+      "rollout_workers": 12,
+      "ppo_device": "cuda:0",
+      "transitions": 336
+    },
+    {
+      "epoch": 24,
+      "curriculum_stage": 4,
+      "mean_loss": 0.07183431461453438,
+      "mean_episode_return": 3.9626603032795344,
+      "rollout_workers": 12,
+      "ppo_device": "cuda:0",
+      "transitions": 336
+    }
+  ]
+}

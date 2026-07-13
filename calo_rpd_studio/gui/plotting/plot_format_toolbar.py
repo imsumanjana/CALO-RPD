@@ -1,11 +1,16 @@
-"""Compact, popup-based plot editing tools for scientific figures."""
+"""Compact popup-based scientific plot tools.
+
+Four core tools are shown on ordinary plots; hosts such as Live Optimization may also expose the
+context-sensitive Preview series tool without adding a permanent checkbox panel to the workspace.
+"""
 from __future__ import annotations
 
 from copy import deepcopy
+from typing import Callable
 import weakref
 
 from PyQt6.QtCore import QPoint, QSize, Qt, pyqtSignal
-from PyQt6.QtGui import QColor, QFont, QIcon, QPainter, QPen, QPixmap, QPolygon
+from PyQt6.QtGui import QColor, QFont, QIcon, QPainter, QPainterPath, QPen, QPixmap, QPolygon
 from PyQt6.QtWidgets import (
     QApplication,
     QCheckBox,
@@ -138,6 +143,16 @@ def _make_icon(kind: str, size: int = 22) -> QIcon:
         painter.drawPolyline(QPolygon([QPoint(5, 15), QPoint(9, 11), QPoint(13, 13), QPoint(18, 6)]))
         for point in (QPoint(5, 15), QPoint(9, 11), QPoint(13, 13), QPoint(18, 6)):
             painter.drawEllipse(point, 1, 1)
+    elif kind == "preview":
+        path = QPainterPath()
+        path.moveTo(3, 11)
+        path.cubicTo(7, 5, 15, 5, 19, 11)
+        path.cubicTo(15, 17, 7, 17, 3, 11)
+        painter.drawPath(path)
+        painter.drawEllipse(QPoint(11, 11), 3, 3)
+        painter.setBrush(color)
+        painter.drawEllipse(QPoint(11, 11), 1, 1)
+        painter.setBrush(Qt.BrushStyle.NoBrush)
     elif kind == "export":
         painter.drawLine(11, 3, 11, 14)
         painter.drawLine(7, 10, 11, 14)
@@ -170,6 +185,10 @@ class PlotFormattingToolbar(QWidget):
         self._loading = False
         self._syncing_square_size = False
         self.export_series_checks: dict[str, QCheckBox] = {}
+        self.preview_series_checks: dict[str, QCheckBox] = {}
+        self._preview_options_provider: Callable[[], list[tuple[str, str]]] | None = None
+        self._preview_selection_provider: Callable[[], set[str] | None] | None = None
+        self._preview_selection_callback: Callable[[set[str] | None], None] | None = None
 
         layout = QHBoxLayout(self)
         layout.setContentsMargins(8, 6, 8, 6)
@@ -190,6 +209,10 @@ class PlotFormattingToolbar(QWidget):
         self.plot_tool_button = self._make_tool_button(
             "plot", "Plot appearance", "Edit axes, grid, line, and marker appearance."
         )
+        self.preview_tool_button = self._make_tool_button(
+            "preview", "Preview series", "Choose which available series are visible in the live preview."
+        )
+        self.preview_tool_button.setVisible(False)
         self.export_tool_button = self._make_tool_button(
             "export", "Export figure", "Save the current figure as PNG, SVG, or PDF."
         )
@@ -199,6 +222,7 @@ class PlotFormattingToolbar(QWidget):
         for button in (
             self.text_tool_button,
             self.plot_tool_button,
+            self.preview_tool_button,
             self.export_tool_button,
             self.style_tool_button,
         ):
@@ -207,6 +231,7 @@ class PlotFormattingToolbar(QWidget):
 
         self._build_text_popup()
         self._build_plot_popup()
+        self._build_preview_popup()
         self._build_export_popup()
         self._build_style_popup()
         self._connect()
@@ -380,6 +405,106 @@ class PlotFormattingToolbar(QWidget):
         series.content.addLayout(series_form)
         self.plot_popup.layout_root.addWidget(series)
 
+    def _build_preview_popup(self) -> None:
+        self.preview_popup = _PlotToolPopup(
+            "Preview series",
+            "Select the currently available plot series to show in the on-screen preview. This does not delete data and does not change export-series selection.",
+            self.plot_widget_ref(),
+        )
+        actions = QWidget()
+        actions_layout = QHBoxLayout(actions)
+        actions_layout.setContentsMargins(0, 0, 0, 0)
+        actions_layout.setSpacing(8)
+        self.preview_select_all = QPushButton("Select all")
+        self.preview_clear_all = QPushButton("Clear all")
+        self.preview_restore_default = QPushButton("Restore default")
+        actions_layout.addWidget(self.preview_select_all)
+        actions_layout.addWidget(self.preview_clear_all)
+        actions_layout.addWidget(self.preview_restore_default)
+        actions_layout.addStretch(1)
+        self.preview_popup.layout_root.addWidget(actions)
+
+        self.preview_series_scroll = QScrollArea()
+        self.preview_series_scroll.setObjectName("PreviewSeriesScroll")
+        self.preview_series_scroll.setWidgetResizable(True)
+        self.preview_series_scroll.setFrameShape(QFrame.Shape.NoFrame)
+        self.preview_series_scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        self.preview_series_scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
+        self.preview_series_scroll.setMaximumHeight(260)
+        self.preview_series_body = QWidget()
+        self.preview_series_grid = QGridLayout(self.preview_series_body)
+        self.preview_series_grid.setContentsMargins(0, 0, 0, 0)
+        self.preview_series_grid.setHorizontalSpacing(12)
+        self.preview_series_grid.setVerticalSpacing(7)
+        self.preview_series_scroll.setWidget(self.preview_series_body)
+        self.preview_popup.layout_root.addWidget(self.preview_series_scroll)
+
+        self.preview_empty_note = QLabel("No selectable series are available for this plot yet.")
+        self.preview_empty_note.setWordWrap(True)
+        self.preview_empty_note.setObjectName("PlotToolPopupNote")
+        self.preview_popup.layout_root.addWidget(self.preview_empty_note)
+
+    def configure_preview_series(
+        self,
+        options_provider: Callable[[], list[tuple[str, str]]],
+        selection_provider: Callable[[], set[str] | None],
+        selection_callback: Callable[[set[str] | None], None],
+    ) -> None:
+        """Enable the optional Preview-series plot tool for a host workspace."""
+        self._preview_options_provider = options_provider
+        self._preview_selection_provider = selection_provider
+        self._preview_selection_callback = selection_callback
+        self.preview_tool_button.setVisible(True)
+
+    def _clear_preview_series_grid(self) -> None:
+        while self.preview_series_grid.count():
+            item = self.preview_series_grid.takeAt(0)
+            widget = item.widget()
+            if widget is not None:
+                widget.deleteLater()
+        self.preview_series_checks = {}
+
+    def _refresh_preview_series_options(self) -> None:
+        previous = None
+        if self._preview_selection_provider is not None:
+            previous = self._preview_selection_provider()
+        options = self._preview_options_provider() if self._preview_options_provider else []
+        self._clear_preview_series_grid()
+        self.preview_empty_note.setVisible(not bool(options))
+        self.preview_select_all.setEnabled(bool(options))
+        self.preview_clear_all.setEnabled(bool(options))
+        self.preview_restore_default.setEnabled(bool(options))
+        columns = 2 if len(options) > 6 else 1
+        for index, (key, display_label) in enumerate(options):
+            check = QCheckBox(display_label)
+            check.setProperty("seriesKey", key)
+            check.setChecked(previous is None or key in previous)
+            check.toggled.connect(self._preview_checkbox_changed)
+            self.preview_series_grid.addWidget(check, index // columns, index % columns)
+            self.preview_series_checks[key] = check
+        for column in range(columns):
+            self.preview_series_grid.setColumnStretch(column, 1)
+
+    def _preview_checkbox_changed(self, *_args) -> None:
+        if self._preview_selection_callback is None:
+            return
+        selected = {key for key, check in self.preview_series_checks.items() if check.isChecked()}
+        self._preview_selection_callback(selected)
+
+    def _set_all_preview_series(self, checked: bool) -> None:
+        for check in self.preview_series_checks.values():
+            check.blockSignals(True)
+            check.setChecked(bool(checked))
+            check.blockSignals(False)
+        if self._preview_selection_callback is not None:
+            selected = set(self.preview_series_checks) if checked else set()
+            self._preview_selection_callback(selected)
+
+    def _restore_default_preview_series(self) -> None:
+        if self._preview_selection_callback is not None:
+            self._preview_selection_callback(None)
+        self._refresh_preview_series_options()
+
     def _build_export_popup(self) -> None:
         self.export_popup = _PlotToolPopup(
             "Export figure",
@@ -480,6 +605,9 @@ class PlotFormattingToolbar(QWidget):
         self.plot_tool_button.clicked.connect(
             lambda: self._toggle_popup(self.plot_popup, self.plot_tool_button)
         )
+        self.preview_tool_button.clicked.connect(
+            lambda: self._toggle_popup(self.preview_popup, self.preview_tool_button)
+        )
         self.export_tool_button.clicked.connect(
             lambda: self._toggle_popup(self.export_popup, self.export_tool_button)
         )
@@ -531,6 +659,9 @@ class PlotFormattingToolbar(QWidget):
         ):
             widget.valueChanged.connect(self._general_changed)
 
+        self.preview_select_all.clicked.connect(lambda: self._set_all_preview_series(True))
+        self.preview_clear_all.clicked.connect(lambda: self._set_all_preview_series(False))
+        self.preview_restore_default.clicked.connect(self._restore_default_preview_series)
         self.select_all_series.clicked.connect(lambda: self._set_all_export_series(True))
         self.clear_all_series.clicked.connect(lambda: self._set_all_export_series(False))
         self.export_format.currentTextChanged.connect(self._sync_export_controls)
@@ -543,7 +674,13 @@ class PlotFormattingToolbar(QWidget):
         self.apply_all.clicked.connect(self._apply_all)
 
     def _hide_popups_except(self, selected: _PlotToolPopup) -> None:
-        for popup in (self.text_popup, self.plot_popup, self.export_popup, self.style_popup):
+        for popup in (
+            self.text_popup,
+            self.plot_popup,
+            self.preview_popup,
+            self.export_popup,
+            self.style_popup,
+        ):
             if popup is not selected and popup.isVisible():
                 popup.hide()
 
@@ -552,6 +689,8 @@ class PlotFormattingToolbar(QWidget):
             popup.hide()
             return
         self._hide_popups_except(popup)
+        if popup is self.preview_popup:
+            self._refresh_preview_series_options()
         if popup is self.export_popup:
             self._refresh_export_series_options()
             self._sync_export_controls()

@@ -1,5 +1,79 @@
 # Changelog
 
+## 1.3.0
+
+- Moved Live Optimization series visibility from the permanently expanded preview checkbox section into a context-sensitive **Preview series** icon inside Plot Tools.
+- Added dynamic Preview series checkboxes with **Select all**, **Clear all**, and **Restore default**; preview visibility remains independent from export-series selection and never deletes raw data.
+- Added a leakage-aware **Historical Experience Learning** subsystem under CALO Intelligence.
+- Added explicit experiment roles **TRAIN**, **VALIDATION**, **TEST**, and **EXCLUDED**; existing and new experiments remain excluded from learning unless explicitly classified, and only eligible TRAIN experiments may enter a learning repository.
+- Added database migration fields for experiment learning role, eligibility, and classification lock while preserving compatibility with existing v1.2 databases.
+- Added checksum-verified historical experience repositories containing eligible CALO policy trajectories, cross-algorithm solution exemplars, and CALO parameter priors.
+- Added offline historical CALO policy pretraining before fresh on-policy PPO; historical trajectories are never inserted into PPO's on-policy rollout buffer.
+- Added conservative reconstruction of usable legacy v1.2 CALO diagnostic histories as lower-weight partial regime/operator examples when enough telemetry is available; reconstructed samples do not supervise the continuous parameter head.
+- Added optional problem-compatible cross-algorithm population warm starting and historical CALO parameter-prior blending for practical warm-start operation.
+- Added **Cold Start**, **Historical Warm Start**, and **Continual Learning** modes; continual mode rebuilds the eligible repository but never silently retrains or promotes the deployed policy.
+- Added GUI controls to classify and lock historical experiments, build/preview repositories, configure historical policy pretraining, enable parameter priors, and enable optional population warm starts.
+- Added CLI options for historical repository selection and historical pretraining epochs.
+- Added regression, integration, and unit coverage for preview-series placement/filtering, train/test leakage protection, repository generation, legacy-trajectory reconstruction, and historical policy pretraining.
+
+## 1.2.4
+
+- Replaced the simple CUDA/CPU scheduler with an accelerator-first heterogeneous scheduler using the fixed default priority **NVIDIA CUDA → Intel XPU → CPU**.
+- Added dynamic discovery and live telemetry for all verified CUDA devices and available Intel XPU devices; PyTorch backend IDs are shown separately from Windows Task Manager GPU numbering.
+- Added separate CUDA compute/VRAM, XPU compute/device-memory, CPU utilization, and system-RAM admission thresholds plus explicit per-accelerator job caps.
+- Added strict admission ordering: compatible CALO AI jobs receive first refusal on CUDA, then XPU, before CPU fallback is considered; conventional baseline algorithms remain CPU workloads.
+- Added an isolated Intel-XPU sidecar runtime so mixed NVIDIA/Intel systems can retain a CUDA-enabled primary PyTorch build while using an independent XPU-enabled PyTorch interpreter for Intel-GPU jobs and policy training.
+- Extended the first-launch prerequisite wizard to detect Intel graphics, provision/repair the secondary XPU runtime, verify real XPU computation, and retain full download bytes/speed/ETA installation telemetry.
+- Extended CALO policy-training device selection to CUDA, direct XPU, secondary XPU runtime, and CPU with automatic CUDA → XPU → CPU preference.
+- Added resource-inventory status to Experiment Manager and persisted CUDA/XPU/CPU device assignments and expanded accelerator provenance.
+- Added XPU-aware experiment configuration fields, JSON schema entries, configuration round-trip coverage, resource-priority tests, XPU no-utilization fallback tests, and system-RAM safety tests.
+- Preserved the scientific rule that running optimizer jobs are never migrated mid-run and that strict runtime comparisons should use CPU-only single-worker execution.
+
+## 1.2.3
+
+- Added structured prerequisite-installation progress telemetry to the first-launch wizard.
+- Added coarse overall setup stage progress and explicit current-stage labels.
+- Added exact per-artifact pip download byte counters and percentages using pip raw progress output.
+- Added measured download speed, ETA, and total elapsed installation time.
+- Suppressed repetitive raw progress records from the text log while retaining normal pip diagnostic output.
+- Kept download totals scientifically honest: the GUI reports exact current-artifact bytes, while the overall bar reports installation stages because pip resolves the full dependency graph dynamically.
+
+## 1.2.2
+
+- Added a first-launch prerequisite setup wizard that runs before the PyQt6 application and can install/repair the scientific environment.
+- Added automatic NVIDIA detection and CUDA-enabled PyTorch backend selection with verified GPU tensor execution and CPU fallback.
+- Added adaptive heterogeneous CPU/GPU experiment scheduling for both primary comparisons and CALO ablation studies.
+- Added configurable GPU utilization, GPU memory, CPU utilization, and GPU-job admission targets.
+- Enabled CUDA CALO policy inference during experimental evaluation while retaining CPU AC power flow and baseline optimizers.
+- Recorded per-run compute-device assignments and accelerator provenance.
+- Added fairness warnings for heterogeneous runtime comparisons.
+- Added regression tests for prerequisite backend selection, resource admission, scheduler GUI controls, and compute-policy configuration round-trips.
+
+## 1.2.1
+
+- Added resource-aware CALO policy training with spawn-safe parallel CPU rollout workers.
+- Added automatic CUDA detection and selectable CPU/CUDA/automatic device routing for centralized PPO updates.
+- Kept rollout workers on CPU and the accelerator in the parent training process to avoid unsafe CUDA tensor sharing across Windows worker processes.
+- Added deterministic per-episode seeds so rollout results do not depend on worker scheduling order.
+- Added GUI controls for PPO compute device and parallel rollout worker count, including a recommended-worker action and detected accelerator status.
+- Added training metadata recording rollout worker count, selected PPO device, CUDA availability, GPU name, and transition count.
+- Added CLI options for training device and rollout-worker count.
+- Preserved scientific reproducibility and benchmark-leakage safeguards.
+
+## 1.2.0
+
+- Rebuilt the proposed optimizer as CALO Core v2.
+- Added adaptive epsilon-feasibility, feasible and constraint-boundary archives, per-individual operators, mixed-variable neighbourhood learning, environmental selection, success-distribution memory, online operator credit, and temporary diversity recovery.
+- Added separate objective and constraint stagnation state.
+- Added component-wise constraint diagnostics, exact/epsilon feasible ratios, adaptive epsilon, diversity, operator success, archive size, regime, and first-feasibility telemetry.
+- Rebuilt the CALO policy as a hierarchical regime/operator/Beta-parameter actor-critic.
+- Replaced the earlier policy-gradient-style training with actual PPO mechanics including clipped ratios and GAE.
+- Unified training and runtime operator/selection modules.
+- Expanded the CALO ablation suite to nine fixed variants.
+- Added checkbox-based selective live preview generated from current plot series names.
+- Preserved square live preview, selective export, and 600–2400 DPI PNG output.
+- Kept the repository free of GitHub Actions workflows.
+
 ## 1.1.0
 
 - Added complete local experiment-history management for removing obsolete completed runs or entire experiments.

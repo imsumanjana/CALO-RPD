@@ -1,110 +1,238 @@
-# CALO Methodology
+# CALO Methodology — Core v2
 
-## Cognitive Adaptive Learning Optimizer
+## 1. Purpose
 
-CALO is a search-state-aware optimization architecture. It does not reduce to TLBO with a changed
-random-number distribution. At each iteration, it measures the state of the search, queries a compact
-AI policy controller, executes one of six bounded learning modes, records successful moves, and
-updates diversity and stagnation information.
+The **Cognitive Adaptive Learning Optimizer (CALO)** is a search-state-aware optimization architecture for constrained, mixed-variable problems such as optimal reactive power dispatch. CALO Core v2 was designed to prevent the failure mode in which a population decreases aggregate constraint violation, collapses around one low-violation point, and then remains infeasible for the rest of the evaluation budget.
 
-## Cognitive state
+CALO is not TLBO with a changed random-number distribution. Its runtime combines constraint diagnostics, adaptive epsilon-feasibility, dual archives, a multi-operator population, success-distribution memory, online operator credit, mixed-variable neighbourhood moves, and an optional hierarchical AI policy.
 
-The normalized state contains:
+## 2. Exact and epsilon feasibility
+
+Final scientific validity always uses the strict common ORPD constraints. During search, CALO may temporarily treat a candidate as epsilon-feasible when
+
+\[
+CV(\mathbf{x}) \leq \epsilon_t.
+\]
+
+The threshold decreases according to
+
+\[
+\epsilon_t = \epsilon_0\left(1-\frac{N_{FE}}{T_c}\right)^p,
+\quad N_{FE}<T_c,
+\]
+
+and
+
+\[
+\epsilon_t=0,
+\quad N_{FE}\geq T_c.
+\]
+
+Here `N_FE` is the objective-function evaluation count, `T_c` is a configured fraction of the total evaluation budget, and `p` controls the decay shape. This mechanism allows promising near-feasible regions to compete early while exact feasibility is enforced by the end of the control interval.
+
+## 3. Dual archives
+
+### 3.1 Feasible Elite Archive
+
+The feasible archive stores high-quality exact-feasible solutions and rejects numerical duplicates. Rank-biased sampling favors strong solutions without forcing every learner toward one point.
+
+### 3.2 Constraint Boundary Archive
+
+The boundary archive stores diverse infeasible solutions with low total violation. Retention considers:
+
+- total constraint quality;
+- distance in normalized decision space;
+- difference in the constraint-component profile.
+
+The archive therefore preserves multiple routes toward feasibility, for example a candidate dominated by generator-Q violation and another dominated by bus-voltage violation.
+
+## 4. Constraint decomposition
+
+The CALO state tracks the best and mean values of:
+
+\[
+CV_V,
+CV_Q,
+CV_P,
+CV_S,
+CV_{PF},
+\]
+
+representing bus-voltage, generator reactive-power, generator active-power, branch thermal, and power-flow convergence violations. These components remain separate from the objective value.
+
+## 5. Cognitive state
+
+The release state vector contains 24 normalized values:
 
 - population diversity;
-- recent best-objective improvement;
-- recent median-population improvement;
-- normalized stagnation duration;
-- feasible-solution ratio;
-- normalized mean constraint violation;
 - elite spread;
+- exact feasible ratio;
+- epsilon-feasible ratio;
+- transformed mean total violation;
+- transformed best total violation;
+- five transformed physical constraint components;
+- recent constraint improvement;
+- recent feasible-objective improvement;
+- constraint stagnation;
+- objective stagnation;
 - remaining evaluation budget;
-- six operator-success features.
+- feasible archive fill ratio;
+- boundary archive fill ratio;
+- six online operator-credit values.
 
-The release policy therefore uses a 14-dimensional input vector.
+Objective and constraint progress are never combined into one raw scalar state.
 
-## AI policy controller
+## 6. Search regimes
 
-The controller is a compact PyTorch actor-critic network with two fully connected hidden layers.
-The policy head produces probabilities for six learning modes. A second head produces bounded
-continuous controls for exploitation, peer learning, exploration variance, memory contribution,
-recovery intensity, and recovery population fraction. A value head supports reproducible
-actor-critic/PPO-style training.
+The hierarchical controller assigns probabilities to four regimes:
 
-The AI controller is used only by CALO. The nineteen primary baseline algorithms receive no AI
-assistance.
+1. **Feasibility** — emphasize boundary learning and physically meaningful device moves.
+2. **Transition** — balance constraint reduction and objective quality near the feasible boundary.
+3. **Objective refinement** — exploit exact-feasible elites while preserving differential information.
+4. **Recovery** — temporarily rebuild diversity when objective or constraint progress stagnates.
 
-## Learning modes
+A transparent rule-based prior is blended with the learned regime policy. Recovery is temporary and includes a cooldown; it cannot become a permanent hard override.
 
-### 1. Teacher-guided exploitation
+## 7. Per-individual operator allocation
 
-\[
-X_i'=X_i+\alpha_t|Z_1|(X_{best}-X_i)+\beta_tZ_2(X_{best}-\bar X),
-\qquad Z_1,Z_2\sim\mathcal N(0,1).
-\]
+CALO does not apply one operator to the entire population. Each learner independently samples one of six operators from a probability distribution that combines:
 
-The first term preserves direction toward the current best. The second provides controlled adaptive
-variation.
+- hierarchical AI output;
+- regime-specific prior knowledge;
+- online operator credit measured during the current run.
 
-### 2. Contrastive peer learning
+This permits simultaneous exploration, feasibility repair, and objective refinement within one generation.
 
-\[
-X_i'=X_i+\gamma_t r_1(X_{better}-X_i)+\delta_t r_2(X_i-X_{diverse}).
-\]
+## 8. CALO Core v2 operators
 
-### 3. Self-reflective memory learning
+### 8.1 Feasible-elite learning
 
 \[
-X_i'=X_i+\eta_t r_1(P_i-X_i)+\mu_tM_{success}.
+\mathbf{x}'_i = \mathbf{x}_i
++ \alpha r_1(\mathbf{x}_{pbest}-\mathbf{x}_i)
++ F(\mathbf{x}_{r1}-\mathbf{x}_{r2}).
 \]
 
-### 4. Adaptive exploration
+The first term exploits a feasible or boundary teacher. The differential term preserves directional diversity.
+
+### 8.2 Constraint-boundary differential learning
 
 \[
-X_i'=X_{reference}+\sigma_tZ.
+\mathbf{x}'_i = \mathbf{x}_i
++ \alpha r_1(\mathbf{x}_{C}-\mathbf{x}_i)
++ F(\mathbf{x}_{r1}-\mathbf{x}_{r2}),
 \]
 
-Because the optimization space is normalized, the perturbation scale is independent of engineering
-units.
+where `x_C` is sampled from the diverse constraint-boundary archive.
 
-### 5. Feasibility recovery
+### 8.3 Cognitive teacher learning
 
-When the feasible ratio is poor, moves are biased toward a feasible elite when one exists and toward
-the lowest-violation region otherwise. Candidate feasibility is still determined only by the common
-physical evaluator.
+\[
+\mathbf{x}'_i = \mathbf{x}_i
++ \alpha |\mathbf{Z}_1|\odot(\mathbf{x}_{T}-\mathbf{x}_i)
++ \beta \mathbf{Z}_2\odot(\mathbf{x}_{T}-\bar{\mathbf{x}}).
+\]
 
-### 6. Stagnation escape
+The teacher depends on the current regime and available archives.
 
-When the configured stagnation window is reached, a controlled fraction of poor learners is perturbed
-around the elite region while leading solutions are preserved.
+### 8.4 Success-distribution memory
 
-## Success memory
+A bounded memory stores successful directions with objective gain, feasibility gain, operator identity, and recency. CALO samples a successful direction probabilistically rather than averaging all directions into one vector that may cancel opposing successful moves.
 
-A bounded deque stores accepted directions, operator identity, step norm, normalized objective gain,
-and feasibility gain. Recency weighting prevents unbounded history and allows the population to use
-recently successful movement information.
+### 8.5 Mixed-variable neighbourhood learning
 
-## Reward
+Continuous generator-voltage controls receive local continuous perturbations. Discrete transformer taps and shunts move to actual neighbouring device levels, typically ±1 admissible step and occasionally a larger local step. This prevents expensive evaluations of different normalized vectors that decode to the same physical discrete state.
 
-The training reward combines normalized objective improvement, feasible-ratio improvement, useful
-diversity recovery, constraint-violation penalty, and computational-overhead penalty. Individual
-components are maintained separately in the methodology and training code.
+### 8.6 Diversity recovery
 
-## Training/test separation
+Recovery uses opposition-guided or underexplored anchors with bounded perturbation. It does not repeatedly perturb the same current best solution.
 
-The packaged policy is trained only on documented synthetic numerical function families. Its metadata
-explicitly states whether final power-system test cases were used for training. Final comparative runs
-use a frozen checkpoint by default. Any different policy or online adaptation is a distinct experiment
-configuration and is preserved in provenance.
+## 9. Environmental selection
 
-## Ablation suite
+Parents and offspring are combined:
 
-The application provides:
+\[
+P_{t+1}=\operatorname{Select}(P_t\cup Q_t).
+\]
 
-1. classical TLBO;
-2. legacy Gaussian MTLBO;
-3. CALO without AI;
-4. CALO without success memory;
-5. CALO without stagnation recovery;
-6. CALO without diversity feedback;
-7. complete CALO.
+Selection uses the current epsilon-feasibility rule, preserves a quality subset, and then fills remaining positions with a quality-diversity criterion. Exact feasible elites are separately retained by the feasible archive.
+
+## 10. Online operator credit
+
+Each operator receives recency-weighted credit from actual current-run improvements. The final operator probability is obtained from the learned probability and online credit:
+
+\[
+P_k^{final}\propto
+(P_k^{AI}+\delta)^\lambda
+(P_k^{credit}+\delta)^{1-\lambda}.
+\]
+
+This allows current evidence to correct a weak learned prior.
+
+## 11. Hierarchical AI policy
+
+The PyTorch policy has a shared backbone and four outputs:
+
+- regime logits;
+- operator logits;
+- Beta-distribution alpha parameters;
+- Beta-distribution beta parameters;
+- state-value estimate.
+
+The bounded continuous action controls attraction, differential strength, exploration scale, memory contribution, diversity pressure, and recovery fraction. Both categorical and continuous actions contribute to the policy log-probability used during training.
+
+## 12. PPO training
+
+The training implementation uses:
+
+- clipped PPO surrogate objective;
+- old and new action log probabilities;
+- generalized advantage estimation (GAE);
+- value loss;
+- entropy regularization;
+- minibatch updates;
+- multiple PPO epochs;
+- gradient clipping.
+
+The training environment imports and uses the same CALO Core v2 operator implementations, epsilon environmental selection, dual archives, cognitive state builder, success memory, operator credit, and mixed-variable moves as runtime.
+
+The built-in curriculum progresses through:
+
+1. continuous unconstrained tasks;
+2. constrained continuous tasks;
+3. mixed discrete-continuous tasks;
+4. narrow-feasible-region tasks;
+5. optional explicitly configured ORPD development systems.
+
+The fifth stage is enabled only when development case paths are supplied. Final publication benchmark systems are not silently used for training. Development-system identifiers are preserved in checkpoint metadata.
+
+## 13. CALO Core v2 ablation suite
+
+The application provides nine fixed variants:
+
+1. Classical TLBO;
+2. Legacy Gaussian MTLBO;
+3. CALO Core v2 without AI;
+4. CALO without epsilon-feasibility;
+5. CALO without dual archives;
+6. CALO without mixed-variable learning;
+7. CALO without success memory;
+8. CALO without diversity recovery;
+9. Complete CALO.
+
+Ablation results are stored separately from the primary 20-algorithm benchmark.
+
+## 14. Required interpretation
+
+CALO should not be called universally superior. The software is designed to measure:
+
+- feasible-run rate;
+- evaluations to first feasibility;
+- final exact constraint violation;
+- median final objective;
+- runtime;
+- statistical significance;
+- effect size;
+- problem classes where CALO gains or loses advantage.
+
+The final evidence, not the algorithm name, determines the claim.

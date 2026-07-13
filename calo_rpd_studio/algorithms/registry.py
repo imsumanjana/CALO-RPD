@@ -29,7 +29,7 @@ class AlgorithmSpec:
     name:str; cls:type; description:str; default_parameters:dict[str,Any]
 
 SPECS={
-'CALO':AlgorithmSpec('CALO',CALOOptimizer,'AI-controlled cognitive adaptive learning with six search modes, bounded success memory, diversity feedback, feasibility intelligence, and controlled recovery.',{}),
+'CALO':AlgorithmSpec('CALO',CALOOptimizer,'CALO Core v2 with adaptive epsilon-feasibility, dual archives, per-individual operator allocation, mixed-variable learning, success-distribution memory, online operator credit, diversity recovery, and hierarchical AI control.',{'use_ai':True,'use_memory':True,'use_dual_archives':True,'use_epsilon':True,'use_mixed_variable':True,'use_diversity_recovery':True,'use_local_intensification':True,'epsilon_quantile':0.75,'epsilon_control_fraction':0.65,'epsilon_exponent':2.0,'stagnation_window':12,'ai_credit_blend':0.65,'ai_policy_weight':0.35}),
 'TLBO':AlgorithmSpec('TLBO',TLBOOptimizer,'Teaching-Learning-Based Optimization.',{}),
 'PSO':AlgorithmSpec('PSO',PSOOptimizer,'Particle Swarm Optimization.',{'inertia':.7298,'c1':1.49618,'c2':1.49618}),
 'CLPSO':AlgorithmSpec('CLPSO',CLPSOOptimizer,'Comprehensive Learning Particle Swarm Optimization.',{'refresh_gap':7,'c':1.49445}),

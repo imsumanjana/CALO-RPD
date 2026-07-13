@@ -57,6 +57,9 @@ class BaseOptimizer:
         self.best_constraint_violation_history: list[float] = []
         self._best_feasible_objective = float("inf")
         self._best_constraint_violation = float("inf")
+        self._best_constraint_evaluation = None
+        self.first_feasible_evaluation: int | None = None
+        self.constraint_component_histories: dict[str, list[float]] = {}
 
     def cancelled(self):
         return bool(self.cancel_callback and self.cancel_callback())
@@ -77,8 +80,11 @@ class BaseOptimizer:
 
         if ev.feasible and np.isfinite(ev.value):
             self._best_feasible_objective = min(self._best_feasible_objective, float(ev.value))
-        if np.isfinite(ev.violation):
-            self._best_constraint_violation = min(self._best_constraint_violation, float(ev.violation))
+            if self.first_feasible_evaluation is None:
+                self.first_feasible_evaluation = int(self.evaluations)
+        if np.isfinite(ev.violation) and ev.violation < self._best_constraint_violation:
+            self._best_constraint_violation = float(ev.violation)
+            self._best_constraint_evaluation = ev
         return ev
 
     def evaluate_population(self, pop):
@@ -110,6 +116,13 @@ class BaseOptimizer:
         self.evaluation_history.append(int(self.evaluations))
         self.best_feasible_objective_history.append(feasible_best)
         self.best_constraint_violation_history.append(best_violation)
+        components = {}
+        if self._best_constraint_evaluation is not None:
+            components = dict((getattr(self._best_constraint_evaluation, "metadata", {}) or {}).get("constraint_components", {}))
+        known = set(self.constraint_component_histories) | set(components)
+        for key in sorted(known):
+            value = float(components.get(key, 0.0))
+            self.constraint_component_histories.setdefault(key, []).append(value)
 
         if self.progress_callback:
             self.progress_callback(
@@ -121,6 +134,8 @@ class BaseOptimizer:
                     "best_objective": incumbent,
                     "best_feasible_objective": feasible_best,
                     "best_constraint_violation": best_violation,
+                    "constraint_components": components,
+                    "first_feasible_evaluation": self.first_feasible_evaluation,
                     "feasible": False if self.best_evaluation is None else self.best_evaluation.feasible,
                     **(extra or {}),
                 }
@@ -143,6 +158,8 @@ class BaseOptimizer:
         md["best_feasible_objective_history"] = list(self.best_feasible_objective_history)
         md["best_constraint_violation_history"] = list(self.best_constraint_violation_history)
         md["incumbent_objective_history"] = list(self.history)
+        md["constraint_component_histories"] = {key:list(values) for key,values in self.constraint_component_histories.items()}
+        md["first_feasible_evaluation"] = self.first_feasible_evaluation
         md["convergence_definition"] = (
             "best feasible objective and minimum normalized constraint violation versus objective-function evaluations"
         )

@@ -74,6 +74,13 @@ class ScientificPlotWidget(QWidget):
             layout.addWidget(self.canvas, 1)
 
 
+
+    def configure_preview_series(self, options_provider, selection_provider, selection_callback) -> None:
+        """Expose host-controlled selective preview through the compact Plot Tools strip."""
+        self.format_toolbar.configure_preview_series(
+            options_provider, selection_provider, selection_callback
+        )
+
     def export_series_options(self) -> list[tuple[str, str]]:
         """Return ``(original_label, displayed_legend_label)`` pairs for export selection."""
         output: list[tuple[str, str]] = []

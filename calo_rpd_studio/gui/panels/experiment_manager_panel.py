@@ -5,7 +5,7 @@ import os
 
 import psutil
 
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import QTimer, Qt
 from PyQt6.QtWidgets import (
     QComboBox,
     QDoubleSpinBox,
@@ -27,6 +27,7 @@ from PyQt6.QtWidgets import (
     QWidget,
 )
 
+from calo_rpd_studio.compute.resource_scheduler import ResourceMonitor
 from calo_rpd_studio.experiments.evaluation_budget import BudgetPolicy
 from calo_rpd_studio.experiments.execution_plan import ABLATION_MODE, COMPARISON_MODE, labels_for_mode, planned_item_count
 from calo_rpd_studio.experiments.fairness_validator import validate_fairness
@@ -45,6 +46,7 @@ class ExperimentManagerPanel(WorkspacePage):
         )
         self.state = state
         self.manager = manager
+        self.resource_monitor = ResourceMonitor()
         self.completed_runs = 0
         self.failed_runs = 0
         self.expected_runs = 0
@@ -106,8 +108,34 @@ class ExperimentManagerPanel(WorkspacePage):
         self.workers.setRange(1, 256)
         self.recommended_workers = self._recommended_worker_count()
         self.workers.setToolTip(
-            "Independent optimizer jobs are executed in separate CPU processes when this value is greater than one."
+            "Maximum number of independent optimizer processes admitted at the same time."
         )
+        self.execution_backend = QComboBox()
+        self.execution_backend.addItem("Adaptive hybrid CPU + GPU", "adaptive_hybrid")
+        self.execution_backend.addItem("GPU preferred with CPU fallback", "gpu_preferred")
+        self.execution_backend.addItem("CPU only", "cpu_only")
+        self.gpu_target = QSpinBox()
+        self.gpu_target.setRange(10, 100)
+        self.gpu_target.setSuffix(" %")
+        self.cpu_target = QSpinBox()
+        self.cpu_target.setRange(10, 100)
+        self.cpu_target.setSuffix(" %")
+        self.gpu_memory_limit = QSpinBox()
+        self.gpu_memory_limit.setRange(20, 100)
+        self.gpu_memory_limit.setSuffix(" %")
+        self.gpu_jobs = QSpinBox()
+        self.gpu_jobs.setRange(1, 16)
+        self.xpu_target = QSpinBox()
+        self.xpu_target.setRange(10, 100)
+        self.xpu_target.setSuffix(" %")
+        self.xpu_memory_limit = QSpinBox()
+        self.xpu_memory_limit.setRange(20, 100)
+        self.xpu_memory_limit.setSuffix(" %")
+        self.xpu_jobs = QSpinBox()
+        self.xpu_jobs.setRange(1, 16)
+        self.system_memory_limit = QSpinBox()
+        self.system_memory_limit.setRange(20, 100)
+        self.system_memory_limit.setSuffix(" %")
         self.seed = QSpinBox()
         self.seed.setRange(0, 2_147_483_647)
         self.output = QLineEdit()
@@ -127,6 +155,9 @@ class ExperimentManagerPanel(WorkspacePage):
         self.execution_note = QLabel()
         self.execution_note.setWordWrap(True)
         self.execution_note.setObjectName("HelpText")
+        self.device_inventory = QLabel()
+        self.device_inventory.setWordWrap(True)
+        self.device_inventory.setObjectName("InfoText")
 
         fields = [
             ("Independent runs", self.runs),
@@ -137,6 +168,15 @@ class ExperimentManagerPanel(WorkspacePage):
             ("Iteration safety limit", self.maxit),
             ("Parallel workers", self.workers),
             ("Master seed", self.seed),
+            ("Compute scheduler", self.execution_backend),
+            ("NVIDIA CUDA target", self.gpu_target),
+            ("CUDA VRAM limit", self.gpu_memory_limit),
+            ("Max CUDA CALO jobs", self.gpu_jobs),
+            ("Intel XPU target", self.xpu_target),
+            ("XPU memory limit", self.xpu_memory_limit),
+            ("Max XPU CALO jobs", self.xpu_jobs),
+            ("CPU utilization target", self.cpu_target),
+            ("System RAM safety limit", self.system_memory_limit),
         ]
         for index, (label, widget) in enumerate(fields):
             widget.setMinimumHeight(32)
@@ -152,14 +192,16 @@ class ExperimentManagerPanel(WorkspacePage):
         use_recommended.setMinimumHeight(32)
         use_recommended.setToolTip("Set a conservative CPU-process count based on available physical cores.")
         use_recommended.clicked.connect(lambda: self.workers.setValue(self.recommended_workers))
-        grid.addWidget(QLabel("CPU execution"), 4, 0)
-        grid.addWidget(use_recommended, 4, 1)
-        grid.addWidget(QLabel("Result array directory"), 5, 0)
-        grid.addWidget(output_widget, 5, 1, 1, 3)
-        grid.addWidget(QLabel("Primary algorithms"), 6, 0)
-        grid.addWidget(self.selected, 6, 1, 1, 3)
-        grid.addWidget(self.plan_summary, 7, 0, 1, 4)
-        grid.addWidget(self.execution_note, 8, 0, 1, 4)
+        base_row = (len(fields) + 1) // 2
+        grid.addWidget(QLabel("CPU execution"), base_row, 0)
+        grid.addWidget(use_recommended, base_row, 1)
+        grid.addWidget(QLabel("Result array directory"), base_row + 1, 0)
+        grid.addWidget(output_widget, base_row + 1, 1, 1, 3)
+        grid.addWidget(QLabel("Primary algorithms"), base_row + 2, 0)
+        grid.addWidget(self.selected, base_row + 2, 1, 1, 3)
+        grid.addWidget(self.plan_summary, base_row + 3, 0, 1, 4)
+        grid.addWidget(self.device_inventory, base_row + 4, 0, 1, 4)
+        grid.addWidget(self.execution_note, base_row + 5, 0, 1, 4)
         grid.setColumnMinimumWidth(0, 130)
         grid.setColumnMinimumWidth(2, 150)
         grid.setColumnStretch(1, 1)
@@ -199,7 +241,9 @@ class ExperimentManagerPanel(WorkspacePage):
         self.compare.setObjectName("PrimaryButton")
         self.calo = QPushButton("Run CALO Ablation Study")
         self.compare.setToolTip("Run exactly the primary algorithms selected on the Algorithms page.")
-        self.calo.setToolTip("Run seven fixed CALO/TLBO ablation variants. Primary algorithm checkboxes are not used by this study.")
+        self.calo.setToolTip(
+            f"Run {len(labels_for_mode(self.state.config, ABLATION_MODE))} fixed CALO/TLBO ablation variants. Primary algorithm checkboxes are not used by this study."
+        )
         self.cancel = QPushButton("Cancel")
         self.cancel.setEnabled(False)
         self.compare.setEnabled(False)
@@ -256,7 +300,12 @@ class ExperimentManagerPanel(WorkspacePage):
         manager.failed.connect(self.on_failed)
         manager.busy.connect(self.on_busy)
         self.policy.currentIndexChanged.connect(self._controls)
-        for widget in (self.runs, self.population, self.policy, self.budget, self.wall, self.maxit, self.workers, self.seed):
+        for widget in (
+            self.runs, self.population, self.policy, self.budget, self.wall, self.maxit,
+            self.workers, self.seed, self.execution_backend, self.gpu_target, self.cpu_target,
+            self.gpu_memory_limit, self.gpu_jobs, self.xpu_target, self.xpu_memory_limit,
+            self.xpu_jobs, self.system_memory_limit,
+        ):
             if hasattr(widget, "valueChanged"):
                 widget.valueChanged.connect(self._invalidate_fairness)
                 widget.valueChanged.connect(self._update_plan_summary)
@@ -266,6 +315,10 @@ class ExperimentManagerPanel(WorkspacePage):
         self.output.textChanged.connect(self._invalidate_fairness)
         state.config_changed.connect(lambda _: self.refresh())
         self.refresh()
+        self.resource_timer = QTimer(self)
+        self.resource_timer.setInterval(2000)
+        self.resource_timer.timeout.connect(self._refresh_resource_status)
+        self.resource_timer.start()
         self._set_running(manager.running)
 
     @staticmethod
@@ -275,6 +328,32 @@ class ExperimentManagerPanel(WorkspacePage):
         # per-process memory use from NumPy/SciPy/PyTorch imports.
         return max(1, min(12, physical - 1 if physical > 2 else physical))
 
+    def _refresh_resource_status(self) -> None:
+        try:
+            snapshot = self.resource_monitor.sample()
+            parts = [
+                f"CPU {snapshot.cpu_percent:.0f}% · RAM {snapshot.system_memory_percent:.0f}%"
+            ]
+            for device in snapshot.devices:
+                util = (
+                    f"{device.utilization_percent:.0f}% compute"
+                    if device.utilization_percent is not None
+                    else "compute utilization unavailable"
+                )
+                runtime = "secondary XPU runtime" if device.runtime == "sidecar" else "primary runtime"
+                parts.append(
+                    f"{device.device_id} — {device.name}: {util}, memory {device.memory_percent:.0f}% ({runtime})"
+                )
+            if not snapshot.devices:
+                parts.append("No CUDA/XPU accelerator is currently available to a verified PyTorch runtime")
+            self.device_inventory.setText(
+                "Detected compute priority: NVIDIA CUDA → Intel XPU → CPU. "
+                + " | ".join(parts)
+                + ". PyTorch backend IDs do not necessarily match Windows Task Manager GPU numbers."
+            )
+        except Exception as exc:
+            self.device_inventory.setText(f"Compute resource sampling failed: {exc}")
+
     def _update_plan_summary(self, *_args) -> None:
         runs = int(self.runs.value())
         selected_count = len(self.state.config.algorithms)
@@ -282,19 +361,31 @@ class ExperimentManagerPanel(WorkspacePage):
         ablation_jobs = runs * len(labels_for_mode(self.state.config, ABLATION_MODE))
         self.plan_summary.setText(
             f"Planned primary comparison: {selected_count} selected algorithms × {runs} runs = {comparison_jobs} jobs. "
-            f"CALO ablation study: 7 fixed variants × {runs} runs = {ablation_jobs} jobs."
+            f"CALO ablation study: {len(labels_for_mode(self.state.config, ABLATION_MODE))} fixed variants × {runs} runs = {ablation_jobs} jobs."
         )
         workers = int(self.workers.value())
-        if workers <= 1:
-            self.execution_note.setText(
-                "Single-worker mode is scientifically valid but will leave most CPU cores idle. "
-                f"For faster throughput, use approximately {self.recommended_workers} workers. GPU and disk activity are expected to remain low because AC power flow and the baseline metaheuristics are CPU-bound; CALO's policy network is intentionally small."
-            )
+        backend = str(self.execution_backend.currentData() or "adaptive_hybrid")
+        if backend == "cpu_only":
+            scheduler_text = "CPU-only scheduling is selected."
         else:
-            self.execution_note.setText(
-                f"Parallel throughput mode will run up to {workers} independent optimizer jobs in separate CPU processes. "
-                "This improves benchmark throughput. Per-run wall-clock times are then affected by CPU contention, so use one worker for strict publication-quality runtime comparisons. GPU activity is not expected to be high for this workload."
+            scheduler_text = (
+                f"Accelerator-first admission uses NVIDIA CUDA first below {self.gpu_target.value()}% compute and "
+                f"{self.gpu_memory_limit.value()}% VRAM, then Intel XPU below {self.xpu_target.value()}% compute when telemetry is available "
+                f"and {self.xpu_memory_limit.value()}% device memory, then CPU below {self.cpu_target.value()}% while system RAM stays below "
+                f"{self.system_memory_limit.value()}%. Running jobs are never migrated mid-run."
             )
+        timing_note = (
+            " Use one worker and CPU-only mode for strict publication-quality runtime comparisons."
+            if workers > 1 or backend != "cpu_only"
+            else " Single-worker CPU mode is appropriate for strict runtime comparisons."
+        )
+        self.execution_note.setText(
+            scheduler_text
+            + " Accelerator assignment applies only to compatible CALO policy inference; AC power flow, constraints, and conventional baseline optimizers remain CPU workloads. "
+            + "When XPU utilization telemetry is unavailable, the XPU memory threshold and explicit job cap are used instead of inventing a utilization value."
+            + timing_note
+        )
+        self._refresh_resource_status()
 
     def _invalidate_fairness(self, *_args) -> None:
         if self.manager.running:
@@ -315,6 +406,16 @@ class ExperimentManagerPanel(WorkspacePage):
         self.wall.setValue(config.budget.wall_clock_seconds or 60)
         self.maxit.setValue(config.max_iterations)
         self.workers.setValue(config.parallel_workers)
+        backend_index = self.execution_backend.findData(config.execution_backend)
+        self.execution_backend.setCurrentIndex(max(backend_index, 0))
+        self.gpu_target.setValue(config.gpu_utilization_target)
+        self.cpu_target.setValue(config.cpu_utilization_target)
+        self.gpu_memory_limit.setValue(config.gpu_memory_limit)
+        self.gpu_jobs.setValue(config.gpu_parallel_jobs)
+        self.xpu_target.setValue(config.xpu_utilization_target)
+        self.xpu_memory_limit.setValue(config.xpu_memory_limit)
+        self.xpu_jobs.setValue(config.xpu_parallel_jobs)
+        self.system_memory_limit.setValue(config.system_memory_limit)
         self.seed.setValue(config.master_seed)
         self.output.setText(config.output_directory)
         self.selected.setText(f"{len(config.algorithms)} selected: " + ", ".join(config.algorithms))
@@ -340,6 +441,15 @@ class ExperimentManagerPanel(WorkspacePage):
         )
         config.max_iterations = self.maxit.value()
         config.parallel_workers = self.workers.value()
+        config.execution_backend = str(self.execution_backend.currentData())
+        config.gpu_utilization_target = self.gpu_target.value()
+        config.cpu_utilization_target = self.cpu_target.value()
+        config.gpu_memory_limit = self.gpu_memory_limit.value()
+        config.gpu_parallel_jobs = self.gpu_jobs.value()
+        config.xpu_utilization_target = self.xpu_target.value()
+        config.xpu_memory_limit = self.xpu_memory_limit.value()
+        config.xpu_parallel_jobs = self.xpu_jobs.value()
+        config.system_memory_limit = self.system_memory_limit.value()
         config.master_seed = self.seed.value()
         config.output_directory = self.output.text().strip() or "results_data"
         config.validate()
@@ -376,7 +486,7 @@ class ExperimentManagerPanel(WorkspacePage):
             if report.fair
             else "FAIL: comparative protocol requires correction.",
             f"PRIMARY COMPARISON PLAN: {len(self.state.config.algorithms)} selected algorithms × {self.state.config.runs} runs = {planned_item_count(self.state.config, COMPARISON_MODE)} jobs.",
-            f"CALO ABLATION PLAN: 7 fixed variants × {self.state.config.runs} runs = {planned_item_count(self.state.config, ABLATION_MODE)} jobs; this study intentionally ignores the primary algorithm checkbox selection.",
+            f"CALO ABLATION PLAN: {len(labels_for_mode(self.state.config, ABLATION_MODE))} fixed variants × {self.state.config.runs} runs = {planned_item_count(self.state.config, ABLATION_MODE)} jobs; this study intentionally ignores the primary algorithm checkbox selection.",
         ]
         lines.extend(f"ERROR: {message}" for message in report.errors)
         lines.extend(f"NOTICE: {message}" for message in report.warnings)
@@ -453,7 +563,7 @@ class ExperimentManagerPanel(WorkspacePage):
         answer = QMessageBox.question(
             self,
             "Run CALO ablation study",
-            "This is not the 20-algorithm comparison. It runs seven fixed CALO/TLBO ablation variants and intentionally ignores the primary algorithm checkbox selection. Continue?",
+            f"This is not the 20-algorithm comparison. It runs {len(labels_for_mode(self.state.config, ABLATION_MODE))} fixed CALO/TLBO ablation variants and intentionally ignores the primary algorithm checkbox selection. Continue?",
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
             QMessageBox.StandardButton.No,
         )
@@ -499,13 +609,16 @@ class ExperimentManagerPanel(WorkspacePage):
         algorithm = str(data.get("algorithm", ""))
         run_index = int(data.get("run_index", 0) or 0)
         if algorithm and run_index > 0:
-            self._mark_job(run_index, algorithm, "Active")
+            device = str(data.get("compute_device", "")).strip()
+            status = f"Active · {device}" if device else "Active"
+            self._mark_job(run_index, algorithm, status)
 
     def on_started(self, experiment_id: str) -> None:
         self._set_running(True)
         workers = self.state.config.parallel_workers
+        backend = self.state.config.execution_backend.replace("_", " ")
         self.status.setText(
-            f"Experiment {experiment_id} is running with {workers} CPU worker{'s' if workers != 1 else ''}. "
+            f"Experiment {experiment_id} is running with {backend} scheduling and up to {workers} concurrent job{'s' if workers != 1 else ''}. "
             f"Planned jobs: {self.expected_runs}."
         )
 

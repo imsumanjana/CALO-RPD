@@ -203,3 +203,85 @@ def test_experiment_manager_uses_guided_scrollable_order_without_compression(qtb
     assert panel.calo.isEnabled() is False
     for widget in (panel.runs, panel.population, panel.policy, panel.budget, panel.wall, panel.maxit, panel.workers, panel.seed):
         assert widget.minimumHeight() >= 32
+
+
+def test_live_preview_series_is_inside_plot_tools_and_filters_visible_series(qtbot, tmp_path):
+    from calo_rpd_studio.app.experiment_manager import ExperimentManager
+    from calo_rpd_studio.app.state_manager import AppState
+    from calo_rpd_studio.gui.panels.live_optimization_panel import LiveOptimizationPanel
+
+    state = AppState(tmp_path / "live-preview-filter.sqlite")
+    panel = LiveOptimizationPanel(state, ExperimentManager(state))
+    qtbot.addWidget(panel)
+    for algorithm, value in (("CALO", 0.2), ("TLBO", 0.3), ("PSO", 0.4)):
+        panel.update_progress({
+            "algorithm": algorithm,
+            "run_index": 1,
+            "iteration": 1,
+            "evaluations": 20,
+            "best_feasible_objective": float("nan"),
+            "best_constraint_violation": value,
+            "feasible": False,
+        })
+    toolbar = panel.plot.format_toolbar
+    assert toolbar.preview_tool_button.accessibleName() == "Preview series"
+    assert toolbar.preview_tool_button.isHidden() is False
+    toolbar._refresh_preview_series_options()
+    assert set(toolbar.preview_series_checks) == {"CALO", "TLBO", "PSO"}
+    toolbar.preview_series_checks["TLBO"].setChecked(False)
+    visible_labels = {line.get_label() for line in panel.plot.axis.lines}
+    assert visible_labels == {"CALO", "PSO"}
+
+
+def test_live_calo_diagnostic_modes_receive_constraint_and_operator_series(qtbot, tmp_path):
+    from calo_rpd_studio.app.experiment_manager import ExperimentManager
+    from calo_rpd_studio.app.state_manager import AppState
+    from calo_rpd_studio.gui.panels.live_optimization_panel import LiveOptimizationPanel
+
+    state = AppState(tmp_path / "live-diagnostics.sqlite")
+    panel = LiveOptimizationPanel(state, ExperimentManager(state))
+    qtbot.addWidget(panel)
+    panel.update_progress({
+        "algorithm": "CALO",
+        "run_index": 1,
+        "iteration": 1,
+        "evaluations": 50,
+        "best_feasible_objective": float("nan"),
+        "best_constraint_violation": 0.1,
+        "feasible": False,
+        "constraint_components": {
+            "bus_voltage": 0.02,
+            "generator_q": 0.05,
+            "generator_p": 0.01,
+            "branch_thermal": 0.02,
+        },
+        "feasible_ratio": 0.0,
+        "epsilon_feasible_ratio": 0.3,
+        "epsilon": 0.12,
+        "diversity": 0.25,
+        "elite_diversity": 0.1,
+        "operator_success_rates": {"feasible_elite_learning": 0.5},
+        "calo_regime": "feasibility",
+    })
+    assert panel.constraint_component_series
+    assert panel.feasibility_series
+    assert panel.diversity_series
+    assert panel.operator_success_series
+
+
+def test_experiment_manager_exposes_accelerator_first_scheduler_controls(qtbot, tmp_path):
+    from calo_rpd_studio.app.experiment_manager import ExperimentManager
+    from calo_rpd_studio.app.state_manager import AppState
+    from calo_rpd_studio.gui.panels.experiment_manager_panel import ExperimentManagerPanel
+
+    state = AppState(tmp_path / "hybrid-scheduler.sqlite")
+    panel = ExperimentManagerPanel(state, ExperimentManager(state))
+    qtbot.addWidget(panel)
+    assert panel.execution_backend.findData("adaptive_hybrid") >= 0
+    assert panel.execution_backend.findData("cpu_only") >= 0
+    assert panel.gpu_target.value() == 70
+    assert panel.xpu_target.value() == 70
+    assert panel.cpu_target.value() == 50
+    assert panel.system_memory_limit.value() == 85
+    assert panel.gpu_jobs.minimum() == 1
+    assert panel.xpu_jobs.minimum() == 1

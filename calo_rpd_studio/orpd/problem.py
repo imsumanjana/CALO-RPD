@@ -24,15 +24,21 @@ class ORPDProblem:
     def dimension(self):return self.decoder.dimension
     def evaluate(self,normalized):
         z=np.clip(np.asarray(normalized,float),0,1);controlled,physical=self.decoder.decode(z);values=[];violations=[];weights=[];scenario_values=[];comp_acc={}
+        constraint_acc={}
+        scenario_constraint_components=[]
         for scenario in self.scenarios:
             pf=run_ac_power_flow(scenario.apply(controlled),self.config.power_flow);obj=calculate_objective(pf,self.config.objective);con=evaluate_constraints(pf)
             value=float(obj.value);values.append(value);violations.append(float(con.total));weights.append(float(scenario.weight));scenario_values.append(value)
+            scenario_constraint_components.append(dict(con.components))
             for k,v in obj.components.items():comp_acc.setdefault(k,[]).append(float(v))
+            for k,v in con.components.items():constraint_acc.setdefault(k,[]).append(float(v))
         w=np.asarray(weights,float);w=w/w.sum();finite=np.asarray(values,float)
         robust=float('inf') if not np.all(np.isfinite(finite)) else aggregate_robust(values,w,self.config.robust)
         violation=float(np.sum(w*np.asarray(violations))) if np.all(np.isfinite(violations)) else float('inf');feasible=violation<=1e-12 and np.isfinite(robust)
         components={k:float(np.sum(w*np.asarray(v))) for k,v in comp_acc.items()};components['scenario_objective_mean']=float(np.sum(w*finite)) if np.all(np.isfinite(finite)) else float('inf');components['scenario_objective_std']=float(np.sqrt(np.sum(w*(finite-components['scenario_objective_mean'])**2))) if np.all(np.isfinite(finite)) else float('inf')
-        return Evaluation(robust,feasible,violation,components,physical,scenario_values,{'scenario_count':len(self.scenarios)})
+        constraint_components={k:float(np.sum(w*np.asarray(v))) for k,v in constraint_acc.items()}
+        metadata={'scenario_count':len(self.scenarios),'constraint_components':constraint_components,'scenario_constraint_components':scenario_constraint_components}
+        return Evaluation(robust,feasible,violation,components,physical,scenario_values,metadata)
     def solution_state(self,normalized):
         z=np.clip(np.asarray(normalized,float),0,1);controlled,physical=self.decoder.decode(z);records=[]
         for sc in self.scenarios:

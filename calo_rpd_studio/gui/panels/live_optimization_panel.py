@@ -5,7 +5,15 @@ import json
 import math
 
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QComboBox, QGridLayout, QHBoxLayout, QLabel, QScrollArea, QVBoxLayout, QWidget
+from PyQt6.QtWidgets import (
+    QComboBox,
+    QGridLayout,
+    QHBoxLayout,
+    QLabel,
+    QScrollArea,
+    QVBoxLayout,
+    QWidget,
+)
 
 from calo_rpd_studio.gui.plotting.scientific_plot import ScientificPlotWidget
 from calo_rpd_studio.gui.widgets.section_card import SectionCard
@@ -29,6 +37,10 @@ class LiveOptimizationPanel(WorkspacePage):
     AUTO_MODE = "Automatic (recommended)"
     OBJECTIVE_MODE = "Best feasible objective"
     VIOLATION_MODE = "Best constraint violation"
+    CONSTRAINT_COMPONENT_MODE = "Constraint decomposition (CALO)"
+    FEASIBILITY_MODE = "Feasible population ratio (CALO)"
+    DIVERSITY_MODE = "Population diversity (CALO)"
+    OPERATOR_SUCCESS_MODE = "Operator success rate (CALO)"
 
     def __init__(self, state, manager, parent=None) -> None:
         super().__init__(
@@ -41,6 +53,12 @@ class LiveOptimizationPanel(WorkspacePage):
         self.current_run_index: int | None = None
         self.objective_series: dict[str, tuple[list[int], list[float]]] = {}
         self.violation_series: dict[str, tuple[list[int], list[float]]] = {}
+        self.constraint_component_series: dict[str, tuple[list[int], list[float]]] = {}
+        self.feasibility_series: dict[str, tuple[list[int], list[float]]] = {}
+        self.diversity_series: dict[str, tuple[list[int], list[float]]] = {}
+        self.operator_success_series: dict[str, tuple[list[int], list[float]]] = {}
+        self.preview_selection_by_metric: dict[str, set[str]] = {}
+        self.preview_current_labels: list[str] = []
 
         scroll = QScrollArea()
         scroll.setObjectName("LiveOptimizationScroll")
@@ -70,13 +88,22 @@ class LiveOptimizationPanel(WorkspacePage):
             "Best constraint violation",
             "Feasible incumbent",
             "CALO operator",
+            "CALO regime",
             "Population diversity",
             "Feasible population ratio",
+            "Epsilon-feasible ratio",
+            "Adaptive epsilon",
+            "Bus-voltage CV",
+            "Generator-Q CV",
+            "Generator-P CV",
+            "Branch-thermal CV",
+            "Evaluations to first feasibility",
             "Reward",
         ]
+        rows_per_column = 7
         for index, name in enumerate(names):
-            row = index % 6
-            col = (index // 6) * 2
+            row = index % rows_per_column
+            col = (index // rows_per_column) * 2
             key = QLabel(name)
             key.setObjectName("MetricLabel")
             value = QLabel("—")
@@ -86,12 +113,21 @@ class LiveOptimizationPanel(WorkspacePage):
             grid.addWidget(value, row, col + 1)
         grid.setColumnStretch(1, 1)
         grid.setColumnStretch(3, 1)
+        grid.setColumnStretch(5, 1)
         content_layout.addWidget(telemetry)
 
         mode_row = QHBoxLayout()
         mode_row.addWidget(QLabel("Convergence metric"))
         self.metric = QComboBox()
-        self.metric.addItems([self.AUTO_MODE, self.OBJECTIVE_MODE, self.VIOLATION_MODE])
+        self.metric.addItems([
+            self.AUTO_MODE,
+            self.OBJECTIVE_MODE,
+            self.VIOLATION_MODE,
+            self.CONSTRAINT_COMPONENT_MODE,
+            self.FEASIBILITY_MODE,
+            self.DIVERSITY_MODE,
+            self.OPERATOR_SUCCESS_MODE,
+        ])
         self.metric.currentTextChanged.connect(self._redraw_plot)
         mode_row.addWidget(self.metric)
         self.metric_note = QLabel(
@@ -110,6 +146,11 @@ class LiveOptimizationPanel(WorkspacePage):
             square_export=True,
             square_preview_size=720,
         )
+        self.plot.configure_preview_series(
+            self._preview_options,
+            self._preview_selection,
+            self._apply_preview_selection,
+        )
         content_layout.addWidget(self.plot, 0, Qt.AlignmentFlag.AlignHCenter)
         content_layout.addStretch(1)
 
@@ -127,6 +168,12 @@ class LiveOptimizationPanel(WorkspacePage):
         self.current_run_index = None
         self.objective_series = {}
         self.violation_series = {}
+        self.constraint_component_series = {}
+        self.feasibility_series = {}
+        self.diversity_series = {}
+        self.operator_success_series = {}
+        self.preview_selection_by_metric = {}
+        self.preview_current_labels = []
         if hasattr(self, "metric"):
             self.metric.blockSignals(True)
             self.metric.setCurrentText(self.AUTO_MODE)
@@ -167,49 +214,124 @@ class LiveOptimizationPanel(WorkspacePage):
             return self.OBJECTIVE_MODE
         return self.VIOLATION_MODE
 
+    def _preview_metric_key(self) -> str:
+        requested = self.metric.currentText() if hasattr(self, "metric") else self.AUTO_MODE
+        return self._automatic_mode() if requested == self.AUTO_MODE else requested
+
+    def _preview_options(self) -> list[tuple[str, str]]:
+        return [(label, label) for label in self.preview_current_labels]
+
+    def _preview_selection(self) -> set[str] | None:
+        return self.preview_selection_by_metric.get(self._preview_metric_key())
+
+    def _apply_preview_selection(self, selected: set[str] | None) -> None:
+        key = self._preview_metric_key()
+        if selected is None:
+            self.preview_selection_by_metric.pop(key, None)
+        else:
+            self.preview_selection_by_metric[key] = set(selected)
+        self._redraw_plot()
+
+    def _filter_preview_series(self, series):
+        self.preview_current_labels = list(series.keys())
+        selected = self.preview_selection_by_metric.get(self._preview_metric_key())
+        if selected is None:
+            return dict(series)
+        return {label: values for label, values in series.items() if label in selected}
+
+    def _draw_series(self, series, title: str, ylabel: str, empty_message: str) -> None:
+        if not self._has_points(series):
+            self.preview_current_labels = []
+            self.plot.show_message(
+                empty_message,
+                title=title,
+                xlabel="Objective-function evaluations",
+                ylabel=ylabel,
+            )
+            return
+        preview_series = self._filter_preview_series(series)
+        if not preview_series:
+            self.plot.show_message(
+                "No preview series are selected. Open Plot Tools → Preview series and select one or more entries.",
+                title=title,
+                xlabel="Objective-function evaluations",
+                ylabel=ylabel,
+            )
+            return
+        self.plot.plot_xy_series(
+            preview_series,
+            title,
+            "Objective-function evaluations",
+            ylabel,
+        )
+
     def _redraw_plot(self) -> None:
         requested = self.metric.currentText() if hasattr(self, "metric") else self.AUTO_MODE
         mode = self._automatic_mode() if requested == self.AUTO_MODE else requested
         run_suffix = "" if self.current_run_index is None else f" — repeated run {self.current_run_index}"
 
         if mode == self.VIOLATION_MODE:
-            if self._has_points(self.violation_series):
-                self.plot.plot_xy_series(
-                    self.violation_series,
-                    f"Constraint-violation convergence{run_suffix}",
-                    "Objective-function evaluations",
-                    "Best normalized constraint violation",
-                )
-                self.metric_note.setText(
-                    "Showing normalized constraint-violation convergence because feasibility has not yet been reached by every monitored optimizer."
-                    if requested == self.AUTO_MODE
-                    else "Constraint violation is the correct convergence metric before a feasible incumbent exists."
-                )
-            else:
-                self.plot.show_message(
-                    "No convergence telemetry has been received yet.",
-                    title=f"Constraint-violation convergence{run_suffix}",
-                    xlabel="Objective-function evaluations",
-                    ylabel="Best normalized constraint violation",
-                )
+            self._draw_series(
+                self.violation_series,
+                f"Constraint-violation convergence{run_suffix}",
+                "Best normalized constraint violation",
+                "No convergence telemetry has been received yet.",
+            )
+            self.metric_note.setText(
+                "Showing normalized constraint-violation convergence because feasibility has not yet been reached by every monitored optimizer."
+                if requested == self.AUTO_MODE
+                else "Constraint violation is the correct convergence metric before a feasible incumbent exists."
+            )
+        elif mode == self.OBJECTIVE_MODE:
+            self._draw_series(
+                self.objective_series,
+                f"Best-feasible objective convergence{run_suffix}",
+                "Best feasible objective",
+                "No feasible incumbent has been reached yet. Use Automatic mode or Best constraint violation to monitor progress.",
+            )
+            self.metric_note.setText(
+                "Showing monotonic best-feasible objective convergence against objective-function evaluations."
+            )
+        elif mode == self.CONSTRAINT_COMPONENT_MODE:
+            self._draw_series(
+                self.constraint_component_series,
+                f"Constraint decomposition{run_suffix}",
+                "Normalized constraint component",
+                "Constraint-component telemetry is available for CALO Core v2 runs.",
+            )
+            self.metric_note.setText(
+                "The decomposition identifies whether voltage, generator-Q, generator-P, branch-thermal, or power-flow constraints dominate infeasibility."
+            )
+        elif mode == self.FEASIBILITY_MODE:
+            self._draw_series(
+                self.feasibility_series,
+                f"Feasibility evolution{run_suffix}",
+                "Population ratio",
+                "Feasible-population telemetry is available for CALO Core v2 runs.",
+            )
+            self.metric_note.setText(
+                "Exact feasible ratio and adaptive epsilon-feasible ratio are shown separately; final reported solutions still require exact feasibility."
+            )
+        elif mode == self.DIVERSITY_MODE:
+            self._draw_series(
+                self.diversity_series,
+                f"Population diversity{run_suffix}",
+                "Normalized decision-space diversity",
+                "Population-diversity telemetry is available for CALO Core v2 runs.",
+            )
+            self.metric_note.setText(
+                "Population and elite diversity help diagnose premature collapse and excessive dispersion."
+            )
         else:
-            if self._has_points(self.objective_series):
-                self.plot.plot_xy_series(
-                    self.objective_series,
-                    f"Best-feasible objective convergence{run_suffix}",
-                    "Objective-function evaluations",
-                    "Best feasible objective",
-                )
-                self.metric_note.setText(
-                    "Showing monotonic best-feasible objective convergence against objective-function evaluations."
-                )
-            else:
-                self.plot.show_message(
-                    "No feasible incumbent has been reached yet. Use Automatic mode or Best constraint violation to monitor progress.",
-                    title=f"Best-feasible objective convergence{run_suffix}",
-                    xlabel="Objective-function evaluations",
-                    ylabel="Best feasible objective",
-                )
+            self._draw_series(
+                self.operator_success_series,
+                f"CALO operator success rate{run_suffix}",
+                "Recent success rate",
+                "Operator-success telemetry is available for CALO Core v2 runs.",
+            )
+            self.metric_note.setText(
+                "Recent operator success rates are measured online and combined with the learned policy to adapt CALO during the current run."
+            )
 
     def load_experiment(self, experiment_id: str) -> None:
         """Restore convergence histories after an experiment finishes or is cancelled.
@@ -259,9 +381,50 @@ class LiveOptimizationPanel(WorkspacePage):
             if vx:
                 violation_series[label] = (vx, vy)
 
+        constraint_component_series = {}
+        feasibility_series = {}
+        diversity_series = {}
+        operator_success_series = {}
+        for row in latest_rows:
+            try:
+                result = json.loads(row["result_json"])
+            except (KeyError, TypeError, json.JSONDecodeError):
+                continue
+            metadata = result.get("metadata") or {}
+            evaluations = [int(v) for v in metadata.get("convergence_evaluations", [])]
+            diagnostics = metadata.get("diagnostics_history") or {}
+            algorithm = str(row.get("algorithm") or result.get("algorithm") or "CALO")
+            for key, label in (
+                ("best_bus_voltage", "Bus voltage"),
+                ("best_generator_q", "Generator Q"),
+                ("best_generator_p", "Generator P"),
+                ("best_branch_thermal", "Branch thermal"),
+                ("best_power_flow", "Power flow"),
+            ):
+                values = diagnostics.get(key, [])
+                if values:
+                    constraint_component_series[f"{algorithm} · {label}"] = (evaluations[:len(values)], [float(v) for v in values])
+            for key, label in (("feasible_ratio", "Exact feasible ratio"), ("epsilon_feasible_ratio", "Epsilon-feasible ratio")):
+                values = diagnostics.get(key, [])
+                if values:
+                    feasibility_series[f"{algorithm} · {label}"] = (evaluations[:len(values)], [float(v) for v in values])
+            for key, label in (("population_diversity", "Population diversity"), ("elite_diversity", "Elite diversity")):
+                values = diagnostics.get(key, [])
+                if values:
+                    diversity_series[f"{algorithm} · {label}"] = (evaluations[:len(values)], [float(v) for v in values])
+            success_history = metadata.get("operator_success_history") or []
+            for operator in metadata.get("operator_names", []):
+                values = [float(item.get(operator, 0.0)) for item in success_history]
+                if values:
+                    operator_success_series[f"{algorithm} · {operator}"] = (evaluations[:len(values)], values)
+
         self.current_run_index = latest_index + 1
         self.objective_series = objective_series
         self.violation_series = violation_series
+        self.constraint_component_series = constraint_component_series
+        self.feasibility_series = feasibility_series
+        self.diversity_series = diversity_series
+        self.operator_success_series = operator_success_series
         self._redraw_plot()
 
     def update_progress(self, data: dict) -> None:
@@ -306,12 +469,45 @@ class LiveOptimizationPanel(WorkspacePage):
 
         self.labels["Feasible incumbent"].setText(str(data.get("feasible", "—")))
         self.labels["CALO operator"].setText(str(data.get("calo_operator", "—")))
+        self.labels["CALO regime"].setText(str(data.get("calo_regime", "—")))
         self.labels["Population diversity"].setText(
             f"{data['diversity']:.5g}" if "diversity" in data else "—"
         )
         self.labels["Feasible population ratio"].setText(
             f"{data['feasible_ratio']:.5g}" if "feasible_ratio" in data else "—"
         )
+        self.labels["Epsilon-feasible ratio"].setText(
+            f"{data['epsilon_feasible_ratio']:.5g}" if "epsilon_feasible_ratio" in data else "—"
+        )
+        self.labels["Adaptive epsilon"].setText(
+            f"{data['epsilon']:.5g}" if "epsilon" in data else "—"
+        )
+        components = data.get("constraint_components") or {}
+        component_labels = {
+            "bus_voltage": "Bus-voltage CV",
+            "generator_q": "Generator-Q CV",
+            "generator_p": "Generator-P CV",
+            "branch_thermal": "Branch-thermal CV",
+        }
+        for key, label in component_labels.items():
+            value = components.get(key)
+            self.labels[label].setText(f"{float(value):.5g}" if value is not None else "—")
+            if value is not None:
+                self._append_point(self.constraint_component_series, f"{algorithm} · {label[:-3]}", evaluations, float(value))
+        first_feasible = data.get("first_feasible_evaluation")
+        self.labels["Evaluations to first feasibility"].setText(
+            str(first_feasible) if first_feasible is not None else "Not reached"
+        )
+        if "feasible_ratio" in data:
+            self._append_point(self.feasibility_series, f"{algorithm} · Exact feasible ratio", evaluations, float(data["feasible_ratio"]))
+        if "epsilon_feasible_ratio" in data:
+            self._append_point(self.feasibility_series, f"{algorithm} · Epsilon-feasible ratio", evaluations, float(data["epsilon_feasible_ratio"]))
+        if "diversity" in data:
+            self._append_point(self.diversity_series, f"{algorithm} · Population diversity", evaluations, float(data["diversity"]))
+        if "elite_diversity" in data:
+            self._append_point(self.diversity_series, f"{algorithm} · Elite diversity", evaluations, float(data["elite_diversity"]))
+        for operator_name, rate in (data.get("operator_success_rates") or {}).items():
+            self._append_point(self.operator_success_series, f"{algorithm} · {operator_name}", evaluations, float(rate))
         self.labels["Reward"].setText(
             f"{data['reward']:.5g}" if "reward" in data else "—"
         )

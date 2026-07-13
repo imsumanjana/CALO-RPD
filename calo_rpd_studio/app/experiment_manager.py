@@ -1,7 +1,8 @@
 """Qt-safe orchestration of sequential or process-parallel scientific experiments."""
 from __future__ import annotations
 
-from concurrent.futures import FIRST_COMPLETED, ProcessPoolExecutor, wait
+from concurrent.futures import FIRST_COMPLETED, ProcessPoolExecutor, ThreadPoolExecutor, wait
+from copy import deepcopy
 import multiprocessing as mp
 import os
 import queue
@@ -10,6 +11,15 @@ import time
 
 from PyQt6.QtCore import QObject, QThread, pyqtSignal
 
+from calo_rpd_studio.compute.resource_scheduler import (
+    ResourceMonitor,
+    accelerator_admission_allowed,
+    backend_allows_accelerators,
+    cpu_admission_allowed,
+    item_uses_calo_ai,
+    prioritized_accelerators,
+)
+from calo_rpd_studio.compute.xpu_sidecar import execute_xpu_job
 from calo_rpd_studio.experiments.calo_ablation import run_ablation
 from calo_rpd_studio.experiments.execution_plan import (
     ABLATION_MODE,
@@ -39,6 +49,17 @@ def _configure_child_numeric_threads() -> None:
         pass
 
 
+def _config_for_item_device(config, mode: str, item: PlannedItem, compute_device: str):
+    local_config = deepcopy(config)
+    if item_uses_calo_ai(mode, item):
+        parameters = dict(local_config.algorithm_parameters)
+        calo_parameters = dict(parameters.get("CALO", {}))
+        calo_parameters["inference_device"] = str(compute_device)
+        parameters["CALO"] = calo_parameters
+        local_config.algorithm_parameters = parameters
+    return local_config
+
+
 def _execute_process_job(
     config,
     mode: str,
@@ -46,6 +67,7 @@ def _execute_process_job(
     seeds: RunSeeds,
     progress_queue,
     cancel_event,
+    compute_device: str = "cpu",
 ):
     """Top-level, spawn-safe process worker.
 
@@ -54,6 +76,7 @@ def _execute_process_job(
     """
 
     _configure_child_numeric_threads()
+    local_config = _config_for_item_device(config, mode, item, compute_device)
     last_emit = 0.0
     last_evaluations = -1
     evaluation_span = max(1, int(config.budget.max_evaluations))
@@ -80,6 +103,7 @@ def _execute_process_job(
                     "job_index": item.job_index,
                     "run_index": item.run_index + 1,
                     "algorithm": item.label,
+                    "compute_device": str(compute_device),
                 }
             )
             progress_queue.put(data)
@@ -89,7 +113,7 @@ def _execute_process_job(
     try:
         if mode == COMPARISON_MODE:
             completed = run_single(
-                config,
+                local_config,
                 item.label,
                 item.run_index,
                 seeds,
@@ -98,7 +122,7 @@ def _execute_process_job(
             )
         elif mode == ABLATION_MODE:
             completed = run_ablation(
-                config,
+                local_config,
                 item.ablation_spec,
                 item.run_index,
                 seeds,
@@ -107,6 +131,8 @@ def _execute_process_job(
             )
         else:
             raise ValueError(f"Unsupported experiment mode: {mode}")
+        completed.result.metadata["compute_device_assignment"] = str(compute_device)
+        completed.result.metadata["execution_backend"] = str(local_config.execution_backend)
         return "completed", item, completed
     except Exception as exc:
         return "failed", item, failed_run_from_exception(
@@ -190,17 +216,47 @@ class ExperimentWorker(QThread):
         self.run_failed.emit(failure_id, item.label, item.run_index + 1)
 
     def _run_sequential(self, experiment_id: str, store: ResultStore, plan, seeds) -> bool:
+        """Run one job at a time on the highest-priority compatible device.
+
+        Sequential execution still respects the accelerator priority order.  A verified secondary
+        XPU runtime is used only when CUDA is unavailable for that job.
+        """
         total_items = max(1, len(plan))
         fractions = {item.job_index: 0.0 for item in plan}
         completed_count = 0
+        monitor = ResourceMonitor()
+
+        class _ProgressRelay:
+            def __init__(self, callback):
+                self.callback = callback
+
+            def put(self, payload):
+                self.callback(payload)
+
+        class _CancelRelay:
+            def __init__(self, callback):
+                self.callback = callback
+
+            def is_set(self):
+                return bool(self.callback())
 
         for item in plan:
             if self._cancelled():
                 return False
+            snapshot = monitor.sample()
+            compute_device = "cpu"
+            selected_device = None
+            if backend_allows_accelerators(self.config.execution_backend) and item_uses_calo_ai(self.mode, item):
+                accelerators = prioritized_accelerators(snapshot)
+                if accelerators:
+                    selected_device = accelerators[0]
+                    compute_device = selected_device.device_id
 
             def emit_progress(payload: dict) -> None:
+                data = dict(payload)
+                data["compute_device"] = compute_device
                 self._emit_progress(
-                    payload,
+                    data,
                     item,
                     fractions,
                     completed_count,
@@ -209,26 +265,49 @@ class ExperimentWorker(QThread):
                 )
 
             try:
-                if self.mode == COMPARISON_MODE:
-                    completed = run_single(
+                if selected_device is not None and selected_device.backend == "xpu" and selected_device.runtime == "sidecar":
+                    outcome, _returned_item, payload = execute_xpu_job(
                         self.config,
-                        item.label,
-                        item.run_index,
+                        self.mode,
+                        item,
                         seeds[item.run_index],
-                        emit_progress,
-                        self._cancelled,
+                        _ProgressRelay(emit_progress),
+                        _CancelRelay(self._cancelled),
+                        compute_device,
                     )
+                    if outcome == "completed":
+                        completed = payload
+                        self._persist_completed(experiment_id, store, item, completed)
+                        phase = "run_completed"
+                    else:
+                        self._persist_failure(experiment_id, item, payload)
+                        phase = "run_failed"
                 else:
-                    completed = run_ablation(
-                        self.config,
-                        item.ablation_spec,
-                        item.run_index,
-                        seeds[item.run_index],
-                        emit_progress,
-                        self._cancelled,
+                    local_config = _config_for_item_device(
+                        self.config, self.mode, item, compute_device
                     )
-                self._persist_completed(experiment_id, store, item, completed)
-                phase = "run_completed"
+                    if self.mode == COMPARISON_MODE:
+                        completed = run_single(
+                            local_config,
+                            item.label,
+                            item.run_index,
+                            seeds[item.run_index],
+                            emit_progress,
+                            self._cancelled,
+                        )
+                    else:
+                        completed = run_ablation(
+                            local_config,
+                            item.ablation_spec,
+                            item.run_index,
+                            seeds[item.run_index],
+                            emit_progress,
+                            self._cancelled,
+                        )
+                    completed.result.metadata["compute_device_assignment"] = str(compute_device)
+                    completed.result.metadata["execution_backend"] = str(local_config.execution_backend)
+                    self._persist_completed(experiment_id, store, item, completed)
+                    phase = "run_completed"
             except Exception as exc:
                 failure = failed_run_from_exception(
                     item.label,
@@ -252,6 +331,7 @@ class ExperimentWorker(QThread):
                     "completed_items": completed_count,
                     "active_items": 0,
                     "phase": phase,
+                    "compute_device": compute_device,
                 }
             )
         return not self._cancelled()
@@ -269,11 +349,12 @@ class ExperimentWorker(QThread):
         return messages
 
     def _run_parallel(self, experiment_id: str, store: ResultStore, plan, seeds) -> bool:
-        """Run independent optimizer jobs in separate spawn processes.
+        """Run independent jobs with accelerator-first heterogeneous admission control.
 
-        This is throughput parallelism across independent run items. It accelerates large benchmark
-        campaigns but makes per-run wall-clock timing subject to CPU contention. Strict publication
-        timing comparisons should therefore use one worker.
+        Accelerator-capable CALO jobs are considered in strict priority order: CUDA, then Intel
+        XPU, then CPU.  CPU-only baselines are admitted only after all compatible accelerator lanes
+        have been considered for the current scheduling cycle.  Utilization and memory thresholds
+        are soft admission limits; running jobs are never migrated between devices.
         """
 
         total_items = max(1, len(plan))
@@ -281,9 +362,10 @@ class ExperimentWorker(QThread):
         max_workers = min(requested_workers, total_items)
         fractions = {item.job_index: 0.0 for item in plan}
         completed_count = 0
-        next_submit = 0
+        queued = list(plan)
+        monitor = ResourceMonitor()
+        accelerators_enabled = backend_allows_accelerators(self.config.execution_backend)
 
-        # Spawn is the safe cross-platform choice for a Qt application, especially on Windows.
         context = mp.get_context("spawn")
         for key in (
             "OMP_NUM_THREADS",
@@ -297,39 +379,142 @@ class ExperimentWorker(QThread):
             cancel_event = manager.Event()
             progress_queue = manager.Queue()
             self._process_cancel_event = cancel_event
+            xpu_executor = ThreadPoolExecutor(max_workers=max(1, int(self.config.xpu_parallel_jobs)))
             try:
                 with ProcessPoolExecutor(max_workers=max_workers, mp_context=context) as executor:
-                    pending = {}
+                    pending: dict = {}
+                    active_cpu_jobs = 0
+                    active_by_device: dict[str, int] = {}
 
-                    def submit_next() -> bool:
-                        nonlocal next_submit
-                        if next_submit >= len(plan) or self._cancelled():
-                            return False
-                        item = plan[next_submit]
-                        next_submit += 1
-                        future = executor.submit(
-                            _execute_process_job,
-                            self.config,
-                            self.mode,
-                            item,
-                            seeds[item.run_index],
-                            progress_queue,
-                            cancel_event,
+                    def submit_item(item: PlannedItem, device: str, runtime: str = "primary") -> None:
+                        nonlocal active_cpu_jobs
+                        if device.startswith("xpu") and runtime == "sidecar":
+                            future = xpu_executor.submit(
+                                execute_xpu_job,
+                                self.config,
+                                self.mode,
+                                item,
+                                seeds[item.run_index],
+                                progress_queue,
+                                cancel_event,
+                                device,
+                            )
+                        else:
+                            future = executor.submit(
+                                _execute_process_job,
+                                self.config,
+                                self.mode,
+                                item,
+                                seeds[item.run_index],
+                                progress_queue,
+                                cancel_event,
+                                device,
+                            )
+                        pending[future] = (item, device)
+                        if device == "cpu":
+                            active_cpu_jobs += 1
+                        else:
+                            active_by_device[device] = active_by_device.get(device, 0) + 1
+                        self.progress.emit(
+                            {
+                                "algorithm": item.label,
+                                "job_index": item.job_index,
+                                "run_index": item.run_index + 1,
+                                "overall_percent": int(100 * sum(fractions.values()) / total_items),
+                                "run_position": item.job_index + 1,
+                                "total_run_items": total_items,
+                                "completed_items": completed_count,
+                                "active_items": len(pending),
+                                "phase": "job_started",
+                                "compute_device": device,
+                            }
                         )
-                        pending[future] = item
-                        return True
 
-                    for _ in range(max_workers):
-                        if not submit_next():
-                            break
+                    def pop_first(predicate):
+                        for index, candidate in enumerate(queued):
+                            if predicate(candidate):
+                                return queued.pop(index)
+                        return None
 
-                    while pending:
+                    def device_limits(device):
+                        if device.backend == "cuda":
+                            return (
+                                self.config.gpu_utilization_target,
+                                self.config.gpu_memory_limit,
+                                self.config.gpu_parallel_jobs,
+                            )
+                        return (
+                            self.config.xpu_utilization_target,
+                            self.config.xpu_memory_limit,
+                            self.config.xpu_parallel_jobs,
+                        )
+
+                    def admit_jobs() -> bool:
+                        """Admit jobs while respecting CUDA -> XPU -> CPU priority."""
+                        admitted_any = False
+                        while queued and len(pending) < max_workers and not self._cancelled():
+                            snapshot = monitor.sample()
+                            admitted = False
+
+                            # 1) Saturate compatible CUDA lanes first, then XPU lanes.  This selection
+                            # happens before any new CPU job is considered in this scheduling cycle.
+                            if accelerators_enabled:
+                                for device in prioritized_accelerators(snapshot):
+                                    target, memory_limit, max_jobs = device_limits(device)
+                                    if not accelerator_admission_allowed(
+                                        device,
+                                        target,
+                                        memory_limit,
+                                        active_by_device.get(device.device_id, 0),
+                                        max_jobs,
+                                    ):
+                                        continue
+                                    item = pop_first(
+                                        lambda candidate: item_uses_calo_ai(self.mode, candidate)
+                                    )
+                                    if item is None:
+                                        break
+                                    submit_item(item, device.device_id, device.runtime)
+                                    admitted = True
+                                    admitted_any = True
+                                    break
+                                if admitted:
+                                    continue
+
+                            # 2) Admit CPU-only work after accelerator-capable jobs had first refusal.
+                            # Host RAM is a safety limit, not a compute tier.
+                            if cpu_admission_allowed(
+                                snapshot,
+                                self.config.cpu_utilization_target,
+                                active_cpu_jobs,
+                                self.config.system_memory_limit,
+                            ):
+                                item = pop_first(
+                                    lambda candidate: not item_uses_calo_ai(self.mode, candidate)
+                                )
+                                if item is None:
+                                    # All remaining jobs are accelerator-capable but every compatible
+                                    # accelerator is currently at a threshold/cap.  CPU fallback is
+                                    # allowed only now.
+                                    item = queued.pop(0) if queued else None
+                                if item is not None:
+                                    submit_item(item, "cpu", "primary")
+                                    admitted = True
+                                    admitted_any = True
+                                    continue
+
+                            if not admitted:
+                                break
+                        return admitted_any
+
+                    admit_jobs()
+                    while pending or queued:
                         if self._cancelled():
                             cancel_event.set()
 
                         for payload in self._drain_progress_queue(progress_queue):
                             job_index = int(payload.get("job_index", -1))
-                            item = next((x for x in plan if x.job_index == job_index), None)
+                            item = next((entry for entry in plan if entry.job_index == job_index), None)
                             if item is not None:
                                 self._emit_progress(
                                     payload,
@@ -340,12 +525,26 @@ class ExperimentWorker(QThread):
                                     len(pending),
                                 )
 
-                        done, _ = wait(tuple(pending), timeout=0.10, return_when=FIRST_COMPLETED)
+                        if not pending:
+                            if self._cancelled():
+                                break
+                            if not admit_jobs():
+                                time.sleep(0.20)
+                            continue
+
+                        done, _ = wait(tuple(pending), timeout=0.15, return_when=FIRST_COMPLETED)
                         if not done:
+                            admit_jobs()
                             continue
 
                         for future in done:
-                            item = pending.pop(future)
+                            item, device = pending.pop(future)
+                            if device == "cpu":
+                                active_cpu_jobs = max(0, active_cpu_jobs - 1)
+                            else:
+                                active_by_device[device] = max(
+                                    0, active_by_device.get(device, 0) - 1
+                                )
                             try:
                                 outcome, returned_item, payload = future.result()
                             except Exception as exc:
@@ -379,16 +578,16 @@ class ExperimentWorker(QThread):
                                     "completed_items": completed_count,
                                     "active_items": len(pending),
                                     "phase": phase,
+                                    "compute_device": device,
                                 }
                             )
 
-                            if not self._cancelled():
-                                submit_next()
+                        if not self._cancelled():
+                            admit_jobs()
 
-                    # Drain any final telemetry that arrived just before the last result.
                     for payload in self._drain_progress_queue(progress_queue):
                         job_index = int(payload.get("job_index", -1))
-                        item = next((x for x in plan if x.job_index == job_index), None)
+                        item = next((entry for entry in plan if entry.job_index == job_index), None)
                         if item is not None:
                             self._emit_progress(
                                 payload,
@@ -399,6 +598,8 @@ class ExperimentWorker(QThread):
                                 0,
                             )
             finally:
+                cancel_event.set()
+                xpu_executor.shutdown(wait=True, cancel_futures=True)
                 self._process_cancel_event = None
 
         return not self._cancelled()
@@ -468,11 +669,18 @@ class ExperimentManager(QObject):
             title = "Running primary algorithm comparison"
         else:
             title = "Running CALO ablation study"
-        backend = (
-            f"CPU process pool with {config.parallel_workers} workers"
-            if int(config.parallel_workers) > 1
-            else "single CPU worker"
-        )
+        if str(config.execution_backend) == "cpu_only":
+            backend = (
+                f"CPU-only process pool with {config.parallel_workers} workers"
+                if int(config.parallel_workers) > 1
+                else "single CPU worker"
+            )
+        else:
+            backend = (
+                f"adaptive CPU/GPU scheduler with up to {config.parallel_workers} concurrent jobs"
+                if int(config.parallel_workers) > 1
+                else "single adaptive CPU/GPU job"
+            )
         self.state.task_status.begin(
             title,
             detail=f"Preparing reproducible experiment · {backend}",
@@ -505,11 +713,14 @@ class ExperimentManager(QObject):
         total = data.get("total_run_items")
         evaluations = data.get("evaluations")
         active = data.get("active_items")
+        compute_device = data.get("compute_device")
         detail = algorithm
         if completed_items is not None and total is not None:
             detail += f" · {completed_items}/{total} jobs completed"
         if active is not None and int(self.state.config.parallel_workers) > 1:
             detail += f" · {active} active"
+        if compute_device:
+            detail += f" · {compute_device}"
         if evaluations is not None:
             detail += f" · {evaluations} evaluations"
         self.state.task_status.update(int(data.get("overall_percent", -1)), detail)
