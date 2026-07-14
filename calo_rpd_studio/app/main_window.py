@@ -19,6 +19,7 @@ from PyQt6.QtWidgets import (
 from calo_rpd_studio.gui.navigation.sidebar import NavigationSidebar
 from calo_rpd_studio.gui.panels.algorithms_panel import AlgorithmsPanel
 from calo_rpd_studio.gui.panels.application_settings_panel import ApplicationSettingsPanel
+from calo_rpd_studio.gui.panels.benchmark_campaign_panel import BenchmarkCampaignPanel
 from calo_rpd_studio.gui.panels.calo_intelligence_panel import CALOIntelligencePanel
 from calo_rpd_studio.gui.panels.dashboard_panel import DashboardPanel
 from calo_rpd_studio.gui.panels.experiment_manager_panel import ExperimentManagerPanel
@@ -31,6 +32,7 @@ from calo_rpd_studio.gui.panels.robust_scenarios_panel import RobustScenariosPan
 from calo_rpd_studio.gui.panels.statistical_analysis_panel import StatisticalAnalysisPanel
 from calo_rpd_studio.gui.panels.validation_audit_panel import ValidationAuditPanel
 from calo_rpd_studio.gui.widgets.global_status_bar import GlobalStatusBarWidget
+from calo_rpd_studio.gui.widgets.scrollable_page import ScrollablePage
 from calo_rpd_studio.gui.widgets.workflow_guide import WorkflowGuide
 
 from .project_manager import ProjectManager
@@ -51,6 +53,7 @@ WORKSPACES = [
     ("Validation & Audit", ""),
     ("Publication Export", ""),
     ("Application Settings", ""),
+    ("Benchmark & Evidence", ""),
 ]
 
 
@@ -83,6 +86,7 @@ class MainWindow(QMainWindow):
             ValidationAuditPanel(state),
             PublicationExportPanel(state),
             ApplicationSettingsPanel(state, settings_manager),
+            ScrollablePage(BenchmarkCampaignPanel(state, experiment_manager)),
         ]
         for page in self.pages:
             self.stack.addWidget(page)
@@ -283,7 +287,7 @@ class MainWindow(QMainWindow):
         QMessageBox.information(
             self,
             "About CALO-RPD Studio",
-            "CALO-RPD Studio 1.3.0\n"
+            "CALO-RPD Studio 2.0.3\n"
             "Cognitive Adaptive Learning Optimizer for Robust Reactive Power Dispatch\n\n"
             "Guided scientific optimization, reproducible benchmarking, validation, statistics, and publication export.",
         )

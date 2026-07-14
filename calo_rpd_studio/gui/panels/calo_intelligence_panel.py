@@ -30,6 +30,11 @@ from calo_rpd_studio.algorithms.calo.training import (
     recommended_rollout_workers,
     train_policy,
 )
+from calo_rpd_studio.algorithms.calo.heterogeneous_training import (
+    HeterogeneousTrainingConfig,
+    plan_training_lanes,
+    train_policy_heterogeneous,
+)
 from calo_rpd_studio.gui.widgets.page_header import PageHeader
 from calo_rpd_studio.gui.widgets.scrollable_page import ScrollablePage
 from calo_rpd_studio.gui.widgets.historical_experience_widget import HistoricalExperienceWidget
@@ -41,7 +46,7 @@ class TrainingWorker(QThread):
     cancelled = pyqtSignal(str)
     failed = pyqtSignal(str)
 
-    def __init__(self, config: TrainingConfig, path: str) -> None:
+    def __init__(self, config: TrainingConfig | HeterogeneousTrainingConfig, path: str) -> None:
         super().__init__()
         import threading
 
@@ -54,7 +59,14 @@ class TrainingWorker(QThread):
 
     def run(self) -> None:
         try:
-            if str(self.config.ppo_device).lower() == "xpu_sidecar":
+            if isinstance(self.config, HeterogeneousTrainingConfig) and self.config.heterogeneous_rollouts:
+                train_policy_heterogeneous(
+                    self.config,
+                    self.path,
+                    progress_callback=self.progress.emit,
+                    cancel_callback=self._cancel_event.is_set,
+                )
+            elif str(self.config.ppo_device).lower() == "xpu_sidecar":
                 from calo_rpd_studio.compute.xpu_sidecar import train_policy_in_xpu_sidecar
 
                 train_policy_in_xpu_sidecar(
@@ -226,9 +238,48 @@ class CALOIntelligencePanel(ScrollablePage):
             device_parts.append("secondary Intel XPU runtime: ready")
         device_text = "; ".join(device_parts) or "No verified GPU backend; CPU fallback is available"
         self.training_device.setToolTip(
-            "CPU processes collect CALO rollout episodes in parallel. The selected device performs centralized PPO neural-network updates. "
-            "Automatic priority is NVIDIA CUDA, then Intel XPU, then CPU. " + device_text
+            "The selected primary device performs centralized PPO updates. In weighted mode, "
+            "CUDA, XPU, and CPU actors simultaneously collect fixed shares of fresh rollouts from "
+            "one synchronized policy snapshot. Automatic learner priority is NVIDIA CUDA, then "
+            "direct Intel XPU, then CPU. " + device_text
         )
+
+        self.rollout_mode = QComboBox()
+        self.rollout_mode.addItem(
+            "Weighted heterogeneous actors — CUDA 50% / XPU 30% / CPU 20%",
+            "weighted",
+        )
+        self.rollout_mode.addItem(
+            "Legacy CPU actors + one PPO learner device",
+            "legacy_cpu",
+        )
+        self.rollout_mode.currentIndexChanged.connect(self._update_training_plan)
+
+        self.cuda_rollout_share = QSpinBox()
+        self.cuda_rollout_share.setRange(0, 100)
+        self.cuda_rollout_share.setValue(50)
+        self.cuda_rollout_share.setSuffix(" % CUDA")
+        self.xpu_rollout_share = QSpinBox()
+        self.xpu_rollout_share.setRange(0, 100)
+        self.xpu_rollout_share.setValue(30)
+        self.xpu_rollout_share.setSuffix(" % XPU")
+        self.cpu_rollout_share = QSpinBox()
+        self.cpu_rollout_share.setRange(0, 100)
+        self.cpu_rollout_share.setValue(20)
+        self.cpu_rollout_share.setSuffix(" % CPU")
+        split_row = QWidget()
+        split_layout = QHBoxLayout(split_row)
+        split_layout.setContentsMargins(0, 0, 0, 0)
+        split_layout.setSpacing(7)
+        split_layout.addWidget(self.cuda_rollout_share)
+        split_layout.addWidget(self.xpu_rollout_share)
+        split_layout.addWidget(self.cpu_rollout_share)
+        for control in (
+            self.cuda_rollout_share,
+            self.xpu_rollout_share,
+            self.cpu_rollout_share,
+        ):
+            control.valueChanged.connect(self._update_training_plan)
 
         self.rollout_workers = QSpinBox()
         self.rollout_workers.setRange(1, max(1, recommended_rollout_workers() + 8))
@@ -241,12 +292,12 @@ class CALOIntelligencePanel(ScrollablePage):
         worker_layout.addWidget(self.rollout_workers, 1)
         worker_layout.addWidget(self.recommended_workers_button)
         self.episodes.valueChanged.connect(self._use_recommended_workers)
+        self.episodes.valueChanged.connect(self._update_training_plan)
 
-        self.accelerator_status = QLabel(
-            "Training architecture: parallel CPU rollout collection + centralized PPO update. "
-            "Device priority: NVIDIA CUDA → Intel XPU → CPU. " + device_text
-        )
+        self.accelerator_status = QLabel()
         self.accelerator_status.setWordWrap(True)
+        self._device_text = device_text
+        self._update_training_plan()
 
         self.development_cases = QLineEdit()
         self.development_cases.setPlaceholderText("Optional custom ORPD development case paths, comma-separated")
@@ -267,8 +318,10 @@ class CALOIntelligencePanel(ScrollablePage):
         training_form.addRow("PPO update epochs", self.ppo_epochs)
         training_form.addRow("Minibatch size", self.minibatch)
         training_form.addRow("Training population", self.training_population)
-        training_form.addRow("PPO compute device", self.training_device)
-        training_form.addRow("Parallel rollout workers", worker_row)
+        training_form.addRow("PPO learner device", self.training_device)
+        training_form.addRow("Rollout execution", self.rollout_mode)
+        training_form.addRow("Rollout transition split", split_row)
+        training_form.addRow("CPU actor workers", worker_row)
         training_form.addRow("Compute status", self.accelerator_status)
         training_form.addRow("ORPD development cases", self.development_cases)
         training_form.addRow("", self.train_button)
@@ -294,6 +347,51 @@ class CALOIntelligencePanel(ScrollablePage):
 
     def _use_recommended_workers(self, *_args) -> None:
         self.rollout_workers.setValue(recommended_rollout_workers(self.episodes.value()))
+
+    def _update_training_plan(self, *_args) -> None:
+        weighted = str(self.rollout_mode.currentData()) == "weighted"
+        for control in (
+            self.cuda_rollout_share,
+            self.xpu_rollout_share,
+            self.cpu_rollout_share,
+        ):
+            control.setEnabled(weighted)
+        if not weighted:
+            self.accelerator_status.setText(
+                "Legacy architecture: CPU rollout processes collect all episodes; one selected "
+                "device performs centralized PPO updates. " + self._device_text
+            )
+            return
+        total = (
+            self.cuda_rollout_share.value()
+            + self.xpu_rollout_share.value()
+            + self.cpu_rollout_share.value()
+        )
+        if total != 100:
+            self.accelerator_status.setText(
+                f"Invalid rollout split: {total}%. CUDA, XPU, and CPU shares must total 100%."
+            )
+            return
+        try:
+            plan = plan_training_lanes(
+                self.episodes.value(),
+                cuda_share=self.cuda_rollout_share.value(),
+                xpu_share=self.xpu_rollout_share.value(),
+                cpu_share=self.cpu_rollout_share.value(),
+            )
+            warning = (" " + " ".join(plan.warnings)) if plan.warnings else ""
+            self.accelerator_status.setText(
+                "Synchronous actor–learner plan: "
+                + plan.summary()
+                + ". All lanes use the same policy snapshot, then one PPO update runs on the "
+                "selected learner device. Shares refer to rollout episodes/transitions—not exact "
+                "hardware utilization—because environment and power-flow calculations remain "
+                "primarily CPU-based. "
+                + self._device_text
+                + warning
+            )
+        except Exception as exc:
+            self.accelerator_status.setText(str(exc))
 
     def apply_policy_configuration(self) -> None:
         path = Path(self.path.text().strip())
@@ -347,20 +445,60 @@ class CALOIntelligencePanel(ScrollablePage):
             self.metadata.setPlainText(str(exc))
 
     def train_policy(self) -> None:
+        weighted = str(self.rollout_mode.currentData()) == "weighted"
+        default_path = self.path.text()
+        frozen_policy = (
+            Path(__file__).resolve().parents[2]
+            / "data"
+            / "trained_models"
+            / "calo_policy_v2.pt"
+        )
+        if weighted:
+            default_path = str(frozen_policy.with_name("calo_policy_v2_candidate_v202.pt"))
         path, _ = QFileDialog.getSaveFileName(
             self,
-            "Save trained CALO policy",
-            self.path.text(),
+            "Save trained CALO policy candidate" if weighted else "Save trained CALO policy",
+            default_path,
             "PyTorch checkpoint (*.pt)",
         )
         if not path:
             return
+        if weighted and Path(path).resolve() == frozen_policy.resolve():
+            QMessageBox.critical(
+                self,
+                "Frozen CALO protection",
+                "The frozen CALO v2 policy cannot be overwritten by candidate training. Save the "
+                "candidate under a new filename, validate it, and create a new freeze manifest "
+                "before using it in a TEST campaign.",
+            )
+            return
         selected_training_device = str(self.training_device.currentData())
         device_info = available_training_devices()
-        if selected_training_device == "auto" and device_info["recommended_device"] == "xpu_sidecar":
+        if not weighted and selected_training_device == "auto" and device_info["recommended_device"] == "xpu_sidecar":
             selected_training_device = "xpu_sidecar"
+        if weighted and selected_training_device == "xpu_sidecar":
+            QMessageBox.critical(
+                self,
+                "Policy training configuration",
+                "Weighted multi-device training requires the PPO learner in the primary runtime. "
+                "Choose Automatic, NVIDIA CUDA, direct Intel XPU, or CPU. The secondary XPU "
+                "runtime is still used automatically as the XPU actor lane.",
+            )
+            return
+        share_total = (
+            self.cuda_rollout_share.value()
+            + self.xpu_rollout_share.value()
+            + self.cpu_rollout_share.value()
+        )
+        if weighted and share_total != 100:
+            QMessageBox.critical(
+                self,
+                "Policy training configuration",
+                f"The CUDA/XPU/CPU rollout shares total {share_total}%. They must total 100%.",
+            )
+            return
         historical_options = self.historical_experience.policy_training_options()
-        config = TrainingConfig(
+        common = dict(
             epochs=self.epochs.value(),
             episodes_per_epoch=self.episodes.value(),
             horizon=self.horizon.value(),
@@ -383,12 +521,24 @@ class CALOIntelligencePanel(ScrollablePage):
             use_historical_trajectories=historical_options["use_historical_trajectories"],
             historical_pretraining_epochs=historical_options["historical_pretraining_epochs"],
         )
+        if weighted:
+            config = HeterogeneousTrainingConfig(
+                **common,
+                heterogeneous_rollouts=True,
+                cuda_rollout_share=self.cuda_rollout_share.value(),
+                xpu_rollout_share=self.xpu_rollout_share.value(),
+                cpu_rollout_share=self.cpu_rollout_share.value(),
+            )
+        else:
+            config = TrainingConfig(**common)
         if self.state.task_status.busy:
             QMessageBox.information(self, "Task busy", "Wait for the active task to finish first.")
             return
         self.train_button.setEnabled(False)
         self.metadata.setPlainText(
-            "Policy training is running with the displayed reproducibility configuration."
+            "Policy training is running with the displayed reproducibility configuration. "
+            "A weighted run creates a candidate checkpoint; validate and re-freeze it before "
+            "using it in a final TEST campaign."
         )
         self.worker = TrainingWorker(config, path)
         self.worker.progress.connect(self._training_progress)

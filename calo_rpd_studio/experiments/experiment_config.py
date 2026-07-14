@@ -45,7 +45,7 @@ class ExperimentConfig:
     algorithm_parameters: dict[str, dict] = field(default_factory=dict)
     output_directory: str = "results_data"
     parallel_workers: int = 1
-    execution_backend: str = "adaptive_hybrid"
+    execution_backend: str = "weighted_split"
     gpu_utilization_target: int = 70
     cpu_utilization_target: int = 50
     gpu_memory_limit: int = 85
@@ -54,6 +54,10 @@ class ExperimentConfig:
     xpu_memory_limit: int = 85
     xpu_parallel_jobs: int = 2
     system_memory_limit: int = 85
+    cuda_task_share: int = 50
+    xpu_task_share: int = 30
+    cpu_task_share: int = 20
+    strict_device_shares: bool = True
 
     def validate(self) -> None:
         from calo_rpd_studio.algorithms.registry import SPECS
@@ -69,7 +73,7 @@ class ExperimentConfig:
             raise ValueError(f"Unknown primary algorithms: {unknown}")
         if self.parallel_workers <= 0:
             raise ValueError("parallel_workers must be positive")
-        if self.execution_backend not in {"adaptive_hybrid", "cpu_only", "gpu_preferred"}:
+        if self.execution_backend not in {"weighted_split", "adaptive_hybrid", "cpu_only", "gpu_preferred"}:
             raise ValueError("Unsupported execution backend")
         if not 10 <= int(self.gpu_utilization_target) <= 100:
             raise ValueError("gpu_utilization_target must be between 10 and 100")
@@ -87,6 +91,11 @@ class ExperimentConfig:
             raise ValueError("xpu_parallel_jobs must be positive")
         if not 20 <= int(self.system_memory_limit) <= 100:
             raise ValueError("system_memory_limit must be between 20 and 100")
+        shares = (int(self.cuda_task_share), int(self.xpu_task_share), int(self.cpu_task_share))
+        if any(value < 0 or value > 100 for value in shares):
+            raise ValueError("Device task shares must each be between 0 and 100")
+        if sum(shares) != 100:
+            raise ValueError("CUDA, XPU, and CPU task shares must sum to 100")
         self.budget.validate()
 
     def to_dict(self) -> dict:
@@ -170,7 +179,7 @@ class ExperimentConfig:
             algorithm_parameters=dict(data.get("algorithm_parameters", {})),
             output_directory=data.get("output_directory", "results_data"),
             parallel_workers=int(data.get("parallel_workers", 1)),
-            execution_backend=str(data.get("execution_backend", "adaptive_hybrid")),
+            execution_backend=str(data.get("execution_backend", "weighted_split")),
             gpu_utilization_target=int(data.get("gpu_utilization_target", 70)),
             cpu_utilization_target=int(data.get("cpu_utilization_target", 50)),
             gpu_memory_limit=int(data.get("gpu_memory_limit", 85)),
@@ -179,6 +188,10 @@ class ExperimentConfig:
             xpu_memory_limit=int(data.get("xpu_memory_limit", 85)),
             xpu_parallel_jobs=int(data.get("xpu_parallel_jobs", 2)),
             system_memory_limit=int(data.get("system_memory_limit", 85)),
+            cuda_task_share=int(data.get("cuda_task_share", 50)),
+            xpu_task_share=int(data.get("xpu_task_share", 30)),
+            cpu_task_share=int(data.get("cpu_task_share", 20)),
+            strict_device_shares=bool(data.get("strict_device_shares", True)),
         )
 
     @classmethod

@@ -1,10 +1,16 @@
 # CALO-RPD Studio
 
-**CALO-RPD Studio 1.3.0** is a scientific desktop platform for deterministic and robust optimal reactive power dispatch (ORPD), reproducible comparison of twenty optimizers, and research on the **Cognitive Adaptive Learning Optimizer (CALO)**.
+**CALO-RPD Studio 2.0.3** is a scientific desktop platform for deterministic and robust optimal reactive power dispatch (ORPD), reproducible comparison of twenty optimizers, and final evidence generation for the **Cognitive Adaptive Learning Optimizer (CALO)**.
 
-The software uses one common physical evaluator for all algorithms, normalized mixed-variable encoding, AC Newton-Raphson power flow, explicit constraint audits, seeded experiment records, statistical tests, independent result validation, and publication export. CALO alone contains the AI-assisted adaptive controller; the remaining nineteen primary algorithms remain conventional comparison baselines.
+The software uses one common physical evaluator for all algorithms, normalized mixed-variable encoding, AC Newton-Raphson power flow, explicit constraint audits, seeded experiment records, independent result validation, nonparametric statistics, and publication-grade export. CALO alone contains the AI-assisted adaptive controller; the remaining nineteen primary algorithms remain conventional comparison baselines.
 
-Version 1.3.0 adds a **leakage-aware Historical Experience Learning system** and cleans up Live Optimization by moving selective series visibility into a **Preview series** tool inside Plot Tools. Historical CALO trajectories can be used for offline policy pretraining before fresh on-policy PPO, while validated historical solutions can provide optional cross-algorithm knowledge, CALO parameter priors, and practical population warm starts. Every experiment is explicitly classified as TRAIN, VALIDATION, TEST, or EXCLUDED; only learning-eligible TRAIN experiments can enter a historical repository. The accelerator-first scheduler from v1.2.4 remains available with the default priority **NVIDIA CUDA → Intel XPU → CPU**.
+Version 2.0.3 adds **intelligent visible-data plot scaling** and **bulk independent validation**. Live Optimization now auto-fits the currently visible preview series after every redraw, prevents stale axis limits from obscuring small convergence differences, and keeps zero visible for non-negative feasibility metrics such as normalized constraint violation. Plot Tools exposes Auto-fit visible data, zero-baseline behavior, and padding controls. Validation & Audit can now independently validate every not-yet-verified run in the current experiment or across the whole repository in one background operation with progress, cancellation, per-run status, and a final summary.
+
+Version 2.0.2 extends weighted heterogeneous execution to **CALO policy training**. Each PPO epoch assigns fresh rollout episodes to synchronized CUDA, Intel XPU, and CPU actor lanes using configurable default shares of 50/30/20. Every lane receives the same policy snapshot, all returned trajectories are checked for that snapshot, and the centralized PPO learner updates only after the complete current-policy buffer is available. Version 2.0.1 introduced the corresponding weighted scheduler for experimental evaluation.
+
+Version 2.0.0 introduces the **Frozen CALO + Benchmark & Evidence** workflow. A cryptographic freeze manifest locks CALO's mathematical implementation, operator definitions, cognitive state, archive rules, PPO architecture, policy checkpoint, training-data snapshot, default hyperparameters, mixed-variable decoding, and feasibility rules before final TEST execution. The new Benchmark & Evidence workspace plans and runs all twenty primary algorithms across IEEE 30-, 57-, 118-, and 300-bus systems under deterministic, mixed discrete-continuous, load-uncertainty, renewable-uncertainty, and contingency studies with expected, mean-risk, worst-case, and CVaR aggregation profiles. Final TEST experiments are automatically locked out of historical learning.
+
+The Transactions research-package builder exports raw convergence arrays, seeds, final controls, reconstructed power-flow states, constraint data, validation status, experiment configurations, frozen CALO source/checkpoint artifacts, descriptive statistics, feasible-run rates, evaluations to first feasibility, Friedman ranking, Holm-corrected Wilcoxon tests, effect sizes, Nemenyi critical-difference information, publication figures, automatic evidence-based interpretation, and a reproducibility archive. No universal superiority statement is generated automatically.
 
 ## Installation and first launch
 
@@ -32,10 +38,28 @@ The bootstrap deliberately owns PyTorch backend selection so a generic dependenc
 
 ```bash
 calo-rpd-benchmark --case case30 --algorithms CALO,TLBO,PSO --runs 5 --budget 5000
+calo-rpd-final-benchmark --runs 30 --budget 5000 --cases case30,case57,case118,case300
 calo-rpd-train --epochs 24 --episodes 12 --horizon 28 --seed 2026
 calo-rpd-validate --case case118
 calo-rpd-export --database calo_rpd_results.sqlite --experiment <EXPERIMENT_ID>
 ```
+
+## Frozen final benchmark workflow
+
+The **Benchmark & Evidence** workspace is separate from exploratory Experiment Manager studies. It enforces the final protocol:
+
+1. Verify the bundled `calo_v2_freeze.json` manifest.
+2. Select benchmark systems and predefined deterministic/robust study profiles.
+3. Use exactly all 20 primary algorithms, an equal objective-function evaluation budget, and 30–50 independent runs per algorithm and task.
+4. Build a campaign manifest before execution.
+5. Automatically classify every final campaign experiment as locked **TEST** data so it cannot enter historical learning.
+6. Re-check the CALO freeze before final execution.
+7. Independently validate completed stored solutions.
+8. Generate the Transactions research package only when every planned task completed without recorded optimizer-job failures.
+
+The standard suite includes IEEE 30-, 57-, 118-, and **300-bus** systems. The study library includes deterministic ORPD, mixed discrete-continuous ORPD, load uncertainty with mean-risk and CVaR, renewable uncertainty with mean-risk and CVaR, and selected N-1 branch/generator contingency studies with worst-case aggregation.
+
+The campaign manifest records each task configuration and resulting experiment ID. The same run-level seed tuple is shared across algorithms within a task, while scenario generation remains reproducible through the stored scenario seed.
 
 ## Primary algorithms
 
@@ -43,9 +67,19 @@ CALO, TLBO, PSO, CLPSO, MTLA-DE, QODE, Dragonfly, Simulated Annealing, Salp Swar
 
 ## Resource-aware CALO policy training
 
-CALO policy training uses a heterogeneous execution model. Independent curriculum rollout episodes remain spawn-safe CPU processes, while centralized PPO updates run on the highest-priority verified accelerator selected by the application: **NVIDIA CUDA**, then **Intel XPU**, then **CPU**. On a mixed NVIDIA/Intel host, XPU training can run through the isolated secondary runtime without replacing the main CUDA-enabled PyTorch installation.
+The default policy-training mode is a synchronous actor–learner architecture. At the start of every PPO epoch, one immutable policy snapshot is distributed to three rollout lanes:
 
-High memory consumption is not a goal. Memory use scales with rollout buffers, models, and minibatches. Accelerator utilization can be bursty because ORPD environment simulation and AC power flow remain CPU workloads while neural-network updates and compatible CALO policy inference are accelerated.
+- NVIDIA CUDA actors — requested 50% of episodes/transitions;
+- Intel XPU actors — requested 30%;
+- CPU actors — requested 20%.
+
+The integer allocation uses the largest-remainder method. With the default 12 episodes per epoch, the plan is 6 CUDA, 4 XPU, and 2 CPU episodes. Unavailable accelerator shares are redistributed across available lanes and the GUI displays the effective allocation before training.
+
+CUDA/XPU actor processes batch policy-network inference on their assigned device. The CPU lane uses spawn-safe parallel processes. All actors must return the same policy-snapshot hash; stale or mismatched trajectories are rejected. Only after every current-policy lane has finished are the trajectories merged into one on-policy buffer and used for a centralized PPO update on the selected learner device. The next epoch then receives the updated snapshot.
+
+On a mixed NVIDIA/Intel host, the XPU actor can run through the isolated secondary runtime without replacing the primary CUDA-enabled PyTorch installation. The configured 50/30/20 values are transition shares, not guarantees of identical Task Manager utilization. Environment evolution, PYPOWER, AC power flow, and most physical constraint calculations remain host-CPU work, so CPU utilization can still be substantial and accelerator activity can be bursty.
+
+Weighted training writes a **candidate** checkpoint and does not overwrite the bundled frozen policy. The candidate must be independently validated and explicitly re-frozen before it is used in a final TEST campaign.
 
 ## Accelerator-first heterogeneous experiment scheduler
 
@@ -149,6 +183,7 @@ The GUI enforces the research sequence instead of exposing every workspace at on
 9. **Results Explorer** — review stored runs and send the selected run to validation.
 10. **Validation & Audit** — independently re-evaluate the reviewed stored decision.
 11. **Publication Export** — unlocks only after at least one result from the current experiment is verified.
+12. **Benchmark & Evidence** — always available as the dedicated frozen final-campaign workspace for v2.0.0 TEST execution and Transactions-level package generation.
 
 Dashboard and Application Settings remain available throughout. Changing an upstream scientific stage invalidates dependent downstream workflow state.
 
@@ -197,3 +232,9 @@ This repository does **not** include GitHub Actions workflows. The guided workfl
 ## License
 
 MIT License. Scientific results remain the responsibility of the experimenter. Comparative claims should be based on the complete predefined protocol, repeated runs, statistical analysis, and independently verified raw results.
+
+## Weighted experiment scheduling (v2.0.1+)
+
+The default experiment scheduler uses requested shares of 50% CUDA, 30% Intel XPU, and 20% CPU **for accelerator-compatible CALO jobs**. It does not relabel CPU code as GPU work. In a 20-algorithm × 5-run comparison there are 100 jobs, but only the five CALO jobs currently contain accelerator-compatible policy inference. With both CUDA and XPU available, those five CALO jobs are distributed approximately as 3 CUDA, 1 XPU, and 1 CPU; the other 95 baseline jobs remain CPU jobs. The Experiment Manager shows this attainable allocation before execution.
+
+The AC Newton-Raphson power-flow calculation, physical constraint evaluation, and the 19 conventional baseline implementations are NumPy/SciPy CPU workloads. Even a CALO run assigned to CUDA or XPU still performs its power-flow evaluations on CPU, so high CPU utilization and low accelerator utilization can remain normal. Achieving a true 50/30/20 split across all benchmark work requires a separately validated GPU/XPU-native batched AC power-flow evaluator and accelerator-native implementations of the baseline algorithms.

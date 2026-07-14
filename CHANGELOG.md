@@ -1,5 +1,55 @@
 # Changelog
 
+## 2.0.3
+
+- Added automatic visible-data axis fitting for Live Optimization so stale or excessively broad limits cannot hide convergence differences.
+- Added zero-aware scaling for non-negative metrics such as constraint violation, feasibility ratios, diversity, and operator-success rates while best-feasible objective plots retain tight data-driven scaling.
+- Added Plot Tools controls for Auto-fit visible data, zero-baseline inclusion, and auto-fit padding; manual axis bounds remain available when auto-fit is disabled.
+- Selective preview filtering now participates in scaling, so the displayed axis range is recalculated from the series that are actually visible.
+- Added reusable bulk-validation helpers for current-experiment, repository-wide, and campaign validation workflows.
+- Added background bulk validation to Validation & Audit with current-experiment and all-not-yet-verified scopes, live progress, passed/failed/error counts, cancellation between runs, and a JSON summary.
+- Existing verified runs are skipped by default; failed or unverified runs can be independently checked again after corrections.
+- Added regression tests for tight convergence scaling, visible-series-only scaling, bulk run selection, and continuation after an individual validation error.
+
+## 2.0.2
+
+- Added synchronous weighted heterogeneous policy-rollout actors with configurable CUDA/XPU/CPU shares (default 50/30/20).
+- All actor lanes receive the same policy snapshot per PPO epoch; stale or mismatched actor payloads are rejected before the on-policy buffer is built.
+- Added batched policy inference on CUDA and Intel XPU actor lanes while CPU actor processes collect their assigned share concurrently.
+- Added secondary-XPU-runtime actor support without replacing the primary CUDA-enabled PyTorch installation.
+- Kept one centralized PPO learner device and delayed every update until all current-policy actor lanes finish, preserving PPO's on-policy semantics.
+- Added deterministic largest-remainder allocation, effective-share reporting, actor-lane provenance, and candidate-checkpoint metadata.
+- Added GUI controls for rollout mode and CUDA/XPU/CPU transition shares, with live attainable-allocation reporting.
+- Protected the bundled frozen CALO v2 checkpoint from being overwritten by weighted candidate training.
+- Preserved the original 23-file frozen CALO benchmark manifest; a newly trained candidate must be validated and explicitly re-frozen before TEST use.
+
+## 2.0.1
+
+- Added a deterministic weighted CUDA/XPU/CPU experiment scheduler with default 50/30/20 shares for accelerator-compatible CALO jobs.
+- Added pre-run attainable-allocation reporting, planned device lanes in the run queue, and stored lane provenance.
+- Kept conventional optimizers and AC power flow on CPU unless a genuine accelerator-native implementation exists; no false GPU assignment is reported.
+- Added static lane concurrency caps while retaining utilization and memory thresholds as safety gates.
+
+## 2.0.0
+
+- Added a cryptographic **Frozen CALO** gate covering CALO mathematical implementation files, operator definitions, cognitive state, archive rules, PPO architecture, policy checkpoint, frozen training-data snapshot, default hyperparameters, mixed-variable decoding, and feasibility rules.
+- Added bundled `calo_v2_freeze.json` verification and a final-benchmark rule that blocks TEST execution when any frozen file changes.
+- Added the **Benchmark & Evidence** workspace for final 20-algorithm TEST campaigns.
+- Added the standard v2 benchmark suite for IEEE 30-, 57-, 118-, and 300-bus systems.
+- Added deterministic, mixed discrete-continuous, load-uncertainty mean-risk/CVaR, renewable-uncertainty mean-risk/CVaR, and N-1 branch/generator worst-case study profiles.
+- Enforced exactly all 20 primary algorithms, equal objective-function evaluation budgets, shared run-level seed tuples within each task, and 30–50 independent runs per algorithm/task.
+- Added campaign manifests with per-task configuration, planned job counts, experiment IDs, and completion state.
+- Final campaign experiments are automatically classified and locked as **TEST**, preventing historical-learning leakage.
+- Added bulk independent validation for completed campaign runs.
+- Added campaign-level descriptive statistics, feasible-run rate, evaluations to first feasibility, runtime summaries, global Friedman testing, average ranks, CALO-vs-baseline Wilcoxon signed-rank tests with Holm correction, rank-based Cliff's delta effect sizes, and Nemenyi critical-difference information.
+- Added evidence-based interpretation that reports observed winners, statistical support, non-significant outcomes, and cases where a baseline outperforms CALO without generating a universal superiority claim.
+- Added advanced publication figures: median convergence with IQR bands, feasible-run probability, evaluations-to-feasibility distributions, constraint decomposition, CALO operator utilization, CALO operator success, cognitive-regime timelines, boxplots, violin plots, global ranking, critical-difference diagram, and robustness map.
+- Added a Transactions research-package builder containing verified/all-run tables, raw JSON run records, compressed convergence/population arrays, seeds, controls, full reconstructed power-flow states, validation records, experiment configurations, frozen CALO source/checkpoint artifacts, statistical reports, article-ready evidence summary, figures, and a reproducibility ZIP archive.
+- Added the `calo-rpd-final-benchmark` command-line entry point.
+- Added IEEE 300-bus loading support to the standard case loader and benchmark CLI.
+- Made the navigation list vertically scrollable so the expanded v2 workspace set does not compress on smaller displays.
+- Added v2 freeze/campaign/unit tests and updated GUI regression expectations for the new Benchmark & Evidence workspace.
+
 ## 1.3.0
 
 - Moved Live Optimization series visibility from the permanently expanded preview checkbox section into a context-sensitive **Preview series** icon inside Plot Tools.

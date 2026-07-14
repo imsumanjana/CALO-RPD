@@ -352,7 +352,7 @@ def item_uses_calo_ai(mode: str, item) -> bool:
 
 
 def backend_allows_accelerators(execution_backend: str) -> bool:
-    return str(execution_backend).lower() in {"adaptive_hybrid", "gpu_preferred"}
+    return str(execution_backend).lower() in {"weighted_split", "adaptive_hybrid", "gpu_preferred"}
 
 
 def backend_allows_gpu(execution_backend: str) -> bool:
@@ -426,3 +426,165 @@ def gpu_admission_allowed(
 def prioritized_accelerators(snapshot: ResourceSnapshot) -> tuple[DeviceSnapshot, ...]:
     """Return accelerators in the default scientific execution priority order."""
     return (*snapshot.by_backend("cuda"), *snapshot.by_backend("xpu"))
+
+@dataclass(frozen=True, slots=True)
+class WeightedAllocationSummary:
+    """Static backend-share plan for one experiment.
+
+    Shares are applied to accelerator-compatible jobs. CPU-only algorithms are always assigned to
+    CPU and are reported separately so the GUI never implies that a CPU implementation is running
+    on a GPU merely because a scheduler quota exists.
+    """
+
+    total_jobs: int
+    accelerator_eligible_jobs: int
+    cpu_only_jobs: int
+    cuda_jobs: int
+    xpu_jobs: int
+    cpu_eligible_jobs: int
+    total_cpu_jobs: int
+    cuda_share: int
+    xpu_share: int
+    cpu_share: int
+    cuda_available: bool
+    xpu_available: bool
+
+    @property
+    def requested_text(self) -> str:
+        return f"CUDA {self.cuda_share}% · XPU {self.xpu_share}% · CPU {self.cpu_share}%"
+
+    @property
+    def effective_text(self) -> str:
+        return (
+            f"CUDA {self.cuda_jobs} · XPU {self.xpu_jobs} · CPU {self.total_cpu_jobs} "
+            f"({self.cpu_only_jobs} CPU-only + {self.cpu_eligible_jobs} compatible fallback)"
+        )
+
+
+def _largest_remainder_counts(total: int, weighted_lanes: list[tuple[str, int]]) -> dict[str, int]:
+    """Allocate an integer total according to percentage weights using largest remainders."""
+    total = max(0, int(total))
+    positive = [(name, max(0, int(weight))) for name, weight in weighted_lanes if int(weight) > 0]
+    if total == 0:
+        return {name: 0 for name, _ in weighted_lanes}
+    if not positive:
+        return {name: (total if name == "cpu" else 0) for name, _ in weighted_lanes}
+    weight_sum = sum(weight for _, weight in positive)
+    raw = {name: total * weight / weight_sum for name, weight in positive}
+    counts = {name: int(value) for name, value in raw.items()}
+    remaining = total - sum(counts.values())
+    order = sorted(
+        positive,
+        key=lambda item: (raw[item[0]] - counts[item[0]], item[1], item[0] == "cuda"),
+        reverse=True,
+    )
+    for index in range(remaining):
+        counts[order[index % len(order)][0]] += 1
+    return {name: counts.get(name, 0) for name, _ in weighted_lanes}
+
+
+def build_weighted_lane_plan(
+    plan,
+    mode: str,
+    *,
+    cuda_available: bool,
+    xpu_available: bool,
+    cuda_share: int = 50,
+    xpu_share: int = 30,
+    cpu_share: int = 20,
+) -> tuple[dict[int, str], WeightedAllocationSummary]:
+    """Pre-assign experiment jobs to CUDA/XPU/CPU lanes.
+
+    Only jobs whose implementation has accelerator-capable CALO policy inference are eligible for
+    CUDA/XPU assignment. Conventional algorithms and the AC power-flow evaluator remain CPU code.
+    If an accelerator is unavailable, its requested share is redistributed over the remaining
+    available lanes rather than silently assigning an unusable backend.
+    """
+    items = list(plan)
+    eligible = [item for item in items if item_uses_calo_ai(mode, item)]
+    cpu_only = [item for item in items if not item_uses_calo_ai(mode, item)]
+
+    lanes: list[tuple[str, int]] = []
+    if cuda_available:
+        lanes.append(("cuda", int(cuda_share)))
+    if xpu_available:
+        lanes.append(("xpu", int(xpu_share)))
+    lanes.append(("cpu", int(cpu_share)))
+    counts = _largest_remainder_counts(len(eligible), lanes)
+
+    assignments: dict[int, str] = {int(item.job_index): "cpu" for item in cpu_only}
+    # Interleave lanes deterministically so device choice is not confounded with contiguous seed
+    # ranges (for example, all early repeated runs on CUDA and all late runs on CPU).
+    remaining = {lane: counts.get(lane, 0) for lane in ("cuda", "xpu", "cpu")}
+    assigned = {lane: 0 for lane in remaining}
+    lane_sequence: list[str] = []
+    eligible_total = max(1, len(eligible))
+    for position in range(len(eligible)):
+        candidates = [lane for lane, value in remaining.items() if value > 0]
+        if not candidates:
+            lane_sequence.append("cpu")
+            continue
+        lane = max(
+            candidates,
+            key=lambda name: (
+                (position + 1) * counts.get(name, 0) / eligible_total - assigned[name],
+                counts.get(name, 0),
+                name == "cuda",
+            ),
+        )
+        lane_sequence.append(lane)
+        remaining[lane] -= 1
+        assigned[lane] += 1
+    for item, lane in zip(eligible, lane_sequence, strict=False):
+        assignments[int(item.job_index)] = lane
+
+    cuda_jobs = sum(1 for lane in assignments.values() if lane == "cuda")
+    xpu_jobs = sum(1 for lane in assignments.values() if lane == "xpu")
+    cpu_eligible_jobs = sum(
+        1 for item in eligible if assignments.get(int(item.job_index), "cpu") == "cpu"
+    )
+    summary = WeightedAllocationSummary(
+        total_jobs=len(items),
+        accelerator_eligible_jobs=len(eligible),
+        cpu_only_jobs=len(cpu_only),
+        cuda_jobs=cuda_jobs,
+        xpu_jobs=xpu_jobs,
+        cpu_eligible_jobs=cpu_eligible_jobs,
+        total_cpu_jobs=len(cpu_only) + cpu_eligible_jobs,
+        cuda_share=int(cuda_share),
+        xpu_share=int(xpu_share),
+        cpu_share=int(cpu_share),
+        cuda_available=bool(cuda_available),
+        xpu_available=bool(xpu_available),
+    )
+    return assignments, summary
+
+
+def weighted_worker_slots(
+    total_workers: int,
+    summary: WeightedAllocationSummary,
+) -> dict[str, int]:
+    """Create concurrent lane caps while keeping at least one slot for each non-empty lane."""
+    total_workers = max(1, int(total_workers))
+    nonempty = [
+        ("cuda", summary.cuda_share, summary.cuda_jobs),
+        ("xpu", summary.xpu_share, summary.xpu_jobs),
+        ("cpu", summary.cpu_share, summary.total_cpu_jobs),
+    ]
+    active = [(name, weight) for name, weight, jobs in nonempty if jobs > 0]
+    if not active:
+        return {"cuda": 0, "xpu": 0, "cpu": total_workers}
+    counts = _largest_remainder_counts(total_workers, active)
+    if total_workers >= len(active):
+        for name, _ in active:
+            counts[name] = max(1, counts.get(name, 0))
+        while sum(counts.values()) > total_workers:
+            reducible = max(
+                (name for name, _ in active if counts[name] > 1),
+                key=lambda name: counts[name],
+                default=None,
+            )
+            if reducible is None:
+                break
+            counts[reducible] -= 1
+    return {"cuda": counts.get("cuda", 0), "xpu": counts.get("xpu", 0), "cpu": counts.get("cpu", 0)}

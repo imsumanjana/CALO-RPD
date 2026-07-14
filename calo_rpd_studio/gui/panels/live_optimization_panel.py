@@ -145,6 +145,9 @@ class LiveOptimizationPanel(WorkspacePage):
             square_preview=True,
             square_export=True,
             square_preview_size=720,
+            auto_fit_visible_data=True,
+            auto_include_zero=True,
+            auto_scale_padding=0.08,
         )
         self.plot.configure_preview_series(
             self._preview_options,
@@ -239,7 +242,15 @@ class LiveOptimizationPanel(WorkspacePage):
             return dict(series)
         return {label: values for label, values in series.items() if label in selected}
 
-    def _draw_series(self, series, title: str, ylabel: str, empty_message: str) -> None:
+    def _draw_series(
+        self,
+        series,
+        title: str,
+        ylabel: str,
+        empty_message: str,
+        *,
+        include_zero: bool = False,
+    ) -> None:
         if not self._has_points(series):
             self.preview_current_labels = []
             self.plot.show_message(
@@ -258,6 +269,7 @@ class LiveOptimizationPanel(WorkspacePage):
                 ylabel=ylabel,
             )
             return
+        self.plot.set_auto_scale_context(include_zero=include_zero)
         self.plot.plot_xy_series(
             preview_series,
             title,
@@ -276,6 +288,7 @@ class LiveOptimizationPanel(WorkspacePage):
                 f"Constraint-violation convergence{run_suffix}",
                 "Best normalized constraint violation",
                 "No convergence telemetry has been received yet.",
+                include_zero=True,
             )
             self.metric_note.setText(
                 "Showing normalized constraint-violation convergence because feasibility has not yet been reached by every monitored optimizer."
@@ -298,6 +311,7 @@ class LiveOptimizationPanel(WorkspacePage):
                 f"Constraint decomposition{run_suffix}",
                 "Normalized constraint component",
                 "Constraint-component telemetry is available for CALO Core v2 runs.",
+                include_zero=True,
             )
             self.metric_note.setText(
                 "The decomposition identifies whether voltage, generator-Q, generator-P, branch-thermal, or power-flow constraints dominate infeasibility."
@@ -308,6 +322,7 @@ class LiveOptimizationPanel(WorkspacePage):
                 f"Feasibility evolution{run_suffix}",
                 "Population ratio",
                 "Feasible-population telemetry is available for CALO Core v2 runs.",
+                include_zero=True,
             )
             self.metric_note.setText(
                 "Exact feasible ratio and adaptive epsilon-feasible ratio are shown separately; final reported solutions still require exact feasibility."
@@ -318,6 +333,7 @@ class LiveOptimizationPanel(WorkspacePage):
                 f"Population diversity{run_suffix}",
                 "Normalized decision-space diversity",
                 "Population-diversity telemetry is available for CALO Core v2 runs.",
+                include_zero=True,
             )
             self.metric_note.setText(
                 "Population and elite diversity help diagnose premature collapse and excessive dispersion."
@@ -328,6 +344,7 @@ class LiveOptimizationPanel(WorkspacePage):
                 f"CALO operator success rate{run_suffix}",
                 "Recent success rate",
                 "Operator-success telemetry is available for CALO Core v2 runs.",
+                include_zero=True,
             )
             self.metric_note.setText(
                 "Recent operator success rates are measured online and combined with the learned policy to adapt CALO during the current run."

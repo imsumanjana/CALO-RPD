@@ -11,7 +11,7 @@ from calo_rpd_studio.results.result_store import ResultStore
 
 def parser():
     p=argparse.ArgumentParser(description="Run a CALO-RPD comparative experiment.")
-    p.add_argument("--config");p.add_argument("--case",default="case30",choices=["case30","case57","case118"]);p.add_argument("--algorithms",default="CALO,TLBO,PSO");p.add_argument("--runs",type=int,default=5);p.add_argument("--budget",type=int,default=5000);p.add_argument("--population",type=int,default=50);p.add_argument("--seed",type=int,default=2026);p.add_argument("--workers",type=int,default=1);p.add_argument("--database",default="calo_rpd_results.sqlite");p.add_argument("--output",default="results_data");return p
+    p.add_argument("--config");p.add_argument("--case",default="case30",choices=["case30","case57","case118","case300"]);p.add_argument("--algorithms",default="CALO,TLBO,PSO");p.add_argument("--runs",type=int,default=5);p.add_argument("--budget",type=int,default=5000);p.add_argument("--population",type=int,default=50);p.add_argument("--seed",type=int,default=2026);p.add_argument("--workers",type=int,default=1);p.add_argument("--database",default="calo_rpd_results.sqlite");p.add_argument("--output",default="results_data");return p
 
 def main():
     a=parser().parse_args()

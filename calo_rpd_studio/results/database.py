@@ -199,6 +199,16 @@ class ResultDatabase:
             row = con.execute("SELECT * FROM runs WHERE id=?", (run_id,)).fetchone()
         return None if row is None else dict(row)
 
+    def list_validations(self, run_id: str | None = None):
+        query = "SELECT * FROM validations"
+        args = []
+        if run_id:
+            query += " WHERE run_id=?"
+            args.append(run_id)
+        query += " ORDER BY created_at"
+        with self.connect() as con:
+            return [dict(row) for row in con.execute(query, args).fetchall()]
+
     def list_runs(self, experiment_id=None, verified_only=False):
         query = "SELECT * FROM runs"
         args = []

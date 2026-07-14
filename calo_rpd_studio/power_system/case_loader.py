@@ -5,7 +5,7 @@ from pathlib import Path
 from .case_model import PowerSystemCase
 
 class CaseLoader:
-    STANDARD={'case30':'pypower.case30','case57':'pypower.case57','case118':'pypower.case118'}
+    STANDARD={'case30':'pypower.case30','case57':'pypower.case57','case118':'pypower.case118','case300':'pypower.case300'}
     @classmethod
     def load(cls,source:str|Path)->PowerSystemCase:
         name=str(source)

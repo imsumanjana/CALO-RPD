@@ -349,6 +349,19 @@ class PlotFormattingToolbar(QWidget):
         self.x_max.setPlaceholderText("Auto")
         self.y_min.setPlaceholderText("Auto")
         self.y_max.setPlaceholderText("Auto")
+        self.auto_fit_visible_data = QCheckBox("Auto-fit visible data")
+        self.auto_fit_visible_data.setToolTip(
+            "Recompute axis limits from the currently visible series after every redraw. "
+            "This prevents stale or overly broad limits from hiding convergence differences."
+        )
+        self.auto_include_zero = QCheckBox("Include zero for non-negative Y data")
+        self.auto_include_zero.setToolTip(
+            "Keep zero visible for non-negative metrics such as constraint violation and ratios."
+        )
+        self.auto_scale_padding = QDoubleSpinBox()
+        self.auto_scale_padding.setRange(0.0, 30.0)
+        self.auto_scale_padding.setSingleStep(1.0)
+        self.auto_scale_padding.setSuffix(" %")
         self.major_grid = QCheckBox("Major grid")
         self.minor_grid = QCheckBox("Minor grid")
         self.axis_width = QDoubleSpinBox()
@@ -370,16 +383,20 @@ class PlotFormattingToolbar(QWidget):
         axis_grid.addWidget(self.y_min, 2, 1)
         axis_grid.addWidget(QLabel("Y maximum"), 2, 2)
         axis_grid.addWidget(self.y_max, 2, 3)
+        axis_grid.addWidget(self.auto_fit_visible_data, 3, 0, 1, 2)
+        axis_grid.addWidget(self.auto_include_zero, 3, 2, 1, 2)
+        axis_grid.addWidget(QLabel("Auto-fit padding"), 4, 0)
+        axis_grid.addWidget(self.auto_scale_padding, 4, 1)
         grid_row = QWidget()
         grid_row_layout = QHBoxLayout(grid_row)
         grid_row_layout.setContentsMargins(0, 0, 0, 0)
         grid_row_layout.addWidget(self.major_grid)
         grid_row_layout.addWidget(self.minor_grid)
         grid_row_layout.addStretch(1)
-        axis_grid.addWidget(QLabel("Grid"), 3, 0)
-        axis_grid.addWidget(grid_row, 3, 1, 1, 2)
-        axis_grid.addWidget(QLabel("Axis line width"), 4, 0)
-        axis_grid.addWidget(self.axis_width, 4, 1)
+        axis_grid.addWidget(QLabel("Grid"), 5, 0)
+        axis_grid.addWidget(grid_row, 5, 1, 1, 2)
+        axis_grid.addWidget(QLabel("Axis line width"), 6, 0)
+        axis_grid.addWidget(self.axis_width, 6, 1)
         for column in (1, 3):
             axis_grid.setColumnStretch(column, 1)
         axes.content.addLayout(axis_grid)
@@ -638,6 +655,8 @@ class PlotFormattingToolbar(QWidget):
             self.legend_frame,
             self.major_grid,
             self.minor_grid,
+            self.auto_fit_visible_data,
+            self.auto_include_zero,
             self.series_visible,
             self.transparent,
             self.tight,
@@ -653,6 +672,7 @@ class PlotFormattingToolbar(QWidget):
             widget.currentTextChanged.connect(self._general_changed)
         for widget in (
             self.legend_columns,
+            self.auto_scale_padding,
             self.axis_width,
             self.line_width,
             self.marker_size,
@@ -741,6 +761,9 @@ class PlotFormattingToolbar(QWidget):
             (self.y_max, s.y_max),
         ):
             edit.setText("" if value is None else str(value))
+        self.auto_fit_visible_data.setChecked(s.auto_fit_visible_data)
+        self.auto_include_zero.setChecked(s.auto_include_zero)
+        self.auto_scale_padding.setValue(float(s.auto_scale_padding) * 100.0)
         self.major_grid.setChecked(s.major_grid)
         self.minor_grid.setChecked(s.minor_grid)
         self.axis_width.setValue(s.axis_line_width)
@@ -758,6 +781,7 @@ class PlotFormattingToolbar(QWidget):
         self.tight.setChecked(not square)
         self._loading = False
         self._sync_target_controls()
+        self._sync_auto_fit_controls()
         self._sync_export_controls()
 
     def _sync_target_controls(self) -> None:
@@ -801,6 +825,23 @@ class PlotFormattingToolbar(QWidget):
         self.bold.setChecked(bold)
         self.italic.setChecked(italic)
         self._loading = False
+
+    def _sync_auto_fit_controls(self) -> None:
+        """Enable manual bounds only when automatic visible-data fitting is disabled."""
+        enabled = not self.auto_fit_visible_data.isChecked()
+        for widget in (self.x_min, self.x_max, self.y_min, self.y_max):
+            widget.setEnabled(enabled)
+        self.auto_include_zero.setEnabled(not enabled)
+        self.auto_scale_padding.setEnabled(not enabled)
+
+    def sync_auto_scale_from_style(self) -> None:
+        """Refresh only auto-scaling controls after a host changes plot semantics."""
+        self._loading = True
+        self.auto_fit_visible_data.setChecked(bool(self.style.auto_fit_visible_data))
+        self.auto_include_zero.setChecked(bool(self.style.auto_include_zero))
+        self.auto_scale_padding.setValue(float(self.style.auto_scale_padding) * 100.0)
+        self._loading = False
+        self._sync_auto_fit_controls()
 
     def _clear_export_series_grid(self) -> None:
         while self.export_series_grid.count():
@@ -983,6 +1024,9 @@ class PlotFormattingToolbar(QWidget):
         s.x_max = self._float_or_none(self.x_max.text())
         s.y_min = self._float_or_none(self.y_min.text())
         s.y_max = self._float_or_none(self.y_max.text())
+        s.auto_fit_visible_data = self.auto_fit_visible_data.isChecked()
+        s.auto_include_zero = self.auto_include_zero.isChecked()
+        s.auto_scale_padding = self.auto_scale_padding.value() / 100.0
         s.major_grid = self.major_grid.isChecked()
         s.minor_grid = self.minor_grid.isChecked()
         s.axis_line_width = self.axis_width.value()
@@ -991,6 +1035,7 @@ class PlotFormattingToolbar(QWidget):
         s.marker = self.marker.currentText()
         s.marker_size = self.marker_size.value()
         s.series_visible = self.series_visible.isChecked()
+        self._sync_auto_fit_controls()
         self._redraw()
 
     def _redraw(self) -> None:

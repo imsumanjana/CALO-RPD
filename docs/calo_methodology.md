@@ -196,6 +196,8 @@ The training implementation uses:
 
 The training environment imports and uses the same CALO Core v2 operator implementations, epsilon environmental selection, dual archives, cognitive state builder, success memory, operator credit, and mixed-variable moves as runtime.
 
+Version 2.0.2 adds synchronous weighted actors. One policy snapshot is broadcast at the beginning of an epoch, complete episodes are allocated to CUDA, Intel XPU, and CPU lanes, and only matching current-policy trajectories are merged. The centralized learner then performs the PPO update. This preserves on-policy semantics while allowing accelerator-batched policy inference and concurrent CPU actors.
+
 The built-in curriculum progresses through:
 
 1. continuous unconstrained tasks;

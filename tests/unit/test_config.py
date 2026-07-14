@@ -30,3 +30,25 @@ def test_config_roundtrip_preserves_hybrid_compute_policy(tmp_path):
     assert loaded.xpu_memory_limit == 82
     assert loaded.xpu_parallel_jobs == 3
     assert loaded.system_memory_limit == 79
+
+
+def test_config_roundtrip_preserves_weighted_device_shares(tmp_path):
+    config = ExperimentConfig(
+        execution_backend="weighted_split",
+        cuda_task_share=50,
+        xpu_task_share=30,
+        cpu_task_share=20,
+    )
+    loaded = ExperimentConfig.load(config.save(tmp_path / "weighted.yaml"))
+    assert loaded.execution_backend == "weighted_split"
+    assert (loaded.cuda_task_share, loaded.xpu_task_share, loaded.cpu_task_share) == (50, 30, 20)
+
+
+def test_weighted_device_shares_must_sum_to_100():
+    config = ExperimentConfig(cuda_task_share=60, xpu_task_share=30, cpu_task_share=20)
+    try:
+        config.validate()
+    except ValueError as exc:
+        assert "sum to 100" in str(exc)
+    else:
+        raise AssertionError("invalid weighted device shares were accepted")

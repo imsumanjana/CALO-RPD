@@ -13,11 +13,13 @@ from PyQt6.QtCore import QObject, QThread, pyqtSignal
 
 from calo_rpd_studio.compute.resource_scheduler import (
     ResourceMonitor,
+    build_weighted_lane_plan,
     accelerator_admission_allowed,
     backend_allows_accelerators,
     cpu_admission_allowed,
     item_uses_calo_ai,
     prioritized_accelerators,
+    weighted_worker_slots,
 )
 from calo_rpd_studio.compute.xpu_sidecar import execute_xpu_job
 from calo_rpd_studio.experiments.calo_ablation import run_ablation
@@ -348,6 +350,226 @@ class ExperimentWorker(QThread):
                 break
         return messages
 
+    def _run_parallel_weighted(self, experiment_id: str, store: ResultStore, plan, seeds) -> bool:
+        """Run a deterministic weighted CUDA/XPU/CPU lane plan.
+
+        The requested 50/30/20 percentages are applied only to accelerator-compatible CALO jobs.
+        Conventional algorithms and the AC power-flow evaluator are CPU implementations and are
+        therefore kept on the CPU lane.  Device thresholds remain safety gates, but they do not
+        dynamically rewrite the precomputed lane assignment.
+        """
+
+        total_items = max(1, len(plan))
+        requested_workers = max(1, int(self.config.parallel_workers))
+        max_workers = min(requested_workers, total_items)
+        fractions = {item.job_index: 0.0 for item in plan}
+        completed_count = 0
+        monitor = ResourceMonitor()
+        initial_snapshot = monitor.sample()
+        lane_by_job, allocation = build_weighted_lane_plan(
+            plan,
+            self.mode,
+            cuda_available=bool(initial_snapshot.by_backend("cuda")),
+            xpu_available=bool(initial_snapshot.by_backend("xpu")),
+            cuda_share=int(self.config.cuda_task_share),
+            xpu_share=int(self.config.xpu_task_share),
+            cpu_share=int(self.config.cpu_task_share),
+        )
+        slots = weighted_worker_slots(max_workers, allocation)
+        slots["cuda"] = min(slots["cuda"], max(1, int(self.config.gpu_parallel_jobs)))
+        slots["xpu"] = min(slots["xpu"], max(1, int(self.config.xpu_parallel_jobs)))
+
+        queues = {
+            lane: [item for item in plan if lane_by_job.get(int(item.job_index), "cpu") == lane]
+            for lane in ("cuda", "xpu", "cpu")
+        }
+        self.progress.emit(
+            {
+                "phase": "allocation_planned",
+                "algorithm": "Weighted scheduler",
+                "overall_percent": 0,
+                "total_run_items": total_items,
+                "completed_items": 0,
+                "active_items": 0,
+                "allocation_requested": allocation.requested_text,
+                "allocation_effective": allocation.effective_text,
+                "accelerator_eligible_jobs": allocation.accelerator_eligible_jobs,
+                "cpu_only_jobs": allocation.cpu_only_jobs,
+                "lane_slots": dict(slots),
+            }
+        )
+
+        context = mp.get_context("spawn")
+        for key in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS", "NUMEXPR_NUM_THREADS"):
+            os.environ.setdefault(key, "1")
+
+        with context.Manager() as manager:
+            cancel_event = manager.Event()
+            progress_queue = manager.Queue()
+            self._process_cancel_event = cancel_event
+            xpu_executor = ThreadPoolExecutor(max_workers=max(1, int(self.config.xpu_parallel_jobs)))
+            try:
+                with ProcessPoolExecutor(max_workers=max_workers, mp_context=context) as executor:
+                    pending: dict = {}
+                    active_lane = {"cuda": 0, "xpu": 0, "cpu": 0}
+                    active_by_device: dict[str, int] = {}
+
+                    def submit_item(item: PlannedItem, lane: str, device_id: str, runtime: str = "primary") -> None:
+                        if lane == "xpu" and runtime == "sidecar":
+                            future = xpu_executor.submit(
+                                execute_xpu_job, self.config, self.mode, item, seeds[item.run_index],
+                                progress_queue, cancel_event, device_id,
+                            )
+                        else:
+                            future = executor.submit(
+                                _execute_process_job, self.config, self.mode, item, seeds[item.run_index],
+                                progress_queue, cancel_event, device_id,
+                            )
+                        pending[future] = (item, lane, device_id)
+                        active_lane[lane] += 1
+                        if lane != "cpu":
+                            active_by_device[device_id] = active_by_device.get(device_id, 0) + 1
+                        self.progress.emit(
+                            {
+                                "algorithm": item.label,
+                                "job_index": item.job_index,
+                                "run_index": item.run_index + 1,
+                                "overall_percent": int(100 * sum(fractions.values()) / total_items),
+                                "run_position": item.job_index + 1,
+                                "total_run_items": total_items,
+                                "completed_items": completed_count,
+                                "active_items": len(pending),
+                                "phase": "job_started",
+                                "compute_device": device_id,
+                                "planned_lane": lane,
+                            }
+                        )
+
+                    def select_device(snapshot, lane: str):
+                        devices = list(snapshot.by_backend(lane))
+                        devices.sort(key=lambda device: active_by_device.get(device.device_id, 0))
+                        for device in devices:
+                            if lane == "cuda":
+                                target = self.config.gpu_utilization_target
+                                memory_limit = self.config.gpu_memory_limit
+                                max_jobs = self.config.gpu_parallel_jobs
+                            else:
+                                target = self.config.xpu_utilization_target
+                                memory_limit = self.config.xpu_memory_limit
+                                max_jobs = self.config.xpu_parallel_jobs
+                            if accelerator_admission_allowed(
+                                device, target, memory_limit, active_by_device.get(device.device_id, 0), max_jobs
+                            ):
+                                return device
+                        return None
+
+                    def admit_jobs() -> bool:
+                        admitted_any = False
+                        # CUDA and XPU lanes are considered first on every admission cycle.
+                        for lane in ("cuda", "xpu", "cpu"):
+                            while (
+                                queues[lane]
+                                and len(pending) < max_workers
+                                and active_lane[lane] < slots.get(lane, 0)
+                                and not self._cancelled()
+                            ):
+                                snapshot = monitor.sample()
+                                if lane == "cpu":
+                                    if not cpu_admission_allowed(
+                                        snapshot, self.config.cpu_utilization_target, active_lane["cpu"],
+                                        self.config.system_memory_limit,
+                                    ):
+                                        break
+                                    item = queues[lane].pop(0)
+                                    submit_item(item, lane, "cpu")
+                                    admitted_any = True
+                                    continue
+                                device = select_device(snapshot, lane)
+                                if device is None:
+                                    break
+                                item = queues[lane].pop(0)
+                                submit_item(item, lane, device.device_id, device.runtime)
+                                admitted_any = True
+                        return admitted_any
+
+                    admit_jobs()
+                    while pending or any(queues.values()):
+                        if self._cancelled():
+                            cancel_event.set()
+
+                        for payload in self._drain_progress_queue(progress_queue):
+                            job_index = int(payload.get("job_index", -1))
+                            item = next((entry for entry in plan if entry.job_index == job_index), None)
+                            if item is not None:
+                                self._emit_progress(payload, item, fractions, completed_count, total_items, len(pending))
+
+                        if not pending:
+                            if self._cancelled():
+                                break
+                            if not admit_jobs():
+                                time.sleep(0.20)
+                            continue
+
+                        done, _ = wait(tuple(pending), timeout=0.15, return_when=FIRST_COMPLETED)
+                        if not done:
+                            admit_jobs()
+                            continue
+
+                        for future in done:
+                            item, lane, device_id = pending.pop(future)
+                            active_lane[lane] = max(0, active_lane[lane] - 1)
+                            if lane != "cpu":
+                                active_by_device[device_id] = max(0, active_by_device.get(device_id, 0) - 1)
+                            try:
+                                outcome, returned_item, payload = future.result()
+                            except Exception as exc:
+                                outcome = "failed"
+                                returned_item = item
+                                payload = failed_run_from_exception(
+                                    item.label, item.run_index, seeds[item.run_index], exc
+                                )
+                            item = returned_item
+                            if outcome == "completed":
+                                payload.result.metadata["weighted_lane"] = lane
+                                payload.result.metadata["weighted_allocation_requested"] = allocation.requested_text
+                                payload.result.metadata["weighted_allocation_effective"] = allocation.effective_text
+                                self._persist_completed(experiment_id, store, item, payload)
+                                phase = "run_completed"
+                            else:
+                                self._persist_failure(experiment_id, item, payload)
+                                phase = "run_failed"
+                            completed_count += 1
+                            fractions[item.job_index] = 1.0
+                            self.progress.emit(
+                                {
+                                    "algorithm": item.label,
+                                    "job_index": item.job_index,
+                                    "run_index": item.run_index + 1,
+                                    "overall_percent": int(100 * sum(fractions.values()) / total_items),
+                                    "run_position": item.job_index + 1,
+                                    "total_run_items": total_items,
+                                    "completed_items": completed_count,
+                                    "active_items": len(pending),
+                                    "phase": phase,
+                                    "compute_device": device_id,
+                                    "planned_lane": lane,
+                                }
+                            )
+                        if not self._cancelled():
+                            admit_jobs()
+
+                    for payload in self._drain_progress_queue(progress_queue):
+                        job_index = int(payload.get("job_index", -1))
+                        item = next((entry for entry in plan if entry.job_index == job_index), None)
+                        if item is not None:
+                            self._emit_progress(payload, item, fractions, completed_count, total_items, 0)
+            finally:
+                cancel_event.set()
+                xpu_executor.shutdown(wait=True, cancel_futures=True)
+                self._process_cancel_event = None
+
+        return not self._cancelled()
+
     def _run_parallel(self, experiment_id: str, store: ResultStore, plan, seeds) -> bool:
         """Run independent jobs with accelerator-first heterogeneous admission control.
 
@@ -356,6 +578,9 @@ class ExperimentWorker(QThread):
         have been considered for the current scheduling cycle.  Utilization and memory thresholds
         are soft admission limits; running jobs are never migrated between devices.
         """
+
+        if str(self.config.execution_backend).lower() == "weighted_split":
+            return self._run_parallel_weighted(experiment_id, store, plan, seeds)
 
         total_items = max(1, len(plan))
         requested_workers = max(1, int(self.config.parallel_workers))
@@ -675,6 +900,11 @@ class ExperimentManager(QObject):
                 if int(config.parallel_workers) > 1
                 else "single CPU worker"
             )
+        elif str(config.execution_backend) == "weighted_split":
+            backend = (
+                f"weighted CUDA/XPU/CPU scheduler ({config.cuda_task_share}/{config.xpu_task_share}/{config.cpu_task_share}) "
+                f"with up to {config.parallel_workers} concurrent jobs"
+            )
         else:
             backend = (
                 f"adaptive CPU/GPU scheduler with up to {config.parallel_workers} concurrent jobs"
@@ -708,6 +938,15 @@ class ExperimentManager(QObject):
 
     def _on_progress(self, data: dict) -> None:
         self.progress.emit(data)
+        if data.get("phase") == "allocation_planned":
+            requested = str(data.get("allocation_requested", ""))
+            effective = str(data.get("allocation_effective", ""))
+            slots = dict(data.get("lane_slots", {}))
+            self.state.task_status.update(
+                int(data.get("overall_percent", 0)),
+                f"Weighted device plan · requested {requested} · effective {effective} · concurrent slots {slots}",
+            )
+            return
         algorithm = str(data.get("algorithm", "optimizer"))
         completed_items = data.get("completed_items")
         total = data.get("total_run_items")

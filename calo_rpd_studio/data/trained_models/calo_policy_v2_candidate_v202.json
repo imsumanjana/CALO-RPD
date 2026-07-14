@@ -1,0 +1,1683 @@
+{
+  "algorithm": "CALO",
+  "calo_core": "v2",
+  "training_method": "synchronous weighted heterogeneous PPO",
+  "candidate_checkpoint": true,
+  "benchmark_freeze_status": "Not automatically part of the frozen TEST benchmark. Validate this candidate and create a new freeze manifest before benchmark use.",
+  "training_config": {
+    "epochs": 50,
+    "episodes_per_epoch": 20,
+    "horizon": 28,
+    "seed": 2026,
+    "learning_rate": 0.0003,
+    "gamma": 0.98,
+    "gae_lambda": 0.95,
+    "clip_ratio": 0.2,
+    "entropy_weight": 0.01,
+    "value_weight": 0.5,
+    "ppo_epochs": 4,
+    "minibatch_size": 128,
+    "hidden_dim": 96,
+    "population_size": 20,
+    "rollout_workers": 20,
+    "ppo_device": "auto",
+    "cpu_threads_per_worker": 1,
+    "development_cases": [],
+    "allow_final_benchmark_training": false,
+    "historical_repository": "C:\\Users\\User\\Downloads\\calo-rpd-studio-v1.0.0\\calo-rpd-studio\\historical_experience_v1.3.json",
+    "use_historical_trajectories": true,
+    "historical_pretraining_epochs": 4,
+    "heterogeneous_rollouts": true,
+    "cuda_rollout_share": 100,
+    "xpu_rollout_share": 0,
+    "cpu_rollout_share": 0,
+    "actor_batch_size": 0
+  },
+  "training_seed": 2026,
+  "state_dimension": 24,
+  "execution": {
+    "architecture": "same-policy synchronous CUDA/XPU/CPU actor lanes followed by one centralized PPO learner update",
+    "ppo_learner_device": "cuda:0",
+    "requested_rollout_shares": {
+      "cuda": 100,
+      "xpu": 0,
+      "cpu": 0
+    },
+    "effective_episode_shares": {
+      "cuda": 100.0,
+      "xpu": 0.0,
+      "cpu": 0.0
+    },
+    "episodes_per_epoch_by_lane": {
+      "cuda": 20,
+      "xpu": 0,
+      "cpu": 0
+    },
+    "cuda_available": true,
+    "cuda_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "xpu_available": false,
+    "xpu_name": "",
+    "xpu_sidecar_available": true,
+    "xpu_actor_runtime": "sidecar",
+    "cpu_rollout_workers": 20,
+    "on_policy_synchronization": "All actor lanes use one policy snapshot per epoch; PPO starts only after all matching trajectories arrive.",
+    "hardware_scope_note": "Configured shares refer to rollout episodes/transitions, not measured device utilization. Policy inference runs on each actor device, while environment and power-flow calculations remain primarily CPU-based."
+  },
+  "curriculum": [
+    "continuous unconstrained",
+    "constrained continuous",
+    "mixed discrete-continuous",
+    "narrow feasible region"
+  ],
+  "development_cases": [],
+  "final_publication_benchmarks_used_for_training": false,
+  "historical_pretraining": {
+    "enabled": true,
+    "samples": 0,
+    "epochs": 0,
+    "mean_loss": null
+  },
+  "historical_data_policy": "eligible TRAIN experiments only; validation/test experiments excluded; old trajectories used only for offline pretraining, never as PPO on-policy rollouts",
+  "history": [
+    {
+      "epoch": 1,
+      "curriculum_stage": 1,
+      "mean_loss": -0.03863948956131935,
+      "mean_episode_return": 0.635628778418668,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "a5bb62eaae39a466438b94a42578ac70853e83410730c1ea2727d81ff1527209",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 2,
+      "curriculum_stage": 1,
+      "mean_loss": -0.04743682201951742,
+      "mean_episode_return": 0.8107719215254698,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "a6931b7c6e0c3a42b1711d2e61894d57aed7db46c90af1ef75618e6d51fa2111",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 3,
+      "curriculum_stage": 1,
+      "mean_loss": -0.037092274706810716,
+      "mean_episode_return": 0.8641990968516484,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "b5327a8015fa807ffdb181fb02abd2746442b2e082292bb46a5baa488e9e7c87",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 4,
+      "curriculum_stage": 1,
+      "mean_loss": -0.05724109001457691,
+      "mean_episode_return": 0.703165345473441,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "857cd2fcbb5e309fd455627a8f482fcd2f0db4d2bf3363b680940d5f19ff92f2",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 5,
+      "curriculum_stage": 1,
+      "mean_loss": -0.038163509266451,
+      "mean_episode_return": 0.900017829916466,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "1d702eafd4fc55dc739471bdd8600090bee60927089a0ab18df10f4b5a43d4c3",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 6,
+      "curriculum_stage": 1,
+      "mean_loss": -0.029408802278339863,
+      "mean_episode_return": 0.8150248680177944,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "3db6e9b5c27d7fa39829343013251ea50d762d68650d3d01925e4ed6057d5c83",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 7,
+      "curriculum_stage": 1,
+      "mean_loss": -0.028718161256983878,
+      "mean_episode_return": 0.7569316059533795,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "1bb68063f9f3ae178c8e6fb0e10d632563068873a8989d2a5a043243e21d8773",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 8,
+      "curriculum_stage": 1,
+      "mean_loss": -0.022116244491189718,
+      "mean_episode_return": 0.8386122448144129,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "efd5694edb1a16a76b8b6a93c2768c9d90578f846c2af802f9bac0be2f22d6d1",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 9,
+      "curriculum_stage": 1,
+      "mean_loss": -0.02758423434570432,
+      "mean_episode_return": 0.8245401879911739,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "b222989ff7df5ed8066ce4b92c13dee90e5e9c9e9567b801271870410abc0009",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 10,
+      "curriculum_stage": 2,
+      "mean_loss": -0.022255439776927233,
+      "mean_episode_return": 1.7386601743058385,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "0f2400913e4b927cd53479563e8778170a6e076d70c09a9559c482737417e310",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 11,
+      "curriculum_stage": 2,
+      "mean_loss": -0.022535401675850154,
+      "mean_episode_return": 1.8288942986048897,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "4b459669da0ebfbdab2720e5396effb84d67fd0f998f857f98a408415cbc6b88",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 12,
+      "curriculum_stage": 2,
+      "mean_loss": -0.008034597802907228,
+      "mean_episode_return": 1.8678215147581014,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "7097fd3e2354fa78e82fc9dbc5458c3f535642622180971baf5aabae00a3c026",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 13,
+      "curriculum_stage": 2,
+      "mean_loss": -0.024253922607749702,
+      "mean_episode_return": 1.918789908999835,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "70963271f8039ff91b08aa591d358f10fdc9263a30d5fb3373e45abd72562078",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 14,
+      "curriculum_stage": 2,
+      "mean_loss": -0.024592210166156293,
+      "mean_episode_return": 1.6695429949349712,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "5a19db56314fee7a5f9d16727b8af9a1e71af0a580dad0ef3b57b6d577b309a9",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 15,
+      "curriculum_stage": 2,
+      "mean_loss": -0.0308898757211864,
+      "mean_episode_return": 1.8193584410980133,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "eee3e8db20d391993c7a3f15b615ec0a11c974ea0d065898c4d944342e7aedf9",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 16,
+      "curriculum_stage": 2,
+      "mean_loss": -0.008028809260576964,
+      "mean_episode_return": 2.0540677992329472,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "8b39ac9f719b4652c620f72337be8d77a215a54b67c14244e234fef78992ed56",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 17,
+      "curriculum_stage": 2,
+      "mean_loss": -0.040337858535349366,
+      "mean_episode_return": 1.9299731135506968,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "c27d3d7ed69735b04c61745ba09cfaa255e68185523c36a28eedab0178b99d80",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 18,
+      "curriculum_stage": 2,
+      "mean_loss": -0.020101980213075875,
+      "mean_episode_return": 1.5754620636785521,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "a9ecd46d900b8a154340f52fbbe567f75303e82030104b5da2afc00d98395235",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 19,
+      "curriculum_stage": 2,
+      "mean_loss": -0.011329567525535822,
+      "mean_episode_return": 1.6983156399073926,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "1d082c420890547eff6b1d87a2748b29b79c9b6600e1fac7f46e9b2f089d64aa",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 20,
+      "curriculum_stage": 2,
+      "mean_loss": -0.02004555817693472,
+      "mean_episode_return": 2.136792430692488,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "b7bb2cd8cd5194d16764eb6ee6e0e52200622e42c18beecf6eb669bb8d01fcd0",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 21,
+      "curriculum_stage": 3,
+      "mean_loss": 0.05236783903092146,
+      "mean_episode_return": 2.7566842747515863,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "b1446ee65a8d507608161b3b32f0b131df6e375ee1ff42f17e16c3db3f2b5024",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 22,
+      "curriculum_stage": 3,
+      "mean_loss": 0.034339736122637986,
+      "mean_episode_return": 2.2566881942524195,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "6b00b36e1910c0acf452b2e1cf77e942a7bc8a85fba3d9443574ea79f396f8c2",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 23,
+      "curriculum_stage": 3,
+      "mean_loss": 0.023364420048892498,
+      "mean_episode_return": 2.32251015587123,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "e0365056479e53943f2cd8482ba96c3357158bd046ab5d0fc4746cb86fc9d9c0",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 24,
+      "curriculum_stage": 3,
+      "mean_loss": 0.03018585043027997,
+      "mean_episode_return": 2.721018355767308,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "86022a6270ae1aeea8e203ecdd9374b5fc2511af600e101e528e9b4ba0a2cb54",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 25,
+      "curriculum_stage": 3,
+      "mean_loss": 0.06673407070338726,
+      "mean_episode_return": 2.3868787964830784,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "2c1f1bef72b130ed8d162669294d13134552dfbf702dd4abed9b1ad82cbf4482",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 26,
+      "curriculum_stage": 3,
+      "mean_loss": 0.013849900662899017,
+      "mean_episode_return": 2.216978302056341,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "9606ecf6624e687ef94651b3b31c1c07527cbd135ab1cb3752fbfd95bcbea39e",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 27,
+      "curriculum_stage": 3,
+      "mean_loss": 0.01797685157507658,
+      "mean_episode_return": 2.3603585904450144,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "1930618f0e190f88aacd0a9160e6ad143bc861f17c8f5722cab8da651acaeb92",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 28,
+      "curriculum_stage": 3,
+      "mean_loss": 0.03816269868984819,
+      "mean_episode_return": 2.3056920369921605,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "9a0640d6611cb084a0dec3379185fe42bc2e5bdc94d41e88de7a12c95552fc6d",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 29,
+      "curriculum_stage": 3,
+      "mean_loss": 0.04302386129274964,
+      "mean_episode_return": 2.224855026474198,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "5435131359aba610581b3de178514032dc56ab29065babe5f64b58470cf9473c",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 30,
+      "curriculum_stage": 3,
+      "mean_loss": 0.022806962579488756,
+      "mean_episode_return": 2.5795485702476135,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "15f032486c00c3e9cc9450f44b2b4725d3aff58508cc23b54f09f40b916b0c95",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 31,
+      "curriculum_stage": 3,
+      "mean_loss": 0.05193283502012491,
+      "mean_episode_return": 2.3510120315718708,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "26a1a6b78833293985e883b469b700dee835becc093dd89481a514a65121b9b5",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 32,
+      "curriculum_stage": 3,
+      "mean_loss": 0.01982146129012108,
+      "mean_episode_return": 2.574170325203563,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "fbee6c335a1305399ac25d694f69239b21dd5fa41d1480bc64dd17870a5725ad",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 33,
+      "curriculum_stage": 4,
+      "mean_loss": 0.09153123022988438,
+      "mean_episode_return": 4.470088523328089,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "91b23f630043f2901d2c1454621be2ee605c67f5b07e0e4caec0adf141e6d17c",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 34,
+      "curriculum_stage": 4,
+      "mean_loss": 0.06689157364889979,
+      "mean_episode_return": 4.245210833408988,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "f66ff779fdcf394c5c7b1277b244059442419b6e5f0295203ee5ec2106d3166d",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 35,
+      "curriculum_stage": 4,
+      "mean_loss": 0.07760402802377939,
+      "mean_episode_return": 4.287925102891625,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "7b5f3be2cc042f6d3ec3989b5302b663927866d3e860b2223df787f068f2aa62",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 36,
+      "curriculum_stage": 4,
+      "mean_loss": 0.0710060054436326,
+      "mean_episode_return": 4.081696000195258,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "fb3df00412f64c56355e5003076e9d597d199c40109f827730ca7f8786064b95",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 37,
+      "curriculum_stage": 4,
+      "mean_loss": 0.10193354934453965,
+      "mean_episode_return": 4.240610555814956,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "756962141d9b9fb0f10596d181ec9caca71b8f8ffe163cbe89ef2a251f18bbed",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 38,
+      "curriculum_stage": 4,
+      "mean_loss": 0.06355935856699943,
+      "mean_episode_return": 3.9470564705222957,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "28ef98cced88babaaed37b8da10dd09ec7be4e316f03503e8ac851ec8140044a",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 39,
+      "curriculum_stage": 4,
+      "mean_loss": 0.059241031855344774,
+      "mean_episode_return": 4.401649104836768,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "5b447cc6a8aa70d0fe1dd128d38547c1202cd34e7f84902151d848843bb3df08",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 40,
+      "curriculum_stage": 4,
+      "mean_loss": 0.06095547443255782,
+      "mean_episode_return": 4.1848689484629,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "b849c5a7c160bf69b40344b66fd5ee35018f59f3b91b8f14f4c65fa0638834a8",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 41,
+      "curriculum_stage": 4,
+      "mean_loss": 0.07723757736384869,
+      "mean_episode_return": 3.900599706682569,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "232bb10b0f1035922df35f8198839e72e05208ef13ea2e202ac6ffd468fa03ac",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 42,
+      "curriculum_stage": 4,
+      "mean_loss": 0.0504479450173676,
+      "mean_episode_return": 4.140082348007329,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "5e4989ea485c1031664ec9324fe8dbb523a19d011661cde0393defad535a0b2b",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 43,
+      "curriculum_stage": 4,
+      "mean_loss": 0.04803978903219104,
+      "mean_episode_return": 3.716391235350641,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "6d1ebe8c1279a6c663f5a5e823530a93f5870b5f885fc97410389b0ddc0afab0",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 44,
+      "curriculum_stage": 4,
+      "mean_loss": 0.06630359971895813,
+      "mean_episode_return": 4.377948382523096,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "b3cd570312ccbabb7a3650fda32d11795f1276b183a52cd194a5c60ff087ec27",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 45,
+      "curriculum_stage": 4,
+      "mean_loss": 0.05751406038179994,
+      "mean_episode_return": 4.577772259345948,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "d957d427d6a60b5fa87d03a6ddf58e1a6e375b19754bf53df5794d81b7baebeb",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 46,
+      "curriculum_stage": 4,
+      "mean_loss": 0.0510882867500186,
+      "mean_episode_return": 4.277067319967494,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "a9d23c64f678bc01574e998fdea41630ab71883b3673a329ea52f8e1db43fd5e",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 47,
+      "curriculum_stage": 4,
+      "mean_loss": 0.0416397619061172,
+      "mean_episode_return": 4.632799027458998,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "281852e9ea61ccb8802e76451af5b5e4d1e66b163f104ead8f229307fe28dc7e",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 48,
+      "curriculum_stage": 4,
+      "mean_loss": 0.038977537769824266,
+      "mean_episode_return": 4.4281811835249725,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "ceb44724db33ae79581eed1d635e17a2967e7d78c47e58be1eb58fb2a5bf50ea",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 49,
+      "curriculum_stage": 4,
+      "mean_loss": 0.033306048437953,
+      "mean_episode_return": 4.215377956029734,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "ffe7dad5fcc9a72dcf1419fa1b5350548f91d44f4d95e79cd90bb0a8c83b903f",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "epoch": 50,
+      "curriculum_stage": 4,
+      "mean_loss": 0.052273054048419,
+      "mean_episode_return": 4.20119170561819,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "301007752eae62aa50256daa5561d17d9ff54126ba36a289c0490f7b1dde4b47",
+      "requested_rollout_shares": {
+        "cuda": 100,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "effective_rollout_shares": {
+        "cuda": 100.0,
+        "xpu": 0.0,
+        "cpu": 0.0
+      },
+      "episode_allocation": {
+        "cuda": 20,
+        "xpu": 0,
+        "cpu": 0
+      },
+      "actor_lanes": [
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 20
+        }
+      ],
+      "warnings": []
+    }
+  ]
+}

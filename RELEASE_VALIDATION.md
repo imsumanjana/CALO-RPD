@@ -1,43 +1,22 @@
-# CALO-RPD Studio 1.3.0 — Release Validation Record
+# CALO-RPD Studio 2.0.3 — Release Validation Record
 
-Version 1.3.0 adds leakage-aware Historical Experience Learning and moves Live Optimization preview-series selection into Plot Tools.
+## Scope
 
-## Release checks
+Version 2.0.3 improves interpretation and validation throughput without modifying the frozen CALO mathematical implementation. Live convergence plots now auto-fit the currently visible data, and the Validation & Audit workspace can independently re-evaluate saved runs in bulk.
 
-- Python source compilation: PASS
-- Automated test suite: PASS — 86 tests passed
-- Ruff static analysis: PASS
-- Wheel build: PASS
-- Source-distribution build: PASS
-- Full source archive integrity: PASS after packaging
-- Incremental patch archive integrity: PASS after packaging
+## Automated verification
 
-## Historical-learning checks
+- `PYTHONPATH=. pytest -q`: **84 passed, 25 skipped**.
+- `python -m compileall -q calo_bootstrap calo_rpd_studio tests`: passed.
+- Plot-manager regression coverage verifies zero-aware tight scaling and visible-series-only scaling.
+- Bulk-validation regression coverage verifies default skipping of already verified runs and continuation after an individual run raises a validation error.
+- `python -m pip wheel . --no-deps`: passed and produced the v2.0.3 wheel.
+- Frozen CALO verification: passed across the original **23 frozen files**.
+- Ruff was unavailable in the packaging environment and is not claimed as executed.
+- PyQt6 GUI tests were skipped because PyQt6 was unavailable; three IEEE scientific tests were skipped because PYPOWER was unavailable.
 
-- New and migrated experiments default to EXCLUDED/not learning-eligible.
-- Only experiments explicitly classified as TRAIN and marked learning-eligible are admitted to the experience repository.
-- VALIDATION and TEST experiments cannot remain learning-eligible.
-- Experiment learning classifications can be locked against accidental GUI editing.
-- Repository payloads carry a deterministic SHA-256 checksum and are verified when loaded.
-- Exact v1.3 CALO policy trajectories can contribute state, regime, operator, bounded parameter action, reward, and evaluation information.
-- Legacy v1.2 CALO diagnostic histories are only reconstructed when sufficient telemetry exists; reconstructed samples are marked partial, assigned lower quality weight, and excluded from continuous parameter-action supervision.
-- Historical trajectories are used only for offline supervised/value pretraining. Fresh trajectories are generated before PPO updates, preserving the on-policy PPO stage.
-- Cross-algorithm historical solutions and CALO parameter priors are separate opt-in warm-start mechanisms.
-- Cold Start removes historical runtime-learning parameters from the CALO configuration.
-- Continual Learning rebuilds eligible repositories but does not silently retrain or promote a deployed policy.
+## Scientific behavior
 
-## Live Optimization checks
+Automatic fitting changes only axis limits. It does not modify stored convergence data, algorithm ranking, objective values, constraint values, or exported raw results. For normalized constraint violation and other non-negative diagnostics, the default live view includes zero because exact feasibility is the scientific target. Users can disable automatic fitting in Plot Tools and enter manual limits when a fixed cross-figure scale is required.
 
-- The old permanently expanded preview-series checkbox section is removed.
-- Live Optimization exposes a context-sensitive Preview series icon within Plot Tools.
-- Available preview checkboxes are generated dynamically from the active plot series.
-- Select all, Clear all, and Restore default affect only the live preview.
-- Export-series selection remains independent from preview-series selection.
-
-## Scientific benchmark safeguards
-
-Final benchmark/test experiments must remain classified as TEST or EXCLUDED and are not admitted to historical learning. Optional historical parameter priors and cross-algorithm population warm starts should be disabled for strict cold-start fairness unless the study protocol explicitly evaluates an experience-informed configuration.
-
-## Hardware-validation scope
-
-The v1.3.0 changes do not alter the accelerator-first execution architecture introduced in v1.2.4. The release environment validated the full software test suite in CPU/offscreen GUI mode. Actual CUDA/XPU throughput remains hardware-dependent and is verified by the first-launch prerequisite wizard on the target machine.
+Bulk validation reconstructs and independently re-evaluates each saved decision vector using the stored experiment configuration and seeds. It skips records already marked verified by default, records each new validation result in SQLite, continues after isolated processing errors, and supports cancellation between runs. Publication claims should still be based on successfully verified records.

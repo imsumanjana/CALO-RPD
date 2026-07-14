@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from copy import deepcopy
 from dataclasses import dataclass
+import math
 from pathlib import Path
 import uuid
 
@@ -51,6 +52,94 @@ class PlotManager:
                 labels.append(label)
                 seen.add(label)
         return labels
+
+    @staticmethod
+    def _finite_line_values(ax, axis_name: str) -> list[float]:
+        values: list[float] = []
+        scale = ax.get_xscale() if axis_name == "x" else ax.get_yscale()
+        for line in ax.lines:
+            if hasattr(line, "get_visible") and not line.get_visible():
+                continue
+            raw = line.get_xdata(orig=False) if axis_name == "x" else line.get_ydata(orig=False)
+            for item in raw:
+                try:
+                    value = float(item)
+                except (TypeError, ValueError):
+                    continue
+                if not math.isfinite(value):
+                    continue
+                if scale == "log" and value <= 0:
+                    continue
+                values.append(value)
+        return values
+
+    @staticmethod
+    def _padded_limits(values: list[float], padding: float, *, include_zero: bool = False) -> tuple[float, float] | None:
+        if not values:
+            return None
+        lower = min(values)
+        upper = max(values)
+        padding = max(0.0, min(float(padding), 0.5))
+        if include_zero and lower >= 0.0:
+            lower = 0.0
+            if upper == 0.0:
+                upper = 1e-6
+            else:
+                upper += max(upper, 1e-12) * padding
+            return lower, upper
+        span = upper - lower
+        if span <= 0.0:
+            scale = max(abs(lower), abs(upper), 1e-9)
+            span = max(scale * 0.1, 1e-9)
+        pad = span * padding
+        return lower - pad, upper + pad
+
+    def _apply_axis_limits(self, rec: PlotRecord) -> None:
+        """Apply either intelligent visible-data fitting or explicit/manual axis bounds.
+
+        ``Axes.clear`` does not guarantee that a prior manually-fixed limit is forgotten.  This
+        routine explicitly re-enables autoscaling before recomputing limits, preventing a stale
+        0--0.7 range from hiding convergence differences around 0.02--0.06.
+        """
+        s = rec.style
+        ax = rec.axis
+
+        if s.auto_fit_visible_data:
+            ax.set_autoscalex_on(True)
+            ax.set_autoscaley_on(True)
+            ax.relim(visible_only=True)
+            ax.autoscale_view(scalex=True, scaley=True)
+
+            x_values = self._finite_line_values(ax, "x")
+            y_values = self._finite_line_values(ax, "y")
+            x_limits = self._padded_limits(x_values, s.auto_scale_padding, include_zero=False)
+            y_limits = self._padded_limits(
+                y_values,
+                s.auto_scale_padding,
+                include_zero=bool(s.auto_include_zero and ax.get_yscale() == "linear"),
+            )
+            if x_limits is not None:
+                ax.set_xlim(*x_limits)
+            if y_limits is not None:
+                ax.set_ylim(*y_limits)
+            return
+
+        # Manual mode still autosizes every unspecified bound from the current visible data.
+        # Explicit values are then applied only to the sides the user actually fixed.
+        ax.set_autoscalex_on(s.x_min is None or s.x_max is None)
+        ax.set_autoscaley_on(s.y_min is None or s.y_max is None)
+        ax.relim(visible_only=True)
+        ax.autoscale_view(scalex=True, scaley=True)
+        current_x = ax.get_xlim()
+        current_y = ax.get_ylim()
+        ax.set_xlim(
+            left=current_x[0] if s.x_min is None else s.x_min,
+            right=current_x[1] if s.x_max is None else s.x_max,
+        )
+        ax.set_ylim(
+            bottom=current_y[0] if s.y_min is None else s.y_min,
+            top=current_y[1] if s.y_max is None else s.y_max,
+        )
 
     def _update_legend(self, rec: PlotRecord, *, visible_only: bool = False) -> None:
         s = rec.style
@@ -128,8 +217,6 @@ class PlotManager:
             label.set_fontstyle("italic" if s.tick_labels_italic else "normal")
         ax.set_xscale(s.x_scale)
         ax.set_yscale(s.y_scale)
-        ax.set_xlim(left=s.x_min, right=s.x_max)
-        ax.set_ylim(bottom=s.y_min, top=s.y_max)
         ax.grid(s.major_grid, which="major")
         ax.minorticks_on() if s.minor_grid else ax.minorticks_off()
         ax.grid(True, which="minor", alpha=0.3) if s.minor_grid else ax.grid(False, which="minor")
@@ -141,6 +228,8 @@ class PlotManager:
             line.set_marker(s.marker)
             line.set_markersize(s.marker_size)
             line.set_visible(s.series_visible)
+
+        self._apply_axis_limits(rec)
         self._update_legend(rec)
         rec.figure.tight_layout()
         canvas = getattr(rec.figure, "canvas", None)
@@ -179,6 +268,7 @@ class PlotManager:
         rec = self.records[plot_id]
         old_size = rec.figure.get_size_inches().copy()
         line_visibility = [(line, bool(line.get_visible())) for line in rec.axis.lines]
+        old_limits = (rec.axis.get_xlim(), rec.axis.get_ylim())
         selectable = set(self.series_labels(plot_id))
         requested = None if selected_series is None else set(selected_series)
         if requested is not None:
@@ -194,6 +284,8 @@ class PlotManager:
                     label = str(line.get_label())
                     if self._valid_series_label(label):
                         line.set_visible(label in requested)
+                if rec.style.auto_fit_visible_data:
+                    self._apply_axis_limits(rec)
                 self._update_legend(rec, visible_only=True)
                 rec.figure.tight_layout()
 
@@ -215,6 +307,8 @@ class PlotManager:
             rec.figure.set_size_inches(old_size, forward=True)
             for line, was_visible in line_visibility:
                 line.set_visible(was_visible)
+            rec.axis.set_xlim(*old_limits[0])
+            rec.axis.set_ylim(*old_limits[1])
             self._update_legend(rec, visible_only=False)
             rec.figure.tight_layout()
             canvas = getattr(rec.figure, "canvas", None)

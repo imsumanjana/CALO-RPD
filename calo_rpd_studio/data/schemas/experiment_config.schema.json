@@ -43,6 +43,7 @@
     "execution_backend": {
       "type": "string",
       "enum": [
+        "weighted_split",
         "adaptive_hybrid",
         "gpu_preferred",
         "cpu_only"
@@ -87,6 +88,28 @@
       "type": "integer",
       "minimum": 20,
       "maximum": 100
+    },
+    "cuda_task_share": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "default": 50
+    },
+    "xpu_task_share": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "default": 30
+    },
+    "cpu_task_share": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "default": 20
+    },
+    "strict_device_shares": {
+      "type": "boolean",
+      "default": true
     }
   },
   "additionalProperties": true

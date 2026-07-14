@@ -7,7 +7,7 @@ def test_main_window_has_all_workspaces(qtbot,tmp_path):
     from calo_rpd_studio.app.experiment_manager import ExperimentManager
     from calo_rpd_studio.app.settings_manager import SettingsManager
     from calo_rpd_studio.app.main_window import MainWindow
-    state=AppState(tmp_path/'gui.sqlite');window=MainWindow(state,ExperimentManager(state),SettingsManager());qtbot.addWidget(window);assert window.stack.count()==13;assert len(window.sidebar.buttons)==13
+    state=AppState(tmp_path/'gui.sqlite');window=MainWindow(state,ExperimentManager(state),SettingsManager());qtbot.addWidget(window);assert window.stack.count()==14;assert len(window.sidebar.buttons)==14
 def test_plot_toolbar_exposes_typography_controls(qtbot):
     from calo_rpd_studio.gui.plotting.scientific_plot import ScientificPlotWidget
     widget=ScientificPlotWidget();qtbot.addWidget(widget);toolbar=widget.format_toolbar;assert toolbar.font is not None;assert toolbar.size is not None;assert toolbar.bold is not None;assert toolbar.title_text is not None;assert toolbar.x_text is not None;assert toolbar.y_text is not None;assert toolbar.legend_labels is not None
@@ -23,7 +23,7 @@ def test_only_genuinely_long_workspaces_use_page_level_scrolling(qtbot, tmp_path
     window = MainWindow(state, ExperimentManager(state), SettingsManager())
     qtbot.addWidget(window)
     scrollable = [page for page in window.pages if isinstance(page, ScrollablePage)]
-    assert len(scrollable) == 3
+    assert len(scrollable) == 4
 
 
 def test_duplicate_experiment_start_is_rejected_without_exception(qtbot, tmp_path):
@@ -277,6 +277,7 @@ def test_experiment_manager_exposes_accelerator_first_scheduler_controls(qtbot, 
     state = AppState(tmp_path / "hybrid-scheduler.sqlite")
     panel = ExperimentManagerPanel(state, ExperimentManager(state))
     qtbot.addWidget(panel)
+    assert panel.execution_backend.findData("weighted_split") >= 0
     assert panel.execution_backend.findData("adaptive_hybrid") >= 0
     assert panel.execution_backend.findData("cpu_only") >= 0
     assert panel.gpu_target.value() == 70
@@ -285,3 +286,68 @@ def test_experiment_manager_exposes_accelerator_first_scheduler_controls(qtbot, 
     assert panel.system_memory_limit.value() == 85
     assert panel.gpu_jobs.minimum() == 1
     assert panel.xpu_jobs.minimum() == 1
+    assert (panel.cuda_share.value(), panel.xpu_share.value(), panel.cpu_share.value()) == (50, 30, 20)
+
+
+def test_policy_training_exposes_weighted_cuda_xpu_cpu_actor_controls(qtbot, tmp_path):
+    from calo_rpd_studio.app.experiment_manager import ExperimentManager
+    from calo_rpd_studio.app.state_manager import AppState
+    from calo_rpd_studio.gui.panels.calo_intelligence_panel import CALOIntelligencePanel
+
+    state = AppState(tmp_path / "policy-weighted-actors.sqlite")
+    panel = CALOIntelligencePanel(state, ExperimentManager(state))
+    qtbot.addWidget(panel)
+    assert panel.rollout_mode.currentData() == "weighted"
+    assert (
+        panel.cuda_rollout_share.value(),
+        panel.xpu_rollout_share.value(),
+        panel.cpu_rollout_share.value(),
+    ) == (50, 30, 20)
+    assert "Shares refer to rollout episodes/transitions" in panel.accelerator_status.text()
+
+
+def test_live_optimization_auto_fits_visible_data_by_default(qtbot, tmp_path):
+    from calo_rpd_studio.app.experiment_manager import ExperimentManager
+    from calo_rpd_studio.app.state_manager import AppState
+    from calo_rpd_studio.gui.panels.live_optimization_panel import LiveOptimizationPanel
+
+    state = AppState(tmp_path / "live-auto-fit.sqlite")
+    panel = LiveOptimizationPanel(state, ExperimentManager(state))
+    qtbot.addWidget(panel)
+    assert panel.plot.style.auto_fit_visible_data is True
+    toolbar = panel.plot.format_toolbar
+    assert toolbar.auto_fit_visible_data.isChecked() is True
+    panel.update_progress({
+        "algorithm": "CALO",
+        "run_index": 1,
+        "iteration": 1,
+        "evaluations": 100,
+        "best_feasible_objective": float("nan"),
+        "best_constraint_violation": 0.06,
+        "feasible": False,
+    })
+    panel.update_progress({
+        "algorithm": "QODE",
+        "run_index": 1,
+        "iteration": 1,
+        "evaluations": 100,
+        "best_feasible_objective": float("nan"),
+        "best_constraint_violation": 0.02,
+        "feasible": False,
+    })
+    lower, upper = panel.plot.axis.get_ylim()
+    assert lower == pytest.approx(0.0)
+    assert 0.06 < upper < 0.08
+
+
+def test_validation_audit_exposes_bulk_validation_controls(qtbot, tmp_path):
+    from calo_rpd_studio.app.state_manager import AppState
+    from calo_rpd_studio.gui.panels.validation_audit_panel import ValidationAuditPanel
+
+    state = AppState(tmp_path / "bulk-validation-gui.sqlite")
+    panel = ValidationAuditPanel(state)
+    qtbot.addWidget(panel)
+    assert panel.bulk_current_button.text() == "Validate current experiment"
+    assert panel.bulk_all_button.text() == "Validate all not-yet-verified runs"
+    assert panel.bulk_cancel_button.isEnabled() is False
+    assert panel.bulk_progress.value() == 0

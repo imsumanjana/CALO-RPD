@@ -72,6 +72,10 @@ The policy trainer records all fields of `TrainingConfig`, including:
 
 The Python, NumPy, and PyTorch random seeds are set from the declared training seed. The training environment reuses the runtime CALO Core v2 operator and selection modules.
 
+In weighted heterogeneous mode, each PPO epoch records the requested CUDA/XPU/CPU shares, the effective integer episode allocation, the actor devices, and the policy-snapshot SHA-256 used by every lane. All actor trajectories must match the current snapshot before entering the PPO buffer. The update begins only after the synchronous CUDA, XPU, and CPU actors have completed. Configured shares refer to rollout episodes/transitions rather than measured hardware utilization.
+
+Weighted training produces a candidate checkpoint and cannot overwrite the bundled frozen policy. A candidate must be validated and explicitly included in a new freeze manifest before final TEST execution.
+
 ## Raw data
 
 Important numerical data are stored as JSON/SQLite records and compressed NPZ arrays. Figures are regenerated from raw data; they are not the sole record of a result. Preview visibility and export styling never alter stored scientific data.

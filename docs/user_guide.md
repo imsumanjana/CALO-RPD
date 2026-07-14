@@ -29,9 +29,15 @@ The page exposes reproducible PPO training controls for:
 - PPO update epochs;
 - minibatch size;
 - training population size;
+- PPO learner device;
+- weighted heterogeneous or legacy rollout mode;
+- CUDA, Intel XPU, and CPU rollout-transition shares;
+- CPU actor-worker count;
 - optional comma-separated ORPD development case paths for the final curriculum stage.
 
-The training environment uses the same Core v2 operator and selection modules used at runtime. Development cases are recorded in checkpoint metadata and should remain separate from final publication benchmark systems. After training, validate and apply the saved checkpoint before proceeding.
+The default weighted plan requests 50% CUDA, 30% XPU, and 20% CPU episodes. With 12 episodes this becomes 6, 4, and 2 episodes respectively. The GUI reports the effective allocation when a device is unavailable. All lanes receive one synchronized policy snapshot, and PPO updates only after all current-policy trajectories arrive.
+
+The training environment uses the same Core v2 operator and selection modules used at runtime. Development cases are recorded in checkpoint metadata and should remain separate from final publication benchmark systems. Weighted training saves a candidate checkpoint under a new filename; validate and re-freeze it before final TEST use.
 
 The CALO ablation study is separate from the primary benchmark and currently contains nine fixed variants.
 
@@ -72,9 +78,11 @@ The telemetry panel also shows:
 - evaluations to first exact feasibility;
 - reward and diversity information.
 
-### Selective preview legend
+### Selective preview series and automatic scaling
 
-The **Preview legend** is generated dynamically from the series available for the active plot. Each legend name has a checkbox. Unchecking a series removes it from the preview immediately while keeping its raw data. Use **Select all** or **Clear all** for bulk changes.
+Open **Plot Tools → Preview series** to see a dynamic checkbox list for the series available in the active plot. Unchecking a series removes it from the preview immediately while keeping its raw data. Use **Select all**, **Clear all**, or **Restore default** for bulk changes.
+
+Live Optimization automatically fits the axes to the currently visible series. Non-negative feasibility metrics keep zero visible by default so the target of exact feasibility remains interpretable. Open **Plot Tools → Plot appearance** to adjust Auto-fit visible data, zero-baseline behavior, and padding, or disable auto-fit to enter fixed manual limits.
 
 Preview selection and export selection are separate. A curve can be hidden in the live preview without changing stored data or future export choices.
 
@@ -99,7 +107,9 @@ Select a run, review its details, then confirm the result review. The applicatio
 
 ## 10. Validation and Publication Export
 
-Independently validate selected runs. Publication Export includes verified runs only and produces CSV, LaTeX-compatible tables, experiment metadata, and a reproducibility archive.
+Validation & Audit supports both single-run and bulk independent validation. Use **Validate current experiment** to process every not-yet-verified run in the selected experiment, or **Validate all not-yet-verified runs** to process the complete local repository. Bulk validation runs in the background, reports live progress and passed/failed/error counts, and can be cancelled between runs. Existing verified runs are skipped by default.
+
+Publication Export includes verified runs only and produces CSV, LaTeX-compatible tables, experiment metadata, and a reproducibility archive.
 
 ## Guided workspace sequence
 

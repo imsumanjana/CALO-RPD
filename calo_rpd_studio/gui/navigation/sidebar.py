@@ -8,6 +8,7 @@ from PyQt6.QtWidgets import (
     QHBoxLayout,
     QLabel,
     QPushButton,
+    QScrollArea,
     QVBoxLayout,
     QWidget,
 )
@@ -53,6 +54,19 @@ class NavigationSidebar(QFrame):
         section.setObjectName("NavSectionLabel")
         layout.addWidget(section)
 
+        # The number of research workspaces grew in v2.0.0. Keep the brand/footer fixed and make
+        # only the navigation list scrollable so no button is vertically compressed on smaller
+        # screens.
+        nav_scroll = QScrollArea()
+        nav_scroll.setWidgetResizable(True)
+        nav_scroll.setFrameShape(QFrame.Shape.NoFrame)
+        nav_scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        nav_scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
+        nav_container = QWidget()
+        nav_layout = QVBoxLayout(nav_container)
+        nav_layout.setContentsMargins(0, 0, 2, 0)
+        nav_layout.setSpacing(7)
+
         self.group = QButtonGroup(self)
         self.group.setExclusive(True)
         self.buttons: list[QPushButton] = []
@@ -68,9 +82,10 @@ class NavigationSidebar(QFrame):
             )
             self.group.addButton(button)
             self.buttons.append(button)
-            layout.addWidget(button)
-
-        layout.addStretch(1)
+            nav_layout.addWidget(button)
+        nav_layout.addStretch(1)
+        nav_scroll.setWidget(nav_container)
+        layout.addWidget(nav_scroll, 1)
 
         footer = QFrame()
         footer.setObjectName("SidebarFooter")
@@ -79,7 +94,7 @@ class NavigationSidebar(QFrame):
         footer_layout.setSpacing(2)
         edition = QLabel("Scientific workspace")
         edition.setObjectName("SidebarFooterTitle")
-        version = QLabel("CALO-RPD Studio 1.3.0")
+        version = QLabel("CALO-RPD Studio 2.0.3")
         version.setObjectName("SidebarFooterText")
         footer_layout.addWidget(edition)
         footer_layout.addWidget(version)

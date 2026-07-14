@@ -150,7 +150,7 @@ class WorkflowManager(QObject):
 
     def workspace_state(self, index: int) -> tuple[str, str]:
         """Return visual state and explanatory tooltip for one workspace."""
-        if index in (0, 12):
+        if index in (0, 12, 13):
             return "available", "Always available."
         if index == 1:
             return (

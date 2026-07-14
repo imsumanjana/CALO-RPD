@@ -12,6 +12,7 @@ class PlotStyle:
     title_override:str='';x_label_override:str='';y_label_override:str='';legend_label_overrides:dict[str,str]=field(default_factory=dict)
     show_legend:bool=True;legend_location:str='best';legend_columns:int=1;legend_frame:bool=True
     x_scale:str='linear';y_scale:str='linear';x_min:float|None=None;x_max:float|None=None;y_min:float|None=None;y_max:float|None=None
+    auto_fit_visible_data:bool=False;auto_include_zero:bool=False;auto_scale_padding:float=0.08
     major_grid:bool=True;minor_grid:bool=False;axis_line_width:float=1.0;line_width:float=1.8;line_style:str='-';marker:str='';marker_size:float=5.0;series_visible:bool=True
     def to_dict(self):return asdict(self)
     def save(self,path):Path(path).write_text(json.dumps(self.to_dict(),indent=2),encoding='utf-8')

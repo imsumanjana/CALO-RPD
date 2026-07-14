@@ -31,10 +31,16 @@ class ScientificPlotWidget(QWidget):
         square_preview: bool = False,
         square_export: bool | None = None,
         square_preview_size: int = 720,
+        auto_fit_visible_data: bool = False,
+        auto_include_zero: bool = False,
+        auto_scale_padding: float = 0.08,
     ) -> None:
         super().__init__(parent)
         self.manager = manager or PlotManager()
         self.style = deepcopy(self.manager.default_style)
+        self.style.auto_fit_visible_data = bool(auto_fit_visible_data)
+        self.style.auto_include_zero = bool(auto_include_zero)
+        self.style.auto_scale_padding = max(0.0, min(float(auto_scale_padding), 0.5))
         self.square_preview = bool(square_preview)
         self.square_export = self.square_preview if square_export is None else bool(square_export)
         self.square_preview_size = max(420, int(square_preview_size))
@@ -92,6 +98,13 @@ class ScientificPlotWidget(QWidget):
     def apply_style(self, style) -> None:
         self.style = deepcopy(style)
         self.manager.apply(self.plot_id, self.style)
+
+    def set_auto_scale_context(self, *, include_zero: bool | None = None) -> None:
+        """Update metric-specific automatic scaling without altering numerical data."""
+        if include_zero is not None:
+            self.style.auto_include_zero = bool(include_zero)
+            self.format_toolbar.style.auto_include_zero = bool(include_zero)
+            self.format_toolbar.sync_auto_scale_from_style()
 
     def clear(self) -> None:
         self.axis.clear()

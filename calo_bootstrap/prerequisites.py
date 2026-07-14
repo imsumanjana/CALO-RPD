@@ -19,7 +19,7 @@ import time
 from collections import deque
 from typing import Callable, Iterable
 
-APP_VERSION = "1.3.0"
+APP_VERSION = "2.0.3"
 STATE_DIR = Path.home() / ".calo_rpd_studio"
 STATE_FILE = STATE_DIR / "environment_state.json"
 CORE_REQUIREMENTS_FILE = "requirements-core.txt"

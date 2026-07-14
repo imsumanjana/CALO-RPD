@@ -98,3 +98,65 @@ def test_pip_raw_progress_parser_and_download_item_extraction():
         )
         == "torch-2.7.1%2Bcu126-cp311-cp311-win_amd64.whl"
     )
+
+
+def test_weighted_lane_plan_splits_accelerator_eligible_jobs_50_30_20():
+    from calo_rpd_studio.compute.resource_scheduler import build_weighted_lane_plan
+
+    plan = [PlannedItem(i, i, "CALO", None) for i in range(10)]
+    lanes, summary = build_weighted_lane_plan(
+        plan,
+        "comparison",
+        cuda_available=True,
+        xpu_available=True,
+        cuda_share=50,
+        xpu_share=30,
+        cpu_share=20,
+    )
+    assert sum(lane == "cuda" for lane in lanes.values()) == 5
+    assert sum(lane == "xpu" for lane in lanes.values()) == 3
+    assert sum(lane == "cpu" for lane in lanes.values()) == 2
+    assert summary.accelerator_eligible_jobs == 10
+    assert summary.cpu_only_jobs == 0
+
+
+def test_weighted_lane_plan_keeps_cpu_only_algorithms_on_cpu():
+    from calo_rpd_studio.compute.resource_scheduler import build_weighted_lane_plan
+
+    plan = [
+        PlannedItem(0, 0, "CALO", None),
+        PlannedItem(1, 0, "TLBO", None),
+        PlannedItem(2, 0, "PSO", None),
+        PlannedItem(3, 1, "CALO", None),
+    ]
+    lanes, summary = build_weighted_lane_plan(
+        plan,
+        "comparison",
+        cuda_available=True,
+        xpu_available=True,
+        cuda_share=50,
+        xpu_share=30,
+        cpu_share=20,
+    )
+    assert lanes[1] == "cpu"
+    assert lanes[2] == "cpu"
+    assert summary.cpu_only_jobs == 2
+    assert summary.total_cpu_jobs >= 2
+
+
+def test_weighted_lane_plan_redistributes_when_xpu_is_unavailable():
+    from calo_rpd_studio.compute.resource_scheduler import build_weighted_lane_plan
+
+    plan = [PlannedItem(i, i, "CALO", None) for i in range(10)]
+    lanes, summary = build_weighted_lane_plan(
+        plan,
+        "comparison",
+        cuda_available=True,
+        xpu_available=False,
+        cuda_share=50,
+        xpu_share=30,
+        cpu_share=20,
+    )
+    assert summary.xpu_jobs == 0
+    assert sum(lane == "cuda" for lane in lanes.values()) == 7
+    assert sum(lane == "cpu" for lane in lanes.values()) == 3

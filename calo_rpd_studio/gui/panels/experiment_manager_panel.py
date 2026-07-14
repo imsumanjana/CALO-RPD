@@ -1,6 +1,7 @@
 """Experiment configuration, fairness audit, queue status, and execution."""
 from __future__ import annotations
 
+from copy import deepcopy
 import os
 
 import psutil
@@ -27,9 +28,9 @@ from PyQt6.QtWidgets import (
     QWidget,
 )
 
-from calo_rpd_studio.compute.resource_scheduler import ResourceMonitor
+from calo_rpd_studio.compute.resource_scheduler import ResourceMonitor, build_weighted_lane_plan
 from calo_rpd_studio.experiments.evaluation_budget import BudgetPolicy
-from calo_rpd_studio.experiments.execution_plan import ABLATION_MODE, COMPARISON_MODE, labels_for_mode, planned_item_count
+from calo_rpd_studio.experiments.execution_plan import ABLATION_MODE, COMPARISON_MODE, build_execution_plan, labels_for_mode, planned_item_count
 from calo_rpd_studio.experiments.fairness_validator import validate_fairness
 from calo_rpd_studio.gui.widgets.section_card import SectionCard
 from calo_rpd_studio.gui.widgets.workspace_page import WorkspacePage
@@ -111,6 +112,7 @@ class ExperimentManagerPanel(WorkspacePage):
             "Maximum number of independent optimizer processes admitted at the same time."
         )
         self.execution_backend = QComboBox()
+        self.execution_backend.addItem("Weighted split — CUDA 50% / XPU 30% / CPU 20%", "weighted_split")
         self.execution_backend.addItem("Adaptive hybrid CPU + GPU", "adaptive_hybrid")
         self.execution_backend.addItem("GPU preferred with CPU fallback", "gpu_preferred")
         self.execution_backend.addItem("CPU only", "cpu_only")
@@ -136,6 +138,15 @@ class ExperimentManagerPanel(WorkspacePage):
         self.system_memory_limit = QSpinBox()
         self.system_memory_limit.setRange(20, 100)
         self.system_memory_limit.setSuffix(" %")
+        self.cuda_share = QSpinBox()
+        self.cuda_share.setRange(0, 100)
+        self.cuda_share.setSuffix(" %")
+        self.xpu_share = QSpinBox()
+        self.xpu_share.setRange(0, 100)
+        self.xpu_share.setSuffix(" %")
+        self.cpu_share = QSpinBox()
+        self.cpu_share.setRange(0, 100)
+        self.cpu_share.setSuffix(" %")
         self.seed = QSpinBox()
         self.seed.setRange(0, 2_147_483_647)
         self.output = QLineEdit()
@@ -177,6 +188,9 @@ class ExperimentManagerPanel(WorkspacePage):
             ("Max XPU CALO jobs", self.xpu_jobs),
             ("CPU utilization target", self.cpu_target),
             ("System RAM safety limit", self.system_memory_limit),
+            ("CUDA task share", self.cuda_share),
+            ("XPU task share", self.xpu_share),
+            ("CPU task share", self.cpu_share),
         ]
         for index, (label, widget) in enumerate(fields):
             widget.setMinimumHeight(32)
@@ -268,10 +282,10 @@ class ExperimentManagerPanel(WorkspacePage):
             "Run queue",
             "The exact algorithm/run jobs for the active study are listed here.",
         )
-        self.queue = QTableWidget(0, 3)
+        self.queue = QTableWidget(0, 4)
         self.queue.setMinimumHeight(280)
         self.queue.setHorizontalHeaderLabels(
-            ["Run", "Algorithm / CALO variant", "Status"]
+            ["Run", "Algorithm / CALO variant", "Planned lane", "Status"]
         )
         self.queue.setAlternatingRowColors(True)
         self.queue.verticalHeader().setVisible(False)
@@ -287,6 +301,10 @@ class ExperimentManagerPanel(WorkspacePage):
             2,
             QHeaderView.ResizeMode.ResizeToContents,
         )
+        self.queue.horizontalHeader().setSectionResizeMode(
+            3,
+            QHeaderView.ResizeMode.ResizeToContents,
+        )
         self.queue_card.layout_root.addWidget(self.queue)
         self.body_layout.addWidget(self.queue_card)
         self.body_layout.addStretch(1)
@@ -300,11 +318,12 @@ class ExperimentManagerPanel(WorkspacePage):
         manager.failed.connect(self.on_failed)
         manager.busy.connect(self.on_busy)
         self.policy.currentIndexChanged.connect(self._controls)
+        self.execution_backend.currentIndexChanged.connect(self._controls)
         for widget in (
             self.runs, self.population, self.policy, self.budget, self.wall, self.maxit,
             self.workers, self.seed, self.execution_backend, self.gpu_target, self.cpu_target,
             self.gpu_memory_limit, self.gpu_jobs, self.xpu_target, self.xpu_memory_limit,
-            self.xpu_jobs, self.system_memory_limit,
+            self.xpu_jobs, self.system_memory_limit, self.cuda_share, self.xpu_share, self.cpu_share,
         ):
             if hasattr(widget, "valueChanged"):
                 widget.valueChanged.connect(self._invalidate_fairness)
@@ -359,14 +378,39 @@ class ExperimentManagerPanel(WorkspacePage):
         selected_count = len(self.state.config.algorithms)
         comparison_jobs = runs * selected_count
         ablation_jobs = runs * len(labels_for_mode(self.state.config, ABLATION_MODE))
-        self.plan_summary.setText(
+        summary_text = (
             f"Planned primary comparison: {selected_count} selected algorithms × {runs} runs = {comparison_jobs} jobs. "
             f"CALO ablation study: {len(labels_for_mode(self.state.config, ABLATION_MODE))} fixed variants × {runs} runs = {ablation_jobs} jobs."
         )
+        if str(self.execution_backend.currentData() or "") == "weighted_split":
+            try:
+                temp = deepcopy(self.state.config)
+                temp.runs = runs
+                snapshot = self.resource_monitor.sample()
+                _lanes, allocation = build_weighted_lane_plan(
+                    build_execution_plan(temp, COMPARISON_MODE), COMPARISON_MODE,
+                    cuda_available=bool(snapshot.by_backend("cuda")),
+                    xpu_available=bool(snapshot.by_backend("xpu")),
+                    cuda_share=self.cuda_share.value(), xpu_share=self.xpu_share.value(), cpu_share=self.cpu_share.value(),
+                )
+                summary_text += (
+                    f" Current attainable primary allocation: {allocation.effective_text}; only "
+                    f"{allocation.accelerator_eligible_jobs}/{allocation.total_jobs} jobs contain accelerator-compatible CALO policy inference."
+                )
+            except Exception:
+                pass
+        self.plan_summary.setText(summary_text)
         workers = int(self.workers.value())
         backend = str(self.execution_backend.currentData() or "adaptive_hybrid")
         if backend == "cpu_only":
             scheduler_text = "CPU-only scheduling is selected."
+        elif backend == "weighted_split":
+            share_total = self.cuda_share.value() + self.xpu_share.value() + self.cpu_share.value()
+            scheduler_text = (
+                f"Weighted admission pre-assigns accelerator-compatible CALO jobs as CUDA {self.cuda_share.value()}%, "
+                f"XPU {self.xpu_share.value()}%, and CPU {self.cpu_share.value()}% (current total {share_total}%). "
+                "CPU-only algorithms remain on CPU; thresholds are retained as safety gates and jobs are never migrated mid-run."
+            )
         else:
             scheduler_text = (
                 f"Accelerator-first admission uses NVIDIA CUDA first below {self.gpu_target.value()}% compute and "
@@ -416,6 +460,9 @@ class ExperimentManagerPanel(WorkspacePage):
         self.xpu_memory_limit.setValue(config.xpu_memory_limit)
         self.xpu_jobs.setValue(config.xpu_parallel_jobs)
         self.system_memory_limit.setValue(config.system_memory_limit)
+        self.cuda_share.setValue(getattr(config, "cuda_task_share", 50))
+        self.xpu_share.setValue(getattr(config, "xpu_task_share", 30))
+        self.cpu_share.setValue(getattr(config, "cpu_task_share", 20))
         self.seed.setValue(config.master_seed)
         self.output.setText(config.output_directory)
         self.selected.setText(f"{len(config.algorithms)} selected: " + ", ".join(config.algorithms))
@@ -427,6 +474,9 @@ class ExperimentManagerPanel(WorkspacePage):
         self.budget.setEnabled(policy is not BudgetPolicy.EQUAL_WALL_CLOCK)
         self.wall.setEnabled(policy is BudgetPolicy.EQUAL_WALL_CLOCK)
         self.maxit.setEnabled(policy is BudgetPolicy.ALGORITHM_NATIVE)
+        weighted = str(self.execution_backend.currentData() or "") == "weighted_split"
+        for widget in (self.cuda_share, self.xpu_share, self.cpu_share):
+            widget.setEnabled(weighted)
 
     def apply(self) -> None:
         config = self.state.config
@@ -450,6 +500,9 @@ class ExperimentManagerPanel(WorkspacePage):
         config.xpu_memory_limit = self.xpu_memory_limit.value()
         config.xpu_parallel_jobs = self.xpu_jobs.value()
         config.system_memory_limit = self.system_memory_limit.value()
+        config.cuda_task_share = self.cuda_share.value()
+        config.xpu_task_share = self.xpu_share.value()
+        config.cpu_task_share = self.cpu_share.value()
         config.master_seed = self.seed.value()
         config.output_directory = self.output.text().strip() or "results_data"
         config.validate()
@@ -488,6 +541,20 @@ class ExperimentManagerPanel(WorkspacePage):
             f"PRIMARY COMPARISON PLAN: {len(self.state.config.algorithms)} selected algorithms × {self.state.config.runs} runs = {planned_item_count(self.state.config, COMPARISON_MODE)} jobs.",
             f"CALO ABLATION PLAN: {len(labels_for_mode(self.state.config, ABLATION_MODE))} fixed variants × {self.state.config.runs} runs = {planned_item_count(self.state.config, ABLATION_MODE)} jobs; this study intentionally ignores the primary algorithm checkbox selection.",
         ]
+        if self.state.config.execution_backend == "weighted_split":
+            snapshot = self.resource_monitor.sample()
+            _lanes, allocation = build_weighted_lane_plan(
+                build_execution_plan(self.state.config, COMPARISON_MODE), COMPARISON_MODE,
+                cuda_available=bool(snapshot.by_backend("cuda")),
+                xpu_available=bool(snapshot.by_backend("xpu")),
+                cuda_share=self.state.config.cuda_task_share,
+                xpu_share=self.state.config.xpu_task_share,
+                cpu_share=self.state.config.cpu_task_share,
+            )
+            lines.append(f"WEIGHTED DEVICE PLAN: requested {allocation.requested_text}; attainable total-job assignment {allocation.effective_text}.")
+            lines.append(
+                f"NOTICE: {allocation.cpu_only_jobs} jobs are CPU-only implementations. A scheduler cannot make them consume GPU compute without a GPU-native power-flow evaluator and GPU-native optimizer implementation."
+            )
         lines.extend(f"ERROR: {message}" for message in report.errors)
         lines.extend(f"NOTICE: {message}" for message in report.warnings)
         self.audit.setPlainText("\n".join(lines))
@@ -504,17 +571,26 @@ class ExperimentManagerPanel(WorkspacePage):
             task.fail("Fairness audit failed")
         return self.fairness_passed
 
-    def _populate_queue(self, labels: list[str]) -> None:
-        rows = [
-            (run_index, label)
-            for run_index in range(self.state.config.runs)
-            for label in labels
-        ]
-        self.queue.setRowCount(len(rows))
-        for row, (run_index, label) in enumerate(rows):
-            self.queue.setItem(row, 0, QTableWidgetItem(str(run_index + 1)))
-            self.queue.setItem(row, 1, QTableWidgetItem(label))
-            self.queue.setItem(row, 2, QTableWidgetItem("Queued"))
+    def _populate_queue(self, labels: list[str], mode: str) -> None:
+        plan = build_execution_plan(self.state.config, mode)
+        lane_by_job = {item.job_index: "CPU" if self.state.config.execution_backend == "cpu_only" else "Dynamic" for item in plan}
+        if self.state.config.execution_backend == "weighted_split":
+            snapshot = self.resource_monitor.sample()
+            weighted, _summary = build_weighted_lane_plan(
+                plan, mode,
+                cuda_available=bool(snapshot.by_backend("cuda")),
+                xpu_available=bool(snapshot.by_backend("xpu")),
+                cuda_share=self.state.config.cuda_task_share,
+                xpu_share=self.state.config.xpu_task_share,
+                cpu_share=self.state.config.cpu_task_share,
+            )
+            lane_by_job = {job: lane.upper() for job, lane in weighted.items()}
+        self.queue.setRowCount(len(plan))
+        for row, item in enumerate(plan):
+            self.queue.setItem(row, 0, QTableWidgetItem(str(item.run_index + 1)))
+            self.queue.setItem(row, 1, QTableWidgetItem(item.label))
+            self.queue.setItem(row, 2, QTableWidgetItem(lane_by_job.get(item.job_index, "Dynamic")))
+            self.queue.setItem(row, 3, QTableWidgetItem("Queued"))
 
     def _manager_available(self) -> bool:
         if not self.manager.running:
@@ -537,7 +613,7 @@ class ExperimentManagerPanel(WorkspacePage):
             )
             return
         labels = list(labels_for_mode(self.state.config, COMPARISON_MODE))
-        self._populate_queue(labels)
+        self._populate_queue(labels, COMPARISON_MODE)
         self.expected_runs = self.state.config.runs * len(labels)
         self.completed_runs = 0
         self.failed_runs = 0
@@ -570,7 +646,7 @@ class ExperimentManagerPanel(WorkspacePage):
         if answer != QMessageBox.StandardButton.Yes:
             return
         labels = list(labels_for_mode(self.state.config, ABLATION_MODE))
-        self._populate_queue(labels)
+        self._populate_queue(labels, ABLATION_MODE)
         self.expected_runs = self.state.config.runs * len(labels)
         self.completed_runs = 0
         self.failed_runs = 0
@@ -592,7 +668,7 @@ class ExperimentManagerPanel(WorkspacePage):
         for row in range(self.queue.rowCount()):
             run_item = self.queue.item(row, 0)
             algorithm_item = self.queue.item(row, 1)
-            status_item = self.queue.item(row, 2)
+            status_item = self.queue.item(row, 3)
             if (
                 run_item is not None
                 and algorithm_item is not None
@@ -644,7 +720,7 @@ class ExperimentManagerPanel(WorkspacePage):
     def cancel_requested(self) -> None:
         self.state.task_status.cancel()
         for row in range(self.queue.rowCount()):
-            item = self.queue.item(row, 2)
+            item = self.queue.item(row, 3)
             if item is not None and item.text() == "Queued":
                 item.setText("Cancelled")
         self.status.setText(

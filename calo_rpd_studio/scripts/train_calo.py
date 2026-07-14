@@ -1,9 +1,13 @@
-"""Command-line CALO Core v2 PPO training entry point."""
+"""Command-line CALO Core v2 policy-training entry point."""
 from __future__ import annotations
 
 import argparse
 from pathlib import Path
 
+from calo_rpd_studio.algorithms.calo.heterogeneous_training import (
+    HeterogeneousTrainingConfig,
+    train_policy_heterogeneous,
+)
 from calo_rpd_studio.algorithms.calo.training import (
     TrainingConfig,
     available_training_devices,
@@ -14,7 +18,7 @@ from calo_rpd_studio.algorithms.calo.training import (
 def main() -> int:
     parser = argparse.ArgumentParser(
         description=(
-            "Train the CALO Core v2 hierarchical policy on the documented constrained "
+            "Train a CALO Core v2 candidate policy on the documented constrained "
             "mixed-variable curriculum."
         )
     )
@@ -26,17 +30,25 @@ def main() -> int:
         "--rollout-workers",
         type=int,
         default=0,
-        help="Parallel CPU rollout workers; 0 selects a conservative automatic value.",
+        help="Parallel CPU actor workers; 0 selects a conservative automatic value.",
     )
     parser.add_argument(
         "--device",
         choices=["auto", "cpu", "cuda", "xpu", "xpu_sidecar"],
         default="auto",
         help=(
-            "Device used for centralized PPO updates. Auto prefers CUDA, then direct XPU, "
-            "then the verified secondary XPU runtime, then CPU."
+            "Central PPO learner device. Weighted mode requires a device in the primary runtime; "
+            "the secondary XPU runtime remains available as an actor lane."
         ),
     )
+    parser.add_argument(
+        "--legacy-cpu-rollouts",
+        action="store_true",
+        help="Disable weighted CUDA/XPU/CPU actors and use the legacy all-CPU rollout collector.",
+    )
+    parser.add_argument("--cuda-share", type=int, default=50)
+    parser.add_argument("--xpu-share", type=int, default=30)
+    parser.add_argument("--cpu-share", type=int, default=20)
     parser.add_argument(
         "--development-case",
         action="append",
@@ -57,7 +69,7 @@ def main() -> int:
     parser.add_argument(
         "--historical-repository",
         default="",
-        help="Optional v1.3 historical experience repository for offline policy pretraining.",
+        help="Optional historical experience repository for offline policy pretraining.",
     )
     parser.add_argument(
         "--historical-pretraining-epochs",
@@ -68,7 +80,7 @@ def main() -> int:
     parser.add_argument(
         "--use-historical-trajectories",
         action="store_true",
-        help="Use eligible CALO trajectories from the historical repository for offline pretraining.",
+        help="Use eligible CALO trajectories for offline pretraining.",
     )
     parser.add_argument(
         "--output",
@@ -76,16 +88,21 @@ def main() -> int:
             Path(__file__).resolve().parents[1]
             / "data"
             / "trained_models"
-            / "calo_policy_v2.pt"
+            / "calo_policy_v2_candidate.pt"
         ),
     )
     args = parser.parse_args()
-    selected_device = args.device
+
     device_info = available_training_devices()
-    if selected_device == "auto" and device_info["recommended_device"] == "xpu_sidecar":
+    selected_device = args.device
+    if (
+        args.legacy_cpu_rollouts
+        and selected_device == "auto"
+        and device_info["recommended_device"] == "xpu_sidecar"
+    ):
         selected_device = "xpu_sidecar"
 
-    config = TrainingConfig(
+    common = dict(
         epochs=args.epochs,
         episodes_per_epoch=args.episodes,
         horizon=args.horizon,
@@ -99,6 +116,21 @@ def main() -> int:
         historical_pretraining_epochs=int(args.historical_pretraining_epochs),
     )
 
+    if not args.legacy_cpu_rollouts:
+        config = HeterogeneousTrainingConfig(
+            **common,
+            heterogeneous_rollouts=True,
+            cuda_rollout_share=int(args.cuda_share),
+            xpu_rollout_share=int(args.xpu_share),
+            cpu_rollout_share=int(args.cpu_share),
+        )
+        path, history = train_policy_heterogeneous(config, args.output)
+        print(f"Saved heterogeneous CALO candidate policy: {Path(path).resolve()}")
+        print(f"Final training record: {history[-1] if history else {}}")
+        print("Validate and re-freeze this candidate before using it in a final TEST campaign.")
+        return 0
+
+    config = TrainingConfig(**common)
     if selected_device == "xpu_sidecar":
         from calo_rpd_studio.compute.xpu_sidecar import train_policy_in_xpu_sidecar
 
