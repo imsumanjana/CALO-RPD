@@ -1,5 +1,17 @@
 # Changelog
 
+## 3.0.0
+
+- Added a common PyTorch FP64 scientific backend for CPU, NVIDIA CUDA, and supported Intel XPU execution.
+- Added batched AC Newton–Raphson power flow, branch-flow evaluation, constraint decomposition, robust aggregation, and Kessel–Glavitsch L-index on the selected torch device.
+- Added exact torch mixed-variable decoding for continuous generator voltages and discrete transformer/shunt controls.
+- Added canonical tensor kernels for all nineteen non-CALO primary algorithms; CALO uses the same physical evaluator plus its cognitive policy.
+- Made the complete primary comparison and ablation plan accelerator-compatible under the torch backend.
+- Added reproducible CPU/accelerator parity auditing and an optional mandatory parity gate before experiments.
+- Added v3 backend, dtype, device, batch-size, and parity information to GUI controls, fairness reporting, and run provenance.
+- Added a new v3 freeze manifest covering the accelerator evaluator and torch baseline suite.
+- Retained the legacy CPU reference backend for independent scientific auditing.
+
 ## 2.0.3
 
 - Added automatic visible-data axis fitting for Live Optimization so stale or excessively broad limits cannot hide convergence differences.

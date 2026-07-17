@@ -96,7 +96,7 @@ def collect_provenance() -> dict:
         except md.PackageNotFoundError:
             versions[package] = "not-installed"
     return {
-        "software_version": "2.0.3",
+        "software_version": "3.0.0",
         "git_commit": _git_commit(),
         "python_version": platform.python_version(),
         "platform": platform.platform(),

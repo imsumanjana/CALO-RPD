@@ -53,12 +53,19 @@ def _configure_child_numeric_threads() -> None:
 
 def _config_for_item_device(config, mode: str, item: PlannedItem, compute_device: str):
     local_config = deepcopy(config)
-    if item_uses_calo_ai(mode, item):
-        parameters = dict(local_config.algorithm_parameters)
-        calo_parameters = dict(parameters.get("CALO", {}))
-        calo_parameters["inference_device"] = str(compute_device)
-        parameters["CALO"] = calo_parameters
-        local_config.algorithm_parameters = parameters
+    local_config.runtime_compute_device = str(compute_device)
+    parameters = dict(local_config.algorithm_parameters)
+    # v3 routes every canonical optimizer through the common torch FP64 scientific backend when
+    # an accelerator lane is selected. CALO additionally places policy inference on that device.
+    for algorithm_name in tuple(getattr(local_config, "algorithms", ())) + ("CALO", "TLBO"):
+        values = dict(parameters.get(algorithm_name, {}))
+        values["execution_device"] = str(compute_device)
+        if str(getattr(local_config, "scientific_backend", "cpu_reference")) == "torch_fp64":
+            values["optimizer_backend"] = "torch"
+        if algorithm_name == "CALO":
+            values["inference_device"] = str(compute_device)
+        parameters[algorithm_name] = values
+    local_config.algorithm_parameters = parameters
     return local_config
 
 
@@ -353,10 +360,10 @@ class ExperimentWorker(QThread):
     def _run_parallel_weighted(self, experiment_id: str, store: ResultStore, plan, seeds) -> bool:
         """Run a deterministic weighted CUDA/XPU/CPU lane plan.
 
-        The requested 50/30/20 percentages are applied only to accelerator-compatible CALO jobs.
-        Conventional algorithms and the AC power-flow evaluator are CPU implementations and are
-        therefore kept on the CPU lane.  Device thresholds remain safety gates, but they do not
-        dynamically rewrite the precomputed lane assignment.
+        Under the v3 PyTorch FP64 backend, the requested shares are applied to the complete
+        optimizer plan because all primary algorithms use accelerator-compatible evaluator and
+        optimizer kernels. Device thresholds remain safety gates, but they do not dynamically
+        rewrite the precomputed lane assignment. The legacy CPU-reference backend remains CPU-only.
         """
 
         total_items = max(1, len(plan))

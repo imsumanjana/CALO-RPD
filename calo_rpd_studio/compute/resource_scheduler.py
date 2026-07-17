@@ -1,8 +1,7 @@
 """Heterogeneous compute discovery and soft admission control.
 
 CALO-RPD Studio treats independent optimizer runs as schedulable jobs.  A job is assigned to a
-compute device before it starts and is never migrated mid-run.  Accelerator-capable CALO jobs are
-admitted in priority order:
+compute device before it starts and is never migrated mid-run.  Accelerator-compatible optimizer jobs are admitted in priority order:
 
     NVIDIA CUDA -> Intel XPU -> CPU
 
@@ -339,15 +338,17 @@ def configured_xpu_interpreter() -> str:
 
 
 def item_uses_calo_ai(mode: str, item) -> bool:
-    """Return whether a planned item can use accelerator policy inference."""
+    """Return whether a planned v3 item is accelerator-compatible.
+
+    The historical function name is retained for API compatibility.  In v3 every primary
+    algorithm and every ablation item can use the common torch FP64 power-flow/evaluator backend;
+    the nineteen baselines additionally have torch-native canonical population kernels.  CALO uses
+    the same accelerator evaluator plus its neural-policy inference path.
+    """
     if mode == "comparison":
-        return str(getattr(item, "label", "")) == "CALO"
+        return bool(str(getattr(item, "label", "")))
     if mode == "ablation":
-        spec = getattr(item, "ablation_spec", None)
-        if spec is None or str(getattr(spec, "algorithm", "")) != "CALO":
-            return False
-        parameters = dict(getattr(spec, "parameters", None) or {})
-        return bool(parameters.get("use_ai", True))
+        return getattr(item, "ablation_spec", None) is not None
     return False
 
 
@@ -431,9 +432,9 @@ def prioritized_accelerators(snapshot: ResourceSnapshot) -> tuple[DeviceSnapshot
 class WeightedAllocationSummary:
     """Static backend-share plan for one experiment.
 
-    Shares are applied to accelerator-compatible jobs. CPU-only algorithms are always assigned to
-    CPU and are reported separately so the GUI never implies that a CPU implementation is running
-    on a GPU merely because a scheduler quota exists.
+    Shares are applied to the complete v3 optimizer plan when the PyTorch FP64 scientific backend
+    is selected. The CPU-only count remains in the schema for legacy/reference-backend reporting;
+    under the v3 accelerator backend all twenty primary algorithms are accelerator-compatible.
     """
 
     total_jobs: int
@@ -495,10 +496,10 @@ def build_weighted_lane_plan(
 ) -> tuple[dict[int, str], WeightedAllocationSummary]:
     """Pre-assign experiment jobs to CUDA/XPU/CPU lanes.
 
-    Only jobs whose implementation has accelerator-capable CALO policy inference are eligible for
-    CUDA/XPU assignment. Conventional algorithms and the AC power-flow evaluator remain CPU code.
-    If an accelerator is unavailable, its requested share is redistributed over the remaining
-    available lanes rather than silently assigning an unusable backend.
+    With the v3 PyTorch FP64 scientific backend, all twenty primary optimizers and every CALO
+    ablation variant are eligible for CUDA/XPU assignment. If an accelerator is unavailable, its
+    requested share is redistributed over the remaining available lanes rather than silently
+    assigning an unusable backend. The legacy CPU-reference backend remains CPU-only by design.
     """
     items = list(plan)
     eligible = [item for item in items if item_uses_calo_ai(mode, item)]

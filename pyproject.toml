@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "calo-rpd-studio"
-version = "2.0.3"
+version = "3.0.0"
 description = "Cognitive Adaptive Learning Optimizer for robust reactive power dispatch"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -38,6 +38,7 @@ calo-rpd-benchmark = "calo_rpd_studio.scripts.run_benchmark:main"
 calo-rpd-final-benchmark = "calo_rpd_studio.scripts.run_final_benchmark:main"
 calo-rpd-train = "calo_rpd_studio.scripts.train_calo:main"
 calo-rpd-validate = "calo_rpd_studio.scripts.validate_cases:main"
+calo-rpd-parity = "calo_rpd_studio.scripts.validate_accelerator:main"
 calo-rpd-export = "calo_rpd_studio.scripts.export_publication_results:main"
 
 [tool.setuptools.packages.find]

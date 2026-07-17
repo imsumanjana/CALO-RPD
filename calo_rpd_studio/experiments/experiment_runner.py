@@ -6,6 +6,7 @@ from calo_rpd_studio.algorithms.base_optimizer import OptimizerConfig
 from calo_rpd_studio.algorithms.registry import SPECS,create_optimizer
 from calo_rpd_studio.algorithms.result import OptimizerResult
 from calo_rpd_studio.orpd.problem import ORPDProblem,ORPDProblemConfig
+from calo_rpd_studio.accelerated.torch_orpd import AcceleratedORPDProblem
 from calo_rpd_studio.power_system.case_loader import CaseLoader
 from calo_rpd_studio.robustness.scenario import Scenario
 from calo_rpd_studio.robustness.scenario_generator import ScenarioGeneratorConfig,generate_load_scenarios
@@ -30,10 +31,24 @@ def build_scenarios(config,seed):
     if s.mode=='generator_contingency':return n_minus_one_generator_scenarios(s.generator_outages)
     raise ValueError(f'Unsupported scenario mode: {s.mode}')
 def build_problem(config,scenario_seed):
-    return ORPDProblem(CaseLoader.load(config.case_name),ORPDProblemConfig(config.objective,config.variables,config.robust_objective),build_scenarios(config,scenario_seed))
+    case=CaseLoader.load(config.case_name)
+    problem_config=ORPDProblemConfig(config.objective,config.variables,config.robust_objective)
+    scenarios=build_scenarios(config,scenario_seed)
+    if str(getattr(config,'scientific_backend','cpu_reference'))=='torch_fp64':
+        return AcceleratedORPDProblem(
+            case,problem_config,scenarios,
+            device=str(getattr(config,'runtime_compute_device','cpu')),
+            dtype_name='float64',
+            batch_size=int(getattr(config,'tensor_batch_size',64)),
+        )
+    return ORPDProblem(case,problem_config,scenarios)
 def run_single(config,algorithm,run_index,seeds,progress_callback=None,cancel_callback=None):
     problem=build_problem(config,seeds.scenario_seed);defaults=dict(SPECS[algorithm].default_parameters);defaults.update(config.algorithm_parameters.get(algorithm,{}))
-    if algorithm=='CALO':defaults.setdefault('ai_inference_seed',seeds.ai_inference_seed)
+    defaults.setdefault('execution_device',str(getattr(config,'runtime_compute_device','cpu')))
+    if str(getattr(config,'scientific_backend','cpu_reference'))=='torch_fp64':defaults.setdefault('optimizer_backend','torch')
+    if algorithm=='CALO':
+        defaults.setdefault('ai_inference_seed',seeds.ai_inference_seed)
+        defaults.setdefault('inference_device',str(getattr(config,'runtime_compute_device','cpu')))
     started=time.perf_counter();policy=config.budget.policy
     if policy is BudgetPolicy.EQUAL_WALL_CLOCK:max_evaluations=2_000_000_000;max_iterations=2_000_000_000
     elif policy is BudgetPolicy.EQUAL_EVALUATIONS:max_evaluations=config.budget.max_evaluations;max_iterations=max(config.max_iterations,config.budget.max_evaluations)

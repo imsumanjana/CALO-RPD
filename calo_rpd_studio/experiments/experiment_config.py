@@ -58,6 +58,10 @@ class ExperimentConfig:
     xpu_task_share: int = 30
     cpu_task_share: int = 20
     strict_device_shares: bool = True
+    scientific_backend: str = "torch_fp64"
+    tensor_batch_size: int = 64
+    require_backend_parity: bool = True
+    runtime_compute_device: str = "cpu"
 
     def validate(self) -> None:
         from calo_rpd_studio.algorithms.registry import SPECS
@@ -75,6 +79,12 @@ class ExperimentConfig:
             raise ValueError("parallel_workers must be positive")
         if self.execution_backend not in {"weighted_split", "adaptive_hybrid", "cpu_only", "gpu_preferred"}:
             raise ValueError("Unsupported execution backend")
+        if self.scientific_backend not in {"torch_fp64", "cpu_reference"}:
+            raise ValueError("scientific_backend must be torch_fp64 or cpu_reference")
+        if self.scientific_backend == "cpu_reference" and self.execution_backend != "cpu_only":
+            raise ValueError("The cpu_reference scientific backend requires CPU-only scheduling")
+        if int(self.tensor_batch_size) <= 0:
+            raise ValueError("tensor_batch_size must be positive")
         if not 10 <= int(self.gpu_utilization_target) <= 100:
             raise ValueError("gpu_utilization_target must be between 10 and 100")
         if not 10 <= int(self.cpu_utilization_target) <= 100:
@@ -192,6 +202,10 @@ class ExperimentConfig:
             xpu_task_share=int(data.get("xpu_task_share", 30)),
             cpu_task_share=int(data.get("cpu_task_share", 20)),
             strict_device_shares=bool(data.get("strict_device_shares", True)),
+            scientific_backend=str(data.get("scientific_backend", "torch_fp64")),
+            tensor_batch_size=int(data.get("tensor_batch_size", 64)),
+            require_backend_parity=bool(data.get("require_backend_parity", True)),
+            runtime_compute_device=str(data.get("runtime_compute_device", "cpu")),
         )
 
     @classmethod

@@ -36,9 +36,9 @@ def test_gpu_capability_classification_covers_comparison_and_ablation():
         AblationSpec("CALO Core v2 without AI", "CALO", {"use_ai": False}),
     )
     assert item_uses_calo_ai("comparison", comparison)
-    assert not item_uses_calo_ai("comparison", tlbo)
+    assert item_uses_calo_ai("comparison", tlbo)
     assert item_uses_calo_ai("ablation", complete)
-    assert not item_uses_calo_ai("ablation", no_ai)
+    assert item_uses_calo_ai("ablation", no_ai)
 
 
 def _snapshot(cuda_utilization=40.0, ram=30.0):
@@ -120,14 +120,14 @@ def test_weighted_lane_plan_splits_accelerator_eligible_jobs_50_30_20():
     assert summary.cpu_only_jobs == 0
 
 
-def test_weighted_lane_plan_keeps_cpu_only_algorithms_on_cpu():
+def test_weighted_lane_plan_routes_every_v3_algorithm_to_accelerator_lanes():
     from calo_rpd_studio.compute.resource_scheduler import build_weighted_lane_plan
 
     plan = [
         PlannedItem(0, 0, "CALO", None),
         PlannedItem(1, 0, "TLBO", None),
         PlannedItem(2, 0, "PSO", None),
-        PlannedItem(3, 1, "CALO", None),
+        PlannedItem(3, 1, "QODE", None),
     ]
     lanes, summary = build_weighted_lane_plan(
         plan,
@@ -138,10 +138,29 @@ def test_weighted_lane_plan_keeps_cpu_only_algorithms_on_cpu():
         xpu_share=30,
         cpu_share=20,
     )
-    assert lanes[1] == "cpu"
-    assert lanes[2] == "cpu"
-    assert summary.cpu_only_jobs == 2
-    assert summary.total_cpu_jobs >= 2
+    assert summary.accelerator_eligible_jobs == 4
+    assert summary.cpu_only_jobs == 0
+    assert all(lane in {"cuda", "xpu", "cpu"} for lane in lanes.values())
+
+
+def test_weighted_lane_plan_assigns_all_jobs_to_cuda_when_requested():
+    from calo_rpd_studio.compute.resource_scheduler import build_weighted_lane_plan
+
+    plan = [PlannedItem(i, i // 8, name, None) for i, name in enumerate((["CALO", "TLBO", "PSO", "CLPSO", "MTLA-DE", "QODE", "GWO", "WOA"] * 50))]
+    lanes, summary = build_weighted_lane_plan(
+        plan,
+        "comparison",
+        cuda_available=True,
+        xpu_available=True,
+        cuda_share=100,
+        xpu_share=0,
+        cpu_share=0,
+    )
+    assert len(plan) == 400
+    assert summary.cuda_jobs == 400
+    assert summary.xpu_jobs == 0
+    assert summary.total_cpu_jobs == 0
+    assert set(lanes.values()) == {"cuda"}
 
 
 def test_weighted_lane_plan_redistributes_when_xpu_is_unavailable():

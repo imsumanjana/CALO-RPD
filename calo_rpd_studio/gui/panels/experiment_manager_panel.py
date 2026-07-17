@@ -2,12 +2,14 @@
 from __future__ import annotations
 
 from copy import deepcopy
+import json
 import os
 
 import psutil
 
 from PyQt6.QtCore import QTimer, Qt
 from PyQt6.QtWidgets import (
+    QCheckBox,
     QComboBox,
     QDoubleSpinBox,
     QFileDialog,
@@ -29,6 +31,7 @@ from PyQt6.QtWidgets import (
 )
 
 from calo_rpd_studio.compute.resource_scheduler import ResourceMonitor, build_weighted_lane_plan
+from calo_rpd_studio.accelerated.parity_audit import run_configuration_parity_audit
 from calo_rpd_studio.experiments.evaluation_budget import BudgetPolicy
 from calo_rpd_studio.experiments.execution_plan import ABLATION_MODE, COMPARISON_MODE, build_execution_plan, labels_for_mode, planned_item_count
 from calo_rpd_studio.experiments.fairness_validator import validate_fairness
@@ -52,6 +55,8 @@ class ExperimentManagerPanel(WorkspacePage):
         self.failed_runs = 0
         self.expected_runs = 0
         self.fairness_passed = False
+        self.backend_parity_passed = False
+        self.backend_parity_report = None
 
         # This workspace is genuinely taller than a typical laptop viewport.  Keep the
         # page header fixed and scroll only the workflow body so controls retain their
@@ -116,6 +121,18 @@ class ExperimentManagerPanel(WorkspacePage):
         self.execution_backend.addItem("Adaptive hybrid CPU + GPU", "adaptive_hybrid")
         self.execution_backend.addItem("GPU preferred with CPU fallback", "gpu_preferred")
         self.execution_backend.addItem("CPU only", "cpu_only")
+        self.scientific_backend = QComboBox()
+        self.scientific_backend.addItem(
+            "PyTorch FP64 batched AC Newton-Raphson (CPU/CUDA/XPU)", "torch_fp64"
+        )
+        self.scientific_backend.addItem("Trusted legacy CPU reference", "cpu_reference")
+        self.tensor_batch_size = QSpinBox()
+        self.tensor_batch_size.setRange(1, 4096)
+        self.tensor_batch_size.setToolTip(
+            "Candidates per accelerator power-flow batch. Larger values improve throughput but consume more device memory."
+        )
+        self.parity_gate = QCheckBox("Require CPU/accelerator numerical parity before final benchmark")
+        self.parity_gate.setChecked(True)
         self.gpu_target = QSpinBox()
         self.gpu_target.setRange(10, 100)
         self.gpu_target.setSuffix(" %")
@@ -180,12 +197,15 @@ class ExperimentManagerPanel(WorkspacePage):
             ("Parallel workers", self.workers),
             ("Master seed", self.seed),
             ("Compute scheduler", self.execution_backend),
+            ("Scientific evaluator", self.scientific_backend),
+            ("Accelerator batch size", self.tensor_batch_size),
+            ("Backend parity gate", self.parity_gate),
             ("NVIDIA CUDA target", self.gpu_target),
             ("CUDA VRAM limit", self.gpu_memory_limit),
-            ("Max CUDA CALO jobs", self.gpu_jobs),
+            ("Max CUDA jobs", self.gpu_jobs),
             ("Intel XPU target", self.xpu_target),
             ("XPU memory limit", self.xpu_memory_limit),
-            ("Max XPU CALO jobs", self.xpu_jobs),
+            ("Max XPU jobs", self.xpu_jobs),
             ("CPU utilization target", self.cpu_target),
             ("System RAM safety limit", self.system_memory_limit),
             ("CUDA task share", self.cuda_share),
@@ -233,10 +253,14 @@ class ExperimentManagerPanel(WorkspacePage):
         self.audit_button.setObjectName("PrimaryButton")
         self.audit_button.setMinimumHeight(36)
         self.audit_button.clicked.connect(self.run_fairness_audit)
+        self.parity_button = QPushButton("Run CPU/accelerator parity audit")
+        self.parity_button.setMinimumHeight(36)
+        self.parity_button.clicked.connect(self.run_backend_parity_audit)
         self.audit_state = QLabel("Required before execution")
         self.audit_state.setObjectName("InfoText")
         self.audit_state.setWordWrap(True)
         audit_actions.addWidget(self.audit_button)
+        audit_actions.addWidget(self.parity_button)
         audit_actions.addWidget(self.audit_state, 1)
         self.fairness_card.layout_root.addLayout(audit_actions)
         self.audit = QPlainTextEdit()
@@ -324,6 +348,7 @@ class ExperimentManagerPanel(WorkspacePage):
             self.workers, self.seed, self.execution_backend, self.gpu_target, self.cpu_target,
             self.gpu_memory_limit, self.gpu_jobs, self.xpu_target, self.xpu_memory_limit,
             self.xpu_jobs, self.system_memory_limit, self.cuda_share, self.xpu_share, self.cpu_share,
+            self.scientific_backend, self.tensor_batch_size,
         ):
             if hasattr(widget, "valueChanged"):
                 widget.valueChanged.connect(self._invalidate_fairness)
@@ -331,6 +356,7 @@ class ExperimentManagerPanel(WorkspacePage):
             if hasattr(widget, "currentIndexChanged"):
                 widget.currentIndexChanged.connect(self._invalidate_fairness)
                 widget.currentIndexChanged.connect(self._update_plan_summary)
+        self.parity_gate.stateChanged.connect(self._invalidate_fairness)
         self.output.textChanged.connect(self._invalidate_fairness)
         state.config_changed.connect(lambda _: self.refresh())
         self.refresh()
@@ -394,8 +420,8 @@ class ExperimentManagerPanel(WorkspacePage):
                     cuda_share=self.cuda_share.value(), xpu_share=self.xpu_share.value(), cpu_share=self.cpu_share.value(),
                 )
                 summary_text += (
-                    f" Current attainable primary allocation: {allocation.effective_text}; only "
-                    f"{allocation.accelerator_eligible_jobs}/{allocation.total_jobs} jobs contain accelerator-compatible CALO policy inference."
+                    f" Current attainable primary allocation: {allocation.effective_text}; "
+                    f"{allocation.accelerator_eligible_jobs}/{allocation.total_jobs} jobs are accelerator-compatible under the v3 torch FP64 backend."
                 )
             except Exception:
                 pass
@@ -407,9 +433,9 @@ class ExperimentManagerPanel(WorkspacePage):
         elif backend == "weighted_split":
             share_total = self.cuda_share.value() + self.xpu_share.value() + self.cpu_share.value()
             scheduler_text = (
-                f"Weighted admission pre-assigns accelerator-compatible CALO jobs as CUDA {self.cuda_share.value()}%, "
+                f"Weighted admission pre-assigns all v3 accelerator-compatible optimizer jobs as CUDA {self.cuda_share.value()}%, "
                 f"XPU {self.xpu_share.value()}%, and CPU {self.cpu_share.value()}% (current total {share_total}%). "
-                "CPU-only algorithms remain on CPU; thresholds are retained as safety gates and jobs are never migrated mid-run."
+                "Every primary algorithm uses the common torch FP64 evaluator; jobs are never migrated mid-run."
             )
         else:
             scheduler_text = (
@@ -425,8 +451,8 @@ class ExperimentManagerPanel(WorkspacePage):
         )
         self.execution_note.setText(
             scheduler_text
-            + " Accelerator assignment applies only to compatible CALO policy inference; AC power flow, constraints, and conventional baseline optimizers remain CPU workloads. "
-            + "When XPU utilization telemetry is unavailable, the XPU memory threshold and explicit job cap are used instead of inventing a utilization value."
+            + " Under the v3 torch FP64 backend, all primary algorithms use accelerator-native population kernels or the CALO policy path plus batched AC power flow, constraints, mixed-variable decoding, robust aggregation, and L-index evaluation. "
+            + "CPU still performs process orchestration, case preparation, persistence, and independent reference validation. When XPU utilization telemetry is unavailable, the XPU memory threshold and explicit job cap are used instead of inventing a utilization value."
             + timing_note
         )
         self._refresh_resource_status()
@@ -435,6 +461,8 @@ class ExperimentManagerPanel(WorkspacePage):
         if self.manager.running:
             return
         self.fairness_passed = False
+        self.backend_parity_passed = False
+        self.backend_parity_report = None
         self.compare.setEnabled(False)
         self.calo.setEnabled(False)
         self.audit_state.setText("Configuration changed — audit required")
@@ -452,6 +480,10 @@ class ExperimentManagerPanel(WorkspacePage):
         self.workers.setValue(config.parallel_workers)
         backend_index = self.execution_backend.findData(config.execution_backend)
         self.execution_backend.setCurrentIndex(max(backend_index, 0))
+        scientific_index = self.scientific_backend.findData(getattr(config, "scientific_backend", "torch_fp64"))
+        self.scientific_backend.setCurrentIndex(max(scientific_index, 0))
+        self.tensor_batch_size.setValue(int(getattr(config, "tensor_batch_size", 64)))
+        self.parity_gate.setChecked(bool(getattr(config, "require_backend_parity", True)))
         self.gpu_target.setValue(config.gpu_utilization_target)
         self.cpu_target.setValue(config.cpu_utilization_target)
         self.gpu_memory_limit.setValue(config.gpu_memory_limit)
@@ -492,6 +524,9 @@ class ExperimentManagerPanel(WorkspacePage):
         config.max_iterations = self.maxit.value()
         config.parallel_workers = self.workers.value()
         config.execution_backend = str(self.execution_backend.currentData())
+        config.scientific_backend = str(self.scientific_backend.currentData())
+        config.tensor_batch_size = self.tensor_batch_size.value()
+        config.require_backend_parity = self.parity_gate.isChecked()
         config.gpu_utilization_target = self.gpu_target.value()
         config.cpu_utilization_target = self.cpu_target.value()
         config.gpu_memory_limit = self.gpu_memory_limit.value()
@@ -517,6 +552,44 @@ class ExperimentManagerPanel(WorkspacePage):
         if path:
             self.output.setText(path)
 
+
+    def _selected_parity_device(self) -> str:
+        snapshot = self.resource_monitor.sample()
+        accelerators = (*snapshot.by_backend("cuda"), *snapshot.by_backend("xpu"))
+        return accelerators[0].device_id if accelerators else "cpu"
+
+    def run_backend_parity_audit(self) -> bool:
+        if self.manager.running:
+            self.audit.setPlainText("Parity auditing is unavailable while an experiment is running.")
+            return False
+        try:
+            self.apply()
+            device = self._selected_parity_device()
+            report = run_configuration_parity_audit(self.state.config, device=device, candidates=5)
+            self.backend_parity_report = report
+            self.backend_parity_passed = bool(report.get("passed"))
+            status = "PASS" if self.backend_parity_passed else "FAIL"
+            self.audit.setPlainText(
+                f"{status}: CPU/accelerator scientific parity audit.\n"
+                f"Device: {report.get('device')} — {report.get('device_name')}\n"
+                f"Case: {report.get('case')} · scenarios: {report.get('scenario_count')} · candidates: {report.get('candidate_count')}\n"
+                f"Maximum objective error: {report.get('max_objective_error'):.6g}\n"
+                f"Maximum violation error: {report.get('max_violation_error'):.6g}\n"
+                f"Maximum voltage error: {report.get('max_voltage_error'):.6g} p.u.\n"
+                f"Feasibility mismatches: {report.get('feasibility_mismatches')}\n\n"
+                + json.dumps(report.get("details", []), indent=2)
+            )
+            self.audit_state.setText(
+                "Backend parity passed — run fairness audit" if self.backend_parity_passed else "Backend parity failed"
+            )
+            return self.backend_parity_passed
+        except Exception as exc:
+            self.backend_parity_passed = False
+            self.backend_parity_report = None
+            self.audit.setPlainText(f"Backend parity audit failed to execute: {exc}")
+            self.audit_state.setText("Backend parity audit unavailable")
+            return False
+
     def run_fairness_audit(self) -> bool:
         task = self.state.task_status
         if task.busy:
@@ -525,6 +598,9 @@ class ExperimentManagerPanel(WorkspacePage):
         task.begin("Auditing experiment fairness", detail="Checking common comparison protocol")
         try:
             self.apply()
+            if self.state.config.require_backend_parity and not self.backend_parity_passed:
+                if not self.run_backend_parity_audit():
+                    raise RuntimeError("CPU/accelerator numerical parity gate did not pass")
             report = validate_fairness(self.state.config)
         except Exception as exc:
             self.fairness_passed = False
@@ -553,7 +629,15 @@ class ExperimentManagerPanel(WorkspacePage):
             )
             lines.append(f"WEIGHTED DEVICE PLAN: requested {allocation.requested_text}; attainable total-job assignment {allocation.effective_text}.")
             lines.append(
-                f"NOTICE: {allocation.cpu_only_jobs} jobs are CPU-only implementations. A scheduler cannot make them consume GPU compute without a GPU-native power-flow evaluator and GPU-native optimizer implementation."
+                f"ACCELERATOR CAPABILITY: {allocation.accelerator_eligible_jobs}/{allocation.total_jobs} jobs use the v3 torch FP64 scientific backend; {allocation.cpu_only_jobs} jobs are CPU-reference-only."
+            )
+        if self.backend_parity_report:
+            lines.append(
+                "BACKEND PARITY: "
+                + ("PASS" if self.backend_parity_passed else "FAIL")
+                + f" · max objective error {self.backend_parity_report.get('max_objective_error', float('nan')):.3g}"
+                + f" · max violation error {self.backend_parity_report.get('max_violation_error', float('nan')):.3g}"
+                + f" · max voltage error {self.backend_parity_report.get('max_voltage_error', float('nan')):.3g} p.u."
             )
         lines.extend(f"ERROR: {message}" for message in report.errors)
         lines.extend(f"NOTICE: {message}" for message in report.warnings)
@@ -658,6 +742,7 @@ class ExperimentManagerPanel(WorkspacePage):
         self.compare.setEnabled((not running) and self.fairness_passed)
         self.calo.setEnabled((not running) and self.fairness_passed)
         self.audit_button.setEnabled(not running)
+        self.parity_button.setEnabled(not running)
         self.cancel.setEnabled(running)
         if running:
             self.audit_state.setText("Locked while experiment is running")

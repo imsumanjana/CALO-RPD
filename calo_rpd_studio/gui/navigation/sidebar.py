@@ -94,7 +94,7 @@ class NavigationSidebar(QFrame):
         footer_layout.setSpacing(2)
         edition = QLabel("Scientific workspace")
         edition.setObjectName("SidebarFooterTitle")
-        version = QLabel("CALO-RPD Studio 2.0.3")
+        version = QLabel("CALO-RPD Studio 3.0.0")
         version.setObjectName("SidebarFooterText")
         footer_layout.addWidget(edition)
         footer_layout.addWidget(version)

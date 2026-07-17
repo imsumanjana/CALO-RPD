@@ -39,7 +39,16 @@ def validate_fairness(config):
             "Parallel throughput mode runs independent optimizer jobs concurrently. Objective-quality comparisons remain valid under the common evaluation protocol, but per-run wall-clock times are affected by resource contention; use one worker for strict runtime ranking."
         )
     if config.execution_backend != "cpu_only":
-        warnings.append(
-            "Accelerator-first scheduling may execute CALO neural-policy inference on NVIDIA CUDA or Intel XPU while AC power flow and conventional baseline optimizers remain on CPU. This is valid for equal-evaluation solution-quality studies, but not for strict cross-algorithm runtime ranking. Use CPU-only single-worker execution for publication timing comparisons."
-        )
+        if str(getattr(config, "scientific_backend", "cpu_reference")) == "torch_fp64":
+            warnings.append(
+                "The v3 torch FP64 backend makes every primary optimizer job accelerator-compatible through a common batched AC power-flow/constraint evaluator and torch-native baseline kernels. CPU remains responsible for orchestration, persistence, and independent validation. Use one device and one worker for strict runtime ranking."
+            )
+            if bool(getattr(config, "require_backend_parity", True)):
+                warnings.append(
+                    "A CPU/accelerator numerical-parity audit is required before final benchmark execution."
+                )
+        else:
+            warnings.append(
+                "The legacy CPU-reference evaluator is selected; accelerator task shares cannot move physical evaluation to a GPU."
+            )
     return FairnessReport(not errors, errors, warnings)

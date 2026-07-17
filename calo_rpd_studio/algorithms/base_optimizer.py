@@ -67,17 +67,18 @@ class BaseOptimizer:
     def can_evaluate(self, n=1):
         return not self.cancelled() and self.evaluations + n <= self.config.max_evaluations
 
-    def evaluate(self, x):
-        if not self.can_evaluate():
-            return None
-        clipped = np.clip(np.asarray(x, float), 0, 1)
-        ev = self.problem.evaluate(clipped)
-        self.evaluations += 1
+    def _register_evaluation(self, clipped, ev):
+        """Account for one already-computed candidate evaluation.
 
+        Accelerator backends evaluate populations in batches.  Centralizing incumbent and
+        convergence bookkeeping here keeps the evaluation budget and feasibility-first semantics
+        identical between scalar CPU and batched CUDA/XPU execution.
+        """
+        clipped = np.clip(np.asarray(clipped, float), 0, 1)
+        self.evaluations += 1
         if better(ev, self.best_evaluation):
             self.best_evaluation = ev
             self.best_vector = clipped.copy()
-
         if ev.feasible and np.isfinite(ev.value):
             self._best_feasible_objective = min(self._best_feasible_objective, float(ev.value))
             if self.first_feasible_evaluation is None:
@@ -87,9 +88,27 @@ class BaseOptimizer:
             self._best_constraint_evaluation = ev
         return ev
 
+    def evaluate(self, x):
+        if not self.can_evaluate():
+            return None
+        clipped = np.clip(np.asarray(x, float), 0, 1)
+        ev = self.problem.evaluate(clipped)
+        return self._register_evaluation(clipped, ev)
+
     def evaluate_population(self, pop):
+        population = np.asarray(pop, dtype=float)
+        if population.ndim == 1:
+            population = population[None, :]
+        remaining = max(0, int(self.config.max_evaluations) - int(self.evaluations))
+        if remaining <= 0 or self.cancelled():
+            return []
+        population = np.clip(population[:remaining], 0, 1)
+        batch_evaluator = getattr(self.problem, "evaluate_population", None)
+        if callable(batch_evaluator):
+            evaluations = list(batch_evaluator(population))
+            return [self._register_evaluation(x, ev) for x, ev in zip(population, evaluations)]
         out = []
-        for x in pop:
+        for x in population:
             ev = self.evaluate(x)
             if ev is None:
                 break

@@ -16,6 +16,12 @@ from typing import Iterable
 
 FREEZE_SCHEMA_VERSION = 1
 DEFAULT_FREEZE_RELATIVE_PATHS = (
+    "calo_rpd_studio/accelerated/device.py",
+    "calo_rpd_studio/accelerated/torch_decoder.py",
+    "calo_rpd_studio/accelerated/torch_power_flow.py",
+    "calo_rpd_studio/accelerated/torch_orpd.py",
+    "calo_rpd_studio/algorithms/base_optimizer.py",
+    "calo_rpd_studio/algorithms/torch_suite.py",
     "calo_rpd_studio/algorithms/calo/ai_controller.py",
     "calo_rpd_studio/algorithms/calo/archives.py",
     "calo_rpd_studio/algorithms/calo/cognitive_state.py",
@@ -77,8 +83,8 @@ def create_freeze_manifest(
     *,
     project_root: str | Path | None = None,
     relative_paths: Iterable[str] = DEFAULT_FREEZE_RELATIVE_PATHS,
-    software_version: str = "2.0.0",
-    note: str = "CALO frozen before final benchmark/test execution",
+    software_version: str = "3.0.0",
+    note: str = "CALO-RPD v3 accelerator formulation frozen before final benchmark/test execution",
 ) -> Path:
     root = Path(project_root) if project_root is not None else project_root_from_module()
     root = root.resolve()
@@ -110,6 +116,10 @@ def create_freeze_manifest(
             "training_dataset_snapshot": True,
             "hyperparameters": True,
             "constraint_handling": True,
+            "accelerator_power_flow": True,
+            "accelerator_constraint_evaluator": True,
+            "torch_canonical_baselines": True,
+            "mixed_variable_tensor_decoder": True,
         },
         "calo_default_parameters": SPECS["CALO"].default_parameters,
         "files": files,

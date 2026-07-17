@@ -33,3 +33,12 @@ For literature variants that have multiple published parameterizations, the exec
 saved run parameters define the precise formulation used by CALO-RPD Studio. The software does not
 claim binary identity with third-party executables. Any manuscript comparison should cite the original
 method and disclose the exact configuration exported with the run.
+
+## v3 accelerator implementation rule
+
+The v3 PyTorch suite translates the declared canonical population operators to FP64 tensor kernels.
+The common physical evaluator, mixed-variable decoder, feasibility-first rule, boundary handling, and
+evaluation budget are shared across all methods. Accelerator conversion is not treated as an algorithmic
+enhancement: a CUDA result should agree with the trusted CPU formulation within the declared numerical
+tolerances. Any deliberate change to a baseline equation must be registered under a distinct method name
+and evaluated as a separate algorithm rather than silently replacing the canonical baseline.

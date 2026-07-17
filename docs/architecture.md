@@ -31,7 +31,7 @@ Strict physical feasibility remains defined by the common ORPD evaluator. Adapti
 
 ## Long-running work and heterogeneous scheduling
 
-The desktop experiment manager keeps the Qt event loop responsive while independent optimizer/run jobs are dispatched to spawn-safe worker processes. In adaptive or GPU-preferred mode, CALO variants that actually use the neural policy are eligible for CUDA policy inference; AC power flow, constraint evaluation, and conventional baselines remain CPU workloads. SQLite persistence remains coordinated by the parent process to avoid concurrent write corruption. Inter-process progress telemetry is throttled to reduce overhead.
+The desktop experiment manager keeps the Qt event loop responsive while independent optimizer/run jobs are dispatched to spawn-safe worker processes. In v3, the PyTorch FP64 scientific backend provides accelerator-native mixed-variable decoding, batched AC Newton–Raphson power flow, branch-flow and constraint evaluation, robust aggregation, L-index calculation, and canonical tensor kernels for all nineteen baseline optimizers; CALO uses the same evaluator plus its neural controller. CUDA and XPU assignments are made before a run begins and are never migrated mid-run. SQLite persistence remains coordinated by the parent process to avoid concurrent write corruption. Inter-process progress telemetry is throttled to reduce overhead.
 
 GPU utilization, GPU memory, and CPU utilization targets are **soft admission controls**. They decide whether another independent job may start; an active optimizer is never migrated between devices. This preserves run-level seed semantics and avoids invalid mid-run backend changes.
 

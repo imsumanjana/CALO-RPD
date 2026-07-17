@@ -102,3 +102,19 @@ E[F]+\lambda\,\mathrm{Std}[F],
 \]
 
 and empirical weighted CVaR at a user-selected confidence level.
+
+## v3 batched FP64 accelerator formulation
+
+For a batch of `B` candidates and `S` scenarios, the v3 backend forms candidate/scenario-specific
+admittance and mismatch tensors and solves the Newton step in double precision. Candidate convergence
+is tracked by an active mask so one failed member does not invalidate the rest of the batch. Where
+reactive-limit switching changes the PV/PQ structure differently among candidates, those members are
+resolved independently with the exact candidate-specific bus sets.
+
+Discrete transformer and shunt coordinates use the same explicit lattice index as the CPU decoder;
+continuous clipping is not substituted for physical step selection. All objective and violation
+components are retained separately before feasibility-first comparison. Final saved power-system
+states are independently reconstructed through the trusted CPU evaluator.
+
+Accelerator execution is accepted for final experiments only after the reproducible parity gate meets
+the declared objective, violation, voltage, and feasibility tolerances.
