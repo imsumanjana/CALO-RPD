@@ -353,7 +353,7 @@ def item_uses_calo_ai(mode: str, item) -> bool:
 
 
 def backend_allows_accelerators(execution_backend: str) -> bool:
-    return str(execution_backend).lower() in {"weighted_split", "adaptive_hybrid", "gpu_preferred"}
+    return str(execution_backend).lower() in {"cuda_priority", "cuda_only", "throughput_auto", "weighted_split", "adaptive_hybrid", "gpu_preferred"}
 
 
 def backend_allows_gpu(execution_backend: str) -> bool:
@@ -490,9 +490,9 @@ def build_weighted_lane_plan(
     *,
     cuda_available: bool,
     xpu_available: bool,
-    cuda_share: int = 50,
-    xpu_share: int = 30,
-    cpu_share: int = 20,
+    cuda_share: int = 80,
+    xpu_share: int = 10,
+    cpu_share: int = 10,
 ) -> tuple[dict[int, str], WeightedAllocationSummary]:
     """Pre-assign experiment jobs to CUDA/XPU/CPU lanes.
 
@@ -502,8 +502,11 @@ def build_weighted_lane_plan(
     assigning an unusable backend. The legacy CPU-reference backend remains CPU-only by design.
     """
     items = list(plan)
-    eligible = [item for item in items if item_uses_calo_ai(mode, item)]
-    cpu_only = [item for item in items if not item_uses_calo_ai(mode, item)]
+    # The v3.3 torch FP64 pipeline provides tensor-native optimizer kernels and a common
+    # device-resident ORPD evaluator for every primary algorithm and CALO ablation variant.
+    # The legacy CPU-reference backend never calls this planner.
+    eligible = list(items)
+    cpu_only = []
 
     lanes: list[tuple[str, int]] = []
     if cuda_available:
@@ -589,3 +592,106 @@ def weighted_worker_slots(
                 break
             counts[reducible] -= 1
     return {"cuda": counts.get("cuda", 0), "xpu": counts.get("xpu", 0), "cpu": counts.get("cpu", 0)}
+
+@dataclass(frozen=True, slots=True)
+class ThroughputAllocationSummary:
+    """Measured-throughput plan for the complete v3.3 optimizer campaign."""
+
+    total_jobs: int
+    cuda_jobs: int
+    xpu_jobs: int
+    cpu_jobs: int
+    lane_throughputs: dict[str, float]
+    source: str = "automatic calibration"
+
+    @property
+    def effective_text(self) -> str:
+        return f"CUDA {self.cuda_jobs} · XPU {self.xpu_jobs} · CPU {self.cpu_jobs}"
+
+    @property
+    def throughput_text(self) -> str:
+        return " · ".join(
+            f"{lane.upper()} {value:,.1f} eval/s"
+            for lane, value in (("cuda", self.lane_throughputs.get("cuda", 0.0)), ("xpu", self.lane_throughputs.get("xpu", 0.0)), ("cpu", self.lane_throughputs.get("cpu", 0.0)))
+            if value > 0
+        ) or "No successful calibration"
+
+
+def build_throughput_lane_plan(
+    plan,
+    mode: str,
+    *,
+    lane_throughputs: dict[str, float],
+    cuda_available: bool,
+    xpu_available: bool,
+) -> tuple[dict[int, str], ThroughputAllocationSummary]:
+    """Allocate all v3.3 jobs in proportion to measured candidate-evaluation throughput.
+
+    The algorithm/run plan remains run-major and deterministic.  Lane assignments are interleaved
+    to avoid confounding a device with a contiguous random-seed range.
+    """
+    from calo_rpd_studio.accelerated.throughput_engine import measured_throughput_allocation
+
+    items = list(plan)
+    enabled = {"cuda": bool(cuda_available), "xpu": bool(xpu_available), "cpu": True}
+    throughputs = {
+        "cuda": max(0.0, float(lane_throughputs.get("cuda", 0.0))),
+        "xpu": max(0.0, float(lane_throughputs.get("xpu", 0.0))),
+        "cpu": max(0.0, float(lane_throughputs.get("cpu", 0.0))),
+    }
+    counts = measured_throughput_allocation(len(items), throughputs, enabled=enabled)
+    remaining = dict(counts)
+    assigned = {lane: 0 for lane in ("cuda", "xpu", "cpu")}
+    assignments: dict[int, str] = {}
+    total = max(1, len(items))
+    for position, item in enumerate(items):
+        candidates = [lane for lane in ("cuda", "xpu", "cpu") if remaining.get(lane, 0) > 0]
+        if not candidates:
+            lane = "cpu"
+        else:
+            lane = max(
+                candidates,
+                key=lambda name: (
+                    (position + 1) * counts.get(name, 0) / total - assigned[name],
+                    throughputs.get(name, 0.0),
+                    name == "cuda",
+                ),
+            )
+        assignments[int(item.job_index)] = lane
+        if remaining.get(lane, 0) > 0:
+            remaining[lane] -= 1
+        assigned[lane] += 1
+    summary = ThroughputAllocationSummary(
+        total_jobs=len(items),
+        cuda_jobs=sum(1 for value in assignments.values() if value == "cuda"),
+        xpu_jobs=sum(1 for value in assignments.values() if value == "xpu"),
+        cpu_jobs=sum(1 for value in assignments.values() if value == "cpu"),
+        lane_throughputs=throughputs,
+    )
+    return assignments, summary
+
+
+def throughput_worker_slots(total_workers: int, summary: ThroughputAllocationSummary) -> dict[str, int]:
+    """Allocate concurrent worker slots from the measured lane capacities."""
+    from calo_rpd_studio.accelerated.throughput_engine import largest_remainder_counts
+
+    active_jobs = {
+        "cuda": summary.cuda_jobs,
+        "xpu": summary.xpu_jobs,
+        "cpu": summary.cpu_jobs,
+    }
+    weights = {
+        lane: (summary.lane_throughputs.get(lane, 0.0) if active_jobs[lane] > 0 else 0.0)
+        for lane in active_jobs
+    }
+    counts = largest_remainder_counts(max(1, int(total_workers)), weights)
+    active = [lane for lane, jobs in active_jobs.items() if jobs > 0]
+    if int(total_workers) >= len(active):
+        for lane in active:
+            counts[lane] = max(1, counts.get(lane, 0))
+        while sum(counts.values()) > int(total_workers):
+            lane = max((name for name in active if counts[name] > 1), key=lambda name: counts[name], default=None)
+            if lane is None:
+                break
+            counts[lane] -= 1
+    return {lane: int(counts.get(lane, 0)) for lane in ("cuda", "xpu", "cpu")}

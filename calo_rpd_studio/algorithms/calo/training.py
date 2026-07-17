@@ -15,6 +15,7 @@ import json
 import multiprocessing as mp
 import os
 import random
+import tempfile
 from types import SimpleNamespace
 
 import numpy as np
@@ -61,6 +62,9 @@ class TrainingConfig:
     historical_repository: str = ""
     use_historical_trajectories: bool = False
     historical_pretraining_epochs: int = 4
+    resume_checkpoint: str = ""
+    checkpoint_each_epoch: bool = True
+    resume_task_id: str = ""
 
 
 class TrainingCancelled(RuntimeError):
@@ -163,7 +167,12 @@ class SyntheticCALOEnvironment:
         self.problem = problem if problem is not None else CurriculumProblem(rng, stage)
         self.population_size = int(population_size)
         self.population = rng.random((self.population_size, self.problem.dimension))
-        self.evaluations = [self.problem.evaluate(x) for x in self.population]
+        batch_evaluator = getattr(self.problem, "evaluate_population", None)
+        self.evaluations = (
+            list(batch_evaluator(self.population))
+            if callable(batch_evaluator)
+            else [self.problem.evaluate(x) for x in self.population]
+        )
         self.feasible_archive = FeasibleEliteArchive(24)
         self.boundary_archive = ConstraintBoundaryArchive(36)
         self.feasible_archive.update(self.population, self.evaluations)
@@ -257,7 +266,12 @@ class SyntheticCALOEnvironment:
                 candidate = diversity_recovery(reference, self.population, self.rng, max(sigma, 0.06))
             offspring.append(candidate)
         offspring = np.asarray(offspring)
-        offspring_evaluations = [self.problem.evaluate(x) for x in offspring]
+        batch_evaluator = getattr(self.problem, "evaluate_population", None)
+        offspring_evaluations = (
+            list(batch_evaluator(offspring))
+            if callable(batch_evaluator)
+            else [self.problem.evaluate(x) for x in offspring]
+        )
         for index, (child, child_ev) in enumerate(zip(offspring, offspring_evaluations)):
             parent_ev = self.evaluations[index]
             successful = epsilon_better(child_ev, parent_ev, epsilon)
@@ -670,6 +684,75 @@ def _historical_pretrain(
     }
 
 
+def training_resume_path(config: TrainingConfig, output_path) -> Path:
+    if str(getattr(config, "resume_checkpoint", "")).strip():
+        return Path(str(config.resume_checkpoint)).expanduser()
+    return Path(output_path).with_suffix(".resume.pt")
+
+
+def _optimizer_to_device(optimizer, device) -> None:
+    for state in optimizer.state.values():
+        for key, value in tuple(state.items()):
+            if torch.is_tensor(value):
+                state[key] = value.to(device)
+
+
+def save_training_resume(
+    path: Path,
+    *,
+    network,
+    optimizer,
+    next_epoch: int,
+    history: list,
+    rng,
+    historical_pretraining: dict,
+    config,
+    extra: dict | None = None,
+) -> Path:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = {
+        "format": "calo_policy_training_resume_v32",
+        "next_epoch": int(next_epoch),
+        "model_state_dict": _cpu_state_dict(network),
+        "optimizer_state_dict": optimizer.state_dict(),
+        "history": list(history),
+        "historical_pretraining": dict(historical_pretraining or {}),
+        "python_random_state": random.getstate(),
+        "numpy_global_state": np.random.get_state(),
+        "numpy_generator_state": rng.bit_generator.state,
+        "torch_rng_state": torch.random.get_rng_state(),
+        "cuda_rng_state_all": torch.cuda.get_rng_state_all() if torch.cuda.is_available() else [],
+        "training_config": asdict(config),
+        "extra": dict(extra or {}),
+    }
+    with tempfile.NamedTemporaryFile(delete=False, dir=path.parent, suffix=".tmp") as handle:
+        temporary = Path(handle.name)
+    torch.save(payload, temporary)
+    temporary.replace(path)
+    return path
+
+
+def load_training_resume(path: Path, network, optimizer, device, rng) -> tuple[int, list, dict, dict]:
+    payload = torch.load(path, map_location=device, weights_only=False)
+    if payload.get("format") != "calo_policy_training_resume_v32":
+        raise ValueError("Unsupported CALO policy-training resume format")
+    network.load_state_dict(payload["model_state_dict"])
+    optimizer.load_state_dict(payload["optimizer_state_dict"])
+    _optimizer_to_device(optimizer, device)
+    random.setstate(payload["python_random_state"])
+    np.random.set_state(payload["numpy_global_state"])
+    rng.bit_generator.state = payload["numpy_generator_state"]
+    torch.random.set_rng_state(payload["torch_rng_state"])
+    if torch.cuda.is_available() and payload.get("cuda_rng_state_all"):
+        torch.cuda.set_rng_state_all(payload["cuda_rng_state_all"])
+    return (
+        int(payload.get("next_epoch", 0)),
+        list(payload.get("history", [])),
+        dict(payload.get("historical_pretraining", {})),
+        dict(payload.get("extra", {})),
+    )
+
+
 def train_policy(config: TrainingConfig, output_path, progress_callback=None, cancel_callback=None):
     final_benchmark_names = {"case30", "case57", "case118"}
     development_names = {Path(item).stem.lower() for item in config.development_cases}
@@ -694,20 +777,33 @@ def train_policy(config: TrainingConfig, output_path, progress_callback=None, ca
     )
     network = CALOPolicyNetwork(STATE_DIM, config.hidden_dim).to(device)
     optimizer = torch.optim.Adam(network.parameters(), lr=config.learning_rate)
-    historical_pretraining = _historical_pretrain(
-        network,
-        optimizer,
-        device,
-        config,
-        rng,
-        progress_callback=progress_callback,
-        cancel_callback=cancel_callback,
-    )
+    resume_path = training_resume_path(config, output_path)
+    start_epoch = 0
     history = []
+    historical_pretraining = {}
+    if resume_path.is_file():
+        start_epoch, history, historical_pretraining, _extra = load_training_resume(
+            resume_path, network, optimizer, device, rng
+        )
+        if progress_callback:
+            progress_callback(
+                int(100 * start_epoch / max(config.epochs, 1)),
+                f"Resumed CALO policy training from completed epoch {start_epoch}/{config.epochs}",
+            )
+    else:
+        historical_pretraining = _historical_pretrain(
+            network,
+            optimizer,
+            device,
+            config,
+            rng,
+            progress_callback=progress_callback,
+            cancel_callback=cancel_callback,
+        )
 
     total_units = config.epochs * config.episodes_per_epoch
-    completed_units = 0
-    for epoch in range(config.epochs):
+    completed_units = start_epoch * config.episodes_per_epoch
+    for epoch in range(start_epoch, config.epochs):
         if cancel_callback and cancel_callback():
             raise TrainingCancelled("CALO policy training was cancelled safely.")
         stage = _curriculum_stage(epoch, config.epochs, bool(config.development_cases))
@@ -804,6 +900,18 @@ def train_policy(config: TrainingConfig, output_path, progress_callback=None, ca
                 "transitions": len(rollout["state"]),
             }
         )
+        if bool(getattr(config, "checkpoint_each_epoch", True)):
+            save_training_resume(
+                resume_path,
+                network=network,
+                optimizer=optimizer,
+                next_epoch=epoch + 1,
+                history=history,
+                rng=rng,
+                historical_pretraining=historical_pretraining,
+                config=config,
+                extra={"device": str(device), "rollout_workers": workers},
+            )
 
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -851,4 +959,8 @@ def train_policy(config: TrainingConfig, output_path, progress_callback=None, ca
     output_path.with_suffix(".json").write_text(
         json.dumps(metadata, indent=2), encoding="utf-8"
     )
+    try:
+        resume_path.unlink(missing_ok=True)
+    except OSError:
+        pass
     return str(output_path), history

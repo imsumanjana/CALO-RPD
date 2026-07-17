@@ -62,7 +62,7 @@ class BenchmarkCampaignPanel(WorkspacePage):
         )
         freeze_row = QHBoxLayout()
         self.freeze_path = QLineEdit(
-            str(Path(__file__).resolve().parents[2] / "data" / "frozen" / "calo_v3_freeze.json")
+            str(Path(__file__).resolve().parents[2] / "data" / "frozen" / "calo_v33_freeze.json")
         )
         self.freeze_status = QLabel("Not verified")
         verify = QPushButton("Verify frozen CALO")

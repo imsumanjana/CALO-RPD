@@ -24,6 +24,9 @@ from calo_rpd_studio.gui.panels.calo_intelligence_panel import CALOIntelligenceP
 from calo_rpd_studio.gui.panels.dashboard_panel import DashboardPanel
 from calo_rpd_studio.gui.panels.experiment_manager_panel import ExperimentManagerPanel
 from calo_rpd_studio.gui.panels.live_optimization_panel import LiveOptimizationPanel
+from calo_rpd_studio.gui.panels.portfolio_manager_panel import PortfolioManagerPanel
+from calo_rpd_studio.gui.panels.resume_center_panel import ResumeCenterPanel
+from calo_rpd_studio.gui.dialogs.unfinished_work_dialog import UnfinishedWorkDialog
 from calo_rpd_studio.gui.panels.orpd_formulation_panel import ORPDFormulationPanel
 from calo_rpd_studio.gui.panels.power_system_panel import PowerSystemPanel
 from calo_rpd_studio.gui.panels.publication_export_panel import PublicationExportPanel
@@ -44,6 +47,7 @@ WORKSPACES = [
     ("Power System", ""),
     ("ORPD Formulation", ""),
     ("Algorithms", ""),
+    ("Portfolio Manager", ""),
     ("CALO Intelligence", ""),
     ("Robust Scenarios", ""),
     ("Experiment Manager", ""),
@@ -52,10 +56,10 @@ WORKSPACES = [
     ("Results Explorer", ""),
     ("Validation & Audit", ""),
     ("Publication Export", ""),
+    ("Resume Center", ""),
     ("Application Settings", ""),
     ("Benchmark & Evidence", ""),
 ]
-
 
 class MainWindow(QMainWindow):
     def __init__(self, state, experiment_manager, settings_manager, parent=None) -> None:
@@ -64,6 +68,7 @@ class MainWindow(QMainWindow):
         self.experiment_manager = experiment_manager
         self.settings_manager = settings_manager
         self.workflow = WorkflowManager(state)
+        self._close_when_paused = False
 
         self.setWindowTitle("CALO-RPD Studio")
         self.resize(1500, 920)
@@ -77,6 +82,7 @@ class MainWindow(QMainWindow):
             PowerSystemPanel(state),
             ORPDFormulationPanel(state),
             AlgorithmsPanel(state),
+            PortfolioManagerPanel(state),
             CALOIntelligencePanel(state, experiment_manager),
             RobustScenariosPanel(state),
             ExperimentManagerPanel(state, experiment_manager),
@@ -85,6 +91,7 @@ class MainWindow(QMainWindow):
             ResultsExplorerPanel(state),
             ValidationAuditPanel(state),
             PublicationExportPanel(state),
+            ResumeCenterPanel(state, experiment_manager),
             ApplicationSettingsPanel(state, settings_manager),
             ScrollablePage(BenchmarkCampaignPanel(state, experiment_manager)),
         ]
@@ -118,30 +125,28 @@ class MainWindow(QMainWindow):
         self._create_global_status_bar()
         self._connect_workflow()
         self._refresh_workflow()
+        QTimer.singleShot(350, self._check_unfinished_work)
 
     def _connect_workflow(self) -> None:
         self.state.case_changed.connect(lambda _: self.workflow.invalidate_from("power_system"))
-        self.pages[1].stage_completed.connect(
-            lambda: self.workflow.mark_completed("power_system")
-        )
+        self.pages[1].stage_completed.connect(lambda: self.workflow.mark_completed("power_system"))
         self.pages[2].stage_completed.connect(lambda: self.workflow.mark_completed("orpd"))
-        self.pages[3].stage_completed.connect(
-            lambda: self.workflow.mark_completed("algorithms")
-        )
-        self.pages[4].stage_completed.connect(lambda: self.workflow.mark_completed("calo"))
-        self.pages[5].stage_completed.connect(
-            lambda: self.workflow.mark_completed("scenarios")
-        )
-        self.pages[4].experiment_manager_requested.connect(lambda: self._set_workspace(6))
+        self.pages[3].stage_completed.connect(lambda: self.workflow.mark_completed("algorithms"))
+        self.pages[4].stage_completed.connect(lambda: self.workflow.mark_completed("portfolio"))
+        self.pages[5].stage_completed.connect(lambda: self.workflow.mark_completed("calo"))
+        self.pages[6].stage_completed.connect(lambda: self.workflow.mark_completed("scenarios"))
+        self.pages[5].experiment_manager_requested.connect(lambda: self._set_workspace(7))
         self.experiment_manager.started.connect(lambda _: self.workflow.mark_experiment_started())
-        self.experiment_manager.completed.connect(
-            lambda _: self.workflow.mark_experiment_completed()
-        )
+        self.experiment_manager.completed.connect(lambda _: self.workflow.mark_experiment_completed())
         self.experiment_manager.cancelled.connect(lambda _: self.workflow.mark_experiment_stopped())
         self.experiment_manager.failed.connect(lambda _: self.workflow.mark_experiment_stopped())
-        self.pages[8].analysis_completed.connect(self.workflow.mark_statistics_completed)
-        self.pages[9].review_completed.connect(self.workflow.mark_results_reviewed)
-        self.pages[9].validation_requested.connect(self._open_reviewed_run_for_validation)
+        self.experiment_manager.completed.connect(lambda _: self._finish_deferred_close())
+        self.experiment_manager.cancelled.connect(lambda _: self._finish_deferred_close())
+        self.experiment_manager.failed.connect(lambda _: self._finish_deferred_close())
+        self.pages[9].analysis_completed.connect(self.workflow.mark_statistics_completed)
+        self.pages[10].review_completed.connect(self.workflow.mark_results_reviewed)
+        self.pages[10].validation_requested.connect(self._open_reviewed_run_for_validation)
+        self.pages[13].workspace_requested.connect(self._set_workspace)
         self.state.runs_changed.connect(self._refresh_verified_count)
         self.workflow.changed.connect(self._refresh_workflow)
 
@@ -151,9 +156,9 @@ class MainWindow(QMainWindow):
         # attempting navigation to a workflow-gated workspace.
         self.workflow.mark_results_reviewed()
         self.state.current_experiment_id = experiment_id
-        self.pages[10].select_run(experiment_id, run_id)
+        self.pages[11].select_run(experiment_id, run_id)
         self._refresh_workflow()
-        self._set_workspace(10)
+        self._set_workspace(11)
         self.state.task_status.finish("Result review confirmed; selected run is ready for independent validation")
 
     def _create_global_status_bar(self) -> None:
@@ -178,8 +183,8 @@ class MainWindow(QMainWindow):
         for index in range(len(WORKSPACES)):
             state, reason = self.workflow.workspace_state(index)
             self.sidebar.set_workflow_state(index, state, reason)
-        self.pages[4].set_experiment_navigation_enabled(
-            self.workflow.is_workspace_enabled(6)
+        self.pages[5].set_experiment_navigation_enabled(
+            self.workflow.is_workspace_enabled(7)
         )
 
         completed, total = self.workflow.progress()
@@ -217,6 +222,16 @@ class MainWindow(QMainWindow):
             return
         self.stack.setCurrentIndex(index)
         self.sidebar.set_current(index)
+
+    def _check_unfinished_work(self) -> None:
+        items = self.state.resume_service.unfinished()
+        if not items:
+            return
+        dialog = UnfinishedWorkDialog(items, self)
+        dialog.exec()
+        if dialog.open_resume_center:
+            self.pages[13].refresh()
+            self._set_workspace(13)
 
     def _create_toolbar(self) -> None:
         toolbar = QToolBar("Project")
@@ -287,25 +302,31 @@ class MainWindow(QMainWindow):
         QMessageBox.information(
             self,
             "About CALO-RPD Studio",
-            "CALO-RPD Studio 3.0.0\n"
+            "CALO-RPD Studio 3.3.0\n"
             "Cognitive Adaptive Learning Optimizer for Robust Reactive Power Dispatch\n\n"
             "Guided scientific optimization, reproducible benchmarking, validation, statistics, and publication export.",
         )
+
+    def _finish_deferred_close(self) -> None:
+        if self._close_when_paused and not self.experiment_manager.running:
+            self._close_when_paused = False
+            QTimer.singleShot(0, self.close)
 
     def closeEvent(self, event) -> None:  # noqa: N802 - Qt API
         if self.experiment_manager.running:
             answer = QMessageBox.question(
                 self,
                 "Experiment running",
-                "An experiment is active. Request safe cancellation and close the application?",
+                "An experiment is active. Request a safe pause? New jobs will stop and the application will close after all active jobs have committed.",
                 QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
                 QMessageBox.StandardButton.No,
             )
             if answer != QMessageBox.StandardButton.Yes:
                 event.ignore()
                 return
-            self.experiment_manager.cancel()
-            worker = self.experiment_manager.worker
-            if worker is not None:
-                worker.wait(5000)
+            self._close_when_paused = True
+            self.experiment_manager.pause()
+            event.ignore()
+            return
         event.accept()
+

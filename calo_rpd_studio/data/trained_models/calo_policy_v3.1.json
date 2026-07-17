@@ -1,0 +1,4653 @@
+{
+  "algorithm": "CALO",
+  "calo_core": "v2",
+  "training_method": "persistent auto-tuned batched heterogeneous PPO",
+  "candidate_checkpoint": true,
+  "benchmark_freeze_status": "Not automatically part of the frozen TEST benchmark. Validate this candidate and create a new freeze manifest before benchmark use.",
+  "training_config": {
+    "epochs": 50,
+    "episodes_per_epoch": 20,
+    "horizon": 28,
+    "seed": 2026,
+    "learning_rate": 0.0003,
+    "gamma": 0.98,
+    "gae_lambda": 0.95,
+    "clip_ratio": 0.2,
+    "entropy_weight": 0.01,
+    "value_weight": 0.5,
+    "ppo_epochs": 4,
+    "minibatch_size": 256,
+    "hidden_dim": 96,
+    "population_size": 20,
+    "rollout_workers": 20,
+    "ppo_device": "auto",
+    "cpu_threads_per_worker": 1,
+    "development_cases": [],
+    "allow_final_benchmark_training": false,
+    "historical_repository": "C:\\Users\\User\\Downloads\\calo-rpd-studio-v1.0.0\\calo-rpd-studio\\historical_experience_v1.3.json",
+    "use_historical_trajectories": true,
+    "historical_pretraining_epochs": 4,
+    "heterogeneous_rollouts": true,
+    "cuda_rollout_share": 100,
+    "xpu_rollout_share": 0,
+    "cpu_rollout_share": 0,
+    "actor_batch_size": 0,
+    "throughput_adaptive_rollouts": true,
+    "persistent_actor_workers": true,
+    "actor_calibration_episodes": 1,
+    "use_accelerated_orpd_rollouts": true,
+    "training_cross_episode_batching": true,
+    "training_batch_window_ms": 4.0,
+    "training_max_cross_batch": 2048,
+    "training_tensor_batch_size": 128
+  },
+  "training_seed": 2026,
+  "state_dimension": 24,
+  "execution": {
+    "architecture": "same-policy synchronous persistent CUDA/XPU/CPU actor lanes with cross-episode ORPD batching, measured-throughput allocation, and one centralized PPO learner update",
+    "ppo_learner_device": "cuda:0",
+    "requested_rollout_shares": {
+      "cuda": 52,
+      "xpu": 1,
+      "cpu": 47
+    },
+    "effective_episode_shares": {
+      "cuda": 50.0,
+      "xpu": 0.0,
+      "cpu": 50.0
+    },
+    "episodes_per_epoch_by_lane": {
+      "cuda": 10,
+      "xpu": 0,
+      "cpu": 10
+    },
+    "cuda_available": true,
+    "cuda_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "xpu_available": false,
+    "xpu_name": "",
+    "xpu_sidecar_available": true,
+    "xpu_actor_runtime": "sidecar",
+    "cpu_rollout_workers": 20,
+    "persistent_actor_workers": true,
+    "throughput_adaptive_rollouts": true,
+    "measured_actor_transitions_per_second": {
+      "cuda": 4.222923676655959,
+      "xpu": 0.07052023036628866,
+      "cpu": 3.833573563758606
+    },
+    "accelerated_orpd_rollouts": true,
+    "cross_episode_batching": true,
+    "cross_episode_batch_window_ms": 4.0,
+    "maximum_cross_episode_candidate_batch": 2048,
+    "training_tensor_batch_size": 128,
+    "on_policy_synchronization": "All actor lanes use one policy snapshot per epoch; PPO starts only after all matching trajectories arrive.",
+    "hardware_scope_note": "Auto-tuned shares are based on measured complete actor transitions per second, not Task Manager utilization percentages. Explicit ORPD development rollouts use the FP64 accelerator evaluator on the actor device; synthetic curriculum stages still contain host-side environment logic."
+  },
+  "curriculum": [
+    "continuous unconstrained",
+    "constrained continuous",
+    "mixed discrete-continuous",
+    "narrow feasible region"
+  ],
+  "development_cases": [],
+  "final_publication_benchmarks_used_for_training": false,
+  "historical_pretraining": {
+    "enabled": true,
+    "samples": 0,
+    "epochs": 0,
+    "mean_loss": null
+  },
+  "historical_data_policy": "eligible TRAIN experiments only; validation/test experiments excluded; old trajectories used only for offline pretraining, never as PPO on-policy rollouts",
+  "history": [
+    {
+      "epoch": 1,
+      "curriculum_stage": 1,
+      "mean_loss": -0.07031453354284167,
+      "mean_episode_return": 0.6421872527260795,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "a5bb62eaae39a466438b94a42578ac70853e83410730c1ea2727d81ff1527209",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 2,
+      "curriculum_stage": 1,
+      "mean_loss": -0.035640638787299395,
+      "mean_episode_return": 0.7329361709805273,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "38d52e5fd97f798573541041fc60c7f360b614b8d6e55f36cacb4f12d137e00c",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 3,
+      "curriculum_stage": 1,
+      "mean_loss": -0.047215666311482586,
+      "mean_episode_return": 0.8558734186797867,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "a3f13f2fba483f95570585ff3d9e266637e0dd6fdfd43be236218b1f8a46149e",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 4,
+      "curriculum_stage": 1,
+      "mean_loss": -0.06641585744606952,
+      "mean_episode_return": 0.6812975739016851,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "176c0ea3bdaf48854cf65cd3d8313f1d39f334ef3a3257383ebaf5fea98acffc",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 5,
+      "curriculum_stage": 1,
+      "mean_loss": -0.03331106218198935,
+      "mean_episode_return": 0.7926149185867686,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "f615b87ea97879b6ad29e83d6446fbfc822f4c43538b96baa0fab87657c0bfa4",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 6,
+      "curriculum_stage": 1,
+      "mean_loss": -0.04728470680614313,
+      "mean_episode_return": 0.8455991298586619,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "6c95148c980fb795a3cd93a280983a1108d8eef9cf68aa3c033f3c246b40f1bd",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 7,
+      "curriculum_stage": 1,
+      "mean_loss": -0.013769810708860556,
+      "mean_episode_return": 0.8270987095217406,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "69d9fe2445d86130747b2a9cd1d7a9ddee81c25af4e881638fc80195735256ad",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 8,
+      "curriculum_stage": 1,
+      "mean_loss": -0.04720238068451484,
+      "mean_episode_return": 0.8628835517702951,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "c836f4460720daa53ede15ef52cef599408c97e38c5742455928577da52c3a39",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 9,
+      "curriculum_stage": 1,
+      "mean_loss": -0.030064518718669813,
+      "mean_episode_return": 0.8914484878296776,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "b742f69156d7b93402d9e0d20c6574f57c5efe6cffef924ebeba90badea05b22",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 10,
+      "curriculum_stage": 2,
+      "mean_loss": 0.008656817954033613,
+      "mean_episode_return": 1.7927240653601668,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "b86a5cd4e11c7c4b3ba6bd748d5c8bb705a31b2462b52264ebed2332566abc0c",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 11,
+      "curriculum_stage": 2,
+      "mean_loss": 0.00038315697262684506,
+      "mean_episode_return": 2.0329433534339794,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "f93522abdea553f4a43454cbf038afe02afb1637962ea5f168f295d199bb4c73",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 12,
+      "curriculum_stage": 2,
+      "mean_loss": -0.013323205523192883,
+      "mean_episode_return": 1.969588051720741,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "d59579e85222562dd9d1c72005cf3e3c4093107e0717cd39f508c03041bee0a5",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 13,
+      "curriculum_stage": 2,
+      "mean_loss": -0.007452809096624454,
+      "mean_episode_return": 1.6748909422735856,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "be9f9cdc5669d6b416e321f5c25453d3f3ffbfa771279a281701ed7dcbfadf21",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 14,
+      "curriculum_stage": 2,
+      "mean_loss": -0.02862024198596676,
+      "mean_episode_return": 1.4831192502284634,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "7e641ea36b32e28846af2688ee4cc8009c3e3d74b344f10d491a0b49c47e5896",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 15,
+      "curriculum_stage": 2,
+      "mean_loss": -0.02066818003853162,
+      "mean_episode_return": 1.6005285493705705,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "407c20dd2f33591947b0d6fb918a32b58e3c4b2110f1e10293969d836bfd14da",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 16,
+      "curriculum_stage": 2,
+      "mean_loss": 0.01108242462699612,
+      "mean_episode_return": 1.953553823076065,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "a6a51469a5519f9750b6b227d63bb5b7df4f848c6ab3cf9d709bd1bf1be835fe",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 17,
+      "curriculum_stage": 2,
+      "mean_loss": -0.04924147156998515,
+      "mean_episode_return": 1.686688597261377,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "481fac914dc0708155c4a884a4b61a08e3fd82364b7dc58eae89e2910f9126c7",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 18,
+      "curriculum_stage": 2,
+      "mean_loss": 0.00829270575195551,
+      "mean_episode_return": 1.7312617732409987,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "3c91d15dda684d307004cbaa502feae7972f976c064e55f2d0b0a65b93c9817e",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 19,
+      "curriculum_stage": 2,
+      "mean_loss": -0.015665298327803612,
+      "mean_episode_return": 1.9487142841032117,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "5f6e05c9ecea83b3ce295458dae685fbc51a5c8e21d69724b083e6fd0ada1c59",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 20,
+      "curriculum_stage": 2,
+      "mean_loss": -0.02789228331918518,
+      "mean_episode_return": 2.058020178985969,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "eeb781977c8ef8fcb1a787d8e57fbd2068a92975f46634746bb75b43232a05b7",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 21,
+      "curriculum_stage": 3,
+      "mean_loss": 0.03600142213205496,
+      "mean_episode_return": 2.5592543281996973,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "8163d9a04af259f2a736490a3a8e26fcd8b4b1d9bed0d5e5ecdb99fdc6326b9e",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 22,
+      "curriculum_stage": 3,
+      "mean_loss": 0.01769290662681063,
+      "mean_episode_return": 2.4028184007101174,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "994f137183ffd1253b03731d48c193e6b67c293f028866c744f2ff960b6b2fcc",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 23,
+      "curriculum_stage": 3,
+      "mean_loss": 0.05061511959259709,
+      "mean_episode_return": 2.3297900462593195,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "0ff12719a3a6cd311b7505637129d95f3b0d1a2aa69c85a390165ef2a941ce73",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 24,
+      "curriculum_stage": 3,
+      "mean_loss": 0.0021854940180977187,
+      "mean_episode_return": 2.3634641284792584,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "662d5f32627ae31e916bbb813748b0798531b43efbec397f61757b83012e1f67",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 25,
+      "curriculum_stage": 3,
+      "mean_loss": 0.04817952712376913,
+      "mean_episode_return": 2.60174951988314,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "0fce1a82c5497217a41012143a707204cb43fcc9d1485a585da4e5d0d46a4dde",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 26,
+      "curriculum_stage": 3,
+      "mean_loss": 0.026995173810670774,
+      "mean_episode_return": 2.3867071795471153,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "17a410af9582bf80f88d4cbc7be14237246d8a2cafeeab07d241da4846663456",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 27,
+      "curriculum_stage": 3,
+      "mean_loss": 0.023676876444369555,
+      "mean_episode_return": 2.106685485611289,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "c1050ebf3de02643ec65783d3adef18a6199ef2dd6cf807660f63f074c4db7b5",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 28,
+      "curriculum_stage": 3,
+      "mean_loss": 0.04882629945253333,
+      "mean_episode_return": 2.3058127956265335,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "ed83d1b2ac99e112ad22474e4d0e544f7cd5f5c2adca45d7acd19382f3654ce0",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 29,
+      "curriculum_stage": 3,
+      "mean_loss": 0.0331052408243219,
+      "mean_episode_return": 2.7093492806786634,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "51825e4c40b5db502e9e6e697a2511c071f9195acea2c90bb7cadcb489a2c26d",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 30,
+      "curriculum_stage": 3,
+      "mean_loss": 0.035940244949112334,
+      "mean_episode_return": 2.6784475756183377,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "d47a0f37210acf76774ec9130b61ed8e12a544adacafde1a5b8fdfe4d4e4690a",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 31,
+      "curriculum_stage": 3,
+      "mean_loss": 0.07112797815352678,
+      "mean_episode_return": 2.6972347620363992,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "73d3063e54120a28aba37dae415808368b7a2ec5e563000b13a0b69bfab03e62",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 32,
+      "curriculum_stage": 3,
+      "mean_loss": 0.05945307249203324,
+      "mean_episode_return": 2.5312821040130755,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "c8b50bce7b7c4fcf27ce7b45b45e9c6640d62a39a1562e818908c7ef19f7325a",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 33,
+      "curriculum_stage": 4,
+      "mean_loss": 0.16588458511978388,
+      "mean_episode_return": 4.398701131353397,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "003474472be3e45c4c596b655d4f750c68e83504d56e1a2501c95fbfa11213e2",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 34,
+      "curriculum_stage": 4,
+      "mean_loss": 0.13083243339012066,
+      "mean_episode_return": 4.529737271196722,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "1971fd804323148acf4d973af304aeeb0d1ffc6ec3e2d392ebcf44c04b3a5af0",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 35,
+      "curriculum_stage": 4,
+      "mean_loss": 0.09349956472093861,
+      "mean_episode_return": 4.083473853819349,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "68b886be18d33872bb6560f08d267de5963d134d5b0401a6cdc727341856cfad",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 36,
+      "curriculum_stage": 4,
+      "mean_loss": 0.11137259968866904,
+      "mean_episode_return": 4.258150967882079,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "4ce643c2d8e7a4752813323370f059a4584bf7e1e15de393cb355c775a18fe09",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 37,
+      "curriculum_stage": 4,
+      "mean_loss": 0.041539557122935854,
+      "mean_episode_return": 3.9423164910663915,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "1925661c79e9ef20a10f1cb9d2574b17f7f90d4802c857318f8709dce1367727",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 38,
+      "curriculum_stage": 4,
+      "mean_loss": 0.04031144936258594,
+      "mean_episode_return": 4.265650304658355,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "0e0bc36aa3b1e5f30577800914ef5917f9633cf085419a5d4982bdee7f30b165",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 39,
+      "curriculum_stage": 4,
+      "mean_loss": 0.07060240969682734,
+      "mean_episode_return": 4.3814060591813515,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "37745f522f2074c57c2ff34380e10222d7993506459722fc61b446b2be0c6a4a",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 40,
+      "curriculum_stage": 4,
+      "mean_loss": 0.12214481038972735,
+      "mean_episode_return": 4.267063183823716,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "2090a53d560e0da2303e242d9101e9d1640ba6b78163b805dd8b5704180d2c23",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 41,
+      "curriculum_stage": 4,
+      "mean_loss": 0.07288497205202778,
+      "mean_episode_return": 4.04175714942277,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "b34c417b933585e510c9237d21a35feebabbb00fea49e5d3cce8dd38d7c9c974",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 42,
+      "curriculum_stage": 4,
+      "mean_loss": 0.04418239199245969,
+      "mean_episode_return": 4.326058722946147,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "9c6bc96392641c54b9a7404407a66d88f886230c61542df41f95f17e92a17d9b",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 43,
+      "curriculum_stage": 4,
+      "mean_loss": 0.037502572716524206,
+      "mean_episode_return": 3.8090219217438728,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "ad0ab0efb72011a9a8ff009414cd0d5727840620134d0bca794a0b316b6d36e5",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 44,
+      "curriculum_stage": 4,
+      "mean_loss": 0.05996526995052894,
+      "mean_episode_return": 4.150613012727655,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "dbd75449e3d23ab09117677710498af802fbd2ce964c0a0e0c57341a043fb39d",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 45,
+      "curriculum_stage": 4,
+      "mean_loss": 0.10676342078174154,
+      "mean_episode_return": 4.202634413305515,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "05c9b7455b198f461efcf23e172e4015ff451d6bd990842853a951f4bf495d61",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 46,
+      "curriculum_stage": 4,
+      "mean_loss": 0.09649014472961426,
+      "mean_episode_return": 4.542600307561207,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "b84d72424f0ba658bc5c083bdf97e34f9f9757047e399ccfd5b05775b3163993",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 47,
+      "curriculum_stage": 4,
+      "mean_loss": 0.10628327587619424,
+      "mean_episode_return": 4.258865099693587,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "6dd335eba76bdc62353d0b4e0e83288dc1d2147ff556f6928e6ccf52bd59e8e3",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 48,
+      "curriculum_stage": 4,
+      "mean_loss": 0.04575779475271702,
+      "mean_episode_return": 4.08983395379375,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "2b60eace7b11aa6e3536a7a7a698e1eb3092c082766c9acf009b09b8a3bc33a3",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 49,
+      "curriculum_stage": 4,
+      "mean_loss": 0.06665650832777222,
+      "mean_episode_return": 4.196246854956021,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "fbb1fcb6f25b16366de8b92ccd251eec330f69cb3dcd8cf475b4b3faea357309",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    },
+    {
+      "epoch": 50,
+      "curriculum_stage": 4,
+      "mean_loss": 0.05902739412461718,
+      "mean_episode_return": 4.2059240513264164,
+      "transitions": 560,
+      "ppo_learner_device": "cuda:0",
+      "policy_snapshot_sha256": "7c4f7d52d0c616370366dca3c8f1931d78a5393cc40f12539f06fc9269b8b58d",
+      "requested_rollout_shares": {
+        "cuda": 52,
+        "xpu": 1,
+        "cpu": 47
+      },
+      "effective_rollout_shares": {
+        "cuda": 50.0,
+        "xpu": 0.0,
+        "cpu": 50.0
+      },
+      "episode_allocation": {
+        "cuda": 10,
+        "xpu": 0,
+        "cpu": 10
+      },
+      "actor_lanes": [
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cpu",
+          "device": "cpu",
+          "episodes": 1
+        },
+        {
+          "lane": "cuda",
+          "device": "cuda:0",
+          "episodes": 10
+        }
+      ],
+      "measured_actor_transitions_per_second": {
+        "cuda": 4.222923676655959,
+        "xpu": 0.07052023036628866,
+        "cpu": 3.833573563758606
+      },
+      "persistent_actor_workers": true,
+      "cross_episode_batching": true,
+      "warnings": [
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+      ]
+    }
+  ]
+}

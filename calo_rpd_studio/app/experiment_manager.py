@@ -3,9 +3,11 @@ from __future__ import annotations
 
 from concurrent.futures import FIRST_COMPLETED, ProcessPoolExecutor, ThreadPoolExecutor, wait
 from copy import deepcopy
+from dataclasses import asdict
 import multiprocessing as mp
 import os
 import queue
+import json
 import threading
 import time
 
@@ -14,14 +16,19 @@ from PyQt6.QtCore import QObject, QThread, pyqtSignal
 from calo_rpd_studio.compute.resource_scheduler import (
     ResourceMonitor,
     build_weighted_lane_plan,
+    build_throughput_lane_plan,
     accelerator_admission_allowed,
     backend_allows_accelerators,
     cpu_admission_allowed,
     item_uses_calo_ai,
     prioritized_accelerators,
     weighted_worker_slots,
+    throughput_worker_slots,
 )
 from calo_rpd_studio.compute.xpu_sidecar import execute_xpu_job
+from calo_rpd_studio.compute.persistent_accelerator_worker import PersistentAcceleratorPool
+from calo_rpd_studio.compute.persistent_accelerator_sidecar import PersistentSidecarPool
+from calo_rpd_studio.accelerated.throughput_engine import DeviceCalibration, ThroughputProfile
 from calo_rpd_studio.experiments.calo_ablation import run_ablation
 from calo_rpd_studio.experiments.execution_plan import (
     ABLATION_MODE,
@@ -33,6 +40,8 @@ from calo_rpd_studio.experiments.experiment_runner import failed_run_from_except
 from calo_rpd_studio.experiments.provenance import collect_provenance
 from calo_rpd_studio.experiments.seed_manager import RunSeeds, SeedManager
 from calo_rpd_studio.results.result_store import ResultStore
+from calo_rpd_studio.portfolio.fingerprint import experiment_fingerprint, run_fingerprint
+from calo_rpd_studio.resume.models import ResumeStatus, ResumeTaskType
 
 
 def _configure_child_numeric_threads() -> None:
@@ -167,9 +176,20 @@ class ExperimentWorker(QThread):
         self.config = config
         self.mode = mode
         self._cancel_event = threading.Event()
+        self._pause_event = threading.Event()
         self._process_cancel_event = None
+        self.campaign_id = str(getattr(config, "resume_campaign_id", "") or "")
+        self.experiment_id = ""
+        self.resume_task_id = ""
+        self._task_by_job: dict[int, dict] = {}
+        self._run_fingerprint_by_job: dict[int, str] = {}
+
+    def pause(self) -> None:
+        """Stop admitting new jobs and let active jobs finish at a reproducible boundary."""
+        self._pause_event.set()
 
     def cancel(self) -> None:
+        """Emergency cancellation; active jobs may restart from their last committed boundary."""
         self._cancel_event.set()
         event = self._process_cancel_event
         if event is not None:
@@ -180,6 +200,9 @@ class ExperimentWorker(QThread):
 
     def _cancelled(self) -> bool:
         return self._cancel_event.is_set()
+
+    def _pause_requested(self) -> bool:
+        return self._pause_event.is_set()
 
     def _fraction_for_payload(self, payload: dict) -> float:
         if self.config.budget.policy.value == "equal_evaluations":
@@ -215,13 +238,61 @@ class ExperimentWorker(QThread):
         )
         self.progress.emit(data)
 
+    def _sync_campaign_progress(self, message: str = "") -> None:
+        if not self.campaign_id:
+            return
+        tasks = self.state.database.list_campaign_tasks(self.campaign_id)
+        completed = sum(1 for row in tasks if row["status"] in {"completed", "reused"})
+        total = len(tasks)
+        self.state.database.update_campaign(
+            self.campaign_id,
+            completed_tasks=completed,
+            message=message,
+        )
+        if self.resume_task_id:
+            state = {
+                "campaign_id": self.campaign_id,
+                "experiment_id": self.experiment_id,
+                "mode": self.mode,
+            }
+            self.state.resume_service.update(
+                self.resume_task_id,
+                current=completed,
+                total=total,
+                state=state,
+            )
+
+    def _mark_task_started(self, item) -> None:
+        row = self._task_by_job.get(int(item.job_index))
+        if row:
+            self.state.database.update_campaign_task(
+                row["id"], status="running", increment_attempts=True
+            )
+            self.state.database.append_task_event(row["id"], "started", {"job_index": item.job_index})
+
     def _persist_completed(self, experiment_id: str, store: ResultStore, item, completed) -> None:
         path = store.save_arrays(completed.result)
-        run_id = self.state.database.add_run(experiment_id, completed, str(path))
+        fingerprint = self._run_fingerprint_by_job.get(int(item.job_index), "")
+        run_id = self.state.database.add_run(
+            experiment_id,
+            completed,
+            str(path),
+            scientific_fingerprint=fingerprint,
+        )
+        row = self._task_by_job.get(int(item.job_index))
+        if row:
+            self.state.database.update_campaign_task(row["id"], status="completed", run_id=run_id)
+            self.state.database.append_task_event(row["id"], "completed", {"run_id": run_id})
+        self._sync_campaign_progress(f"Completed {item.label} run {item.run_index + 1}")
         self.run_completed.emit(run_id, item.label, item.run_index + 1)
 
     def _persist_failure(self, experiment_id: str, item, failure) -> None:
         failure_id = self.state.database.add_failure(experiment_id, failure)
+        row = self._task_by_job.get(int(item.job_index))
+        if row:
+            self.state.database.update_campaign_task(row["id"], status="failed", failure_id=failure_id)
+            self.state.database.append_task_event(row["id"], "failed", {"failure_id": failure_id, "message": failure.message})
+        self._sync_campaign_progress(f"Failed {item.label} run {item.run_index + 1}")
         self.run_failed.emit(failure_id, item.label, item.run_index + 1)
 
     def _run_sequential(self, experiment_id: str, store: ResultStore, plan, seeds) -> bool:
@@ -250,8 +321,9 @@ class ExperimentWorker(QThread):
                 return bool(self.callback())
 
         for item in plan:
-            if self._cancelled():
+            if self._cancelled() or self._pause_requested():
                 return False
+            self._mark_task_started(item)
             snapshot = monitor.sample()
             compute_device = "cpu"
             selected_device = None
@@ -343,7 +415,7 @@ class ExperimentWorker(QThread):
                     "compute_device": compute_device,
                 }
             )
-        return not self._cancelled()
+        return not self._cancelled() and not self._pause_requested()
 
     @staticmethod
     def _drain_progress_queue(progress_queue):
@@ -422,6 +494,7 @@ class ExperimentWorker(QThread):
                     active_by_device: dict[str, int] = {}
 
                     def submit_item(item: PlannedItem, lane: str, device_id: str, runtime: str = "primary") -> None:
+                        self._mark_task_started(item)
                         if lane == "xpu" and runtime == "sidecar":
                             future = xpu_executor.submit(
                                 execute_xpu_job, self.config, self.mode, item, seeds[item.run_index],
@@ -479,6 +552,7 @@ class ExperimentWorker(QThread):
                                 and len(pending) < max_workers
                                 and active_lane[lane] < slots.get(lane, 0)
                                 and not self._cancelled()
+                                and not self._pause_requested()
                             ):
                                 snapshot = monitor.sample()
                                 if lane == "cpu":
@@ -511,7 +585,7 @@ class ExperimentWorker(QThread):
                                 self._emit_progress(payload, item, fractions, completed_count, total_items, len(pending))
 
                         if not pending:
-                            if self._cancelled():
+                            if self._cancelled() or self._pause_requested():
                                 break
                             if not admit_jobs():
                                 time.sleep(0.20)
@@ -562,7 +636,7 @@ class ExperimentWorker(QThread):
                                     "planned_lane": lane,
                                 }
                             )
-                        if not self._cancelled():
+                        if not self._cancelled() and not self._pause_requested():
                             admit_jobs()
 
                     for payload in self._drain_progress_queue(progress_queue):
@@ -575,7 +649,402 @@ class ExperimentWorker(QThread):
                 xpu_executor.shutdown(wait=True, cancel_futures=True)
                 self._process_cancel_event = None
 
-        return not self._cancelled()
+        return not self._cancelled() and not self._pause_requested()
+
+    def _run_parallel_throughput(self, experiment_id: str, store: ResultStore, plan, seeds) -> bool:
+        """Run the v3.1 persistent batched-throughput engine.
+
+        One long-lived process owns each selected compute device.  Independent optimizer runs are
+        executed as threads inside that process; compatible population requests are combined by a
+        cross-run batch broker.  A short unbudgeted calibration selects the best stable microbatch
+        and allocates complete jobs in proportion to measured candidate-evaluation throughput.
+        """
+
+        total_items = max(1, len(plan))
+        fractions = {item.job_index: 0.0 for item in plan}
+        completed_count = 0
+        monitor = ResourceMonitor()
+        snapshot = monitor.sample()
+        context = mp.get_context("spawn")
+
+        for key in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS", "NUMEXPR_NUM_THREADS"):
+            os.environ.setdefault(key, "1")
+
+        with context.Manager() as manager:
+            cancel_event = manager.Event()
+            progress_queue = manager.Queue()
+            self._process_cancel_event = cancel_event
+            pools = {}
+            try:
+                backend = str(self.config.execution_backend).lower()
+                cuda_device = next(iter(snapshot.by_backend("cuda")), None)
+                if backend == "cuda_only" and cuda_device is None:
+                    raise RuntimeError(
+                        "CUDA-only execution was requested, but no verified NVIDIA CUDA runtime is available."
+                    )
+
+                # CPU is a numerical lane only when its requested share is non-zero or when the
+                # measured-throughput mode needs a reference measurement. CUDA-only mode leaves
+                # host work to orchestration/persistence and does not launch a CPU optimizer pool.
+                if backend != "cuda_only":
+                    pools["cpu"] = PersistentAcceleratorPool(
+                        "cpu",
+                        slots=max(1, int(self.config.parallel_workers)),
+                        progress_queue=progress_queue,
+                        cancel_event=cancel_event,
+                        batch_window_ms=float(self.config.cross_run_batch_window_ms),
+                        max_cross_run_batch=int(self.config.max_cross_run_batch),
+                        cross_run_batching=bool(self.config.cross_run_batching),
+                        context=context,
+                    )
+
+                if cuda_device is not None:
+                    pools["cuda"] = PersistentAcceleratorPool(
+                        cuda_device.device_id,
+                        slots=max(1, int(self.config.gpu_parallel_jobs)),
+                        progress_queue=progress_queue,
+                        cancel_event=cancel_event,
+                        batch_window_ms=float(self.config.cross_run_batch_window_ms),
+                        max_cross_run_batch=int(self.config.max_cross_run_batch),
+                        cross_run_batching=bool(self.config.cross_run_batching),
+                        context=context,
+                    )
+
+                xpu_device = next(iter(snapshot.by_backend("xpu")), None)
+                if xpu_device is not None and backend != "cuda_only":
+                    if xpu_device.runtime == "sidecar":
+                        from calo_rpd_studio.compute.resource_scheduler import configured_xpu_interpreter
+
+                        interpreter = configured_xpu_interpreter()
+                        if interpreter:
+                            pools["xpu"] = PersistentSidecarPool(
+                                interpreter,
+                                xpu_device.device_id,
+                                slots=max(1, int(self.config.xpu_parallel_jobs)),
+                                progress_queue=progress_queue,
+                                batch_window_ms=float(self.config.cross_run_batch_window_ms),
+                                max_cross_run_batch=int(self.config.max_cross_run_batch),
+                                cross_run_batching=bool(self.config.cross_run_batching),
+                            )
+                    else:
+                        pools["xpu"] = PersistentAcceleratorPool(
+                            xpu_device.device_id,
+                            slots=max(1, int(self.config.xpu_parallel_jobs)),
+                            progress_queue=progress_queue,
+                            cancel_event=cancel_event,
+                            batch_window_ms=float(self.config.cross_run_batch_window_ms),
+                            max_cross_run_batch=int(self.config.max_cross_run_batch),
+                            cross_run_batching=bool(self.config.cross_run_batching),
+                            context=context,
+                        )
+
+                # Automatic microbatch calibration is performed inside each persistent runtime, so
+                # CUDA/XPU contexts and invariant tensors remain warm for the campaign itself.
+                calibration_records: dict[str, DeviceCalibration] = {}
+                batch_sizes = tuple(int(value) for value in self.config.calibration_batch_sizes)
+                calibration_pending = set()
+                if bool(self.config.automatic_batch_calibration):
+                    for lane, pool in pools.items():
+                        request_id = f"cal-{lane}-{time.time_ns()}"
+                        calibration_pending.add(request_id)
+                        pool.calibrate(
+                            request_id,
+                            self.config,
+                            seeds[0].scenario_seed,
+                            batch_sizes=batch_sizes,
+                            repetitions=int(self.config.calibration_repetitions),
+                        )
+                    calibration_deadline = time.monotonic() + 600.0
+                    while calibration_pending and time.monotonic() < calibration_deadline:
+                        if self._cancelled():
+                            cancel_event.set()
+                            break
+                        for lane, pool in pools.items():
+                            for message in pool.poll():
+                                kind = str(message.get("kind", ""))
+                                if kind == "calibration":
+                                    request_id = str(message.get("request_id", ""))
+                                    calibration_pending.discard(request_id)
+                                    record = message.get("record")
+                                    if isinstance(record, DeviceCalibration):
+                                        calibration_records[lane] = record
+                                elif kind == "calibration_error":
+                                    calibration_pending.discard(str(message.get("request_id", "")))
+                        percent = int(100 * (len(pools) - len(calibration_pending)) / max(len(pools), 1))
+                        self.progress.emit(
+                            {
+                                "phase": "throughput_calibration",
+                                "algorithm": "Throughput calibration",
+                                "overall_percent": 0,
+                                "calibration_percent": percent,
+                                "total_run_items": total_items,
+                                "completed_items": 0,
+                                "active_items": 0,
+                            }
+                        )
+                        time.sleep(0.05)
+
+                # Load an existing profile only for lanes not successfully calibrated now.
+                profile_path = str(self.config.throughput_profile_path)
+                try:
+                    previous = ThroughputProfile.load(profile_path)
+                except Exception:
+                    previous = None
+                if previous is not None and previous.case_name == self.config.case_name:
+                    for lane in pools:
+                        if lane not in calibration_records:
+                            candidates = [record for key, record in previous.devices.items() if key.startswith(lane)]
+                            if candidates:
+                                calibration_records[lane] = max(candidates, key=lambda record: record.evaluations_per_second)
+
+                # A conservative fallback preserves execution when a calibration cannot run.
+                for lane, pool in pools.items():
+                    if lane not in calibration_records:
+                        calibration_records[lane] = DeviceCalibration(
+                            device=getattr(pool, "device", lane),
+                            device_name=getattr(pool, "device", lane),
+                            batch_size=int(self.config.tensor_batch_size),
+                            evaluations_per_second=1.0 if lane == "cpu" else 0.0,
+                            latency_seconds=float("inf"),
+                            candidate_count=0,
+                            repetitions=0,
+                            successful=False,
+                            note="Calibration unavailable; conservative fallback",
+                        )
+
+                profile = ThroughputProfile(
+                    case_name=self.config.case_name,
+                    scenario_count=max(1, int(getattr(self.config.scenarios, "count", 1))) if self.config.scenarios.mode != "deterministic" else 1,
+                    dimension=0,
+                    created_at=time.time(),
+                    devices={record.device: record for record in calibration_records.values()},
+                )
+                try:
+                    profile.save(profile_path)
+                except Exception:
+                    pass
+
+                lane_throughputs = {
+                    lane: max(0.0, float(record.evaluations_per_second))
+                    for lane, record in calibration_records.items()
+                }
+                backend = str(self.config.execution_backend).lower()
+                if backend in {"cuda_priority", "cuda_only"}:
+                    lane_by_job, allocation = build_weighted_lane_plan(
+                        plan,
+                        self.mode,
+                        cuda_available="cuda" in pools,
+                        xpu_available="xpu" in pools,
+                        cuda_share=int(self.config.cuda_task_share),
+                        xpu_share=int(self.config.xpu_task_share),
+                        cpu_share=int(self.config.cpu_task_share),
+                    )
+                else:
+                    lane_by_job, allocation = build_throughput_lane_plan(
+                        plan,
+                        self.mode,
+                        lane_throughputs=lane_throughputs,
+                        cuda_available="cuda" in pools,
+                        xpu_available="xpu" in pools,
+                    )
+                slots = throughput_worker_slots(max(1, int(self.config.parallel_workers)), allocation)
+                if "cuda" in pools:
+                    slots["cuda"] = min(slots["cuda"], int(self.config.gpu_parallel_jobs), pools["cuda"].slots)
+                if "xpu" in pools:
+                    slots["xpu"] = min(slots["xpu"], int(self.config.xpu_parallel_jobs), pools["xpu"].slots)
+                if "cpu" in pools:
+                    slots["cpu"] = min(slots["cpu"], pools["cpu"].slots)
+                else:
+                    slots["cpu"] = 0
+                for lane in ("cuda", "xpu", "cpu"):
+                    jobs_for_lane = sum(1 for value in lane_by_job.values() if value == lane)
+                    if jobs_for_lane > 0 and slots.get(lane, 0) == 0 and lane in pools:
+                        slots[lane] = 1
+
+                queues = {
+                    lane: [item for item in plan if lane_by_job.get(int(item.job_index), "cpu") == lane]
+                    for lane in ("cuda", "xpu", "cpu")
+                }
+                self.progress.emit(
+                    {
+                        "phase": "throughput_allocation_planned",
+                        "algorithm": "Batched Throughput Engine",
+                        "overall_percent": 0,
+                        "total_run_items": total_items,
+                        "completed_items": 0,
+                        "active_items": 0,
+                        "allocation_effective": allocation.effective_text,
+                        "measured_throughput": getattr(allocation, "throughput_text", "fixed CUDA/XPU/CPU share"),
+                        "lane_slots": dict(slots),
+                        "calibrated_batch_sizes": {lane: record.batch_size for lane, record in calibration_records.items()},
+                    }
+                )
+
+                active_by_lane = {lane: 0 for lane in ("cuda", "xpu", "cpu")}
+                item_by_job_id = {}
+
+                def active_total() -> int:
+                    return sum(active_by_lane.values())
+
+                def submit_available() -> bool:
+                    admitted = False
+                    current_snapshot = monitor.sample()
+                    # CUDA-priority work stealing is limited to unstarted jobs. It preserves each
+                    # run's seed and numerical protocol while preventing a fast NVIDIA lane from
+                    # waiting behind slower XPU/CPU queues.
+                    if (
+                        str(self.config.execution_backend).lower() == "cuda_priority"
+                        and bool(getattr(self.config, "cuda_priority_work_stealing", True))
+                        and "cuda" in pools
+                        and active_by_lane["cuda"] < slots.get("cuda", 0)
+                    ):
+                        while active_by_lane["cuda"] + len(queues["cuda"]) < slots.get("cuda", 0):
+                            donor = "xpu" if queues["xpu"] else ("cpu" if queues["cpu"] else None)
+                            if donor is None:
+                                break
+                            queues["cuda"].append(queues[donor].pop(0))
+                    for lane in ("cuda", "xpu", "cpu"):
+                        pool = pools.get(lane)
+                        if pool is None:
+                            continue
+                        while queues[lane] and active_by_lane[lane] < slots.get(lane, 0) and pool.available_slots > 0 and not self._cancelled() and not self._pause_requested():
+                            if lane == "cpu":
+                                if not cpu_admission_allowed(
+                                    current_snapshot,
+                                    self.config.cpu_utilization_target,
+                                    active_by_lane["cpu"],
+                                    self.config.system_memory_limit,
+                                ) and active_total() > 0:
+                                    break
+                            else:
+                                device = next(iter(current_snapshot.by_backend(lane)), None)
+                                if device is not None:
+                                    target = self.config.gpu_utilization_target if lane == "cuda" else self.config.xpu_utilization_target
+                                    memory_limit = self.config.gpu_memory_limit if lane == "cuda" else self.config.xpu_memory_limit
+                                    cap = self.config.gpu_parallel_jobs if lane == "cuda" else self.config.xpu_parallel_jobs
+                                    if not accelerator_admission_allowed(device, target, memory_limit, active_by_lane[lane], cap) and active_total() > 0:
+                                        break
+                            item = queues[lane].pop(0)
+                            job_id = f"job-{item.job_index}"
+                            local = deepcopy(self.config)
+                            local.tensor_batch_size = int(calibration_records[lane].batch_size)
+                            self._mark_task_started(item)
+                            pool.submit(job_id, local, self.mode, item, seeds[item.run_index])
+                            active_by_lane[lane] += 1
+                            item_by_job_id[job_id] = (item, lane)
+                            admitted = True
+                            self.progress.emit(
+                                {
+                                    "phase": "job_started",
+                                    "algorithm": item.label,
+                                    "job_index": item.job_index,
+                                    "run_index": item.run_index + 1,
+                                    "overall_percent": int(100 * sum(fractions.values()) / total_items),
+                                    "run_position": item.job_index + 1,
+                                    "total_run_items": total_items,
+                                    "completed_items": completed_count,
+                                    "active_items": active_total(),
+                                    "compute_device": getattr(pool, "device", lane),
+                                    "planned_lane": lane,
+                                    "calibrated_batch_size": int(calibration_records[lane].batch_size),
+                                }
+                            )
+                        current_snapshot = monitor.sample()
+                    return admitted
+
+                submit_available()
+                while any(queues.values()) or active_total() > 0:
+                    if self._cancelled():
+                        cancel_event.set()
+                        for pool in pools.values():
+                            cancel = getattr(pool, "cancel", None)
+                            if callable(cancel):
+                                cancel()
+                    if self._pause_requested() and active_total() == 0:
+                        break
+
+                    for payload in self._drain_progress_queue(progress_queue):
+                        job_index = int(payload.get("job_index", -1))
+                        item = next((entry for entry in plan if entry.job_index == job_index), None)
+                        if item is not None:
+                            self._emit_progress(payload, item, fractions, completed_count, total_items, active_total())
+
+                    handled = False
+                    for lane, pool in pools.items():
+                        for message in pool.poll():
+                            kind = str(message.get("kind", ""))
+                            if kind in {"calibration", "calibration_error"}:
+                                continue
+                            job_id = str(message.get("job_id", ""))
+                            item_lane = item_by_job_id.pop(job_id, None)
+                            if item_lane is None:
+                                continue
+                            item, expected_lane = item_lane
+                            active_by_lane[expected_lane] = max(0, active_by_lane[expected_lane] - 1)
+                            if kind == "completed":
+                                completed = message["payload"]
+                                completed.result.metadata.update(
+                                    {
+                                        "throughput_engine_version": "3.3",
+                                        "device_resident_execution": bool(getattr(self.config, "device_resident_execution", True)),
+                                        "cuda_priority_work_stealing": bool(getattr(self.config, "cuda_priority_work_stealing", True)),
+                                        "throughput_lane": expected_lane,
+                                        "throughput_calibration": asdict(calibration_records[expected_lane]),
+                                        "throughput_allocation": allocation.effective_text,
+                                        "measured_lane_throughputs": dict(lane_throughputs),
+                                    }
+                                )
+                                self._persist_completed(experiment_id, store, item, completed)
+                                phase = "run_completed"
+                            else:
+                                payload = message.get("payload")
+                                if payload is None:
+                                    payload = failed_run_from_exception(
+                                        item.label,
+                                        item.run_index,
+                                        seeds[item.run_index],
+                                        RuntimeError(str(message.get("message", "Persistent worker failure"))),
+                                    )
+                                self._persist_failure(experiment_id, item, payload)
+                                phase = "run_failed"
+                            completed_count += 1
+                            fractions[item.job_index] = 1.0
+                            handled = True
+                            self.progress.emit(
+                                {
+                                    "algorithm": item.label,
+                                    "job_index": item.job_index,
+                                    "run_index": item.run_index + 1,
+                                    "overall_percent": int(100 * sum(fractions.values()) / total_items),
+                                    "run_position": item.job_index + 1,
+                                    "total_run_items": total_items,
+                                    "completed_items": completed_count,
+                                    "active_items": active_total(),
+                                    "phase": phase,
+                                    "compute_device": getattr(pool, "device", expected_lane),
+                                    "planned_lane": expected_lane,
+                                }
+                            )
+                    if not self._cancelled() and not self._pause_requested():
+                        submit_available()
+                    if not handled:
+                        time.sleep(0.05)
+
+                for payload in self._drain_progress_queue(progress_queue):
+                    job_index = int(payload.get("job_index", -1))
+                    item = next((entry for entry in plan if entry.job_index == job_index), None)
+                    if item is not None:
+                        self._emit_progress(payload, item, fractions, completed_count, total_items, 0)
+            finally:
+                cancel_event.set()
+                for pool in pools.values():
+                    try:
+                        pool.close()
+                    except Exception:
+                        pass
+                self._process_cancel_event = None
+
+        return not self._cancelled() and not self._pause_requested()
 
     def _run_parallel(self, experiment_id: str, store: ResultStore, plan, seeds) -> bool:
         """Run independent jobs with accelerator-first heterogeneous admission control.
@@ -586,7 +1055,14 @@ class ExperimentWorker(QThread):
         are soft admission limits; running jobs are never migrated between devices.
         """
 
-        if str(self.config.execution_backend).lower() == "weighted_split":
+        backend = str(self.config.execution_backend).lower()
+        if backend in {"throughput_auto", "cuda_priority", "cuda_only"}:
+            if bool(self.config.throughput_engine_enabled) and bool(
+                self.config.persistent_accelerator_workers
+            ):
+                return self._run_parallel_throughput(experiment_id, store, plan, seeds)
+            return self._run_parallel_weighted(experiment_id, store, plan, seeds)
+        if backend == "weighted_split":
             return self._run_parallel_weighted(experiment_id, store, plan, seeds)
 
         total_items = max(1, len(plan))
@@ -619,6 +1095,7 @@ class ExperimentWorker(QThread):
                     active_by_device: dict[str, int] = {}
 
                     def submit_item(item: PlannedItem, device: str, runtime: str = "primary") -> None:
+                        self._mark_task_started(item)
                         nonlocal active_cpu_jobs
                         if device.startswith("xpu") and runtime == "sidecar":
                             future = xpu_executor.submit(
@@ -684,7 +1161,7 @@ class ExperimentWorker(QThread):
                     def admit_jobs() -> bool:
                         """Admit jobs while respecting CUDA -> XPU -> CPU priority."""
                         admitted_any = False
-                        while queued and len(pending) < max_workers and not self._cancelled():
+                        while queued and len(pending) < max_workers and not self._cancelled() and not self._pause_requested():
                             snapshot = monitor.sample()
                             admitted = False
 
@@ -758,7 +1235,7 @@ class ExperimentWorker(QThread):
                                 )
 
                         if not pending:
-                            if self._cancelled():
+                            if self._cancelled() or self._pause_requested():
                                 break
                             if not admit_jobs():
                                 time.sleep(0.20)
@@ -814,7 +1291,7 @@ class ExperimentWorker(QThread):
                                 }
                             )
 
-                        if not self._cancelled():
+                        if not self._cancelled() and not self._pause_requested():
                             admit_jobs()
 
                     for payload in self._drain_progress_queue(progress_queue):
@@ -834,29 +1311,158 @@ class ExperimentWorker(QThread):
                 xpu_executor.shutdown(wait=True, cancel_futures=True)
                 self._process_cancel_event = None
 
-        return not self._cancelled()
+        return not self._cancelled() and not self._pause_requested()
+
+    def _prepare_campaign(self, full_plan, seeds):
+        """Create or reopen one portfolio campaign and return only unfinished work."""
+        database = self.state.database
+        if self.campaign_id:
+            campaign = database.get_campaign(self.campaign_id)
+            if campaign is None:
+                raise KeyError(f"Unknown resume campaign: {self.campaign_id}")
+            self.experiment_id = str(campaign["experiment_id"])
+            self.resume_task_id = self.campaign_id
+            rows = database.list_campaign_tasks(self.campaign_id)
+            self._task_by_job = {int(row["job_index"]): row for row in rows}
+            pending_statuses = {"planned", "queued", "running", "pausing", "paused", "interrupted", "failed"}
+            plan = [item for item in full_plan if self._task_by_job.get(int(item.job_index), {}).get("status") in pending_statuses]
+            for item in plan:
+                row = self._task_by_job[int(item.job_index)]
+                self._run_fingerprint_by_job[int(item.job_index)] = str(row["fingerprint"])
+                database.update_campaign_task(row["id"], status="planned")
+            database.update_campaign(self.campaign_id, status="running", message="Campaign resumed")
+            self.state.resume_service.update(
+                self.resume_task_id,
+                status=ResumeStatus.RUNNING,
+                state={"campaign_id": self.campaign_id, "experiment_id": self.experiment_id, "mode": self.mode},
+                resumable=True,
+            )
+            self._sync_campaign_progress("Campaign resumed")
+            return plan
+
+        scientific_fp = experiment_fingerprint(self.config)
+        self.experiment_id = database.create_experiment(
+            self.config,
+            collect_provenance(),
+            scientific_fingerprint=scientific_fp,
+            portfolio_id=str(getattr(self.config, "portfolio_id", "")),
+            campaign_status="running",
+        )
+        self.campaign_id = database.create_campaign(
+            self.experiment_id,
+            str(getattr(self.config, "portfolio_id", "")),
+            self.mode,
+            self.config.to_dict(),
+            len(full_plan),
+        )
+        self.resume_task_id = self.campaign_id
+        self.state.resume_service.register(
+            ResumeTaskType.EXPERIMENT,
+            f"{self.config.name} ({self.mode})",
+            {"campaign_id": self.campaign_id, "experiment_id": self.experiment_id, "mode": self.mode},
+            total=len(full_plan),
+            task_id=self.resume_task_id,
+            status=ResumeStatus.RUNNING,
+        )
+        required_outputs = list(getattr(self.config.portfolio, "requested_outputs", []))
+        plan = []
+        reused = 0
+        for item in full_plan:
+            seed = seeds[item.run_index]
+            fp = run_fingerprint(self.config, item.label, item.run_index, seed)
+            seed_payload = {
+                "algorithm_seed": seed.algorithm_seed,
+                "scenario_seed": seed.scenario_seed,
+                "ai_inference_seed": seed.ai_inference_seed,
+            }
+            task_id = database.add_campaign_task(
+                self.campaign_id,
+                item.job_index,
+                item.label,
+                item.run_index,
+                seed_payload,
+                fp,
+                required_outputs,
+            )
+            row = next(row for row in database.list_campaign_tasks(self.campaign_id) if row["id"] == task_id)
+            self._task_by_job[int(item.job_index)] = row
+            self._run_fingerprint_by_job[int(item.job_index)] = fp
+            reusable = None
+            if bool(getattr(self.config, "reuse_compatible_results", True)):
+                reusable = database.find_reusable_run(
+                    fp,
+                    verified_only=bool(getattr(self.config.portfolio, "require_independent_validation", False)),
+                )
+            if reusable is not None:
+                cloned_run_id = database.clone_run_to_experiment(reusable["id"], self.experiment_id)
+                database.update_campaign_task(task_id, status="reused", run_id=cloned_run_id)
+                database.append_task_event(task_id, "reused", {"source_run_id": reusable["id"], "run_id": cloned_run_id})
+                reused += 1
+            else:
+                plan.append(item)
+        database.update_campaign(self.campaign_id, status="running", completed_tasks=reused, message=f"Reused {reused} exact compatible run(s)")
+        self._sync_campaign_progress(f"Reused {reused} exact compatible run(s)")
+        return plan
+
+    def _pause_unfinished(self) -> None:
+        if not self.campaign_id:
+            return
+        for row in self.state.database.list_campaign_tasks(self.campaign_id):
+            if row["status"] in {"planned", "queued", "running", "pausing", "interrupted"}:
+                self.state.database.update_campaign_task(row["id"], status="paused")
+        self.state.database.update_campaign(self.campaign_id, status="paused", message="Paused safely; completed jobs retained")
+        if self.resume_task_id:
+            self.state.resume_service.update(self.resume_task_id, status=ResumeStatus.PAUSED, resumable=True)
+        self._sync_campaign_progress("Paused safely")
 
     def run(self) -> None:
         try:
-            experiment_id = self.state.database.create_experiment(
-                self.config,
-                collect_provenance(),
+            self.config.validate()
+            from calo_rpd_studio.portfolio.planner import PortfolioPlanner
+            portfolio_plan = PortfolioPlanner.plan(self.config, self.config.portfolio)
+            store = ResultStore(
+                self.config.output_directory,
+                storage_profile=portfolio_plan.storage_profile,
+                required_fields=portfolio_plan.required_fields,
             )
-            self.experiment_created.emit(experiment_id)
-            store = ResultStore(self.config.output_directory)
-            plan = build_execution_plan(self.config, self.mode)
+            full_plan = build_execution_plan(self.config, self.mode)
             seeds = SeedManager(self.config.master_seed).generate(self.config.runs)
+            plan = self._prepare_campaign(full_plan, seeds)
+            self.experiment_created.emit(self.experiment_id)
 
-            if int(self.config.parallel_workers) > 1 and len(plan) > 1:
-                finished = self._run_parallel(experiment_id, store, plan, seeds)
+            if not plan:
+                self.state.database.update_campaign(self.campaign_id, status="completed", message="All required jobs were already complete and reusable")
+                self.state.resume_service.update(self.resume_task_id, status=ResumeStatus.COMPLETED, resumable=False)
+                self.completed.emit(self.experiment_id)
+                return
+
+            if len(plan) > 1 and (
+                int(self.config.parallel_workers) > 1
+                or str(self.config.execution_backend).lower() == "throughput_auto"
+            ):
+                finished = self._run_parallel(self.experiment_id, store, plan, seeds)
             else:
-                finished = self._run_sequential(experiment_id, store, plan, seeds)
+                finished = self._run_sequential(self.experiment_id, store, plan, seeds)
 
             if finished:
-                self.completed.emit(experiment_id)
+                tasks = self.state.database.list_campaign_tasks(self.campaign_id)
+                failures = [row for row in tasks if row["status"] == "failed"]
+                status = "completed_with_failures" if failures else "completed"
+                self.state.database.update_campaign(self.campaign_id, status=status, message=(f"Completed with {len(failures)} failed job(s)" if failures else "Portfolio numerical tasks completed"))
+                self.state.resume_service.update(
+                    self.resume_task_id,
+                    status=(ResumeStatus.FAILED if failures else ResumeStatus.COMPLETED),
+                    resumable=bool(failures),
+                )
+                self.completed.emit(self.experiment_id)
             else:
-                self.cancelled.emit(experiment_id)
+                self._pause_unfinished()
+                self.cancelled.emit(self.experiment_id)
         except Exception as exc:
+            if self.campaign_id:
+                self.state.database.update_campaign(self.campaign_id, status="interrupted", message=f"{type(exc).__name__}: {exc}")
+            if self.resume_task_id:
+                self.state.resume_service.update(self.resume_task_id, status=ResumeStatus.INTERRUPTED, resumable=True)
             self.failed.emit(f"{type(exc).__name__}: {exc}")
 
 
@@ -888,6 +1494,27 @@ class ExperimentManager(QObject):
     def start_calo_analysis(self, config) -> bool:
         return self._start(config, ABLATION_MODE)
 
+    def resume_campaign(self, campaign_id: str) -> bool:
+        campaign = self.state.database.get_campaign(campaign_id)
+        if campaign is None:
+            self.failed.emit(f"Unknown resume campaign: {campaign_id}")
+            return False
+        from calo_rpd_studio.experiments.experiment_config import ExperimentConfig
+
+        config = ExperimentConfig.from_dict(json.loads(campaign["config_json"]))
+        config.resume_campaign_id = str(campaign_id)
+        self.state.config = config
+        self.state.current_experiment_id = str(campaign["experiment_id"] or "")
+        self.state.update_config()
+        return self._start(config, str(campaign["mode"]))
+
+    def pause(self) -> None:
+        """Request a safe pause. New jobs stop; active jobs finish and commit atomically."""
+        worker = self.worker
+        if worker is not None:
+            self.state.task_status.update(detail="Safe pause requested; waiting for active jobs to finish")
+            worker.pause()
+
     def _start(self, config, mode: str) -> bool:
         if self._busy or self.state.task_status.busy:
             self.busy.emit(
@@ -906,6 +1533,16 @@ class ExperimentManager(QObject):
                 f"CPU-only process pool with {config.parallel_workers} workers"
                 if int(config.parallel_workers) > 1
                 else "single CPU worker"
+            )
+        elif str(config.execution_backend) == "throughput_auto":
+            backend = (
+                f"v3.3 persistent batched-throughput engine with automatic microbatch calibration "
+                f"and up to {config.parallel_workers} concurrent runs"
+            )
+        elif str(config.execution_backend) in {"cuda_priority", "cuda_only"}:
+            backend = (
+                f"v3.3 device-resident CUDA-priority scheduler ({config.cuda_task_share}/{config.xpu_task_share}/{config.cpu_task_share}) "
+                f"with persistent workers and up to {config.parallel_workers} concurrent runs"
             )
         elif str(config.execution_backend) == "weighted_split":
             backend = (
@@ -945,6 +1582,22 @@ class ExperimentManager(QObject):
 
     def _on_progress(self, data: dict) -> None:
         self.progress.emit(data)
+        if data.get("phase") == "throughput_allocation_planned":
+            effective = str(data.get("allocation_effective", ""))
+            throughput = str(data.get("measured_throughput", ""))
+            slots = dict(data.get("lane_slots", {}))
+            batches = dict(data.get("calibrated_batch_sizes", {}))
+            self.state.task_status.update(
+                int(data.get("overall_percent", 0)),
+                f"Batched throughput plan · {effective} · {throughput} · slots {slots} · batches {batches}",
+            )
+            return
+        if data.get("phase") == "throughput_calibration":
+            self.state.task_status.update(
+                int(data.get("overall_percent", 0)),
+                f"Calibrating candidate-scenario throughput · {int(data.get('calibration_percent', 0))}%",
+            )
+            return
         if data.get("phase") == "allocation_planned":
             requested = str(data.get("allocation_requested", ""))
             effective = str(data.get("allocation_effective", ""))

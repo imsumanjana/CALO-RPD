@@ -16,40 +16,32 @@ class WorkflowDescriptor:
 
 SETUP_STEPS = (
     WorkflowDescriptor(
-        "power_system",
-        1,
-        "Validate the power system",
+        "power_system", 1, "Validate the power system",
         "Load a case, run the base AC power flow, then complete the independent PYPOWER cross-check.",
     ),
     WorkflowDescriptor(
-        "orpd",
-        2,
-        "Define the ORPD formulation",
+        "orpd", 2, "Define the ORPD formulation",
         "Apply the common objective, decision variables, mixed-variable decoding, and constraint policy.",
     ),
     WorkflowDescriptor(
-        "algorithms",
-        3,
-        "Select optimization algorithms",
+        "algorithms", 3, "Select optimization algorithms",
         "Choose the comparison algorithms and apply their declared parameter configuration.",
     ),
     WorkflowDescriptor(
-        "calo",
-        4,
-        "Confirm CALO intelligence",
+        "portfolio", 4, "Plan the evidence portfolio",
+        "Choose single-run diagnostics or an overall repeated-run portfolio. The planner will derive only the runs, traces, validation, statistics, and figures required.",
+    ),
+    WorkflowDescriptor(
+        "calo", 5, "Confirm CALO intelligence",
         "Validate the CALO policy checkpoint and apply the frozen evaluation configuration.",
     ),
     WorkflowDescriptor(
-        "scenarios",
-        5,
-        "Configure operating scenarios",
+        "scenarios", 6, "Configure operating scenarios",
         "Apply deterministic or robust scenario settings and the robust aggregation rule.",
     ),
     WorkflowDescriptor(
-        "experiment",
-        6,
-        "Run the experiment",
-        "Audit fairness, then run the comparative experiment or the CALO ablation analysis.",
+        "experiment", 7, "Run or resume the experiment",
+        "Audit fairness, reuse exact completed work, and execute only the unfinished jobs required by the portfolio.",
     ),
 )
 
@@ -92,8 +84,7 @@ class WorkflowManager(QObject):
         self.verified_results = 0
 
     def invalidate_from(self, key: str) -> None:
-        if key in self.completed:
-            self.completed.discard(key)
+        self.completed.discard(key)
         self._invalidate_after(key)
         self.changed.emit()
 
@@ -118,7 +109,8 @@ class WorkflowManager(QObject):
         self.changed.emit()
 
     def mark_experiment_stopped(self) -> None:
-        self.experiment_started = False
+        # A paused/interrupted campaign remains a started workflow and is available in Resume Center.
+        self.experiment_started = True
         self.experiment_completed = False
         self.statistics_completed = False
         self.results_reviewed = False
@@ -150,86 +142,58 @@ class WorkflowManager(QObject):
 
     def workspace_state(self, index: int) -> tuple[str, str]:
         """Return visual state and explanatory tooltip for one workspace."""
-        if index in (0, 12, 13):
+        if index in (0, 13, 14, 15):
             return "available", "Always available."
         if index == 1:
-            return (
-                ("completed", "Power system validated.")
-                if self._setup_complete("power_system")
-                else ("recommended", SETUP_STEPS[0].instruction)
-            )
+            return (("completed", "Power system validated.") if self._setup_complete("power_system") else ("recommended", SETUP_STEPS[0].instruction))
         if index == 2:
             if not self._setup_complete("power_system"):
                 return "locked", "Complete Power System validation first."
-            return (
-                ("completed", "ORPD formulation applied.")
-                if self._setup_complete("orpd")
-                else ("recommended", SETUP_STEPS[1].instruction)
-            )
+            return (("completed", "ORPD formulation applied.") if self._setup_complete("orpd") else ("recommended", SETUP_STEPS[1].instruction))
         if index == 3:
             if not self._setup_complete("orpd"):
                 return "locked", "Apply the ORPD formulation first."
-            return (
-                ("completed", "Algorithm configuration applied.")
-                if self._setup_complete("algorithms")
-                else ("recommended", SETUP_STEPS[2].instruction)
-            )
+            return (("completed", "Algorithm configuration applied.") if self._setup_complete("algorithms") else ("recommended", SETUP_STEPS[2].instruction))
         if index == 4:
             if not self._setup_complete("algorithms"):
                 return "locked", "Apply the algorithm selection first."
+            return (("completed", "Evidence portfolio planned.") if self._setup_complete("portfolio") else ("recommended", SETUP_STEPS[3].instruction))
+        if index == 5:
+            if not self._setup_complete("portfolio"):
+                return "locked", "Apply the Portfolio Manager plan first."
             if not self.calo_required():
                 return "optional", "CALO is not selected; this workspace is optional."
-            return (
-                ("completed", "CALO policy configuration validated.")
-                if self._setup_complete("calo")
-                else ("recommended", SETUP_STEPS[3].instruction)
-            )
-        if index == 5:
-            if not self._setup_complete("algorithms"):
-                return "locked", "Apply the algorithm selection first."
+            return (("completed", "CALO policy configuration validated.") if self._setup_complete("calo") else ("recommended", SETUP_STEPS[4].instruction))
+        if index == 6:
+            if not self._setup_complete("portfolio"):
+                return "locked", "Apply the Portfolio Manager plan first."
             if self.calo_required() and not self._setup_complete("calo"):
                 return "locked", "Validate and apply CALO Intelligence first."
-            return (
-                ("completed", "Scenario configuration applied.")
-                if self._setup_complete("scenarios")
-                else ("recommended", SETUP_STEPS[4].instruction)
-            )
-        if index == 6:
+            return (("completed", "Scenario configuration applied.") if self._setup_complete("scenarios") else ("recommended", SETUP_STEPS[5].instruction))
+        if index == 7:
             if not self._setup_complete("scenarios"):
                 return "locked", "Apply the robust scenario configuration first."
-            return (
-                ("completed", "At least one experiment has completed.")
-                if self.experiment_completed
-                else ("recommended", SETUP_STEPS[5].instruction)
-            )
-        if index == 7:
-            if not self.experiment_started:
-                return "locked", "Start an experiment first."
-            return "available", "Live optimization telemetry is available."
+            return (("completed", "The portfolio experiment is complete.") if self.experiment_completed else ("recommended", SETUP_STEPS[6].instruction))
         if index == 8:
-            if not self.experiment_completed:
-                return "locked", "Complete an experiment first."
-            return (
-                ("completed", "Statistical analysis completed for the selected experiment.")
-                if self.statistics_completed
-                else ("recommended", "Analyze the completed repeated-run experiment before reviewing individual results.")
-            )
+            if not self.experiment_started:
+                return "locked", "Start or resume an experiment first."
+            return "available", "Live optimization telemetry is available."
         if index == 9:
-            if not self.statistics_completed:
-                return "locked", "Complete Statistical Analysis first."
-            return (
-                ("completed", "Result review confirmed.")
-                if self.results_reviewed
-                else ("recommended", "Inspect the stored runs and confirm the result review before independent validation.")
-            )
+            if not self.experiment_completed:
+                return "locked", "Complete the numerical portfolio tasks first."
+            return (("completed", "Statistical analysis completed for the selected experiment.") if self.statistics_completed else ("recommended", "Compute only the statistics requested by the applied portfolio."))
         if index == 10:
+            if not self.statistics_completed and self.state.config.portfolio.kind.value != "single_run":
+                return "locked", "Complete Statistical Analysis first."
+            return (("completed", "Result review confirmed.") if self.results_reviewed else ("recommended", "Inspect the stored runs and confirm the result review before independent validation."))
+        if index == 11:
             if not self.results_reviewed:
                 return "locked", "Complete the Results Explorer review first."
-            return "available", "Independent validation is available for stored solutions."
-        if index == 11:
-            if self.verified_results <= 0:
-                return "locked", "Independently verify at least one result first."
-            return "available", f"{self.verified_results} verified result(s) are available for export."
+            return "available", "Independent and bulk validation are available for stored solutions."
+        if index == 12:
+            if self.verified_results <= 0 and self.state.config.portfolio.require_independent_validation:
+                return "locked", "Independently verify the portfolio's required results first."
+            return "available", f"{self.verified_results} verified result(s) are available for portfolio export."
         return "available", "Available."
 
     def is_workspace_enabled(self, index: int) -> bool:
@@ -242,54 +206,28 @@ class WorkflowManager(QObject):
             if descriptor.key == "experiment":
                 if self.experiment_started and not self.experiment_completed:
                     return WorkflowDescriptor(
-                        "live",
-                        7,
-                        "Monitor the active optimization",
-                        "The experiment is running. Follow objective, feasibility, evaluation count, and CALO telemetry in Live Optimization.",
+                        "live", 8, "Monitor or resume the active portfolio",
+                        "Follow the active jobs in Live Optimization or use Resume Center after a safe pause/interruption.",
                     )
                 if not self.experiment_completed:
                     return descriptor
                 continue
             if not self._setup_complete(descriptor.key):
                 return descriptor
-        if self.experiment_completed and not self.statistics_completed:
-            return WorkflowDescriptor(
-                "statistics",
-                8,
-                "Analyze repeated-run statistics",
-                "Compute the statistical summary and convergence comparison before reviewing individual stored runs.",
-            )
+        if self.experiment_completed and not self.statistics_completed and self.state.config.portfolio.kind.value != "single_run":
+            return WorkflowDescriptor("statistics", 9, "Analyze requested repeated-run evidence", "Compute only the statistical outputs selected in Portfolio Manager.")
         if self.experiment_completed and not self.results_reviewed:
-            return WorkflowDescriptor(
-                "results",
-                9,
-                "Review experiment results",
-                "Inspect objective values, feasibility, controls, and stored run metadata, then confirm the review.",
-            )
-        if self.experiment_completed and self.verified_results <= 0:
-            return WorkflowDescriptor(
-                "validation",
-                10,
-                "Validate experiment results",
-                "Independently re-run and verify at least one stored solution before publication export.",
-            )
-        if self.verified_results > 0:
-            return WorkflowDescriptor(
-                "publication",
-                11,
-                "Export verified results",
-                "Create the publication and reproducibility package from independently verified records.",
-            )
+            return WorkflowDescriptor("results", 10, "Review portfolio results", "Inspect objective values, feasibility, controls, and stored evidence, then confirm the review.")
+        if self.experiment_completed and self.verified_results <= 0 and self.state.config.portfolio.require_independent_validation:
+            return WorkflowDescriptor("validation", 11, "Validate portfolio results", "Bulk-validate all required, not-yet-verified runs. Progress is resumable.")
+        if self.experiment_completed:
+            return WorkflowDescriptor("publication", 12, "Generate the portfolio package", "Generate only the selected figures, tables, captions, and reproducibility records; incomplete exports are resumable.")
         return None
 
     def progress(self) -> tuple[int, int]:
-        required = ["power_system", "orpd", "algorithms"]
+        required = ["power_system", "orpd", "algorithms", "portfolio"]
         if self.calo_required():
             required.append("calo")
         required.extend(["scenarios", "experiment"])
-        completed = sum(
-            1
-            for key in required
-            if (self.experiment_completed if key == "experiment" else self._setup_complete(key))
-        )
+        completed = sum(1 for key in required if (self.experiment_completed if key == "experiment" else self._setup_complete(key)))
         return completed, len(required)

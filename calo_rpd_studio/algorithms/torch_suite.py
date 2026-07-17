@@ -31,6 +31,11 @@ class TorchCanonicalOptimizer(BaseOptimizer):
         self.device_context = resolve_device(requested)
         self.device = torch.device(self.device_context.resolved)
         self.dtype = torch.float64
+        try:
+            self.torch_generator = torch.Generator(device=self.device.type)
+            self.torch_generator.manual_seed(int(self.seed))
+        except Exception:
+            self.torch_generator = None
 
     def _tensor(self, value):
         import torch
@@ -38,13 +43,17 @@ class TorchCanonicalOptimizer(BaseOptimizer):
         return torch.as_tensor(value, dtype=self.dtype, device=self.device)
 
     def _rand(self, shape):
-        return self._tensor(self.rng.random(shape))
+        import torch
+
+        return torch.rand(shape, dtype=self.dtype, device=self.device, generator=self.torch_generator)
 
     def _normal(self, shape, scale=1.0):
-        return self._tensor(self.rng.normal(0.0, scale, shape))
+        import torch
+
+        return torch.randn(shape, dtype=self.dtype, device=self.device, generator=self.torch_generator) * float(scale)
 
     def _uniform(self, low, high, shape):
-        return self._tensor(self.rng.uniform(low, high, shape))
+        return float(low) + (float(high) - float(low)) * self._rand(shape)
 
     def _population(self, n=None):
         return self._rand((n or self.config.population_size, self.problem.dimension))
@@ -55,12 +64,35 @@ class TorchCanonicalOptimizer(BaseOptimizer):
             return value.clamp(0.0, 1.0)
         return reflect_unit_interval(value)
 
+    @staticmethod
+    def _tensor_where(condition, first, second):
+        import torch
+
+        return torch.where(condition, first, second)
+
     def _eval_pop(self, population):
-        array = population.detach().cpu().numpy()
-        return super().evaluate_population(array)
+        remaining = max(0, int(self.config.max_evaluations) - int(self.evaluations))
+        if remaining <= 0 or self.cancelled():
+            return []
+        population = self._bounded(population[:remaining])
+        if bool(getattr(self.problem, "device_resident_enabled", False)):
+            evaluations = list(self.problem.evaluate_population(population))
+            # The evaluator's single packed host transfer already carries the normalized vectors,
+            # so no second population CUDA->CPU copy is needed for incumbent/provenance tracking.
+            registered = []
+            for evaluation in evaluations:
+                vector = np.asarray(
+                    evaluation.metadata.get("normalized_decision_vector", ()), dtype=float
+                )
+                if vector.size != self.problem.dimension:
+                    raise RuntimeError("Device-resident evaluation omitted its normalized vector")
+                registered.append(self._register_evaluation(vector, evaluation))
+            return registered
+        return super().evaluate_population(population.detach().to("cpu").numpy())
 
     def _eval_one(self, candidate):
-        return super().evaluate(candidate.detach().cpu().numpy())
+        evaluations = self._eval_pop(candidate.unsqueeze(0))
+        return evaluations[0] if evaluations else None
 
     def _best_index(self, evaluations):
         return int(self.order(evaluations)[0])
@@ -121,11 +153,12 @@ class TorchCanonicalOptimizer(BaseOptimizer):
             n = len(pop)
             partners = np.asarray([self.rng.choice([j for j in range(n) if j != i]) for i in range(n)])
             partner_t = self._tensor(partners).long()
-            directions = []
-            for i in range(n):
-                j = int(partners[i])
-                directions.append(pop[i] - pop[j] if better(evaluations[i], evaluations[j]) else pop[j] - pop[i])
-            learner = self._bounded(pop + self._rand(tuple(pop.shape)) * self._tensor(np.stack([d.detach().cpu().numpy() for d in directions])))
+            better_mask = self._tensor(
+                [1.0 if better(evaluations[i], evaluations[int(partners[i])]) else 0.0 for i in range(n)]
+            ).bool()
+            raw_direction = pop - pop[partner_t]
+            directions = self._tensor_where(better_mask[:, None], raw_direction, -raw_direction)
+            learner = self._bounded(pop + self._rand(tuple(pop.shape)) * directions)
             learner_evals = self._eval_pop(learner)
             for i, ev in enumerate(learner_evals):
                 if better(ev, evaluations[i]):
@@ -201,14 +234,22 @@ class TorchCanonicalOptimizer(BaseOptimizer):
             self.record({"kernel_device": str(self.device)})
         return self.finalize(pos.detach().cpu().numpy(), metadata=self._metadata(), started=started)
 
-    def _de_trial(self, pop, i, f, cr, base="rand"):
-        n = len(pop)
-        pool = [j for j in range(n) if j != i]
-        a, b, c = self.rng.choice(pool, 3, replace=False)
-        mutant = pop[a] + f * (pop[b] - pop[c])
-        mask = self._tensor(self.rng.random(self.problem.dimension) < cr).bool()
-        mask[int(self.rng.integers(self.problem.dimension))] = True
-        return self._bounded(self._tensor(np.where(mask.detach().cpu().numpy(), mutant.detach().cpu().numpy(), pop[i].detach().cpu().numpy())))
+    def _de_trials(self, pop, f, cr):
+        import torch
+
+        n, dimension = pop.shape
+        choices = np.empty((n, 3), dtype=np.int64)
+        for i in range(n):
+            pool = np.delete(np.arange(n, dtype=np.int64), i)
+            choices[i] = self.rng.choice(pool, 3, replace=False)
+        index = torch.as_tensor(choices, dtype=torch.long, device=self.device)
+        mutant = pop[index[:, 0]] + float(f) * (pop[index[:, 1]] - pop[index[:, 2]])
+        mask = self._rand((n, dimension)) < float(cr)
+        forced = torch.as_tensor(
+            self.rng.integers(0, dimension, size=n), dtype=torch.long, device=self.device
+        )
+        mask[torch.arange(n, device=self.device), forced] = True
+        return self._bounded(torch.where(mask, mutant, pop))
 
     def _run_mtla_de(self):
         started = time.perf_counter()
@@ -227,7 +268,7 @@ class TorchCanonicalOptimizer(BaseOptimizer):
                 if better(ev, evaluations[i]):
                     pop[i] = teacher[i]
                     evaluations[i] = ev
-            trials = self._tensor(np.stack([self._de_trial(pop, i, f, cr).detach().cpu().numpy() for i in range(len(pop))]))
+            trials = self._de_trials(pop, f, cr)
             trial_evals = self._eval_pop(trials)
             for i, ev in enumerate(trial_evals):
                 if better(ev, evaluations[i]):
@@ -241,8 +282,10 @@ class TorchCanonicalOptimizer(BaseOptimizer):
         n = self.config.population_size
         pop = self._population(n)
         opposite = 1.0 - pop
-        quasi = self._tensor(self.rng.uniform(np.minimum(opposite.detach().cpu().numpy(), 0.5), np.maximum(opposite.detach().cpu().numpy(), 0.5)))
-        pool = self._tensor(np.vstack((pop.detach().cpu().numpy(), quasi.detach().cpu().numpy())))
+        lower = self._tensor_where(opposite < 0.5, opposite, self._tensor(0.5))
+        upper = self._tensor_where(opposite > 0.5, opposite, self._tensor(0.5))
+        quasi = lower + self._rand(tuple(pop.shape)) * (upper - lower)
+        pool = __import__("torch").cat((pop, quasi), dim=0)
         pool_evals = self._eval_pop(pool)
         order = self.order(pool_evals)[: min(n, len(pool_evals))]
         pop = pool[order]
@@ -251,7 +294,7 @@ class TorchCanonicalOptimizer(BaseOptimizer):
         cr = float(self.config.parameters.get("cr", 0.9))
         while self.iteration < self.config.max_iterations and self.can_evaluate() and len(pop) >= 4:
             self.iteration += 1
-            trials = self._tensor(np.stack([self._de_trial(pop, i, f, cr).detach().cpu().numpy() for i in range(len(pop))]))
+            trials = self._de_trials(pop, f, cr)
             trial_evals = self._eval_pop(trials)
             for i, ev in enumerate(trial_evals):
                 if better(ev, evaluations[i]):
@@ -263,7 +306,7 @@ class TorchCanonicalOptimizer(BaseOptimizer):
     def _run_dragonfly(self):
         started = time.perf_counter()
         pop = self._population()
-        step = self._tensor(np.zeros(tuple(pop.shape)))
+        step = __import__("torch").zeros_like(pop)
         evaluations = self._eval_pop(pop)
         pop = pop[: len(evaluations)]
         step = step[: len(evaluations)]
@@ -317,7 +360,7 @@ class TorchCanonicalOptimizer(BaseOptimizer):
             food = pop[self._best_index(evaluations)]
             c1 = 2 * math.exp(-(4 * self.iteration / max(self.config.max_iterations, 1)) ** 2)
             new = pop.clone()
-            sign = self._tensor(np.where(self.rng.random(self.problem.dimension) < 0.5, 1.0, -1.0))
+            sign = self._tensor_where(self._rand((self.problem.dimension,)) < 0.5, self._tensor(1.0), self._tensor(-1.0))
             new[0] = self._bounded(food + sign * c1 * self._rand((self.problem.dimension,)))
             for i in range(1, len(pop)):
                 new[i] = 0.5 * (pop[i] + new[i - 1])
@@ -346,13 +389,13 @@ class TorchCanonicalOptimizer(BaseOptimizer):
             samples = []
             for _ in range(min(n, self.config.max_evaluations - self.evaluations)):
                 k = int(self.rng.choice(n, p=weights))
-                sigma = xi * self._tensor(np.mean(np.abs(archive[k].detach().cpu().numpy() - archive.detach().cpu().numpy()), axis=0))
+                sigma = xi * __import__("torch").mean(__import__("torch").abs(archive[k] - archive), dim=0)
                 samples.append(self._bounded(archive[k] + self._normal((self.problem.dimension,)) * (sigma + 1e-12)))
             if not samples:
                 break
-            new = self._tensor(np.stack([x.detach().cpu().numpy() for x in samples]))
+            new = __import__("torch").stack(samples, dim=0)
             new_evals = self._eval_pop(new)
-            combo = self._tensor(np.vstack((archive.detach().cpu().numpy(), new[: len(new_evals)].detach().cpu().numpy())))
+            combo = __import__("torch").cat((archive, new[: len(new_evals)]), dim=0)
             all_evals = evaluations + new_evals
             order = self.order(all_evals)[:n]
             archive = combo[order]
@@ -363,7 +406,7 @@ class TorchCanonicalOptimizer(BaseOptimizer):
     def _run_bat(self):
         started = time.perf_counter()
         pop = self._population()
-        velocity = self._tensor(np.zeros(tuple(pop.shape)))
+        velocity = __import__("torch").zeros_like(pop)
         evaluations = self._eval_pop(pop)
         pop = pop[: len(evaluations)]
         velocity = velocity[: len(evaluations)]
@@ -380,7 +423,7 @@ class TorchCanonicalOptimizer(BaseOptimizer):
                 if self.rng.random() > pulse:
                     candidate = self._bounded(best + self._normal((self.problem.dimension,), 0.01))
                 candidates.append(candidate)
-            cand = self._tensor(np.stack([x.detach().cpu().numpy() for x in candidates]))
+            cand = __import__("torch").stack(candidates, dim=0)
             cand_evals = self._eval_pop(cand)
             for i, ev in enumerate(cand_evals):
                 if better(ev, evaluations[i]) and self.rng.random() < loudness:
@@ -408,7 +451,7 @@ class TorchCanonicalOptimizer(BaseOptimizer):
                 else:
                     candidate = self._population(1)[0]
                 candidates.append(self._bounded(candidate))
-            pop = self._tensor(np.stack([x.detach().cpu().numpy() for x in candidates]))
+            pop = __import__("torch").stack(candidates, dim=0)
             evaluations = self._eval_pop(pop)
             for i, ev in enumerate(evaluations):
                 if better(ev, memory_evals[i]):
@@ -432,8 +475,8 @@ class TorchCanonicalOptimizer(BaseOptimizer):
                 attractors = [j for j in range(len(pop)) if better(evaluations[j], evaluations[i])]
                 if attractors:
                     j = int(attractors[int(self.rng.integers(len(attractors)))])
-                    r2 = float(((pop[i] - pop[j]) ** 2).sum().detach().cpu())
-                    beta = beta0 * math.exp(-gamma * r2)
+                    r2 = __import__("torch").sum((pop[i] - pop[j]) ** 2)
+                    beta = beta0 * __import__("torch").exp(-gamma * r2)
                     candidates[i] = self._bounded(pop[i] + beta * (pop[j] - pop[i]) + alpha * (self._rand((self.problem.dimension,)) - 0.5))
             candidate_evals = self._eval_pop(candidates)
             for i, ev in enumerate(candidate_evals):
@@ -471,7 +514,7 @@ class TorchCanonicalOptimizer(BaseOptimizer):
                     a, b = self.rng.choice(len(pop), 2, replace=False)
                     candidate = pop[i] + float(self.rng.random()) * (pop[a] - pop[b])
                 candidates.append(self._bounded(candidate))
-            cand = self._tensor(np.stack([x.detach().cpu().numpy() for x in candidates]))
+            cand = __import__("torch").stack(candidates, dim=0)
             cand_evals = self._eval_pop(cand)
             for i, ev in enumerate(cand_evals):
                 if better(ev, evaluations[i]):
@@ -493,17 +536,14 @@ class TorchCanonicalOptimizer(BaseOptimizer):
             self.iteration += 1
             target = pop[self._best_index(evaluations)]
             c = 1.0 - 0.99999 * min(self.iteration / max(self.config.max_iterations, 1), 1.0)
-            new = pop.clone()
-            for i in range(len(pop)):
-                social = self._tensor(np.zeros(self.problem.dimension))
-                for j in range(len(pop)):
-                    if i == j:
-                        continue
-                    difference = pop[j] - pop[i]
-                    distance = float(self._tensor([float((difference.square().sum()).detach().cpu())]).sqrt()[0].detach().cpu()) + 1e-12
-                    social = social + self._social(10 * distance) * difference / distance
-                new[i] = self._bounded(target + c * social / max(len(pop) - 1, 1))
-            pop = new
+            torch = __import__("torch")
+            difference = pop[None, :, :] - pop[:, None, :]
+            distance = torch.linalg.vector_norm(difference, dim=2).clamp_min(1e-12)
+            eye = torch.eye(len(pop), dtype=torch.bool, device=self.device)
+            social_strength = 0.5 * torch.exp(-(10.0 * distance) / 1.5) - torch.exp(-(10.0 * distance))
+            social_strength = torch.where(eye, torch.zeros_like(social_strength), social_strength)
+            social = torch.sum(social_strength[:, :, None] * difference / distance[:, :, None], dim=1)
+            pop = self._bounded(target[None, :] + c * social / max(len(pop) - 1, 1))
             evaluations = self._eval_pop(pop)
             self.record({"kernel_device": str(self.device)})
         return self.finalize(pop.detach().cpu().numpy(), metadata=self._metadata(), started=started)
@@ -537,7 +577,7 @@ class TorchCanonicalOptimizer(BaseOptimizer):
         flame_evals = list(evaluations)
         while self.iteration < self.config.max_iterations and self.can_evaluate():
             self.iteration += 1
-            combo = self._tensor(np.vstack((flames.detach().cpu().numpy(), pop.detach().cpu().numpy())))
+            combo = __import__("torch").cat((flames, pop), dim=0)
             all_evals = flame_evals + evaluations
             order = self.order(all_evals)[: len(pop)]
             flames = combo[order]

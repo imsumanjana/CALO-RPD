@@ -593,6 +593,7 @@ class CALOOptimizer(BaseOptimizer):
             "policy_checksum": controller.checksum,
             "policy_metadata": controller.metadata,
             "policy_inference_device": str(controller.device),
+            "policy_cross_run_batched_inference": bool(controller.batched_inference),
             "policy_trajectory": policy_trajectory,
             "historical_learning": {
                 "repository": historical_repository_path,

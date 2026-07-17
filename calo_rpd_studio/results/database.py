@@ -61,9 +61,51 @@ class ResultDatabase:
             message TEXT NOT NULL, traceback_text TEXT NOT NULL, evaluation_count INTEGER NOT NULL,
             numerical_state_json TEXT NOT NULL
         );
+        CREATE TABLE IF NOT EXISTS portfolios(
+            id TEXT PRIMARY KEY, created_at TEXT NOT NULL, updated_at TEXT NOT NULL,
+            name TEXT NOT NULL, config_json TEXT NOT NULL, plan_json TEXT NOT NULL,
+            fingerprint TEXT NOT NULL, status TEXT NOT NULL DEFAULT 'planned'
+        );
+        CREATE TABLE IF NOT EXISTS campaigns(
+            id TEXT PRIMARY KEY, experiment_id TEXT, portfolio_id TEXT,
+            created_at TEXT NOT NULL, updated_at TEXT NOT NULL,
+            mode TEXT NOT NULL, status TEXT NOT NULL,
+            config_json TEXT NOT NULL, total_tasks INTEGER NOT NULL,
+            completed_tasks INTEGER NOT NULL DEFAULT 0,
+            last_message TEXT NOT NULL DEFAULT '',
+            FOREIGN KEY(experiment_id) REFERENCES experiments(id),
+            FOREIGN KEY(portfolio_id) REFERENCES portfolios(id)
+        );
+        CREATE TABLE IF NOT EXISTS campaign_tasks(
+            id TEXT PRIMARY KEY, campaign_id TEXT NOT NULL, job_index INTEGER NOT NULL,
+            algorithm TEXT NOT NULL, run_index INTEGER NOT NULL,
+            seed_json TEXT NOT NULL, fingerprint TEXT NOT NULL,
+            required_outputs_json TEXT NOT NULL DEFAULT '[]',
+            status TEXT NOT NULL DEFAULT 'planned', attempts INTEGER NOT NULL DEFAULT 0,
+            checkpoint_path TEXT NOT NULL DEFAULT '', checkpoint_sha256 TEXT NOT NULL DEFAULT '',
+            run_id TEXT, failure_id TEXT, last_activity TEXT NOT NULL,
+            UNIQUE(campaign_id, job_index),
+            FOREIGN KEY(campaign_id) REFERENCES campaigns(id),
+            FOREIGN KEY(run_id) REFERENCES runs(id)
+        );
+        CREATE TABLE IF NOT EXISTS task_events(
+            id INTEGER PRIMARY KEY AUTOINCREMENT, task_id TEXT NOT NULL,
+            created_at TEXT NOT NULL, event_type TEXT NOT NULL, payload_json TEXT NOT NULL
+        );
+        CREATE TABLE IF NOT EXISTS resumable_tasks(
+            id TEXT PRIMARY KEY, task_type TEXT NOT NULL, title TEXT NOT NULL,
+            status TEXT NOT NULL, progress_current INTEGER NOT NULL DEFAULT 0,
+            progress_total INTEGER NOT NULL DEFAULT 0, state_json TEXT NOT NULL DEFAULT '{}',
+            resumable INTEGER NOT NULL DEFAULT 1, created_at TEXT NOT NULL,
+            updated_at TEXT NOT NULL
+        );
         CREATE INDEX IF NOT EXISTS idx_runs_experiment ON runs(experiment_id);
         CREATE INDEX IF NOT EXISTS idx_failures_experiment ON run_failures(experiment_id);
         CREATE INDEX IF NOT EXISTS idx_validations_run ON validations(run_id);
+        CREATE INDEX IF NOT EXISTS idx_campaign_status ON campaigns(status);
+        CREATE INDEX IF NOT EXISTS idx_campaign_tasks_status ON campaign_tasks(campaign_id,status);
+        CREATE INDEX IF NOT EXISTS idx_campaign_tasks_fingerprint ON campaign_tasks(fingerprint);
+        CREATE INDEX IF NOT EXISTS idx_resumable_status ON resumable_tasks(status,resumable);
         """
         with self.connect() as con:
             con.executescript(schema)
@@ -76,16 +118,26 @@ class ResultDatabase:
                 con.execute("ALTER TABLE experiments ADD COLUMN learning_eligible INTEGER NOT NULL DEFAULT 0")
             if "learning_locked" not in columns:
                 con.execute("ALTER TABLE experiments ADD COLUMN learning_locked INTEGER NOT NULL DEFAULT 0")
+            if "scientific_fingerprint" not in columns:
+                con.execute("ALTER TABLE experiments ADD COLUMN scientific_fingerprint TEXT NOT NULL DEFAULT ''")
+            if "portfolio_id" not in columns:
+                con.execute("ALTER TABLE experiments ADD COLUMN portfolio_id TEXT NOT NULL DEFAULT ''")
+            if "campaign_status" not in columns:
+                con.execute("ALTER TABLE experiments ADD COLUMN campaign_status TEXT NOT NULL DEFAULT 'completed'")
+            run_columns = {row["name"] for row in con.execute("PRAGMA table_info(runs)").fetchall()}
+            if "scientific_fingerprint" not in run_columns:
+                con.execute("ALTER TABLE runs ADD COLUMN scientific_fingerprint TEXT NOT NULL DEFAULT ''")
 
-    def create_experiment(self, config, provenance):
+    def create_experiment(self, config, provenance, *, scientific_fingerprint: str = "", portfolio_id: str = "", campaign_status: str = "running"):
         experiment_id = str(uuid.uuid4())
         now = datetime.now(timezone.utc).isoformat()
         with self._lock, self.connect() as con:
             con.execute(
                 """INSERT INTO experiments(
                     id,created_at,name,config_json,provenance_json,
-                    data_role,learning_eligible,learning_locked
-                ) VALUES(?,?,?,?,?,?,?,?)""",
+                    data_role,learning_eligible,learning_locked,
+                    scientific_fingerprint,portfolio_id,campaign_status
+                ) VALUES(?,?,?,?,?,?,?,?,?,?,?)""",
                 (
                     experiment_id,
                     now,
@@ -95,6 +147,9 @@ class ResultDatabase:
                     "excluded",
                     0,
                     0,
+                    str(scientific_fingerprint),
+                    str(portfolio_id),
+                    str(campaign_status),
                 ),
             )
         return experiment_id
@@ -119,7 +174,7 @@ class ResultDatabase:
             "metadata": result.metadata,
         }
 
-    def add_run(self, experiment_id, completed, arrays_path):
+    def add_run(self, experiment_id, completed, arrays_path, *, scientific_fingerprint: str = ""):
         run_id = str(uuid.uuid4())
         seeds = {
             "algorithm_seed": completed.seeds.algorithm_seed,
@@ -128,7 +183,7 @@ class ResultDatabase:
         }
         with self._lock, self.connect() as con:
             con.execute(
-                "INSERT INTO runs(id,experiment_id,algorithm,run_index,seed_json,result_json,arrays_path) VALUES(?,?,?,?,?,?,?)",
+                "INSERT INTO runs(id,experiment_id,algorithm,run_index,seed_json,result_json,arrays_path,scientific_fingerprint) VALUES(?,?,?,?,?,?,?,?)",
                 (
                     run_id,
                     experiment_id,
@@ -137,6 +192,7 @@ class ResultDatabase:
                     json.dumps(seeds),
                     json.dumps(self._result_dict(completed.result), allow_nan=True),
                     str(arrays_path),
+                    str(scientific_fingerprint),
                 ),
             )
         return run_id
@@ -242,6 +298,236 @@ class ResultDatabase:
                     "SELECT * FROM experiments ORDER BY created_at DESC"
                 ).fetchall()
             ]
+
+
+    # ------------------------------------------------------------------
+    # Portfolio, campaign, fingerprint reuse, and universal resume
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def _utcnow() -> str:
+        return datetime.now(timezone.utc).isoformat()
+
+    def create_portfolio(self, name: str, config: dict, plan: dict, fingerprint: str) -> str:
+        portfolio_id = str(uuid.uuid4())
+        now = self._utcnow()
+        with self._lock, self.connect() as con:
+            con.execute(
+                "INSERT INTO portfolios VALUES(?,?,?,?,?,?,?,?)",
+                (portfolio_id, now, now, str(name), json.dumps(config, allow_nan=True), json.dumps(plan, allow_nan=True), str(fingerprint), "planned"),
+            )
+        return portfolio_id
+
+    def update_portfolio(self, portfolio_id: str, *, status: str | None = None, config: dict | None = None, plan: dict | None = None) -> None:
+        values = []
+        clauses = ["updated_at=?"]
+        values.append(self._utcnow())
+        if status is not None:
+            clauses.append("status=?"); values.append(str(status))
+        if config is not None:
+            clauses.append("config_json=?"); values.append(json.dumps(config, allow_nan=True))
+        if plan is not None:
+            clauses.append("plan_json=?"); values.append(json.dumps(plan, allow_nan=True))
+        values.append(portfolio_id)
+        with self._lock, self.connect() as con:
+            con.execute(f"UPDATE portfolios SET {','.join(clauses)} WHERE id=?", values)
+
+    def list_portfolios(self) -> list[dict]:
+        with self.connect() as con:
+            return [dict(row) for row in con.execute("SELECT * FROM portfolios ORDER BY updated_at DESC").fetchall()]
+
+    def create_campaign(self, experiment_id: str, portfolio_id: str, mode: str, config: dict, total_tasks: int) -> str:
+        campaign_id = str(uuid.uuid4())
+        now = self._utcnow()
+        with self._lock, self.connect() as con:
+            con.execute(
+                "INSERT INTO campaigns VALUES(?,?,?,?,?,?,?,?,?,?,?)",
+                (campaign_id, experiment_id, portfolio_id, now, now, str(mode), "planned", json.dumps(config, allow_nan=True), int(total_tasks), 0, ""),
+            )
+        return campaign_id
+
+    def get_campaign(self, campaign_id: str) -> dict | None:
+        with self.connect() as con:
+            row = con.execute("SELECT * FROM campaigns WHERE id=?", (campaign_id,)).fetchone()
+        return None if row is None else dict(row)
+
+    def list_campaigns(self, unfinished_only: bool = False) -> list[dict]:
+        query = "SELECT * FROM campaigns"
+        if unfinished_only:
+            query += " WHERE status IN ('planned','running','pausing','paused','interrupted','failed')"
+        query += " ORDER BY updated_at DESC"
+        with self.connect() as con:
+            return [dict(row) for row in con.execute(query).fetchall()]
+
+    def update_campaign(self, campaign_id: str, *, status: str | None = None, completed_tasks: int | None = None, message: str | None = None) -> None:
+        clauses = ["updated_at=?"]
+        values = [self._utcnow()]
+        if status is not None:
+            clauses.append("status=?"); values.append(str(status))
+        if completed_tasks is not None:
+            clauses.append("completed_tasks=?"); values.append(int(completed_tasks))
+        if message is not None:
+            clauses.append("last_message=?"); values.append(str(message))
+        values.append(campaign_id)
+        with self._lock, self.connect() as con:
+            con.execute(f"UPDATE campaigns SET {','.join(clauses)} WHERE id=?", values)
+            row = con.execute("SELECT experiment_id FROM campaigns WHERE id=?", (campaign_id,)).fetchone()
+            if row and status is not None and row["experiment_id"]:
+                con.execute("UPDATE experiments SET campaign_status=? WHERE id=?", (str(status), row["experiment_id"]))
+
+    def add_campaign_task(self, campaign_id: str, job_index: int, algorithm: str, run_index: int, seeds: dict, fingerprint: str, required_outputs: list[str]) -> str:
+        task_id = str(uuid.uuid4())
+        with self._lock, self.connect() as con:
+            existing = con.execute("SELECT id FROM campaign_tasks WHERE campaign_id=? AND job_index=?", (campaign_id, int(job_index))).fetchone()
+            if existing:
+                return str(existing["id"])
+            con.execute(
+                """INSERT INTO campaign_tasks(
+                    id,campaign_id,job_index,algorithm,run_index,seed_json,fingerprint,
+                    required_outputs_json,status,attempts,checkpoint_path,checkpoint_sha256,
+                    run_id,failure_id,last_activity
+                ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+                (task_id,campaign_id,int(job_index),str(algorithm),int(run_index),json.dumps(seeds),str(fingerprint),json.dumps(required_outputs),"planned",0,"","",None,None,self._utcnow()),
+            )
+        return task_id
+
+    def list_campaign_tasks(self, campaign_id: str, statuses: list[str] | None = None) -> list[dict]:
+        query = "SELECT * FROM campaign_tasks WHERE campaign_id=?"
+        args: list = [campaign_id]
+        if statuses:
+            query += " AND status IN (" + ",".join("?" for _ in statuses) + ")"
+            args.extend(statuses)
+        query += " ORDER BY job_index"
+        with self.connect() as con:
+            return [dict(row) for row in con.execute(query, args).fetchall()]
+
+    def update_campaign_task(self, task_id: str, *, status: str | None = None, checkpoint_path: str | None = None, checkpoint_sha256: str | None = None, run_id: str | None = None, failure_id: str | None = None, increment_attempts: bool = False) -> None:
+        clauses = ["last_activity=?"]
+        values = [self._utcnow()]
+        if status is not None:
+            clauses.append("status=?"); values.append(str(status))
+        if checkpoint_path is not None:
+            clauses.append("checkpoint_path=?"); values.append(str(checkpoint_path))
+        if checkpoint_sha256 is not None:
+            clauses.append("checkpoint_sha256=?"); values.append(str(checkpoint_sha256))
+        if run_id is not None:
+            clauses.append("run_id=?"); values.append(str(run_id))
+        if failure_id is not None:
+            clauses.append("failure_id=?"); values.append(str(failure_id))
+        if increment_attempts:
+            clauses.append("attempts=attempts+1")
+        values.append(task_id)
+        with self._lock, self.connect() as con:
+            con.execute(f"UPDATE campaign_tasks SET {','.join(clauses)} WHERE id=?", values)
+
+    def append_task_event(self, task_id: str, event_type: str, payload: dict | None = None) -> None:
+        with self._lock, self.connect() as con:
+            con.execute("INSERT INTO task_events(task_id,created_at,event_type,payload_json) VALUES(?,?,?,?)", (task_id,self._utcnow(),str(event_type),json.dumps(payload or {}, allow_nan=True)))
+
+    def clone_run_to_experiment(self, source_run_id: str, experiment_id: str) -> str:
+        """Link a scientifically identical completed run into a new portfolio experiment.
+
+        Numeric trace files are intentionally shared read-only; history deletion keeps the file
+        while another run record still references it.
+        """
+        source = self.get_run(source_run_id)
+        if source is None:
+            raise KeyError(f"Unknown source run: {source_run_id}")
+        run_id = str(uuid.uuid4())
+        with self._lock, self.connect() as con:
+            con.execute(
+                """INSERT INTO runs(
+                    id,experiment_id,algorithm,run_index,seed_json,result_json,arrays_path,
+                    validation_status,scientific_fingerprint
+                ) VALUES(?,?,?,?,?,?,?,?,?)""",
+                (
+                    run_id,experiment_id,source["algorithm"],source["run_index"],source["seed_json"],
+                    source["result_json"],source["arrays_path"],source["validation_status"],
+                    source.get("scientific_fingerprint", ""),
+                ),
+            )
+        return run_id
+
+    def find_reusable_run(self, fingerprint: str, verified_only: bool = False) -> dict | None:
+        query = "SELECT * FROM runs WHERE scientific_fingerprint=?"
+        args = [str(fingerprint)]
+        if verified_only:
+            query += " AND validation_status='verified'"
+        query += " ORDER BY CASE validation_status WHEN 'verified' THEN 0 ELSE 1 END, rowid DESC LIMIT 1"
+        with self.connect() as con:
+            row = con.execute(query, args).fetchone()
+        return None if row is None else dict(row)
+
+    def upsert_resumable_task(self, task_id: str, task_type: str, title: str, status: str, progress_current: int, progress_total: int, state: dict, resumable: bool = True) -> None:
+        now = self._utcnow()
+        with self._lock, self.connect() as con:
+            con.execute(
+                """INSERT INTO resumable_tasks(id,task_type,title,status,progress_current,progress_total,state_json,resumable,created_at,updated_at)
+                VALUES(?,?,?,?,?,?,?,?,?,?)
+                ON CONFLICT(id) DO UPDATE SET task_type=excluded.task_type,title=excluded.title,status=excluded.status,
+                progress_current=excluded.progress_current,progress_total=excluded.progress_total,state_json=excluded.state_json,
+                resumable=excluded.resumable,updated_at=excluded.updated_at""",
+                (task_id,task_type,title,status,int(progress_current),int(progress_total),json.dumps(state, allow_nan=True),int(bool(resumable)),now,now),
+            )
+
+    def update_resumable_task(self, task_id: str, *, status: str | None = None, progress_current: int | None = None, progress_total: int | None = None, state: dict | None = None, resumable: bool | None = None) -> None:
+        clauses = ["updated_at=?"]
+        values = [self._utcnow()]
+        if status is not None: clauses.append("status=?"); values.append(str(status))
+        if progress_current is not None: clauses.append("progress_current=?"); values.append(int(progress_current))
+        if progress_total is not None: clauses.append("progress_total=?"); values.append(int(progress_total))
+        if state is not None: clauses.append("state_json=?"); values.append(json.dumps(state, allow_nan=True))
+        if resumable is not None: clauses.append("resumable=?"); values.append(int(bool(resumable)))
+        values.append(task_id)
+        with self._lock, self.connect() as con:
+            con.execute(f"UPDATE resumable_tasks SET {','.join(clauses)} WHERE id=?", values)
+
+    def list_resumable_tasks(self, unfinished_only: bool = False) -> list[dict]:
+        query = "SELECT * FROM resumable_tasks"
+        if unfinished_only:
+            query += " WHERE resumable=1 AND status IN ('planned','running','pausing','paused','interrupted','failed')"
+        query += " ORDER BY updated_at DESC"
+        with self.connect() as con:
+            return [dict(row) for row in con.execute(query).fetchall()]
+
+    def get_resumable_task(self, task_id: str) -> dict | None:
+        with self.connect() as con:
+            row = con.execute("SELECT * FROM resumable_tasks WHERE id=?", (task_id,)).fetchone()
+        return None if row is None else dict(row)
+
+    def delete_resumable_task(self, task_id: str) -> None:
+        with self._lock, self.connect() as con:
+            con.execute("DELETE FROM resumable_tasks WHERE id=?", (task_id,))
+
+    def mark_stale_running_interrupted(self) -> dict:
+        """Recover after an unclean shutdown by making in-flight records resumable.
+
+        This is called once during application startup before any new worker is admitted. Completed
+        runs remain untouched; only records that were left in a transient running/pausing state are
+        changed.
+        """
+        now = self._utcnow()
+        with self._lock, self.connect() as con:
+            campaign_count = con.execute(
+                "UPDATE campaigns SET status='interrupted',updated_at=?,last_message=? "
+                "WHERE status IN ('running','pausing')",
+                (now, "Application restart detected; resume from committed jobs"),
+            ).rowcount
+            task_count = con.execute(
+                "UPDATE campaign_tasks SET status='interrupted',last_activity=? "
+                "WHERE status IN ('running','pausing')",
+                (now,),
+            ).rowcount
+            resume_count = con.execute(
+                "UPDATE resumable_tasks SET status='interrupted',updated_at=? "
+                "WHERE resumable=1 AND status IN ('running','pausing')",
+                (now,),
+            ).rowcount
+            con.execute(
+                "UPDATE experiments SET campaign_status='interrupted' "
+                "WHERE id IN (SELECT experiment_id FROM campaigns WHERE status='interrupted')"
+            )
+        return {"campaigns": int(campaign_count), "campaign_tasks": int(task_count), "resume_tasks": int(resume_count)}
 
 
     # ------------------------------------------------------------------
@@ -410,8 +696,18 @@ class ResultDatabase:
         deleted = 0
         missing = 0
         failed = 0
+        shared = 0
         reclaimed_bytes = 0
         for value in dict.fromkeys(array_paths):
+            # Exact-reuse portfolios may share one immutable trace file. Delete it only when the
+            # final database reference has been removed.
+            with self.connect() as con:
+                references = int(
+                    con.execute("SELECT COUNT(*) FROM runs WHERE arrays_path=?", (str(value),)).fetchone()[0]
+                )
+            if references > 0:
+                shared += 1
+                continue
             path = self._resolve_array_path(value)
             if path is None:
                 continue
@@ -427,6 +723,7 @@ class ResultDatabase:
                 failed += 1
         return {
             "trace_files_deleted": deleted,
+            "trace_files_shared": shared,
             "trace_files_missing": missing,
             "trace_files_failed": failed,
             "trace_bytes_reclaimed": reclaimed_bytes,
@@ -463,6 +760,10 @@ class ResultDatabase:
                 "SELECT COUNT(*) FROM validations WHERE run_id=?", (run_id,)
             ).fetchone()[0]
             con.execute("DELETE FROM validations WHERE run_id=?", (run_id,))
+            con.execute(
+                "UPDATE campaign_tasks SET run_id=NULL,status='deleted',last_activity=? WHERE run_id=?",
+                (self._utcnow(), run_id),
+            )
             con.execute("DELETE FROM runs WHERE id=?", (run_id,))
             array_paths = [row["arrays_path"]]
         trace_summary = self._delete_trace_files(array_paths)
@@ -512,6 +813,21 @@ class ResultDatabase:
                 "SELECT COUNT(*) FROM run_failures WHERE experiment_id=?",
                 (experiment_id,),
             ).fetchone()[0]
+            campaign_rows = con.execute(
+                "SELECT id FROM campaigns WHERE experiment_id=?", (experiment_id,)
+            ).fetchall()
+            campaign_ids = [str(row["id"]) for row in campaign_rows]
+            if campaign_ids:
+                placeholders = ",".join("?" for _ in campaign_ids)
+                task_ids = [str(row["id"]) for row in con.execute(
+                    f"SELECT id FROM campaign_tasks WHERE campaign_id IN ({placeholders})", campaign_ids
+                ).fetchall()]
+                if task_ids:
+                    task_placeholders = ",".join("?" for _ in task_ids)
+                    con.execute(f"DELETE FROM task_events WHERE task_id IN ({task_placeholders})", task_ids)
+                con.execute(f"DELETE FROM campaign_tasks WHERE campaign_id IN ({placeholders})", campaign_ids)
+                con.execute(f"DELETE FROM campaigns WHERE id IN ({placeholders})", campaign_ids)
+                con.execute(f"DELETE FROM resumable_tasks WHERE id IN ({placeholders})", campaign_ids)
             con.execute("DELETE FROM runs WHERE experiment_id=?", (experiment_id,))
             con.execute(
                 "DELETE FROM run_failures WHERE experiment_id=?", (experiment_id,)
@@ -543,9 +859,14 @@ class ResultDatabase:
                 "SELECT COUNT(*) FROM validations"
             ).fetchone()[0]
             con.execute("DELETE FROM validations")
+            con.execute("DELETE FROM task_events")
+            con.execute("DELETE FROM campaign_tasks")
+            con.execute("DELETE FROM campaigns")
+            con.execute("DELETE FROM resumable_tasks")
             con.execute("DELETE FROM runs")
             con.execute("DELETE FROM run_failures")
             con.execute("DELETE FROM experiments")
+            con.execute("DELETE FROM portfolios")
             array_paths = [row["arrays_path"] for row in run_rows]
         trace_summary = self._delete_trace_files(array_paths)
         self._compact_database()

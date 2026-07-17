@@ -33,6 +33,9 @@ from PyQt6.QtWidgets import (
 from calo_rpd_studio.compute.resource_scheduler import ResourceMonitor, build_weighted_lane_plan
 from calo_rpd_studio.accelerated.parity_audit import run_configuration_parity_audit
 from calo_rpd_studio.experiments.evaluation_budget import BudgetPolicy
+from calo_rpd_studio.portfolio.planner import PortfolioPlanner
+from calo_rpd_studio.portfolio.fingerprint import run_fingerprint
+from calo_rpd_studio.experiments.seed_manager import SeedManager
 from calo_rpd_studio.experiments.execution_plan import ABLATION_MODE, COMPARISON_MODE, build_execution_plan, labels_for_mode, planned_item_count
 from calo_rpd_studio.experiments.fairness_validator import validate_fairness
 from calo_rpd_studio.gui.widgets.section_card import SectionCard
@@ -88,6 +91,9 @@ class ExperimentManagerPanel(WorkspacePage):
 
         self.runs = QSpinBox()
         self.runs.setRange(1, 10_000)
+        self.runs.setReadOnly(True)
+        self.runs.setButtonSymbols(QSpinBox.ButtonSymbols.NoButtons)
+        self.runs.setToolTip("Derived by Portfolio Manager from the selected evidence profile and output dependencies.")
         self.population = QSpinBox()
         self.population.setRange(2, 100_000)
         self.policy = QComboBox()
@@ -117,7 +123,10 @@ class ExperimentManagerPanel(WorkspacePage):
             "Maximum number of independent optimizer processes admitted at the same time."
         )
         self.execution_backend = QComboBox()
-        self.execution_backend.addItem("Weighted split — CUDA 50% / XPU 30% / CPU 20%", "weighted_split")
+        self.execution_backend.addItem("CUDA-resident priority — 80% CUDA / 10% XPU / 10% CPU (recommended)", "cuda_priority")
+        self.execution_backend.addItem("CUDA-only resident — 100% CUDA", "cuda_only")
+        self.execution_backend.addItem("Auto-tuned Batched Throughput Engine", "throughput_auto")
+        self.execution_backend.addItem("Custom weighted split", "weighted_split")
         self.execution_backend.addItem("Adaptive hybrid CPU + GPU", "adaptive_hybrid")
         self.execution_backend.addItem("GPU preferred with CPU fallback", "gpu_preferred")
         self.execution_backend.addItem("CPU only", "cpu_only")
@@ -131,6 +140,37 @@ class ExperimentManagerPanel(WorkspacePage):
         self.tensor_batch_size.setToolTip(
             "Candidates per accelerator power-flow batch. Larger values improve throughput but consume more device memory."
         )
+        self.auto_batch_calibration = QCheckBox("Calibrate microbatch size before the campaign")
+        self.auto_batch_calibration.setChecked(True)
+        self.persistent_workers = QCheckBox("Keep one process/context alive per compute device")
+        self.persistent_workers.setChecked(True)
+        self.cross_run_batching = QCheckBox("Combine compatible population requests across independent runs")
+        self.cross_run_batching.setChecked(True)
+        self.batch_window = QDoubleSpinBox()
+        self.batch_window.setRange(0.1, 100.0)
+        self.batch_window.setDecimals(1)
+        self.batch_window.setSuffix(" ms")
+        self.batch_window.setToolTip("Short collection window used to combine compatible run requests into one device batch.")
+        self.max_cross_batch = QSpinBox()
+        self.max_cross_batch.setRange(16, 1_000_000)
+        self.max_cross_batch.setToolTip("Maximum candidates combined in one cross-run device submission.")
+        self.calibration_repetitions = QSpinBox()
+        self.calibration_repetitions.setRange(1, 20)
+        self.calibration_repetitions.setToolTip("Repeated timing passes per candidate microbatch size.")
+        self.telemetry_interval = QSpinBox()
+        self.telemetry_interval.setRange(1, 10_000)
+        self.telemetry_interval.setSuffix(" iterations")
+        self.buffered_traces = QCheckBox("Buffer convergence traces and write in blocks")
+        self.buffered_traces.setChecked(True)
+        self.compile_kernels = QCheckBox("Compile stable tensor kernels when supported")
+        self.compile_kernels.setToolTip("Optional torch.compile path. Disabled by default because parity must be re-audited after compiler/runtime changes.")
+        self.device_resident_execution = QCheckBox("Keep optimizer, decoder, power-flow and constraint tensors resident on the assigned device")
+        self.device_resident_execution.setChecked(True)
+        self.device_resident_execution.setToolTip(
+            "v3.3 minimizes host/device round trips. One packed population result is materialized on the host for common provenance, GUI and persistence; final independent validation remains CPU-reference based."
+        )
+        self.cuda_priority_work_stealing = QCheckBox("Allow idle CUDA capacity to take unstarted XPU/CPU work")
+        self.cuda_priority_work_stealing.setChecked(True)
         self.parity_gate = QCheckBox("Require CPU/accelerator numerical parity before final benchmark")
         self.parity_gate.setChecked(True)
         self.gpu_target = QSpinBox()
@@ -198,7 +238,18 @@ class ExperimentManagerPanel(WorkspacePage):
             ("Master seed", self.seed),
             ("Compute scheduler", self.execution_backend),
             ("Scientific evaluator", self.scientific_backend),
-            ("Accelerator batch size", self.tensor_batch_size),
+            ("Manual/fallback batch size", self.tensor_batch_size),
+            ("Auto batch calibration", self.auto_batch_calibration),
+            ("Persistent device workers", self.persistent_workers),
+            ("Cross-run batching", self.cross_run_batching),
+            ("Batch collection window", self.batch_window),
+            ("Maximum cross-run batch", self.max_cross_batch),
+            ("Calibration repetitions", self.calibration_repetitions),
+            ("Telemetry interval", self.telemetry_interval),
+            ("Buffered trace writes", self.buffered_traces),
+            ("Stable-kernel compilation", self.compile_kernels),
+            ("Device-resident execution", self.device_resident_execution),
+            ("CUDA-priority work stealing", self.cuda_priority_work_stealing),
             ("Backend parity gate", self.parity_gate),
             ("NVIDIA CUDA target", self.gpu_target),
             ("CUDA VRAM limit", self.gpu_memory_limit),
@@ -282,18 +333,22 @@ class ExperimentManagerPanel(WorkspacePage):
         self.calo.setToolTip(
             f"Run {len(labels_for_mode(self.state.config, ABLATION_MODE))} fixed CALO/TLBO ablation variants. Primary algorithm checkboxes are not used by this study."
         )
-        self.cancel = QPushButton("Cancel")
+        self.pause = QPushButton("Pause safely")
+        self.pause.setEnabled(False)
+        self.cancel = QPushButton("Stop immediately")
         self.cancel.setEnabled(False)
         self.compare.setEnabled(False)
         self.calo.setEnabled(False)
-        for button in (self.compare, self.calo, self.cancel):
+        for button in (self.compare, self.calo, self.pause, self.cancel):
             button.setMinimumHeight(36)
         self.compare.clicked.connect(self.start_comparison)
         self.calo.clicked.connect(self.start_calo)
+        self.pause.clicked.connect(self.pause_requested)
         self.cancel.clicked.connect(self.cancel_requested)
         buttons.addWidget(self.compare)
         buttons.addWidget(self.calo)
         buttons.addStretch(1)
+        buttons.addWidget(self.pause)
         buttons.addWidget(self.cancel)
         self.execution_card.layout_root.addLayout(buttons)
         self.status = QLabel("Complete the fairness audit above before starting an experiment. Global task progress is shown in the bottom status bar.")
@@ -343,12 +398,15 @@ class ExperimentManagerPanel(WorkspacePage):
         manager.busy.connect(self.on_busy)
         self.policy.currentIndexChanged.connect(self._controls)
         self.execution_backend.currentIndexChanged.connect(self._controls)
+        self.scientific_backend.currentIndexChanged.connect(self._controls)
+        self.auto_batch_calibration.stateChanged.connect(self._controls)
         for widget in (
             self.runs, self.population, self.policy, self.budget, self.wall, self.maxit,
             self.workers, self.seed, self.execution_backend, self.gpu_target, self.cpu_target,
             self.gpu_memory_limit, self.gpu_jobs, self.xpu_target, self.xpu_memory_limit,
             self.xpu_jobs, self.system_memory_limit, self.cuda_share, self.xpu_share, self.cpu_share,
-            self.scientific_backend, self.tensor_batch_size,
+            self.scientific_backend, self.tensor_batch_size, self.batch_window,
+            self.max_cross_batch, self.calibration_repetitions, self.telemetry_interval,
         ):
             if hasattr(widget, "valueChanged"):
                 widget.valueChanged.connect(self._invalidate_fairness)
@@ -356,7 +414,13 @@ class ExperimentManagerPanel(WorkspacePage):
             if hasattr(widget, "currentIndexChanged"):
                 widget.currentIndexChanged.connect(self._invalidate_fairness)
                 widget.currentIndexChanged.connect(self._update_plan_summary)
-        self.parity_gate.stateChanged.connect(self._invalidate_fairness)
+        for checkbox in (
+            self.parity_gate, self.auto_batch_calibration, self.persistent_workers,
+            self.cross_run_batching, self.buffered_traces, self.compile_kernels,
+            self.device_resident_execution, self.cuda_priority_work_stealing,
+        ):
+            checkbox.stateChanged.connect(self._invalidate_fairness)
+            checkbox.stateChanged.connect(self._update_plan_summary)
         self.output.textChanged.connect(self._invalidate_fairness)
         state.config_changed.connect(lambda _: self.refresh())
         self.refresh()
@@ -404,11 +468,20 @@ class ExperimentManagerPanel(WorkspacePage):
         selected_count = len(self.state.config.algorithms)
         comparison_jobs = runs * selected_count
         ablation_jobs = runs * len(labels_for_mode(self.state.config, ABLATION_MODE))
+        portfolio = getattr(self.state.config, "portfolio", None)
+        portfolio_name = getattr(portfolio, "name", "Experiment portfolio")
         summary_text = (
-            f"Planned primary comparison: {selected_count} selected algorithms × {runs} runs = {comparison_jobs} jobs. "
-            f"CALO ablation study: {len(labels_for_mode(self.state.config, ABLATION_MODE))} fixed variants × {runs} runs = {ablation_jobs} jobs."
+            f"{portfolio_name}: {selected_count} selected algorithms × {runs} paired runs = {comparison_jobs} jobs. "
+            f"CALO ablation study: {len(labels_for_mode(self.state.config, ABLATION_MODE))} fixed variants × {runs} runs = {ablation_jobs} jobs. "
+            f"Run count is controlled by Portfolio Manager; this page configures how the required jobs execute."
         )
-        if str(self.execution_backend.currentData() or "") == "weighted_split":
+        current_backend = str(self.execution_backend.currentData() or "")
+        if current_backend == "throughput_auto":
+            summary_text += (
+                " The v3.3 engine will benchmark candidate-scenario throughput on each verified CUDA/XPU/CPU lane, "
+                "select a stable microbatch, and allocate jobs in proportion to measured evaluations per second."
+            )
+        if current_backend in {"weighted_split", "cuda_priority", "cuda_only"}:
             try:
                 temp = deepcopy(self.state.config)
                 temp.runs = runs
@@ -430,12 +503,17 @@ class ExperimentManagerPanel(WorkspacePage):
         backend = str(self.execution_backend.currentData() or "adaptive_hybrid")
         if backend == "cpu_only":
             scheduler_text = "CPU-only scheduling is selected."
-        elif backend == "weighted_split":
+        elif backend == "throughput_auto":
+            scheduler_text = (
+                "The v3.3 Batched Throughput Engine keeps one long-lived process per device, calibrates real candidate-scenario throughput, "
+                "selects the fastest stable microbatch, combines compatible population requests across runs, and allocates whole jobs by measured capacity."
+            )
+        elif backend in {"weighted_split", "cuda_priority", "cuda_only"}:
             share_total = self.cuda_share.value() + self.xpu_share.value() + self.cpu_share.value()
             scheduler_text = (
-                f"Weighted admission pre-assigns all v3 accelerator-compatible optimizer jobs as CUDA {self.cuda_share.value()}%, "
+                f"Device-resident admission assigns numerical jobs as CUDA {self.cuda_share.value()}%, "
                 f"XPU {self.xpu_share.value()}%, and CPU {self.cpu_share.value()}% (current total {share_total}%). "
-                "Every primary algorithm uses the common torch FP64 evaluator; jobs are never migrated mid-run."
+                "Each persistent lane keeps optimizer state and the FP64 evaluator on-device; jobs are never migrated after starting."
             )
         else:
             scheduler_text = (
@@ -451,8 +529,8 @@ class ExperimentManagerPanel(WorkspacePage):
         )
         self.execution_note.setText(
             scheduler_text
-            + " Under the v3 torch FP64 backend, all primary algorithms use accelerator-native population kernels or the CALO policy path plus batched AC power flow, constraints, mixed-variable decoding, robust aggregation, and L-index evaluation. "
-            + "CPU still performs process orchestration, case preparation, persistence, and independent reference validation. When XPU utilization telemetry is unavailable, the XPU memory threshold and explicit job cap are used instead of inventing a utilization value."
+            + " Under the v3.3 torch FP64 backend, all primary algorithms use tensor-native population kernels or the CALO policy path plus device-resident mixed-variable decoding, batched AC power flow, constraints, robust aggregation, ranking and L-index evaluation. "
+            + "CPU is limited to mandatory orchestration, sparse telemetry, packed result materialization, persistence, checkpointing and independent reference validation. When XPU utilization telemetry is unavailable, the XPU memory threshold and explicit job cap are used instead of inventing a utilization value."
             + timing_note
         )
         self._refresh_resource_status()
@@ -483,6 +561,15 @@ class ExperimentManagerPanel(WorkspacePage):
         scientific_index = self.scientific_backend.findData(getattr(config, "scientific_backend", "torch_fp64"))
         self.scientific_backend.setCurrentIndex(max(scientific_index, 0))
         self.tensor_batch_size.setValue(int(getattr(config, "tensor_batch_size", 64)))
+        self.auto_batch_calibration.setChecked(bool(getattr(config, "automatic_batch_calibration", True)))
+        self.persistent_workers.setChecked(bool(getattr(config, "persistent_accelerator_workers", True)))
+        self.cross_run_batching.setChecked(bool(getattr(config, "cross_run_batching", True)))
+        self.batch_window.setValue(float(getattr(config, "cross_run_batch_window_ms", 4.0)))
+        self.max_cross_batch.setValue(int(getattr(config, "max_cross_run_batch", 4096)))
+        self.calibration_repetitions.setValue(int(getattr(config, "calibration_repetitions", 1)))
+        self.telemetry_interval.setValue(int(getattr(config, "telemetry_iteration_interval", 10)))
+        self.buffered_traces.setChecked(bool(getattr(config, "buffered_trace_writes", True)))
+        self.compile_kernels.setChecked(bool(getattr(config, "compile_stable_kernels", False)))
         self.parity_gate.setChecked(bool(getattr(config, "require_backend_parity", True)))
         self.gpu_target.setValue(config.gpu_utilization_target)
         self.cpu_target.setValue(config.cpu_utilization_target)
@@ -492,9 +579,11 @@ class ExperimentManagerPanel(WorkspacePage):
         self.xpu_memory_limit.setValue(config.xpu_memory_limit)
         self.xpu_jobs.setValue(config.xpu_parallel_jobs)
         self.system_memory_limit.setValue(config.system_memory_limit)
-        self.cuda_share.setValue(getattr(config, "cuda_task_share", 50))
-        self.xpu_share.setValue(getattr(config, "xpu_task_share", 30))
-        self.cpu_share.setValue(getattr(config, "cpu_task_share", 20))
+        self.cuda_share.setValue(getattr(config, "cuda_task_share", 80))
+        self.xpu_share.setValue(getattr(config, "xpu_task_share", 10))
+        self.cpu_share.setValue(getattr(config, "cpu_task_share", 10))
+        self.device_resident_execution.setChecked(bool(getattr(config, "device_resident_execution", True)))
+        self.cuda_priority_work_stealing.setChecked(bool(getattr(config, "cuda_priority_work_stealing", True)))
         self.seed.setValue(config.master_seed)
         self.output.setText(config.output_directory)
         self.selected.setText(f"{len(config.algorithms)} selected: " + ", ".join(config.algorithms))
@@ -506,13 +595,34 @@ class ExperimentManagerPanel(WorkspacePage):
         self.budget.setEnabled(policy is not BudgetPolicy.EQUAL_WALL_CLOCK)
         self.wall.setEnabled(policy is BudgetPolicy.EQUAL_WALL_CLOCK)
         self.maxit.setEnabled(policy is BudgetPolicy.ALGORITHM_NATIVE)
-        weighted = str(self.execution_backend.currentData() or "") == "weighted_split"
+        backend = str(self.execution_backend.currentData() or "")
+        if backend == "cuda_priority":
+            self.cuda_share.setValue(80)
+            self.xpu_share.setValue(10)
+            self.cpu_share.setValue(10)
+        elif backend == "cuda_only":
+            self.cuda_share.setValue(100)
+            self.xpu_share.setValue(0)
+            self.cpu_share.setValue(0)
+        weighted = backend == "weighted_split"
+        throughput = backend in {"throughput_auto", "cuda_priority", "cuda_only"}
         for widget in (self.cuda_share, self.xpu_share, self.cpu_share):
             widget.setEnabled(weighted)
+        for widget in (
+            self.auto_batch_calibration, self.persistent_workers, self.cross_run_batching,
+            self.batch_window, self.max_cross_batch, self.calibration_repetitions,
+            self.telemetry_interval, self.buffered_traces, self.compile_kernels,
+        ):
+            widget.setEnabled(throughput and str(self.scientific_backend.currentData()) == "torch_fp64")
+        torch_backend = str(self.scientific_backend.currentData()) == "torch_fp64"
+        self.device_resident_execution.setEnabled(torch_backend)
+        self.cuda_priority_work_stealing.setEnabled(backend == "cuda_priority" and torch_backend)
+        self.tensor_batch_size.setEnabled(not throughput or not self.auto_batch_calibration.isChecked())
 
     def apply(self) -> None:
         config = self.state.config
-        config.runs = self.runs.value()
+        config.runs = int(config.portfolio.required_runs())
+        self.runs.setValue(config.runs)
         config.population_size = self.population.value()
         config.budget.policy = BudgetPolicy(self.policy.currentData())
         config.budget.max_evaluations = self.budget.value()
@@ -526,6 +636,17 @@ class ExperimentManagerPanel(WorkspacePage):
         config.execution_backend = str(self.execution_backend.currentData())
         config.scientific_backend = str(self.scientific_backend.currentData())
         config.tensor_batch_size = self.tensor_batch_size.value()
+        config.automatic_batch_calibration = self.auto_batch_calibration.isChecked()
+        config.persistent_accelerator_workers = self.persistent_workers.isChecked()
+        config.cross_run_batching = self.cross_run_batching.isChecked()
+        config.cross_run_batch_window_ms = self.batch_window.value()
+        config.max_cross_run_batch = self.max_cross_batch.value()
+        config.calibration_repetitions = self.calibration_repetitions.value()
+        config.telemetry_iteration_interval = self.telemetry_interval.value()
+        config.buffered_trace_writes = self.buffered_traces.isChecked()
+        config.compile_stable_kernels = self.compile_kernels.isChecked()
+        config.device_resident_execution = self.device_resident_execution.isChecked()
+        config.cuda_priority_work_stealing = self.cuda_priority_work_stealing.isChecked()
         config.require_backend_parity = self.parity_gate.isChecked()
         config.gpu_utilization_target = self.gpu_target.value()
         config.cpu_utilization_target = self.cpu_target.value()
@@ -610,14 +731,28 @@ class ExperimentManagerPanel(WorkspacePage):
             self.audit_state.setText("Audit could not be completed")
             task.fail(str(exc))
             return False
+        portfolio_plan = PortfolioPlanner.plan(self.state.config, self.state.config.portfolio, benchmark_blocks=1)
+        seeds = SeedManager(self.state.config.master_seed).generate(self.state.config.runs)
+        reusable = 0
+        if self.state.config.reuse_compatible_results:
+            for item in build_execution_plan(self.state.config, COMPARISON_MODE):
+                fp = run_fingerprint(self.state.config, item.label, item.run_index, seeds[item.run_index])
+                if self.state.database.find_reusable_run(
+                    fp,
+                    verified_only=bool(self.state.config.portfolio.require_independent_validation),
+                ):
+                    reusable += 1
         lines = [
             "PASS: comparative protocol is internally consistent."
             if report.fair
             else "FAIL: comparative protocol requires correction.",
+            f"PORTFOLIO PLAN: {self.state.config.portfolio.kind.value} · {self.state.config.portfolio.evidence_profile.value} · {len(self.state.config.portfolio.requested_outputs)} requested outputs.",
             f"PRIMARY COMPARISON PLAN: {len(self.state.config.algorithms)} selected algorithms × {self.state.config.runs} runs = {planned_item_count(self.state.config, COMPARISON_MODE)} jobs.",
+            f"EXACT RESULT REUSE: {reusable} compatible job(s) can be reused; {planned_item_count(self.state.config, COMPARISON_MODE) - reusable} new job(s) remain.",
+            f"REQUIRED STORED EVIDENCE: {', '.join(portfolio_plan.required_fields)}.",
             f"CALO ABLATION PLAN: {len(labels_for_mode(self.state.config, ABLATION_MODE))} fixed variants × {self.state.config.runs} runs = {planned_item_count(self.state.config, ABLATION_MODE)} jobs; this study intentionally ignores the primary algorithm checkbox selection.",
         ]
-        if self.state.config.execution_backend == "weighted_split":
+        if self.state.config.execution_backend in {"weighted_split", "cuda_priority", "cuda_only"}:
             snapshot = self.resource_monitor.sample()
             _lanes, allocation = build_weighted_lane_plan(
                 build_execution_plan(self.state.config, COMPARISON_MODE), COMPARISON_MODE,
@@ -657,8 +792,14 @@ class ExperimentManagerPanel(WorkspacePage):
 
     def _populate_queue(self, labels: list[str], mode: str) -> None:
         plan = build_execution_plan(self.state.config, mode)
-        lane_by_job = {item.job_index: "CPU" if self.state.config.execution_backend == "cpu_only" else "Dynamic" for item in plan}
-        if self.state.config.execution_backend == "weighted_split":
+        lane_by_job = {
+            item.job_index: (
+                "CPU" if self.state.config.execution_backend == "cpu_only"
+                else ("Auto-calibrated" if self.state.config.execution_backend == "throughput_auto" else "Dynamic")
+            )
+            for item in plan
+        }
+        if self.state.config.execution_backend in {"weighted_split", "cuda_priority", "cuda_only"}:
             snapshot = self.resource_monitor.sample()
             weighted, _summary = build_weighted_lane_plan(
                 plan, mode,
@@ -743,6 +884,7 @@ class ExperimentManagerPanel(WorkspacePage):
         self.calo.setEnabled((not running) and self.fairness_passed)
         self.audit_button.setEnabled(not running)
         self.parity_button.setEnabled(not running)
+        self.pause.setEnabled(running)
         self.cancel.setEnabled(running)
         if running:
             self.audit_state.setText("Locked while experiment is running")
@@ -802,6 +944,17 @@ class ExperimentManagerPanel(WorkspacePage):
             f"{self.completed_runs} completed, {self.failed_runs} failed. {suffix}"
         )
 
+    def pause_requested(self) -> None:
+        self.manager.pause()
+        self.pause.setEnabled(False)
+        for row in range(self.queue.rowCount()):
+            item = self.queue.item(row, 3)
+            if item is not None and item.text() == "Queued":
+                item.setText("Paused after active jobs")
+        self.status.setText(
+            "Safe pause requested. No new jobs will start; active jobs will finish and commit before the campaign becomes resumable."
+        )
+
     def cancel_requested(self) -> None:
         self.state.task_status.cancel()
         for row in range(self.queue.rowCount()):
@@ -809,7 +962,7 @@ class ExperimentManagerPanel(WorkspacePage):
             if item is not None and item.text() == "Queued":
                 item.setText("Cancelled")
         self.status.setText(
-            "Cancellation requested. The active numerical step will finish safely before execution stops."
+            "Immediate stop requested. Completed jobs remain committed; interrupted active jobs will restart from their original seeds when the campaign resumes."
         )
 
     def on_completed(self, experiment_id: str) -> None:
@@ -822,7 +975,7 @@ class ExperimentManagerPanel(WorkspacePage):
     def on_cancelled(self, experiment_id: str) -> None:
         self._set_running(False)
         self.status.setText(
-            f"Experiment {experiment_id} was cancelled safely. Completed runs remain stored with provenance."
+            f"Experiment {experiment_id} is paused. Completed runs remain stored; Resume Center will schedule only unfinished jobs."
         )
 
     def on_failed(self, message: str) -> None:

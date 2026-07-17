@@ -40,6 +40,7 @@ def build_problem(config,scenario_seed):
             device=str(getattr(config,'runtime_compute_device','cpu')),
             dtype_name='float64',
             batch_size=int(getattr(config,'tensor_batch_size',64)),
+            device_resident=bool(getattr(config,'device_resident_execution',True)),
         )
     return ORPDProblem(case,problem_config,scenarios)
 def run_single(config,algorithm,run_index,seeds,progress_callback=None,cancel_callback=None):

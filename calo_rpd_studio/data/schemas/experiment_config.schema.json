@@ -43,6 +43,9 @@
     "execution_backend": {
       "type": "string",
       "enum": [
+        "cuda_priority",
+        "cuda_only",
+        "throughput_auto",
         "weighted_split",
         "adaptive_hybrid",
         "gpu_preferred",
@@ -93,21 +96,88 @@
       "type": "integer",
       "minimum": 0,
       "maximum": 100,
-      "default": 50
+      "default": 80
     },
     "xpu_task_share": {
       "type": "integer",
       "minimum": 0,
       "maximum": 100,
-      "default": 30
+      "default": 10
     },
     "cpu_task_share": {
       "type": "integer",
       "minimum": 0,
       "maximum": 100,
-      "default": 20
+      "default": 10
     },
     "strict_device_shares": {
+      "type": "boolean",
+      "default": true
+    },
+    "throughput_engine_enabled": {
+      "type": "boolean",
+      "default": true
+    },
+    "persistent_accelerator_workers": {
+      "type": "boolean",
+      "default": true
+    },
+    "cross_run_batching": {
+      "type": "boolean",
+      "default": true
+    },
+    "cross_run_batch_window_ms": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "default": 4.0
+    },
+    "max_cross_run_batch": {
+      "type": "integer",
+      "minimum": 1,
+      "default": 4096
+    },
+    "automatic_batch_calibration": {
+      "type": "boolean",
+      "default": true
+    },
+    "calibration_batch_sizes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "default": [
+        16,
+        32,
+        64,
+        128,
+        256
+      ]
+    },
+    "calibration_repetitions": {
+      "type": "integer",
+      "minimum": 1,
+      "default": 1
+    },
+    "throughput_profile_path": {
+      "type": "string",
+      "default": "results_data/throughput_profile_v31.json"
+    },
+    "telemetry_iteration_interval": {
+      "type": "integer",
+      "minimum": 1,
+      "default": 10
+    },
+    "buffered_trace_writes": {
+      "type": "boolean",
+      "default": true
+    },
+    "device_resident_execution": {
+      "type": "boolean",
+      "default": true
+    },
+    "cuda_priority_work_stealing": {
       "type": "boolean",
       "default": true
     }

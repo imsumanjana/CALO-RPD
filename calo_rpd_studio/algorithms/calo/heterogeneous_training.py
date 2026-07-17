@@ -15,11 +15,13 @@ Each PPO epoch follows a synchronous actor--learner protocol:
 6. update the policy on one primary learner device;
 7. broadcast the updated snapshot at the next epoch.
 
-The requested default transition split is 50% CUDA, 30% XPU, and 20% CPU.  Since every episode has
-one common horizon, an episode split is also a transition split.  Accelerator lanes batch policy
-inference on their assigned device.  The synthetic/ORPD environments, PYPOWER, and most physical
-constraint calculations remain host-CPU workloads, so hardware-utilization percentages will not
-numerically equal the configured rollout shares.
+The requested 80% CUDA, 10% XPU, and 10% CPU split is retained as a deterministic fallback.
+Version 3.3 can first time complete discarded calibration episodes on each verified lane and then
+allocate fresh on-policy episodes by measured transitions per second.  CUDA/XPU actor interpreters,
+policy modules and ORPD tensors remain resident for the full training session.  Compatible ORPD
+population requests from simultaneous episodes are combined by the same FP64 cross-run batching
+engine used during comparative evaluation.  Synthetic curriculum stages still contain host-side
+logic, so Task Manager percentages need not equal the episode allocation.
 """
 from __future__ import annotations
 
@@ -35,6 +37,7 @@ import subprocess
 import sys
 import tempfile
 import time
+import atexit
 from typing import Any
 
 import numpy as np
@@ -43,6 +46,10 @@ from torch import nn
 
 from .cognitive_state import STATE_DIM
 from .policy_network import CALOPolicyNetwork
+from calo_rpd_studio.accelerated.runtime_context import set_cross_run_broker
+from calo_rpd_studio.accelerated.throughput_engine import CrossRunBatchBroker, largest_remainder_counts
+from calo_rpd_studio.compute.persistent_training_actor import PersistentTrainingActorClient
+
 from .training import (
     SyntheticCALOEnvironment,
     TrainingCancelled,
@@ -55,6 +62,9 @@ from .training import (
     _resolve_training_device,
     available_training_devices,
     recommended_rollout_workers,
+    load_training_resume,
+    save_training_resume,
+    training_resume_path,
 )
 
 
@@ -76,10 +86,18 @@ class HeterogeneousTrainingConfig(TrainingConfig):
     """Training configuration with weighted synchronous actor lanes."""
 
     heterogeneous_rollouts: bool = True
-    cuda_rollout_share: int = 50
-    xpu_rollout_share: int = 30
-    cpu_rollout_share: int = 20
+    cuda_rollout_share: int = 80
+    xpu_rollout_share: int = 10
+    cpu_rollout_share: int = 10
     actor_batch_size: int = 0
+    throughput_adaptive_rollouts: bool = False
+    persistent_actor_workers: bool = True
+    actor_calibration_episodes: int = 1
+    use_accelerated_orpd_rollouts: bool = True
+    training_cross_episode_batching: bool = True
+    training_batch_window_ms: float = 4.0
+    training_max_cross_batch: int = 2048
+    training_tensor_batch_size: int = 64
 
 
 @dataclass(frozen=True, slots=True)
@@ -142,9 +160,9 @@ def _largest_remainder_allocation(total: int, weights: dict[str, float]) -> dict
 def plan_training_lanes(
     episodes_per_epoch: int,
     *,
-    cuda_share: int = 50,
-    xpu_share: int = 30,
-    cpu_share: int = 20,
+    cuda_share: int = 80,
+    xpu_share: int = 10,
+    cpu_share: int = 10,
     cuda_available: bool | None = None,
     xpu_available: bool | None = None,
     xpu_sidecar_available: bool | None = None,
@@ -153,7 +171,7 @@ def plan_training_lanes(
 
     Unavailable accelerator shares are redistributed proportionally across available requested
     lanes.  CPU is always available.  Allocation uses the largest-remainder method so 12 episodes
-    with 50/30/20 become 6 CUDA, 4 XPU, and 2 CPU episodes.
+    with 80/10/10 become 10 CUDA, 1 XPU, and 1 CPU episodes for a 12-episode epoch.
     """
 
     requested = _validate_shares(cuda_share, xpu_share, cpu_share)
@@ -202,6 +220,51 @@ def plan_training_lanes(
     )
 
 
+
+def plan_training_lanes_from_throughput(
+    episodes_per_epoch: int,
+    measured_transitions_per_second: dict[str, float],
+    *,
+    base_plan: TrainingLanePlan | None = None,
+) -> TrainingLanePlan:
+    """Allocate rollout episodes by measured actor transition throughput."""
+    if base_plan is None:
+        base_plan = plan_training_lanes(int(episodes_per_epoch))
+    weights = {
+        lane: (
+            max(0.0, float(measured_transitions_per_second.get(lane, 0.0)))
+            if base_plan.available_lanes.get(lane, False)
+            else 0.0
+        )
+        for lane in LANE_ORDER
+    }
+    if sum(weights.values()) <= 0:
+        return base_plan
+    counts = largest_remainder_counts(int(episodes_per_epoch), weights)
+    total = max(1, int(episodes_per_epoch))
+    effective = {lane: 100.0 * counts.get(lane, 0) / total for lane in LANE_ORDER}
+    normalized_sum = sum(weights.values())
+    requested = {
+        lane: int(round(100.0 * weights[lane] / normalized_sum))
+        for lane in LANE_ORDER
+    }
+    # Correct rounding drift deterministically.
+    requested["cpu"] += 100 - sum(requested.values())
+    warnings = list(base_plan.warnings)
+    warnings.append(
+        "Episode shares were auto-tuned from measured transitions per second rather than fixed percentages."
+    )
+    return TrainingLanePlan(
+        requested_shares=requested,
+        available_lanes=dict(base_plan.available_lanes),
+        episode_counts={lane: int(counts.get(lane, 0)) for lane in LANE_ORDER},
+        effective_shares=effective,
+        devices=dict(base_plan.devices),
+        xpu_runtime=base_plan.xpu_runtime,
+        warnings=tuple(warnings),
+    )
+
+
 def _state_dict_sha256(state_dict: dict[str, torch.Tensor]) -> str:
     digest = hashlib.sha256()
     for name in sorted(state_dict):
@@ -223,6 +286,7 @@ def _environment_for_episode(
     epoch: int,
     stage: int,
     episode: int,
+    compute_device: str = "cpu",
 ):
     episode_seed = int(config.seed + 1_000_003 * epoch + 10_007 * int(episode))
     random.seed(episode_seed)
@@ -235,7 +299,18 @@ def _environment_for_episode(
         source = config.development_cases[
             (epoch * config.episodes_per_epoch + int(episode)) % len(config.development_cases)
         ]
-        problem = ORPDProblem(CaseLoader.load(source))
+        case = CaseLoader.load(source)
+        if bool(config.use_accelerated_orpd_rollouts):
+            from calo_rpd_studio.accelerated.torch_orpd import AcceleratedORPDProblem
+
+            problem = AcceleratedORPDProblem(
+                case,
+                device=compute_device,
+                dtype_name="float64",
+                batch_size=max(1, int(config.training_tensor_batch_size)),
+            )
+        else:
+            problem = ORPDProblem(case)
         environment = SyntheticCALOEnvironment(
             rng,
             stage,
@@ -281,6 +356,47 @@ def _sample_actions(regime_logits, operator_logits, alpha, beta):
         return regime, operator, parameter, logp
 
 
+
+_ACTOR_NETWORK_CACHE: dict[tuple[str, int], nn.Module] = {}
+_ACTOR_BROKER_CACHE: dict[tuple[str, float, int], CrossRunBatchBroker] = {}
+
+
+def _close_actor_runtime_caches() -> None:
+    for broker in list(_ACTOR_BROKER_CACHE.values()):
+        try:
+            broker.close()
+        except Exception:
+            pass
+    _ACTOR_BROKER_CACHE.clear()
+    _ACTOR_NETWORK_CACHE.clear()
+
+
+atexit.register(_close_actor_runtime_caches)
+
+
+def _persistent_actor_network(device, hidden_dim: int):
+    key = (str(device), int(hidden_dim))
+    network = _ACTOR_NETWORK_CACHE.get(key)
+    if network is None:
+        network = CALOPolicyNetwork(STATE_DIM, int(hidden_dim)).to(device)
+        _ACTOR_NETWORK_CACHE[key] = network
+    return network
+
+
+def _persistent_actor_broker(config: HeterogeneousTrainingConfig, device_name: str):
+    if not (config.training_cross_episode_batching and config.use_accelerated_orpd_rollouts):
+        return None
+    key = (str(device_name), float(config.training_batch_window_ms), int(config.training_max_cross_batch))
+    broker = _ACTOR_BROKER_CACHE.get(key)
+    if broker is None:
+        broker = CrossRunBatchBroker(
+            batch_window_ms=float(config.training_batch_window_ms),
+            max_candidates=int(config.training_max_cross_batch),
+        )
+        _ACTOR_BROKER_CACHE[key] = broker
+    return broker
+
+
 def collect_actor_lane_payload(payload: dict[str, Any]) -> dict[str, Any]:
     """Collect one complete actor lane using batched policy inference.
 
@@ -304,13 +420,16 @@ def collect_actor_lane_payload(payload: dict[str, Any]) -> dict[str, Any]:
         pass
 
     device = torch.device(device_name)
-    network = CALOPolicyNetwork(STATE_DIM, config.hidden_dim).to(device)
+    network = _persistent_actor_network(device, config.hidden_dim) if config.persistent_actor_workers else CALOPolicyNetwork(STATE_DIM, config.hidden_dim).to(device)
     network.load_state_dict(network_state)
     network.eval()
     actual_snapshot = _state_dict_sha256(_cpu_state_dict(network))
     if actual_snapshot != expected_snapshot:
         raise RuntimeError("Actor received a policy snapshot that does not match the learner.")
 
+    broker = _persistent_actor_broker(config, device_name)
+    if broker is not None:
+        set_cross_run_broker(broker)
     environments = []
     for episode in episode_indices:
         _, environment = _environment_for_episode(
@@ -318,6 +437,7 @@ def collect_actor_lane_payload(payload: dict[str, Any]) -> dict[str, Any]:
             epoch=epoch,
             stage=stage,
             episode=episode,
+            compute_device=device_name,
         )
         environments.append((episode, environment))
 
@@ -349,13 +469,22 @@ def collect_actor_lane_payload(payload: dict[str, Any]) -> dict[str, Any]:
         logps_cpu = logps.detach().cpu().numpy()
         values_cpu = values.detach().cpu().numpy()
 
-        for index, (episode, environment) in enumerate(environments):
+        def _step_one(index_environment):
+            index, (episode, environment) = index_environment
             reward = environment.step(
                 int(regimes_cpu[index]),
                 int(operators_cpu[index]),
                 np.asarray(parameters_cpu[index], dtype=float),
                 config.horizon,
             )
+            return index, episode, reward
+
+        if broker is not None and len(environments) > 1:
+            with ThreadPoolExecutor(max_workers=len(environments)) as step_executor:
+                step_results = list(step_executor.map(_step_one, enumerate(environments)))
+        else:
+            step_results = [_step_one(item) for item in enumerate(environments)]
+        for index, episode, reward in step_results:
             done = step == config.horizon - 1
             record = episode_rollouts[episode]
             record["state"].append(states[index])
@@ -399,6 +528,7 @@ def _collect_cpu_lane(
     stage: int,
     episode_indices: list[int],
     policy_snapshot_sha256: str,
+    persistent_executor=None,
 ) -> list[dict[str, Any]]:
     if not episode_indices:
         return []
@@ -417,10 +547,15 @@ def _collect_cpu_lane(
         }
         for chunk in chunks
     ]
+    results: list[dict[str, Any]] = []
+    if persistent_executor is not None:
+        futures = [persistent_executor.submit(collect_actor_lane_payload, payload) for payload in payloads]
+        for future in as_completed(futures):
+            results.append(future.result())
+        return results
     if len(payloads) == 1:
         return [collect_actor_lane_payload(payloads[0])]
     context = mp.get_context("spawn")
-    results: list[dict[str, Any]] = []
     with ProcessPoolExecutor(max_workers=workers, mp_context=context) as executor:
         futures = [executor.submit(collect_actor_lane_payload, payload) for payload in payloads]
         for future in as_completed(futures):
@@ -541,14 +676,18 @@ def collect_weighted_epoch_rollouts(
     stage: int,
     progress_callback=None,
     cancel_callback=None,
+    plan_override: TrainingLanePlan | None = None,
+    actor_clients: dict[str, PersistentTrainingActorClient] | None = None,
+    cpu_executor=None,
 ):
     """Collect one synchronous weighted epoch from CUDA, XPU, and CPU actors in parallel."""
-    plan = plan_training_lanes(
+    plan = plan_override or plan_training_lanes(
         config.episodes_per_epoch,
         cuda_share=config.cuda_rollout_share,
         xpu_share=config.xpu_rollout_share,
         cpu_share=config.cpu_rollout_share,
     )
+    actor_clients = actor_clients or {}
     network_state = _cpu_state_dict(network)
     snapshot = _state_dict_sha256(network_state)
 
@@ -575,14 +714,17 @@ def collect_weighted_epoch_rollouts(
                 "lane": "cuda",
                 "policy_snapshot_sha256": snapshot,
             }
-            futures[
-                executor.submit(
-                    _collect_accelerator_subprocess,
-                    sys.executable,
-                    payload,
-                    cancel_callback=cancel_callback,
-                )
-            ] = "cuda"
+            if "cuda" in actor_clients:
+                futures[executor.submit(actor_clients["cuda"].request, payload, None)] = "cuda"
+            else:
+                futures[
+                    executor.submit(
+                        _collect_accelerator_subprocess,
+                        sys.executable,
+                        payload,
+                        cancel_callback=cancel_callback,
+                    )
+                ] = "cuda"
         if lane_episodes["xpu"]:
             payload = {
                 "config": asdict(config),
@@ -594,14 +736,17 @@ def collect_weighted_epoch_rollouts(
                 "lane": "xpu",
                 "policy_snapshot_sha256": snapshot,
             }
-            futures[
-                executor.submit(
-                    _collect_accelerator_subprocess,
-                    _xpu_interpreter_for_plan(plan),
-                    payload,
-                    cancel_callback=cancel_callback,
-                )
-            ] = "xpu"
+            if "xpu" in actor_clients:
+                futures[executor.submit(actor_clients["xpu"].request, payload, None)] = "xpu"
+            else:
+                futures[
+                    executor.submit(
+                        _collect_accelerator_subprocess,
+                        _xpu_interpreter_for_plan(plan),
+                        payload,
+                        cancel_callback=cancel_callback,
+                    )
+                ] = "xpu"
         if lane_episodes["cpu"]:
             futures[
                 executor.submit(
@@ -612,6 +757,7 @@ def collect_weighted_epoch_rollouts(
                     stage=stage,
                     episode_indices=lane_episodes["cpu"],
                     policy_snapshot_sha256=snapshot,
+                    persistent_executor=cpu_executor,
                 )
             ] = "cpu"
 
@@ -642,6 +788,78 @@ def collect_weighted_epoch_rollouts(
         expected_episodes=config.episodes_per_epoch,
     )
     return rollout, episode_returns, plan, lane_records, snapshot
+
+
+
+def calibrate_training_actor_throughput(
+    config: HeterogeneousTrainingConfig,
+    network: nn.Module,
+    *,
+    actor_clients: dict[str, PersistentTrainingActorClient] | None = None,
+    cpu_executor=None,
+    progress_callback=None,
+) -> dict[str, float]:
+    """Measure complete actor transition throughput on each available lane.
+
+    The probe uses the current policy snapshot and one or more complete episodes.  Probe
+    transitions are discarded and never enter PPO's on-policy buffer.
+    """
+    actor_clients = actor_clients or {}
+    base_plan = plan_training_lanes(
+        max(1, int(config.actor_calibration_episodes)),
+        cuda_share=config.cuda_rollout_share,
+        xpu_share=config.xpu_rollout_share,
+        cpu_share=config.cpu_rollout_share,
+    )
+    network_state = _cpu_state_dict(network)
+    snapshot = _state_dict_sha256(network_state)
+    stage = 4 if config.development_cases else 3
+    throughputs: dict[str, float] = {}
+    for lane in LANE_ORDER:
+        if not base_plan.available_lanes.get(lane, False):
+            continue
+        device = base_plan.devices[lane]
+        payload = {
+            "config": asdict(config),
+            "network_state": network_state,
+            "epoch": 0,
+            "stage": stage,
+            "episode_indices": list(range(max(1, int(config.actor_calibration_episodes)))),
+            "device": device,
+            "lane": lane,
+            "policy_snapshot_sha256": snapshot,
+        }
+        started = time.perf_counter()
+        try:
+            if lane in actor_clients:
+                result = actor_clients[lane].request(payload)
+                episodes = len(result.get("episodes", []))
+            elif lane == "cpu":
+                results = _collect_cpu_lane(
+                    config,
+                    network_state,
+                    epoch=0,
+                    stage=stage,
+                    episode_indices=payload["episode_indices"],
+                    policy_snapshot_sha256=snapshot,
+                    persistent_executor=cpu_executor,
+                )
+                episodes = sum(len(item.get("episodes", [])) for item in results)
+            else:
+                result = _collect_accelerator_subprocess(
+                    _xpu_interpreter_for_plan(base_plan) if lane == "xpu" else sys.executable,
+                    payload,
+                )
+                episodes = len(result.get("episodes", []))
+            seconds = max(time.perf_counter() - started, 1e-12)
+            throughputs[lane] = float(episodes * config.horizon / seconds)
+            if progress_callback:
+                progress_callback(0, f"Calibrated {lane.upper()} actor: {throughputs[lane]:,.1f} transitions/s")
+        except Exception as exc:
+            throughputs[lane] = 0.0
+            if progress_callback:
+                progress_callback(0, f"{lane.upper()} actor calibration unavailable: {exc}")
+    return throughputs
 
 
 def train_policy_heterogeneous(
@@ -710,145 +928,246 @@ def train_policy_heterogeneous(
 
     network = CALOPolicyNetwork(STATE_DIM, config.hidden_dim).to(learner_device)
     optimizer = torch.optim.Adam(network.parameters(), lr=config.learning_rate)
-    historical_pretraining = _historical_pretrain(
-        network,
-        optimizer,
-        learner_device,
-        config,
-        rng,
-        progress_callback=progress_callback,
-        cancel_callback=cancel_callback,
-    )
-
+    resume_path = training_resume_path(config, output_path)
+    start_epoch = 0
     history: list[dict[str, Any]] = []
-    total_units = config.epochs * config.episodes_per_epoch
-    completed_units = 0
-
-    for epoch in range(config.epochs):
-        if cancel_callback and cancel_callback():
-            raise TrainingCancelled("CALO policy training was cancelled safely.")
-        stage = _curriculum_stage(epoch, config.epochs, bool(config.development_cases))
-
-        def actor_progress(completed_in_epoch: int, detail: str) -> None:
-            if progress_callback:
-                absolute = completed_units + completed_in_epoch
-                progress_callback(
-                    int(100 * absolute / max(total_units, 1)),
-                    f"Epoch {epoch + 1}/{config.epochs} · {detail}",
-                )
-
-        rollout, episode_returns, plan, lane_records, snapshot = collect_weighted_epoch_rollouts(
-            config,
-            network,
-            epoch=epoch,
-            stage=stage,
-            progress_callback=actor_progress,
-            cancel_callback=cancel_callback,
+    historical_pretraining: dict[str, Any] = {}
+    resume_extra: dict[str, Any] = {}
+    if resume_path.is_file():
+        start_epoch, history, historical_pretraining, resume_extra = load_training_resume(
+            resume_path, network, optimizer, learner_device, rng
         )
-        completed_units += config.episodes_per_epoch
         if progress_callback:
             progress_callback(
-                int(100 * completed_units / max(total_units, 1)),
-                f"Epoch {epoch + 1}/{config.epochs} · PPO update on {learner_device} · "
-                f"{len(rollout['state'])} fresh transitions · {plan.summary()}",
+                int(100 * start_epoch / max(config.epochs, 1)),
+                f"Resumed heterogeneous CALO policy training from completed epoch {start_epoch}/{config.epochs}",
             )
-
-        advantages, returns = _compute_gae(
-            rollout["reward"],
-            rollout["value"],
-            rollout["done"],
-            config.gamma,
-            config.gae_lambda,
-        )
-        advantages = (advantages - advantages.mean()) / (advantages.std() + 1e-8)
-        states = torch.as_tensor(
-            np.asarray(rollout["state"]),
-            dtype=torch.float32,
-            device=learner_device,
-        )
-        regimes = torch.as_tensor(rollout["regime"], dtype=torch.long, device=learner_device)
-        operators = torch.as_tensor(rollout["operator"], dtype=torch.long, device=learner_device)
-        parameters = torch.as_tensor(
-            np.asarray(rollout["parameter"]),
-            dtype=torch.float32,
-            device=learner_device,
-        )
-        old_logp = torch.as_tensor(rollout["logp"], dtype=torch.float32, device=learner_device)
-        advantages_t = torch.as_tensor(advantages, dtype=torch.float32, device=learner_device)
-        returns_t = torch.as_tensor(returns, dtype=torch.float32, device=learner_device)
-
-        epoch_losses: list[float] = []
-        indices = np.arange(len(states))
-        network.train()
-        for _ in range(config.ppo_epochs):
-            rng.shuffle(indices)
-            for start in range(0, len(indices), config.minibatch_size):
-                batch = indices[start : start + config.minibatch_size]
-                batch_t = torch.as_tensor(batch, dtype=torch.long, device=learner_device)
-                regime_logits, operator_logits, alpha, beta, values = network(states[batch_t])
-                regime_dist = torch.distributions.Categorical(logits=regime_logits)
-                operator_dist = torch.distributions.Categorical(logits=operator_logits)
-                parameter_dist = _parameter_action_distribution(alpha, beta)
-                new_logp = (
-                    regime_dist.log_prob(regimes[batch_t])
-                    + operator_dist.log_prob(operators[batch_t])
-                    + parameter_dist.log_prob(parameters[batch_t].clamp(1e-5, 1 - 1e-5)).sum(-1)
-                )
-                ratio = torch.exp(new_logp - old_logp[batch_t])
-                unclipped = ratio * advantages_t[batch_t]
-                clipped = torch.clamp(
-                    ratio,
-                    1.0 - config.clip_ratio,
-                    1.0 + config.clip_ratio,
-                ) * advantages_t[batch_t]
-                policy_loss = -torch.min(unclipped, clipped).mean()
-                value_loss = 0.5 * ((values - returns_t[batch_t]) ** 2).mean()
-                entropy = (
-                    regime_dist.entropy().mean()
-                    + operator_dist.entropy().mean()
-                    + parameter_dist.entropy().sum(-1).mean()
-                )
-                loss = (
-                    policy_loss
-                    + config.value_weight * value_loss
-                    - config.entropy_weight * entropy
-                )
-                optimizer.zero_grad(set_to_none=True)
-                loss.backward()
-                nn.utils.clip_grad_norm_(network.parameters(), 1.0)
-                optimizer.step()
-                epoch_losses.append(float(loss.detach().cpu().item()))
-        network.eval()
-        history.append(
-            {
-                "epoch": epoch + 1,
-                "curriculum_stage": stage + 1,
-                "mean_loss": float(np.mean(epoch_losses)) if epoch_losses else 0.0,
-                "mean_episode_return": float(np.mean(episode_returns)),
-                "transitions": len(rollout["state"]),
-                "ppo_learner_device": str(learner_device),
-                "policy_snapshot_sha256": snapshot,
-                "requested_rollout_shares": plan.requested_shares,
-                "effective_rollout_shares": plan.effective_shares,
-                "episode_allocation": plan.episode_counts,
-                "actor_lanes": lane_records,
-                "warnings": list(plan.warnings),
-            }
+    else:
+        historical_pretraining = _historical_pretrain(
+            network,
+            optimizer,
+            learner_device,
+            config,
+            rng,
+            progress_callback=progress_callback,
+            cancel_callback=cancel_callback,
         )
 
-    output_path = Path(output_path)
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    device_info = available_training_devices()
-    final_plan = plan_training_lanes(
+    total_units = config.epochs * config.episodes_per_epoch
+    completed_units = start_epoch * config.episodes_per_epoch
+
+    # v3.3 keeps one actor interpreter/process alive per device for the complete training
+    # session.  CUDA/XPU contexts, policy modules, ORPD tensors and cross-episode batch
+    # brokers are therefore reused instead of being reconstructed every epoch.
+    base_plan = plan_training_lanes(
         config.episodes_per_epoch,
         cuda_share=config.cuda_rollout_share,
         xpu_share=config.xpu_rollout_share,
         cpu_share=config.cpu_rollout_share,
     )
+    actor_clients: dict[str, PersistentTrainingActorClient] = {}
+    cpu_executor = None
+    measured_actor_throughput: dict[str, float] = dict(resume_extra.get("measured_actor_throughput", {}))
+    try:
+        if config.persistent_actor_workers:
+            if base_plan.available_lanes.get("cuda", False):
+                actor_clients["cuda"] = PersistentTrainingActorClient(
+                    sys.executable,
+                    base_plan.devices["cuda"],
+                    "cuda",
+                )
+            if base_plan.available_lanes.get("xpu", False):
+                actor_clients["xpu"] = PersistentTrainingActorClient(
+                    _xpu_interpreter_for_plan(base_plan),
+                    base_plan.devices["xpu"],
+                    "xpu",
+                )
+            context = mp.get_context("spawn")
+            cpu_executor = ProcessPoolExecutor(
+                max_workers=max(1, int(config.rollout_workers)),
+                mp_context=context,
+            )
+
+        if config.throughput_adaptive_rollouts and not measured_actor_throughput:
+            if progress_callback:
+                progress_callback(
+                    0,
+                    "Calibrating persistent CUDA/XPU/CPU policy actors; probe trajectories are discarded",
+                )
+            measured_actor_throughput = calibrate_training_actor_throughput(
+                config,
+                network,
+                actor_clients=actor_clients,
+                cpu_executor=cpu_executor,
+                progress_callback=progress_callback,
+            )
+
+        for epoch in range(start_epoch, config.epochs):
+            if cancel_callback and cancel_callback():
+                raise TrainingCancelled("CALO policy training was cancelled safely.")
+            stage = _curriculum_stage(epoch, config.epochs, bool(config.development_cases))
+            epoch_plan = (
+                plan_training_lanes_from_throughput(
+                    config.episodes_per_epoch,
+                    measured_actor_throughput,
+                    base_plan=base_plan,
+                )
+                if config.throughput_adaptive_rollouts and measured_actor_throughput
+                else base_plan
+            )
+
+            def actor_progress(completed_in_epoch: int, detail: str) -> None:
+                if progress_callback:
+                    absolute = completed_units + completed_in_epoch
+                    progress_callback(
+                        int(100 * absolute / max(total_units, 1)),
+                        f"Epoch {epoch + 1}/{config.epochs} · {detail}",
+                    )
+
+            rollout, episode_returns, plan, lane_records, snapshot = collect_weighted_epoch_rollouts(
+                config,
+                network,
+                epoch=epoch,
+                stage=stage,
+                progress_callback=actor_progress,
+                cancel_callback=cancel_callback,
+                plan_override=epoch_plan,
+                actor_clients=actor_clients,
+                cpu_executor=cpu_executor,
+            )
+            completed_units += config.episodes_per_epoch
+            if progress_callback:
+                progress_callback(
+                    int(100 * completed_units / max(total_units, 1)),
+                    f"Epoch {epoch + 1}/{config.epochs} · PPO update on {learner_device} · "
+                    f"{len(rollout['state'])} fresh transitions · {plan.summary()}",
+                )
+
+            advantages, returns = _compute_gae(
+                rollout["reward"],
+                rollout["value"],
+                rollout["done"],
+                config.gamma,
+                config.gae_lambda,
+            )
+            advantages = (advantages - advantages.mean()) / (advantages.std() + 1e-8)
+            states = torch.as_tensor(
+                np.asarray(rollout["state"]),
+                dtype=torch.float32,
+                device=learner_device,
+            )
+            regimes = torch.as_tensor(rollout["regime"], dtype=torch.long, device=learner_device)
+            operators = torch.as_tensor(rollout["operator"], dtype=torch.long, device=learner_device)
+            parameters = torch.as_tensor(
+                np.asarray(rollout["parameter"]),
+                dtype=torch.float32,
+                device=learner_device,
+            )
+            old_logp = torch.as_tensor(rollout["logp"], dtype=torch.float32, device=learner_device)
+            advantages_t = torch.as_tensor(advantages, dtype=torch.float32, device=learner_device)
+            returns_t = torch.as_tensor(returns, dtype=torch.float32, device=learner_device)
+
+            epoch_losses: list[float] = []
+            indices = np.arange(len(states))
+            network.train()
+            for _ in range(config.ppo_epochs):
+                rng.shuffle(indices)
+                for start in range(0, len(indices), config.minibatch_size):
+                    batch = indices[start : start + config.minibatch_size]
+                    batch_t = torch.as_tensor(batch, dtype=torch.long, device=learner_device)
+                    regime_logits, operator_logits, alpha, beta, values = network(states[batch_t])
+                    regime_dist = torch.distributions.Categorical(logits=regime_logits)
+                    operator_dist = torch.distributions.Categorical(logits=operator_logits)
+                    parameter_dist = _parameter_action_distribution(alpha, beta)
+                    new_logp = (
+                        regime_dist.log_prob(regimes[batch_t])
+                        + operator_dist.log_prob(operators[batch_t])
+                        + parameter_dist.log_prob(parameters[batch_t].clamp(1e-5, 1 - 1e-5)).sum(-1)
+                    )
+                    ratio = torch.exp(new_logp - old_logp[batch_t])
+                    unclipped = ratio * advantages_t[batch_t]
+                    clipped = torch.clamp(
+                        ratio,
+                        1.0 - config.clip_ratio,
+                        1.0 + config.clip_ratio,
+                    ) * advantages_t[batch_t]
+                    policy_loss = -torch.min(unclipped, clipped).mean()
+                    value_loss = 0.5 * ((values - returns_t[batch_t]) ** 2).mean()
+                    entropy = (
+                        regime_dist.entropy().mean()
+                        + operator_dist.entropy().mean()
+                        + parameter_dist.entropy().sum(-1).mean()
+                    )
+                    loss = (
+                        policy_loss
+                        + config.value_weight * value_loss
+                        - config.entropy_weight * entropy
+                    )
+                    optimizer.zero_grad(set_to_none=True)
+                    loss.backward()
+                    nn.utils.clip_grad_norm_(network.parameters(), 1.0)
+                    optimizer.step()
+                    epoch_losses.append(float(loss.detach().cpu().item()))
+            network.eval()
+            history.append(
+                {
+                    "epoch": epoch + 1,
+                    "curriculum_stage": stage + 1,
+                    "mean_loss": float(np.mean(epoch_losses)) if epoch_losses else 0.0,
+                    "mean_episode_return": float(np.mean(episode_returns)),
+                    "transitions": len(rollout["state"]),
+                    "ppo_learner_device": str(learner_device),
+                    "policy_snapshot_sha256": snapshot,
+                    "requested_rollout_shares": plan.requested_shares,
+                    "effective_rollout_shares": plan.effective_shares,
+                    "episode_allocation": plan.episode_counts,
+                    "actor_lanes": lane_records,
+                    "measured_actor_transitions_per_second": dict(measured_actor_throughput),
+                    "persistent_actor_workers": bool(config.persistent_actor_workers),
+                    "cross_episode_batching": bool(config.training_cross_episode_batching),
+                    "warnings": list(plan.warnings),
+                }
+            )
+            if bool(getattr(config, "checkpoint_each_epoch", True)):
+                save_training_resume(
+                    resume_path,
+                    network=network,
+                    optimizer=optimizer,
+                    next_epoch=epoch + 1,
+                    history=history,
+                    rng=rng,
+                    historical_pretraining=historical_pretraining,
+                    config=config,
+                    extra={
+                        "learner_device": str(learner_device),
+                        "measured_actor_throughput": dict(measured_actor_throughput),
+                    },
+                )
+    finally:
+        if cpu_executor is not None:
+            cpu_executor.shutdown(wait=True, cancel_futures=True)
+        for client in actor_clients.values():
+            try:
+                client.close()
+            except Exception:
+                pass
+
+    output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    device_info = available_training_devices()
+    final_plan = (
+        plan_training_lanes_from_throughput(
+            config.episodes_per_epoch,
+            measured_actor_throughput,
+            base_plan=base_plan,
+        )
+        if config.throughput_adaptive_rollouts and measured_actor_throughput
+        else base_plan
+    )
     metadata = {
         "algorithm": "CALO",
         "calo_core": "v2",
-        "training_method": "synchronous weighted heterogeneous PPO",
+        "training_method": "persistent auto-tuned batched heterogeneous PPO",
         "candidate_checkpoint": True,
         "benchmark_freeze_status": (
             "Not automatically part of the frozen TEST benchmark. Validate this candidate "
@@ -859,8 +1178,8 @@ def train_policy_heterogeneous(
         "state_dimension": STATE_DIM,
         "execution": {
             "architecture": (
-                "same-policy synchronous CUDA/XPU/CPU actor lanes followed by one "
-                "centralized PPO learner update"
+                "same-policy synchronous persistent CUDA/XPU/CPU actor lanes with cross-episode "
+                "ORPD batching, measured-throughput allocation, and one centralized PPO learner update"
             ),
             "ppo_learner_device": str(learner_device),
             "requested_rollout_shares": final_plan.requested_shares,
@@ -873,14 +1192,23 @@ def train_policy_heterogeneous(
             "xpu_sidecar_available": bool(device_info["xpu_sidecar_available"]),
             "xpu_actor_runtime": final_plan.xpu_runtime,
             "cpu_rollout_workers": int(config.rollout_workers),
+            "persistent_actor_workers": bool(config.persistent_actor_workers),
+            "throughput_adaptive_rollouts": bool(config.throughput_adaptive_rollouts),
+            "measured_actor_transitions_per_second": dict(measured_actor_throughput),
+            "accelerated_orpd_rollouts": bool(config.use_accelerated_orpd_rollouts),
+            "cross_episode_batching": bool(config.training_cross_episode_batching),
+            "cross_episode_batch_window_ms": float(config.training_batch_window_ms),
+            "maximum_cross_episode_candidate_batch": int(config.training_max_cross_batch),
+            "training_tensor_batch_size": int(config.training_tensor_batch_size),
             "on_policy_synchronization": (
                 "All actor lanes use one policy snapshot per epoch; PPO starts only after "
                 "all matching trajectories arrive."
             ),
             "hardware_scope_note": (
-                "Configured shares refer to rollout episodes/transitions, not measured device "
-                "utilization. Policy inference runs on each actor device, while environment and "
-                "power-flow calculations remain primarily CPU-based."
+                "Auto-tuned shares are based on measured complete actor transitions per second, "
+                "not Task Manager utilization percentages. Explicit ORPD development rollouts use "
+                "the FP64 accelerator evaluator on the actor device; synthetic curriculum stages "
+                "still contain host-side environment logic."
             ),
         },
         "curriculum": [
@@ -911,4 +1239,8 @@ def train_policy_heterogeneous(
         json.dumps(metadata, indent=2),
         encoding="utf-8",
     )
+    try:
+        resume_path.unlink(missing_ok=True)
+    except OSError:
+        pass
     return str(output_path), history

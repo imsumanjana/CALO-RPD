@@ -1,5 +1,49 @@
 # Changelog
 
+## 3.3.0
+
+- Added the CUDA-Resident Execution Engine for comparative evaluation and ORPD policy-training rollouts.
+- Changed the recommended fixed device plan to 80% CUDA, 10% XPU and 10% CPU; added a 100% CUDA mode.
+- Added a device-resident FP64 ORPD evaluator with tensor mixed-variable decoding, grouped PV/PQ switching, batched power flow, branch flows, objectives, constraints, L-index and robust aggregation.
+- Removed population-level CUDA-to-NumPy-to-CUDA round trips from tensor-native optimizer evaluation; one packed host materialisation remains for the public result/provenance contract.
+- Made all twenty primary algorithms and CALO ablation variants eligible for accelerator allocation under the torch FP64 backend.
+- Added CUDA-priority work stealing for unstarted jobs and retained persistent cross-run batching.
+- Updated policy-training rollout defaults and GUI presets to 80/10/10 and optional 100% CUDA.
+- Added v3.3 parity, allocation and device-residency regression tests.
+
+## 3.2.1
+
+- Fixed a startup crash in Resume Center caused by connecting experiment-manager signals through an undefined local name.
+- Resume Center now consistently uses the stored `self.manager` reference for completed, cancelled, and failed signals.
+- Added a regression check so this constructor-scope error cannot silently return in future releases.
+
+## 3.2.0
+
+- Added Portfolio Manager immediately after Algorithms, with single-run and overall-experiment portfolio modes.
+- Added evidence-strength profiles and article presets that derive the minimum paired repetitions from requested plots, tables, statistics, validation, robust scenarios, and benchmark-block requirements.
+- Added portfolio-aware result storage and selective multi-format result-portfolio generation with line, scatter, bar, box, violin, and heatmap outputs.
+- Added exact scientific fingerprints and read-only run reuse across compatible portfolios while excluding operational and portfolio-only settings from the hash.
+- Added persistent campaigns, per-job journals, atomic result commit, duplicate protection, and exact remaining-job calculation.
+- Added system-wide Resume Center and startup unfinished-work detection after unclean shutdowns.
+- Added safe experiment pause at independent-run boundaries, emergency-stop recovery, policy-training epoch resume, bulk-validation resume, and artifact-level portfolio-export resume.
+- Added shared-trace reference protection so deleting a reused run cannot remove an array file still referenced by another experiment.
+- Retained the v3.1 persistent CUDA/XPU/CPU batched-throughput engine for comparative evaluation and CALO policy training.
+
+## 3.1.0
+
+- Added the **Batched Throughput Engine** with one persistent worker/runtime per CUDA, Intel XPU, and CPU lane.
+- Added real cross-run batching that merges compatible population-evaluation requests while preserving per-run ordering, seeds, equations, and evaluation budgets.
+- Added automatic FP64 evaluator microbatch calibration and reusable JSON throughput profiles.
+- Added measured candidate-evaluations-per-second job allocation and concurrency planning; manual weighted scheduling remains available.
+- Reworked batched AC power flow to build candidate admittance matrices, solve Newton–Raphson systems, calculate generation, and calculate branch flows through vectorized tensor batches, with isolated candidate-specific PV-to-PQ fallback.
+- Added in-memory stage profiling for decoding, scenario preparation, power flow, objective/constraint evaluation, robust finalization, and cross-run batching.
+- Added lower-frequency live telemetry and end-of-run buffered persistence to reduce synchronization and I/O pressure.
+- Added persistent policy-training actor interpreters, persistent CPU rollout processes, discarded actor-throughput calibration, and measured-throughput episode allocation.
+- Added cross-episode FP64 ORPD population batching during policy-training development stages while preserving one-policy-snapshot on-policy PPO collection.
+- Added CALO Intelligence controls for adaptive training allocation, persistent actors, accelerator-native ORPD rollouts, batch size, batch window, and maximum merged candidates.
+- Added `calo_v31_freeze.json` to freeze the v3.1 scientific backend and throughput orchestration before final TEST campaigns.
+- Added v3.1 throughput-engine regression tests for cross-run merging, measured allocation, policy-lane tuning, and configuration round trips.
+
 ## 3.0.0
 
 - Added a common PyTorch FP64 scientific backend for CPU, NVIDIA CUDA, and supported Intel XPU execution.

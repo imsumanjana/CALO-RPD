@@ -24,6 +24,7 @@ from calo_rpd_studio.benchmarking.validation import (
 from calo_rpd_studio.gui.widgets.workspace_page import WorkspacePage
 from calo_rpd_studio.results.integrity_checker import check_run_record
 from calo_rpd_studio.results.solution_validator import validate_stored_run
+from calo_rpd_studio.resume.models import ResumeStatus, ResumeTaskType
 
 
 class _BulkValidationWorker(QThread):
@@ -58,6 +59,7 @@ class ValidationAuditPanel(WorkspacePage):
         )
         self.state = state
         self._bulk_worker: _BulkValidationWorker | None = None
+        self._bulk_resume_task_id = ""
 
         controls = QHBoxLayout()
         self.experiment = QComboBox()
@@ -84,12 +86,15 @@ class ValidationAuditPanel(WorkspacePage):
         self.bulk_all_button = QPushButton("Validate all not-yet-verified runs")
         self.bulk_cancel_button = QPushButton("Cancel bulk validation")
         self.bulk_cancel_button.setEnabled(False)
+        self.bulk_resume_button = QPushButton("Resume bulk validation")
         self.bulk_current_button.clicked.connect(self.validate_current_experiment)
         self.bulk_all_button.clicked.connect(self.validate_all_unverified)
         self.bulk_cancel_button.clicked.connect(self.cancel_bulk_validation)
+        self.bulk_resume_button.clicked.connect(self.resume_bulk_validation)
         bulk_actions.addWidget(self.bulk_current_button)
         bulk_actions.addWidget(self.bulk_all_button)
         bulk_actions.addWidget(self.bulk_cancel_button)
+        bulk_actions.addWidget(self.bulk_resume_button)
         bulk_actions.addStretch(1)
         bulk_layout.addLayout(bulk_actions)
 
@@ -230,6 +235,24 @@ class ValidationAuditPanel(WorkspacePage):
             f"Independently validating {len(rows)} saved runs from {scope}. Each run is reconstructed and physically re-evaluated."
         )
 
+        state_payload = {"scope": scope, "run_ids": [str(row["id"]) for row in rows]}
+        if not self._bulk_resume_task_id:
+            self._bulk_resume_task_id = self.state.resume_service.register(
+                ResumeTaskType.VALIDATION,
+                f"Bulk validation — {scope}",
+                state_payload,
+                total=len(rows),
+                status=ResumeStatus.RUNNING,
+            )
+        else:
+            self.state.resume_service.update(
+                self._bulk_resume_task_id,
+                status=ResumeStatus.RUNNING,
+                current=0,
+                total=len(rows),
+                state=state_payload,
+                resumable=True,
+            )
         worker = _BulkValidationWorker(self.state.database, rows, self)
         self._bulk_worker = worker
         worker.progress.connect(self._bulk_progressed)
@@ -256,6 +279,13 @@ class ValidationAuditPanel(WorkspacePage):
             percent,
             f"{completed}/{total} runs · passed {passed} · failed {failed} · errors {errors}",
         )
+        if self._bulk_resume_task_id:
+            self.state.resume_service.update(
+                self._bulk_resume_task_id,
+                status=ResumeStatus.RUNNING,
+                current=completed,
+                total=total,
+            )
 
     def _bulk_completed(self, summary: dict) -> None:
         self.output.setPlainText(json.dumps({"bulk_validation": summary}, indent=2, allow_nan=True))
@@ -266,6 +296,8 @@ class ValidationAuditPanel(WorkspacePage):
             )
             self.bulk_progress.setFormat("Cancelled")
             self.state.task_status.cancelled("Bulk validation cancelled")
+            if self._bulk_resume_task_id:
+                self.state.resume_service.update(self._bulk_resume_task_id, status=ResumeStatus.PAUSED, resumable=True)
         else:
             passed = int(summary.get("passed", 0))
             failed = int(summary.get("failed", 0))
@@ -281,12 +313,34 @@ class ValidationAuditPanel(WorkspacePage):
                 )
             else:
                 self.state.task_status.finish(f"Bulk validation passed for {passed} runs")
+            if self._bulk_resume_task_id:
+                self.state.resume_service.update(self._bulk_resume_task_id, status=ResumeStatus.COMPLETED, current=100, total=100, resumable=False)
 
     def _bulk_failed(self, message: str) -> None:
         self.bulk_status.setText(f"Bulk validation stopped: {message}")
         self.bulk_progress.setFormat("Failed")
         self.state.task_status.fail(message)
+        if self._bulk_resume_task_id:
+            self.state.resume_service.update(self._bulk_resume_task_id, status=ResumeStatus.INTERRUPTED, resumable=True)
         QMessageBox.critical(self, "Bulk validation failed", message)
+
+    def resume_bulk_validation(self) -> None:
+        items = [item for item in self.state.resume_service.unfinished() if item.task_type == ResumeTaskType.VALIDATION.value]
+        if not items:
+            QMessageBox.information(self, "Bulk validation resume", "No resumable bulk-validation task was found.")
+            return
+        item = items[0]
+        rows = []
+        for run_id in item.state.get("run_ids", []):
+            row = self.state.database.get_run(str(run_id))
+            if row is not None and row.get("validation_status") != "verified":
+                rows.append(row)
+        if not rows:
+            self.state.resume_service.update(item.id, status=ResumeStatus.COMPLETED, resumable=False)
+            QMessageBox.information(self, "Bulk validation resume", "All runs in the saved validation queue are already verified.")
+            return
+        self._bulk_resume_task_id = item.id
+        self._start_bulk_validation(rows, scope=str(item.state.get("scope", "saved validation queue")))
 
     def cancel_bulk_validation(self) -> None:
         if self._bulk_worker is None:

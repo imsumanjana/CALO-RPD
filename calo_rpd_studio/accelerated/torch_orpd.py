@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import hashlib
+import json
 from typing import Any, Iterable
 
 import numpy as np
@@ -28,6 +30,8 @@ from calo_rpd_studio.robustness.scenario import Scenario
 from .device import resolve_device, torch_dtype
 from .torch_power_flow import TorchPowerFlowOptions, run_torch_ac_power_flow, run_torch_ac_power_flow_batch, torch_l_index
 from .torch_decoder import TorchVariableDecoder
+from .throughput_engine import GLOBAL_LEDGER, timed_stage
+from .runtime_context import get_cross_run_broker
 
 
 @dataclass(frozen=True, slots=True)
@@ -59,6 +63,7 @@ class AcceleratedORPDProblem:
         device: str = "auto",
         dtype_name: str = "float64",
         batch_size: int = 64,
+        device_resident: bool = True,
     ):
         self.case = case.clone()
         self.config = config or ORPDProblemConfig()
@@ -69,8 +74,11 @@ class AcceleratedORPDProblem:
         self.device = self.device_context.resolved
         self.dtype = torch_dtype(dtype_name)
         self.batch_size = max(1, int(batch_size))
+        self.device_resident_enabled = bool(device_resident)
         self.tensor_decoder = TorchVariableDecoder(self.decoder, self.device, self.dtype)
         pf = self.config.power_flow
+        self._broker = get_cross_run_broker()
+        self._batch_signature_cache = None
         self.power_flow_options = TorchPowerFlowOptions(
             tolerance=float(pf.tolerance),
             max_iterations=int(pf.max_iterations),
@@ -78,6 +86,11 @@ class AcceleratedORPDProblem:
             max_q_limit_rounds=int(pf.max_q_limit_rounds),
             q_limit_tolerance_mvar=float(pf.q_limit_tolerance_mvar),
         )
+        self._device_resident_evaluator = None
+        if self.device_resident_enabled:
+            from .device_resident_orpd import DeviceResidentORPDEvaluator
+
+            self._device_resident_evaluator = DeviceResidentORPDEvaluator(self)
 
     @property
     def dimension(self) -> int:
@@ -198,10 +211,67 @@ class AcceleratedORPDProblem:
             result = torch.sum(sorted_v[mask] * sorted_w[mask]) / torch.clamp(torch.sum(sorted_w[mask]), min=1e-15)
         return float(result.detach().cpu())
 
+    def batch_signature(self) -> str:
+        """Stable compatibility key for cross-run evaluation batching."""
+        if self._batch_signature_cache is None:
+            scenario_records = []
+            for scenario in self.scenarios:
+                try:
+                    checksum = scenario.apply(self.case).checksum()
+                except Exception:
+                    checksum = scenario.name
+                scenario_records.append((scenario.name, float(scenario.weight), checksum))
+            objective = self.config.objective
+            robust = self.config.robust
+            payload = {
+                "case": self.case.checksum(),
+                "dimension": self.dimension,
+                "scenarios": scenario_records,
+                "objective": {
+                    "kind": objective.kind.value,
+                    "weights": [objective.weight_loss, objective.weight_voltage_deviation, objective.weight_l_index],
+                    "scales": [objective.loss_scale, objective.voltage_deviation_scale, objective.l_index_scale],
+                },
+                "robust": {
+                    "aggregation": robust.aggregation.value,
+                    "risk_lambda": robust.risk_lambda,
+                    "cvar_alpha": robust.cvar_alpha,
+                },
+                "device": self.device,
+                "dtype": str(self.dtype),
+                "power_flow": {
+                    "tolerance": self.power_flow_options.tolerance,
+                    "max_iterations": self.power_flow_options.max_iterations,
+                    "enforce_q_limits": self.power_flow_options.enforce_q_limits,
+                },
+            }
+            encoded = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
+            self._batch_signature_cache = hashlib.sha256(encoded).hexdigest()
+        return str(self._batch_signature_cache)
+
+    def attach_broker(self, broker) -> None:
+        self._broker = broker
+
     def evaluate(self, normalized):
         return self.evaluate_population([normalized])[0]
 
+    def evaluate_population_tensor(self, population):
+        """Return one device-resident population result without host materialisation."""
+        if self._device_resident_evaluator is None:
+            raise RuntimeError("Device-resident evaluation is disabled for this problem")
+        return self._device_resident_evaluator.evaluate_tensor(population)
+
+    def _evaluate_population_tensor_direct(self, population):
+        return self.evaluate_population_tensor(population)
+
     def evaluate_population(self, population: Iterable):
+        if self._broker is not None:
+            return self._broker.submit(self, population)
+        return self._evaluate_population_direct(population)
+
+    def _evaluate_population_direct(self, population: Iterable):
+        if self._device_resident_evaluator is not None:
+            return self._device_resident_evaluator.evaluate_tensor(population).to_evaluations()
         try:
             import torch
 
@@ -214,7 +284,8 @@ class AcceleratedORPDProblem:
         if candidates.ndim == 1:
             candidates = candidates[None, :]
         candidates = np.clip(candidates, 0.0, 1.0)
-        controlled_cases, physical_controls = self.tensor_decoder.decode_batch(candidates)
+        with timed_stage("mixed_variable_decode", len(candidates), GLOBAL_LEDGER):
+            controlled_cases, physical_controls = self.tensor_decoder.decode_batch(candidates)
         count = len(candidates)
         values = [[] for _ in range(count)]
         violations = [[] for _ in range(count)]
@@ -226,91 +297,97 @@ class AcceleratedORPDProblem:
         converged_all = [True] * count
 
         for scenario in self.scenarios:
-            scenario_cases = [scenario.apply(case) for case in controlled_cases]
+            with timed_stage("scenario_prepare", count, GLOBAL_LEDGER):
+                scenario_cases = [scenario.apply(case) for case in controlled_cases]
             scenario_results = []
-            for offset in range(0, count, self.batch_size):
-                scenario_results.extend(
-                    run_torch_ac_power_flow_batch(
-                        scenario_cases[offset : offset + self.batch_size],
-                        device=self.device,
-                        dtype=self.dtype,
-                        options=self.power_flow_options,
+            with timed_stage("batched_ac_power_flow", count, GLOBAL_LEDGER):
+                for offset in range(0, count, self.batch_size):
+                    scenario_results.extend(
+                        run_torch_ac_power_flow_batch(
+                            scenario_cases[offset : offset + self.batch_size],
+                            device=self.device,
+                            dtype=self.dtype,
+                            options=self.power_flow_options,
+                        )
                     )
-                )
-            for index, pf in enumerate(scenario_results):
-                value, obj_components = self._objective(pf)
-                violation, con_components = self._constraints(pf)
-                converged_all[index] = converged_all[index] and bool(pf.converged)
-                values[index].append(float(value))
-                violations[index].append(float(violation))
-                weights[index].append(float(scenario.weight))
-                scenario_values[index].append(float(value))
-                scenario_constraint_components[index].append(dict(con_components))
-                for key, component in obj_components.items():
-                    objective_components[index].setdefault(key, []).append(float(component))
-                for key, component in con_components.items():
-                    constraint_components[index].setdefault(key, []).append(float(component))
+            with timed_stage("objective_constraint_aggregation", count, GLOBAL_LEDGER):
+                for index, pf in enumerate(scenario_results):
+                    value, obj_components = self._objective(pf)
+                    violation, con_components = self._constraints(pf)
+                    converged_all[index] = converged_all[index] and bool(pf.converged)
+                    values[index].append(float(value))
+                    violations[index].append(float(violation))
+                    weights[index].append(float(scenario.weight))
+                    scenario_values[index].append(float(value))
+                    scenario_constraint_components[index].append(dict(con_components))
+                    for key, component in obj_components.items():
+                        objective_components[index].setdefault(key, []).append(float(component))
+                    for key, component in con_components.items():
+                        constraint_components[index].setdefault(key, []).append(float(component))
 
         results: list[Evaluation] = []
-        for index in range(count):
-            weights_np = np.asarray(weights[index], dtype=float)
-            weights_np = weights_np / weights_np.sum()
-            finite = np.asarray(values[index], dtype=float)
-            robust_value = (
-                float("inf")
-                if not np.all(np.isfinite(finite))
-                else self._aggregate_robust(values[index], weights_np)
-            )
-            violation = (
-                float(np.sum(weights_np * np.asarray(violations[index], dtype=float)))
-                if np.all(np.isfinite(violations[index]))
-                else float("inf")
-            )
-            feasible = bool(
-                converged_all[index]
-                and np.isfinite(robust_value)
-                and violation <= 1e-12
-            )
-            components = {
-                key: float(np.sum(weights_np * np.asarray(series, dtype=float)))
-                for key, series in objective_components[index].items()
-            }
-            if np.all(np.isfinite(finite)):
-                mean = float(np.sum(weights_np * finite))
-                components["scenario_objective_mean"] = mean
-                components["scenario_objective_std"] = float(
-                    np.sqrt(np.sum(weights_np * (finite - mean) ** 2))
+        with timed_stage("robust_result_finalize", count, GLOBAL_LEDGER):
+            for index in range(count):
+                weights_np = np.asarray(weights[index], dtype=float)
+                weights_np = weights_np / weights_np.sum()
+                finite = np.asarray(values[index], dtype=float)
+                robust_value = (
+                    float("inf")
+                    if not np.all(np.isfinite(finite))
+                    else self._aggregate_robust(values[index], weights_np)
                 )
-            else:
-                components["scenario_objective_mean"] = float("inf")
-                components["scenario_objective_std"] = float("inf")
-            weighted_constraints = {
-                key: float(np.sum(weights_np * np.asarray(series, dtype=float)))
-                for key, series in constraint_components[index].items()
-            }
-            metadata = {
-                "scenario_count": len(self.scenarios),
-                "constraint_components": weighted_constraints,
-                "scenario_constraint_components": scenario_constraint_components[index],
-                "scientific_backend": "torch_batched_dense_newton_raphson",
-                "compute_device": self.device,
-                "device_name": self.device_context.name,
-                "dtype": "float64",
-                "batch_size": self.batch_size,
-                "q_limit_switching": bool(self.power_flow_options.enforce_q_limits),
-                "candidate_specific_q_limit_fallback": True,
-            }
-            results.append(
-                Evaluation(
-                    robust_value,
-                    feasible,
-                    violation,
-                    components,
-                    physical_controls[index],
-                    scenario_values[index],
-                    metadata,
+                violation = (
+                    float(np.sum(weights_np * np.asarray(violations[index], dtype=float)))
+                    if np.all(np.isfinite(violations[index]))
+                    else float("inf")
                 )
-            )
+                feasible = bool(
+                    converged_all[index]
+                    and np.isfinite(robust_value)
+                    and violation <= 1e-12
+                )
+                components = {
+                    key: float(np.sum(weights_np * np.asarray(series, dtype=float)))
+                    for key, series in objective_components[index].items()
+                }
+                if np.all(np.isfinite(finite)):
+                    mean = float(np.sum(weights_np * finite))
+                    components["scenario_objective_mean"] = mean
+                    components["scenario_objective_std"] = float(
+                        np.sqrt(np.sum(weights_np * (finite - mean) ** 2))
+                    )
+                else:
+                    components["scenario_objective_mean"] = float("inf")
+                    components["scenario_objective_std"] = float("inf")
+                weighted_constraints = {
+                    key: float(np.sum(weights_np * np.asarray(series, dtype=float)))
+                    for key, series in constraint_components[index].items()
+                }
+                metadata = {
+                    "scenario_count": len(self.scenarios),
+                    "constraint_components": weighted_constraints,
+                    "scenario_constraint_components": scenario_constraint_components[index],
+                    "scientific_backend": "torch_batched_dense_newton_raphson",
+                    "throughput_engine_version": "3.1",
+                    "compute_device": self.device,
+                    "device_name": self.device_context.name,
+                    "dtype": "float64",
+                    "batch_size": self.batch_size,
+                    "cross_run_batching": self._broker is not None,
+                    "q_limit_switching": bool(self.power_flow_options.enforce_q_limits),
+                    "candidate_specific_q_limit_fallback": True,
+                }
+                results.append(
+                    Evaluation(
+                        robust_value,
+                        feasible,
+                        violation,
+                        components,
+                        physical_controls[index],
+                        scenario_values[index],
+                        metadata,
+                    )
+                )
         return results
 
     def accelerator_solution_state(self, normalized):

@@ -277,6 +277,7 @@ def test_experiment_manager_exposes_accelerator_first_scheduler_controls(qtbot, 
     state = AppState(tmp_path / "hybrid-scheduler.sqlite")
     panel = ExperimentManagerPanel(state, ExperimentManager(state))
     qtbot.addWidget(panel)
+    assert panel.execution_backend.findData("throughput_auto") >= 0
     assert panel.execution_backend.findData("weighted_split") >= 0
     assert panel.execution_backend.findData("adaptive_hybrid") >= 0
     assert panel.execution_backend.findData("cpu_only") >= 0
@@ -287,6 +288,9 @@ def test_experiment_manager_exposes_accelerator_first_scheduler_controls(qtbot, 
     assert panel.gpu_jobs.minimum() == 1
     assert panel.xpu_jobs.minimum() == 1
     assert (panel.cuda_share.value(), panel.xpu_share.value(), panel.cpu_share.value()) == (50, 30, 20)
+    assert panel.auto_batch_calibration.isChecked() is True
+    assert panel.persistent_workers.isChecked() is True
+    assert panel.cross_run_batching.isChecked() is True
 
 
 def test_policy_training_exposes_weighted_cuda_xpu_cpu_actor_controls(qtbot, tmp_path):
@@ -304,6 +308,10 @@ def test_policy_training_exposes_weighted_cuda_xpu_cpu_actor_controls(qtbot, tmp
         panel.cpu_rollout_share.value(),
     ) == (50, 30, 20)
     assert "Shares refer to rollout episodes/transitions" in panel.accelerator_status.text()
+    assert panel.auto_tuned_training.isChecked() is True
+    assert panel.persistent_training_actors.isChecked() is True
+    assert panel.accelerated_training_orpd.isChecked() is True
+    assert panel.cross_episode_training_batch.isChecked() is True
 
 
 def test_live_optimization_auto_fits_visible_data_by_default(qtbot, tmp_path):

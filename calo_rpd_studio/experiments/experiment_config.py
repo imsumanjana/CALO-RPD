@@ -12,6 +12,7 @@ from calo_rpd_studio.orpd.objectives import ObjectiveConfig, ObjectiveKind
 from calo_rpd_studio.orpd.variable_decoder import ORPDVariableConfig, ShuntControlDefinition
 from calo_rpd_studio.robustness.robust_objectives import RobustAggregation, RobustObjectiveConfig
 from .evaluation_budget import BudgetPolicy, EvaluationBudget
+from calo_rpd_studio.portfolio.models import PortfolioConfig
 
 
 @dataclass(slots=True)
@@ -45,7 +46,7 @@ class ExperimentConfig:
     algorithm_parameters: dict[str, dict] = field(default_factory=dict)
     output_directory: str = "results_data"
     parallel_workers: int = 1
-    execution_backend: str = "weighted_split"
+    execution_backend: str = "cuda_priority"
     gpu_utilization_target: int = 70
     cpu_utilization_target: int = 50
     gpu_memory_limit: int = 85
@@ -54,14 +55,35 @@ class ExperimentConfig:
     xpu_memory_limit: int = 85
     xpu_parallel_jobs: int = 2
     system_memory_limit: int = 85
-    cuda_task_share: int = 50
-    xpu_task_share: int = 30
-    cpu_task_share: int = 20
+    cuda_task_share: int = 80
+    xpu_task_share: int = 10
+    cpu_task_share: int = 10
     strict_device_shares: bool = True
     scientific_backend: str = "torch_fp64"
+    device_resident_execution: bool = True
+    cuda_priority_work_stealing: bool = True
     tensor_batch_size: int = 64
     require_backend_parity: bool = True
     runtime_compute_device: str = "cpu"
+    throughput_engine_enabled: bool = True
+    persistent_accelerator_workers: bool = True
+    cross_run_batching: bool = True
+    cross_run_batch_window_ms: float = 4.0
+    max_cross_run_batch: int = 4096
+    automatic_batch_calibration: bool = True
+    calibration_batch_sizes: list[int] = field(default_factory=lambda: [16, 32, 64, 128, 256])
+    calibration_repetitions: int = 1
+    throughput_profile_path: str = "results_data/throughput_profile_v31.json"
+    compile_stable_kernels: bool = False
+    telemetry_iteration_interval: int = 10
+    buffered_trace_writes: bool = True
+    portfolio: PortfolioConfig = field(default_factory=PortfolioConfig)
+    portfolio_id: str = ""
+    resume_enabled: bool = True
+    resume_campaign_id: str = ""
+    checkpoint_interval_evaluations: int = 500
+    safe_pause: bool = True
+    reuse_compatible_results: bool = True
 
     def validate(self) -> None:
         from calo_rpd_studio.algorithms.registry import SPECS
@@ -77,7 +99,7 @@ class ExperimentConfig:
             raise ValueError(f"Unknown primary algorithms: {unknown}")
         if self.parallel_workers <= 0:
             raise ValueError("parallel_workers must be positive")
-        if self.execution_backend not in {"weighted_split", "adaptive_hybrid", "cpu_only", "gpu_preferred"}:
+        if self.execution_backend not in {"cuda_priority", "cuda_only", "throughput_auto", "weighted_split", "adaptive_hybrid", "cpu_only", "gpu_preferred"}:
             raise ValueError("Unsupported execution backend")
         if self.scientific_backend not in {"torch_fp64", "cpu_reference"}:
             raise ValueError("scientific_backend must be torch_fp64 or cpu_reference")
@@ -85,6 +107,22 @@ class ExperimentConfig:
             raise ValueError("The cpu_reference scientific backend requires CPU-only scheduling")
         if int(self.tensor_batch_size) <= 0:
             raise ValueError("tensor_batch_size must be positive")
+        if float(self.cross_run_batch_window_ms) <= 0:
+            raise ValueError("cross_run_batch_window_ms must be positive")
+        if int(self.max_cross_run_batch) <= 0:
+            raise ValueError("max_cross_run_batch must be positive")
+        if int(self.calibration_repetitions) <= 0:
+            raise ValueError("calibration_repetitions must be positive")
+        if not self.calibration_batch_sizes or any(int(value) <= 0 for value in self.calibration_batch_sizes):
+            raise ValueError("calibration_batch_sizes must contain positive integers")
+        if int(self.telemetry_iteration_interval) <= 0:
+            raise ValueError("telemetry_iteration_interval must be positive")
+        if int(self.checkpoint_interval_evaluations) <= 0:
+            raise ValueError("checkpoint_interval_evaluations must be positive")
+        self.portfolio.validate()
+        # The portfolio is the authoritative source for required repetitions. Keep the legacy
+        # ``runs`` field synchronized so every downstream algorithm receives the same plan.
+        self.runs = int(self.portfolio.required_runs())
         if not 10 <= int(self.gpu_utilization_target) <= 100:
             raise ValueError("gpu_utilization_target must be between 10 and 100")
         if not 10 <= int(self.cpu_utilization_target) <= 100:
@@ -106,6 +144,10 @@ class ExperimentConfig:
             raise ValueError("Device task shares must each be between 0 and 100")
         if sum(shares) != 100:
             raise ValueError("CUDA, XPU, and CPU task shares must sum to 100")
+        if self.execution_backend == "cuda_priority" and shares != (80, 10, 10):
+            raise ValueError("cuda_priority requires the fixed 80/10/10 CUDA/XPU/CPU share")
+        if self.execution_backend == "cuda_only" and shares != (100, 0, 0):
+            raise ValueError("cuda_only requires the fixed 100/0/0 CUDA/XPU/CPU share")
         self.budget.validate()
 
     def to_dict(self) -> dict:
@@ -173,6 +215,8 @@ class ExperimentConfig:
             int(budget_data.get("max_evaluations", 5000)),
             budget_data.get("wall_clock_seconds"),
         )
+        execution_backend = str(data.get("execution_backend", "cuda_priority"))
+        preset_shares = (100, 0, 0) if execution_backend == "cuda_only" else (80, 10, 10)
         return cls(
             name=data.get("name", "CALO-RPD comparative experiment"),
             case_name=data.get("case_name", "case30"),
@@ -189,7 +233,7 @@ class ExperimentConfig:
             algorithm_parameters=dict(data.get("algorithm_parameters", {})),
             output_directory=data.get("output_directory", "results_data"),
             parallel_workers=int(data.get("parallel_workers", 1)),
-            execution_backend=str(data.get("execution_backend", "weighted_split")),
+            execution_backend=execution_backend,
             gpu_utilization_target=int(data.get("gpu_utilization_target", 70)),
             cpu_utilization_target=int(data.get("cpu_utilization_target", 50)),
             gpu_memory_limit=int(data.get("gpu_memory_limit", 85)),
@@ -198,14 +242,35 @@ class ExperimentConfig:
             xpu_memory_limit=int(data.get("xpu_memory_limit", 85)),
             xpu_parallel_jobs=int(data.get("xpu_parallel_jobs", 2)),
             system_memory_limit=int(data.get("system_memory_limit", 85)),
-            cuda_task_share=int(data.get("cuda_task_share", 50)),
-            xpu_task_share=int(data.get("xpu_task_share", 30)),
-            cpu_task_share=int(data.get("cpu_task_share", 20)),
+            cuda_task_share=int(data.get("cuda_task_share", preset_shares[0])),
+            xpu_task_share=int(data.get("xpu_task_share", preset_shares[1])),
+            cpu_task_share=int(data.get("cpu_task_share", preset_shares[2])),
             strict_device_shares=bool(data.get("strict_device_shares", True)),
             scientific_backend=str(data.get("scientific_backend", "torch_fp64")),
+            device_resident_execution=bool(data.get("device_resident_execution", True)),
+            cuda_priority_work_stealing=bool(data.get("cuda_priority_work_stealing", True)),
             tensor_batch_size=int(data.get("tensor_batch_size", 64)),
             require_backend_parity=bool(data.get("require_backend_parity", True)),
             runtime_compute_device=str(data.get("runtime_compute_device", "cpu")),
+            throughput_engine_enabled=bool(data.get("throughput_engine_enabled", True)),
+            persistent_accelerator_workers=bool(data.get("persistent_accelerator_workers", True)),
+            cross_run_batching=bool(data.get("cross_run_batching", True)),
+            cross_run_batch_window_ms=float(data.get("cross_run_batch_window_ms", 4.0)),
+            max_cross_run_batch=int(data.get("max_cross_run_batch", 4096)),
+            automatic_batch_calibration=bool(data.get("automatic_batch_calibration", True)),
+            calibration_batch_sizes=[int(value) for value in data.get("calibration_batch_sizes", [16, 32, 64, 128, 256])],
+            calibration_repetitions=int(data.get("calibration_repetitions", 1)),
+            throughput_profile_path=str(data.get("throughput_profile_path", "results_data/throughput_profile_v31.json")),
+            compile_stable_kernels=bool(data.get("compile_stable_kernels", False)),
+            telemetry_iteration_interval=int(data.get("telemetry_iteration_interval", 10)),
+            buffered_trace_writes=bool(data.get("buffered_trace_writes", True)),
+            portfolio=PortfolioConfig.from_dict(data.get("portfolio", {})),
+            portfolio_id=str(data.get("portfolio_id", "")),
+            resume_enabled=bool(data.get("resume_enabled", True)),
+            resume_campaign_id=str(data.get("resume_campaign_id", "")),
+            checkpoint_interval_evaluations=int(data.get("checkpoint_interval_evaluations", 500)),
+            safe_pause=bool(data.get("safe_pause", True)),
+            reuse_compatible_results=bool(data.get("reuse_compatible_results", True)),
         )
 
     @classmethod

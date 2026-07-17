@@ -1,6 +1,7 @@
 """CALO policy, cognitive architecture, training, and ablation controls."""
 from __future__ import annotations
 
+from dataclasses import asdict
 import hashlib
 import json
 from pathlib import Path
@@ -38,6 +39,7 @@ from calo_rpd_studio.algorithms.calo.heterogeneous_training import (
 from calo_rpd_studio.gui.widgets.page_header import PageHeader
 from calo_rpd_studio.gui.widgets.scrollable_page import ScrollablePage
 from calo_rpd_studio.gui.widgets.historical_experience_widget import HistoricalExperienceWidget
+from calo_rpd_studio.resume.models import ResumeStatus, ResumeTaskType
 
 
 class TrainingWorker(QThread):
@@ -102,6 +104,7 @@ class CALOIntelligencePanel(ScrollablePage):
         self.state = state
         self.experiment_manager = experiment_manager
         self.worker: TrainingWorker | None = None
+        self.training_resume_task_id = ""
 
         layout = QVBoxLayout(content)
         layout.setContentsMargins(24, 22, 24, 22)
@@ -246,7 +249,7 @@ class CALOIntelligencePanel(ScrollablePage):
 
         self.rollout_mode = QComboBox()
         self.rollout_mode.addItem(
-            "Weighted heterogeneous actors — CUDA 50% / XPU 30% / CPU 20%",
+            "Device-resident heterogeneous actors — CUDA 80% / XPU 10% / CPU 10%",
             "weighted",
         )
         self.rollout_mode.addItem(
@@ -257,15 +260,15 @@ class CALOIntelligencePanel(ScrollablePage):
 
         self.cuda_rollout_share = QSpinBox()
         self.cuda_rollout_share.setRange(0, 100)
-        self.cuda_rollout_share.setValue(50)
+        self.cuda_rollout_share.setValue(80)
         self.cuda_rollout_share.setSuffix(" % CUDA")
         self.xpu_rollout_share = QSpinBox()
         self.xpu_rollout_share.setRange(0, 100)
-        self.xpu_rollout_share.setValue(30)
+        self.xpu_rollout_share.setValue(10)
         self.xpu_rollout_share.setSuffix(" % XPU")
         self.cpu_rollout_share = QSpinBox()
         self.cpu_rollout_share.setRange(0, 100)
-        self.cpu_rollout_share.setValue(20)
+        self.cpu_rollout_share.setValue(10)
         self.cpu_rollout_share.setSuffix(" % CPU")
         split_row = QWidget()
         split_layout = QHBoxLayout(split_row)
@@ -274,10 +277,82 @@ class CALOIntelligencePanel(ScrollablePage):
         split_layout.addWidget(self.cuda_rollout_share)
         split_layout.addWidget(self.xpu_rollout_share)
         split_layout.addWidget(self.cpu_rollout_share)
+        self.training_cuda_priority = QPushButton("80/10/10")
+        self.training_cuda_priority.setToolTip("CUDA-priority device-resident rollout allocation")
+        self.training_cuda_only = QPushButton("100% CUDA")
+        self.training_cuda_only.setToolTip("Route all compatible rollout episodes and the PPO learner to NVIDIA CUDA")
+        self.training_cuda_priority.clicked.connect(lambda: self._set_training_split(80, 10, 10))
+        self.training_cuda_only.clicked.connect(lambda: self._set_training_split(100, 0, 0))
+        split_layout.addWidget(self.training_cuda_priority)
+        split_layout.addWidget(self.training_cuda_only)
         for control in (
             self.cuda_rollout_share,
             self.xpu_rollout_share,
             self.cpu_rollout_share,
+        ):
+            control.valueChanged.connect(self._update_training_plan)
+
+        self.auto_tuned_training = QCheckBox(
+            "Auto-tune CUDA/XPU/CPU rollout shares from measured complete actor throughput"
+        )
+        self.auto_tuned_training.setChecked(False)
+        self.auto_tuned_training.setToolTip(
+            "Runs short discarded calibration episodes on every verified device, then allocates "
+            "fresh on-policy episodes by measured transitions per second. The 80/10/10 values "
+            "remain the deterministic fallback when calibration is unavailable."
+        )
+        self.persistent_training_actors = QCheckBox(
+            "Keep CUDA/XPU actors and CPU rollout pool persistent for the full training session"
+        )
+        self.persistent_training_actors.setChecked(True)
+        self.accelerated_training_orpd = QCheckBox(
+            "Use FP64 accelerator-native ORPD evaluation in development-case rollouts"
+        )
+        self.accelerated_training_orpd.setChecked(True)
+        self.accelerated_training_orpd.setToolTip(
+            "v3.3 keeps CALO state, mixed-variable decoding, AC power flow, constraints and policy inference on the assigned accelerator for ORPD development rollouts. Synthetic curriculum stages remain lightweight host environments."
+        )
+        self.cross_episode_training_batch = QCheckBox(
+            "Batch compatible ORPD populations across simultaneous rollout episodes"
+        )
+        self.cross_episode_training_batch.setChecked(True)
+
+        self.training_calibration_episodes = QSpinBox()
+        self.training_calibration_episodes.setRange(1, 20)
+        self.training_calibration_episodes.setValue(1)
+        self.training_calibration_episodes.setToolTip(
+            "Calibration trajectories are timed and discarded; they never enter the PPO buffer."
+        )
+        self.training_tensor_batch = QSpinBox()
+        self.training_tensor_batch.setRange(1, 65536)
+        self.training_tensor_batch.setValue(64)
+        self.training_tensor_batch.setToolTip(
+            "Candidate microbatch used by the FP64 ORPD evaluator inside policy-training actors."
+        )
+        self.training_cross_batch = QSpinBox()
+        self.training_cross_batch.setRange(16, 262144)
+        self.training_cross_batch.setValue(2048)
+        self.training_cross_batch.setToolTip(
+            "Maximum number of compatible candidate evaluations merged across rollout episodes."
+        )
+        self.training_batch_window = QDoubleSpinBox()
+        self.training_batch_window.setDecimals(1)
+        self.training_batch_window.setRange(0.1, 100.0)
+        self.training_batch_window.setValue(4.0)
+        self.training_batch_window.setSuffix(" ms")
+
+        for control in (
+            self.auto_tuned_training,
+            self.persistent_training_actors,
+            self.accelerated_training_orpd,
+            self.cross_episode_training_batch,
+        ):
+            control.toggled.connect(self._update_training_plan)
+        for control in (
+            self.training_calibration_episodes,
+            self.training_tensor_batch,
+            self.training_cross_batch,
+            self.training_batch_window,
         ):
             control.valueChanged.connect(self._update_training_plan)
 
@@ -307,6 +382,13 @@ class CALOIntelligencePanel(ScrollablePage):
         self.train_button = QPushButton("Train and save CALO policy")
         self.train_button.setObjectName("PrimaryButton")
         self.train_button.clicked.connect(self.train_policy)
+        self.resume_training_button = QPushButton("Resume saved training")
+        self.resume_training_button.clicked.connect(self.resume_saved_training)
+        training_button_row = QWidget()
+        training_button_layout = QHBoxLayout(training_button_row)
+        training_button_layout.setContentsMargins(0, 0, 0, 0)
+        training_button_layout.addWidget(self.train_button, 1)
+        training_button_layout.addWidget(self.resume_training_button)
         training_form.addRow("Epochs", self.epochs)
         training_form.addRow("Episodes per epoch", self.episodes)
         training_form.addRow("Episode horizon", self.horizon)
@@ -321,10 +403,18 @@ class CALOIntelligencePanel(ScrollablePage):
         training_form.addRow("PPO learner device", self.training_device)
         training_form.addRow("Rollout execution", self.rollout_mode)
         training_form.addRow("Rollout transition split", split_row)
+        training_form.addRow("Throughput allocation", self.auto_tuned_training)
+        training_form.addRow("Persistent training actors", self.persistent_training_actors)
+        training_form.addRow("Accelerated ORPD rollouts", self.accelerated_training_orpd)
+        training_form.addRow("Cross-episode batching", self.cross_episode_training_batch)
+        training_form.addRow("Calibration episodes/device", self.training_calibration_episodes)
+        training_form.addRow("ORPD tensor microbatch", self.training_tensor_batch)
+        training_form.addRow("Maximum merged candidates", self.training_cross_batch)
+        training_form.addRow("Cross-episode batch window", self.training_batch_window)
         training_form.addRow("CPU actor workers", worker_row)
         training_form.addRow("Compute status", self.accelerator_status)
         training_form.addRow("ORPD development cases", self.development_cases)
-        training_form.addRow("", self.train_button)
+        training_form.addRow("", training_button_row)
         layout.addWidget(training)
 
         ablation = QGroupBox("Ablation analysis")
@@ -348,14 +438,48 @@ class CALOIntelligencePanel(ScrollablePage):
     def _use_recommended_workers(self, *_args) -> None:
         self.rollout_workers.setValue(recommended_rollout_workers(self.episodes.value()))
 
+    def _set_training_split(self, cuda: int, xpu: int, cpu: int) -> None:
+        self.cuda_rollout_share.setValue(int(cuda))
+        self.xpu_rollout_share.setValue(int(xpu))
+        self.cpu_rollout_share.setValue(int(cpu))
+        if cuda == 100:
+            cuda_index = self.training_device.findData("cuda")
+            if cuda_index >= 0:
+                self.training_device.setCurrentIndex(cuda_index)
+        self._update_training_plan()
+
     def _update_training_plan(self, *_args) -> None:
         weighted = str(self.rollout_mode.currentData()) == "weighted"
+        advanced_controls = (
+            self.auto_tuned_training,
+            self.persistent_training_actors,
+            self.accelerated_training_orpd,
+            self.cross_episode_training_batch,
+            self.training_calibration_episodes,
+            self.training_tensor_batch,
+            self.training_cross_batch,
+            self.training_batch_window,
+        )
         for control in (
             self.cuda_rollout_share,
             self.xpu_rollout_share,
             self.cpu_rollout_share,
+            *advanced_controls,
         ):
             control.setEnabled(weighted)
+        self.training_calibration_episodes.setEnabled(
+            weighted and self.auto_tuned_training.isChecked()
+        )
+        batching_enabled = (
+            weighted
+            and self.accelerated_training_orpd.isChecked()
+            and self.cross_episode_training_batch.isChecked()
+        )
+        self.training_cross_batch.setEnabled(batching_enabled)
+        self.training_batch_window.setEnabled(batching_enabled)
+        self.training_tensor_batch.setEnabled(
+            weighted and self.accelerated_training_orpd.isChecked()
+        )
         if not weighted:
             self.accelerator_status.setText(
                 "Legacy architecture: CPU rollout processes collect all episodes; one selected "
@@ -369,7 +493,7 @@ class CALOIntelligencePanel(ScrollablePage):
         )
         if total != 100:
             self.accelerator_status.setText(
-                f"Invalid rollout split: {total}%. CUDA, XPU, and CPU shares must total 100%."
+                f"Invalid fallback split: {total}%. CUDA, XPU, and CPU shares must total 100%."
             )
             return
         try:
@@ -380,13 +504,40 @@ class CALOIntelligencePanel(ScrollablePage):
                 cpu_share=self.cpu_rollout_share.value(),
             )
             warning = (" " + " ".join(plan.warnings)) if plan.warnings else ""
+            allocation_text = (
+                "The displayed 80/10/10 split is a fallback only; short discarded calibration "
+                "episodes measure complete transitions per second and subsequent epochs are "
+                "allocated by measured throughput."
+                if self.auto_tuned_training.isChecked()
+                else "The fixed episode split shown below is used for every epoch."
+            )
+            persistence_text = (
+                " CUDA/XPU contexts, actor networks and CPU worker processes remain resident."
+                if self.persistent_training_actors.isChecked()
+                else " Actor runtimes may be recreated between collection calls."
+            )
+            orpd_text = (
+                " Development-case ORPD stages use the same FP64 accelerator evaluator as the "
+                "comparative engine"
+                + (
+                    f" and merge compatible episode populations for up to "
+                    f"{self.training_cross_batch.value()} candidates."
+                    if batching_enabled
+                    else "."
+                )
+                if self.accelerated_training_orpd.isChecked()
+                else " Development-case ORPD stages use the reference host evaluator."
+            )
             self.accelerator_status.setText(
-                "Synchronous actor–learner plan: "
+                "Initial synchronous actor plan: "
                 + plan.summary()
-                + ". All lanes use the same policy snapshot, then one PPO update runs on the "
-                "selected learner device. Shares refer to rollout episodes/transitions—not exact "
-                "hardware utilization—because environment and power-flow calculations remain "
-                "primarily CPU-based. "
+                + ". "
+                + allocation_text
+                + persistence_text
+                + orpd_text
+                + " Shares refer to rollout episodes/transitions, not exact hardware utilization. "
+                "All accepted trajectories use one policy snapshot and PPO starts only after "
+                "all matching lanes return. "
                 + self._device_text
                 + warning
             )
@@ -528,17 +679,54 @@ class CALOIntelligencePanel(ScrollablePage):
                 cuda_rollout_share=self.cuda_rollout_share.value(),
                 xpu_rollout_share=self.xpu_rollout_share.value(),
                 cpu_rollout_share=self.cpu_rollout_share.value(),
+                throughput_adaptive_rollouts=self.auto_tuned_training.isChecked(),
+                persistent_actor_workers=self.persistent_training_actors.isChecked(),
+                actor_calibration_episodes=self.training_calibration_episodes.value(),
+                use_accelerated_orpd_rollouts=self.accelerated_training_orpd.isChecked(),
+                training_cross_episode_batching=self.cross_episode_training_batch.isChecked(),
+                training_batch_window_ms=self.training_batch_window.value(),
+                training_max_cross_batch=self.training_cross_batch.value(),
+                training_tensor_batch_size=self.training_tensor_batch.value(),
             )
         else:
             config = TrainingConfig(**common)
+        self._launch_training(config, path)
+
+    def _launch_training(self, config, path: str, *, resume_task_id: str = "") -> None:
         if self.state.task_status.busy:
             QMessageBox.information(self, "Task busy", "Wait for the active task to finish first.")
             return
+        resume_path = Path(path).with_suffix(".resume.pt")
+        config.resume_checkpoint = str(resume_path)
+        state_payload = {
+            "output_path": str(path),
+            "resume_checkpoint": str(resume_path),
+            "config": asdict(config),
+            "heterogeneous": isinstance(config, HeterogeneousTrainingConfig),
+        }
+        if resume_task_id:
+            task_id = resume_task_id
+            self.state.resume_service.update(
+                task_id,
+                status=ResumeStatus.RUNNING,
+                state=state_payload,
+                resumable=True,
+            )
+        else:
+            task_id = self.state.resume_service.register(
+                ResumeTaskType.POLICY_TRAINING,
+                f"CALO policy training → {Path(path).name}",
+                state_payload,
+                total=int(config.epochs),
+                status=ResumeStatus.RUNNING,
+            )
+        config.resume_task_id = task_id
+        self.training_resume_task_id = task_id
         self.train_button.setEnabled(False)
+        self.resume_training_button.setEnabled(False)
         self.metadata.setPlainText(
-            "Policy training is running with the displayed reproducibility configuration. "
-            "A weighted run creates a candidate checkpoint; validate and re-freeze it before "
-            "using it in a final TEST campaign."
+            "Policy training is running with epoch-level atomic checkpoints. Recovery starts from "
+            "the last completed PPO epoch; incomplete on-policy rollouts are discarded."
         )
         self.worker = TrainingWorker(config, path)
         self.worker.progress.connect(self._training_progress)
@@ -548,14 +736,40 @@ class CALOIntelligencePanel(ScrollablePage):
         self.state.task_status.cancel_requested.connect(self._cancel_training)
         self.state.task_status.begin(
             "Training CALO policy",
-            detail="Initializing reproducible training",
+            detail=("Resuming from the last completed PPO epoch" if Path(config.resume_checkpoint).is_file() else "Initializing reproducible training"),
             progress=0,
             cancellable=True,
         )
         self.worker.start()
 
+    def resume_saved_training(self) -> None:
+        items = [item for item in self.state.resume_service.unfinished() if item.task_type == ResumeTaskType.POLICY_TRAINING.value]
+        if not items:
+            QMessageBox.information(self, "Policy training resume", "No resumable CALO policy-training checkpoint was found.")
+            return
+        item = items[0]
+        payload = dict(item.state)
+        config_data = dict(payload.get("config", {}))
+        cls = HeterogeneousTrainingConfig if payload.get("heterogeneous") else TrainingConfig
+        valid = {key: value for key, value in config_data.items() if key in cls.__dataclass_fields__}
+        if "development_cases" in valid:
+            valid["development_cases"] = tuple(valid["development_cases"])
+        config = cls(**valid)
+        path = str(payload.get("output_path", ""))
+        if not path:
+            QMessageBox.critical(self, "Policy training resume", "The saved task does not contain an output checkpoint path.")
+            return
+        self._launch_training(config, path, resume_task_id=item.id)
+
     def _training_progress(self, percent: int, detail: str) -> None:
         self.state.task_status.update(percent, detail)
+        if self.training_resume_task_id:
+            self.state.resume_service.update(
+                self.training_resume_task_id,
+                current=max(0, int(percent)),
+                total=100,
+                status=ResumeStatus.RUNNING,
+            )
 
     def _cancel_training(self) -> None:
         if self.worker is not None and self.worker.isRunning():
@@ -570,6 +784,9 @@ class CALOIntelligencePanel(ScrollablePage):
     def _training_done(self, path: str) -> None:
         self._disconnect_training_cancel()
         self.train_button.setEnabled(True)
+        self.resume_training_button.setEnabled(True)
+        if self.training_resume_task_id:
+            self.state.resume_service.update(self.training_resume_task_id, status=ResumeStatus.COMPLETED, current=100, total=100, resumable=False)
         self.path.setText(path)
         self.inspect_policy()
         self.state.task_status.finish("CALO policy training completed")
@@ -582,11 +799,17 @@ class CALOIntelligencePanel(ScrollablePage):
     def _training_cancelled(self, message: str) -> None:
         self._disconnect_training_cancel()
         self.train_button.setEnabled(True)
+        self.resume_training_button.setEnabled(True)
+        if self.training_resume_task_id:
+            self.state.resume_service.update(self.training_resume_task_id, status=ResumeStatus.PAUSED, resumable=True)
         self.state.task_status.cancelled(message)
 
     def _training_failed(self, message: str) -> None:
         self._disconnect_training_cancel()
         self.train_button.setEnabled(True)
+        self.resume_training_button.setEnabled(True)
+        if self.training_resume_task_id:
+            self.state.resume_service.update(self.training_resume_task_id, status=ResumeStatus.INTERRUPTED, resumable=True)
         self.state.task_status.fail(message)
         QMessageBox.critical(self, "Policy training failed", message)
 

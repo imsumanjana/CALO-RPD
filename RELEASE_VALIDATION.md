@@ -1,30 +1,37 @@
-# CALO-RPD Studio 3.0.0 — Release Validation Record
+# CALO-RPD Studio 3.3.0 — Release Validation Record
 
-## Scope
+Version 3.3.0 introduces the CUDA-Resident Execution Engine for comparative evaluation and CALO policy-training ORPD rollouts. The release changes device execution and throughput plumbing while preserving common FP64 scientific formulations, equal evaluation accounting, seed management, and independent CPU-reference validation.
 
-Version 3.0.0 introduces the PyTorch FP64 accelerator-native ORPD evaluator and canonical tensor kernels for all nineteen non-CALO baselines. CALO uses the same accelerator evaluator plus its existing cognitive/AI controller. The legacy CPU evaluator remains the independent reference.
+## Implemented release gates
 
-## Checks completed in the packaging environment
+- Default comparison allocation: CUDA 80%, Intel XPU 10%, CPU 10%.
+- Optional 100% CUDA job allocation when CUDA is available.
+- All twenty primary optimizers and CALO ablation variants are accelerator-eligible under the PyTorch FP64 backend.
+- Device-resident mixed-variable decoding, scenario expansion, batched Newton-Raphson power flow, branch flows, objective/constraint aggregation, L-index and robust aggregation.
+- Grouped tensor PV-to-PQ switching without candidate-by-candidate Python power-flow fallback.
+- Persistent CUDA/XPU/CPU services, cross-run tensor batching, automatic microbatch calibration, and CUDA-priority work stealing for unstarted jobs.
+- Policy-training rollout defaults changed to 80/10/10 with a 100% CUDA preset; ORPD development rollouts use the same device-resident evaluator.
+- CPU/accelerator parity gate and independent CPU-reference final validation retained.
 
-- `python -m pytest -q`: **88 passed, 25 skipped**.
-- `python -m compileall -q calo_bootstrap calo_rpd_studio tests`: passed.
-- `python -m pip wheel . --no-deps`: passed and produced `calo_rpd_studio-3.0.0-py3-none-any.whl`.
-- CPU-only PyTorch FP64 parity tests on the deterministic toy AC system passed within near-machine-precision errors.
-- Batched candidate evaluation matched the scalar CPU reference for the covered toy cases.
-- Smoke tests executed every one of the nineteen torch baseline kernels with the common result contract.
-- A weighted 8-algorithm × 50-run plan with 100% CUDA request was verified to produce 400 CUDA lane assignments when CUDA availability is declared.
-- Freeze-manifest verification passed after creation of `calo_v3_freeze.json`.
+## Automated verification
 
-## Skipped or unavailable checks
+- Pytest: **104 passed, 25 skipped**.
+- Skipped tests: 22 PyQt6 GUI tests because PyQt6 was unavailable in the packaging environment; 3 IEEE/PYPOWER scientific tests because PYPOWER was unavailable.
+- Python source compilation: passed.
+- Device-resident ORPD parity on the available deterministic toy case: passed.
+- All-primary 400-job allocation regression:
+  - 80/10/10 -> 320 CUDA, 40 XPU, 40 CPU.
+  - 100/0/0 -> 400 CUDA, 0 XPU, 0 CPU.
+- Tensor-native baseline smoke tests: passed.
+- Wheel build: passed.
+- Source distribution build: passed.
+- Clean wheel import: reported version 3.3.0.
+- Frozen v3.3 verification: passed across **50 files**.
 
-- Physical NVIDIA CUDA execution was not available in the packaging environment; installed PyTorch was CPU-only.
-- Physical Intel XPU execution was not available.
-- PyQt6 was unavailable, so GUI tests were skipped.
-- PYPOWER was unavailable, so three IEEE/PYPOWER cross-validation tests were skipped.
-- Ruff was not available and is not claimed as executed.
+## Environment limitations
 
-The first-launch prerequisite wizard performs real CUDA/XPU tensor tests on the target workstation. Before publication use, run the v3 parity audit on every benchmark formulation and independently validate stored final solutions against the trusted CPU reference.
+The packaging environment had a CPU-only PyTorch runtime and no physical NVIDIA CUDA or Intel XPU device. Physical accelerator throughput, utilization, device-memory behavior, and CUDA/XPU parity must therefore be verified by the prerequisite wizard and parity audit on the target workstation. Ruff was not installed in the packaging environment and is not claimed as executed.
 
 ## Scientific boundary
 
-This release makes all primary optimizer jobs accelerator-compatible and improves shared physical-formulation consistency and throughput. It does not guarantee that any optimizer converges better. Solution-quality claims require the complete repeated-run, validation, and statistical protocol.
+The numerical hot path is substantially more device-resident, but CPU use is not eliminated. Mandatory host responsibilities remain: GUI and process orchestration, sparse telemetry, one packed population result materialisation for the stable public result/provenance contract, SQLite/file persistence, checkpointing, portfolio generation, and final independent CPU-reference validation. The 80/10/10 or 100% CUDA setting refers to optimizer-job numerical assignment, not a guarantee of an identical Task Manager utilization percentage.
