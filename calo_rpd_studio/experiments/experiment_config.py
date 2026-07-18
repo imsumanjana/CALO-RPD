@@ -28,6 +28,35 @@ class RobustScenarioSettings:
     renewable_mean_capacity_factor: float = 0.5
     renewable_std_capacity_factor: float = 0.15
 
+    def validate(self) -> None:
+        modes = {
+            "deterministic",
+            "load_uncertainty",
+            "monte_carlo",
+            "renewable_uncertainty",
+            "branch_contingency",
+            "generator_contingency",
+        }
+        if self.mode not in modes:
+            raise ValueError(f"Unsupported scenario mode: {self.mode}")
+        if self.mode != "deterministic" and int(self.count) <= 0:
+            raise ValueError("Robust scenario count must be positive")
+        if float(self.active_load_std) < 0 or float(self.reactive_load_std) < 0:
+            raise ValueError("Load standard deviations must be non-negative")
+        if self.mode == "renewable_uncertainty":
+            if int(self.renewable_bus) <= 0 or float(self.renewable_rated_mw) <= 0:
+                raise ValueError("Renewable uncertainty requires a positive bus number and rated MW")
+            if not 0.0 <= float(self.renewable_mean_capacity_factor) <= 1.0:
+                raise ValueError("Renewable mean capacity factor must be between 0 and 1")
+            if float(self.renewable_std_capacity_factor) < 0:
+                raise ValueError("Renewable capacity-factor standard deviation must be non-negative")
+        if self.mode == "branch_contingency" and not self.branch_outages:
+            raise ValueError("Branch contingency mode requires at least one branch outage index")
+        if self.mode == "generator_contingency" and not self.generator_outages:
+            raise ValueError("Generator contingency mode requires at least one generator outage index")
+        if any(int(index) < 0 for index in (*self.branch_outages, *self.generator_outages)):
+            raise ValueError("Contingency indices must be non-negative")
+
 
 @dataclass(slots=True)
 class ExperimentConfig:
@@ -46,7 +75,7 @@ class ExperimentConfig:
     algorithm_parameters: dict[str, dict] = field(default_factory=dict)
     output_directory: str = "results_data"
     parallel_workers: int = 1
-    execution_backend: str = "cuda_priority"
+    execution_backend: str = "gpu_preferred"
     gpu_utilization_target: int = 70
     cpu_utilization_target: int = 50
     gpu_memory_limit: int = 85
@@ -55,15 +84,18 @@ class ExperimentConfig:
     xpu_memory_limit: int = 85
     xpu_parallel_jobs: int = 2
     system_memory_limit: int = 85
-    cuda_task_share: int = 80
-    xpu_task_share: int = 10
-    cpu_task_share: int = 10
+    cuda_task_share: int = 100
+    xpu_task_share: int = 0
+    cpu_task_share: int = 0
     strict_device_shares: bool = True
     scientific_backend: str = "torch_fp64"
     device_resident_execution: bool = True
     cuda_priority_work_stealing: bool = True
     tensor_batch_size: int = 64
     require_backend_parity: bool = True
+    parity_objective_tolerance: float = 1e-5
+    parity_violation_tolerance: float = 1e-6
+    parity_voltage_tolerance: float = 1e-5
     runtime_compute_device: str = "cpu"
     throughput_engine_enabled: bool = True
     persistent_accelerator_workers: bool = True
@@ -73,7 +105,7 @@ class ExperimentConfig:
     automatic_batch_calibration: bool = True
     calibration_batch_sizes: list[int] = field(default_factory=lambda: [16, 32, 64, 128, 256])
     calibration_repetitions: int = 1
-    throughput_profile_path: str = "results_data/throughput_profile_v31.json"
+    throughput_profile_path: str = "results_data/throughput_profile_v34.json"
     compile_stable_kernels: bool = False
     telemetry_iteration_interval: int = 10
     buffered_trace_writes: bool = True
@@ -119,10 +151,22 @@ class ExperimentConfig:
             raise ValueError("telemetry_iteration_interval must be positive")
         if int(self.checkpoint_interval_evaluations) <= 0:
             raise ValueError("checkpoint_interval_evaluations must be positive")
+        self.scenarios.validate()
+        if self.robust_objective.aggregation is RobustAggregation.CVAR and not 0.0 < float(self.robust_objective.cvar_alpha) < 1.0:
+            raise ValueError("CVaR alpha must lie strictly between 0 and 1")
+        if float(self.robust_objective.risk_lambda) < 0.0:
+            raise ValueError("risk_lambda must be non-negative")
+        for value, label in (
+            (self.parity_objective_tolerance, "parity_objective_tolerance"),
+            (self.parity_violation_tolerance, "parity_violation_tolerance"),
+            (self.parity_voltage_tolerance, "parity_voltage_tolerance"),
+        ):
+            if not 0.0 < float(value) < 1.0:
+                raise ValueError(f"{label} must be positive and below 1")
         self.portfolio.validate()
-        # The portfolio is the authoritative source for required repetitions. Keep the legacy
-        # ``runs`` field synchronized so every downstream algorithm receives the same plan.
-        self.runs = int(self.portfolio.required_runs())
+        # Portfolio requirements are a minimum, never a reason to silently reduce a user's
+        # requested repetitions. A request for 31–50 runs must remain exactly 31–50.
+        self.runs = max(int(self.runs), int(self.portfolio.required_runs()))
         if not 10 <= int(self.gpu_utilization_target) <= 100:
             raise ValueError("gpu_utilization_target must be between 10 and 100")
         if not 10 <= int(self.cpu_utilization_target) <= 100:
@@ -146,8 +190,8 @@ class ExperimentConfig:
             raise ValueError("CUDA, XPU, and CPU task shares must sum to 100")
         if self.execution_backend == "cuda_priority" and shares != (80, 10, 10):
             raise ValueError("cuda_priority requires the fixed 80/10/10 CUDA/XPU/CPU share")
-        if self.execution_backend == "cuda_only" and shares != (100, 0, 0):
-            raise ValueError("cuda_only requires the fixed 100/0/0 CUDA/XPU/CPU share")
+        if self.execution_backend in {"cuda_only", "gpu_preferred"} and shares != (100, 0, 0):
+            raise ValueError(f"{self.execution_backend} requires the fixed 100/0/0 preferred share")
         self.budget.validate()
 
     def to_dict(self) -> dict:
@@ -198,6 +242,7 @@ class ExperimentConfig:
             float(variable_data.get("transformer_maximum", 1.1)),
             float(variable_data.get("transformer_step", 0.0125)),
             shunts,
+            str(variable_data.get("formulation_profile", "ieee-orpd-controls-v3.4.0")),
         )
         robust_data = data.get("robust_objective", {})
         robust = RobustObjectiveConfig(
@@ -215,8 +260,8 @@ class ExperimentConfig:
             int(budget_data.get("max_evaluations", 5000)),
             budget_data.get("wall_clock_seconds"),
         )
-        execution_backend = str(data.get("execution_backend", "cuda_priority"))
-        preset_shares = (100, 0, 0) if execution_backend == "cuda_only" else (80, 10, 10)
+        execution_backend = str(data.get("execution_backend", "gpu_preferred"))
+        preset_shares = (100, 0, 0) if execution_backend in {"cuda_only", "gpu_preferred"} else (80, 10, 10)
         return cls(
             name=data.get("name", "CALO-RPD comparative experiment"),
             case_name=data.get("case_name", "case30"),
@@ -251,6 +296,9 @@ class ExperimentConfig:
             cuda_priority_work_stealing=bool(data.get("cuda_priority_work_stealing", True)),
             tensor_batch_size=int(data.get("tensor_batch_size", 64)),
             require_backend_parity=bool(data.get("require_backend_parity", True)),
+            parity_objective_tolerance=float(data.get("parity_objective_tolerance", 1e-5)),
+            parity_violation_tolerance=float(data.get("parity_violation_tolerance", 1e-6)),
+            parity_voltage_tolerance=float(data.get("parity_voltage_tolerance", 1e-5)),
             runtime_compute_device=str(data.get("runtime_compute_device", "cpu")),
             throughput_engine_enabled=bool(data.get("throughput_engine_enabled", True)),
             persistent_accelerator_workers=bool(data.get("persistent_accelerator_workers", True)),
@@ -260,7 +308,7 @@ class ExperimentConfig:
             automatic_batch_calibration=bool(data.get("automatic_batch_calibration", True)),
             calibration_batch_sizes=[int(value) for value in data.get("calibration_batch_sizes", [16, 32, 64, 128, 256])],
             calibration_repetitions=int(data.get("calibration_repetitions", 1)),
-            throughput_profile_path=str(data.get("throughput_profile_path", "results_data/throughput_profile_v31.json")),
+            throughput_profile_path=str(data.get("throughput_profile_path", "results_data/throughput_profile_v34.json")),
             compile_stable_kernels=bool(data.get("compile_stable_kernels", False)),
             telemetry_iteration_interval=int(data.get("telemetry_iteration_interval", 10)),
             buffered_trace_writes=bool(data.get("buffered_trace_writes", True)),

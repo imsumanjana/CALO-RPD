@@ -36,8 +36,9 @@ def _update_outputs(case,pg,qg):
     for i,bus_number in enumerate(case.bus[:,BUS_I].astype(int)):
         gens=online_generators_at_bus(case,bus_number)
         if not gens.size:continue
-        distribute_reactive_power(case,bus_number,float(qg[i]))
-        if int(case.bus[i,BUS_TYPE])==REF:
+        is_ref=int(case.bus[i,BUS_TYPE])==REF
+        distribute_reactive_power(case,bus_number,float(qg[i]),clip_to_limits=not is_ref)
+        if is_ref:
             fixed=float(np.sum(case.gen[gens[1:],PG])) if gens.size>1 else 0.0;case.gen[gens[0],PG]=float(pg[i]-fixed)
 
 def run_ac_power_flow(input_case,options:PowerFlowOptions|None=None):

@@ -22,7 +22,7 @@ def run_configuration_parity_audit(config, *, device: str = "auto", candidates: 
 
     case = CaseLoader.load(config.case_name)
     problem_config = ORPDProblemConfig(config.objective, config.variables, config.robust_objective)
-    scenarios = build_scenarios(config, int(config.master_seed) + 99173)
+    scenarios = build_scenarios(config, int(config.master_seed) + 99173, case)
     reference = ORPDProblem(case, problem_config, scenarios)
     accelerated = AcceleratedORPDProblem(
         case,
@@ -34,7 +34,14 @@ def run_configuration_parity_audit(config, *, device: str = "auto", candidates: 
     )
     rng = np.random.default_rng(int(config.master_seed) + 4711)
     sample = rng.random((max(1, int(candidates)), reference.dimension))
-    report = parity_check(reference, accelerated, sample)
+    report = parity_check(
+        reference,
+        accelerated,
+        sample,
+        objective_tolerance=float(getattr(config, "parity_objective_tolerance", 1e-5)),
+        violation_tolerance=float(getattr(config, "parity_violation_tolerance", 1e-6)),
+        voltage_tolerance=float(getattr(config, "parity_voltage_tolerance", 1e-5)),
+    )
     payload = asdict(report)
     payload.update(
         {
@@ -43,6 +50,11 @@ def run_configuration_parity_audit(config, *, device: str = "auto", candidates: 
             "device_name": accelerated.device_context.name,
             "dtype": "float64",
             "scenario_count": len(scenarios),
+            "tolerances": {
+                "objective": float(getattr(config, "parity_objective_tolerance", 1e-5)),
+                "violation": float(getattr(config, "parity_violation_tolerance", 1e-6)),
+                "voltage_pu": float(getattr(config, "parity_voltage_tolerance", 1e-5)),
+            },
         }
     )
     return payload

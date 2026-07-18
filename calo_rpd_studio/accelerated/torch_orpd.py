@@ -25,6 +25,7 @@ from calo_rpd_studio.power_system.case_model import (
     VMIN,
 )
 from calo_rpd_studio.robustness.robust_objectives import RobustAggregation
+from calo_rpd_studio.robustness.cvar import weighted_cvar_torch
 from calo_rpd_studio.robustness.scenario import Scenario
 
 from .device import resolve_device, torch_dtype
@@ -67,7 +68,9 @@ class AcceleratedORPDProblem:
     ):
         self.case = case.clone()
         self.config = config or ORPDProblemConfig()
-        self.scenarios = scenarios or [Scenario("base")]
+        self.scenarios = [Scenario("base")] if scenarios is None else list(scenarios)
+        if not self.scenarios:
+            raise ValueError("At least one robust scenario is required; an empty scenario set is invalid.")
         self.reference = ORPDProblem(self.case, self.config, self.scenarios)
         self.decoder = self.reference.decoder
         self.device_context = resolve_device(device)
@@ -200,15 +203,7 @@ class AcceleratedORPDProblem:
         elif config.aggregation is RobustAggregation.WORST_CASE:
             result = torch.max(v)
         else:
-            order = torch.argsort(v)
-            sorted_v = v[order]
-            sorted_w = w[order]
-            cdf = torch.cumsum(sorted_w, dim=0)
-            threshold_index = int(torch.searchsorted(cdf, torch.as_tensor(config.cvar_alpha, dtype=self.dtype, device=self.device)).item())
-            threshold_index = min(max(threshold_index, 0), sorted_v.numel() - 1)
-            var = sorted_v[threshold_index]
-            mask = sorted_v >= var
-            result = torch.sum(sorted_v[mask] * sorted_w[mask]) / torch.clamp(torch.sum(sorted_w[mask]), min=1e-15)
+            result = weighted_cvar_torch(v, w, config.cvar_alpha)
         return float(result.detach().cpu())
 
     def batch_signature(self) -> str:

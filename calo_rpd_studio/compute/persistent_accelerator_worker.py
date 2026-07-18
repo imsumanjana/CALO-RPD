@@ -1,4 +1,4 @@
-"""Persistent per-device workers for the v3.3 batched throughput engine.
+"""Persistent per-device workers for the v3.4 batched throughput engine.
 
 One process owns one CUDA/XPU context for the complete campaign.  Multiple independent optimizer
 runs execute as threads inside that process and submit compatible population requests to one
@@ -112,7 +112,7 @@ def _worker_main(
                         "run_index": item.run_index + 1,
                         "algorithm": item.label,
                         "compute_device": device,
-                        "throughput_engine": "device_resident_cross_run_batching_v3.3",
+                        "throughput_engine": "device_resident_cross_run_batching_v3.4",
                     }
                 )
                 progress_queue.put(data)

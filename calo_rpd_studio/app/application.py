@@ -22,7 +22,8 @@ def main() -> int:
     app = QApplication(sys.argv)
     app.setApplicationName("CALO-RPD Studio")
     app.setOrganizationName("CALO-RPD")
-    app.setApplicationVersion("3.3.0")
+    from calo_rpd_studio.version import VERSION
+    app.setApplicationVersion(VERSION)
 
     settings = SettingsManager()
     state = AppState()

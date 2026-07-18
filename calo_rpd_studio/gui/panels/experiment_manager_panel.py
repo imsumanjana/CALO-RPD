@@ -7,7 +7,7 @@ import os
 
 import psutil
 
-from PyQt6.QtCore import QTimer, Qt
+from PyQt6.QtCore import QThread, QTimer, Qt, pyqtSignal
 from PyQt6.QtWidgets import (
     QCheckBox,
     QComboBox,
@@ -40,6 +40,105 @@ from calo_rpd_studio.experiments.execution_plan import ABLATION_MODE, COMPARISON
 from calo_rpd_studio.experiments.fairness_validator import validate_fairness
 from calo_rpd_studio.gui.widgets.section_card import SectionCard
 from calo_rpd_studio.gui.widgets.workspace_page import WorkspacePage
+from calo_rpd_studio.results.database import ResultDatabase
+
+
+class ScientificAuditWorker(QThread):
+    """Run parity, fairness, and reuse checks away from the Qt GUI thread."""
+
+    completed = pyqtSignal(object)
+    failed = pyqtSignal(str)
+    progress = pyqtSignal(str, int)
+
+    def __init__(self, config, database_path: str, *, parity_only: bool = False, parent=None) -> None:
+        super().__init__(parent)
+        self.config = deepcopy(config)
+        self.database_path = str(database_path)
+        self.parity_only = bool(parity_only)
+
+    @staticmethod
+    def preferred_device() -> str:
+        try:
+            import torch
+            if torch.cuda.is_available():
+                return "cuda:0"
+            if hasattr(torch, "xpu") and torch.xpu.is_available():
+                return "xpu:0"
+        except Exception:
+            pass
+        return "cpu"
+
+    def run(self) -> None:
+        try:
+            self.progress.emit("Validating experiment configuration", 5)
+            self.config.validate()
+            parity = None
+            if self.parity_only or bool(self.config.require_backend_parity):
+                device = self.preferred_device()
+                # A CPU fallback parity audit can otherwise let dense Torch/LAPACK workers consume
+                # every host core, starving the Qt event loop despite this QThread. Restrict only
+                # the audit worker; numerical experiments keep their configured scheduler.
+                torch_module = None
+                previous_threads = None
+                if device == "cpu":
+                    try:
+                        import torch as torch_module
+                        previous_threads = int(torch_module.get_num_threads())
+                        torch_module.set_num_threads(1)
+                    except Exception:
+                        torch_module = None
+                        previous_threads = None
+                candidates = 1 if str(self.config.case_name) == "case300" and device == "cpu" else 5
+                self.progress.emit(
+                    f"Auditing CPU/accelerator parity on {device} ({candidates} deterministic candidate{'s' if candidates != 1 else ''})",
+                    15,
+                )
+                try:
+                    parity = run_configuration_parity_audit(
+                        self.config,
+                        device=device,
+                        candidates=candidates,
+                    )
+                finally:
+                    if torch_module is not None and previous_threads is not None:
+                        try:
+                            torch_module.set_num_threads(previous_threads)
+                        except Exception:
+                            pass
+                if bool(self.config.require_backend_parity) and not bool(parity.get("passed")):
+                    raise RuntimeError("CPU/accelerator numerical parity gate did not pass")
+            if self.parity_only:
+                self.progress.emit("Parity audit complete", 100)
+                self.completed.emit({"parity_only": True, "parity": parity})
+                return
+
+            self.progress.emit("Checking comparative fairness and portfolio dependencies", 70)
+            fairness = validate_fairness(self.config)
+            portfolio_plan = PortfolioPlanner.plan(self.config, self.config.portfolio, benchmark_blocks=1)
+            self.progress.emit("Checking reusable verified runs", 82)
+            seeds = SeedManager(self.config.master_seed).generate(self.config.runs)
+            reusable = 0
+            if self.config.reuse_compatible_results:
+                database = ResultDatabase(self.database_path)
+                for item in build_execution_plan(self.config, COMPARISON_MODE):
+                    fingerprint = run_fingerprint(self.config, item.label, item.run_index, seeds[item.run_index])
+                    if database.find_reusable_run(
+                        fingerprint,
+                        verified_only=bool(self.config.portfolio.require_independent_validation),
+                    ):
+                        reusable += 1
+            self.progress.emit("Scientific audit complete", 100)
+            self.completed.emit(
+                {
+                    "parity_only": False,
+                    "parity": parity,
+                    "fairness": fairness,
+                    "portfolio_plan": portfolio_plan,
+                    "reusable": reusable,
+                }
+            )
+        except Exception as exc:
+            self.failed.emit(str(exc))
 
 
 class ExperimentManagerPanel(WorkspacePage):
@@ -60,6 +159,7 @@ class ExperimentManagerPanel(WorkspacePage):
         self.fairness_passed = False
         self.backend_parity_passed = False
         self.backend_parity_report = None
+        self.audit_worker: ScientificAuditWorker | None = None
 
         # This workspace is genuinely taller than a typical laptop viewport.  Keep the
         # page header fixed and scroll only the workflow body so controls retain their
@@ -123,12 +223,12 @@ class ExperimentManagerPanel(WorkspacePage):
             "Maximum number of independent optimizer processes admitted at the same time."
         )
         self.execution_backend = QComboBox()
-        self.execution_backend.addItem("CUDA-resident priority — 80% CUDA / 10% XPU / 10% CPU (recommended)", "cuda_priority")
-        self.execution_backend.addItem("CUDA-only resident — 100% CUDA", "cuda_only")
+        self.execution_backend.addItem("GPU maximum resident — 100% CUDA when available (recommended)", "gpu_preferred")
+        self.execution_backend.addItem("CUDA-only resident — require 100% CUDA", "cuda_only")
+        self.execution_backend.addItem("CUDA-resident priority — 80% CUDA / 10% XPU / 10% CPU", "cuda_priority")
         self.execution_backend.addItem("Auto-tuned Batched Throughput Engine", "throughput_auto")
         self.execution_backend.addItem("Custom weighted split", "weighted_split")
         self.execution_backend.addItem("Adaptive hybrid CPU + GPU", "adaptive_hybrid")
-        self.execution_backend.addItem("GPU preferred with CPU fallback", "gpu_preferred")
         self.execution_backend.addItem("CPU only", "cpu_only")
         self.scientific_backend = QComboBox()
         self.scientific_backend.addItem(
@@ -167,7 +267,7 @@ class ExperimentManagerPanel(WorkspacePage):
         self.device_resident_execution = QCheckBox("Keep optimizer, decoder, power-flow and constraint tensors resident on the assigned device")
         self.device_resident_execution.setChecked(True)
         self.device_resident_execution.setToolTip(
-            "v3.3 minimizes host/device round trips. One packed population result is materialized on the host for common provenance, GUI and persistence; final independent validation remains CPU-reference based."
+            "v3.4 minimizes host/device round trips. One packed population result is materialized on the host for common provenance, GUI and persistence; final independent validation remains CPU-reference based."
         )
         self.cuda_priority_work_stealing = QCheckBox("Allow idle CUDA capacity to take unstarted XPU/CPU work")
         self.cuda_priority_work_stealing.setChecked(True)
@@ -478,10 +578,10 @@ class ExperimentManagerPanel(WorkspacePage):
         current_backend = str(self.execution_backend.currentData() or "")
         if current_backend == "throughput_auto":
             summary_text += (
-                " The v3.3 engine will benchmark candidate-scenario throughput on each verified CUDA/XPU/CPU lane, "
+                " The v3.4 engine will benchmark candidate-scenario throughput on each verified CUDA/XPU/CPU lane, "
                 "select a stable microbatch, and allocate jobs in proportion to measured evaluations per second."
             )
-        if current_backend in {"weighted_split", "cuda_priority", "cuda_only"}:
+        if current_backend in {"weighted_split", "cuda_priority", "cuda_only", "gpu_preferred"}:
             try:
                 temp = deepcopy(self.state.config)
                 temp.runs = runs
@@ -505,10 +605,10 @@ class ExperimentManagerPanel(WorkspacePage):
             scheduler_text = "CPU-only scheduling is selected."
         elif backend == "throughput_auto":
             scheduler_text = (
-                "The v3.3 Batched Throughput Engine keeps one long-lived process per device, calibrates real candidate-scenario throughput, "
+                "The v3.4 Batched Throughput Engine keeps one long-lived process per device, calibrates real candidate-scenario throughput, "
                 "selects the fastest stable microbatch, combines compatible population requests across runs, and allocates whole jobs by measured capacity."
             )
-        elif backend in {"weighted_split", "cuda_priority", "cuda_only"}:
+        elif backend in {"weighted_split", "cuda_priority", "cuda_only", "gpu_preferred"}:
             share_total = self.cuda_share.value() + self.xpu_share.value() + self.cpu_share.value()
             scheduler_text = (
                 f"Device-resident admission assigns numerical jobs as CUDA {self.cuda_share.value()}%, "
@@ -529,7 +629,7 @@ class ExperimentManagerPanel(WorkspacePage):
         )
         self.execution_note.setText(
             scheduler_text
-            + " Under the v3.3 torch FP64 backend, all primary algorithms use tensor-native population kernels or the CALO policy path plus device-resident mixed-variable decoding, batched AC power flow, constraints, robust aggregation, ranking and L-index evaluation. "
+            + " Under the v3.4 torch FP64 backend, all primary algorithms use tensor-native population kernels or the CALO policy path plus device-resident mixed-variable decoding, batched AC power flow, constraints, robust aggregation, ranking and L-index evaluation. "
             + "CPU is limited to mandatory orchestration, sparse telemetry, packed result materialization, persistence, checkpointing and independent reference validation. When XPU utilization telemetry is unavailable, the XPU memory threshold and explicit job cap are used instead of inventing a utilization value."
             + timing_note
         )
@@ -579,9 +679,9 @@ class ExperimentManagerPanel(WorkspacePage):
         self.xpu_memory_limit.setValue(config.xpu_memory_limit)
         self.xpu_jobs.setValue(config.xpu_parallel_jobs)
         self.system_memory_limit.setValue(config.system_memory_limit)
-        self.cuda_share.setValue(getattr(config, "cuda_task_share", 80))
-        self.xpu_share.setValue(getattr(config, "xpu_task_share", 10))
-        self.cpu_share.setValue(getattr(config, "cpu_task_share", 10))
+        self.cuda_share.setValue(getattr(config, "cuda_task_share", 100))
+        self.xpu_share.setValue(getattr(config, "xpu_task_share", 0))
+        self.cpu_share.setValue(getattr(config, "cpu_task_share", 0))
         self.device_resident_execution.setChecked(bool(getattr(config, "device_resident_execution", True)))
         self.cuda_priority_work_stealing.setChecked(bool(getattr(config, "cuda_priority_work_stealing", True)))
         self.seed.setValue(config.master_seed)
@@ -600,12 +700,12 @@ class ExperimentManagerPanel(WorkspacePage):
             self.cuda_share.setValue(80)
             self.xpu_share.setValue(10)
             self.cpu_share.setValue(10)
-        elif backend == "cuda_only":
+        elif backend in {"cuda_only", "gpu_preferred"}:
             self.cuda_share.setValue(100)
             self.xpu_share.setValue(0)
             self.cpu_share.setValue(0)
         weighted = backend == "weighted_split"
-        throughput = backend in {"throughput_auto", "cuda_priority", "cuda_only"}
+        throughput = backend in {"throughput_auto", "cuda_priority", "cuda_only", "gpu_preferred"}
         for widget in (self.cuda_share, self.xpu_share, self.cpu_share):
             widget.setEnabled(weighted)
         for widget in (
@@ -621,8 +721,7 @@ class ExperimentManagerPanel(WorkspacePage):
 
     def apply(self) -> None:
         config = self.state.config
-        config.runs = int(config.portfolio.required_runs())
-        self.runs.setValue(config.runs)
+        config.runs = int(self.runs.value())
         config.population_size = self.population.value()
         config.budget.policy = BudgetPolicy(self.policy.currentData())
         config.budget.max_evaluations = self.budget.value()
@@ -674,121 +773,142 @@ class ExperimentManagerPanel(WorkspacePage):
             self.output.setText(path)
 
 
-    def _selected_parity_device(self) -> str:
-        snapshot = self.resource_monitor.sample()
-        accelerators = (*snapshot.by_backend("cuda"), *snapshot.by_backend("xpu"))
-        return accelerators[0].device_id if accelerators else "cpu"
+    def _set_audit_running(self, running: bool) -> None:
+        self.audit_button.setEnabled(not running and not self.manager.running)
+        self.parity_button.setEnabled(not running and not self.manager.running)
+        self.compare.setEnabled((not running) and self.fairness_passed and not self.manager.running)
+        self.calo.setEnabled((not running) and self.fairness_passed and not self.manager.running)
+        if running:
+            self.audit_state.setText("Audit running in background — GUI remains responsive")
+
+    @staticmethod
+    def _format_parity(report: dict | None) -> str:
+        if not report:
+            return "No backend parity report was produced."
+        tolerances = dict(report.get("tolerances", {}))
+        status = "PASS" if report.get("passed") else "FAIL"
+        return (
+            f"{status}: CPU/accelerator scientific parity audit.\n"
+            f"Device: {report.get('device')} — {report.get('device_name')}\n"
+            f"Case: {report.get('case')} · scenarios: {report.get('scenario_count')} · candidates: {report.get('candidate_count')}\n"
+            f"Maximum objective error: {report.get('max_objective_error'):.6g} (tol {tolerances.get('objective', float('nan')):.3g})\n"
+            f"Maximum violation error: {report.get('max_violation_error'):.6g} (tol {tolerances.get('violation', float('nan')):.3g})\n"
+            f"Maximum voltage error: {report.get('max_voltage_error'):.6g} p.u. (tol {tolerances.get('voltage_pu', float('nan')):.3g})\n"
+            f"Feasibility mismatches: {report.get('feasibility_mismatches')}\n\n"
+            + json.dumps(report.get("details", []), indent=2)
+        )
+
+    def _start_audit(self, *, parity_only: bool) -> bool:
+        if self.manager.running or (self.audit_worker is not None and self.audit_worker.isRunning()):
+            self.audit.setPlainText("An experiment or scientific audit is already running.")
+            return False
+        try:
+            self.apply()
+        except Exception as exc:
+            self.audit.setPlainText(str(exc))
+            self.audit_state.setText("Audit could not be started")
+            return False
+        self.fairness_passed = False if not parity_only else self.fairness_passed
+        self._set_audit_running(True)
+        self.audit.setPlainText(
+            "Running CPU/accelerator parity audit in a background worker…"
+            if parity_only else
+            "Running parity, fairness, portfolio, and reusable-result checks in a background worker…"
+        )
+        self.state.task_status.begin(
+            "Auditing backend parity" if parity_only else "Auditing experiment fairness",
+            detail="Scientific checks are executing outside the GUI thread",
+        )
+        self.audit_worker = ScientificAuditWorker(
+            self.state.config,
+            self.state.database.path,
+            parity_only=parity_only,
+            parent=self,
+        )
+        self.audit_worker.completed.connect(self._on_audit_completed)
+        self.audit_worker.failed.connect(self._on_audit_failed)
+        self.audit_worker.progress.connect(self._on_audit_progress)
+        self.audit_worker.finished.connect(lambda: self._set_audit_running(False))
+        self.audit_worker.start()
+        return True
 
     def run_backend_parity_audit(self) -> bool:
-        if self.manager.running:
-            self.audit.setPlainText("Parity auditing is unavailable while an experiment is running.")
-            return False
-        try:
-            self.apply()
-            device = self._selected_parity_device()
-            report = run_configuration_parity_audit(self.state.config, device=device, candidates=5)
-            self.backend_parity_report = report
-            self.backend_parity_passed = bool(report.get("passed"))
-            status = "PASS" if self.backend_parity_passed else "FAIL"
-            self.audit.setPlainText(
-                f"{status}: CPU/accelerator scientific parity audit.\n"
-                f"Device: {report.get('device')} — {report.get('device_name')}\n"
-                f"Case: {report.get('case')} · scenarios: {report.get('scenario_count')} · candidates: {report.get('candidate_count')}\n"
-                f"Maximum objective error: {report.get('max_objective_error'):.6g}\n"
-                f"Maximum violation error: {report.get('max_violation_error'):.6g}\n"
-                f"Maximum voltage error: {report.get('max_voltage_error'):.6g} p.u.\n"
-                f"Feasibility mismatches: {report.get('feasibility_mismatches')}\n\n"
-                + json.dumps(report.get("details", []), indent=2)
-            )
-            self.audit_state.setText(
-                "Backend parity passed — run fairness audit" if self.backend_parity_passed else "Backend parity failed"
-            )
-            return self.backend_parity_passed
-        except Exception as exc:
-            self.backend_parity_passed = False
-            self.backend_parity_report = None
-            self.audit.setPlainText(f"Backend parity audit failed to execute: {exc}")
-            self.audit_state.setText("Backend parity audit unavailable")
-            return False
+        return self._start_audit(parity_only=True)
 
     def run_fairness_audit(self) -> bool:
-        task = self.state.task_status
-        if task.busy:
-            self.audit.setPlainText("Wait for the active scientific task to finish before running the fairness audit.")
-            return False
-        task.begin("Auditing experiment fairness", detail="Checking common comparison protocol")
-        try:
-            self.apply()
-            if self.state.config.require_backend_parity and not self.backend_parity_passed:
-                if not self.run_backend_parity_audit():
-                    raise RuntimeError("CPU/accelerator numerical parity gate did not pass")
-            report = validate_fairness(self.state.config)
-        except Exception as exc:
-            self.fairness_passed = False
-            self.compare.setEnabled(False)
-            self.calo.setEnabled(False)
-            self.audit.setPlainText(str(exc))
-            self.audit_state.setText("Audit could not be completed")
-            task.fail(str(exc))
-            return False
-        portfolio_plan = PortfolioPlanner.plan(self.state.config, self.state.config.portfolio, benchmark_blocks=1)
-        seeds = SeedManager(self.state.config.master_seed).generate(self.state.config.runs)
-        reusable = 0
-        if self.state.config.reuse_compatible_results:
-            for item in build_execution_plan(self.state.config, COMPARISON_MODE):
-                fp = run_fingerprint(self.state.config, item.label, item.run_index, seeds[item.run_index])
-                if self.state.database.find_reusable_run(
-                    fp,
-                    verified_only=bool(self.state.config.portfolio.require_independent_validation),
-                ):
-                    reusable += 1
+        return self._start_audit(parity_only=False)
+
+
+    def _on_audit_progress(self, message: str, percent: int) -> None:
+        self.audit_state.setText(str(message))
+        self.status.setText(str(message))
+        self.state.task_status.update(int(percent), str(message))
+
+    def _on_audit_failed(self, message: str) -> None:
+        self.fairness_passed = False
+        self.backend_parity_passed = False
+        self.compare.setEnabled(False)
+        self.calo.setEnabled(False)
+        self.audit.setPlainText(f"Scientific audit failed to execute: {message}")
+        self.audit_state.setText("Audit failed — correct the reported issue")
+        self.status.setText("Fairness audit failed. Review the audit output before execution.")
+        self.state.task_status.fail(message)
+
+    def _on_audit_completed(self, payload: dict) -> None:
+        parity = payload.get("parity")
+        if parity is not None:
+            self.backend_parity_report = parity
+            self.backend_parity_passed = bool(parity.get("passed"))
+        if payload.get("parity_only"):
+            self.audit.setPlainText(self._format_parity(parity))
+            self.audit_state.setText(
+                "Backend parity passed — run fairness audit"
+                if self.backend_parity_passed else "Backend parity failed"
+            )
+            if self.backend_parity_passed:
+                self.state.task_status.finish("Backend parity audit passed")
+            else:
+                self.state.task_status.fail("Backend parity audit failed")
+            return
+
+        report = payload["fairness"]
+        portfolio_plan = payload["portfolio_plan"]
+        reusable = int(payload.get("reusable", 0))
+        total_jobs = planned_item_count(self.state.config, COMPARISON_MODE)
         lines = [
             "PASS: comparative protocol is internally consistent."
-            if report.fair
-            else "FAIL: comparative protocol requires correction.",
+            if report.fair else "FAIL: comparative protocol requires correction.",
             f"PORTFOLIO PLAN: {self.state.config.portfolio.kind.value} · {self.state.config.portfolio.evidence_profile.value} · {len(self.state.config.portfolio.requested_outputs)} requested outputs.",
-            f"PRIMARY COMPARISON PLAN: {len(self.state.config.algorithms)} selected algorithms × {self.state.config.runs} runs = {planned_item_count(self.state.config, COMPARISON_MODE)} jobs.",
-            f"EXACT RESULT REUSE: {reusable} compatible job(s) can be reused; {planned_item_count(self.state.config, COMPARISON_MODE) - reusable} new job(s) remain.",
+            f"PRIMARY COMPARISON PLAN: {len(self.state.config.algorithms)} selected algorithms × {self.state.config.runs} runs = {total_jobs} jobs.",
+            f"EXACT RESULT REUSE: {reusable} compatible job(s) can be reused; {total_jobs - reusable} new job(s) remain.",
             f"REQUIRED STORED EVIDENCE: {', '.join(portfolio_plan.required_fields)}.",
-            f"CALO ABLATION PLAN: {len(labels_for_mode(self.state.config, ABLATION_MODE))} fixed variants × {self.state.config.runs} runs = {planned_item_count(self.state.config, ABLATION_MODE)} jobs; this study intentionally ignores the primary algorithm checkbox selection.",
+            f"CALO ABLATION PLAN: {len(labels_for_mode(self.state.config, ABLATION_MODE))} fixed variants × {self.state.config.runs} runs = {planned_item_count(self.state.config, ABLATION_MODE)} jobs.",
         ]
-        if self.state.config.execution_backend in {"weighted_split", "cuda_priority", "cuda_only"}:
-            snapshot = self.resource_monitor.sample()
-            _lanes, allocation = build_weighted_lane_plan(
-                build_execution_plan(self.state.config, COMPARISON_MODE), COMPARISON_MODE,
-                cuda_available=bool(snapshot.by_backend("cuda")),
-                xpu_available=bool(snapshot.by_backend("xpu")),
-                cuda_share=self.state.config.cuda_task_share,
-                xpu_share=self.state.config.xpu_task_share,
-                cpu_share=self.state.config.cpu_task_share,
-            )
-            lines.append(f"WEIGHTED DEVICE PLAN: requested {allocation.requested_text}; attainable total-job assignment {allocation.effective_text}.")
+        if self.state.config.execution_backend in {"gpu_preferred", "cuda_only"}:
             lines.append(
-                f"ACCELERATOR CAPABILITY: {allocation.accelerator_eligible_jobs}/{allocation.total_jobs} jobs use the v3 torch FP64 scientific backend; {allocation.cpu_only_jobs} jobs are CPU-reference-only."
+                "GPU-MAXIMUM PLAN: 100% of optimizer, decoder, batched AC power-flow, constraints, robust aggregation, ranking, and CALO policy inference stay on CUDA when available; XPU then CPU are fallback lanes only for GPU-preferred mode."
             )
-        if self.backend_parity_report:
+        if parity:
             lines.append(
-                "BACKEND PARITY: "
-                + ("PASS" if self.backend_parity_passed else "FAIL")
-                + f" · max objective error {self.backend_parity_report.get('max_objective_error', float('nan')):.3g}"
-                + f" · max violation error {self.backend_parity_report.get('max_violation_error', float('nan')):.3g}"
-                + f" · max voltage error {self.backend_parity_report.get('max_voltage_error', float('nan')):.3g} p.u."
+                "BACKEND PARITY: " + ("PASS" if self.backend_parity_passed else "FAIL")
+                + f" · max objective error {parity.get('max_objective_error', float('nan')):.3g}"
+                + f" · max violation error {parity.get('max_violation_error', float('nan')):.3g}"
+                + f" · max voltage error {parity.get('max_voltage_error', float('nan')):.3g} p.u."
             )
         lines.extend(f"ERROR: {message}" for message in report.errors)
         lines.extend(f"NOTICE: {message}" for message in report.warnings)
         self.audit.setPlainText("\n".join(lines))
-        self.fairness_passed = bool(report.fair)
+        self.fairness_passed = bool(report.fair and (not self.state.config.require_backend_parity or self.backend_parity_passed))
         self.compare.setEnabled(self.fairness_passed and not self.manager.running)
         self.calo.setEnabled(self.fairness_passed and not self.manager.running)
         if self.fairness_passed:
             self.audit_state.setText("Passed — study execution unlocked")
-            self.status.setText("Fairness audit passed. Step 3 is now available: run the primary comparison or CALO ablation study.")
-            task.finish("Fairness audit passed")
+            self.status.setText("Fairness audit passed. Primary comparison and CALO ablation execution are unlocked.")
+            self.state.task_status.finish("Fairness audit passed")
         else:
             self.audit_state.setText("Failed — correct the reported issues")
             self.status.setText("Fairness audit failed. Correct the reported issues before execution.")
-            task.fail("Fairness audit failed")
-        return self.fairness_passed
+            self.state.task_status.fail("Fairness audit failed")
 
     def _populate_queue(self, labels: list[str], mode: str) -> None:
         plan = build_execution_plan(self.state.config, mode)
@@ -799,7 +919,7 @@ class ExperimentManagerPanel(WorkspacePage):
             )
             for item in plan
         }
-        if self.state.config.execution_backend in {"weighted_split", "cuda_priority", "cuda_only"}:
+        if self.state.config.execution_backend in {"weighted_split", "cuda_priority", "cuda_only", "gpu_preferred"}:
             snapshot = self.resource_monitor.sample()
             weighted, _summary = build_weighted_lane_plan(
                 plan, mode,
@@ -830,11 +950,11 @@ class ExperimentManagerPanel(WorkspacePage):
     def start_comparison(self) -> None:
         if not self._manager_available():
             return
-        if not self.run_fairness_audit():
-            QMessageBox.critical(
+        if not self.fairness_passed:
+            QMessageBox.information(
                 self,
-                "Fairness audit failed",
-                "Correct the reported configuration errors before running the comparison.",
+                "Fairness audit required",
+                "Run the fairness audit and wait for its background checks to complete before starting the comparison.",
             )
             return
         labels = list(labels_for_mode(self.state.config, COMPARISON_MODE))
@@ -849,11 +969,11 @@ class ExperimentManagerPanel(WorkspacePage):
     def start_calo(self) -> None:
         if not self._manager_available():
             return
-        if not self.fairness_passed and not self.run_fairness_audit():
-            QMessageBox.critical(
+        if not self.fairness_passed:
+            QMessageBox.information(
                 self,
-                "Fairness audit failed",
-                "Correct the reported configuration errors before running CALO analysis.",
+                "Fairness audit required",
+                "Run the fairness audit and wait for its background checks to complete before starting CALO analysis.",
             )
             return
         try:

@@ -1,5 +1,35 @@
 # Changelog
 
+## 3.4.3
+
+- Fixed Portfolio Export appearing permanently stuck at 94% on the final `reproducibility_bundle` artifact. The final archive now reports bounded 94–99% sub-progress and reaches 100% only after the archive is closed and atomically committed.
+- Replaced unbounded recursive output-directory zipping with a portfolio-scoped reproducibility bundle so unrelated/older exports are not accidentally re-compressed. Already-compressed PNG/PDF/ZIP/NPZ-type artifacts are stored without redundant deflate work and text artifacts use fast level-1 compression.
+- Added safe cancellation inside reproducibility-bundle creation. A pause request removes the temporary archive, preserves the 16 completed artifacts, and resumes only the missing final bundle.
+- Moved standard verified-publication export off the Qt GUI thread and added visible progress/cancellation so large publication packages no longer freeze the interface.
+- Eliminated `RuntimeWarning: All-NaN slice encountered` in statistical, live-progressive, portfolio, and publication-evidence median/IQR convergence calculations by removing all-NaN grid columns before reduction.
+- Added atomic temporary ZIP creation and a manifest snapshot inside the reproducibility bundle.
+- Added regression tests for 100% completion, bundle scoping, safe pause/resume during artifact 17, and NaN-safe convergence export.
+
+## 3.4.2
+
+- Fixed Live Optimization being permanently locked to repeated run 1. Telemetry is now stored independently for every repeated run, with Auto-follow and manual run selection; no parallel-run telemetry is discarded.
+- Added Portfolio-aware live/progressive previewing. Selected convergence/CALO diagnostics update live; single-run power-system plots become available immediately after a run is committed; repeated-run summaries update provisionally as evidence accumulates; final inference outputs remain explicitly final-stage.
+- Replaced direct PYPOWER `ENFORCE_Q_LIMS=1` dependence with an independent PV-only aggregate Q-limit switching loop around PYPOWER's own Newton solver, matching CALO-RPD's retained REF/slack semantics and fixing IEEE-300 cross-validation.
+- Corrected reference/slack reactive-power reporting so the stored `QG` reflects the actual solved network requirement even when it exceeds declared limits; violations are no longer silently clipped in result state.
+- Added IEEE-300 to the command-line case validation matrix and mandatory internal-vs-PYPOWER scientific regression suite.
+- Improved fairness-audit responsiveness with staged progress reporting, accelerator-first parity selection, and CPU-thread throttling during CPU fallback parity checks.
+- Retained GPU-preferred numerical scheduling: 100% of tensor-compatible numerical work is assigned to CUDA when available, with XPU then CPU fallback; Qt, persistence, and independent PYPOWER validation remain host-side by necessity.
+- Removed obsolete root-level `PATCH_NOTES_v*.md` files; release history is consolidated in `CHANGELOG.md`.
+
+## 3.4.1
+
+- Fixed `UnboundLocalError: combined` in `CrossRunBatchBroker` when concatenation fails before the merged matrix is created.
+- Preserved and propagated the original batching error instead of masking it during performance-ledger accounting.
+- Added representation/device/dtype/decision-width compatibility keys so NumPy and Torch populations, or tensors from different devices, are never merged accidentally.
+- Added a broker-liveness watchdog and an outer worker guard so a daemon failure cannot leave experiment or GUI threads blocked indefinitely.
+- Added validation for malformed/empty candidate matrices and regression tests for failed concatenation, recovery, mixed representations, and broker liveness.
+- Scientific equations, CALO operators, seeds, evaluation budgets, and the v3.4 ORPD formulation remain unchanged.
+
 ## 3.3.0
 
 - Added the CUDA-Resident Execution Engine for comparative evaluation and ORPD policy-training rollouts.

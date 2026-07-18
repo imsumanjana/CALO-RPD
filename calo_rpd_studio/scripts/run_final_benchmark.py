@@ -1,4 +1,4 @@
-"""Run the frozen v2 final 20-algorithm benchmark campaign from the command line."""
+"""Run the frozen v3.4 final 20-algorithm benchmark campaign from the command line."""
 from __future__ import annotations
 
 import argparse
@@ -22,9 +22,9 @@ from calo_rpd_studio.results.result_store import ResultStore
 
 
 def parser() -> argparse.ArgumentParser:
-    command = argparse.ArgumentParser(description="Run the frozen CALO-RPD v2 final benchmark campaign.")
+    command = argparse.ArgumentParser(description="Run the frozen CALO-RPD v3.4 final benchmark campaign.")
     command.add_argument("--database", default="calo_rpd_results.sqlite")
-    command.add_argument("--output", default="benchmark_v2")
+    command.add_argument("--output", default="benchmark_v34")
     command.add_argument("--runs", type=int, default=30)
     command.add_argument("--budget", type=int, default=5000)
     command.add_argument("--population", type=int, default=50)

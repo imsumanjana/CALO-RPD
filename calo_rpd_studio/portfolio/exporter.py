@@ -4,7 +4,6 @@ from __future__ import annotations
 from dataclasses import dataclass
 import json
 from pathlib import Path
-import shutil
 import zipfile
 
 import matplotlib
@@ -28,6 +27,16 @@ class ArtifactResult:
     reason: str = ""
 
 
+class PortfolioExportCancelled(RuntimeError):
+    """Raised when a safe portfolio pause is requested during a long artifact."""
+
+
+_ALREADY_COMPRESSED_SUFFIXES = {
+    ".7z", ".bz2", ".gif", ".gz", ".jpeg", ".jpg", ".npz", ".pdf",
+    ".png", ".rar", ".webp", ".xz", ".zip",
+}
+
+
 class PortfolioExporter:
     """Generate only the artifacts selected in Portfolio Manager.
 
@@ -47,6 +56,126 @@ class PortfolioExporter:
         tmp = path.with_suffix(path.suffix + ".tmp")
         tmp.write_text(json.dumps(payload, indent=2, allow_nan=True), encoding="utf-8")
         tmp.replace(path)
+
+    @staticmethod
+    def _write_captions(out: Path, tasks: list[str], manifest: dict) -> None:
+        lines = ["# Figure and table captions", ""]
+        artifacts = manifest.get("artifacts", {}) or {}
+        for key in tasks:
+            if key == "reproducibility_bundle":
+                continue
+            record = artifacts.get(key, {}) or {}
+            status = str(record.get("status", "pending"))
+            reason = str(record.get("reason", ""))
+            label = OUTPUT_REQUIREMENTS[key].label if key in OUTPUT_REQUIREMENTS else key.replace("_", " ").title()
+            lines.append(f"- **{label}:** {status}" + (f" — {reason}" if reason else ""))
+        (out / "figure_captions.md").write_text("\n".join(lines), encoding="utf-8")
+
+    @staticmethod
+    def _bundle_candidates(out: Path, archive: Path, manifest_path: Path) -> list[Path]:
+        """Return only files owned by the current portfolio export.
+
+        Older releases recursively archived every file below the user-selected output directory.
+        That could accidentally re-compress unrelated prior exports and make the final 17th artifact
+        appear stuck at 94%.  The bundle is now deliberately scoped to this portfolio's evidence.
+        """
+        candidates: set[Path] = set()
+        for folder_name in ("figures", "tables", "raw_results", "configurations"):
+            folder = out / folder_name
+            if folder.is_dir():
+                candidates.update(path for path in folder.rglob("*") if path.is_file())
+        for filename in ("portfolio_metadata.json", "figure_captions.md"):
+            path = out / filename
+            if path.is_file():
+                candidates.add(path)
+        excluded = {archive.resolve(strict=False), manifest_path.resolve(strict=False)}
+        return sorted(
+            (path for path in candidates if path.resolve(strict=False) not in excluded and not path.name.endswith(".tmp")),
+            key=lambda path: path.as_posix().lower(),
+        )
+
+    def _write_reproducibility_bundle(
+        self,
+        out: Path,
+        archive: Path,
+        manifest_path: Path,
+        manifest: dict,
+        *,
+        completed_before: int,
+        total_tasks: int,
+        progress_callback=None,
+        cancel_callback=None,
+    ) -> str:
+        candidates = self._bundle_candidates(out, archive, manifest_path)
+        temp_archive = archive.with_name(archive.name + ".tmp")
+        temp_archive.unlink(missing_ok=True)
+        total_files = len(candidates)
+        base_percent = int(100 * completed_before / max(total_tasks, 1))
+        final_percent = min(99, int(100 * (completed_before + 1) / max(total_tasks, 1)) - 1)
+        last_percent = -1
+
+        def emit_progress(done: int, status: str) -> None:
+            nonlocal last_percent
+            if progress_callback is None:
+                return
+            if total_files:
+                fraction = done / total_files
+                percent = base_percent + int(max(0, final_percent - base_percent) * fraction)
+            else:
+                percent = final_percent
+            percent = min(99, max(base_percent, percent))
+            if percent != last_percent or done in {0, total_files}:
+                last_percent = percent
+                progress_callback({
+                    "completed": completed_before,
+                    "total": total_tasks,
+                    "percent": percent,
+                    "artifact": "reproducibility_bundle",
+                    "status": status,
+                })
+
+        emit_progress(0, f"packing 0/{total_files} files")
+        try:
+            with zipfile.ZipFile(
+                temp_archive,
+                "w",
+                compression=zipfile.ZIP_DEFLATED,
+                compresslevel=1,
+                allowZip64=True,
+            ) as zf:
+                for index, candidate in enumerate(candidates, start=1):
+                    if cancel_callback and cancel_callback():
+                        raise PortfolioExportCancelled("Safe pause requested during reproducibility bundle creation")
+                    compression = (
+                        zipfile.ZIP_STORED
+                        if candidate.suffix.lower() in _ALREADY_COMPRESSED_SUFFIXES
+                        else zipfile.ZIP_DEFLATED
+                    )
+                    zf.write(candidate, candidate.relative_to(out), compress_type=compression)
+                    emit_progress(index, f"packing {index}/{total_files} files")
+
+                snapshot = json.loads(json.dumps(manifest, allow_nan=True))
+                snapshot.setdefault("artifacts", {})["reproducibility_bundle"] = {
+                    "status": "completed",
+                    "path": str(archive),
+                    "reason": "",
+                }
+                snapshot.update({
+                    "completed_artifacts": completed_before + 1,
+                    "total_artifacts": total_tasks,
+                    "cancelled": False,
+                })
+                zf.writestr(
+                    "portfolio_manifest_snapshot.json",
+                    json.dumps(snapshot, indent=2, allow_nan=True),
+                    compress_type=zipfile.ZIP_DEFLATED,
+                    compresslevel=1,
+                )
+            temp_archive.replace(archive)
+        except BaseException:
+            temp_archive.unlink(missing_ok=True)
+            raise
+        return str(archive)
 
     @staticmethod
     def _save_figure(fig, base: Path) -> str:
@@ -186,11 +315,17 @@ class PortfolioExporter:
         fig, ax = plt.subplots(figsize=(7.6, 5.2))
         for algorithm, series in aligned.items():
             matrix = np.asarray(series, dtype=float)
-            median = np.nanmedian(matrix, axis=0)
-            line = ax.plot(grid, median, label=algorithm)[0]
+            valid_columns = np.any(np.isfinite(matrix), axis=0)
+            if not np.any(valid_columns):
+                continue
+            local_grid = grid[valid_columns]
+            local_matrix = matrix[:, valid_columns]
+            median = np.nanmedian(local_matrix, axis=0)
+            line = ax.plot(local_grid, median, label=algorithm)[0]
             if uncertainty:
-                q1 = np.nanpercentile(matrix, 25, axis=0); q3 = np.nanpercentile(matrix, 75, axis=0)
-                ax.fill_between(grid, q1, q3, alpha=0.18, color=line.get_color())
+                q1 = np.nanpercentile(local_matrix, 25, axis=0)
+                q3 = np.nanpercentile(local_matrix, 75, axis=0)
+                ax.fill_between(local_grid, q1, q3, alpha=0.18, color=line.get_color())
         ax.set_xlabel("Objective-function evaluations"); ax.set_ylabel("Best feasible objective")
         ax.set_title("Median feasible convergence" + (" with IQR" if uncertainty else "")); ax.grid(True, alpha=0.35); ax.legend()
         return self._save_figure(fig, path)
@@ -443,7 +578,17 @@ class PortfolioExporter:
                 manifest["cancelled"] = True; self._atomic_json(manifest_path, manifest); break
             existing = manifest.get("artifacts", {}).get(key, {})
             if existing.get("status") == "completed" and existing.get("path") and Path(existing["path"]).exists():
-                completed_count += 1; results.append(ArtifactResult(key, "reused", existing["path"])); continue
+                completed_count += 1
+                results.append(ArtifactResult(key, "reused", existing["path"]))
+                if progress_callback:
+                    progress_callback({
+                        "completed": completed_count,
+                        "total": len(tasks),
+                        "percent": int(100 * completed_count / max(len(tasks), 1)),
+                        "artifact": key,
+                        "status": "reused",
+                    })
+                continue
             try:
                 path = ""
                 target = figures / key
@@ -502,16 +647,26 @@ class PortfolioExporter:
                     metadata = {"experiment": experiment, "portfolio": portfolio, "requested_outputs": requested, "completed_runs": len(all_rows), "verified_runs": len(verified_rows)}
                     self._atomic_json(out / "portfolio_metadata.json", metadata); path = str(out / "portfolio_metadata.json")
                 elif key == "reproducibility_bundle":
+                    self._write_captions(out, tasks, manifest)
                     archive = out / "reproducibility_bundle.zip"
-                    with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED) as zf:
-                        for candidate in out.rglob("*"):
-                            if candidate.is_file() and candidate not in {archive, manifest_path}:
-                                zf.write(candidate, candidate.relative_to(out))
-                    path = str(archive)
+                    path = self._write_reproducibility_bundle(
+                        out,
+                        archive,
+                        manifest_path,
+                        manifest,
+                        completed_before=completed_count,
+                        total_tasks=len(tasks),
+                        progress_callback=progress_callback,
+                        cancel_callback=cancel_callback,
+                    )
                 else:
                     raise ValueError("No exporter is registered for this selected output")
                 result = ArtifactResult(key, "completed", path)
                 manifest.setdefault("artifacts", {})[key] = {"status": "completed", "path": path, "reason": ""}
+            except PortfolioExportCancelled:
+                manifest["cancelled"] = True
+                self._atomic_json(manifest_path, manifest)
+                break
             except Exception as exc:
                 result = ArtifactResult(key, "skipped", "", str(exc))
                 manifest.setdefault("artifacts", {})[key] = {"status": "skipped", "path": "", "reason": str(exc)}
@@ -521,9 +676,5 @@ class PortfolioExporter:
             if progress_callback:
                 progress_callback({"completed": completed_count, "total": len(tasks), "percent": int(100 * completed_count / max(len(tasks), 1)), "artifact": key, "status": result.status})
 
-        captions = ["# Figure and table captions", ""]
-        for item in results:
-            label = OUTPUT_REQUIREMENTS[item.key].label if item.key in OUTPUT_REQUIREMENTS else item.key.replace("_", " ").title()
-            captions.append(f"- **{label}:** {item.status}" + (f" — {item.reason}" if item.reason else ""))
-        (out / "figure_captions.md").write_text("\n".join(captions), encoding="utf-8")
+        self._write_captions(out, tasks, manifest)
         return out

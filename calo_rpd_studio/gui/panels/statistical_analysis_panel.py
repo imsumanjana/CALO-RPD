@@ -180,11 +180,15 @@ class StatisticalAnalysisPanel(WorkspacePage):
                             values[gi] = y_arr[pos]
                     aligned.append(values)
                 matrix = np.vstack(aligned)
-                with np.errstate(all="ignore"):
-                    median = np.nanmedian(matrix, axis=0)
+                valid_columns = np.any(np.isfinite(matrix), axis=0)
+                if not np.any(valid_columns):
+                    continue
+                local_grid = grid[valid_columns]
+                local_matrix = matrix[:, valid_columns]
+                median = np.nanmedian(local_matrix, axis=0)
                 valid = np.isfinite(median)
                 if np.any(valid):
-                    median_series[algorithm] = (grid[valid].tolist(), median[valid].tolist())
+                    median_series[algorithm] = (local_grid[valid].tolist(), median[valid].tolist())
             self.convergence.plot_xy_series(
                 median_series,
                 "Median best-feasible convergence",

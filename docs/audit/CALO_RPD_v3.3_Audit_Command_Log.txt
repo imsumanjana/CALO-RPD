@@ -1,0 +1,91 @@
+CALO-RPD DEEP AUDIT — COMMAND/EVIDENCE LOG
+Date: 2026-07-17
+Artifact: /mnt/data/CALO-RPD-main(3).zip
+Extracted repository: /mnt/data/calo_rpd_audit/CALO-RPD-main
+
+1. Archive safety
+   entries=386
+   uncompressed_bytes=2130306
+   unsafe_paths=0
+
+2. Source metrics
+   python_files=266
+   total_python_loc=30787
+   functions=1235
+   classes=204
+   calo_rpd_studio: 223 files / 27194 LOC
+   calo_bootstrap: 4 files / 1335 LOC
+   tests: 37 files / 2250 LOC
+
+3. Compilation
+   python -m compileall -q calo_rpd_studio calo_bootstrap main.py bootstrap.py
+   PASS
+
+4. Core tests
+   QT_QPA_PLATFORM=offscreen python -m pytest -q tests/unit tests/scientific tests/integration
+   106 passed in 18.61s
+
+5. Full tests with declared GUI/scientific dependencies installed
+   QT_QPA_PLATFORM=offscreen python -m pytest -q
+   123 passed, 7 failed in 21.64s
+   Failing areas: workspace count, scrollable-page count, result-to-validation navigation test,
+   two stale 50/30/20 scheduler expectations, and two stale guided-workflow index expectations.
+
+6. Coverage
+   python -m pytest --cov=calo_rpd_studio --cov-report=term -q tests/unit tests/scientific tests/integration
+   TOTAL 16155 statements, 10193 missed, 37%
+   106 passed in 24.52s
+
+7. Ruff
+   python -m ruff check .
+   26 errors, including F821 undefined name `iteration` at
+   calo_rpd_studio/compute/persistent_accelerator_sidecar.py:131.
+
+8. Bandit
+   python -m bandit -q -r calo_rpd_studio calo_bootstrap -f json
+   0 high; 23 medium; 49 low; 72 total.
+   Medium findings are primarily unsafe torch.load/pickle and heuristic SQL warnings.
+
+9. Frozen CALO
+   verify_freeze_manifest(calo_rpd_studio/data/frozen/calo_v33_freeze.json)
+   PASS across 50 files
+   manifest_sha256=0d22395fbedd4834ab23aea6fea90f3544b3e7639fc5dc449d54b5a1cfd39fcd
+
+10. Repository manifest
+    sha256sum -c MANIFEST.sha256
+    PASS
+
+11. Packaging
+    python -m build
+    PASS
+    wheel: calo_rpd_studio-3.3.0-py3-none-any.whl, 252 entries
+    sdist: calo_rpd_studio-3.3.0.tar.gz, 296 entries
+
+12. CVaR oracle demonstration
+    values=[0,100], weights=[0.96,0.04], alpha=0.95
+    repository weighted_cvar=4.0
+    exact fractional-tail CVaR=79.99999999999993
+
+13. Campaign repetition demonstration
+    requested 30 -> task config 30, 600 jobs
+    requested 35 -> task config 30, 600 jobs
+    requested 50 -> task config 30, 600 jobs
+
+14. Scenario validation demonstration
+    ExperimentConfig.scenarios.count=0
+    config.validate() -> ACCEPTED
+    config.runs after validation -> 30
+    Empty generated scenario list is replaced by deterministic base through truthiness fallback.
+
+15. Default ORPD dimensions/control counts
+    case30: dimension 14; Vg=6, taps=0, shunts=8
+    case57: dimension 27; Vg=7, taps=17, shunts=3
+    case118: dimension 77; Vg=54, taps=9, shunts=14
+    case300: dimension 176; Vg=69, taps=107, shunts=0
+
+16. Default shunt data observed before decoder replacement
+    case57 selected shunts: 10.0, 5.9, 6.3 MVAr; configured range for each 0..5.
+    case118 selected shunts include -40, -25, 6, 10, 12, 14, 15, 20 MVAr; configured range for each 0..5.
+
+17. Font evidence
+    Full GUI test log emitted 219 warnings that Times New Roman was not found.

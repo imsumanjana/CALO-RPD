@@ -1,0 +1,37 @@
+name: CALO-RPD v3.4 CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ['3.11', '3.12', '3.13']
+    runs-on: ${{ matrix.os }}
+    env:
+      QT_QPA_PLATFORM: offscreen
+      PYTHONPATH: .
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install CPU validation environment
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install --index-url https://download.pytorch.org/whl/cpu torch
+          python -m pip install -e ".[dev]"
+      - name: Compile
+        run: python -m compileall -q calo_rpd_studio calo_bootstrap tests
+      - name: Lint
+        run: ruff check .
+      - name: Test and staged coverage gate
+        run: |
+          coverage run --source=calo_rpd_studio -m pytest -q
+          coverage report --skip-covered --ignore-errors --fail-under=60
+      - name: Build distributions
+        run: python -m build

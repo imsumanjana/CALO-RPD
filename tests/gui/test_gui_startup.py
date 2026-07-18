@@ -7,7 +7,7 @@ def test_main_window_has_all_workspaces(qtbot,tmp_path):
     from calo_rpd_studio.app.experiment_manager import ExperimentManager
     from calo_rpd_studio.app.settings_manager import SettingsManager
     from calo_rpd_studio.app.main_window import MainWindow
-    state=AppState(tmp_path/'gui.sqlite');window=MainWindow(state,ExperimentManager(state),SettingsManager());qtbot.addWidget(window);assert window.stack.count()==14;assert len(window.sidebar.buttons)==14
+    state=AppState(tmp_path/'gui.sqlite');window=MainWindow(state,ExperimentManager(state),SettingsManager());qtbot.addWidget(window);assert window.stack.count()==16;assert len(window.sidebar.buttons)==16
 def test_plot_toolbar_exposes_typography_controls(qtbot):
     from calo_rpd_studio.gui.plotting.scientific_plot import ScientificPlotWidget
     widget=ScientificPlotWidget();qtbot.addWidget(widget);toolbar=widget.format_toolbar;assert toolbar.font is not None;assert toolbar.size is not None;assert toolbar.bold is not None;assert toolbar.title_text is not None;assert toolbar.x_text is not None;assert toolbar.y_text is not None;assert toolbar.legend_labels is not None
@@ -23,7 +23,7 @@ def test_only_genuinely_long_workspaces_use_page_level_scrolling(qtbot, tmp_path
     window = MainWindow(state, ExperimentManager(state), SettingsManager())
     qtbot.addWidget(window)
     scrollable = [page for page in window.pages if isinstance(page, ScrollablePage)]
-    assert len(scrollable) == 4
+    assert len(scrollable) == 5
 
 
 def test_duplicate_experiment_start_is_rejected_without_exception(qtbot, tmp_path):
@@ -129,12 +129,12 @@ def test_result_review_opens_selected_run_in_validation(qtbot, tmp_path, monkeyp
         selected["experiment_id"] = experiment_id
         selected["run_id"] = run_id
 
-    monkeypatch.setattr(window.pages[10], "select_run", fake_select_run)
-    window.pages[9].review_completed.emit()
-    window.pages[9].validation_requested.emit("experiment-1", "run-1")
+    monkeypatch.setattr(window.pages[11], "select_run", fake_select_run)
+    window.pages[10].review_completed.emit()
+    window.pages[10].validation_requested.emit("experiment-1", "run-1")
 
     assert window.workflow.results_reviewed is True
-    assert window.stack.currentIndex() == 10
+    assert window.stack.currentIndex() == 11
     assert selected == {"experiment_id": "experiment-1", "run_id": "run-1"}
 
 
@@ -287,7 +287,7 @@ def test_experiment_manager_exposes_accelerator_first_scheduler_controls(qtbot, 
     assert panel.system_memory_limit.value() == 85
     assert panel.gpu_jobs.minimum() == 1
     assert panel.xpu_jobs.minimum() == 1
-    assert (panel.cuda_share.value(), panel.xpu_share.value(), panel.cpu_share.value()) == (50, 30, 20)
+    assert (panel.cuda_share.value(), panel.xpu_share.value(), panel.cpu_share.value()) == (100, 0, 0)
     assert panel.auto_batch_calibration.isChecked() is True
     assert panel.persistent_workers.isChecked() is True
     assert panel.cross_run_batching.isChecked() is True
@@ -306,9 +306,9 @@ def test_policy_training_exposes_weighted_cuda_xpu_cpu_actor_controls(qtbot, tmp
         panel.cuda_rollout_share.value(),
         panel.xpu_rollout_share.value(),
         panel.cpu_rollout_share.value(),
-    ) == (50, 30, 20)
+    ) == (100, 0, 0)
     assert "Shares refer to rollout episodes/transitions" in panel.accelerator_status.text()
-    assert panel.auto_tuned_training.isChecked() is True
+    assert panel.auto_tuned_training.isChecked() is False
     assert panel.persistent_training_actors.isChecked() is True
     assert panel.accelerated_training_orpd.isChecked() is True
     assert panel.cross_episode_training_batch.isChecked() is True
@@ -359,3 +359,59 @@ def test_validation_audit_exposes_bulk_validation_controls(qtbot, tmp_path):
     assert panel.bulk_all_button.text() == "Validate all not-yet-verified runs"
     assert panel.bulk_cancel_button.isEnabled() is False
     assert panel.bulk_progress.value() == 0
+
+
+def test_live_optimization_retains_and_switches_all_repeated_runs(qtbot, tmp_path):
+    from calo_rpd_studio.app.experiment_manager import ExperimentManager
+    from calo_rpd_studio.app.state_manager import AppState
+    from calo_rpd_studio.gui.panels.live_optimization_panel import LiveOptimizationPanel
+
+    state = AppState(tmp_path / "live-multi-run.sqlite")
+    panel = LiveOptimizationPanel(state, ExperimentManager(state))
+    qtbot.addWidget(panel)
+    panel.update_progress({
+        "algorithm": "CALO", "run_index": 1, "iteration": 1, "evaluations": 20,
+        "best_feasible_objective": float("nan"), "best_constraint_violation": 0.2,
+        "feasible": False,
+    })
+    panel.update_progress({
+        "algorithm": "CALO", "run_index": 2, "iteration": 1, "evaluations": 20,
+        "best_feasible_objective": float("nan"), "best_constraint_violation": 0.1,
+        "feasible": False,
+    })
+
+    assert sorted(panel._run_series) == [1, 2]
+    assert panel._run_series[1]["violation"]["CALO"][1] == [0.2]
+    assert panel._run_series[2]["violation"]["CALO"][1] == [0.1]
+    assert panel.current_run_index == 2
+    assert panel.run_selector.findData(1) >= 0
+    assert panel.run_selector.findData(2) >= 0
+
+    panel.run_selector.setCurrentIndex(panel.run_selector.findData(1))
+    assert panel.current_run_index == 1
+    assert panel.violation_series["CALO"][1] == [0.2]
+
+
+def test_live_portfolio_selector_exposes_requested_runtime_plots(qtbot, tmp_path):
+    from calo_rpd_studio.app.experiment_manager import ExperimentManager
+    from calo_rpd_studio.app.state_manager import AppState
+    from calo_rpd_studio.gui.panels.live_optimization_panel import LiveOptimizationPanel
+
+    state = AppState(tmp_path / "live-portfolio.sqlite")
+    state.config.portfolio.requested_outputs = [
+        "objective_convergence", "constraint_convergence", "voltage_profile"
+    ]
+    panel = LiveOptimizationPanel(state, ExperimentManager(state))
+    qtbot.addWidget(panel)
+    assert panel.portfolio_view.findData("objective_convergence") >= 0
+    assert panel.portfolio_view.findData("constraint_convergence") >= 0
+    assert panel.portfolio_view.findData("voltage_profile") >= 0
+
+    panel.update_progress({
+        "algorithm": "TLBO", "run_index": 1, "iteration": 1, "evaluations": 25,
+        "best_feasible_objective": 3.5, "best_constraint_violation": 0.0,
+        "feasible": True,
+    })
+    panel.portfolio_view.setCurrentIndex(panel.portfolio_view.findData("objective_convergence"))
+    assert panel.plot.axis.lines
+    assert "Objective convergence" in panel.plot.axis.get_title()

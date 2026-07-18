@@ -502,7 +502,7 @@ def build_weighted_lane_plan(
     assigning an unusable backend. The legacy CPU-reference backend remains CPU-only by design.
     """
     items = list(plan)
-    # The v3.3 torch FP64 pipeline provides tensor-native optimizer kernels and a common
+    # The v3.4 torch FP64 pipeline provides tensor-native optimizer kernels and a common
     # device-resident ORPD evaluator for every primary algorithm and CALO ablation variant.
     # The legacy CPU-reference backend never calls this planner.
     eligible = list(items)
@@ -595,7 +595,7 @@ def weighted_worker_slots(
 
 @dataclass(frozen=True, slots=True)
 class ThroughputAllocationSummary:
-    """Measured-throughput plan for the complete v3.3 optimizer campaign."""
+    """Measured-throughput plan for the complete v3.4 optimizer campaign."""
 
     total_jobs: int
     cuda_jobs: int
@@ -625,7 +625,7 @@ def build_throughput_lane_plan(
     cuda_available: bool,
     xpu_available: bool,
 ) -> tuple[dict[int, str], ThroughputAllocationSummary]:
-    """Allocate all v3.3 jobs in proportion to measured candidate-evaluation throughput.
+    """Allocate all v3.4 jobs in proportion to measured candidate-evaluation throughput.
 
     The algorithm/run plan remains run-major and deterministic.  Lane assignments are interleaved
     to avoid confounding a device with a contiguous random-seed range.

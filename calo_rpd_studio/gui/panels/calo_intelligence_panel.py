@@ -25,6 +25,7 @@ from PyQt6.QtWidgets import (
     QWidget,
 )
 
+from calo_rpd_studio.ai.model_io import load_checkpoint
 from calo_rpd_studio.algorithms.calo.training import (
     TrainingConfig,
     available_training_devices,
@@ -249,7 +250,7 @@ class CALOIntelligencePanel(ScrollablePage):
 
         self.rollout_mode = QComboBox()
         self.rollout_mode.addItem(
-            "Device-resident heterogeneous actors — CUDA 80% / XPU 10% / CPU 10%",
+            "GPU-maximum device-resident actors — CUDA 100% when available",
             "weighted",
         )
         self.rollout_mode.addItem(
@@ -260,15 +261,15 @@ class CALOIntelligencePanel(ScrollablePage):
 
         self.cuda_rollout_share = QSpinBox()
         self.cuda_rollout_share.setRange(0, 100)
-        self.cuda_rollout_share.setValue(80)
+        self.cuda_rollout_share.setValue(100)
         self.cuda_rollout_share.setSuffix(" % CUDA")
         self.xpu_rollout_share = QSpinBox()
         self.xpu_rollout_share.setRange(0, 100)
-        self.xpu_rollout_share.setValue(10)
+        self.xpu_rollout_share.setValue(0)
         self.xpu_rollout_share.setSuffix(" % XPU")
         self.cpu_rollout_share = QSpinBox()
         self.cpu_rollout_share.setRange(0, 100)
-        self.cpu_rollout_share.setValue(10)
+        self.cpu_rollout_share.setValue(0)
         self.cpu_rollout_share.setSuffix(" % CPU")
         split_row = QWidget()
         split_layout = QHBoxLayout(split_row)
@@ -277,11 +278,11 @@ class CALOIntelligencePanel(ScrollablePage):
         split_layout.addWidget(self.cuda_rollout_share)
         split_layout.addWidget(self.xpu_rollout_share)
         split_layout.addWidget(self.cpu_rollout_share)
-        self.training_cuda_priority = QPushButton("80/10/10")
+        self.training_cuda_priority = QPushButton("100/0/0 GPU max")
         self.training_cuda_priority.setToolTip("CUDA-priority device-resident rollout allocation")
         self.training_cuda_only = QPushButton("100% CUDA")
         self.training_cuda_only.setToolTip("Route all compatible rollout episodes and the PPO learner to NVIDIA CUDA")
-        self.training_cuda_priority.clicked.connect(lambda: self._set_training_split(80, 10, 10))
+        self.training_cuda_priority.clicked.connect(lambda: self._set_training_split(100, 0, 0))
         self.training_cuda_only.clicked.connect(lambda: self._set_training_split(100, 0, 0))
         split_layout.addWidget(self.training_cuda_priority)
         split_layout.addWidget(self.training_cuda_only)
@@ -298,7 +299,7 @@ class CALOIntelligencePanel(ScrollablePage):
         self.auto_tuned_training.setChecked(False)
         self.auto_tuned_training.setToolTip(
             "Runs short discarded calibration episodes on every verified device, then allocates "
-            "fresh on-policy episodes by measured transitions per second. The 80/10/10 values "
+            "fresh on-policy episodes by measured transitions per second. The 100/0/0 values "
             "remain the deterministic fallback when calibration is unavailable."
         )
         self.persistent_training_actors = QCheckBox(
@@ -310,7 +311,7 @@ class CALOIntelligencePanel(ScrollablePage):
         )
         self.accelerated_training_orpd.setChecked(True)
         self.accelerated_training_orpd.setToolTip(
-            "v3.3 keeps CALO state, mixed-variable decoding, AC power flow, constraints and policy inference on the assigned accelerator for ORPD development rollouts. Synthetic curriculum stages remain lightweight host environments."
+            "v3.4 keeps CALO state, mixed-variable decoding, AC power flow, constraints and policy inference on the assigned accelerator for ORPD development rollouts. Synthetic curriculum stages remain lightweight host environments."
         )
         self.cross_episode_training_batch = QCheckBox(
             "Batch compatible ORPD populations across simultaneous rollout episodes"
@@ -505,7 +506,7 @@ class CALOIntelligencePanel(ScrollablePage):
             )
             warning = (" " + " ".join(plan.warnings)) if plan.warnings else ""
             allocation_text = (
-                "The displayed 80/10/10 split is a fallback only; short discarded calibration "
+                "The displayed 100/0/0 split is a fallback only; short discarded calibration "
                 "episodes measure complete transitions per second and subsequent epochs are "
                 "allocated by measured throughput."
                 if self.auto_tuned_training.isChecked()
@@ -550,11 +551,10 @@ class CALOIntelligencePanel(ScrollablePage):
             QMessageBox.critical(self, "CALO policy configuration", "Select a valid CALO policy checkpoint first.")
             return
         try:
-            import torch
             from calo_rpd_studio.algorithms.calo.ai_controller import AIController
 
             AIController(path, deterministic=True)  # validates CALO Core v2 architecture
-            payload = torch.load(path, map_location="cpu", weights_only=False)
+            payload = load_checkpoint(path, map_location="cpu")
             metadata = payload.get("metadata", {})
             checksum = hashlib.sha256(path.read_bytes()).hexdigest()
         except Exception as exc:
@@ -586,9 +586,7 @@ class CALOIntelligencePanel(ScrollablePage):
             self.metadata.setPlainText("Policy file was not found.")
             return
         try:
-            import torch
-
-            payload = torch.load(path, map_location="cpu", weights_only=False)
+            payload = load_checkpoint(path, map_location="cpu")
             metadata = payload.get("metadata", {})
             metadata["sha256"] = hashlib.sha256(path.read_bytes()).hexdigest()
             self.metadata.setPlainText(json.dumps(metadata, indent=2))

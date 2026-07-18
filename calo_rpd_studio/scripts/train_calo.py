@@ -46,9 +46,9 @@ def main() -> int:
         action="store_true",
         help="Disable weighted CUDA/XPU/CPU actors and use the legacy all-CPU rollout collector.",
     )
-    parser.add_argument("--cuda-share", type=int, default=50)
-    parser.add_argument("--xpu-share", type=int, default=30)
-    parser.add_argument("--cpu-share", type=int, default=20)
+    parser.add_argument("--cuda-share", type=int, default=100)
+    parser.add_argument("--xpu-share", type=int, default=0)
+    parser.add_argument("--cpu-share", type=int, default=0)
     parser.add_argument(
         "--development-case",
         action="append",

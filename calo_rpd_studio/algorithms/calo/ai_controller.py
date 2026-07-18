@@ -15,6 +15,7 @@ import torch
 from .cognitive_state import STATE_DIM, REGIME_NAMES, rule_based_regime_prior
 from .policy_network import CALOPolicyNetwork
 from calo_rpd_studio.accelerated.runtime_context import get_cross_run_broker
+from calo_rpd_studio.ai.model_io import load_checkpoint
 
 PARAMETER_NAMES = (
     "attraction",
@@ -192,7 +193,7 @@ class AIController:
         with _POLICY_CACHE_LOCK:
             cached = _POLICY_NETWORK_CACHE.get(cache_key)
             if cached is None:
-                payload = torch.load(path, map_location="cpu", weights_only=False)
+                payload = load_checkpoint(path, map_location="cpu")
                 state_dict = payload.get("model_state_dict", payload)
                 if "regime_head.weight" not in state_dict or "alpha_head.weight" not in state_dict:
                     raise RuntimeError(

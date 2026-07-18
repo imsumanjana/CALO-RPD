@@ -25,6 +25,7 @@ from calo_rpd_studio.experiments.execution_plan import ABLATION_MODE, COMPARISON
 from calo_rpd_studio.experiments.experiment_runner import build_problem, failed_run_from_exception, run_single
 
 _HEADER = struct.Struct("!Q")
+_MAX_FRAME_BYTES = 512 * 1024 * 1024
 
 
 def _write_frame(stream: BinaryIO, payload: Any, lock: threading.Lock | None = None) -> None:
@@ -54,8 +55,13 @@ def _read_exact(stream: BinaryIO, size: int) -> bytes:
 
 def _read_frame(stream: BinaryIO) -> Any:
     header = _read_exact(stream, _HEADER.size)
-    length = _HEADER.unpack(header)[0]
-    return pickle.loads(_read_exact(stream, int(length)))
+    length = int(_HEADER.unpack(header)[0])
+    if length <= 0 or length > _MAX_FRAME_BYTES:
+        raise ValueError(f"Invalid local worker frame length: {length} bytes")
+    payload = pickle.loads(_read_exact(stream, length))  # nosec B301 -- trusted same-host child process
+    if not isinstance(payload, dict):
+        raise ValueError("Local worker protocol requires a dictionary frame")
+    return payload
 
 
 def _configure(config, device: str):
@@ -119,10 +125,17 @@ def server(device: str, slots: int, batch_window_ms: float, max_cross_run_batch:
         last_iteration = -1
 
         def progress(payload):
-            nonlocal last_emit, last_evaluations
+            nonlocal last_emit, last_evaluations, last_iteration
             now = time.monotonic()
             evaluations = int(payload.get("evaluations", 0))
-            if evaluations == 0 or evaluations >= evaluation_span or evaluations - last_evaluations >= evaluation_step or now - last_emit >= 0.25:
+            iteration = int(payload.get("iteration", 0))
+            if (
+                evaluations == 0
+                or evaluations >= evaluation_span
+                or evaluations - last_evaluations >= evaluation_step
+                or iteration - last_iteration >= telemetry_iteration_interval
+                or now - last_emit >= 0.25
+            ):
                 data = dict(payload)
                 data.update({"job_id": job_id, "job_index": item.job_index, "run_index": item.run_index + 1, "algorithm": item.label, "compute_device": device, "throughput_engine": "persistent_xpu_cross_run_batching"})
                 _write_frame(output_stream, {"kind": "progress", "payload": data}, write_lock)

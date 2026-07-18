@@ -8,6 +8,9 @@ __all__ = [
     "AcceleratedORPDProblem",
     "ParityReport",
     "parity_check",
+    "CrossRunBatchBroker",
+    "ThroughputProfile",
+    "calibrate_evaluator",
 ]
 
 from .throughput_engine import CrossRunBatchBroker, ThroughputProfile, calibrate_evaluator

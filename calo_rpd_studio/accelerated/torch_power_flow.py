@@ -16,9 +16,6 @@ from typing import Any
 import numpy as np
 
 from calo_rpd_studio.power_system.case_model import (
-    ANGMAX,
-    ANGMIN,
-    BASE_KV,
     BR_B,
     BR_R,
     BR_STATUS,
@@ -31,14 +28,10 @@ from calo_rpd_studio.power_system.case_model import (
     GEN_STATUS,
     GS,
     PG,
-    PMAX,
-    PMIN,
     PQ,
     PV,
     QD,
     QG,
-    QMAX,
-    QMIN,
     RATE_A,
     REF,
     SHIFT,
@@ -47,8 +40,6 @@ from calo_rpd_studio.power_system.case_model import (
     VA,
     VG,
     VM,
-    VMAX,
-    VMIN,
 )
 from calo_rpd_studio.power_system.pv_pq_switching import (
     aggregate_q_limits,
@@ -179,7 +170,6 @@ def solve_newton_raphson_torch(ybus, sbus, v0, ref, pv, pq, *, tolerance=1e-8, m
     torch = _torch()
     device = v0.device
     dtype = v0.real.dtype
-    ref_t = torch.as_tensor(ref, dtype=torch.long, device=device)
     pv_t = torch.as_tensor(pv, dtype=torch.long, device=device)
     pq_t = torch.as_tensor(pq, dtype=torch.long, device=device)
     pvpq = torch.cat((pv_t, pq_t))

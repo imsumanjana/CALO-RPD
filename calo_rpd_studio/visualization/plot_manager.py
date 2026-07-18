@@ -7,6 +7,7 @@ import math
 from pathlib import Path
 import uuid
 
+from .font_preflight import resolve_font
 from .plot_style import PlotStyle
 
 
@@ -167,7 +168,7 @@ class PlotManager:
                 ncol=s.legend_columns,
                 frameon=s.legend_frame,
                 prop={
-                    "family": s.legend_font,
+                    "family": resolve_font(s.legend_font),
                     "size": s.legend_size,
                     "weight": "bold" if s.legend_bold else "normal",
                     "style": "italic" if s.legend_italic else "normal",
@@ -181,37 +182,46 @@ class PlotManager:
         s = rec.style
         ax = rec.axis
         meta = rec.metadata
+        resolved_fonts = {
+            "title": resolve_font(s.title_font),
+            "x_label": resolve_font(s.x_label_font),
+            "y_label": resolve_font(s.y_label_font),
+            "x_tick": resolve_font(s.x_tick_font),
+            "y_tick": resolve_font(s.y_tick_font),
+            "legend": resolve_font(s.legend_font),
+        }
+        meta["resolved_fonts"] = dict(resolved_fonts)
         title = s.title_override or meta.get("title", ax.get_title())
         xlabel = s.x_label_override or meta.get("xlabel", ax.get_xlabel())
         ylabel = s.y_label_override or meta.get("ylabel", ax.get_ylabel())
         ax.set_title(
             title,
-            fontfamily=s.title_font,
+            fontfamily=resolved_fonts["title"],
             fontsize=s.title_size,
             fontweight="bold" if s.title_bold else "normal",
             fontstyle="italic" if s.title_italic else "normal",
         )
         ax.set_xlabel(
             xlabel,
-            fontfamily=s.x_label_font,
+            fontfamily=resolved_fonts["x_label"],
             fontsize=s.x_label_size,
             fontweight="bold" if s.axis_labels_bold else "normal",
             fontstyle="italic" if s.axis_labels_italic else "normal",
         )
         ax.set_ylabel(
             ylabel,
-            fontfamily=s.y_label_font,
+            fontfamily=resolved_fonts["y_label"],
             fontsize=s.y_label_size,
             fontweight="bold" if s.axis_labels_bold else "normal",
             fontstyle="italic" if s.axis_labels_italic else "normal",
         )
         for label in ax.get_xticklabels():
-            label.set_fontfamily(s.x_tick_font)
+            label.set_fontfamily(resolved_fonts["x_tick"])
             label.set_fontsize(s.x_tick_size)
             label.set_fontweight("bold" if s.tick_labels_bold else "normal")
             label.set_fontstyle("italic" if s.tick_labels_italic else "normal")
         for label in ax.get_yticklabels():
-            label.set_fontfamily(s.y_tick_font)
+            label.set_fontfamily(resolved_fonts["y_tick"])
             label.set_fontsize(s.y_tick_size)
             label.set_fontweight("bold" if s.tick_labels_bold else "normal")
             label.set_fontstyle("italic" if s.tick_labels_italic else "normal")

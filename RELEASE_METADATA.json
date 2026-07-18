@@ -1,0 +1,54 @@
+{
+  "software_version": "3.4.3",
+  "release_name": "Publication Export Completion and Responsiveness Release",
+  "release_date": "2026-07-18",
+  "freeze": {
+    "manifest": "calo_rpd_studio/data/frozen/calo_v343_freeze.json",
+    "checked_files": 74,
+    "manifest_sha256": "e2fc309cd6b51d88dbe729a37bdf4f662024434f5024ed56266404869273fef6"
+  },
+  "validation": {
+    "tests_collected": 187,
+    "tests_passed": 187,
+    "tests_failed": 0,
+    "test_execution": "isolated partitions: 68 unit + 64 unit + 54 GUI/integration/regression/scientific + 1 isolated CPU-fallback policy-training smoke; total 187",
+    "v343_export_regression_tests": "4 passed",
+    "ieee_scientific_tests": "20 passed",
+    "ruff": "passed_zero_findings",
+    "compileall": "passed",
+    "ieee_pypower_cases": [
+      "case30",
+      "case57",
+      "case118",
+      "case300"
+    ]
+  },
+  "runtime_policy": {
+    "default_execution_backend": "gpu_preferred",
+    "numerical_priority": [
+      "NVIDIA CUDA",
+      "Intel XPU",
+      "CPU"
+    ],
+    "cuda_share_when_available": 100,
+    "mandatory_host_work": [
+      "Qt GUI orchestration",
+      "persistence",
+      "reporting",
+      "archive packaging",
+      "independent reference validation"
+    ]
+  },
+  "export_fixes": {
+    "portfolio_final_bundle_subprogress": true,
+    "portfolio_scoped_bundle": true,
+    "safe_cancel_during_bundle": true,
+    "atomic_zip_commit": true,
+    "standard_export_background_thread": true,
+    "nan_safe_convergence_statistics": true
+  },
+  "hardware_validation": {
+    "physical_cuda": "not_available_in_build_environment",
+    "physical_xpu": "not_available_in_build_environment"
+  }
+}

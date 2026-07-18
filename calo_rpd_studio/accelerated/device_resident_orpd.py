@@ -1,4 +1,4 @@
-"""End-to-end tensor-resident ORPD evaluation for CALO-RPD Studio v3.3.
+"""End-to-end tensor-resident ORPD evaluation for CALO-RPD Studio v3.4.
 
 The module keeps candidate populations, mixed-variable decoding, scenario expansion, AC Newton-
 Raphson power flow, objective/constraint evaluation, and robust aggregation on the selected
@@ -24,7 +24,6 @@ from calo_rpd_studio.power_system.case_model import (
     BR_STATUS,
     BR_X,
     BS,
-    BUS_I,
     BUS_TYPE,
     F_BUS,
     GEN_BUS,
@@ -51,6 +50,7 @@ from calo_rpd_studio.power_system.case_model import (
     VMIN,
 )
 from calo_rpd_studio.robustness.robust_objectives import RobustAggregation
+from calo_rpd_studio.robustness.cvar import weighted_cvar_torch
 
 from .torch_power_flow import solve_newton_raphson_batch_torch
 
@@ -259,7 +259,7 @@ class DeviceResidentORPDEvaluator:
         action_records = []
         for action in self.decoder._actions:
             kind, target, lower, upper, lattice = action
-            if kind in {"vg", "shunt"}:
+            if kind in {"vg", "shunt", "shunt_delta"}:
                 target_index = int(reference_index[int(target)])
             else:
                 target_index = int(target)
@@ -355,6 +355,8 @@ class DeviceResidentORPDEvaluator:
                 tap[:, :, target] = value
             elif kind == "shunt":
                 bs[:, :, target] = value
+            elif kind == "shunt_delta":
+                bs[:, :, target] = self.base_bs[:, target].unsqueeze(0) + value
         return z, decoded, vm, tap, bs
 
     def _admittance(self, tap, bs):
@@ -425,10 +427,6 @@ class DeviceResidentORPDEvaluator:
         torch = _torch()
         rows = batch * self.scenario_count
         types = self.base_types.unsqueeze(0).expand(batch, -1, -1).reshape(rows, self.n_bus).clone()
-        qd = self.qd.unsqueeze(0).expand(batch, -1, -1).reshape(rows, self.n_bus)
-        base = self.base_mva.unsqueeze(0).expand(batch, -1).reshape(rows, 1)
-        qmin = self.qmin.unsqueeze(0).expand(batch, -1, -1).reshape(rows, self.n_bus)
-        qmax = self.qmax.unsqueeze(0).expand(batch, -1, -1).reshape(rows, self.n_bus)
         voltage = v0.clone()
         final_converged = torch.zeros(rows, dtype=torch.bool, device=self.device)
         failed = torch.zeros(rows, dtype=torch.bool, device=self.device)
@@ -478,7 +476,6 @@ class DeviceResidentORPDEvaluator:
             # Use direct per-row load/base tensors for arbitrary grouped row subsets.
             scenario_index = solved_rows % self.scenario_count
             base_rows = self.base_mva[scenario_index][:, None]
-            pd_rows = self.pd[scenario_index]
             qd_rows = self.qd[scenario_index]
             injection = voltage[solved_rows] * torch.conj(
                 torch.bmm(ybus[solved_rows], voltage[solved_rows].unsqueeze(-1)).squeeze(-1)
@@ -572,16 +569,11 @@ class DeviceResidentORPDEvaluator:
             return mean + float(self.config.robust.risk_lambda) * std
         if aggregation is RobustAggregation.WORST_CASE:
             return torch.max(scenario_values, dim=1).values
-        sorted_values, order = torch.sort(scenario_values, dim=1)
-        sorted_weights = self.weights[None, :].expand_as(sorted_values).gather(1, order)
-        cdf = torch.cumsum(sorted_weights, dim=1)
-        alpha = float(self.config.robust.cvar_alpha)
-        threshold = torch.argmax((cdf >= alpha).to(torch.int64), dim=1)
-        var = sorted_values.gather(1, threshold[:, None])
-        mask = sorted_values >= var
-        tail_weights = torch.where(mask, sorted_weights, torch.zeros_like(sorted_weights))
-        denominator = torch.clamp(torch.sum(tail_weights, dim=1), min=torch.finfo(self.dtype).eps)
-        return torch.sum(sorted_values * tail_weights, dim=1) / denominator
+        return weighted_cvar_torch(
+            scenario_values,
+            self.weights,
+            float(self.config.robust.cvar_alpha),
+        )
 
     def evaluate_tensor(self, normalized) -> DeviceResidentBatch:
         torch = _torch()

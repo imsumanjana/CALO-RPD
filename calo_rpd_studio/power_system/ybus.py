@@ -16,7 +16,10 @@ def build_ybus(case:PowerSystemCase)->AdmittanceMatrices:
     for k,br in enumerate(case.branch):
         if br[BR_STATUS]<=0: continue
         f=idx[int(br[F_BUS])]; t=idx[int(br[T_BUS])]
-        z=complex(br[BR_R],br[BR_X]); y=0j if abs(z)==0 else 1/z; b=1j*br[BR_B]/2
+        z=complex(br[BR_R],br[BR_X])
+        if abs(z) <= 1e-12:
+            raise ValueError(f'In-service branch {k} has zero impedance; validate or regularize the source case explicitly.')
+        y=1/z; b=1j*br[BR_B]/2
         tap=br[TAP] if br[TAP]!=0 else 1.0; shift=np.deg2rad(br[SHIFT]); a=tap*np.exp(1j*shift)
         yff=(y+b)/(a*np.conj(a)); yft=-y/np.conj(a); ytf=-y/a; ytt=y+b
         yf[k,f]=yff; yf[k,t]=yft; yt[k,f]=ytf; yt[k,t]=ytt

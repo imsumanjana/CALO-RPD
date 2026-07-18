@@ -1,6 +1,8 @@
 """Machine and software provenance capture."""
 from __future__ import annotations
 
+from calo_rpd_studio.version import VERSION
+
 import importlib.metadata as md
 from pathlib import Path
 import platform
@@ -96,7 +98,7 @@ def collect_provenance() -> dict:
         except md.PackageNotFoundError:
             versions[package] = "not-installed"
     return {
-        "software_version": "3.3.0",
+        "software_version": VERSION,
         "git_commit": _git_commit(),
         "python_version": platform.python_version(),
         "platform": platform.platform(),

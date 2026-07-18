@@ -1,37 +1,36 @@
-# CALO-RPD Studio 3.3.0 — Release Validation Record
+# CALO-RPD Studio 3.4.3 — Release Validation Record
 
-Version 3.3.0 introduces the CUDA-Resident Execution Engine for comparative evaluation and CALO policy-training ORPD rollouts. The release changes device execution and throughput plumbing while preserving common FP64 scientific formulations, equal evaluation accounting, seed management, and independent CPU-reference validation.
+## Scope
 
-## Implemented release gates
+Version 3.4.3 fixes publication and portfolio export completion behavior without changing the ORPD equations, CALO operators, benchmark budgets, IEEE case formulations, or accelerator scheduling semantics introduced in v3.4.2.
 
-- Default comparison allocation: CUDA 80%, Intel XPU 10%, CPU 10%.
-- Optional 100% CUDA job allocation when CUDA is available.
-- All twenty primary optimizers and CALO ablation variants are accelerator-eligible under the PyTorch FP64 backend.
-- Device-resident mixed-variable decoding, scenario expansion, batched Newton-Raphson power flow, branch flows, objective/constraint aggregation, L-index and robust aggregation.
-- Grouped tensor PV-to-PQ switching without candidate-by-candidate Python power-flow fallback.
-- Persistent CUDA/XPU/CPU services, cross-run tensor batching, automatic microbatch calibration, and CUDA-priority work stealing for unstarted jobs.
-- Policy-training rollout defaults changed to 80/10/10 with a 100% CUDA preset; ORPD development rollouts use the same device-resident evaluator.
-- CPU/accelerator parity gate and independent CPU-reference final validation retained.
+The reported 94% stall was traced to the final `reproducibility_bundle` task: 16 of 17 artifacts equals 94.1%, and the previous implementation emitted no progress while recursively ZIP-compressing the selected output directory. Standard publication export also ran directly on the Qt GUI thread.
 
-## Automated verification
+## Corrections validated
 
-- Pytest: **104 passed, 25 skipped**.
-- Skipped tests: 22 PyQt6 GUI tests because PyQt6 was unavailable in the packaging environment; 3 IEEE/PYPOWER scientific tests because PYPOWER was unavailable.
-- Python source compilation: passed.
-- Device-resident ORPD parity on the available deterministic toy case: passed.
-- All-primary 400-job allocation regression:
-  - 80/10/10 -> 320 CUDA, 40 XPU, 40 CPU.
-  - 100/0/0 -> 400 CUDA, 0 XPU, 0 CPU.
-- Tensor-native baseline smoke tests: passed.
-- Wheel build: passed.
-- Source distribution build: passed.
-- Clean wheel import: reported version 3.3.0.
-- Frozen v3.3 verification: passed across **50 files**.
+- Portfolio artifact 17 now reports bounded sub-progress from 94% through 99% while packing, then reaches 100% only after the ZIP is closed and atomically committed.
+- Reproducibility packaging is scoped to current portfolio evidence rather than recursively archiving arbitrary files in the selected output tree.
+- Already-compressed formats such as PNG/PDF/ZIP/NPZ are stored without redundant deflate work; text/configuration artifacts use fast compression.
+- Safe pause/cancel is honored during final bundle creation; the temporary archive is deleted and completed artifacts remain resumable.
+- Standard verified-publication export runs in a background `QThread` and reports progress/cancellation instead of blocking the Qt event loop.
+- All-NaN leading convergence-grid columns are removed before median/IQR reductions in statistical, live, portfolio, and publication-evidence paths, eliminating the warning without substituting artificial values.
+- Reproducibility archives include a manifest snapshot and use atomic temporary-file replacement.
 
-## Environment limitations
+## Test evidence
 
-The packaging environment had a CPU-only PyTorch runtime and no physical NVIDIA CUDA or Intel XPU device. Physical accelerator throughput, utilization, device-memory behavior, and CUDA/XPU parity must therefore be verified by the prerequisite wizard and parity audit on the target workstation. Ruff was not installed in the packaging environment and is not claimed as executed.
+The repository contains **187 tests**. Validation was executed in isolated partitions to avoid cumulative resource interference from long-running policy-training and GUI tests:
 
-## Scientific boundary
+- 68 unit tests passed in the first unit partition; 1 CPU-fallback policy-training smoke test was intentionally run separately.
+- 64 unit tests passed in the second unit partition.
+- 54 GUI/integration/regression/scientific tests passed.
+- The separately executed CPU-fallback heterogeneous policy-training smoke test passed.
+- Total: **187 passed, 0 failed** across the partitions.
+- Focused v3.4.3 export-completion regression suite: **4 passed**.
+- IEEE 30/57/118/300 scientific and v3.4 integrity suites: **20 passed**.
+- Ruff: **passed with zero findings**.
+- `compileall`: **passed**.
+- Frozen release manifest: **74 files verified**.
 
-The numerical hot path is substantially more device-resident, but CPU use is not eliminated. Mandatory host responsibilities remain: GUI and process orchestration, sparse telemetry, one packed population result materialisation for the stable public result/provenance contract, SQLite/file persistence, checkpointing, portfolio generation, and final independent CPU-reference validation. The 80/10/10 or 100% CUDA setting refers to optimizer-job numerical assignment, not a guarantee of an identical Task Manager utilization percentage.
+## Hardware note
+
+The validation environment did not provide physical NVIDIA CUDA or Intel XPU hardware. v3.4.3 does not modify the v3.4.2 GPU-preferred execution policy: tensor-compatible numerical work remains CUDA-first, then XPU, then CPU fallback. Qt orchestration, file/database persistence, report generation, ZIP packaging, and independent PYPOWER validation remain host-side tasks by design.

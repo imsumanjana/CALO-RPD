@@ -20,7 +20,7 @@ def _save(fig, path: Path) -> None:
 
 def _load_records(database, experiment_id: str) -> dict[str, list[dict]]:
     groups: dict[str, list[dict]] = {}
-    for row in database.list_runs(experiment_id):
+    for row in database.list_runs(experiment_id, verified_only=True):
         data = json.loads(row["result_json"])
         groups.setdefault(row["algorithm"], []).append(data)
     return groups
@@ -42,14 +42,18 @@ def _step_align(runs: list[tuple[np.ndarray, np.ndarray]]) -> tuple[np.ndarray, 
                 values[index] = y[pos]
         matrix.append(values)
     matrix = np.asarray(matrix, float)
-    with np.errstate(all="ignore"):
-        median = np.nanmedian(matrix, axis=0)
-        q1 = np.nanpercentile(matrix, 25, axis=0)
-        q3 = np.nanpercentile(matrix, 75, axis=0)
+    valid_columns = np.any(np.isfinite(matrix), axis=0)
+    if not np.any(valid_columns):
+        return None
+    local_grid = grid[valid_columns]
+    local_matrix = matrix[:, valid_columns]
+    median = np.nanmedian(local_matrix, axis=0)
+    q1 = np.nanpercentile(local_matrix, 25, axis=0)
+    q3 = np.nanpercentile(local_matrix, 75, axis=0)
     valid = np.isfinite(median)
     if not np.any(valid):
         return None
-    return grid[valid], median[valid], q1[valid], q3[valid]
+    return local_grid[valid], median[valid], q1[valid], q3[valid]
 
 
 def plot_median_convergence(database, experiment_id: str, destination: Path) -> None:
@@ -245,7 +249,7 @@ def plot_objective_violin(database, experiment_id: str, destination: Path) -> No
 
 
 def plot_average_ranking(database, task_experiments: dict[str, str], destination: Path) -> None:
-    evidence = build_campaign_evidence(database, task_experiments)
+    evidence = build_campaign_evidence(database, task_experiments, verified_only=True)
     ranks = evidence.global_statistics.get("average_ranks", {})
     ordered = sorted(ranks.items(), key=lambda item: item[1])
     fig, ax = plt.subplots(figsize=(8.5, 5.4))
@@ -262,7 +266,7 @@ def plot_average_ranking(database, task_experiments: dict[str, str], destination
 
 
 def plot_critical_difference_style(database, task_experiments: dict[str, str], destination: Path) -> None:
-    evidence = build_campaign_evidence(database, task_experiments)
+    evidence = build_campaign_evidence(database, task_experiments, verified_only=True)
     ranks = evidence.global_statistics.get("average_ranks", {})
     cd_info = evidence.global_statistics.get("nemenyi_critical_difference", {})
     critical_difference = cd_info.get("critical_difference")
@@ -309,7 +313,7 @@ def plot_critical_difference_style(database, task_experiments: dict[str, str], d
 
 
 def plot_robustness_summary(database, task_experiments: dict[str, str], destination: Path) -> None:
-    evidence = build_campaign_evidence(database, task_experiments)
+    evidence = build_campaign_evidence(database, task_experiments, verified_only=True)
     task_ids = list(evidence.task_summaries)
     algorithms = list(primary_algorithm_names())
     matrix = np.full((len(task_ids), len(algorithms)), np.nan)

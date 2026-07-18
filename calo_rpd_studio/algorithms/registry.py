@@ -55,7 +55,6 @@ SPECS={
 def create_optimizer(name,problem,config:OptimizerConfig,seed=0,progress_callback=None,cancel_callback=None):
     if name not in SPECS:raise KeyError(f'Unknown optimizer: {name}')
     parameters=dict(config.parameters or {})
-    device=str(parameters.get('execution_device','cpu')).lower()
     backend=str(parameters.get('optimizer_backend','legacy')).lower()
     if name!='CALO' and backend=='torch':
         return TorchCanonicalOptimizer(name,problem,config,seed,progress_callback,cancel_callback)

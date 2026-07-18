@@ -19,7 +19,9 @@ class Evaluation:
     value:float;feasible:bool;violation:float;components:dict[str,float]=field(default_factory=dict);physical_controls:dict[str,float]=field(default_factory=dict);scenario_values:list[float]=field(default_factory=list);metadata:dict[str,Any]=field(default_factory=dict)
 class ORPDProblem:
     def __init__(self,case,config=None,scenarios=None):
-        self.case=case.clone();self.config=config or ORPDProblemConfig();self.decoder=ORPDVariableDecoder(self.case,self.config.variables);self.scenarios=scenarios or [Scenario('base')]
+        self.case=case.clone();self.config=config or ORPDProblemConfig();self.decoder=ORPDVariableDecoder(self.case,self.config.variables);self.scenarios=[Scenario('base')] if scenarios is None else list(scenarios)
+        if not self.scenarios:
+            raise ValueError("At least one robust scenario is required; an empty scenario set is invalid.")
     @property
     def dimension(self):return self.decoder.dimension
     def evaluate(self,normalized):

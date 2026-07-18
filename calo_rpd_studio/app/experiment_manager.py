@@ -683,10 +683,14 @@ class ExperimentWorker(QThread):
                         "CUDA-only execution was requested, but no verified NVIDIA CUDA runtime is available."
                     )
 
-                # CPU is a numerical lane only when its requested share is non-zero or when the
-                # measured-throughput mode needs a reference measurement. CUDA-only mode leaves
-                # host work to orchestration/persistence and does not launch a CPU optimizer pool.
-                if backend != "cuda_only":
+                # GPU-maximum mode creates only one numerical lane: CUDA when available,
+                # otherwise XPU, otherwise CPU. The host remains responsible for GUI,
+                # orchestration, persistence, and independent validation only.
+                gpu_max_lane = (
+                    "cuda" if cuda_device is not None else
+                    ("xpu" if next(iter(snapshot.by_backend("xpu")), None) is not None else "cpu")
+                )
+                if backend not in {"cuda_only", "gpu_preferred"} or (backend == "gpu_preferred" and gpu_max_lane == "cpu"):
                     pools["cpu"] = PersistentAcceleratorPool(
                         "cpu",
                         slots=max(1, int(self.config.parallel_workers)),
@@ -698,7 +702,7 @@ class ExperimentWorker(QThread):
                         context=context,
                     )
 
-                if cuda_device is not None:
+                if cuda_device is not None and (backend != "gpu_preferred" or gpu_max_lane == "cuda"):
                     pools["cuda"] = PersistentAcceleratorPool(
                         cuda_device.device_id,
                         slots=max(1, int(self.config.gpu_parallel_jobs)),
@@ -711,7 +715,7 @@ class ExperimentWorker(QThread):
                     )
 
                 xpu_device = next(iter(snapshot.by_backend("xpu")), None)
-                if xpu_device is not None and backend != "cuda_only":
+                if xpu_device is not None and backend != "cuda_only" and (backend != "gpu_preferred" or gpu_max_lane == "xpu"):
                     if xpu_device.runtime == "sidecar":
                         from calo_rpd_studio.compute.resource_scheduler import configured_xpu_interpreter
 
@@ -829,15 +833,27 @@ class ExperimentWorker(QThread):
                     for lane, record in calibration_records.items()
                 }
                 backend = str(self.config.execution_backend).lower()
-                if backend in {"cuda_priority", "cuda_only"}:
+                if backend in {"cuda_priority", "cuda_only", "gpu_preferred"}:
+                    if backend == "gpu_preferred":
+                        effective_shares = {
+                            "cuda": (100, 0, 0),
+                            "xpu": (0, 100, 0),
+                            "cpu": (0, 0, 100),
+                        }[gpu_max_lane]
+                    else:
+                        effective_shares = (
+                            int(self.config.cuda_task_share),
+                            int(self.config.xpu_task_share),
+                            int(self.config.cpu_task_share),
+                        )
                     lane_by_job, allocation = build_weighted_lane_plan(
                         plan,
                         self.mode,
                         cuda_available="cuda" in pools,
                         xpu_available="xpu" in pools,
-                        cuda_share=int(self.config.cuda_task_share),
-                        xpu_share=int(self.config.xpu_task_share),
-                        cpu_share=int(self.config.cpu_task_share),
+                        cuda_share=effective_shares[0],
+                        xpu_share=effective_shares[1],
+                        cpu_share=effective_shares[2],
                     )
                 else:
                     lane_by_job, allocation = build_throughput_lane_plan(
@@ -847,7 +863,11 @@ class ExperimentWorker(QThread):
                         cuda_available="cuda" in pools,
                         xpu_available="xpu" in pools,
                     )
-                slots = throughput_worker_slots(max(1, int(self.config.parallel_workers)), allocation)
+                slots = (
+                    weighted_worker_slots(max(1, int(self.config.parallel_workers)), allocation)
+                    if backend in {"cuda_priority", "cuda_only", "gpu_preferred"}
+                    else throughput_worker_slots(max(1, int(self.config.parallel_workers)), allocation)
+                )
                 if "cuda" in pools:
                     slots["cuda"] = min(slots["cuda"], int(self.config.gpu_parallel_jobs), pools["cuda"].slots)
                 if "xpu" in pools:
@@ -985,13 +1005,18 @@ class ExperimentWorker(QThread):
                                 completed = message["payload"]
                                 completed.result.metadata.update(
                                     {
-                                        "throughput_engine_version": "3.3",
+                                        "throughput_engine_version": "3.4",
                                         "device_resident_execution": bool(getattr(self.config, "device_resident_execution", True)),
                                         "cuda_priority_work_stealing": bool(getattr(self.config, "cuda_priority_work_stealing", True)),
                                         "throughput_lane": expected_lane,
                                         "throughput_calibration": asdict(calibration_records[expected_lane]),
                                         "throughput_allocation": allocation.effective_text,
                                         "measured_lane_throughputs": dict(lane_throughputs),
+                                        "numerical_device_residency": (
+                                            "100% candidate evaluation on CUDA" if expected_lane == "cuda" else
+                                            "100% candidate evaluation on XPU" if expected_lane == "xpu" else
+                                            "CPU fallback because no compatible accelerator was available"
+                                        ),
                                     }
                                 )
                                 self._persist_completed(experiment_id, store, item, completed)
@@ -1056,7 +1081,7 @@ class ExperimentWorker(QThread):
         """
 
         backend = str(self.config.execution_backend).lower()
-        if backend in {"throughput_auto", "cuda_priority", "cuda_only"}:
+        if backend in {"throughput_auto", "cuda_priority", "cuda_only", "gpu_preferred"}:
             if bool(self.config.throughput_engine_enabled) and bool(
                 self.config.persistent_accelerator_workers
             ):
@@ -1536,14 +1561,20 @@ class ExperimentManager(QObject):
             )
         elif str(config.execution_backend) == "throughput_auto":
             backend = (
-                f"v3.3 persistent batched-throughput engine with automatic microbatch calibration "
+                f"v3.4 persistent batched-throughput engine with automatic microbatch calibration "
                 f"and up to {config.parallel_workers} concurrent runs"
             )
-        elif str(config.execution_backend) in {"cuda_priority", "cuda_only"}:
-            backend = (
-                f"v3.3 device-resident CUDA-priority scheduler ({config.cuda_task_share}/{config.xpu_task_share}/{config.cpu_task_share}) "
-                f"with persistent workers and up to {config.parallel_workers} concurrent runs"
-            )
+        elif str(config.execution_backend) in {"gpu_preferred", "cuda_priority", "cuda_only"}:
+            if str(config.execution_backend) == "gpu_preferred":
+                backend = (
+                    "v3.4 GPU-maximum resident scheduler: 100% CUDA numerical work when CUDA is available; "
+                    f"persistent workers and up to {config.parallel_workers} concurrent runs"
+                )
+            else:
+                backend = (
+                    f"v3.4 device-resident CUDA-priority scheduler ({config.cuda_task_share}/{config.xpu_task_share}/{config.cpu_task_share}) "
+                    f"with persistent workers and up to {config.parallel_workers} concurrent runs"
+                )
         elif str(config.execution_backend) == "weighted_split":
             backend = (
                 f"weighted CUDA/XPU/CPU scheduler ({config.cuda_task_share}/{config.xpu_task_share}/{config.cpu_task_share}) "

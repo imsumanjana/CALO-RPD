@@ -20,6 +20,8 @@ from types import SimpleNamespace
 
 import numpy as np
 import torch
+
+from calo_rpd_studio.ai.model_io import load_trusted_resume, write_trusted_resume_hash
 from torch import nn
 
 from .archives import ConstraintBoundaryArchive, FeasibleEliteArchive
@@ -729,11 +731,12 @@ def save_training_resume(
         temporary = Path(handle.name)
     torch.save(payload, temporary)
     temporary.replace(path)
+    write_trusted_resume_hash(path)
     return path
 
 
 def load_training_resume(path: Path, network, optimizer, device, rng) -> tuple[int, list, dict, dict]:
-    payload = torch.load(path, map_location=device, weights_only=False)
+    payload = load_trusted_resume(path, map_location=device)
     if payload.get("format") != "calo_policy_training_resume_v32":
         raise ValueError("Unsupported CALO policy-training resume format")
     network.load_state_dict(payload["model_state_dict"])
@@ -961,6 +964,7 @@ def train_policy(config: TrainingConfig, output_path, progress_callback=None, ca
     )
     try:
         resume_path.unlink(missing_ok=True)
+        resume_path.with_suffix(resume_path.suffix + ".sha256").unlink(missing_ok=True)
     except OSError:
         pass
     return str(output_path), history

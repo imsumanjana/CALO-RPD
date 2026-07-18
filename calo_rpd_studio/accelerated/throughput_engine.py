@@ -1,6 +1,6 @@
 """Batched-throughput orchestration shared by comparison and policy training.
 
-The v3.3 engine deliberately optimizes *candidate-scenario evaluations per second* rather than
+The v3.4 engine deliberately optimizes *candidate-scenario evaluations per second* rather than
 trying to force an arbitrary Task Manager utilization percentage.  It provides:
 
 * a thread-safe performance ledger;
@@ -199,30 +199,60 @@ class CrossRunBatchBroker:
             array = np.asarray(candidates, dtype=float)
             if array.ndim == 1:
                 array = array[None, :]
+
+        if getattr(array, "ndim", None) != 2:
+            raise ValueError(
+                "Cross-run batching requires a two-dimensional candidate matrix; "
+                f"received shape {getattr(array, 'shape', None)!r}."
+            )
+        if len(array) == 0:
+            return []
+
         request = _BatchRequest(evaluator=evaluator, candidates=array)
         self._queue.put(request)
-        request.ready.wait()
+        while not request.ready.wait(timeout=0.25):
+            if not self._thread.is_alive():
+                self._closed.set()
+                raise RuntimeError(
+                    "Cross-run batch broker terminated unexpectedly before returning the evaluation."
+                )
         if request.error is not None:
             raise request.error
         return list(request.result or [])
 
     @staticmethod
-    def _signature(evaluator: Any) -> str:
+    def _signature(evaluator: Any, candidates: Any | None = None) -> str:
         signature = getattr(evaluator, "batch_signature", None)
-        return str(signature() if callable(signature) else signature)
+        scientific = str(signature() if callable(signature) else signature)
+        if candidates is None:
+            return scientific
+        try:
+            import torch
+
+            if isinstance(candidates, torch.Tensor):
+                width = int(candidates.shape[1]) if candidates.ndim == 2 else -1
+                representation = (
+                    f"torch:{candidates.device}:{candidates.dtype}:{candidates.layout}:{width}"
+                )
+                return f"{scientific}|{representation}"
+        except Exception:
+            pass
+        array = np.asarray(candidates)
+        width = int(array.shape[1]) if array.ndim == 2 else -1
+        return f"{scientific}|numpy:{array.dtype.str}:{width}"
 
     def _flush_group(self, requests: list[_BatchRequest]) -> None:
         if not requests:
             return
         evaluator = requests[0].evaluator
         offsets: list[tuple[_BatchRequest, int, int]] = []
-        matrices = []
-        cursor = 0
+        matrices: list[Any] = []
+        candidate_count = 0
         for request in requests:
             size = len(request.candidates)
-            offsets.append((request, cursor, cursor + size))
+            offsets.append((request, candidate_count, candidate_count + size))
             matrices.append(request.candidates)
-            cursor += size
+            candidate_count += size
         started = time.perf_counter()
         try:
             tensor_batch = False
@@ -235,6 +265,24 @@ class CrossRunBatchBroker:
             if tensor_batch:
                 import torch
 
+                if not all(isinstance(matrix, torch.Tensor) for matrix in matrices):
+                    raise TypeError(
+                        "A cross-run batch mixed Torch and NumPy candidate matrices. "
+                        "Requests must use one representation per compatibility group."
+                    )
+                reference = matrices[0]
+                for matrix in matrices[1:]:
+                    if matrix.device != reference.device or matrix.dtype != reference.dtype:
+                        raise TypeError(
+                            "A cross-run Torch batch mixed devices or dtypes: "
+                            f"expected {reference.device}/{reference.dtype}, got "
+                            f"{matrix.device}/{matrix.dtype}."
+                        )
+                    if matrix.ndim != 2 or matrix.shape[1] != reference.shape[1]:
+                        raise ValueError(
+                            "A cross-run Torch batch contained incompatible candidate shapes: "
+                            f"expected (*, {reference.shape[1]}), got {tuple(matrix.shape)}."
+                        )
                 combined = torch.cat(matrices, dim=0)
                 tensor_direct = getattr(evaluator, "_evaluate_population_tensor_direct", None)
                 if callable(tensor_direct):
@@ -242,12 +290,20 @@ class CrossRunBatchBroker:
                 else:
                     results = list(getattr(evaluator, "_evaluate_population_direct")(combined))
             else:
+                reference_width = int(np.asarray(matrices[0]).shape[1])
+                for matrix in matrices[1:]:
+                    array = np.asarray(matrix)
+                    if array.ndim != 2 or int(array.shape[1]) != reference_width:
+                        raise ValueError(
+                            "A cross-run NumPy batch contained incompatible candidate shapes: "
+                            f"expected (*, {reference_width}), got {array.shape}."
+                        )
                 combined = np.concatenate(matrices, axis=0)
                 direct = getattr(evaluator, "_evaluate_population_direct")
                 results = list(direct(combined))
-            if len(results) != len(combined):
+            if len(results) != candidate_count:
                 raise RuntimeError(
-                    f"Cross-run batch returned {len(results)} results for {len(combined)} candidates"
+                    f"Cross-run batch returned {len(results)} results for {candidate_count} candidates"
                 )
             for request, start, end in offsets:
                 request.result = results[start:end]
@@ -255,7 +311,13 @@ class CrossRunBatchBroker:
             for request, _start, _end in offsets:
                 request.error = exc
         finally:
-            self.ledger.add("cross_run_batch", time.perf_counter() - started, len(combined))
+            # Use the precomputed request count.  `combined` may not exist when concatenation itself
+            # fails, and accounting must never mask the original scientific/runtime exception.
+            self.ledger.add(
+                "cross_run_batch",
+                time.perf_counter() - started,
+                candidate_count,
+            )
             for request, _start, _end in offsets:
                 request.ready.set()
 
@@ -268,7 +330,12 @@ class CrossRunBatchBroker:
                 continue
             if first is None:
                 break
-            signature = self._signature(first.evaluator)
+            try:
+                signature = self._signature(first.evaluator, first.candidates)
+            except BaseException as exc:
+                first.error = exc
+                first.ready.set()
+                continue
             group = [first]
             count = len(first.candidates)
             deadline = time.perf_counter() + self.batch_window_seconds
@@ -283,14 +350,28 @@ class CrossRunBatchBroker:
                 if request is None:
                     self._closed.set()
                     break
-                request_signature = self._signature(request.evaluator)
+                try:
+                    request_signature = self._signature(request.evaluator, request.candidates)
+                except BaseException as exc:
+                    request.error = exc
+                    request.ready.set()
+                    continue
                 request_count = len(request.candidates)
                 if request_signature == signature and count + request_count <= self.max_candidates:
                     group.append(request)
                     count += request_count
                 else:
                     backlog.append(request)
-            self._flush_group(group)
+            try:
+                self._flush_group(group)
+            except BaseException as exc:
+                # `_flush_group` is designed to report errors to every requester itself.  This
+                # outer guard prevents any unforeseen bookkeeping bug from killing the daemon and
+                # leaving GUI/experiment threads blocked forever.
+                for request in group:
+                    if request.error is None:
+                        request.error = exc
+                    request.ready.set()
 
         # Fail any late callers rather than leave them blocked during shutdown.
         pending = backlog

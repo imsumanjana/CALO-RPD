@@ -86,9 +86,9 @@ class HeterogeneousTrainingConfig(TrainingConfig):
     """Training configuration with weighted synchronous actor lanes."""
 
     heterogeneous_rollouts: bool = True
-    cuda_rollout_share: int = 80
-    xpu_rollout_share: int = 10
-    cpu_rollout_share: int = 10
+    cuda_rollout_share: int = 100
+    xpu_rollout_share: int = 0
+    cpu_rollout_share: int = 0
     actor_batch_size: int = 0
     throughput_adaptive_rollouts: bool = False
     persistent_actor_workers: bool = True
@@ -160,18 +160,18 @@ def _largest_remainder_allocation(total: int, weights: dict[str, float]) -> dict
 def plan_training_lanes(
     episodes_per_epoch: int,
     *,
-    cuda_share: int = 80,
-    xpu_share: int = 10,
-    cpu_share: int = 10,
+    cuda_share: int = 100,
+    xpu_share: int = 0,
+    cpu_share: int = 0,
     cuda_available: bool | None = None,
     xpu_available: bool | None = None,
     xpu_sidecar_available: bool | None = None,
 ) -> TrainingLanePlan:
     """Create a deterministic per-epoch actor allocation.
 
-    Unavailable accelerator shares are redistributed proportionally across available requested
-    lanes.  CPU is always available.  Allocation uses the largest-remainder method so 12 episodes
-    with 80/10/10 become 10 CUDA, 1 XPU, and 1 CPU episodes for a 12-episode epoch.
+    The default is GPU maximum: all rollout episodes use CUDA when CUDA is available.
+    Unavailable requested accelerator shares fall back to the next available numerical lane; CPU
+    is always available. Explicit non-default shares use the largest-remainder method.
     """
 
     requested = _validate_shares(cuda_share, xpu_share, cpu_share)
@@ -191,14 +191,23 @@ def plan_training_lanes(
         for name in LANE_ORDER
     }
     warnings: list[str] = []
-    for name in ("cuda", "xpu"):
-        if requested[name] and not available[name]:
-            warnings.append(
-                f"Requested {name.upper()} share is unavailable and will be redistributed."
-            )
-    if not any(usable_weights.values()):
-        usable_weights["cpu"] = 100
-        warnings.append("All requested accelerator lanes are unavailable; using CPU actors.")
+    gpu_maximum_request = requested == {"cuda": 100, "xpu": 0, "cpu": 0}
+    if gpu_maximum_request and not cuda_ok:
+        if xpu_ok:
+            usable_weights = {"cuda": 0, "xpu": 100, "cpu": 0}
+            warnings.append("CUDA is unavailable; GPU-maximum training fell back to Intel XPU.")
+        else:
+            usable_weights = {"cuda": 0, "xpu": 0, "cpu": 100}
+            warnings.append("CUDA and Intel XPU are unavailable; training fell back to CPU actors.")
+    else:
+        for name in ("cuda", "xpu"):
+            if requested[name] and not available[name]:
+                warnings.append(
+                    f"Requested {name.upper()} share is unavailable and will be redistributed."
+                )
+        if not any(usable_weights.values()):
+            usable_weights["cpu"] = 100
+            warnings.append("All requested accelerator lanes are unavailable; using CPU actors.")
 
     counts = _largest_remainder_allocation(int(episodes_per_epoch), usable_weights)
     total = max(1, int(episodes_per_epoch))
@@ -956,7 +965,7 @@ def train_policy_heterogeneous(
     total_units = config.epochs * config.episodes_per_epoch
     completed_units = start_epoch * config.episodes_per_epoch
 
-    # v3.3 keeps one actor interpreter/process alive per device for the complete training
+    # v3.4 keeps one actor interpreter/process alive per device for the complete training
     # session.  CUDA/XPU contexts, policy modules, ORPD tensors and cross-episode batch
     # brokers are therefore reused instead of being reconstructed every epoch.
     base_plan = plan_training_lanes(

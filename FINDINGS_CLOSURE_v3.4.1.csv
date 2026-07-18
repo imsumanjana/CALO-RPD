@@ -1,0 +1,6 @@
+id,severity,status,finding,resolution,evidence
+HF-001,CRITICAL,Closed,"CrossRunBatchBroker finally block referenced unassigned combined after concatenation failure","Use precomputed candidate_count in finally; preserve original exception","calo_rpd_studio/accelerated/throughput_engine.py; regression test"
+HF-002,HIGH,Closed,"Broker daemon termination could leave experiment threads waiting indefinitely","Added outer daemon guard and submit-side liveness watchdog","calo_rpd_studio/accelerated/throughput_engine.py; regression test"
+HF-003,HIGH,Closed,"Compatible scientific signatures could still merge NumPy and Torch or different device/dtype matrices","Extended compatibility key with representation/device/dtype/layout/decision width","calo_rpd_studio/accelerated/throughput_engine.py; mixed-representation regression test"
+HF-004,MEDIUM,Closed,"Malformed or empty candidate matrices could reach concatenation path","Validate rank before queueing and return empty populations immediately","calo_rpd_studio/accelerated/throughput_engine.py; input-validation regression test"
+HF-005,INFO,Unchanged,"Scientific model and GPU-first scheduling","No scientific or scheduler behavior changed from v3.4.0","v3.4.1 freeze manifest and full test suite"

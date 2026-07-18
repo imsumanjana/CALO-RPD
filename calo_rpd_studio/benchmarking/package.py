@@ -12,6 +12,7 @@ import pandas as pd
 from .evidence import build_campaign_evidence
 from .freeze import verify_freeze_manifest
 from calo_rpd_studio.visualization.publication_evidence import generate_campaign_figures
+from calo_rpd_studio.visualization.font_preflight import font_resolution_manifest
 
 
 class TransactionsPackageBuilder:
@@ -56,35 +57,28 @@ class TransactionsPackageBuilder:
         for directory in (tables, figures, raw, reports, configs, validation, frozen):
             directory.mkdir(parents=True, exist_ok=True)
 
-        evidence = build_campaign_evidence(self.database, task_experiments)
         total_runs = sum(len(self.database.list_runs(experiment_id)) for experiment_id in task_experiments.values())
         total_verified = sum(
             len(self.database.list_runs(experiment_id, verified_only=True))
             for experiment_id in task_experiments.values()
         )
-        (reports / "campaign_evidence_all_runs.json").write_text(
+        if total_runs <= 0 or total_verified != total_runs:
+            raise ValueError(
+                f"Article-ready export requires every stored run to be independently verified; found {total_verified}/{total_runs} verified runs."
+            )
+        evidence = build_campaign_evidence(self.database, task_experiments, verified_only=True)
+        (reports / "campaign_evidence_verified_only.json").write_text(
             json.dumps(evidence.to_dict(), indent=2, allow_nan=True), encoding="utf-8"
         )
-        (reports / "automatic_interpretation_all_runs.txt").write_text(
+        (reports / "automatic_interpretation_verified_only.txt").write_text(
             "\n".join(evidence.interpretations) + "\n", encoding="utf-8"
         )
-        verified_evidence = None
-        if total_verified:
-            verified_evidence = build_campaign_evidence(
-                self.database, task_experiments, verified_only=True
-            )
-            (reports / "campaign_evidence_verified_only.json").write_text(
-                json.dumps(verified_evidence.to_dict(), indent=2, allow_nan=True),
-                encoding="utf-8",
-            )
-            (reports / "automatic_interpretation_verified_only.txt").write_text(
-                "\n".join(verified_evidence.interpretations) + "\n", encoding="utf-8"
-            )
         (reports / "evidence_basis.json").write_text(
             json.dumps(
                 {
                     "total_runs": total_runs,
                     "verified_runs": total_verified,
+                    "font_preflight": font_resolution_manifest(),
                     "publication_claim_basis": (
                         "verified_only" if total_runs > 0 and total_verified == total_runs else "incomplete_validation"
                     ),
@@ -111,7 +105,7 @@ class TransactionsPackageBuilder:
                 shutil.copy2(source, destination)
 
         article_lines = [
-            "# CALO-RPD v3.2.0 — Article-ready evidence summary",
+            "# CALO-RPD v3.4.3 — Article-ready evidence summary",
             "",
             "## Evidence basis",
             f"- Completed campaign tasks: {len(task_experiments)}",
@@ -167,40 +161,10 @@ class TransactionsPackageBuilder:
             pairwise_rows.append({"baseline": baseline, **row})
 
         descriptive = pd.DataFrame(descriptive_rows)
-        descriptive.to_csv(tables / "descriptive_statistics_all_runs.csv", index=False)
-        (tables / "descriptive_statistics_all_runs.tex").write_text(
+        descriptive.to_csv(tables / "descriptive_statistics_verified_only.csv", index=False)
+        (tables / "descriptive_statistics_verified_only.tex").write_text(
             descriptive.to_latex(index=False), encoding="utf-8"
         )
-        if verified_evidence is not None:
-            verified_rows = []
-            for task_id, task in verified_evidence.task_summaries.items():
-                for algorithm, summary in task["algorithms"].items():
-                    objective = summary.get("objective", {})
-                    runtime = summary.get("runtime_seconds", {})
-                    first = summary.get("evaluations_to_first_feasible", {})
-                    verified_rows.append(
-                        {
-                            "task": task_id,
-                            "algorithm": algorithm,
-                            "runs": summary.get("runs", 0),
-                            "feasible_run_rate": summary.get("feasible_run_rate", 0.0),
-                            "best": objective.get("best"),
-                            "mean": objective.get("mean"),
-                            "median": objective.get("median"),
-                            "worst": objective.get("worst"),
-                            "std": objective.get("std"),
-                            "iqr": objective.get("iqr"),
-                            "ci_low": objective.get("confidence_low"),
-                            "ci_high": objective.get("confidence_high"),
-                            "median_runtime_seconds": runtime.get("median"),
-                            "median_evaluations_to_first_feasible": first.get("median"),
-                        }
-                    )
-            verified_frame = pd.DataFrame(verified_rows)
-            verified_frame.to_csv(tables / "descriptive_statistics_verified_only.csv", index=False)
-            (tables / "descriptive_statistics_verified_only.tex").write_text(
-                verified_frame.to_latex(index=False), encoding="utf-8"
-            )
         pd.DataFrame(pairwise_rows).to_csv(tables / "calo_pairwise_holm_wilcoxon.csv", index=False)
         ranks = evidence.global_statistics.get("average_ranks", {})
         pd.DataFrame([{"algorithm": key, "average_rank": value} for key, value in ranks.items()]).sort_values("average_rank").to_csv(tables / "average_ranks.csv", index=False)

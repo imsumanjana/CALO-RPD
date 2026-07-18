@@ -10,6 +10,7 @@ import time
 from typing import Any, BinaryIO
 
 _HEADER = struct.Struct("!Q")
+_MAX_FRAME_BYTES = 512 * 1024 * 1024
 
 
 def write_frame(stream: BinaryIO, payload: Any, lock: threading.Lock | None = None) -> None:
@@ -39,8 +40,13 @@ def read_exact(stream: BinaryIO, size: int) -> bytes:
 
 def read_frame(stream: BinaryIO) -> Any:
     header = read_exact(stream, _HEADER.size)
-    length = _HEADER.unpack(header)[0]
-    return pickle.loads(read_exact(stream, int(length)))
+    length = int(_HEADER.unpack(header)[0])
+    if length <= 0 or length > _MAX_FRAME_BYTES:
+        raise ValueError(f"Invalid local worker frame length: {length} bytes")
+    payload = pickle.loads(read_exact(stream, length))  # nosec B301 -- trusted same-host child process
+    if not isinstance(payload, dict):
+        raise ValueError("Local worker protocol requires a dictionary frame")
+    return payload
 
 
 class PersistentTrainingActorClient:

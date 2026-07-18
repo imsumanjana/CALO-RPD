@@ -23,6 +23,41 @@ from calo_rpd_studio.results.publication_export import PublicationExporter
 from calo_rpd_studio.resume.models import ResumeStatus, ResumeTaskType
 
 
+class _StandardExportWorker(QThread):
+    progress = pyqtSignal(dict)
+    completed = pyqtSignal(str)
+    cancelled = pyqtSignal(str)
+    failed = pyqtSignal(str)
+
+    def __init__(self, database, experiment_id: str, directory: str) -> None:
+        super().__init__()
+        self.database = database
+        self.experiment_id = str(experiment_id)
+        self.directory = str(directory)
+        self._cancel = False
+
+    def cancel(self) -> None:
+        self._cancel = True
+
+    def run(self) -> None:
+        try:
+            path = PublicationExporter(self.database).export(
+                self.experiment_id,
+                self.directory,
+                progress_callback=self.progress.emit,
+                cancel_callback=lambda: self._cancel,
+            )
+            if self._cancel:
+                self.cancelled.emit(str(path))
+            else:
+                self.completed.emit(str(path))
+        except Exception as exc:
+            if self._cancel:
+                self.cancelled.emit(self.directory)
+            else:
+                self.failed.emit(f"{type(exc).__name__}: {exc}")
+
+
 class _PortfolioExportWorker(QThread):
     progress = pyqtSignal(dict)
     completed = pyqtSignal(str)
@@ -63,7 +98,7 @@ class PublicationExportPanel(WorkspacePage):
             parent,
         )
         self.state = state
-        self.worker: _PortfolioExportWorker | None = None
+        self.worker: _StandardExportWorker | _PortfolioExportWorker | None = None
         self.resume_task_id = ""
 
         card = SectionCard(
@@ -139,25 +174,57 @@ class PublicationExportPanel(WorkspacePage):
             self.directory.setText(path)
 
     def export_standard(self) -> None:
+        if self.worker is not None and self.worker.isRunning():
+            QMessageBox.information(self, "Publication export", "An export is already running.")
+            return
         experiment_id = self.experiment.currentData()
         if not experiment_id:
             return
         task = self.state.task_status
-        if not task.begin("Exporting verified publication package", detail="Collecting independently verified records"):
+        if not task.begin(
+            "Exporting verified publication package",
+            detail="Collecting independently verified records",
+            progress=0,
+            cancellable=True,
+        ):
             return
-        try:
-            path = PublicationExporter(self.state.database).export(
-                experiment_id,
-                self.directory.text().strip() or "publication_export",
-            )
-            count = len(self.state.database.list_runs(experiment_id, verified_only=True))
-            self.status.setPlainText(
-                f"Standard publication export completed. Verified runs exported: {count}.\nDirectory: {path.resolve()}"
-            )
-            task.finish(f"Publication package exported with {count} verified run(s)")
-        except Exception as exc:
-            task.fail(str(exc))
-            QMessageBox.critical(self, "Publication export failed", str(exc))
+        directory = self.directory.text().strip() or "publication_export"
+        self.progress.setValue(0)
+        self.cancel_button.setEnabled(True)
+        self.status.append("Starting verified publication export in the background...")
+        self.worker = _StandardExportWorker(self.state.database, str(experiment_id), directory)
+        self.worker.progress.connect(self._standard_progress)
+        self.worker.completed.connect(self._standard_completed)
+        self.worker.cancelled.connect(self._standard_cancelled)
+        self.worker.failed.connect(self._standard_failed)
+        self.worker.finished.connect(self._portfolio_finished)
+        self.worker.start()
+
+    def _standard_progress(self, payload: dict) -> None:
+        percent = int(payload.get("percent", 0))
+        artifact = str(payload.get("artifact", "artifact"))
+        status = str(payload.get("status", "working"))
+        self.progress.setValue(percent)
+        self.status.append(f"{percent}% · {artifact}: {status}")
+        self.state.task_status.update(percent, f"Publication export: {artifact} ({status})")
+
+    def _standard_completed(self, directory: str) -> None:
+        experiment_id = self.experiment.currentData()
+        count = len(self.state.database.list_runs(experiment_id, verified_only=True)) if experiment_id else 0
+        self.progress.setValue(100)
+        self.status.append(
+            f"Standard publication export completed. Verified runs exported: {count}. Directory: {Path(directory).resolve()}"
+        )
+        self.state.task_status.finish(f"Publication package exported with {count} verified run(s)")
+
+    def _standard_cancelled(self, directory: str) -> None:
+        self.status.append(f"Publication export cancelled safely. Directory: {Path(directory).resolve()}")
+        self.state.task_status.cancelled("Publication export cancelled safely")
+
+    def _standard_failed(self, message: str) -> None:
+        self.status.append(f"Publication export failed: {message}")
+        self.state.task_status.fail(message)
+        QMessageBox.critical(self, "Publication export failed", message)
 
     def _resume_record(self, experiment_id: str) -> tuple[str, dict] | tuple[str, None]:
         for item in self.state.resume_service.unfinished():

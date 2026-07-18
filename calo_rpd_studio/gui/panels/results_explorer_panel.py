@@ -213,6 +213,21 @@ class ResultsExplorerPanel(WorkspacePage):
         )
 
 
+
+    def select_run(self, experiment_id: str, run_id: str) -> None:
+        """Select an exact stored run, preserving compatibility with linked validation views."""
+        self.refresh_experiments()
+        index = self.experiment.findData(str(experiment_id))
+        if index >= 0:
+            self.experiment.setCurrentIndex(index)
+            self.refresh()
+        for row_index, row in enumerate(self._rows):
+            if str(row.get("id")) == str(run_id):
+                self.table.selectRow(row_index)
+                self.show_selected()
+                return
+        raise KeyError(f"Run {run_id!r} is not available in experiment {experiment_id!r}")
+
     def _manage_history(self) -> None:
         """Open the dedicated destructive-history manager and refresh this workspace afterwards."""
         dialog = ExperimentHistoryDialog(self.state, self)

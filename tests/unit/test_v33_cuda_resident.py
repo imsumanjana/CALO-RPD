@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from types import SimpleNamespace
 
-import numpy as np
 import torch
 
 from calo_rpd_studio.accelerated.torch_orpd import AcceleratedORPDProblem, parity_check
@@ -11,10 +10,10 @@ from calo_rpd_studio.experiments.experiment_config import ExperimentConfig
 from calo_rpd_studio.orpd.problem import ORPDProblem
 
 
-def test_v33_defaults_prioritize_device_resident_cuda():
+def test_v34_defaults_prioritize_device_resident_cuda():
     config = ExperimentConfig()
-    assert config.execution_backend == "cuda_priority"
-    assert (config.cuda_task_share, config.xpu_task_share, config.cpu_task_share) == (80, 10, 10)
+    assert config.execution_backend == "gpu_preferred"
+    assert (config.cuda_task_share, config.xpu_task_share, config.cpu_task_share) == (100, 0, 0)
     assert config.device_resident_execution is True
     assert config.cuda_priority_work_stealing is True
 

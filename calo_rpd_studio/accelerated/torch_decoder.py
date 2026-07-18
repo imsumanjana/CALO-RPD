@@ -73,6 +73,10 @@ class TorchVariableDecoder:
                     case.branch[int(target), TAP] = scalar
                 elif kind == "shunt":
                     case.bus[index[int(target)], BS] = scalar
+                elif kind == "shunt_delta":
+                    case.bus[index[int(target)], BS] = (
+                        self.case.bus[self.case.bus_index_map()[int(target)], BS] + scalar
+                    )
             cases.append(case)
             physical.append(controls)
         return cases, physical

@@ -1,23 +1,34 @@
 # CALO-RPD Studio
 
-**CALO-RPD Studio 3.3.0** is a Python/PyQt6 research platform for deterministic and robust optimal reactive power dispatch (ORPD), reproducible comparison of twenty optimizers, CALO policy development, independent validation, statistical analysis, and Transactions-level evidence generation.
+**CALO-RPD Studio 3.4.3** is a Python/PyQt6 research platform for deterministic and robust optimal reactive power dispatch (ORPD), reproducible comparison of twenty optimizers, CALO policy development, independent validation, statistical analysis, and publication evidence generation.
 
-Version 3.3.0 adds a **CUDA-Resident Execution Engine** to Portfolio Planning and Universal Resume. The default numerical allocation is 80% NVIDIA CUDA, 10% Intel XPU, and 10% CPU, with a 100% CUDA mode when a verified NVIDIA backend is available. Optimizer populations, mixed-variable decoding, batched FP64 AC power flow, constraint evaluation, robust aggregation, and CALO policy inference remain on the assigned device; only mandatory orchestration, sparse telemetry, packed result materialisation, persistence, checkpoints, and independent CPU-reference validation use the host.
+Version 3.4.3 is the **Publication Export Completion and Responsiveness Release**. It fixes the final portfolio-export artifact that could appear stuck at 94%, bounds reproducibility packaging to the current portfolio evidence, adds sub-progress and safe cancellation during archive creation, moves standard publication export off the GUI thread, and removes all-NaN convergence warnings. All v3.4.2 live-evidence, IEEE-300 validation, and GPU-preferred numerical scheduling behavior is retained.
 
-The scientific aim is stronger formulation consistency and higher throughput—not fabricated superiority. A faithful CPU and CUDA implementation of the same method should give numerically equivalent results within declared tolerances. The nineteen comparison baselines retain recognizable canonical equations; they are not silently enhanced into different algorithms. CALO remains the proposed adaptive method.
+## v3.4.3 publication export completion and responsiveness
 
+- Portfolio artifact 17 (`reproducibility_bundle`) now reports 94–99% packing progress and reaches 100% only after an atomic ZIP commit.
+- Reproducibility ZIP creation is scoped to current portfolio evidence rather than recursively compressing arbitrary files below the selected output directory.
+- PNG, PDF, ZIP, NPZ, and other already-compressed artifacts are stored without redundant recompression; compressible text artifacts use fast compression.
+- Safe Pause works during final ZIP creation and resumes without regenerating the first 16 completed artifacts.
+- Standard verified-publication export runs in a background `QThread`, with progress and cancellation, preventing Qt UI stalls during report packaging.
+- Median/IQR convergence calculations remove all-NaN leading columns before reduction, eliminating the `All-NaN slice encountered` warning without fabricating values.
+- Reproducibility archives include a portfolio-manifest snapshot and are written through a temporary file before atomic replacement.
 
+## v3.4.2 live evidence, IEEE-300, and responsiveness corrections
 
-## v3.3 CUDA-Resident Execution Engine
+- Exact fractional-tail weighted CVaR on CPU, CUDA, and XPU-compatible PyTorch paths.
+- Versioned case-specific IEEE 30/57/118/300 control formulations with explicit absolute/delta shunt semantics, preserved fixed reactors, exact bounds, dimensions, checksums, and per-task formulation manifests.
+- Central case validation rejects malformed, disconnected, non-finite, or active zero-impedance networks.
+- Robust scenarios are validated centrally; empty or invalid robust requests can no longer silently become deterministic, and every run stores normalized weights and transformed-case checksums.
+- Independent PYPOWER validation starts from the original controlled case with independent reactive-limit enforcement and compares final bus types, generator Q, voltages, angles, and losses.
+- Publication statistics and article packages use independently verified, feasible, finite runs only; article-ready packaging stops when validation is incomplete.
+- Requested benchmark repetitions from 30 through 50 are preserved exactly.
+- The persistent Intel-XPU progress callback defect is fixed and local worker frames now have bounded lengths and schema checks.
+- Fairness and CPU/accelerator parity audits run in a background QThread, keep the GUI responsive, and use explicit FP64 tolerances.
+- Model-only checkpoints use restricted `weights_only=True` loading. Application-created training resumes require a matching SHA-256 sidecar.
+- Font preflight records whether Times New Roman is available and discloses a DejaVu Serif fallback without bundling proprietary fonts.
 
-- Default persistent-lane plan: **80% CUDA / 10% XPU / 10% CPU**.
-- Optional **100% CUDA** execution for all tensor-compatible comparison jobs and ORPD policy-training rollouts.
-- All twenty primary optimizers are eligible for the common tensor-native FP64 evaluator.
-- Device-resident mixed-variable decoding, scenario expansion, Newton-Raphson power flow, branch flows, objective/constraint aggregation, L-index, and grouped PV-to-PQ switching.
-- Cross-run tensor batching preserves candidates on the assigned device and performs one packed host materialisation per population request for the stable result/provenance contract.
-- CUDA-priority work stealing can route unstarted XPU/CPU jobs to idle NVIDIA capacity without changing seeds or evaluation budgets.
-- Policy training defaults to the same 80/10/10 rollout split and includes a one-click 100% CUDA preset; the centralized PPO learner remains accelerator-first.
-- Final benchmark campaigns still require CPU/accelerator parity and independent CPU-reference validation.
+The scientific aim is formulation consistency, reproducibility, and higher throughput—not fabricated superiority. A faithful CPU and accelerator implementation must agree within declared tolerances, and publication claims remain gated by feasibility and independent validation.
 
 ## v3.2 Portfolio Planning and Universal Resume
 
@@ -63,7 +74,7 @@ Cross-run batching does not combine incompatible cases, scenarios, objectives, c
 
 Weighted CALO policy training can now keep CUDA/XPU actors and the CPU rollout pool resident for the complete session. Short calibration episodes are discarded, then fresh episodes are allocated by measured complete actor transitions per second. During ORPD development stages, compatible episode populations use the same FP64 batch broker as comparative evaluation. All accepted actor trajectories still use one policy snapshot per PPO epoch; PPO begins only after matching current-policy trajectories return, preserving on-policy semantics.
 
-The default 80/10/10 rollout split remains a deterministic fallback when calibration is disabled or unavailable; a 100% CUDA preset is available when NVIDIA CUDA passes runtime and parity checks. Measured shares are throughput allocations, not promises of identical Task Manager utilization.
+The earlier v3.1 release used an 80/10/10 deterministic fallback. Version 3.4 supersedes that default with GPU-maximum 100/0/0 rollouts: CUDA first, then Intel XPU only when CUDA is unavailable, then CPU only when neither accelerator is usable. Measured utilization still depends on kernel size, synchronization, memory limits, and host-side orchestration.
 
 ## v3 scientific backend
 

@@ -10,13 +10,16 @@ from pathlib import Path
 from calo_rpd_studio.algorithms.registry import primary_algorithm_names
 from calo_rpd_studio.experiments.evaluation_budget import BudgetPolicy
 from calo_rpd_studio.experiments.experiment_config import ExperimentConfig
+from calo_rpd_studio.orpd.variable_decoder import ORPDVariableDecoder
+from calo_rpd_studio.portfolio.models import EvidenceProfile, PortfolioKind
+from calo_rpd_studio.power_system.case_loader import CaseLoader
 from .freeze import verify_freeze_manifest
 from .suite import BenchmarkSuite, standard_benchmark_suite
 
 
 @dataclass(slots=True)
 class BenchmarkCampaignConfig:
-    name: str = "CALO-RPD v2 final benchmark"
+    name: str = "CALO-RPD v3.4 final benchmark"
     cases: tuple[str, ...] = ("case30", "case57", "case118", "case300")
     study_keys: tuple[str, ...] = (
         "deterministic",
@@ -29,10 +32,10 @@ class BenchmarkCampaignConfig:
     max_evaluations: int = 5000
     population_size: int = 50
     master_seed: int = 2026
-    output_directory: str = "benchmark_v2"
+    output_directory: str = "benchmark_v34"
     parallel_workers: int = 1
     execution_backend: str = "weighted_split"
-    freeze_manifest: str = field(default_factory=lambda: str(Path(__file__).resolve().parents[1] / "data" / "frozen" / "calo_v33_freeze.json"))
+    freeze_manifest: str = field(default_factory=lambda: str(Path(__file__).resolve().parents[1] / "data" / "frozen" / "calo_v343_freeze.json"))
     algorithms: tuple[str, ...] = field(default_factory=primary_algorithm_names)
 
     def validate(self, suite: BenchmarkSuite | None = None, *, verify_freeze: bool = True) -> None:
@@ -42,7 +45,7 @@ class BenchmarkCampaignConfig:
         if self.max_evaluations <= 0:
             raise ValueError("max_evaluations must be positive")
         if tuple(self.algorithms) != tuple(primary_algorithm_names()):
-            raise ValueError("The frozen v2 final benchmark must include exactly the 20 primary algorithms.")
+            raise ValueError("The frozen v3.4 final benchmark must include exactly the 20 primary algorithms.")
         unknown_cases = set(self.cases) - set(suite.cases)
         if unknown_cases:
             raise ValueError(f"Unsupported benchmark cases: {sorted(unknown_cases)}")
@@ -95,6 +98,11 @@ def build_campaign(
             config.case_name = case_name
             config.algorithms = list(campaign.algorithms)
             config.runs = int(campaign.runs)
+            # Final campaign repetitions are explicit evidence requirements.  Synchronize the
+            # embedded portfolio so validation can never reduce or inflate 30–50 requested runs.
+            config.portfolio.kind = PortfolioKind.OVERALL_EXPERIMENT
+            config.portfolio.evidence_profile = EvidenceProfile.CUSTOM
+            config.portfolio.custom_runs = int(campaign.runs)
             config.master_seed = _task_seed(campaign.master_seed, case_name, study_key)
             config.population_size = int(campaign.population_size)
             config.budget.policy = BudgetPolicy.EQUAL_EVALUATIONS
@@ -135,6 +143,10 @@ def write_campaign_plan(campaign: BenchmarkCampaignConfig, tasks: list[Benchmark
                 "study_key": task.study_key,
                 "study_label": task.study_label,
                 "planned_jobs": task.planned_jobs,
+                "formulation_manifest": ORPDVariableDecoder(
+                    CaseLoader.load(task.case_name), task.config.variables
+                ).formulation_manifest(),
+                "scenario_configuration": task.config.to_dict()["scenarios"],
                 "config": task.config.to_dict(),
                 "experiment_id": None,
                 "status": "planned",
