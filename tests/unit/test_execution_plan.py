@@ -22,8 +22,8 @@ def test_calo_ablation_plan_is_fixed_and_independent_of_primary_selection():
     config = ExperimentConfig(algorithms=["CALO", "TLBO", "PSO"], runs=5)
     labels = labels_for_mode(config, ABLATION_MODE)
     plan = build_execution_plan(config, ABLATION_MODE)
-    assert len(labels) == 9
-    assert planned_item_count(config, ABLATION_MODE) == 45
-    assert len(plan) == 45
+    assert len(labels) == 13
+    assert planned_item_count(config, ABLATION_MODE) == 65
+    assert len(plan) == 65
     assert "Legacy Gaussian MTLBO" in labels
     assert all(item.ablation_spec is not None for item in plan)

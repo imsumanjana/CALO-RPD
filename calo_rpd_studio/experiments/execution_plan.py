@@ -36,7 +36,7 @@ def build_execution_plan(config, mode: str) -> list[PlannedItem]:
     """Return a stable run-major execution plan.
 
     Primary comparisons use exactly the algorithms selected in ``config.algorithms``.
-    CALO ablation studies intentionally use the the fixed CALO Core v2 ablation variants and do not
+    CALO ablation studies intentionally use the the fixed CALO v4 scientific ablation variants and do not
     consume the primary-algorithm selection.
     """
 

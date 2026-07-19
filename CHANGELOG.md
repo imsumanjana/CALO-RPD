@@ -1,5 +1,23 @@
 # Changelog
 
+## 4.0.0
+
+- Introduced CALO v4, a tensor-native constraint-cognitive architecture implementing the repository upgrade plan with a maximum persistent tensor dimensionality of 3D.
+- Added persistent personal/lineage memory so successful individual learning is not destroyed after environmental selection.
+- Added Hierarchical Prefix Elite Memory (HPEM): one canonical `[7,D]` quality-diversity elite store deriving Best-1/3/5/7 `[4,D]` multi-resolution knowledge without duplicate storage.
+- Added mixed-variable-aware HPEM distance semantics so discrete tap/shunt values that decode to the same lattice state are treated consistently.
+- Added batched contextual operator and memory-level credit `[regime, operator, context]` / `[regime, memory, context]` with per-individual regime attribution and order-independent updates.
+- Reworked bounded success-direction memory into compact 3D `[operator, history, variable]` storage with finite context-aware sampling.
+- Added regime-aware variable-group intelligence for generator voltages, transformer taps, and shunts.
+- Made `recovery_fraction` operational through bounded partial recovery without whole-population forgetting.
+- Added behavior-driven epsilon control, memory readiness/consensus, and single-budget discovery/learning dual-lane search.
+- Added counted cognitive precision refinement with adaptive trust-radius behavior and legal mixed-variable moves; no hidden extra optimizer or uncounted evaluations are used.
+- Added exact decoded-control deduplication/cache while preserving requested function-evaluation accounting.
+- Added reusable scratch buffers and temporary 3D broadcast calculations to reduce duplicate state and allocation overhead.
+- Added strict benchmark guards that block historical priors/warm starts unless an explicit transfer-learning study disables strict mode.
+- Expanded CALO ablation coverage and added v4 regression tests for HPEM, persistent pbest, credit stability, budget accounting, cache accounting, reproducibility, and benchmark independence.
+- No claim of universal CALO superiority is made in this release; final ranking requires frozen 30–50 run paired feasible comparisons and independent validation.
+
 ## 3.4.3
 
 - Fixed Portfolio Export appearing permanently stuck at 94% on the final `reproducibility_bundle` artifact. The final archive now reports bounded 94–99% sub-progress and reaches 100% only after the archive is closed and atomically committed.

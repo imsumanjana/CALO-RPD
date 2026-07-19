@@ -1,4 +1,4 @@
-"""Predefined CALO Core v2 ablation suite."""
+"""Predefined CALO v4 scientific ablation suite."""
 from __future__ import annotations
 
 from copy import deepcopy
@@ -19,13 +19,17 @@ class AblationSpec:
 ABLATION_SPECS = (
     AblationSpec("Classical TLBO", "TLBO", {}),
     AblationSpec("Legacy Gaussian MTLBO", "LEGACY", {}),
-    AblationSpec("CALO Core v2 without AI", "CALO", {"use_ai": False}),
-    AblationSpec("CALO without epsilon-feasibility", "CALO", {"use_epsilon": False}),
-    AblationSpec("CALO without dual archives", "CALO", {"use_dual_archives": False}),
-    AblationSpec("CALO without mixed-variable learning", "CALO", {"use_mixed_variable": False}),
-    AblationSpec("CALO without success memory", "CALO", {"use_memory": False}),
-    AblationSpec("CALO without diversity recovery", "CALO", {"use_diversity_recovery": False}),
-    AblationSpec("Complete CALO", "CALO", {}),
+    AblationSpec("CALO v4 without AI policy", "CALO", {"use_ai": False}),
+    AblationSpec("CALO v4 without adaptive epsilon", "CALO", {"use_epsilon": False}),
+    AblationSpec("CALO v4 without dual archives", "CALO", {"use_dual_archives": False}),
+    AblationSpec("CALO v4 without success memory", "CALO", {"use_memory": False}),
+    AblationSpec("CALO v4 without HPEM", "CALO", {"use_hpem": False}),
+    AblationSpec("CALO v4 without contextual credit", "CALO", {"use_contextual_credit": False}),
+    AblationSpec("CALO v4 without variable-group intelligence", "CALO", {"use_variable_intelligence": False}),
+    AblationSpec("CALO v4 without dual-lane learning", "CALO", {"use_dual_lane": False}),
+    AblationSpec("CALO v4 without cognitive precision", "CALO", {"use_cognitive_precision": False}),
+    AblationSpec("CALO v4 without diversity recovery", "CALO", {"use_diversity_recovery": False}),
+    AblationSpec("Complete CALO v4", "CALO", {}),
 )
 
 

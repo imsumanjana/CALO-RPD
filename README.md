@@ -1,34 +1,34 @@
 # CALO-RPD Studio
 
-**CALO-RPD Studio 3.4.3** is a Python/PyQt6 research platform for deterministic and robust optimal reactive power dispatch (ORPD), reproducible comparison of twenty optimizers, CALO policy development, independent validation, statistical analysis, and publication evidence generation.
+**CALO-RPD Studio 4.0.0** is a Python/PyQt6 research platform for deterministic and robust optimal reactive power dispatch (ORPD), reproducible comparison of twenty optimizers, CALO policy development, independent validation, statistical analysis, and publication evidence generation.
 
-Version 3.4.3 is the **Publication Export Completion and Responsiveness Release**. It fixes the final portfolio-export artifact that could appear stuck at 94%, bounds reproducibility packaging to the current portfolio evidence, adds sub-progress and safe cancellation during archive creation, moves standard publication export off the GUI thread, and removes all-NaN convergence warnings. All v3.4.2 live-evidence, IEEE-300 validation, and GPU-preferred numerical scheduling behavior is retained.
+Version 4.0.0 introduces the **tensor-native constraint-cognitive CALO v4 architecture** defined in `docs/CALO_vNext_Tensor_Native_Scientific_Upgrade_Plan.pdf`. The implementation prioritizes scientific validity first, then convergence quality, accelerator efficiency, and low-memory execution. It does not claim algorithmic superiority until paired, feasible, independently validated benchmark evidence demonstrates it.
 
-## v3.4.3 publication export completion and responsiveness
+## v4.0 Tensor-Native Constraint-Cognitive CALO
 
-- Portfolio artifact 17 (`reproducibility_bundle`) now reports 94–99% packing progress and reaches 100% only after an atomic ZIP commit.
-- Reproducibility ZIP creation is scoped to current portfolio evidence rather than recursively compressing arbitrary files below the selected output directory.
-- PNG, PDF, ZIP, NPZ, and other already-compressed artifacts are stored without redundant recompression; compressible text artifacts use fast compression.
-- Safe Pause works during final ZIP creation and resumes without regenerating the first 16 completed artifacts.
-- Standard verified-publication export runs in a background `QThread`, with progress and cancellation, preventing Qt UI stalls during report packaging.
-- Median/IQR convergence calculations remove all-NaN leading columns before reduction, eliminating the `All-NaN slice encountered` warning without fabricating values.
-- Reproducibility archives include a portfolio-manifest snapshot and are written through a temporary file before atomic replacement.
+CALO v4 adds:
 
-## v3.4.2 live evidence, IEEE-300, and responsiveness corrections
+- persistent learner/personal-best memory that survives environmental selection correctly;
+- one canonical seven-row **Hierarchical Prefix Elite Memory (HPEM)** producing Best-1/3/5/7 knowledge without duplicated elite storage;
+- mixed-variable-aware quality/diversity admission for generator-voltage, tap, and shunt controls;
+- compact 1D/2D/3D hybrid tensor structures only—no persistent 4D CALO state;
+- batched contextual operator and memory-depth credit with order-independent updates;
+- bounded 3D contextual success-direction memory with NaN/Inf-safe normalization;
+- regime-aware variable-group intelligence;
+- behavior-driven epsilon control;
+- single-budget discovery/learning dual-lane search with no cross-run memory leakage;
+- counted cognitive precision refinement using HPEM, successful directions, variable sensitivity, and valid mixed-variable moves;
+- partial recovery without forgetting useful elite/personal/success knowledge;
+- exact decoded-control deduplication that preserves requested function-evaluation accounting;
+- reusable scratch buffers and temporary 3D broadcast relationships to reduce duplication and allocation pressure.
 
-- Exact fractional-tail weighted CVaR on CPU, CUDA, and XPU-compatible PyTorch paths.
-- Versioned case-specific IEEE 30/57/118/300 control formulations with explicit absolute/delta shunt semantics, preserved fixed reactors, exact bounds, dimensions, checksums, and per-task formulation manifests.
-- Central case validation rejects malformed, disconnected, non-finite, or active zero-impedance networks.
-- Robust scenarios are validated centrally; empty or invalid robust requests can no longer silently become deterministic, and every run stores normalized weights and transformed-case checksums.
-- Independent PYPOWER validation starts from the original controlled case with independent reactive-limit enforcement and compares final bus types, generator Q, voltages, angles, and losses.
-- Publication statistics and article packages use independently verified, feasible, finite runs only; article-ready packaging stops when validation is incomplete.
-- Requested benchmark repetitions from 30 through 50 are preserved exactly.
-- The persistent Intel-XPU progress callback defect is fixed and local worker frames now have bounded lengths and schema checks.
-- Fairness and CPU/accelerator parity audits run in a background QThread, keep the GUI responsive, and use explicit FP64 tolerances.
-- Model-only checkpoints use restricted `weights_only=True` loading. Application-created training resumes require a matching SHA-256 sidecar.
-- Font preflight records whether Times New Roman is available and discloses a DejaVu Serif fallback without bundling proprietary fonts.
+### Scientific fairness
 
-The scientific aim is formulation consistency, reproducibility, and higher throughput—not fabricated superiority. A faithful CPU and accelerator implementation must agree within declared tolerances, and publication claims remain gated by feasibility and independent validation.
+Every repeated comparison run starts from fresh runtime memory. A CALO run may contain discovery, learning, recovery, and precision phases, but all phases share the **same configured function-evaluation budget**. Historical cross-experiment learning is explicit transfer-learning mode and is rejected by strict benchmark mode. Final publication claims remain gated by feasibility, independent PYPOWER validation, frozen configuration, paired seeds, and statistical evidence.
+
+### Execution policy
+
+The common numerical backend remains CUDA-first, then Intel XPU, then CPU fallback. CALO v4's control/memory logic uses compact contiguous arrays and batched operations; common ORPD population evaluation remains eligible for device-resident FP64 accelerator execution. Physical CUDA/XPU performance must be verified on target hardware before making throughput claims.
 
 ## v3.2 Portfolio Planning and Universal Resume
 

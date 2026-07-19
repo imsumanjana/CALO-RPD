@@ -349,6 +349,7 @@ class HistoricalExperienceWidget(QGroupBox):
                 "use_historical_parameter_priors",
                 "use_cross_algorithm_warm_start",
                 "historical_warm_start_fraction",
+                "strict_benchmark_mode",
             ):
                 parameters.pop(key, None)
             self.state.config.algorithm_parameters["CALO"] = parameters
@@ -379,6 +380,9 @@ class HistoricalExperienceWidget(QGroupBox):
                     and self.allow_population_warm_start.isChecked()
                 ),
                 "historical_warm_start_fraction": self.warm_start_percent.value() / 100.0,
+                # Historical transfer is explicit and scientifically separate from the strict
+                # independent-run benchmark protocol.
+                "strict_benchmark_mode": False,
             }
         )
         self.state.config.algorithm_parameters["CALO"] = parameters
@@ -387,8 +391,8 @@ class HistoricalExperienceWidget(QGroupBox):
         QMessageBox.information(
             self,
             "Historical Learning",
-            "Historical CALO parameter-prior and optional population warm-start settings were applied. "
-            "Disable warm-starting for strict cold-start benchmark comparisons.",
+            "Historical CALO transfer-learning settings were applied with strict benchmark mode disabled. "
+            "Use Cold Start or the locked TEST campaign for strict independent-run comparisons.",
         )
 
     def policy_training_options(self) -> dict:

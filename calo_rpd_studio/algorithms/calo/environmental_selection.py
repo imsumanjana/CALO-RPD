@@ -34,12 +34,13 @@ def epsilon_better(a, b, epsilon: float, tol: float = 1e-12) -> bool:
 
 
 def environmental_select(vectors, evaluations, population_size: int, epsilon: float,
-                         diversity_weight: float = 0.18):
+                         diversity_weight: float = 0.18, return_indices: bool = False):
     vectors = np.asarray(vectors, dtype=float)
     order = sorted(range(len(evaluations)), key=lambda i: epsilon_sort_key(evaluations[i], epsilon))
     population_size = min(int(population_size), len(order))
     if population_size <= 0:
-        return np.empty((0, vectors.shape[1])), []
+        empty = np.empty((0, vectors.shape[1]))
+        return (empty, [], np.empty(0, dtype=int)) if return_indices else (empty, [])
 
     quality_count = max(1, population_size // 2)
     selected = order[:quality_count]
@@ -61,4 +62,7 @@ def environmental_select(vectors, evaluations, population_size: int, epsilon: fl
         remaining.remove(best_candidate)
 
     selected = selected[:population_size]
-    return vectors[selected].copy(), [evaluations[i] for i in selected]
+    result = (vectors[selected].copy(), [evaluations[i] for i in selected])
+    if return_indices:
+        return result[0], result[1], np.asarray(selected, dtype=int)
+    return result

@@ -302,7 +302,7 @@ class MainWindow(QMainWindow):
         QMessageBox.information(
             self,
             "About CALO-RPD Studio",
-            "CALO-RPD Studio 3.4.3\n"
+            "CALO-RPD Studio 4.0.0\n"
             "Cognitive Adaptive Learning Optimizer for Robust Reactive Power Dispatch\n\n"
             "Guided scientific optimization, reproducible benchmarking, validation, statistics, and publication export.",
         )

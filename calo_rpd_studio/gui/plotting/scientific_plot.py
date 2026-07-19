@@ -12,6 +12,20 @@ from calo_rpd_studio.visualization.plot_manager import PlotManager
 from .plot_format_toolbar import PlotFormattingToolbar
 
 
+class SafeFigureCanvasQTAgg(FigureCanvasQTAgg):
+    """Ignore only the benign Qt deleted-canvas race from a queued idle redraw."""
+
+    def draw(self) -> None:
+        try:
+            super().draw()
+        except RuntimeError as exc:
+            if "has been deleted" in str(exc):
+                self._draw_pending = False
+                return
+            raise
+
+
+
 class ScientificPlotWidget(QWidget):
     """Reusable scientific plot surface.
 
@@ -47,7 +61,11 @@ class ScientificPlotWidget(QWidget):
 
         figure_size = (7.2, 7.2) if self.square_preview else (7.2, 4.6)
         self.figure = Figure(figsize=figure_size)
-        self.canvas = FigureCanvasQTAgg(self.figure)
+        self.canvas = SafeFigureCanvasQTAgg(self.figure)
+        # Matplotlib queues draw_idle callbacks through Qt. Cancel a pending callback before
+        # the C++ canvas is destroyed so rapid workspace/test teardown cannot invoke draw()
+        # on a deleted FigureCanvasQTAgg wrapper.
+        self.canvas.destroyed.connect(self._cancel_pending_canvas_draw)
         self.axis = self.figure.add_subplot(111)
         self.axis.set_title(title)
         self.axis.set_xlabel(xlabel)
@@ -80,6 +98,11 @@ class ScientificPlotWidget(QWidget):
             layout.addWidget(self.canvas, 1)
 
 
+    def _cancel_pending_canvas_draw(self, *_args) -> None:
+        try:
+            self.canvas._draw_pending = False
+        except (AttributeError, RuntimeError):
+            pass
 
     def configure_preview_series(self, options_provider, selection_provider, selection_callback) -> None:
         """Expose host-controlled selective preview through the compact Plot Tools strip."""

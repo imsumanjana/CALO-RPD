@@ -121,7 +121,7 @@ class SphereProblem:
 
 
 _OPTIMIZER_SNAPSHOTS = json.loads(
-    (Path(__file__).parents[1] / "data" / "v34_optimizer_seed_snapshots.json").read_text(
+    (Path(__file__).parents[1] / "data" / "v4_optimizer_seed_snapshots.json").read_text(
         encoding="utf-8"
     )
 )
