@@ -177,7 +177,7 @@ class PublicationExporter:
                             }
                         )
             temp_archive.replace(archive)
-        except BaseException:
+        except Exception:
             temp_archive.unlink(missing_ok=True)
             raise
         completed += 1

@@ -648,7 +648,7 @@ def install_xpu_sidecar(
         != 0
     ):
         return XpuSidecarInfo(
-            installed=True, interpreter=str(interpreter), error="Unable to update XPU runtime pip."
+            installed=False, interpreter=str(interpreter), error="Unable to update XPU runtime pip."
         )
 
     _emit(callback, "Installing compute dependencies in the secondary Intel XPU runtime...")
@@ -664,7 +664,7 @@ def install_xpu_sidecar(
         != 0
     ):
         return XpuSidecarInfo(
-            installed=True,
+            installed=False,
             interpreter=str(interpreter),
             error="XPU compute dependency installation failed.",
         )
@@ -682,7 +682,7 @@ def install_xpu_sidecar(
         != 0
     ):
         return XpuSidecarInfo(
-            installed=True,
+            installed=False,
             interpreter=str(interpreter),
             error="Intel XPU PyTorch installation failed.",
         )
@@ -701,7 +701,7 @@ def install_xpu_sidecar(
             != 0
         ):
             return XpuSidecarInfo(
-                installed=True,
+                installed=False,
                 interpreter=str(interpreter),
                 error="Unable to install CALO-RPD Studio in the XPU runtime.",
             )

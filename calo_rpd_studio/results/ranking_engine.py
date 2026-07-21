@@ -1,5 +1,7 @@
 """Median-performance ranking."""
 
+import pandas as pd  # noqa: F401
+
 
 def rank_summary(summary):
     out = summary.copy()

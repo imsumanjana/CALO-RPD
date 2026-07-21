@@ -2,11 +2,13 @@
 
 from __future__ import annotations
 
+import time
 from copy import deepcopy
 from dataclasses import dataclass
 
 from calo_rpd_studio.algorithms.base_optimizer import OptimizerConfig
 from calo_rpd_studio.algorithms.legacy_mtlbo import LegacyMTLBOOptimizer
+from .evaluation_budget import BudgetPolicy
 from .experiment_runner import CompletedRun, build_problem, run_single
 
 
@@ -56,17 +58,30 @@ def run_ablation(config, spec, run_index, seeds, progress_callback=None, cancel_
         completed.algorithm = spec.label
         return completed
     problem = build_problem(config, seeds.scenario_seed)
+    started = time.perf_counter()
+    policy = config.budget.policy
+    if policy is BudgetPolicy.EQUAL_WALL_CLOCK:
+        max_eval = 2_000_000_000
+        max_iter = 2_000_000_000
+    else:
+        max_eval = config.budget.max_evaluations
+        max_iter = max(config.max_iterations, config.budget.max_evaluations)
+
+    def _cancel():
+        if cancel_callback and cancel_callback():
+            return True
+        return bool(
+            policy is BudgetPolicy.EQUAL_WALL_CLOCK
+            and config.budget.wall_clock_seconds is not None
+            and time.perf_counter() - started >= config.budget.wall_clock_seconds
+        )
+
     optimizer = LegacyMTLBOOptimizer(
         problem,
-        OptimizerConfig(
-            config.population_size,
-            config.budget.max_evaluations,
-            max(config.max_iterations, config.budget.max_evaluations),
-            {},
-        ),
+        OptimizerConfig(config.population_size, max_eval, max_iter, {}),
         seeds.algorithm_seed,
         progress_callback,
-        cancel_callback,
+        _cancel,
     )
     result = optimizer.run()
     result.algorithm = spec.label

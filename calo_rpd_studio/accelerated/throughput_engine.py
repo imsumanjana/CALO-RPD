@@ -310,7 +310,7 @@ class CrossRunBatchBroker:
                 )
             for request, start, end in offsets:
                 request.result = results[start:end]
-        except BaseException as exc:  # propagate the same scientific failure to every requester
+        except Exception as exc:  # propagate the same scientific failure to every requester
             for request, _start, _end in offsets:
                 request.error = exc
         finally:
@@ -335,7 +335,7 @@ class CrossRunBatchBroker:
                 break
             try:
                 signature = self._signature(first.evaluator, first.candidates)
-            except BaseException as exc:
+            except Exception as exc:
                 first.error = exc
                 first.ready.set()
                 continue
@@ -355,7 +355,7 @@ class CrossRunBatchBroker:
                     break
                 try:
                     request_signature = self._signature(request.evaluator, request.candidates)
-                except BaseException as exc:
+                except Exception as exc:
                     request.error = exc
                     request.ready.set()
                     continue
@@ -367,7 +367,7 @@ class CrossRunBatchBroker:
                     backlog.append(request)
             try:
                 self._flush_group(group)
-            except BaseException as exc:
+            except Exception as exc:
                 # `_flush_group` is designed to report errors to every requester itself.  This
                 # outer guard prevents any unforeseen bookkeeping bug from killing the daemon and
                 # leaving GUI/experiment threads blocked forever.

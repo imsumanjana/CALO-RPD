@@ -18,7 +18,13 @@ def bind_exact_run_checkpoint(config, item):
     returned unchanged.  Requested function-evaluation accounting is unaffected by this binding.
     """
 
-    if item is None or str(getattr(item, "label", "")) != "CALO":
+    if item is None:
+        return config
+    ablation_spec = getattr(item, "ablation_spec", None)
+    algorithm = str(
+        getattr(ablation_spec, "algorithm", getattr(item, "label", ""))
+    )
+    if algorithm != "CALO":
         return config
 
     parameters = dict(getattr(config, "algorithm_parameters", {}) or {})

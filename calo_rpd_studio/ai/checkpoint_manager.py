@@ -66,7 +66,7 @@ class CheckpointManager:
         try:
             torch.save(payload, temporary)
             # Validate that the serialized container is readable before promotion.
-            torch.load(temporary, map_location="cpu", weights_only=False)
+            torch.load(temporary, map_location="cpu", weights_only=True)
             temporary.replace(target)
             info = self.verify(target)
             target.with_suffix(target.suffix + ".sha256").write_text(

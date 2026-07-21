@@ -140,8 +140,8 @@ def _reconstruct_legacy_calo_trajectory(result: dict) -> list[dict]:
     max_evaluations = max(int(result.get("evaluations", 0)), 1)
     output: list[dict] = []
     for index in range(count):
-        best_violation = _clean_float((diagnostics.get("best_total_violation") or [])[index], 1e12)
-        mean_violation = _clean_float((diagnostics.get("mean_total_violation") or [])[index], 1e12)
+        best_violation = _clean_float((diagnostics.get("best_total_violation") or [1e12] * count)[index], 1e12)
+        mean_violation = _clean_float((diagnostics.get("mean_total_violation") or [1e12] * count)[index], 1e12)
         feasible_ratio = float((diagnostics.get("feasible_ratio") or [0.0] * count)[index])
         epsilon_ratio = float((diagnostics.get("epsilon_feasible_ratio") or [0.0] * count)[index])
         diversity = float((diagnostics.get("population_diversity") or [0.0] * count)[index])

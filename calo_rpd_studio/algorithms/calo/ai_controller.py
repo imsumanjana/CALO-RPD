@@ -113,7 +113,7 @@ class _PolicyInferenceBroker:
                         beta_np[index],
                         float(critic_np[index]),
                     )
-            except BaseException as exc:
+            except Exception as exc:
                 for item in requests:
                     item.error = exc
             finally:
