@@ -103,7 +103,7 @@ class TrainingConfig:
     # backward compatibility; ``training_mode`` defines how it is interpreted.
     training_mode: str = "cumulative"  # cumulative | additional | indefinite
     checkpoint_interval_epochs: int = 1
-    deployable_checkpoint_interval_epochs: int = 1000
+    deployable_checkpoint_interval_epochs: int = 10
     qualification_interval_epochs: int = 10000
     policy_lineage_id: str = ""
     policy_lineage_name: str = ""
@@ -672,6 +672,46 @@ def available_training_devices() -> dict[str, str | bool]:
         "xpu_sidecar_available": xpu_sidecar,
         "recommended_device": recommended,
     }
+
+
+def recommended_worker_distribution(
+    total_workers: int,
+    *,
+    device_info: dict[str, str | bool] | None = None,
+) -> dict[str, int]:
+    """Return a recommended CUDA/XPU/CPU worker split for the given total worker count.
+
+    The heuristic assigns workers proportional to relative device throughput:
+    CUDA (10x) > XPU (4x) > CPU (1x).  When only a subset of accelerators is
+    available the pool is redistributed across the remaining devices.
+    """
+    if device_info is None:
+        device_info = available_training_devices()
+    cuda = bool(device_info.get("cuda_available", False))
+    xpu = bool(device_info.get("xpu_available", False))
+    weights: dict[str, float] = {}
+    if cuda:
+        weights["cuda"] = 10.0
+    if xpu:
+        weights["xpu"] = 4.0
+    weights["cpu"] = 1.0
+    total_weight = sum(weights.values()) or 1.0
+    raw: dict[str, float] = {k: (v / total_weight) * total_workers for k, v in weights.items()}
+    result: dict[str, int] = {}
+    assigned = 0
+    for lane in ("cuda", "xpu", "cpu"):
+        if lane in raw:
+            count = max(0, round(raw[lane]))
+            result[lane] = count
+            assigned += count
+    # Adjust rounding drift onto the fastest available lane
+    diff = total_workers - assigned
+    if diff != 0:
+        for lane in ("cuda", "xpu", "cpu"):
+            if lane in result:
+                result[lane] += diff
+                break
+    return result
 
 
 def _resolve_training_device(requested: str) -> torch.device:
@@ -1259,7 +1299,10 @@ def train_policy(config: TrainingConfig, output_path, progress_callback=None, ca
                 "Fine-tune/fork checkpoint architecture does not match the configured native CALO policy network"
             )
         network.load_state_dict(payload.get("model_state_dict", payload))
-    start_epoch = 0
+        _initial_meta = dict(payload.get("metadata", {}) or {})
+        start_epoch = int(_initial_meta.get("cumulative_epoch", 0) or 0)
+    else:
+        start_epoch = 0
     history = []
     historical_pretraining = {}
     if resume_path.is_file():
@@ -1385,6 +1428,21 @@ def train_policy(config: TrainingConfig, output_path, progress_callback=None, ca
                 device=str(device),
                 rollout_workers=workers,
             )
+            _safe_output = Path(output_path)
+            _safe_output.parent.mkdir(parents=True, exist_ok=True)
+            torch.save(
+                {
+                    "model_state_dict": _cpu_state_dict(network),
+                    "architecture": {"input_dim": POLICY_STATE_DIM, "hidden_dim": config.hidden_dim},
+                    "metadata": {
+                        "cumulative_epoch": epoch,
+                        "training_config": asdict(config),
+                        "policy_lineage_id": str(getattr(config, "policy_lineage_id", "")),
+                        "policy_lineage_name": str(getattr(config, "policy_lineage_name", "")),
+                    },
+                },
+                _safe_output,
+            )
             raise
         completed_units += len(completed)
         if progress_callback:
@@ -1483,7 +1541,7 @@ def train_policy(config: TrainingConfig, output_path, progress_callback=None, ca
                 },
             )
         deploy_interval = max(
-            1, int(getattr(config, "deployable_checkpoint_interval_epochs", 1000) or 1000)
+            1, int(getattr(config, "deployable_checkpoint_interval_epochs", 10) or 10)
         )
         if completed_epoch % deploy_interval == 0:
             save_deployable_policy_snapshot(
@@ -1495,6 +1553,21 @@ def train_policy(config: TrainingConfig, output_path, progress_callback=None, ca
                 completed_epoch,
                 device=str(device),
                 rollout_workers=workers,
+            )
+            _output = Path(output_path)
+            _output.parent.mkdir(parents=True, exist_ok=True)
+            torch.save(
+                {
+                    "model_state_dict": _cpu_state_dict(network),
+                    "architecture": {"input_dim": POLICY_STATE_DIM, "hidden_dim": config.hidden_dim},
+                    "metadata": {
+                        "cumulative_epoch": completed_epoch,
+                        "training_config": asdict(config),
+                        "policy_lineage_id": str(getattr(config, "policy_lineage_id", "")),
+                        "policy_lineage_name": str(getattr(config, "policy_lineage_name", "")),
+                    },
+                },
+                _output,
             )
         epoch += 1
 

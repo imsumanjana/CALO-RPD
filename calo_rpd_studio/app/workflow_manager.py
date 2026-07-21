@@ -17,34 +17,34 @@ class WorkflowDescriptor:
 
 SETUP_STEPS = (
     WorkflowDescriptor(
-        "power_system",
+        "calo",
         1,
+        "Confirm CALO intelligence",
+        "Validate the CALO policy checkpoint and apply the frozen evaluation configuration.",
+    ),
+    WorkflowDescriptor(
+        "power_system",
+        2,
         "Validate the power system",
         "Load a case, run the base AC power flow, then complete the independent PYPOWER cross-check.",
     ),
     WorkflowDescriptor(
         "orpd",
-        2,
+        3,
         "Define the ORPD formulation",
         "Apply the common objective, decision variables, mixed-variable decoding, and constraint policy.",
     ),
     WorkflowDescriptor(
         "algorithms",
-        3,
+        4,
         "Select optimization algorithms",
         "Choose the comparison algorithms and apply their declared parameter configuration.",
     ),
     WorkflowDescriptor(
         "portfolio",
-        4,
+        5,
         "Plan the evidence portfolio",
         "Choose single-run diagnostics or an overall repeated-run portfolio. The planner will derive only the runs, traces, validation, statistics, and figures required.",
-    ),
-    WorkflowDescriptor(
-        "calo",
-        5,
-        "Confirm CALO intelligence",
-        "Validate the CALO policy checkpoint and apply the frozen evaluation configuration.",
     ),
     WorkflowDescriptor(
         "scenarios",
@@ -205,43 +205,43 @@ class WorkflowManager(QObject):
         if index in (0, 13, 14, 15):
             return "available", "Always available."
         if index == 1:
-            return (
-                ("completed", "Power system validated.")
-                if self._setup_complete("power_system")
-                else ("recommended", SETUP_STEPS[0].instruction)
-            )
-        if index == 2:
-            if not self._setup_complete("power_system"):
-                return "locked", "Complete Power System validation first."
-            return (
-                ("completed", "ORPD formulation applied.")
-                if self._setup_complete("orpd")
-                else ("recommended", SETUP_STEPS[1].instruction)
-            )
-        if index == 3:
-            if not self._setup_complete("orpd"):
-                return "locked", "Apply the ORPD formulation first."
-            return (
-                ("completed", "Algorithm configuration applied.")
-                if self._setup_complete("algorithms")
-                else ("recommended", SETUP_STEPS[2].instruction)
-            )
-        if index == 4:
-            if not self._setup_complete("algorithms"):
-                return "locked", "Apply the algorithm selection first."
-            return (
-                ("completed", "Evidence portfolio planned.")
-                if self._setup_complete("portfolio")
-                else ("recommended", SETUP_STEPS[3].instruction)
-            )
-        if index == 5:
-            if not self._setup_complete("portfolio"):
-                return "locked", "Apply the Portfolio Manager plan first."
             if not self.calo_required():
                 return "optional", "CALO is not selected; this workspace is optional."
             return (
                 ("completed", "CALO policy configuration validated.")
                 if self._setup_complete("calo")
+                else ("recommended", SETUP_STEPS[0].instruction)
+            )
+        if index == 2:
+            if self.calo_required() and not self._setup_complete("calo"):
+                return "locked", "Validate CALO Intelligence first."
+            return (
+                ("completed", "Power system validated.")
+                if self._setup_complete("power_system")
+                else ("recommended", SETUP_STEPS[1].instruction)
+            )
+        if index == 3:
+            if not self._setup_complete("power_system"):
+                return "locked", "Complete Power System validation first."
+            return (
+                ("completed", "ORPD formulation applied.")
+                if self._setup_complete("orpd")
+                else ("recommended", SETUP_STEPS[2].instruction)
+            )
+        if index == 4:
+            if not self._setup_complete("orpd"):
+                return "locked", "Apply the ORPD formulation first."
+            return (
+                ("completed", "Algorithm configuration applied.")
+                if self._setup_complete("algorithms")
+                else ("recommended", SETUP_STEPS[3].instruction)
+            )
+        if index == 5:
+            if not self._setup_complete("algorithms"):
+                return "locked", "Apply the algorithm selection first."
+            return (
+                ("completed", "Evidence portfolio planned.")
+                if self._setup_complete("portfolio")
                 else ("recommended", SETUP_STEPS[4].instruction)
             )
         if index == 6:
@@ -371,7 +371,7 @@ class WorkflowManager(QObject):
     def progress(self) -> tuple[int, int]:
         required = ["power_system", "orpd", "algorithms", "portfolio"]
         if self.calo_required():
-            required.append("calo")
+            required.insert(0, "calo")
         required.extend(["scenarios", "experiment"])
         completed = sum(
             1

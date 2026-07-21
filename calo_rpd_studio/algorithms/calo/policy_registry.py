@@ -39,12 +39,39 @@ class PolicyRecord:
         return not self.archived and Path(self.checkpoint_path).is_file()
 
 
+_SUPPRESSED_FILE = Path.home() / ".calo_rpd_studio" / "suppressed_policies.json"
+
+
 class PolicyRegistry:
     """Manage policy artifacts without silently changing experiment provenance."""
 
     def __init__(self, database) -> None:
         self.database = database
         self.lineages = PolicyLineageManager(database)
+        self._suppressed: set[str] = self._load_suppressed()
+
+    @staticmethod
+    def _load_suppressed() -> set[str]:
+        if _SUPPRESSED_FILE.is_file():
+            try:
+                data = json.loads(_SUPPRESSED_FILE.read_text(encoding="utf-8"))
+                return {str(s).lower() for s in data}
+            except Exception:
+                return set()
+        return set()
+
+    def _save_suppressed(self) -> None:
+        _SUPPRESSED_FILE.parent.mkdir(parents=True, exist_ok=True)
+        _SUPPRESSED_FILE.write_text(
+            json.dumps(sorted(self._suppressed), indent=2), encoding="utf-8"
+        )
+
+    def suppress(self, sha256: str) -> None:
+        self._suppressed.add(sha256.lower())
+        self._save_suppressed()
+
+    def is_suppressed(self, sha256: str) -> bool:
+        return sha256.lower() in self._suppressed
 
     @staticmethod
     def inspect_checkpoint(path: str | Path) -> dict:
@@ -97,6 +124,9 @@ class PolicyRegistry:
         output: list[PolicyRecord] = []
         for path in sorted(Path(directory).glob("*.pt")):
             try:
+                inspected = self.inspect_checkpoint(path)
+                if self.is_suppressed(inspected["sha256"]):
+                    continue
                 output.append(self.register(path, name=path.stem))
             except Exception:
                 continue
@@ -171,14 +201,18 @@ class PolicyRegistry:
             self.database.delete_policy_checkpoint(str(checkpoint["id"]))
         self.database.delete_policy(policy_id)
         if delete_artifact:
+            deleted_file = False
             try:
                 Path(policy.checkpoint_path).unlink(missing_ok=True)
                 sidecar = Path(policy.checkpoint_path).with_suffix(
                     Path(policy.checkpoint_path).suffix + ".sha256"
                 )
                 sidecar.unlink(missing_ok=True)
+                deleted_file = True
             except OSError:
                 pass
+            if not deleted_file:
+                self.suppress(policy.sha256)
 
     def bind_to_experiment_config(
         self, policy_id: str, config, *, deterministic: bool, allow_unqualified: bool = False

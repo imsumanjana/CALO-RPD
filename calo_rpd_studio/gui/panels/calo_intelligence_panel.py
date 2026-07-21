@@ -38,6 +38,7 @@ from calo_rpd_studio.algorithms.calo.training import (
     TrainingConfig,
     available_training_devices,
     recommended_rollout_workers,
+    recommended_worker_distribution,
     train_policy,
 )
 from calo_rpd_studio.algorithms.calo.heterogeneous_training import (
@@ -383,7 +384,7 @@ class CALOIntelligencePanel(ScrollablePage):
         self.checkpoint_interval.setValue(1)
         self.deployable_interval = QSpinBox()
         self.deployable_interval.setRange(1, 100_000_000)
-        self.deployable_interval.setValue(1000)
+        self.deployable_interval.setValue(10)
         self.qualification_interval = QSpinBox()
         self.qualification_interval.setRange(1, 100_000_000)
         self.qualification_interval.setValue(10000)
@@ -579,6 +580,42 @@ class CALOIntelligencePanel(ScrollablePage):
         self.episodes.valueChanged.connect(self._use_recommended_workers)
         self.episodes.valueChanged.connect(self._update_training_plan)
 
+        self.cuda_workers = QSpinBox()
+        self.cuda_workers.setRange(0, 999)
+        self.cuda_workers.setValue(0)
+        self.cuda_workers.setSuffix(" CUDA")
+        self.cuda_workers.setToolTip("Number of rollout workers to assign to NVIDIA CUDA")
+        self.xpu_workers = QSpinBox()
+        self.xpu_workers.setRange(0, 999)
+        self.xpu_workers.setValue(0)
+        self.xpu_workers.setSuffix(" XPU")
+        self.xpu_workers.setToolTip("Number of rollout workers to assign to Intel XPU")
+        self.cpu_workers = QSpinBox()
+        self.cpu_workers.setRange(0, 999)
+        self.cpu_workers.setValue(0)
+        self.cpu_workers.setSuffix(" CPU")
+        self.cpu_workers.setToolTip("Number of rollout workers to assign to host CPU")
+        self.recommend_workers_button = QPushButton("Recommend split")
+        self.recommend_workers_button.setToolTip(
+            "Auto-distribute total workers across CUDA, XPU, and CPU based on detected hardware"
+        )
+        self.recommend_workers_button.clicked.connect(self._apply_recommended_worker_split)
+        task_share_row = QWidget()
+        task_share_layout = QHBoxLayout(task_share_row)
+        task_share_layout.setContentsMargins(0, 0, 0, 0)
+        task_share_layout.setSpacing(7)
+        task_share_layout.addWidget(self.cuda_workers, 1)
+        task_share_layout.addWidget(self.xpu_workers, 1)
+        task_share_layout.addWidget(self.cpu_workers, 1)
+        task_share_layout.addWidget(self.recommend_workers_button)
+        self.task_share_status = QLabel()
+        self.task_share_status.setWordWrap(True)
+        self.task_share_status.setObjectName("HelpText")
+        for ctrl in (self.cuda_workers, self.xpu_workers, self.cpu_workers):
+            ctrl.valueChanged.connect(self._sync_shares_from_workers)
+        self.rollout_workers.valueChanged.connect(self._apply_recommended_worker_split)
+        self._apply_recommended_worker_split()
+
         self.accelerator_status = QLabel()
         self.accelerator_status.setWordWrap(True)
         self._device_text = device_text
@@ -629,6 +666,8 @@ class CALOIntelligencePanel(ScrollablePage):
         training_form.addRow("Maximum merged candidates", self.training_cross_batch)
         training_form.addRow("Cross-episode batch window", self.training_batch_window)
         training_form.addRow("CPU actor workers", worker_row)
+        training_form.addRow("Task sharing (workers)", task_share_row)
+        training_form.addRow("Distribution hint", self.task_share_status)
         training_form.addRow("Compute status", self.accelerator_status)
         training_form.addRow("ORPD development cases", self.development_cases)
         training_form.addRow("", training_button_row)
@@ -761,11 +800,11 @@ class CALOIntelligencePanel(ScrollablePage):
         return policy, self.state.database.get_policy_checkpoint_by_sha256(policy.sha256)
 
     def continue_selected_policy(self) -> None:
-        """Prepare a weights-only continuation phase from any usable checkpoint.
+        """Load training parameters from the selected checkpoint and start training.
 
-        Exact optimizer/RNG continuation of the latest training session remains the separate
-        Resume exact saved training action. This operation intentionally creates a documented new
-        phase while retaining the same lineage.
+        Reads the stored training config from the checkpoint file metadata, populates
+        all GUI training widgets, derives the output path from the existing checkpoint,
+        and launches training directly (overwriting in place).
         """
         policy, checkpoint = self._selected_policy_checkpoint_record()
         if policy is None:
@@ -780,10 +819,139 @@ class CALOIntelligencePanel(ScrollablePage):
             self._pending_policy_lineage_id = ""
             self._pending_policy_phase_index = 1
             self.policy_lineage_name.setText(policy.name)
-        self.qualification_status.setText(
-            f"Prepared fine-tuning from immutable checkpoint {policy.name} ({policy.sha256[:12]}…). "
-            "Choose training duration and click Start / continue lineage. Existing experiments remain bound to the old SHA."
+        tc = {}
+        if checkpoint is not None:
+            tc = (checkpoint.get("metadata") or {}).get("training_config") or {}
+        if not tc:
+            ckpt_path = Path(policy.checkpoint_path)
+            if ckpt_path.is_file():
+                try:
+                    payload = load_checkpoint(ckpt_path, map_location="cpu")
+                    tc = (payload.get("metadata") or {}).get("training_config") or {}
+                except Exception:
+                    tc = {}
+        if tc:
+            self.epochs.setValue(int(tc.get("epochs", self.epochs.value())))
+            self.episodes.setValue(int(tc.get("episodes_per_epoch", self.episodes.value())))
+            self.horizon.setValue(int(tc.get("horizon", self.horizon.value())))
+            self.seed.setValue(int(tc.get("seed", self.seed.value())))
+            self.lr.setValue(float(tc.get("learning_rate", self.lr.value())))
+            self.gamma.setValue(float(tc.get("gamma", self.gamma.value())))
+            self.gae_lambda.setValue(float(tc.get("gae_lambda", self.gae_lambda.value())))
+            self.clip_ratio.setValue(float(tc.get("clip_ratio", self.clip_ratio.value())))
+            self.ppo_epochs.setValue(int(tc.get("ppo_epochs", self.ppo_epochs.value())))
+            self.minibatch.setValue(int(tc.get("minibatch_size", self.minibatch.value())))
+            self.training_population.setValue(
+                int(tc.get("population_size", self.training_population.value()))
+            )
+            self.rollout_workers.setValue(
+                int(tc.get("rollout_workers", self.rollout_workers.value()))
+            )
+            self.checkpoint_interval.setValue(
+                int(tc.get("checkpoint_interval_epochs", self.checkpoint_interval.value()))
+            )
+            self.deployable_interval.setValue(
+                int(
+                    tc.get(
+                        "deployable_checkpoint_interval_epochs", self.deployable_interval.value()
+                    )
+                )
+            )
+            self.qualification_interval.setValue(
+                int(tc.get("qualification_interval_epochs", self.qualification_interval.value()))
+            )
+            self.qualification_status.setText(
+                f"Loaded training parameters from {policy.name} ({policy.sha256[:12]}…). "
+                "Starting training automatically."
+            )
+        else:
+            self.qualification_status.setText(
+                f"Prepared fine-tuning from {policy.name} ({policy.sha256[:12]}…). "
+                "No stored training config found; using current widget values."
+            )
+        output_path = str(Path(policy.checkpoint_path).with_suffix(".pt"))
+        weighted = str(self.rollout_mode.currentData()) == "weighted"
+        selected_training_device = str(self.training_device.currentData())
+        device_info = available_training_devices()
+        if (
+            not weighted
+            and selected_training_device == "auto"
+            and device_info["recommended_device"] == "xpu_sidecar"
+        ):
+            selected_training_device = "xpu_sidecar"
+        historical_options = self.historical_experience.policy_training_options()
+        common = dict(
+            epochs=self.epochs.value(),
+            episodes_per_epoch=self.episodes.value(),
+            horizon=self.horizon.value(),
+            seed=self.seed.value(),
+            learning_rate=self.lr.value(),
+            gamma=self.gamma.value(),
+            gae_lambda=self.gae_lambda.value(),
+            clip_ratio=self.clip_ratio.value(),
+            ppo_epochs=self.ppo_epochs.value(),
+            minibatch_size=self.minibatch.value(),
+            population_size=self.training_population.value(),
+            rollout_workers=self.rollout_workers.value(),
+            ppo_device=selected_training_device,
+            development_cases=tuple(
+                item.strip() for item in self.development_cases.text().split(",") if item.strip()
+            ),
+            historical_repository=historical_options["historical_repository"],
+            use_historical_trajectories=historical_options["use_historical_trajectories"],
+            historical_pretraining_epochs=historical_options["historical_pretraining_epochs"],
+            training_mode=str(self.training_mode.currentData() or "cumulative"),
+            checkpoint_interval_epochs=self.checkpoint_interval.value(),
+            deployable_checkpoint_interval_epochs=self.deployable_interval.value(),
+            qualification_interval_epochs=self.qualification_interval.value(),
+            policy_lineage_name=self.policy_lineage_name.text().strip() or Path(output_path).stem,
+            policy_phase_index=int(getattr(self, "_pending_policy_phase_index", 1) or 1),
+            initial_policy_checkpoint=str(
+                getattr(self, "_pending_initial_policy_checkpoint", "") or ""
+            ),
+            keep_resume_after_completion=True,
         )
+        if weighted:
+            config = HeterogeneousTrainingConfig(
+                **common,
+                heterogeneous_rollouts=True,
+                cuda_rollout_share=self.cuda_rollout_share.value(),
+                xpu_rollout_share=self.xpu_rollout_share.value(),
+                cpu_rollout_share=self.cpu_rollout_share.value(),
+                throughput_adaptive_rollouts=self.auto_tuned_training.isChecked(),
+                persistent_actor_workers=self.persistent_training_actors.isChecked(),
+                actor_calibration_episodes=self.training_calibration_episodes.value(),
+                use_accelerated_orpd_rollouts=self.accelerated_training_orpd.isChecked(),
+                training_cross_episode_batching=self.cross_episode_training_batch.isChecked(),
+                training_batch_window_ms=self.training_batch_window.value(),
+                training_max_cross_batch=self.training_cross_batch.value(),
+                training_tensor_batch_size=self.training_tensor_batch.value(),
+            )
+        else:
+            config = TrainingConfig(**common)
+        try:
+            lineage_name = str(config.policy_lineage_name or Path(output_path).stem)
+            pending_lineage = str(getattr(self, "_pending_policy_lineage_id", "") or "")
+            existing = next(
+                (
+                    row
+                    for row in self.state.database.list_policy_lineages(include_archived=True)
+                    if str(row["name"]) == lineage_name
+                ),
+                None,
+            )
+            config.policy_lineage_id = pending_lineage or (
+                str(existing["id"])
+                if existing
+                else self.state.policy_registry.create_lineage(lineage_name)
+            )
+            self._pending_initial_policy_checkpoint = ""
+            self._pending_policy_lineage_id = ""
+            self._pending_policy_phase_index = 1
+        except Exception as exc:
+            QMessageBox.critical(self, "Policy lineage", str(exc))
+            return
+        self._launch_training(config, output_path)
 
     def fork_selected_policy(self) -> None:
         policy, checkpoint = self._selected_policy_checkpoint_record()
@@ -1138,6 +1306,54 @@ class CALOIntelligencePanel(ScrollablePage):
     def _use_recommended_workers(self, *_args) -> None:
         self.rollout_workers.setValue(recommended_rollout_workers(self.episodes.value()))
 
+    def _apply_recommended_worker_split(self, *_args) -> None:
+        total = self.rollout_workers.value()
+        dist = recommended_worker_distribution(total)
+        self.cuda_workers.blockSignals(True)
+        self.xpu_workers.blockSignals(True)
+        self.cpu_workers.blockSignals(True)
+        self.cuda_workers.setValue(dist.get("cuda", 0))
+        self.xpu_workers.setValue(dist.get("xpu", 0))
+        self.cpu_workers.setValue(dist.get("cpu", total))
+        self.cuda_workers.blockSignals(False)
+        self.xpu_workers.blockSignals(False)
+        self.cpu_workers.blockSignals(False)
+        self._sync_shares_from_workers()
+        self._update_task_share_status()
+
+    def _sync_shares_from_workers(self, *_args) -> None:
+        c, x, p = self.cuda_workers.value(), self.xpu_workers.value(), self.cpu_workers.value()
+        total = c + x + p
+        if total <= 0:
+            return
+        self.cuda_rollout_share.blockSignals(True)
+        self.xpu_rollout_share.blockSignals(True)
+        self.cpu_rollout_share.blockSignals(True)
+        self.cuda_rollout_share.setValue(round(100 * c / total))
+        self.xpu_rollout_share.setValue(round(100 * x / total))
+        self.cpu_rollout_share.setValue(100 - round(100 * c / total) - round(100 * x / total))
+        self.cuda_rollout_share.blockSignals(False)
+        self.xpu_rollout_share.blockSignals(False)
+        self.cpu_rollout_share.blockSignals(False)
+        self._update_task_share_status()
+        self._update_training_plan()
+
+    def _update_task_share_status(self) -> None:
+        c, x, p = self.cuda_workers.value(), self.xpu_workers.value(), self.cpu_workers.value()
+        total = c + x + p
+        parts = []
+        if c:
+            parts.append(f"CUDA {c}")
+        if x:
+            parts.append(f"XPU {x}")
+        parts.append(f"CPU {p}")
+        workers_total = self.rollout_workers.value()
+        match_str = (
+            " ✓" if total == workers_total
+            else f" (total {total} ≠ {workers_total})"
+        )
+        self.task_share_status.setText(f"Split {total} workers: {', '.join(parts)}{match_str}")
+
     def _set_training_split(self, cuda: int, xpu: int, cpu: int) -> None:
         self.cuda_rollout_share.setValue(int(cuda))
         self.xpu_rollout_share.setValue(int(xpu))
@@ -1164,6 +1380,10 @@ class CALOIntelligencePanel(ScrollablePage):
             self.cuda_rollout_share,
             self.xpu_rollout_share,
             self.cpu_rollout_share,
+            self.cuda_workers,
+            self.xpu_workers,
+            self.cpu_workers,
+            self.recommend_workers_button,
             *advanced_controls,
         ):
             control.setEnabled(weighted)
@@ -1580,6 +1800,51 @@ class CALOIntelligencePanel(ScrollablePage):
         if str(item.status) == ResumeStatus.COMPLETED.value:
             # Never overwrite a previously completed/deployable policy artifact. Continue the exact
             # optimizer/RNG state into a fresh working alias; immutable lineage checkpoints remain stable.
+            source = Path(path)
+            candidate = source.with_name(source.stem + "_continued" + source.suffix)
+            counter = 2
+            while candidate.exists():
+                candidate = source.with_name(f"{source.stem}_continued_{counter}{source.suffix}")
+                counter += 1
+            path = str(candidate)
+        self._launch_training(config, path, resume_task_id=item.id)
+
+    def resume_task_by_id(self, task_id: str) -> None:
+        """Resume a specific policy training task by its resume service ID.
+
+        Used by the Resume Center to directly resume training without requiring
+        the user to navigate panels or select from a list.
+        """
+        if self.state.task_status.busy:
+            QMessageBox.information(self, "Task busy", "Wait for the active task to finish first.")
+            return
+        items = self.state.resume_service.list_all(
+            task_type=ResumeTaskType.POLICY_TRAINING, resumable_only=True
+        )
+        item = next((i for i in items if i.id == task_id), None)
+        if item is None:
+            QMessageBox.critical(
+                self, "Policy training resume", f"Resumable training task not found: {task_id}"
+            )
+            return
+        payload = dict(item.state)
+        config_data = dict(payload.get("config", {}))
+        cls = HeterogeneousTrainingConfig if payload.get("heterogeneous") else TrainingConfig
+        valid = {
+            key: value for key, value in config_data.items() if key in cls.__dataclass_fields__
+        }
+        if "development_cases" in valid:
+            valid["development_cases"] = tuple(valid["development_cases"])
+        config = cls(**valid)
+        path = str(payload.get("output_path", ""))
+        if not path:
+            QMessageBox.critical(
+                self,
+                "Policy training resume",
+                "The saved task does not contain an output checkpoint path.",
+            )
+            return
+        if str(item.status) == ResumeStatus.COMPLETED.value:
             source = Path(path)
             candidate = source.with_name(source.stem + "_continued" + source.suffix)
             counter = 2

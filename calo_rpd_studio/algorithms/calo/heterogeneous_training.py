@@ -1273,7 +1273,7 @@ def train_policy_heterogeneous(
                     },
                 )
             deploy_interval = max(
-                1, int(getattr(config, "deployable_checkpoint_interval_epochs", 1000) or 1000)
+                1, int(getattr(config, "deployable_checkpoint_interval_epochs", 10) or 10)
             )
             if completed_epoch % deploy_interval == 0:
                 save_deployable_policy_snapshot(

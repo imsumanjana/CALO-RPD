@@ -46,11 +46,11 @@ from .experiment_workspace_restorer import ExperimentWorkspaceRestorer
 
 WORKSPACES = [
     ("Dashboard", ""),
+    ("CALO Intelligence", ""),
     ("Power System", ""),
     ("ORPD Formulation", ""),
     ("Algorithms", ""),
     ("Portfolio Manager", ""),
-    ("CALO Intelligence", ""),
     ("Robust Scenarios", ""),
     ("Experiment Manager", ""),
     ("Live Optimization", ""),
@@ -82,11 +82,11 @@ class MainWindow(QMainWindow):
         self.stack.setObjectName("WorkspaceStack")
         self.pages = [
             DashboardPanel(state),
+            CALOIntelligencePanel(state, experiment_manager),
             PowerSystemPanel(state),
             ORPDFormulationPanel(state),
             AlgorithmsPanel(state),
             PortfolioManagerPanel(state),
-            CALOIntelligencePanel(state, experiment_manager),
             RobustScenariosPanel(state),
             ExperimentManagerPanel(state, experiment_manager),
             LiveOptimizationPanel(state, experiment_manager),
@@ -133,13 +133,13 @@ class MainWindow(QMainWindow):
 
     def _connect_workflow(self) -> None:
         self.state.case_changed.connect(lambda _: self.workflow.invalidate_from("power_system"))
-        self.pages[1].stage_completed.connect(lambda: self.workflow.mark_completed("power_system"))
-        self.pages[2].stage_completed.connect(lambda: self.workflow.mark_completed("orpd"))
-        self.pages[3].stage_completed.connect(lambda: self.workflow.mark_completed("algorithms"))
-        self.pages[4].stage_completed.connect(lambda: self.workflow.mark_completed("portfolio"))
-        self.pages[5].stage_completed.connect(lambda: self.workflow.mark_completed("calo"))
+        self.pages[1].stage_completed.connect(lambda: self.workflow.mark_completed("calo"))
+        self.pages[2].stage_completed.connect(lambda: self.workflow.mark_completed("power_system"))
+        self.pages[3].stage_completed.connect(lambda: self.workflow.mark_completed("orpd"))
+        self.pages[4].stage_completed.connect(lambda: self.workflow.mark_completed("algorithms"))
+        self.pages[5].stage_completed.connect(lambda: self.workflow.mark_completed("portfolio"))
         self.pages[6].stage_completed.connect(lambda: self.workflow.mark_completed("scenarios"))
-        self.pages[5].experiment_manager_requested.connect(lambda: self._set_workspace(7))
+        self.pages[1].experiment_manager_requested.connect(lambda: self._set_workspace(7))
         self.experiment_manager.started.connect(lambda _: self.workflow.mark_experiment_started())
         self.experiment_manager.completed.connect(
             lambda _: self.workflow.mark_experiment_completed()
@@ -155,6 +155,9 @@ class MainWindow(QMainWindow):
         self.pages[10].experiment_restore_requested.connect(self.restore_experiment_workspace)
         self.pages[13].workspace_requested.connect(self._set_workspace)
         self.pages[13].experiment_restore_requested.connect(self.restore_experiment_workspace)
+        self.pages[13].policy_training_resumed.connect(
+            lambda task_id: self.pages[1].resume_task_by_id(task_id)
+        )
         self.state.runs_changed.connect(self._refresh_verified_count)
         self.workflow.changed.connect(self._refresh_workflow)
         self.workflow.changed.connect(self._persist_workspace_state)
@@ -202,7 +205,7 @@ class MainWindow(QMainWindow):
         for index in range(len(WORKSPACES)):
             state, reason = self.workflow.workspace_state(index)
             self.sidebar.set_workflow_state(index, state, reason)
-        self.pages[5].set_experiment_navigation_enabled(self.workflow.is_workspace_enabled(7))
+        self.pages[1].set_experiment_navigation_enabled(self.workflow.is_workspace_enabled(7))
 
         completed, total = self.workflow.progress()
         descriptor = self.workflow.next_descriptor()

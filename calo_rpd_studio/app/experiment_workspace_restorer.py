@@ -82,7 +82,7 @@ class ExperimentWorkspaceRestorer:
             }:
                 refresher()
 
-        power_page = self.pages[1]
+        power_page = self.pages[2]
         restore_case = getattr(power_page, "restore_case_state", None)
         if callable(restore_case):
             restore_case(case, self.state.current_power_flow)

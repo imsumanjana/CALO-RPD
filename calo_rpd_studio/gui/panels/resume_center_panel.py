@@ -22,6 +22,7 @@ from calo_rpd_studio.gui.widgets.workspace_page import WorkspacePage
 class ResumeCenterPanel(WorkspacePage):
     workspace_requested = pyqtSignal(int)
     experiment_restore_requested = pyqtSignal(str)
+    policy_training_resumed = pyqtSignal(str)
 
     def __init__(self, state, experiment_manager, parent=None) -> None:
         super().__init__(
@@ -143,13 +144,9 @@ class ResumeCenterPanel(WorkspacePage):
                 self.experiment_restore_requested.emit(experiment_id)
             return bool(self.manager.resume_campaign(campaign_id))
         if task_type == "policy_training":
-            self.workspace_requested.emit(5)
-            QMessageBox.information(
-                self,
-                "Policy training resume",
-                "CALO Intelligence is open. Select Resume saved training. Recovery starts from the last completed PPO epoch; partial on-policy rollouts are discarded.",
-            )
-            return False
+            self.workspace_requested.emit(1)
+            self.policy_training_resumed.emit(item["id"])
+            return True
         if task_type == "validation":
             self.workspace_requested.emit(11)
             QMessageBox.information(

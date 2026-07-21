@@ -8,30 +8,34 @@ from calo_rpd_studio.app.workflow_manager import WorkflowManager
 
 def test_workflow_locks_downstream_until_prerequisites(tmp_path):
     state = AppState(str(tmp_path / "results.sqlite"))
+    state.config.algorithms = ["CALO"]
     workflow = WorkflowManager(state)
 
     assert workflow.is_workspace_enabled(1)
     assert not workflow.is_workspace_enabled(2)
 
-    workflow.mark_completed("power_system")
+    workflow.mark_completed("calo")
     assert workflow.is_workspace_enabled(2)
     assert not workflow.is_workspace_enabled(3)
 
+    workflow.mark_completed("power_system")
+    assert workflow.is_workspace_enabled(3)
+    assert not workflow.is_workspace_enabled(4)
+
     workflow.mark_completed("orpd")
     workflow.mark_completed("algorithms")
-    assert workflow.is_workspace_enabled(4)
-    assert not workflow.is_workspace_enabled(5)
+    assert workflow.is_workspace_enabled(5)
+    assert not workflow.is_workspace_enabled(6)
 
     workflow.mark_completed("portfolio")
-    assert workflow.is_workspace_enabled(5)
-    workflow.mark_completed("calo")
     assert workflow.is_workspace_enabled(6)
 
 
 def test_post_experiment_sequence_requires_statistics_review_and_validation(tmp_path):
     state = AppState(str(tmp_path / "results.sqlite"))
+    state.config.algorithms = ["CALO"]
     workflow = WorkflowManager(state)
-    for key in ("power_system", "orpd", "algorithms", "portfolio", "calo", "scenarios"):
+    for key in ("calo", "power_system", "orpd", "algorithms", "portfolio", "scenarios"):
         workflow.mark_completed(key)
 
     workflow.mark_experiment_started()
