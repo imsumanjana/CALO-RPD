@@ -1,4 +1,5 @@
 """Canonical experiment-plan construction used by GUI and execution backends."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass

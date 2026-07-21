@@ -1,16 +1,39 @@
 from __future__ import annotations
-import importlib.util,os,pytest
-pytestmark=pytest.mark.skipif(importlib.util.find_spec('PyQt6') is None,reason='PyQt6 is not installed')
-os.environ.setdefault('QT_QPA_PLATFORM','offscreen')
-def test_main_window_has_all_workspaces(qtbot,tmp_path):
+import importlib.util, os, pytest
+
+pytestmark = pytest.mark.skipif(
+    importlib.util.find_spec("PyQt6") is None, reason="PyQt6 is not installed"
+)
+os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
+
+
+def test_main_window_has_all_workspaces(qtbot, tmp_path):
     from calo_rpd_studio.app.state_manager import AppState
     from calo_rpd_studio.app.experiment_manager import ExperimentManager
     from calo_rpd_studio.app.settings_manager import SettingsManager
     from calo_rpd_studio.app.main_window import MainWindow
-    state=AppState(tmp_path/'gui.sqlite');window=MainWindow(state,ExperimentManager(state),SettingsManager());qtbot.addWidget(window);assert window.stack.count()==16;assert len(window.sidebar.buttons)==16
+
+    state = AppState(tmp_path / "gui.sqlite")
+    window = MainWindow(state, ExperimentManager(state), SettingsManager())
+    qtbot.addWidget(window)
+    assert window.stack.count() == 16
+    assert len(window.sidebar.buttons) == 16
+
+
 def test_plot_toolbar_exposes_typography_controls(qtbot):
     from calo_rpd_studio.gui.plotting.scientific_plot import ScientificPlotWidget
-    widget=ScientificPlotWidget();qtbot.addWidget(widget);toolbar=widget.format_toolbar;assert toolbar.font is not None;assert toolbar.size is not None;assert toolbar.bold is not None;assert toolbar.title_text is not None;assert toolbar.x_text is not None;assert toolbar.y_text is not None;assert toolbar.legend_labels is not None
+
+    widget = ScientificPlotWidget()
+    qtbot.addWidget(widget)
+    toolbar = widget.format_toolbar
+    assert toolbar.font is not None
+    assert toolbar.size is not None
+    assert toolbar.bold is not None
+    assert toolbar.title_text is not None
+    assert toolbar.x_text is not None
+    assert toolbar.y_text is not None
+    assert toolbar.legend_labels is not None
+
 
 def test_only_genuinely_long_workspaces_use_page_level_scrolling(qtbot, tmp_path):
     from calo_rpd_studio.app.experiment_manager import ExperimentManager
@@ -146,15 +169,17 @@ def test_live_plot_auto_mode_uses_violation_before_feasibility(qtbot, tmp_path):
     state = AppState(tmp_path / "live-auto.sqlite")
     panel = LiveOptimizationPanel(state, ExperimentManager(state))
     qtbot.addWidget(panel)
-    panel.update_progress({
-        "algorithm": "TLBO",
-        "run_index": 1,
-        "iteration": 1,
-        "evaluations": 20,
-        "best_feasible_objective": float("nan"),
-        "best_constraint_violation": 0.25,
-        "feasible": False,
-    })
+    panel.update_progress(
+        {
+            "algorithm": "TLBO",
+            "run_index": 1,
+            "iteration": 1,
+            "evaluations": 20,
+            "best_feasible_objective": float("nan"),
+            "best_constraint_violation": 0.25,
+            "feasible": False,
+        }
+    )
     assert panel.metric.currentText() == panel.AUTO_MODE
     assert panel.violation_series["TLBO"][1] == [0.25]
     assert panel.plot.axis.lines
@@ -169,15 +194,17 @@ def test_live_plot_explicit_objective_without_feasibility_shows_message(qtbot, t
     state = AppState(tmp_path / "live-message.sqlite")
     panel = LiveOptimizationPanel(state, ExperimentManager(state))
     qtbot.addWidget(panel)
-    panel.update_progress({
-        "algorithm": "PSO",
-        "run_index": 1,
-        "iteration": 1,
-        "evaluations": 10,
-        "best_feasible_objective": float("nan"),
-        "best_constraint_violation": 0.4,
-        "feasible": False,
-    })
+    panel.update_progress(
+        {
+            "algorithm": "PSO",
+            "run_index": 1,
+            "iteration": 1,
+            "evaluations": 10,
+            "best_feasible_objective": float("nan"),
+            "best_constraint_violation": 0.4,
+            "feasible": False,
+        }
+    )
     panel.metric.setCurrentText(panel.OBJECTIVE_MODE)
     assert not panel.plot.axis.lines
     assert any("No feasible incumbent" in text.get_text() for text in panel.plot.axis.texts)
@@ -196,12 +223,27 @@ def test_experiment_manager_uses_guided_scrollable_order_without_compression(qtb
     assert isinstance(panel.body_scroll, QScrollArea)
     assert panel.body_scroll.objectName() == "ExperimentManagerScroll"
     assert panel.body_scroll.horizontalScrollBarPolicy().name == "ScrollBarAlwaysOff"
-    assert panel.body_layout.indexOf(panel.setup_card) < panel.body_layout.indexOf(panel.fairness_card)
-    assert panel.body_layout.indexOf(panel.fairness_card) < panel.body_layout.indexOf(panel.execution_card)
-    assert panel.body_layout.indexOf(panel.execution_card) < panel.body_layout.indexOf(panel.queue_card)
+    assert panel.body_layout.indexOf(panel.setup_card) < panel.body_layout.indexOf(
+        panel.fairness_card
+    )
+    assert panel.body_layout.indexOf(panel.fairness_card) < panel.body_layout.indexOf(
+        panel.execution_card
+    )
+    assert panel.body_layout.indexOf(panel.execution_card) < panel.body_layout.indexOf(
+        panel.queue_card
+    )
     assert panel.compare.isEnabled() is False
     assert panel.calo.isEnabled() is False
-    for widget in (panel.runs, panel.population, panel.policy, panel.budget, panel.wall, panel.maxit, panel.workers, panel.seed):
+    for widget in (
+        panel.runs,
+        panel.population,
+        panel.policy,
+        panel.budget,
+        panel.wall,
+        panel.maxit,
+        panel.workers,
+        panel.seed,
+    ):
         assert widget.minimumHeight() >= 32
 
 
@@ -214,15 +256,17 @@ def test_live_preview_series_is_inside_plot_tools_and_filters_visible_series(qtb
     panel = LiveOptimizationPanel(state, ExperimentManager(state))
     qtbot.addWidget(panel)
     for algorithm, value in (("CALO", 0.2), ("TLBO", 0.3), ("PSO", 0.4)):
-        panel.update_progress({
-            "algorithm": algorithm,
-            "run_index": 1,
-            "iteration": 1,
-            "evaluations": 20,
-            "best_feasible_objective": float("nan"),
-            "best_constraint_violation": value,
-            "feasible": False,
-        })
+        panel.update_progress(
+            {
+                "algorithm": algorithm,
+                "run_index": 1,
+                "iteration": 1,
+                "evaluations": 20,
+                "best_feasible_objective": float("nan"),
+                "best_constraint_violation": value,
+                "feasible": False,
+            }
+        )
     toolbar = panel.plot.format_toolbar
     assert toolbar.preview_tool_button.accessibleName() == "Preview series"
     assert toolbar.preview_tool_button.isHidden() is False
@@ -241,28 +285,30 @@ def test_live_calo_diagnostic_modes_receive_constraint_and_operator_series(qtbot
     state = AppState(tmp_path / "live-diagnostics.sqlite")
     panel = LiveOptimizationPanel(state, ExperimentManager(state))
     qtbot.addWidget(panel)
-    panel.update_progress({
-        "algorithm": "CALO",
-        "run_index": 1,
-        "iteration": 1,
-        "evaluations": 50,
-        "best_feasible_objective": float("nan"),
-        "best_constraint_violation": 0.1,
-        "feasible": False,
-        "constraint_components": {
-            "bus_voltage": 0.02,
-            "generator_q": 0.05,
-            "generator_p": 0.01,
-            "branch_thermal": 0.02,
-        },
-        "feasible_ratio": 0.0,
-        "epsilon_feasible_ratio": 0.3,
-        "epsilon": 0.12,
-        "diversity": 0.25,
-        "elite_diversity": 0.1,
-        "operator_success_rates": {"feasible_elite_learning": 0.5},
-        "calo_regime": "feasibility",
-    })
+    panel.update_progress(
+        {
+            "algorithm": "CALO",
+            "run_index": 1,
+            "iteration": 1,
+            "evaluations": 50,
+            "best_feasible_objective": float("nan"),
+            "best_constraint_violation": 0.1,
+            "feasible": False,
+            "constraint_components": {
+                "bus_voltage": 0.02,
+                "generator_q": 0.05,
+                "generator_p": 0.01,
+                "branch_thermal": 0.02,
+            },
+            "feasible_ratio": 0.0,
+            "epsilon_feasible_ratio": 0.3,
+            "epsilon": 0.12,
+            "diversity": 0.25,
+            "elite_diversity": 0.1,
+            "operator_success_rates": {"feasible_elite_learning": 0.5},
+            "calo_regime": "feasibility",
+        }
+    )
     assert panel.constraint_component_series
     assert panel.feasibility_series
     assert panel.diversity_series
@@ -287,7 +333,11 @@ def test_experiment_manager_exposes_accelerator_first_scheduler_controls(qtbot, 
     assert panel.system_memory_limit.value() == 85
     assert panel.gpu_jobs.minimum() == 1
     assert panel.xpu_jobs.minimum() == 1
-    assert (panel.cuda_share.value(), panel.xpu_share.value(), panel.cpu_share.value()) == (100, 0, 0)
+    assert (panel.cuda_share.value(), panel.xpu_share.value(), panel.cpu_share.value()) == (
+        100,
+        0,
+        0,
+    )
     assert panel.auto_batch_calibration.isChecked() is True
     assert panel.persistent_workers.isChecked() is True
     assert panel.cross_run_batching.isChecked() is True
@@ -325,24 +375,28 @@ def test_live_optimization_auto_fits_visible_data_by_default(qtbot, tmp_path):
     assert panel.plot.style.auto_fit_visible_data is True
     toolbar = panel.plot.format_toolbar
     assert toolbar.auto_fit_visible_data.isChecked() is True
-    panel.update_progress({
-        "algorithm": "CALO",
-        "run_index": 1,
-        "iteration": 1,
-        "evaluations": 100,
-        "best_feasible_objective": float("nan"),
-        "best_constraint_violation": 0.06,
-        "feasible": False,
-    })
-    panel.update_progress({
-        "algorithm": "QODE",
-        "run_index": 1,
-        "iteration": 1,
-        "evaluations": 100,
-        "best_feasible_objective": float("nan"),
-        "best_constraint_violation": 0.02,
-        "feasible": False,
-    })
+    panel.update_progress(
+        {
+            "algorithm": "CALO",
+            "run_index": 1,
+            "iteration": 1,
+            "evaluations": 100,
+            "best_feasible_objective": float("nan"),
+            "best_constraint_violation": 0.06,
+            "feasible": False,
+        }
+    )
+    panel.update_progress(
+        {
+            "algorithm": "QODE",
+            "run_index": 1,
+            "iteration": 1,
+            "evaluations": 100,
+            "best_feasible_objective": float("nan"),
+            "best_constraint_violation": 0.02,
+            "feasible": False,
+        }
+    )
     lower, upper = panel.plot.axis.get_ylim()
     assert lower == pytest.approx(0.0)
     assert 0.06 < upper < 0.08
@@ -369,16 +423,28 @@ def test_live_optimization_retains_and_switches_all_repeated_runs(qtbot, tmp_pat
     state = AppState(tmp_path / "live-multi-run.sqlite")
     panel = LiveOptimizationPanel(state, ExperimentManager(state))
     qtbot.addWidget(panel)
-    panel.update_progress({
-        "algorithm": "CALO", "run_index": 1, "iteration": 1, "evaluations": 20,
-        "best_feasible_objective": float("nan"), "best_constraint_violation": 0.2,
-        "feasible": False,
-    })
-    panel.update_progress({
-        "algorithm": "CALO", "run_index": 2, "iteration": 1, "evaluations": 20,
-        "best_feasible_objective": float("nan"), "best_constraint_violation": 0.1,
-        "feasible": False,
-    })
+    panel.update_progress(
+        {
+            "algorithm": "CALO",
+            "run_index": 1,
+            "iteration": 1,
+            "evaluations": 20,
+            "best_feasible_objective": float("nan"),
+            "best_constraint_violation": 0.2,
+            "feasible": False,
+        }
+    )
+    panel.update_progress(
+        {
+            "algorithm": "CALO",
+            "run_index": 2,
+            "iteration": 1,
+            "evaluations": 20,
+            "best_feasible_objective": float("nan"),
+            "best_constraint_violation": 0.1,
+            "feasible": False,
+        }
+    )
 
     assert sorted(panel._run_series) == [1, 2]
     assert panel._run_series[1]["violation"]["CALO"][1] == [0.2]
@@ -399,7 +465,9 @@ def test_live_portfolio_selector_exposes_requested_runtime_plots(qtbot, tmp_path
 
     state = AppState(tmp_path / "live-portfolio.sqlite")
     state.config.portfolio.requested_outputs = [
-        "objective_convergence", "constraint_convergence", "voltage_profile"
+        "objective_convergence",
+        "constraint_convergence",
+        "voltage_profile",
     ]
     panel = LiveOptimizationPanel(state, ExperimentManager(state))
     qtbot.addWidget(panel)
@@ -407,11 +475,17 @@ def test_live_portfolio_selector_exposes_requested_runtime_plots(qtbot, tmp_path
     assert panel.portfolio_view.findData("constraint_convergence") >= 0
     assert panel.portfolio_view.findData("voltage_profile") >= 0
 
-    panel.update_progress({
-        "algorithm": "TLBO", "run_index": 1, "iteration": 1, "evaluations": 25,
-        "best_feasible_objective": 3.5, "best_constraint_violation": 0.0,
-        "feasible": True,
-    })
+    panel.update_progress(
+        {
+            "algorithm": "TLBO",
+            "run_index": 1,
+            "iteration": 1,
+            "evaluations": 25,
+            "best_feasible_objective": 3.5,
+            "best_constraint_violation": 0.0,
+            "feasible": True,
+        }
+    )
     panel.portfolio_view.setCurrentIndex(panel.portfolio_view.findData("objective_convergence"))
     assert panel.plot.axis.lines
     assert "Objective convergence" in panel.plot.axis.get_title()

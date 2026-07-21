@@ -1,4 +1,5 @@
 """Database-backed universal resume registry and atomic checkpoint helpers."""
+
 from __future__ import annotations
 
 from datetime import datetime, timezone
@@ -56,7 +57,9 @@ class ResumeService:
     ) -> None:
         self.database.update_resumable_task(
             task_id,
-            status=None if status is None else str(status.value if isinstance(status, ResumeStatus) else status),
+            status=None
+            if status is None
+            else str(status.value if isinstance(status, ResumeStatus) else status),
             progress_current=current,
             progress_total=total,
             state=state,
@@ -83,6 +86,36 @@ class ResumeService:
             for row in rows
         ]
 
+    def list_all(
+        self, *, task_type: ResumeTaskType | str | None = None, resumable_only: bool = False
+    ) -> list[ResumeItem]:
+        rows = self.database.list_resumable_tasks(unfinished_only=False)
+        expected = (
+            None
+            if task_type is None
+            else str(task_type.value if isinstance(task_type, ResumeTaskType) else task_type)
+        )
+        items = []
+        for row in rows:
+            if expected is not None and str(row["task_type"]) != expected:
+                continue
+            if resumable_only and not bool(row["resumable"]):
+                continue
+            items.append(
+                ResumeItem(
+                    id=row["id"],
+                    task_type=row["task_type"],
+                    title=row["title"],
+                    status=row["status"],
+                    progress_current=int(row["progress_current"]),
+                    progress_total=int(row["progress_total"]),
+                    updated_at=row["updated_at"],
+                    state=json.loads(row["state_json"] or "{}"),
+                    resumable=bool(row["resumable"]),
+                )
+            )
+        return items
+
     def checkpoint_path(self, task_id: str, name: str, suffix: str = ".json") -> Path:
         directory = self.checkpoint_root / task_id
         directory.mkdir(parents=True, exist_ok=True)
@@ -94,7 +127,9 @@ class ResumeService:
         destination = Path(path)
         destination.parent.mkdir(parents=True, exist_ok=True)
         encoded = json.dumps(payload, indent=2, allow_nan=True).encode("utf-8")
-        with tempfile.NamedTemporaryFile(delete=False, dir=destination.parent, suffix=".tmp") as handle:
+        with tempfile.NamedTemporaryFile(
+            delete=False, dir=destination.parent, suffix=".tmp"
+        ) as handle:
             handle.write(encoded)
             temp_path = Path(handle.name)
         temp_path.replace(destination)

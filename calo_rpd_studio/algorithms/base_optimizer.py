@@ -1,4 +1,5 @@
 """Common optimizer interface, budget accounting, and provenance."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -119,7 +120,9 @@ class BaseOptimizer:
         return self.rng.random((n or self.config.population_size, self.problem.dimension))
 
     def record(self, extra=None):
-        incumbent = float("inf") if self.best_evaluation is None else float(self.best_evaluation.value)
+        incumbent = (
+            float("inf") if self.best_evaluation is None else float(self.best_evaluation.value)
+        )
         feasible_best = (
             float("nan")
             if not np.isfinite(self._best_feasible_objective)
@@ -137,7 +140,11 @@ class BaseOptimizer:
         self.best_constraint_violation_history.append(best_violation)
         components = {}
         if self._best_constraint_evaluation is not None:
-            components = dict((getattr(self._best_constraint_evaluation, "metadata", {}) or {}).get("constraint_components", {}))
+            components = dict(
+                (getattr(self._best_constraint_evaluation, "metadata", {}) or {}).get(
+                    "constraint_components", {}
+                )
+            )
         known = set(self.constraint_component_histories) | set(components)
         for key in sorted(known):
             value = float(components.get(key, 0.0))
@@ -155,7 +162,9 @@ class BaseOptimizer:
                     "best_constraint_violation": best_violation,
                     "constraint_components": components,
                     "first_feasible_evaluation": self.first_feasible_evaluation,
-                    "feasible": False if self.best_evaluation is None else self.best_evaluation.feasible,
+                    "feasible": False
+                    if self.best_evaluation is None
+                    else self.best_evaluation.feasible,
                     **(extra or {}),
                 }
             )
@@ -166,7 +175,9 @@ class BaseOptimizer:
     def run(self):
         raise NotImplementedError
 
-    def finalize(self, population=None, reason="budget_or_iteration_limit", metadata=None, started=None):
+    def finalize(
+        self, population=None, reason="budget_or_iteration_limit", metadata=None, started=None
+    ):
         if self.best_evaluation is None or self.best_vector is None:
             raise RuntimeError(f"{self.name} completed without an evaluated candidate")
         runtime = 0.0 if started is None else time.perf_counter() - started
@@ -177,7 +188,9 @@ class BaseOptimizer:
         md["best_feasible_objective_history"] = list(self.best_feasible_objective_history)
         md["best_constraint_violation_history"] = list(self.best_constraint_violation_history)
         md["incumbent_objective_history"] = list(self.history)
-        md["constraint_component_histories"] = {key:list(values) for key,values in self.constraint_component_histories.items()}
+        md["constraint_component_histories"] = {
+            key: list(values) for key, values in self.constraint_component_histories.items()
+        }
         md["first_feasible_evaluation"] = self.first_feasible_evaluation
         md["convergence_definition"] = (
             "best feasible objective and minimum normalized constraint violation versus objective-function evaluations"

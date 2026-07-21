@@ -4,6 +4,7 @@ A CUDA-enabled PyTorch wheel and an XPU-enabled PyTorch wheel are hardware-speci
 bootstrap wizard provisions a secondary XPU virtual environment, the main application can launch an
 independent CALO job in that interpreter without replacing the primary CUDA-enabled PyTorch install.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -50,7 +51,9 @@ def _probe(run_test: bool = True) -> dict:
                         "name": name,
                         "memory_percent": float(memory_percent),
                         "utilization_percent": utilization,
-                        "telemetry": "PyTorch XPU" if utilization is not None else "XPU memory + job-cap admission",
+                        "telemetry": "PyTorch XPU"
+                        if utilization is not None
+                        else "XPU memory + job-cap admission",
                     }
                 )
             if run_test:
@@ -81,6 +84,7 @@ def _probe(run_test: bool = True) -> dict:
 
 def _configure_item_device(config, mode: str, item, device: str):
     from calo_rpd_studio.compute.resource_scheduler import item_uses_calo_ai
+    from calo_rpd_studio.continuation.runtime_binding import bind_exact_run_checkpoint
 
     local_config = deepcopy(config)
     if item_uses_calo_ai(mode, item):
@@ -89,7 +93,7 @@ def _configure_item_device(config, mode: str, item, device: str):
         calo_parameters["inference_device"] = str(device)
         parameters["CALO"] = calo_parameters
         local_config.algorithm_parameters = parameters
-    return local_config
+    return bind_exact_run_checkpoint(local_config, item)
 
 
 def _run_job(input_path: Path, output_path: Path) -> int:
@@ -122,7 +126,9 @@ def _run_job(input_path: Path, output_path: Path) -> int:
         if mode == COMPARISON_MODE:
             completed = run_single(local_config, item.label, item.run_index, seeds, progress, None)
         elif mode == ABLATION_MODE:
-            completed = run_ablation(local_config, item.ablation_spec, item.run_index, seeds, progress, None)
+            completed = run_ablation(
+                local_config, item.ablation_spec, item.run_index, seeds, progress, None
+            )
         else:
             raise ValueError(f"Unknown execution mode: {mode}")
         completed.result.metadata["compute_device_assignment"] = device
@@ -148,7 +154,10 @@ def _train(input_path: Path, output_path: Path) -> int:
     config.ppo_device = "xpu:0"
 
     def progress(percent: int, detail: str) -> None:
-        print("CALO_TRAIN_PROGRESS " + json.dumps({"percent": int(percent), "detail": str(detail)}), flush=True)
+        print(
+            "CALO_TRAIN_PROGRESS " + json.dumps({"percent": int(percent), "detail": str(detail)}),
+            flush=True,
+        )
 
     try:
         train_policy(config, str(output_path), progress_callback=progress)

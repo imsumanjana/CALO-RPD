@@ -1,4 +1,5 @@
 """Canonical low-dimensional runtime state for CALO v4."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -72,10 +73,15 @@ class CALOTensorState:
                 if parent_index in selected_parent_sources:
                     self.lineage_ids[pos] = next_lineage
                     next_lineage += 1
-                if offspring_personal_best_evaluations[parent_index] is not parent_pb_ev[parent_index]:
+                if (
+                    offspring_personal_best_evaluations[parent_index]
+                    is not parent_pb_ev[parent_index]
+                ):
                     self.stagnation[pos] = 0
 
-    def restart_indices(self, indices: np.ndarray, new_vectors: np.ndarray, evaluations: list[object]) -> None:
+    def restart_indices(
+        self, indices: np.ndarray, new_vectors: np.ndarray, evaluations: list[object]
+    ) -> None:
         indices = np.asarray(indices, dtype=int)
         new_vectors = np.asarray(new_vectors, dtype=float)
         if len(indices) != len(new_vectors) or len(indices) != len(evaluations):

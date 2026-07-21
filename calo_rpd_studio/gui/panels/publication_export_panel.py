@@ -1,4 +1,5 @@
 """Publication and resumable article-portfolio export workspace."""
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -210,7 +211,11 @@ class PublicationExportPanel(WorkspacePage):
 
     def _standard_completed(self, directory: str) -> None:
         experiment_id = self.experiment.currentData()
-        count = len(self.state.database.list_runs(experiment_id, verified_only=True)) if experiment_id else 0
+        count = (
+            len(self.state.database.list_runs(experiment_id, verified_only=True))
+            if experiment_id
+            else 0
+        )
         self.progress.setValue(100)
         self.status.append(
             f"Standard publication export completed. Verified runs exported: {count}. Directory: {Path(directory).resolve()}"
@@ -218,7 +223,9 @@ class PublicationExportPanel(WorkspacePage):
         self.state.task_status.finish(f"Publication package exported with {count} verified run(s)")
 
     def _standard_cancelled(self, directory: str) -> None:
-        self.status.append(f"Publication export cancelled safely. Directory: {Path(directory).resolve()}")
+        self.status.append(
+            f"Publication export cancelled safely. Directory: {Path(directory).resolve()}"
+        )
         self.state.task_status.cancelled("Publication export cancelled safely")
 
     def _standard_failed(self, message: str) -> None:
@@ -228,13 +235,17 @@ class PublicationExportPanel(WorkspacePage):
 
     def _resume_record(self, experiment_id: str) -> tuple[str, dict] | tuple[str, None]:
         for item in self.state.resume_service.unfinished():
-            if item.task_type == ResumeTaskType.PORTFOLIO_EXPORT.value and str(item.state.get("experiment_id", "")) == str(experiment_id):
+            if item.task_type == ResumeTaskType.PORTFOLIO_EXPORT.value and str(
+                item.state.get("experiment_id", "")
+            ) == str(experiment_id):
                 return item.id, item.state
         return "", None
 
     def export_portfolio(self, *, resume: bool) -> None:
         if self.worker is not None and self.worker.isRunning():
-            QMessageBox.information(self, "Portfolio export", "A portfolio export is already running.")
+            QMessageBox.information(
+                self, "Portfolio export", "A portfolio export is already running."
+            )
             return
         experiment_id = self.experiment.currentData()
         if not experiment_id:
@@ -245,7 +256,11 @@ class PublicationExportPanel(WorkspacePage):
             if record_state is None:
                 manifest = Path(directory) / "portfolio_manifest.json"
                 if not manifest.is_file():
-                    QMessageBox.information(self, "Resume portfolio", "No unfinished portfolio record or manifest was found for this experiment and directory.")
+                    QMessageBox.information(
+                        self,
+                        "Resume portfolio",
+                        "No unfinished portfolio record or manifest was found for this experiment and directory.",
+                    )
                     return
             elif record_state.get("directory"):
                 directory = str(record_state["directory"])
@@ -307,7 +322,9 @@ class PublicationExportPanel(WorkspacePage):
         status = str(payload.get("status", "working"))
         self.progress.setValue(percent)
         self.status.append(f"{current}/{total} · {artifact}: {status}")
-        self.state.task_status.update(percent, f"Portfolio artifact {current}/{total}: {artifact} ({status})")
+        self.state.task_status.update(
+            percent, f"Portfolio artifact {current}/{total}: {artifact} ({status})"
+        )
         self.state.resume_service.update(
             self.resume_task_id,
             current=current,
@@ -317,25 +334,39 @@ class PublicationExportPanel(WorkspacePage):
 
     def cancel_export(self) -> None:
         if self.worker is not None and self.worker.isRunning():
-            self.state.task_status.update(detail="Safe pause requested; finishing the current artifact")
-            self.state.resume_service.update(self.resume_task_id, status=ResumeStatus.PAUSING, resumable=True)
+            self.state.task_status.update(
+                detail="Safe pause requested; finishing the current artifact"
+            )
+            self.state.resume_service.update(
+                self.resume_task_id, status=ResumeStatus.PAUSING, resumable=True
+            )
             self.worker.cancel()
             self.cancel_button.setEnabled(False)
 
     def _portfolio_completed(self, directory: str) -> None:
         self.progress.setValue(100)
         self.status.append(f"Portfolio completed. Directory: {Path(directory).resolve()}")
-        self.state.resume_service.update(self.resume_task_id, status=ResumeStatus.COMPLETED, resumable=False)
+        self.state.resume_service.update(
+            self.resume_task_id, status=ResumeStatus.COMPLETED, resumable=False
+        )
         self.state.task_status.finish("Selected article portfolio generated")
 
     def _portfolio_cancelled(self, directory: str) -> None:
-        self.status.append(f"Portfolio paused. Completed artifacts remain reusable. Directory: {Path(directory).resolve()}")
-        self.state.resume_service.update(self.resume_task_id, status=ResumeStatus.PAUSED, resumable=True)
-        self.state.task_status.cancelled("Portfolio paused safely; resume will generate only missing artifacts")
+        self.status.append(
+            f"Portfolio paused. Completed artifacts remain reusable. Directory: {Path(directory).resolve()}"
+        )
+        self.state.resume_service.update(
+            self.resume_task_id, status=ResumeStatus.PAUSED, resumable=True
+        )
+        self.state.task_status.cancelled(
+            "Portfolio paused safely; resume will generate only missing artifacts"
+        )
 
     def _portfolio_failed(self, message: str) -> None:
         self.status.append(f"Portfolio export failed: {message}")
-        self.state.resume_service.update(self.resume_task_id, status=ResumeStatus.INTERRUPTED, resumable=True)
+        self.state.resume_service.update(
+            self.resume_task_id, status=ResumeStatus.INTERRUPTED, resumable=True
+        )
         self.state.task_status.fail(message)
         QMessageBox.critical(self, "Portfolio export failed", message)
 

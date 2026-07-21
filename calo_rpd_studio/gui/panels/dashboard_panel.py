@@ -1,4 +1,5 @@
 """Modern application dashboard."""
+
 from __future__ import annotations
 
 from PyQt6.QtWidgets import QGridLayout, QLabel, QSizePolicy
@@ -20,10 +21,16 @@ class DashboardPanel(WorkspacePage):
         metrics = QGridLayout()
         metrics.setHorizontalSpacing(12)
         metrics.setVerticalSpacing(12)
-        self.case_metric = MetricCard("Power system", "No case loaded", "Load a reference case to begin")
-        self.objective_metric = MetricCard("ORPD objective", "Active power loss", "Common evaluator for every optimizer")
+        self.case_metric = MetricCard(
+            "Power system", "No case loaded", "Load a reference case to begin"
+        )
+        self.objective_metric = MetricCard(
+            "ORPD objective", "Active power loss", "Common evaluator for every optimizer"
+        )
         self.algorithm_metric = MetricCard("Selected optimizers", "3", "CALO, TLBO, PSO")
-        self.verified_metric = MetricCard("Verified results", "0", "Independent validation required for export")
+        self.verified_metric = MetricCard(
+            "Verified results", "0", "Independent validation required for export"
+        )
         cards = [
             self.case_metric,
             self.objective_metric,
@@ -89,7 +96,9 @@ class DashboardPanel(WorkspacePage):
             self.labels["Branches"].setText(str(metrics["branches"]))
             self.labels["Transformers"].setText(str(metrics["transformers"]))
             self.labels["Shunt buses"].setText(str(metrics["shunt_buses"]))
-            self.case_metric.set_metric(case.name, f'{metrics["buses"]} buses · {metrics["branches"]} branches')
+            self.case_metric.set_metric(
+                case.name, f"{metrics['buses']} buses · {metrics['branches']} branches"
+            )
         else:
             for name in [
                 "Power-system case",
@@ -118,6 +127,10 @@ class DashboardPanel(WorkspacePage):
         self.labels["Completed experiments"].setText(str(len(experiments)))
         self.labels["Verified results"].setText(str(verified))
 
-        self.objective_metric.set_metric(objective.replace("_", " ").title(), "Common ORPD objective")
-        self.algorithm_metric.set_metric(str(len(algorithms)), ", ".join(algorithms[:4]) + ("…" if len(algorithms) > 4 else ""))
+        self.objective_metric.set_metric(
+            objective.replace("_", " ").title(), "Common ORPD objective"
+        )
+        self.algorithm_metric.set_metric(
+            str(len(algorithms)), ", ".join(algorithms[:4]) + ("…" if len(algorithms) > 4 else "")
+        )
         self.verified_metric.set_metric(str(verified), f"{len(experiments)} experiment record(s)")

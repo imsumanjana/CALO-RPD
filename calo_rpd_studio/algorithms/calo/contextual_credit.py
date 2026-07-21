@@ -1,4 +1,5 @@
 """Batch-updated contextual operator and memory-depth credit for CALO v4."""
+
 from __future__ import annotations
 
 import numpy as np
@@ -164,9 +165,9 @@ class ContextualCredit:
                         + weights[3] * float(np.mean(transitions[mask]))
                     )
                     old = float(self.operator_credit[regime, operator, context])
-                    self.operator_credit[regime, operator, context] = (
-                        self.decay * old + (1.0 - self.decay) * max(reward, 0.0)
-                    )
+                    self.operator_credit[regime, operator, context] = self.decay * old + (
+                        1.0 - self.decay
+                    ) * max(reward, 0.0)
 
                 for level in range(self.n_memory_levels):
                     mask = mask_context & (memory_levels == level)
@@ -179,12 +180,14 @@ class ContextualCredit:
                         + weights[3] * float(np.mean(transitions[mask]))
                     )
                     old = float(self.memory_credit[regime, level, context])
-                    self.memory_credit[regime, level, context] = (
-                        self.decay * old + (1.0 - self.decay) * max(reward, 0.0)
-                    )
+                    self.memory_credit[regime, level, context] = self.decay * old + (
+                        1.0 - self.decay
+                    ) * max(reward, 0.0)
 
         self.operator_credit = np.where(
-            np.isfinite(self.operator_credit), np.maximum(self.operator_credit, self.floor), self.floor
+            np.isfinite(self.operator_credit),
+            np.maximum(self.operator_credit, self.floor),
+            self.floor,
         )
         self.memory_credit = np.where(
             np.isfinite(self.memory_credit), np.maximum(self.memory_credit, self.floor), self.floor

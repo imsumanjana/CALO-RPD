@@ -39,6 +39,7 @@ def test_cross_run_broker_merges_compatible_population_requests():
     evaluator = _FakeEvaluator()
     barrier = threading.Barrier(3)
     with CrossRunBatchBroker(batch_window_ms=25.0, max_candidates=64) as broker:
+
         def submit(values):
             barrier.wait()
             return broker.submit(evaluator, values)
@@ -141,6 +142,7 @@ def test_cross_run_broker_does_not_merge_numpy_and_torch_requests():
     evaluator = _FakeEvaluator()
     barrier = threading.Barrier(3)
     with CrossRunBatchBroker(batch_window_ms=25.0, max_candidates=64) as broker:
+
         def submit(values):
             barrier.wait()
             return broker.submit(evaluator, values)

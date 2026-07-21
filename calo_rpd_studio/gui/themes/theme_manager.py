@@ -1,4 +1,5 @@
 """Application-wide Qt palette and stylesheet management."""
+
 from __future__ import annotations
 
 from PyQt6.QtGui import QColor, QPalette

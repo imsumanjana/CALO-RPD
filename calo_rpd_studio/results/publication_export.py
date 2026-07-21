@@ -1,4 +1,5 @@
 """Verified-and-feasible publication and reproducibility export."""
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -89,7 +90,9 @@ class PublicationExporter:
             objective_stats = descriptive_statistics(
                 pd.to_numeric(valid_group.get("objective", []), errors="coerce").to_numpy()
             )
-            violation_values = pd.to_numeric(all_group.get("violation", []), errors="coerce").to_numpy()
+            violation_values = pd.to_numeric(
+                all_group.get("violation", []), errors="coerce"
+            ).to_numpy()
             violation_values = violation_values[np.isfinite(violation_values)]
             statistics_rows.append(
                 {
@@ -97,11 +100,19 @@ class PublicationExporter:
                     "verified_runs": len(all_group),
                     "verified_feasible_runs": len(valid_group),
                     "verified_infeasible_runs": len(all_group) - len(valid_group),
-                    "feasibility_rate": len(valid_group) / len(all_group) if len(all_group) else 0.0,
-                    "objective_claim_status": "available" if len(valid_group) else "no_verified_feasible_run",
+                    "feasibility_rate": len(valid_group) / len(all_group)
+                    if len(all_group)
+                    else 0.0,
+                    "objective_claim_status": "available"
+                    if len(valid_group)
+                    else "no_verified_feasible_run",
                     **{f"objective_{key}": value for key, value in objective_stats.items()},
-                    "mean_final_violation": float(np.mean(violation_values)) if len(violation_values) else np.nan,
-                    "max_final_violation": float(np.max(violation_values)) if len(violation_values) else np.nan,
+                    "mean_final_violation": float(np.mean(violation_values))
+                    if len(violation_values)
+                    else np.nan,
+                    "max_final_violation": float(np.max(violation_values))
+                    if len(violation_values)
+                    else np.nan,
                 }
             )
         pd.DataFrame(statistics_rows).to_csv(

@@ -3,7 +3,10 @@ from __future__ import annotations
 import numpy as np
 
 from calo_rpd_studio.algorithms.calo.archives import ConstraintBoundaryArchive, FeasibleEliteArchive
-from calo_rpd_studio.algorithms.calo.environmental_selection import epsilon_better, environmental_select
+from calo_rpd_studio.algorithms.calo.environmental_selection import (
+    epsilon_better,
+    environmental_select,
+)
 from calo_rpd_studio.algorithms.calo.operator_credit import OperatorCredit, blend_probabilities
 from calo_rpd_studio.algorithms.calo.learning_operators import mixed_variable_neighbourhood
 from calo_rpd_studio.orpd.problem import Evaluation
@@ -119,7 +122,7 @@ def test_real_ppo_training_smoke_saves_core_v2_checkpoint(tmp_path):
     )
     payload = torch.load(path, map_location="cpu", weights_only=False)
     assert payload["metadata"]["training_method"] == "PPO"
-    assert payload["metadata"]["calo_core"] == "v4.1"
+    assert payload["metadata"]["calo_core"] == "v5.0"
     assert payload["metadata"]["state_schema_version"] == "calo-state-v4.1-32"
     assert payload["metadata"]["action_schema_version"] == "calo-action-v4.1-4r-6o-6p"
     assert payload["metadata"]["final_publication_benchmarks_used_for_training"] is False

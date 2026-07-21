@@ -1,4 +1,5 @@
 """Publication-grade campaign figures for final benchmark evidence."""
+
 from __future__ import annotations
 
 import json
@@ -26,7 +27,9 @@ def _load_records(database, experiment_id: str) -> dict[str, list[dict]]:
     return groups
 
 
-def _step_align(runs: list[tuple[np.ndarray, np.ndarray]]) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray] | None:
+def _step_align(
+    runs: list[tuple[np.ndarray, np.ndarray]],
+) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray] | None:
     if not runs:
         return None
     grids = [x for x, _ in runs if len(x)]
@@ -133,7 +136,9 @@ def plot_constraint_decomposition(database, experiment_id: str, destination: Pat
         for algorithm in algorithms:
             samples = []
             for data in groups.get(algorithm, []):
-                histories = (data.get("metadata", {}) or {}).get("constraint_component_histories", {})
+                histories = (data.get("metadata", {}) or {}).get(
+                    "constraint_component_histories", {}
+                )
                 series = histories.get(component, [])
                 if series:
                     samples.append(float(series[-1]))
@@ -202,7 +207,14 @@ def plot_calo_regime_timeline(database, experiment_id: str, destination: Path) -
     ax.set_title("CALO cognitive-regime timeline (up to 10 runs)")
     ax.grid(True, alpha=0.25)
     if not plotted:
-        ax.text(0.5, 0.5, "No CALO regime history available", ha="center", va="center", transform=ax.transAxes)
+        ax.text(
+            0.5,
+            0.5,
+            "No CALO regime history available",
+            ha="center",
+            va="center",
+            transform=ax.transAxes,
+        )
     _save(fig, destination)
 
 
@@ -234,7 +246,11 @@ def plot_objective_violin(database, experiment_id: str, destination: Path) -> No
     labels = []
     values = []
     for algorithm in primary_algorithm_names():
-        data = [float(item["best_objective"]) for item in groups.get(algorithm, []) if item.get("feasible") and np.isfinite(item.get("best_objective", np.inf))]
+        data = [
+            float(item["best_objective"])
+            for item in groups.get(algorithm, [])
+            if item.get("feasible") and np.isfinite(item.get("best_objective", np.inf))
+        ]
         if data:
             labels.append(algorithm)
             values.append(data)
@@ -265,7 +281,9 @@ def plot_average_ranking(database, task_experiments: dict[str, str], destination
     _save(fig, destination)
 
 
-def plot_critical_difference_style(database, task_experiments: dict[str, str], destination: Path) -> None:
+def plot_critical_difference_style(
+    database, task_experiments: dict[str, str], destination: Path
+) -> None:
     evidence = build_campaign_evidence(database, task_experiments, verified_only=True)
     ranks = evidence.global_statistics.get("average_ranks", {})
     cd_info = evidence.global_statistics.get("nemenyi_critical_difference", {})
@@ -319,7 +337,9 @@ def plot_robustness_summary(database, task_experiments: dict[str, str], destinat
     matrix = np.full((len(task_ids), len(algorithms)), np.nan)
     for row_index, task_id in enumerate(task_ids):
         for col_index, algorithm in enumerate(algorithms):
-            matrix[row_index, col_index] = evidence.task_summaries[task_id]["algorithms"][algorithm]["feasible_run_rate"]
+            matrix[row_index, col_index] = evidence.task_summaries[task_id]["algorithms"][
+                algorithm
+            ]["feasible_run_rate"]
     fig, ax = plt.subplots(figsize=(10.5, max(4.5, 0.35 * len(task_ids))))
     image = ax.imshow(matrix, aspect="auto", vmin=0, vmax=1)
     ax.set_xticks(np.arange(len(algorithms)), algorithms, rotation=60, ha="right")
@@ -329,19 +349,33 @@ def plot_robustness_summary(database, task_experiments: dict[str, str], destinat
     _save(fig, destination)
 
 
-def generate_campaign_figures(database, task_experiments: dict[str, str], directory: str | Path) -> None:
+def generate_campaign_figures(
+    database, task_experiments: dict[str, str], directory: str | Path
+) -> None:
     directory = Path(directory)
     for task_id, experiment_id in task_experiments.items():
         task_dir = directory / task_id
         plot_median_convergence(database, experiment_id, task_dir / "median_convergence_iqr.png")
-        plot_feasible_probability(database, experiment_id, task_dir / "feasible_run_probability.png")
-        plot_evaluations_to_feasibility(database, experiment_id, task_dir / "evaluations_to_feasibility.png")
-        plot_constraint_decomposition(database, experiment_id, task_dir / "constraint_decomposition.png")
-        plot_calo_operator_usage(database, experiment_id, task_dir / "calo_operator_utilization.png")
+        plot_feasible_probability(
+            database, experiment_id, task_dir / "feasible_run_probability.png"
+        )
+        plot_evaluations_to_feasibility(
+            database, experiment_id, task_dir / "evaluations_to_feasibility.png"
+        )
+        plot_constraint_decomposition(
+            database, experiment_id, task_dir / "constraint_decomposition.png"
+        )
+        plot_calo_operator_usage(
+            database, experiment_id, task_dir / "calo_operator_utilization.png"
+        )
         plot_calo_operator_success(database, experiment_id, task_dir / "calo_operator_success.png")
-        plot_calo_regime_timeline(database, experiment_id, task_dir / "calo_cognitive_regime_timeline.png")
+        plot_calo_regime_timeline(
+            database, experiment_id, task_dir / "calo_cognitive_regime_timeline.png"
+        )
         plot_objective_boxplot(database, experiment_id, task_dir / "objective_boxplot.png")
         plot_objective_violin(database, experiment_id, task_dir / "objective_violin.png")
     plot_average_ranking(database, task_experiments, directory / "global_average_ranking.png")
-    plot_critical_difference_style(database, task_experiments, directory / "global_critical_difference_diagram.png")
+    plot_critical_difference_style(
+        database, task_experiments, directory / "global_critical_difference_diagram.png"
+    )
     plot_robustness_summary(database, task_experiments, directory / "global_robustness_map.png")

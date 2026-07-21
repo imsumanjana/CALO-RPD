@@ -114,7 +114,13 @@ def test_mixed_vector_cpu_torch_parity_for_publication_cases(case_name):
 
 def test_case300_reference_bus_reports_actual_unclipped_reactive_requirement():
     from calo_rpd_studio.power_system.case_model import (
-        BUS_I, BUS_TYPE, GEN_BUS, GEN_STATUS, QG, QMAX, REF,
+        BUS_I,
+        BUS_TYPE,
+        GEN_BUS,
+        GEN_STATUS,
+        QG,
+        QMAX,
+        REF,
     )
 
     case = CaseLoader.load("case300")
@@ -124,8 +130,7 @@ def test_case300_reference_bus_reports_actual_unclipped_reactive_requirement():
     assert ref_rows.size == 1
     ref_bus = int(result.case.bus[int(ref_rows[0]), BUS_I])
     gen_rows = np.where(
-        (result.case.gen[:, GEN_STATUS] > 0)
-        & (result.case.gen[:, GEN_BUS].astype(int) == ref_bus)
+        (result.case.gen[:, GEN_STATUS] > 0) & (result.case.gen[:, GEN_BUS].astype(int) == ref_bus)
     )[0]
     actual_q = float(np.sum(result.case.gen[gen_rows, QG]))
     qmax = float(np.sum(result.case.gen[gen_rows, QMAX]))

@@ -3,6 +3,7 @@
 This module intentionally uses only the Python standard library so it can run before PyQt6,
 PyTorch, NumPy, PYPOWER, or the CALO-RPD package itself are installed.
 """
+
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
@@ -21,9 +22,10 @@ from typing import Callable, Iterable
 
 try:
     from importlib.metadata import version as distribution_version
+
     APP_VERSION = distribution_version("calo-rpd-studio")
 except Exception:
-    APP_VERSION = "4.1.0"
+    APP_VERSION = "5.0.0"
 STATE_DIR = Path.home() / ".calo_rpd_studio"
 STATE_FILE = STATE_DIR / "environment_state.json"
 CORE_REQUIREMENTS_FILE = "requirements-core.txt"
@@ -80,8 +82,6 @@ class NvidiaInfo:
     driver_version: str = ""
     max_cuda_version: str = ""
     error: str = ""
-
-
 
 
 @dataclass(slots=True)
@@ -160,7 +160,9 @@ class InstallProgress:
     message: str = ""
 
 
-def _run(command: list[str], timeout: int = 120, cwd: Path | None = None) -> subprocess.CompletedProcess:
+def _run(
+    command: list[str], timeout: int = 120, cwd: Path | None = None
+) -> subprocess.CompletedProcess:
     return subprocess.run(
         command,
         cwd=str(cwd) if cwd else None,
@@ -216,7 +218,9 @@ def detect_intel_gpu() -> IntelGpuInfo:
             )
             result = _run([powershell, "-NoProfile", "-Command", script], timeout=20)
             if result.returncode != 0 or not result.stdout.strip():
-                return IntelGpuInfo(error=(result.stderr or result.stdout or "GPU query failed").strip())
+                return IntelGpuInfo(
+                    error=(result.stderr or result.stdout or "GPU query failed").strip()
+                )
             payload = json.loads(result.stdout.strip())
             names = [payload] if isinstance(payload, str) else list(payload or [])
             intel = [str(name) for name in names if "intel" in str(name).lower()]
@@ -229,7 +233,9 @@ def detect_intel_gpu() -> IntelGpuInfo:
             result = _run([lspci], timeout=20)
             for line in result.stdout.splitlines():
                 lowered = line.lower()
-                if "intel" in lowered and any(token in lowered for token in ("vga", "display", "3d controller")):
+                if "intel" in lowered and any(
+                    token in lowered for token in ("vga", "display", "3d controller")
+                ):
                     return IntelGpuInfo(True, line.strip(), "")
         return IntelGpuInfo(error="No Intel GPU detected")
     except Exception as exc:
@@ -237,7 +243,7 @@ def detect_intel_gpu() -> IntelGpuInfo:
 
 
 def detect_torch() -> TorchInfo:
-    script = r'''
+    script = r"""
 import json
 try:
     import torch
@@ -274,13 +280,15 @@ except Exception as exc:
                       "cuda_runtime": "", "device_name": "", "gpu_test_passed": False,
                       "xpu_available": False, "xpu_device_name": "", "xpu_test_passed": False,
                       "error": f"{type(exc).__name__}: {exc}"}))
-'''
+"""
     result = _run([sys.executable, "-c", script], timeout=90)
     try:
         payload = json.loads(result.stdout.strip().splitlines()[-1])
         return TorchInfo(**payload)
     except Exception:
-        return TorchInfo(error=(result.stderr or result.stdout or "Unable to inspect PyTorch").strip())
+        return TorchInfo(
+            error=(result.stderr or result.stdout or "Unable to inspect PyTorch").strip()
+        )
 
 
 def _xpu_runtime_python(runtime_dir: Path = XPU_RUNTIME_DIR) -> Path:
@@ -547,8 +555,10 @@ def _pip_for(
 ) -> int:
     """Run pip through a specific Python interpreter with truthful raw download telemetry."""
     pip_args = list(args)
-    if pip_args and pip_args[0] == "install" and not any(
-        str(arg).startswith("--progress-bar") for arg in pip_args
+    if (
+        pip_args
+        and pip_args[0] == "install"
+        and not any(str(arg).startswith("--progress-bar") for arg in pip_args)
     ):
         pip_args.insert(1, "--progress-bar=raw")
     return _stream_command(
@@ -626,49 +636,75 @@ def install_xpu_sidecar(
             return XpuSidecarInfo(error="Unable to create the secondary Intel XPU environment.")
 
     _emit(callback, "Updating pip in the secondary Intel XPU runtime...")
-    if _pip_for(
-        interpreter,
-        ["install", "--upgrade", "pip", "setuptools", "wheel"],
-        callback,
-        root,
-        progress_callback=progress_callback,
-        progress_template=progress_template,
-    ) != 0:
-        return XpuSidecarInfo(installed=True, interpreter=str(interpreter), error="Unable to update XPU runtime pip.")
-
-    _emit(callback, "Installing compute dependencies in the secondary Intel XPU runtime...")
-    if _pip_for(
-        interpreter,
-        ["install", *COMPUTE_REQUIREMENTS],
-        callback,
-        root,
-        progress_callback=progress_callback,
-        progress_template=progress_template,
-    ) != 0:
-        return XpuSidecarInfo(installed=True, interpreter=str(interpreter), error="XPU compute dependency installation failed.")
-
-    _emit(callback, "Installing the official Intel XPU PyTorch build in the secondary runtime...")
-    if _pip_for(
-        interpreter,
-        ["install", "--upgrade", "torch>=2.5,<3", "--index-url", XPU_INDEX_URL],
-        callback,
-        root,
-        progress_callback=progress_callback,
-        progress_template=progress_template,
-    ) != 0:
-        return XpuSidecarInfo(installed=True, interpreter=str(interpreter), error="Intel XPU PyTorch installation failed.")
-
-    if (root / "pyproject.toml").exists():
-        _emit(callback, "Linking CALO-RPD Studio into the secondary XPU runtime...")
-        if _pip_for(
+    if (
+        _pip_for(
             interpreter,
-            ["install", "-e", ".", "--no-deps"],
+            ["install", "--upgrade", "pip", "setuptools", "wheel"],
             callback,
             root,
             progress_callback=progress_callback,
             progress_template=progress_template,
-        ) != 0:
-            return XpuSidecarInfo(installed=True, interpreter=str(interpreter), error="Unable to install CALO-RPD Studio in the XPU runtime.")
+        )
+        != 0
+    ):
+        return XpuSidecarInfo(
+            installed=True, interpreter=str(interpreter), error="Unable to update XPU runtime pip."
+        )
+
+    _emit(callback, "Installing compute dependencies in the secondary Intel XPU runtime...")
+    if (
+        _pip_for(
+            interpreter,
+            ["install", *COMPUTE_REQUIREMENTS],
+            callback,
+            root,
+            progress_callback=progress_callback,
+            progress_template=progress_template,
+        )
+        != 0
+    ):
+        return XpuSidecarInfo(
+            installed=True,
+            interpreter=str(interpreter),
+            error="XPU compute dependency installation failed.",
+        )
+
+    _emit(callback, "Installing the official Intel XPU PyTorch build in the secondary runtime...")
+    if (
+        _pip_for(
+            interpreter,
+            ["install", "--upgrade", "torch>=2.5,<3", "--index-url", XPU_INDEX_URL],
+            callback,
+            root,
+            progress_callback=progress_callback,
+            progress_template=progress_template,
+        )
+        != 0
+    ):
+        return XpuSidecarInfo(
+            installed=True,
+            interpreter=str(interpreter),
+            error="Intel XPU PyTorch installation failed.",
+        )
+
+    if (root / "pyproject.toml").exists():
+        _emit(callback, "Linking CALO-RPD Studio into the secondary XPU runtime...")
+        if (
+            _pip_for(
+                interpreter,
+                ["install", "-e", ".", "--no-deps"],
+                callback,
+                root,
+                progress_callback=progress_callback,
+                progress_template=progress_template,
+            )
+            != 0
+        ):
+            return XpuSidecarInfo(
+                installed=True,
+                interpreter=str(interpreter),
+                error="Unable to install CALO-RPD Studio in the XPU runtime.",
+            )
 
     return detect_xpu_sidecar(runtime_dir)
 
@@ -682,15 +718,20 @@ def install_or_repair(
     if sys.version_info < (3, 11):
         raise RuntimeError("CALO-RPD Studio requires Python 3.11 or newer.")
 
-    phase = _phase_progress(progress_callback, "Update pip", 1, 5.0, "Preparing and updating pip...")
+    phase = _phase_progress(
+        progress_callback, "Update pip", 1, 5.0, "Preparing and updating pip..."
+    )
     _emit(callback, "Updating pip...")
-    if _pip(
-        ["install", "--upgrade", "pip"],
-        callback,
-        root,
-        progress_callback=progress_callback,
-        progress_template=phase,
-    ) != 0:
+    if (
+        _pip(
+            ["install", "--upgrade", "pip"],
+            callback,
+            root,
+            progress_callback=progress_callback,
+            progress_template=phase,
+        )
+        != 0
+    ):
         raise RuntimeError("Unable to update pip.")
 
     core_file = root / CORE_REQUIREMENTS_FILE
@@ -702,14 +743,19 @@ def install_or_repair(
         "Installing scientific and GUI prerequisites...",
     )
     _emit(callback, "Installing core scientific and GUI prerequisites...")
-    core_args = ["install", "-r", str(core_file)] if core_file.exists() else ["install", *CORE_REQUIREMENTS]
-    if _pip(
-        core_args,
-        callback,
-        root,
-        progress_callback=progress_callback,
-        progress_template=phase,
-    ) != 0:
+    core_args = (
+        ["install", "-r", str(core_file)] if core_file.exists() else ["install", *CORE_REQUIREMENTS]
+    )
+    if (
+        _pip(
+            core_args,
+            callback,
+            root,
+            progress_callback=progress_callback,
+            progress_template=phase,
+        )
+        != 0
+    ):
         raise RuntimeError("Core prerequisite installation failed.")
 
     _phase_progress(
@@ -732,15 +778,26 @@ def install_or_repair(
     compatible_primary = bool(
         current_torch.installed
         and (
-            (desired_primary == "cuda" and current_torch.cuda_available and current_torch.gpu_test_passed)
-            or (desired_primary == "xpu" and current_torch.xpu_available and current_torch.xpu_test_passed)
+            (
+                desired_primary == "cuda"
+                and current_torch.cuda_available
+                and current_torch.gpu_test_passed
+            )
+            or (
+                desired_primary == "xpu"
+                and current_torch.xpu_available
+                and current_torch.xpu_test_passed
+            )
             or desired_primary == "cpu"
         )
     )
 
     if not compatible_primary:
         if current_torch.installed:
-            _emit(callback, "Removing the incompatible primary PyTorch build before backend selection...")
+            _emit(
+                callback,
+                "Removing the incompatible primary PyTorch build before backend selection...",
+            )
             _pip(["uninstall", "-y", "torch"], callback, root)
 
         installed = False
@@ -780,10 +837,15 @@ def install_or_repair(
             if passed:
                 installed = True
                 break
-            _emit(callback, f"PyTorch channel {channel} installed but did not pass the requested backend test.")
+            _emit(
+                callback,
+                f"PyTorch channel {channel} installed but did not pass the requested backend test.",
+            )
             _pip(["uninstall", "-y", "torch"], callback, root)
         if not installed:
-            raise RuntimeError("Primary PyTorch installation failed for all compatible accelerator/CPU backends.")
+            raise RuntimeError(
+                "Primary PyTorch installation failed for all compatible accelerator/CPU backends."
+            )
     else:
         _emit(callback, "Existing primary PyTorch backend is already compatible; keeping it.")
         _phase_progress(
@@ -806,8 +868,15 @@ def install_or_repair(
         "Checking whether a secondary Intel XPU runtime is required...",
     )
     primary_after = detect_torch()
-    if prefer_gpu and intel.detected and not (primary_after.xpu_available and primary_after.xpu_test_passed):
-        _emit(callback, "Intel graphics detected. Provisioning or repairing the isolated XPU runtime...")
+    if (
+        prefer_gpu
+        and intel.detected
+        and not (primary_after.xpu_available and primary_after.xpu_test_passed)
+    ):
+        _emit(
+            callback,
+            "Intel graphics detected. Provisioning or repairing the isolated XPU runtime...",
+        )
         sidecar = install_xpu_sidecar(
             callback=callback,
             progress_callback=progress_callback,
@@ -832,13 +901,16 @@ def install_or_repair(
         "Installing CALO-RPD Studio without changing the selected compute runtimes...",
     )
     if (root / "pyproject.toml").exists():
-        if _pip(
-            ["install", "-e", ".", "--no-deps"],
-            callback,
-            root,
-            progress_callback=progress_callback,
-            progress_template=phase,
-        ) != 0:
+        if (
+            _pip(
+                ["install", "-e", ".", "--no-deps"],
+                callback,
+                root,
+                progress_callback=progress_callback,
+                progress_template=phase,
+            )
+            != 0
+        ):
             raise RuntimeError("CALO-RPD Studio installation failed.")
     else:
         _emit(callback, "Installed-package mode detected; project package is already present.")
@@ -897,9 +969,8 @@ def first_launch_or_version_changed() -> bool:
         return True
     try:
         payload = json.loads(STATE_FILE.read_text(encoding="utf-8"))
-        return (
-            str(payload.get("app_version", "")) != APP_VERSION
-            or str(Path(payload.get("interpreter", "")).resolve()) != str(Path(sys.executable).resolve())
-        )
+        return str(payload.get("app_version", "")) != APP_VERSION or str(
+            Path(payload.get("interpreter", "")).resolve()
+        ) != str(Path(sys.executable).resolve())
     except Exception:
         return True

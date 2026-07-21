@@ -1,4 +1,5 @@
 """ORPD variables, objectives, mixed-variable settings, and constraint policy."""
+
 from __future__ import annotations
 
 from PyQt6.QtCore import pyqtSignal

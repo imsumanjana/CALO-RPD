@@ -4,6 +4,7 @@ The accelerator backend is deliberately optional at import time.  The first-laun
 installs a hardware-appropriate PyTorch build, while CPU-only scientific/reference workflows can
 still import the rest of CALO-RPD Studio without importing torch eagerly.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -92,7 +93,9 @@ def resolve_device(requested: str = "auto", *, require_accelerator: bool = False
             return DeviceContext(requested, "cpu", "cpu", "CPU", accelerator_available=False)
 
     if require_accelerator:
-        raise RuntimeError(f"Requested accelerator {requested!r} is not available to this PyTorch runtime")
+        raise RuntimeError(
+            f"Requested accelerator {requested!r} is not available to this PyTorch runtime"
+        )
     return DeviceContext(requested, "cpu", "cpu", "CPU", accelerator_available=False)
 
 

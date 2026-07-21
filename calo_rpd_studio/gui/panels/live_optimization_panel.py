@@ -1,4 +1,5 @@
 """Live optimization telemetry, repeated-run navigation, and portfolio-aware previews."""
+
 from __future__ import annotations
 
 import json
@@ -343,7 +344,9 @@ class LiveOptimizationPanel(WorkspacePage):
         return self.VIOLATION_MODE
 
     def _preview_metric_key(self) -> str:
-        portfolio_key = self.portfolio_view.currentData() if hasattr(self, "portfolio_view") else None
+        portfolio_key = (
+            self.portfolio_view.currentData() if hasattr(self, "portfolio_view") else None
+        )
         if portfolio_key and portfolio_key != self.LIVE_VIEW_KEY:
             return f"portfolio:{portfolio_key}"
         requested = self.metric.currentText() if hasattr(self, "metric") else self.AUTO_MODE
@@ -425,7 +428,9 @@ class LiveOptimizationPanel(WorkspacePage):
         if not hasattr(self, "portfolio_view"):
             return
         selected_data = self.portfolio_view.currentData()
-        requested = list(getattr(getattr(self.state.config, "portfolio", None), "requested_outputs", []))
+        requested = list(
+            getattr(getattr(self.state.config, "portfolio", None), "requested_outputs", [])
+        )
         self.portfolio_view.blockSignals(True)
         try:
             self.portfolio_view.clear()
@@ -462,14 +467,18 @@ class LiveOptimizationPanel(WorkspacePage):
         self._redraw_plot()
 
     def _redraw_plot(self) -> None:
-        portfolio_key = self.portfolio_view.currentData() if hasattr(self, "portfolio_view") else None
+        portfolio_key = (
+            self.portfolio_view.currentData() if hasattr(self, "portfolio_view") else None
+        )
         if portfolio_key and portfolio_key != self.LIVE_VIEW_KEY:
             self._redraw_portfolio_preview(str(portfolio_key))
             return
 
         requested = self.metric.currentText() if hasattr(self, "metric") else self.AUTO_MODE
         mode = self._automatic_mode() if requested == self.AUTO_MODE else requested
-        run_suffix = "" if self.current_run_index is None else f" — repeated run {self.current_run_index}"
+        run_suffix = (
+            "" if self.current_run_index is None else f" — repeated run {self.current_run_index}"
+        )
 
         if mode == self.VIOLATION_MODE:
             self._draw_series(
@@ -563,9 +572,17 @@ class LiveOptimizationPanel(WorkspacePage):
         for row in rows:
             result = LiveOptimizationPanel._row_result(row)
             objective = result.get("best_objective", np.inf)
-            if bool(result.get("feasible")) and isinstance(objective, (int, float)) and np.isfinite(objective):
+            if (
+                bool(result.get("feasible"))
+                and isinstance(objective, (int, float))
+                and np.isfinite(objective)
+            ):
                 candidates.append((float(objective), row))
-        return min(candidates, key=lambda item: item[0])[1] if candidates else (rows[0] if rows else None)
+        return (
+            min(candidates, key=lambda item: item[0])[1]
+            if candidates
+            else (rows[0] if rows else None)
+        )
 
     @staticmethod
     def _solution_scenario(row: dict) -> dict | None:
@@ -582,7 +599,9 @@ class LiveOptimizationPanel(WorkspacePage):
         self.plot.show_message(message, title=label, xlabel="Evidence progress", ylabel="")
 
     def _redraw_portfolio_preview(self, key: str) -> None:
-        run_suffix = "" if self.current_run_index is None else f" — repeated run {self.current_run_index}"
+        run_suffix = (
+            "" if self.current_run_index is None else f" — repeated run {self.current_run_index}"
+        )
         if key == "objective_convergence":
             self._draw_series(
                 self.objective_series,
@@ -672,13 +691,17 @@ class LiveOptimizationPanel(WorkspacePage):
             "objective_violation_scatter",
         }:
             if not rows:
-                self._show_portfolio_wait(key, "Waiting for the first completed run to be committed.")
+                self._show_portfolio_wait(
+                    key, "Waiting for the first completed run to be committed."
+                )
                 return
             self.portfolio_status.setText(
                 f"PROVISIONAL — {completed_run_count}/{total_planned} repeated runs have committed evidence. The preview updates after each completed run."
             )
             if key in {"median_convergence", "convergence_uncertainty_band"}:
-                self._draw_progressive_median(rows, uncertainty=key == "convergence_uncertainty_band")
+                self._draw_progressive_median(
+                    rows, uncertainty=key == "convergence_uncertainty_band"
+                )
             elif key in {"objective_boxplot", "objective_violin"}:
                 self._draw_progressive_distribution(rows, violin=key == "objective_violin")
             elif key == "feasible_run_probability":
@@ -705,7 +728,11 @@ class LiveOptimizationPanel(WorkspacePage):
             independently_verified = all(
                 str(row.get("validation_status", "")).lower() == "verified" for row in active_rows
             )
-            qualifier = "independently verified" if independently_verified else "preview; independent validation may still be pending"
+            qualifier = (
+                "independently verified"
+                if independently_verified
+                else "preview; independent validation may still be pending"
+            )
             self.portfolio_status.setText(
                 f"AVAILABLE — {len(active_rows)} completed algorithm result(s) for repeated run {self.current_run_index}; {qualifier}."
             )
@@ -731,7 +758,13 @@ class LiveOptimizationPanel(WorkspacePage):
                 y = [float(v) for v in scenario.get("vm_pu", [])]
                 if x and y:
                     series[str(row.get("algorithm", "Optimizer"))] = (x, y)
-            self._draw_series(series, f"Optimized bus-voltage profile{run_suffix}", "Voltage magnitude (p.u.)", "Voltage state is unavailable.", xlabel="Bus number")
+            self._draw_series(
+                series,
+                f"Optimized bus-voltage profile{run_suffix}",
+                "Voltage magnitude (p.u.)",
+                "Voltage state is unavailable.",
+                xlabel="Bus number",
+            )
             return
 
         row = self._best_row(active_rows)
@@ -741,12 +774,26 @@ class LiveOptimizationPanel(WorkspacePage):
         scenario = self._solution_scenario(row)
         algorithm = str(row.get("algorithm", "Optimizer"))
         if key == "voltage_heatmap" and scenario:
-            self._draw_heatmap(np.asarray(scenario.get("vm_pu", []), dtype=float), scenario.get("bus_numbers", []), f"Bus-voltage heatmap — {algorithm}", "Bus")
-        elif key in {"branch_loading", "branch_loading_heatmap", "best_validated_branch_heatmap"} and scenario:
+            self._draw_heatmap(
+                np.asarray(scenario.get("vm_pu", []), dtype=float),
+                scenario.get("bus_numbers", []),
+                f"Bus-voltage heatmap — {algorithm}",
+                "Bus",
+            )
+        elif (
+            key in {"branch_loading", "branch_loading_heatmap", "best_validated_branch_heatmap"}
+            and scenario
+        ):
             values = np.asarray(scenario.get("loading_percent", []), dtype=float)
             if key == "branch_loading":
                 labels = list(range(1, len(values) + 1))
-                self._draw_bar(labels, values, f"Optimized branch loading — {algorithm}", "Branch index", "Loading (%)")
+                self._draw_bar(
+                    labels,
+                    values,
+                    f"Optimized branch loading — {algorithm}",
+                    "Branch index",
+                    "Loading (%)",
+                )
             else:
                 labels = [
                     f"{a}-{b}"
@@ -755,7 +802,9 @@ class LiveOptimizationPanel(WorkspacePage):
                         scenario.get("branch_to_bus", range(len(values))),
                     )
                 ]
-                self._draw_heatmap(values, labels, f"Branch-loading heatmap — {algorithm}", "Branch")
+                self._draw_heatmap(
+                    values, labels, f"Branch-loading heatmap — {algorithm}", "Branch"
+                )
         elif key == "generator_reactive_power" and scenario:
             self._draw_bar(
                 scenario.get("generator_bus", []),
@@ -769,7 +818,13 @@ class LiveOptimizationPanel(WorkspacePage):
             controls = result.get("decoded_controls") or {}
             labels = [str(k) for k, v in controls.items() if isinstance(v, (int, float))]
             values = np.asarray([float(controls[k]) for k in labels], dtype=float)
-            self._draw_bar(labels, values, f"Optimized ORPD controls — {algorithm}", "Control", "Physical value")
+            self._draw_bar(
+                labels,
+                values,
+                f"Optimized ORPD controls — {algorithm}",
+                "Control",
+                "Physical value",
+            )
         else:
             self._show_portfolio_wait(
                 key,
@@ -781,7 +836,9 @@ class LiveOptimizationPanel(WorkspacePage):
         self._remove_colorbar()
         values = np.asarray(values, dtype=float)
         if values.size == 0:
-            self.plot.show_message("Heatmap data are unavailable.", title=title, xlabel=xlabel, ylabel="")
+            self.plot.show_message(
+                "Heatmap data are unavailable.", title=title, xlabel=xlabel, ylabel=""
+            )
             return
         self.plot.axis.clear()
         image = self.plot.axis.imshow(values.reshape(1, -1), aspect="auto")
@@ -801,7 +858,9 @@ class LiveOptimizationPanel(WorkspacePage):
         self._remove_colorbar()
         values = np.asarray(values, dtype=float)
         if values.size == 0:
-            self.plot.show_message("Plot data are unavailable.", title=title, xlabel=xlabel, ylabel=ylabel)
+            self.plot.show_message(
+                "Plot data are unavailable.", title=title, xlabel=xlabel, ylabel=ylabel
+            )
             return
         self.plot.axis.clear()
         positions = np.arange(values.size)
@@ -852,7 +911,12 @@ class LiveOptimizationPanel(WorkspacePage):
         self._remove_colorbar()
         grid, aligned = self._aligned_histories(rows)
         if grid.size == 0 or not aligned:
-            self.plot.show_message("No feasible convergence history has been committed yet.", title="Median convergence", xlabel="Objective-function evaluations", ylabel="Best feasible objective")
+            self.plot.show_message(
+                "No feasible convergence history has been committed yet.",
+                title="Median convergence",
+                xlabel="Objective-function evaluations",
+                ylabel="Best feasible objective",
+            )
             return
         self.plot.axis.clear()
         for algorithm, series in aligned.items():
@@ -868,14 +932,22 @@ class LiveOptimizationPanel(WorkspacePage):
                 q1 = np.nanpercentile(local_matrix, 25, axis=0)
                 q3 = np.nanpercentile(local_matrix, 75, axis=0)
                 self.plot.axis.fill_between(local_grid, q1, q3, alpha=0.18, color=line.get_color())
-        self._apply_axis("Provisional median feasible convergence" + (" with IQR" if uncertainty else ""), "Objective-function evaluations", "Best feasible objective")
+        self._apply_axis(
+            "Provisional median feasible convergence" + (" with IQR" if uncertainty else ""),
+            "Objective-function evaluations",
+            "Best feasible objective",
+        )
 
     def _objective_records(self, rows: list[dict]) -> dict[str, list[float]]:
         grouped: dict[str, list[float]] = {}
         for row in rows:
             result = self._row_result(row)
             value = result.get("best_objective")
-            if bool(result.get("feasible")) and isinstance(value, (int, float)) and np.isfinite(value):
+            if (
+                bool(result.get("feasible"))
+                and isinstance(value, (int, float))
+                and np.isfinite(value)
+            ):
                 grouped.setdefault(str(row.get("algorithm", "Optimizer")), []).append(float(value))
         return grouped
 
@@ -884,7 +956,12 @@ class LiveOptimizationPanel(WorkspacePage):
         self._remove_colorbar()
         grouped = self._objective_records(rows)
         if not grouped:
-            self.plot.show_message("No feasible completed objective values are available yet.", title="Objective distribution", xlabel="Algorithm", ylabel="Final feasible objective")
+            self.plot.show_message(
+                "No feasible completed objective values are available yet.",
+                title="Objective distribution",
+                xlabel="Algorithm",
+                ylabel="Final feasible objective",
+            )
             return
         labels = list(grouped)
         data = [grouped[label] for label in labels]
@@ -895,16 +972,24 @@ class LiveOptimizationPanel(WorkspacePage):
             self.plot.axis.boxplot(data, tick_labels=labels, showfliers=True)
         self.plot.axis.set_xticks(np.arange(1, len(labels) + 1))
         self.plot.axis.set_xticklabels(labels, rotation=45, ha="right")
-        self._apply_axis("Provisional final feasible objective distribution", "Algorithm", "Final feasible objective")
+        self._apply_axis(
+            "Provisional final feasible objective distribution",
+            "Algorithm",
+            "Final feasible objective",
+        )
 
     def _draw_feasible_probability(self, rows: list[dict]) -> None:
         counts: dict[str, list[bool]] = {}
         for row in rows:
             result = self._row_result(row)
-            counts.setdefault(str(row.get("algorithm", "Optimizer")), []).append(bool(result.get("feasible")))
+            counts.setdefault(str(row.get("algorithm", "Optimizer")), []).append(
+                bool(result.get("feasible"))
+            )
         labels = list(counts)
         values = np.asarray([100.0 * np.mean(counts[label]) for label in labels], dtype=float)
-        self._draw_bar(labels, values, "Provisional feasible-run probability", "Algorithm", "Feasible runs (%)")
+        self._draw_bar(
+            labels, values, "Provisional feasible-run probability", "Algorithm", "Feasible runs (%)"
+        )
         self.plot.axis.set_ylim(0, 105)
         self.plot.canvas.draw_idle()
 
@@ -916,7 +1001,9 @@ class LiveOptimizationPanel(WorkspacePage):
             if first is not None:
                 grouped.setdefault(str(row.get("algorithm", "Optimizer")), []).append(float(first))
         if not grouped:
-            self._show_portfolio_wait("evaluations_to_feasibility", "No completed run has reached feasibility yet.")
+            self._show_portfolio_wait(
+                "evaluations_to_feasibility", "No completed run has reached feasibility yet."
+            )
             return
         labels = list(grouped)
         self.preview_current_labels = []
@@ -924,7 +1011,11 @@ class LiveOptimizationPanel(WorkspacePage):
         self.plot.axis.clear()
         self.plot.axis.boxplot([grouped[label] for label in labels], tick_labels=labels)
         self.plot.axis.set_xticklabels(labels, rotation=45, ha="right")
-        self._apply_axis("Provisional evaluations to first feasibility", "Algorithm", "Objective-function evaluations")
+        self._apply_axis(
+            "Provisional evaluations to first feasibility",
+            "Algorithm",
+            "Objective-function evaluations",
+        )
 
     def _draw_objective_violation(self, rows: list[dict]) -> None:
         self.preview_current_labels = []
@@ -939,15 +1030,30 @@ class LiveOptimizationPanel(WorkspacePage):
                 result = self._row_result(row)
                 violation = result.get("total_constraint_violation")
                 objective = result.get("best_objective")
-                if isinstance(violation, (int, float)) and isinstance(objective, (int, float)) and np.isfinite(violation) and np.isfinite(objective):
-                    x.append(float(violation)); y.append(float(objective))
+                if (
+                    isinstance(violation, (int, float))
+                    and isinstance(objective, (int, float))
+                    and np.isfinite(violation)
+                    and np.isfinite(objective)
+                ):
+                    x.append(float(violation))
+                    y.append(float(objective))
             if x:
                 any_points = True
                 self.plot.axis.scatter(x, y, label=algorithm, alpha=0.75)
         if not any_points:
-            self.plot.show_message("No completed objective/violation records are available yet.", title="Objective–violation relationship", xlabel="Constraint violation", ylabel="Objective")
+            self.plot.show_message(
+                "No completed objective/violation records are available yet.",
+                title="Objective–violation relationship",
+                xlabel="Constraint violation",
+                ylabel="Objective",
+            )
             return
-        self._apply_axis("Provisional objective–violation relationship", "Final normalized constraint violation", "Final objective")
+        self._apply_axis(
+            "Provisional objective–violation relationship",
+            "Final normalized constraint violation",
+            "Final objective",
+        )
 
     def _load_rows_into_runs(self, rows: list[dict]) -> None:
         for row in rows:
@@ -968,10 +1074,15 @@ class LiveOptimizationPanel(WorkspacePage):
                     except (TypeError, ValueError):
                         continue
                     if math.isfinite(value):
-                        xs.append(int(x_value)); ys.append(value)
+                        xs.append(int(x_value))
+                        ys.append(value)
                 if xs:
                     bucket[store_name][algorithm] = (xs, ys)
-            histories = metadata.get("constraint_component_histories") or metadata.get("diagnostics_history") or {}
+            histories = (
+                metadata.get("constraint_component_histories")
+                or metadata.get("diagnostics_history")
+                or {}
+            )
             for key_name, label in (
                 ("bus_voltage", "Bus voltage"),
                 ("generator_q", "Generator Q"),
@@ -986,21 +1097,39 @@ class LiveOptimizationPanel(WorkspacePage):
             ):
                 values = histories.get(key_name, [])
                 if values:
-                    bucket["constraint"][f"{algorithm} · {label}"] = (evaluations[: len(values)], [float(v) for v in values])
+                    bucket["constraint"][f"{algorithm} · {label}"] = (
+                        evaluations[: len(values)],
+                        [float(v) for v in values],
+                    )
             diagnostics = metadata.get("diagnostics_history") or {}
-            for key_name, label in (("feasible_ratio", "Exact feasible ratio"), ("epsilon_feasible_ratio", "Epsilon-feasible ratio")):
+            for key_name, label in (
+                ("feasible_ratio", "Exact feasible ratio"),
+                ("epsilon_feasible_ratio", "Epsilon-feasible ratio"),
+            ):
                 values = diagnostics.get(key_name, [])
                 if values:
-                    bucket["feasibility"][f"{algorithm} · {label}"] = (evaluations[: len(values)], [float(v) for v in values])
-            for key_name, label in (("population_diversity", "Population diversity"), ("elite_diversity", "Elite diversity")):
+                    bucket["feasibility"][f"{algorithm} · {label}"] = (
+                        evaluations[: len(values)],
+                        [float(v) for v in values],
+                    )
+            for key_name, label in (
+                ("population_diversity", "Population diversity"),
+                ("elite_diversity", "Elite diversity"),
+            ):
                 values = diagnostics.get(key_name, [])
                 if values:
-                    bucket["diversity"][f"{algorithm} · {label}"] = (evaluations[: len(values)], [float(v) for v in values])
+                    bucket["diversity"][f"{algorithm} · {label}"] = (
+                        evaluations[: len(values)],
+                        [float(v) for v in values],
+                    )
             success_history = metadata.get("operator_success_history") or []
             for operator in metadata.get("operator_names", []):
                 values = [float(item.get(operator, 0.0)) for item in success_history]
                 if values:
-                    bucket["operator_success"][f"{algorithm} · {operator}"] = (evaluations[: len(values)], values)
+                    bucket["operator_success"][f"{algorithm} · {operator}"] = (
+                        evaluations[: len(values)],
+                        values,
+                    )
 
     def view_state(self) -> dict:
         """Return lightweight reproducible UI state; scientific curves remain reconstructed from DB."""
@@ -1008,7 +1137,9 @@ class LiveOptimizationPanel(WorkspacePage):
             "run_selector": self.run_selector.currentData(),
             "portfolio_view": self.portfolio_view.currentData(),
             "metric": self.metric.currentText(),
-            "preview_selection_by_metric": {key: sorted(value) for key, value in self.preview_selection_by_metric.items()},
+            "preview_selection_by_metric": {
+                key: sorted(value) for key, value in self.preview_selection_by_metric.items()
+            },
         }
 
     def restore_view_state(self, payload: dict | None) -> None:
@@ -1070,10 +1201,18 @@ class LiveOptimizationPanel(WorkspacePage):
         self.labels["Feasible incumbent"].setText(str(data.get("feasible", "—")))
         self.labels["CALO operator"].setText(str(data.get("calo_operator", "—")))
         self.labels["CALO regime"].setText(str(data.get("calo_regime", "—")))
-        self.labels["Population diversity"].setText(f"{data['diversity']:.5g}" if "diversity" in data else "—")
-        self.labels["Feasible population ratio"].setText(f"{data['feasible_ratio']:.5g}" if "feasible_ratio" in data else "—")
-        self.labels["Epsilon-feasible ratio"].setText(f"{data['epsilon_feasible_ratio']:.5g}" if "epsilon_feasible_ratio" in data else "—")
-        self.labels["Adaptive epsilon"].setText(f"{data['epsilon']:.5g}" if "epsilon" in data else "—")
+        self.labels["Population diversity"].setText(
+            f"{data['diversity']:.5g}" if "diversity" in data else "—"
+        )
+        self.labels["Feasible population ratio"].setText(
+            f"{data['feasible_ratio']:.5g}" if "feasible_ratio" in data else "—"
+        )
+        self.labels["Epsilon-feasible ratio"].setText(
+            f"{data['epsilon_feasible_ratio']:.5g}" if "epsilon_feasible_ratio" in data else "—"
+        )
+        self.labels["Adaptive epsilon"].setText(
+            f"{data['epsilon']:.5g}" if "epsilon" in data else "—"
+        )
         components = data.get("constraint_components") or {}
         for key, label in {
             "bus_voltage": "Bus-voltage CV",
@@ -1084,7 +1223,9 @@ class LiveOptimizationPanel(WorkspacePage):
             value = components.get(key)
             self.labels[label].setText(f"{float(value):.5g}" if value is not None else "—")
         first = data.get("first_feasible_evaluation")
-        self.labels["Evaluations to first feasibility"].setText(str(first) if first is not None else "Not reached")
+        self.labels["Evaluations to first feasibility"].setText(
+            str(first) if first is not None else "Not reached"
+        )
         self.labels["Reward"].setText(f"{data['reward']:.5g}" if "reward" in data else "—")
 
     def update_progress(self, data: dict) -> None:
@@ -1113,31 +1254,67 @@ class LiveOptimizationPanel(WorkspacePage):
         }.items():
             value = components.get(key)
             if value is not None:
-                self._append_point(bucket["constraint"], f"{algorithm} · {label}", evaluations, float(value))
+                self._append_point(
+                    bucket["constraint"], f"{algorithm} · {label}", evaluations, float(value)
+                )
         if "feasible_ratio" in data:
-            self._append_point(bucket["feasibility"], f"{algorithm} · Exact feasible ratio", evaluations, float(data["feasible_ratio"]))
+            self._append_point(
+                bucket["feasibility"],
+                f"{algorithm} · Exact feasible ratio",
+                evaluations,
+                float(data["feasible_ratio"]),
+            )
         if "epsilon_feasible_ratio" in data:
-            self._append_point(bucket["feasibility"], f"{algorithm} · Epsilon-feasible ratio", evaluations, float(data["epsilon_feasible_ratio"]))
+            self._append_point(
+                bucket["feasibility"],
+                f"{algorithm} · Epsilon-feasible ratio",
+                evaluations,
+                float(data["epsilon_feasible_ratio"]),
+            )
         if "diversity" in data:
-            self._append_point(bucket["diversity"], f"{algorithm} · Population diversity", evaluations, float(data["diversity"]))
+            self._append_point(
+                bucket["diversity"],
+                f"{algorithm} · Population diversity",
+                evaluations,
+                float(data["diversity"]),
+            )
         if "elite_diversity" in data:
-            self._append_point(bucket["diversity"], f"{algorithm} · Elite diversity", evaluations, float(data["elite_diversity"]))
+            self._append_point(
+                bucket["diversity"],
+                f"{algorithm} · Elite diversity",
+                evaluations,
+                float(data["elite_diversity"]),
+            )
         for operator_name, rate in (data.get("operator_success_rates") or {}).items():
-            self._append_point(bucket["operator_success"], f"{algorithm} · {operator_name}", evaluations, float(rate))
+            self._append_point(
+                bucket["operator_success"],
+                f"{algorithm} · {operator_name}",
+                evaluations,
+                float(rate),
+            )
 
         operator = str(data.get("calo_operator", "")).strip()
         if operator and operator != "—":
-            counts = self._run_operator_counts.setdefault(run_index, {}).setdefault(algorithm, Counter())
+            counts = self._run_operator_counts.setdefault(run_index, {}).setdefault(
+                algorithm, Counter()
+            )
             counts[operator] += 1
             total = max(1, sum(counts.values()))
             for operator_name, count in counts.items():
-                self._append_point(bucket["operator_usage"], f"{algorithm} · {operator_name}", evaluations, count / total)
+                self._append_point(
+                    bucket["operator_usage"],
+                    f"{algorithm} · {operator_name}",
+                    evaluations,
+                    count / total,
+                )
 
         regime = str(data.get("calo_regime", "")).strip()
         if regime and regime != "—":
             if regime not in self._regime_codes:
                 self._regime_codes[regime] = len(self._regime_codes) + 1
-            self._append_point(bucket["regime"], algorithm, evaluations, float(self._regime_codes[regime]))
+            self._append_point(
+                bucket["regime"], algorithm, evaluations, float(self._regime_codes[regime])
+            )
 
         selected = self.run_selector.currentData()
         if selected == self.AUTO_RUN_KEY:

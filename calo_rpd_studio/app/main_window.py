@@ -1,4 +1,5 @@
 """Main CALO-RPD Studio window with a guided scientific workflow."""
+
 from __future__ import annotations
 
 from PyQt6.QtCore import Qt, QTimer
@@ -61,6 +62,7 @@ WORKSPACES = [
     ("Application Settings", ""),
     ("Benchmark & Evidence", ""),
 ]
+
 
 class MainWindow(QMainWindow):
     def __init__(self, state, experiment_manager, settings_manager, parent=None) -> None:
@@ -139,7 +141,9 @@ class MainWindow(QMainWindow):
         self.pages[6].stage_completed.connect(lambda: self.workflow.mark_completed("scenarios"))
         self.pages[5].experiment_manager_requested.connect(lambda: self._set_workspace(7))
         self.experiment_manager.started.connect(lambda _: self.workflow.mark_experiment_started())
-        self.experiment_manager.completed.connect(lambda _: self.workflow.mark_experiment_completed())
+        self.experiment_manager.completed.connect(
+            lambda _: self.workflow.mark_experiment_completed()
+        )
         self.experiment_manager.cancelled.connect(lambda _: self.workflow.mark_experiment_stopped())
         self.experiment_manager.failed.connect(lambda _: self.workflow.mark_experiment_stopped())
         self.experiment_manager.completed.connect(lambda _: self._finish_deferred_close())
@@ -164,7 +168,9 @@ class MainWindow(QMainWindow):
         self.pages[11].select_run(experiment_id, run_id)
         self._refresh_workflow()
         self._set_workspace(11)
-        self.state.task_status.finish("Result review confirmed; selected run is ready for independent validation")
+        self.state.task_status.finish(
+            "Result review confirmed; selected run is ready for independent validation"
+        )
 
     def _create_global_status_bar(self) -> None:
         self.global_status = GlobalStatusBarWidget()
@@ -176,21 +182,27 @@ class MainWindow(QMainWindow):
 
     def _on_task_status_changed(self, snapshot: dict) -> None:
         self.global_status.apply_snapshot(snapshot)
-        if not snapshot.get("busy") and snapshot.get("state") in {"Completed", "Failed", "Cancelled"}:
+        if not snapshot.get("busy") and snapshot.get("state") in {
+            "Completed",
+            "Failed",
+            "Cancelled",
+        }:
             QTimer.singleShot(4500, self.state.task_status.reset_ready)
 
     def _refresh_verified_count(self) -> None:
         experiment_id = self.state.current_experiment_id or None
-        count = len(self.state.database.list_runs(experiment_id, verified_only=True)) if experiment_id else 0
+        count = (
+            len(self.state.database.list_runs(experiment_id, verified_only=True))
+            if experiment_id
+            else 0
+        )
         self.workflow.set_verified_results(count)
 
     def _refresh_workflow(self) -> None:
         for index in range(len(WORKSPACES)):
             state, reason = self.workflow.workspace_state(index)
             self.sidebar.set_workflow_state(index, state, reason)
-        self.pages[5].set_experiment_navigation_enabled(
-            self.workflow.is_workspace_enabled(7)
-        )
+        self.pages[5].set_experiment_navigation_enabled(self.workflow.is_workspace_enabled(7))
 
         completed, total = self.workflow.progress()
         descriptor = self.workflow.next_descriptor()
@@ -251,7 +263,9 @@ class MainWindow(QMainWindow):
                 ui={
                     "workspace_index": int(self.stack.currentIndex()),
                     "live_optimization": live_state,
-                    "results_experiment_id": str(getattr(self.pages[10], "_selected_experiment_id", "") or ""),
+                    "results_experiment_id": str(
+                        getattr(self.pages[10], "_selected_experiment_id", "") or ""
+                    ),
                 },
             )
         except Exception:
@@ -346,7 +360,7 @@ class MainWindow(QMainWindow):
         QMessageBox.information(
             self,
             "About CALO-RPD Studio",
-            "CALO-RPD Studio 4.1.0\n"
+            "CALO-RPD Studio 5.0.0\n"
             "Cognitive Adaptive Learning Optimizer for Robust Reactive Power Dispatch\n\n"
             "Guided scientific optimization, reproducible benchmarking, validation, statistics, and publication export.",
         )
@@ -374,4 +388,3 @@ class MainWindow(QMainWindow):
             event.ignore()
             return
         event.accept()
-

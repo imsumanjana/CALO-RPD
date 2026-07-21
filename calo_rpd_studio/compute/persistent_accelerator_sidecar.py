@@ -4,6 +4,7 @@ The bootstrap may install CUDA PyTorch in the primary environment and Intel-XPU 
 secondary environment.  This module keeps that secondary interpreter alive for the complete
 campaign and communicates with length-prefixed pickle frames over stdin/stdout.
 """
+
 from __future__ import annotations
 
 from concurrent.futures import ThreadPoolExecutor
@@ -19,10 +20,19 @@ import time
 from typing import Any, BinaryIO
 
 from calo_rpd_studio.accelerated.runtime_context import clear_cross_run_broker, set_cross_run_broker
-from calo_rpd_studio.accelerated.throughput_engine import CrossRunBatchBroker, GLOBAL_LEDGER, calibrate_evaluator
+from calo_rpd_studio.accelerated.throughput_engine import (
+    CrossRunBatchBroker,
+    GLOBAL_LEDGER,
+    calibrate_evaluator,
+)
+from calo_rpd_studio.continuation.runtime_binding import bind_exact_run_checkpoint
 from calo_rpd_studio.experiments.calo_ablation import run_ablation
 from calo_rpd_studio.experiments.execution_plan import ABLATION_MODE, COMPARISON_MODE
-from calo_rpd_studio.experiments.experiment_runner import build_problem, failed_run_from_exception, run_single
+from calo_rpd_studio.experiments.experiment_runner import (
+    build_problem,
+    failed_run_from_exception,
+    run_single,
+)
 
 _HEADER = struct.Struct("!Q")
 _MAX_FRAME_BYTES = 512 * 1024 * 1024
@@ -64,7 +74,7 @@ def _read_frame(stream: BinaryIO) -> Any:
     return payload
 
 
-def _configure(config, device: str):
+def _configure(config, device: str, item=None):
     local = deepcopy(config)
     local.runtime_compute_device = device
     parameters = dict(local.algorithm_parameters)
@@ -76,10 +86,16 @@ def _configure(config, device: str):
             values["inference_device"] = device
         parameters[name] = values
     local.algorithm_parameters = parameters
-    return local
+    return bind_exact_run_checkpoint(local, item)
 
 
-def server(device: str, slots: int, batch_window_ms: float, max_cross_run_batch: int, cross_run_batching: bool) -> int:
+def server(
+    device: str,
+    slots: int,
+    batch_window_ms: float,
+    max_cross_run_batch: int,
+    cross_run_batching: bool,
+) -> int:
     import torch
 
     torch.set_num_threads(1)
@@ -95,7 +111,9 @@ def server(device: str, slots: int, batch_window_ms: float, max_cross_run_batch:
     cancel_event = threading.Event()
     broker = None
     if cross_run_batching:
-        broker = CrossRunBatchBroker(batch_window_ms=batch_window_ms, max_candidates=max_cross_run_batch)
+        broker = CrossRunBatchBroker(
+            batch_window_ms=batch_window_ms, max_candidates=max_cross_run_batch
+        )
         set_cross_run_broker(broker)
     executor = ThreadPoolExecutor(max_workers=max(1, slots), thread_name_prefix="CALO-XPU")
     futures = {}
@@ -112,14 +130,16 @@ def server(device: str, slots: int, batch_window_ms: float, max_cross_run_batch:
     threading.Thread(target=reader, daemon=True).start()
 
     def execute(command):
-        config = _configure(command["config"], device)
         item = command["item"]
+        config = _configure(command["config"], device, item)
         seeds = command["seeds"]
         job_id = str(command["job_id"])
         mode = str(command["mode"])
         evaluation_span = max(1, int(config.budget.max_evaluations))
         evaluation_step = max(1, evaluation_span // 100)
-        telemetry_iteration_interval = max(1, int(getattr(config, "telemetry_iteration_interval", 10)))
+        telemetry_iteration_interval = max(
+            1, int(getattr(config, "telemetry_iteration_interval", 10))
+        )
         last_emit = 0.0
         last_evaluations = -1
         last_iteration = -1
@@ -137,7 +157,16 @@ def server(device: str, slots: int, batch_window_ms: float, max_cross_run_batch:
                 or now - last_emit >= 0.25
             ):
                 data = dict(payload)
-                data.update({"job_id": job_id, "job_index": item.job_index, "run_index": item.run_index + 1, "algorithm": item.label, "compute_device": device, "throughput_engine": "persistent_xpu_cross_run_batching"})
+                data.update(
+                    {
+                        "job_id": job_id,
+                        "job_index": item.job_index,
+                        "run_index": item.run_index + 1,
+                        "algorithm": item.label,
+                        "compute_device": device,
+                        "throughput_engine": "persistent_xpu_cross_run_batching",
+                    }
+                )
                 _write_frame(output_stream, {"kind": "progress", "payload": data}, write_lock)
                 last_emit = now
                 last_evaluations = evaluations
@@ -145,15 +174,39 @@ def server(device: str, slots: int, batch_window_ms: float, max_cross_run_batch:
 
         try:
             if mode == COMPARISON_MODE:
-                completed = run_single(config, item.label, item.run_index, seeds, progress, cancel_event.is_set)
+                completed = run_single(
+                    config, item.label, item.run_index, seeds, progress, cancel_event.is_set
+                )
             elif mode == ABLATION_MODE:
-                completed = run_ablation(config, item.ablation_spec, item.run_index, seeds, progress, cancel_event.is_set)
+                completed = run_ablation(
+                    config, item.ablation_spec, item.run_index, seeds, progress, cancel_event.is_set
+                )
             else:
                 raise ValueError(f"Unsupported experiment mode: {mode}")
-            completed.result.metadata.update({"compute_device_assignment": device, "execution_backend": str(config.execution_backend), "persistent_accelerator_worker": True, "cross_run_batching": bool(cross_run_batching), "xpu_sidecar_runtime": True, "throughput_stage_profile": GLOBAL_LEDGER.snapshot()})
-            return {"kind": "completed", "job_id": job_id, "item": item, "payload": completed}
+            completed.result.metadata.update(
+                {
+                    "compute_device_assignment": device,
+                    "execution_backend": str(config.execution_backend),
+                    "persistent_accelerator_worker": True,
+                    "cross_run_batching": bool(cross_run_batching),
+                    "xpu_sidecar_runtime": True,
+                    "throughput_stage_profile": GLOBAL_LEDGER.snapshot(),
+                }
+            )
+            kind = (
+                "interrupted"
+                if cancel_event.is_set()
+                and int(completed.result.evaluations) < int(config.budget.max_evaluations)
+                else "completed"
+            )
+            return {"kind": kind, "job_id": job_id, "item": item, "payload": completed}
         except Exception as exc:
-            return {"kind": "failed", "job_id": job_id, "item": item, "payload": failed_run_from_exception(item.label, item.run_index, seeds, exc)}
+            return {
+                "kind": "failed",
+                "job_id": job_id,
+                "item": item,
+                "payload": failed_run_from_exception(item.label, item.run_index, seeds, exc),
+            }
 
     try:
         while True:
@@ -172,11 +225,35 @@ def server(device: str, slots: int, batch_window_ms: float, max_cross_run_batch:
                 continue
             if action == "calibrate":
                 try:
-                    problem = build_problem(_configure(command["config"], device), int(command["scenario_seed"]))
-                    record = calibrate_evaluator(problem, batch_sizes=command.get("batch_sizes", (16, 32, 64, 128, 256)), repetitions=int(command.get("repetitions", 1)))
-                    _write_frame(output_stream, {"kind": "calibration", "request_id": str(command["request_id"]), "device": device, "record": record}, write_lock)
+                    problem = build_problem(
+                        _configure(command["config"], device), int(command["scenario_seed"])
+                    )
+                    record = calibrate_evaluator(
+                        problem,
+                        batch_sizes=command.get("batch_sizes", (16, 32, 64, 128, 256)),
+                        repetitions=int(command.get("repetitions", 1)),
+                    )
+                    _write_frame(
+                        output_stream,
+                        {
+                            "kind": "calibration",
+                            "request_id": str(command["request_id"]),
+                            "device": device,
+                            "record": record,
+                        },
+                        write_lock,
+                    )
                 except Exception as exc:
-                    _write_frame(output_stream, {"kind": "calibration_error", "request_id": str(command["request_id"]), "device": device, "message": str(exc)}, write_lock)
+                    _write_frame(
+                        output_stream,
+                        {
+                            "kind": "calibration_error",
+                            "request_id": str(command["request_id"]),
+                            "device": device,
+                            "message": str(exc),
+                        },
+                        write_lock,
+                    )
                 continue
             if action == "job":
                 future = executor.submit(execute, command)
@@ -189,7 +266,9 @@ def server(device: str, slots: int, batch_window_ms: float, max_cross_run_batch:
             try:
                 _write_frame(output_stream, future.result(), write_lock)
             except Exception as exc:
-                _write_frame(output_stream, {"kind": "service_error", "message": str(exc)}, write_lock)
+                _write_frame(
+                    output_stream, {"kind": "service_error", "message": str(exc)}, write_lock
+                )
         if broker is not None:
             broker.close()
             clear_cross_run_broker()
@@ -197,7 +276,17 @@ def server(device: str, slots: int, batch_window_ms: float, max_cross_run_batch:
 
 
 class PersistentSidecarPool:
-    def __init__(self, interpreter: str, device: str, *, slots: int, progress_queue, batch_window_ms: float = 4.0, max_cross_run_batch: int = 4096, cross_run_batching: bool = True):
+    def __init__(
+        self,
+        interpreter: str,
+        device: str,
+        *,
+        slots: int,
+        progress_queue,
+        batch_window_ms: float = 4.0,
+        max_cross_run_batch: int = 4096,
+        cross_run_batching: bool = True,
+    ):
         self.device = device
         self.slots = max(1, int(slots))
         self.progress_queue = progress_queue
@@ -206,7 +295,22 @@ class PersistentSidecarPool:
         self._write_lock = threading.Lock()
         self._stderr_tail: list[str] = []
         self.process = subprocess.Popen(
-            [interpreter, "-m", "calo_rpd_studio.compute.persistent_accelerator_sidecar", "--server", "--device", device, "--slots", str(self.slots), "--batch-window-ms", str(float(batch_window_ms)), "--max-batch", str(int(max_cross_run_batch)), "--cross-run-batching", "1" if cross_run_batching else "0"],
+            [
+                interpreter,
+                "-m",
+                "calo_rpd_studio.compute.persistent_accelerator_sidecar",
+                "--server",
+                "--device",
+                device,
+                "--slots",
+                str(self.slots),
+                "--batch-window-ms",
+                str(float(batch_window_ms)),
+                "--max-batch",
+                str(int(max_cross_run_batch)),
+                "--cross-run-batching",
+                "1" if cross_run_batching else "0",
+            ],
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
@@ -255,10 +359,36 @@ class PersistentSidecarPool:
     def submit(self, job_id: str, config, mode: str, item, seeds) -> None:
         job_id = str(job_id)
         self.active_jobs.add(job_id)
-        self._send({"action": "job", "job_id": job_id, "config": config, "mode": mode, "item": item, "seeds": seeds})
+        self._send(
+            {
+                "action": "job",
+                "job_id": job_id,
+                "config": config,
+                "mode": mode,
+                "item": item,
+                "seeds": seeds,
+            }
+        )
 
-    def calibrate(self, request_id: str, config, scenario_seed: int, *, batch_sizes=(16, 32, 64, 128, 256), repetitions: int = 1) -> None:
-        self._send({"action": "calibrate", "request_id": str(request_id), "config": config, "scenario_seed": int(scenario_seed), "batch_sizes": tuple(batch_sizes), "repetitions": int(repetitions)})
+    def calibrate(
+        self,
+        request_id: str,
+        config,
+        scenario_seed: int,
+        *,
+        batch_sizes=(16, 32, 64, 128, 256),
+        repetitions: int = 1,
+    ) -> None:
+        self._send(
+            {
+                "action": "calibrate",
+                "request_id": str(request_id),
+                "config": config,
+                "scenario_seed": int(scenario_seed),
+                "batch_sizes": tuple(batch_sizes),
+                "repetitions": int(repetitions),
+            }
+        )
 
     def poll(self) -> list[dict[str, Any]]:
         out = []
@@ -300,7 +430,9 @@ def main(argv=None) -> int:
     args = parser.parse_args(argv)
     if not args.server:
         parser.error("Only --server mode is supported")
-    return server(args.device, args.slots, args.batch_window_ms, args.max_batch, bool(args.cross_run_batching))
+    return server(
+        args.device, args.slots, args.batch_window_ms, args.max_batch, bool(args.cross_run_batching)
+    )
 
 
 if __name__ == "__main__":

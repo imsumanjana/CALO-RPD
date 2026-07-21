@@ -3,6 +3,7 @@
 Four core tools are shown on ordinary plots; hosts such as Live Optimization may also expose the
 context-sensitive Preview series tool without adding a permanent checkbox panel to the workspace.
 """
+
 from __future__ import annotations
 
 from copy import deepcopy
@@ -128,7 +129,9 @@ def _make_icon(kind: str, size: int = 22) -> QIcon:
     painter.setRenderHint(QPainter.RenderHint.Antialiasing, True)
     painter.scale(scale, scale)
     color = QColor("#64748b")
-    pen = QPen(color, 1.8, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap, Qt.PenJoinStyle.RoundJoin)
+    pen = QPen(
+        color, 1.8, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap, Qt.PenJoinStyle.RoundJoin
+    )
     painter.setPen(pen)
     painter.setBrush(Qt.BrushStyle.NoBrush)
 
@@ -140,7 +143,9 @@ def _make_icon(kind: str, size: int = 22) -> QIcon:
     elif kind == "plot":
         painter.drawLine(3, 18, 3, 4)
         painter.drawLine(3, 18, 19, 18)
-        painter.drawPolyline(QPolygon([QPoint(5, 15), QPoint(9, 11), QPoint(13, 13), QPoint(18, 6)]))
+        painter.drawPolyline(
+            QPolygon([QPoint(5, 15), QPoint(9, 11), QPoint(13, 13), QPoint(18, 6)])
+        )
         for point in (QPoint(5, 15), QPoint(9, 11), QPoint(13, 13), QPoint(18, 6)):
             painter.drawEllipse(point, 1, 1)
     elif kind == "preview":
@@ -210,7 +215,9 @@ class PlotFormattingToolbar(QWidget):
             "plot", "Plot appearance", "Edit axes, grid, line, and marker appearance."
         )
         self.preview_tool_button = self._make_tool_button(
-            "preview", "Preview series", "Choose which available series are visible in the live preview."
+            "preview",
+            "Preview series",
+            "Choose which available series are visible in the live preview.",
         )
         self.preview_tool_button.setVisible(False)
         self.export_tool_button = self._make_tool_button(
@@ -445,7 +452,9 @@ class PlotFormattingToolbar(QWidget):
         self.preview_series_scroll.setObjectName("PreviewSeriesScroll")
         self.preview_series_scroll.setWidgetResizable(True)
         self.preview_series_scroll.setFrameShape(QFrame.Shape.NoFrame)
-        self.preview_series_scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        self.preview_series_scroll.setHorizontalScrollBarPolicy(
+            Qt.ScrollBarPolicy.ScrollBarAlwaysOff
+        )
         self.preview_series_scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
         self.preview_series_scroll.setMaximumHeight(260)
         self.preview_series_body = QWidget()
@@ -551,7 +560,9 @@ class PlotFormattingToolbar(QWidget):
         self.export_series_scroll.setObjectName("ExportSeriesScroll")
         self.export_series_scroll.setWidgetResizable(True)
         self.export_series_scroll.setFrameShape(QFrame.Shape.NoFrame)
-        self.export_series_scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        self.export_series_scroll.setHorizontalScrollBarPolicy(
+            Qt.ScrollBarPolicy.ScrollBarAlwaysOff
+        )
         self.export_series_scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
         self.export_series_scroll.setMaximumHeight(210)
         self.export_series_body = QWidget()
@@ -885,11 +896,7 @@ class PlotFormattingToolbar(QWidget):
     def _selected_export_series(self) -> set[str] | None:
         if not self.export_series_checks:
             return None
-        return {
-            key
-            for key, checkbox in self.export_series_checks.items()
-            if checkbox.isChecked()
-        }
+        return {key for key, checkbox in self.export_series_checks.items() if checkbox.isChecked()}
 
     def _update_export_button_state(self, *_args) -> None:
         selected = self._selected_export_series()

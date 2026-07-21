@@ -14,7 +14,11 @@ from calo_rpd_studio.algorithms.calo.heterogeneous_training import (
     plan_training_lanes,
 )
 from calo_rpd_studio.algorithms.registry import SPECS, create_optimizer
-from calo_rpd_studio.benchmarking.campaign import BenchmarkCampaignConfig, build_campaign, write_campaign_plan
+from calo_rpd_studio.benchmarking.campaign import (
+    BenchmarkCampaignConfig,
+    build_campaign,
+    write_campaign_plan,
+)
 from calo_rpd_studio.experiments.experiment_config import ExperimentConfig
 from calo_rpd_studio.experiments.provenance import collect_provenance
 from calo_rpd_studio.orpd.problem import Evaluation
@@ -24,9 +28,7 @@ from calo_rpd_studio.results.publication_export import PublicationExporter
 
 @pytest.mark.parametrize("runs", [30, 31, 35, 50])
 def test_campaign_preserves_requested_run_count_exactly(runs):
-    campaign = BenchmarkCampaignConfig(
-        cases=("case30",), study_keys=("deterministic",), runs=runs
-    )
+    campaign = BenchmarkCampaignConfig(cases=("case30",), study_keys=("deterministic",), runs=runs)
     task = build_campaign(campaign, base_config=ExperimentConfig(), verify_freeze=False)[0]
     assert task.config.runs == runs
     assert task.config.portfolio.custom_runs == runs
@@ -34,9 +36,7 @@ def test_campaign_preserves_requested_run_count_exactly(runs):
 
 
 def test_campaign_plan_persists_exact_formulation_manifest(tmp_path):
-    campaign = BenchmarkCampaignConfig(
-        cases=("case118",), study_keys=("deterministic",), runs=30
-    )
+    campaign = BenchmarkCampaignConfig(cases=("case118",), study_keys=("deterministic",), runs=30)
     tasks = build_campaign(campaign, verify_freeze=False)
     path = write_campaign_plan(campaign, tasks, tmp_path / "campaign.json")
     payload = json.loads(path.read_text(encoding="utf-8"))
@@ -89,8 +89,6 @@ def test_publication_export_excludes_infeasible_objective_from_statistics(tmp_pa
     assert metadata["objective_statistics_basis"].startswith("independently verified AND feasible")
 
 
-
-
 def test_gpu_maximum_training_defaults_and_accelerator_fallback_order():
     config = HeterogeneousTrainingConfig()
     assert (
@@ -104,6 +102,7 @@ def test_gpu_maximum_training_defaults_and_accelerator_fallback_order():
     assert xpu_plan.episode_counts == {"cuda": 0, "xpu": 12, "cpu": 0}
     cpu_plan = plan_training_lanes(12, cuda_available=False, xpu_available=False)
     assert cpu_plan.episode_counts == {"cuda": 0, "xpu": 0, "cpu": 12}
+
 
 class SphereProblem:
     dimension = 4

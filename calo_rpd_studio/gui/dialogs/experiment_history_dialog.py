@@ -1,4 +1,5 @@
 """Experiment history and persisted trace-data management dialog."""
+
 from __future__ import annotations
 
 import json
@@ -77,10 +78,14 @@ class ExperimentHistoryDialog(QDialog):
         self.experiments.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
         self.experiments.verticalHeader().setVisible(False)
         self.experiments.setAlternatingRowColors(True)
-        self.experiments.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeMode.ResizeToContents)
+        self.experiments.horizontalHeader().setSectionResizeMode(
+            0, QHeaderView.ResizeMode.ResizeToContents
+        )
         self.experiments.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeMode.Stretch)
         for column in range(2, 7):
-            self.experiments.horizontalHeader().setSectionResizeMode(column, QHeaderView.ResizeMode.ResizeToContents)
+            self.experiments.horizontalHeader().setSectionResizeMode(
+                column, QHeaderView.ResizeMode.ResizeToContents
+            )
         self.experiments.itemSelectionChanged.connect(self._refresh_runs)
         experiment_layout.addWidget(self.experiments)
         splitter.addWidget(experiment_container)
@@ -100,7 +105,9 @@ class ExperimentHistoryDialog(QDialog):
         self.runs.setAlternatingRowColors(True)
         self.runs.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch)
         for column in range(1, 6):
-            self.runs.horizontalHeader().setSectionResizeMode(column, QHeaderView.ResizeMode.ResizeToContents)
+            self.runs.horizontalHeader().setSectionResizeMode(
+                column, QHeaderView.ResizeMode.ResizeToContents
+            )
         self.runs.itemSelectionChanged.connect(self._update_buttons)
         run_layout.addWidget(self.runs)
         splitter.addWidget(run_container)
@@ -201,7 +208,9 @@ class ExperimentHistoryDialog(QDialog):
         self.delete_experiment_button.setEnabled(bool(self.selected_experiment_id()) and not busy)
         self.clear_button.setEnabled(bool(self._experiment_rows) and not busy)
         if busy:
-            self.summary.setToolTip("History deletion is disabled while a scientific task is active.")
+            self.summary.setToolTip(
+                "History deletion is disabled while a scientific task is active."
+            )
         else:
             self.summary.setToolTip("")
 

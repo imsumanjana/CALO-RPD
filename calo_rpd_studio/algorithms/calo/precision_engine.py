@@ -1,18 +1,23 @@
 """CALO-native, mixed-variable-aware cognitive precision refinement."""
+
 from __future__ import annotations
 
 import numpy as np
 
 
 class CognitivePrecisionEngine:
-    def __init__(self, initial_radius: float = 0.04, min_radius: float = 5e-4, max_radius: float = 0.15) -> None:
+    def __init__(
+        self, initial_radius: float = 0.04, min_radius: float = 5e-4, max_radius: float = 0.15
+    ) -> None:
         self.radius = float(np.clip(initial_radius, min_radius, max_radius))
         self.min_radius = float(min_radius)
         self.max_radius = float(max_radius)
         self.attempts = 0
         self.successes = 0
 
-    def active(self, feasible_ratio: float, objective_stagnation: float, progress: float, hpem_size: int) -> bool:
+    def active(
+        self, feasible_ratio: float, objective_stagnation: float, progress: float, hpem_size: int
+    ) -> bool:
         return bool(
             hpem_size >= 3
             and feasible_ratio >= 0.50
@@ -59,12 +64,20 @@ class CognitivePrecisionEngine:
         variables = variables or []
         for index in np.where(group_mask)[0]:
             variable = variables[index] if index < len(variables) else None
-            kind = str(getattr(getattr(variable, "kind", "continuous"), "value", getattr(variable, "kind", "continuous")))
+            kind = str(
+                getattr(
+                    getattr(variable, "kind", "continuous"),
+                    "value",
+                    getattr(variable, "kind", "continuous"),
+                )
+            )
             if kind == "discrete" and tuple(getattr(variable, "values", ()) or ()):
                 if rng.random() < 0.65:
                     candidate[index] = self._legal_discrete_neighbor(anchor[index], variable, rng)
             else:
-                candidate[index] = anchor[index] + self.radius * direction[index] + noise_scale * rng.normal()
+                candidate[index] = (
+                    anchor[index] + self.radius * direction[index] + noise_scale * rng.normal()
+                )
         return np.clip(candidate, 0.0, 1.0)
 
     def update(self, attempted: int, successful: int) -> None:

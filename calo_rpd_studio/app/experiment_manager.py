@@ -1,4 +1,5 @@
 """Qt-safe orchestration of sequential or process-parallel scientific experiments."""
+
 from __future__ import annotations
 
 from concurrent.futures import FIRST_COMPLETED, ProcessPoolExecutor, ThreadPoolExecutor, wait
@@ -7,7 +8,9 @@ from dataclasses import asdict
 import multiprocessing as mp
 import os
 import queue
+from pathlib import Path
 import json
+import hashlib
 import threading
 import time
 
@@ -42,6 +45,11 @@ from calo_rpd_studio.experiments.seed_manager import RunSeeds, SeedManager
 from calo_rpd_studio.results.result_store import ResultStore
 from calo_rpd_studio.portfolio.fingerprint import experiment_fingerprint, run_fingerprint
 from calo_rpd_studio.resume.models import ResumeStatus, ResumeTaskType
+from calo_rpd_studio.continuation.experiment_evolution import (
+    ExperimentEvolutionService,
+    ExtensionProtocol,
+)
+from calo_rpd_studio.continuation.runtime_binding import bind_exact_run_checkpoint
 
 
 def _configure_child_numeric_threads() -> None:
@@ -75,7 +83,7 @@ def _config_for_item_device(config, mode: str, item: PlannedItem, compute_device
             values["inference_device"] = str(compute_device)
         parameters[algorithm_name] = values
     local_config.algorithm_parameters = parameters
-    return local_config
+    return bind_exact_run_checkpoint(local_config, item)
 
 
 def _execute_process_job(
@@ -151,13 +159,21 @@ def _execute_process_job(
             raise ValueError(f"Unsupported experiment mode: {mode}")
         completed.result.metadata["compute_device_assignment"] = str(compute_device)
         completed.result.metadata["execution_backend"] = str(local_config.execution_backend)
+        if cancel_event.is_set() and int(completed.result.evaluations) < int(
+            local_config.budget.max_evaluations
+        ):
+            return "interrupted", item, completed
         return "completed", item, completed
     except Exception as exc:
-        return "failed", item, failed_run_from_exception(
-            item.label,
-            item.run_index,
-            seeds,
-            exc,
+        return (
+            "failed",
+            item,
+            failed_run_from_exception(
+                item.label,
+                item.run_index,
+                seeds,
+                exc,
+            ),
         )
 
 
@@ -268,30 +284,179 @@ class ExperimentWorker(QThread):
             self.state.database.update_campaign_task(
                 row["id"], status="running", increment_attempts=True
             )
-            self.state.database.append_task_event(row["id"], "started", {"job_index": item.job_index})
+            self.state.database.append_task_event(
+                row["id"], "started", {"job_index": item.job_index}
+            )
+
+    @staticmethod
+    def _sha256_file(path: str) -> str:
+        file_path = Path(str(path or ""))
+        if not file_path.is_file():
+            return ""
+        digest = hashlib.sha256()
+        with file_path.open("rb") as handle:
+            for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+                digest.update(chunk)
+        return digest.hexdigest()
+
+    @staticmethod
+    def _result_evaluations_from_row(row: dict | None) -> int:
+        if not row:
+            return 0
+        try:
+            payload = json.loads(str(row.get("result_json", "{}") or "{}"))
+            return int(payload.get("evaluations", 0) or 0)
+        except Exception:
+            return 0
 
     def _persist_completed(self, experiment_id: str, store: ResultStore, item, completed) -> None:
         path = store.save_arrays(completed.result)
         fingerprint = self._run_fingerprint_by_job.get(int(item.job_index), "")
-        run_id = self.state.database.add_run(
-            experiment_id,
-            completed,
-            str(path),
-            scientific_fingerprint=fingerprint,
+        key = f"{item.label}:{int(item.run_index)}"
+        extension_mode = str(getattr(self.config, "extension_mode", "") or "")
+        existing_map = dict(getattr(self.config, "extension_existing_run_ids", {}) or {})
+        revision_id = str(getattr(self.config, "experiment_revision_id", "") or "")
+        publication_eligible = bool(getattr(self.config, "extension_publication_eligible", True))
+        extension_strategy = str(
+            getattr(self.config, "extension_execution_strategy", "exact_continue")
+            or "exact_continue"
+        )
+
+        if extension_mode == "extend_evaluation_horizon" and key in existing_map:
+            run_id = str(existing_map[key])
+            previous = self.state.database.get_run(run_id)
+            previous_evaluations = self._result_evaluations_from_row(previous)
+            prior_segments = self.state.database.list_run_segments(run_id)
+            previous_revision_id = (
+                str(prior_segments[-1].get("metadata", {}).get("revision_id", "") or "")
+                if prior_segments
+                else ""
+            )
+            if previous_evaluations > 0:
+                self.state.database.snapshot_run_horizon(
+                    run_id,
+                    evaluation_horizon=previous_evaluations,
+                    revision_id=previous_revision_id,
+                )
+            self.state.database.update_run_result(
+                run_id, completed, str(path), scientific_fingerprint=fingerprint
+            )
+            segment_index = len(prior_segments)
+        else:
+            run_id = self.state.database.add_run(
+                experiment_id, completed, str(path), scientific_fingerprint=fingerprint
+            )
+            previous_evaluations = 0
+            segment_index = 0
+
+        continuation = dict(completed.result.metadata.get("run_continuation", {}) or {})
+        checkpoint_path = str(continuation.get("checkpoint_path", "") or "")
+        checkpoint_sha = str(continuation.get("checkpoint_sha256", "") or "") or self._sha256_file(
+            checkpoint_path
+        )
+        source_horizon = int(getattr(self.config, "extension_source_horizon", 0) or 0)
+        segment_start = (
+            0
+            if extension_mode == "extend_evaluation_horizon"
+            and extension_strategy == "recompute_from_seed"
+            else source_horizon
+            if extension_mode == "extend_evaluation_horizon" and source_horizon > 0
+            else int(previous_evaluations)
+        )
+        self.state.database.add_run_segment(
+            run_id=run_id,
+            segment_index=segment_index,
+            start_evaluations=segment_start,
+            end_evaluations=int(completed.result.evaluations),
+            checkpoint_path=checkpoint_path,
+            checkpoint_sha256=checkpoint_sha,
+            status="completed",
+            publication_eligible=publication_eligible,
+            metadata={
+                "revision_id": revision_id,
+                "extension_mode": extension_mode or "original",
+                "execution_strategy": (
+                    extension_strategy
+                    if extension_mode == "extend_evaluation_horizon"
+                    else "original"
+                ),
+                "trajectory_semantics": (
+                    "paired rerun from original seed under new horizon"
+                    if extension_mode == "extend_evaluation_horizon"
+                    and extension_strategy == "recompute_from_seed"
+                    else "exact checkpoint continuation"
+                    if extension_mode == "extend_evaluation_horizon"
+                    else "original run"
+                ),
+                "prior_current_horizon": int(previous_evaluations),
+                "source_horizon": int(source_horizon),
+                "algorithm": item.label,
+                "run_index": int(item.run_index),
+            },
         )
         row = self._task_by_job.get(int(item.job_index))
         if row:
-            self.state.database.update_campaign_task(row["id"], status="completed", run_id=run_id)
-            self.state.database.append_task_event(row["id"], "completed", {"run_id": run_id})
+            self.state.database.update_campaign_task(
+                row["id"],
+                status="completed",
+                run_id=run_id,
+                checkpoint_path=checkpoint_path,
+                checkpoint_sha256=checkpoint_sha,
+            )
+            self.state.database.append_task_event(
+                row["id"],
+                "completed",
+                {
+                    "run_id": run_id,
+                    "checkpoint_path": checkpoint_path,
+                    "checkpoint_sha256": checkpoint_sha,
+                },
+            )
         self._sync_campaign_progress(f"Completed {item.label} run {item.run_index + 1}")
         self.run_completed.emit(run_id, item.label, item.run_index + 1)
+
+    def _persist_interrupted(self, item, completed) -> None:
+        """Commit only the exact resume boundary for an interrupted active job.
+
+        Partial numerical results are not promoted to completed-run evidence. CALO's terminal
+        checkpoint can resume exactly; algorithms without such a checkpoint restart from their
+        original paired seed when the campaign resumes.
+        """
+        row = self._task_by_job.get(int(item.job_index))
+        if not row:
+            return
+        continuation = dict(completed.result.metadata.get("run_continuation", {}) or {})
+        checkpoint_path = str(continuation.get("checkpoint_path", "") or "")
+        checkpoint_sha = str(continuation.get("checkpoint_sha256", "") or "") or self._sha256_file(
+            checkpoint_path
+        )
+        self.state.database.update_campaign_task(
+            row["id"],
+            status="interrupted",
+            checkpoint_path=checkpoint_path,
+            checkpoint_sha256=checkpoint_sha,
+        )
+        self.state.database.append_task_event(
+            row["id"],
+            "interrupted",
+            {
+                "evaluations": int(completed.result.evaluations),
+                "checkpoint_path": checkpoint_path,
+                "checkpoint_sha256": checkpoint_sha,
+                "exact_resume_available": bool(checkpoint_path),
+            },
+        )
 
     def _persist_failure(self, experiment_id: str, item, failure) -> None:
         failure_id = self.state.database.add_failure(experiment_id, failure)
         row = self._task_by_job.get(int(item.job_index))
         if row:
-            self.state.database.update_campaign_task(row["id"], status="failed", failure_id=failure_id)
-            self.state.database.append_task_event(row["id"], "failed", {"failure_id": failure_id, "message": failure.message})
+            self.state.database.update_campaign_task(
+                row["id"], status="failed", failure_id=failure_id
+            )
+            self.state.database.append_task_event(
+                row["id"], "failed", {"failure_id": failure_id, "message": failure.message}
+            )
         self._sync_campaign_progress(f"Failed {item.label} run {item.run_index + 1}")
         self.run_failed.emit(failure_id, item.label, item.run_index + 1)
 
@@ -327,7 +492,9 @@ class ExperimentWorker(QThread):
             snapshot = monitor.sample()
             compute_device = "cpu"
             selected_device = None
-            if backend_allows_accelerators(self.config.execution_backend) and item_uses_calo_ai(self.mode, item):
+            if backend_allows_accelerators(self.config.execution_backend) and item_uses_calo_ai(
+                self.mode, item
+            ):
                 accelerators = prioritized_accelerators(snapshot)
                 if accelerators:
                     selected_device = accelerators[0]
@@ -346,7 +513,11 @@ class ExperimentWorker(QThread):
                 )
 
             try:
-                if selected_device is not None and selected_device.backend == "xpu" and selected_device.runtime == "sidecar":
+                if (
+                    selected_device is not None
+                    and selected_device.backend == "xpu"
+                    and selected_device.runtime == "sidecar"
+                ):
                     outcome, _returned_item, payload = execute_xpu_job(
                         self.config,
                         self.mode,
@@ -358,8 +529,17 @@ class ExperimentWorker(QThread):
                     )
                     if outcome == "completed":
                         completed = payload
-                        self._persist_completed(experiment_id, store, item, completed)
-                        phase = "run_completed"
+                        if self._cancelled() and int(completed.result.evaluations) < int(
+                            self.config.budget.max_evaluations
+                        ):
+                            self._persist_interrupted(item, completed)
+                            phase = "run_interrupted"
+                        else:
+                            self._persist_completed(experiment_id, store, item, completed)
+                            phase = "run_completed"
+                    elif outcome == "interrupted":
+                        self._persist_interrupted(item, payload)
+                        phase = "run_interrupted"
                     else:
                         self._persist_failure(experiment_id, item, payload)
                         phase = "run_failed"
@@ -386,9 +566,17 @@ class ExperimentWorker(QThread):
                             self._cancelled,
                         )
                     completed.result.metadata["compute_device_assignment"] = str(compute_device)
-                    completed.result.metadata["execution_backend"] = str(local_config.execution_backend)
-                    self._persist_completed(experiment_id, store, item, completed)
-                    phase = "run_completed"
+                    completed.result.metadata["execution_backend"] = str(
+                        local_config.execution_backend
+                    )
+                    if self._cancelled() and int(completed.result.evaluations) < int(
+                        local_config.budget.max_evaluations
+                    ):
+                        self._persist_interrupted(item, completed)
+                        phase = "run_interrupted"
+                    else:
+                        self._persist_completed(experiment_id, store, item, completed)
+                        phase = "run_completed"
             except Exception as exc:
                 failure = failed_run_from_exception(
                     item.label,
@@ -479,31 +667,52 @@ class ExperimentWorker(QThread):
         )
 
         context = mp.get_context("spawn")
-        for key in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS", "NUMEXPR_NUM_THREADS"):
+        for key in (
+            "OMP_NUM_THREADS",
+            "OPENBLAS_NUM_THREADS",
+            "MKL_NUM_THREADS",
+            "NUMEXPR_NUM_THREADS",
+        ):
             os.environ.setdefault(key, "1")
 
         with context.Manager() as manager:
             cancel_event = manager.Event()
             progress_queue = manager.Queue()
             self._process_cancel_event = cancel_event
-            xpu_executor = ThreadPoolExecutor(max_workers=max(1, int(self.config.xpu_parallel_jobs)))
+            xpu_executor = ThreadPoolExecutor(
+                max_workers=max(1, int(self.config.xpu_parallel_jobs))
+            )
             try:
                 with ProcessPoolExecutor(max_workers=max_workers, mp_context=context) as executor:
                     pending: dict = {}
                     active_lane = {"cuda": 0, "xpu": 0, "cpu": 0}
                     active_by_device: dict[str, int] = {}
 
-                    def submit_item(item: PlannedItem, lane: str, device_id: str, runtime: str = "primary") -> None:
+                    def submit_item(
+                        item: PlannedItem, lane: str, device_id: str, runtime: str = "primary"
+                    ) -> None:
                         self._mark_task_started(item)
                         if lane == "xpu" and runtime == "sidecar":
                             future = xpu_executor.submit(
-                                execute_xpu_job, self.config, self.mode, item, seeds[item.run_index],
-                                progress_queue, cancel_event, device_id,
+                                execute_xpu_job,
+                                self.config,
+                                self.mode,
+                                item,
+                                seeds[item.run_index],
+                                progress_queue,
+                                cancel_event,
+                                device_id,
                             )
                         else:
                             future = executor.submit(
-                                _execute_process_job, self.config, self.mode, item, seeds[item.run_index],
-                                progress_queue, cancel_event, device_id,
+                                _execute_process_job,
+                                self.config,
+                                self.mode,
+                                item,
+                                seeds[item.run_index],
+                                progress_queue,
+                                cancel_event,
+                                device_id,
                             )
                         pending[future] = (item, lane, device_id)
                         active_lane[lane] += 1
@@ -538,7 +747,11 @@ class ExperimentWorker(QThread):
                                 memory_limit = self.config.xpu_memory_limit
                                 max_jobs = self.config.xpu_parallel_jobs
                             if accelerator_admission_allowed(
-                                device, target, memory_limit, active_by_device.get(device.device_id, 0), max_jobs
+                                device,
+                                target,
+                                memory_limit,
+                                active_by_device.get(device.device_id, 0),
+                                max_jobs,
                             ):
                                 return device
                         return None
@@ -557,7 +770,9 @@ class ExperimentWorker(QThread):
                                 snapshot = monitor.sample()
                                 if lane == "cpu":
                                     if not cpu_admission_allowed(
-                                        snapshot, self.config.cpu_utilization_target, active_lane["cpu"],
+                                        snapshot,
+                                        self.config.cpu_utilization_target,
+                                        active_lane["cpu"],
                                         self.config.system_memory_limit,
                                     ):
                                         break
@@ -580,9 +795,18 @@ class ExperimentWorker(QThread):
 
                         for payload in self._drain_progress_queue(progress_queue):
                             job_index = int(payload.get("job_index", -1))
-                            item = next((entry for entry in plan if entry.job_index == job_index), None)
+                            item = next(
+                                (entry for entry in plan if entry.job_index == job_index), None
+                            )
                             if item is not None:
-                                self._emit_progress(payload, item, fractions, completed_count, total_items, len(pending))
+                                self._emit_progress(
+                                    payload,
+                                    item,
+                                    fractions,
+                                    completed_count,
+                                    total_items,
+                                    len(pending),
+                                )
 
                         if not pending:
                             if self._cancelled() or self._pause_requested():
@@ -600,7 +824,9 @@ class ExperimentWorker(QThread):
                             item, lane, device_id = pending.pop(future)
                             active_lane[lane] = max(0, active_lane[lane] - 1)
                             if lane != "cpu":
-                                active_by_device[device_id] = max(0, active_by_device.get(device_id, 0) - 1)
+                                active_by_device[device_id] = max(
+                                    0, active_by_device.get(device_id, 0) - 1
+                                )
                             try:
                                 outcome, returned_item, payload = future.result()
                             except Exception as exc:
@@ -612,10 +838,17 @@ class ExperimentWorker(QThread):
                             item = returned_item
                             if outcome == "completed":
                                 payload.result.metadata["weighted_lane"] = lane
-                                payload.result.metadata["weighted_allocation_requested"] = allocation.requested_text
-                                payload.result.metadata["weighted_allocation_effective"] = allocation.effective_text
+                                payload.result.metadata["weighted_allocation_requested"] = (
+                                    allocation.requested_text
+                                )
+                                payload.result.metadata["weighted_allocation_effective"] = (
+                                    allocation.effective_text
+                                )
                                 self._persist_completed(experiment_id, store, item, payload)
                                 phase = "run_completed"
+                            elif outcome == "interrupted":
+                                self._persist_interrupted(item, payload)
+                                phase = "run_interrupted"
                             else:
                                 self._persist_failure(experiment_id, item, payload)
                                 phase = "run_failed"
@@ -626,7 +859,9 @@ class ExperimentWorker(QThread):
                                     "algorithm": item.label,
                                     "job_index": item.job_index,
                                     "run_index": item.run_index + 1,
-                                    "overall_percent": int(100 * sum(fractions.values()) / total_items),
+                                    "overall_percent": int(
+                                        100 * sum(fractions.values()) / total_items
+                                    ),
                                     "run_position": item.job_index + 1,
                                     "total_run_items": total_items,
                                     "completed_items": completed_count,
@@ -643,7 +878,9 @@ class ExperimentWorker(QThread):
                         job_index = int(payload.get("job_index", -1))
                         item = next((entry for entry in plan if entry.job_index == job_index), None)
                         if item is not None:
-                            self._emit_progress(payload, item, fractions, completed_count, total_items, 0)
+                            self._emit_progress(
+                                payload, item, fractions, completed_count, total_items, 0
+                            )
             finally:
                 cancel_event.set()
                 xpu_executor.shutdown(wait=True, cancel_futures=True)
@@ -667,7 +904,12 @@ class ExperimentWorker(QThread):
         snapshot = monitor.sample()
         context = mp.get_context("spawn")
 
-        for key in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS", "NUMEXPR_NUM_THREADS"):
+        for key in (
+            "OMP_NUM_THREADS",
+            "OPENBLAS_NUM_THREADS",
+            "MKL_NUM_THREADS",
+            "NUMEXPR_NUM_THREADS",
+        ):
             os.environ.setdefault(key, "1")
 
         with context.Manager() as manager:
@@ -687,10 +929,15 @@ class ExperimentWorker(QThread):
                 # otherwise XPU, otherwise CPU. The host remains responsible for GUI,
                 # orchestration, persistence, and independent validation only.
                 gpu_max_lane = (
-                    "cuda" if cuda_device is not None else
-                    ("xpu" if next(iter(snapshot.by_backend("xpu")), None) is not None else "cpu")
+                    "cuda"
+                    if cuda_device is not None
+                    else (
+                        "xpu" if next(iter(snapshot.by_backend("xpu")), None) is not None else "cpu"
+                    )
                 )
-                if backend not in {"cuda_only", "gpu_preferred"} or (backend == "gpu_preferred" and gpu_max_lane == "cpu"):
+                if backend not in {"cuda_only", "gpu_preferred"} or (
+                    backend == "gpu_preferred" and gpu_max_lane == "cpu"
+                ):
                     pools["cpu"] = PersistentAcceleratorPool(
                         "cpu",
                         slots=max(1, int(self.config.parallel_workers)),
@@ -702,7 +949,9 @@ class ExperimentWorker(QThread):
                         context=context,
                     )
 
-                if cuda_device is not None and (backend != "gpu_preferred" or gpu_max_lane == "cuda"):
+                if cuda_device is not None and (
+                    backend != "gpu_preferred" or gpu_max_lane == "cuda"
+                ):
                     pools["cuda"] = PersistentAcceleratorPool(
                         cuda_device.device_id,
                         slots=max(1, int(self.config.gpu_parallel_jobs)),
@@ -715,9 +964,15 @@ class ExperimentWorker(QThread):
                     )
 
                 xpu_device = next(iter(snapshot.by_backend("xpu")), None)
-                if xpu_device is not None and backend != "cuda_only" and (backend != "gpu_preferred" or gpu_max_lane == "xpu"):
+                if (
+                    xpu_device is not None
+                    and backend != "cuda_only"
+                    and (backend != "gpu_preferred" or gpu_max_lane == "xpu")
+                ):
                     if xpu_device.runtime == "sidecar":
-                        from calo_rpd_studio.compute.resource_scheduler import configured_xpu_interpreter
+                        from calo_rpd_studio.compute.resource_scheduler import (
+                            configured_xpu_interpreter,
+                        )
 
                         interpreter = configured_xpu_interpreter()
                         if interpreter:
@@ -774,7 +1029,9 @@ class ExperimentWorker(QThread):
                                         calibration_records[lane] = record
                                 elif kind == "calibration_error":
                                     calibration_pending.discard(str(message.get("request_id", "")))
-                        percent = int(100 * (len(pools) - len(calibration_pending)) / max(len(pools), 1))
+                        percent = int(
+                            100 * (len(pools) - len(calibration_pending)) / max(len(pools), 1)
+                        )
                         self.progress.emit(
                             {
                                 "phase": "throughput_calibration",
@@ -797,9 +1054,15 @@ class ExperimentWorker(QThread):
                 if previous is not None and previous.case_name == self.config.case_name:
                     for lane in pools:
                         if lane not in calibration_records:
-                            candidates = [record for key, record in previous.devices.items() if key.startswith(lane)]
+                            candidates = [
+                                record
+                                for key, record in previous.devices.items()
+                                if key.startswith(lane)
+                            ]
                             if candidates:
-                                calibration_records[lane] = max(candidates, key=lambda record: record.evaluations_per_second)
+                                calibration_records[lane] = max(
+                                    candidates, key=lambda record: record.evaluations_per_second
+                                )
 
                 # A conservative fallback preserves execution when a calibration cannot run.
                 for lane, pool in pools.items():
@@ -818,7 +1081,9 @@ class ExperimentWorker(QThread):
 
                 profile = ThroughputProfile(
                     case_name=self.config.case_name,
-                    scenario_count=max(1, int(getattr(self.config.scenarios, "count", 1))) if self.config.scenarios.mode != "deterministic" else 1,
+                    scenario_count=max(1, int(getattr(self.config.scenarios, "count", 1)))
+                    if self.config.scenarios.mode != "deterministic"
+                    else 1,
                     dimension=0,
                     created_at=time.time(),
                     devices={record.device: record for record in calibration_records.values()},
@@ -866,12 +1131,18 @@ class ExperimentWorker(QThread):
                 slots = (
                     weighted_worker_slots(max(1, int(self.config.parallel_workers)), allocation)
                     if backend in {"cuda_priority", "cuda_only", "gpu_preferred"}
-                    else throughput_worker_slots(max(1, int(self.config.parallel_workers)), allocation)
+                    else throughput_worker_slots(
+                        max(1, int(self.config.parallel_workers)), allocation
+                    )
                 )
                 if "cuda" in pools:
-                    slots["cuda"] = min(slots["cuda"], int(self.config.gpu_parallel_jobs), pools["cuda"].slots)
+                    slots["cuda"] = min(
+                        slots["cuda"], int(self.config.gpu_parallel_jobs), pools["cuda"].slots
+                    )
                 if "xpu" in pools:
-                    slots["xpu"] = min(slots["xpu"], int(self.config.xpu_parallel_jobs), pools["xpu"].slots)
+                    slots["xpu"] = min(
+                        slots["xpu"], int(self.config.xpu_parallel_jobs), pools["xpu"].slots
+                    )
                 if "cpu" in pools:
                     slots["cpu"] = min(slots["cpu"], pools["cpu"].slots)
                 else:
@@ -882,7 +1153,9 @@ class ExperimentWorker(QThread):
                         slots[lane] = 1
 
                 queues = {
-                    lane: [item for item in plan if lane_by_job.get(int(item.job_index), "cpu") == lane]
+                    lane: [
+                        item for item in plan if lane_by_job.get(int(item.job_index), "cpu") == lane
+                    ]
                     for lane in ("cuda", "xpu", "cpu")
                 }
                 self.progress.emit(
@@ -894,9 +1167,13 @@ class ExperimentWorker(QThread):
                         "completed_items": 0,
                         "active_items": 0,
                         "allocation_effective": allocation.effective_text,
-                        "measured_throughput": getattr(allocation, "throughput_text", "fixed CUDA/XPU/CPU share"),
+                        "measured_throughput": getattr(
+                            allocation, "throughput_text", "fixed CUDA/XPU/CPU share"
+                        ),
                         "lane_slots": dict(slots),
-                        "calibrated_batch_sizes": {lane: record.batch_size for lane, record in calibration_records.items()},
+                        "calibrated_batch_sizes": {
+                            lane: record.batch_size for lane, record in calibration_records.items()
+                        },
                     }
                 )
 
@@ -927,22 +1204,48 @@ class ExperimentWorker(QThread):
                         pool = pools.get(lane)
                         if pool is None:
                             continue
-                        while queues[lane] and active_by_lane[lane] < slots.get(lane, 0) and pool.available_slots > 0 and not self._cancelled() and not self._pause_requested():
+                        while (
+                            queues[lane]
+                            and active_by_lane[lane] < slots.get(lane, 0)
+                            and pool.available_slots > 0
+                            and not self._cancelled()
+                            and not self._pause_requested()
+                        ):
                             if lane == "cpu":
-                                if not cpu_admission_allowed(
-                                    current_snapshot,
-                                    self.config.cpu_utilization_target,
-                                    active_by_lane["cpu"],
-                                    self.config.system_memory_limit,
-                                ) and active_total() > 0:
+                                if (
+                                    not cpu_admission_allowed(
+                                        current_snapshot,
+                                        self.config.cpu_utilization_target,
+                                        active_by_lane["cpu"],
+                                        self.config.system_memory_limit,
+                                    )
+                                    and active_total() > 0
+                                ):
                                     break
                             else:
                                 device = next(iter(current_snapshot.by_backend(lane)), None)
                                 if device is not None:
-                                    target = self.config.gpu_utilization_target if lane == "cuda" else self.config.xpu_utilization_target
-                                    memory_limit = self.config.gpu_memory_limit if lane == "cuda" else self.config.xpu_memory_limit
-                                    cap = self.config.gpu_parallel_jobs if lane == "cuda" else self.config.xpu_parallel_jobs
-                                    if not accelerator_admission_allowed(device, target, memory_limit, active_by_lane[lane], cap) and active_total() > 0:
+                                    target = (
+                                        self.config.gpu_utilization_target
+                                        if lane == "cuda"
+                                        else self.config.xpu_utilization_target
+                                    )
+                                    memory_limit = (
+                                        self.config.gpu_memory_limit
+                                        if lane == "cuda"
+                                        else self.config.xpu_memory_limit
+                                    )
+                                    cap = (
+                                        self.config.gpu_parallel_jobs
+                                        if lane == "cuda"
+                                        else self.config.xpu_parallel_jobs
+                                    )
+                                    if (
+                                        not accelerator_admission_allowed(
+                                            device, target, memory_limit, active_by_lane[lane], cap
+                                        )
+                                        and active_total() > 0
+                                    ):
                                         break
                             item = queues[lane].pop(0)
                             job_id = f"job-{item.job_index}"
@@ -959,14 +1262,18 @@ class ExperimentWorker(QThread):
                                     "algorithm": item.label,
                                     "job_index": item.job_index,
                                     "run_index": item.run_index + 1,
-                                    "overall_percent": int(100 * sum(fractions.values()) / total_items),
+                                    "overall_percent": int(
+                                        100 * sum(fractions.values()) / total_items
+                                    ),
                                     "run_position": item.job_index + 1,
                                     "total_run_items": total_items,
                                     "completed_items": completed_count,
                                     "active_items": active_total(),
                                     "compute_device": getattr(pool, "device", lane),
                                     "planned_lane": lane,
-                                    "calibrated_batch_size": int(calibration_records[lane].batch_size),
+                                    "calibrated_batch_size": int(
+                                        calibration_records[lane].batch_size
+                                    ),
                                 }
                             )
                         current_snapshot = monitor.sample()
@@ -987,7 +1294,14 @@ class ExperimentWorker(QThread):
                         job_index = int(payload.get("job_index", -1))
                         item = next((entry for entry in plan if entry.job_index == job_index), None)
                         if item is not None:
-                            self._emit_progress(payload, item, fractions, completed_count, total_items, active_total())
+                            self._emit_progress(
+                                payload,
+                                item,
+                                fractions,
+                                completed_count,
+                                total_items,
+                                active_total(),
+                            )
 
                     handled = False
                     for lane, pool in pools.items():
@@ -1000,27 +1314,43 @@ class ExperimentWorker(QThread):
                             if item_lane is None:
                                 continue
                             item, expected_lane = item_lane
-                            active_by_lane[expected_lane] = max(0, active_by_lane[expected_lane] - 1)
-                            if kind == "completed":
+                            active_by_lane[expected_lane] = max(
+                                0, active_by_lane[expected_lane] - 1
+                            )
+                            if kind in {"completed", "interrupted"}:
                                 completed = message["payload"]
                                 completed.result.metadata.update(
                                     {
                                         "throughput_engine_version": "3.4",
-                                        "device_resident_execution": bool(getattr(self.config, "device_resident_execution", True)),
-                                        "cuda_priority_work_stealing": bool(getattr(self.config, "cuda_priority_work_stealing", True)),
+                                        "device_resident_execution": bool(
+                                            getattr(self.config, "device_resident_execution", True)
+                                        ),
+                                        "cuda_priority_work_stealing": bool(
+                                            getattr(
+                                                self.config, "cuda_priority_work_stealing", True
+                                            )
+                                        ),
                                         "throughput_lane": expected_lane,
-                                        "throughput_calibration": asdict(calibration_records[expected_lane]),
+                                        "throughput_calibration": asdict(
+                                            calibration_records[expected_lane]
+                                        ),
                                         "throughput_allocation": allocation.effective_text,
                                         "measured_lane_throughputs": dict(lane_throughputs),
                                         "numerical_device_residency": (
-                                            "100% candidate evaluation on CUDA" if expected_lane == "cuda" else
-                                            "100% candidate evaluation on XPU" if expected_lane == "xpu" else
-                                            "CPU fallback because no compatible accelerator was available"
+                                            "100% candidate evaluation on CUDA"
+                                            if expected_lane == "cuda"
+                                            else "100% candidate evaluation on XPU"
+                                            if expected_lane == "xpu"
+                                            else "CPU fallback because no compatible accelerator was available"
                                         ),
                                     }
                                 )
-                                self._persist_completed(experiment_id, store, item, completed)
-                                phase = "run_completed"
+                                if kind == "interrupted":
+                                    self._persist_interrupted(item, completed)
+                                    phase = "run_interrupted"
+                                else:
+                                    self._persist_completed(experiment_id, store, item, completed)
+                                    phase = "run_completed"
                             else:
                                 payload = message.get("payload")
                                 if payload is None:
@@ -1028,7 +1358,9 @@ class ExperimentWorker(QThread):
                                         item.label,
                                         item.run_index,
                                         seeds[item.run_index],
-                                        RuntimeError(str(message.get("message", "Persistent worker failure"))),
+                                        RuntimeError(
+                                            str(message.get("message", "Persistent worker failure"))
+                                        ),
                                     )
                                 self._persist_failure(experiment_id, item, payload)
                                 phase = "run_failed"
@@ -1040,7 +1372,9 @@ class ExperimentWorker(QThread):
                                     "algorithm": item.label,
                                     "job_index": item.job_index,
                                     "run_index": item.run_index + 1,
-                                    "overall_percent": int(100 * sum(fractions.values()) / total_items),
+                                    "overall_percent": int(
+                                        100 * sum(fractions.values()) / total_items
+                                    ),
                                     "run_position": item.job_index + 1,
                                     "total_run_items": total_items,
                                     "completed_items": completed_count,
@@ -1059,7 +1393,9 @@ class ExperimentWorker(QThread):
                     job_index = int(payload.get("job_index", -1))
                     item = next((entry for entry in plan if entry.job_index == job_index), None)
                     if item is not None:
-                        self._emit_progress(payload, item, fractions, completed_count, total_items, 0)
+                        self._emit_progress(
+                            payload, item, fractions, completed_count, total_items, 0
+                        )
             finally:
                 cancel_event.set()
                 for pool in pools.values():
@@ -1112,14 +1448,18 @@ class ExperimentWorker(QThread):
             cancel_event = manager.Event()
             progress_queue = manager.Queue()
             self._process_cancel_event = cancel_event
-            xpu_executor = ThreadPoolExecutor(max_workers=max(1, int(self.config.xpu_parallel_jobs)))
+            xpu_executor = ThreadPoolExecutor(
+                max_workers=max(1, int(self.config.xpu_parallel_jobs))
+            )
             try:
                 with ProcessPoolExecutor(max_workers=max_workers, mp_context=context) as executor:
                     pending: dict = {}
                     active_cpu_jobs = 0
                     active_by_device: dict[str, int] = {}
 
-                    def submit_item(item: PlannedItem, device: str, runtime: str = "primary") -> None:
+                    def submit_item(
+                        item: PlannedItem, device: str, runtime: str = "primary"
+                    ) -> None:
                         self._mark_task_started(item)
                         nonlocal active_cpu_jobs
                         if device.startswith("xpu") and runtime == "sidecar":
@@ -1186,7 +1526,12 @@ class ExperimentWorker(QThread):
                     def admit_jobs() -> bool:
                         """Admit jobs while respecting CUDA -> XPU -> CPU priority."""
                         admitted_any = False
-                        while queued and len(pending) < max_workers and not self._cancelled() and not self._pause_requested():
+                        while (
+                            queued
+                            and len(pending) < max_workers
+                            and not self._cancelled()
+                            and not self._pause_requested()
+                        ):
                             snapshot = monitor.sample()
                             admitted = False
 
@@ -1248,7 +1593,9 @@ class ExperimentWorker(QThread):
 
                         for payload in self._drain_progress_queue(progress_queue):
                             job_index = int(payload.get("job_index", -1))
-                            item = next((entry for entry in plan if entry.job_index == job_index), None)
+                            item = next(
+                                (entry for entry in plan if entry.job_index == job_index), None
+                            )
                             if item is not None:
                                 self._emit_progress(
                                     payload,
@@ -1295,6 +1642,9 @@ class ExperimentWorker(QThread):
                             if outcome == "completed":
                                 self._persist_completed(experiment_id, store, item, payload)
                                 phase = "run_completed"
+                            elif outcome == "interrupted":
+                                self._persist_interrupted(item, payload)
+                                phase = "run_interrupted"
                             else:
                                 self._persist_failure(experiment_id, item, payload)
                                 phase = "run_failed"
@@ -1306,7 +1656,9 @@ class ExperimentWorker(QThread):
                                     "algorithm": item.label,
                                     "job_index": item.job_index,
                                     "run_index": item.run_index + 1,
-                                    "overall_percent": int(100 * sum(fractions.values()) / total_items),
+                                    "overall_percent": int(
+                                        100 * sum(fractions.values()) / total_items
+                                    ),
                                     "run_position": item.job_index + 1,
                                     "total_run_items": total_items,
                                     "completed_items": completed_count,
@@ -1339,7 +1691,7 @@ class ExperimentWorker(QThread):
         return not self._cancelled() and not self._pause_requested()
 
     def _prepare_campaign(self, full_plan, seeds):
-        """Create or reopen one portfolio campaign and return only unfinished work."""
+        """Create/reopen a campaign, including scientifically explicit v5 extensions."""
         database = self.state.database
         if self.campaign_id:
             campaign = database.get_campaign(self.campaign_id)
@@ -1349,77 +1701,266 @@ class ExperimentWorker(QThread):
             self.resume_task_id = self.campaign_id
             rows = database.list_campaign_tasks(self.campaign_id)
             self._task_by_job = {int(row["job_index"]): row for row in rows}
-            pending_statuses = {"planned", "queued", "running", "pausing", "paused", "interrupted", "failed"}
-            plan = [item for item in full_plan if self._task_by_job.get(int(item.job_index), {}).get("status") in pending_statuses]
+            pending_statuses = {
+                "planned",
+                "queued",
+                "running",
+                "pausing",
+                "paused",
+                "interrupted",
+                "failed",
+            }
+            plan = [
+                item
+                for item in full_plan
+                if self._task_by_job.get(int(item.job_index), {}).get("status") in pending_statuses
+            ]
+            resume_map = dict(getattr(self.config, "extension_checkpoint_paths", {}) or {})
             for item in plan:
                 row = self._task_by_job[int(item.job_index)]
                 self._run_fingerprint_by_job[int(item.job_index)] = str(row["fingerprint"])
+                checkpoint_path = str(row.get("checkpoint_path", "") or "")
+                checkpoint_sha = str(row.get("checkpoint_sha256", "") or "")
+                if checkpoint_path and str(item.label) == "CALO":
+                    actual_sha = self._sha256_file(checkpoint_path)
+                    if checkpoint_sha and actual_sha.lower() != checkpoint_sha.lower():
+                        raise RuntimeError(
+                            f"Stored CALO resume checkpoint checksum mismatch for run {item.run_index + 1}"
+                        )
+                    resume_map[f"{item.label}:{int(item.run_index)}"] = checkpoint_path
                 database.update_campaign_task(row["id"], status="planned")
+            self.config.extension_checkpoint_paths = resume_map
             database.update_campaign(self.campaign_id, status="running", message="Campaign resumed")
             self.state.resume_service.update(
                 self.resume_task_id,
                 status=ResumeStatus.RUNNING,
-                state={"campaign_id": self.campaign_id, "experiment_id": self.experiment_id, "mode": self.mode},
+                state={
+                    "campaign_id": self.campaign_id,
+                    "experiment_id": self.experiment_id,
+                    "mode": self.mode,
+                },
                 resumable=True,
             )
             self._sync_campaign_progress("Campaign resumed")
             return plan
 
-        scientific_fp = experiment_fingerprint(self.config)
-        self.experiment_id = database.create_experiment(
-            self.config,
-            collect_provenance(),
-            scientific_fingerprint=scientific_fp,
-            portfolio_id=str(getattr(self.config, "portfolio_id", "")),
-            campaign_status="running",
+        extension_experiment_id = str(getattr(self.config, "extension_experiment_id", "") or "")
+        extension_mode = str(getattr(self.config, "extension_mode", "") or "")
+        is_extension = bool(extension_experiment_id and extension_mode)
+        if is_extension:
+            experiment = database.get_experiment(extension_experiment_id)
+            if experiment is None:
+                raise KeyError(f"Unknown experiment extension target: {extension_experiment_id}")
+            self.experiment_id = extension_experiment_id
+        else:
+            scientific_fp = experiment_fingerprint(self.config)
+            self.experiment_id = database.create_experiment(
+                self.config,
+                collect_provenance(),
+                scientific_fingerprint=scientific_fp,
+                portfolio_id=str(getattr(self.config, "portfolio_id", "")),
+                campaign_status="running",
+            )
+
+        # Every experiment receives a stable run-checkpoint root. Exact resumable algorithms write
+        # atomic checkpoints there; the path is operational and excluded from scientific fingerprints.
+        checkpoint_root = (
+            Path(self.config.output_directory) / "checkpoints" / "runs" / self.experiment_id
         )
+        checkpoint_root.mkdir(parents=True, exist_ok=True)
+        self.config.run_checkpoint_root = str(checkpoint_root)
+
         if "CALO" in self.config.algorithms:
             calo_parameters = dict(self.config.algorithm_parameters.get("CALO", {}))
             policy_id = str(calo_parameters.get("policy_id", "") or "")
             policy_checkpoint = str(calo_parameters.get("policy_checkpoint", "") or "")
-            if bool(calo_parameters.get("use_ai", True)) and bool(calo_parameters.get("strict_policy_binding", False)):
+            if bool(calo_parameters.get("use_ai", True)) and bool(
+                calo_parameters.get("strict_policy_binding", False)
+            ):
                 if not policy_id or not policy_checkpoint:
-                    raise ValueError("Strict CALO policy binding is incomplete; reapply CALO Intelligence before starting the experiment")
+                    raise ValueError(
+                        "Strict CALO policy binding is incomplete; reapply CALO Intelligence before starting the experiment"
+                    )
                 policy = self.state.policy_registry.get(policy_id)
-                if (
-                    not bool(calo_parameters.get("allow_unqualified_policy", False))
-                    and policy.qualification_status not in {"qualified", "legacy_qualified"}
-                ):
+                if not bool(
+                    calo_parameters.get("allow_unqualified_policy", False)
+                ) and policy.qualification_status not in {"qualified", "legacy_qualified"}:
                     raise ValueError(
                         f"CALO policy {policy.name!r} is not qualified for strict evaluation; "
                         "qualify it or explicitly enable research-only unqualified use."
                     )
                 inspected = self.state.policy_registry.inspect_checkpoint(policy_checkpoint)
                 expected_sha = str(calo_parameters.get("policy_sha256", "") or "").lower()
-                if not expected_sha or inspected["sha256"].lower() != expected_sha or policy.sha256.lower() != expected_sha:
-                    raise RuntimeError("CALO policy artifact changed after configuration; experiment start is blocked")
+                if (
+                    not expected_sha
+                    or inspected["sha256"].lower() != expected_sha
+                    or policy.sha256.lower() != expected_sha
+                ):
+                    raise RuntimeError(
+                        "CALO policy artifact changed after configuration; experiment start is blocked"
+                    )
                 binding = {
-                    key: value for key, value in calo_parameters.items()
-                    if key.startswith("policy_") or key in {"deterministic_policy", "strict_policy_binding", "allow_unqualified_policy"}
+                    key: value
+                    for key, value in calo_parameters.items()
+                    if key.startswith("policy_")
+                    or key
+                    in {"deterministic_policy", "strict_policy_binding", "allow_unqualified_policy"}
                 }
                 binding["policy_name"] = policy.name
-                database.bind_policy_to_experiment(self.experiment_id, binding)
+                if is_extension:
+                    previous_binding = database.get_experiment_policy_binding(self.experiment_id)
+                    if (
+                        previous_binding
+                        and str(previous_binding.get("sha256", "")).lower() != expected_sha
+                    ):
+                        raise RuntimeError(
+                            "Experiment extension is blocked because the selected CALO policy differs from the immutable policy bound to the original experiment."
+                        )
+                else:
+                    database.bind_policy_to_experiment(self.experiment_id, binding)
+
+        # Filter and validate horizon continuation before creating tasks. Exact continuation is
+        # currently implemented by CALO's full optimizer-state checkpoint. Other optimizers must
+        # not be silently replayed and called a continuation.
+        candidate_plan = list(full_plan)
+        if extension_mode == "extend_evaluation_horizon":
+            selected_runs = set(
+                int(i) for i in (getattr(self.config, "extension_run_indices", []) or [])
+            )
+            selected_algorithms = set(
+                str(a) for a in (getattr(self.config, "extension_algorithm_names", []) or [])
+            )
+            if selected_runs:
+                candidate_plan = [
+                    item for item in candidate_plan if int(item.run_index) in selected_runs
+                ]
+            if selected_algorithms:
+                candidate_plan = [
+                    item for item in candidate_plan if str(item.label) in selected_algorithms
+                ]
+            if not candidate_plan:
+                raise ValueError("No runs match the requested evaluation-horizon extension")
+            resume_map = {}
+            existing_map = {}
+            strategy = str(
+                getattr(self.config, "extension_execution_strategy", "exact_continue")
+                or "exact_continue"
+            )
+            if strategy not in {"exact_continue", "recompute_from_seed"}:
+                raise ValueError(f"Unsupported horizon-extension execution strategy: {strategy}")
+            unsupported = sorted(
+                {str(item.label) for item in candidate_plan if str(item.label) != "CALO"}
+            )
+            if strategy == "exact_continue" and unsupported:
+                raise RuntimeError(
+                    "Exact same-run optimizer-state continuation is currently implemented for CALO only. "
+                    "Selected algorithms without complete exact checkpoints: "
+                    + ", ".join(unsupported)
+                    + ". Choose 'recompute from original paired seeds' for a scientifically valid multi-algorithm higher-horizon revision."
+                )
+            target_evaluations = int(self.config.budget.max_evaluations)
+            for item in candidate_plan:
+                existing = database.get_run_by_algorithm_index(
+                    self.experiment_id, item.label, item.run_index
+                )
+                if existing is None:
+                    raise RuntimeError(
+                        f"Cannot extend missing {item.label} run {item.run_index + 1}"
+                    )
+                key = f"{item.label}:{int(item.run_index)}"
+                previous_evaluations = self._result_evaluations_from_row(existing)
+                available = database.available_run_horizons(str(existing["id"]))
+                if target_evaluations in available:
+                    raise ValueError(
+                        f"{item.label} run {item.run_index + 1} already has preserved evidence at "
+                        f"{target_evaluations} FE; refusing to overwrite/recompute the same horizon."
+                    )
+                checkpoint_path = ""
+                checkpoint_sha = ""
+                if strategy == "exact_continue":
+                    source_horizon = int(getattr(self.config, "extension_source_horizon", 0) or 0)
+                    if source_horizon not in available:
+                        raise RuntimeError(
+                            f"CALO run {item.run_index + 1} has no preserved evidence at the selected "
+                            f"source horizon {source_horizon} FE."
+                        )
+                    if target_evaluations <= source_horizon:
+                        raise ValueError(
+                            f"Exact continuation target {target_evaluations} FE must exceed source horizon "
+                            f"{source_horizon} FE for CALO run {item.run_index + 1}."
+                        )
+                    # Select the exact checkpoint belonging to the requested source horizon, not
+                    # merely the most recently viewed/current branch of this logical run.
+                    source_segments = [
+                        segment
+                        for segment in database.list_run_segments(str(existing["id"]))
+                        if int(segment.get("end_evaluations", 0)) == source_horizon
+                        and str(segment.get("checkpoint_path", "") or "")
+                    ]
+                    if source_segments:
+                        checkpoint_path = str(source_segments[-1].get("checkpoint_path", "") or "")
+                        checkpoint_sha = str(source_segments[-1].get("checkpoint_sha256", "") or "")
+                    elif previous_evaluations == source_horizon:
+                        payload = json.loads(str(existing.get("result_json", "{}") or "{}"))
+                        continuation = dict(
+                            (payload.get("metadata", {}) or {}).get("run_continuation", {}) or {}
+                        )
+                        checkpoint_path = str(continuation.get("checkpoint_path", "") or "")
+                        checkpoint_sha = str(continuation.get("checkpoint_sha256", "") or "")
+                    path = Path(checkpoint_path)
+                    if not path.is_file():
+                        raise RuntimeError(
+                            f"Exact checkpoint is unavailable for CALO run {item.run_index + 1} at "
+                            f"{source_horizon} FE; choose paired recomputation or restore that revision's checkpoint artifact."
+                        )
+                    actual_sha = self._sha256_file(checkpoint_path)
+                    if checkpoint_sha and actual_sha.lower() != checkpoint_sha.lower():
+                        raise RuntimeError(
+                            f"Checkpoint checksum mismatch for CALO run {item.run_index + 1} at {source_horizon} FE"
+                        )
+                    resume_map[key] = checkpoint_path
+                existing_map[key] = str(existing["id"])
+            self.config.extension_checkpoint_paths = resume_map
+            self.config.extension_existing_run_ids = existing_map
+
+        # Register an immutable revision. Old evidence remains queryable at its original horizon.
+        evolution = ExperimentEvolutionService(database)
+        if is_extension:
+            revision_id = str(getattr(self.config, "experiment_revision_id", "") or "")
+            revision = database.get_experiment_revision(revision_id) if revision_id else None
+            if revision is None:
+                raise RuntimeError("Experiment extension has no valid revision record")
+            database.update_experiment_revision(revision_id, status="running")
+        else:
+            original = evolution.ensure_original_revision(self.experiment_id)
+            self.config.experiment_revision_id = str(original["id"])
+            database.update_experiment_revision(str(original["id"]), status="running")
 
         self.campaign_id = database.create_campaign(
             self.experiment_id,
             str(getattr(self.config, "portfolio_id", "")),
             self.mode,
             self.config.to_dict(),
-            len(full_plan),
+            len(candidate_plan),
         )
         self.resume_task_id = self.campaign_id
         self.state.resume_service.register(
             ResumeTaskType.EXPERIMENT,
             f"{self.config.name} ({self.mode})",
-            {"campaign_id": self.campaign_id, "experiment_id": self.experiment_id, "mode": self.mode},
-            total=len(full_plan),
+            {
+                "campaign_id": self.campaign_id,
+                "experiment_id": self.experiment_id,
+                "mode": self.mode,
+                "revision_id": str(getattr(self.config, "experiment_revision_id", "") or ""),
+            },
+            total=len(candidate_plan),
             task_id=self.resume_task_id,
             status=ResumeStatus.RUNNING,
         )
         required_outputs = list(getattr(self.config.portfolio, "requested_outputs", []))
         plan = []
         reused = 0
-        for item in full_plan:
+        for item in candidate_plan:
             seed = seeds[item.run_index]
             fp = run_fingerprint(self.config, item.label, item.run_index, seed)
             seed_payload = {
@@ -1436,24 +1977,56 @@ class ExperimentWorker(QThread):
                 fp,
                 required_outputs,
             )
-            row = next(row for row in database.list_campaign_tasks(self.campaign_id) if row["id"] == task_id)
+            row = next(
+                row
+                for row in database.list_campaign_tasks(self.campaign_id)
+                if row["id"] == task_id
+            )
             self._task_by_job[int(item.job_index)] = row
             self._run_fingerprint_by_job[int(item.job_index)] = fp
+
+            if extension_mode == "extend_evaluation_horizon":
+                plan.append(item)
+                continue
+
+            # Run-count extensions reuse the original same-experiment rows without cloning; fresh
+            # portfolio experiments may clone exact compatible evidence from another experiment.
+            same_run = (
+                database.get_run_by_algorithm_index(self.experiment_id, item.label, item.run_index)
+                if is_extension
+                else None
+            )
+            if same_run is not None:
+                database.update_campaign_task(task_id, status="reused", run_id=str(same_run["id"]))
+                database.append_task_event(task_id, "reused_existing", {"run_id": same_run["id"]})
+                reused += 1
+                continue
             reusable = None
-            if bool(getattr(self.config, "reuse_compatible_results", True)):
+            if bool(getattr(self.config, "reuse_compatible_results", True)) and not is_extension:
                 reusable = database.find_reusable_run(
                     fp,
-                    verified_only=bool(getattr(self.config.portfolio, "require_independent_validation", False)),
+                    verified_only=bool(
+                        getattr(self.config.portfolio, "require_independent_validation", False)
+                    ),
                 )
             if reusable is not None:
                 cloned_run_id = database.clone_run_to_experiment(reusable["id"], self.experiment_id)
                 database.update_campaign_task(task_id, status="reused", run_id=cloned_run_id)
-                database.append_task_event(task_id, "reused", {"source_run_id": reusable["id"], "run_id": cloned_run_id})
+                database.append_task_event(
+                    task_id, "reused", {"source_run_id": reusable["id"], "run_id": cloned_run_id}
+                )
                 reused += 1
             else:
                 plan.append(item)
-        database.update_campaign(self.campaign_id, status="running", completed_tasks=reused, message=f"Reused {reused} exact compatible run(s)")
-        self._sync_campaign_progress(f"Reused {reused} exact compatible run(s)")
+        database.update_campaign(
+            self.campaign_id,
+            status="running",
+            completed_tasks=reused,
+            message=f"Prepared revision; reused {reused} existing compatible run(s)",
+        )
+        self._sync_campaign_progress(
+            f"Prepared revision; reused {reused} existing compatible run(s)"
+        )
         return plan
 
     def _pause_unfinished(self) -> None:
@@ -1462,15 +2035,23 @@ class ExperimentWorker(QThread):
         for row in self.state.database.list_campaign_tasks(self.campaign_id):
             if row["status"] in {"planned", "queued", "running", "pausing", "interrupted"}:
                 self.state.database.update_campaign_task(row["id"], status="paused")
-        self.state.database.update_campaign(self.campaign_id, status="paused", message="Paused safely; completed jobs retained")
+        self.state.database.update_campaign(
+            self.campaign_id, status="paused", message="Paused safely; completed jobs retained"
+        )
+        revision_id = str(getattr(self.config, "experiment_revision_id", "") or "")
+        if revision_id:
+            self.state.database.update_experiment_revision(revision_id, status="paused")
         if self.resume_task_id:
-            self.state.resume_service.update(self.resume_task_id, status=ResumeStatus.PAUSED, resumable=True)
+            self.state.resume_service.update(
+                self.resume_task_id, status=ResumeStatus.PAUSED, resumable=True
+            )
         self._sync_campaign_progress("Paused safely")
 
     def run(self) -> None:
         try:
             self.config.validate()
             from calo_rpd_studio.portfolio.planner import PortfolioPlanner
+
             portfolio_plan = PortfolioPlanner.plan(self.config, self.config.portfolio)
             store = ResultStore(
                 self.config.output_directory,
@@ -1483,8 +2064,17 @@ class ExperimentWorker(QThread):
             self.experiment_created.emit(self.experiment_id)
 
             if not plan:
-                self.state.database.update_campaign(self.campaign_id, status="completed", message="All required jobs were already complete and reusable")
-                self.state.resume_service.update(self.resume_task_id, status=ResumeStatus.COMPLETED, resumable=False)
+                self.state.database.update_campaign(
+                    self.campaign_id,
+                    status="completed",
+                    message="All required jobs were already complete and reusable",
+                )
+                revision_id = str(getattr(self.config, "experiment_revision_id", "") or "")
+                if revision_id:
+                    self.state.database.update_experiment_revision(revision_id, status="completed")
+                self.state.resume_service.update(
+                    self.resume_task_id, status=ResumeStatus.COMPLETED, resumable=False
+                )
                 self.completed.emit(self.experiment_id)
                 return
 
@@ -1500,7 +2090,20 @@ class ExperimentWorker(QThread):
                 tasks = self.state.database.list_campaign_tasks(self.campaign_id)
                 failures = [row for row in tasks if row["status"] == "failed"]
                 status = "completed_with_failures" if failures else "completed"
-                self.state.database.update_campaign(self.campaign_id, status=status, message=(f"Completed with {len(failures)} failed job(s)" if failures else "Portfolio numerical tasks completed"))
+                self.state.database.update_campaign(
+                    self.campaign_id,
+                    status=status,
+                    message=(
+                        f"Completed with {len(failures)} failed job(s)"
+                        if failures
+                        else "Portfolio numerical tasks completed"
+                    ),
+                )
+                revision_id = str(getattr(self.config, "experiment_revision_id", "") or "")
+                if revision_id:
+                    self.state.database.update_experiment_revision(
+                        revision_id, status=("failed" if failures else "completed")
+                    )
                 self.state.resume_service.update(
                     self.resume_task_id,
                     status=(ResumeStatus.FAILED if failures else ResumeStatus.COMPLETED),
@@ -1512,9 +2115,16 @@ class ExperimentWorker(QThread):
                 self.cancelled.emit(self.experiment_id)
         except Exception as exc:
             if self.campaign_id:
-                self.state.database.update_campaign(self.campaign_id, status="interrupted", message=f"{type(exc).__name__}: {exc}")
+                self.state.database.update_campaign(
+                    self.campaign_id, status="interrupted", message=f"{type(exc).__name__}: {exc}"
+                )
+            revision_id = str(getattr(self.config, "experiment_revision_id", "") or "")
+            if revision_id:
+                self.state.database.update_experiment_revision(revision_id, status="interrupted")
             if self.resume_task_id:
-                self.state.resume_service.update(self.resume_task_id, status=ResumeStatus.INTERRUPTED, resumable=True)
+                self.state.resume_service.update(
+                    self.resume_task_id, status=ResumeStatus.INTERRUPTED, resumable=True
+                )
             self.failed.emit(f"{type(exc).__name__}: {exc}")
 
 
@@ -1560,11 +2170,70 @@ class ExperimentManager(QObject):
         self.state.update_config()
         return self._start(config, str(campaign["mode"]))
 
+    def extend_run_count(self, experiment_id: str, new_total_runs: int) -> bool:
+        """Append new independent paired runs to the same immutable experiment definition."""
+        if self._busy or self.state.task_status.busy:
+            self.busy.emit("A scientific task is already running.")
+            return False
+        try:
+            _plan, config = ExperimentEvolutionService(self.state.database).extend_run_count(
+                str(experiment_id), int(new_total_runs)
+            )
+            self.state.config = config
+            self.state.current_experiment_id = str(experiment_id)
+            self.state.update_config()
+            return self._start(config, COMPARISON_MODE)
+        except Exception as exc:
+            self.failed.emit(f"{type(exc).__name__}: {exc}")
+            return False
+
+    def extend_evaluation_horizon(
+        self,
+        experiment_id: str,
+        new_evaluation_target: int,
+        *,
+        protocol: str = "manual_exploratory",
+        run_indices=(),
+        algorithm_names=(),
+        execution_strategy: str = "exact_continue",
+        source_horizon: int | None = None,
+    ) -> bool:
+        """Continue checkpoint-capable historical runs to a larger FE horizon.
+
+        Publication eligibility is encoded by the protocol. The worker refuses to fake an exact
+        continuation for algorithms that do not expose complete optimizer-state checkpoints.
+        """
+        if self._busy or self.state.task_status.busy:
+            self.busy.emit("A scientific task is already running.")
+            return False
+        try:
+            protocol_enum = ExtensionProtocol(str(protocol))
+            _plan, config = ExperimentEvolutionService(
+                self.state.database
+            ).extend_evaluation_horizon(
+                str(experiment_id),
+                int(new_evaluation_target),
+                protocol=protocol_enum,
+                run_indices=tuple(int(i) for i in run_indices),
+                algorithm_names=tuple(str(a) for a in algorithm_names),
+                execution_strategy=str(execution_strategy),
+                source_horizon=source_horizon,
+            )
+            self.state.config = config
+            self.state.current_experiment_id = str(experiment_id)
+            self.state.update_config()
+            return self._start(config, COMPARISON_MODE)
+        except Exception as exc:
+            self.failed.emit(f"{type(exc).__name__}: {exc}")
+            return False
+
     def pause(self) -> None:
         """Request a safe pause. New jobs stop; active jobs finish and commit atomically."""
         worker = self.worker
         if worker is not None:
-            self.state.task_status.update(detail="Safe pause requested; waiting for active jobs to finish")
+            self.state.task_status.update(
+                detail="Safe pause requested; waiting for active jobs to finish"
+            )
             worker.pause()
 
     def _start(self, config, mode: str) -> bool:
@@ -1701,7 +2370,9 @@ class ExperimentManager(QObject):
 
     def _cancelled(self, experiment_id: str) -> None:
         self.state.runs_changed.emit()
-        self.state.task_status.cancelled("Experiment cancelled safely; completed runs were retained")
+        self.state.task_status.cancelled(
+            "Experiment cancelled safely; completed runs were retained"
+        )
         self.cancelled.emit(experiment_id)
 
     def _failed(self, message: str) -> None:

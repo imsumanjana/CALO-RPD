@@ -3,6 +3,7 @@
 The scientific evaluator may keep its own CUDA/XPU workspaces; this pool avoids
 repeated host allocation of candidate/direction buffers in the CALO control loop.
 """
+
 from __future__ import annotations
 
 import numpy as np

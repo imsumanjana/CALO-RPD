@@ -4,6 +4,7 @@ A persistent accelerator worker installs one cross-run broker in this module.  E
 problem created in that worker automatically attaches to the broker, while ordinary single-run and
 CPU-reference execution remain unaffected.
 """
+
 from __future__ import annotations
 
 import threading

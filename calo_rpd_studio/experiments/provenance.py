@@ -1,4 +1,5 @@
 """Machine and software provenance capture."""
+
 from __future__ import annotations
 
 from calo_rpd_studio.version import VERSION

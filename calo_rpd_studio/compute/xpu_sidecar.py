@@ -1,4 +1,5 @@
 """Helpers for executing jobs or policy training in the secondary Intel-XPU runtime."""
+
 from __future__ import annotations
 
 from dataclasses import asdict
@@ -42,7 +43,13 @@ def execute_xpu_job(config, mode, item, seeds, progress_queue, cancel_event, dev
                 protocol=pickle.HIGHEST_PROTOCOL,
             )
         process = subprocess.Popen(
-            [interpreter, "-m", "calo_rpd_studio.compute.xpu_worker", str(input_path), str(output_path)],
+            [
+                interpreter,
+                "-m",
+                "calo_rpd_studio.compute.xpu_worker",
+                str(input_path),
+                str(output_path),
+            ],
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             text=True,
@@ -83,7 +90,9 @@ def execute_xpu_job(config, mode, item, seeds, progress_queue, cancel_event, dev
             return pickle.load(handle)
 
 
-def train_policy_in_xpu_sidecar(config, output_path: str, progress_callback=None, cancel_callback=None) -> str:
+def train_policy_in_xpu_sidecar(
+    config, output_path: str, progress_callback=None, cancel_callback=None
+) -> str:
     """Run centralized PPO updates in the secondary XPU runtime.
 
     Cancellation terminates the sidecar process between emitted progress updates.  No partially

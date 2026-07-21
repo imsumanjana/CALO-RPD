@@ -1,4 +1,5 @@
 """Frozen v2 benchmark campaign and Transactions evidence workspace."""
+
 from __future__ import annotations
 
 from copy import deepcopy
@@ -62,7 +63,7 @@ class BenchmarkCampaignPanel(WorkspacePage):
         )
         freeze_row = QHBoxLayout()
         self.freeze_path = QLineEdit(
-            str(Path(__file__).resolve().parents[2] / "data" / "frozen" / "calo_v410_freeze.json")
+            str(Path(__file__).resolve().parents[2] / "data" / "frozen" / "calo_v500_freeze.json")
         )
         self.freeze_status = QLabel("Not verified")
         verify = QPushButton("Verify frozen CALO")
@@ -91,7 +92,13 @@ class BenchmarkCampaignPanel(WorkspacePage):
 
         study_box = QGroupBox("Study matrix")
         study_layout = QVBoxLayout(study_box)
-        default_studies = {"deterministic", "mixed", "load_mean_risk", "renewable_cvar", "branch_worst_case"}
+        default_studies = {
+            "deterministic",
+            "mixed",
+            "load_mean_risk",
+            "renewable_cvar",
+            "branch_worst_case",
+        }
         self.study_checks: dict[str, QCheckBox] = {}
         for study in self.suite.studies:
             check = QCheckBox(study.label)
@@ -118,7 +125,7 @@ class BenchmarkCampaignPanel(WorkspacePage):
         self.workers = QSpinBox()
         self.workers.setRange(1, 256)
         self.workers.setValue(max(1, int(self.state.config.parallel_workers)))
-        self.output_directory = QLineEdit("benchmark_v34")
+        self.output_directory = QLineEdit("benchmark_v500")
         numeric.addWidget(QLabel("Independent runs / algorithm / task"), 0, 0)
         numeric.addWidget(self.runs, 0, 1)
         numeric.addWidget(QLabel("Evaluation budget"), 1, 0)
@@ -168,7 +175,7 @@ class BenchmarkCampaignPanel(WorkspacePage):
             "Generate verified tables, advanced publication figures, global nonparametric statistics, evidence-based interpretation, raw run records, experiment configurations, validation status, frozen CALO manifest, and a reproducibility archive.",
         )
         package_row = QHBoxLayout()
-        self.package_manifest = QLineEdit("benchmark_v34/campaign_manifest.json")
+        self.package_manifest = QLineEdit("benchmark_v500/campaign_manifest.json")
         browse = QPushButton("Load campaign manifest")
         browse.clicked.connect(self.choose_manifest)
         validate_button = QPushButton("Validate completed campaign")
@@ -206,7 +213,7 @@ class BenchmarkCampaignPanel(WorkspacePage):
             max_evaluations=self.evaluations.value(),
             population_size=self.population.value(),
             master_seed=self.master_seed.value(),
-            output_directory=self.output_directory.text().strip() or "benchmark_v34",
+            output_directory=self.output_directory.text().strip() or "benchmark_v500",
             parallel_workers=self.workers.value(),
             execution_backend=self.state.config.execution_backend,
             freeze_manifest=self.freeze_path.text().strip(),
@@ -225,10 +232,14 @@ class BenchmarkCampaignPanel(WorkspacePage):
             if not self._selected_cases() or not self._selected_studies():
                 raise ValueError("Select at least one benchmark system and one study.")
             campaign = self.campaign_config()
-            tasks = build_campaign(campaign, base_config=deepcopy(self.state.config), suite=self.suite)
+            tasks = build_campaign(
+                campaign, base_config=deepcopy(self.state.config), suite=self.suite
+            )
             output = Path(campaign.output_directory)
             output.mkdir(parents=True, exist_ok=True)
-            self._manifest_path = write_campaign_plan(campaign, tasks, output / "campaign_manifest.json")
+            self._manifest_path = write_campaign_plan(
+                campaign, tasks, output / "campaign_manifest.json"
+            )
             self.package_manifest.setText(str(self._manifest_path))
             self._tasks = tasks
             self._task_cursor = -1
@@ -260,7 +271,11 @@ class BenchmarkCampaignPanel(WorkspacePage):
             if not self._tasks:
                 return
         if not self.verify_freeze():
-            QMessageBox.critical(self, "Frozen CALO verification failed", "The final TEST campaign cannot start until the frozen CALO manifest verifies successfully.")
+            QMessageBox.critical(
+                self,
+                "Frozen CALO verification failed",
+                "The final TEST campaign cannot start until the frozen CALO manifest verifies successfully.",
+            )
             return
         answer = QMessageBox.question(
             self,
@@ -286,7 +301,9 @@ class BenchmarkCampaignPanel(WorkspacePage):
             self._campaign_active = False
             self.cancel_button.setEnabled(False)
             self.plan_button.setEnabled(True)
-            self.log.append("Final benchmark campaign completed. Generate the Transactions research package after independent validation is complete.")
+            self.log.append(
+                "Final benchmark campaign completed. Generate the Transactions research package after independent validation is complete."
+            )
             return
         task = self._tasks[self._task_cursor]
         self.table.setItem(self._task_cursor, 5, QTableWidgetItem("Starting"))
@@ -299,7 +316,9 @@ class BenchmarkCampaignPanel(WorkspacePage):
             self.cancel_button.setEnabled(False)
             self.plan_button.setEnabled(True)
 
-    def _update_manifest_task(self, *, experiment_id: str | None = None, status: str | None = None) -> None:
+    def _update_manifest_task(
+        self, *, experiment_id: str | None = None, status: str | None = None
+    ) -> None:
         if self._manifest_path is None or self._task_cursor < 0:
             return
         payload = json.loads(self._manifest_path.read_text(encoding="utf-8"))
@@ -364,10 +383,13 @@ class BenchmarkCampaignPanel(WorkspacePage):
         if path:
             self.package_manifest.setText(path)
 
-
     def validate_completed_campaign(self) -> None:
         task = self.state.task_status
-        if not task.begin("Validating final benchmark campaign", detail="Reconstructing stored solutions independently", progress=0):
+        if not task.begin(
+            "Validating final benchmark campaign",
+            detail="Reconstructing stored solutions independently",
+            progress=0,
+        ):
             return
         QApplication.processEvents()
         try:
@@ -399,7 +421,10 @@ class BenchmarkCampaignPanel(WorkspacePage):
 
     def generate_package(self) -> None:
         task = self.state.task_status
-        if not task.begin("Generating Transactions research package", detail="Collecting completed benchmark evidence"):
+        if not task.begin(
+            "Generating Transactions research package",
+            detail="Collecting completed benchmark evidence",
+        ):
             return
         QApplication.processEvents()
         try:

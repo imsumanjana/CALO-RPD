@@ -1,4 +1,5 @@
 """Central restoration of an existing experiment into the complete GUI workspace."""
+
 from __future__ import annotations
 
 import json
@@ -18,7 +19,22 @@ class ExperimentWorkspaceRestorer:
         row = self.state.database.get_experiment(experiment_id)
         if row is None:
             raise KeyError(f"Unknown experiment: {experiment_id}")
-        config = ExperimentConfig.from_dict(json.loads(row["config_json"]))
+        # The experiment row preserves the original scientific definition. v5 execution revisions
+        # are stored as campaigns, so restore the latest revision configuration for the workspace
+        # without destroying the original definition/evidence horizon.
+        campaigns = [
+            item
+            for item in self.state.database.list_campaigns(False)
+            if str(item.get("experiment_id", "")) == str(experiment_id)
+        ]
+        latest_campaign = campaigns[0] if campaigns else None
+        config_payload = (
+            str(latest_campaign.get("config_json", ""))
+            if latest_campaign
+            else str(row["config_json"])
+        )
+        config = ExperimentConfig.from_dict(json.loads(config_payload))
+        config.resume_campaign_id = ""
         self.state.config = config
         self.state.current_experiment_id = str(experiment_id)
 
@@ -27,12 +43,18 @@ class ExperimentWorkspaceRestorer:
         if binding_row is not None:
             binding = dict(binding_row.get("binding") or {})
             policy_binding_status = "recorded"
-            checkpoint = str(binding.get("policy_checkpoint", binding_row.get("checkpoint_path", "")) or "")
+            checkpoint = str(
+                binding.get("policy_checkpoint", binding_row.get("checkpoint_path", "")) or ""
+            )
             expected_sha = str(binding.get("policy_sha256", binding_row.get("sha256", "")) or "")
             if checkpoint and expected_sha:
                 try:
                     inspected = self.state.policy_registry.inspect_checkpoint(checkpoint)
-                    policy_binding_status = "verified" if inspected["sha256"].lower() == expected_sha.lower() else "checksum_mismatch"
+                    policy_binding_status = (
+                        "verified"
+                        if inspected["sha256"].lower() == expected_sha.lower()
+                        else "checksum_mismatch"
+                    )
                 except Exception:
                     # Inspection remains possible even when an old external checkpoint was moved;
                     # resuming new numerical work will still be blocked by strict binding checks.
@@ -53,7 +75,11 @@ class ExperimentWorkspaceRestorer:
             if callable(loader):
                 loader(config)
             refresher = getattr(page, "refresh", None)
-            if callable(refresher) and page.__class__.__name__ in {"RobustScenariosPanel", "PortfolioManagerPanel", "ExperimentManagerPanel"}:
+            if callable(refresher) and page.__class__.__name__ in {
+                "RobustScenariosPanel",
+                "PortfolioManagerPanel",
+                "ExperimentManagerPanel",
+            }:
                 refresher()
 
         power_page = self.pages[1]
@@ -89,4 +115,5 @@ class ExperimentWorkspaceRestorer:
             "ui": dict(workspace.get("ui") or {}),
             "runs": len(self.state.database.list_runs(str(experiment_id))),
             "policy_binding_status": policy_binding_status,
+            "revisions": self.state.database.list_experiment_revisions(str(experiment_id)),
         }

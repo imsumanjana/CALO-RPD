@@ -1,4 +1,5 @@
 """Application bootstrap."""
+
 from __future__ import annotations
 
 import logging
@@ -23,6 +24,7 @@ def main() -> int:
     app.setApplicationName("CALO-RPD Studio")
     app.setOrganizationName("CALO-RPD")
     from calo_rpd_studio.version import VERSION
+
     app.setApplicationVersion(VERSION)
 
     settings = SettingsManager()

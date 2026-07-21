@@ -1,4 +1,5 @@
 """Historical experiment classification and experience-repository controls."""
+
 from __future__ import annotations
 
 import json
@@ -55,7 +56,16 @@ class HistoricalExperienceWidget(QGroupBox):
 
         self.table = QTableWidget(0, 8)
         self.table.setHorizontalHeaderLabels(
-            ["Role", "Eligible", "Lock", "Experiment", "Created", "Runs", "Verified", "CALO transitions"]
+            [
+                "Role",
+                "Eligible",
+                "Lock",
+                "Experiment",
+                "Created",
+                "Runs",
+                "Verified",
+                "CALO transitions",
+            ]
         )
         self.table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
         self.table.setAlternatingRowColors(True)
@@ -81,7 +91,9 @@ class HistoricalExperienceWidget(QGroupBox):
         self.learning_mode = QComboBox()
         self.learning_mode.addItem("Cold Start — no historical learning", "cold_start")
         self.learning_mode.addItem("Historical Warm Start", "historical_warm_start")
-        self.learning_mode.addItem("Continual Learning — rebuild eligible repository automatically", "continual_learning")
+        self.learning_mode.addItem(
+            "Continual Learning — rebuild eligible repository automatically", "continual_learning"
+        )
         self.learning_mode.setCurrentIndex(1)
         self.repository_path = QLineEdit(str(Path("historical_experience_v1.3.json").resolve()))
         choose = QPushButton("Choose…")
@@ -241,11 +253,15 @@ class HistoricalExperienceWidget(QGroupBox):
             self.table.setCellWidget(row_index, 1, self._checkbox_host(eligible_check))
             self.table.setCellWidget(row_index, 2, self._checkbox_host(lock_check))
             self.table.setItem(row_index, 3, QTableWidgetItem(str(experiment.get("name", ""))))
-            self.table.setItem(row_index, 4, QTableWidgetItem(str(experiment.get("created_at", ""))[:19]))
+            self.table.setItem(
+                row_index, 4, QTableWidgetItem(str(experiment.get("created_at", ""))[:19])
+            )
             storage = self.state.database.experiment_storage_summary(experiment_id)
             self.table.setItem(row_index, 5, QTableWidgetItem(str(storage.get("runs", 0))))
             self.table.setItem(row_index, 6, QTableWidgetItem(str(storage.get("verified_runs", 0))))
-            self.table.setItem(row_index, 7, QTableWidgetItem(str(self._transition_count(experiment_id))))
+            self.table.setItem(
+                row_index, 7, QTableWidgetItem(str(self._transition_count(experiment_id)))
+            )
         self.summary.setPlainText(
             "Existing experiments are excluded from learning by default. Mark development data as TRAIN, "
             "enable learning eligibility, save classifications, then build the repository."
@@ -354,7 +370,9 @@ class HistoricalExperienceWidget(QGroupBox):
                 parameters.pop(key, None)
             self.state.config.algorithm_parameters["CALO"] = parameters
             self.state.update_config()
-            QMessageBox.information(self, "Historical Learning", "CALO is configured for a strict cold start.")
+            QMessageBox.information(
+                self, "Historical Learning", "CALO is configured for a strict cold start."
+            )
             return
         path = Path(self.repository_path.text().strip())
         if not path.exists():

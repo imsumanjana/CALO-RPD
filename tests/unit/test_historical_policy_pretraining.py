@@ -75,4 +75,6 @@ def test_historical_policy_pretraining_is_separate_from_fresh_ppo(tmp_path):
     assert historical["samples"] == 2
     assert historical["epochs"] == 1
     assert metadata["training_method"] == "PPO"
-    assert "old trajectories used only for offline pretraining" in metadata["historical_data_policy"]
+    assert (
+        "old trajectories used only for offline pretraining" in metadata["historical_data_policy"]
+    )

@@ -10,6 +10,7 @@ PYPOWER's own AC Newton solver with ``ENFORCE_Q_LIMS=0`` and independently appli
 Q-limit switching to *PV buses only* between solves.  The starting point is always the original
 controlled case, so the validation remains independent of the internal solver's switched state.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -49,9 +50,7 @@ def _angle_difference_deg(left: np.ndarray, right: np.ndarray) -> np.ndarray:
 
 
 def _online_generator_rows(gen: np.ndarray, bus_number: int) -> np.ndarray:
-    return np.where(
-        (gen[:, GEN_STATUS] > 0) & (gen[:, GEN_BUS].astype(int) == int(bus_number))
-    )[0]
+    return np.where((gen[:, GEN_STATUS] > 0) & (gen[:, GEN_BUS].astype(int) == int(bus_number)))[0]
 
 
 def _aggregate_q_by_bus(gen: np.ndarray) -> dict[int, float]:
@@ -129,7 +128,11 @@ def _run_pypower_with_pv_q_switching(case, *, max_rounds: int = 20, tolerance_mv
         if not violations:
             return solved, True, ""
         if _round >= max_rounds:
-            return solved, False, "Independent PYPOWER PV Q-limit switching reached its round limit."
+            return (
+                solved,
+                False,
+                "Independent PYPOWER PV Q-limit switching reached its round limit.",
+            )
 
         # Carry the converged state forward only as the next independent PYPOWER initial state.
         # Keep original matrix widths because PYPOWER appends solved branch-flow columns.
@@ -197,7 +200,9 @@ def validate_against_pypower(
         )
 
     # Align buses by external number rather than assuming row order.
-    internal_bus_map = {int(number): index for index, number in enumerate(internal.case.bus[:, BUS_I])}
+    internal_bus_map = {
+        int(number): index for index, number in enumerate(internal.case.bus[:, BUS_I])
+    }
     pp_bus_map = {int(number): index for index, number in enumerate(solved["bus"][:, BUS_I])}
     common_buses = sorted(set(internal_bus_map) & set(pp_bus_map))
     if len(common_buses) != internal.case.n_bus:
@@ -210,8 +215,7 @@ def validate_against_pypower(
     va_difference = float(np.max(_angle_difference_deg(solved["bus"][pi, VA], internal.va_deg[ii])))
     bus_type_mismatches = int(
         np.count_nonzero(
-            solved["bus"][pi, BUS_TYPE].astype(int)
-            != internal.case.bus[ii, BUS_TYPE].astype(int)
+            solved["bus"][pi, BUS_TYPE].astype(int) != internal.case.bus[ii, BUS_TYPE].astype(int)
         )
     )
 
@@ -249,7 +253,11 @@ def validate_against_pypower(
         vm_difference,
         va_difference,
         loss_difference,
-        ("Cross-validation passed. " if passed else "Cross-validation exceeded at least one tolerance. ")
+        (
+            "Cross-validation passed. "
+            if passed
+            else "Cross-validation exceeded at least one tolerance. "
+        )
         + details,
         bus_type_mismatches,
         q_limit_mismatches,

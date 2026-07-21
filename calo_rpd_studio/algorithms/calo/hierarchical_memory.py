@@ -4,6 +4,7 @@ A single canonical seven-row feasible-elite store is interpreted at four prefix
 resolutions (Best-1/3/5/7).  The implementation deliberately stores each elite
 vector once and derives all hierarchy summaries by prefix-weighted reductions.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -70,7 +71,9 @@ class HierarchicalPrefixEliteMemory:
             return x
         for i, variable in enumerate(self.variables):
             values = tuple(getattr(variable, "values", ()) or ())
-            kind = str(getattr(getattr(variable, "kind", None), "value", getattr(variable, "kind", "")))
+            kind = str(
+                getattr(getattr(variable, "kind", None), "value", getattr(variable, "kind", ""))
+            )
             if kind == "discrete" and values:
                 n = len(values)
                 index = min(int(np.floor(np.clip(x[i], 0.0, 1.0) * n)), n - 1)
@@ -96,7 +99,9 @@ class HierarchicalPrefixEliteMemory:
         return len(self) / self.capacity
 
     def _is_duplicate(self, vector: np.ndarray, kept: list[int], pool_vectors: np.ndarray) -> bool:
-        return any(self._distance(vector, pool_vectors[index]) <= self.duplicate_tol for index in kept)
+        return any(
+            self._distance(vector, pool_vectors[index]) <= self.duplicate_tol for index in kept
+        )
 
     @staticmethod
     def _objective(evaluation) -> float:

@@ -1,4 +1,5 @@
 """Constraint-aware CALO Core v2 cognitive state."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -47,7 +48,9 @@ class CognitiveState:
             np.asarray(self.operator_credit, float),
         ]
         if vector.shape != (STATE_DIM,):
-            raise ValueError(f"CALO cognitive state must have {STATE_DIM} values, got {vector.shape}")
+            raise ValueError(
+                f"CALO cognitive state must have {STATE_DIM} values, got {vector.shape}"
+            )
         return np.clip(np.nan_to_num(vector, nan=0.0, posinf=1.0, neginf=-1.0), -1.0, 1.0)
 
 
@@ -66,8 +69,10 @@ def elite_diversity(population, evaluations, fraction: float = 0.2) -> float:
         return 0.0
     order = sorted(
         range(len(evaluations)),
-        key=lambda i: (0 if evaluations[i].feasible else 1,
-                       evaluations[i].value if evaluations[i].feasible else evaluations[i].violation),
+        key=lambda i: (
+            0 if evaluations[i].feasible else 1,
+            evaluations[i].value if evaluations[i].feasible else evaluations[i].violation,
+        ),
     )
     count = max(2, int(np.ceil(len(order) * fraction)))
     elite = np.asarray(population)[order[:count]]
@@ -99,7 +104,10 @@ def build_cognitive_state(
 ) -> CognitiveState:
     diagnostics = population_diagnostics(evaluations, epsilon)
     components = np.asarray(
-        [transformed_violation(diagnostics.component_best.get(name, 0.0)) for name in CONSTRAINT_COMPONENTS],
+        [
+            transformed_violation(diagnostics.component_best.get(name, 0.0))
+            for name in CONSTRAINT_COMPONENTS
+        ],
         dtype=float,
     )
     return CognitiveState(
@@ -110,7 +118,9 @@ def build_cognitive_state(
         mean_violation=transformed_violation(diagnostics.mean_violation),
         best_violation=transformed_violation(diagnostics.best_violation),
         component_violations=components,
-        constraint_improvement=_relative_improvement(previous_best_violation, diagnostics.best_violation),
+        constraint_improvement=_relative_improvement(
+            previous_best_violation, diagnostics.best_violation
+        ),
         objective_improvement=_relative_improvement(
             previous_best_objective, diagnostics.best_feasible_objective
         ),

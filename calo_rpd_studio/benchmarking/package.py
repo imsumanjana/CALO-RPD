@@ -1,4 +1,5 @@
 """Transactions-level campaign evidence package builder."""
+
 from __future__ import annotations
 
 import json
@@ -57,7 +58,10 @@ class TransactionsPackageBuilder:
         for directory in (tables, figures, raw, reports, configs, validation, frozen):
             directory.mkdir(parents=True, exist_ok=True)
 
-        total_runs = sum(len(self.database.list_runs(experiment_id)) for experiment_id in task_experiments.values())
+        total_runs = sum(
+            len(self.database.list_runs(experiment_id))
+            for experiment_id in task_experiments.values()
+        )
         total_verified = sum(
             len(self.database.list_runs(experiment_id, verified_only=True))
             for experiment_id in task_experiments.values()
@@ -80,7 +84,9 @@ class TransactionsPackageBuilder:
                     "verified_runs": total_verified,
                     "font_preflight": font_resolution_manifest(),
                     "publication_claim_basis": (
-                        "verified_only" if total_runs > 0 and total_verified == total_runs else "incomplete_validation"
+                        "verified_only"
+                        if total_runs > 0 and total_verified == total_runs
+                        else "incomplete_validation"
                     ),
                     "warning": (
                         "All campaign runs are independently verified."
@@ -92,7 +98,9 @@ class TransactionsPackageBuilder:
             ),
             encoding="utf-8",
         )
-        (reports / "freeze_verification.json").write_text(json.dumps(asdict(verification), indent=2), encoding="utf-8")
+        (reports / "freeze_verification.json").write_text(
+            json.dumps(asdict(verification), indent=2), encoding="utf-8"
+        )
         shutil.copy2(campaign_manifest, root / "campaign_manifest.json")
         shutil.copy2(freeze_manifest, root / "frozen_calo_manifest.json")
         freeze_payload = json.loads(Path(freeze_manifest).read_text(encoding="utf-8"))
@@ -105,7 +113,7 @@ class TransactionsPackageBuilder:
                 shutil.copy2(source, destination)
 
         article_lines = [
-            "# CALO-RPD v4.1.0 — Article-ready evidence summary",
+            "# CALO-RPD v5.0.0 — Article-ready evidence summary",
             "",
             "## Evidence basis",
             f"- Completed campaign tasks: {len(task_experiments)}",
@@ -133,7 +141,9 @@ class TransactionsPackageBuilder:
         for task_id, task in evidence.task_summaries.items():
             experiment = self.database.get_experiment(task["experiment_id"])
             if experiment:
-                (configs / f"{task_id}.json").write_text(experiment["config_json"], encoding="utf-8")
+                (configs / f"{task_id}.json").write_text(
+                    experiment["config_json"], encoding="utf-8"
+                )
             for algorithm, summary in task["algorithms"].items():
                 objective = summary.get("objective", {})
                 runtime = summary.get("runtime_seconds", {})
@@ -167,7 +177,9 @@ class TransactionsPackageBuilder:
         )
         pd.DataFrame(pairwise_rows).to_csv(tables / "calo_pairwise_holm_wilcoxon.csv", index=False)
         ranks = evidence.global_statistics.get("average_ranks", {})
-        pd.DataFrame([{"algorithm": key, "average_rank": value} for key, value in ranks.items()]).sort_values("average_rank").to_csv(tables / "average_ranks.csv", index=False)
+        pd.DataFrame(
+            [{"algorithm": key, "average_rank": value} for key, value in ranks.items()]
+        ).sort_values("average_rank").to_csv(tables / "average_ranks.csv", index=False)
 
         validation_rows = []
         for task_id, experiment_id in task_experiments.items():
@@ -194,14 +206,19 @@ class TransactionsPackageBuilder:
                         "validation_status": row.get("validation_status"),
                         "decoded_controls": json.dumps(result.get("decoded_controls", {})),
                         "best_vector": json.dumps(result.get("best_vector", [])),
-                        "solution_state": json.dumps((result.get("metadata", {}) or {}).get("solution_state", {})),
+                        "solution_state": json.dumps(
+                            (result.get("metadata", {}) or {}).get("solution_state", {})
+                        ),
                     }
                 )
                 complete_record = {
                     "database_row": {key: row[key] for key in row if key != "result_json"},
                     "seeds": seeds,
                     "result": result,
-                    "validations": [json.loads(item["validation_json"]) for item in self.database.list_validations(row["id"])],
+                    "validations": [
+                        json.loads(item["validation_json"])
+                        for item in self.database.list_validations(row["id"])
+                    ],
                 }
                 (task_raw_dir / f"{row['id']}.json").write_text(
                     json.dumps(complete_record, indent=2, allow_nan=True),

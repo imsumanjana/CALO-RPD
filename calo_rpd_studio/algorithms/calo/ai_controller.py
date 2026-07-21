@@ -1,4 +1,5 @@
 """Hierarchical CALO policy loading and reproducible inference."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -33,7 +34,9 @@ PARAMETER_HIGH = np.asarray([1.40, 0.95, 0.30, 1.00, 0.45, 0.45], dtype=float)
 # inside that process and safely shared by concurrent CALO runs; each controller still owns its own
 # NumPy action RNG, so run-level stochastic decisions remain seed-isolated.
 _POLICY_CACHE_LOCK = threading.Lock()
-_POLICY_NETWORK_CACHE: dict[tuple[str, int, int, str], tuple[CALOPolicyNetwork, dict, str, dict]] = {}
+_POLICY_NETWORK_CACHE: dict[
+    tuple[str, int, int, str], tuple[CALOPolicyNetwork, dict, str, dict]
+] = {}
 _POLICY_BROKER_CACHE: dict[tuple[str, int, int, str], "_PolicyInferenceBroker"] = {}
 
 
@@ -48,14 +51,18 @@ class _PolicyInferenceRequest:
 class _PolicyInferenceBroker:
     """Microbatch frozen CALO policy inference across simultaneous comparison runs."""
 
-    def __init__(self, network: CALOPolicyNetwork, device: torch.device, *, window_ms=1.0, max_batch=1024):
+    def __init__(
+        self, network: CALOPolicyNetwork, device: torch.device, *, window_ms=1.0, max_batch=1024
+    ):
         self.network = network
         self.device = device
         self.window = max(0.0001, float(window_ms) / 1000.0)
         self.max_batch = max(1, int(max_batch))
         self.queue: queue.Queue[_PolicyInferenceRequest | None] = queue.Queue()
         self.closed = threading.Event()
-        self.thread = threading.Thread(target=self._run, name="CALO-PolicyInferenceBroker", daemon=True)
+        self.thread = threading.Thread(
+            target=self._run, name="CALO-PolicyInferenceBroker", daemon=True
+        )
         self.thread.start()
 
     def infer(self, vector: np.ndarray):
@@ -159,7 +166,9 @@ class AIController:
         requested = str(device or "auto").lower()
         xpu_available = bool(hasattr(torch, "xpu") and torch.xpu.is_available())
         if requested == "auto":
-            requested = "cuda:0" if torch.cuda.is_available() else ("xpu:0" if xpu_available else "cpu")
+            requested = (
+                "cuda:0" if torch.cuda.is_available() else ("xpu:0" if xpu_available else "cpu")
+            )
         if requested.startswith("cuda") and not torch.cuda.is_available():
             raise RuntimeError(
                 "CUDA policy inference was requested, but this PyTorch installation cannot access a CUDA GPU."
@@ -213,7 +222,9 @@ class AIController:
                 schema = infer_checkpoint_schema(payload)
                 input_dim = int(schema["input_dim"])
                 hidden_dim = int(architecture.get("hidden_dim", 96))
-                network = CALOPolicyNetwork(input_dim=input_dim, hidden_dim=hidden_dim).to(self.device)
+                network = CALOPolicyNetwork(input_dim=input_dim, hidden_dim=hidden_dim).to(
+                    self.device
+                )
                 network.load_state_dict(state_dict)
                 network.eval()
                 metadata = dict(payload.get("metadata", {}))
@@ -224,11 +235,21 @@ class AIController:
             self.schema = dict(schema)
             self.input_dim = int(self.schema.get("input_dim", STATE_DIM))
             if self.expected_checksum and self.checksum.lower() != self.expected_checksum:
-                raise RuntimeError("CALO policy checksum does not match the experiment's immutable policy binding")
-            if self.expected_state_schema and str(self.schema.get("state_schema_version", "")) != self.expected_state_schema:
+                raise RuntimeError(
+                    "CALO policy checksum does not match the experiment's immutable policy binding"
+                )
+            if (
+                self.expected_state_schema
+                and str(self.schema.get("state_schema_version", "")) != self.expected_state_schema
+            ):
                 raise RuntimeError("CALO policy state schema does not match the experiment binding")
-            if self.expected_action_schema and str(self.schema.get("action_schema_version", "")) != self.expected_action_schema:
-                raise RuntimeError("CALO policy action schema does not match the experiment binding")
+            if (
+                self.expected_action_schema
+                and str(self.schema.get("action_schema_version", "")) != self.expected_action_schema
+            ):
+                raise RuntimeError(
+                    "CALO policy action schema does not match the experiment binding"
+                )
             if get_cross_run_broker() is not None:
                 broker = _POLICY_BROKER_CACHE.get(cache_key)
                 if broker is None:
@@ -256,11 +277,15 @@ class AIController:
                 beta_values = beta[0].cpu().numpy()
                 critic_scalar = float(critic_value.item())
 
-        prior = rule_based_regime_prior(state) if hasattr(state, "feasible_ratio") else np.full(4, 0.25)
+        prior = (
+            rule_based_regime_prior(state) if hasattr(state, "feasible_ratio") else np.full(4, 0.25)
+        )
         regime_probabilities = 0.35 * learned_regime + 0.65 * prior
         regime_probabilities /= regime_probabilities.sum()
-        regime = int(np.argmax(regime_probabilities)) if self.deterministic else int(
-            self.rng.choice(len(regime_probabilities), p=regime_probabilities)
+        regime = (
+            int(np.argmax(regime_probabilities))
+            if self.deterministic
+            else int(self.rng.choice(len(regime_probabilities), p=regime_probabilities))
         )
 
         if self.deterministic:
@@ -272,7 +297,10 @@ class AIController:
             regime=regime,
             regime_probabilities=regime_probabilities,
             operator_probabilities=operator_probabilities / operator_probabilities.sum(),
-            parameters={name: float(parameter_value) for name, parameter_value in zip(PARAMETER_NAMES, values)},
+            parameters={
+                name: float(parameter_value)
+                for name, parameter_value in zip(PARAMETER_NAMES, values)
+            },
             value_estimate=float(critic_scalar),
         )
 

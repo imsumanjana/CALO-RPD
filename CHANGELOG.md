@@ -1,5 +1,22 @@
 # Changelog
 
+## 5.0.0
+
+- Added long-lived **policy lineages** with immutable deployable checkpoints, cumulative epoch accounting, latest-vs-best-qualified roles, safe forks/fine-tuning phases, and experiment-safe SHA-256 provenance.
+- Added policy-training continuation modes: **cumulative target**, **additional epochs**, and **indefinite until Safe Stop**. Exact resume restores model, optimizer, training history/curriculum state, Python/NumPy/Torch/CUDA RNG state, and blocks silent scientific hyperparameter drift.
+- Added atomic, SHA-verified policy/checkpoint writes plus rolling/milestone retention support. Every deployable lineage checkpoint can be evaluated/qualified/used independently without destroying earlier checkpoints.
+- Added experiment **revision history** so an existing scientific experiment can increase its paired independent-run target or create a larger FE-horizon revision without overwriting prior evidence.
+- Added deterministic add-more-runs semantics: completed paired runs remain unchanged and only newly indexed paired seeds are scheduled.
+- Added CALO **exact optimizer-state run checkpoints** containing population/evaluations, persistent pbest, HPEM, archives, success/context memories, variable intelligence, epsilon/dual-lane/precision state, RNG state, counters, diagnostics, and continuation provenance. Exact resume performs no hidden fresh-population evaluations.
+- Added explicit FE-horizon continuation strategies: **exact segmented continuation** from a selected preserved source horizon for CALO, and **paired recompute-from-original-seed** for publication-safe from-start higher-horizon comparisons across algorithms. These strategies are stored distinctly and never conflated.
+- Added publication-safety protocols: all-paired and predeclared deterministic-subset extensions may be eligible; post-hoc/manual selected-run extensions are explicitly exploratory and excluded from unbiased primary claims.
+- Added run segments, FE-horizon evidence snapshots, horizon-specific validation records, revision-scoped checkpoint paths, and source-horizon branching so old results/checkpoints are never silently overwritten.
+- Added horizon-aware Results Explorer, Statistics, and Portfolio Export. Incomplete or mixed horizons are not silently combined; publication exports preserve horizon/revision identity in separate artifact directories.
+- Extended the CALO Intelligence Policy Center with lineage/epoch/role visibility, exact saved-training resume selection, continue/fine-tune, fork-lineage actions, long cumulative epoch targets, and indefinite training controls.
+- Extended Experiment Manager with Experiment Evolution controls for increasing independent runs, selecting extension protocol/execution strategy, selecting exact-continuation source horizon, and inspecting revision history.
+- Added a v5 scientific dispute register that explicitly leaves unresolved work open: full device-resident CALO control, bit-identical training/runtime transition sharing, automatic periodic policy qualification, and exact optimizer-state continuation for all baseline algorithms.
+- Preserved equal requested-FE accounting, immutable experiment-policy bindings, strict cross-run independence, v4.1 workspace restoration, independent IEEE validation logic, and no-superiority-without-evidence rules.
+
 ## 4.1.0
 
 - Added a database-backed CALO Policy Center with policy discovery/import, immutable SHA-256 provenance, scientific status/grades, active-policy selection, archive, and reference-safe deletion.

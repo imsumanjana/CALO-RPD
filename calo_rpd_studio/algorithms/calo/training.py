@@ -9,6 +9,7 @@ curriculum progresses through unconstrained, constrained, mixed-variable, and na
 problems. Final publication benchmark systems are not used by this module unless a user explicitly
 adds separate development systems to an external training workflow.
 """
+
 from __future__ import annotations
 
 from concurrent.futures import ProcessPoolExecutor, as_completed
@@ -24,11 +25,20 @@ from types import SimpleNamespace
 import numpy as np
 import torch
 
-from calo_rpd_studio.ai.model_io import load_trusted_resume, write_trusted_resume_hash
+from calo_rpd_studio.ai.model_io import (
+    load_trusted_resume,
+    write_trusted_resume_hash,
+    load_checkpoint,
+)
 from torch import nn
 
 from .archives import ConstraintBoundaryArchive, FeasibleEliteArchive
-from .cognitive_state import STATE_DIM, build_cognitive_state, population_diversity, rule_based_regime_prior
+from .cognitive_state import (
+    STATE_DIM,
+    build_cognitive_state,
+    population_diversity,
+    rule_based_regime_prior,
+)
 from .environmental_selection import environmental_select, epsilon_better
 from .learning_operators import (
     cognitive_teacher_learning,
@@ -46,8 +56,14 @@ from .precision_engine import CognitivePrecisionEngine
 from .adaptive_epsilon import AdaptiveEpsilonController
 from .ai_controller import PARAMETER_LOW, PARAMETER_HIGH
 from .policy_schema import (
-    POLICY_STATE_DIM, POLICY_STATE_SCHEMA, POLICY_ACTION_SCHEMA, CALO_RUNTIME_ARCHITECTURE,
-    TRAINING_ENVIRONMENT_VERSION, PolicyRuntimeContext, build_policy_vector, variable_group_concentration,
+    POLICY_STATE_DIM,
+    POLICY_STATE_SCHEMA,
+    POLICY_ACTION_SCHEMA,
+    CALO_RUNTIME_ARCHITECTURE,
+    TRAINING_ENVIRONMENT_VERSION,
+    PolicyRuntimeContext,
+    build_policy_vector,
+    variable_group_concentration,
 )
 from .policy_network import CALOPolicyNetwork
 from .success_memory import SuccessMemory
@@ -80,6 +96,21 @@ class TrainingConfig:
     resume_checkpoint: str = ""
     checkpoint_each_epoch: bool = True
     resume_task_id: str = ""
+    initial_policy_checkpoint: str = (
+        ""  # weights-only fine-tune/fork start; not an exact optimizer resume
+    )
+    # v5 continuation semantics. ``epochs`` remains the requested target/additional amount for
+    # backward compatibility; ``training_mode`` defines how it is interpreted.
+    training_mode: str = "cumulative"  # cumulative | additional | indefinite
+    checkpoint_interval_epochs: int = 1
+    deployable_checkpoint_interval_epochs: int = 1000
+    qualification_interval_epochs: int = 10000
+    policy_lineage_id: str = ""
+    policy_lineage_name: str = ""
+    policy_phase_index: int = 1
+    keep_resume_after_completion: bool = True
+    # Primarily for controlled tests/automation. Zero means no session cap in indefinite mode.
+    max_session_epochs: int = 0
 
 
 class TrainingCancelled(RuntimeError):
@@ -144,12 +175,14 @@ class CurriculumProblem:
             # Four differently oriented narrow half-space/slab constraints emulate distinct ORPD
             # feasibility mechanisms without using final benchmark systems.
             projections = np.sum((x - self.constraint_centres) * self.constraint_normals, axis=1)
-            limits = np.asarray([
-                self.narrowness,
-                self.narrowness * 0.8,
-                self.narrowness * 1.2,
-                self.narrowness * 0.9,
-            ])
+            limits = np.asarray(
+                [
+                    self.narrowness,
+                    self.narrowness * 0.8,
+                    self.narrowness * 1.2,
+                    self.narrowness * 0.9,
+                ]
+            )
             raw = np.maximum(np.abs(projections) - limits, 0.0)
             if self.stage >= 2:
                 # Mixed-variable consistency pressure: decoded discrete coordinates should remain
@@ -184,7 +217,9 @@ class SyntheticCALOEnvironment:
     epsilon, dual-lane readiness, and recovery semantics exposed to the v4.1 runtime policy.
     """
 
-    def __init__(self, rng: np.random.Generator, stage: int, population_size: int, problem=None) -> None:
+    def __init__(
+        self, rng: np.random.Generator, stage: int, population_size: int, problem=None
+    ) -> None:
         self.rng = rng
         self.problem = problem if problem is not None else CurriculumProblem(rng, stage)
         self.population_size = int(population_size)
@@ -201,19 +236,25 @@ class SyntheticCALOEnvironment:
         self.boundary_archive = ConstraintBoundaryArchive(36)
         self.feasible_archive.update(self.population, self.evaluations)
         self.boundary_archive.update(self.population, self.evaluations)
-        variables = getattr(getattr(self.problem, "decoder", None), "variables", None) or getattr(self.problem, "variables", [])
+        variables = getattr(getattr(self.problem, "decoder", None), "variables", None) or getattr(
+            self.problem, "variables", []
+        )
         self.hpem = HierarchicalPrefixEliteMemory(self.problem.dimension, variables=variables)
         self.hpem.update(self.population, self.evaluations)
         self.memory = SuccessMemory(192, 0.97, n_operators=7)
         self.credit = ContextualCredit(4, 6, 4, 4, decay=0.90, floor=0.02)
         self.group_intelligence = VariableGroupIntelligence(variables, decay=0.90)
         self.lane_controller = DualLaneController(max_learning=0.92)
-        self.precision = CognitivePrecisionEngine(initial_radius=0.04, min_radius=5e-4, max_radius=0.15)
+        self.precision = CognitivePrecisionEngine(
+            initial_radius=0.04, min_radius=5e-4, max_radius=0.15
+        )
         self.previous_violation = float("inf")
         self.previous_objective = float("inf")
         self.constraint_stagnation = 0
         self.objective_stagnation = 0
-        violations = [float(e.violation) for e in self.evaluations if np.isfinite(float(e.violation))]
+        violations = [
+            float(e.violation) for e in self.evaluations if np.isfinite(float(e.violation))
+        ]
         epsilon0 = float(np.quantile(violations, 0.75)) if violations else 0.0
         self.epsilon_controller = AdaptiveEpsilonController(epsilon0, 0.65, 2.0)
         self.step_index = 0
@@ -270,7 +311,9 @@ class SyntheticCALOEnvironment:
         )
         progress = self.step_index / max(horizon, 1)
         severe = max(self.constraint_stagnation, self.objective_stagnation) >= 8
-        learning_fraction = self.lane_controller.learning_fraction(readiness, progress, diversity, severe)
+        learning_fraction = self.lane_controller.learning_fraction(
+            readiness, progress, diversity, severe
+        )
         precision_active = self.precision.active(
             feasible_ratio,
             min(self.objective_stagnation / 8.0, 1.0),
@@ -285,8 +328,12 @@ class SyntheticCALOEnvironment:
             success_memory_density=float(self.memory.density),
             learning_lane_fraction=float(learning_fraction),
             precision_active=float(bool(precision_active)),
-            precision_radius=float(np.clip(self.precision.radius / max(self.precision.max_radius, 1e-12), 0.0, 1.0)),
-            variable_group_concentration=variable_group_concentration(self.group_intelligence.probabilities(provisional_regime)),
+            precision_radius=float(
+                np.clip(self.precision.radius / max(self.precision.max_radius, 1e-12), 0.0, 1.0)
+            ),
+            variable_group_concentration=variable_group_concentration(
+                self.group_intelligence.probabilities(provisional_regime)
+            ),
         )
         self._last_cognitive = cognitive
         self._last_context = context
@@ -307,19 +354,33 @@ class SyntheticCALOEnvironment:
         mean = self.population.mean(axis=0)
         quality = sorted(
             range(len(self.evaluations)),
-            key=lambda i: (0 if self.evaluations[i].feasible else 1,
-                           self.evaluations[i].value if self.evaluations[i].feasible else self.evaluations[i].violation),
+            key=lambda i: (
+                0 if self.evaluations[i].feasible else 1,
+                self.evaluations[i].value
+                if self.evaluations[i].feasible
+                else self.evaluations[i].violation,
+            ),
         )
         best = self.population[quality[0]]
         consensus = self.hpem.consensus(mean) if len(self.hpem) else 0.0
         readiness = self.lane_controller.memory_readiness(
-            old_feasible, self.hpem.occupancy, self.memory.density, min(self.step_index / 6.0, 1.0), consensus
+            old_feasible,
+            self.hpem.occupancy,
+            self.memory.density,
+            min(self.step_index / 6.0, 1.0),
+            consensus,
         )
         progress = self.step_index / max(horizon, 1)
         severe = max(self.constraint_stagnation, self.objective_stagnation) >= 8
-        learning_fraction = self.lane_controller.learning_fraction(readiness, progress, old_diversity, severe)
-        learned_lanes = self.lane_controller.assign(self.population_size, learning_fraction, self.rng, False)
-        contexts = classify_contexts(self.population, self.evaluations, old_violation < self.previous_violation - 1e-12)
+        learning_fraction = self.lane_controller.learning_fraction(
+            readiness, progress, old_diversity, severe
+        )
+        learned_lanes = self.lane_controller.assign(
+            self.population_size, learning_fraction, self.rng, False
+        )
+        contexts = classify_contexts(
+            self.population, self.evaluations, old_violation < self.previous_violation - 1e-12
+        )
         group_probs = self.group_intelligence.probabilities(regime)
         groups = self.rng.choice(len(group_probs), size=self.population_size, p=group_probs)
         variables = getattr(self.problem, "variables", None)
@@ -339,40 +400,80 @@ class SyntheticCALOEnvironment:
             mem_probs = self.credit.memory_probabilities(regime, int(contexts[index]))
             level = int(self.rng.choice(4, p=mem_probs)) if len(self.hpem) else 0
             assigned_memory[index] = level
-            memory_teacher = self.hpem.summary(level, feasible_teacher) if len(self.hpem) else feasible_teacher
-            teacher = memory_teacher if learned_lanes[index] else (feasible_teacher if len(self.feasible_archive) else boundary_teacher)
+            memory_teacher = (
+                self.hpem.summary(level, feasible_teacher) if len(self.hpem) else feasible_teacher
+            )
+            teacher = (
+                memory_teacher
+                if learned_lanes[index]
+                else (feasible_teacher if len(self.feasible_archive) else boundary_teacher)
+            )
             if operator == 0:
-                candidate = feasible_elite_learning(x, teacher, r1, r2, self.rng, attraction, differential)
+                candidate = feasible_elite_learning(
+                    x, teacher, r1, r2, self.rng, attraction, differential
+                )
             elif operator == 1:
-                candidate = constraint_boundary_differential(x, boundary_teacher, r1, r2, self.rng, attraction, differential)
+                candidate = constraint_boundary_differential(
+                    x, boundary_teacher, r1, r2, self.rng, attraction, differential
+                )
             elif operator == 2:
-                candidate = cognitive_teacher_learning(x, teacher, mean, self.rng, attraction, 0.35 * sigma)
+                candidate = cognitive_teacher_learning(
+                    x, teacher, mean, self.rng, attraction, 0.35 * sigma
+                )
             elif operator == 3:
                 direction = self.memory.sample_direction(
-                    self.problem.dimension, self.rng, prefer_feasibility=regime <= 1,
-                    regime=regime, context=int(contexts[index]), group=int(groups[index]),
+                    self.problem.dimension,
+                    self.rng,
+                    prefer_feasibility=regime <= 1,
+                    regime=regime,
+                    context=int(contexts[index]),
+                    group=int(groups[index]),
                 )
                 candidate = success_distribution_memory(
                     x, self.personal_best[index], direction, self.rng, 0.55, memory_weight
                 )
             elif operator == 4:
-                candidate = mixed_variable_neighbourhood(x, variables, self.rng, max(0.35 * sigma, 0.006), 1)
+                candidate = mixed_variable_neighbourhood(
+                    x, variables, self.rng, max(0.35 * sigma, 0.006), 1
+                )
             else:
-                reference = boundary_teacher if regime <= 1 else (self.hpem.summary(3, feasible_teacher) if len(self.hpem) else feasible_teacher)
-                candidate = diversity_recovery(reference, self.population, self.rng, max(sigma, 0.06))
+                reference = (
+                    boundary_teacher
+                    if regime <= 1
+                    else (
+                        self.hpem.summary(3, feasible_teacher)
+                        if len(self.hpem)
+                        else feasible_teacher
+                    )
+                )
+                candidate = diversity_recovery(
+                    reference, self.population, self.rng, max(sigma, 0.06)
+                )
             mask = self.group_intelligence.mask(int(groups[index]), self.problem.dimension)
             if operator != 5 and np.any(mask):
-                focused = x.copy(); focused[mask] = candidate[mask]; candidate = focused
+                focused = x.copy()
+                focused[mask] = candidate[mask]
+                candidate = focused
             offspring.append(np.clip(candidate, 0.0, 1.0))
         offspring = np.asarray(offspring)
 
         # Make recovery_fraction operational under the same stagnation/diversity condition as runtime.
         if severe and old_diversity < 0.06:
-            count = max(1, min(self.population_size - 1, int(round(self.population_size * float(np.clip(recovery_fraction, 0.05, 0.45))))))
+            count = max(
+                1,
+                min(
+                    self.population_size - 1,
+                    int(
+                        round(self.population_size * float(np.clip(recovery_fraction, 0.05, 0.45)))
+                    ),
+                ),
+            )
             worst = quality[-count:]
             reference = self.hpem.summary(3, best) if len(self.hpem) else best
             for index in worst:
-                offspring[index] = diversity_recovery(reference, self.population, self.rng, max(sigma, 0.06))
+                offspring[index] = diversity_recovery(
+                    reference, self.population, self.rng, max(sigma, 0.06)
+                )
 
         batch_evaluator = getattr(self.problem, "evaluate_population", None)
         offspring_evaluations = (
@@ -384,7 +485,9 @@ class SyntheticCALOEnvironment:
         objective_gains = np.zeros(self.population_size)
         feasibility_gains = np.zeros(self.population_size)
         transitions = np.zeros(self.population_size)
-        step_norms = np.linalg.norm(offspring - self.population, axis=1) / max(np.sqrt(self.problem.dimension), 1.0)
+        step_norms = np.linalg.norm(offspring - self.population, axis=1) / max(
+            np.sqrt(self.problem.dimension), 1.0
+        )
         for index, (child, child_ev) in enumerate(zip(offspring, offspring_evaluations)):
             parent_ev = self.evaluations[index]
             ok = epsilon_better(child_ev, parent_ev, epsilon)
@@ -392,46 +495,73 @@ class SyntheticCALOEnvironment:
             feasibility_gain = max(parent_ev.violation - child_ev.violation, 0.0)
             objective_gain = (
                 max((parent_ev.value - child_ev.value) / max(abs(parent_ev.value), 1.0), 0.0)
-                if parent_ev.feasible and child_ev.feasible else 0.0
+                if parent_ev.feasible and child_ev.feasible
+                else 0.0
             )
             objective_gains[index] = objective_gain
             feasibility_gains[index] = feasibility_gain
             transitions[index] = float((not parent_ev.feasible) and child_ev.feasible)
             if ok:
                 self.memory.add(
-                    child - self.population[index], operator, objective_gain, feasibility_gain,
-                    regime=regime, context=int(contexts[index]), group=int(groups[index]),
+                    child - self.population[index],
+                    operator,
+                    objective_gain,
+                    feasibility_gain,
+                    regime=regime,
+                    context=int(contexts[index]),
+                    group=int(groups[index]),
                 )
                 if epsilon_better(child_ev, self.personal_best_evaluations[index], 0.0):
                     self.personal_best[index] = child
                     self.personal_best_evaluations[index] = child_ev
         self.credit.batch_update(
-            regime=np.full(self.population_size, regime), contexts=contexts,
-            operators=np.full(self.population_size, operator), memory_levels=assigned_memory,
-            successful=successful, objective_gain=objective_gains, feasibility_gain=feasibility_gains,
+            regime=np.full(self.population_size, regime),
+            contexts=contexts,
+            operators=np.full(self.population_size, operator),
+            memory_levels=assigned_memory,
+            successful=successful,
+            objective_gain=objective_gains,
+            feasibility_gain=feasibility_gains,
             feasibility_transition=transitions,
         )
         self.group_intelligence.batch_update(
-            np.full(self.population_size, regime), groups, successful, objective_gains,
-            feasibility_gains, step_norms,
+            np.full(self.population_size, regime),
+            groups,
+            successful,
+            objective_gains,
+            feasibility_gains,
+            step_norms,
         )
         combined_population = np.vstack([self.population, offspring])
         combined_evaluations = list(self.evaluations) + list(offspring_evaluations)
         # Preserve lineage-aware personal memory across environmental selection.
         selected_population, selected_evaluations = environmental_select(
-            combined_population, combined_evaluations, self.population_size, epsilon,
+            combined_population,
+            combined_evaluations,
+            self.population_size,
+            epsilon,
             diversity_weight=float(diversity_weight),
         )
         # Recover selected source indices without changing scientific selection semantics.
-        used = set(); selected_indices = []
+        used = set()
+        selected_indices = []
         for vec, ev in zip(selected_population, selected_evaluations):
-            matches = [i for i, (src, sev) in enumerate(zip(combined_population, combined_evaluations))
-                       if i not in used and np.array_equal(src, vec) and sev is ev]
+            matches = [
+                i
+                for i, (src, sev) in enumerate(zip(combined_population, combined_evaluations))
+                if i not in used and np.array_equal(src, vec) and sev is ev
+            ]
             if not matches:
-                matches = [i for i, src in enumerate(combined_population) if i not in used and np.array_equal(src, vec)]
+                matches = [
+                    i
+                    for i, src in enumerate(combined_population)
+                    if i not in used and np.array_equal(src, vec)
+                ]
             idx = matches[0] if matches else 0
-            used.add(idx); selected_indices.append(idx)
-        parent_pb = self.personal_best.copy(); parent_pb_ev = list(self.personal_best_evaluations)
+            used.add(idx)
+            selected_indices.append(idx)
+        parent_pb = self.personal_best.copy()
+        parent_pb_ev = list(self.personal_best_evaluations)
         combined_pb = np.vstack([parent_pb, parent_pb])
         combined_pb_ev = parent_pb_ev + parent_pb_ev
         for i in range(self.population_size):
@@ -447,18 +577,34 @@ class SyntheticCALOEnvironment:
         self.hpem.update(combined_population, combined_evaluations)
         new_violation, new_objective, new_feasible = self._diagnostics(self.evaluations)
         new_diversity = population_diversity(self.population)
-        violation_gain = 0.0 if not np.isfinite(old_violation) else np.clip((old_violation - new_violation) / max(abs(old_violation), 1e-12), -1, 1)
+        violation_gain = (
+            0.0
+            if not np.isfinite(old_violation)
+            else np.clip((old_violation - new_violation) / max(abs(old_violation), 1e-12), -1, 1)
+        )
         objective_gain = 0.0
         if np.isfinite(old_objective) and np.isfinite(new_objective):
-            objective_gain = np.clip((old_objective - new_objective) / max(abs(old_objective), 1e-12), -1, 1)
-        reward = float(1.2 * violation_gain + 0.85 * objective_gain + 0.75 * (new_feasible - old_feasible) + 0.10 * np.clip(new_diversity - old_diversity, -0.5, 0.5))
-        self.constraint_stagnation = 0 if new_violation < old_violation - 1e-12 else self.constraint_stagnation + 1
+            objective_gain = np.clip(
+                (old_objective - new_objective) / max(abs(old_objective), 1e-12), -1, 1
+            )
+        reward = float(
+            1.2 * violation_gain
+            + 0.85 * objective_gain
+            + 0.75 * (new_feasible - old_feasible)
+            + 0.10 * np.clip(new_diversity - old_diversity, -0.5, 0.5)
+        )
+        self.constraint_stagnation = (
+            0 if new_violation < old_violation - 1e-12 else self.constraint_stagnation + 1
+        )
         if np.isfinite(new_objective):
-            self.objective_stagnation = 0 if new_objective < old_objective - 1e-12 else self.objective_stagnation + 1
+            self.objective_stagnation = (
+                0 if new_objective < old_objective - 1e-12 else self.objective_stagnation + 1
+            )
         self.previous_violation = new_violation
         self.previous_objective = new_objective
         self.step_index += 1
         return reward
+
 
 def _curriculum_stage(epoch: int, epochs: int, has_development_cases: bool = False) -> int:
     fraction = epoch / max(epochs, 1)
@@ -470,7 +616,7 @@ def _curriculum_stage(epoch: int, epochs: int, has_development_cases: bool = Fal
         return 2  # mixed-variable constrained
     if not has_development_cases or fraction < 0.82:
         return 3  # narrow feasible region
-    return 4      # explicitly configured ORPD development system
+    return 4  # explicitly configured ORPD development system
 
 
 def _parameter_action_distribution(alpha, beta):
@@ -488,7 +634,6 @@ def _compute_gae(rewards, values, dones, gamma: float, gae_lambda: float):
         advantages[t] = last_gae
     returns = advantages + np.asarray(values, dtype=np.float32)
     return advantages, returns
-
 
 
 def recommended_rollout_workers(episodes_per_epoch: int | None = None) -> int:
@@ -584,9 +729,10 @@ def _collect_rollout_chunk(payload):
     network = CALOPolicyNetwork(POLICY_STATE_DIM, config.hidden_dim).cpu()
     network.load_state_dict(network_state)
     network.eval()
-    rollout = {key: [] for key in (
-        "state", "regime", "operator", "parameter", "logp", "value", "reward", "done"
-    )}
+    rollout = {
+        key: []
+        for key in ("state", "regime", "operator", "parameter", "logp", "value", "reward", "done")
+    }
     episode_returns: list[float] = []
     for episode in episode_indices:
         episode_seed = int(config.seed + 1_000_003 * epoch + 10_007 * int(episode))
@@ -653,9 +799,10 @@ def _collect_epoch_rollouts(
     progress_callback=None,
     cancel_callback=None,
 ):
-    rollout = {key: [] for key in (
-        "state", "regime", "operator", "parameter", "logp", "value", "reward", "done"
-    )}
+    rollout = {
+        key: []
+        for key in ("state", "regime", "operator", "parameter", "logp", "value", "reward", "done")
+    }
     episode_returns: list[float] = []
     episode_indices = list(range(config.episodes_per_epoch))
     workers = max(1, min(int(workers), len(episode_indices)))
@@ -681,6 +828,7 @@ def _collect_epoch_rollouts(
         for chunk in chunks
     ]
     completed_episodes: list[int] = []
+    chunk_results = []
     try:
         for future in as_completed(futures):
             if cancel_callback and cancel_callback():
@@ -688,14 +836,20 @@ def _collect_epoch_rollouts(
                     pending.cancel()
                 raise TrainingCancelled("CALO policy training was cancelled safely.")
             chunk_rollout, chunk_returns, completed = future.result()
-            _merge_rollout(rollout, chunk_rollout)
-            episode_returns.extend(chunk_returns)
+            chunk_results.append((list(completed), chunk_rollout, list(chunk_returns)))
             completed_episodes.extend(completed)
             if progress_callback:
                 progress_callback(len(completed_episodes), sorted(completed_episodes))
     finally:
         executor.shutdown(wait=True, cancel_futures=True)
-    return rollout, episode_returns, completed_episodes
+    # Merge in deterministic episode order, not worker-completion order. This makes changing the
+    # number/speed of rollout workers an execution concern rather than a hidden training semantic.
+    for completed, chunk_rollout, chunk_returns in sorted(
+        chunk_results, key=lambda row: min(row[0]) if row[0] else 10**18
+    ):
+        _merge_rollout(rollout, chunk_rollout)
+        episode_returns.extend(chunk_returns)
+    return rollout, episode_returns, sorted(completed_episodes)
 
 
 def _historical_pretrain(
@@ -750,17 +904,23 @@ def _historical_pretrain(
                     "reward": float(transition.get("reward", 0.0)),
                     "return": float(return_value),
                     "parameter_supervision": bool(transition.get("parameter_supervision", True)),
-                    "quality_weight": float(np.clip(transition.get("quality_weight", 1.0), 0.05, 1.0)),
+                    "quality_weight": float(
+                        np.clip(transition.get("quality_weight", 1.0), 0.05, 1.0)
+                    ),
                 }
             )
 
     if not records:
         return {"enabled": True, "samples": 0, "epochs": 0, "mean_loss": None}
 
-    states = torch.as_tensor(np.asarray([r["state"] for r in records]), dtype=torch.float32, device=device)
+    states = torch.as_tensor(
+        np.asarray([r["state"] for r in records]), dtype=torch.float32, device=device
+    )
     regimes = torch.as_tensor([r["regime"] for r in records], dtype=torch.long, device=device)
     operators = torch.as_tensor([r["operator"] for r in records], dtype=torch.long, device=device)
-    parameters = torch.as_tensor(np.asarray([r["parameter"] for r in records]), dtype=torch.float32, device=device)
+    parameters = torch.as_tensor(
+        np.asarray([r["parameter"] for r in records]), dtype=torch.float32, device=device
+    )
     returns = torch.as_tensor([r["return"] for r in records], dtype=torch.float32, device=device)
     parameter_supervision = torch.as_tensor(
         [1.0 if r["parameter_supervision"] else 0.0 for r in records],
@@ -796,10 +956,9 @@ def _historical_pretrain(
                 operator_logits, operators[batch_t], reduction="none"
             )
             parameter_mean = alpha / (alpha + beta)
-            parameter_loss = (
-                ((parameter_mean - parameters[batch_t]) ** 2).mean(dim=-1)
-                * parameter_supervision[batch_t]
-            )
+            parameter_loss = ((parameter_mean - parameters[batch_t]) ** 2).mean(
+                dim=-1
+            ) * parameter_supervision[batch_t]
             value_loss = (values - returns[batch_t]) ** 2
             sample_loss = regime_loss + operator_loss + parameter_loss + 0.25 * value_loss
             loss = (weights[batch_t] * sample_loss).mean()
@@ -819,7 +978,9 @@ def _historical_pretrain(
         "repository": str(Path(config.historical_repository).expanduser().resolve()),
         "repository_sha256": repository.payload.get("repository_sha256", ""),
         "samples": len(records),
-        "exact_parameter_supervision_samples": int(sum(r["parameter_supervision"] for r in records)),
+        "exact_parameter_supervision_samples": int(
+            sum(r["parameter_supervision"] for r in records)
+        ),
         "epochs": epochs,
         "method": "quality- and reward-weighted behavior/value pretraining before fresh on-policy PPO",
         "mean_loss": float(np.mean(losses)) if losses else None,
@@ -839,6 +1000,51 @@ def _optimizer_to_device(optimizer, device) -> None:
                 state[key] = value.to(device)
 
 
+_EXACT_RESUME_MUTABLE_FIELDS = {
+    # Continuation target/checkpoint controls may change without changing the learned process.
+    "epochs",
+    "training_mode",
+    "checkpoint_interval_epochs",
+    "deployable_checkpoint_interval_epochs",
+    "qualification_interval_epochs",
+    "keep_resume_after_completion",
+    "max_session_epochs",
+    "resume_checkpoint",
+    "resume_task_id",
+    "initial_policy_checkpoint",
+    # Execution placement may change between sessions. This is recorded in provenance; exact
+    # numerical bit-replay across different hardware is not claimed.
+    "ppo_device",
+    "rollout_workers",
+    "cpu_threads_per_worker",
+}
+
+
+def _normalize_config_value(value):
+    if isinstance(value, (list, tuple)):
+        return tuple(_normalize_config_value(v) for v in value)
+    if isinstance(value, dict):
+        return {str(k): _normalize_config_value(v) for k, v in sorted(value.items())}
+    return value
+
+
+def _validate_exact_resume_config(stored: dict, current: TrainingConfig) -> None:
+    """Reject silent scientific hyperparameter drift during an exact training continuation."""
+    now = asdict(current)
+    mismatches = []
+    for key, old_value in stored.items():
+        if key in _EXACT_RESUME_MUTABLE_FIELDS or key not in now:
+            continue
+        if _normalize_config_value(old_value) != _normalize_config_value(now[key]):
+            mismatches.append(key)
+    if mismatches:
+        raise ValueError(
+            "Exact policy-training resume is blocked because scientific/training hyperparameters changed: "
+            + ", ".join(sorted(mismatches))
+            + ". Use Continue/Fine-Tune (weights-only new phase) to intentionally change training semantics."
+        )
+
+
 def save_training_resume(
     path: Path,
     *,
@@ -853,7 +1059,7 @@ def save_training_resume(
 ) -> Path:
     path.parent.mkdir(parents=True, exist_ok=True)
     payload = {
-        "format": "calo_policy_training_resume_v41",
+        "format": "calo_policy_training_resume_v5",
         "runtime_architecture_version": CALO_RUNTIME_ARCHITECTURE,
         "state_schema_version": POLICY_STATE_SCHEMA,
         "action_schema_version": POLICY_ACTION_SCHEMA,
@@ -879,10 +1085,12 @@ def save_training_resume(
     return path
 
 
-def load_training_resume(path: Path, network, optimizer, device, rng) -> tuple[int, list, dict, dict]:
+def load_training_resume(
+    path: Path, network, optimizer, device, rng, current_config: TrainingConfig | None = None
+) -> tuple[int, list, dict, dict]:
     payload = load_trusted_resume(path, map_location=device)
     resume_format = str(payload.get("format", ""))
-    if resume_format != "calo_policy_training_resume_v41":
+    if resume_format not in {"calo_policy_training_resume_v5", "calo_policy_training_resume_v41"}:
         if resume_format == "calo_policy_training_resume_v32":
             raise ValueError(
                 "This resume checkpoint belongs to the legacy 24-feature CALO policy architecture and "
@@ -894,6 +1102,10 @@ def load_training_resume(path: Path, network, optimizer, device, rng) -> tuple[i
         raise ValueError("CALO policy-training resume state schema is incompatible with v4.1")
     if str(payload.get("action_schema_version", "")) != POLICY_ACTION_SCHEMA:
         raise ValueError("CALO policy-training resume action schema is incompatible with v4.1")
+    if current_config is not None:
+        _validate_exact_resume_config(
+            dict(payload.get("training_config", {}) or {}), current_config
+        )
     network.load_state_dict(payload["model_state_dict"])
     optimizer.load_state_dict(payload["optimizer_state_dict"])
     _optimizer_to_device(optimizer, device)
@@ -909,6 +1121,106 @@ def load_training_resume(path: Path, network, optimizer, device, rng) -> tuple[i
         dict(payload.get("historical_pretraining", {})),
         dict(payload.get("extra", {})),
     )
+
+
+def _resolve_training_target(config: TrainingConfig, start_epoch: int) -> tuple[int | None, str]:
+    mode = str(getattr(config, "training_mode", "cumulative") or "cumulative").strip().lower()
+    if mode not in {"cumulative", "additional", "indefinite"}:
+        raise ValueError(f"Unsupported CALO policy training mode: {mode}")
+    if mode == "indefinite":
+        cap = int(getattr(config, "max_session_epochs", 0) or 0)
+        return ((start_epoch + cap) if cap > 0 else None), mode
+    requested = max(1, int(config.epochs))
+    if mode == "additional":
+        return start_epoch + requested, mode
+    if requested < start_epoch:
+        raise ValueError(
+            f"Cumulative target {requested} is below already completed epoch {start_epoch}. "
+            "Choose additional or indefinite training, or increase the cumulative target."
+        )
+    return requested, mode
+
+
+def _deployable_policy_payload(
+    network,
+    config: TrainingConfig,
+    history: list,
+    historical_pretraining: dict,
+    cumulative_epoch: int,
+    *,
+    device: str,
+    rollout_workers: int,
+) -> dict:
+    return {
+        "model_state_dict": _cpu_state_dict(network),
+        "architecture": {"input_dim": POLICY_STATE_DIM, "hidden_dim": config.hidden_dim},
+        "metadata": {
+            "algorithm": "CALO",
+            "calo_core": "v5.0",
+            "training_method": "PPO",
+            "training_config": asdict(config),
+            "training_seed": config.seed,
+            "cumulative_epoch": int(cumulative_epoch),
+            "policy_lineage_id": str(getattr(config, "policy_lineage_id", "")),
+            "policy_lineage_name": str(getattr(config, "policy_lineage_name", "")),
+            "policy_phase_index": int(getattr(config, "policy_phase_index", 1)),
+            "state_dimension": POLICY_STATE_DIM,
+            "state_schema_version": POLICY_STATE_SCHEMA,
+            "action_schema_version": POLICY_ACTION_SCHEMA,
+            "runtime_architecture_version": CALO_RUNTIME_ARCHITECTURE,
+            "training_environment_version": TRAINING_ENVIRONMENT_VERSION,
+            "execution": {"rollout_workers": int(rollout_workers), "ppo_device": str(device)},
+            "development_cases": list(config.development_cases),
+            "historical_pretraining": historical_pretraining,
+            "history": list(history),
+            "checkpoint_role": "usable_policy_snapshot",
+        },
+    }
+
+
+def save_deployable_policy_snapshot(
+    output_path,
+    network,
+    config: TrainingConfig,
+    history: list,
+    historical_pretraining: dict,
+    cumulative_epoch: int,
+    *,
+    device: str,
+    rollout_workers: int,
+) -> Path:
+    """Write a policy artifact that is immediately usable for evaluation/qualification."""
+    from calo_rpd_studio.ai.checkpoint_manager import CheckpointManager
+
+    output_path = Path(output_path)
+    lineage_dir = output_path.parent / f"{output_path.stem}_lineage"
+    manager = CheckpointManager(lineage_dir)
+    snapshot = lineage_dir / f"epoch_{int(cumulative_epoch):012d}.pt"
+    # A deployable lineage checkpoint is immutable evidence. Repeated safe-stops at the same
+    # cumulative epoch must never overwrite an earlier artifact; allocate a deterministic suffix.
+    if snapshot.exists():
+        counter = 1
+        while True:
+            candidate = (
+                lineage_dir / f"epoch_{int(cumulative_epoch):012d}_snapshot_{counter:03d}.pt"
+            )
+            if not candidate.exists():
+                snapshot = candidate
+                break
+            counter += 1
+    manager.write_torch(
+        snapshot,
+        _deployable_policy_payload(
+            network,
+            config,
+            history,
+            historical_pretraining,
+            cumulative_epoch,
+            device=str(device),
+            rollout_workers=int(rollout_workers),
+        ),
+    )
+    return snapshot
 
 
 def train_policy(config: TrainingConfig, output_path, progress_callback=None, cancel_callback=None):
@@ -936,12 +1248,23 @@ def train_policy(config: TrainingConfig, output_path, progress_callback=None, ca
     network = CALOPolicyNetwork(POLICY_STATE_DIM, config.hidden_dim).to(device)
     optimizer = torch.optim.Adam(network.parameters(), lr=config.learning_rate)
     resume_path = training_resume_path(config, output_path)
+    initial_policy = str(getattr(config, "initial_policy_checkpoint", "") or "").strip()
+    if initial_policy and not resume_path.is_file():
+        payload = load_checkpoint(initial_policy, map_location="cpu")
+        architecture = dict(payload.get("architecture", {}) or {})
+        input_dim = int(architecture.get("input_dim", POLICY_STATE_DIM) or POLICY_STATE_DIM)
+        hidden_dim = int(architecture.get("hidden_dim", config.hidden_dim) or config.hidden_dim)
+        if input_dim != POLICY_STATE_DIM or hidden_dim != int(config.hidden_dim):
+            raise ValueError(
+                "Fine-tune/fork checkpoint architecture does not match the configured native CALO policy network"
+            )
+        network.load_state_dict(payload.get("model_state_dict", payload))
     start_epoch = 0
     history = []
     historical_pretraining = {}
     if resume_path.is_file():
         start_epoch, history, historical_pretraining, _extra = load_training_resume(
-            resume_path, network, optimizer, device, rng
+            resume_path, network, optimizer, device, rng, current_config=config
         )
         if progress_callback:
             progress_callback(
@@ -959,36 +1282,119 @@ def train_policy(config: TrainingConfig, output_path, progress_callback=None, ca
             cancel_callback=cancel_callback,
         )
 
-    total_units = config.epochs * config.episodes_per_epoch
+    target_epoch, training_mode = _resolve_training_target(config, start_epoch)
+    # Never regress the curriculum when a completed/partial lineage is extended to a larger target.
+    # A policy that already reached a harder stage remains at least at that stage on continuation.
+    stage_floor = 0
+    if history:
+        try:
+            stage_floor = max(0, int(history[-1].get("curriculum_stage", 1)) - 1)
+        except (TypeError, ValueError):
+            stage_floor = 0
+    # In indefinite mode progress is epoch based rather than percent-to-target.
+    nominal_target = (
+        target_epoch if target_epoch is not None else max(start_epoch + 1, int(config.epochs), 1)
+    )
+    total_units = nominal_target * config.episodes_per_epoch
     completed_units = start_epoch * config.episodes_per_epoch
-    for epoch in range(start_epoch, config.epochs):
+    epoch = start_epoch
+    while target_epoch is None or epoch < target_epoch:
         if cancel_callback and cancel_callback():
-            raise TrainingCancelled("CALO policy training was cancelled safely.")
-        stage = _curriculum_stage(epoch, config.epochs, bool(config.development_cases))
+            save_training_resume(
+                resume_path,
+                network=network,
+                optimizer=optimizer,
+                next_epoch=epoch,
+                history=history,
+                rng=rng,
+                historical_pretraining=historical_pretraining,
+                config=config,
+                extra={
+                    "device": str(device),
+                    "rollout_workers": workers,
+                    "training_mode": training_mode,
+                    "safe_stop": True,
+                },
+            )
+            # A safe-stop boundary is also a deployable immutable policy checkpoint. The exact
+            # resume file remains separate because it additionally contains optimizer/RNG state.
+            save_deployable_policy_snapshot(
+                output_path,
+                network,
+                config,
+                history,
+                historical_pretraining,
+                epoch,
+                device=str(device),
+                rollout_workers=workers,
+            )
+            raise TrainingCancelled(
+                f"CALO policy training stopped safely after cumulative epoch {epoch}."
+            )
+        proposed_stage = _curriculum_stage(
+            epoch, max(nominal_target, epoch + 1), bool(config.development_cases)
+        )
+        stage = max(stage_floor, proposed_stage)
+        stage_floor = max(stage_floor, stage)
 
         def epoch_progress(completed_in_epoch: int, _completed_indices) -> None:
             if progress_callback:
                 absolute = completed_units + completed_in_epoch
                 progress_callback(
-                    int(100 * absolute / max(total_units, 1)),
-                    f"Epoch {epoch + 1}/{config.epochs} · {completed_in_epoch}/{config.episodes_per_epoch} rollout episodes · "
+                    (int(100 * absolute / max(total_units, 1)) if target_epoch is not None else 0),
+                    f"Epoch {epoch + 1}/{target_epoch if target_epoch is not None else '∞'} · {completed_in_epoch}/{config.episodes_per_epoch} rollout episodes · "
                     f"{workers} CPU worker{'s' if workers != 1 else ''} · PPO device {device}",
                 )
 
-        rollout, episode_returns, completed = _collect_epoch_rollouts(
-            config,
-            network,
-            epoch,
-            stage,
-            workers,
-            progress_callback=epoch_progress,
-            cancel_callback=cancel_callback,
-        )
+        try:
+            rollout, episode_returns, completed = _collect_epoch_rollouts(
+                config,
+                network,
+                epoch,
+                stage,
+                workers,
+                progress_callback=epoch_progress,
+                cancel_callback=cancel_callback,
+            )
+        except TrainingCancelled:
+            # No PPO update for the incomplete epoch has been accepted. Persist the exact state at
+            # the last completed epoch even when the normal checkpoint interval has not elapsed.
+            save_training_resume(
+                resume_path,
+                network=network,
+                optimizer=optimizer,
+                next_epoch=epoch,
+                history=history,
+                rng=rng,
+                historical_pretraining=historical_pretraining,
+                config=config,
+                extra={
+                    "device": str(device),
+                    "rollout_workers": workers,
+                    "training_mode": training_mode,
+                    "safe_stop": True,
+                },
+            )
+            save_deployable_policy_snapshot(
+                output_path,
+                network,
+                config,
+                history,
+                historical_pretraining,
+                epoch,
+                device=str(device),
+                rollout_workers=workers,
+            )
+            raise
         completed_units += len(completed)
         if progress_callback:
             progress_callback(
-                int(100 * completed_units / max(total_units, 1)),
-                f"Epoch {epoch + 1}/{config.epochs} · PPO update on {device} · {len(rollout['state'])} transitions",
+                (
+                    int(100 * completed_units / max(total_units, 1))
+                    if target_epoch is not None
+                    else 0
+                ),
+                f"Epoch {epoch + 1}/{target_epoch if target_epoch is not None else '∞'} · PPO update on {device} · {len(rollout['state'])} transitions",
             )
 
         advantages, returns = _compute_gae(
@@ -1020,15 +1426,14 @@ def train_policy(config: TrainingConfig, output_path, progress_callback=None, ca
                 new_logp = (
                     regime_dist.log_prob(regimes[batch_t])
                     + operator_dist.log_prob(operators[batch_t])
-                    + parameter_dist.log_prob(
-                        parameters[batch_t].clamp(1e-5, 1 - 1e-5)
-                    ).sum(-1)
+                    + parameter_dist.log_prob(parameters[batch_t].clamp(1e-5, 1 - 1e-5)).sum(-1)
                 )
                 ratio = torch.exp(new_logp - old_logp[batch_t])
                 unclipped = ratio * advantages_t[batch_t]
-                clipped = torch.clamp(
-                    ratio, 1.0 - config.clip_ratio, 1.0 + config.clip_ratio
-                ) * advantages_t[batch_t]
+                clipped = (
+                    torch.clamp(ratio, 1.0 - config.clip_ratio, 1.0 + config.clip_ratio)
+                    * advantages_t[batch_t]
+                )
                 policy_loss = -torch.min(unclipped, clipped).mean()
                 value_loss = 0.5 * ((values - returns_t[batch_t]) ** 2).mean()
                 entropy = (
@@ -1037,9 +1442,7 @@ def train_policy(config: TrainingConfig, output_path, progress_callback=None, ca
                     + parameter_dist.entropy().sum(-1).mean()
                 )
                 loss = (
-                    policy_loss
-                    + config.value_weight * value_loss
-                    - config.entropy_weight * entropy
+                    policy_loss + config.value_weight * value_loss - config.entropy_weight * entropy
                 )
                 optimizer.zero_grad(set_to_none=True)
                 loss.backward()
@@ -1058,25 +1461,79 @@ def train_policy(config: TrainingConfig, output_path, progress_callback=None, ca
                 "transitions": len(rollout["state"]),
             }
         )
-        if bool(getattr(config, "checkpoint_each_epoch", True)):
+        completed_epoch = epoch + 1
+        checkpoint_interval = max(1, int(getattr(config, "checkpoint_interval_epochs", 1) or 1))
+        if (
+            bool(getattr(config, "checkpoint_each_epoch", True))
+            and completed_epoch % checkpoint_interval == 0
+        ):
             save_training_resume(
                 resume_path,
                 network=network,
                 optimizer=optimizer,
-                next_epoch=epoch + 1,
+                next_epoch=completed_epoch,
                 history=history,
                 rng=rng,
                 historical_pretraining=historical_pretraining,
                 config=config,
-                extra={"device": str(device), "rollout_workers": workers},
+                extra={
+                    "device": str(device),
+                    "rollout_workers": workers,
+                    "training_mode": training_mode,
+                },
             )
+        deploy_interval = max(
+            1, int(getattr(config, "deployable_checkpoint_interval_epochs", 1000) or 1000)
+        )
+        if completed_epoch % deploy_interval == 0:
+            save_deployable_policy_snapshot(
+                output_path,
+                network,
+                config,
+                history,
+                historical_pretraining,
+                completed_epoch,
+                device=str(device),
+                rollout_workers=workers,
+            )
+        epoch += 1
 
+    # Always persist the exact terminal state, including completed fixed targets. This allows a
+    # completed policy to be continued later without degrading to weights-only fine tuning.
+    save_training_resume(
+        resume_path,
+        network=network,
+        optimizer=optimizer,
+        next_epoch=epoch,
+        history=history,
+        rng=rng,
+        historical_pretraining=historical_pretraining,
+        config=config,
+        extra={
+            "device": str(device),
+            "rollout_workers": workers,
+            "training_mode": training_mode,
+            "completed_target": target_epoch,
+        },
+    )
+    # The working output alias may be replaced in a later continuation session. Always create an
+    # immutable, immediately deployable terminal checkpoint for experiment binding/provenance.
+    terminal_snapshot = save_deployable_policy_snapshot(
+        output_path,
+        network,
+        config,
+        history,
+        historical_pretraining,
+        int(epoch),
+        device=str(device),
+        rollout_workers=workers,
+    )
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     device_info = available_training_devices()
     metadata = {
         "algorithm": "CALO",
-        "calo_core": "v4.1",
+        "calo_core": "v5.0",
         "training_method": "PPO",
         "training_config": asdict(config),
         "training_seed": config.seed,
@@ -1109,6 +1566,12 @@ def train_policy(config: TrainingConfig, output_path, progress_callback=None, ca
             "eligible TRAIN experiments only; validation/test experiments excluded; old trajectories used only for offline pretraining, never as PPO on-policy rollouts"
         ),
         "history": history,
+        "cumulative_epoch": int(epoch),
+        "policy_lineage_id": str(getattr(config, "policy_lineage_id", "")),
+        "policy_lineage_name": str(getattr(config, "policy_lineage_name", "")),
+        "policy_phase_index": int(getattr(config, "policy_phase_index", 1)),
+        "training_mode": training_mode,
+        "immutable_terminal_checkpoint": str(terminal_snapshot),
     }
     torch.save(
         {
@@ -1118,12 +1581,14 @@ def train_policy(config: TrainingConfig, output_path, progress_callback=None, ca
         },
         output_path,
     )
-    output_path.with_suffix(".json").write_text(
-        json.dumps(metadata, indent=2), encoding="utf-8"
-    )
-    try:
-        resume_path.unlink(missing_ok=True)
-        resume_path.with_suffix(resume_path.suffix + ".sha256").unlink(missing_ok=True)
-    except OSError:
-        pass
+    output_path.with_suffix(".json").write_text(json.dumps(metadata, indent=2), encoding="utf-8")
+    # v5 deliberately keeps the trusted resume checkpoint after a completed target. The final
+    # deployable policy remains immutable for experiments already bound to its SHA; future training
+    # may continue the same lineage from the preserved optimizer/RNG/curriculum state.
+    if not bool(getattr(config, "keep_resume_after_completion", True)):
+        try:
+            resume_path.unlink(missing_ok=True)
+            resume_path.with_suffix(resume_path.suffix + ".sha256").unlink(missing_ok=True)
+        except OSError:
+            pass
     return str(output_path), history

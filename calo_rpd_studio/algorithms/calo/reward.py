@@ -1,4 +1,5 @@
 """Separated objective/constraint reward used by CALO Core v2 and PPO training."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -47,7 +48,9 @@ def calculate_reward(
     return RewardComponents(
         objective_improvement=_gain(old_objective, new_objective),
         constraint_improvement=_gain(old_violation, new_violation),
-        feasible_ratio_improvement=float(np.clip(new_feasible_ratio - old_feasible_ratio, -1.0, 1.0)),
+        feasible_ratio_improvement=float(
+            np.clip(new_feasible_ratio - old_feasible_ratio, -1.0, 1.0)
+        ),
         diversity_recovery=float(np.clip(new_diversity - old_diversity, -0.5, 0.5)),
         overhead_penalty=max(float(overhead), 0.0),
     )

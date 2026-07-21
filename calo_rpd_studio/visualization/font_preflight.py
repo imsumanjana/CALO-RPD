@@ -1,4 +1,5 @@
 """Portable Matplotlib font preflight without distributing proprietary font files."""
+
 from __future__ import annotations
 
 from functools import lru_cache

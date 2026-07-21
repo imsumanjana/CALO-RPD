@@ -1,4 +1,5 @@
 """CALO policy, cognitive architecture, training, and ablation controls."""
+
 from __future__ import annotations
 
 from dataclasses import asdict
@@ -25,6 +26,7 @@ from PyQt6.QtWidgets import (
     QTableWidget,
     QTableWidgetItem,
     QHeaderView,
+    QInputDialog,
     QAbstractItemView,
     QSplitter,
     QVBoxLayout,
@@ -47,8 +49,11 @@ from calo_rpd_studio.gui.widgets.page_header import PageHeader
 from calo_rpd_studio.gui.widgets.scrollable_page import ScrollablePage
 from calo_rpd_studio.gui.widgets.historical_experience_widget import HistoricalExperienceWidget
 from calo_rpd_studio.gui.plotting.scientific_plot import ScientificPlotWidget
-from calo_rpd_studio.algorithms.calo.policy_qualification import PolicyQualifier, PolicyQualificationConfig
-from calo_rpd_studio.algorithms.calo.v41_disputes import DISPUTES
+from calo_rpd_studio.algorithms.calo.policy_qualification import (
+    PolicyQualifier,
+    PolicyQualificationConfig,
+)
+from calo_rpd_studio.algorithms.calo.v5_disputes import DISPUTES
 from calo_rpd_studio.resume.models import ResumeStatus, ResumeTaskType
 
 
@@ -71,7 +76,10 @@ class TrainingWorker(QThread):
 
     def run(self) -> None:
         try:
-            if isinstance(self.config, HeterogeneousTrainingConfig) and self.config.heterogeneous_rollouts:
+            if (
+                isinstance(self.config, HeterogeneousTrainingConfig)
+                and self.config.heterogeneous_rollouts
+            ):
                 train_policy_heterogeneous(
                     self.config,
                     self.path,
@@ -104,8 +112,6 @@ class TrainingWorker(QThread):
                 self.failed.emit(f"{type(exc).__name__}: {exc}")
 
 
-
-
 class PolicyQualificationWorker(QThread):
     progress = pyqtSignal(int, str)
     completed = pyqtSignal(object)
@@ -114,6 +120,7 @@ class PolicyQualificationWorker(QThread):
     def __init__(self, qualifier, candidate_id: str, reference_id: str, config) -> None:
         super().__init__()
         import threading
+
         self.qualifier = qualifier
         self.candidate_id = candidate_id
         self.reference_id = reference_id
@@ -126,8 +133,11 @@ class PolicyQualificationWorker(QThread):
     def run(self) -> None:
         try:
             result = self.qualifier.run(
-                self.candidate_id, reference_policy_id=self.reference_id, config=self.config,
-                progress_callback=self.progress.emit, cancel_callback=self._cancel.is_set,
+                self.candidate_id,
+                reference_policy_id=self.reference_id,
+                config=self.config,
+                progress_callback=self.progress.emit,
+                cancel_callback=self._cancel.is_set,
             )
             self.completed.emit(result)
         except Exception as exc:
@@ -154,28 +164,45 @@ class CALOIntelligencePanel(ScrollablePage):
         layout.addWidget(
             PageHeader(
                 "CALO Intelligence",
-                "Manage CALO v4.1 policies, qualify Candidate vs active/reference vs No-AI CALO under paired budgets, bind an immutable policy to runtime, and train the native 32-feature policy schema reproducibly.",
+                "Manage CALO v5.0 policies, qualify Candidate vs active/reference vs No-AI CALO under paired budgets, bind an immutable policy to runtime, and train the native 32-feature policy schema reproducibly.",
             )
         )
 
-        policy_center = QGroupBox("CALO Policy Center — library, qualification, comparison, and activation")
+        policy_center = QGroupBox(
+            "CALO Policy Center — library, qualification, comparison, and activation"
+        )
         center_layout = QVBoxLayout(policy_center)
         splitter = QSplitter()
         library_host = QWidget()
         library_layout = QVBoxLayout(library_host)
         library_layout.setContentsMargins(0, 0, 0, 0)
-        self.policy_table = QTableWidget(0, 7)
-        self.policy_table.setHorizontalHeaderLabels([
-            "Active", "Policy", "Grade", "Scientific status", "Runtime architecture", "State schema", "SHA-256"
-        ])
+        self.policy_table = QTableWidget(0, 10)
+        self.policy_table.setHorizontalHeaderLabels(
+            [
+                "Active",
+                "Policy",
+                "Lineage",
+                "Epoch",
+                "Role",
+                "Grade",
+                "Scientific status",
+                "Runtime architecture",
+                "State schema",
+                "SHA-256",
+            ]
+        )
         self.policy_table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
         self.policy_table.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
         self.policy_table.setAlternatingRowColors(True)
         self.policy_table.verticalHeader().setVisible(False)
-        self.policy_table.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeMode.ResizeToContents)
+        self.policy_table.horizontalHeader().setSectionResizeMode(
+            0, QHeaderView.ResizeMode.ResizeToContents
+        )
         self.policy_table.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeMode.Stretch)
-        for column in range(2, 7):
-            self.policy_table.horizontalHeader().setSectionResizeMode(column, QHeaderView.ResizeMode.ResizeToContents)
+        for column in range(2, 10):
+            self.policy_table.horizontalHeader().setSectionResizeMode(
+                column, QHeaderView.ResizeMode.ResizeToContents
+            )
         self.policy_table.itemSelectionChanged.connect(self._policy_selection_changed)
         library_layout.addWidget(self.policy_table)
         library_buttons = QHBoxLayout()
@@ -183,6 +210,8 @@ class CALOIntelligencePanel(ScrollablePage):
         self.policy_activate_button = QPushButton("Set active")
         self.policy_archive_button = QPushButton("Archive")
         self.policy_delete_button = QPushButton("Delete safely")
+        self.policy_continue_button = QPushButton("Continue/fine-tune")
+        self.policy_fork_button = QPushButton("Fork lineage")
         self.policy_refresh_button = QPushButton("Refresh")
         self.show_archived_policies = QCheckBox("Show archived")
         self.show_archived_policies.toggled.connect(lambda _checked: self.refresh_policy_library())
@@ -190,8 +219,18 @@ class CALOIntelligencePanel(ScrollablePage):
         self.policy_activate_button.clicked.connect(self.activate_selected_policy)
         self.policy_archive_button.clicked.connect(self.archive_selected_policy)
         self.policy_delete_button.clicked.connect(self.delete_selected_policy)
+        self.policy_continue_button.clicked.connect(self.continue_selected_policy)
+        self.policy_fork_button.clicked.connect(self.fork_selected_policy)
         self.policy_refresh_button.clicked.connect(self.refresh_policy_library)
-        for button in (self.policy_import_button, self.policy_activate_button, self.policy_archive_button, self.policy_delete_button, self.policy_refresh_button):
+        for button in (
+            self.policy_import_button,
+            self.policy_activate_button,
+            self.policy_archive_button,
+            self.policy_delete_button,
+            self.policy_continue_button,
+            self.policy_fork_button,
+            self.policy_refresh_button,
+        ):
             library_buttons.addWidget(button)
         library_buttons.addWidget(self.show_archived_policies)
         library_buttons.addStretch(1)
@@ -213,7 +252,10 @@ class CALOIntelligencePanel(ScrollablePage):
         compare_controls.addWidget(self.policy_metric, 1)
         comparison_layout.addLayout(compare_controls)
         self.policy_plot = ScientificPlotWidget(
-            title="Policy qualification comparison", xlabel="Policy", ylabel="Score", square_preview=False
+            title="Policy qualification comparison",
+            xlabel="Policy",
+            ylabel="Score",
+            square_preview=False,
         )
         self.policy_plot.setMinimumHeight(360)
         comparison_layout.addWidget(self.policy_plot, 1)
@@ -227,10 +269,18 @@ class CALOIntelligencePanel(ScrollablePage):
         qualification_form = QFormLayout(qualification)
         self.qualification_reference = QComboBox()
         self.qualification_cases = QLineEdit("case30, case57")
-        self.qualification_runs = QSpinBox(); self.qualification_runs.setRange(2, 100); self.qualification_runs.setValue(5)
-        self.qualification_budget = QSpinBox(); self.qualification_budget.setRange(100, 10_000_000); self.qualification_budget.setValue(1000)
-        self.qualification_population = QSpinBox(); self.qualification_population.setRange(4, 1000); self.qualification_population.setValue(40)
-        self.qualify_button = QPushButton("Evaluate selected policy vs active policy and No-AI CALO")
+        self.qualification_runs = QSpinBox()
+        self.qualification_runs.setRange(2, 100)
+        self.qualification_runs.setValue(5)
+        self.qualification_budget = QSpinBox()
+        self.qualification_budget.setRange(100, 10_000_000)
+        self.qualification_budget.setValue(1000)
+        self.qualification_population = QSpinBox()
+        self.qualification_population.setRange(4, 1000)
+        self.qualification_population.setValue(40)
+        self.qualify_button = QPushButton(
+            "Evaluate selected policy vs active policy and No-AI CALO"
+        )
         self.qualify_button.setObjectName("PrimaryButton")
         self.qualify_button.clicked.connect(self.qualify_selected_policy)
         qualification_form.addRow("Reference/frozen policy", self.qualification_reference)
@@ -269,9 +319,7 @@ class CALOIntelligencePanel(ScrollablePage):
             "No-AI CALO — use rule/contextual online cognition without a neural policy"
         )
         self.no_ai_mode.toggled.connect(lambda checked: self.path.setEnabled(not checked))
-        self.deterministic = QCheckBox(
-            "Deterministic operator selection during evaluation"
-        )
+        self.deterministic = QCheckBox("Deterministic operator selection during evaluation")
         self.allow_unqualified = QCheckBox(
             "Allow unqualified/legacy policy for research-only runs (strict publication qualification not implied)"
         )
@@ -301,7 +349,7 @@ class CALOIntelligencePanel(ScrollablePage):
             "constraint violation, objective and constraint progress, population and elite "
             "diversity, separate stagnation states, archive occupancy, remaining evaluation "
             "budget, and online operator credit.\n\n"
-            "CALO v4.1 operators — feasible-elite learning, constraint-boundary differential "
+            "CALO v5.0 operators — feasible-elite learning, constraint-boundary differential "
             "learning, cognitive teacher learning, success-distribution memory, mixed-variable "
             "neighbourhood learning, and diversity recovery. Operators are allocated per learner.\n\n"
             "The hierarchical policy selects a search regime, operator probabilities, and bounded "
@@ -319,8 +367,26 @@ class CALOIntelligencePanel(ScrollablePage):
         training = QGroupBox("Reproducible policy training")
         training_form = QFormLayout(training)
         self.epochs = QSpinBox()
-        self.epochs.setRange(1, 10_000)
+        self.epochs.setRange(1, 2_000_000_000)
         self.epochs.setValue(24)
+        self.training_mode = QComboBox()
+        self.training_mode.addItem("Cumulative target epoch", "cumulative")
+        self.training_mode.addItem("Additional epochs from saved state", "additional")
+        self.training_mode.addItem("Indefinite until Safe Stop", "indefinite")
+        self.training_mode.currentIndexChanged.connect(self._update_training_mode_controls)
+        self.policy_lineage_name = QLineEdit("CALO-policy-lineage")
+        self.policy_lineage_name.setToolTip(
+            "Stable policy family name. Continued sessions add immutable checkpoints to this lineage."
+        )
+        self.checkpoint_interval = QSpinBox()
+        self.checkpoint_interval.setRange(1, 10_000_000)
+        self.checkpoint_interval.setValue(1)
+        self.deployable_interval = QSpinBox()
+        self.deployable_interval.setRange(1, 100_000_000)
+        self.deployable_interval.setValue(1000)
+        self.qualification_interval = QSpinBox()
+        self.qualification_interval.setRange(1, 100_000_000)
+        self.qualification_interval.setValue(10000)
         self.episodes = QSpinBox()
         self.episodes.setRange(1, 10_000)
         self.episodes.setValue(12)
@@ -379,7 +445,9 @@ class CALOIntelligencePanel(ScrollablePage):
             device_parts.append(f"XPU: {device_info['xpu_name']}")
         if device_info["xpu_sidecar_available"]:
             device_parts.append("secondary Intel XPU runtime: ready")
-        device_text = "; ".join(device_parts) or "No verified GPU backend; CPU fallback is available"
+        device_text = (
+            "; ".join(device_parts) or "No verified GPU backend; CPU fallback is available"
+        )
         self.training_device.setToolTip(
             "The selected primary device performs centralized PPO updates. In weighted mode, "
             "CUDA, XPU, and CPU actors simultaneously collect fixed shares of fresh rollouts from "
@@ -420,7 +488,9 @@ class CALOIntelligencePanel(ScrollablePage):
         self.training_cuda_priority = QPushButton("100/0/0 GPU max")
         self.training_cuda_priority.setToolTip("CUDA-priority device-resident rollout allocation")
         self.training_cuda_only = QPushButton("100% CUDA")
-        self.training_cuda_only.setToolTip("Route all compatible rollout episodes and the PPO learner to NVIDIA CUDA")
+        self.training_cuda_only.setToolTip(
+            "Route all compatible rollout episodes and the PPO learner to NVIDIA CUDA"
+        )
         self.training_cuda_priority.clicked.connect(lambda: self._set_training_split(100, 0, 0))
         self.training_cuda_only.clicked.connect(lambda: self._set_training_split(100, 0, 0))
         split_layout.addWidget(self.training_cuda_priority)
@@ -450,7 +520,7 @@ class CALOIntelligencePanel(ScrollablePage):
         )
         self.accelerated_training_orpd.setChecked(True)
         self.accelerated_training_orpd.setToolTip(
-            "CALO v4.1 uses the native 32-feature policy state/action schema and accelerator-native FP64 ORPD evaluation for configured development-case rollouts; synthetic curriculum stages remain lightweight host environments. Synthetic curriculum stages remain lightweight host environments."
+            "CALO v5.0 uses the native 32-feature policy state/action schema and accelerator-native FP64 ORPD evaluation for configured development-case rollouts; synthetic curriculum stages remain lightweight host environments."
         )
         self.cross_episode_training_batch = QCheckBox(
             "Batch compatible ORPD populations across simultaneous rollout episodes"
@@ -515,21 +585,28 @@ class CALOIntelligencePanel(ScrollablePage):
         self._update_training_plan()
 
         self.development_cases = QLineEdit()
-        self.development_cases.setPlaceholderText("Optional custom ORPD development case paths, comma-separated")
+        self.development_cases.setPlaceholderText(
+            "Optional custom ORPD development case paths, comma-separated"
+        )
         self.development_cases.setToolTip(
             "Optional explicit development systems for the final curriculum stage. Keep final publication benchmark systems separate from policy training."
         )
-        self.train_button = QPushButton("Train and save CALO policy")
+        self.train_button = QPushButton("Start / continue CALO policy lineage")
         self.train_button.setObjectName("PrimaryButton")
         self.train_button.clicked.connect(self.train_policy)
-        self.resume_training_button = QPushButton("Resume saved training")
+        self.resume_training_button = QPushButton("Resume exact saved training")
         self.resume_training_button.clicked.connect(self.resume_saved_training)
         training_button_row = QWidget()
         training_button_layout = QHBoxLayout(training_button_row)
         training_button_layout.setContentsMargins(0, 0, 0, 0)
         training_button_layout.addWidget(self.train_button, 1)
         training_button_layout.addWidget(self.resume_training_button)
-        training_form.addRow("Epochs", self.epochs)
+        training_form.addRow("Training continuation mode", self.training_mode)
+        training_form.addRow("Target / additional epochs", self.epochs)
+        training_form.addRow("Policy lineage", self.policy_lineage_name)
+        training_form.addRow("Exact resume checkpoint every", self.checkpoint_interval)
+        training_form.addRow("Usable policy snapshot every", self.deployable_interval)
+        training_form.addRow("Suggested qualification interval", self.qualification_interval)
         training_form.addRow("Episodes per epoch", self.episodes)
         training_form.addRow("Episode horizon", self.horizon)
         training_form.addRow("Training seed", self.seed)
@@ -555,6 +632,7 @@ class CALOIntelligencePanel(ScrollablePage):
         training_form.addRow("Compute status", self.accelerator_status)
         training_form.addRow("ORPD development cases", self.development_cases)
         training_form.addRow("", training_button_row)
+        self._update_training_mode_controls()
         layout.addWidget(training)
 
         ablation = QGroupBox("Ablation analysis")
@@ -565,24 +643,34 @@ class CALOIntelligencePanel(ScrollablePage):
         ablation_layout.addWidget(self.ablation_button)
         layout.addWidget(ablation)
 
-        dispute_box = QGroupBox("v4.1 audited scientific/performance dispute register")
+        dispute_box = QGroupBox("v5.0 continuation and audited scientific/performance register")
         dispute_layout = QVBoxLayout(dispute_box)
         dispute_help = QLabel(
-            "RESOLVED items are closed in v4.1; PARTIAL/OPEN/DEFERRED items remain explicit future work and must not be described as solved. "
+            "RESOLVED items are closed in v5.0; PARTIAL/OPEN/DEFERRED items remain explicit future work and must not be described as solved. "
             "This register separates scientific correctness from performance engineering."
         )
         dispute_help.setWordWrap(True)
         dispute_help.setObjectName("HelpText")
         dispute_layout.addWidget(dispute_help)
         self.dispute_table = QTableWidget(len(DISPUTES), 4)
-        self.dispute_table.setHorizontalHeaderLabels(["ID", "Status", "Severity", "Audited finding / action"])
+        self.dispute_table.setHorizontalHeaderLabels(
+            ["ID", "Status", "Severity", "Audited finding / action"]
+        )
         self.dispute_table.verticalHeader().setVisible(False)
         self.dispute_table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         self.dispute_table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
-        self.dispute_table.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeMode.ResizeToContents)
-        self.dispute_table.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeMode.ResizeToContents)
-        self.dispute_table.horizontalHeader().setSectionResizeMode(2, QHeaderView.ResizeMode.ResizeToContents)
-        self.dispute_table.horizontalHeader().setSectionResizeMode(3, QHeaderView.ResizeMode.Stretch)
+        self.dispute_table.horizontalHeader().setSectionResizeMode(
+            0, QHeaderView.ResizeMode.ResizeToContents
+        )
+        self.dispute_table.horizontalHeader().setSectionResizeMode(
+            1, QHeaderView.ResizeMode.ResizeToContents
+        )
+        self.dispute_table.horizontalHeader().setSectionResizeMode(
+            2, QHeaderView.ResizeMode.ResizeToContents
+        )
+        self.dispute_table.horizontalHeader().setSectionResizeMode(
+            3, QHeaderView.ResizeMode.Stretch
+        )
         for row, item in enumerate(DISPUTES):
             text = f"{item.finding} — {item.evidence_or_action}"
             for col, value in enumerate((item.id, item.status, item.severity, text)):
@@ -595,16 +683,35 @@ class CALOIntelligencePanel(ScrollablePage):
         self.state.config_changed.connect(lambda config: self.load_from_config(config))
         self.load_from_config(self.state.config)
 
-
     def refresh_policy_library(self) -> None:
         bundled = Path(__file__).resolve().parents[2] / "data" / "trained_models"
         self.state.policy_registry.discover_bundled(bundled)
-        self._policy_rows = self.state.policy_registry.list(include_archived=self.show_archived_policies.isChecked())
+        self._policy_rows = self.state.policy_registry.list(
+            include_archived=self.show_archived_policies.isChecked()
+        )
         self.policy_table.setRowCount(len(self._policy_rows))
         for row, policy in enumerate(self._policy_rows):
+            checkpoint = self.state.database.get_policy_checkpoint_by_sha256(policy.sha256)
+            lineage_name = ""
+            epoch = ""
+            role = ""
+            if checkpoint is not None:
+                lineage = self.state.database.get_policy_lineage(
+                    str(checkpoint.get("lineage_id", ""))
+                )
+                lineage_name = str((lineage or {}).get("name", ""))
+                epoch = str(int(checkpoint.get("cumulative_epoch", 0) or 0))
+                role = (
+                    "best"
+                    if bool(checkpoint.get("is_best"))
+                    else ("latest" if bool(checkpoint.get("is_latest")) else "checkpoint")
+                )
             values = [
                 "●" if policy.active else "",
                 policy.name,
+                lineage_name,
+                epoch,
+                role,
                 policy.grade,
                 ("archived · " if policy.archived else "") + policy.qualification_status,
                 policy.architecture_version,
@@ -647,8 +754,69 @@ class CALOIntelligencePanel(ScrollablePage):
         self.policy_archive_button.setText("Restore archived" if policy.archived else "Archive")
         self.inspect_policy()
 
+    def _selected_policy_checkpoint_record(self):
+        policy = self._selected_policy()
+        if policy is None:
+            return None, None
+        return policy, self.state.database.get_policy_checkpoint_by_sha256(policy.sha256)
+
+    def continue_selected_policy(self) -> None:
+        """Prepare a weights-only continuation phase from any usable checkpoint.
+
+        Exact optimizer/RNG continuation of the latest training session remains the separate
+        Resume exact saved training action. This operation intentionally creates a documented new
+        phase while retaining the same lineage.
+        """
+        policy, checkpoint = self._selected_policy_checkpoint_record()
+        if policy is None:
+            return
+        self._pending_initial_policy_checkpoint = str(policy.checkpoint_path)
+        if checkpoint is not None:
+            lineage = self.state.database.get_policy_lineage(str(checkpoint.get("lineage_id", "")))
+            self._pending_policy_lineage_id = str(checkpoint.get("lineage_id", ""))
+            self._pending_policy_phase_index = int(checkpoint.get("phase_index", 1) or 1) + 1
+            self.policy_lineage_name.setText(str((lineage or {}).get("name", policy.name)))
+        else:
+            self._pending_policy_lineage_id = ""
+            self._pending_policy_phase_index = 1
+            self.policy_lineage_name.setText(policy.name)
+        self.qualification_status.setText(
+            f"Prepared fine-tuning from immutable checkpoint {policy.name} ({policy.sha256[:12]}…). "
+            "Choose training duration and click Start / continue lineage. Existing experiments remain bound to the old SHA."
+        )
+
+    def fork_selected_policy(self) -> None:
+        policy, checkpoint = self._selected_policy_checkpoint_record()
+        if policy is None:
+            return
+        name, ok = QInputDialog.getText(
+            self, "Fork policy lineage", "New lineage name:", text=f"{policy.name}-fork"
+        )
+        if not ok or not name.strip():
+            return
+        try:
+            if checkpoint is not None:
+                lineage_id = self.state.policy_registry.lineages.fork(
+                    str(checkpoint["id"]),
+                    name.strip(),
+                    notes=f"Forked from {policy.name} {policy.sha256}",
+                )
+            else:
+                lineage_id = self.state.policy_registry.create_lineage(name.strip())
+            self._pending_initial_policy_checkpoint = str(policy.checkpoint_path)
+            self._pending_policy_lineage_id = str(lineage_id)
+            self._pending_policy_phase_index = 1
+            self.policy_lineage_name.setText(name.strip())
+            self.qualification_status.setText(
+                f"Fork {name.strip()} prepared from {policy.name}. Start training to create the first child checkpoint; the parent artifact is unchanged."
+            )
+        except Exception as exc:
+            QMessageBox.critical(self, "Policy fork failed", str(exc))
+
     def import_policy(self) -> None:
-        path, _ = QFileDialog.getOpenFileName(self, "Import CALO policy", "", "PyTorch checkpoint (*.pt)")
+        path, _ = QFileDialog.getOpenFileName(
+            self, "Import CALO policy", "", "PyTorch checkpoint (*.pt)"
+        )
         if not path:
             return
         try:
@@ -713,7 +881,9 @@ class CALOIntelligencePanel(ScrollablePage):
         if self.state.task_status.busy:
             QMessageBox.information(self, "Task busy", "Wait for the active task to finish first.")
             return
-        cases = tuple(item.strip() for item in self.qualification_cases.text().split(",") if item.strip())
+        cases = tuple(
+            item.strip() for item in self.qualification_cases.text().split(",") if item.strip()
+        )
         config = PolicyQualificationConfig(
             cases=cases,
             runs=self.qualification_runs.value(),
@@ -730,12 +900,16 @@ class CALOIntelligencePanel(ScrollablePage):
         if reference_id == policy.id:
             reference_id = ""
         qualifier = PolicyQualifier(self.state.config, self.state.policy_registry)
-        self.qualification_worker = PolicyQualificationWorker(qualifier, policy.id, reference_id, config)
+        self.qualification_worker = PolicyQualificationWorker(
+            qualifier, policy.id, reference_id, config
+        )
         self.qualification_worker.progress.connect(self._qualification_progress)
         self.qualification_worker.completed.connect(self._qualification_done)
         self.qualification_worker.failed.connect(self._qualification_failed)
         self.state.task_status.cancel_requested.connect(self.qualification_worker.cancel)
-        self.state.task_status.begin("Qualifying CALO policy", detail=policy.name, progress=0, cancellable=True)
+        self.state.task_status.begin(
+            "Qualifying CALO policy", detail=policy.name, progress=0, cancellable=True
+        )
         self.qualify_button.setEnabled(False)
         self.qualification_worker.start()
 
@@ -750,8 +924,10 @@ class CALOIntelligencePanel(ScrollablePage):
             pass
         self.qualify_button.setEnabled(True)
         qualification_status = (
-            "qualified" if result.get("passed") and result.get("native_v41")
-            else "legacy_qualified" if result.get("passed")
+            "qualified"
+            if result.get("passed") and result.get("native_v41")
+            else "legacy_qualified"
+            if result.get("passed")
             else "failed"
         )
         self.state.database.add_policy_qualification(
@@ -765,16 +941,76 @@ class CALOIntelligencePanel(ScrollablePage):
             score=float(result.get("score", 0.0)),
             qualification_status=qualification_status,
         )
+        # Keep policy lineage history immutable: qualification updates the matching checkpoint
+        # record, while "latest" and "best-qualified" remain separate concepts.
+        checkpoint = self.state.database.get_policy_checkpoint_by_sha256(
+            str(result.get("candidate_policy_sha256", ""))
+        )
+        if checkpoint is not None:
+            candidate_metrics = dict(result.get("participants", {}).get("candidate", {}))
+            self.state.database.update_policy_checkpoint_qualification(
+                checkpoint["id"],
+                qualification_status=qualification_status,
+                grade=str(result.get("grade", "U")),
+                metadata_updates={
+                    "latest_qualification_id": result["qualification_id"],
+                    "qualification_metrics": candidate_metrics,
+                },
+            )
+            if bool(result.get("passed")):
+                lineage_id = str(checkpoint["lineage_id"])
+                best = next(
+                    (
+                        row
+                        for row in self.state.database.list_policy_checkpoints(lineage_id)
+                        if bool(row.get("is_best"))
+                    ),
+                    None,
+                )
+                rank = {
+                    "A+": 5,
+                    "A": 4,
+                    "A-": 3.5,
+                    "B+": 3,
+                    "B": 2,
+                    "B-": 1.5,
+                    "C": 1,
+                    "U": 0,
+                    "F": -1,
+                }
+                promote = best is None or rank.get(str(result.get("grade", "U")), 0) > rank.get(
+                    str(best.get("grade", "U")), 0
+                )
+                if best is not None and rank.get(str(result.get("grade", "U")), 0) == rank.get(
+                    str(best.get("grade", "U")), 0
+                ):
+                    try:
+                        old_obj = float(
+                            dict(best.get("metadata", {}))
+                            .get("qualification_metrics", {})
+                            .get("median_objective", float("inf"))
+                        )
+                        new_obj = float(candidate_metrics.get("median_objective", float("inf")))
+                        promote = np.isfinite(new_obj) and new_obj < old_obj
+                    except Exception:
+                        promote = False
+                if promote:
+                    self.state.database.mark_best_policy_checkpoint(lineage_id, checkpoint["id"])
         self.state.task_status.finish(
             f"Policy qualification {'passed' if result.get('passed') else 'failed'} · grade {result.get('grade', 'U')}"
         )
         paired = result.get("paired_evidence", {}).get("vs_no_ai", {})
         pvalue = paired.get("wilcoxon_p_two_sided")
-        ptext = f" · paired p={float(pvalue):.3g}" if isinstance(pvalue, (int, float)) and np.isfinite(float(pvalue)) else ""
-        native_text = "native v4.1" if result.get("native_v41") else "legacy-compatible"
+        ptext = (
+            f" · paired p={float(pvalue):.3g}"
+            if isinstance(pvalue, (int, float)) and np.isfinite(float(pvalue))
+            else ""
+        )
+        native_text = "native v5.0" if result.get("native_v41") else "legacy-compatible"
         self.qualification_status.setText(
             f"Qualification {'PASS' if result.get('passed') else 'FAIL'} · {native_text} · grade {result.get('grade')} · "
-            f"grade index {float(result.get('score', 0.0)):.0f}{ptext}. " + " ".join(result.get("reasons", []))
+            f"grade index {float(result.get('score', 0.0)):.0f}{ptext}. "
+            + " ".join(result.get("reasons", []))
         )
         self.refresh_policy_library()
         self._select_policy_id(str(result["candidate_policy_id"]))
@@ -797,12 +1033,15 @@ class CALOIntelligencePanel(ScrollablePage):
             if not qualifications:
                 continue
             import json as _json
+
             latest = qualifications[0]
             payload = _json.loads(latest.get("metrics_json") or "{}")
             if key == "score":
                 value = float(latest.get("score", 0.0))
             else:
-                value = float(payload.get("participants", {}).get("candidate", {}).get(key, float("nan")))
+                value = float(
+                    payload.get("participants", {}).get("candidate", {}).get(key, float("nan"))
+                )
             if not np.isfinite(value):
                 continue
             labels.append(policy.name)
@@ -812,7 +1051,9 @@ class CALOIntelligencePanel(ScrollablePage):
         if not labels:
             self.policy_plot.show_message(
                 "No qualified policy evidence yet. Run Policy Qualification to compare Candidate vs reference policy vs No-AI CALO.",
-                title="Policy qualification comparison", xlabel="Policy", ylabel="Metric",
+                title="Policy qualification comparison",
+                xlabel="Policy",
+                ylabel="Metric",
             )
             return
         selected = self._selected_policy()
@@ -821,7 +1062,10 @@ class CALOIntelligencePanel(ScrollablePage):
             if qualifications:
                 payload = json.loads(qualifications[0].get("metrics_json") or "{}")
                 participants = payload.get("participants", {})
-                for participant_key, display_name in (("reference", "Reference policy"), ("no_ai", "No-AI CALO")):
+                for participant_key, display_name in (
+                    ("reference", "Reference policy"),
+                    ("no_ai", "No-AI CALO"),
+                ):
                     value = participants.get(participant_key, {}).get(key)
                     try:
                         value = float(value)
@@ -873,7 +1117,9 @@ class CALOIntelligencePanel(ScrollablePage):
             historical.learning_mode.setCurrentIndex(idx)
         repository = str(parameters.get("historical_repository", "") or "")
         historical.repository_path.setText(repository)
-        historical.use_parameter_priors.setChecked(bool(parameters.get("use_historical_parameter_priors", False)))
+        historical.use_parameter_priors.setChecked(
+            bool(parameters.get("use_historical_parameter_priors", False))
+        )
         warm_start = bool(parameters.get("use_cross_algorithm_warm_start", False))
         historical.use_cross_algorithm_knowledge.setChecked(warm_start)
         historical.allow_population_warm_start.setChecked(warm_start)
@@ -991,9 +1237,7 @@ class CALOIntelligencePanel(ScrollablePage):
                 + orpd_text
                 + " Shares refer to rollout episodes/transitions, not exact hardware utilization. "
                 "All accepted trajectories use one policy snapshot and PPO starts only after "
-                "all matching lanes return. "
-                + self._device_text
-                + warning
+                "all matching lanes return. " + self._device_text + warning
             )
         except Exception as exc:
             self.accelerator_status.setText(str(exc))
@@ -1002,17 +1246,25 @@ class CALOIntelligencePanel(ScrollablePage):
         if self.no_ai_mode.isChecked():
             parameters = dict(self.state.config.algorithm_parameters.get("CALO", {}))
             for key in (
-                "policy_id", "policy_checkpoint", "policy_sha256", "policy_architecture_version",
-                "policy_state_schema_version", "policy_action_schema_version",
-                "policy_training_environment_version", "policy_qualification_status", "policy_grade",
+                "policy_id",
+                "policy_checkpoint",
+                "policy_sha256",
+                "policy_architecture_version",
+                "policy_state_schema_version",
+                "policy_action_schema_version",
+                "policy_training_environment_version",
+                "policy_qualification_status",
+                "policy_grade",
             ):
                 parameters.pop(key, None)
-            parameters.update({
-                "use_ai": False,
-                "strict_policy_binding": False,
-                "deterministic_policy": bool(self.deterministic.isChecked()),
-                "allow_unqualified_policy": False,
-            })
+            parameters.update(
+                {
+                    "use_ai": False,
+                    "strict_policy_binding": False,
+                    "deterministic_policy": bool(self.deterministic.isChecked()),
+                    "allow_unqualified_policy": False,
+                }
+            )
             self.state.config.algorithm_parameters["CALO"] = parameters
             self.metadata.setPlainText(
                 "No-AI CALO selected. Runtime uses rule-based cognitive priors plus current-run "
@@ -1023,7 +1275,9 @@ class CALOIntelligencePanel(ScrollablePage):
             return
         path = Path(self.path.text().strip())
         if not path.exists():
-            QMessageBox.critical(self, "CALO policy configuration", "Select a valid CALO policy checkpoint first.")
+            QMessageBox.critical(
+                self, "CALO policy configuration", "Select a valid CALO policy checkpoint first."
+            )
             return
         try:
             policy = self._selected_policy()
@@ -1069,14 +1323,27 @@ class CALOIntelligencePanel(ScrollablePage):
         except Exception as exc:
             self.metadata.setPlainText(str(exc))
 
+    def _update_training_mode_controls(self) -> None:
+        mode = (
+            str(self.training_mode.currentData() or "cumulative")
+            if hasattr(self, "training_mode")
+            else "cumulative"
+        )
+        if hasattr(self, "epochs"):
+            self.epochs.setEnabled(mode != "indefinite")
+            self.epochs.setToolTip(
+                "Absolute cumulative epoch target"
+                if mode == "cumulative"
+                else "Number of additional epochs to run from the saved optimizer/RNG state"
+                if mode == "additional"
+                else "Ignored in indefinite mode; training continues until Safe Stop and remains resumable"
+            )
+
     def train_policy(self) -> None:
         weighted = str(self.rollout_mode.currentData()) == "weighted"
         default_path = self.path.text()
         frozen_policy = (
-            Path(__file__).resolve().parents[2]
-            / "data"
-            / "trained_models"
-            / "calo_policy_v2.pt"
+            Path(__file__).resolve().parents[2] / "data" / "trained_models" / "calo_policy_v2.pt"
         )
         if weighted:
             default_path = str(frozen_policy.with_name("calo_policy_v4_1_candidate.pt"))
@@ -1099,7 +1366,11 @@ class CALOIntelligencePanel(ScrollablePage):
             return
         selected_training_device = str(self.training_device.currentData())
         device_info = available_training_devices()
-        if not weighted and selected_training_device == "auto" and device_info["recommended_device"] == "xpu_sidecar":
+        if (
+            not weighted
+            and selected_training_device == "auto"
+            and device_info["recommended_device"] == "xpu_sidecar"
+        ):
             selected_training_device = "xpu_sidecar"
         if weighted and selected_training_device == "xpu_sidecar":
             QMessageBox.critical(
@@ -1138,13 +1409,21 @@ class CALOIntelligencePanel(ScrollablePage):
             rollout_workers=self.rollout_workers.value(),
             ppo_device=selected_training_device,
             development_cases=tuple(
-                item.strip()
-                for item in self.development_cases.text().split(",")
-                if item.strip()
+                item.strip() for item in self.development_cases.text().split(",") if item.strip()
             ),
             historical_repository=historical_options["historical_repository"],
             use_historical_trajectories=historical_options["use_historical_trajectories"],
             historical_pretraining_epochs=historical_options["historical_pretraining_epochs"],
+            training_mode=str(self.training_mode.currentData() or "cumulative"),
+            checkpoint_interval_epochs=self.checkpoint_interval.value(),
+            deployable_checkpoint_interval_epochs=self.deployable_interval.value(),
+            qualification_interval_epochs=self.qualification_interval.value(),
+            policy_lineage_name=self.policy_lineage_name.text().strip() or Path(path).stem,
+            policy_phase_index=int(getattr(self, "_pending_policy_phase_index", 1) or 1),
+            initial_policy_checkpoint=str(
+                getattr(self, "_pending_initial_policy_checkpoint", "") or ""
+            ),
+            keep_resume_after_completion=True,
         )
         if weighted:
             config = HeterogeneousTrainingConfig(
@@ -1164,13 +1443,38 @@ class CALOIntelligencePanel(ScrollablePage):
             )
         else:
             config = TrainingConfig(**common)
+        try:
+            lineage_name = str(config.policy_lineage_name or Path(path).stem)
+            pending_lineage = str(getattr(self, "_pending_policy_lineage_id", "") or "")
+            existing = next(
+                (
+                    row
+                    for row in self.state.database.list_policy_lineages(include_archived=True)
+                    if str(row["name"]) == lineage_name
+                ),
+                None,
+            )
+            config.policy_lineage_id = pending_lineage or (
+                str(existing["id"])
+                if existing
+                else self.state.policy_registry.create_lineage(lineage_name)
+            )
+            self._pending_initial_policy_checkpoint = ""
+            self._pending_policy_lineage_id = ""
+            self._pending_policy_phase_index = 1
+        except Exception as exc:
+            QMessageBox.critical(self, "Policy lineage", str(exc))
+            return
         self._launch_training(config, path)
 
     def _launch_training(self, config, path: str, *, resume_task_id: str = "") -> None:
         if self.state.task_status.busy:
             QMessageBox.information(self, "Task busy", "Wait for the active task to finish first.")
             return
-        resume_path = Path(path).with_suffix(".resume.pt")
+        configured_resume = str(getattr(config, "resume_checkpoint", "") or "").strip()
+        resume_path = (
+            Path(configured_resume) if configured_resume else Path(path).with_suffix(".resume.pt")
+        )
         config.resume_checkpoint = str(resume_path)
         state_payload = {
             "output_path": str(path),
@@ -1191,7 +1495,11 @@ class CALOIntelligencePanel(ScrollablePage):
                 ResumeTaskType.POLICY_TRAINING,
                 f"CALO policy training → {Path(path).name}",
                 state_payload,
-                total=int(config.epochs),
+                total=(
+                    0
+                    if str(getattr(config, "training_mode", "cumulative")) == "indefinite"
+                    else int(config.epochs)
+                ),
                 status=ResumeStatus.RUNNING,
             )
         config.resume_task_id = task_id
@@ -1199,8 +1507,8 @@ class CALOIntelligencePanel(ScrollablePage):
         self.train_button.setEnabled(False)
         self.resume_training_button.setEnabled(False)
         self.metadata.setPlainText(
-            "Policy training is running with epoch-level atomic checkpoints. Recovery starts from "
-            "the last completed PPO epoch; incomplete on-policy rollouts are discarded."
+            "CALO v5 policy-lineage training is running with crash-safe exact-resume checkpoints and immutable usable policy snapshots. "
+            "A completed checkpoint remains a usable policy; later sessions continue the same lineage without changing experiments already bound to an older SHA."
         )
         self.worker = TrainingWorker(config, path)
         self.worker.progress.connect(self._training_progress)
@@ -1210,29 +1518,75 @@ class CALOIntelligencePanel(ScrollablePage):
         self.state.task_status.cancel_requested.connect(self._cancel_training)
         self.state.task_status.begin(
             "Training CALO policy",
-            detail=("Resuming from the last completed PPO epoch" if Path(config.resume_checkpoint).is_file() else "Initializing reproducible training"),
+            detail=(
+                "Resuming from the last completed PPO epoch"
+                if Path(config.resume_checkpoint).is_file()
+                else "Initializing reproducible training"
+            ),
             progress=0,
             cancellable=True,
         )
         self.worker.start()
 
     def resume_saved_training(self) -> None:
-        items = [item for item in self.state.resume_service.unfinished() if item.task_type == ResumeTaskType.POLICY_TRAINING.value]
+        items = self.state.resume_service.list_all(
+            task_type=ResumeTaskType.POLICY_TRAINING, resumable_only=True
+        )
         if not items:
-            QMessageBox.information(self, "Policy training resume", "No resumable CALO policy-training checkpoint was found.")
+            QMessageBox.information(
+                self,
+                "Policy training resume",
+                "No resumable CALO policy-training checkpoint was found.",
+            )
             return
-        item = items[0]
+        # Exact resume is a training-session operation, not merely a model-weight operation. When
+        # several resumable sessions exist the user must select the intended lineage/session rather
+        # than silently resuming whichever task was updated most recently.
+        if len(items) > 1:
+            labels = [
+                f"{entry.title} · {entry.status} · updated {entry.updated_at}" for entry in items
+            ]
+            choice, accepted = QInputDialog.getItem(
+                self, "Resume exact policy training", "Saved training session", labels, 0, False
+            )
+            if not accepted:
+                return
+            item = items[labels.index(choice)]
+        else:
+            item = items[0]
         payload = dict(item.state)
         config_data = dict(payload.get("config", {}))
         cls = HeterogeneousTrainingConfig if payload.get("heterogeneous") else TrainingConfig
-        valid = {key: value for key, value in config_data.items() if key in cls.__dataclass_fields__}
+        valid = {
+            key: value for key, value in config_data.items() if key in cls.__dataclass_fields__
+        }
         if "development_cases" in valid:
             valid["development_cases"] = tuple(valid["development_cases"])
         config = cls(**valid)
+        if str(item.status) == ResumeStatus.COMPLETED.value:
+            config.training_mode = str(self.training_mode.currentData() or "additional")
+            config.epochs = int(self.epochs.value())
+            config.checkpoint_interval_epochs = int(self.checkpoint_interval.value())
+            config.deployable_checkpoint_interval_epochs = int(self.deployable_interval.value())
+            config.qualification_interval_epochs = int(self.qualification_interval.value())
         path = str(payload.get("output_path", ""))
         if not path:
-            QMessageBox.critical(self, "Policy training resume", "The saved task does not contain an output checkpoint path.")
+            QMessageBox.critical(
+                self,
+                "Policy training resume",
+                "The saved task does not contain an output checkpoint path.",
+            )
             return
+        if str(item.status) == ResumeStatus.COMPLETED.value:
+            # Never overwrite a previously completed/deployable policy artifact. Continue the exact
+            # optimizer/RNG state into a fresh working alias; immutable lineage checkpoints remain stable.
+            source = Path(path)
+            candidate = source.with_name(source.stem + "_continued" + source.suffix)
+            counter = 2
+            while candidate.exists():
+                candidate = source.with_name(f"{source.stem}_continued_{counter}{source.suffix}")
+                counter += 1
+            path = str(candidate)
         self._launch_training(config, path, resume_task_id=item.id)
 
     def _training_progress(self, percent: int, detail: str) -> None:
@@ -1255,33 +1609,114 @@ class CALOIntelligencePanel(ScrollablePage):
         except TypeError:
             pass
 
+    def _register_training_snapshots(self, output_path: str, config=None) -> list[str]:
+        """Register deployable lineage snapshots without changing the active/default policy."""
+        output = Path(output_path)
+        lineage_dir = output.parent / f"{output.stem}_lineage"
+        if not lineage_dir.is_dir():
+            return []
+        lineage_id = (
+            str(getattr(config, "policy_lineage_id", "") or "") if config is not None else ""
+        )
+        registered: list[str] = []
+        known_sha = (
+            {
+                str(row.get("sha256", "")).lower()
+                for row in self.state.database.list_policy_checkpoints(lineage_id)
+            }
+            if lineage_id
+            else set()
+        )
+        for snapshot in sorted(lineage_dir.glob("epoch_*.pt")):
+            try:
+                payload = load_checkpoint(snapshot, map_location="cpu")
+                metadata = dict(payload.get("metadata", {}) or {})
+                snapshot_lineage = str(metadata.get("policy_lineage_id", "") or lineage_id)
+                cumulative_epoch = int(metadata.get("cumulative_epoch", 0) or 0)
+                lineage_name = str(metadata.get("policy_lineage_name", "") or "CALO-policy")
+                policy = self.state.policy_registry.register(
+                    str(snapshot), name=f"{lineage_name}@{cumulative_epoch}", status="candidate"
+                )
+                if snapshot_lineage and policy.sha256.lower() not in known_sha:
+                    self.state.policy_registry.lineages.register_checkpoint(
+                        snapshot_lineage,
+                        snapshot,
+                        cumulative_epoch=cumulative_epoch,
+                        phase_index=int(metadata.get("policy_phase_index", 1) or 1),
+                        resume_path=output.with_suffix(".resume.pt"),
+                        metadata={
+                            "policy_id": policy.id,
+                            "policy_name": policy.name,
+                            "terminal": False,
+                        },
+                    )
+                    known_sha.add(policy.sha256.lower())
+                registered.append(policy.id)
+            except Exception:
+                # A partial/crash-written artifact is intentionally ignored; CheckpointManager's
+                # atomic write means valid snapshots remain self-contained and discoverable.
+                continue
+        return registered
+
     def _training_done(self, path: str) -> None:
         self._disconnect_training_cancel()
         self.train_button.setEnabled(True)
         self.resume_training_button.setEnabled(True)
         if self.training_resume_task_id:
-            self.state.resume_service.update(self.training_resume_task_id, status=ResumeStatus.COMPLETED, current=100, total=100, resumable=False)
-        self.path.setText(path)
+            self.state.resume_service.update(
+                self.training_resume_task_id,
+                status=ResumeStatus.COMPLETED,
+                current=100,
+                total=100,
+                resumable=True,
+            )
+        selected_policy = None
         try:
-            policy = self.state.policy_registry.register(path, status="candidate")
+            config = getattr(self.worker, "config", None)
+            # Read the mutable working alias only to locate its immutable terminal snapshot.
+            alias_payload = load_checkpoint(path, map_location="cpu")
+            alias_metadata = dict(alias_payload.get("metadata", {}) or {})
+            immutable_path = str(alias_metadata.get("immutable_terminal_checkpoint", "") or "")
+            self._register_training_snapshots(path, config)
+            if immutable_path and Path(immutable_path).is_file():
+                selected_policy = self.state.policy_registry.register(
+                    immutable_path,
+                    name=f"{alias_metadata.get('policy_lineage_name') or Path(path).stem}@{int(alias_metadata.get('cumulative_epoch', 0) or 0)}",
+                    status="candidate",
+                )
+                self.path.setText(immutable_path)
+            else:
+                # Compatibility fallback for a legacy trainer that did not emit immutable snapshots.
+                selected_policy = self.state.policy_registry.register(path, status="candidate")
+                self.path.setText(path)
             self.refresh_policy_library()
-            self._select_policy_id(policy.id)
+            self._select_policy_id(selected_policy.id)
         except Exception:
-            pass
+            self.path.setText(path)
         self.inspect_policy()
         self.state.task_status.finish("CALO policy training completed")
         QMessageBox.information(
             self,
             "CALO policy",
-            "Policy training completed and the checkpoint was saved.",
+            "Training session completed. An immutable usable checkpoint was saved and the exact training state remains resumable for future sessions.",
         )
 
     def _training_cancelled(self, message: str) -> None:
         self._disconnect_training_cancel()
         self.train_button.setEnabled(True)
         self.resume_training_button.setEnabled(True)
+        try:
+            if self.worker is not None:
+                self._register_training_snapshots(
+                    str(self.worker.path), getattr(self.worker, "config", None)
+                )
+                self.refresh_policy_library()
+        except Exception:
+            pass
         if self.training_resume_task_id:
-            self.state.resume_service.update(self.training_resume_task_id, status=ResumeStatus.PAUSED, resumable=True)
+            self.state.resume_service.update(
+                self.training_resume_task_id, status=ResumeStatus.PAUSED, resumable=True
+            )
         self.state.task_status.cancelled(message)
 
     def _training_failed(self, message: str) -> None:
@@ -1289,10 +1724,11 @@ class CALOIntelligencePanel(ScrollablePage):
         self.train_button.setEnabled(True)
         self.resume_training_button.setEnabled(True)
         if self.training_resume_task_id:
-            self.state.resume_service.update(self.training_resume_task_id, status=ResumeStatus.INTERRUPTED, resumable=True)
+            self.state.resume_service.update(
+                self.training_resume_task_id, status=ResumeStatus.INTERRUPTED, resumable=True
+            )
         self.state.task_status.fail(message)
         QMessageBox.critical(self, "Policy training failed", message)
 
     def set_experiment_navigation_enabled(self, enabled: bool) -> None:
         self.ablation_button.setEnabled(bool(enabled))
-

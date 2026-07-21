@@ -1,4 +1,5 @@
 """Tensorized mixed-variable decoding for the common normalized ORPD search space."""
+
 from __future__ import annotations
 
 import numpy as np
@@ -34,7 +35,9 @@ class TorchVariableDecoder:
         if z.ndim == 1:
             z = z.unsqueeze(0)
         if z.shape[1] != self.dimension:
-            raise ValueError(f"Expected decision matrix with {self.dimension} columns, got {tuple(z.shape)}")
+            raise ValueError(
+                f"Expected decision matrix with {self.dimension} columns, got {tuple(z.shape)}"
+            )
         z = torch.clamp(z, 0.0, 1.0)
         columns = []
         for column, action in enumerate(self.reference._actions):
@@ -47,7 +50,11 @@ class TorchVariableDecoder:
                 index = torch.clamp(index, 0, lattice.numel() - 1)
                 decoded = lattice[index]
             columns.append(decoded)
-        return torch.stack(columns, dim=1) if columns else torch.empty((z.shape[0], 0), dtype=self.dtype, device=self.device)
+        return (
+            torch.stack(columns, dim=1)
+            if columns
+            else torch.empty((z.shape[0], 0), dtype=self.dtype, device=self.device)
+        )
 
     def decode_batch(self, normalized):
         decoded = self.decode_values(normalized)
@@ -58,7 +65,9 @@ class TorchVariableDecoder:
             case = self.case.clone()
             controls = {}
             index = case.bus_index_map()
-            for value, action, variable in zip(row, self.reference._actions, self.reference.variables):
+            for value, action, variable in zip(
+                row, self.reference._actions, self.reference.variables
+            ):
                 kind, target, _lower, _upper, _lattice = action
                 scalar = float(value)
                 controls[variable.name] = scalar

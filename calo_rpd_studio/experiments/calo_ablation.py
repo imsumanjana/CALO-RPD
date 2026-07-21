@@ -1,4 +1,5 @@
 """Predefined CALO v4 scientific ablation suite."""
+
 from __future__ import annotations
 
 from copy import deepcopy
@@ -25,7 +26,9 @@ ABLATION_SPECS = (
     AblationSpec("CALO v4 without success memory", "CALO", {"use_memory": False}),
     AblationSpec("CALO v4 without HPEM", "CALO", {"use_hpem": False}),
     AblationSpec("CALO v4 without contextual credit", "CALO", {"use_contextual_credit": False}),
-    AblationSpec("CALO v4 without variable-group intelligence", "CALO", {"use_variable_intelligence": False}),
+    AblationSpec(
+        "CALO v4 without variable-group intelligence", "CALO", {"use_variable_intelligence": False}
+    ),
     AblationSpec("CALO v4 without dual-lane learning", "CALO", {"use_dual_lane": False}),
     AblationSpec("CALO v4 without cognitive precision", "CALO", {"use_cognitive_precision": False}),
     AblationSpec("CALO v4 without diversity recovery", "CALO", {"use_diversity_recovery": False}),

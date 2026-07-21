@@ -5,6 +5,7 @@ runs execute as threads inside that process and submit compatible population req
 ``CrossRunBatchBroker``.  This removes per-run accelerator initialization and enables real
 cross-run candidate batching without changing optimizer equations or evaluation budgets.
 """
+
 from __future__ import annotations
 
 from concurrent.futures import ThreadPoolExecutor
@@ -15,9 +16,14 @@ import time
 from typing import Any
 
 from calo_rpd_studio.accelerated.runtime_context import clear_cross_run_broker, set_cross_run_broker
-from calo_rpd_studio.accelerated.throughput_engine import CrossRunBatchBroker, GLOBAL_LEDGER, calibrate_evaluator
+from calo_rpd_studio.accelerated.throughput_engine import (
+    CrossRunBatchBroker,
+    GLOBAL_LEDGER,
+    calibrate_evaluator,
+)
 from calo_rpd_studio.experiments.calo_ablation import run_ablation
 from calo_rpd_studio.experiments.execution_plan import ABLATION_MODE, COMPARISON_MODE
+from calo_rpd_studio.continuation.runtime_binding import bind_exact_run_checkpoint
 from calo_rpd_studio.experiments.experiment_runner import (
     build_problem,
     failed_run_from_exception,
@@ -25,7 +31,7 @@ from calo_rpd_studio.experiments.experiment_runner import (
 )
 
 
-def configure_item_device(config, compute_device: str):
+def configure_item_device(config, compute_device: str, item=None):
     local = deepcopy(config)
     local.runtime_compute_device = str(compute_device)
     parameters = dict(local.algorithm_parameters)
@@ -38,7 +44,7 @@ def configure_item_device(config, compute_device: str):
             values["inference_device"] = str(compute_device)
         parameters[algorithm_name] = values
     local.algorithm_parameters = parameters
-    return local
+    return bind_exact_run_checkpoint(local, item)
 
 
 def _configure_numeric_threads() -> None:
@@ -73,18 +79,22 @@ def _worker_main(
             max_candidates=max_cross_run_batch,
         )
         set_cross_run_broker(broker)
-    executor = ThreadPoolExecutor(max_workers=max(1, int(slots)), thread_name_prefix=f"CALO-{device}")
+    executor = ThreadPoolExecutor(
+        max_workers=max(1, int(slots)), thread_name_prefix=f"CALO-{device}"
+    )
     futures: dict[Any, str] = {}
 
     def run_job(command):
         job_id = str(command["job_id"])
-        config = configure_item_device(command["config"], device)
         item = command["item"]
+        config = configure_item_device(command["config"], device, item)
         seeds = command["seeds"]
         mode = str(command["mode"])
         evaluation_span = max(1, int(config.budget.max_evaluations))
         evaluation_step = max(1, evaluation_span // 100)
-        telemetry_iteration_interval = max(1, int(getattr(config, "telemetry_iteration_interval", 10)))
+        telemetry_iteration_interval = max(
+            1, int(getattr(config, "telemetry_iteration_interval", 10))
+        )
         last_emit = 0.0
         last_evaluations = -1
         last_iteration = -1
@@ -124,7 +134,9 @@ def _worker_main(
             if mode == COMPARISON_MODE:
                 completed = run_single(config, item.label, item.run_index, seeds, emit, cancelled)
             elif mode == ABLATION_MODE:
-                completed = run_ablation(config, item.ablation_spec, item.run_index, seeds, emit, cancelled)
+                completed = run_ablation(
+                    config, item.ablation_spec, item.run_index, seeds, emit, cancelled
+                )
             else:
                 raise ValueError(f"Unsupported experiment mode: {mode}")
             completed.result.metadata.update(
@@ -133,7 +145,9 @@ def _worker_main(
                     "execution_backend": str(config.execution_backend),
                     "persistent_accelerator_worker": True,
                     "throughput_engine_version": "3.3",
-                    "device_resident_execution": bool(getattr(config, "device_resident_execution", True)),
+                    "device_resident_execution": bool(
+                        getattr(config, "device_resident_execution", True)
+                    ),
                     "planned_device_share": {
                         "cuda": int(getattr(config, "cuda_task_share", 80)),
                         "xpu": int(getattr(config, "xpu_task_share", 10)),
@@ -145,7 +159,13 @@ def _worker_main(
                     "throughput_stage_profile": GLOBAL_LEDGER.snapshot(),
                 }
             )
-            return {"kind": "completed", "job_id": job_id, "item": item, "payload": completed}
+            kind = (
+                "interrupted"
+                if cancel_event.is_set()
+                and int(completed.result.evaluations) < int(config.budget.max_evaluations)
+                else "completed"
+            )
+            return {"kind": kind, "job_id": job_id, "item": item, "payload": completed}
         except Exception as exc:
             return {
                 "kind": "failed",
@@ -163,7 +183,9 @@ def _worker_main(
                 try:
                     result_queue.put(future.result())
                 except Exception as exc:
-                    result_queue.put({"kind": "service_error", "job_id": job_id, "message": str(exc)})
+                    result_queue.put(
+                        {"kind": "service_error", "job_id": job_id, "message": str(exc)}
+                    )
 
             try:
                 command = command_queue.get(timeout=0.05)

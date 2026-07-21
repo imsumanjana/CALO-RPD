@@ -1,67 +1,48 @@
 {
-  "software_version": "4.1.0",
-  "release_name": "Policy-Qualified Reproducible CALO Release",
-  "release_date": "2026-07-20",
+  "name": "CALO-RPD Studio",
+  "version": "5.0.0",
+  "release_name": "Continuable Policy and Experiment Evolution Release",
+  "release_date": "2026-07-21",
+  "scientific_claim": "Software continuation/provenance release; no universal optimizer or policy superiority claim.",
   "validation": {
-    "tests_passed": 208,
-    "tests_failed": 0,
-    "unit_tests": "154 passed",
-    "gui_tests": "25 passed",
-    "integration_regression_tests": "9 passed",
-    "scientific_ieee_tests": "4 passed",
-    "scientific_integrity_tests": "16 passed",
-    "ruff": "passed_zero_findings",
-    "compileall": "passed",
+    "tests": {
+      "unit_integration_regression": 177,
+      "scientific": 20,
+      "gui": 25,
+      "total": 222,
+      "failed": 0
+    },
+    "ruff": "PASS",
+    "compileall": "PASS",
+    "freeze": {
+      "status": "PASS",
+      "checked_files": 101,
+      "manifest": "calo_rpd_studio/data/frozen/calo_v500_freeze.json"
+    },
     "ieee_pypower_cases": [
-      "case30",
-      "case57",
-      "case118",
-      "case300"
-    ]
-  },
-  "v4_1": {
-    "policy_center": true,
-    "policy_registry": true,
-    "policy_qualification": "candidate_vs_reference_vs_no_ai_paired",
-    "native_policy_state_dimension": 32,
-    "strict_immutable_policy_binding": true,
-    "safe_policy_archive_delete": true,
-    "native_v41_training_resume": true,
-    "experiment_workspace_restoration": true,
-    "historical_plot_reconstruction": true,
-    "workflow_state_restoration": true,
-    "adaptive_exact_cache": true,
-    "end_to_end_timing_metadata": true,
-    "fully_device_resident_calo_control": false,
-    "indefinite_policy_lineage_training": false,
-    "run_count_or_fe_horizon_extension": false
-  },
-  "scientific_claim_status": {
-    "release_validation_passed": true,
-    "bundled_legacy_policy_native_v41_qualified": false,
-    "universal_calo_superiority_proven": false,
-    "publication_gate": "Requires frozen paired feasible independently validated multi-case benchmark evidence"
-  },
-  "runtime_policy": {
-    "default_execution_backend": "gpu_preferred",
-    "numerical_priority": [
-      "NVIDIA CUDA",
-      "Intel XPU",
-      "CPU"
+      "IEEE 30",
+      "IEEE 57",
+      "IEEE 118",
+      "IEEE 300"
     ],
-    "physical_cuda_validation": "not_available_in_build_environment",
-    "physical_xpu_validation": "not_available_in_build_environment"
+    "ieee_pypower_status": "PASS"
   },
-  "planned_v5_scope_not_in_v4_1": [
-    "indefinite_or_multi_session_policy_lineage_training",
-    "best_vs_latest_policy_checkpoint_lineage_promotion",
-    "exact_mid_run_optimizer_continuation",
-    "experiment_run_count_extension",
-    "evaluation_horizon_extension"
+  "major_capabilities": [
+    "exact resumable policy-training checkpoints with cumulative/additional/indefinite modes",
+    "policy lineages with immutable checkpoints and latest vs best-qualified roles",
+    "experiment revisions and deterministic additional paired-run extension",
+    "exact CALO optimizer-state continuation from explicit source FE horizons",
+    "paired recompute-from-original-seed higher-horizon extension for all algorithms",
+    "publication-safe all-paired/predeclared protocols and explicitly exploratory manual extension",
+    "horizon-specific evidence snapshots, validation, statistics and export",
+    "scientific problem fingerprints bound to exact CALO run checkpoints",
+    "workspace restoration retained from v4.1"
   ],
-  "freeze": {
-    "manifest": "calo_rpd_studio/data/frozen/calo_v410_freeze.json",
-    "checked_files": 95,
-    "manifest_sha256": "b7bc41f99ea29fe07df942faa5ba1f78325cd099e0868da544d69388ed880a1e"
-  }
+  "explicit_limitations": [
+    "policy training and complete runtime CALO are not one bit-identical transition implementation",
+    "bundled policy superiority is not proven",
+    "full CALO cognitive/control path is not fully device-resident",
+    "exact optimizer-state continuation is CALO-only; baselines use paired recompute-from-seed",
+    "automatic periodic policy qualification is not implemented"
+  ]
 }

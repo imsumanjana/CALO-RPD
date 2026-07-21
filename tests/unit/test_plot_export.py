@@ -18,7 +18,9 @@ def test_square_export_has_exact_one_to_one_pixel_dimensions(tmp_path):
     assert image.shape[0] == image.shape[1] == 200
 
 
-def test_export_selected_series_filters_saved_lines_and_legend_then_restores_preview(tmp_path, monkeypatch):
+def test_export_selected_series_filters_saved_lines_and_legend_then_restores_preview(
+    tmp_path, monkeypatch
+):
     figure = Figure(figsize=(3, 3))
     axis = figure.add_subplot(111)
     axis.plot([0, 1], [1, 0], label="CALO")
@@ -35,7 +37,9 @@ def test_export_selected_series_filters_saved_lines_and_legend_then_restores_pre
             if line.get_visible() and not line.get_label().startswith("_")
         ]
         legend = axis.get_legend()
-        captured["legend"] = [] if legend is None else [text.get_text() for text in legend.get_texts()]
+        captured["legend"] = (
+            [] if legend is None else [text.get_text() for text in legend.get_texts()]
+        )
 
     monkeypatch.setattr(figure, "savefig", fake_savefig)
     manager.export(

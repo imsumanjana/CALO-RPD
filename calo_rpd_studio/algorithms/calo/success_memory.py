@@ -4,6 +4,7 @@ Canonical persistent layout is ``[operator, history_slot, decision_variable]``.
 Only successful compressed directions are retained; full trajectories are never
 historized.  Probability construction is explicitly NaN/Inf safe.
 """
+
 from __future__ import annotations
 
 import numpy as np

@@ -1,4 +1,5 @@
 """Application-wide task status used by the persistent bottom status bar."""
+
 from __future__ import annotations
 
 from PyQt6.QtCore import QObject, pyqtSignal

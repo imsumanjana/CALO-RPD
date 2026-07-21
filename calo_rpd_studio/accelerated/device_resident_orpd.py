@@ -9,6 +9,7 @@ The implementation intentionally retains FP64 arithmetic and the same formulatio
 trusted CPU reference.  Candidate-specific PV-to-PQ switching is handled in grouped tensor batches
 by bus-type pattern instead of falling back to one Python power-flow solve per candidate.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -106,7 +107,9 @@ class DeviceResidentBatch:
         """Materialise the complete population with one packed host transfer."""
         torch = _torch()
         objective_columns = [self.objective_components[name] for name in OBJECTIVE_COMPONENT_NAMES]
-        constraint_columns = [self.constraint_components[name] for name in CONSTRAINT_COMPONENT_NAMES]
+        constraint_columns = [
+            self.constraint_components[name] for name in CONSTRAINT_COMPONENT_NAMES
+        ]
         packed = torch.cat(
             (
                 self.objective[:, None],
@@ -143,8 +146,7 @@ class DeviceResidentBatch:
         out: list[Evaluation] = []
         for row in range(self.count):
             physical = {
-                name: float(controls[row, index])
-                for index, name in enumerate(self.variable_names)
+                name: float(controls[row, index]) for index, name in enumerate(self.variable_names)
             }
             components = {
                 name: float(objective_matrix[row, index])
@@ -218,9 +220,13 @@ class DeviceResidentORPDEvaluator:
         for case in cases[1:]:
             if case.n_bus != self.n_bus or case.n_branch != self.n_branch:
                 raise ValueError("All scenarios must preserve network dimensions")
-            if not np.array_equal(case.branch[:, F_BUS].astype(int), first.branch[:, F_BUS].astype(int)):
+            if not np.array_equal(
+                case.branch[:, F_BUS].astype(int), first.branch[:, F_BUS].astype(int)
+            ):
                 raise ValueError("All scenarios must preserve branch from-bus topology")
-            if not np.array_equal(case.branch[:, T_BUS].astype(int), first.branch[:, T_BUS].astype(int)):
+            if not np.array_equal(
+                case.branch[:, T_BUS].astype(int), first.branch[:, T_BUS].astype(int)
+            ):
                 raise ValueError("All scenarios must preserve branch to-bus topology")
 
         self.bus_np = np.stack([case.bus for case in cases], axis=0)
@@ -278,11 +284,15 @@ class DeviceResidentORPDEvaluator:
         self.branch_r = torch.as_tensor(branch[:, :, BR_R], dtype=dtype, device=device)
         self.branch_x = torch.as_tensor(branch[:, :, BR_X], dtype=dtype, device=device)
         self.branch_b = torch.as_tensor(branch[:, :, BR_B], dtype=dtype, device=device)
-        self.branch_status = torch.as_tensor(branch[:, :, BR_STATUS] > 0, dtype=torch.bool, device=device)
+        self.branch_status = torch.as_tensor(
+            branch[:, :, BR_STATUS] > 0, dtype=torch.bool, device=device
+        )
         tap = branch[:, :, TAP].copy()
         tap[tap == 0] = 1.0
         self.base_tap = torch.as_tensor(tap, dtype=dtype, device=device)
-        self.branch_shift = torch.deg2rad(torch.as_tensor(branch[:, :, SHIFT], dtype=dtype, device=device))
+        self.branch_shift = torch.deg2rad(
+            torch.as_tensor(branch[:, :, SHIFT], dtype=dtype, device=device)
+        )
         self.rate_a = torch.as_tensor(branch[:, :, RATE_A], dtype=dtype, device=device)
 
         self.base_vm = torch.as_tensor(bus[:, :, VM], dtype=dtype, device=device)
@@ -293,7 +303,9 @@ class DeviceResidentORPDEvaluator:
         self.qd = torch.as_tensor(bus[:, :, QD], dtype=dtype, device=device)
         self.vmin = torch.as_tensor(bus[:, :, VMIN], dtype=dtype, device=device)
         self.vmax = torch.as_tensor(bus[:, :, VMAX], dtype=dtype, device=device)
-        self.base_types = torch.as_tensor(bus[:, :, BUS_TYPE].astype(np.int64), dtype=torch.long, device=device)
+        self.base_types = torch.as_tensor(
+            bus[:, :, BUS_TYPE].astype(np.int64), dtype=torch.long, device=device
+        )
         self.original_pq = self.base_types == int(PQ)
         self.original_gen = (self.base_types == int(PV)) | (self.base_types == int(REF))
 
@@ -324,7 +336,9 @@ class DeviceResidentORPDEvaluator:
         if isinstance(normalized, torch.Tensor):
             z = normalized.to(device=self.device, dtype=self.dtype)
         else:
-            z = torch.as_tensor(np.asarray(normalized, dtype=float), dtype=self.dtype, device=self.device)
+            z = torch.as_tensor(
+                np.asarray(normalized, dtype=float), dtype=self.dtype, device=self.device
+            )
         if z.ndim == 1:
             z = z.unsqueeze(0)
         if z.shape[1] != len(self.actions):
@@ -340,8 +354,10 @@ class DeviceResidentORPDEvaluator:
                 index = torch.clamp(index, 0, lattice.numel() - 1)
                 decoded = lattice[index]
             decoded_columns.append(decoded)
-        decoded = torch.stack(decoded_columns, dim=1) if decoded_columns else torch.empty(
-            (z.shape[0], 0), dtype=self.dtype, device=self.device
+        decoded = (
+            torch.stack(decoded_columns, dim=1)
+            if decoded_columns
+            else torch.empty((z.shape[0], 0), dtype=self.dtype, device=self.device)
         )
         batch = z.shape[0]
         vm = self.base_vm.unsqueeze(0).expand(batch, -1, -1).clone()
@@ -404,10 +420,26 @@ class DeviceResidentORPDEvaluator:
     def _specified_power(self, batch: int):
         torch = _torch()
         base = self.base_mva.unsqueeze(0).expand(batch, -1).reshape(batch * self.scenario_count, 1)
-        pg = self.pg_spec.unsqueeze(0).expand(batch, -1, -1).reshape(batch * self.scenario_count, self.n_bus)
-        qg = self.qg_spec.unsqueeze(0).expand(batch, -1, -1).reshape(batch * self.scenario_count, self.n_bus)
-        pd = self.pd.unsqueeze(0).expand(batch, -1, -1).reshape(batch * self.scenario_count, self.n_bus)
-        qd = self.qd.unsqueeze(0).expand(batch, -1, -1).reshape(batch * self.scenario_count, self.n_bus)
+        pg = (
+            self.pg_spec.unsqueeze(0)
+            .expand(batch, -1, -1)
+            .reshape(batch * self.scenario_count, self.n_bus)
+        )
+        qg = (
+            self.qg_spec.unsqueeze(0)
+            .expand(batch, -1, -1)
+            .reshape(batch * self.scenario_count, self.n_bus)
+        )
+        pd = (
+            self.pd.unsqueeze(0)
+            .expand(batch, -1, -1)
+            .reshape(batch * self.scenario_count, self.n_bus)
+        )
+        qd = (
+            self.qd.unsqueeze(0)
+            .expand(batch, -1, -1)
+            .reshape(batch * self.scenario_count, self.n_bus)
+        )
         return torch.complex((pg - pd) / base, (qg - qd) / base)
 
     def _initial_voltage(self, vm):
@@ -417,8 +449,16 @@ class DeviceResidentORPDEvaluator:
     def _required_generation(self, voltage, ybus, batch: int):
         torch = _torch()
         base = self.base_mva.unsqueeze(0).expand(batch, -1).reshape(batch * self.scenario_count, 1)
-        pd = self.pd.unsqueeze(0).expand(batch, -1, -1).reshape(batch * self.scenario_count, self.n_bus)
-        qd = self.qd.unsqueeze(0).expand(batch, -1, -1).reshape(batch * self.scenario_count, self.n_bus)
+        pd = (
+            self.pd.unsqueeze(0)
+            .expand(batch, -1, -1)
+            .reshape(batch * self.scenario_count, self.n_bus)
+        )
+        qd = (
+            self.qd.unsqueeze(0)
+            .expand(batch, -1, -1)
+            .reshape(batch * self.scenario_count, self.n_bus)
+        )
         injection = voltage * torch.conj(torch.bmm(ybus, voltage.unsqueeze(-1)).squeeze(-1)) * base
         return injection.real + pd, injection.imag + qd
 
@@ -477,9 +517,13 @@ class DeviceResidentORPDEvaluator:
             scenario_index = solved_rows % self.scenario_count
             base_rows = self.base_mva[scenario_index][:, None]
             qd_rows = self.qd[scenario_index]
-            injection = voltage[solved_rows] * torch.conj(
-                torch.bmm(ybus[solved_rows], voltage[solved_rows].unsqueeze(-1)).squeeze(-1)
-            ) * base_rows
+            injection = (
+                voltage[solved_rows]
+                * torch.conj(
+                    torch.bmm(ybus[solved_rows], voltage[solved_rows].unsqueeze(-1)).squeeze(-1)
+                )
+                * base_rows
+            )
             qg = injection.imag + qd_rows
             current_types = types[solved_rows]
             qmin_rows = self.qmin[scenario_index]
@@ -503,14 +547,18 @@ class DeviceResidentORPDEvaluator:
             local_violated = violated[has_violation]
             local_high = high[has_violation]
             switch_scenarios = switching_rows % self.scenario_count
-            limit = torch.where(local_high, self.qmax[switch_scenarios], self.qmin[switch_scenarios])
+            limit = torch.where(
+                local_high, self.qmax[switch_scenarios], self.qmin[switch_scenarios]
+            )
             types[switching_rows] = torch.where(
                 local_violated,
                 torch.full_like(types[switching_rows], int(PQ)),
                 types[switching_rows],
             )
             imag = current_sbus[switching_rows].imag.clone()
-            specified_q = (limit - self.qd[switch_scenarios]) / self.base_mva[switch_scenarios][:, None]
+            specified_q = (limit - self.qd[switch_scenarios]) / self.base_mva[switch_scenarios][
+                :, None
+            ]
             imag = torch.where(local_violated, specified_q, imag)
             current_sbus[switching_rows] = torch.complex(current_sbus[switching_rows].real, imag)
             q_rounds[switching_rows] = q_round + 1
@@ -526,7 +574,11 @@ class DeviceResidentORPDEvaluator:
         base = self.base_mva.unsqueeze(0).expand(batch, -1).reshape(batch * self.scenario_count, 1)
         s_from = vf * torch.conj(current_from) * base
         s_to = vt * torch.conj(current_to) * base
-        rate = self.rate_a.unsqueeze(0).expand(batch, -1, -1).reshape(batch * self.scenario_count, self.n_branch)
+        rate = (
+            self.rate_a.unsqueeze(0)
+            .expand(batch, -1, -1)
+            .reshape(batch * self.scenario_count, self.n_branch)
+        )
         magnitude = torch.maximum(torch.abs(s_from), torch.abs(s_to))
         loading = torch.where(rate > 0, 100.0 * magnitude / rate, torch.zeros_like(rate))
         loss = torch.sum((s_from + s_to).real, dim=1)
@@ -583,35 +635,42 @@ class DeviceResidentORPDEvaluator:
             ybus, yff, yft, ytf, ytt = self._admittance(tap, bs)
             sbus = self._specified_power(batch)
             v0 = self._initial_voltage(vm)
-            converged, failed, voltage, iterations, mismatch, q_rounds, _final_types = self._solve_power_flow(
-                ybus, sbus, v0, batch
+            converged, failed, voltage, iterations, mismatch, q_rounds, _final_types = (
+                self._solve_power_flow(ybus, sbus, v0, batch)
             )
             pg, qg = self._required_generation(voltage, ybus, batch)
-            _s_from, _s_to, loading, loss = self._branch_outputs(
-                voltage, yff, yft, ytf, ytt, batch
-            )
+            _s_from, _s_to, loading, loss = self._branch_outputs(voltage, yff, yft, ytf, ytt, batch)
             l_index = self._l_index(voltage, ybus, batch)
 
             vm_final = torch.abs(voltage)
-            original_pq = self.original_pq.unsqueeze(0).expand(batch, -1, -1).reshape(
-                batch * self.scenario_count, self.n_bus
+            original_pq = (
+                self.original_pq.unsqueeze(0)
+                .expand(batch, -1, -1)
+                .reshape(batch * self.scenario_count, self.n_bus)
             )
             voltage_deviation = torch.sum(
-                torch.where(original_pq, torch.abs(vm_final - 1.0), torch.zeros_like(vm_final)), dim=1
+                torch.where(original_pq, torch.abs(vm_final - 1.0), torch.zeros_like(vm_final)),
+                dim=1,
             )
 
-            lower = self.vmin.unsqueeze(0).expand(batch, -1, -1).reshape(
-                batch * self.scenario_count, self.n_bus
+            lower = (
+                self.vmin.unsqueeze(0)
+                .expand(batch, -1, -1)
+                .reshape(batch * self.scenario_count, self.n_bus)
             )
-            upper = self.vmax.unsqueeze(0).expand(batch, -1, -1).reshape(
-                batch * self.scenario_count, self.n_bus
+            upper = (
+                self.vmax.unsqueeze(0)
+                .expand(batch, -1, -1)
+                .reshape(batch * self.scenario_count, self.n_bus)
             )
             span = torch.clamp(upper - lower, min=1e-12)
             bus_voltage = torch.sum(
                 torch.relu(lower - vm_final) / span + torch.relu(vm_final - upper) / span,
                 dim=1,
             )
-            scenario_indices = torch.arange(batch * self.scenario_count, device=self.device) % self.scenario_count
+            scenario_indices = (
+                torch.arange(batch * self.scenario_count, device=self.device) % self.scenario_count
+            )
             gen_mask = self.gen_mask[scenario_indices]
             pmin = self.pmin[scenario_indices]
             pmax = self.pmax[scenario_indices]
@@ -651,10 +710,18 @@ class DeviceResidentORPDEvaluator:
                 finite_mask, voltage_deviation, torch.full_like(voltage_deviation, float("inf"))
             )
             l_index = torch.where(finite_mask, l_index, torch.full_like(l_index, float("inf")))
-            bus_voltage = torch.where(finite_mask, bus_voltage, torch.full_like(bus_voltage, float("inf")))
-            generator_p = torch.where(finite_mask, generator_p, torch.full_like(generator_p, float("inf")))
-            generator_q = torch.where(finite_mask, generator_q, torch.full_like(generator_q, float("inf")))
-            branch_thermal = torch.where(finite_mask, branch_thermal, torch.full_like(branch_thermal, float("inf")))
+            bus_voltage = torch.where(
+                finite_mask, bus_voltage, torch.full_like(bus_voltage, float("inf"))
+            )
+            generator_p = torch.where(
+                finite_mask, generator_p, torch.full_like(generator_p, float("inf"))
+            )
+            generator_q = torch.where(
+                finite_mask, generator_q, torch.full_like(generator_q, float("inf"))
+            )
+            branch_thermal = torch.where(
+                finite_mask, branch_thermal, torch.full_like(branch_thermal, float("inf"))
+            )
 
             objective_kind = self.config.objective.kind
             if objective_kind is ObjectiveKind.ACTIVE_POWER_LOSS:
@@ -666,7 +733,9 @@ class DeviceResidentORPDEvaluator:
             else:
                 objective_config = self.config.objective
                 scenario_objective = (
-                    float(objective_config.weight_loss) * loss / max(float(objective_config.loss_scale), 1e-15)
+                    float(objective_config.weight_loss)
+                    * loss
+                    / max(float(objective_config.loss_scale), 1e-15)
                     + float(objective_config.weight_voltage_deviation)
                     * voltage_deviation
                     / max(float(objective_config.voltage_deviation_scale), 1e-15)
@@ -693,11 +762,15 @@ class DeviceResidentORPDEvaluator:
                 torch.sum(weights * (scenario_objective - objective_mean[:, None]).square(), dim=1)
             )
             objective_components = {
-                "active_power_loss_mw": torch.sum(weights * loss.reshape(batch, self.scenario_count), dim=1),
+                "active_power_loss_mw": torch.sum(
+                    weights * loss.reshape(batch, self.scenario_count), dim=1
+                ),
                 "voltage_deviation_pu": torch.sum(
                     weights * voltage_deviation.reshape(batch, self.scenario_count), dim=1
                 ),
-                "l_index_max": torch.sum(weights * l_index.reshape(batch, self.scenario_count), dim=1),
+                "l_index_max": torch.sum(
+                    weights * l_index.reshape(batch, self.scenario_count), dim=1
+                ),
                 "scenario_objective_mean": objective_mean,
                 "scenario_objective_std": objective_std,
             }

@@ -77,7 +77,9 @@ def test_native_policy_schema_is_explicit_and_32_dimensional(tmp_path):
 def test_policy_registry_requires_qualification_and_preserves_experiment_references(tmp_path):
     database = ResultDatabase(tmp_path / "results.sqlite")
     registry = PolicyRegistry(database)
-    policy = registry.register(_write_native_policy(tmp_path / "candidate.pt"), name="Candidate P01")
+    policy = registry.register(
+        _write_native_policy(tmp_path / "candidate.pt"), name="Candidate P01"
+    )
     assert policy.qualification_status == "candidate"
     assert policy.grade == "U"
 
@@ -111,9 +113,15 @@ def test_policy_registry_requires_qualification_and_preserves_experiment_referen
 
     # Move the default-active marker to another qualified policy so the deletion guard reaches
     # the stronger experiment-provenance reference check.
-    replacement = registry.register(_write_native_policy(tmp_path / "replacement.pt"), name="Replacement")
+    replacement = registry.register(
+        _write_native_policy(tmp_path / "replacement.pt"), name="Replacement"
+    )
     database.add_policy_qualification(
-        qualification_id="q2", policy_id=replacement.id, passed=True, grade="A", score=80.0,
+        qualification_id="q2",
+        policy_id=replacement.id,
+        passed=True,
+        grade="A",
+        score=80.0,
         qualification_status="qualified",
     )
     registry.activate(replacement.id)

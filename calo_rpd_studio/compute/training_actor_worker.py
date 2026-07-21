@@ -1,4 +1,5 @@
 """Standalone and persistent CUDA/XPU rollout actor for CALO policy training."""
+
 from __future__ import annotations
 
 import argparse
@@ -29,7 +30,9 @@ def _server(device: str, lane: str) -> int:
             payload["device"] = device
             payload["lane"] = lane
             payload["persistent_actor"] = True
-            from calo_rpd_studio.algorithms.calo.heterogeneous_training import collect_actor_lane_payload
+            from calo_rpd_studio.algorithms.calo.heterogeneous_training import (
+                collect_actor_lane_payload,
+            )
 
             result = collect_actor_lane_payload(payload)
             write_frame(output_stream, {"ok": True, "result": result})
@@ -51,7 +54,9 @@ def main(argv: list[str] | None = None) -> int:
         parser.error("input and output are required outside --server mode")
     try:
         payload = torch.load(Path(args.input), map_location="cpu", weights_only=False)
-        from calo_rpd_studio.algorithms.calo.heterogeneous_training import collect_actor_lane_payload
+        from calo_rpd_studio.algorithms.calo.heterogeneous_training import (
+            collect_actor_lane_payload,
+        )
 
         result = collect_actor_lane_payload(payload)
         torch.save(result, Path(args.output))

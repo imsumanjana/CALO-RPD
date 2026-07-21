@@ -8,6 +8,7 @@ The solver is intentionally explicit rather than opaque: every candidate has an 
 convergence mask/status, failed solves are reported as infeasible, and no lower-precision autocast
 is permitted for publication runs.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -137,7 +138,9 @@ def build_dense_admittance(case, device: str, dtype=None):
         yf[k, t] = vals[1]
         yt[k, f] = vals[2]
         yt[k, t] = vals[3]
-    sh = torch.as_tensor((case.bus[:, GS] + 1j * case.bus[:, BS]) / case.base_mva, dtype=cdtype, device=device)
+    sh = torch.as_tensor(
+        (case.bus[:, GS] + 1j * case.bus[:, BS]) / case.base_mva, dtype=cdtype, device=device
+    )
     ybus = ybus + torch.diag(sh)
     return ybus, yf, yt
 
@@ -262,8 +265,12 @@ def _branch_flows(case, voltage, yf, yt):
     current_from = yf @ voltage
     current_to = yt @ voltage
     idx = case.bus_index_map()
-    fidx = torch.as_tensor([idx[int(v)] for v in case.branch[:, F_BUS]], dtype=torch.long, device=device)
-    tidx = torch.as_tensor([idx[int(v)] for v in case.branch[:, T_BUS]], dtype=torch.long, device=device)
+    fidx = torch.as_tensor(
+        [idx[int(v)] for v in case.branch[:, F_BUS]], dtype=torch.long, device=device
+    )
+    tidx = torch.as_tensor(
+        [idx[int(v)] for v in case.branch[:, T_BUS]], dtype=torch.long, device=device
+    )
     s_from = voltage[fidx] * torch.conj(current_from) * float(case.base_mva)
     s_to = voltage[tidx] * torch.conj(current_to) * float(case.base_mva)
     rate = torch.as_tensor(case.branch[:, RATE_A], dtype=dtype, device=device)
@@ -273,7 +280,9 @@ def _branch_flows(case, voltage, yf, yt):
     return TorchBranchResult(s_from, s_to, loading, loss)
 
 
-def run_torch_ac_power_flow(input_case, *, device="cpu", dtype=None, options: TorchPowerFlowOptions | None = None):
+def run_torch_ac_power_flow(
+    input_case, *, device="cpu", dtype=None, options: TorchPowerFlowOptions | None = None
+):
     torch = _torch()
     dtype = dtype or torch.float64
     options = options or TorchPowerFlowOptions()
@@ -387,7 +396,9 @@ def run_torch_ac_power_flow(input_case, *, device="cpu", dtype=None, options: To
             bus_number = int(case.bus[bus_index, BUS_I])
             distribute_reactive_power(case, bus_number, limit)
             case.bus[bus_index, BUS_TYPE] = PQ
-            warnings.append(f"Bus {bus_number} converted from PV to PQ at aggregate Q limit {limit:g} MVAr.")
+            warnings.append(
+                f"Bus {bus_number} converted from PV to PQ at aggregate Q limit {limit:g} MVAr."
+            )
         # Bus types and specified Q changed, while network admittance did not.  Keep ybus/yf/yt.
 
     raise RuntimeError("Unreachable torch power-flow state")
@@ -408,12 +419,16 @@ def torch_l_index(case, voltage, ybus):
     try:
         f = -torch.linalg.solve(yll, ylg)
     except RuntimeError:
-        return torch.full((load.size,), float("inf"), dtype=voltage.real.dtype, device=device), float("inf")
+        return torch.full(
+            (load.size,), float("inf"), dtype=voltage.real.dtype, device=device
+        ), float("inf")
     values = torch.abs(1.0 - (f @ voltage[gen_t]) / voltage[load_t])
     return values, float(torch.max(values).detach().cpu())
 
 
-def solve_newton_raphson_batch_torch(ybus, sbus, v0, ref, pv, pq, *, tolerance=1e-8, max_iterations=30, collect_history=True):
+def solve_newton_raphson_batch_torch(
+    ybus, sbus, v0, ref, pv, pq, *, tolerance=1e-8, max_iterations=30, collect_history=True
+):
     """Batched dense Newton-Raphson solve for candidates sharing bus-type sets.
 
     Singular/non-finite candidates are isolated with ``torch.linalg.solve_ex`` and do not abort the
@@ -438,7 +453,11 @@ def solve_newton_raphson_batch_torch(ybus, sbus, v0, ref, pv, pq, *, tolerance=1
         calc = v * torch.conj(current)
         mismatch = sbus - calc
         f = torch.cat((mismatch[:, pvpq].real, mismatch[:, pq_t].imag), dim=1)
-        norms = torch.max(torch.abs(f), dim=1).values if f.shape[1] else torch.zeros(batch, dtype=dtype, device=device)
+        norms = (
+            torch.max(torch.abs(f), dim=1).values
+            if f.shape[1]
+            else torch.zeros(batch, dtype=dtype, device=device)
+        )
         if collect_history:
             norms_cpu = norms.detach().cpu().numpy()
             active_history = ((~failed) & (~converged)).detach().cpu().numpy()
@@ -536,8 +555,6 @@ def solve_newton_raphson_batch_torch(ybus, sbus, v0, ref, pv, pq, *, tolerance=1
     return converged, failed, v, iterations, max_mismatch, histories
 
 
-
-
 @dataclass(slots=True)
 class TorchBatchedAdmittance:
     ybus: Any
@@ -571,9 +588,13 @@ def build_batched_admittance(cases, device: str, dtype=None):
     for case in cases[1:]:
         if case.n_bus != n or case.n_branch != nl:
             raise ValueError("Batched cases must share network dimensions")
-        if not np.array_equal(case.branch[:, F_BUS].astype(int), first.branch[:, F_BUS].astype(int)):
+        if not np.array_equal(
+            case.branch[:, F_BUS].astype(int), first.branch[:, F_BUS].astype(int)
+        ):
             raise ValueError("Batched cases must share branch from-bus topology")
-        if not np.array_equal(case.branch[:, T_BUS].astype(int), first.branch[:, T_BUS].astype(int)):
+        if not np.array_equal(
+            case.branch[:, T_BUS].astype(int), first.branch[:, T_BUS].astype(int)
+        ):
             raise ValueError("Batched cases must share branch to-bus topology")
 
     branch = np.stack([case.branch for case in cases], axis=0)
@@ -589,7 +610,9 @@ def build_batched_admittance(cases, device: str, dtype=None):
     eps = torch.finfo(dtype).eps
     y = torch.where(torch.abs(z) > eps, 1.0 / z, torch.zeros_like(z))
     y = torch.where(status, y, torch.zeros_like(y))
-    charging = torch.where(status, torch.complex(torch.zeros_like(line_b), line_b / 2.0), torch.zeros_like(y))
+    charging = torch.where(
+        status, torch.complex(torch.zeros_like(line_b), line_b / 2.0), torch.zeros_like(y)
+    )
     a = torch.polar(tap, shift)
     yff = (y + charging) / (a * torch.conj(a))
     yft = -y / torch.conj(a)
@@ -668,16 +691,25 @@ def _branch_flows_batch(cases, voltage, admittance: TorchBatchedAdmittance):
     vt = voltage[:, admittance.tidx]
     current_from = admittance.yff * vf + admittance.yft * vt
     current_to = admittance.ytf * vf + admittance.ytt * vt
-    base = torch.as_tensor([case.base_mva for case in cases], dtype=voltage.real.dtype, device=voltage.device)[:, None]
+    base = torch.as_tensor(
+        [case.base_mva for case in cases], dtype=voltage.real.dtype, device=voltage.device
+    )[:, None]
     s_from = vf * torch.conj(current_from) * base
     s_to = vt * torch.conj(current_to) * base
-    rate = torch.as_tensor(np.stack([case.branch[:, RATE_A] for case in cases]), dtype=voltage.real.dtype, device=voltage.device)
+    rate = torch.as_tensor(
+        np.stack([case.branch[:, RATE_A] for case in cases]),
+        dtype=voltage.real.dtype,
+        device=voltage.device,
+    )
     magnitude = torch.maximum(torch.abs(s_from), torch.abs(s_to))
     loading = torch.where(rate > 0, 100.0 * magnitude / rate, torch.zeros_like(rate))
     losses = torch.sum((s_from + s_to).real, dim=1)
     return s_from, s_to, loading, losses
 
-def run_torch_ac_power_flow_batch(input_cases, *, device="cpu", dtype=None, options: TorchPowerFlowOptions | None = None):
+
+def run_torch_ac_power_flow_batch(
+    input_cases, *, device="cpu", dtype=None, options: TorchPowerFlowOptions | None = None
+):
     """Evaluate one candidate batch with genuinely batched FP64 network construction and NR solves.
 
     Candidates sharing the initial bus-type signature use batched Jacobian assembly and batched
@@ -697,7 +729,10 @@ def run_torch_ac_power_flow_batch(input_cases, *, device="cpu", dtype=None, opti
         return all(np.array_equal(a, b) for a, b in zip(first_types, _types(other)))
 
     if any(not _same_types(case) for case in cases[1:]):
-        return [run_torch_ac_power_flow(case, device=device, dtype=dtype, options=options) for case in cases]
+        return [
+            run_torch_ac_power_flow(case, device=device, dtype=dtype, options=options)
+            for case in cases
+        ]
 
     ref, pv, pq = first_types
     admittance = build_batched_admittance(cases, device, dtype)
@@ -746,11 +781,16 @@ def run_torch_ac_power_flow_batch(input_cases, *, device="cpu", dtype=None, opti
                 bus_number = int(case.bus[bus_index, BUS_I])
                 qmin, qmax = aggregate_q_limits(case, bus_number)
                 required = float(qg_cpu[i, bus_index])
-                if required > qmax + options.q_limit_tolerance_mvar or required < qmin - options.q_limit_tolerance_mvar:
+                if (
+                    required > qmax + options.q_limit_tolerance_mvar
+                    or required < qmin - options.q_limit_tolerance_mvar
+                ):
                     violations.append(bus_index)
         if violations:
             # Exact candidate-specific bus-type switching remains the reference-equivalent fallback.
-            results.append(run_torch_ac_power_flow(case, device=device, dtype=dtype, options=options))
+            results.append(
+                run_torch_ac_power_flow(case, device=device, dtype=dtype, options=options)
+            )
             continue
 
         _update_outputs(case, pg_batch[i], qg_batch[i])
@@ -774,4 +814,3 @@ def run_torch_ac_power_flow_batch(input_cases, *, device="cpu", dtype=None, opti
             )
         )
     return results
-

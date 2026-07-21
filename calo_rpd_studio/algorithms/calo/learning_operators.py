@@ -1,4 +1,5 @@
 """CALO Core v2 learning operators shared by training and runtime."""
+
 from __future__ import annotations
 
 import numpy as np
@@ -21,8 +22,9 @@ def feasible_elite_learning(x, pbest, r1, r2, rng, attraction: float, differenti
     )
 
 
-def constraint_boundary_differential(x, boundary, r1, r2, rng, attraction: float,
-                                     differential: float):
+def constraint_boundary_differential(
+    x, boundary, r1, r2, rng, attraction: float, differential: float
+):
     return np.clip(
         x + attraction * rng.random(x.shape) * (boundary - x) + differential * (r1 - r2),
         0,
@@ -36,8 +38,9 @@ def cognitive_teacher_learning(x, teacher, mean, rng, alpha: float, beta: float)
     return np.clip(x + alpha * z1 * (teacher - x) + beta * z2 * (teacher - mean), 0, 1)
 
 
-def success_distribution_memory(x, personal, sampled_direction, rng, personal_weight: float,
-                                memory_weight: float):
+def success_distribution_memory(
+    x, personal, sampled_direction, rng, personal_weight: float, memory_weight: float
+):
     return np.clip(
         x
         + personal_weight * rng.random(x.shape) * (personal - x)
@@ -47,8 +50,9 @@ def success_distribution_memory(x, personal, sampled_direction, rng, personal_we
     )
 
 
-def mixed_variable_neighbourhood(x, variables, rng, continuous_sigma: float = 0.03,
-                                 discrete_radius: int = 1):
+def mixed_variable_neighbourhood(
+    x, variables, rng, continuous_sigma: float = 0.03, discrete_radius: int = 1
+):
     candidate = np.asarray(x, float).copy()
     if not variables:
         return np.clip(candidate + continuous_sigma * rng.normal(size=candidate.shape), 0, 1)
@@ -62,9 +66,7 @@ def mixed_variable_neighbourhood(x, variables, rng, continuous_sigma: float = 0.
         new_index = int(np.clip(current_index + step, 0, len(values) - 1))
         candidate[chosen] = new_index / (len(values) - 1)
     else:
-        candidate[chosen] = np.clip(
-            candidate[chosen] + continuous_sigma * rng.normal(), 0.0, 1.0
-        )
+        candidate[chosen] = np.clip(candidate[chosen] + continuous_sigma * rng.normal(), 0.0, 1.0)
     # Occasionally perturb a second variable to escape one-coordinate plateaus.
     if len(candidate) > 1 and rng.random() < 0.25:
         second = int(rng.integers(len(candidate)))
@@ -84,7 +86,9 @@ def diversity_recovery(reference, population, rng, sigma: float = 0.12):
     centroid = population.mean(axis=0)
     opposition = 1.0 - centroid
     anchor = opposition if rng.random() < 0.55 else rng.random(reference.shape)
-    return np.clip(0.55 * anchor + 0.45 * reference + sigma * rng.normal(size=reference.shape), 0, 1)
+    return np.clip(
+        0.55 * anchor + 0.45 * reference + sigma * rng.normal(size=reference.shape), 0, 1
+    )
 
 
 # Compatibility aliases retained for historical ablation imports.

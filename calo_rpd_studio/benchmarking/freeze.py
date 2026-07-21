@@ -4,6 +4,7 @@ The manifest is intentionally explicit: final benchmark execution is allowed onl
 mathematical implementation, policy checkpoint, training repository snapshot, default CALO
 hyperparameters, mixed-variable decoder, and feasibility rules match the frozen hashes.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -38,6 +39,8 @@ DEFAULT_FREEZE_RELATIVE_PATHS = (
     "calo_rpd_studio/algorithms/calo/policy_network.py",
     "calo_rpd_studio/algorithms/calo/policy_schema.py",
     "calo_rpd_studio/algorithms/calo/policy_registry.py",
+    "calo_rpd_studio/algorithms/calo/policy_lineage.py",
+    "calo_rpd_studio/algorithms/calo/run_checkpoint.py",
     "calo_rpd_studio/algorithms/calo/policy_qualification.py",
     "calo_rpd_studio/algorithms/calo/recovery.py",
     "calo_rpd_studio/algorithms/calo/reward.py",
@@ -50,6 +53,7 @@ DEFAULT_FREEZE_RELATIVE_PATHS = (
     "calo_rpd_studio/algorithms/calo/precision_engine.py",
     "calo_rpd_studio/algorithms/calo/tensor_state.py",
     "calo_rpd_studio/algorithms/calo/variable_intelligence.py",
+    "calo_rpd_studio/algorithms/calo/v5_disputes.py",
     "calo_rpd_studio/algorithms/calo/training.py",
     "calo_rpd_studio/algorithms/calo/heterogeneous_training.py",
     "calo_rpd_studio/algorithms/registry.py",
@@ -61,6 +65,8 @@ DEFAULT_FREEZE_RELATIVE_PATHS = (
     "calo_rpd_studio/experiments/calo_ablation.py",
     "calo_rpd_studio/experiments/experiment_config.py",
     "calo_rpd_studio/experiments/experiment_runner.py",
+    "calo_rpd_studio/continuation/experiment_evolution.py",
+    "calo_rpd_studio/continuation/runtime_binding.py",
     "calo_rpd_studio/app/experiment_manager.py",
     "calo_rpd_studio/app/state_manager.py",
     "calo_rpd_studio/app/workflow_manager.py",
@@ -101,6 +107,7 @@ DEFAULT_FREEZE_RELATIVE_PATHS = (
     "calo_rpd_studio/visualization/publication_evidence.py",
     "calo_rpd_studio/visualization/font_preflight.py",
     "calo_rpd_studio/ai/model_io.py",
+    "calo_rpd_studio/ai/checkpoint_manager.py",
     "calo_rpd_studio/gui/panels/experiment_manager_panel.py",
     "calo_rpd_studio/gui/panels/calo_intelligence_panel.py",
     "calo_rpd_studio/gui/panels/results_explorer_panel.py",
@@ -149,8 +156,8 @@ def create_freeze_manifest(
     *,
     project_root: str | Path | None = None,
     relative_paths: Iterable[str] = DEFAULT_FREEZE_RELATIVE_PATHS,
-    software_version: str = "4.1.0",
-    note: str = "CALO-RPD v4.1.0 policy-qualified constraint-cognitive CALO architecture frozen before final benchmark/test execution",
+    software_version: str = "5.0.0",
+    note: str = "CALO-RPD v5.0.0 continuation-aware constraint-cognitive CALO architecture frozen before final benchmark/test execution",
 ) -> Path:
     root = Path(project_root) if project_root is not None else project_root_from_module()
     root = root.resolve()
@@ -163,7 +170,9 @@ def create_freeze_manifest(
             continue
         files[relative] = {"sha256": _sha256(path), "size_bytes": path.stat().st_size}
     if missing:
-        raise FileNotFoundError("Cannot freeze CALO; required files are missing: " + ", ".join(missing))
+        raise FileNotFoundError(
+            "Cannot freeze CALO; required files are missing: " + ", ".join(missing)
+        )
 
     from calo_rpd_studio.algorithms.registry import SPECS
 
@@ -178,7 +187,7 @@ def create_freeze_manifest(
             "state_vector": True,
             "archive_rules": True,
             "ppo_architecture": True,
-            "policy_checkpoint_and_immutable_binding": True,
+            "packaged_reference_policy_and_immutable_experiment_policy_binding": True,
             "training_dataset_snapshot": True,
             "hyperparameters": True,
             "constraint_handling": True,
@@ -233,11 +242,25 @@ def create_freeze_manifest(
             "policy_library_and_qualification": True,
             "native_v41_policy_schema": True,
             "experiment_workspace_restoration": True,
+            "continuable_policy_training_checkpoints": True,
+            "policy_lineage_latest_vs_best": True,
+            "crash_safe_atomic_policy_checkpoints": True,
+            "experiment_revision_history": True,
+            "add_more_paired_runs_same_experiment": True,
+            "evaluation_horizon_evidence_snapshots": True,
+            "exact_calo_run_state_continuation": True,
+            "paired_recompute_from_seed_horizon_extension": True,
+            "publication_safe_extension_protocols": True,
+            "horizon_aware_statistics_and_export": True,
+            "revision_scoped_run_checkpoints": True,
+            "calo_control_fully_device_resident": False,
+            "baseline_exact_optimizer_state_continuation": False,
+            "automatic_periodic_policy_qualification": False,
             "font_preflight_and_metadata": True,
         },
         "calo_default_parameters": SPECS["CALO"].default_parameters,
         "files": files,
-        "benchmark_rule": "No CALO tuning is permitted after TEST campaign execution begins.",
+        "benchmark_rule": "No CALO tuning is permitted after TEST campaign execution begins. The software freeze does not choose the experiment policy; every benchmark experiment must retain an immutable policy checkpoint SHA-256 binding (or explicit No-AI mode).",
     }
     payload["manifest_sha256"] = _canonical_json_hash(payload)
     destination = Path(destination)
@@ -253,7 +276,9 @@ def verify_freeze_manifest(
 ) -> FreezeVerification:
     manifest = Path(manifest_path)
     if not manifest.is_file():
-        return FreezeVerification(False, str(manifest), 0, (), (), "", "Freeze manifest does not exist.")
+        return FreezeVerification(
+            False, str(manifest), 0, (), (), "", "Freeze manifest does not exist."
+        )
     payload = json.loads(manifest.read_text(encoding="utf-8"))
     expected_manifest_hash = str(payload.get("manifest_sha256", ""))
     actual_manifest_hash = _canonical_json_hash(payload)

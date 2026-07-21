@@ -10,8 +10,10 @@ from calo_rpd_studio.orpd.problem import Evaluation
 
 class _Problem:
     decoder = None
+
     def __init__(self):
         self.calls = 0
+
     def evaluate_population(self, population):
         self.calls += len(population)
         return [Evaluation(float(np.sum(row)), True, 0.0, {}, {}) for row in population]
@@ -21,8 +23,10 @@ class _Optimizer:
     def __init__(self, max_evaluations=1000):
         self.config = SimpleNamespace(max_evaluations=max_evaluations)
         self.evaluations = 0
+
     def cancelled(self):
         return False
+
     def _register_evaluation(self, _row, evaluation):
         self.evaluations += 1
         return evaluation
@@ -50,7 +54,9 @@ def test_low_persistent_hit_rate_disables_cross_batch_cache_but_keeps_exact_dedu
         minimum_requests_before_adaptation=4,
         minimum_persistent_hit_rate=0.50,
     )
-    cache.evaluate_requests(optimizer, np.asarray([[0.01, 0.02], [0.03, 0.04], [0.05, 0.06], [0.07, 0.08]]))
+    cache.evaluate_requests(
+        optimizer, np.asarray([[0.01, 0.02], [0.03, 0.04], [0.05, 0.06], [0.07, 0.08]])
+    )
     assert cache.persistent_enabled is False
     before = cache.physical_solver_calls
     cache.evaluate_requests(optimizer, np.asarray([[0.2, 0.3], [0.2, 0.3]]))

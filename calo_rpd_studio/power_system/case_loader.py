@@ -1,4 +1,5 @@
 """Load and validate MATPOWER/PYPOWER-compatible cases."""
+
 from __future__ import annotations
 
 import importlib

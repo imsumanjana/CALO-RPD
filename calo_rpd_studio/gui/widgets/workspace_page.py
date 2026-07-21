@@ -1,4 +1,5 @@
 """Reusable non-scrollable workspace surface."""
+
 from __future__ import annotations
 
 from PyQt6.QtWidgets import QVBoxLayout, QWidget

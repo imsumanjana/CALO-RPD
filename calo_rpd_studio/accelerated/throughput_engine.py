@@ -14,6 +14,7 @@ The broker never changes optimizer equations, random seeds, evaluation accountin
 normalization, or feasibility rules.  It only changes how compatible evaluation requests are
 packed before calling the same FP64 scientific evaluator.
 """
+
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
@@ -178,7 +179,9 @@ class CrossRunBatchBroker:
         self.ledger = ledger or GLOBAL_LEDGER
         self._queue: queue.Queue[_BatchRequest | None] = queue.Queue()
         self._closed = threading.Event()
-        self._thread = threading.Thread(target=self._run, name="CALO-CrossRunBatchBroker", daemon=True)
+        self._thread = threading.Thread(
+            target=self._run, name="CALO-CrossRunBatchBroker", daemon=True
+        )
         self._thread.start()
 
     def submit(self, evaluator: Any, candidates: Iterable) -> list[Any]:
@@ -502,7 +505,9 @@ def calibrate_evaluator(
                 successful=False,
                 note=str(exc),
             )
-        if record.successful and (best is None or record.evaluations_per_second > best.evaluations_per_second):
+        if record.successful and (
+            best is None or record.evaluations_per_second > best.evaluations_per_second
+        ):
             best = record
     if hasattr(evaluator, "batch_size"):
         evaluator.batch_size = original_batch_size

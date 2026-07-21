@@ -1,4 +1,5 @@
 """Predefined deterministic and robust benchmark study matrix."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -98,13 +99,50 @@ def standard_benchmark_suite() -> BenchmarkSuite:
     return BenchmarkSuite(
         cases=("case30", "case57", "case118", "case300"),
         studies=(
-            BenchmarkStudy("deterministic", "Deterministic ORPD", "Base deterministic ORPD.", _deterministic),
-            BenchmarkStudy("mixed", "Mixed discrete-continuous ORPD", "Continuous generator voltages with discrete tap and shunt controls.", _mixed),
-            BenchmarkStudy("load_mean_risk", "Load uncertainty · mean-risk", "Scenario-based load uncertainty aggregated by mean-risk.", _load_mean_risk),
-            BenchmarkStudy("load_cvar", "Load uncertainty · CVaR", "Scenario-based load uncertainty aggregated by CVaR.", _load_cvar),
-            BenchmarkStudy("renewable_mean_risk", "Renewable uncertainty · mean-risk", "Renewable injection uncertainty aggregated by mean-risk.", _renewable_mean_risk),
-            BenchmarkStudy("renewable_cvar", "Renewable uncertainty · CVaR", "Renewable injection uncertainty aggregated by CVaR.", _renewable_cvar),
-            BenchmarkStudy("branch_worst_case", "N-1 branch contingencies · worst case", "Selected branch outages aggregated by worst-case objective.", _branch_worst_case),
-            BenchmarkStudy("generator_worst_case", "N-1 generator contingencies · worst case", "Selected generator outages aggregated by worst-case objective.", _generator_worst_case),
+            BenchmarkStudy(
+                "deterministic", "Deterministic ORPD", "Base deterministic ORPD.", _deterministic
+            ),
+            BenchmarkStudy(
+                "mixed",
+                "Mixed discrete-continuous ORPD",
+                "Continuous generator voltages with discrete tap and shunt controls.",
+                _mixed,
+            ),
+            BenchmarkStudy(
+                "load_mean_risk",
+                "Load uncertainty · mean-risk",
+                "Scenario-based load uncertainty aggregated by mean-risk.",
+                _load_mean_risk,
+            ),
+            BenchmarkStudy(
+                "load_cvar",
+                "Load uncertainty · CVaR",
+                "Scenario-based load uncertainty aggregated by CVaR.",
+                _load_cvar,
+            ),
+            BenchmarkStudy(
+                "renewable_mean_risk",
+                "Renewable uncertainty · mean-risk",
+                "Renewable injection uncertainty aggregated by mean-risk.",
+                _renewable_mean_risk,
+            ),
+            BenchmarkStudy(
+                "renewable_cvar",
+                "Renewable uncertainty · CVaR",
+                "Renewable injection uncertainty aggregated by CVaR.",
+                _renewable_cvar,
+            ),
+            BenchmarkStudy(
+                "branch_worst_case",
+                "N-1 branch contingencies · worst case",
+                "Selected branch outages aggregated by worst-case objective.",
+                _branch_worst_case,
+            ),
+            BenchmarkStudy(
+                "generator_worst_case",
+                "N-1 generator contingencies · worst case",
+                "Selected generator outages aggregated by worst-case objective.",
+                _generator_worst_case,
+            ),
         ),
     )

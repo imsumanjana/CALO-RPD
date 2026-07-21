@@ -1,6 +1,8 @@
 """Result record integrity utilities."""
+
 import json
 import math
+
 
 def check_run_record(row):
     data = json.loads(row["result_json"])

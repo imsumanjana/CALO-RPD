@@ -1,4 +1,5 @@
 """Application appearance, persistent preferences, and local result-history controls."""
+
 from __future__ import annotations
 
 from PyQt6.QtWidgets import QComboBox, QFormLayout, QLabel, QPushButton
@@ -50,7 +51,7 @@ class ApplicationSettingsPanel(WorkspacePage):
         information = SectionCard("Application")
         info = QFormLayout()
         info.addRow("Name", QLabel("CALO-RPD Studio"))
-        info.addRow("Version", QLabel("4.1.0"))
+        info.addRow("Version", QLabel("5.0.0"))
         info.addRow("Result database", QLabel(state.database.path))
         information.layout_root.addLayout(info)
         self.layout_root.addWidget(information)

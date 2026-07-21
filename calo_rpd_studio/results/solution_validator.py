@@ -1,4 +1,5 @@
 """Independent best-solution reconstruction and constraint audit."""
+
 from __future__ import annotations
 import json
 import numpy as np
@@ -7,6 +8,7 @@ from calo_rpd_studio.experiments.experiment_runner import build_problem
 from calo_rpd_studio.power_system.ac_power_flow import run_ac_power_flow
 from calo_rpd_studio.orpd.objectives import calculate_objective
 from calo_rpd_studio.orpd.constraints import evaluate_constraints
+
 
 def validate_stored_run(database, run_id, rtol=1e-8, atol=1e-8):
     row = database.get_run(run_id)
@@ -28,16 +30,18 @@ def validate_stored_run(database, run_id, rtol=1e-8, atol=1e-8):
         pf = run_ac_power_flow(scenario.apply(controlled), problem.config.power_flow)
         obj = calculate_objective(pf, problem.config.objective)
         con = evaluate_constraints(pf)
-        audits.append({
-            "scenario": scenario.name,
-            "converged": pf.converged,
-            "objective": obj.value,
-            "constraint_violation": con.total,
-            "voltage_limits": con.components.get("bus_voltage", float("inf")) <= 1e-12,
-            "generator_q_limits": con.components.get("generator_q", float("inf")) <= 1e-12,
-            "generator_p_limits": con.components.get("generator_p", float("inf")) <= 1e-12,
-            "branch_limits": con.components.get("branch_thermal", float("inf")) <= 1e-12,
-        })
+        audits.append(
+            {
+                "scenario": scenario.name,
+                "converged": pf.converged,
+                "objective": obj.value,
+                "constraint_violation": con.total,
+                "voltage_limits": con.components.get("bus_voltage", float("inf")) <= 1e-12,
+                "generator_q_limits": con.components.get("generator_q", float("inf")) <= 1e-12,
+                "generator_p_limits": con.components.get("generator_p", float("inf")) <= 1e-12,
+                "branch_limits": con.components.get("branch_thermal", float("inf")) <= 1e-12,
+            }
+        )
     passed = bool(
         np.isfinite(recomputed.value)
         and np.isclose(recomputed.value, reported, rtol=rtol, atol=atol)

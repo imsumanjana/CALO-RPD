@@ -1,4 +1,5 @@
 """Modern reusable card surfaces used by dashboard and compact workspaces."""
+
 from __future__ import annotations
 
 from PyQt6.QtWidgets import QFrame, QLabel, QVBoxLayout, QWidget

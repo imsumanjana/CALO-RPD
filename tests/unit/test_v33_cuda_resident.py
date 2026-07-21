@@ -63,7 +63,10 @@ def test_v33_tensor_batch_stays_on_execution_device_until_materialized(toy_case)
     results = batch.to_evaluations()
     assert len(results) == 6
     assert all(result.metadata["host_materializations_per_population"] == 1 for result in results)
-    assert all(len(result.metadata["normalized_decision_vector"]) == reference.dimension for result in results)
+    assert all(
+        len(result.metadata["normalized_decision_vector"]) == reference.dimension
+        for result in results
+    )
     report = parity_check(reference, problem, candidates.numpy())
     assert report.passed
     assert report.feasibility_mismatches == 0
@@ -75,4 +78,8 @@ def test_v33_cuda_only_config_round_trip_uses_100_percent_cuda():
     assert (config.cuda_task_share, config.xpu_task_share, config.cpu_task_share) == (100, 0, 0)
     restored = ExperimentConfig.from_dict(config.to_dict())
     assert restored.execution_backend == "cuda_only"
-    assert (restored.cuda_task_share, restored.xpu_task_share, restored.cpu_task_share) == (100, 0, 0)
+    assert (restored.cuda_task_share, restored.xpu_task_share, restored.cpu_task_share) == (
+        100,
+        0,
+        0,
+    )

@@ -1,4 +1,5 @@
 """Accelerator-native ORPD evaluation and canonical optimizer support."""
+
 from .device import DeviceContext, resolve_device
 from .torch_orpd import AcceleratedORPDProblem, ParityReport, parity_check
 

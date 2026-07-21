@@ -1,4 +1,5 @@
 """Case loading, data inspection, base power flow, and cross-validation."""
+
 from __future__ import annotations
 
 from PyQt6.QtCore import pyqtSignal
@@ -102,7 +103,9 @@ class PowerSystemPanel(WorkspacePage):
             )
         else:
             self.cross_check_button.setEnabled(False)
-            self.result.setText("Case restored. Re-run the base power flow if independent revalidation is required.")
+            self.result.setText(
+                "Case restored. Re-run the base power flow if independent revalidation is required."
+            )
 
     def load_from_config(self, config) -> None:
         index = self.case_combo.findText(str(config.case_name))
@@ -142,7 +145,9 @@ class PowerSystemPanel(WorkspacePage):
             self._fill(self.branch_table, case.branch, "L")
             self.power_flow_button.setEnabled(True)
             self.cross_check_button.setEnabled(False)
-            self.result.setText("Case validation passed. Continue with step 2: run the base AC power flow.")
+            self.result.setText(
+                "Case validation passed. Continue with step 2: run the base AC power flow."
+            )
             task.finish("Case loaded and validated")
         except Exception as exc:
             self.power_flow_button.setEnabled(False)
@@ -152,7 +157,9 @@ class PowerSystemPanel(WorkspacePage):
 
     def run_pf(self) -> None:
         if self.state.current_case is None:
-            QMessageBox.information(self, "Load a case first", "Complete step 1 before running the power flow.")
+            QMessageBox.information(
+                self, "Load a case first", "Complete step 1 before running the power flow."
+            )
             return
         task = self.state.task_status
         if not task.begin("Running base AC power flow", detail=self.state.current_case.name):
@@ -184,10 +191,14 @@ class PowerSystemPanel(WorkspacePage):
 
     def cross_validate(self) -> None:
         if self.state.current_power_flow is None or not self.state.current_power_flow.converged:
-            QMessageBox.information(self, "Run power flow first", "Complete step 2 before cross-validation.")
+            QMessageBox.information(
+                self, "Run power flow first", "Complete step 2 before cross-validation."
+            )
             return
         task = self.state.task_status
-        if not task.begin("Cross-validating AC power flow", detail="Independent PYPOWER comparison"):
+        if not task.begin(
+            "Cross-validating AC power flow", detail="Independent PYPOWER comparison"
+        ):
             QMessageBox.information(self, "Task busy", "Wait for the active task to finish first.")
             return
         QApplication.processEvents()

@@ -1,4 +1,5 @@
 """Startup notification for unfinished scientific work."""
+
 from __future__ import annotations
 
 from PyQt6.QtWidgets import (
@@ -29,7 +30,9 @@ class UnfinishedWorkDialog(QDialog):
         table.horizontalHeader().setStretchLastSection(True)
         table.verticalHeader().setVisible(False)
         for row, item in enumerate(items):
-            for col, value in enumerate((item.task_type, item.title, item.progress_text, item.status, item.updated_at)):
+            for col, value in enumerate(
+                (item.task_type, item.title, item.progress_text, item.status, item.updated_at)
+            ):
                 table.setItem(row, col, QTableWidgetItem(str(value)))
         layout.addWidget(table, 1)
         buttons = QDialogButtonBox(QDialogButtonBox.StandardButton.Close)

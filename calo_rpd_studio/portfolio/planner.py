@@ -1,4 +1,5 @@
 """Dependency-aware minimal task planning for run, experiment, and article portfolios."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -45,43 +46,70 @@ class PortfolioPlanner:
         portfolio.require_independent_validation = True
         if preset is ArticlePreset.TLBO_MTLBO:
             from calo_rpd_studio.algorithms.registry import SPECS
+
             # Legacy MTLBO is not one of the 20 primary baselines in every release. Select it only
             # when the registry explicitly exposes it; otherwise retain TLBO and let the dedicated
             # CALO-ablation/legacy workflow supply MTLBO evidence.
             config.algorithms = [name for name in ("TLBO", "MTLBO") if name in SPECS]
             portfolio.requested_outputs = [
-                "median_convergence", "convergence_uncertainty_band", "objective_boxplot",
-                "feasible_run_probability", "wilcoxon_holm", "effect_sizes",
-                "best_validated_voltage_profile", "control_changes",
+                "median_convergence",
+                "convergence_uncertainty_band",
+                "objective_boxplot",
+                "feasible_run_probability",
+                "wilcoxon_holm",
+                "effect_sizes",
+                "best_validated_voltage_profile",
+                "control_changes",
             ]
         elif preset is ArticlePreset.CALO_DETERMINISTIC:
             from calo_rpd_studio.algorithms.registry import SPECS
+
             preferred = ["CALO", "TLBO", "QODE", "CLPSO", "MTLA-DE", "GWO", "MVO", "PSO"]
             config.algorithms = [name for name in preferred if name in SPECS]
             portfolio.requested_outputs = [
-                "median_convergence", "convergence_uncertainty_band", "objective_boxplot",
-                "objective_violin", "feasible_run_probability", "evaluations_to_feasibility",
-                "friedman_ranking", "critical_difference", "constraint_decomposition",
-                "best_validated_voltage_profile", "best_validated_branch_heatmap",
-                "calo_regime_timeline", "calo_operator_usage", "calo_operator_success",
+                "median_convergence",
+                "convergence_uncertainty_band",
+                "objective_boxplot",
+                "objective_violin",
+                "feasible_run_probability",
+                "evaluations_to_feasibility",
+                "friedman_ranking",
+                "critical_difference",
+                "constraint_decomposition",
+                "best_validated_voltage_profile",
+                "best_validated_branch_heatmap",
+                "calo_regime_timeline",
+                "calo_operator_usage",
+                "calo_operator_success",
             ]
         elif preset is ArticlePreset.CALO_ROBUST:
             from calo_rpd_studio.algorithms.registry import SPECS
+
             preferred = ["CALO", "TLBO", "QODE", "CLPSO", "MTLA-DE", "GWO", "MVO", "PSO"]
             config.algorithms = [name for name in preferred if name in SPECS]
             portfolio.requested_outputs = [
-                "scenario_loss_heatmap", "scenario_feasibility_heatmap", "cvar_curve",
-                "contingency_matrix", "objective_boxplot", "feasible_run_probability",
-                "friedman_ranking", "critical_difference",
+                "scenario_loss_heatmap",
+                "scenario_feasibility_heatmap",
+                "cvar_curve",
+                "contingency_matrix",
+                "objective_boxplot",
+                "feasible_run_probability",
+                "friedman_ranking",
+                "critical_difference",
             ]
             portfolio.storage_profile = StorageProfile.ROBUST_FULL
         elif preset is ArticlePreset.CALO_TRANSFER_ACCELERATOR:
             from calo_rpd_studio.algorithms.registry import SPECS
+
             preferred = ["CALO", "TLBO", "QODE", "CLPSO", "MTLA-DE", "GWO", "MVO", "PSO"]
             config.algorithms = [name for name in preferred if name in SPECS]
             portfolio.requested_outputs = [
-                "median_convergence", "feasible_run_probability", "throughput_batch_scaling",
-                "device_speedup", "parity_scatter", "calo_regime_timeline",
+                "median_convergence",
+                "feasible_run_probability",
+                "throughput_batch_scaling",
+                "device_speedup",
+                "parity_scatter",
+                "calo_regime_timeline",
             ]
 
     @staticmethod
@@ -126,8 +154,13 @@ class PortfolioPlanner:
 
         if portfolio.kind is PortfolioKind.SINGLE_RUN:
             minimum_required_runs = 1
-            if any(OUTPUT_REQUIREMENTS.get(key, None) and OUTPUT_REQUIREMENTS[key].minimum_runs > 1 for key in portfolio.requested_outputs):
-                warnings.append("Repeated-run statistics were excluded from the single-run diagnostic portfolio.")
+            if any(
+                OUTPUT_REQUIREMENTS.get(key, None) and OUTPUT_REQUIREMENTS[key].minimum_runs > 1
+                for key in portfolio.requested_outputs
+            ):
+                warnings.append(
+                    "Repeated-run statistics were excluded from the single-run diagnostic portfolio."
+                )
         elif minimum_required_runs > runs:
             warnings.append(
                 f"Selected evidence requires at least {minimum_required_runs} runs; the plan was increased from {runs}."

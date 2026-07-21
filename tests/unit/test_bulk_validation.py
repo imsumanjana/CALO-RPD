@@ -6,9 +6,27 @@ from calo_rpd_studio.benchmarking import validation as validation_module
 class _FakeDatabase:
     def __init__(self):
         self.rows = [
-            {"id": "a", "experiment_id": "e1", "algorithm": "CALO", "run_index": 0, "validation_status": "unverified"},
-            {"id": "b", "experiment_id": "e1", "algorithm": "TLBO", "run_index": 0, "validation_status": "verified"},
-            {"id": "c", "experiment_id": "e2", "algorithm": "QODE", "run_index": 1, "validation_status": "failed"},
+            {
+                "id": "a",
+                "experiment_id": "e1",
+                "algorithm": "CALO",
+                "run_index": 0,
+                "validation_status": "unverified",
+            },
+            {
+                "id": "b",
+                "experiment_id": "e1",
+                "algorithm": "TLBO",
+                "run_index": 0,
+                "validation_status": "verified",
+            },
+            {
+                "id": "c",
+                "experiment_id": "e2",
+                "algorithm": "QODE",
+                "run_index": 1,
+                "validation_status": "failed",
+            },
         ]
 
     def list_runs(self, experiment_id=None):

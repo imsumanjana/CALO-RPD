@@ -1,4 +1,5 @@
 """Consistent modern workspace heading."""
+
 from __future__ import annotations
 
 from PyQt6.QtWidgets import QLabel, QVBoxLayout, QWidget

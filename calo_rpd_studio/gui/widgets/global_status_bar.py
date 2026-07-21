@@ -1,4 +1,5 @@
 """Persistent task/progress widget embedded in the QStatusBar."""
+
 from __future__ import annotations
 
 from PyQt6.QtCore import QElapsedTimer, QTimer, pyqtSignal

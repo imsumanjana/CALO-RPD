@@ -1,4 +1,5 @@
 """CALO policy model serialization helpers with explicit trust boundaries."""
+
 from __future__ import annotations
 
 import hashlib

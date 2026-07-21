@@ -2,6 +2,7 @@
 
 Tkinter is used deliberately because the wizard must be able to start before PyQt6 is installed.
 """
+
 from __future__ import annotations
 
 import queue
@@ -148,7 +149,10 @@ class PrerequisiteWizard:
         self.tree.insert(
             "",
             "end",
-            values=("INFO", f"Virtual environment: {'Yes' if report.virtual_environment else 'No'}"),
+            values=(
+                "INFO",
+                f"Virtual environment: {'Yes' if report.virtual_environment else 'No'}",
+            ),
         )
         for name, version in report.core_packages.items():
             self.tree.insert(
@@ -273,9 +277,7 @@ class PrerequisiteWizard:
             self._set_download_indeterminate(False)
             self.download_progress["value"] = progress.download_percent
             item = progress.item or "Current package"
-            self.download_label.configure(
-                text=f"{item} — {progress.download_percent:.1f}%"
-            )
+            self.download_label.configure(text=f"{item} — {progress.download_percent:.1f}%")
             self.download_amount_label.configure(
                 text=(
                     f"Downloaded: {self._format_bytes(progress.current_bytes)} / "

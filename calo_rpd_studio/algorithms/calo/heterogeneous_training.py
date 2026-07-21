@@ -23,6 +23,7 @@ population requests from simultaneous episodes are combined by the same FP64 cro
 engine used during comparative evaluation.  Synthetic curriculum stages still contain host-side
 logic, so Task Manager percentages need not equal the episode allocation.
 """
+
 from __future__ import annotations
 
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, as_completed
@@ -53,8 +54,12 @@ from .policy_schema import (
 )
 from .policy_network import CALOPolicyNetwork
 from calo_rpd_studio.accelerated.runtime_context import set_cross_run_broker
-from calo_rpd_studio.accelerated.throughput_engine import CrossRunBatchBroker, largest_remainder_counts
+from calo_rpd_studio.accelerated.throughput_engine import (
+    CrossRunBatchBroker,
+    largest_remainder_counts,
+)
 from calo_rpd_studio.compute.persistent_training_actor import PersistentTrainingActorClient
+from calo_rpd_studio.ai.model_io import load_checkpoint
 
 from .training import (
     SyntheticCALOEnvironment,
@@ -66,10 +71,12 @@ from .training import (
     _historical_pretrain,
     _parameter_action_distribution,
     _resolve_training_device,
+    _resolve_training_target,
     available_training_devices,
     recommended_rollout_workers,
     load_training_resume,
     save_training_resume,
+    save_deployable_policy_snapshot,
     training_resume_path,
 )
 
@@ -185,17 +192,12 @@ def plan_training_lanes(
     cuda_ok = bool(info["cuda_available"] if cuda_available is None else cuda_available)
     direct_xpu = bool(info["xpu_available"] if xpu_available is None else xpu_available)
     sidecar_xpu = bool(
-        info["xpu_sidecar_available"]
-        if xpu_sidecar_available is None
-        else xpu_sidecar_available
+        info["xpu_sidecar_available"] if xpu_sidecar_available is None else xpu_sidecar_available
     )
     xpu_ok = direct_xpu or sidecar_xpu
     available = {"cuda": cuda_ok, "xpu": xpu_ok, "cpu": True}
 
-    usable_weights = {
-        name: requested[name] if available[name] else 0
-        for name in LANE_ORDER
-    }
+    usable_weights = {name: requested[name] if available[name] else 0 for name in LANE_ORDER}
     warnings: list[str] = []
     gpu_maximum_request = requested == {"cuda": 100, "xpu": 0, "cpu": 0}
     if gpu_maximum_request and not cuda_ok:
@@ -235,7 +237,6 @@ def plan_training_lanes(
     )
 
 
-
 def plan_training_lanes_from_throughput(
     episodes_per_epoch: int,
     measured_transitions_per_second: dict[str, float],
@@ -259,10 +260,7 @@ def plan_training_lanes_from_throughput(
     total = max(1, int(episodes_per_epoch))
     effective = {lane: 100.0 * counts.get(lane, 0) / total for lane in LANE_ORDER}
     normalized_sum = sum(weights.values())
-    requested = {
-        lane: int(round(100.0 * weights[lane] / normalized_sum))
-        for lane in LANE_ORDER
-    }
+    requested = {lane: int(round(100.0 * weights[lane] / normalized_sum)) for lane in LANE_ORDER}
     # Correct rounding drift deterministically.
     requested["cpu"] += 100 - sum(requested.values())
     warnings = list(base_plan.warnings)
@@ -371,7 +369,6 @@ def _sample_actions(regime_logits, operator_logits, alpha, beta):
         return regime, operator, parameter, logp
 
 
-
 _ACTOR_NETWORK_CACHE: dict[tuple[str, int], nn.Module] = {}
 _ACTOR_BROKER_CACHE: dict[tuple[str, float, int], CrossRunBatchBroker] = {}
 
@@ -401,7 +398,11 @@ def _persistent_actor_network(device, hidden_dim: int):
 def _persistent_actor_broker(config: HeterogeneousTrainingConfig, device_name: str):
     if not (config.training_cross_episode_batching and config.use_accelerated_orpd_rollouts):
         return None
-    key = (str(device_name), float(config.training_batch_window_ms), int(config.training_max_cross_batch))
+    key = (
+        str(device_name),
+        float(config.training_batch_window_ms),
+        int(config.training_max_cross_batch),
+    )
     broker = _ACTOR_BROKER_CACHE.get(key)
     if broker is None:
         broker = CrossRunBatchBroker(
@@ -435,7 +436,11 @@ def collect_actor_lane_payload(payload: dict[str, Any]) -> dict[str, Any]:
         pass
 
     device = torch.device(device_name)
-    network = _persistent_actor_network(device, config.hidden_dim) if config.persistent_actor_workers else CALOPolicyNetwork(POLICY_STATE_DIM, config.hidden_dim).to(device)
+    network = (
+        _persistent_actor_network(device, config.hidden_dim)
+        if config.persistent_actor_workers
+        else CALOPolicyNetwork(POLICY_STATE_DIM, config.hidden_dim).to(device)
+    )
     network.load_state_dict(network_state)
     network.eval()
     actual_snapshot = _state_dict_sha256(_cpu_state_dict(network))
@@ -564,7 +569,9 @@ def _collect_cpu_lane(
     ]
     results: list[dict[str, Any]] = []
     if persistent_executor is not None:
-        futures = [persistent_executor.submit(collect_actor_lane_payload, payload) for payload in payloads]
+        futures = [
+            persistent_executor.submit(collect_actor_lane_payload, payload) for payload in payloads
+        ]
         for future in as_completed(futures):
             results.append(future.result())
         return results
@@ -805,7 +812,6 @@ def collect_weighted_epoch_rollouts(
     return rollout, episode_returns, plan, lane_records, snapshot
 
 
-
 def calibrate_training_actor_throughput(
     config: HeterogeneousTrainingConfig,
     network: nn.Module,
@@ -869,7 +875,9 @@ def calibrate_training_actor_throughput(
             seconds = max(time.perf_counter() - started, 1e-12)
             throughputs[lane] = float(episodes * config.horizon / seconds)
             if progress_callback:
-                progress_callback(0, f"Calibrated {lane.upper()} actor: {throughputs[lane]:,.1f} transitions/s")
+                progress_callback(
+                    0, f"Calibrated {lane.upper()} actor: {throughputs[lane]:,.1f} transitions/s"
+                )
         except Exception as exc:
             throughputs[lane] = 0.0
             if progress_callback:
@@ -944,13 +952,24 @@ def train_policy_heterogeneous(
     network = CALOPolicyNetwork(POLICY_STATE_DIM, config.hidden_dim).to(learner_device)
     optimizer = torch.optim.Adam(network.parameters(), lr=config.learning_rate)
     resume_path = training_resume_path(config, output_path)
+    initial_policy = str(getattr(config, "initial_policy_checkpoint", "") or "").strip()
+    if initial_policy and not resume_path.is_file():
+        payload = load_checkpoint(initial_policy, map_location="cpu")
+        architecture = dict(payload.get("architecture", {}) or {})
+        input_dim = int(architecture.get("input_dim", POLICY_STATE_DIM) or POLICY_STATE_DIM)
+        hidden_dim = int(architecture.get("hidden_dim", config.hidden_dim) or config.hidden_dim)
+        if input_dim != POLICY_STATE_DIM or hidden_dim != int(config.hidden_dim):
+            raise ValueError(
+                "Fine-tune/fork checkpoint architecture is incompatible with native CALO policy training"
+            )
+        network.load_state_dict(payload.get("model_state_dict", payload))
     start_epoch = 0
     history: list[dict[str, Any]] = []
     historical_pretraining: dict[str, Any] = {}
     resume_extra: dict[str, Any] = {}
     if resume_path.is_file():
         start_epoch, history, historical_pretraining, resume_extra = load_training_resume(
-            resume_path, network, optimizer, learner_device, rng
+            resume_path, network, optimizer, learner_device, rng, current_config=config
         )
         if progress_callback:
             progress_callback(
@@ -968,7 +987,17 @@ def train_policy_heterogeneous(
             cancel_callback=cancel_callback,
         )
 
-    total_units = config.epochs * config.episodes_per_epoch
+    target_epoch, training_mode = _resolve_training_target(config, start_epoch)
+    stage_floor = 0
+    if history:
+        try:
+            stage_floor = max(0, int(history[-1].get("curriculum_stage", 1)) - 1)
+        except (TypeError, ValueError):
+            stage_floor = 0
+    nominal_target = (
+        target_epoch if target_epoch is not None else max(start_epoch + 1, int(config.epochs), 1)
+    )
+    total_units = nominal_target * config.episodes_per_epoch
     completed_units = start_epoch * config.episodes_per_epoch
 
     # v3.4 keeps one actor interpreter/process alive per device for the complete training
@@ -982,7 +1011,9 @@ def train_policy_heterogeneous(
     )
     actor_clients: dict[str, PersistentTrainingActorClient] = {}
     cpu_executor = None
-    measured_actor_throughput: dict[str, float] = dict(resume_extra.get("measured_actor_throughput", {}))
+    measured_actor_throughput: dict[str, float] = dict(
+        resume_extra.get("measured_actor_throughput", {})
+    )
     try:
         if config.persistent_actor_workers:
             if base_plan.available_lanes.get("cuda", False):
@@ -1017,10 +1048,43 @@ def train_policy_heterogeneous(
                 progress_callback=progress_callback,
             )
 
-        for epoch in range(start_epoch, config.epochs):
+        epoch = start_epoch
+        while target_epoch is None or epoch < target_epoch:
             if cancel_callback and cancel_callback():
-                raise TrainingCancelled("CALO policy training was cancelled safely.")
-            stage = _curriculum_stage(epoch, config.epochs, bool(config.development_cases))
+                save_training_resume(
+                    resume_path,
+                    network=network,
+                    optimizer=optimizer,
+                    next_epoch=epoch,
+                    history=history,
+                    rng=rng,
+                    historical_pretraining=historical_pretraining,
+                    config=config,
+                    extra={
+                        "learner_device": str(learner_device),
+                        "measured_actor_throughput": dict(measured_actor_throughput),
+                        "training_mode": training_mode,
+                        "safe_stop": True,
+                    },
+                )
+                save_deployable_policy_snapshot(
+                    output_path,
+                    network,
+                    config,
+                    history,
+                    historical_pretraining,
+                    epoch,
+                    device=str(learner_device),
+                    rollout_workers=int(config.rollout_workers),
+                )
+                raise TrainingCancelled(
+                    f"CALO policy training stopped safely after cumulative epoch {epoch}."
+                )
+            proposed_stage = _curriculum_stage(
+                epoch, max(nominal_target, epoch + 1), bool(config.development_cases)
+            )
+            stage = max(stage_floor, proposed_stage)
+            stage_floor = max(stage_floor, stage)
             epoch_plan = (
                 plan_training_lanes_from_throughput(
                     config.episodes_per_epoch,
@@ -1035,26 +1099,65 @@ def train_policy_heterogeneous(
                 if progress_callback:
                     absolute = completed_units + completed_in_epoch
                     progress_callback(
-                        int(100 * absolute / max(total_units, 1)),
-                        f"Epoch {epoch + 1}/{config.epochs} · {detail}",
+                        (
+                            int(100 * absolute / max(total_units, 1))
+                            if target_epoch is not None
+                            else 0
+                        ),
+                        f"Epoch {epoch + 1}/{target_epoch if target_epoch is not None else '∞'} · {detail}",
                     )
 
-            rollout, episode_returns, plan, lane_records, snapshot = collect_weighted_epoch_rollouts(
-                config,
-                network,
-                epoch=epoch,
-                stage=stage,
-                progress_callback=actor_progress,
-                cancel_callback=cancel_callback,
-                plan_override=epoch_plan,
-                actor_clients=actor_clients,
-                cpu_executor=cpu_executor,
-            )
+            try:
+                rollout, episode_returns, plan, lane_records, snapshot = (
+                    collect_weighted_epoch_rollouts(
+                        config,
+                        network,
+                        epoch=epoch,
+                        stage=stage,
+                        progress_callback=actor_progress,
+                        cancel_callback=cancel_callback,
+                        plan_override=epoch_plan,
+                        actor_clients=actor_clients,
+                        cpu_executor=cpu_executor,
+                    )
+                )
+            except TrainingCancelled:
+                save_training_resume(
+                    resume_path,
+                    network=network,
+                    optimizer=optimizer,
+                    next_epoch=epoch,
+                    history=history,
+                    rng=rng,
+                    historical_pretraining=historical_pretraining,
+                    config=config,
+                    extra={
+                        "learner_device": str(learner_device),
+                        "measured_actor_throughput": dict(measured_actor_throughput),
+                        "training_mode": training_mode,
+                        "safe_stop": True,
+                    },
+                )
+                save_deployable_policy_snapshot(
+                    output_path,
+                    network,
+                    config,
+                    history,
+                    historical_pretraining,
+                    epoch,
+                    device=str(learner_device),
+                    rollout_workers=int(config.rollout_workers),
+                )
+                raise
             completed_units += config.episodes_per_epoch
             if progress_callback:
                 progress_callback(
-                    int(100 * completed_units / max(total_units, 1)),
-                    f"Epoch {epoch + 1}/{config.epochs} · PPO update on {learner_device} · "
+                    (
+                        int(100 * completed_units / max(total_units, 1))
+                        if target_epoch is not None
+                        else 0
+                    ),
+                    f"Epoch {epoch + 1}/{target_epoch if target_epoch is not None else '∞'} · PPO update on {learner_device} · "
                     f"{len(rollout['state'])} fresh transitions · {plan.summary()}",
                 )
 
@@ -1072,7 +1175,9 @@ def train_policy_heterogeneous(
                 device=learner_device,
             )
             regimes = torch.as_tensor(rollout["regime"], dtype=torch.long, device=learner_device)
-            operators = torch.as_tensor(rollout["operator"], dtype=torch.long, device=learner_device)
+            operators = torch.as_tensor(
+                rollout["operator"], dtype=torch.long, device=learner_device
+            )
             parameters = torch.as_tensor(
                 np.asarray(rollout["parameter"]),
                 dtype=torch.float32,
@@ -1101,11 +1206,14 @@ def train_policy_heterogeneous(
                     )
                     ratio = torch.exp(new_logp - old_logp[batch_t])
                     unclipped = ratio * advantages_t[batch_t]
-                    clipped = torch.clamp(
-                        ratio,
-                        1.0 - config.clip_ratio,
-                        1.0 + config.clip_ratio,
-                    ) * advantages_t[batch_t]
+                    clipped = (
+                        torch.clamp(
+                            ratio,
+                            1.0 - config.clip_ratio,
+                            1.0 + config.clip_ratio,
+                        )
+                        * advantages_t[batch_t]
+                    )
                     policy_loss = -torch.min(unclipped, clipped).mean()
                     value_loss = 0.5 * ((values - returns_t[batch_t]) ** 2).mean()
                     entropy = (
@@ -1143,12 +1251,17 @@ def train_policy_heterogeneous(
                     "warnings": list(plan.warnings),
                 }
             )
-            if bool(getattr(config, "checkpoint_each_epoch", True)):
+            completed_epoch = epoch + 1
+            checkpoint_interval = max(1, int(getattr(config, "checkpoint_interval_epochs", 1) or 1))
+            if (
+                bool(getattr(config, "checkpoint_each_epoch", True))
+                and completed_epoch % checkpoint_interval == 0
+            ):
                 save_training_resume(
                     resume_path,
                     network=network,
                     optimizer=optimizer,
-                    next_epoch=epoch + 1,
+                    next_epoch=completed_epoch,
                     history=history,
                     rng=rng,
                     historical_pretraining=historical_pretraining,
@@ -1156,8 +1269,54 @@ def train_policy_heterogeneous(
                     extra={
                         "learner_device": str(learner_device),
                         "measured_actor_throughput": dict(measured_actor_throughput),
+                        "training_mode": training_mode,
                     },
                 )
+            deploy_interval = max(
+                1, int(getattr(config, "deployable_checkpoint_interval_epochs", 1000) or 1000)
+            )
+            if completed_epoch % deploy_interval == 0:
+                save_deployable_policy_snapshot(
+                    output_path,
+                    network,
+                    config,
+                    history,
+                    historical_pretraining,
+                    completed_epoch,
+                    device=str(learner_device),
+                    rollout_workers=int(config.rollout_workers),
+                )
+            epoch += 1
+            if target_epoch is None and int(getattr(config, "max_session_epochs", 0) or 0) > 0:
+                if epoch - start_epoch >= int(config.max_session_epochs):
+                    break
+        # Always preserve an exact trusted resume point at the terminal safe boundary.
+        save_training_resume(
+            resume_path,
+            network=network,
+            optimizer=optimizer,
+            next_epoch=epoch,
+            history=history,
+            rng=rng,
+            historical_pretraining=historical_pretraining,
+            config=config,
+            extra={
+                "learner_device": str(learner_device),
+                "measured_actor_throughput": dict(measured_actor_throughput),
+                "training_mode": training_mode,
+                "completed_target": target_epoch,
+            },
+        )
+        terminal_snapshot = save_deployable_policy_snapshot(
+            output_path,
+            network,
+            config,
+            history,
+            historical_pretraining,
+            int(epoch),
+            device=str(learner_device),
+            rollout_workers=int(config.rollout_workers),
+        )
     finally:
         if cpu_executor is not None:
             cpu_executor.shutdown(wait=True, cancel_futures=True)
@@ -1181,7 +1340,7 @@ def train_policy_heterogeneous(
     )
     metadata = {
         "algorithm": "CALO",
-        "calo_core": "v4.1",
+        "calo_core": "v5.0",
         "training_method": "persistent auto-tuned batched heterogeneous PPO",
         "candidate_checkpoint": True,
         "benchmark_freeze_status": (
@@ -1190,6 +1349,12 @@ def train_policy_heterogeneous(
         ),
         "training_config": asdict(config),
         "training_seed": config.seed,
+        "training_mode": training_mode,
+        "cumulative_epoch": int(epoch),
+        "policy_lineage_id": str(getattr(config, "policy_lineage_id", "") or ""),
+        "policy_lineage_name": str(getattr(config, "policy_lineage_name", "") or ""),
+        "policy_phase_index": int(getattr(config, "policy_phase_index", 0) or 0),
+        "immutable_terminal_checkpoint": str(terminal_snapshot),
         "state_dimension": POLICY_STATE_DIM,
         "state_schema_version": POLICY_STATE_SCHEMA,
         "action_schema_version": POLICY_ACTION_SCHEMA,
@@ -1258,8 +1423,10 @@ def train_policy_heterogeneous(
         json.dumps(metadata, indent=2),
         encoding="utf-8",
     )
-    try:
-        resume_path.unlink(missing_ok=True)
-    except OSError:
-        pass
+    if not bool(getattr(config, "keep_resume_after_completion", True)):
+        try:
+            resume_path.unlink(missing_ok=True)
+            resume_path.with_suffix(resume_path.suffix + ".sha256").unlink(missing_ok=True)
+        except OSError:
+            pass
     return str(output_path), history

@@ -1,4 +1,5 @@
 """Bulk independent validation for saved experiments and frozen benchmark campaigns."""
+
 from __future__ import annotations
 
 import json
@@ -47,7 +48,11 @@ def validate_runs(
             break
         if isinstance(item, str):
             run_id = item
-            row = database.get_run(run_id) or {"id": run_id, "algorithm": "Unknown", "run_index": -1}
+            row = database.get_run(run_id) or {
+                "id": run_id,
+                "algorithm": "Unknown",
+                "run_index": -1,
+            }
         else:
             row = dict(item)
             run_id = row["id"]

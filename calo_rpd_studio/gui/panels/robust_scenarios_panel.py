@@ -1,4 +1,5 @@
 """Robust ORPD scenario configuration."""
+
 from __future__ import annotations
 
 from PyQt6.QtCore import pyqtSignal

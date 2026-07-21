@@ -1,4 +1,5 @@
 """Central Qt application state."""
+
 from PyQt6.QtCore import QObject, pyqtSignal
 from calo_rpd_studio.experiments.experiment_config import ExperimentConfig
 from calo_rpd_studio.results.database import ResultDatabase

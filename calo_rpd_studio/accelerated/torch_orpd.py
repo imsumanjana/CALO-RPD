@@ -1,4 +1,5 @@
 """Accelerator-native ORPD problem with CPU-reference parity support."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -29,7 +30,12 @@ from calo_rpd_studio.robustness.cvar import weighted_cvar_torch
 from calo_rpd_studio.robustness.scenario import Scenario
 
 from .device import resolve_device, torch_dtype
-from .torch_power_flow import TorchPowerFlowOptions, run_torch_ac_power_flow, run_torch_ac_power_flow_batch, torch_l_index
+from .torch_power_flow import (
+    TorchPowerFlowOptions,
+    run_torch_ac_power_flow,
+    run_torch_ac_power_flow_batch,
+    torch_l_index,
+)
 from .torch_decoder import TorchVariableDecoder
 from .throughput_engine import GLOBAL_LEDGER, timed_stage
 from .runtime_context import get_cross_run_broker
@@ -70,7 +76,9 @@ class AcceleratedORPDProblem:
         self.config = config or ORPDProblemConfig()
         self.scenarios = [Scenario("base")] if scenarios is None else list(scenarios)
         if not self.scenarios:
-            raise ValueError("At least one robust scenario is required; an empty scenario set is invalid.")
+            raise ValueError(
+                "At least one robust scenario is required; an empty scenario set is invalid."
+            )
         self.reference = ORPDProblem(self.case, self.config, self.scenarios)
         self.decoder = self.reference.decoder
         self.device_context = resolve_device(device)
@@ -112,7 +120,9 @@ class AcceleratedORPDProblem:
         pq = np.where(pf.case.bus[:, BUS_TYPE].astype(int) == PQ)[0]
         pq_t = torch.as_tensor(pq, dtype=torch.long, device=self.device)
         loss = float(pf.total_loss_mw)
-        voltage_deviation = float(torch.sum(torch.abs(pf.vm_pu[pq_t] - 1.0)).detach().cpu()) if pq.size else 0.0
+        voltage_deviation = (
+            float(torch.sum(torch.abs(pf.vm_pu[pq_t] - 1.0)).detach().cpu()) if pq.size else 0.0
+        )
         _, l_index = torch_l_index(pf.case, pf.voltage, pf.ybus)
         components = {
             "active_power_loss_mw": loss,
@@ -147,7 +157,9 @@ class AcceleratedORPDProblem:
         lower = torch.as_tensor(case.bus[:, VMIN], dtype=dtype, device=device)
         upper = torch.as_tensor(case.bus[:, VMAX], dtype=dtype, device=device)
         span = torch.clamp(upper - lower, min=1e-12)
-        bus_voltage = torch.sum(torch.relu(lower - pf.vm_pu) / span + torch.relu(pf.vm_pu - upper) / span)
+        bus_voltage = torch.sum(
+            torch.relu(lower - pf.vm_pu) / span + torch.relu(pf.vm_pu - upper) / span
+        )
 
         index = case.bus_index_map()
         generator_q = torch.zeros((), dtype=dtype, device=device)
@@ -163,22 +175,28 @@ class AcceleratedORPDProblem:
             qmax = float(case.gen[generators, QMAX].sum())
             qspan = max(qmax - qmin, 1.0)
             actual_q = pf.actual_qg_mvar[bus_index]
-            generator_q = generator_q + torch.relu(
-                torch.as_tensor(qmin, dtype=dtype, device=device) - actual_q
-            ) / qspan + torch.relu(actual_q - torch.as_tensor(qmax, dtype=dtype, device=device)) / qspan
+            generator_q = (
+                generator_q
+                + torch.relu(torch.as_tensor(qmin, dtype=dtype, device=device) - actual_q) / qspan
+                + torch.relu(actual_q - torch.as_tensor(qmax, dtype=dtype, device=device)) / qspan
+            )
             pmin = float(case.gen[generators, PMIN].sum())
             pmax = float(case.gen[generators, PMAX].sum())
             pspan = max(pmax - pmin, 1.0)
             actual_p = pf.actual_pg_mw[bus_index]
-            generator_p = generator_p + torch.relu(
-                torch.as_tensor(pmin, dtype=dtype, device=device) - actual_p
-            ) / pspan + torch.relu(actual_p - torch.as_tensor(pmax, dtype=dtype, device=device)) / pspan
+            generator_p = (
+                generator_p
+                + torch.relu(torch.as_tensor(pmin, dtype=dtype, device=device) - actual_p) / pspan
+                + torch.relu(actual_p - torch.as_tensor(pmax, dtype=dtype, device=device)) / pspan
+            )
 
         branch_thermal = torch.zeros((), dtype=dtype, device=device)
         if pf.branch is not None:
             rated = torch.as_tensor(case.branch[:, RATE_A] > 0, dtype=torch.bool, device=device)
             if bool(torch.any(rated)):
-                branch_thermal = torch.sum(torch.relu(pf.branch.loading_percent[rated] - 100.0) / 100.0)
+                branch_thermal = torch.sum(
+                    torch.relu(pf.branch.loading_percent[rated] - 100.0) / 100.0
+                )
         components = {
             "bus_voltage": float(bus_voltage.detach().cpu()),
             "generator_q": float(generator_q.detach().cpu()),
@@ -224,8 +242,16 @@ class AcceleratedORPDProblem:
                 "scenarios": scenario_records,
                 "objective": {
                     "kind": objective.kind.value,
-                    "weights": [objective.weight_loss, objective.weight_voltage_deviation, objective.weight_l_index],
-                    "scales": [objective.loss_scale, objective.voltage_deviation_scale, objective.l_index_scale],
+                    "weights": [
+                        objective.weight_loss,
+                        objective.weight_voltage_deviation,
+                        objective.weight_l_index,
+                    ],
+                    "scales": [
+                        objective.loss_scale,
+                        objective.voltage_deviation_scale,
+                        objective.l_index_scale,
+                    ],
                 },
                 "robust": {
                     "aggregation": robust.aggregation.value,
@@ -337,9 +363,7 @@ class AcceleratedORPDProblem:
                     else float("inf")
                 )
                 feasible = bool(
-                    converged_all[index]
-                    and np.isfinite(robust_value)
-                    and violation <= 1e-12
+                    converged_all[index] and np.isfinite(robust_value) and violation <= 1e-12
                 )
                 components = {
                     key: float(np.sum(weights_np * np.asarray(series, dtype=float)))
@@ -433,7 +457,15 @@ class AcceleratedORPDProblem:
         return state
 
 
-def parity_check(reference: ORPDProblem, accelerated: AcceleratedORPDProblem, candidates, *, objective_tolerance=1e-5, violation_tolerance=1e-6, voltage_tolerance=1e-6):
+def parity_check(
+    reference: ORPDProblem,
+    accelerated: AcceleratedORPDProblem,
+    candidates,
+    *,
+    objective_tolerance=1e-5,
+    violation_tolerance=1e-6,
+    voltage_tolerance=1e-6,
+):
     candidates = np.asarray(candidates, dtype=float)
     if candidates.ndim == 1:
         candidates = candidates[None, :]
@@ -445,8 +477,16 @@ def parity_check(reference: ORPDProblem, accelerated: AcceleratedORPDProblem, ca
     for index, candidate in enumerate(candidates):
         cpu = reference.evaluate(candidate)
         gpu = accelerated.evaluate(candidate)
-        objective_error = abs(float(cpu.value) - float(gpu.value)) if np.isfinite(cpu.value) and np.isfinite(gpu.value) else (0.0 if cpu.value == gpu.value else float("inf"))
-        violation_error = abs(float(cpu.violation) - float(gpu.violation)) if np.isfinite(cpu.violation) and np.isfinite(gpu.violation) else (0.0 if cpu.violation == gpu.violation else float("inf"))
+        objective_error = (
+            abs(float(cpu.value) - float(gpu.value))
+            if np.isfinite(cpu.value) and np.isfinite(gpu.value)
+            else (0.0 if cpu.value == gpu.value else float("inf"))
+        )
+        violation_error = (
+            abs(float(cpu.violation) - float(gpu.violation))
+            if np.isfinite(cpu.violation) and np.isfinite(gpu.violation)
+            else (0.0 if cpu.violation == gpu.violation else float("inf"))
+        )
         feasibility_mismatch = bool(cpu.feasible) != bool(gpu.feasible)
         cpu_state = reference.solution_state(candidate)
         gpu_state = accelerated.accelerator_solution_state(candidate)
@@ -455,7 +495,14 @@ def parity_check(reference: ORPDProblem, accelerated: AcceleratedORPDProblem, ca
             for cpu_scenario, gpu_scenario in zip(cpu_state["scenarios"], gpu_state["scenarios"]):
                 voltage_error = max(
                     voltage_error,
-                    float(np.max(np.abs(np.asarray(cpu_scenario["vm_pu"]) - np.asarray(gpu_scenario["vm_pu"])))),
+                    float(
+                        np.max(
+                            np.abs(
+                                np.asarray(cpu_scenario["vm_pu"])
+                                - np.asarray(gpu_scenario["vm_pu"])
+                            )
+                        )
+                    ),
                 )
         except Exception:
             voltage_error = float("inf")

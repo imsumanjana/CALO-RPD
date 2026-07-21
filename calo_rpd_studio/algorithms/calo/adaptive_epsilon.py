@@ -1,11 +1,14 @@
 """Behavior-driven epsilon-feasibility controller for CALO v4."""
+
 from __future__ import annotations
 
 import numpy as np
 
 
 class AdaptiveEpsilonController:
-    def __init__(self, initial: float, control_fraction: float = 0.65, exponent: float = 2.0) -> None:
+    def __init__(
+        self, initial: float, control_fraction: float = 0.65, exponent: float = 2.0
+    ) -> None:
         self.initial = float(max(initial, 0.0)) if np.isfinite(initial) else 0.0
         self.control_fraction = float(np.clip(control_fraction, 0.10, 1.0))
         self.exponent = float(max(exponent, 0.25)) if np.isfinite(exponent) else 2.0

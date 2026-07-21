@@ -1,4 +1,5 @@
 """Stable scientific fingerprints for exact result reuse and duplicate protection."""
+
 from __future__ import annotations
 
 import hashlib
@@ -6,7 +7,15 @@ import json
 from pathlib import Path
 
 
-_ARTIFACT_KEYWORDS = ("checkpoint", "repository_file", "repository_path", "case_path", "custom_case", "training_snapshot")
+_ARTIFACT_KEYWORDS = (
+    "checkpoint",
+    "repository_file",
+    "repository_path",
+    "case_path",
+    "custom_case",
+    "training_snapshot",
+)
+
 
 def _file_sha256(path: Path) -> str:
     digest = hashlib.sha256()
@@ -14,6 +23,7 @@ def _file_sha256(path: Path) -> str:
         for chunk in iter(lambda: stream.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
 
 def _replace_artifact_paths(value, key: str = ""):
     if isinstance(value, dict):
@@ -26,9 +36,12 @@ def _replace_artifact_paths(value, key: str = ""):
             return {"artifact_name": path.name, "sha256": _file_sha256(path)}
     return value
 
+
 def _normalise(value):
     if isinstance(value, dict):
-        return {str(k): _normalise(v) for k, v in sorted(value.items(), key=lambda item: str(item[0]))}
+        return {
+            str(k): _normalise(v) for k, v in sorted(value.items(), key=lambda item: str(item[0]))
+        }
     if isinstance(value, (list, tuple)):
         return [_normalise(v) for v in value]
     if isinstance(value, Path):
@@ -74,6 +87,18 @@ def experiment_fingerprint(config) -> str:
         "checkpoint_interval_evaluations",
         "safe_pause",
         "reuse_compatible_results",
+        "extension_experiment_id",
+        "experiment_revision_id",
+        "extension_mode",
+        "extension_publication_eligible",
+        "extension_run_indices",
+        "extension_algorithm_names",
+        "extension_execution_strategy",
+        "extension_source_horizon",
+        "require_exact_run_checkpoint_for_horizon_extension",
+        "run_checkpoint_root",
+        "extension_checkpoint_paths",
+        "extension_existing_run_ids",
     ):
         data.pop(key, None)
     data.pop("algorithms", None)

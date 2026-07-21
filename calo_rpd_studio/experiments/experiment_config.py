@@ -1,4 +1,5 @@
 """Serializable complete experiment configuration."""
+
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
@@ -45,15 +46,21 @@ class RobustScenarioSettings:
             raise ValueError("Load standard deviations must be non-negative")
         if self.mode == "renewable_uncertainty":
             if int(self.renewable_bus) <= 0 or float(self.renewable_rated_mw) <= 0:
-                raise ValueError("Renewable uncertainty requires a positive bus number and rated MW")
+                raise ValueError(
+                    "Renewable uncertainty requires a positive bus number and rated MW"
+                )
             if not 0.0 <= float(self.renewable_mean_capacity_factor) <= 1.0:
                 raise ValueError("Renewable mean capacity factor must be between 0 and 1")
             if float(self.renewable_std_capacity_factor) < 0:
-                raise ValueError("Renewable capacity-factor standard deviation must be non-negative")
+                raise ValueError(
+                    "Renewable capacity-factor standard deviation must be non-negative"
+                )
         if self.mode == "branch_contingency" and not self.branch_outages:
             raise ValueError("Branch contingency mode requires at least one branch outage index")
         if self.mode == "generator_contingency" and not self.generator_outages:
-            raise ValueError("Generator contingency mode requires at least one generator outage index")
+            raise ValueError(
+                "Generator contingency mode requires at least one generator outage index"
+            )
         if any(int(index) < 0 for index in (*self.branch_outages, *self.generator_outages)):
             raise ValueError("Contingency indices must be non-negative")
 
@@ -116,6 +123,24 @@ class ExperimentConfig:
     checkpoint_interval_evaluations: int = 500
     safe_pause: bool = True
     reuse_compatible_results: bool = True
+    # v5 experiment-evolution metadata. These fields never alter the original experiment record;
+    # they describe a new execution revision attached to the same scientific experiment identity.
+    extension_experiment_id: str = ""
+    experiment_revision_id: str = ""
+    extension_mode: str = ""
+    extension_publication_eligible: bool = True
+    extension_run_indices: list[int] = field(default_factory=list)
+    extension_algorithm_names: list[str] = field(default_factory=list)
+    # exact_continue resumes an optimizer-state checkpoint; recompute_from_seed reruns the same
+    # paired seed from FE=0 under the new horizon and stores it as a new evidence revision.
+    extension_execution_strategy: str = "exact_continue"
+    # Exact continuation may branch from any preserved horizon that has a complete optimizer
+    # checkpoint. Recompute-from-seed always starts from FE=0 and ignores this field.
+    extension_source_horizon: int = 0
+    require_exact_run_checkpoint_for_horizon_extension: bool = True
+    run_checkpoint_root: str = ""
+    extension_checkpoint_paths: dict[str, str] = field(default_factory=dict)
+    extension_existing_run_ids: dict[str, str] = field(default_factory=dict)
 
     def validate(self) -> None:
         from calo_rpd_studio.algorithms.registry import SPECS
@@ -131,7 +156,15 @@ class ExperimentConfig:
             raise ValueError(f"Unknown primary algorithms: {unknown}")
         if self.parallel_workers <= 0:
             raise ValueError("parallel_workers must be positive")
-        if self.execution_backend not in {"cuda_priority", "cuda_only", "throughput_auto", "weighted_split", "adaptive_hybrid", "cpu_only", "gpu_preferred"}:
+        if self.execution_backend not in {
+            "cuda_priority",
+            "cuda_only",
+            "throughput_auto",
+            "weighted_split",
+            "adaptive_hybrid",
+            "cpu_only",
+            "gpu_preferred",
+        }:
             raise ValueError("Unsupported execution backend")
         if self.scientific_backend not in {"torch_fp64", "cpu_reference"}:
             raise ValueError("scientific_backend must be torch_fp64 or cpu_reference")
@@ -145,14 +178,19 @@ class ExperimentConfig:
             raise ValueError("max_cross_run_batch must be positive")
         if int(self.calibration_repetitions) <= 0:
             raise ValueError("calibration_repetitions must be positive")
-        if not self.calibration_batch_sizes or any(int(value) <= 0 for value in self.calibration_batch_sizes):
+        if not self.calibration_batch_sizes or any(
+            int(value) <= 0 for value in self.calibration_batch_sizes
+        ):
             raise ValueError("calibration_batch_sizes must contain positive integers")
         if int(self.telemetry_iteration_interval) <= 0:
             raise ValueError("telemetry_iteration_interval must be positive")
         if int(self.checkpoint_interval_evaluations) <= 0:
             raise ValueError("checkpoint_interval_evaluations must be positive")
         self.scenarios.validate()
-        if self.robust_objective.aggregation is RobustAggregation.CVAR and not 0.0 < float(self.robust_objective.cvar_alpha) < 1.0:
+        if (
+            self.robust_objective.aggregation is RobustAggregation.CVAR
+            and not 0.0 < float(self.robust_objective.cvar_alpha) < 1.0
+        ):
             raise ValueError("CVaR alpha must lie strictly between 0 and 1")
         if float(self.robust_objective.risk_lambda) < 0.0:
             raise ValueError("risk_lambda must be non-negative")
@@ -246,22 +284,20 @@ class ExperimentConfig:
         )
         robust_data = data.get("robust_objective", {})
         robust = RobustObjectiveConfig(
-            RobustAggregation(
-                robust_data.get("aggregation", RobustAggregation.EXPECTED.value)
-            ),
+            RobustAggregation(robust_data.get("aggregation", RobustAggregation.EXPECTED.value)),
             float(robust_data.get("risk_lambda", 1)),
             float(robust_data.get("cvar_alpha", 0.95)),
         )
         budget_data = data.get("budget", {})
         budget = EvaluationBudget(
-            BudgetPolicy(
-                budget_data.get("policy", BudgetPolicy.EQUAL_EVALUATIONS.value)
-            ),
+            BudgetPolicy(budget_data.get("policy", BudgetPolicy.EQUAL_EVALUATIONS.value)),
             int(budget_data.get("max_evaluations", 5000)),
             budget_data.get("wall_clock_seconds"),
         )
         execution_backend = str(data.get("execution_backend", "gpu_preferred"))
-        preset_shares = (100, 0, 0) if execution_backend in {"cuda_only", "gpu_preferred"} else (80, 10, 10)
+        preset_shares = (
+            (100, 0, 0) if execution_backend in {"cuda_only", "gpu_preferred"} else (80, 10, 10)
+        )
         return cls(
             name=data.get("name", "CALO-RPD comparative experiment"),
             case_name=data.get("case_name", "case30"),
@@ -306,9 +342,13 @@ class ExperimentConfig:
             cross_run_batch_window_ms=float(data.get("cross_run_batch_window_ms", 4.0)),
             max_cross_run_batch=int(data.get("max_cross_run_batch", 4096)),
             automatic_batch_calibration=bool(data.get("automatic_batch_calibration", True)),
-            calibration_batch_sizes=[int(value) for value in data.get("calibration_batch_sizes", [16, 32, 64, 128, 256])],
+            calibration_batch_sizes=[
+                int(value) for value in data.get("calibration_batch_sizes", [16, 32, 64, 128, 256])
+            ],
             calibration_repetitions=int(data.get("calibration_repetitions", 1)),
-            throughput_profile_path=str(data.get("throughput_profile_path", "results_data/throughput_profile_v34.json")),
+            throughput_profile_path=str(
+                data.get("throughput_profile_path", "results_data/throughput_profile_v34.json")
+            ),
             compile_stable_kernels=bool(data.get("compile_stable_kernels", False)),
             telemetry_iteration_interval=int(data.get("telemetry_iteration_interval", 10)),
             buffered_trace_writes=bool(data.get("buffered_trace_writes", True)),
@@ -319,6 +359,26 @@ class ExperimentConfig:
             checkpoint_interval_evaluations=int(data.get("checkpoint_interval_evaluations", 500)),
             safe_pause=bool(data.get("safe_pause", True)),
             reuse_compatible_results=bool(data.get("reuse_compatible_results", True)),
+            extension_experiment_id=str(data.get("extension_experiment_id", "")),
+            experiment_revision_id=str(data.get("experiment_revision_id", "")),
+            extension_mode=str(data.get("extension_mode", "")),
+            extension_publication_eligible=bool(data.get("extension_publication_eligible", True)),
+            extension_run_indices=[int(v) for v in data.get("extension_run_indices", [])],
+            extension_algorithm_names=[str(v) for v in data.get("extension_algorithm_names", [])],
+            extension_execution_strategy=str(
+                data.get("extension_execution_strategy", "exact_continue")
+            ),
+            extension_source_horizon=int(data.get("extension_source_horizon", 0) or 0),
+            require_exact_run_checkpoint_for_horizon_extension=bool(
+                data.get("require_exact_run_checkpoint_for_horizon_extension", True)
+            ),
+            run_checkpoint_root=str(data.get("run_checkpoint_root", "")),
+            extension_checkpoint_paths={
+                str(k): str(v) for k, v in dict(data.get("extension_checkpoint_paths", {})).items()
+            },
+            extension_existing_run_ids={
+                str(k): str(v) for k, v in dict(data.get("extension_existing_run_ids", {})).items()
+            },
         )
 
     @classmethod
@@ -326,8 +386,6 @@ class ExperimentConfig:
         source = Path(path)
         text = source.read_text(encoding="utf-8")
         data = (
-            yaml.safe_load(text)
-            if source.suffix.lower() in {".yaml", ".yml"}
-            else json.loads(text)
+            yaml.safe_load(text) if source.suffix.lower() in {".yaml", ".yml"} else json.loads(text)
         )
         return cls.from_dict(data)

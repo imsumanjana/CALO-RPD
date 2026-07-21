@@ -4,6 +4,7 @@ The diagnostic layer deliberately keeps objective progress and constraint progre
 This prevents a feasibility transition from being misinterpreted as objective deterioration and
 provides the controller with the physical source of infeasibility.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -46,9 +47,15 @@ class PopulationDiagnostics:
 def population_diagnostics(evaluations: Iterable, epsilon: float = 0.0) -> PopulationDiagnostics:
     items = list(evaluations)
     if not items:
-        return PopulationDiagnostics(0.0, 0.0, float("inf"), float("inf"), float("inf"),
-                                     {k: float("inf") for k in CONSTRAINT_COMPONENTS},
-                                     {k: float("inf") for k in CONSTRAINT_COMPONENTS})
+        return PopulationDiagnostics(
+            0.0,
+            0.0,
+            float("inf"),
+            float("inf"),
+            float("inf"),
+            {k: float("inf") for k in CONSTRAINT_COMPONENTS},
+            {k: float("inf") for k in CONSTRAINT_COMPONENTS},
+        )
     violations = np.asarray([float(e.violation) for e in items], dtype=float)
     finite_violations = np.where(np.isfinite(violations), violations, 1e12)
     best_index = int(np.argmin(finite_violations))
@@ -56,7 +63,9 @@ def population_diagnostics(evaluations: Iterable, epsilon: float = 0.0) -> Popul
     component_rows = [components_of(e) for e in items]
     return PopulationDiagnostics(
         feasible_ratio=float(np.mean([bool(e.feasible) for e in items])),
-        epsilon_feasible_ratio=float(np.mean(finite_violations <= max(float(epsilon), 0.0) + 1e-12)),
+        epsilon_feasible_ratio=float(
+            np.mean(finite_violations <= max(float(epsilon), 0.0) + 1e-12)
+        ),
         best_violation=float(finite_violations[best_index]),
         mean_violation=float(np.mean(finite_violations)),
         best_feasible_objective=min(feasible_values) if feasible_values else float("inf"),

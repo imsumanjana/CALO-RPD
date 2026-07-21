@@ -24,7 +24,10 @@ def test_accelerated_population_evaluation_reports_backend(toy_case):
     candidates = np.random.default_rng(7).random((5, problem.dimension))
     results = problem.evaluate_population(candidates)
     assert len(results) == 5
-    assert all(result.metadata["scientific_backend"] == "torch_batched_dense_newton_raphson" for result in results)
+    assert all(
+        result.metadata["scientific_backend"] == "torch_batched_dense_newton_raphson"
+        for result in results
+    )
     assert all(result.metadata["dtype"] == "float64" for result in results)
 
 
@@ -40,7 +43,10 @@ class SphereProblem:
         return [self.evaluate(x) for x in population]
 
     def solution_state(self, x):
-        return {"normalized_decision_vector": np.asarray(x).tolist(), "scenarios": [{"converged": True}]}
+        return {
+            "normalized_decision_vector": np.asarray(x).tolist(),
+            "scenarios": [{"converged": True}],
+        }
 
 
 def test_all_nineteen_baselines_have_torch_canonical_kernels():

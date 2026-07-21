@@ -4,6 +4,7 @@ Qualification is intentionally separated from policy training.  A checkpoint is 
 optimization outcomes under identical seeds and FE budgets; PPO loss/return alone is never used as
 proof that a policy is superior.
 """
+
 from __future__ import annotations
 
 from copy import deepcopy
@@ -57,17 +58,21 @@ def _convergence_auc(result) -> float:
     for point in history:
         if isinstance(point, dict):
             x = point.get("evaluations", point.get("evaluation", point.get("fe", None)))
-            y = point.get("best_feasible_objective", point.get("best_objective", point.get("objective", None)))
+            y = point.get(
+                "best_feasible_objective", point.get("best_objective", point.get("objective", None))
+            )
         elif isinstance(point, (list, tuple)) and len(point) >= 2:
             x, y = point[0], point[1]
         else:
             continue
         try:
-            x = float(x); y = float(y)
+            x = float(x)
+            y = float(y)
         except (TypeError, ValueError):
             continue
         if math.isfinite(x) and math.isfinite(y):
-            xs.append(x); ys.append(y)
+            xs.append(x)
+            ys.append(y)
     if len(xs) < 2:
         return float("nan")
     order = np.argsort(xs)
@@ -101,16 +106,25 @@ def _aggregate(records: list[dict]) -> dict:
     runtimes = np.asarray([row["runtime"] for row in records], float)
     return {
         "n": len(records),
-        "feasible_probability": float(np.mean([row["feasible"] for row in records])) if records else 0.0,
+        "feasible_probability": float(np.mean([row["feasible"] for row in records]))
+        if records
+        else 0.0,
         "median_objective": float(np.median(finite)) if finite.size else float("nan"),
         "mean_objective": float(np.mean(finite)) if finite.size else float("nan"),
-        "std_objective": float(np.std(finite, ddof=1)) if finite.size > 1 else 0.0 if finite.size == 1 else float("nan"),
-        "iqr_objective": float(np.quantile(finite, 0.75) - np.quantile(finite, 0.25)) if finite.size else float("nan"),
+        "std_objective": float(np.std(finite, ddof=1))
+        if finite.size > 1
+        else 0.0
+        if finite.size == 1
+        else float("nan"),
+        "iqr_objective": float(np.quantile(finite, 0.75) - np.quantile(finite, 0.25))
+        if finite.size
+        else float("nan"),
         "median_auc": float(np.median(auc_finite)) if auc_finite.size else float("nan"),
-        "median_eval_to_feasible": float(np.median(etf_finite)) if etf_finite.size else float("nan"),
+        "median_eval_to_feasible": float(np.median(etf_finite))
+        if etf_finite.size
+        else float("nan"),
         "mean_runtime_seconds": float(np.mean(runtimes)) if runtimes.size else float("nan"),
     }
-
 
 
 def _paired_evidence(candidate_rows: list[dict], comparator_rows: list[dict]) -> dict:
@@ -121,12 +135,18 @@ def _paired_evidence(candidate_rows: list[dict], comparator_rows: list[dict]) ->
         other = comp_map.get((row["case"], int(row["run_index"])))
         if other is None:
             continue
-        a = float(row["objective"]); b = float(other["objective"])
+        a = float(row["objective"])
+        b = float(other["objective"])
         if math.isfinite(a) and math.isfinite(b):
             pairs.append((a, b))
     if not pairs:
-        return {"n_pairs": 0, "median_difference": float("nan"), "win_rate": float("nan"),
-                "wilcoxon_p_two_sided": float("nan"), "rank_biserial": float("nan")}
+        return {
+            "n_pairs": 0,
+            "median_difference": float("nan"),
+            "win_rate": float("nan"),
+            "wilcoxon_p_two_sided": float("nan"),
+            "rank_biserial": float("nan"),
+        }
     a = np.asarray([item[0] for item in pairs], float)
     b = np.asarray([item[1] for item in pairs], float)
     d = a - b  # lower objective is better, so negative favors candidate
@@ -137,13 +157,15 @@ def _paired_evidence(candidate_rows: list[dict], comparator_rows: list[dict]) ->
     if len(nonzero) >= 2:
         try:
             from scipy.stats import wilcoxon
+
             pvalue = float(wilcoxon(a, b, alternative="two-sided", zero_method="wilcox").pvalue)
         except Exception:
             # Exact sign-test fallback is conservative and dependency-free.
             import math as _math
+
             k = min(int(np.sum(nonzero < 0)), int(np.sum(nonzero > 0)))
             n = len(nonzero)
-            tail = sum(_math.comb(n, i) for i in range(k + 1)) / (2 ** n)
+            tail = sum(_math.comb(n, i) for i in range(k + 1)) / (2**n)
             pvalue = float(min(1.0, 2.0 * tail))
     return {
         "n_pairs": int(len(pairs)),
@@ -153,17 +175,30 @@ def _paired_evidence(candidate_rows: list[dict], comparator_rows: list[dict]) ->
         "rank_biserial": rank_biserial,
     }
 
-def _grade(candidate: dict, reference: dict | None, no_ai: dict, config: PolicyQualificationConfig, paired: dict | None = None) -> tuple[bool, str, float, list[str]]:
+
+def _grade(
+    candidate: dict,
+    reference: dict | None,
+    no_ai: dict,
+    config: PolicyQualificationConfig,
+    paired: dict | None = None,
+) -> tuple[bool, str, float, list[str]]:
     reasons: list[str] = []
     feasible = float(candidate["feasible_probability"])
     if feasible < float(config.minimum_feasible_probability):
-        reasons.append(f"feasible probability {feasible:.3f} is below {config.minimum_feasible_probability:.3f}")
+        reasons.append(
+            f"feasible probability {feasible:.3f} is below {config.minimum_feasible_probability:.3f}"
+        )
     cand = float(candidate["median_objective"])
     baseline = float(no_ai["median_objective"])
     if not math.isfinite(cand):
         reasons.append("candidate has no finite feasible median objective")
     if math.isfinite(cand) and math.isfinite(baseline):
-        allowed = baseline * (1.0 + float(config.objective_regression_tolerance)) if baseline >= 0 else baseline + abs(baseline) * float(config.objective_regression_tolerance)
+        allowed = (
+            baseline * (1.0 + float(config.objective_regression_tolerance))
+            if baseline >= 0
+            else baseline + abs(baseline) * float(config.objective_regression_tolerance)
+        )
         if cand > allowed:
             reasons.append("candidate materially regresses versus No-AI CALO")
     passed = not reasons
@@ -171,14 +206,24 @@ def _grade(candidate: dict, reference: dict | None, no_ai: dict, config: PolicyQ
         return False, "U", 0.0, reasons
 
     comparators = [no_ai]
-    if reference is not None and math.isfinite(float(reference.get("median_objective", float("nan")))):
+    if reference is not None and math.isfinite(
+        float(reference.get("median_objective", float("nan")))
+    ):
         comparators.append(reference)
-    best_comp = min(float(item["median_objective"]) for item in comparators if math.isfinite(float(item["median_objective"])))
+    best_comp = min(
+        float(item["median_objective"])
+        for item in comparators
+        if math.isfinite(float(item["median_objective"]))
+    )
     rel = (best_comp - cand) / max(abs(best_comp), 1e-12) if math.isfinite(cand) else -1.0
     cand_auc = float(candidate.get("median_auc", float("nan")))
     comp_aucs = [float(item.get("median_auc", float("nan"))) for item in comparators]
     finite_aucs = [value for value in comp_aucs if math.isfinite(value)]
-    auc_gain = ((min(finite_aucs) - cand_auc) / max(abs(min(finite_aucs)), 1e-12)) if finite_aucs and math.isfinite(cand_auc) else 0.0
+    auc_gain = (
+        ((min(finite_aucs) - cand_auc) / max(abs(min(finite_aucs)), 1e-12))
+        if finite_aucs and math.isfinite(cand_auc)
+        else 0.0
+    )
     paired = dict(paired or {})
     evidence_rows = [dict(paired.get("vs_no_ai") or {})] if "vs_no_ai" in paired else [paired]
     if reference is not None and "vs_reference" in paired:
@@ -208,20 +253,31 @@ class PolicyQualifier:
         self.base_config = base_config
         self.registry = registry
 
-    def run(self, candidate_policy_id: str, *, reference_policy_id: str = "", config: PolicyQualificationConfig | None = None,
-            progress_callback=None, cancel_callback=None) -> dict:
+    def run(
+        self,
+        candidate_policy_id: str,
+        *,
+        reference_policy_id: str = "",
+        config: PolicyQualificationConfig | None = None,
+        progress_callback=None,
+        cancel_callback=None,
+    ) -> dict:
         qconfig = config or PolicyQualificationConfig()
         qconfig.validate()
         candidate = self.registry.get(candidate_policy_id)
         reference = self.registry.get(reference_policy_id) if reference_policy_id else None
         candidate_inspection = self.registry.inspect_checkpoint(candidate.checkpoint_path)
         if candidate_inspection["sha256"] != candidate.sha256:
-            raise RuntimeError("Candidate policy checksum does not match the registered immutable artifact")
+            raise RuntimeError(
+                "Candidate policy checksum does not match the registered immutable artifact"
+            )
         reference_inspection = None
         if reference is not None:
             reference_inspection = self.registry.inspect_checkpoint(reference.checkpoint_path)
             if reference_inspection["sha256"] != reference.sha256:
-                raise RuntimeError("Reference policy checksum does not match the registered immutable artifact")
+                raise RuntimeError(
+                    "Reference policy checksum does not match the registered immutable artifact"
+                )
         participants = [("candidate", candidate), ("no_ai", None)]
         if reference is not None and reference.id != candidate.id:
             participants.insert(1, ("reference", reference))
@@ -253,34 +309,41 @@ class PolicyQualifier:
                         params["strict_policy_binding"] = False
                     else:
                         params["use_ai"] = True
-                        params.update({
-                            "policy_id": policy.id,
-                            "policy_checkpoint": policy.checkpoint_path,
-                            "policy_sha256": policy.sha256,
-                            "policy_state_schema_version": policy.state_schema_version,
-                            "policy_action_schema_version": policy.action_schema_version,
-                            "policy_architecture_version": policy.architecture_version,
-                            "policy_training_environment_version": policy.training_environment_version,
-                            "strict_policy_binding": True,
-                            "allow_unqualified_policy": True,
-                            "deterministic_policy": True,
-                        })
+                        params.update(
+                            {
+                                "policy_id": policy.id,
+                                "policy_checkpoint": policy.checkpoint_path,
+                                "policy_sha256": policy.sha256,
+                                "policy_state_schema_version": policy.state_schema_version,
+                                "policy_action_schema_version": policy.action_schema_version,
+                                "policy_architecture_version": policy.architecture_version,
+                                "policy_training_environment_version": policy.training_environment_version,
+                                "strict_policy_binding": True,
+                                "allow_unqualified_policy": True,
+                                "deterministic_policy": True,
+                            }
+                        )
                     cfg.algorithm_parameters["CALO"] = params
                     completed = run_single(cfg, "CALO", run_index, paired[run_index])
                     result = completed.result
-                    records[label].append({
-                        "case": str(case_name),
-                        "run_index": int(run_index),
-                        "objective": _finite_objective(result),
-                        "feasible": bool(result.feasible),
-                        "auc": _convergence_auc(result),
-                        "eval_to_feasible": _eval_to_feasible(result),
-                        "runtime": float(result.runtime_seconds),
-                        "evaluations": int(result.evaluations),
-                    })
+                    records[label].append(
+                        {
+                            "case": str(case_name),
+                            "run_index": int(run_index),
+                            "objective": _finite_objective(result),
+                            "feasible": bool(result.feasible),
+                            "auc": _convergence_auc(result),
+                            "eval_to_feasible": _eval_to_feasible(result),
+                            "runtime": float(result.runtime_seconds),
+                            "evaluations": int(result.evaluations),
+                        }
+                    )
                     done += 1
                     if progress_callback:
-                        progress_callback(int(100 * done / max(total, 1)), f"{done}/{total} · {case_name} · run {run_index + 1} · {label}")
+                        progress_callback(
+                            int(100 * done / max(total, 1)),
+                            f"{done}/{total} · {case_name} · run {run_index + 1} · {label}",
+                        )
         summaries = {name: _aggregate(rows) for name, rows in records.items()}
         paired = {"vs_no_ai": _paired_evidence(records["candidate"], records["no_ai"])}
         if "reference" in records:

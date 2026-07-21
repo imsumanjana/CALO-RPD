@@ -1,6 +1,6 @@
-"""Cognitive Adaptive Learning Optimizer — CALO v4.1.
+"""Cognitive Adaptive Learning Optimizer — CALO v5.0.
 
-CALO v4.1 is a single-budget, constraint-cognitive optimizer with persistent
+CALO v5.0 is a single-budget, constraint-cognitive optimizer with persistent
 individual memory, Hierarchical Prefix Elite Memory (Best-1/3/5/7), contextual
 batch credit, bounded 3D success history, mixed-variable group intelligence,
 behavior-driven epsilon control, dual discovery/learning lanes, partial recovery,
@@ -10,9 +10,14 @@ All repeated benchmark runs start from fresh runtime memory.  Historical
 cross-experiment learning remains explicit and is blocked by strict benchmark
 mode unless the caller deliberately disables that guard.
 """
+
 from __future__ import annotations
 
 from collections import Counter
+from dataclasses import asdict, is_dataclass
+from enum import Enum
+import hashlib
+import json
 from pathlib import Path
 import time
 
@@ -51,6 +56,7 @@ from .policy_schema import PolicyRuntimeContext, variable_group_concentration
 from .reward import calculate_reward
 from .success_memory import SuccessMemory
 from .tensor_state import CALOTensorState
+from .run_checkpoint import save_exact_run_checkpoint, load_exact_run_checkpoint
 from .variable_intelligence import VariableGroupIntelligence
 
 
@@ -79,6 +85,7 @@ DISCOVERY_MEMORY_PRIOR = np.asarray([0.03, 0.07, 0.25, 0.65], dtype=float)
 
 class CALOOptimizer(BaseOptimizer):
     name = "CALO"
+    supports_exact_resume = True
 
     def _default_checkpoint(self) -> Path:
         return Path(__file__).resolve().parents[2] / "data" / "trained_models" / "calo_policy_v2.pt"
@@ -95,7 +102,9 @@ class CALOOptimizer(BaseOptimizer):
         total = float(values.sum())
         return values / total if total > 0.0 else np.full(values.shape, 1.0 / len(values))
 
-    def _select_distinct(self, population: np.ndarray, index: int, count: int = 2) -> list[np.ndarray]:
+    def _select_distinct(
+        self, population: np.ndarray, index: int, count: int = 2
+    ) -> list[np.ndarray]:
         candidates = [i for i in range(len(population)) if i != index]
         if len(candidates) < count:
             return [population[index].copy() for _ in range(count)]
@@ -116,7 +125,9 @@ class CALOOptimizer(BaseOptimizer):
         return int(global_regime)
 
     @staticmethod
-    def _focus_to_group(x: np.ndarray, candidate: np.ndarray, mask: np.ndarray, operator: int) -> np.ndarray:
+    def _focus_to_group(
+        x: np.ndarray, candidate: np.ndarray, mask: np.ndarray, operator: int
+    ) -> np.ndarray:
         if operator == 5 or not np.any(mask):
             return np.clip(candidate, 0.0, 1.0)
         focused = np.asarray(x, float).copy()
@@ -168,8 +179,10 @@ class CALOOptimizer(BaseOptimizer):
         group_mask = group_intelligence.mask(group, self.problem.dimension)
 
         if operator == 0:
-            teacher = memory_teacher if learned_lane and len(hpem) else (
-                feasible_teacher if len(feasible_archive) else boundary_teacher
+            teacher = (
+                memory_teacher
+                if learned_lane and len(hpem)
+                else (feasible_teacher if len(feasible_archive) else boundary_teacher)
             )
             candidate = feasible_elite_learning(
                 x,
@@ -194,7 +207,9 @@ class CALOOptimizer(BaseOptimizer):
             if learned_lane and len(hpem):
                 teacher = memory_teacher
             else:
-                teacher = feasible_teacher if regime >= 2 and len(feasible_archive) else boundary_teacher
+                teacher = (
+                    feasible_teacher if regime >= 2 and len(feasible_archive) else boundary_teacher
+                )
             candidate = cognitive_teacher_learning(
                 x,
                 teacher,
@@ -222,8 +237,7 @@ class CALOOptimizer(BaseOptimizer):
             )
             if learned_lane and len(hpem):
                 candidate = np.clip(
-                    candidate
-                    + 0.12 * parameters["attraction"] * (memory_teacher - candidate),
+                    candidate + 0.12 * parameters["attraction"] * (memory_teacher - candidate),
                     0.0,
                     1.0,
                 )
@@ -236,8 +250,10 @@ class CALOOptimizer(BaseOptimizer):
                 discrete_radius=2 if regime == 3 else 1,
             )
         else:
-            reference = boundary_teacher if regime <= 1 else (
-                hpem.summary(3, feasible_teacher) if len(hpem) else feasible_teacher
+            reference = (
+                boundary_teacher
+                if regime <= 1
+                else (hpem.summary(3, feasible_teacher) if len(hpem) else feasible_teacher)
             )
             candidate = diversity_recovery(
                 reference,
@@ -247,7 +263,9 @@ class CALOOptimizer(BaseOptimizer):
             )
         return self._focus_to_group(x, candidate, group_mask, operator)
 
-    def _historical_learning_setup(self, parameters: dict) -> tuple[object | None, dict[str, float], str]:
+    def _historical_learning_setup(
+        self, parameters: dict
+    ) -> tuple[object | None, dict[str, float], str]:
         repository = None
         applied: dict[str, float] = {}
         path = str(parameters.get("historical_repository", "") or "").strip()
@@ -289,14 +307,163 @@ class CALOOptimizer(BaseOptimizer):
                 current = parameters.get(name, prior_value)
                 if isinstance(current, (int, float)):
                     blended = (1.0 - blend) * float(current) + blend * float(prior_value)
-                    parameters[name] = int(round(blended)) if name == "stagnation_window" else blended
+                    parameters[name] = (
+                        int(round(blended)) if name == "stagnation_window" else blended
+                    )
                     applied[name] = parameters[name]
         return repository, applied, path
+
+    @staticmethod
+    def _compatibility_jsonable(value):
+        """Canonicalize scientific problem state for exact-resume compatibility hashing."""
+        if is_dataclass(value):
+            return CALOOptimizer._compatibility_jsonable(asdict(value))
+        if isinstance(value, Enum):
+            return CALOOptimizer._compatibility_jsonable(value.value)
+        if isinstance(value, np.ndarray):
+            return CALOOptimizer._compatibility_jsonable(value.tolist())
+        if isinstance(value, np.generic):
+            return value.item()
+        if isinstance(value, dict):
+            return {
+                str(k): CALOOptimizer._compatibility_jsonable(v)
+                for k, v in sorted(value.items(), key=lambda item: str(item[0]))
+            }
+        if isinstance(value, (list, tuple)):
+            return [CALOOptimizer._compatibility_jsonable(v) for v in value]
+        if callable(value):
+            defaults = getattr(value, "__defaults__", None)
+            return {
+                "callable_module": str(getattr(value, "__module__", "")),
+                "callable_qualname": str(getattr(value, "__qualname__", type(value).__qualname__)),
+                "defaults": CALOOptimizer._compatibility_jsonable(defaults or ()),
+            }
+        if value is None or isinstance(value, (str, int, float, bool)):
+            return value
+        return {"type": f"{type(value).__module__}.{type(value).__qualname__}"}
+
+    def _problem_compatibility_fingerprint(self) -> str:
+        decoder = getattr(self.problem, "decoder", None)
+        manifest = None
+        if decoder is not None and callable(getattr(decoder, "formulation_manifest", None)):
+            manifest = decoder.formulation_manifest()
+        scenarios = []
+        for scenario in list(getattr(self.problem, "scenarios", []) or []):
+            scenarios.append(
+                {
+                    "name": str(getattr(scenario, "name", "")),
+                    "weight": float(getattr(scenario, "weight", 1.0)),
+                    "transform": self._compatibility_jsonable(getattr(scenario, "transform", None)),
+                }
+            )
+        payload = {
+            "case_checksum": str(self.problem.case.checksum()),
+            "dimension": int(self.problem.dimension),
+            "formulation_manifest": manifest,
+            "problem_config": self._compatibility_jsonable(getattr(self.problem, "config", None)),
+            "scenarios": scenarios,
+        }
+        encoded = json.dumps(
+            self._compatibility_jsonable(payload),
+            sort_keys=True,
+            separators=(",", ":"),
+            allow_nan=False,
+        ).encode("utf-8")
+        return hashlib.sha256(encoded).hexdigest()
+
+    def _checkpoint_compatibility(self, parameters: dict, controller) -> dict:
+        ignored = {
+            "run_checkpoint_path",
+            "resume_run_checkpoint",
+            "checkpoint_interval_evaluations",
+            "extended_evaluation_target",
+            "continuation_segment_index",
+        }
+        stable_parameters = {str(k): v for k, v in parameters.items() if str(k) not in ignored}
+        return {
+            "algorithm": self.name,
+            "seed": int(self.seed),
+            "dimension": int(self.problem.dimension),
+            "population_size": int(self.config.population_size),
+            "case_checksum": str(self.problem.case.checksum()),
+            "problem_fingerprint": self._problem_compatibility_fingerprint(),
+            "policy_checksum": str(getattr(controller, "checksum", "")),
+            "parameters": stable_parameters,
+        }
+
+    def _save_run_checkpoint(
+        self, path: str, *, parameters: dict, controller, locals_payload: dict
+    ) -> str:
+        base_state = {
+            "evaluations": int(self.evaluations),
+            "iteration": int(self.iteration),
+            "best_evaluation": self.best_evaluation,
+            "best_vector": self.best_vector,
+            "history": list(self.history),
+            "evaluation_history": list(self.evaluation_history),
+            "best_feasible_objective_history": list(self.best_feasible_objective_history),
+            "best_constraint_violation_history": list(self.best_constraint_violation_history),
+            "best_feasible_objective": float(self._best_feasible_objective),
+            "best_constraint_violation": float(self._best_constraint_violation),
+            "best_constraint_evaluation": self._best_constraint_evaluation,
+            "first_feasible_evaluation": self.first_feasible_evaluation,
+            "constraint_component_histories": {
+                k: list(v) for k, v in self.constraint_component_histories.items()
+            },
+            "rng_state": self.rng.bit_generator.state,
+            "controller_rng_state": controller.rng.bit_generator.state,
+        }
+        return save_exact_run_checkpoint(
+            path,
+            {
+                "compatibility": self._checkpoint_compatibility(parameters, controller),
+                "base_state": base_state,
+                "runtime_state": locals_payload,
+            },
+        )
+
+    def _restore_base_checkpoint_state(
+        self, payload: dict, *, parameters: dict, controller
+    ) -> dict:
+        expected = self._checkpoint_compatibility(parameters, controller)
+        actual = dict(payload.get("compatibility", {}))
+        # Horizon may grow, but scientific formulation, seed, policy and algorithm controls may not.
+        if actual != expected:
+            raise RuntimeError(
+                "CALO run checkpoint is incompatible with the current scientific configuration"
+            )
+        base = dict(payload.get("base_state", {}))
+        self.evaluations = int(base["evaluations"])
+        self.iteration = int(base["iteration"])
+        self.best_evaluation = base.get("best_evaluation")
+        self.best_vector = base.get("best_vector")
+        self.history = list(base.get("history", []))
+        self.evaluation_history = list(base.get("evaluation_history", []))
+        self.best_feasible_objective_history = list(base.get("best_feasible_objective_history", []))
+        self.best_constraint_violation_history = list(
+            base.get("best_constraint_violation_history", [])
+        )
+        self._best_feasible_objective = float(base.get("best_feasible_objective", float("inf")))
+        self._best_constraint_violation = float(base.get("best_constraint_violation", float("inf")))
+        self._best_constraint_evaluation = base.get("best_constraint_evaluation")
+        self.first_feasible_evaluation = base.get("first_feasible_evaluation")
+        self.constraint_component_histories = {
+            str(k): list(v) for k, v in dict(base.get("constraint_component_histories", {})).items()
+        }
+        self.rng.bit_generator.state = base["rng_state"]
+        controller.rng.bit_generator.state = base["controller_rng_state"]
+        return dict(payload.get("runtime_state", {}))
 
     def run(self):
         started = time.perf_counter()
         parameters = dict(self.config.parameters)
         population_size = int(self.config.population_size)
+        run_checkpoint_path = str(parameters.get("run_checkpoint_path", "") or "").strip()
+        resume_run_checkpoint = str(parameters.get("resume_run_checkpoint", "") or "").strip()
+        checkpoint_interval = max(
+            1, int(parameters.get("checkpoint_interval_evaluations", 500) or 500)
+        )
+        next_checkpoint_evaluation = checkpoint_interval
         historical_repository, historical_prior_applied, historical_repository_path = (
             self._historical_learning_setup(parameters)
         )
@@ -317,37 +484,62 @@ class CALOOptimizer(BaseOptimizer):
 
         cache = ExactEvaluationCache(
             self.problem,
-            capacity=int(parameters.get("evaluation_cache_capacity", 4096)) if use_evaluation_cache else 0,
-        )
-
-        population = self.random_population()
-        historical_warm_start_count = 0
-        if historical_repository is not None and bool(parameters.get("use_cross_algorithm_warm_start", False)):
-            solutions = historical_repository.compatible_solutions(
-                case_checksum=self.problem.case.checksum(),
-                case_name=self.problem.case.name,
-                dimension=self.problem.dimension,
-            )
-            fraction = float(np.clip(parameters.get("historical_warm_start_fraction", 0.15), 0.0, 0.50))
-            count = min(int(round(population_size * fraction)), len(solutions), population_size)
-            for index, item in enumerate(solutions[:count]):
-                vector = np.asarray(item.get("best_vector") or [], dtype=float)
-                if vector.shape == (self.problem.dimension,):
-                    population[index] = np.clip(vector, 0.0, 1.0)
-                    historical_warm_start_count += 1
-
-        evaluations = (
-            cache.evaluate_requests(self, population)
+            capacity=int(parameters.get("evaluation_cache_capacity", 4096))
             if use_evaluation_cache
-            else self.evaluate_population(population)
+            else 0,
         )
-        if len(evaluations) < len(population):
-            return self.finalize(population[: len(evaluations)], started=started)
+
+        # Load an exact continuation payload before any population evaluation. A resumed run must
+        # not perform hidden warm-up/scientific solves that are outside its requested FE accounting.
+        checkpoint_payload_preloaded = (
+            load_exact_run_checkpoint(resume_run_checkpoint) if resume_run_checkpoint else None
+        )
+        historical_warm_start_count = 0
+        if checkpoint_payload_preloaded is not None:
+            checkpoint_runtime = dict(checkpoint_payload_preloaded.get("runtime_state", {}))
+            checkpoint_state = checkpoint_runtime.get("state")
+            if checkpoint_state is None:
+                raise RuntimeError(
+                    "CALO exact run checkpoint does not contain optimizer tensor state"
+                )
+            population = np.asarray(checkpoint_state.population, dtype=float).copy()
+            evaluations = list(checkpoint_state.evaluations)
+        else:
+            population = self.random_population()
+            if historical_repository is not None and bool(
+                parameters.get("use_cross_algorithm_warm_start", False)
+            ):
+                solutions = historical_repository.compatible_solutions(
+                    case_checksum=self.problem.case.checksum(),
+                    case_name=self.problem.case.name,
+                    dimension=self.problem.dimension,
+                )
+                fraction = float(
+                    np.clip(parameters.get("historical_warm_start_fraction", 0.15), 0.0, 0.50)
+                )
+                count = min(int(round(population_size * fraction)), len(solutions), population_size)
+                for index, item in enumerate(solutions[:count]):
+                    vector = np.asarray(item.get("best_vector") or [], dtype=float)
+                    if vector.shape == (self.problem.dimension,):
+                        population[index] = np.clip(vector, 0.0, 1.0)
+                        historical_warm_start_count += 1
+
+            evaluations = (
+                cache.evaluate_requests(self, population)
+                if use_evaluation_cache
+                else self.evaluate_population(population)
+            )
+            if len(evaluations) < len(population):
+                return self.finalize(population[: len(evaluations)], started=started)
 
         state = CALOTensorState.initialize(population, list(evaluations))
         variables = getattr(getattr(self.problem, "decoder", None), "variables", None) or []
-        feasible_archive = FeasibleEliteArchive(int(parameters.get("feasible_archive_capacity", 32)))
-        boundary_archive = ConstraintBoundaryArchive(int(parameters.get("boundary_archive_capacity", 48)))
+        feasible_archive = FeasibleEliteArchive(
+            int(parameters.get("feasible_archive_capacity", 32))
+        )
+        boundary_archive = ConstraintBoundaryArchive(
+            int(parameters.get("boundary_archive_capacity", 48))
+        )
         feasible_archive.update(state.population, state.evaluations)
         boundary_archive.update(state.population, state.evaluations)
 
@@ -399,7 +591,9 @@ class CALOOptimizer(BaseOptimizer):
         checkpoint = str(parameters.get("policy_checkpoint", "") or "").strip()
         if use_ai and not checkpoint:
             if bool(parameters.get("strict_policy_binding", False)):
-                raise ValueError("CALO AI is enabled but no immutable policy checkpoint is bound to this experiment")
+                raise ValueError(
+                    "CALO AI is enabled but no immutable policy checkpoint is bound to this experiment"
+                )
             checkpoint = str(self._default_checkpoint())
         controller = AIController(
             checkpoint if use_ai else None,
@@ -407,8 +601,12 @@ class CALOOptimizer(BaseOptimizer):
             deterministic=deterministic_policy,
             device=str(parameters.get("inference_device", "auto")),
             expected_checksum=str(parameters.get("policy_sha256", "")) if use_ai else "",
-            expected_state_schema=str(parameters.get("policy_state_schema_version", "")) if use_ai else "",
-            expected_action_schema=str(parameters.get("policy_action_schema_version", "")) if use_ai else "",
+            expected_state_schema=str(parameters.get("policy_state_schema_version", ""))
+            if use_ai
+            else "",
+            expected_action_schema=str(parameters.get("policy_action_schema_version", ""))
+            if use_ai
+            else "",
         )
 
         diagnostics_history = diagnostic_history_template()
@@ -437,10 +635,57 @@ class CALOOptimizer(BaseOptimizer):
         evaluator_seconds = 0.0
         learning_update_seconds = 0.0
 
+        if resume_run_checkpoint:
+            checkpoint_payload = checkpoint_payload_preloaded
+            restored = self._restore_base_checkpoint_state(
+                checkpoint_payload, parameters=parameters, controller=controller
+            )
+            state = restored["state"]
+            feasible_archive = restored["feasible_archive"]
+            boundary_archive = restored["boundary_archive"]
+            hpem = restored["hpem"]
+            memory = restored["memory"]
+            credit = restored["credit"]
+            group_intelligence = restored["group_intelligence"]
+            lane_controller = restored["lane_controller"]
+            precision = restored["precision"]
+            epsilon_controller = restored["epsilon_controller"]
+            diagnostics_history = restored["diagnostics_history"]
+            operator_usage_history = restored["operator_usage_history"]
+            operator_success_history = restored["operator_success_history"]
+            regime_history = restored["regime_history"]
+            reward_history = restored["reward_history"]
+            memory_readiness_history = restored["memory_readiness_history"]
+            learning_lane_history = restored["learning_lane_history"]
+            memory_consensus_history = restored["memory_consensus_history"]
+            precision_radius_history = restored["precision_radius_history"]
+            previous_best_violation = float(restored["previous_best_violation"])
+            previous_best_objective = float(restored["previous_best_objective"])
+            constraint_stagnation = int(restored["constraint_stagnation"])
+            objective_stagnation = int(restored["objective_stagnation"])
+            violation_improving = bool(restored["violation_improving"])
+            policy_trajectory = list(restored["policy_trajectory"])
+            precision_evaluations = int(restored["precision_evaluations"])
+            precision_successes = int(restored["precision_successes"])
+            forced_recovery_evaluations = int(restored["forced_recovery_evaluations"])
+            batch_count = int(restored["batch_count"])
+            policy_inference_seconds = float(restored.get("policy_inference_seconds", 0.0))
+            candidate_generation_seconds = float(restored.get("candidate_generation_seconds", 0.0))
+            evaluator_seconds = float(restored.get("evaluator_seconds", 0.0))
+            learning_update_seconds = float(restored.get("learning_update_seconds", 0.0))
+            historical_warm_start_count = int(
+                restored.get("historical_warm_start_count", historical_warm_start_count)
+            )
+            next_checkpoint_evaluation = (
+                (int(self.evaluations) // checkpoint_interval) + 1
+            ) * checkpoint_interval
+
         while self.iteration < self.config.max_iterations and self.can_evaluate(population_size):
             self.iteration += 1
             batch_count += 1
-            progress = float(np.clip(self.evaluations / max(self.config.max_evaluations, 1), 0.0, 1.0))
+            progress = float(
+                np.clip(self.evaluations / max(self.config.max_evaluations, 1), 0.0, 1.0)
+            )
             rough_diag = population_diagnostics(state.evaluations, epsilon_controller.current)
             epsilon = (
                 epsilon_controller.value(
@@ -487,7 +732,8 @@ class CALOOptimizer(BaseOptimizer):
             )
             pre_learning_fraction = (
                 lane_controller.learning_fraction(pre_readiness, progress, current_diversity, False)
-                if use_dual_lane else 1.0
+                if use_dual_lane
+                else 1.0
             )
             pre_precision_active = use_precision and precision.active(
                 current_diag.feasible_ratio,
@@ -503,8 +749,12 @@ class CALOOptimizer(BaseOptimizer):
                 success_memory_density=float(memory.density if use_memory else 0.0),
                 learning_lane_fraction=float(pre_learning_fraction),
                 precision_active=float(bool(pre_precision_active)),
-                precision_radius=float(np.clip(precision.radius / max(precision.max_radius, 1e-12), 0.0, 1.0)),
-                variable_group_concentration=variable_group_concentration(group_intelligence.probabilities(provisional_regime)),
+                precision_radius=float(
+                    np.clip(precision.radius / max(precision.max_radius, 1e-12), 0.0, 1.0)
+                ),
+                variable_group_concentration=variable_group_concentration(
+                    group_intelligence.probabilities(provisional_regime)
+                ),
             )
             if use_ai:
                 _policy_started = time.perf_counter()
@@ -525,12 +775,18 @@ class CALOOptimizer(BaseOptimizer):
                 }
                 ai_operator_probabilities = np.full(6, 1.0 / 6.0)
 
-            severe_stagnation = max(constraint_stagnation, objective_stagnation) >= stagnation_window
+            severe_stagnation = (
+                max(constraint_stagnation, objective_stagnation) >= stagnation_window
+            )
             if severe_stagnation:
                 recovery_prior = np.asarray([0.05, 0.10, 0.10, 0.75])
-                regime_probabilities = self._normalise(0.50 * regime_probabilities + 0.50 * recovery_prior)
-            global_regime = int(np.argmax(regime_probabilities)) if deterministic_policy else int(
-                self.rng.choice(4, p=self._normalise(regime_probabilities))
+                regime_probabilities = self._normalise(
+                    0.50 * regime_probabilities + 0.50 * recovery_prior
+                )
+            global_regime = (
+                int(np.argmax(regime_probabilities))
+                if deterministic_policy
+                else int(self.rng.choice(4, p=self._normalise(regime_probabilities)))
             )
 
             # Behavior-driven search scale. The learned policy supplies the base scale;
@@ -582,8 +838,10 @@ class CALOOptimizer(BaseOptimizer):
             # Operational recovery_fraction: under genuine stagnation/diversity collapse,
             # a bounded fraction of the weakest learners is assigned recovery proposals.
             forced_recovery: set[int] = set()
-            if use_diversity_recovery and severe_stagnation and current_diversity < float(
-                parameters.get("recovery_diversity_threshold", 0.06)
+            if (
+                use_diversity_recovery
+                and severe_stagnation
+                and current_diversity < float(parameters.get("recovery_diversity_threshold", 0.06))
             ):
                 fraction = float(np.clip(adaptive["recovery_fraction"], 0.05, 0.45))
                 count = max(1, min(population_size - 1, int(round(population_size * fraction))))
@@ -634,8 +892,10 @@ class CALOOptimizer(BaseOptimizer):
                     memory_prior = DISCOVERY_MEMORY_PRIOR.copy()
                 memory_online = credit.memory_probabilities(regime, context)
                 memory_probabilities = blend_probabilities(memory_prior, memory_online, alpha=0.65)
-                memory_level = int(np.argmax(memory_probabilities)) if deterministic_policy else int(
-                    self.rng.choice(4, p=memory_probabilities)
+                memory_level = (
+                    int(np.argmax(memory_probabilities))
+                    if deterministic_policy
+                    else int(self.rng.choice(4, p=memory_probabilities))
                 )
                 assigned_memory[index] = memory_level
 
@@ -651,7 +911,8 @@ class CALOOptimizer(BaseOptimizer):
                     and learned_lane
                     and index not in forced_recovery
                     and (
-                        deterministic_policy and index < int(round(population_size * precision_fraction))
+                        deterministic_policy
+                        and index < int(round(population_size * precision_fraction))
                         or (not deterministic_policy and self.rng.random() < precision_fraction)
                     )
                 )
@@ -677,7 +938,8 @@ class CALOOptimizer(BaseOptimizer):
 
                 base_prior = self._rule_operator_probabilities(regime)
                 learned_policy = self._normalise(
-                    ai_policy_weight * ai_operator_probabilities + (1.0 - ai_policy_weight) * base_prior
+                    ai_policy_weight * ai_operator_probabilities
+                    + (1.0 - ai_policy_weight) * base_prior
                 )
                 online = (
                     credit.operator_probabilities(regime, context)
@@ -704,8 +966,10 @@ class CALOOptimizer(BaseOptimizer):
                     lanes[index] = 0
                     assigned_memory[index] = 3
                 else:
-                    operator = int(np.argmax(operator_probabilities)) if deterministic_policy else int(
-                        self.rng.choice(6, p=operator_probabilities)
+                    operator = (
+                        int(np.argmax(operator_probabilities))
+                        if deterministic_policy
+                        else int(self.rng.choice(6, p=operator_probabilities))
                     )
                 assigned_operators[index] = operator
                 offspring[index] = self._candidate(
@@ -875,9 +1139,7 @@ class CALOOptimizer(BaseOptimizer):
                 {OPERATOR_NAMES[k]: int(usage.get(k, 0)) for k in range(6)}
             )
             rates = credit.success_rates()
-            operator_success_history.append(
-                {OPERATOR_NAMES[k]: float(rates[k]) for k in range(6)}
-            )
+            operator_success_history.append({OPERATOR_NAMES[k]: float(rates[k]) for k in range(6)})
             regime_history.append(REGIME_NAMES[global_regime])
             memory_readiness_history.append(readiness)
             learning_lane_history.append(float(np.mean(lanes)))
@@ -895,10 +1157,17 @@ class CALOOptimizer(BaseOptimizer):
                 diagnostics_history[f"best_{key}"].append(new_diag.component_best.get(key, 0.0))
                 diagnostics_history[f"mean_{key}"].append(new_diag.component_mean.get(key, 0.0))
 
-            dominant_operator = int(np.argmax(np.bincount(assigned_operators[assigned_operators >= 0], minlength=6))) if np.any(assigned_operators >= 0) else 4
+            dominant_operator = (
+                int(
+                    np.argmax(np.bincount(assigned_operators[assigned_operators >= 0], minlength=6))
+                )
+                if np.any(assigned_operators >= 0)
+                else 4
+            )
             adaptive_vector = np.asarray([adaptive[name] for name in PARAMETER_NAMES], dtype=float)
             raw_parameter_action = np.clip(
-                (adaptive_vector - PARAMETER_LOW) / np.maximum(PARAMETER_HIGH - PARAMETER_LOW, 1e-12),
+                (adaptive_vector - PARAMETER_LOW)
+                / np.maximum(PARAMETER_HIGH - PARAMETER_LOW, 1e-12),
                 0.0,
                 1.0,
             )
@@ -942,9 +1211,100 @@ class CALOOptimizer(BaseOptimizer):
                 }
             )
 
+            if run_checkpoint_path and self.evaluations >= next_checkpoint_evaluation:
+                self._save_run_checkpoint(
+                    run_checkpoint_path,
+                    parameters=parameters,
+                    controller=controller,
+                    locals_payload={
+                        "state": state,
+                        "feasible_archive": feasible_archive,
+                        "boundary_archive": boundary_archive,
+                        "hpem": hpem,
+                        "memory": memory,
+                        "credit": credit,
+                        "group_intelligence": group_intelligence,
+                        "lane_controller": lane_controller,
+                        "precision": precision,
+                        "epsilon_controller": epsilon_controller,
+                        "diagnostics_history": diagnostics_history,
+                        "operator_usage_history": operator_usage_history,
+                        "operator_success_history": operator_success_history,
+                        "regime_history": regime_history,
+                        "reward_history": reward_history,
+                        "memory_readiness_history": memory_readiness_history,
+                        "learning_lane_history": learning_lane_history,
+                        "memory_consensus_history": memory_consensus_history,
+                        "precision_radius_history": precision_radius_history,
+                        "previous_best_violation": previous_best_violation,
+                        "previous_best_objective": previous_best_objective,
+                        "constraint_stagnation": constraint_stagnation,
+                        "objective_stagnation": objective_stagnation,
+                        "violation_improving": violation_improving,
+                        "policy_trajectory": policy_trajectory,
+                        "precision_evaluations": precision_evaluations,
+                        "precision_successes": precision_successes,
+                        "forced_recovery_evaluations": forced_recovery_evaluations,
+                        "batch_count": batch_count,
+                        "policy_inference_seconds": policy_inference_seconds,
+                        "candidate_generation_seconds": candidate_generation_seconds,
+                        "evaluator_seconds": evaluator_seconds,
+                        "learning_update_seconds": learning_update_seconds,
+                        "historical_warm_start_count": historical_warm_start_count,
+                    },
+                )
+                next_checkpoint_evaluation = (
+                    (int(self.evaluations) // checkpoint_interval) + 1
+                ) * checkpoint_interval
+
+        # Persist the terminal state too, including a run that stopped at its original FE horizon.
+        # This is the exact state used for later v5 horizon extension.
+        if run_checkpoint_path:
+            self._save_run_checkpoint(
+                run_checkpoint_path,
+                parameters=parameters,
+                controller=controller,
+                locals_payload={
+                    "state": state,
+                    "feasible_archive": feasible_archive,
+                    "boundary_archive": boundary_archive,
+                    "hpem": hpem,
+                    "memory": memory,
+                    "credit": credit,
+                    "group_intelligence": group_intelligence,
+                    "lane_controller": lane_controller,
+                    "precision": precision,
+                    "epsilon_controller": epsilon_controller,
+                    "diagnostics_history": diagnostics_history,
+                    "operator_usage_history": operator_usage_history,
+                    "operator_success_history": operator_success_history,
+                    "regime_history": regime_history,
+                    "reward_history": reward_history,
+                    "memory_readiness_history": memory_readiness_history,
+                    "learning_lane_history": learning_lane_history,
+                    "memory_consensus_history": memory_consensus_history,
+                    "precision_radius_history": precision_radius_history,
+                    "previous_best_violation": previous_best_violation,
+                    "previous_best_objective": previous_best_objective,
+                    "constraint_stagnation": constraint_stagnation,
+                    "objective_stagnation": objective_stagnation,
+                    "violation_improving": violation_improving,
+                    "policy_trajectory": policy_trajectory,
+                    "precision_evaluations": precision_evaluations,
+                    "precision_successes": precision_successes,
+                    "forced_recovery_evaluations": forced_recovery_evaluations,
+                    "batch_count": batch_count,
+                    "policy_inference_seconds": policy_inference_seconds,
+                    "candidate_generation_seconds": candidate_generation_seconds,
+                    "evaluator_seconds": evaluator_seconds,
+                    "learning_update_seconds": learning_update_seconds,
+                    "historical_warm_start_count": historical_warm_start_count,
+                },
+            )
+
         hpem_snapshot = hpem.snapshot()
         metadata = {
-            "calo_version": "v4.1",
+            "calo_version": "v5.0",
             "architecture": "constraint-cognitive tensor-native HPEM dual-lane precision",
             "operator_names": list(OPERATOR_NAMES),
             "operator_attempts": credit.attempts.tolist(),
@@ -954,7 +1314,9 @@ class CALOOptimizer(BaseOptimizer):
             "contextual_memory_credit_shape": list(credit.memory_credit.shape),
             "group_stats_shape": list(group_intelligence.stats.shape),
             "success_memory_shape": (
-                list(memory.directions.shape) if memory.directions is not None else [7, memory.slots, 0]
+                list(memory.directions.shape)
+                if memory.directions is not None
+                else [7, memory.slots, 0]
             ),
             "mean_reward": float(np.mean(reward_history)) if reward_history else 0.0,
             "reward_history": reward_history,
@@ -974,17 +1336,25 @@ class CALOOptimizer(BaseOptimizer):
             "precision_evaluations": int(precision_evaluations),
             "precision_successes": int(precision_successes),
             "forced_recovery_evaluations": int(forced_recovery_evaluations),
-            "physical_solver_calls": int(cache.physical_solver_calls) if use_evaluation_cache else int(self.evaluations),
+            "physical_solver_calls": int(cache.physical_solver_calls)
+            if use_evaluation_cache
+            else int(self.evaluations),
             "scratch_pool_bytes": int(scratch.allocated_bytes),
             "exact_cache_hits": int(cache.cache_hits) if use_evaluation_cache else 0,
             "exact_cache_hit_rate": float(cache.hit_rate) if use_evaluation_cache else 0.0,
-            "exact_cache_persistent_enabled": bool(cache.persistent_enabled) if use_evaluation_cache else False,
+            "exact_cache_persistent_enabled": bool(cache.persistent_enabled)
+            if use_evaluation_cache
+            else False,
             "runtime_profile": {
                 "policy_inference_seconds": float(policy_inference_seconds),
                 "candidate_generation_seconds": float(candidate_generation_seconds),
                 "evaluator_seconds": float(evaluator_seconds),
                 "learning_update_seconds": float(learning_update_seconds),
-                "control_seconds": float(candidate_generation_seconds + learning_update_seconds + policy_inference_seconds),
+                "control_seconds": float(
+                    candidate_generation_seconds
+                    + learning_update_seconds
+                    + policy_inference_seconds
+                ),
             },
             "diagnostics_history": diagnostics_history,
             "operator_usage_history": operator_usage_history,
@@ -998,8 +1368,18 @@ class CALOOptimizer(BaseOptimizer):
             "policy_binding": {
                 "policy_id": str(parameters.get("policy_id", "")),
                 "sha256": str(parameters.get("policy_sha256", controller.checksum)),
-                "state_schema_version": str(parameters.get("policy_state_schema_version", getattr(controller, "schema", {}).get("state_schema_version", ""))),
-                "action_schema_version": str(parameters.get("policy_action_schema_version", getattr(controller, "schema", {}).get("action_schema_version", ""))),
+                "state_schema_version": str(
+                    parameters.get(
+                        "policy_state_schema_version",
+                        getattr(controller, "schema", {}).get("state_schema_version", ""),
+                    )
+                ),
+                "action_schema_version": str(
+                    parameters.get(
+                        "policy_action_schema_version",
+                        getattr(controller, "schema", {}).get("action_schema_version", ""),
+                    )
+                ),
             },
             "policy_cross_run_batched_inference": bool(controller.batched_inference),
             "policy_trajectory": policy_trajectory,
@@ -1011,10 +1391,20 @@ class CALOOptimizer(BaseOptimizer):
                     if historical_repository is not None
                     else ""
                 ),
-                "parameter_priors_enabled": bool(parameters.get("use_historical_parameter_priors", False)),
+                "parameter_priors_enabled": bool(
+                    parameters.get("use_historical_parameter_priors", False)
+                ),
                 "parameter_priors_applied": historical_prior_applied,
-                "cross_algorithm_warm_start_enabled": bool(parameters.get("use_cross_algorithm_warm_start", False)),
+                "cross_algorithm_warm_start_enabled": bool(
+                    parameters.get("use_cross_algorithm_warm_start", False)
+                ),
                 "warm_start_count": historical_warm_start_count,
+            },
+            "run_continuation": {
+                "supports_exact_resume": True,
+                "resumed_from": resume_run_checkpoint,
+                "checkpoint_path": run_checkpoint_path,
+                "checkpoint_interval_evaluations": checkpoint_interval,
             },
             "ablation": {
                 "use_ai": use_ai,

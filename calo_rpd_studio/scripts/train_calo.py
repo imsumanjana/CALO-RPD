@@ -1,4 +1,5 @@
 """Command-line CALO Core v2 policy-training entry point."""
+
 from __future__ import annotations
 
 import argparse

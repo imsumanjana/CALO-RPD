@@ -1,4 +1,5 @@
 """Embedded Matplotlib canvas with live publication-format controls."""
+
 from __future__ import annotations
 
 from copy import deepcopy
@@ -23,7 +24,6 @@ class SafeFigureCanvasQTAgg(FigureCanvasQTAgg):
                 self._draw_pending = False
                 return
             raise
-
 
 
 class ScientificPlotWidget(QWidget):
@@ -97,14 +97,15 @@ class ScientificPlotWidget(QWidget):
             self.canvas.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
             layout.addWidget(self.canvas, 1)
 
-
     def _cancel_pending_canvas_draw(self, *_args) -> None:
         try:
             self.canvas._draw_pending = False
         except (AttributeError, RuntimeError):
             pass
 
-    def configure_preview_series(self, options_provider, selection_provider, selection_callback) -> None:
+    def configure_preview_series(
+        self, options_provider, selection_provider, selection_callback
+    ) -> None:
         """Expose host-controlled selective preview through the compact Plot Tools strip."""
         self.format_toolbar.configure_preview_series(
             options_provider, selection_provider, selection_callback
@@ -132,8 +133,14 @@ class ScientificPlotWidget(QWidget):
     def clear(self) -> None:
         self.axis.clear()
 
-
-    def show_message(self, message: str, *, title: str | None = None, xlabel: str | None = None, ylabel: str | None = None) -> None:
+    def show_message(
+        self,
+        message: str,
+        *,
+        title: str | None = None,
+        xlabel: str | None = None,
+        ylabel: str | None = None,
+    ) -> None:
         """Render an informative empty-state message instead of a visually blank chart."""
         self.axis.clear()
         self.axis.text(
@@ -166,6 +173,7 @@ class ScientificPlotWidget(QWidget):
         if ylabel is not None:
             meta["ylabel"] = ylabel
         self.manager.apply(self.plot_id, self.style)
+
     def plot_xy_series(self, series, title=None, xlabel=None, ylabel=None) -> None:
         """Plot mapping of label -> (x_values, y_values) without inventing an x-axis.
 
@@ -189,4 +197,3 @@ class ScientificPlotWidget(QWidget):
         if ylabel is not None:
             meta["ylabel"] = ylabel
         self.manager.apply(self.plot_id, self.style)
-

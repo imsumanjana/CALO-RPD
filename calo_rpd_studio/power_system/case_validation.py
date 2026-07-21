@@ -1,4 +1,5 @@
 """Structural and engineering validation for MATPOWER/PYPOWER case data."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -82,7 +83,9 @@ def validate_case(case) -> CaseValidationReport:
         ("branch", case.branch, 13),
     ):
         if array.ndim != 2 or array.shape[1] < minimum_columns:
-            errors.append(f"{name} matrix must be two-dimensional with at least {minimum_columns} columns.")
+            errors.append(
+                f"{name} matrix must be two-dimensional with at least {minimum_columns} columns."
+            )
         elif not np.all(np.isfinite(array)):
             errors.append(f"{name} matrix contains NaN or infinite values.")
     if errors:
@@ -137,13 +140,11 @@ def validate_case(case) -> CaseValidationReport:
             + "."
         )
 
-    active_buses = {
-        int(row[BUS_I])
-        for row in case.bus
-        if int(row[BUS_TYPE]) != NONE
-    }
+    active_buses = {int(row[BUS_I]) for row in case.bus if int(row[BUS_TYPE]) != NONE}
     components = _connected_components(case)
-    active_components = [component & active_buses for component in components if component & active_buses]
+    active_components = [
+        component & active_buses for component in components if component & active_buses
+    ]
     if len(active_components) > 1:
         errors.append(
             "The in-service network has disconnected active islands: "
@@ -151,10 +152,10 @@ def validate_case(case) -> CaseValidationReport:
             + "."
         )
 
-    online_generator_buses = {
-        int(row[GEN_BUS]) for row in case.gen if row[GEN_STATUS] > 0
-    }
-    reference_bus = int(case.bus[np.where(bus_types == REF)[0][0], BUS_I]) if np.any(bus_types == REF) else None
+    online_generator_buses = {int(row[GEN_BUS]) for row in case.gen if row[GEN_STATUS] > 0}
+    reference_bus = (
+        int(case.bus[np.where(bus_types == REF)[0][0], BUS_I]) if np.any(bus_types == REF) else None
+    )
     if reference_bus is not None and reference_bus not in online_generator_buses:
         errors.append("The reference bus must have at least one online generator.")
 

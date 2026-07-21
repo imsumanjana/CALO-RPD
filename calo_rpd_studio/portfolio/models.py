@@ -1,4 +1,5 @@
 """Serializable portfolio configuration for evidence-aware experiment planning."""
+
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
@@ -98,8 +99,13 @@ class PortfolioConfig:
         # resumed configuration cannot silently revert to fewer runs than the selected evidence
         # requires.
         from .catalog import OUTPUT_REQUIREMENTS
+
         evidence_minimum = max(
-            (OUTPUT_REQUIREMENTS[key].minimum_runs for key in self.requested_outputs if key in OUTPUT_REQUIREMENTS),
+            (
+                OUTPUT_REQUIREMENTS[key].minimum_runs
+                for key in self.requested_outputs
+                if key in OUTPUT_REQUIREMENTS
+            ),
             default=1,
         )
         return max(base, int(evidence_minimum))

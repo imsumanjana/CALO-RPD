@@ -1,4 +1,5 @@
 """Descriptive statistics and editable comparison figures."""
+
 from __future__ import annotations
 
 import json
@@ -36,6 +37,9 @@ class StatisticalAnalysisPanel(WorkspacePage):
 
         controls = QHBoxLayout()
         self.experiment = QComboBox()
+        self.horizon = QComboBox()
+        self.horizon_status = QLabel("Select an experiment/evidence horizon")
+        self.horizon_status.setWordWrap(True)
         refresh = QPushButton("Refresh experiments")
         analyze = QPushButton("Analyze selected experiment")
         analyze.setObjectName("PrimaryButton")
@@ -43,9 +47,14 @@ class StatisticalAnalysisPanel(WorkspacePage):
         analyze.clicked.connect(self.analyze)
         controls.addWidget(QLabel("Experiment"))
         controls.addWidget(self.experiment, 1)
+        controls.addWidget(QLabel("Evidence horizon"))
+        controls.addWidget(self.horizon)
         controls.addWidget(refresh)
         controls.addWidget(analyze)
         self.layout_root.addLayout(controls)
+        self.layout_root.addWidget(self.horizon_status)
+        self.experiment.currentIndexChanged.connect(self.refresh_horizons)
+        self.horizon.currentIndexChanged.connect(self._update_horizon_status)
 
         self.table = QTableWidget(0, 11)
         self.table.setHorizontalHeaderLabels(
@@ -97,6 +106,48 @@ class StatisticalAnalysisPanel(WorkspacePage):
             )
         index = self.experiment.findData(current)
         self.experiment.setCurrentIndex(max(index, 0))
+        self.refresh_horizons()
+
+    def refresh_horizons(self, *_args) -> None:
+        experiment_id = self.experiment.currentData()
+        current = self.horizon.currentData()
+        self.horizon.blockSignals(True)
+        self.horizon.clear()
+        if experiment_id:
+            for value in self.state.database.list_experiment_horizons(str(experiment_id)):
+                self.horizon.addItem(f"{int(value):,} FE", int(value))
+        index = self.horizon.findData(current)
+        self.horizon.setCurrentIndex(index if index >= 0 else max(self.horizon.count() - 1, 0))
+        self.horizon.blockSignals(False)
+        self._update_horizon_status()
+
+    def _update_horizon_status(self, *_args) -> None:
+        experiment_id = self.experiment.currentData()
+        horizon = self.horizon.currentData()
+        if not experiment_id or horizon is None:
+            self.horizon_status.setText("No stored evidence horizon is available.")
+            return
+        status = self.state.database.experiment_horizon_status(str(experiment_id), int(horizon))
+        revision = status.get("revision") or {}
+        eligibility = (
+            "primary-stat eligible"
+            if status.get("publication_eligible")
+            else "exploratory/unclassified"
+        )
+        completeness = (
+            "complete"
+            if status.get("complete")
+            else f"provisional {status.get('available_count', 0)}/{status.get('expected_count', 0)}"
+        )
+        self.horizon_status.setText(
+            f"{int(horizon):,} FE · {completeness} · {eligibility}"
+            + (
+                f" · revision {revision.get('revision_number')} ({revision.get('extension_mode')})"
+                if revision
+                else ""
+            )
+            + ". Statistics below use only this exact FE horizon; horizons are never mixed."
+        )
 
     def select_experiment(self, experiment_id: str) -> None:
         self.refresh_experiments()
@@ -115,14 +166,28 @@ class StatisticalAnalysisPanel(WorkspacePage):
             return
         QApplication.processEvents()
         try:
-            rows = self.state.database.list_runs(experiment_id)
+            horizon = self.horizon.currentData()
+            if horizon is None:
+                raise ValueError("Select a stored evidence horizon before statistical analysis.")
+            status = self.state.database.experiment_horizon_status(str(experiment_id), int(horizon))
+            rows = list(status.get("rows", []))
             if not rows:
-                raise ValueError("The selected experiment contains no completed optimization runs.")
+                raise ValueError(
+                    "The selected experiment contains no completed runs at this FE horizon."
+                )
+            if status.get("publication_eligible") and not status.get("complete"):
+                raise ValueError(
+                    f"The publication-eligible {int(horizon):,}-FE revision is incomplete "
+                    f"({status.get('available_count', 0)}/{status.get('expected_count', 0)} paired runs). "
+                    "Complete/resume the revision before primary statistical analysis."
+                )
             groups: dict[str, list[float]] = {}
             convergence: dict[str, list[tuple[list[int], list[float]]]] = {}
             for row in rows:
                 data = json.loads(row["result_json"])
-                groups.setdefault(row["algorithm"], []).append(float(data["best_objective"]))
+                objective = float(data.get("best_objective", np.nan))
+                if bool(data.get("feasible")) and np.isfinite(objective):
+                    groups.setdefault(row["algorithm"], []).append(objective)
                 metadata = data.get("metadata", {})
                 evaluations = metadata.get("convergence_evaluations", [])
                 feasible_history = metadata.get("best_feasible_objective_history", [])
@@ -151,10 +216,20 @@ class StatisticalAnalysisPanel(WorkspacePage):
                     self.table.setItem(row_index, column, QTableWidgetItem(str(value)))
 
             self.boxplot.axis.clear()
-            self.boxplot.axis.boxplot(
-                list(groups.values()),
-                tick_labels=list(groups.keys()),
-            )
+            if groups:
+                self.boxplot.axis.boxplot(
+                    list(groups.values()),
+                    tick_labels=list(groups.keys()),
+                )
+            else:
+                self.boxplot.axis.text(
+                    0.5,
+                    0.5,
+                    "No feasible completed runs at this horizon",
+                    ha="center",
+                    va="center",
+                    transform=self.boxplot.axis.transAxes,
+                )
             metadata = self.boxplot.manager.records[self.boxplot.plot_id].metadata
             metadata.update(
                 {
@@ -203,7 +278,9 @@ class StatisticalAnalysisPanel(WorkspacePage):
                 "Objective-function evaluations",
                 "Best feasible objective",
             )
-            task.finish(f"Statistical analysis completed for {len(groups)} algorithm group(s)")
+            task.finish(
+                f"Statistical analysis completed at {int(horizon):,} FE for {len(groups)} feasible algorithm group(s)"
+            )
             self.analysis_completed.emit()
         except Exception as exc:
             task.fail(str(exc))

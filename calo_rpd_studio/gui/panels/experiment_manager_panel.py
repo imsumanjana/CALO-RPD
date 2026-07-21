@@ -1,4 +1,5 @@
 """Experiment configuration, fairness audit, queue status, and execution."""
+
 from __future__ import annotations
 
 from copy import deepcopy
@@ -36,7 +37,13 @@ from calo_rpd_studio.experiments.evaluation_budget import BudgetPolicy
 from calo_rpd_studio.portfolio.planner import PortfolioPlanner
 from calo_rpd_studio.portfolio.fingerprint import run_fingerprint
 from calo_rpd_studio.experiments.seed_manager import SeedManager
-from calo_rpd_studio.experiments.execution_plan import ABLATION_MODE, COMPARISON_MODE, build_execution_plan, labels_for_mode, planned_item_count
+from calo_rpd_studio.experiments.execution_plan import (
+    ABLATION_MODE,
+    COMPARISON_MODE,
+    build_execution_plan,
+    labels_for_mode,
+    planned_item_count,
+)
 from calo_rpd_studio.experiments.fairness_validator import validate_fairness
 from calo_rpd_studio.gui.widgets.section_card import SectionCard
 from calo_rpd_studio.gui.widgets.workspace_page import WorkspacePage
@@ -50,7 +57,9 @@ class ScientificAuditWorker(QThread):
     failed = pyqtSignal(str)
     progress = pyqtSignal(str, int)
 
-    def __init__(self, config, database_path: str, *, parity_only: bool = False, parent=None) -> None:
+    def __init__(
+        self, config, database_path: str, *, parity_only: bool = False, parent=None
+    ) -> None:
         super().__init__(parent)
         self.config = deepcopy(config)
         self.database_path = str(database_path)
@@ -60,6 +69,7 @@ class ScientificAuditWorker(QThread):
     def preferred_device() -> str:
         try:
             import torch
+
             if torch.cuda.is_available():
                 return "cuda:0"
             if hasattr(torch, "xpu") and torch.xpu.is_available():
@@ -83,6 +93,7 @@ class ScientificAuditWorker(QThread):
                 if device == "cpu":
                     try:
                         import torch as torch_module
+
                         previous_threads = int(torch_module.get_num_threads())
                         torch_module.set_num_threads(1)
                     except Exception:
@@ -114,14 +125,18 @@ class ScientificAuditWorker(QThread):
 
             self.progress.emit("Checking comparative fairness and portfolio dependencies", 70)
             fairness = validate_fairness(self.config)
-            portfolio_plan = PortfolioPlanner.plan(self.config, self.config.portfolio, benchmark_blocks=1)
+            portfolio_plan = PortfolioPlanner.plan(
+                self.config, self.config.portfolio, benchmark_blocks=1
+            )
             self.progress.emit("Checking reusable verified runs", 82)
             seeds = SeedManager(self.config.master_seed).generate(self.config.runs)
             reusable = 0
             if self.config.reuse_compatible_results:
                 database = ResultDatabase(self.database_path)
                 for item in build_execution_plan(self.config, COMPARISON_MODE):
-                    fingerprint = run_fingerprint(self.config, item.label, item.run_index, seeds[item.run_index])
+                    fingerprint = run_fingerprint(
+                        self.config, item.label, item.run_index, seeds[item.run_index]
+                    )
                     if database.find_reusable_run(
                         fingerprint,
                         verified_only=bool(self.config.portfolio.require_independent_validation),
@@ -193,7 +208,9 @@ class ExperimentManagerPanel(WorkspacePage):
         self.runs.setRange(1, 10_000)
         self.runs.setReadOnly(True)
         self.runs.setButtonSymbols(QSpinBox.ButtonSymbols.NoButtons)
-        self.runs.setToolTip("Derived by Portfolio Manager from the selected evidence profile and output dependencies.")
+        self.runs.setToolTip(
+            "Derived by Portfolio Manager from the selected evidence profile and output dependencies."
+        )
         self.population = QSpinBox()
         self.population.setRange(2, 100_000)
         self.policy = QComboBox()
@@ -223,9 +240,13 @@ class ExperimentManagerPanel(WorkspacePage):
             "Maximum number of independent optimizer processes admitted at the same time."
         )
         self.execution_backend = QComboBox()
-        self.execution_backend.addItem("GPU maximum resident — 100% CUDA when available (recommended)", "gpu_preferred")
+        self.execution_backend.addItem(
+            "GPU maximum resident — 100% CUDA when available (recommended)", "gpu_preferred"
+        )
         self.execution_backend.addItem("CUDA-only resident — require 100% CUDA", "cuda_only")
-        self.execution_backend.addItem("CUDA-resident priority — 80% CUDA / 10% XPU / 10% CPU", "cuda_priority")
+        self.execution_backend.addItem(
+            "CUDA-resident priority — 80% CUDA / 10% XPU / 10% CPU", "cuda_priority"
+        )
         self.execution_backend.addItem("Auto-tuned Batched Throughput Engine", "throughput_auto")
         self.execution_backend.addItem("Custom weighted split", "weighted_split")
         self.execution_backend.addItem("Adaptive hybrid CPU + GPU", "adaptive_hybrid")
@@ -240,38 +261,56 @@ class ExperimentManagerPanel(WorkspacePage):
         self.tensor_batch_size.setToolTip(
             "Candidates per accelerator power-flow batch. Larger values improve throughput but consume more device memory."
         )
-        self.auto_batch_calibration = QCheckBox("Calibrate evaluator microbatch size before the campaign")
+        self.auto_batch_calibration = QCheckBox(
+            "Calibrate evaluator microbatch size before the campaign"
+        )
         self.auto_batch_calibration.setChecked(True)
         self.persistent_workers = QCheckBox("Keep one process/context alive per compute device")
         self.persistent_workers.setChecked(True)
-        self.cross_run_batching = QCheckBox("Combine compatible population requests across independent runs")
+        self.cross_run_batching = QCheckBox(
+            "Combine compatible population requests across independent runs"
+        )
         self.cross_run_batching.setChecked(True)
         self.batch_window = QDoubleSpinBox()
         self.batch_window.setRange(0.1, 100.0)
         self.batch_window.setDecimals(1)
         self.batch_window.setSuffix(" ms")
-        self.batch_window.setToolTip("Short collection window used to combine compatible run requests into one device batch.")
+        self.batch_window.setToolTip(
+            "Short collection window used to combine compatible run requests into one device batch."
+        )
         self.max_cross_batch = QSpinBox()
         self.max_cross_batch.setRange(16, 1_000_000)
-        self.max_cross_batch.setToolTip("Maximum candidates combined in one cross-run device submission.")
+        self.max_cross_batch.setToolTip(
+            "Maximum candidates combined in one cross-run device submission."
+        )
         self.calibration_repetitions = QSpinBox()
         self.calibration_repetitions.setRange(1, 20)
-        self.calibration_repetitions.setToolTip("Repeated timing passes per evaluator candidate microbatch size; this does not benchmark optimizer-control overhead.")
+        self.calibration_repetitions.setToolTip(
+            "Repeated timing passes per evaluator candidate microbatch size; this does not benchmark optimizer-control overhead."
+        )
         self.telemetry_interval = QSpinBox()
         self.telemetry_interval.setRange(1, 10_000)
         self.telemetry_interval.setSuffix(" iterations")
         self.buffered_traces = QCheckBox("Buffer convergence traces and write in blocks")
         self.buffered_traces.setChecked(True)
         self.compile_kernels = QCheckBox("Compile stable tensor kernels when supported")
-        self.compile_kernels.setToolTip("Optional torch.compile path. Disabled by default because parity must be re-audited after compiler/runtime changes.")
-        self.device_resident_execution = QCheckBox("Keep optimizer, decoder, power-flow and constraint tensors resident on the assigned device")
+        self.compile_kernels.setToolTip(
+            "Optional torch.compile path. Disabled by default because parity must be re-audited after compiler/runtime changes."
+        )
+        self.device_resident_execution = QCheckBox(
+            "Keep optimizer, decoder, power-flow and constraint tensors resident on the assigned device"
+        )
         self.device_resident_execution.setChecked(True)
         self.device_resident_execution.setToolTip(
             "v3.4 minimizes host/device round trips. One packed population result is materialized on the host for common provenance, GUI and persistence; final independent validation remains CPU-reference based."
         )
-        self.cuda_priority_work_stealing = QCheckBox("Allow idle CUDA capacity to take unstarted XPU/CPU work")
+        self.cuda_priority_work_stealing = QCheckBox(
+            "Allow idle CUDA capacity to take unstarted XPU/CPU work"
+        )
         self.cuda_priority_work_stealing.setChecked(True)
-        self.parity_gate = QCheckBox("Require CPU/accelerator numerical parity before final benchmark")
+        self.parity_gate = QCheckBox(
+            "Require CPU/accelerator numerical parity before final benchmark"
+        )
         self.parity_gate.setChecked(True)
         self.gpu_target = QSpinBox()
         self.gpu_target.setRange(10, 100)
@@ -375,7 +414,9 @@ class ExperimentManagerPanel(WorkspacePage):
         choose.setMinimumHeight(32)
         use_recommended = QPushButton(f"Use recommended ({self.recommended_workers})")
         use_recommended.setMinimumHeight(32)
-        use_recommended.setToolTip("Set a conservative CPU-process count based on available physical cores.")
+        use_recommended.setToolTip(
+            "Set a conservative CPU-process count based on available physical cores."
+        )
         use_recommended.clicked.connect(lambda: self.workers.setValue(self.recommended_workers))
         base_row = (len(fields) + 1) // 2
         grid.addWidget(QLabel("CPU execution"), base_row, 0)
@@ -429,7 +470,9 @@ class ExperimentManagerPanel(WorkspacePage):
         self.compare = QPushButton("Run Primary Algorithm Comparison")
         self.compare.setObjectName("PrimaryButton")
         self.calo = QPushButton("Run CALO Ablation Study")
-        self.compare.setToolTip("Run exactly the primary algorithms selected on the Algorithms page.")
+        self.compare.setToolTip(
+            "Run exactly the primary algorithms selected on the Algorithms page."
+        )
         self.calo.setToolTip(
             f"Run {len(labels_for_mode(self.state.config, ABLATION_MODE))} fixed CALO/TLBO ablation variants. Primary algorithm checkboxes are not used by this study."
         )
@@ -451,11 +494,104 @@ class ExperimentManagerPanel(WorkspacePage):
         buttons.addWidget(self.pause)
         buttons.addWidget(self.cancel)
         self.execution_card.layout_root.addLayout(buttons)
-        self.status = QLabel("Complete the fairness audit above before starting an experiment. Global task progress is shown in the bottom status bar.")
+        self.status = QLabel(
+            "Complete the fairness audit above before starting an experiment. Global task progress is shown in the bottom status bar."
+        )
         self.status.setWordWrap(True)
         self.status.setObjectName("InfoText")
         self.execution_card.layout_root.addWidget(self.status)
         self.body_layout.addWidget(self.execution_card)
+
+        self.evolution_card = SectionCard(
+            "4. Experiment evolution / continuation",
+            "Extend an existing experiment without overwriting earlier evidence. Adding independent runs is publication-safe. Same-run FE continuation requires exact optimizer-state checkpoints; post-hoc selected extensions are marked exploratory.",
+        )
+        evolution_grid = QGridLayout()
+        self.extension_experiment = QLineEdit()
+        self.extension_experiment.setReadOnly(True)
+        self.extension_experiment.setPlaceholderText("Open/restore an experiment first")
+        self.extension_runs = QSpinBox()
+        self.extension_runs.setRange(1, 100_000)
+        self.extend_runs_button = QPushButton("Increase independent-run target")
+        self.extend_runs_button.clicked.connect(self.extend_independent_runs)
+        self.extension_evaluations = QSpinBox()
+        self.extension_evaluations.setRange(1, 2_000_000_000)
+        self.extension_protocol = QComboBox()
+        self.extension_protocol.addItem(
+            "All paired algorithms and runs — publication eligible", "all_paired"
+        )
+        self.extension_protocol.addItem(
+            "Predeclared deterministic paired subset — publication eligible", "deterministic_subset"
+        )
+        self.extension_protocol.addItem(
+            "Manual/post-hoc selected runs — exploratory only", "manual_exploratory"
+        )
+        self.extension_strategy = QComboBox()
+        self.extension_source_horizon = QComboBox()
+        self.extension_source_horizon.setToolTip(
+            "For exact CALO continuation, choose the preserved FE horizon whose optimizer checkpoint should be resumed. "
+            "Recompute-from-seed ignores this field and starts a new paired trajectory at FE=0."
+        )
+        self.extension_strategy.addItem(
+            "Recompute from original paired seeds at new horizon — publication-safe for all algorithms",
+            "recompute_from_seed",
+        )
+        self.extension_strategy.addItem(
+            "Exact optimizer-state continuation — CALO checkpoint trajectories only",
+            "exact_continue",
+        )
+        self.extension_strategy.currentIndexChanged.connect(
+            lambda *_: self.extension_source_horizon.setEnabled(
+                str(self.extension_strategy.currentData()) == "exact_continue"
+            )
+        )
+        self.extension_source_horizon.setEnabled(False)
+        self.extension_run_indices = QLineEdit()
+        self.extension_run_indices.setPlaceholderText(
+            "Run numbers, e.g. 1,6,11 (blank = all where protocol permits)"
+        )
+        self.extension_algorithms = QLineEdit()
+        self.extension_algorithms.setPlaceholderText("Algorithms, e.g. CALO (blank = all)")
+        self.extend_horizon_button = QPushButton("Extend evaluation horizon")
+        self.extend_horizon_button.clicked.connect(self.extend_evaluation_horizon)
+        evolution_grid.addWidget(QLabel("Experiment ID"), 0, 0)
+        evolution_grid.addWidget(self.extension_experiment, 0, 1, 1, 3)
+        evolution_grid.addWidget(QLabel("New total independent runs"), 1, 0)
+        evolution_grid.addWidget(self.extension_runs, 1, 1)
+        evolution_grid.addWidget(self.extend_runs_button, 1, 2, 1, 2)
+        evolution_grid.addWidget(QLabel("New FE horizon"), 2, 0)
+        evolution_grid.addWidget(self.extension_evaluations, 2, 1)
+        evolution_grid.addWidget(QLabel("Extension protocol"), 2, 2)
+        evolution_grid.addWidget(self.extension_protocol, 2, 3)
+        evolution_grid.addWidget(QLabel("Execution strategy"), 3, 0)
+        evolution_grid.addWidget(self.extension_strategy, 3, 1, 1, 3)
+        evolution_grid.addWidget(QLabel("Exact-continuation source horizon"), 4, 0)
+        evolution_grid.addWidget(self.extension_source_horizon, 4, 1, 1, 3)
+        evolution_grid.addWidget(QLabel("Selected run numbers"), 5, 0)
+        evolution_grid.addWidget(self.extension_run_indices, 5, 1)
+        evolution_grid.addWidget(QLabel("Selected algorithms"), 5, 2)
+        evolution_grid.addWidget(self.extension_algorithms, 5, 3)
+        evolution_grid.addWidget(self.extend_horizon_button, 6, 2, 1, 2)
+        self.evolution_card.layout_root.addLayout(evolution_grid)
+        self.evolution_note = QLabel(
+            "Two scientifically distinct horizon modes are available. Recompute-from-seed creates a new paired evidence horizon for all algorithms while preserving older evidence. Exact continuation resumes CALO's complete optimizer checkpoint from the explicitly selected preserved source horizon and creates a segmented/branched trajectory; it is never silently substituted for baseline algorithms."
+        )
+        self.evolution_note.setWordWrap(True)
+        self.evolution_note.setObjectName("HelpText")
+        self.evolution_card.layout_root.addWidget(self.evolution_note)
+        self.revision_table = QTableWidget(0, 7)
+        self.revision_table.setHorizontalHeaderLabels(
+            ["Revision", "Mode", "Runs", "FE horizon", "Primary-stat eligible", "Status", "Created"]
+        )
+        self.revision_table.setMinimumHeight(150)
+        self.revision_table.horizontalHeader().setSectionResizeMode(
+            QHeaderView.ResizeMode.ResizeToContents
+        )
+        self.revision_table.horizontalHeader().setSectionResizeMode(
+            1, QHeaderView.ResizeMode.Stretch
+        )
+        self.evolution_card.layout_root.addWidget(self.revision_table)
+        self.body_layout.addWidget(self.evolution_card)
 
         self.queue_card = SectionCard(
             "Run queue",
@@ -501,12 +637,32 @@ class ExperimentManagerPanel(WorkspacePage):
         self.scientific_backend.currentIndexChanged.connect(self._controls)
         self.auto_batch_calibration.stateChanged.connect(self._controls)
         for widget in (
-            self.runs, self.population, self.policy, self.budget, self.wall, self.maxit,
-            self.workers, self.seed, self.execution_backend, self.gpu_target, self.cpu_target,
-            self.gpu_memory_limit, self.gpu_jobs, self.xpu_target, self.xpu_memory_limit,
-            self.xpu_jobs, self.system_memory_limit, self.cuda_share, self.xpu_share, self.cpu_share,
-            self.scientific_backend, self.tensor_batch_size, self.batch_window,
-            self.max_cross_batch, self.calibration_repetitions, self.telemetry_interval,
+            self.runs,
+            self.population,
+            self.policy,
+            self.budget,
+            self.wall,
+            self.maxit,
+            self.workers,
+            self.seed,
+            self.execution_backend,
+            self.gpu_target,
+            self.cpu_target,
+            self.gpu_memory_limit,
+            self.gpu_jobs,
+            self.xpu_target,
+            self.xpu_memory_limit,
+            self.xpu_jobs,
+            self.system_memory_limit,
+            self.cuda_share,
+            self.xpu_share,
+            self.cpu_share,
+            self.scientific_backend,
+            self.tensor_batch_size,
+            self.batch_window,
+            self.max_cross_batch,
+            self.calibration_repetitions,
+            self.telemetry_interval,
         ):
             if hasattr(widget, "valueChanged"):
                 widget.valueChanged.connect(self._invalidate_fairness)
@@ -515,9 +671,14 @@ class ExperimentManagerPanel(WorkspacePage):
                 widget.currentIndexChanged.connect(self._invalidate_fairness)
                 widget.currentIndexChanged.connect(self._update_plan_summary)
         for checkbox in (
-            self.parity_gate, self.auto_batch_calibration, self.persistent_workers,
-            self.cross_run_batching, self.buffered_traces, self.compile_kernels,
-            self.device_resident_execution, self.cuda_priority_work_stealing,
+            self.parity_gate,
+            self.auto_batch_calibration,
+            self.persistent_workers,
+            self.cross_run_batching,
+            self.buffered_traces,
+            self.compile_kernels,
+            self.device_resident_execution,
+            self.cuda_priority_work_stealing,
         ):
             checkbox.stateChanged.connect(self._invalidate_fairness)
             checkbox.stateChanged.connect(self._update_plan_summary)
@@ -540,21 +701,23 @@ class ExperimentManagerPanel(WorkspacePage):
     def _refresh_resource_status(self) -> None:
         try:
             snapshot = self.resource_monitor.sample()
-            parts = [
-                f"CPU {snapshot.cpu_percent:.0f}% · RAM {snapshot.system_memory_percent:.0f}%"
-            ]
+            parts = [f"CPU {snapshot.cpu_percent:.0f}% · RAM {snapshot.system_memory_percent:.0f}%"]
             for device in snapshot.devices:
                 util = (
                     f"{device.utilization_percent:.0f}% compute"
                     if device.utilization_percent is not None
                     else "compute utilization unavailable"
                 )
-                runtime = "secondary XPU runtime" if device.runtime == "sidecar" else "primary runtime"
+                runtime = (
+                    "secondary XPU runtime" if device.runtime == "sidecar" else "primary runtime"
+                )
                 parts.append(
                     f"{device.device_id} — {device.name}: {util}, memory {device.memory_percent:.0f}% ({runtime})"
                 )
             if not snapshot.devices:
-                parts.append("No CUDA/XPU accelerator is currently available to a verified PyTorch runtime")
+                parts.append(
+                    "No CUDA/XPU accelerator is currently available to a verified PyTorch runtime"
+                )
             self.device_inventory.setText(
                 "Detected compute priority: NVIDIA CUDA → Intel XPU → CPU. "
                 + " | ".join(parts)
@@ -587,10 +750,13 @@ class ExperimentManagerPanel(WorkspacePage):
                 temp.runs = runs
                 snapshot = self.resource_monitor.sample()
                 _lanes, allocation = build_weighted_lane_plan(
-                    build_execution_plan(temp, COMPARISON_MODE), COMPARISON_MODE,
+                    build_execution_plan(temp, COMPARISON_MODE),
+                    COMPARISON_MODE,
                     cuda_available=bool(snapshot.by_backend("cuda")),
                     xpu_available=bool(snapshot.by_backend("xpu")),
-                    cuda_share=self.cuda_share.value(), xpu_share=self.xpu_share.value(), cpu_share=self.cpu_share.value(),
+                    cuda_share=self.cuda_share.value(),
+                    xpu_share=self.xpu_share.value(),
+                    cpu_share=self.cpu_share.value(),
                 )
                 summary_text += (
                     f" Current attainable primary allocation: {allocation.effective_text}; "
@@ -644,9 +810,12 @@ class ExperimentManagerPanel(WorkspacePage):
         self.compare.setEnabled(False)
         self.calo.setEnabled(False)
         self.audit_state.setText("Configuration changed — audit required")
-        self.status.setText("Configuration changed. Run the fairness audit before starting an experiment.")
+        self.status.setText(
+            "Configuration changed. Run the fairness audit before starting an experiment."
+        )
 
     def refresh(self) -> None:
+        self._refresh_experiment_evolution()
         config = self.state.config
         self.runs.setValue(config.runs)
         self.population.setValue(config.population_size)
@@ -658,11 +827,17 @@ class ExperimentManagerPanel(WorkspacePage):
         self.workers.setValue(config.parallel_workers)
         backend_index = self.execution_backend.findData(config.execution_backend)
         self.execution_backend.setCurrentIndex(max(backend_index, 0))
-        scientific_index = self.scientific_backend.findData(getattr(config, "scientific_backend", "torch_fp64"))
+        scientific_index = self.scientific_backend.findData(
+            getattr(config, "scientific_backend", "torch_fp64")
+        )
         self.scientific_backend.setCurrentIndex(max(scientific_index, 0))
         self.tensor_batch_size.setValue(int(getattr(config, "tensor_batch_size", 64)))
-        self.auto_batch_calibration.setChecked(bool(getattr(config, "automatic_batch_calibration", True)))
-        self.persistent_workers.setChecked(bool(getattr(config, "persistent_accelerator_workers", True)))
+        self.auto_batch_calibration.setChecked(
+            bool(getattr(config, "automatic_batch_calibration", True))
+        )
+        self.persistent_workers.setChecked(
+            bool(getattr(config, "persistent_accelerator_workers", True))
+        )
         self.cross_run_batching.setChecked(bool(getattr(config, "cross_run_batching", True)))
         self.batch_window.setValue(float(getattr(config, "cross_run_batch_window_ms", 4.0)))
         self.max_cross_batch.setValue(int(getattr(config, "max_cross_run_batch", 4096)))
@@ -682,8 +857,12 @@ class ExperimentManagerPanel(WorkspacePage):
         self.cuda_share.setValue(getattr(config, "cuda_task_share", 100))
         self.xpu_share.setValue(getattr(config, "xpu_task_share", 0))
         self.cpu_share.setValue(getattr(config, "cpu_task_share", 0))
-        self.device_resident_execution.setChecked(bool(getattr(config, "device_resident_execution", True)))
-        self.cuda_priority_work_stealing.setChecked(bool(getattr(config, "cuda_priority_work_stealing", True)))
+        self.device_resident_execution.setChecked(
+            bool(getattr(config, "device_resident_execution", True))
+        )
+        self.cuda_priority_work_stealing.setChecked(
+            bool(getattr(config, "cuda_priority_work_stealing", True))
+        )
         self.seed.setValue(config.master_seed)
         self.output.setText(config.output_directory)
         self.selected.setText(f"{len(config.algorithms)} selected: " + ", ".join(config.algorithms))
@@ -709,15 +888,25 @@ class ExperimentManagerPanel(WorkspacePage):
         for widget in (self.cuda_share, self.xpu_share, self.cpu_share):
             widget.setEnabled(weighted)
         for widget in (
-            self.auto_batch_calibration, self.persistent_workers, self.cross_run_batching,
-            self.batch_window, self.max_cross_batch, self.calibration_repetitions,
-            self.telemetry_interval, self.buffered_traces, self.compile_kernels,
+            self.auto_batch_calibration,
+            self.persistent_workers,
+            self.cross_run_batching,
+            self.batch_window,
+            self.max_cross_batch,
+            self.calibration_repetitions,
+            self.telemetry_interval,
+            self.buffered_traces,
+            self.compile_kernels,
         ):
-            widget.setEnabled(throughput and str(self.scientific_backend.currentData()) == "torch_fp64")
+            widget.setEnabled(
+                throughput and str(self.scientific_backend.currentData()) == "torch_fp64"
+            )
         torch_backend = str(self.scientific_backend.currentData()) == "torch_fp64"
         self.device_resident_execution.setEnabled(torch_backend)
         self.cuda_priority_work_stealing.setEnabled(backend == "cuda_priority" and torch_backend)
-        self.tensor_batch_size.setEnabled(not throughput or not self.auto_batch_calibration.isChecked())
+        self.tensor_batch_size.setEnabled(
+            not throughput or not self.auto_batch_calibration.isChecked()
+        )
 
     def apply(self) -> None:
         config = self.state.config
@@ -726,9 +915,7 @@ class ExperimentManagerPanel(WorkspacePage):
         config.budget.policy = BudgetPolicy(self.policy.currentData())
         config.budget.max_evaluations = self.budget.value()
         config.budget.wall_clock_seconds = (
-            self.wall.value()
-            if config.budget.policy is BudgetPolicy.EQUAL_WALL_CLOCK
-            else None
+            self.wall.value() if config.budget.policy is BudgetPolicy.EQUAL_WALL_CLOCK else None
         )
         config.max_iterations = self.maxit.value()
         config.parallel_workers = self.workers.value()
@@ -772,7 +959,6 @@ class ExperimentManagerPanel(WorkspacePage):
         if path:
             self.output.setText(path)
 
-
     def _set_audit_running(self, running: bool) -> None:
         self.audit_button.setEnabled(not running and not self.manager.running)
         self.parity_button.setEnabled(not running and not self.manager.running)
@@ -799,7 +985,9 @@ class ExperimentManagerPanel(WorkspacePage):
         )
 
     def _start_audit(self, *, parity_only: bool) -> bool:
-        if self.manager.running or (self.audit_worker is not None and self.audit_worker.isRunning()):
+        if self.manager.running or (
+            self.audit_worker is not None and self.audit_worker.isRunning()
+        ):
             self.audit.setPlainText("An experiment or scientific audit is already running.")
             return False
         try:
@@ -812,8 +1000,8 @@ class ExperimentManagerPanel(WorkspacePage):
         self._set_audit_running(True)
         self.audit.setPlainText(
             "Running CPU/accelerator parity audit in a background worker…"
-            if parity_only else
-            "Running parity, fairness, portfolio, and reusable-result checks in a background worker…"
+            if parity_only
+            else "Running parity, fairness, portfolio, and reusable-result checks in a background worker…"
         )
         self.state.task_status.begin(
             "Auditing backend parity" if parity_only else "Auditing experiment fairness",
@@ -837,7 +1025,6 @@ class ExperimentManagerPanel(WorkspacePage):
 
     def run_fairness_audit(self) -> bool:
         return self._start_audit(parity_only=False)
-
 
     def _on_audit_progress(self, message: str, percent: int) -> None:
         self.audit_state.setText(str(message))
@@ -863,7 +1050,8 @@ class ExperimentManagerPanel(WorkspacePage):
             self.audit.setPlainText(self._format_parity(parity))
             self.audit_state.setText(
                 "Backend parity passed — run fairness audit"
-                if self.backend_parity_passed else "Backend parity failed"
+                if self.backend_parity_passed
+                else "Backend parity failed"
             )
             if self.backend_parity_passed:
                 self.state.task_status.finish("Backend parity audit passed")
@@ -877,7 +1065,8 @@ class ExperimentManagerPanel(WorkspacePage):
         total_jobs = planned_item_count(self.state.config, COMPARISON_MODE)
         lines = [
             "PASS: comparative protocol is internally consistent."
-            if report.fair else "FAIL: comparative protocol requires correction.",
+            if report.fair
+            else "FAIL: comparative protocol requires correction.",
             f"PORTFOLIO PLAN: {self.state.config.portfolio.kind.value} · {self.state.config.portfolio.evidence_profile.value} · {len(self.state.config.portfolio.requested_outputs)} requested outputs.",
             f"PRIMARY COMPARISON PLAN: {len(self.state.config.algorithms)} selected algorithms × {self.state.config.runs} runs = {total_jobs} jobs.",
             f"EXACT RESULT REUSE: {reusable} compatible job(s) can be reused; {total_jobs - reusable} new job(s) remain.",
@@ -890,7 +1079,8 @@ class ExperimentManagerPanel(WorkspacePage):
             )
         if parity:
             lines.append(
-                "BACKEND PARITY: " + ("PASS" if self.backend_parity_passed else "FAIL")
+                "BACKEND PARITY: "
+                + ("PASS" if self.backend_parity_passed else "FAIL")
                 + f" · max objective error {parity.get('max_objective_error', float('nan')):.3g}"
                 + f" · max violation error {parity.get('max_violation_error', float('nan')):.3g}"
                 + f" · max voltage error {parity.get('max_voltage_error', float('nan')):.3g} p.u."
@@ -898,31 +1088,49 @@ class ExperimentManagerPanel(WorkspacePage):
         lines.extend(f"ERROR: {message}" for message in report.errors)
         lines.extend(f"NOTICE: {message}" for message in report.warnings)
         self.audit.setPlainText("\n".join(lines))
-        self.fairness_passed = bool(report.fair and (not self.state.config.require_backend_parity or self.backend_parity_passed))
+        self.fairness_passed = bool(
+            report.fair
+            and (not self.state.config.require_backend_parity or self.backend_parity_passed)
+        )
         self.compare.setEnabled(self.fairness_passed and not self.manager.running)
         self.calo.setEnabled(self.fairness_passed and not self.manager.running)
         if self.fairness_passed:
             self.audit_state.setText("Passed — study execution unlocked")
-            self.status.setText("Fairness audit passed. Primary comparison and CALO ablation execution are unlocked.")
+            self.status.setText(
+                "Fairness audit passed. Primary comparison and CALO ablation execution are unlocked."
+            )
             self.state.task_status.finish("Fairness audit passed")
         else:
             self.audit_state.setText("Failed — correct the reported issues")
-            self.status.setText("Fairness audit failed. Correct the reported issues before execution.")
+            self.status.setText(
+                "Fairness audit failed. Correct the reported issues before execution."
+            )
             self.state.task_status.fail("Fairness audit failed")
 
     def _populate_queue(self, labels: list[str], mode: str) -> None:
         plan = build_execution_plan(self.state.config, mode)
         lane_by_job = {
             item.job_index: (
-                "CPU" if self.state.config.execution_backend == "cpu_only"
-                else ("Auto-calibrated" if self.state.config.execution_backend == "throughput_auto" else "Dynamic")
+                "CPU"
+                if self.state.config.execution_backend == "cpu_only"
+                else (
+                    "Auto-calibrated"
+                    if self.state.config.execution_backend == "throughput_auto"
+                    else "Dynamic"
+                )
             )
             for item in plan
         }
-        if self.state.config.execution_backend in {"weighted_split", "cuda_priority", "cuda_only", "gpu_preferred"}:
+        if self.state.config.execution_backend in {
+            "weighted_split",
+            "cuda_priority",
+            "cuda_only",
+            "gpu_preferred",
+        }:
             snapshot = self.resource_monitor.sample()
             weighted, _summary = build_weighted_lane_plan(
-                plan, mode,
+                plan,
+                mode,
                 cuda_available=bool(snapshot.by_backend("cuda")),
                 xpu_available=bool(snapshot.by_backend("xpu")),
                 cuda_share=self.state.config.cuda_task_share,
@@ -999,6 +1207,129 @@ class ExperimentManagerPanel(WorkspacePage):
         if not self.manager.start_calo_analysis(self.state.config):
             self._set_running(self.manager.running)
 
+    @staticmethod
+    def _parse_run_numbers(text: str) -> tuple[int, ...]:
+        values = []
+        for token in str(text or "").replace(";", ",").split(","):
+            token = token.strip()
+            if not token:
+                continue
+            value = int(token)
+            if value < 1:
+                raise ValueError("Run numbers are 1-based and must be positive")
+            values.append(value - 1)
+        return tuple(sorted(set(values)))
+
+    def _refresh_experiment_evolution(self) -> None:
+        experiment_id = str(getattr(self.state, "current_experiment_id", "") or "")
+        self.extension_experiment.setText(experiment_id)
+        self.extension_runs.setValue(max(int(getattr(self.state.config, "runs", 1)), 1))
+        self.extension_evaluations.setValue(
+            max(int(getattr(self.state.config.budget, "max_evaluations", 1)), 1)
+        )
+        current_source = self.extension_source_horizon.currentData()
+        self.extension_source_horizon.blockSignals(True)
+        self.extension_source_horizon.clear()
+        if experiment_id:
+            for horizon in self.state.database.list_experiment_horizons(experiment_id):
+                self.extension_source_horizon.addItem(f"{int(horizon):,} FE", int(horizon))
+        source_index = self.extension_source_horizon.findData(current_source)
+        self.extension_source_horizon.setCurrentIndex(
+            source_index if source_index >= 0 else max(self.extension_source_horizon.count() - 1, 0)
+        )
+        self.extension_source_horizon.blockSignals(False)
+        rows = self.state.database.list_experiment_revisions(experiment_id) if experiment_id else []
+        self.revision_table.setRowCount(len(rows))
+        for r, row in enumerate(rows):
+            vals = (
+                row.get("revision_number", ""),
+                row.get("extension_mode", ""),
+                row.get("run_target", ""),
+                row.get("evaluation_target", ""),
+                "yes" if bool(row.get("publication_eligible")) else "exploratory",
+                row.get("status", ""),
+                str(row.get("created_at", ""))[:19],
+            )
+            for c, value in enumerate(vals):
+                self.revision_table.setItem(r, c, QTableWidgetItem(str(value)))
+
+    def extend_independent_runs(self) -> None:
+        experiment_id = str(getattr(self.state, "current_experiment_id", "") or "")
+        if not experiment_id:
+            QMessageBox.information(
+                self, "Experiment extension", "Open or restore an existing experiment first."
+            )
+            return
+        new_total = int(self.extension_runs.value())
+        answer = QMessageBox.question(
+            self,
+            "Increase independent runs",
+            f"Extend experiment {experiment_id[:12]}… to {new_total} total paired independent runs? Existing runs and evidence snapshots are preserved.",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+            QMessageBox.StandardButton.No,
+        )
+        if answer != QMessageBox.StandardButton.Yes:
+            return
+        if self.manager.extend_run_count(experiment_id, new_total):
+            self.status.setText(
+                f"Experiment revision started: extending independent-run target to {new_total}."
+            )
+
+    def extend_evaluation_horizon(self) -> None:
+        experiment_id = str(getattr(self.state, "current_experiment_id", "") or "")
+        if not experiment_id:
+            QMessageBox.information(
+                self, "Horizon extension", "Open or restore an existing experiment first."
+            )
+            return
+        try:
+            run_indices = self._parse_run_numbers(self.extension_run_indices.text())
+        except Exception as exc:
+            QMessageBox.critical(self, "Run selection", str(exc))
+            return
+        algorithms = tuple(
+            a.strip() for a in self.extension_algorithms.text().split(",") if a.strip()
+        )
+        protocol = str(self.extension_protocol.currentData())
+        strategy = str(self.extension_strategy.currentData() or "recompute_from_seed")
+        source_horizon = (
+            int(self.extension_source_horizon.currentData())
+            if strategy == "exact_continue"
+            and self.extension_source_horizon.currentData() is not None
+            else None
+        )
+        new_target = int(self.extension_evaluations.value())
+        if protocol == "manual_exploratory":
+            warning = "This post-hoc selective extension is exploratory and will be excluded from unbiased primary statistics."
+        elif strategy == "exact_continue":
+            warning = (
+                f"Publication eligibility requires every paired participant to have exact optimizer-state checkpoints; currently this is practical for CALO-only exact trajectories. "
+                f"This branch will resume the preserved {source_horizon:,}-FE checkpoint."
+                if source_horizon
+                else "Select a preserved source horizon before exact continuation."
+            )
+        else:
+            warning = "Selected paired runs will be recomputed from their original seeds under the new horizon. This is scientifically comparable but is a new horizon trajectory, not an exact continuation of the shorter run."
+        answer = QMessageBox.question(
+            self,
+            "Extend evaluation horizon",
+            f"Continue eligible historical runs to {new_target} requested objective evaluations.\n\n{warning}\n\nOriginal horizon evidence will be snapshotted before any run is updated. Continue?",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+            QMessageBox.StandardButton.No,
+        )
+        if answer != QMessageBox.StandardButton.Yes:
+            return
+        if self.manager.extend_evaluation_horizon(
+            experiment_id,
+            new_target,
+            protocol=protocol,
+            run_indices=run_indices,
+            algorithm_names=algorithms,
+            execution_strategy=strategy,
+            source_horizon=source_horizon,
+        ):
+            self.status.setText(f"Evaluation-horizon revision started toward {new_target} FE.")
+
     def _set_running(self, running: bool) -> None:
         self.compare.setEnabled((not running) and self.fairness_passed)
         self.calo.setEnabled((not running) and self.fairness_passed)
@@ -1053,9 +1384,7 @@ class ExperimentManagerPanel(WorkspacePage):
     def on_run_failed(self, failure_id: str, algorithm: str, run_index: int) -> None:
         self.failed_runs += 1
         self._mark_job(run_index, algorithm, "Failed")
-        self._update_status(
-            f"Latest failed: {algorithm}; failure record {failure_id[:8]}."
-        )
+        self._update_status(f"Latest failed: {algorithm}; failure record {failure_id[:8]}.")
 
     def _update_status(self, suffix: str) -> None:
         finished = self.completed_runs + self.failed_runs
@@ -1082,11 +1411,12 @@ class ExperimentManagerPanel(WorkspacePage):
             if item is not None and item.text() == "Queued":
                 item.setText("Cancelled")
         self.status.setText(
-            "Immediate stop requested. Completed jobs remain committed; interrupted active jobs will restart from their original seeds when the campaign resumes."
+            "Immediate stop requested. Completed jobs remain committed. Interrupted CALO jobs resume from exact checkpoints when available; other interrupted algorithms restart from their original paired seeds."
         )
 
     def on_completed(self, experiment_id: str) -> None:
         self._set_running(False)
+        self._refresh_experiment_evolution()
         self.status.setText(
             f"Experiment {experiment_id} finished: {self.completed_runs} completed and "
             f"{self.failed_runs} failed runs. All outcomes are stored with provenance."
@@ -1094,6 +1424,7 @@ class ExperimentManagerPanel(WorkspacePage):
 
     def on_cancelled(self, experiment_id: str) -> None:
         self._set_running(False)
+        self._refresh_experiment_evolution()
         self.status.setText(
             f"Experiment {experiment_id} is paused. Completed runs remain stored; Resume Center will schedule only unfinished jobs."
         )

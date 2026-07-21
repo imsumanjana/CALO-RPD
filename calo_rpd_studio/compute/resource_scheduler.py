@@ -9,6 +9,7 @@ The CUDA/XPU labels are PyTorch backend identifiers and do not have to match Win
 ``GPU 0``/``GPU 1`` numbering.  For example, a Windows adapter displayed as ``GPU 1`` can still be
 ``cuda:0`` because CUDA numbers only NVIDIA devices visible to the PyTorch runtime.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -50,7 +51,10 @@ class ResourceSnapshot:
     system_memory_percent: float = 0.0
 
     def _first_cuda(self) -> DeviceSnapshot | None:
-        return next((device for device in self.devices if device.backend == "cuda" and device.available), None)
+        return next(
+            (device for device in self.devices if device.backend == "cuda" and device.available),
+            None,
+        )
 
     @property
     def gpu_available(self) -> bool:
@@ -72,7 +76,9 @@ class ResourceSnapshot:
         return device.name if device else ""
 
     def by_backend(self, backend: str) -> tuple[DeviceSnapshot, ...]:
-        return tuple(device for device in self.devices if device.backend == backend and device.available)
+        return tuple(
+            device for device in self.devices if device.backend == backend and device.available
+        )
 
     def get(self, device_id: str) -> DeviceSnapshot | None:
         return next((device for device in self.devices if device.device_id == device_id), None)
@@ -160,7 +166,11 @@ class ResourceMonitor:
         # When utilization is unavailable through PyTorch, supplement it from nvidia-smi.  The
         # ordering usually matches visible CUDA devices on ordinary desktop installations; names
         # are also checked before the sample is accepted.
-        if snapshots and self._nvidia_smi and any(item.utilization_percent is None for item in snapshots):
+        if (
+            snapshots
+            and self._nvidia_smi
+            and any(item.utilization_percent is None for item in snapshots)
+        ):
             try:
                 result = subprocess.run(
                     [
@@ -172,7 +182,9 @@ class ResourceMonitor:
                     text=True,
                     timeout=4,
                     check=False,
-                    creationflags=(getattr(subprocess, "CREATE_NO_WINDOW", 0) if os.name == "nt" else 0),
+                    creationflags=(
+                        getattr(subprocess, "CREATE_NO_WINDOW", 0) if os.name == "nt" else 0
+                    ),
                 )
                 rows = []
                 for line in result.stdout.splitlines():
@@ -183,7 +195,8 @@ class ResourceMonitor:
                 for snapshot in snapshots:
                     row = rows[snapshot.index] if snapshot.index < len(rows) else None
                     if row and (
-                        snapshot.name.lower() in row[1].lower() or row[1].lower() in snapshot.name.lower()
+                        snapshot.name.lower() in row[1].lower()
+                        or row[1].lower() in snapshot.name.lower()
                     ):
                         used, total = float(row[3]), max(float(row[4]), 1.0)
                         updated.append(
@@ -250,7 +263,9 @@ class ResourceMonitor:
                         available=True,
                         utilization_percent=utilization,
                         memory_percent=float(memory_percent),
-                        telemetry="PyTorch XPU" if utilization is not None else "XPU memory + job-cap admission",
+                        telemetry="PyTorch XPU"
+                        if utilization is not None
+                        else "XPU memory + job-cap admission",
                         runtime="primary",
                     )
                 )
@@ -269,7 +284,9 @@ class ResourceMonitor:
                 text=True,
                 timeout=15,
                 check=False,
-                creationflags=(getattr(subprocess, "CREATE_NO_WINDOW", 0) if os.name == "nt" else 0),
+                creationflags=(
+                    getattr(subprocess, "CREATE_NO_WINDOW", 0) if os.name == "nt" else 0
+                ),
             )
             payload = json.loads(result.stdout.strip().splitlines()[-1])
             if not payload.get("available"):
@@ -330,7 +347,11 @@ def configured_xpu_interpreter() -> str:
         report = dict(payload.get("report", {}))
         sidecar = dict(report.get("xpu_sidecar", {}))
         interpreter = str(sidecar.get("interpreter", ""))
-        if sidecar.get("xpu_available") and sidecar.get("gpu_test_passed") and Path(interpreter).exists():
+        if (
+            sidecar.get("xpu_available")
+            and sidecar.get("gpu_test_passed")
+            and Path(interpreter).exists()
+        ):
             return interpreter
     except Exception:
         pass
@@ -353,7 +374,14 @@ def item_uses_calo_ai(mode: str, item) -> bool:
 
 
 def backend_allows_accelerators(execution_backend: str) -> bool:
-    return str(execution_backend).lower() in {"cuda_priority", "cuda_only", "throughput_auto", "weighted_split", "adaptive_hybrid", "gpu_preferred"}
+    return str(execution_backend).lower() in {
+        "cuda_priority",
+        "cuda_only",
+        "throughput_auto",
+        "weighted_split",
+        "adaptive_hybrid",
+        "gpu_preferred",
+    }
 
 
 def backend_allows_gpu(execution_backend: str) -> bool:
@@ -398,7 +426,9 @@ def accelerator_admission_allowed(
         return False
     if device.memory_percent >= float(memory_limit_percent):
         return False
-    if device.utilization_percent is not None and device.utilization_percent >= float(target_percent):
+    if device.utilization_percent is not None and device.utilization_percent >= float(
+        target_percent
+    ):
         return False
     return True
 
@@ -427,6 +457,7 @@ def gpu_admission_allowed(
 def prioritized_accelerators(snapshot: ResourceSnapshot) -> tuple[DeviceSnapshot, ...]:
     """Return accelerators in the default scientific execution priority order."""
     return (*snapshot.by_backend("cuda"), *snapshot.by_backend("xpu"))
+
 
 @dataclass(frozen=True, slots=True)
 class WeightedAllocationSummary:
@@ -593,6 +624,7 @@ def weighted_worker_slots(
             counts[reducible] -= 1
     return {"cuda": counts.get("cuda", 0), "xpu": counts.get("xpu", 0), "cpu": counts.get("cpu", 0)}
 
+
 @dataclass(frozen=True, slots=True)
 class ThroughputAllocationSummary:
     """Measured-throughput plan for the complete v3.4 optimizer campaign."""
@@ -610,11 +642,18 @@ class ThroughputAllocationSummary:
 
     @property
     def throughput_text(self) -> str:
-        return " · ".join(
-            f"{lane.upper()} {value:,.1f} eval/s"
-            for lane, value in (("cuda", self.lane_throughputs.get("cuda", 0.0)), ("xpu", self.lane_throughputs.get("xpu", 0.0)), ("cpu", self.lane_throughputs.get("cpu", 0.0)))
-            if value > 0
-        ) or "No successful calibration"
+        return (
+            " · ".join(
+                f"{lane.upper()} {value:,.1f} eval/s"
+                for lane, value in (
+                    ("cuda", self.lane_throughputs.get("cuda", 0.0)),
+                    ("xpu", self.lane_throughputs.get("xpu", 0.0)),
+                    ("cpu", self.lane_throughputs.get("cpu", 0.0)),
+                )
+                if value > 0
+            )
+            or "No successful calibration"
+        )
 
 
 def build_throughput_lane_plan(
@@ -671,7 +710,9 @@ def build_throughput_lane_plan(
     return assignments, summary
 
 
-def throughput_worker_slots(total_workers: int, summary: ThroughputAllocationSummary) -> dict[str, int]:
+def throughput_worker_slots(
+    total_workers: int, summary: ThroughputAllocationSummary
+) -> dict[str, int]:
     """Allocate concurrent worker slots from the measured lane capacities."""
     from calo_rpd_studio.accelerated.throughput_engine import largest_remainder_counts
 
@@ -690,7 +731,11 @@ def throughput_worker_slots(total_workers: int, summary: ThroughputAllocationSum
         for lane in active:
             counts[lane] = max(1, counts.get(lane, 0))
         while sum(counts.values()) > int(total_workers):
-            lane = max((name for name in active if counts[name] > 1), key=lambda name: counts[name], default=None)
+            lane = max(
+                (name for name in active if counts[name] > 1),
+                key=lambda name: counts[name],
+                default=None,
+            )
             if lane is None:
                 break
             counts[lane] -= 1

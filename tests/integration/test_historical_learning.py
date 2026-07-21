@@ -12,7 +12,9 @@ from calo_rpd_studio.learning.experience_repository import (
 from calo_rpd_studio.results.database import ResultDatabase
 
 
-def _insert_run(db: ResultDatabase, experiment_id: str, *, algorithm="CALO", verified=True, trajectory=True):
+def _insert_run(
+    db: ResultDatabase, experiment_id: str, *, algorithm="CALO", verified=True, trajectory=True
+):
     result = {
         "algorithm": algorithm,
         "seed": 7,
@@ -40,7 +42,9 @@ def _insert_run(db: ResultDatabase, experiment_id: str, *, algorithm="CALO", ver
                     "evaluations": 50,
                     "source_policy": "ai",
                 }
-            ] if trajectory else [],
+            ]
+            if trajectory
+            else [],
         },
     }
     with db.connect() as con:
@@ -101,7 +105,9 @@ def test_legacy_calo_summaries_are_reconstructed_with_lower_confidence(tmp_path)
     assert repository.summary["parameter_prior_groups"] == 1
 
 
-def test_v12_diagnostic_histories_can_be_reconstructed_for_lower_weight_policy_pretraining(tmp_path):
+def test_v12_diagnostic_histories_can_be_reconstructed_for_lower_weight_policy_pretraining(
+    tmp_path,
+):
     db = ResultDatabase(tmp_path / "history.sqlite")
     experiment_id = db.create_experiment(ExperimentConfig(), collect_provenance())
     result = {

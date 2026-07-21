@@ -1,4 +1,5 @@
 """Database-backed CALO policy library and immutable experiment bindings."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -10,6 +11,7 @@ import uuid
 
 from calo_rpd_studio.ai.model_io import load_checkpoint
 from .policy_schema import infer_checkpoint_schema
+from .policy_lineage import PolicyLineageManager
 
 
 def _utcnow() -> str:
@@ -42,6 +44,7 @@ class PolicyRegistry:
 
     def __init__(self, database) -> None:
         self.database = database
+        self.lineages = PolicyLineageManager(database)
 
     @staticmethod
     def inspect_checkpoint(path: str | Path) -> dict:
@@ -59,7 +62,9 @@ class PolicyRegistry:
             "metadata": metadata,
         }
 
-    def register(self, path: str | Path, *, name: str | None = None, status: str | None = None) -> PolicyRecord:
+    def register(
+        self, path: str | Path, *, name: str | None = None, status: str | None = None
+    ) -> PolicyRecord:
         inspected = self.inspect_checkpoint(path)
         source = Path(inspected["checkpoint_path"])
         schema = inspected["schema"]
@@ -98,9 +103,19 @@ class PolicyRegistry:
         return output
 
     def list(self, *, include_archived: bool = False) -> list[PolicyRecord]:
-        records = [self._from_row(row) for row in self.database.list_policies(include_archived=include_archived)]
+        records = [
+            self._from_row(row)
+            for row in self.database.list_policies(include_archived=include_archived)
+        ]
         grade_rank = {"A+": 0, "A": 1, "A-": 2, "B+": 3, "B": 4, "B-": 5, "C": 6, "U": 7, "F": 8}
-        records.sort(key=lambda item: (not item.active, item.archived, grade_rank.get(item.grade.upper(), 9), item.name.lower()))
+        records.sort(
+            key=lambda item: (
+                not item.active,
+                item.archived,
+                grade_rank.get(item.grade.upper(), 9),
+                item.name.lower(),
+            )
+        )
         return records
 
     def get(self, policy_id: str) -> PolicyRecord:
@@ -111,7 +126,10 @@ class PolicyRegistry:
 
     def activate(self, policy_id: str, *, allow_unqualified: bool = False) -> PolicyRecord:
         policy = self.get(policy_id)
-        if policy.qualification_status not in {"qualified", "legacy_qualified"} and not allow_unqualified:
+        if (
+            policy.qualification_status not in {"qualified", "legacy_qualified"}
+            and not allow_unqualified
+        ):
             raise ValueError(
                 f"Policy {policy.name!r} is {policy.qualification_status!r}. "
                 "Only qualified policies can become the default active policy; use an explicit "
@@ -119,7 +137,9 @@ class PolicyRegistry:
             )
         inspected = self.inspect_checkpoint(policy.checkpoint_path)
         if inspected["sha256"] != policy.sha256:
-            raise RuntimeError("Policy checkpoint checksum changed since registration; activation is blocked")
+            raise RuntimeError(
+                "Policy checkpoint checksum changed since registration; activation is blocked"
+            )
         self.database.set_active_policy(policy_id)
         return self.get(policy_id)
 
@@ -144,16 +164,30 @@ class PolicyRegistry:
             raise ValueError(
                 f"Policy is referenced by {references} experiment binding(s); archive it instead to preserve reproducibility"
             )
+        checkpoint = self.database.get_policy_checkpoint_by_sha256(policy.sha256)
+        if delete_artifact and checkpoint is not None:
+            # A lineage checkpoint is scientific provenance, not a disposable cache. Physical
+            # deletion is allowed only for non-latest/non-best checkpoints with no fork children.
+            self.database.delete_policy_checkpoint(str(checkpoint["id"]))
         self.database.delete_policy(policy_id)
         if delete_artifact:
             try:
                 Path(policy.checkpoint_path).unlink(missing_ok=True)
+                sidecar = Path(policy.checkpoint_path).with_suffix(
+                    Path(policy.checkpoint_path).suffix + ".sha256"
+                )
+                sidecar.unlink(missing_ok=True)
             except OSError:
                 pass
 
-    def bind_to_experiment_config(self, policy_id: str, config, *, deterministic: bool, allow_unqualified: bool = False) -> dict:
+    def bind_to_experiment_config(
+        self, policy_id: str, config, *, deterministic: bool, allow_unqualified: bool = False
+    ) -> dict:
         policy = self.get(policy_id)
-        if policy.qualification_status not in {"qualified", "legacy_qualified"} and not allow_unqualified:
+        if (
+            policy.qualification_status not in {"qualified", "legacy_qualified"}
+            and not allow_unqualified
+        ):
             raise ValueError(
                 f"Policy {policy.name!r} is {policy.qualification_status!r}, not qualified. "
                 "Run Policy Qualification or explicitly enable research-only unqualified use."
@@ -180,6 +214,43 @@ class PolicyRegistry:
         parameters.update(binding)
         config.algorithm_parameters["CALO"] = parameters
         return binding
+
+    def register_lineage_snapshot(
+        self,
+        path: str | Path,
+        *,
+        lineage_id: str,
+        cumulative_epoch: int,
+        phase_index: int = 1,
+        resume_path: str | Path = "",
+        name: str | None = None,
+    ) -> tuple[PolicyRecord, object]:
+        """Register one immutable usable checkpoint in both the policy library and lineage history."""
+        policy = self.register(path, name=name or Path(path).stem)
+        checkpoint = self.lineages.register_checkpoint(
+            lineage_id,
+            path,
+            cumulative_epoch=int(cumulative_epoch),
+            phase_index=int(phase_index),
+            resume_path=resume_path,
+            metadata={"policy_id": policy.id, "policy_name": policy.name},
+        )
+        return policy, checkpoint
+
+    def create_lineage(
+        self,
+        name: str,
+        *,
+        parent_lineage_id: str = "",
+        forked_from_checkpoint_id: str = "",
+        notes: str = "",
+    ) -> str:
+        return self.lineages.create(
+            name,
+            parent_lineage_id=parent_lineage_id,
+            forked_from_checkpoint_id=forked_from_checkpoint_id,
+            notes=notes,
+        )
 
     @staticmethod
     def _from_row(row: dict) -> PolicyRecord:

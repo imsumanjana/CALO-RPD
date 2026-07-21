@@ -1,4 +1,5 @@
 """Frozen full-comparison campaign planning."""
+
 from __future__ import annotations
 
 from copy import deepcopy
@@ -19,7 +20,7 @@ from .suite import BenchmarkSuite, standard_benchmark_suite
 
 @dataclass(slots=True)
 class BenchmarkCampaignConfig:
-    name: str = "CALO-RPD v3.4 final benchmark"
+    name: str = "CALO-RPD v5.0 benchmark campaign"
     cases: tuple[str, ...] = ("case30", "case57", "case118", "case300")
     study_keys: tuple[str, ...] = (
         "deterministic",
@@ -32,10 +33,14 @@ class BenchmarkCampaignConfig:
     max_evaluations: int = 5000
     population_size: int = 50
     master_seed: int = 2026
-    output_directory: str = "benchmark_v34"
+    output_directory: str = "benchmark_v500"
     parallel_workers: int = 1
     execution_backend: str = "weighted_split"
-    freeze_manifest: str = field(default_factory=lambda: str(Path(__file__).resolve().parents[1] / "data" / "frozen" / "calo_v410_freeze.json"))
+    freeze_manifest: str = field(
+        default_factory=lambda: str(
+            Path(__file__).resolve().parents[1] / "data" / "frozen" / "calo_v500_freeze.json"
+        )
+    )
     algorithms: tuple[str, ...] = field(default_factory=primary_algorithm_names)
 
     def validate(self, suite: BenchmarkSuite | None = None, *, verify_freeze: bool = True) -> None:
@@ -45,7 +50,9 @@ class BenchmarkCampaignConfig:
         if self.max_evaluations <= 0:
             raise ValueError("max_evaluations must be positive")
         if tuple(self.algorithms) != tuple(primary_algorithm_names()):
-            raise ValueError("The frozen v3.4 final benchmark must include exactly the 20 primary algorithms.")
+            raise ValueError(
+                "The frozen v5.0 benchmark campaign must include exactly the 20 primary algorithms."
+            )
         unknown_cases = set(self.cases) - set(suite.cases)
         if unknown_cases:
             raise ValueError(f"Unsupported benchmark cases: {sorted(unknown_cases)}")
@@ -110,7 +117,9 @@ def build_campaign(
             config.max_iterations = max(int(config.max_iterations), int(campaign.max_evaluations))
             config.parallel_workers = int(campaign.parallel_workers)
             config.execution_backend = str(campaign.execution_backend)
-            config.output_directory = str(Path(campaign.output_directory) / "raw_arrays" / case_name / study_key)
+            config.output_directory = str(
+                Path(campaign.output_directory) / "raw_arrays" / case_name / study_key
+            )
             study.configure(config)
             config.validate()
             task_id = f"{case_name}__{study_key}"
@@ -119,7 +128,9 @@ def build_campaign(
     return tasks
 
 
-def write_campaign_plan(campaign: BenchmarkCampaignConfig, tasks: list[BenchmarkTask], destination: str | Path) -> Path:
+def write_campaign_plan(
+    campaign: BenchmarkCampaignConfig, tasks: list[BenchmarkTask], destination: str | Path
+) -> Path:
     destination = Path(destination)
     destination.parent.mkdir(parents=True, exist_ok=True)
     payload = {

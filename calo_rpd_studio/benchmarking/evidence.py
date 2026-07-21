@@ -1,4 +1,5 @@
 """Campaign-level descriptive, nonparametric, and evidence-based interpretation engine."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -48,9 +49,13 @@ def _run_record(row: dict) -> dict:
 
 
 def _algorithm_summary(records: list[dict]) -> dict:
-    feasible = [record for record in records if record["feasible"] and isfinite(record["objective"])]
+    feasible = [
+        record for record in records if record["feasible"] and isfinite(record["objective"])
+    ]
     objectives = [record["objective"] for record in feasible]
-    runtimes = [record["runtime_seconds"] for record in records if isfinite(record["runtime_seconds"])]
+    runtimes = [
+        record["runtime_seconds"] for record in records if isfinite(record["runtime_seconds"])
+    ]
     first_feasible = [
         record["first_feasible_evaluation"]
         for record in records
@@ -71,7 +76,9 @@ def _algorithm_summary(records: list[dict]) -> dict:
 
 def _block_rank_values(by_algorithm: dict[str, dict]) -> dict[str, float]:
     algorithms = list(by_algorithm)
-    feasible_values = [r["objective"] for r in by_algorithm.values() if r["feasible"] and isfinite(r["objective"])]
+    feasible_values = [
+        r["objective"] for r in by_algorithm.values() if r["feasible"] and isfinite(r["objective"])
+    ]
     finite_objectives = [r["objective"] for r in by_algorithm.values() if isfinite(r["objective"])]
     objective_ceiling = max(feasible_values or finite_objectives or [0.0])
     margin = max(abs(objective_ceiling), 1.0)
@@ -187,11 +194,15 @@ def build_campaign_evidence(
         best_rate = max(feasible_rates.values(), default=0.0)
         feasible_candidates = []
         for name in algorithms:
-            median = summaries[name]["objective"].get("median") if summaries[name]["objective"] else None
+            median = (
+                summaries[name]["objective"].get("median") if summaries[name]["objective"] else None
+            )
             if median is not None:
                 feasible_candidates.append((float(median), name))
         if not feasible_candidates:
-            interpretations.append(f"{task_id}: no algorithm produced a feasible run; objective superiority cannot be claimed.")
+            interpretations.append(
+                f"{task_id}: no algorithm produced a feasible run; objective superiority cannot be claimed."
+            )
             continue
         best_median, best_name = min(feasible_candidates)
         calo_summary = summaries["CALO"]
@@ -206,13 +217,31 @@ def build_campaign_evidence(
             )
 
     pairwise = global_statistics.get("calo_pairwise_rank_tests", {})
-    better = [name for name, row in pairwise.items() if row.get("significant") and row["calo_mean_rank"] < row["baseline_mean_rank"]]
-    worse = [name for name, row in pairwise.items() if row.get("significant") and row["calo_mean_rank"] > row["baseline_mean_rank"]]
+    better = [
+        name
+        for name, row in pairwise.items()
+        if row.get("significant") and row["calo_mean_rank"] < row["baseline_mean_rank"]
+    ]
+    worse = [
+        name
+        for name, row in pairwise.items()
+        if row.get("significant") and row["calo_mean_rank"] > row["baseline_mean_rank"]
+    ]
     if better:
-        interpretations.append("Across complete paired benchmark blocks, CALO had a significantly better Holm-corrected rank than: " + ", ".join(better) + ".")
+        interpretations.append(
+            "Across complete paired benchmark blocks, CALO had a significantly better Holm-corrected rank than: "
+            + ", ".join(better)
+            + "."
+        )
     if worse:
-        interpretations.append("Across complete paired benchmark blocks, CALO had a significantly worse Holm-corrected rank than: " + ", ".join(worse) + ".")
+        interpretations.append(
+            "Across complete paired benchmark blocks, CALO had a significantly worse Holm-corrected rank than: "
+            + ", ".join(worse)
+            + "."
+        )
     if pairwise and not better and not worse:
-        interpretations.append("Across complete paired benchmark blocks, no Holm-corrected pairwise rank difference between CALO and the baselines reached the selected significance threshold.")
+        interpretations.append(
+            "Across complete paired benchmark blocks, no Holm-corrected pairwise rank difference between CALO and the baselines reached the selected significance threshold."
+        )
 
     return CampaignEvidence(task_summaries, global_statistics, interpretations)

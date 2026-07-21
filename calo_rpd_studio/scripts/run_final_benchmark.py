@@ -1,4 +1,5 @@
-"""Run the frozen v3.4 final 20-algorithm benchmark campaign from the command line."""
+"""Run the frozen v5.0 20-algorithm benchmark campaign from the command line."""
+
 from __future__ import annotations
 
 import argparse
@@ -22,9 +23,11 @@ from calo_rpd_studio.results.result_store import ResultStore
 
 
 def parser() -> argparse.ArgumentParser:
-    command = argparse.ArgumentParser(description="Run the frozen CALO-RPD v3.4 final benchmark campaign.")
+    command = argparse.ArgumentParser(
+        description="Run the frozen CALO-RPD v5.0 benchmark campaign."
+    )
     command.add_argument("--database", default="calo_rpd_results.sqlite")
-    command.add_argument("--output", default="benchmark_v34")
+    command.add_argument("--output", default="benchmark_v500")
     command.add_argument("--runs", type=int, default=30)
     command.add_argument("--budget", type=int, default=5000)
     command.add_argument("--population", type=int, default=50)
@@ -81,7 +84,9 @@ def main() -> int:
         experiment_id = database.create_experiment(task.config, collect_provenance())
         database.set_experiment_learning_role(experiment_id, "test", eligible=False, locked=True)
         _update_manifest(manifest, task.task_index, experiment_id, "running")
-        print(f"[{task.task_index + 1}/{len(tasks)}] {task.task_id} · {task.planned_jobs} optimizer jobs")
+        print(
+            f"[{task.task_index + 1}/{len(tasks)}] {task.task_id} · {task.planned_jobs} optimizer jobs"
+        )
         store = ResultStore(task.config.output_directory)
         completed, failed = (
             run_parallel_resilient(task.config)

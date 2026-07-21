@@ -1,4 +1,5 @@
 """Compact guided-workflow banner shown above the current workspace."""
+
 from __future__ import annotations
 
 from PyQt6.QtCore import pyqtSignal
@@ -32,7 +33,9 @@ class WorkflowGuide(QWidget):
         self.next_button.clicked.connect(self.next_clicked)
         layout.addWidget(self.next_button)
 
-    def set_guidance(self, step_text: str, instruction: str, button_text: str, enabled: bool) -> None:
+    def set_guidance(
+        self, step_text: str, instruction: str, button_text: str, enabled: bool
+    ) -> None:
         self.step.setText(step_text)
         self.instruction.setText(instruction)
         self.next_button.setText(button_text)

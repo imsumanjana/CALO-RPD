@@ -1,6 +1,8 @@
 """Mean confidence intervals."""
+
 import numpy as np
 from scipy import stats
+
 
 def mean_confidence_interval(values, confidence=0.95):
     x = np.asarray(values, float)

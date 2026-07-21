@@ -10,7 +10,12 @@ import numpy as np
 from calo_rpd_studio.algorithms.result import OptimizerResult
 from calo_rpd_studio.experiments.experiment_config import ExperimentConfig
 from calo_rpd_studio.portfolio.exporter import PortfolioExporter
-from calo_rpd_studio.portfolio.models import EvidenceProfile, PortfolioConfig, PortfolioKind, StorageProfile
+from calo_rpd_studio.portfolio.models import (
+    EvidenceProfile,
+    PortfolioConfig,
+    PortfolioKind,
+    StorageProfile,
+)
 from calo_rpd_studio.results.database import ResultDatabase
 from calo_rpd_studio.results.result_store import ResultStore
 
@@ -119,7 +124,9 @@ def test_portfolio_bundle_can_pause_during_final_artifact_and_resume(tmp_path):
     cancel = {"requested": False}
 
     def on_progress(payload):
-        if payload["artifact"] == "reproducibility_bundle" and str(payload["status"]).startswith("packing"):
+        if payload["artifact"] == "reproducibility_bundle" and str(payload["status"]).startswith(
+            "packing"
+        ):
             cancel["requested"] = True
 
     PortfolioExporter(database).export(
@@ -131,7 +138,9 @@ def test_portfolio_bundle_can_pause_during_final_artifact_and_resume(tmp_path):
     manifest = json.loads((output / "portfolio_manifest.json").read_text(encoding="utf-8"))
     assert manifest["cancelled"] is True
     assert not (output / "reproducibility_bundle.zip.tmp").exists()
-    assert manifest.get("artifacts", {}).get("reproducibility_bundle", {}).get("status") != "completed"
+    assert (
+        manifest.get("artifacts", {}).get("reproducibility_bundle", {}).get("status") != "completed"
+    )
 
     progress = []
     PortfolioExporter(database).export(experiment_id, output, progress_callback=progress.append)

@@ -1,4 +1,5 @@
 """Mixed-variable group intelligence for CALO v4."""
+
 from __future__ import annotations
 
 import numpy as np
@@ -40,7 +41,9 @@ class VariableGroupIntelligence:
         s = self.stats[int(regime)]
         attempts = s[:, 0]
         successes = s[:, 1]
-        success_rate = np.divide(successes, attempts, out=np.zeros_like(successes), where=attempts > 0)
+        success_rate = np.divide(
+            successes, attempts, out=np.zeros_like(successes), where=attempts > 0
+        )
         objective = s[:, 2]
         feasibility = s[:, 3]
         # Priors are intentionally weak; online evidence should dominate after enough attempts.
@@ -54,7 +57,11 @@ class VariableGroupIntelligence:
 
     def choose(self, regime: int, rng: np.random.Generator, deterministic: bool = False) -> int:
         probabilities = self.probabilities(regime)
-        return int(np.argmax(probabilities)) if deterministic else int(rng.choice(self.n_groups, p=probabilities))
+        return (
+            int(np.argmax(probabilities))
+            if deterministic
+            else int(rng.choice(self.n_groups, p=probabilities))
+        )
 
     def mask(self, group: int, dimension: int) -> np.ndarray:
         if int(group) < 0 or self.variable_groups.shape != (dimension,):
@@ -79,7 +86,9 @@ class VariableGroupIntelligence:
         steps = np.asarray(step_norm, dtype=float)
         if regimes.ndim == 0:
             regimes = np.full(len(groups), int(regimes), dtype=int)
-        n = min(len(regimes), len(groups), len(successful), len(objective), len(feasibility), len(steps))
+        n = min(
+            len(regimes), len(groups), len(successful), len(objective), len(feasibility), len(steps)
+        )
         if n == 0:
             return
         regimes = np.clip(regimes[:n], 0, self.n_regimes - 1)

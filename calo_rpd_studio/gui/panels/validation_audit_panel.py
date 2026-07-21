@@ -1,4 +1,5 @@
 """Independent solution validation and provenance audit."""
+
 from __future__ import annotations
 
 import json
@@ -166,7 +167,9 @@ class ValidationAuditPanel(WorkspacePage):
         if not run_id or self._bulk_worker is not None:
             return
         task = self.state.task_status
-        if not task.begin("Validating stored solution", detail="Independent physical-model re-evaluation"):
+        if not task.begin(
+            "Validating stored solution", detail="Independent physical-model re-evaluation"
+        ):
             return
         QApplication.processEvents()
         try:
@@ -297,7 +300,9 @@ class ValidationAuditPanel(WorkspacePage):
             self.bulk_progress.setFormat("Cancelled")
             self.state.task_status.cancelled("Bulk validation cancelled")
             if self._bulk_resume_task_id:
-                self.state.resume_service.update(self._bulk_resume_task_id, status=ResumeStatus.PAUSED, resumable=True)
+                self.state.resume_service.update(
+                    self._bulk_resume_task_id, status=ResumeStatus.PAUSED, resumable=True
+                )
         else:
             passed = int(summary.get("passed", 0))
             failed = int(summary.get("failed", 0))
@@ -314,20 +319,34 @@ class ValidationAuditPanel(WorkspacePage):
             else:
                 self.state.task_status.finish(f"Bulk validation passed for {passed} runs")
             if self._bulk_resume_task_id:
-                self.state.resume_service.update(self._bulk_resume_task_id, status=ResumeStatus.COMPLETED, current=100, total=100, resumable=False)
+                self.state.resume_service.update(
+                    self._bulk_resume_task_id,
+                    status=ResumeStatus.COMPLETED,
+                    current=100,
+                    total=100,
+                    resumable=False,
+                )
 
     def _bulk_failed(self, message: str) -> None:
         self.bulk_status.setText(f"Bulk validation stopped: {message}")
         self.bulk_progress.setFormat("Failed")
         self.state.task_status.fail(message)
         if self._bulk_resume_task_id:
-            self.state.resume_service.update(self._bulk_resume_task_id, status=ResumeStatus.INTERRUPTED, resumable=True)
+            self.state.resume_service.update(
+                self._bulk_resume_task_id, status=ResumeStatus.INTERRUPTED, resumable=True
+            )
         QMessageBox.critical(self, "Bulk validation failed", message)
 
     def resume_bulk_validation(self) -> None:
-        items = [item for item in self.state.resume_service.unfinished() if item.task_type == ResumeTaskType.VALIDATION.value]
+        items = [
+            item
+            for item in self.state.resume_service.unfinished()
+            if item.task_type == ResumeTaskType.VALIDATION.value
+        ]
         if not items:
-            QMessageBox.information(self, "Bulk validation resume", "No resumable bulk-validation task was found.")
+            QMessageBox.information(
+                self, "Bulk validation resume", "No resumable bulk-validation task was found."
+            )
             return
         item = items[0]
         rows = []
@@ -336,11 +355,19 @@ class ValidationAuditPanel(WorkspacePage):
             if row is not None and row.get("validation_status") != "verified":
                 rows.append(row)
         if not rows:
-            self.state.resume_service.update(item.id, status=ResumeStatus.COMPLETED, resumable=False)
-            QMessageBox.information(self, "Bulk validation resume", "All runs in the saved validation queue are already verified.")
+            self.state.resume_service.update(
+                item.id, status=ResumeStatus.COMPLETED, resumable=False
+            )
+            QMessageBox.information(
+                self,
+                "Bulk validation resume",
+                "All runs in the saved validation queue are already verified.",
+            )
             return
         self._bulk_resume_task_id = item.id
-        self._start_bulk_validation(rows, scope=str(item.state.get("scope", "saved validation queue")))
+        self._start_bulk_validation(
+            rows, scope=str(item.state.get("scope", "saved validation queue"))
+        )
 
     def cancel_bulk_validation(self) -> None:
         if self._bulk_worker is None:

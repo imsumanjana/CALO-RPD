@@ -1,4 +1,5 @@
 """Modern workspace navigation sidebar with workflow-aware locking."""
+
 from __future__ import annotations
 
 from PyQt6.QtCore import Qt, pyqtSignal
@@ -94,7 +95,7 @@ class NavigationSidebar(QFrame):
         footer_layout.setSpacing(2)
         edition = QLabel("Scientific workspace")
         edition.setObjectName("SidebarFooterTitle")
-        version = QLabel("CALO-RPD Studio 4.1.0")
+        version = QLabel("CALO-RPD Studio 5.0.0")
         version.setObjectName("SidebarFooterText")
         footer_layout.addWidget(edition)
         footer_layout.addWidget(version)

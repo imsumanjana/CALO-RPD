@@ -89,5 +89,13 @@ def test_freeze_manifest_captures_scope(tmp_path):
         relative_paths=("file.txt",),
     )
     payload = json.loads(Path(manifest).read_text(encoding="utf-8"))
-    assert all(payload["frozen_scope"].values())
+    scope = payload["frozen_scope"]
+    # The freeze manifest records both completed capabilities and explicit scientific
+    # limitations. False values are deliberate disclosures, not missing freeze coverage.
+    assert scope["mathematical_equations"] is True
+    assert scope["policy_lineage_latest_vs_best"] is True
+    assert scope["exact_calo_run_state_continuation"] is True
+    assert scope["calo_control_fully_device_resident"] is False
+    assert scope["baseline_exact_optimizer_state_continuation"] is False
+    assert scope["automatic_periodic_policy_qualification"] is False
     assert payload["benchmark_rule"].startswith("No CALO tuning")

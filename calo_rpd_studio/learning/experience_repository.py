@@ -9,6 +9,7 @@ The repository separates three kinds of reusable knowledge:
 Only experiments explicitly marked ``train`` and learning-eligible are included.  Validation,
 benchmark/test, and excluded experiments are never admitted into the training repository.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -37,7 +38,11 @@ def _json_load(value: str | dict | None, default):
 
 
 def _finite_number(value: Any) -> bool:
-    return isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(float(value))
+    return (
+        isinstance(value, (int, float))
+        and not isinstance(value, bool)
+        and math.isfinite(float(value))
+    )
 
 
 def _clean_float(value: Any, default: float | None = None) -> float | None:
@@ -70,7 +75,9 @@ def _problem_key(identity: dict) -> str:
 def _repository_checksum(payload: dict) -> str:
     stable = dict(payload)
     stable.pop("repository_sha256", None)
-    encoded = json.dumps(stable, sort_keys=True, separators=(",", ":"), allow_nan=False).encode("utf-8")
+    encoded = json.dumps(stable, sort_keys=True, separators=(",", ":"), allow_nan=False).encode(
+        "utf-8"
+    )
     return hashlib.sha256(encoded).hexdigest()
 
 
@@ -143,11 +150,19 @@ def _reconstruct_legacy_calo_trajectory(result: dict) -> list[dict]:
         if index < len(objective_history):
             objective = _clean_float(objective_history[index])
 
-        if previous_violation is not None and best_violation is not None and best_violation < previous_violation - 1e-12:
+        if (
+            previous_violation is not None
+            and best_violation is not None
+            and best_violation < previous_violation - 1e-12
+        ):
             constraint_stagnation = 0
         else:
             constraint_stagnation += 1
-        if objective is not None and previous_objective is not None and objective < previous_objective - 1e-12:
+        if (
+            objective is not None
+            and previous_objective is not None
+            and objective < previous_objective - 1e-12
+        ):
             objective_stagnation = 0
         elif objective is not None:
             objective_stagnation += 1
@@ -159,14 +174,20 @@ def _reconstruct_legacy_calo_trajectory(result: dict) -> list[dict]:
             component_values.append(float(math.tanh(max(raw or 0.0, 0.0))))
 
         success = operator_success[index] if index < len(operator_success) else {}
-        credit = np.asarray([float(success.get(name, 0.0)) for name in operator_names[:6]], dtype=float)
+        credit = np.asarray(
+            [float(success.get(name, 0.0)) for name in operator_names[:6]], dtype=float
+        )
         if credit.size != 6 or credit.sum() <= 0:
             credit = np.full(6, 1 / 6)
         else:
             credit = credit + 1e-6
             credit /= credit.sum()
 
-        evaluation = int(evaluations[index]) if index < len(evaluations) else int((index + 1) * max_evaluations / count)
+        evaluation = (
+            int(evaluations[index])
+            if index < len(evaluations)
+            else int((index + 1) * max_evaluations / count)
+        )
         state = np.r_[
             np.clip(diversity, -1.0, 1.0),
             np.clip(elite, -1.0, 1.0),
@@ -234,7 +255,9 @@ class HistoricalExperienceRepository:
     def parameter_priors(self) -> dict:
         return dict(self.payload.get("parameter_priors") or {})
 
-    def compatible_solutions(self, *, case_checksum: str, case_name: str, dimension: int) -> list[dict]:
+    def compatible_solutions(
+        self, *, case_checksum: str, case_name: str, dimension: int
+    ) -> list[dict]:
         output = []
         for item in self.cross_algorithm_solutions:
             identity = item.get("problem") or {}
@@ -261,7 +284,10 @@ class HistoricalExperienceRepository:
         # Exact checksum match wins; otherwise use the most supported same-name prior.
         candidates.sort(
             key=lambda pair: (
-                0 if pair[1].get("problem", {}).get("case_checksum") == case_checksum and case_checksum else 1,
+                0
+                if pair[1].get("problem", {}).get("case_checksum") == case_checksum
+                and case_checksum
+                else 1,
                 -int(pair[1].get("support", 0)),
             )
         )
@@ -303,9 +329,7 @@ def _parameter_priors(entries: list[dict]) -> dict:
                 if _finite_number(value):
                     numerical.setdefault(str(name), []).append(float(value))
         parameters = {
-            name: float(np.median(values))
-            for name, values in numerical.items()
-            if values
+            name: float(np.median(values)) for name, values in numerical.items() if values
         }
         priors[key] = {
             "problem": dict(group[0]["problem"]),
@@ -352,7 +376,9 @@ def build_experience_repository(
                 "problem": problem,
                 "best_vector": list(result.get("best_vector") or []),
                 "best_objective": _clean_float(result.get("best_objective")),
-                "total_constraint_violation": _clean_float(result.get("total_constraint_violation")),
+                "total_constraint_violation": _clean_float(
+                    result.get("total_constraint_violation")
+                ),
                 "feasible": bool(result.get("feasible", False)),
                 "evaluations": int(result.get("evaluations", 0)),
                 "runtime_seconds": float(result.get("runtime_seconds", 0.0)),
@@ -404,7 +430,9 @@ def build_experience_repository(
 
     parameter_priors = _parameter_priors(solution_entries)
     transition_count = sum(len(item.get("transitions") or []) for item in policy_trajectories)
-    exact_trajectories = sum(1 for item in policy_trajectories if item.get("trajectory_source") == "exact_v1.3_runtime")
+    exact_trajectories = sum(
+        1 for item in policy_trajectories if item.get("trajectory_source") == "exact_v1.3_runtime"
+    )
     reconstructed_trajectories = len(policy_trajectories) - exact_trajectories
     payload = {
         "schema_version": REPOSITORY_SCHEMA_VERSION,

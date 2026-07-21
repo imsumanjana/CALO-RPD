@@ -4,6 +4,7 @@ The cache can reduce physical solver calls but never changes requested function-
 evaluation accounting. Keys use exact IEEE-754 hexadecimal representations of
 all decoded physical controls; there is no approximate nearest-neighbour reuse.
 """
+
 from __future__ import annotations
 
 from collections import OrderedDict
@@ -85,9 +86,15 @@ class ExactEvaluationCache:
         if missing_order:
             unique = np.asarray([representative[key] for key in missing_order], dtype=float)
             evaluator = getattr(self.problem, "evaluate_population", None)
-            solved = list(evaluator(unique)) if callable(evaluator) else [self.problem.evaluate(row) for row in unique]
+            solved = (
+                list(evaluator(unique))
+                if callable(evaluator)
+                else [self.problem.evaluate(row) for row in unique]
+            )
             if len(solved) != len(unique):
-                raise RuntimeError("Common evaluator returned an incomplete exact-deduplication batch")
+                raise RuntimeError(
+                    "Common evaluator returned an incomplete exact-deduplication batch"
+                )
             self.physical_solver_calls += len(unique)
             for key, evaluation in zip(missing_order, solved):
                 local_results[key] = evaluation

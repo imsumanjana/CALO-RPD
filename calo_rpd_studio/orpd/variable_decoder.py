@@ -3,6 +3,7 @@
 Version 3.4 replaces implicit generic shunt bounds with explicit, case-specific
 formulation profiles.  Fixed reactors and undeclared shunts remain untouched.
 """
+
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
@@ -233,9 +234,7 @@ class ORPDVariableDecoder:
     def decode(self, normalized):
         z = np.asarray(normalized, dtype=float)
         if z.shape != (self.dimension,):
-            raise ValueError(
-                f"Expected decision vector shape ({self.dimension},), got {z.shape}"
-            )
+            raise ValueError(f"Expected decision vector shape ({self.dimension},), got {z.shape}")
         output = self.case.clone()
         physical: dict[str, float] = {}
         index = output.bus_index_map()
@@ -249,8 +248,7 @@ class ORPDVariableDecoder:
             physical[variable.name] = decoded
             if action_kind == "vg":
                 generators = np.where(
-                    (output.gen[:, GEN_STATUS] > 0)
-                    & (output.gen[:, GEN_BUS].astype(int) == target)
+                    (output.gen[:, GEN_STATUS] > 0) & (output.gen[:, GEN_BUS].astype(int) == target)
                 )[0]
                 output.gen[generators, VG] = decoded
                 output.bus[index[target], VM] = decoded
@@ -273,9 +271,7 @@ class ORPDVariableDecoder:
     def formulation_manifest(self) -> dict:
         """Return a serializable declaration of the exact control formulation."""
 
-        generator_buses = [
-            int(action[1]) for action in self._actions if action[0] == "vg"
-        ]
+        generator_buses = [int(action[1]) for action in self._actions if action[0] == "vg"]
         tap_branches = []
         for action in self._actions:
             if action[0] != "tap":

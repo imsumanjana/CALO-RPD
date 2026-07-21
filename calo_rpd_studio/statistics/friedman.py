@@ -1,5 +1,7 @@
 """Friedman repeated-measures rank testing."""
+
 from scipy.stats import friedmanchisquare
+
 
 def friedman_test(*groups):
     result = friedmanchisquare(*groups)

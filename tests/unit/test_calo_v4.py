@@ -80,7 +80,9 @@ def test_persistent_personal_best_is_not_reset_by_environmental_selection():
     combined = np.vstack([population, offspring])
     combined_ev = evaluations + child_ev
     # Select child 0 and child 1 deliberately to exercise lineage inheritance.
-    state.select_from_combined(combined, combined_ev, np.asarray([2, 3]), offspring_pb, offspring_pb_ev)
+    state.select_from_combined(
+        combined, combined_ev, np.asarray([2, 3]), offspring_pb, offspring_pb_ev
+    )
     np.testing.assert_allclose(state.personal_best[0], population[0])
     np.testing.assert_allclose(state.personal_best[1], offspring[1])
 
@@ -118,14 +120,16 @@ def test_v4_single_run_never_exceeds_common_requested_fe_budget_and_starts_fresh
     problem = CountingSphere()
     params = dict(SPECS["CALO"].default_parameters)
     params.update({"use_ai": False, "use_exact_evaluation_cache": True})
-    config = OptimizerConfig(population_size=8, max_evaluations=40, max_iterations=40, parameters=params)
+    config = OptimizerConfig(
+        population_size=8, max_evaluations=40, max_iterations=40, parameters=params
+    )
     result1 = create_optimizer("CALO", problem, config, seed=7).run()
     result2 = create_optimizer("CALO", CountingSphere(), config, seed=7).run()
     assert result1.evaluations <= 40
     assert result2.evaluations == result1.evaluations
     np.testing.assert_allclose(result1.best_vector, result2.best_vector)
     assert result1.best_objective == pytest.approx(result2.best_objective, abs=1e-15)
-    assert result1.metadata["calo_version"] == "v4.1"
+    assert result1.metadata["calo_version"] == "v5.0"
     assert result1.metadata["hpem"]["hierarchy_shape"][0] == 4
 
 

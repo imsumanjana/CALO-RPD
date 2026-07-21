@@ -36,6 +36,8 @@ def test_results_explorer_selects_full_row_and_emits_validation_request(tmp_path
     assert panel.review_button.isEnabled()
     assert "run-1" in panel.details.toPlainText()
     captured = []
-    panel.validation_requested.connect(lambda experiment_id, selected_run: captured.append((experiment_id, selected_run)))
+    panel.validation_requested.connect(
+        lambda experiment_id, selected_run: captured.append((experiment_id, selected_run))
+    )
     panel._confirm_review()
     assert captured == [(exp_id, run_id)]

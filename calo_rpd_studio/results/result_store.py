@@ -1,4 +1,5 @@
 """Portfolio-aware compressed storage for numeric optimizer arrays."""
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -8,14 +9,19 @@ import numpy as np
 
 
 class ResultStore:
-    def __init__(self, directory, *, storage_profile: str = "repeated_statistics", required_fields=()):
+    def __init__(
+        self, directory, *, storage_profile: str = "repeated_statistics", required_fields=()
+    ):
         self.directory = Path(directory)
         self.directory.mkdir(parents=True, exist_ok=True)
         self.storage_profile = str(storage_profile)
         self.required_fields = set(required_fields or ())
 
     def _keep_population(self) -> bool:
-        return self.storage_profile in {"full_single_run", "robust_full"} or "population_samples" in self.required_fields
+        return (
+            self.storage_profile in {"full_single_run", "robust_full"}
+            or "population_samples" in self.required_fields
+        )
 
     def save_arrays(self, result):
         path = self.directory / f"{uuid.uuid4()}.npz"
@@ -42,7 +48,10 @@ class ResultStore:
             if values is not None:
                 arrays[key] = np.asarray(values, dtype=float)
         components = metadata.get("constraint_component_histories", {}) or {}
-        if "constraint_components" in self.required_fields or self.storage_profile in {"full_single_run", "robust_full"}:
+        if "constraint_components" in self.required_fields or self.storage_profile in {
+            "full_single_run",
+            "robust_full",
+        }:
             for key, values in components.items():
                 arrays[f"constraint_component__{key}"] = np.asarray(values, dtype=float)
         np.savez_compressed(path, **arrays)

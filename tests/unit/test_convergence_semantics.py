@@ -14,21 +14,27 @@ class Evaluation:
 
 class Problem:
     dimension = 1
+
     def __init__(self):
-        self.items = iter([
-            Evaluation(1.0, 0.5, False),
-            Evaluation(4.0, 0.2, False),
-            Evaluation(3.0, 0.0, True),
-            Evaluation(2.5, 0.0, True),
-        ])
+        self.items = iter(
+            [
+                Evaluation(1.0, 0.5, False),
+                Evaluation(4.0, 0.2, False),
+                Evaluation(3.0, 0.0, True),
+                Evaluation(2.5, 0.0, True),
+            ]
+        )
+
     def evaluate(self, x):
         return next(self.items)
+
     def solution_state(self, x):
         return {}
 
 
 class Dummy(BaseOptimizer):
     name = "DUMMY"
+
     def run(self):
         raise NotImplementedError
 

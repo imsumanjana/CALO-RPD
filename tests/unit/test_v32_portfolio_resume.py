@@ -9,7 +9,12 @@ from calo_rpd_studio.algorithms.result import OptimizerResult
 from calo_rpd_studio.experiments.experiment_config import ExperimentConfig
 from calo_rpd_studio.portfolio.exporter import PortfolioExporter
 from calo_rpd_studio.portfolio.fingerprint import experiment_fingerprint
-from calo_rpd_studio.portfolio.models import EvidenceProfile, PortfolioConfig, PortfolioKind, StorageProfile
+from calo_rpd_studio.portfolio.models import (
+    EvidenceProfile,
+    PortfolioConfig,
+    PortfolioKind,
+    StorageProfile,
+)
 from calo_rpd_studio.portfolio.planner import PortfolioPlanner
 from calo_rpd_studio.results.database import ResultDatabase
 from calo_rpd_studio.results.result_store import ResultStore
@@ -97,17 +102,19 @@ def _fake_completed():
             "operator_usage_history": [{"teacher": 5}, {"teacher": 4, "memory": 1}],
             "operator_success_history": [{"teacher": 0.4}, {"teacher": 0.5, "memory": 0.2}],
             "solution_state": {
-                "scenarios": [{
-                    "bus_numbers": [1, 2],
-                    "vm_pu": [1.0, 0.99],
-                    "branch_from_bus": [1],
-                    "branch_to_bus": [2],
-                    "loading_percent": [42.0],
-                    "qg_mvar": [5.0],
-                    "generator_bus": [1],
-                    "converged": True,
-                    "active_loss_mw": 2.1,
-                }]
+                "scenarios": [
+                    {
+                        "bus_numbers": [1, 2],
+                        "vm_pu": [1.0, 0.99],
+                        "branch_from_bus": [1],
+                        "branch_to_bus": [2],
+                        "loading_percent": [42.0],
+                        "qg_mvar": [5.0],
+                        "generator_bus": [1],
+                        "converged": True,
+                        "active_loss_mw": 2.1,
+                    }
+                ]
             },
         },
     )
@@ -139,7 +146,11 @@ def test_portfolio_export_resumes_artifact_by_artifact(tmp_path):
     config.validate()
     experiment_id = database.create_experiment(config, {})
     completed = _fake_completed()
-    store = ResultStore(tmp_path / "arrays", storage_profile="full_single_run", required_fields={"constraint_components"})
+    store = ResultStore(
+        tmp_path / "arrays",
+        storage_profile="full_single_run",
+        required_fields={"constraint_components"},
+    )
     arrays_path = store.save_arrays(completed.result)
     database.add_run(experiment_id, completed, str(arrays_path))
 

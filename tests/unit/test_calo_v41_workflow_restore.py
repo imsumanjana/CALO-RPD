@@ -37,7 +37,14 @@ def test_old_experiment_without_workspace_snapshot_infers_setup_completion():
     state = SimpleNamespace(config=config)
     workflow = WorkflowManager(state)
     workflow.restore(None, infer_experiment=True, experiment_completed=False, verified_results=0)
-    assert {"power_system", "orpd", "algorithms", "portfolio", "calo", "scenarios"} <= workflow.completed
+    assert {
+        "power_system",
+        "orpd",
+        "algorithms",
+        "portfolio",
+        "calo",
+        "scenarios",
+    } <= workflow.completed
     assert workflow.experiment_started is True
     assert workflow.is_workspace_enabled(7) is True
     assert workflow.is_workspace_enabled(8) is True

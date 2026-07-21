@@ -1,4 +1,5 @@
 """Adaptive epsilon-feasible environmental selection for CALO Core v2."""
+
 from __future__ import annotations
 
 import numpy as np
@@ -33,8 +34,14 @@ def epsilon_better(a, b, epsilon: float, tol: float = 1e-12) -> bool:
     return False
 
 
-def environmental_select(vectors, evaluations, population_size: int, epsilon: float,
-                         diversity_weight: float = 0.18, return_indices: bool = False):
+def environmental_select(
+    vectors,
+    evaluations,
+    population_size: int,
+    epsilon: float,
+    diversity_weight: float = 0.18,
+    return_indices: bool = False,
+):
     vectors = np.asarray(vectors, dtype=float)
     order = sorted(range(len(evaluations)), key=lambda i: epsilon_sort_key(evaluations[i], epsilon))
     population_size = min(int(population_size), len(order))

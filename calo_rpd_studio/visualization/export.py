@@ -1,4 +1,5 @@
 """Figure export wrapper."""
+
 from __future__ import annotations
 
 

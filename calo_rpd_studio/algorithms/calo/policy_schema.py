@@ -4,6 +4,7 @@ The policy schema is deliberately independent from the optimizer implementation.
 must declare the state/action semantics it was trained against; legacy checkpoints remain readable
 but are explicitly classified as legacy rather than silently treated as native v4.1 policies.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -51,7 +52,9 @@ class PolicyRuntimeContext:
         return np.clip(np.nan_to_num(values, nan=0.0, posinf=1.0, neginf=0.0), 0.0, 1.0)
 
 
-def build_policy_vector(state, context: PolicyRuntimeContext | None = None, *, input_dim: int = POLICY_STATE_DIM) -> np.ndarray:
+def build_policy_vector(
+    state, context: PolicyRuntimeContext | None = None, *, input_dim: int = POLICY_STATE_DIM
+) -> np.ndarray:
     """Build exactly the state vector declared by a checkpoint.
 
     ``input_dim == 24`` is retained solely for legacy checkpoint compatibility.  Native v4.1
@@ -63,12 +66,18 @@ def build_policy_vector(state, context: PolicyRuntimeContext | None = None, *, i
     base = np.asarray(base, dtype=np.float32).reshape(-1)
     if input_dim == LEGACY_STATE_DIM:
         if base.size != LEGACY_STATE_DIM:
-            raise ValueError(f"Legacy CALO policy requires {LEGACY_STATE_DIM} state features, received {base.size}")
+            raise ValueError(
+                f"Legacy CALO policy requires {LEGACY_STATE_DIM} state features, received {base.size}"
+            )
         return base
     if input_dim != POLICY_STATE_DIM:
-        raise ValueError(f"Unsupported CALO policy input dimension {input_dim}; expected {LEGACY_STATE_DIM} or {POLICY_STATE_DIM}")
+        raise ValueError(
+            f"Unsupported CALO policy input dimension {input_dim}; expected {LEGACY_STATE_DIM} or {POLICY_STATE_DIM}"
+        )
     if base.size != LEGACY_STATE_DIM:
-        raise ValueError(f"CALO v4.1 policy requires the {LEGACY_STATE_DIM}-feature cognitive base, received {base.size}")
+        raise ValueError(
+            f"CALO v4.1 policy requires the {LEGACY_STATE_DIM}-feature cognitive base, received {base.size}"
+        )
     extra = (context or PolicyRuntimeContext()).vector()
     return np.concatenate((base, extra), dtype=np.float32)
 
@@ -78,7 +87,9 @@ def infer_checkpoint_schema(payload: dict) -> dict[str, str | int | bool]:
 
     architecture = dict(payload.get("architecture", {}) or {})
     metadata = dict(payload.get("metadata", {}) or {})
-    input_dim = int(architecture.get("input_dim", metadata.get("state_dimension", LEGACY_STATE_DIM)))
+    input_dim = int(
+        architecture.get("input_dim", metadata.get("state_dimension", LEGACY_STATE_DIM))
+    )
     state_schema = str(metadata.get("state_schema_version", "") or "")
     action_schema = str(metadata.get("action_schema_version", "") or "")
     runtime_arch = str(metadata.get("runtime_architecture_version", "") or "")
@@ -87,7 +98,9 @@ def infer_checkpoint_schema(payload: dict) -> dict[str, str | int | bool]:
         state_schema = POLICY_STATE_SCHEMA if input_dim == POLICY_STATE_DIM else LEGACY_STATE_SCHEMA
     if not action_schema:
         # The head dimensions are compatible, but legacy checkpoints did not declare semantics.
-        action_schema = POLICY_ACTION_SCHEMA if input_dim == POLICY_STATE_DIM else "calo-action-legacy-4r-6o-6p"
+        action_schema = (
+            POLICY_ACTION_SCHEMA if input_dim == POLICY_STATE_DIM else "calo-action-legacy-4r-6o-6p"
+        )
     native = (
         input_dim == POLICY_STATE_DIM
         and state_schema == POLICY_STATE_SCHEMA

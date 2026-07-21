@@ -1,4 +1,5 @@
 """Reusable Matplotlib plot registry with independent raw data and style."""
+
 from __future__ import annotations
 
 from copy import deepcopy
@@ -75,7 +76,9 @@ class PlotManager:
         return values
 
     @staticmethod
-    def _padded_limits(values: list[float], padding: float, *, include_zero: bool = False) -> tuple[float, float] | None:
+    def _padded_limits(
+        values: list[float], padding: float, *, include_zero: bool = False
+    ) -> tuple[float, float] | None:
         if not values:
             return None
         lower = min(values)

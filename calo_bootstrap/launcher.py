@@ -1,9 +1,14 @@
 """First-launch bootstrap entry point."""
+
 from __future__ import annotations
 
 import sys
 
-from .prerequisites import cpu_fallback_is_accepted, first_launch_or_version_changed, scan_environment
+from .prerequisites import (
+    cpu_fallback_is_accepted,
+    first_launch_or_version_changed,
+    scan_environment,
+)
 
 
 def ensure_prerequisites(force_wizard: bool = False) -> bool:

@@ -1,4 +1,5 @@
 """Single-budget blind-discovery / learned-search lane controller for CALO v4."""
+
 from __future__ import annotations
 
 import numpy as np

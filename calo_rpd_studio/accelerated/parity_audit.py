@@ -1,4 +1,5 @@
 """Configuration-level CPU/accelerator parity audit."""
+
 from __future__ import annotations
 
 from dataclasses import asdict

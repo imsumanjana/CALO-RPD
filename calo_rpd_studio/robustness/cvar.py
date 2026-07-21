@@ -5,6 +5,7 @@ This matters for discrete scenario distributions because the VaR cut can pass
 through an atom of probability mass.  In that case only the fractional part of
 that atom that lies in the tail is included.
 """
+
 from __future__ import annotations
 
 import numpy as np

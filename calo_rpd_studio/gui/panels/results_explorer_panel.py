@@ -1,4 +1,5 @@
 """Filterable raw result explorer."""
+
 from __future__ import annotations
 
 import json
@@ -43,6 +44,10 @@ class ResultsExplorerPanel(WorkspacePage):
 
         filters = QHBoxLayout()
         self.experiment = QComboBox()
+        self.evidence_horizon = QComboBox()
+        self.evidence_horizon.setToolTip(
+            "Inspect one exact function-evaluation horizon. Extended experiments never mix old and new evidence silently."
+        )
         self.algorithm = QComboBox()
         self.algorithm.addItem("All algorithms", "")
         self.validation = QComboBox()
@@ -53,10 +58,14 @@ class ResultsExplorerPanel(WorkspacePage):
         manage_history = QPushButton("Manage history")
         manage_history.clicked.connect(self._manage_history)
         restore_workspace = QPushButton("Open experiment workspace")
-        restore_workspace.setToolTip("Restore this experiment's saved parameters, CALO intelligence, workflow access, and stored plots.")
+        restore_workspace.setToolTip(
+            "Restore this experiment's saved parameters, CALO intelligence, workflow access, and stored plots."
+        )
         restore_workspace.clicked.connect(self._restore_selected_experiment)
         filters.addWidget(QLabel("Experiment"))
         filters.addWidget(self.experiment, 1)
+        filters.addWidget(QLabel("Evidence horizon"))
+        filters.addWidget(self.evidence_horizon)
         filters.addWidget(QLabel("Algorithm"))
         filters.addWidget(self.algorithm)
         filters.addWidget(QLabel("Validation"))
@@ -66,7 +75,7 @@ class ResultsExplorerPanel(WorkspacePage):
         filters.addWidget(manage_history)
         self.layout_root.addLayout(filters)
 
-        self.table = QTableWidget(0, 9)
+        self.table = QTableWidget(0, 11)
         self.table.setHorizontalHeaderLabels(
             [
                 "Run ID",
@@ -78,6 +87,8 @@ class ResultsExplorerPanel(WorkspacePage):
                 "Violation",
                 "Runtime (s)",
                 "Validation",
+                "FE horizon",
+                "Evidence",
             ]
         )
         self.table.setAlternatingRowColors(True)
@@ -85,7 +96,9 @@ class ResultsExplorerPanel(WorkspacePage):
         self.table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
         self.table.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
         self.table.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch)
-        self.table.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeMode.ResizeToContents)
+        self.table.horizontalHeader().setSectionResizeMode(
+            1, QHeaderView.ResizeMode.ResizeToContents
+        )
         self.table.itemSelectionChanged.connect(self.show_selected)
         self.table.cellClicked.connect(lambda *_: self.show_selected())
         self.layout_root.addWidget(self.table, 2)
@@ -106,6 +119,7 @@ class ResultsExplorerPanel(WorkspacePage):
 
         state.runs_changed.connect(self.refresh_experiments)
         self.experiment.currentIndexChanged.connect(self.refresh)
+        self.evidence_horizon.currentIndexChanged.connect(self.refresh)
         self.algorithm.currentIndexChanged.connect(self.refresh)
         self.validation.currentIndexChanged.connect(self.refresh)
         self.refresh_experiments()
@@ -143,7 +157,34 @@ class ResultsExplorerPanel(WorkspacePage):
             self._rows = []
             return
 
-        rows = self.state.database.list_runs(experiment_id)
+        # Restore/select an exact evidence horizon. For a legacy experiment this is simply the
+        # original FE budget; extended experiments expose every preserved revision horizon.
+        current_horizon = self.evidence_horizon.currentData()
+        horizons = self.state.database.list_experiment_horizons(str(experiment_id))
+        self.evidence_horizon.blockSignals(True)
+        self.evidence_horizon.clear()
+        for horizon in horizons:
+            status = self.state.database.experiment_horizon_status(str(experiment_id), int(horizon))
+            tag = "primary" if status.get("publication_eligible") else "exploratory"
+            complete = (
+                "complete"
+                if status.get("complete")
+                else f"{status.get('available_count', 0)}/{status.get('expected_count', 0)}"
+            )
+            self.evidence_horizon.addItem(f"{int(horizon):,} FE · {tag} · {complete}", int(horizon))
+        index = self.evidence_horizon.findData(current_horizon)
+        if index < 0 and self.evidence_horizon.count():
+            index = self.evidence_horizon.count() - 1
+        self.evidence_horizon.setCurrentIndex(index)
+        self.evidence_horizon.blockSignals(False)
+        selected_horizon = self.evidence_horizon.currentData()
+        rows = (
+            self.state.database.list_experiment_runs_at_horizon(
+                str(experiment_id), int(selected_horizon)
+            )
+            if selected_horizon is not None
+            else self.state.database.list_runs(experiment_id)
+        )
         names = sorted({row["algorithm"] for row in rows})
         current = self.algorithm.currentData()
         self.algorithm.blockSignals(True)
@@ -156,7 +197,9 @@ class ResultsExplorerPanel(WorkspacePage):
         self.algorithm.blockSignals(False)
 
         algorithm_filter = self.algorithm.currentData()
-        validation_filter = self.validation.currentText() if self.validation.currentIndex() > 0 else ""
+        validation_filter = (
+            self.validation.currentText() if self.validation.currentIndex() > 0 else ""
+        )
         rows = [
             row
             for row in rows
@@ -178,6 +221,8 @@ class ResultsExplorerPanel(WorkspacePage):
                 data["total_constraint_violation"],
                 data["runtime_seconds"],
                 row["validation_status"],
+                int(row.get("evaluation_horizon", data.get("evaluations", 0)) or 0),
+                str(row.get("evidence_source", "current")),
             ]
             for column, value in enumerate(values):
                 self.table.setItem(row_index, column, QTableWidgetItem(str(value)))
@@ -204,12 +249,23 @@ class ResultsExplorerPanel(WorkspacePage):
         row = self._rows[row_index]
         data = json.loads(row["result_json"])
         self._selected_experiment_id = str(row["experiment_id"])
-        self._selected_run_id = str(row["id"])
-        self.review_button.setEnabled(True)
+        self._selected_run_id = str(row.get("run_id", row["id"]))
+        historical_snapshot = str(row.get("evidence_source", "current")) == "snapshot"
+        self.review_button.setEnabled(not historical_snapshot)
+        self.review_button.setToolTip(
+            "Historical horizon snapshots are inspectable and exportable, but validation must be performed against a current/restored exact run state."
+            if historical_snapshot
+            else "Validate the exact selected current run."
+        )
         self.details.setPlainText(
             json.dumps(
                 {
-                    "run_id": row["id"],
+                    "run_id": row.get("run_id", row["id"]),
+                    "snapshot_id": row.get("snapshot_id", ""),
+                    "evidence_horizon": int(
+                        row.get("evaluation_horizon", data.get("evaluations", 0)) or 0
+                    ),
+                    "evidence_source": row.get("evidence_source", "current"),
                     "algorithm": row["algorithm"],
                     "run": int(row["run_index"]) + 1,
                     "objective": data.get("best_objective"),
@@ -225,8 +281,6 @@ class ResultsExplorerPanel(WorkspacePage):
             )
         )
 
-
-
     def select_run(self, experiment_id: str, run_id: str) -> None:
         """Select an exact stored run, preserving compatibility with linked validation views."""
         self.refresh_experiments()
@@ -235,12 +289,11 @@ class ResultsExplorerPanel(WorkspacePage):
             self.experiment.setCurrentIndex(index)
             self.refresh()
         for row_index, row in enumerate(self._rows):
-            if str(row.get("id")) == str(run_id):
+            if str(row.get("run_id", row.get("id"))) == str(run_id):
                 self.table.selectRow(row_index)
                 self.show_selected()
                 return
         raise KeyError(f"Run {run_id!r} is not available in experiment {experiment_id!r}")
-
 
     def _restore_selected_experiment(self) -> None:
         experiment_id = str(self.experiment.currentData() or "")
@@ -254,7 +307,15 @@ class ResultsExplorerPanel(WorkspacePage):
         self.refresh_experiments()
 
     def _confirm_review(self) -> None:
-        """Complete review and immediately request validation of the exact selected run."""
+        """Complete review and immediately request validation of the exact selected current run."""
+        if not self.review_button.isEnabled():
+            QMessageBox.information(
+                self,
+                "Historical evidence selected",
+                "This is a preserved historical FE-horizon snapshot. It remains available for inspection, statistics, and export, "
+                "but direct revalidation is disabled unless that exact optimizer/result state is restored as a current run state.",
+            )
+            return
         if not self._selected_experiment_id or not self._selected_run_id:
             self.show_selected()
         if not self._selected_experiment_id or not self._selected_run_id:

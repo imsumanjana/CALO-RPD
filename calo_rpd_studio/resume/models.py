@@ -1,4 +1,5 @@
 """Models shared by campaign, training, validation, and export resume flows."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass

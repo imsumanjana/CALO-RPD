@@ -1,4 +1,5 @@
 """Dual archives for feasible elites and diverse constraint-boundary candidates."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -84,9 +85,13 @@ class ConstraintBoundaryArchive:
             best_score = -float("inf")
             best_violation = max(float(pool[0].evaluation.violation), 1e-12)
             for index, entry in enumerate(remaining):
-                decision_distance = min(np.linalg.norm(entry.vector - other.vector) for other in kept)
+                decision_distance = min(
+                    np.linalg.norm(entry.vector - other.vector) for other in kept
+                )
                 profile = self._profile(entry)
-                profile_distance = min(np.linalg.norm(profile - self._profile(other)) for other in kept)
+                profile_distance = min(
+                    np.linalg.norm(profile - self._profile(other)) for other in kept
+                )
                 quality = 1.0 / (1.0 + float(entry.evaluation.violation) / best_violation)
                 score = 0.55 * quality + 0.30 * decision_distance + 0.15 * profile_distance
                 if score > best_score:

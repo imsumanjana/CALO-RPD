@@ -1,4 +1,5 @@
 """Width-safe vertically scrollable workspace base for genuinely long forms."""
+
 from __future__ import annotations
 
 from PyQt6.QtCore import Qt

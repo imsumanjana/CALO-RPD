@@ -67,7 +67,10 @@ def test_accelerator_priority_is_cuda_then_xpu():
     xpu = DeviceSnapshot("xpu:0", "xpu", 0, "Intel GPU", True, None, 20.0)
     cuda = DeviceSnapshot("cuda:0", "cuda", 0, "NVIDIA GPU", True, 30.0, 25.0)
     snapshot = ResourceSnapshot(10.0, devices=(xpu, cuda), system_memory_percent=20.0)
-    assert [device.device_id for device in prioritized_accelerators(snapshot)] == ["cuda:0", "xpu:0"]
+    assert [device.device_id for device in prioritized_accelerators(snapshot)] == [
+        "cuda:0",
+        "xpu:0",
+    ]
 
 
 def test_xpu_without_utilization_uses_memory_and_job_cap_for_admission():
@@ -146,7 +149,12 @@ def test_weighted_lane_plan_routes_every_v3_algorithm_to_accelerator_lanes():
 def test_weighted_lane_plan_assigns_all_jobs_to_cuda_when_requested():
     from calo_rpd_studio.compute.resource_scheduler import build_weighted_lane_plan
 
-    plan = [PlannedItem(i, i // 8, name, None) for i, name in enumerate((["CALO", "TLBO", "PSO", "CLPSO", "MTLA-DE", "QODE", "GWO", "WOA"] * 50))]
+    plan = [
+        PlannedItem(i, i // 8, name, None)
+        for i, name in enumerate(
+            (["CALO", "TLBO", "PSO", "CLPSO", "MTLA-DE", "QODE", "GWO", "WOA"] * 50)
+        )
+    ]
     lanes, summary = build_weighted_lane_plan(
         plan,
         "comparison",
