@@ -618,6 +618,8 @@ def _collect_accelerator_subprocess(
                     process.wait(timeout=5)
                 except subprocess.TimeoutExpired:
                     process.kill()
+                    process.wait()
+                process.communicate()
                 raise TrainingCancelled("CALO policy training was cancelled safely.")
             time.sleep(0.1)
         stdout, _ = process.communicate()
@@ -936,10 +938,6 @@ def train_policy_heterogeneous(
         torch.cuda.manual_seed_all(config.seed)
     rng = np.random.default_rng(config.seed)
     learner_device = _resolve_training_device(config.ppo_device)
-    if str(config.ppo_device).lower() == "auto" and not torch.cuda.is_available():
-        # Direct XPU can be selected by _resolve_training_device.  A sidecar XPU cannot host the
-        # centralized learner in this process, so CPU is the correct fallback in that configuration.
-        learner_device = _resolve_training_device("auto")
 
     if int(config.rollout_workers) <= 0:
         config.rollout_workers = recommended_rollout_workers(config.episodes_per_epoch)
@@ -991,7 +989,8 @@ def train_policy_heterogeneous(
     stage_floor = 0
     if history:
         try:
-            stage_floor = max(0, int(history[-1].get("curriculum_stage", 1)) - 1)
+            raw = int(history[-1].get("curriculum_stage", 0))
+            stage_floor = raw - 1 if raw > 4 else raw  # backward compat: old checkpoints stored 1..5
         except (TypeError, ValueError):
             stage_floor = 0
     nominal_target = (
@@ -1016,23 +1015,30 @@ def train_policy_heterogeneous(
     )
     try:
         if config.persistent_actor_workers:
-            if base_plan.available_lanes.get("cuda", False):
+            if (
+                base_plan.available_lanes.get("cuda", False)
+                and base_plan.episode_counts.get("cuda", 0) > 0
+            ):
                 actor_clients["cuda"] = PersistentTrainingActorClient(
                     sys.executable,
                     base_plan.devices["cuda"],
                     "cuda",
                 )
-            if base_plan.available_lanes.get("xpu", False):
+            if (
+                base_plan.available_lanes.get("xpu", False)
+                and base_plan.episode_counts.get("xpu", 0) > 0
+            ):
                 actor_clients["xpu"] = PersistentTrainingActorClient(
                     _xpu_interpreter_for_plan(base_plan),
                     base_plan.devices["xpu"],
                     "xpu",
                 )
-            context = mp.get_context("spawn")
-            cpu_executor = ProcessPoolExecutor(
-                max_workers=max(1, int(config.rollout_workers)),
-                mp_context=context,
-            )
+            if base_plan.episode_counts.get("cpu", 0) > 0:
+                context = mp.get_context("spawn")
+                cpu_executor = ProcessPoolExecutor(
+                    max_workers=max(1, int(config.rollout_workers)),
+                    mp_context=context,
+                )
 
         if config.throughput_adaptive_rollouts and not measured_actor_throughput:
             if progress_callback:
@@ -1050,36 +1056,44 @@ def train_policy_heterogeneous(
 
         epoch = start_epoch
         while target_epoch is None or epoch < target_epoch:
-            if cancel_callback and cancel_callback():
-                save_training_resume(
-                    resume_path,
-                    network=network,
-                    optimizer=optimizer,
-                    next_epoch=epoch,
-                    history=history,
-                    rng=rng,
-                    historical_pretraining=historical_pretraining,
-                    config=config,
-                    extra={
-                        "learner_device": str(learner_device),
-                        "measured_actor_throughput": dict(measured_actor_throughput),
-                        "training_mode": training_mode,
-                        "safe_stop": True,
-                    },
-                )
-                save_deployable_policy_snapshot(
-                    output_path,
-                    network,
-                    config,
-                    history,
-                    historical_pretraining,
-                    epoch,
-                    device=str(learner_device),
-                    rollout_workers=int(config.rollout_workers),
-                )
-                raise TrainingCancelled(
-                    f"CALO policy training stopped safely after cumulative epoch {epoch}."
-                )
+            cancel = cancel_callback() if cancel_callback else False
+            if cancel:
+                if isinstance(cancel, (int, float)) and not isinstance(cancel, bool) and cancel > epoch:
+                    target_epoch = int(cancel)
+                    if progress_callback:
+                        progress_callback(
+                            0, f"Rounding to epoch {target_epoch} before stop..."
+                        )
+                else:
+                    save_training_resume(
+                        resume_path,
+                        network=network,
+                        optimizer=optimizer,
+                        next_epoch=epoch,
+                        history=history,
+                        rng=rng,
+                        historical_pretraining=historical_pretraining,
+                        config=config,
+                        extra={
+                            "learner_device": str(learner_device),
+                            "measured_actor_throughput": dict(measured_actor_throughput),
+                            "training_mode": training_mode,
+                            "safe_stop": True,
+                        },
+                    )
+                    save_deployable_policy_snapshot(
+                        output_path,
+                        network,
+                        config,
+                        history,
+                        historical_pretraining,
+                        epoch,
+                        device=str(learner_device),
+                        rollout_workers=int(config.rollout_workers),
+                    )
+                    raise TrainingCancelled(
+                        f"CALO policy training stopped safely after cumulative epoch {epoch}."
+                    )
             proposed_stage = _curriculum_stage(
                 epoch, max(nominal_target, epoch + 1), bool(config.development_cases)
             )
@@ -1168,6 +1182,9 @@ def train_policy_heterogeneous(
                 config.gamma,
                 config.gae_lambda,
             )
+            if len(advantages) == 0:
+                epoch += 1
+                continue
             advantages = (advantages - advantages.mean()) / (advantages.std() + 1e-8)
             states = torch.as_tensor(
                 np.asarray(rollout["state"]),
@@ -1235,7 +1252,7 @@ def train_policy_heterogeneous(
             history.append(
                 {
                     "epoch": epoch + 1,
-                    "curriculum_stage": stage + 1,
+                    "curriculum_stage": stage,
                     "mean_loss": float(np.mean(epoch_losses)) if epoch_losses else 0.0,
                     "mean_episode_return": float(np.mean(episode_returns)),
                     "transitions": len(rollout["state"]),
@@ -1271,20 +1288,6 @@ def train_policy_heterogeneous(
                         "measured_actor_throughput": dict(measured_actor_throughput),
                         "training_mode": training_mode,
                     },
-                )
-            deploy_interval = max(
-                1, int(getattr(config, "deployable_checkpoint_interval_epochs", 10) or 10)
-            )
-            if completed_epoch % deploy_interval == 0:
-                save_deployable_policy_snapshot(
-                    output_path,
-                    network,
-                    config,
-                    history,
-                    historical_pretraining,
-                    completed_epoch,
-                    device=str(learner_device),
-                    rollout_workers=int(config.rollout_workers),
                 )
             epoch += 1
             if target_epoch is None and int(getattr(config, "max_session_epochs", 0) or 0) > 0:

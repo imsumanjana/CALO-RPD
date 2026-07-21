@@ -9,6 +9,12 @@ from .diagnostics import CONSTRAINT_COMPONENTS, population_diagnostics, transfor
 
 STATE_DIM = 24
 REGIME_NAMES = ("feasibility", "transition", "objective_refinement", "recovery")
+# Rule-based regime priors — these four distributions correspond to the four regimes in
+# REGIME_NAMES and encode prior belief about which regime to select under different conditions.
+_PRIOR_HIGH_STAGNATION = np.asarray([0.10, 0.15, 0.15, 0.60])
+_PRIOR_NO_FEASIBLE = np.asarray([0.68, 0.24, 0.03, 0.05])
+_PRIOR_LOW_FEASIBLE = np.asarray([0.30, 0.50, 0.15, 0.05])
+_PRIOR_DEFAULT = np.asarray([0.08, 0.17, 0.68, 0.07])
 
 
 @dataclass(slots=True)
@@ -144,11 +150,11 @@ def rule_based_regime_prior(state: CognitiveState) -> np.ndarray:
     guidance when exact feasibility is absent or a stagnation state is detected.
     """
     if max(state.constraint_stagnation, state.objective_stagnation) >= 0.95:
-        prior = np.asarray([0.10, 0.15, 0.15, 0.60])
+        prior = _PRIOR_HIGH_STAGNATION
     elif state.feasible_ratio <= 0.0:
-        prior = np.asarray([0.68, 0.24, 0.03, 0.05])
+        prior = _PRIOR_NO_FEASIBLE
     elif state.feasible_ratio < 0.35:
-        prior = np.asarray([0.30, 0.50, 0.15, 0.05])
+        prior = _PRIOR_LOW_FEASIBLE
     else:
-        prior = np.asarray([0.08, 0.17, 0.68, 0.07])
+        prior = _PRIOR_DEFAULT
     return prior / prior.sum()

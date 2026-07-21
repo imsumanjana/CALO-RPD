@@ -126,7 +126,7 @@ class ResumeService:
     def atomic_write_json(path: str | Path, payload: dict) -> tuple[Path, str]:
         destination = Path(path)
         destination.parent.mkdir(parents=True, exist_ok=True)
-        encoded = json.dumps(payload, indent=2, allow_nan=True).encode("utf-8")
+        encoded = json.dumps(payload, indent=2, allow_nan=False).encode("utf-8")
         with tempfile.NamedTemporaryFile(
             delete=False, dir=destination.parent, suffix=".tmp"
         ) as handle:

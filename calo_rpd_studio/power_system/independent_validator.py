@@ -16,6 +16,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 import numpy as np
+from pypower.idx_brch import PF, PT
 
 from .case_model import (
     BUS_I,
@@ -219,7 +220,7 @@ def validate_against_pypower(
         )
     )
 
-    pypower_loss = float(np.sum(solved["branch"][:, 13] + solved["branch"][:, 15]))
+    pypower_loss = float(np.sum(solved["branch"][:, PF] + solved["branch"][:, PT]))
     loss_difference = abs(pypower_loss - internal.total_loss_mw)
 
     # Aggregate Q by bus. This avoids a false mismatch when multiple same-bus generators use

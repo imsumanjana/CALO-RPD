@@ -123,6 +123,11 @@ class PolicyRegistry:
     def discover_bundled(self, directory: str | Path) -> list[PolicyRecord]:
         output: list[PolicyRecord] = []
         for path in sorted(Path(directory).glob("*.pt")):
+            stem = str(path.stem)
+            if stem.endswith(".resume"):
+                continue
+            if "_lineage" in str(path):
+                continue
             try:
                 inspected = self.inspect_checkpoint(path)
                 if self.is_suppressed(inspected["sha256"]):

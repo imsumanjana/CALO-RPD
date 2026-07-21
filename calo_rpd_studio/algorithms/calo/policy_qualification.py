@@ -14,6 +14,9 @@ import uuid
 
 import numpy as np
 
+# NumPy ≥ 2.0 renamed trapz to trapezoid; prefer the new name, fall back to the old one.
+_trapezoid = getattr(np, "trapezoid", getattr(np, "trapz", None))
+
 from calo_rpd_studio.experiments.seed_manager import SeedManager
 from calo_rpd_studio.experiments.experiment_runner import run_single
 
@@ -79,7 +82,7 @@ def _convergence_auc(result) -> float:
     x = np.asarray(xs, float)[order]
     y = np.asarray(ys, float)[order]
     span = max(float(x[-1] - x[0]), 1.0)
-    return float(np.trapezoid(y, x) / span)
+    return float(_trapezoid(y, x) / span)
 
 
 def _eval_to_feasible(result) -> float:

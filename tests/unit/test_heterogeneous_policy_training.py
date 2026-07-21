@@ -1,5 +1,6 @@
 from pathlib import Path
 
+import pytest
 import torch
 
 from calo_rpd_studio.algorithms.calo.heterogeneous_training import (
@@ -41,7 +42,7 @@ def test_unavailable_accelerators_are_redistributed_to_cpu():
 
 
 def test_rollout_shares_must_total_one_hundred():
-    try:
+    with pytest.raises(ValueError, match="exactly 100"):
         plan_training_lanes(
             10,
             cuda_share=50,
@@ -50,10 +51,6 @@ def test_rollout_shares_must_total_one_hundred():
             cuda_available=True,
             xpu_available=True,
         )
-    except ValueError as exc:
-        assert "exactly 100" in str(exc)
-    else:
-        raise AssertionError("Invalid shares were accepted")
 
 
 def test_policy_snapshot_hash_detects_changes():

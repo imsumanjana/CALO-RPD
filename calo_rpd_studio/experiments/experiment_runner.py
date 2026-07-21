@@ -208,15 +208,11 @@ def run_single(config, algorithm, run_index, seeds, progress_callback=None, canc
 
 
 def run_sequential(config, progress_callback=None, cancel_callback=None):
-    config.validate()
-    seeds = SeedManager(config.master_seed).generate(config.runs)
-    out = []
-    for ri in range(config.runs):
-        for algo in config.algorithms:
-            if cancel_callback and cancel_callback():
-                return out
-            out.append(run_single(config, algo, ri, seeds[ri], progress_callback, cancel_callback))
-    return out
+    """Run sequentially; returns (completed_runs, failed_runs) matching the resilient variants."""
+    done, failed = run_sequential_resilient(config, progress_callback, cancel_callback)
+    if failed:
+        raise failed[0].exception
+    return done, failed
 
 
 def run_sequential_resilient(config, progress_callback=None, cancel_callback=None):

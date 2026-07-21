@@ -292,7 +292,7 @@ class ExperimentConfig:
         budget = EvaluationBudget(
             BudgetPolicy(budget_data.get("policy", BudgetPolicy.EQUAL_EVALUATIONS.value)),
             int(budget_data.get("max_evaluations", 5000)),
-            budget_data.get("wall_clock_seconds"),
+            float(budget_data["wall_clock_seconds"]) if "wall_clock_seconds" in budget_data and budget_data["wall_clock_seconds"] is not None else None,
         )
         execution_backend = str(data.get("execution_backend", "gpu_preferred"))
         preset_shares = (

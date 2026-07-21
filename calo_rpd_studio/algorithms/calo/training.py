@@ -20,6 +20,7 @@ import multiprocessing as mp
 import os
 import random
 import tempfile
+import time
 from types import SimpleNamespace
 
 import numpy as np
@@ -103,7 +104,6 @@ class TrainingConfig:
     # backward compatibility; ``training_mode`` defines how it is interpreted.
     training_mode: str = "cumulative"  # cumulative | additional | indefinite
     checkpoint_interval_epochs: int = 1
-    deployable_checkpoint_interval_epochs: int = 10
     qualification_interval_epochs: int = 10000
     policy_lineage_id: str = ""
     policy_lineage_name: str = ""
@@ -111,6 +111,7 @@ class TrainingConfig:
     keep_resume_after_completion: bool = True
     # Primarily for controlled tests/automation. Zero means no session cap in indefinite mode.
     max_session_epochs: int = 0
+    parallel_runs: int = 1
 
 
 class TrainingCancelled(RuntimeError):
@@ -1045,7 +1046,6 @@ _EXACT_RESUME_MUTABLE_FIELDS = {
     "epochs",
     "training_mode",
     "checkpoint_interval_epochs",
-    "deployable_checkpoint_interval_epochs",
     "qualification_interval_epochs",
     "keep_resume_after_completion",
     "max_session_epochs",
@@ -1229,38 +1229,33 @@ def save_deployable_policy_snapshot(
     device: str,
     rollout_workers: int,
 ) -> Path:
-    """Write a policy artifact that is immediately usable for evaluation/qualification."""
-    from calo_rpd_studio.ai.checkpoint_manager import CheckpointManager
+    """Write the latest policy snapshot directly to the output path.
 
+    Overwrites the output file with the current model state — merging across
+    runs is handled exclusively by the parallel training coordinator
+    (train_policy_parallel / _merge_policy_weights).
+    """
     output_path = Path(output_path)
-    lineage_dir = output_path.parent / f"{output_path.stem}_lineage"
-    manager = CheckpointManager(lineage_dir)
-    snapshot = lineage_dir / f"epoch_{int(cumulative_epoch):012d}.pt"
-    # A deployable lineage checkpoint is immutable evidence. Repeated safe-stops at the same
-    # cumulative epoch must never overwrite an earlier artifact; allocate a deterministic suffix.
-    if snapshot.exists():
-        counter = 1
-        while True:
-            candidate = (
-                lineage_dir / f"epoch_{int(cumulative_epoch):012d}_snapshot_{counter:03d}.pt"
-            )
-            if not candidate.exists():
-                snapshot = candidate
-                break
-            counter += 1
-    manager.write_torch(
-        snapshot,
-        _deployable_policy_payload(
-            network,
-            config,
-            history,
-            historical_pretraining,
-            cumulative_epoch,
-            device=str(device),
-            rollout_workers=int(rollout_workers),
-        ),
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    payload = _deployable_policy_payload(
+        network,
+        config,
+        history,
+        historical_pretraining,
+        cumulative_epoch,
+        device=str(device),
+        rollout_workers=int(rollout_workers),
     )
-    return snapshot
+
+    with tempfile.NamedTemporaryFile(delete=False, dir=output_path.parent, suffix=".tmp") as f:
+        tmp = Path(f.name)
+    try:
+        torch.save(payload, tmp)
+        tmp.replace(output_path)
+    finally:
+        tmp.unlink(missing_ok=True)
+    return output_path
 
 
 def train_policy(config: TrainingConfig, output_path, progress_callback=None, cancel_callback=None):
@@ -1331,7 +1326,8 @@ def train_policy(config: TrainingConfig, output_path, progress_callback=None, ca
     stage_floor = 0
     if history:
         try:
-            stage_floor = max(0, int(history[-1].get("curriculum_stage", 1)) - 1)
+            raw = int(history[-1].get("curriculum_stage", 0))
+            stage_floor = raw - 1 if raw > 4 else raw  # backward compat: old checkpoints stored 1..5
         except (TypeError, ValueError):
             stage_floor = 0
     # In indefinite mode progress is epoch based rather than percent-to-target.
@@ -1342,38 +1338,44 @@ def train_policy(config: TrainingConfig, output_path, progress_callback=None, ca
     completed_units = start_epoch * config.episodes_per_epoch
     epoch = start_epoch
     while target_epoch is None or epoch < target_epoch:
-        if cancel_callback and cancel_callback():
-            save_training_resume(
-                resume_path,
-                network=network,
-                optimizer=optimizer,
-                next_epoch=epoch,
-                history=history,
-                rng=rng,
-                historical_pretraining=historical_pretraining,
-                config=config,
-                extra={
-                    "device": str(device),
-                    "rollout_workers": workers,
-                    "training_mode": training_mode,
-                    "safe_stop": True,
-                },
-            )
-            # A safe-stop boundary is also a deployable immutable policy checkpoint. The exact
-            # resume file remains separate because it additionally contains optimizer/RNG state.
-            save_deployable_policy_snapshot(
-                output_path,
-                network,
-                config,
-                history,
-                historical_pretraining,
-                epoch,
-                device=str(device),
-                rollout_workers=workers,
-            )
-            raise TrainingCancelled(
-                f"CALO policy training stopped safely after cumulative epoch {epoch}."
-            )
+        cancel = cancel_callback() if cancel_callback else False
+        if cancel:
+            if isinstance(cancel, (int, float)) and not isinstance(cancel, bool) and cancel > epoch:
+                target_epoch = int(cancel)
+                if progress_callback:
+                    progress_callback(
+                        0, f"Rounding to epoch {target_epoch} before stop..."
+                    )
+            else:
+                save_training_resume(
+                    resume_path,
+                    network=network,
+                    optimizer=optimizer,
+                    next_epoch=epoch,
+                    history=history,
+                    rng=rng,
+                    historical_pretraining=historical_pretraining,
+                    config=config,
+                    extra={
+                        "device": str(device),
+                        "rollout_workers": workers,
+                        "training_mode": training_mode,
+                        "safe_stop": True,
+                    },
+                )
+                save_deployable_policy_snapshot(
+                    output_path,
+                    network,
+                    config,
+                    history,
+                    historical_pretraining,
+                    epoch,
+                    device=str(device),
+                    rollout_workers=workers,
+                )
+                raise TrainingCancelled(
+                    f"CALO policy training stopped safely after cumulative epoch {epoch}."
+                )
         proposed_stage = _curriculum_stage(
             epoch, max(nominal_target, epoch + 1), bool(config.development_cases)
         )
@@ -1458,6 +1460,9 @@ def train_policy(config: TrainingConfig, output_path, progress_callback=None, ca
         advantages, returns = _compute_gae(
             rollout["reward"], rollout["value"], rollout["done"], config.gamma, config.gae_lambda
         )
+        if len(advantages) == 0:
+            epoch += 1
+            continue
         advantages = (advantages - advantages.mean()) / (advantages.std() + 1e-8)
         states = torch.as_tensor(np.asarray(rollout["state"]), dtype=torch.float32, device=device)
         regimes = torch.as_tensor(rollout["regime"], dtype=torch.long, device=device)
@@ -1511,7 +1516,7 @@ def train_policy(config: TrainingConfig, output_path, progress_callback=None, ca
         history.append(
             {
                 "epoch": epoch + 1,
-                "curriculum_stage": stage + 1,
+                "curriculum_stage": stage,
                 "mean_loss": float(np.mean(epoch_losses)) if epoch_losses else 0.0,
                 "mean_episode_return": float(np.mean(episode_returns)),
                 "rollout_workers": workers,
@@ -1539,35 +1544,6 @@ def train_policy(config: TrainingConfig, output_path, progress_callback=None, ca
                     "rollout_workers": workers,
                     "training_mode": training_mode,
                 },
-            )
-        deploy_interval = max(
-            1, int(getattr(config, "deployable_checkpoint_interval_epochs", 10) or 10)
-        )
-        if completed_epoch % deploy_interval == 0:
-            save_deployable_policy_snapshot(
-                output_path,
-                network,
-                config,
-                history,
-                historical_pretraining,
-                completed_epoch,
-                device=str(device),
-                rollout_workers=workers,
-            )
-            _output = Path(output_path)
-            _output.parent.mkdir(parents=True, exist_ok=True)
-            torch.save(
-                {
-                    "model_state_dict": _cpu_state_dict(network),
-                    "architecture": {"input_dim": POLICY_STATE_DIM, "hidden_dim": config.hidden_dim},
-                    "metadata": {
-                        "cumulative_epoch": completed_epoch,
-                        "training_config": asdict(config),
-                        "policy_lineage_id": str(getattr(config, "policy_lineage_id", "")),
-                        "policy_lineage_name": str(getattr(config, "policy_lineage_name", "")),
-                    },
-                },
-                _output,
             )
         epoch += 1
 
@@ -1665,3 +1641,183 @@ def train_policy(config: TrainingConfig, output_path, progress_callback=None, ca
         except OSError:
             pass
     return str(output_path), history
+
+
+def _training_instance_main(
+    config_dict: dict,
+    output_path_str: str,
+    resume_path_str: str,
+    cancel_event,
+    round_epoch_value,
+    run_index: int,
+    gpu_id: int | None,
+) -> None:
+    """Subprocess entry point for a single parallel training run."""
+    training_fields = set(TrainingConfig.__dataclass_fields__)
+    config = TrainingConfig(**{k: v for k, v in config_dict.items() if k in training_fields})
+    config.seed = config.seed + run_index
+    config.rollout_workers = 1
+    config.resume_checkpoint = ""
+    if gpu_id is not None:
+        torch.cuda.set_device(gpu_id)
+        config.ppo_device = f"cuda:{gpu_id}"
+    else:
+        config.ppo_device = "cpu"
+    output_path = Path(output_path_str)
+    resume_path = Path(resume_path_str)
+
+    def _parallel_cancel():
+        if cancel_event.is_set():
+            target = round_epoch_value.value
+            if target > 0:
+                return target
+            return True
+        return False
+
+    try:
+        train_policy(
+            config,
+            output_path,
+            progress_callback=None,
+            cancel_callback=_parallel_cancel,
+        )
+    except TrainingCancelled:
+        pass
+
+
+def _merge_policy_weights(checkpoint_paths: list[Path]) -> dict:
+    """Average model_state_dict across N independent checkpoints."""
+    merged: dict | None = None
+    count = len(checkpoint_paths)
+    common_keys: set | None = None
+    for path in checkpoint_paths:
+        ckpt = torch.load(path, map_location="cpu", weights_only=True)
+        sd = ckpt["model_state_dict"]
+        if merged is None:
+            merged = {k: v.clone().float() for k, v in sd.items()}
+            common_keys = set(sd.keys())
+        else:
+            common_keys &= sd.keys()
+            for k in merged:
+                if k in sd:
+                    merged[k] += sd[k].float()
+    if merged is not None and common_keys is not None:
+        for k in list(merged):
+            if k not in common_keys:
+                del merged[k]
+            else:
+                merged[k] /= count
+    return merged
+
+
+def train_policy_parallel(
+    config: TrainingConfig,
+    output_path,
+    *,
+    parallel_runs: int = 2,
+    progress_callback=None,
+    cancel_callback=None,
+) -> tuple[str, list]:
+    """Run N parallel training processes and merge their weights on stop.
+
+    Each process uses a unique sub-seed (``config.seed + run_index``).  GPUs
+    are assigned round-robin.  On cancel, all processes round to the nearest
+    10th epoch, their final weights are averaged, and the merged model replaces
+    the main policy file.
+    """
+    output_path = Path(output_path)
+    num_gpus = max(0, torch.cuda.device_count()) if torch.cuda.is_available() else 0
+    cancel_event = mp.Event()
+    round_epoch_value = mp.Value("i", 0)
+    ctx = mp.get_context("spawn")
+
+    processes: list[mp.Process] = []
+    for run_index in range(parallel_runs):
+        gpu_id = run_index % num_gpus if num_gpus > 0 else None
+        run_output = output_path.with_suffix(f".run_{run_index}.pt")
+        run_resume = output_path.with_suffix(f".resume.run_{run_index}.pt")
+        config_dict = asdict(config)
+        p = ctx.Process(
+            target=_training_instance_main,
+            args=(
+                config_dict,
+                str(run_output),
+                str(run_resume),
+                cancel_event,
+                round_epoch_value,
+                run_index,
+                gpu_id,
+            ),
+        )
+        p.start()
+        processes.append(p)
+
+    try:
+        while True:
+            all_alive = all(p.is_alive() for p in processes)
+            if cancel_callback and cancel_callback():
+                break
+            if not all_alive:
+                break
+            if progress_callback:
+                progress_callback(0, f"Parallel training · {sum(1 for p in processes if p.is_alive())}/{parallel_runs} runs active")
+            time.sleep(1.0)
+    finally:
+        max_epoch = 0
+        for run_index, p in enumerate(processes):
+            run_resume = output_path.with_suffix(f".resume.run_{run_index}.pt")
+            if run_resume.is_file():
+                try:
+                    rp = torch.load(run_resume, map_location="cpu", weights_only=True)
+                    ep = int(rp.get("next_epoch", 0) or 0)
+                    max_epoch = max(max_epoch, ep)
+                except Exception:
+                    pass
+
+        round_target = ((max_epoch + 9) // 10) * 10
+        if round_target > max_epoch:
+            round_epoch_value.value = round_target
+            if progress_callback:
+                progress_callback(0, f"Rounding runs to epoch {round_target}...")
+
+            alive = [p for p in processes if p.is_alive()]
+            for _ in range(60):
+                if not any(p.is_alive() for p in alive):
+                    break
+                time.sleep(1.0)
+            for p in alive:
+                if p.is_alive():
+                    p.terminate()
+                    p.join()
+
+        for p in processes:
+            if p.is_alive():
+                p.terminate()
+                p.join()
+
+        run_outputs = [output_path.with_suffix(f".run_{run_index}.pt") for run_index in range(parallel_runs)]
+        valid = [rp for rp in run_outputs if rp.is_file()]
+        if valid:
+            merged_sd = _merge_policy_weights(valid)
+            if merged_sd is not None:
+                ref = torch.load(valid[0], map_location="cpu", weights_only=True)
+                payload = {
+                    "model_state_dict": merged_sd,
+                    "architecture": ref.get("architecture", {}),
+                    "metadata": {
+                        **ref.get("metadata", {}),
+                        "cumulative_epoch": max_epoch,
+                        "parallel_runs": parallel_runs,
+                        "merged_checkpoints": parallel_runs,
+                        "_merge_count": 1,
+                        "algorithm": "CALO parallel-merged",
+                    },
+                }
+                output_path.parent.mkdir(parents=True, exist_ok=True)
+                torch.save(payload, output_path)
+                for run_output in run_outputs:
+                    run_output.unlink(missing_ok=True)
+
+    if progress_callback:
+        progress_callback(100, f"Parallel training complete · merged {parallel_runs} runs at epoch {max_epoch}")
+    return str(output_path), []

@@ -1700,7 +1700,7 @@ class ResultDatabase:
     # History and trace management
     # ------------------------------------------------------------------
 
-    def _resolve_array_path(self, value: str) -> Path | None:
+    def resolve_array_path(self, value: str) -> Path | None:
         if not value:
             return None
         path = Path(value).expanduser()
@@ -1718,7 +1718,7 @@ class ResultDatabase:
         missing = 0
         total_bytes = 0
         for value in dict.fromkeys(array_paths):
-            path = self._resolve_array_path(value)
+            path = self.resolve_array_path(value)
             if path is None:
                 continue
             try:
@@ -1827,7 +1827,7 @@ class ResultDatabase:
             if references > 0:
                 shared += 1
                 continue
-            path = self._resolve_array_path(value)
+            path = self.resolve_array_path(value)
             if path is None:
                 continue
             try:
@@ -1854,7 +1854,7 @@ class ResultDatabase:
         missing = 0
         failed = 0
         for value in dict.fromkeys(str(v) for v in paths if str(v or "").strip()):
-            path = self._resolve_array_path(value) or Path(value).expanduser()
+            path = self.resolve_array_path(value) or Path(value).expanduser()
             try:
                 if path.is_file():
                     path.unlink()

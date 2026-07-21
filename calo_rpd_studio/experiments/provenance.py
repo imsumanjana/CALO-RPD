@@ -18,7 +18,7 @@ PACKAGES = (
     "matplotlib",
     "PyQt6",
     "torch",
-    "PYPOWER",
+    "pypower",
     "PyYAML",
 )
 

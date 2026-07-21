@@ -224,12 +224,7 @@ class TransactionsPackageBuilder:
                     json.dumps(complete_record, indent=2, allow_nan=True),
                     encoding="utf-8",
                 )
-                resolver = getattr(self.database, "_resolve_array_path", None)
-                source_arrays = (
-                    resolver(row.get("arrays_path", ""))
-                    if callable(resolver)
-                    else Path(row.get("arrays_path", ""))
-                )
+                source_arrays = self.database.resolve_array_path(row.get("arrays_path", ""))
                 if source_arrays is not None and source_arrays.is_file():
                     shutil.copy2(source_arrays, task_array_dir / f"{row['id']}.npz")
                 validation_rows.append(

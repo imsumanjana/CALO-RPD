@@ -138,6 +138,8 @@ def _reconstruct_legacy_calo_trajectory(result: dict) -> list[dict]:
     constraint_stagnation = 0
     objective_stagnation = 0
     max_evaluations = max(int(result.get("evaluations", 0)), 1)
+    n_operators = max(len(operator_names), 1)
+    expected_state_dim = 18 + n_operators
     output: list[dict] = []
     for index in range(count):
         best_violation = _clean_float((diagnostics.get("best_total_violation") or [1e12] * count)[index], 1e12)
@@ -175,10 +177,10 @@ def _reconstruct_legacy_calo_trajectory(result: dict) -> list[dict]:
 
         success = operator_success[index] if index < len(operator_success) else {}
         credit = np.asarray(
-            [float(success.get(name, 0.0)) for name in operator_names[:6]], dtype=float
+            [float(success.get(name, 0.0)) for name in operator_names[:n_operators]], dtype=float
         )
-        if credit.size != 6 or credit.sum() <= 0:
-            credit = np.full(6, 1 / 6)
+        if credit.size != n_operators or credit.sum() <= 0:
+            credit = np.full(n_operators, 1 / n_operators)
         else:
             credit = credit + 1e-6
             credit /= credit.sum()
@@ -205,7 +207,7 @@ def _reconstruct_legacy_calo_trajectory(result: dict) -> list[dict]:
             0.0,
             credit,
         ].astype(float)
-        if state.shape != (24,):
+        if state.shape != (expected_state_dim,):
             return []
         usage_row = usage[index] if index < len(usage) else {}
         if usage_row:

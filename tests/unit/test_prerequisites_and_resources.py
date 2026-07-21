@@ -6,7 +6,6 @@ from calo_rpd_studio.compute.resource_scheduler import (
     ResourceSnapshot,
     accelerator_admission_allowed,
     cpu_admission_allowed,
-    gpu_admission_allowed,
     item_uses_calo_ai,
     prioritized_accelerators,
 )
@@ -57,9 +56,11 @@ def _snapshot(cuda_utilization=40.0, ram=30.0):
 def test_resource_admission_thresholds_are_soft_and_bounded():
     low = _snapshot(40.0)
     high_gpu = _snapshot(75.0)
-    assert gpu_admission_allowed(low, 70, 85, 0, 1)
-    assert not gpu_admission_allowed(high_gpu, 70, 85, 0, 1)
-    assert not gpu_admission_allowed(low, 70, 85, 1, 1)
+    cuda_device = low.by_backend("cuda")[0]
+    cuda_device_high = high_gpu.by_backend("cuda")[0]
+    assert accelerator_admission_allowed(cuda_device, 70, 85, 0, 1)
+    assert not accelerator_admission_allowed(cuda_device_high, 70, 85, 0, 1)
+    assert not accelerator_admission_allowed(cuda_device, 70, 85, 1, 1)
     assert cpu_admission_allowed(low, 50, 0)
 
 

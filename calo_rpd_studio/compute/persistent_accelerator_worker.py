@@ -227,8 +227,6 @@ def _worker_main(
                 futures[future] = str(command["job_id"])
                 continue
     finally:
-        if cancel_event.is_set():
-            pass
         executor.shutdown(wait=True, cancel_futures=False)
         # Flush results completed during shutdown.
         for future, job_id in list(futures.items()):

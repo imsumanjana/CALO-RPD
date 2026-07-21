@@ -66,7 +66,6 @@ def test_exact_policy_training_resume_matches_uninterrupted_same_target(tmp_path
             rollout_workers=1,
             ppo_device="cpu",
             checkpoint_interval_epochs=1,
-            deployable_checkpoint_interval_epochs=999,
         )
 
     full_path, full_history = train_policy(make_config(), tmp_path / "full.pt")

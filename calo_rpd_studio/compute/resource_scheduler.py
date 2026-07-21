@@ -384,11 +384,6 @@ def backend_allows_accelerators(execution_backend: str) -> bool:
     }
 
 
-def backend_allows_gpu(execution_backend: str) -> bool:
-    """Backward-compatible alias retained for older callers."""
-    return backend_allows_accelerators(execution_backend)
-
-
 def cpu_admission_allowed(
     snapshot: ResourceSnapshot,
     target_percent: float,
@@ -431,27 +426,6 @@ def accelerator_admission_allowed(
     ):
         return False
     return True
-
-
-def gpu_admission_allowed(
-    snapshot: ResourceSnapshot,
-    target_percent: float,
-    memory_limit_percent: float,
-    active_gpu_jobs: int,
-    max_gpu_jobs: int,
-) -> bool:
-    """Backward-compatible first-CUDA admission helper."""
-    device = next(iter(snapshot.by_backend("cuda")), None)
-    return bool(
-        device
-        and accelerator_admission_allowed(
-            device,
-            target_percent,
-            memory_limit_percent,
-            active_gpu_jobs,
-            max_gpu_jobs,
-        )
-    )
 
 
 def prioritized_accelerators(snapshot: ResourceSnapshot) -> tuple[DeviceSnapshot, ...]:
