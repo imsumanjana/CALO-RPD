@@ -132,6 +132,39 @@ class WorkflowManager(QObject):
         self.verified_results = max(0, int(count))
         self.changed.emit()
 
+
+    def snapshot(self) -> dict:
+        return {
+            "schema_version": 1,
+            "completed": sorted(self.completed),
+            "experiment_started": bool(self.experiment_started),
+            "experiment_completed": bool(self.experiment_completed),
+            "statistics_completed": bool(self.statistics_completed),
+            "results_reviewed": bool(self.results_reviewed),
+            "verified_results": int(self.verified_results),
+        }
+
+    def restore(self, payload: dict | None, *, infer_experiment: bool = False, experiment_completed: bool = False, verified_results: int = 0) -> None:
+        data = dict(payload or {})
+        if data:
+            self.completed = {str(key) for key in data.get("completed", []) if str(key) in {step.key for step in SETUP_STEPS}}
+            self.experiment_started = bool(data.get("experiment_started", infer_experiment))
+            self.experiment_completed = bool(data.get("experiment_completed", experiment_completed))
+            self.statistics_completed = bool(data.get("statistics_completed", False))
+            self.results_reviewed = bool(data.get("results_reviewed", False))
+            self.verified_results = max(int(data.get("verified_results", verified_results)), int(verified_results))
+        else:
+            # An experiment row can only exist after the complete setup sequence has been applied.
+            self.completed = {"power_system", "orpd", "algorithms", "portfolio", "scenarios"}
+            if self.calo_required():
+                self.completed.add("calo")
+            self.experiment_started = bool(infer_experiment)
+            self.experiment_completed = bool(experiment_completed)
+            self.statistics_completed = False
+            self.results_reviewed = False
+            self.verified_results = max(0, int(verified_results))
+        self.changed.emit()
+
     def calo_required(self) -> bool:
         return "CALO" in self.state.config.algorithms
 

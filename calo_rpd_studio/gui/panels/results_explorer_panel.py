@@ -28,6 +28,7 @@ class ResultsExplorerPanel(WorkspacePage):
 
     review_completed = pyqtSignal()
     validation_requested = pyqtSignal(str, str)
+    experiment_restore_requested = pyqtSignal(str)
 
     def __init__(self, state, parent=None) -> None:
         super().__init__(
@@ -51,6 +52,9 @@ class ResultsExplorerPanel(WorkspacePage):
         refresh.clicked.connect(self.refresh)
         manage_history = QPushButton("Manage history")
         manage_history.clicked.connect(self._manage_history)
+        restore_workspace = QPushButton("Open experiment workspace")
+        restore_workspace.setToolTip("Restore this experiment's saved parameters, CALO intelligence, workflow access, and stored plots.")
+        restore_workspace.clicked.connect(self._restore_selected_experiment)
         filters.addWidget(QLabel("Experiment"))
         filters.addWidget(self.experiment, 1)
         filters.addWidget(QLabel("Algorithm"))
@@ -58,6 +62,7 @@ class ResultsExplorerPanel(WorkspacePage):
         filters.addWidget(QLabel("Validation"))
         filters.addWidget(self.validation)
         filters.addWidget(refresh)
+        filters.addWidget(restore_workspace)
         filters.addWidget(manage_history)
         self.layout_root.addLayout(filters)
 
@@ -118,6 +123,14 @@ class ResultsExplorerPanel(WorkspacePage):
         self.experiment.setCurrentIndex(max(index, 0))
         self.experiment.blockSignals(False)
         self.refresh()
+
+    def select_experiment(self, experiment_id: str) -> None:
+        self.refresh_experiments()
+        index = self.experiment.findData(str(experiment_id))
+        if index >= 0:
+            self.experiment.setCurrentIndex(index)
+        if hasattr(self, "refresh"):
+            self.refresh()
 
     def refresh(self) -> None:
         experiment_id = self.experiment.currentData()
@@ -227,6 +240,12 @@ class ResultsExplorerPanel(WorkspacePage):
                 self.show_selected()
                 return
         raise KeyError(f"Run {run_id!r} is not available in experiment {experiment_id!r}")
+
+
+    def _restore_selected_experiment(self) -> None:
+        experiment_id = str(self.experiment.currentData() or "")
+        if experiment_id:
+            self.experiment_restore_requested.emit(experiment_id)
 
     def _manage_history(self) -> None:
         """Open the dedicated destructive-history manager and refresh this workspace afterwards."""

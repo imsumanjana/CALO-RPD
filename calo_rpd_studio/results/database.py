@@ -99,6 +99,33 @@ class ResultDatabase:
             resumable INTEGER NOT NULL DEFAULT 1, created_at TEXT NOT NULL,
             updated_at TEXT NOT NULL
         );
+        CREATE TABLE IF NOT EXISTS policies(
+            id TEXT PRIMARY KEY, name TEXT NOT NULL, checkpoint_path TEXT NOT NULL,
+            sha256 TEXT NOT NULL UNIQUE, architecture_version TEXT NOT NULL DEFAULT '',
+            state_schema_version TEXT NOT NULL DEFAULT '', action_schema_version TEXT NOT NULL DEFAULT '',
+            training_environment_version TEXT NOT NULL DEFAULT '',
+            qualification_status TEXT NOT NULL DEFAULT 'candidate', grade TEXT NOT NULL DEFAULT 'U',
+            active INTEGER NOT NULL DEFAULT 0, archived INTEGER NOT NULL DEFAULT 0,
+            metadata_json TEXT NOT NULL DEFAULT '{}', created_at TEXT NOT NULL, updated_at TEXT NOT NULL
+        );
+        CREATE TABLE IF NOT EXISTS policy_qualifications(
+            id TEXT PRIMARY KEY, policy_id TEXT NOT NULL, created_at TEXT NOT NULL,
+            reference_policy_id TEXT NOT NULL DEFAULT '', config_json TEXT NOT NULL DEFAULT '{}',
+            metrics_json TEXT NOT NULL DEFAULT '{}', passed INTEGER NOT NULL DEFAULT 0,
+            grade TEXT NOT NULL DEFAULT 'U', score REAL NOT NULL DEFAULT 0.0,
+            FOREIGN KEY(policy_id) REFERENCES policies(id)
+        );
+        CREATE TABLE IF NOT EXISTS experiment_policy_bindings(
+            experiment_id TEXT PRIMARY KEY, policy_id TEXT NOT NULL DEFAULT '', policy_name TEXT NOT NULL DEFAULT '',
+            checkpoint_path TEXT NOT NULL DEFAULT '', sha256 TEXT NOT NULL DEFAULT '',
+            binding_json TEXT NOT NULL DEFAULT '{}', created_at TEXT NOT NULL,
+            FOREIGN KEY(experiment_id) REFERENCES experiments(id)
+        );
+        CREATE TABLE IF NOT EXISTS experiment_workspace_state(
+            experiment_id TEXT PRIMARY KEY, workflow_json TEXT NOT NULL DEFAULT '{}',
+            ui_json TEXT NOT NULL DEFAULT '{}', updated_at TEXT NOT NULL,
+            FOREIGN KEY(experiment_id) REFERENCES experiments(id)
+        );
         CREATE INDEX IF NOT EXISTS idx_runs_experiment ON runs(experiment_id);
         CREATE INDEX IF NOT EXISTS idx_failures_experiment ON run_failures(experiment_id);
         CREATE INDEX IF NOT EXISTS idx_validations_run ON validations(run_id);
@@ -106,6 +133,9 @@ class ResultDatabase:
         CREATE INDEX IF NOT EXISTS idx_campaign_tasks_status ON campaign_tasks(campaign_id,status);
         CREATE INDEX IF NOT EXISTS idx_campaign_tasks_fingerprint ON campaign_tasks(fingerprint);
         CREATE INDEX IF NOT EXISTS idx_resumable_status ON resumable_tasks(status,resumable);
+        CREATE INDEX IF NOT EXISTS idx_policies_active ON policies(active,archived);
+        CREATE INDEX IF NOT EXISTS idx_policy_qualifications_policy ON policy_qualifications(policy_id,created_at);
+        CREATE INDEX IF NOT EXISTS idx_policy_bindings_sha ON experiment_policy_bindings(sha256);
         """
         with self.connect() as con:
             con.executescript(schema)
@@ -534,6 +564,165 @@ class ResultDatabase:
     # Historical-learning classification
     # ------------------------------------------------------------------
 
+
+    # ------------------------------------------------------------------
+    # CALO v4.1 policy library, qualification, immutable bindings, workspace state
+    # ------------------------------------------------------------------
+
+    def upsert_policy(self, *, policy_id: str, name: str, checkpoint_path: str, sha256: str,
+                      architecture_version: str, state_schema_version: str, action_schema_version: str,
+                      training_environment_version: str, qualification_status: str = "candidate",
+                      grade: str = "U", active: bool = False, archived: bool = False,
+                      metadata: dict | None = None) -> None:
+        now = self._utcnow()
+        with self._lock, self.connect() as con:
+            con.execute(
+                """INSERT INTO policies(id,name,checkpoint_path,sha256,architecture_version,state_schema_version,
+                   action_schema_version,training_environment_version,qualification_status,grade,active,archived,
+                   metadata_json,created_at,updated_at)
+                   VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+                   ON CONFLICT(id) DO UPDATE SET name=excluded.name,checkpoint_path=excluded.checkpoint_path,
+                   sha256=excluded.sha256,architecture_version=excluded.architecture_version,
+                   state_schema_version=excluded.state_schema_version,action_schema_version=excluded.action_schema_version,
+                   training_environment_version=excluded.training_environment_version,
+                   qualification_status=excluded.qualification_status,grade=excluded.grade,active=excluded.active,
+                   archived=excluded.archived,metadata_json=excluded.metadata_json,updated_at=excluded.updated_at""",
+                (str(policy_id),str(name),str(checkpoint_path),str(sha256),str(architecture_version),
+                 str(state_schema_version),str(action_schema_version),str(training_environment_version),
+                 str(qualification_status),str(grade),int(bool(active)),int(bool(archived)),
+                 json.dumps(metadata or {}, allow_nan=True),now,now),
+            )
+
+    def get_policy(self, policy_id: str) -> dict | None:
+        with self.connect() as con:
+            row = con.execute("SELECT * FROM policies WHERE id=?", (str(policy_id),)).fetchone()
+        return None if row is None else dict(row)
+
+    def get_policy_by_sha256(self, sha256: str) -> dict | None:
+        with self.connect() as con:
+            row = con.execute("SELECT * FROM policies WHERE sha256=?", (str(sha256),)).fetchone()
+        return None if row is None else dict(row)
+
+    def list_policies(self, *, include_archived: bool = False) -> list[dict]:
+        query = "SELECT * FROM policies"
+        if not include_archived:
+            query += " WHERE archived=0"
+        query += " ORDER BY active DESC, grade ASC, updated_at DESC, name"
+        with self.connect() as con:
+            return [dict(row) for row in con.execute(query).fetchall()]
+
+    def update_policy(self, policy_id: str, **fields) -> None:
+        allowed = {
+            "name", "checkpoint_path", "qualification_status", "grade", "active", "archived",
+            "metadata_json", "architecture_version", "state_schema_version", "action_schema_version",
+            "training_environment_version",
+        }
+        clauses = ["updated_at=?"]
+        values = [self._utcnow()]
+        for key, value in fields.items():
+            if key not in allowed:
+                continue
+            clauses.append(f"{key}=?")
+            if key in {"active", "archived"}:
+                value = int(bool(value))
+            elif key == "metadata_json" and isinstance(value, dict):
+                value = json.dumps(value, allow_nan=True)
+            values.append(value)
+        values.append(str(policy_id))
+        with self._lock, self.connect() as con:
+            con.execute(f"UPDATE policies SET {','.join(clauses)} WHERE id=?", values)
+
+    def set_active_policy(self, policy_id: str) -> None:
+        with self._lock, self.connect() as con:
+            row = con.execute("SELECT id FROM policies WHERE id=? AND archived=0", (str(policy_id),)).fetchone()
+            if row is None:
+                raise KeyError(f"Unknown or archived policy: {policy_id}")
+            con.execute("UPDATE policies SET active=0")
+            con.execute("UPDATE policies SET active=1,updated_at=? WHERE id=?", (self._utcnow(),str(policy_id)))
+
+    def delete_policy(self, policy_id: str) -> None:
+        with self._lock, self.connect() as con:
+            con.execute("DELETE FROM policy_qualifications WHERE policy_id=?", (str(policy_id),))
+            con.execute("DELETE FROM policies WHERE id=?", (str(policy_id),))
+
+    def add_policy_qualification(self, *, qualification_id: str, policy_id: str,
+                                 reference_policy_id: str = "", config: dict | None = None,
+                                 metrics: dict | None = None, passed: bool = False,
+                                 grade: str = "U", score: float = 0.0,
+                                 qualification_status: str | None = None) -> None:
+        with self._lock, self.connect() as con:
+            con.execute(
+                "INSERT INTO policy_qualifications VALUES(?,?,?,?,?,?,?,?,?)",
+                (str(qualification_id),str(policy_id),self._utcnow(),str(reference_policy_id),
+                 json.dumps(config or {}, allow_nan=True),json.dumps(metrics or {}, allow_nan=True),
+                 int(bool(passed)),str(grade),float(score)),
+            )
+            con.execute(
+                "UPDATE policies SET qualification_status=?,grade=?,updated_at=? WHERE id=?",
+                (str(qualification_status or ("qualified" if passed else "failed")),str(grade),self._utcnow(),str(policy_id)),
+            )
+
+    def list_policy_qualifications(self, policy_id: str | None = None) -> list[dict]:
+        query = "SELECT * FROM policy_qualifications"
+        args: list = []
+        if policy_id:
+            query += " WHERE policy_id=?"; args.append(str(policy_id))
+        query += " ORDER BY created_at DESC"
+        with self.connect() as con:
+            return [dict(row) for row in con.execute(query,args).fetchall()]
+
+    def bind_policy_to_experiment(self, experiment_id: str, binding: dict) -> None:
+        with self._lock, self.connect() as con:
+            con.execute(
+                """INSERT INTO experiment_policy_bindings(
+                   experiment_id,policy_id,policy_name,checkpoint_path,sha256,binding_json,created_at)
+                   VALUES(?,?,?,?,?,?,?)
+                   ON CONFLICT(experiment_id) DO UPDATE SET policy_id=excluded.policy_id,
+                   policy_name=excluded.policy_name,checkpoint_path=excluded.checkpoint_path,
+                   sha256=excluded.sha256,binding_json=excluded.binding_json,created_at=excluded.created_at""",
+                (str(experiment_id),str(binding.get("policy_id","")),str(binding.get("policy_name","")),
+                 str(binding.get("policy_checkpoint","")),str(binding.get("policy_sha256","")),
+                 json.dumps(binding,allow_nan=True),self._utcnow()),
+            )
+
+    def get_experiment_policy_binding(self, experiment_id: str) -> dict | None:
+        with self.connect() as con:
+            row = con.execute("SELECT * FROM experiment_policy_bindings WHERE experiment_id=?", (str(experiment_id),)).fetchone()
+        if row is None:
+            return None
+        output = dict(row)
+        output["binding"] = json.loads(output.get("binding_json") or "{}")
+        return output
+
+    def policy_reference_count(self, policy_id: str, sha256: str = "") -> int:
+        with self.connect() as con:
+            count = con.execute(
+                "SELECT COUNT(*) AS n FROM experiment_policy_bindings WHERE policy_id=? OR (?<>'' AND sha256=?)",
+                (str(policy_id),str(sha256),str(sha256)),
+            ).fetchone()["n"]
+        return int(count)
+
+    def save_workspace_state(self, experiment_id: str, *, workflow: dict, ui: dict | None = None) -> None:
+        with self._lock, self.connect() as con:
+            con.execute(
+                """INSERT INTO experiment_workspace_state(experiment_id,workflow_json,ui_json,updated_at)
+                   VALUES(?,?,?,?) ON CONFLICT(experiment_id) DO UPDATE SET
+                   workflow_json=excluded.workflow_json,ui_json=excluded.ui_json,updated_at=excluded.updated_at""",
+                (str(experiment_id),json.dumps(workflow or {},allow_nan=True),json.dumps(ui or {},allow_nan=True),self._utcnow()),
+            )
+
+    def get_workspace_state(self, experiment_id: str) -> dict | None:
+        with self.connect() as con:
+            row = con.execute("SELECT * FROM experiment_workspace_state WHERE experiment_id=?", (str(experiment_id),)).fetchone()
+        if row is None:
+            return None
+        return {
+            "experiment_id": str(row["experiment_id"]),
+            "workflow": json.loads(row["workflow_json"] or "{}"),
+            "ui": json.loads(row["ui_json"] or "{}"),
+            "updated_at": str(row["updated_at"]),
+        }
+
     def set_experiment_learning_role(
         self,
         experiment_id: str,
@@ -832,6 +1021,8 @@ class ResultDatabase:
             con.execute(
                 "DELETE FROM run_failures WHERE experiment_id=?", (experiment_id,)
             )
+            con.execute("DELETE FROM experiment_workspace_state WHERE experiment_id=?", (experiment_id,))
+            con.execute("DELETE FROM experiment_policy_bindings WHERE experiment_id=?", (experiment_id,))
             con.execute("DELETE FROM experiments WHERE id=?", (experiment_id,))
             array_paths = [row["arrays_path"] for row in run_rows]
         trace_summary = self._delete_trace_files(array_paths)
@@ -865,6 +1056,8 @@ class ResultDatabase:
             con.execute("DELETE FROM resumable_tasks")
             con.execute("DELETE FROM runs")
             con.execute("DELETE FROM run_failures")
+            con.execute("DELETE FROM experiment_workspace_state")
+            con.execute("DELETE FROM experiment_policy_bindings")
             con.execute("DELETE FROM experiments")
             con.execute("DELETE FROM portfolios")
             array_paths = [row["arrays_path"] for row in run_rows]

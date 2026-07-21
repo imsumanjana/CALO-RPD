@@ -40,6 +40,7 @@ from calo_rpd_studio.gui.widgets.workflow_guide import WorkflowGuide
 
 from .project_manager import ProjectManager
 from .workflow_manager import WorkflowManager
+from .experiment_workspace_restorer import ExperimentWorkspaceRestorer
 
 
 WORKSPACES = [
@@ -97,6 +98,7 @@ class MainWindow(QMainWindow):
         ]
         for page in self.pages:
             self.stack.addWidget(page)
+        self.restorer = ExperimentWorkspaceRestorer(self.state, self.workflow, self.pages)
 
         self.guide = WorkflowGuide()
         self.guide.next_clicked.connect(self._go_to_recommended_step)
@@ -146,9 +148,12 @@ class MainWindow(QMainWindow):
         self.pages[9].analysis_completed.connect(self.workflow.mark_statistics_completed)
         self.pages[10].review_completed.connect(self.workflow.mark_results_reviewed)
         self.pages[10].validation_requested.connect(self._open_reviewed_run_for_validation)
+        self.pages[10].experiment_restore_requested.connect(self.restore_experiment_workspace)
         self.pages[13].workspace_requested.connect(self._set_workspace)
+        self.pages[13].experiment_restore_requested.connect(self.restore_experiment_workspace)
         self.state.runs_changed.connect(self._refresh_verified_count)
         self.workflow.changed.connect(self._refresh_workflow)
+        self.workflow.changed.connect(self._persist_workspace_state)
 
     def _open_reviewed_run_for_validation(self, experiment_id: str, run_id: str) -> None:
         """Atomically unlock and open Validation & Audit for the reviewed run."""
@@ -216,6 +221,7 @@ class MainWindow(QMainWindow):
             self._set_workspace(descriptor.workspace_index)
 
     def _set_workspace(self, index: int) -> None:
+        self._persist_workspace_state()
         if not self.workflow.is_workspace_enabled(index):
             _, reason = self.workflow.workspace_state(index)
             QMessageBox.information(self, "Workflow step locked", reason)
@@ -232,6 +238,44 @@ class MainWindow(QMainWindow):
         if dialog.open_resume_center:
             self.pages[13].refresh()
             self._set_workspace(13)
+
+    def _persist_workspace_state(self) -> None:
+        experiment_id = str(self.state.current_experiment_id or "")
+        if not experiment_id:
+            return
+        try:
+            live_state = self.pages[8].view_state() if hasattr(self.pages[8], "view_state") else {}
+            self.state.database.save_workspace_state(
+                experiment_id,
+                workflow=self.workflow.snapshot(),
+                ui={
+                    "workspace_index": int(self.stack.currentIndex()),
+                    "live_optimization": live_state,
+                    "results_experiment_id": str(getattr(self.pages[10], "_selected_experiment_id", "") or ""),
+                },
+            )
+        except Exception:
+            pass
+
+    def restore_experiment_workspace(self, experiment_id: str) -> None:
+        try:
+            restored = self.restorer.restore(str(experiment_id))
+            self._refresh_workflow()
+            ui_state = dict(restored.get("ui") or {})
+            if hasattr(self.pages[8], "restore_view_state"):
+                self.pages[8].restore_view_state(ui_state.get("live_optimization"))
+            results_experiment_id = str(ui_state.get("results_experiment_id", "") or "")
+            if results_experiment_id:
+                self.pages[10].select_experiment(results_experiment_id)
+            target = int(ui_state.get("workspace_index", 8))
+            if not self.workflow.is_workspace_enabled(target):
+                target = 8 if self.workflow.is_workspace_enabled(8) else 7
+            self._set_workspace(target)
+            self.state.task_status.finish(
+                f"Restored experiment workspace · {restored['runs']} stored run(s) · {restored['campaign_status']}"
+            )
+        except Exception as exc:
+            QMessageBox.critical(self, "Experiment restoration failed", str(exc))
 
     def _create_toolbar(self) -> None:
         toolbar = QToolBar("Project")
@@ -302,7 +346,7 @@ class MainWindow(QMainWindow):
         QMessageBox.information(
             self,
             "About CALO-RPD Studio",
-            "CALO-RPD Studio 4.0.0\n"
+            "CALO-RPD Studio 4.1.0\n"
             "Cognitive Adaptive Learning Optimizer for Robust Reactive Power Dispatch\n\n"
             "Guided scientific optimization, reproducible benchmarking, validation, statistics, and publication export.",
         )
@@ -313,6 +357,7 @@ class MainWindow(QMainWindow):
             QTimer.singleShot(0, self.close)
 
     def closeEvent(self, event) -> None:  # noqa: N802 - Qt API
+        self._persist_workspace_state()
         if self.experiment_manager.running:
             answer = QMessageBox.question(
                 self,

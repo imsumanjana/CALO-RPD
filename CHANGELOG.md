@@ -1,5 +1,21 @@
 # Changelog
 
+## 4.1.0
+
+- Added a database-backed CALO Policy Center with policy discovery/import, immutable SHA-256 provenance, scientific status/grades, active-policy selection, archive, and reference-safe deletion.
+- Added paired Policy Qualification on development cases: Candidate vs selected reference vs No-AI CALO under identical seeds and FE budgets; IEEE 118/300 remain protected holdouts by default. A+ qualification requires statistically supported paired superiority rather than training loss/return alone.
+- Added the native CALO v4.1 policy schema: 32 features = historical 24-D cognitive state plus HPEM occupancy/consensus/readiness, success-memory density, learning-lane fraction, precision status/radius, and variable-group concentration. Legacy 24-D checkpoints remain explicitly classified rather than silently treated as native.
+- Added strict experiment-policy bindings containing policy ID/name/path/SHA, architecture, state/action/training schema, qualification status/grade, and deterministic setting. Checksum/schema mismatches block strict numerical execution.
+- Added an explicit No-AI CALO mode. Unqualified policies require explicit research-only permission and cannot become the default active policy through normal activation.
+- Updated policy-training checkpoint metadata/state to v4.1 semantics while retaining exact epoch-level training resume. Real-optimizer Policy Qualification remains mandatory because the lightweight PPO rollout environment is not claimed to be bit-identical to the complete runtime transition loop.
+- Added centralized ExperimentWorkspaceRestorer and persistent workflow/UI snapshots. Existing experiments now restore scientific configuration, CALO intelligence settings, workflow access, stored Live Optimization histories, selected run/plot view, and result/statistics/validation context.
+- Wired historical experiment opening/resume to `LiveOptimizationPanel.load_experiment()` so old convergence plots are reconstructed from stored numerical evidence.
+- Added end-to-end CALO runtime timing metadata separating policy inference, candidate generation, evaluator, and learning update. Evaluator warm-up/calibration is explicitly labelled evaluator-only.
+- Preserved the v4.0 seeded CALO search trajectory for No-AI regression cases; host-side overhead reductions do not alter frozen stochastic peer-sampling semantics.
+- Added adaptive persistent exact-evaluation caching: exact within-batch deduplication always remains, while low-yield cross-batch storage can disable itself without changing requested FE accounting.
+- Added an in-GUI v4.1 dispute register so unresolved/partial performance and policy-science issues cannot be mistaken for closed findings. Full Torch/CUDA-native CALO control and indefinite policy/experiment continuation are intentionally deferred.
+- Removed obsolete root-level per-version `PATCH_NOTES_v*.md`; consolidated release history remains in this changelog.
+
 ## 4.0.0
 
 - Introduced CALO v4, a tensor-native constraint-cognitive architecture implementing the repository upgrade plan with a maximum persistent tensor dimensionality of 3D.

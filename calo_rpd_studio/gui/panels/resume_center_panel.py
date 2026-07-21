@@ -20,6 +20,7 @@ from calo_rpd_studio.gui.widgets.workspace_page import WorkspacePage
 
 class ResumeCenterPanel(WorkspacePage):
     workspace_requested = pyqtSignal(int)
+    experiment_restore_requested = pyqtSignal(str)
 
     def __init__(self, state, experiment_manager, parent=None) -> None:
         super().__init__(
@@ -111,6 +112,10 @@ class ResumeCenterPanel(WorkspacePage):
             if not campaign_id:
                 QMessageBox.critical(self, "Resume failed", "The experiment resume record has no campaign ID.")
                 return False
+            campaign = self.state.database.get_campaign(campaign_id)
+            experiment_id = str((campaign or {}).get("experiment_id", "") or item["state"].get("experiment_id", ""))
+            if experiment_id:
+                self.experiment_restore_requested.emit(experiment_id)
             return bool(self.manager.resume_campaign(campaign_id))
         if task_type == "policy_training":
             self.workspace_requested.emit(5)

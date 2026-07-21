@@ -1,4 +1,4 @@
-"""Hierarchical actor-critic policy for CALO Core v2."""
+"""Hierarchical actor-critic policy network used by legacy and native CALO policies."""
 from __future__ import annotations
 
 import torch

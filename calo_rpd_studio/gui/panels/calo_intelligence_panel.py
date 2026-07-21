@@ -4,6 +4,7 @@ from __future__ import annotations
 from dataclasses import asdict
 import hashlib
 import json
+import numpy as np
 from pathlib import Path
 
 from PyQt6.QtCore import QThread, pyqtSignal
@@ -21,6 +22,11 @@ from PyQt6.QtWidgets import (
     QPushButton,
     QSpinBox,
     QTextEdit,
+    QTableWidget,
+    QTableWidgetItem,
+    QHeaderView,
+    QAbstractItemView,
+    QSplitter,
     QVBoxLayout,
     QWidget,
 )
@@ -40,6 +46,9 @@ from calo_rpd_studio.algorithms.calo.heterogeneous_training import (
 from calo_rpd_studio.gui.widgets.page_header import PageHeader
 from calo_rpd_studio.gui.widgets.scrollable_page import ScrollablePage
 from calo_rpd_studio.gui.widgets.historical_experience_widget import HistoricalExperienceWidget
+from calo_rpd_studio.gui.plotting.scientific_plot import ScientificPlotWidget
+from calo_rpd_studio.algorithms.calo.policy_qualification import PolicyQualifier, PolicyQualificationConfig
+from calo_rpd_studio.algorithms.calo.v41_disputes import DISPUTES
 from calo_rpd_studio.resume.models import ResumeStatus, ResumeTaskType
 
 
@@ -95,6 +104,36 @@ class TrainingWorker(QThread):
                 self.failed.emit(f"{type(exc).__name__}: {exc}")
 
 
+
+
+class PolicyQualificationWorker(QThread):
+    progress = pyqtSignal(int, str)
+    completed = pyqtSignal(object)
+    failed = pyqtSignal(str)
+
+    def __init__(self, qualifier, candidate_id: str, reference_id: str, config) -> None:
+        super().__init__()
+        import threading
+        self.qualifier = qualifier
+        self.candidate_id = candidate_id
+        self.reference_id = reference_id
+        self.config = config
+        self._cancel = threading.Event()
+
+    def cancel(self) -> None:
+        self._cancel.set()
+
+    def run(self) -> None:
+        try:
+            result = self.qualifier.run(
+                self.candidate_id, reference_policy_id=self.reference_id, config=self.config,
+                progress_callback=self.progress.emit, cancel_callback=self._cancel.is_set,
+            )
+            self.completed.emit(result)
+        except Exception as exc:
+            self.failed.emit(f"{type(exc).__name__}: {exc}")
+
+
 class CALOIntelligencePanel(ScrollablePage):
     stage_completed = pyqtSignal()
     experiment_manager_requested = pyqtSignal()
@@ -105,7 +144,9 @@ class CALOIntelligencePanel(ScrollablePage):
         self.state = state
         self.experiment_manager = experiment_manager
         self.worker: TrainingWorker | None = None
+        self.qualification_worker: PolicyQualificationWorker | None = None
         self.training_resume_task_id = ""
+        self._policy_rows = []
 
         layout = QVBoxLayout(content)
         layout.setContentsMargins(24, 22, 24, 22)
@@ -113,9 +154,98 @@ class CALOIntelligencePanel(ScrollablePage):
         layout.addWidget(
             PageHeader(
                 "CALO Intelligence",
-                "Inspect CALO Core v2, its hierarchical policy controller, constraint-aware cognitive state, dual archives, online operator credit, and reproducible PPO training.",
+                "Manage CALO v4.1 policies, qualify Candidate vs active/reference vs No-AI CALO under paired budgets, bind an immutable policy to runtime, and train the native 32-feature policy schema reproducibly.",
             )
         )
+
+        policy_center = QGroupBox("CALO Policy Center — library, qualification, comparison, and activation")
+        center_layout = QVBoxLayout(policy_center)
+        splitter = QSplitter()
+        library_host = QWidget()
+        library_layout = QVBoxLayout(library_host)
+        library_layout.setContentsMargins(0, 0, 0, 0)
+        self.policy_table = QTableWidget(0, 7)
+        self.policy_table.setHorizontalHeaderLabels([
+            "Active", "Policy", "Grade", "Scientific status", "Runtime architecture", "State schema", "SHA-256"
+        ])
+        self.policy_table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
+        self.policy_table.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
+        self.policy_table.setAlternatingRowColors(True)
+        self.policy_table.verticalHeader().setVisible(False)
+        self.policy_table.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeMode.ResizeToContents)
+        self.policy_table.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeMode.Stretch)
+        for column in range(2, 7):
+            self.policy_table.horizontalHeader().setSectionResizeMode(column, QHeaderView.ResizeMode.ResizeToContents)
+        self.policy_table.itemSelectionChanged.connect(self._policy_selection_changed)
+        library_layout.addWidget(self.policy_table)
+        library_buttons = QHBoxLayout()
+        self.policy_import_button = QPushButton("Import policy")
+        self.policy_activate_button = QPushButton("Set active")
+        self.policy_archive_button = QPushButton("Archive")
+        self.policy_delete_button = QPushButton("Delete safely")
+        self.policy_refresh_button = QPushButton("Refresh")
+        self.show_archived_policies = QCheckBox("Show archived")
+        self.show_archived_policies.toggled.connect(lambda _checked: self.refresh_policy_library())
+        self.policy_import_button.clicked.connect(self.import_policy)
+        self.policy_activate_button.clicked.connect(self.activate_selected_policy)
+        self.policy_archive_button.clicked.connect(self.archive_selected_policy)
+        self.policy_delete_button.clicked.connect(self.delete_selected_policy)
+        self.policy_refresh_button.clicked.connect(self.refresh_policy_library)
+        for button in (self.policy_import_button, self.policy_activate_button, self.policy_archive_button, self.policy_delete_button, self.policy_refresh_button):
+            library_buttons.addWidget(button)
+        library_buttons.addWidget(self.show_archived_policies)
+        library_buttons.addStretch(1)
+        library_layout.addLayout(library_buttons)
+
+        comparison_host = QWidget()
+        comparison_layout = QVBoxLayout(comparison_host)
+        comparison_layout.setContentsMargins(0, 0, 0, 0)
+        compare_controls = QHBoxLayout()
+        self.policy_metric = QComboBox()
+        self.policy_metric.addItem("Qualification grade index (ordinal)", "score")
+        self.policy_metric.addItem("Median final feasible objective", "median_objective")
+        self.policy_metric.addItem("Convergence AUC", "median_auc")
+        self.policy_metric.addItem("Feasible-run probability", "feasible_probability")
+        self.policy_metric.addItem("Evaluations to first feasibility", "median_eval_to_feasible")
+        self.policy_metric.addItem("Runtime", "mean_runtime_seconds")
+        self.policy_metric.currentIndexChanged.connect(self._draw_policy_comparison)
+        compare_controls.addWidget(QLabel("Comparison metric"))
+        compare_controls.addWidget(self.policy_metric, 1)
+        comparison_layout.addLayout(compare_controls)
+        self.policy_plot = ScientificPlotWidget(
+            title="Policy qualification comparison", xlabel="Policy", ylabel="Score", square_preview=False
+        )
+        self.policy_plot.setMinimumHeight(360)
+        comparison_layout.addWidget(self.policy_plot, 1)
+        splitter.addWidget(library_host)
+        splitter.addWidget(comparison_host)
+        splitter.setStretchFactor(0, 1)
+        splitter.setStretchFactor(1, 1)
+        center_layout.addWidget(splitter)
+
+        qualification = QGroupBox("Policy qualification gate")
+        qualification_form = QFormLayout(qualification)
+        self.qualification_reference = QComboBox()
+        self.qualification_cases = QLineEdit("case30, case57")
+        self.qualification_runs = QSpinBox(); self.qualification_runs.setRange(2, 100); self.qualification_runs.setValue(5)
+        self.qualification_budget = QSpinBox(); self.qualification_budget.setRange(100, 10_000_000); self.qualification_budget.setValue(1000)
+        self.qualification_population = QSpinBox(); self.qualification_population.setRange(4, 1000); self.qualification_population.setValue(40)
+        self.qualify_button = QPushButton("Evaluate selected policy vs active policy and No-AI CALO")
+        self.qualify_button.setObjectName("PrimaryButton")
+        self.qualify_button.clicked.connect(self.qualify_selected_policy)
+        qualification_form.addRow("Reference/frozen policy", self.qualification_reference)
+        qualification_form.addRow("Development/qualification cases", self.qualification_cases)
+        qualification_form.addRow("Paired runs per case", self.qualification_runs)
+        qualification_form.addRow("FE budget per run", self.qualification_budget)
+        qualification_form.addRow("Population", self.qualification_population)
+        qualification_form.addRow("", self.qualify_button)
+        self.qualification_status = QLabel(
+            "A policy is graded only from paired optimization outcomes. PPO loss/episode return alone never qualifies a policy. IEEE 118/300 are protected holdouts by default."
+        )
+        self.qualification_status.setWordWrap(True)
+        qualification_form.addRow("Status", self.qualification_status)
+        center_layout.addWidget(qualification)
+        layout.addWidget(policy_center)
 
         policy = QGroupBox("Policy controller")
         form = QFormLayout(policy)
@@ -135,11 +265,20 @@ class CALOIntelligencePanel(ScrollablePage):
         row_layout.setSpacing(7)
         row_layout.addWidget(self.path, 1)
         row_layout.addWidget(choose)
+        self.no_ai_mode = QCheckBox(
+            "No-AI CALO — use rule/contextual online cognition without a neural policy"
+        )
+        self.no_ai_mode.toggled.connect(lambda checked: self.path.setEnabled(not checked))
         self.deterministic = QCheckBox(
             "Deterministic operator selection during evaluation"
         )
+        self.allow_unqualified = QCheckBox(
+            "Allow unqualified/legacy policy for research-only runs (strict publication qualification not implied)"
+        )
         form.addRow("Policy checkpoint", row)
+        form.addRow("", self.no_ai_mode)
         form.addRow("", self.deterministic)
+        form.addRow("", self.allow_unqualified)
 
         inspect = QPushButton("Inspect policy metadata")
         inspect.clicked.connect(self.inspect_policy)
@@ -162,7 +301,7 @@ class CALOIntelligencePanel(ScrollablePage):
             "constraint violation, objective and constraint progress, population and elite "
             "diversity, separate stagnation states, archive occupancy, remaining evaluation "
             "budget, and online operator credit.\n\n"
-            "CALO Core v2 operators — feasible-elite learning, constraint-boundary differential "
+            "CALO v4.1 operators — feasible-elite learning, constraint-boundary differential "
             "learning, cognitive teacher learning, success-distribution memory, mixed-variable "
             "neighbourhood learning, and diversity recovery. Operators are allocated per learner.\n\n"
             "The hierarchical policy selects a search regime, operator probabilities, and bounded "
@@ -311,7 +450,7 @@ class CALOIntelligencePanel(ScrollablePage):
         )
         self.accelerated_training_orpd.setChecked(True)
         self.accelerated_training_orpd.setToolTip(
-            "v3.4 keeps CALO state, mixed-variable decoding, AC power flow, constraints and policy inference on the assigned accelerator for ORPD development rollouts. Synthetic curriculum stages remain lightweight host environments."
+            "CALO v4.1 uses the native 32-feature policy state/action schema and accelerator-native FP64 ORPD evaluation for configured development-case rollouts; synthetic curriculum stages remain lightweight host environments. Synthetic curriculum stages remain lightweight host environments."
         )
         self.cross_episode_training_batch = QCheckBox(
             "Batch compatible ORPD populations across simultaneous rollout episodes"
@@ -425,8 +564,322 @@ class CALOIntelligencePanel(ScrollablePage):
         self.ablation_button.clicked.connect(self.experiment_manager_requested.emit)
         ablation_layout.addWidget(self.ablation_button)
         layout.addWidget(ablation)
-        layout.addStretch(1)
 
+        dispute_box = QGroupBox("v4.1 audited scientific/performance dispute register")
+        dispute_layout = QVBoxLayout(dispute_box)
+        dispute_help = QLabel(
+            "RESOLVED items are closed in v4.1; PARTIAL/OPEN/DEFERRED items remain explicit future work and must not be described as solved. "
+            "This register separates scientific correctness from performance engineering."
+        )
+        dispute_help.setWordWrap(True)
+        dispute_help.setObjectName("HelpText")
+        dispute_layout.addWidget(dispute_help)
+        self.dispute_table = QTableWidget(len(DISPUTES), 4)
+        self.dispute_table.setHorizontalHeaderLabels(["ID", "Status", "Severity", "Audited finding / action"])
+        self.dispute_table.verticalHeader().setVisible(False)
+        self.dispute_table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        self.dispute_table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
+        self.dispute_table.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeMode.ResizeToContents)
+        self.dispute_table.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeMode.ResizeToContents)
+        self.dispute_table.horizontalHeader().setSectionResizeMode(2, QHeaderView.ResizeMode.ResizeToContents)
+        self.dispute_table.horizontalHeader().setSectionResizeMode(3, QHeaderView.ResizeMode.Stretch)
+        for row, item in enumerate(DISPUTES):
+            text = f"{item.finding} — {item.evidence_or_action}"
+            for col, value in enumerate((item.id, item.status, item.severity, text)):
+                self.dispute_table.setItem(row, col, QTableWidgetItem(str(value)))
+        self.dispute_table.setMinimumHeight(300)
+        dispute_layout.addWidget(self.dispute_table)
+        layout.addWidget(dispute_box)
+        layout.addStretch(1)
+        self.refresh_policy_library()
+        self.state.config_changed.connect(lambda config: self.load_from_config(config))
+        self.load_from_config(self.state.config)
+
+
+    def refresh_policy_library(self) -> None:
+        bundled = Path(__file__).resolve().parents[2] / "data" / "trained_models"
+        self.state.policy_registry.discover_bundled(bundled)
+        self._policy_rows = self.state.policy_registry.list(include_archived=self.show_archived_policies.isChecked())
+        self.policy_table.setRowCount(len(self._policy_rows))
+        for row, policy in enumerate(self._policy_rows):
+            values = [
+                "●" if policy.active else "",
+                policy.name,
+                policy.grade,
+                ("archived · " if policy.archived else "") + policy.qualification_status,
+                policy.architecture_version,
+                policy.state_schema_version,
+                policy.sha256[:12],
+            ]
+            for col, value in enumerate(values):
+                self.policy_table.setItem(row, col, QTableWidgetItem(str(value)))
+        current_ref = self.qualification_reference.currentData()
+        self.qualification_reference.blockSignals(True)
+        self.qualification_reference.clear()
+        self.qualification_reference.addItem("No separate reference", "")
+        for policy in self._policy_rows:
+            label = f"{policy.name} · {policy.grade} · {policy.qualification_status}"
+            self.qualification_reference.addItem(label, policy.id)
+        idx = self.qualification_reference.findData(current_ref)
+        if idx < 0 or not current_ref:
+            active = next((item for item in self._policy_rows if item.active), None)
+            idx = self.qualification_reference.findData(active.id) if active is not None else -1
+        if idx >= 0:
+            self.qualification_reference.setCurrentIndex(idx)
+        self.qualification_reference.blockSignals(False)
+        self._draw_policy_comparison()
+
+    def _selected_policy(self):
+        row = self.policy_table.currentRow()
+        return self._policy_rows[row] if 0 <= row < len(self._policy_rows) else None
+
+    def _select_policy_id(self, policy_id: str) -> None:
+        for row, policy in enumerate(self._policy_rows):
+            if policy.id == policy_id:
+                self.policy_table.selectRow(row)
+                return
+
+    def _policy_selection_changed(self) -> None:
+        policy = self._selected_policy()
+        if policy is None:
+            return
+        self.path.setText(policy.checkpoint_path)
+        self.policy_archive_button.setText("Restore archived" if policy.archived else "Archive")
+        self.inspect_policy()
+
+    def import_policy(self) -> None:
+        path, _ = QFileDialog.getOpenFileName(self, "Import CALO policy", "", "PyTorch checkpoint (*.pt)")
+        if not path:
+            return
+        try:
+            policy = self.state.policy_registry.register(path)
+            self.refresh_policy_library()
+            self._select_policy_id(policy.id)
+        except Exception as exc:
+            QMessageBox.critical(self, "Policy import failed", str(exc))
+
+    def activate_selected_policy(self) -> None:
+        policy = self._selected_policy()
+        if policy is None:
+            return
+        try:
+            self.state.policy_registry.activate(policy.id)
+            self.refresh_policy_library()
+            self._select_policy_id(policy.id)
+            self.qualification_status.setText(
+                f"Active default policy: {policy.name}. Existing experiments remain bound to their original immutable checkpoint SHA."
+            )
+        except Exception as exc:
+            QMessageBox.critical(self, "Policy activation failed", str(exc))
+
+    def archive_selected_policy(self) -> None:
+        policy = self._selected_policy()
+        if policy is None:
+            return
+        try:
+            if policy.archived:
+                self.state.policy_registry.unarchive(policy.id)
+            else:
+                self.state.policy_registry.archive(policy.id)
+            self.refresh_policy_library()
+        except Exception as exc:
+            QMessageBox.critical(self, "Policy archive failed", str(exc))
+
+    def delete_selected_policy(self) -> None:
+        policy = self._selected_policy()
+        if policy is None:
+            return
+        answer = QMessageBox.question(
+            self,
+            "Delete policy",
+            "Delete the policy library record and checkpoint file only if no experiment references it? "
+            "Referenced policies cannot be deleted and must be archived instead.",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+            QMessageBox.StandardButton.No,
+        )
+        if answer != QMessageBox.StandardButton.Yes:
+            return
+        try:
+            self.state.policy_registry.delete(policy.id, delete_artifact=True)
+            self.refresh_policy_library()
+        except Exception as exc:
+            QMessageBox.critical(self, "Policy deletion blocked", str(exc))
+
+    def qualify_selected_policy(self) -> None:
+        policy = self._selected_policy()
+        if policy is None:
+            QMessageBox.information(self, "Policy qualification", "Select a policy first.")
+            return
+        if self.state.task_status.busy:
+            QMessageBox.information(self, "Task busy", "Wait for the active task to finish first.")
+            return
+        cases = tuple(item.strip() for item in self.qualification_cases.text().split(",") if item.strip())
+        config = PolicyQualificationConfig(
+            cases=cases,
+            runs=self.qualification_runs.value(),
+            max_evaluations=self.qualification_budget.value(),
+            population_size=self.qualification_population.value(),
+            master_seed=int(self.state.config.master_seed),
+        )
+        try:
+            config.validate()
+        except Exception as exc:
+            QMessageBox.critical(self, "Policy qualification", str(exc))
+            return
+        reference_id = str(self.qualification_reference.currentData() or "")
+        if reference_id == policy.id:
+            reference_id = ""
+        qualifier = PolicyQualifier(self.state.config, self.state.policy_registry)
+        self.qualification_worker = PolicyQualificationWorker(qualifier, policy.id, reference_id, config)
+        self.qualification_worker.progress.connect(self._qualification_progress)
+        self.qualification_worker.completed.connect(self._qualification_done)
+        self.qualification_worker.failed.connect(self._qualification_failed)
+        self.state.task_status.cancel_requested.connect(self.qualification_worker.cancel)
+        self.state.task_status.begin("Qualifying CALO policy", detail=policy.name, progress=0, cancellable=True)
+        self.qualify_button.setEnabled(False)
+        self.qualification_worker.start()
+
+    def _qualification_progress(self, percent: int, detail: str) -> None:
+        self.state.task_status.update(percent, detail)
+        self.qualification_status.setText(detail)
+
+    def _qualification_done(self, result: dict) -> None:
+        try:
+            self.state.task_status.cancel_requested.disconnect(self.qualification_worker.cancel)
+        except (TypeError, AttributeError):
+            pass
+        self.qualify_button.setEnabled(True)
+        qualification_status = (
+            "qualified" if result.get("passed") and result.get("native_v41")
+            else "legacy_qualified" if result.get("passed")
+            else "failed"
+        )
+        self.state.database.add_policy_qualification(
+            qualification_id=result["qualification_id"],
+            policy_id=result["candidate_policy_id"],
+            reference_policy_id=result.get("reference_policy_id", ""),
+            config=result.get("config", {}),
+            metrics=result,
+            passed=bool(result.get("passed")),
+            grade=str(result.get("grade", "U")),
+            score=float(result.get("score", 0.0)),
+            qualification_status=qualification_status,
+        )
+        self.state.task_status.finish(
+            f"Policy qualification {'passed' if result.get('passed') else 'failed'} · grade {result.get('grade', 'U')}"
+        )
+        paired = result.get("paired_evidence", {}).get("vs_no_ai", {})
+        pvalue = paired.get("wilcoxon_p_two_sided")
+        ptext = f" · paired p={float(pvalue):.3g}" if isinstance(pvalue, (int, float)) and np.isfinite(float(pvalue)) else ""
+        native_text = "native v4.1" if result.get("native_v41") else "legacy-compatible"
+        self.qualification_status.setText(
+            f"Qualification {'PASS' if result.get('passed') else 'FAIL'} · {native_text} · grade {result.get('grade')} · "
+            f"grade index {float(result.get('score', 0.0)):.0f}{ptext}. " + " ".join(result.get("reasons", []))
+        )
+        self.refresh_policy_library()
+        self._select_policy_id(str(result["candidate_policy_id"]))
+
+    def _qualification_failed(self, message: str) -> None:
+        try:
+            self.state.task_status.cancel_requested.disconnect(self.qualification_worker.cancel)
+        except (TypeError, AttributeError):
+            pass
+        self.qualify_button.setEnabled(True)
+        self.state.task_status.fail(message)
+        self.qualification_status.setText(message)
+        QMessageBox.critical(self, "Policy qualification failed", message)
+
+    def _draw_policy_comparison(self, *_args) -> None:
+        key = str(self.policy_metric.currentData() or "score")
+        labels, values = [], []
+        for policy in self._policy_rows:
+            qualifications = self.state.database.list_policy_qualifications(policy.id)
+            if not qualifications:
+                continue
+            import json as _json
+            latest = qualifications[0]
+            payload = _json.loads(latest.get("metrics_json") or "{}")
+            if key == "score":
+                value = float(latest.get("score", 0.0))
+            else:
+                value = float(payload.get("participants", {}).get("candidate", {}).get(key, float("nan")))
+            if not np.isfinite(value):
+                continue
+            labels.append(policy.name)
+            values.append(value)
+        axis = self.policy_plot.axis
+        axis.clear()
+        if not labels:
+            self.policy_plot.show_message(
+                "No qualified policy evidence yet. Run Policy Qualification to compare Candidate vs reference policy vs No-AI CALO.",
+                title="Policy qualification comparison", xlabel="Policy", ylabel="Metric",
+            )
+            return
+        selected = self._selected_policy()
+        if key != "score" and selected is not None:
+            qualifications = self.state.database.list_policy_qualifications(selected.id)
+            if qualifications:
+                payload = json.loads(qualifications[0].get("metrics_json") or "{}")
+                participants = payload.get("participants", {})
+                for participant_key, display_name in (("reference", "Reference policy"), ("no_ai", "No-AI CALO")):
+                    value = participants.get(participant_key, {}).get(key)
+                    try:
+                        value = float(value)
+                    except (TypeError, ValueError):
+                        continue
+                    if np.isfinite(value):
+                        labels.append(display_name)
+                        values.append(value)
+        x = np.arange(len(labels))
+        axis.bar(x, values)
+        axis.set_xticks(x, labels, rotation=30, ha="right")
+        titles = {
+            "score": ("Policy qualification grade index (ordinal)", "Grade index"),
+            "median_objective": ("Median final feasible objective", "Objective"),
+            "median_auc": ("Median convergence AUC", "AUC"),
+            "feasible_probability": ("Feasible-run probability", "Probability"),
+            "median_eval_to_feasible": ("Evaluations to first feasibility", "Evaluations"),
+            "mean_runtime_seconds": ("Mean runtime", "Seconds"),
+        }
+        title, ylabel = titles.get(key, (key, key))
+        meta = self.policy_plot.manager.records[self.policy_plot.plot_id].metadata
+        meta.update({"title": title, "xlabel": "Policy", "ylabel": ylabel})
+        self.policy_plot.manager.apply(self.policy_plot.plot_id, self.policy_plot.style)
+
+    def load_from_config(self, config) -> None:
+        """Rehydrate the exact experiment-bound CALO runtime/intelligence selections."""
+        parameters = dict(config.algorithm_parameters.get("CALO", {}))
+        checkpoint = str(parameters.get("policy_checkpoint", "") or "")
+        self.path.setText(checkpoint)
+        self.no_ai_mode.setChecked(not bool(parameters.get("use_ai", True)))
+        self.deterministic.setChecked(bool(parameters.get("deterministic_policy", False)))
+        self.allow_unqualified.setChecked(bool(parameters.get("allow_unqualified_policy", False)))
+        policy_id = str(parameters.get("policy_id", "") or "")
+        self.policy_table.clearSelection()
+        if policy_id:
+            self._select_policy_id(policy_id)
+
+        historical = self.historical_experience
+        has_historical_runtime = bool(
+            parameters.get("historical_repository")
+            or parameters.get("use_historical_parameter_priors", False)
+            or parameters.get("use_cross_algorithm_warm_start", False)
+        )
+        mode = str(parameters.get("historical_learning_mode", "") or "")
+        if not mode:
+            mode = "historical_warm_start" if has_historical_runtime else "cold_start"
+        idx = historical.learning_mode.findData(mode)
+        if idx >= 0:
+            historical.learning_mode.setCurrentIndex(idx)
+        repository = str(parameters.get("historical_repository", "") or "")
+        historical.repository_path.setText(repository)
+        historical.use_parameter_priors.setChecked(bool(parameters.get("use_historical_parameter_priors", False)))
+        warm_start = bool(parameters.get("use_cross_algorithm_warm_start", False))
+        historical.use_cross_algorithm_knowledge.setChecked(warm_start)
+        historical.allow_population_warm_start.setChecked(warm_start)
+        historical.warm_start_percent.setValue(
+            int(round(100 * float(parameters.get("historical_warm_start_fraction", 0.15))))
+        )
 
     def _historical_repository_changed(self, path: str) -> None:
         self.metadata.setPlainText(
@@ -546,27 +999,50 @@ class CALOIntelligencePanel(ScrollablePage):
             self.accelerator_status.setText(str(exc))
 
     def apply_policy_configuration(self) -> None:
+        if self.no_ai_mode.isChecked():
+            parameters = dict(self.state.config.algorithm_parameters.get("CALO", {}))
+            for key in (
+                "policy_id", "policy_checkpoint", "policy_sha256", "policy_architecture_version",
+                "policy_state_schema_version", "policy_action_schema_version",
+                "policy_training_environment_version", "policy_qualification_status", "policy_grade",
+            ):
+                parameters.pop(key, None)
+            parameters.update({
+                "use_ai": False,
+                "strict_policy_binding": False,
+                "deterministic_policy": bool(self.deterministic.isChecked()),
+                "allow_unqualified_policy": False,
+            })
+            self.state.config.algorithm_parameters["CALO"] = parameters
+            self.metadata.setPlainText(
+                "No-AI CALO selected. Runtime uses rule-based cognitive priors plus current-run "
+                "contextual credit/memory only; no neural policy checkpoint is loaded."
+            )
+            self.state.update_config()
+            self.stage_completed.emit()
+            return
         path = Path(self.path.text().strip())
         if not path.exists():
             QMessageBox.critical(self, "CALO policy configuration", "Select a valid CALO policy checkpoint first.")
             return
         try:
-            from calo_rpd_studio.algorithms.calo.ai_controller import AIController
-
-            AIController(path, deterministic=True)  # validates CALO Core v2 architecture
-            payload = load_checkpoint(path, map_location="cpu")
-            metadata = payload.get("metadata", {})
-            checksum = hashlib.sha256(path.read_bytes()).hexdigest()
+            policy = self._selected_policy()
+            if policy is None or Path(policy.checkpoint_path).resolve() != path.resolve():
+                policy = self.state.policy_registry.register(path)
+                self.refresh_policy_library()
+                self._select_policy_id(policy.id)
+            self.state.config.algorithm_parameters.setdefault("CALO", {})["use_ai"] = True
+            binding = self.state.policy_registry.bind_to_experiment_config(
+                policy.id,
+                self.state.config,
+                deterministic=self.deterministic.isChecked(),
+                allow_unqualified=self.allow_unqualified.isChecked(),
+            )
+            binding["policy_name"] = policy.name
+            self.metadata.setPlainText(json.dumps({**policy.metadata, **binding}, indent=2))
         except Exception as exc:
             QMessageBox.critical(self, "CALO policy configuration", str(exc))
             return
-        parameters = dict(self.state.config.algorithm_parameters.get("CALO", {}))
-        parameters["policy_checkpoint"] = str(path.resolve())
-        parameters["deterministic_policy"] = self.deterministic.isChecked()
-        self.state.config.algorithm_parameters["CALO"] = parameters
-        metadata = dict(metadata)
-        metadata["sha256"] = checksum
-        self.metadata.setPlainText(json.dumps(metadata, indent=2))
         self.state.update_config()
         self.stage_completed.emit()
 
@@ -603,7 +1079,7 @@ class CALOIntelligencePanel(ScrollablePage):
             / "calo_policy_v2.pt"
         )
         if weighted:
-            default_path = str(frozen_policy.with_name("calo_policy_v2_candidate_v202.pt"))
+            default_path = str(frozen_policy.with_name("calo_policy_v4_1_candidate.pt"))
         path, _ = QFileDialog.getSaveFileName(
             self,
             "Save trained CALO policy candidate" if weighted else "Save trained CALO policy",
@@ -786,6 +1262,12 @@ class CALOIntelligencePanel(ScrollablePage):
         if self.training_resume_task_id:
             self.state.resume_service.update(self.training_resume_task_id, status=ResumeStatus.COMPLETED, current=100, total=100, resumable=False)
         self.path.setText(path)
+        try:
+            policy = self.state.policy_registry.register(path, status="candidate")
+            self.refresh_policy_library()
+            self._select_policy_id(policy.id)
+        except Exception:
+            pass
         self.inspect_policy()
         self.state.task_status.finish("CALO policy training completed")
         QMessageBox.information(

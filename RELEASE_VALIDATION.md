@@ -1,46 +1,59 @@
-# CALO-RPD Studio 4.0.0 — Release Validation Record
+# CALO-RPD Studio 4.1.0 — Release Validation Record
 
 ## Scope
 
-Version 4.0.0 implements the tensor-native constraint-cognitive CALO upgrade defined in `docs/CALO_vNext_Tensor_Native_Scientific_Upgrade_Plan.pdf`. The release changes CALO search/memory architecture while preserving the common ORPD formulation, mixed-variable decoder, constraints, requested function-evaluation accounting, independent validation, and publication-evidence gates.
+Version 4.1.0 is a policy-governance, scientific-alignment, diagnostics, and reproducibility release built on the validated v4.0 CALO/ORPD core. It introduces a managed Policy Center, explicit policy qualification, immutable experiment-policy binding, native v4.1 policy schemas, adaptive exact-cache diagnostics, and complete historical workspace restoration. It deliberately does **not** claim that a bundled policy is the best ORPD policy, nor that CALO control is fully CUDA/XPU resident.
 
-The scientific target is stronger feasible convergence without granting CALO an unfair budget or formulation advantage. The release does **not** claim universal superiority; final claims require frozen, paired, independently validated multi-run benchmark evidence.
+The common ORPD objective/evaluator, mixed-variable decoder, constraints, requested function-evaluation accounting, IEEE case treatment, independent PYPOWER validation, repeated-run independence, and publication-evidence gates remain common across algorithms.
 
-## CALO v4 scientific corrections and additions
+## Policy qualification and provenance
 
-- Persistent learner/personal-best memory is retained through environmental selection and lineage branching.
-- HPEM stores one canonical `[7,D]` feasible quality-diversity elite set and derives Best-1/3/5/7 `[4,D]` summaries without duplicate elite storage.
-- HPEM duplicate/diversity logic follows mixed-variable decoder semantics for discrete tap/shunt lattices.
-- Operator and memory-level credit are contextual 3D tensors and are updated once per batch using each learner's effective regime/context, eliminating per-candidate update-order bias.
-- Success-direction memory uses bounded `[operator, history, variable]` storage with finite NaN/Inf-safe reward normalization.
-- Generator-voltage, transformer-tap, and shunt groups receive separate regime-aware productivity learning.
-- `recovery_fraction` now controls bounded weak-learner recovery proposals while useful knowledge is retained.
-- Epsilon handling is behavior-driven by feasibility/progress/stagnation signals.
-- Discovery and learned search operate as dual lanes within one independent run and one common requested FE budget; runtime memory is reset between repeated runs.
-- Cognitive precision proposals are counted inside the common FE budget and use no hidden local optimizer or uncounted solver evaluations.
-- Exact decoded duplicate controls may reuse a physical solve, while every requested candidate still consumes one FE budget unit.
-- CALO uses hybrid 1D/2D/3D state and temporary 3D broadcast/scratch calculations; no persistent 4D CALO architecture was introduced.
-- Strict benchmark mode rejects historical priors/warm starts. Historical transfer learning remains an explicit separate study mode.
+- Native v4.1 policy state: 32 features (legacy 24 cognitive features plus HPEM occupancy/consensus/readiness, success-memory density, learning-lane fraction, precision activity/radius, and variable-group concentration).
+- Explicit runtime/state/action/training schema metadata and SHA-256 checkpoint identity.
+- Policy Library supports candidate/qualified/legacy/archived states, grades, active selection, safe archive/delete, and experiment-reference protection.
+- Strict experiments store immutable policy ID/path/SHA/schema/determinism/qualification bindings; a missing or mismatched strict policy is not silently substituted.
+- Policy Qualification compares Candidate vs selected Reference vs No-AI CALO with paired seeds and equal FE budgets. Primary ranking is median final feasible objective; AUC, feasibility, stability, evaluations-to-feasibility, and runtime are secondary evidence.
+- IEEE 118 and IEEE 300 are protected policy-training/qualification holdouts by default unless an explicit non-final override is documented.
+- The bundled legacy v2 policy is classified honestly as legacy/unqualified until separately qualified; no native-v4.1 superiority claim is made.
+
+## Training alignment
+
+The lightweight PPO rollout environment now uses the native 32-feature state and v4.1 cognitive components/semantics, including persistent personal memory, HPEM, contextual credit, variable-group intelligence, adaptive epsilon, dual-lane readiness, and functional recovery fraction. It is not represented as a bit-identical duplicate of the complete runtime transition loop; real-optimizer Policy Qualification is mandatory before scientific promotion.
+
+Exact native-v4.1 epoch-level resume stores model/optimizer state and Python/NumPy/Torch/CUDA RNG state with schema metadata. Legacy 24-feature training resumes are rejected for exact native-v4.1 continuation rather than silently reshaped. Indefinite policy lineages and long-horizon best-checkpoint evolution are reserved for the planned v5.0 architecture.
+
+## Historical experiment restoration
+
+- A centralized `ExperimentWorkspaceRestorer` rehydrates authoritative experiment configuration, power-system and algorithm selections, CALO policy/intelligence settings, robust-scenario/portfolio state, workflow gates, and historical results.
+- `LiveOptimizationPanel.load_experiment()` is now invoked on historical workspace open/resume, reconstructing stored numeric convergence histories.
+- Previously selected live run/plot/preview state and last workspace are persisted as lightweight UI state, separate from scientific configuration.
+- Existing experiments without a workspace snapshot infer completed setup stages from the authoritative experiment record while retaining normal scientific validation before new numerical work.
+
+Exact mid-run optimizer continuation, persistent partial-run telemetry, run-count extension, evaluation-horizon extension, and indefinite policy lineage management are intentionally reserved for v5.0.
+
+## Performance diagnostics
+
+- Warm-up/calibration wording explicitly states that it measures evaluator throughput rather than complete CALO end-to-end throughput.
+- CALO result metadata records policy, candidate-generation, evaluator, learning-update, and control timing for end-to-end diagnosis.
+- Exact within-batch decoded-control deduplication preserves requested FE accounting. Persistent cross-batch exact caching can disable itself after sufficient evidence when hit rate is too low to justify overhead.
+- The frozen seeded CALO regression behavior is preserved; an attempted host optimization that changed peer RNG ordering was rejected/reverted.
+- Full Torch/CUDA-native CALO cognitive/control execution is **not** claimed as solved in v4.1. The common numerical evaluator remains accelerator-capable; host-side CALO control migration is deferred pending strict parity evidence.
 
 ## Test evidence
 
-Final repository collection: **200 tests**.
+Validation was executed in isolated partitions because a single monolithic pytest invocation may exceed the execution-wrapper timeout even when partitions complete cleanly:
 
-Validation was executed in isolated partitions to avoid cumulative GUI/training resource interference:
-
-- Unit tests: **146 passed, 0 failed**.
-- Scientific tests: **20 passed, 0 failed**.
-- GUI + integration + regression tests: **34 passed, 0 failed** in Qt offscreen mode.
-- Total: **200 passed, 0 failed**.
-- Ruff: **passed with zero findings**.
-- `compileall`: **passed**.
-- CALO v4 frozen manifest: **85 files verified**.
-
-A queued Matplotlib/Qt deleted-canvas teardown race observed during testing was corrected with a safe canvas draw guard; the final GUI/integration/regression partition completed cleanly.
+- Unit: **154 passed, 0 failed**
+- GUI (Qt offscreen): **25 passed, 0 failed**
+- Integration + regression: **9 passed, 0 failed**
+- Scientific IEEE cross-checks: **4 passed, 0 failed**
+- Scientific integrity: **16 passed, 0 failed**
+- **Total: 208 passed, 0 failed**
+- Ruff: **passed with zero findings**
+- `compileall`: **passed**
+- CALO v4.1 frozen manifest: **95 files verified**
 
 ## IEEE base-case and independent PYPOWER validation
-
-All four supported benchmark cases loaded, converged, and independently cross-validated:
 
 | Case | Internal PF | Q-limit rounds | Max |ΔV| p.u. | Max |Δangle| deg | |Δloss| MW | Bus-type mismatches | Aggregate-Q mismatches |
 |---|---|---:|---:|---:|---:|---:|---:|
@@ -49,46 +62,25 @@ All four supported benchmark cases loaded, converged, and independently cross-va
 | IEEE 118 | PASS | 1 | 8.88e-16 | 1.71e-13 | 8.36e-12 | 0 | 0 |
 | IEEE 300 | PASS | 1 | 3.09e-14 | 3.13e-12 | 1.67e-11 | 0 | 0 |
 
-These values are numerical agreement checks, not optimization-performance claims.
+These are solver-agreement checks, not optimizer-superiority claims.
 
-## Budget and independence checks
+## Audited unresolved/deferred items
 
-Targeted v4 tests confirm:
+The v4.1 dispute register is exposed in the CALO Intelligence workspace and stored in `FINDINGS_CLOSURE_v4.1.0.csv`. Important items not falsely closed include:
 
-- CALO never exceeds the configured requested FE budget in the single-budget self-learning run.
-- Repeated runs with the same seed reproduce the same result in the tested deterministic path.
-- HPEM, pbest, success memory, contextual credit, and other runtime learning state start fresh for each independent optimizer instance.
-- Strict benchmark mode blocks historical parameter priors/warm starts.
-- Exact cache hits reduce physical duplicate work only; requested FE accounting is unchanged.
+- full shared bit-identical training/runtime transition implementation: partial;
+- bundled legacy policy native-v4.1 ORPD qualification: open;
+- AI/rule/credit authority calibration: open;
+- fully Torch/CUDA-native CALO cognitive/control path: deferred;
+- remaining host-side per-learner/memory loops and policy GPU→host actions: partial/open;
+- exact mid-run visual/run continuation: deferred to v5.0.
 
-## Lightweight development diagnostics — not publication evidence
+## Packaging/hardware statement
 
-A 12-D synthetic Sphere diagnostic was used only to test whether the new mechanisms produce a measurable optimization signal before expensive ORPD campaigns.
-
-Twelve paired seeds, population 16, 160 FE, AI disabled:
-
-| Variant | Median final objective | Mean | Best |
-|---|---:|---:|---:|
-| Complete CALO v4 | 0.20385 | 0.20752 | 0.09091 |
-| No HPEM | 0.23095 | 0.24138 | 0.13465 |
-| No contextual credit | 0.21069 | 0.21603 | 0.06519 |
-| No dual lane | 0.20955 | 0.22790 | 0.14584 |
-| No precision | 0.20248 | 0.21825 | 0.09318 |
-| Foundational-only | 0.27618 | 0.28914 | 0.16364 |
-
-Interpretation: the combined architecture materially improved over the foundational-only variant, with useful signal from HPEM/context/dual-lane mechanisms. Precision did not improve the median in this small synthetic diagnostic, so precision superiority is **not** claimed and must be tuned/ablated only on declared development cases.
-
-A separate 20-seed, 320-FE synthetic diagnostic gave CALO v4 a median of ~0.10338 versus TLBO ~0.04144. CALO beat several other tested baselines but did not beat TLBO on that problem. This explicitly prevents a scientifically unsupported “CALO is already best” claim.
-
-## Packaging and hardware notes
-
-- Wheel and source distribution build successfully as version 4.0.0.
-- Installed-wheel import smoke test passed using the final package artifact and host scientific dependencies.
-- Physical NVIDIA CUDA and Intel XPU hardware were not available in the build environment. The common FP64 numerical backend remains CUDA-first, then XPU, then CPU fallback, but physical utilization/throughput must be measured on the target workstation.
-- CALO control/memory state is compact contiguous host tensor/array state in v4; common ORPD population evaluation remains accelerator-capable/device-resident where supported. Full CALO-control device migration is intentionally gated behind future CPU/accelerator parity evidence rather than forced at the expense of reproducibility.
+The final release is packaged as version 4.1.0. Physical NVIDIA CUDA and Intel XPU hardware were not available in this validation environment, so no fabricated physical-utilization claim is made. The numerical backend retains CUDA → XPU → CPU preference where supported; actual end-to-end CALO accelerator utilization must be measured on the target workstation.
 
 ## Release gate conclusion
 
-**PASS for CALO v4.0.0 architecture/research release.**
+**PASS for CALO-RPD Studio v4.1.0 policy-governance/reproducibility research release.**
 
-This means the implementation, regression suite, scientific base-case validation, fairness guards, packaging, and freeze integrity passed. It does **not** mean CALO is publication-proven superior to all competitors. That claim remains gated by development-only tuning on IEEE 30/57, cryptographic freeze, blind IEEE 118/300 holdout evaluation, and 30–50 paired independently validated final runs.
+This PASS means the implemented v4.1 changes, regression partitions, scientific base-case validation, policy-binding safeguards, historical restoration, lint/compile checks, and release integrity passed. It does **not** establish universal CALO superiority or certify any unqualified policy as best. Publication claims remain gated by frozen, paired, independently validated multi-case evidence.

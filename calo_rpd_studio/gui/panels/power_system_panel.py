@@ -81,6 +81,34 @@ class PowerSystemPanel(WorkspacePage):
         self.result.setObjectName("ResultBanner")
         self.layout_root.addWidget(self.result)
 
+    def restore_case_state(self, case, power_flow=None) -> None:
+        index = self.case_combo.findText(str(case.name))
+        if index >= 0:
+            self.case_combo.setCurrentIndex(index)
+        metrics = summarize_case(case)
+        self.summary.setText(
+            f"{case.name} · {metrics['buses']} buses · {metrics['generators']} online generators · "
+            f"{metrics['branches']} active branches · {metrics['transformers']} transformers · checksum {metrics['checksum']}"
+        )
+        self._fill(self.bus_table, case.bus, "B")
+        self._fill(self.gen_table, case.gen, "G")
+        self._fill(self.branch_table, case.branch, "L")
+        self.power_flow_button.setEnabled(True)
+        if power_flow is not None and power_flow.converged:
+            self.cross_check_button.setEnabled(True)
+            self.result.setText(
+                f"Restored base AC power flow · converged · loss {power_flow.total_loss_mw:.8f} MW · "
+                "historical experiment configuration is available for inspection/resume."
+            )
+        else:
+            self.cross_check_button.setEnabled(False)
+            self.result.setText("Case restored. Re-run the base power flow if independent revalidation is required.")
+
+    def load_from_config(self, config) -> None:
+        index = self.case_combo.findText(str(config.case_name))
+        if index >= 0:
+            self.case_combo.setCurrentIndex(index)
+
     def _fill(self, table: QTableWidget, array, prefix: str) -> None:
         table.setRowCount(array.shape[0])
         table.setColumnCount(array.shape[1])

@@ -44,7 +44,13 @@ import numpy as np
 import torch
 from torch import nn
 
-from .cognitive_state import STATE_DIM
+from .policy_schema import (
+    CALO_RUNTIME_ARCHITECTURE,
+    POLICY_ACTION_SCHEMA,
+    POLICY_STATE_DIM,
+    POLICY_STATE_SCHEMA,
+    TRAINING_ENVIRONMENT_VERSION,
+)
 from .policy_network import CALOPolicyNetwork
 from calo_rpd_studio.accelerated.runtime_context import set_cross_run_broker
 from calo_rpd_studio.accelerated.throughput_engine import CrossRunBatchBroker, largest_remainder_counts
@@ -387,7 +393,7 @@ def _persistent_actor_network(device, hidden_dim: int):
     key = (str(device), int(hidden_dim))
     network = _ACTOR_NETWORK_CACHE.get(key)
     if network is None:
-        network = CALOPolicyNetwork(STATE_DIM, int(hidden_dim)).to(device)
+        network = CALOPolicyNetwork(POLICY_STATE_DIM, int(hidden_dim)).to(device)
         _ACTOR_NETWORK_CACHE[key] = network
     return network
 
@@ -429,7 +435,7 @@ def collect_actor_lane_payload(payload: dict[str, Any]) -> dict[str, Any]:
         pass
 
     device = torch.device(device_name)
-    network = _persistent_actor_network(device, config.hidden_dim) if config.persistent_actor_workers else CALOPolicyNetwork(STATE_DIM, config.hidden_dim).to(device)
+    network = _persistent_actor_network(device, config.hidden_dim) if config.persistent_actor_workers else CALOPolicyNetwork(POLICY_STATE_DIM, config.hidden_dim).to(device)
     network.load_state_dict(network_state)
     network.eval()
     actual_snapshot = _state_dict_sha256(_cpu_state_dict(network))
@@ -460,7 +466,7 @@ def collect_actor_lane_payload(payload: dict[str, Any]) -> dict[str, Any]:
 
     for step in range(config.horizon):
         states = np.stack(
-            [environment.state(config.horizon).vector() for _, environment in environments],
+            [environment.policy_state(config.horizon) for _, environment in environments],
             axis=0,
         )
         state_tensor = torch.as_tensor(states, dtype=torch.float32, device=device)
@@ -878,7 +884,7 @@ def train_policy_heterogeneous(
     cancel_callback=None,
 ):
     """Train a candidate CALO policy with synchronous weighted heterogeneous actors."""
-    final_benchmark_names = {"case30", "case57", "case118"}
+    final_benchmark_names = {"case118", "case300"}
     development_names = {Path(item).stem.lower() for item in config.development_cases}
     leaked = sorted(final_benchmark_names & development_names)
     if leaked and not config.allow_final_benchmark_training:
@@ -935,7 +941,7 @@ def train_policy_heterogeneous(
             max(1, int(config.episodes_per_epoch)),
         )
 
-    network = CALOPolicyNetwork(STATE_DIM, config.hidden_dim).to(learner_device)
+    network = CALOPolicyNetwork(POLICY_STATE_DIM, config.hidden_dim).to(learner_device)
     optimizer = torch.optim.Adam(network.parameters(), lr=config.learning_rate)
     resume_path = training_resume_path(config, output_path)
     start_epoch = 0
@@ -1175,7 +1181,7 @@ def train_policy_heterogeneous(
     )
     metadata = {
         "algorithm": "CALO",
-        "calo_core": "v2",
+        "calo_core": "v4.1",
         "training_method": "persistent auto-tuned batched heterogeneous PPO",
         "candidate_checkpoint": True,
         "benchmark_freeze_status": (
@@ -1184,7 +1190,11 @@ def train_policy_heterogeneous(
         ),
         "training_config": asdict(config),
         "training_seed": config.seed,
-        "state_dimension": STATE_DIM,
+        "state_dimension": POLICY_STATE_DIM,
+        "state_schema_version": POLICY_STATE_SCHEMA,
+        "action_schema_version": POLICY_ACTION_SCHEMA,
+        "runtime_architecture_version": CALO_RUNTIME_ARCHITECTURE,
+        "training_environment_version": TRAINING_ENVIRONMENT_VERSION,
         "execution": {
             "architecture": (
                 "same-policy synchronous persistent CUDA/XPU/CPU actor lanes with cross-episode "
@@ -1239,7 +1249,7 @@ def train_policy_heterogeneous(
     torch.save(
         {
             "model_state_dict": _cpu_state_dict(network),
-            "architecture": {"input_dim": STATE_DIM, "hidden_dim": config.hidden_dim},
+            "architecture": {"input_dim": POLICY_STATE_DIM, "hidden_dim": config.hidden_dim},
             "metadata": metadata,
         },
         output_path,

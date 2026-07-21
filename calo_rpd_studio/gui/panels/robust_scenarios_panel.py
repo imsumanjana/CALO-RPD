@@ -91,6 +91,7 @@ class RobustScenariosPanel(ScrollablePage):
         apply_button.clicked.connect(self.apply)
         layout.addWidget(apply_button)
         layout.addStretch(1)
+        self.state.config_changed.connect(lambda _: self.refresh())
         self.refresh()
 
     def _spin(self, low, high, value):
@@ -119,6 +120,9 @@ class RobustScenariosPanel(ScrollablePage):
         self.aggregation.setCurrentIndex(max(index, 0))
         self.risk.setValue(self.state.config.robust_objective.risk_lambda)
         self.alpha.setValue(self.state.config.robust_objective.cvar_alpha)
+
+    def load_from_config(self, config) -> None:
+        self.refresh()
 
     def apply(self):
         try:

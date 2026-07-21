@@ -1,6 +1,6 @@
-"""Cognitive Adaptive Learning Optimizer — CALO v4.
+"""Cognitive Adaptive Learning Optimizer — CALO v4.1.
 
-CALO v4 is a single-budget, constraint-cognitive optimizer with persistent
+CALO v4.1 is a single-budget, constraint-cognitive optimizer with persistent
 individual memory, Hierarchical Prefix Elite Memory (Best-1/3/5/7), contextual
 batch credit, bounded 3D success history, mixed-variable group intelligence,
 behavior-driven epsilon control, dual discovery/learning lanes, partial recovery,
@@ -47,6 +47,7 @@ from .learning_operators import (
 )
 from .operator_credit import blend_probabilities
 from .precision_engine import CognitivePrecisionEngine
+from .policy_schema import PolicyRuntimeContext, variable_group_concentration
 from .reward import calculate_reward
 from .success_memory import SuccessMemory
 from .tensor_state import CALOTensorState
@@ -139,14 +140,22 @@ class CALOOptimizer(BaseOptimizer):
         group: int,
         group_intelligence: VariableGroupIntelligence,
         learned_lane: bool,
+        *,
+        r1: np.ndarray | None = None,
+        r2: np.ndarray | None = None,
+        best: np.ndarray | None = None,
+        mean: np.ndarray | None = None,
+        variables=None,
     ) -> np.ndarray:
         population = state.population
         evaluations = state.evaluations
         x = population[index]
-        r1, r2 = self._select_distinct(population, index, 2)
-        quality_order = self.order(evaluations)
-        best = population[quality_order[0]]
-        mean = population.mean(axis=0)
+        if r1 is None or r2 is None:
+            r1, r2 = self._select_distinct(population, index, 2)
+        if best is None:
+            best = population[self.order(evaluations)[0]]
+        if mean is None:
+            mean = population.mean(axis=0)
         feasible_teacher = feasible_archive.sample(self.rng, best)
         boundary_teacher = boundary_archive.sample(self.rng, best)
         memory_teacher = (
@@ -154,7 +163,8 @@ class CALOOptimizer(BaseOptimizer):
             if len(hpem)
             else feasible_teacher
         )
-        variables = getattr(getattr(self.problem, "decoder", None), "variables", None)
+        if variables is None:
+            variables = getattr(getattr(self.problem, "decoder", None), "variables", None)
         group_mask = group_intelligence.mask(group, self.problem.dimension)
 
         if operator == 0:
@@ -386,12 +396,19 @@ class CALOOptimizer(BaseOptimizer):
             float(parameters.get("epsilon_exponent", 2.0)),
         )
 
-        checkpoint = parameters.get("policy_checkpoint", str(self._default_checkpoint()))
+        checkpoint = str(parameters.get("policy_checkpoint", "") or "").strip()
+        if use_ai and not checkpoint:
+            if bool(parameters.get("strict_policy_binding", False)):
+                raise ValueError("CALO AI is enabled but no immutable policy checkpoint is bound to this experiment")
+            checkpoint = str(self._default_checkpoint())
         controller = AIController(
             checkpoint if use_ai else None,
             seed=int(parameters.get("ai_inference_seed", self.seed + 7919)),
             deterministic=deterministic_policy,
             device=str(parameters.get("inference_device", "auto")),
+            expected_checksum=str(parameters.get("policy_sha256", "")) if use_ai else "",
+            expected_state_schema=str(parameters.get("policy_state_schema_version", "")) if use_ai else "",
+            expected_action_schema=str(parameters.get("policy_action_schema_version", "")) if use_ai else "",
         )
 
         diagnostics_history = diagnostic_history_template()
@@ -415,6 +432,10 @@ class CALOOptimizer(BaseOptimizer):
         precision_successes = 0
         forced_recovery_evaluations = 0
         batch_count = 0
+        policy_inference_seconds = 0.0
+        candidate_generation_seconds = 0.0
+        evaluator_seconds = 0.0
+        learning_update_seconds = 0.0
 
         while self.iteration < self.config.max_iterations and self.can_evaluate(population_size):
             self.iteration += 1
@@ -452,8 +473,43 @@ class CALOOptimizer(BaseOptimizer):
                 boundary_archive_capacity=boundary_archive.capacity,
             )
 
+            # Native v4.1 policies observe the same 24-D cognitive base plus compact HPEM,
+            # dual-lane, success-memory, precision, and variable-intelligence signals.  Legacy
+            # 24-D checkpoints remain explicitly supported through the checkpoint schema adapter.
+            hpem_reference = state.population.mean(axis=0)
+            pre_consensus = hpem.consensus(hpem_reference) if use_hpem else 0.0
+            pre_readiness = lane_controller.memory_readiness(
+                current_diag.feasible_ratio,
+                hpem.occupancy if use_hpem else 0.0,
+                memory.density if use_memory else 0.0,
+                min(batch_count / max(int(parameters.get("memory_evidence_batches", 6)), 1), 1.0),
+                pre_consensus,
+            )
+            pre_learning_fraction = (
+                lane_controller.learning_fraction(pre_readiness, progress, current_diversity, False)
+                if use_dual_lane else 1.0
+            )
+            pre_precision_active = use_precision and precision.active(
+                current_diag.feasible_ratio,
+                min(objective_stagnation / stagnation_window, 1.0),
+                progress,
+                len(hpem),
+            )
+            provisional_regime = int(np.argmax(rule_based_regime_prior(cognitive)))
+            policy_context = PolicyRuntimeContext(
+                hpem_occupancy=float(hpem.occupancy if use_hpem else 0.0),
+                memory_consensus=float(pre_consensus),
+                memory_readiness=float(pre_readiness),
+                success_memory_density=float(memory.density if use_memory else 0.0),
+                learning_lane_fraction=float(pre_learning_fraction),
+                precision_active=float(bool(pre_precision_active)),
+                precision_radius=float(np.clip(precision.radius / max(precision.max_radius, 1e-12), 0.0, 1.0)),
+                variable_group_concentration=variable_group_concentration(group_intelligence.probabilities(provisional_regime)),
+            )
             if use_ai:
-                decision = controller.decide(cognitive)
+                _policy_started = time.perf_counter()
+                decision = controller.decide(cognitive, policy_context)
+                policy_inference_seconds += time.perf_counter() - _policy_started
                 regime_probabilities = decision.regime_probabilities.copy()
                 ai_operator_probabilities = decision.operator_probabilities.copy()
                 adaptive = dict(decision.parameters)
@@ -489,15 +545,8 @@ class CALOOptimizer(BaseOptimizer):
             )
 
             contexts = classify_contexts(state.population, state.evaluations, violation_improving)
-            hpem_reference = state.population.mean(axis=0)
-            consensus = hpem.consensus(hpem_reference) if use_hpem else 0.0
-            readiness = lane_controller.memory_readiness(
-                current_diag.feasible_ratio,
-                hpem.occupancy if use_hpem else 0.0,
-                memory.density if use_memory else 0.0,
-                min(batch_count / max(int(parameters.get("memory_evidence_batches", 6)), 1), 1.0),
-                consensus,
-            )
+            consensus = pre_consensus
+            readiness = pre_readiness
             learning_fraction = (
                 lane_controller.learning_fraction(
                     readiness,
@@ -546,6 +595,7 @@ class CALOOptimizer(BaseOptimizer):
                 forced_recovery = set(quality[:count])
                 forced_recovery_evaluations += count
 
+            _candidate_started = time.perf_counter()
             offspring = scratch.get("offspring", state.population.shape, np.float64)
             assigned_operators = np.full(population_size, -1, dtype=np.int8)
             assigned_memory = np.zeros(population_size, dtype=np.int8)
@@ -568,6 +618,10 @@ class CALOOptimizer(BaseOptimizer):
                 state.population[:, None, :],
                 out=memory_directions,
             )
+            quality_order = self.order(state.evaluations)
+            batch_best = state.population[quality_order[0]]
+            batch_mean = state.population.mean(axis=0)
+            batch_variables = getattr(getattr(self.problem, "decoder", None), "variables", None)
 
             for index in range(population_size):
                 context = int(contexts[index])
@@ -670,16 +724,23 @@ class CALOOptimizer(BaseOptimizer):
                     group,
                     group_intelligence,
                     bool(lanes[index]),
+                    best=batch_best,
+                    mean=batch_mean,
+                    variables=batch_variables,
                 )
+            candidate_generation_seconds += time.perf_counter() - _candidate_started
 
+            _evaluation_started = time.perf_counter()
             offspring_evaluations = (
                 cache.evaluate_requests(self, offspring)
                 if use_evaluation_cache
                 else self.evaluate_population(offspring)
             )
+            evaluator_seconds += time.perf_counter() - _evaluation_started
             if len(offspring_evaluations) != len(offspring):
                 break
 
+            _learning_started = time.perf_counter()
             successful = np.zeros(population_size, dtype=bool)
             objective_gain = np.zeros(population_size, dtype=float)
             feasibility_gain = np.zeros(population_size, dtype=float)
@@ -854,6 +915,7 @@ class CALOOptimizer(BaseOptimizer):
                     }
                 )
 
+            learning_update_seconds += time.perf_counter() - _learning_started
             self.record(
                 {
                     "calo_operator": OPERATOR_NAMES[dominant_operator],
@@ -882,7 +944,7 @@ class CALOOptimizer(BaseOptimizer):
 
         hpem_snapshot = hpem.snapshot()
         metadata = {
-            "calo_version": "v4.0",
+            "calo_version": "v4.1",
             "architecture": "constraint-cognitive tensor-native HPEM dual-lane precision",
             "operator_names": list(OPERATOR_NAMES),
             "operator_attempts": credit.attempts.tolist(),
@@ -915,6 +977,15 @@ class CALOOptimizer(BaseOptimizer):
             "physical_solver_calls": int(cache.physical_solver_calls) if use_evaluation_cache else int(self.evaluations),
             "scratch_pool_bytes": int(scratch.allocated_bytes),
             "exact_cache_hits": int(cache.cache_hits) if use_evaluation_cache else 0,
+            "exact_cache_hit_rate": float(cache.hit_rate) if use_evaluation_cache else 0.0,
+            "exact_cache_persistent_enabled": bool(cache.persistent_enabled) if use_evaluation_cache else False,
+            "runtime_profile": {
+                "policy_inference_seconds": float(policy_inference_seconds),
+                "candidate_generation_seconds": float(candidate_generation_seconds),
+                "evaluator_seconds": float(evaluator_seconds),
+                "learning_update_seconds": float(learning_update_seconds),
+                "control_seconds": float(candidate_generation_seconds + learning_update_seconds + policy_inference_seconds),
+            },
             "diagnostics_history": diagnostics_history,
             "operator_usage_history": operator_usage_history,
             "operator_success_history": operator_success_history,
@@ -923,6 +994,13 @@ class CALOOptimizer(BaseOptimizer):
             "policy_checksum": controller.checksum,
             "policy_metadata": controller.metadata,
             "policy_inference_device": str(controller.device),
+            "policy_state_schema": dict(getattr(controller, "schema", {}) or {}),
+            "policy_binding": {
+                "policy_id": str(parameters.get("policy_id", "")),
+                "sha256": str(parameters.get("policy_sha256", controller.checksum)),
+                "state_schema_version": str(parameters.get("policy_state_schema_version", getattr(controller, "schema", {}).get("state_schema_version", ""))),
+                "action_schema_version": str(parameters.get("policy_action_schema_version", getattr(controller, "schema", {}).get("action_schema_version", ""))),
+            },
             "policy_cross_run_batched_inference": bool(controller.batched_inference),
             "policy_trajectory": policy_trajectory,
             "historical_learning": {

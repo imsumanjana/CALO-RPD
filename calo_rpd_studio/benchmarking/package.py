@@ -105,7 +105,7 @@ class TransactionsPackageBuilder:
                 shutil.copy2(source, destination)
 
         article_lines = [
-            "# CALO-RPD v4.0.0 — Article-ready evidence summary",
+            "# CALO-RPD v4.1.0 — Article-ready evidence summary",
             "",
             "## Evidence basis",
             f"- Completed campaign tasks: {len(task_experiments)}",

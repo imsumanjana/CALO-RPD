@@ -98,6 +98,14 @@ class StatisticalAnalysisPanel(WorkspacePage):
         index = self.experiment.findData(current)
         self.experiment.setCurrentIndex(max(index, 0))
 
+    def select_experiment(self, experiment_id: str) -> None:
+        self.refresh_experiments()
+        index = self.experiment.findData(str(experiment_id))
+        if index >= 0:
+            self.experiment.setCurrentIndex(index)
+        if hasattr(self, "refresh"):
+            self.refresh()
+
     def analyze(self) -> None:
         experiment_id = self.experiment.currentData()
         if not experiment_id:

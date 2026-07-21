@@ -14,6 +14,7 @@ import torch
 
 from .cognitive_state import STATE_DIM, REGIME_NAMES, rule_based_regime_prior
 from .policy_network import CALOPolicyNetwork
+from .policy_schema import build_policy_vector, infer_checkpoint_schema
 from calo_rpd_studio.accelerated.runtime_context import get_cross_run_broker
 from calo_rpd_studio.ai.model_io import load_checkpoint
 
@@ -32,7 +33,7 @@ PARAMETER_HIGH = np.asarray([1.40, 0.95, 0.30, 1.00, 0.45, 0.45], dtype=float)
 # inside that process and safely shared by concurrent CALO runs; each controller still owns its own
 # NumPy action RNG, so run-level stochastic decisions remain seed-isolated.
 _POLICY_CACHE_LOCK = threading.Lock()
-_POLICY_NETWORK_CACHE: dict[tuple[str, int, int, str], tuple[CALOPolicyNetwork, dict, str]] = {}
+_POLICY_NETWORK_CACHE: dict[tuple[str, int, int, str], tuple[CALOPolicyNetwork, dict, str, dict]] = {}
 _POLICY_BROKER_CACHE: dict[tuple[str, int, int, str], "_PolicyInferenceBroker"] = {}
 
 
@@ -149,6 +150,9 @@ class AIController:
         deterministic=False,
         input_dim=STATE_DIM,
         device: str = "auto",
+        expected_checksum: str = "",
+        expected_state_schema: str = "",
+        expected_action_schema: str = "",
     ) -> None:
         self.rng = np.random.default_rng(seed)
         self.deterministic = bool(deterministic)
@@ -168,6 +172,11 @@ class AIController:
         self.metadata: dict = {}
         self.checkpoint_path = ""
         self.checksum = ""
+        self.expected_checksum = str(expected_checksum or "").lower()
+        self.expected_state_schema = str(expected_state_schema or "")
+        self.expected_action_schema = str(expected_action_schema or "")
+        self.input_dim = int(input_dim)
+        self.schema: dict = {}
         self._inference_broker = None
         self.batched_inference = False
         if checkpoint and Path(checkpoint).exists():
@@ -197,20 +206,29 @@ class AIController:
                 state_dict = payload.get("model_state_dict", payload)
                 if "regime_head.weight" not in state_dict or "alpha_head.weight" not in state_dict:
                     raise RuntimeError(
-                        "This checkpoint uses the earlier CALO policy architecture and is not compatible "
-                        "with CALO Core v2. Select or train a v1.2.x CALO policy checkpoint."
+                        "This checkpoint uses an unsupported earlier CALO policy architecture. "
+                        "Select a compatible hierarchical CALO checkpoint or train a native v4.1 candidate."
                     )
                 architecture = payload.get("architecture", {})
-                input_dim = int(architecture.get("input_dim", STATE_DIM))
+                schema = infer_checkpoint_schema(payload)
+                input_dim = int(schema["input_dim"])
                 hidden_dim = int(architecture.get("hidden_dim", 96))
                 network = CALOPolicyNetwork(input_dim=input_dim, hidden_dim=hidden_dim).to(self.device)
                 network.load_state_dict(state_dict)
                 network.eval()
                 metadata = dict(payload.get("metadata", {}))
                 checksum = hashlib.sha256(path.read_bytes()).hexdigest()
-                cached = (network, metadata, checksum)
+                cached = (network, metadata, checksum, schema)
                 _POLICY_NETWORK_CACHE[cache_key] = cached
-            self.network, metadata, self.checksum = cached
+            self.network, metadata, self.checksum, schema = cached
+            self.schema = dict(schema)
+            self.input_dim = int(self.schema.get("input_dim", STATE_DIM))
+            if self.expected_checksum and self.checksum.lower() != self.expected_checksum:
+                raise RuntimeError("CALO policy checksum does not match the experiment's immutable policy binding")
+            if self.expected_state_schema and str(self.schema.get("state_schema_version", "")) != self.expected_state_schema:
+                raise RuntimeError("CALO policy state schema does not match the experiment binding")
+            if self.expected_action_schema and str(self.schema.get("action_schema_version", "")) != self.expected_action_schema:
+                raise RuntimeError("CALO policy action schema does not match the experiment binding")
             if get_cross_run_broker() is not None:
                 broker = _POLICY_BROKER_CACHE.get(cache_key)
                 if broker is None:
@@ -222,8 +240,8 @@ class AIController:
         self.checkpoint_path = str(path)
         self.network.eval()
 
-    def decide(self, state) -> PolicyDecision:
-        vector = state.vector() if hasattr(state, "vector") else np.asarray(state, float)
+    def decide(self, state, runtime_context=None) -> PolicyDecision:
+        vector = build_policy_vector(state, runtime_context, input_dim=self.input_dim)
         if self._inference_broker is not None:
             learned_regime, operator_probabilities, alpha_values, beta_values, critic_scalar = (
                 self._inference_broker.infer(vector)

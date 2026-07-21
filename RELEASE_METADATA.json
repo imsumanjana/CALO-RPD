@@ -1,46 +1,67 @@
 {
-  "software_version": "4.0.0",
-  "release_name": "Tensor-Native Constraint-Cognitive CALO Release",
-  "release_date": "2026-07-19",
-  "freeze": {
-    "manifest": "calo_rpd_studio/data/frozen/calo_v400_freeze.json",
-    "checked_files": 85,
-    "manifest_sha256": "99f036c9fb9b1344429e26d96b9e7e763141434f5ca92fba15f90b4be37e900a"
-  },
+  "software_version": "4.1.0",
+  "release_name": "Policy-Qualified Reproducible CALO Release",
+  "release_date": "2026-07-20",
   "validation": {
-    "tests_collected": 200,
-    "tests_passed": 200,
+    "tests_passed": 208,
     "tests_failed": 0,
-    "unit_tests": "146 passed",
-    "scientific_tests": "20 passed",
-    "gui_integration_regression_tests": "34 passed",
+    "unit_tests": "154 passed",
+    "gui_tests": "25 passed",
+    "integration_regression_tests": "9 passed",
+    "scientific_ieee_tests": "4 passed",
+    "scientific_integrity_tests": "16 passed",
     "ruff": "passed_zero_findings",
     "compileall": "passed",
-    "ieee_pypower_cases": ["case30", "case57", "case118", "case300"]
+    "ieee_pypower_cases": [
+      "case30",
+      "case57",
+      "case118",
+      "case300"
+    ]
   },
-  "calo_v4": {
-    "persistent_personal_memory": true,
-    "hpem_canonical_shape": "[7,D]",
-    "hpem_hierarchy_shape": "[4,D]",
-    "max_persistent_tensor_dimension": 3,
-    "contextual_credit": "[R,O,C] plus [R,M,C]",
-    "success_memory": "[O,H,D]",
-    "variable_group_intelligence": "[R,G,K]",
-    "single_budget_dual_lane": true,
-    "counted_cognitive_precision": true,
-    "cross_run_runtime_memory_leakage": false,
-    "strict_historical_learning_guard": true,
-    "exact_cache_preserves_requested_fe_accounting": true
+  "v4_1": {
+    "policy_center": true,
+    "policy_registry": true,
+    "policy_qualification": "candidate_vs_reference_vs_no_ai_paired",
+    "native_policy_state_dimension": 32,
+    "strict_immutable_policy_binding": true,
+    "safe_policy_archive_delete": true,
+    "native_v41_training_resume": true,
+    "experiment_workspace_restoration": true,
+    "historical_plot_reconstruction": true,
+    "workflow_state_restoration": true,
+    "adaptive_exact_cache": true,
+    "end_to_end_timing_metadata": true,
+    "fully_device_resident_calo_control": false,
+    "indefinite_policy_lineage_training": false,
+    "run_count_or_fe_horizon_extension": false
   },
   "scientific_claim_status": {
-    "architecture_validated": true,
-    "universal_superiority_proven": false,
-    "publication_gate": "Requires frozen 30-50 paired feasible independently validated multi-case benchmark runs"
+    "release_validation_passed": true,
+    "bundled_legacy_policy_native_v41_qualified": false,
+    "universal_calo_superiority_proven": false,
+    "publication_gate": "Requires frozen paired feasible independently validated multi-case benchmark evidence"
   },
   "runtime_policy": {
     "default_execution_backend": "gpu_preferred",
-    "numerical_priority": ["NVIDIA CUDA", "Intel XPU", "CPU"],
+    "numerical_priority": [
+      "NVIDIA CUDA",
+      "Intel XPU",
+      "CPU"
+    ],
     "physical_cuda_validation": "not_available_in_build_environment",
     "physical_xpu_validation": "not_available_in_build_environment"
+  },
+  "planned_v5_scope_not_in_v4_1": [
+    "indefinite_or_multi_session_policy_lineage_training",
+    "best_vs_latest_policy_checkpoint_lineage_promotion",
+    "exact_mid_run_optimizer_continuation",
+    "experiment_run_count_extension",
+    "evaluation_horizon_extension"
+  ],
+  "freeze": {
+    "manifest": "calo_rpd_studio/data/frozen/calo_v410_freeze.json",
+    "checked_files": 95,
+    "manifest_sha256": "b7bc41f99ea29fe07df942faa5ba1f78325cd099e0868da544d69388ed880a1e"
   }
 }

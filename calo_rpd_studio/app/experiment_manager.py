@@ -1373,6 +1373,33 @@ class ExperimentWorker(QThread):
             portfolio_id=str(getattr(self.config, "portfolio_id", "")),
             campaign_status="running",
         )
+        if "CALO" in self.config.algorithms:
+            calo_parameters = dict(self.config.algorithm_parameters.get("CALO", {}))
+            policy_id = str(calo_parameters.get("policy_id", "") or "")
+            policy_checkpoint = str(calo_parameters.get("policy_checkpoint", "") or "")
+            if bool(calo_parameters.get("use_ai", True)) and bool(calo_parameters.get("strict_policy_binding", False)):
+                if not policy_id or not policy_checkpoint:
+                    raise ValueError("Strict CALO policy binding is incomplete; reapply CALO Intelligence before starting the experiment")
+                policy = self.state.policy_registry.get(policy_id)
+                if (
+                    not bool(calo_parameters.get("allow_unqualified_policy", False))
+                    and policy.qualification_status not in {"qualified", "legacy_qualified"}
+                ):
+                    raise ValueError(
+                        f"CALO policy {policy.name!r} is not qualified for strict evaluation; "
+                        "qualify it or explicitly enable research-only unqualified use."
+                    )
+                inspected = self.state.policy_registry.inspect_checkpoint(policy_checkpoint)
+                expected_sha = str(calo_parameters.get("policy_sha256", "") or "").lower()
+                if not expected_sha or inspected["sha256"].lower() != expected_sha or policy.sha256.lower() != expected_sha:
+                    raise RuntimeError("CALO policy artifact changed after configuration; experiment start is blocked")
+                binding = {
+                    key: value for key, value in calo_parameters.items()
+                    if key.startswith("policy_") or key in {"deterministic_policy", "strict_policy_binding", "allow_unqualified_policy"}
+                }
+                binding["policy_name"] = policy.name
+                database.bind_policy_to_experiment(self.experiment_id, binding)
+
         self.campaign_id = database.create_campaign(
             self.experiment_id,
             str(getattr(self.config, "portfolio_id", "")),
@@ -1620,13 +1647,13 @@ class ExperimentManager(QObject):
             batches = dict(data.get("calibrated_batch_sizes", {}))
             self.state.task_status.update(
                 int(data.get("overall_percent", 0)),
-                f"Batched throughput plan · {effective} · {throughput} · slots {slots} · batches {batches}",
+                f"Batched evaluator-throughput plan · {effective} · {throughput} · slots {slots} · batches {batches} · optimizer control overhead is reported separately per run",
             )
             return
         if data.get("phase") == "throughput_calibration":
             self.state.task_status.update(
                 int(data.get("overall_percent", 0)),
-                f"Calibrating candidate-scenario throughput · {int(data.get('calibration_percent', 0))}%",
+                f"Calibrating evaluator-only candidate-scenario throughput (optimizer control excluded) · {int(data.get('calibration_percent', 0))}%",
             )
             return
         if data.get("phase") == "allocation_planned":

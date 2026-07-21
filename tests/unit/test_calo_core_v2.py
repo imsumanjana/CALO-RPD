@@ -94,7 +94,7 @@ def test_training_rejects_final_benchmark_leakage_by_default(tmp_path):
                 episodes_per_epoch=1,
                 horizon=2,
                 population_size=4,
-                development_cases=("case30",),
+                development_cases=("case118",),
             ),
             tmp_path / "blocked.pt",
         )
@@ -119,7 +119,9 @@ def test_real_ppo_training_smoke_saves_core_v2_checkpoint(tmp_path):
     )
     payload = torch.load(path, map_location="cpu", weights_only=False)
     assert payload["metadata"]["training_method"] == "PPO"
-    assert payload["metadata"]["calo_core"] == "v2"
+    assert payload["metadata"]["calo_core"] == "v4.1"
+    assert payload["metadata"]["state_schema_version"] == "calo-state-v4.1-32"
+    assert payload["metadata"]["action_schema_version"] == "calo-action-v4.1-4r-6o-6p"
     assert payload["metadata"]["final_publication_benchmarks_used_for_training"] is False
     assert history
 

@@ -81,6 +81,14 @@ class AlgorithmsPanel(WorkspacePage):
         card.layout_root.addLayout(buttons)
         self.layout_root.addWidget(card, 1)
 
+    def load_from_config(self, config) -> None:
+        for row, (name, spec) in enumerate(SPECS.items()):
+            self.table.item(row, 0).setCheckState(
+                Qt.CheckState.Checked if name in config.algorithms else Qt.CheckState.Unchecked
+            )
+            parameters = {**spec.default_parameters, **config.algorithm_parameters.get(name, {})}
+            self.table.item(row, 3).setText(json.dumps(parameters))
+
     def apply(self) -> None:
         selected: list[str] = []
         parameters: dict[str, dict] = {}

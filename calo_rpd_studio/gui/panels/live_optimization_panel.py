@@ -1002,15 +1002,43 @@ class LiveOptimizationPanel(WorkspacePage):
                 if values:
                     bucket["operator_success"][f"{algorithm} · {operator}"] = (evaluations[: len(values)], values)
 
+    def view_state(self) -> dict:
+        """Return lightweight reproducible UI state; scientific curves remain reconstructed from DB."""
+        return {
+            "run_selector": self.run_selector.currentData(),
+            "portfolio_view": self.portfolio_view.currentData(),
+            "metric": self.metric.currentText(),
+            "preview_selection_by_metric": {key: sorted(value) for key, value in self.preview_selection_by_metric.items()},
+        }
+
+    def restore_view_state(self, payload: dict | None) -> None:
+        data = dict(payload or {})
+        self.preview_selection_by_metric = {
+            str(key): {str(item) for item in value}
+            for key, value in dict(data.get("preview_selection_by_metric") or {}).items()
+        }
+        portfolio_key = data.get("portfolio_view")
+        idx = self.portfolio_view.findData(portfolio_key)
+        if idx >= 0:
+            self.portfolio_view.setCurrentIndex(idx)
+        metric = str(data.get("metric", "") or "")
+        idx = self.metric.findText(metric)
+        if idx >= 0:
+            self.metric.setCurrentIndex(idx)
+        selected_run = data.get("run_selector", self.AUTO_RUN_KEY)
+        idx = self.run_selector.findData(selected_run)
+        if idx >= 0:
+            self.run_selector.setCurrentIndex(idx)
+        self._redraw_plot()
+
     def load_experiment(self, experiment_id: str) -> None:
         """Restore all repeated-run histories after completion/cancellation."""
+        self.reset()
         if not experiment_id:
             return
         rows = self.state.database.list_runs(experiment_id)
         if not rows:
             return
-        self._run_series = {}
-        self._known_runs = set()
         self._load_rows_into_runs(rows)
         target = max(self._known_runs, default=None)
         selected = self.run_selector.currentData()

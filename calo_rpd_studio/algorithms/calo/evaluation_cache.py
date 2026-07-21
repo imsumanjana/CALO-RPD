@@ -13,12 +13,41 @@ import numpy as np
 
 
 class ExactEvaluationCache:
-    def __init__(self, problem, capacity: int = 4096) -> None:
+    def __init__(
+        self,
+        problem,
+        capacity: int = 4096,
+        *,
+        adaptive: bool = True,
+        minimum_requests_before_adaptation: int = 512,
+        minimum_persistent_hit_rate: float = 0.01,
+    ) -> None:
         self.problem = problem
         self.capacity = max(0, int(capacity))
         self._cache: OrderedDict[tuple, object] = OrderedDict()
         self.physical_solver_calls = 0
         self.cache_hits = 0
+        self.request_count = 0
+        self.persistent_hits = 0
+        self.persistent_enabled = self.capacity > 0
+        self.adaptive = bool(adaptive)
+        self.minimum_requests_before_adaptation = max(1, int(minimum_requests_before_adaptation))
+        self.minimum_persistent_hit_rate = float(np.clip(minimum_persistent_hit_rate, 0.0, 1.0))
+
+    @property
+    def hit_rate(self) -> float:
+        return float(self.cache_hits / max(self.request_count, 1))
+
+    def _maybe_disable_persistent_cache(self) -> None:
+        if not self.adaptive or not self.persistent_enabled:
+            return
+        if self.request_count < self.minimum_requests_before_adaptation:
+            return
+        persistent_rate = self.persistent_hits / max(self.request_count, 1)
+        if persistent_rate < self.minimum_persistent_hit_rate:
+            # Within-request exact deduplication remains active; only cross-batch storage is disabled.
+            self._cache.clear()
+            self.persistent_enabled = False
 
     def key(self, vector: np.ndarray) -> tuple:
         z = np.clip(np.asarray(vector, dtype=np.float64), 0.0, 1.0)
@@ -38,13 +67,15 @@ class ExactEvaluationCache:
             return []
 
         keys = [self.key(row) for row in population]
+        self.request_count += len(keys)
         local_results: dict[tuple, object] = {}
         missing_order: list[tuple] = []
         representative: dict[tuple, np.ndarray] = {}
         for key, row in zip(keys, population):
-            cached = self._cache.get(key)
+            cached = self._cache.get(key) if self.persistent_enabled else None
             if cached is not None:
                 local_results[key] = cached
+                self.persistent_hits += 1
                 self._cache.move_to_end(key)
                 continue
             if key not in representative:
@@ -60,7 +91,7 @@ class ExactEvaluationCache:
             self.physical_solver_calls += len(unique)
             for key, evaluation in zip(missing_order, solved):
                 local_results[key] = evaluation
-                if self.capacity > 0:
+                if self.persistent_enabled and self.capacity > 0:
                     self._cache[key] = copy.deepcopy(evaluation)
                     self._cache.move_to_end(key)
                     while len(self._cache) > self.capacity:
@@ -74,4 +105,5 @@ class ExactEvaluationCache:
             seen_in_request.add(key)
             evaluation = copy.deepcopy(local_results[key])
             out.append(optimizer._register_evaluation(row, evaluation))
+        self._maybe_disable_persistent_cache()
         return out

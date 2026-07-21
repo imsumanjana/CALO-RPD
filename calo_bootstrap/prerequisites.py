@@ -23,7 +23,7 @@ try:
     from importlib.metadata import version as distribution_version
     APP_VERSION = distribution_version("calo-rpd-studio")
 except Exception:
-    APP_VERSION = "3.4.1"
+    APP_VERSION = "4.1.0"
 STATE_DIR = Path.home() / ".calo_rpd_studio"
 STATE_FILE = STATE_DIR / "environment_state.json"
 CORE_REQUIREMENTS_FILE = "requirements-core.txt"

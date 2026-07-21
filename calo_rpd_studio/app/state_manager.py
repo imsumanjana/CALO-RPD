@@ -3,6 +3,7 @@ from PyQt6.QtCore import QObject, pyqtSignal
 from calo_rpd_studio.experiments.experiment_config import ExperimentConfig
 from calo_rpd_studio.results.database import ResultDatabase
 from calo_rpd_studio.resume.service import ResumeService
+from calo_rpd_studio.algorithms.calo.policy_registry import PolicyRegistry
 from .task_status import TaskStatus
 
 
@@ -20,6 +21,7 @@ class AppState(QObject):
         self.current_experiment_id = ""
         self.database = ResultDatabase(database_path)
         self.resume_service = ResumeService(self.database)
+        self.policy_registry = PolicyRegistry(self.database)
         self.resume_service.recover_after_restart()
         self.theme = "light"
         self.task_status = TaskStatus()

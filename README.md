@@ -1,8 +1,23 @@
 # CALO-RPD Studio
 
-**CALO-RPD Studio 4.0.0** is a Python/PyQt6 research platform for deterministic and robust optimal reactive power dispatch (ORPD), reproducible comparison of twenty optimizers, CALO policy development, independent validation, statistical analysis, and publication evidence generation.
+**CALO-RPD Studio 4.1.0** is a Python/PyQt6 research platform for deterministic and robust optimal reactive power dispatch (ORPD), reproducible comparison of twenty optimizers, CALO policy development, independent validation, statistical analysis, and publication evidence generation.
 
-Version 4.0.0 introduces the **tensor-native constraint-cognitive CALO v4 architecture** defined in `docs/CALO_vNext_Tensor_Native_Scientific_Upgrade_Plan.pdf`. The implementation prioritizes scientific validity first, then convergence quality, accelerator efficiency, and low-memory execution. It does not claim algorithmic superiority until paired, feasible, independently validated benchmark evidence demonstrates it.
+Version 4.1.0 is a **policy-science, reproducibility, and restoration release** built on the frozen CALO v4 search architecture. It does not claim universal CALO superiority and does not silently replace the legacy policy with an unqualified checkpoint. Native policy promotion is based on paired optimization outcomes under equal function-evaluation budgets.
+
+## v4.1 Policy Center, Qualification, and Experiment Restoration
+
+- A database-backed **CALO Policy Center** lists registered policies, grade, scientific status, runtime/state schema, SHA-256 provenance, and active/default status.
+- Policy Qualification compares a candidate against a selected reference policy and **No-AI CALO** on paired development-case seeds and equal FE budgets. IEEE 118/300 remain protected holdouts by default.
+- Native v4.1 policies use a versioned 32-feature state schema that adds HPEM occupancy/consensus/readiness, success-memory density, learning-lane fraction, precision status/radius, and variable-group concentration to the historical 24-feature cognitive base.
+- Strict experiments bind the exact policy ID, checkpoint path, SHA-256, architecture/state/action/training schema, qualification state, and deterministic-policy setting. Missing or changed strict policy artifacts block new numerical work rather than silently falling back.
+- Qualified policies can be activated as the default for new experiments. Old/lower-grade policies can be archived, while physical deletion is blocked when experiment provenance references them.
+- **No-AI CALO** remains an explicit first-class option for rule/contextual online cognition without a neural checkpoint.
+- Existing experiments can be reopened through a centralized workspace restorer: saved scientific configuration, CALO intelligence selection, workflow gates, stored repeated-run plots, selected run/plot view, and result/statistics/validation context are rehydrated.
+- The previously existing `LiveOptimizationPanel.load_experiment()` path is now wired into resume/history opening, so completed historical convergence evidence is reconstructed from stored numeric results rather than screenshots.
+- Evaluator warm-up is explicitly labelled evaluator-only; CALO result metadata separately records policy-inference, candidate-generation, evaluator, and learning-update timing.
+- Exact decoded-control deduplication remains scientifically exact and FE-budget neutral; low-value persistent cross-batch caching can auto-disable when measured hit rate is too low.
+
+Policy training now emits native v4.1 schema metadata and uses a lightweight rollout environment built from the same CALO components/semantics. Because it is not a bit-identical copy of the complete runtime transition loop, **real-optimizer Policy Qualification remains mandatory before a native checkpoint is promoted**. Full device-resident/Torch-native CALO control and long-lived policy/experiment continuation are deliberately not claimed as solved in v4.1; they remain explicitly tracked for later work.
 
 ## v4.0 Tensor-Native Constraint-Cognitive CALO
 

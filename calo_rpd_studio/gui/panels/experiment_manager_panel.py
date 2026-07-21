@@ -240,7 +240,7 @@ class ExperimentManagerPanel(WorkspacePage):
         self.tensor_batch_size.setToolTip(
             "Candidates per accelerator power-flow batch. Larger values improve throughput but consume more device memory."
         )
-        self.auto_batch_calibration = QCheckBox("Calibrate microbatch size before the campaign")
+        self.auto_batch_calibration = QCheckBox("Calibrate evaluator microbatch size before the campaign")
         self.auto_batch_calibration.setChecked(True)
         self.persistent_workers = QCheckBox("Keep one process/context alive per compute device")
         self.persistent_workers.setChecked(True)
@@ -256,7 +256,7 @@ class ExperimentManagerPanel(WorkspacePage):
         self.max_cross_batch.setToolTip("Maximum candidates combined in one cross-run device submission.")
         self.calibration_repetitions = QSpinBox()
         self.calibration_repetitions.setRange(1, 20)
-        self.calibration_repetitions.setToolTip("Repeated timing passes per candidate microbatch size.")
+        self.calibration_repetitions.setToolTip("Repeated timing passes per evaluator candidate microbatch size; this does not benchmark optimizer-control overhead.")
         self.telemetry_interval = QSpinBox()
         self.telemetry_interval.setRange(1, 10_000)
         self.telemetry_interval.setSuffix(" iterations")
@@ -578,7 +578,7 @@ class ExperimentManagerPanel(WorkspacePage):
         current_backend = str(self.execution_backend.currentData() or "")
         if current_backend == "throughput_auto":
             summary_text += (
-                " The v3.4 engine will benchmark candidate-scenario throughput on each verified CUDA/XPU/CPU lane, "
+                " The evaluator calibration will benchmark candidate-scenario throughput only (not CALO control overhead) on each verified CUDA/XPU/CPU lane, "
                 "select a stable microbatch, and allocate jobs in proportion to measured evaluations per second."
             )
         if current_backend in {"weighted_split", "cuda_priority", "cuda_only", "gpu_preferred"}:
@@ -605,7 +605,7 @@ class ExperimentManagerPanel(WorkspacePage):
             scheduler_text = "CPU-only scheduling is selected."
         elif backend == "throughput_auto":
             scheduler_text = (
-                "The v3.4 Batched Throughput Engine keeps one long-lived process per device, calibrates real candidate-scenario throughput, "
+                "The Batched Throughput Engine keeps one long-lived process per device and calibrates evaluator-only candidate-scenario throughput; per-run optimizer-control overhead is recorded separately, "
                 "selects the fastest stable microbatch, combines compatible population requests across runs, and allocates whole jobs by measured capacity."
             )
         elif backend in {"weighted_split", "cuda_priority", "cuda_only", "gpu_preferred"}:

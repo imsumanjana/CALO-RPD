@@ -35,7 +35,7 @@ class BenchmarkCampaignConfig:
     output_directory: str = "benchmark_v34"
     parallel_workers: int = 1
     execution_backend: str = "weighted_split"
-    freeze_manifest: str = field(default_factory=lambda: str(Path(__file__).resolve().parents[1] / "data" / "frozen" / "calo_v400_freeze.json"))
+    freeze_manifest: str = field(default_factory=lambda: str(Path(__file__).resolve().parents[1] / "data" / "frozen" / "calo_v410_freeze.json"))
     algorithms: tuple[str, ...] = field(default_factory=primary_algorithm_names)
 
     def validate(self, suite: BenchmarkSuite | None = None, *, verify_freeze: bool = True) -> None:
