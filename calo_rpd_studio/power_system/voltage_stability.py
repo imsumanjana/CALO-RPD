@@ -1,4 +1,4 @@
-"""Kessel-Glavitsch voltage-stability L-index."""
+"""Kessel-Glavitsch voltage-stability L-index with a fixed formulation partition."""
 
 from __future__ import annotations
 from dataclasses import dataclass
@@ -14,8 +14,10 @@ class LIndexResult:
     maximum: float
 
 
-def kessel_glavitsch_l_index(case, voltage):
-    types = case.bus[:, BUS_TYPE].astype(int)
+def kessel_glavitsch_l_index(case, voltage, *, partition_case=None):
+    """Evaluate L-index without letting dynamic PV/PQ switching redefine the partition."""
+    partition = partition_case if partition_case is not None else case
+    types = partition.bus[:, BUS_TYPE].astype(int)
     load = np.where(types == PQ)[0]
     gen = np.where((types == PV) | (types == REF))[0]
     if not load.size or not gen.size:

@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import logging
+
 from concurrent.futures import FIRST_COMPLETED, ProcessPoolExecutor, ThreadPoolExecutor, wait
 from copy import deepcopy
 from dataclasses import asdict
@@ -52,6 +54,8 @@ from calo_rpd_studio.continuation.experiment_evolution import (
 from calo_rpd_studio.continuation.runtime_binding import bind_exact_run_checkpoint
 
 
+_LOG = logging.getLogger(__name__)
+
 def _configure_child_numeric_threads() -> None:
     """Avoid BLAS/PyTorch oversubscription when many optimizer processes run together."""
 
@@ -65,7 +69,7 @@ def _configure_child_numeric_threads() -> None:
             except RuntimeError:
                 pass
     except Exception:
-        pass
+        _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
 
 
 def _config_for_item_device(config, mode: str, item: PlannedItem, compute_device: str):
@@ -165,6 +169,7 @@ def _execute_process_job(
             return "interrupted", item, completed
         return "completed", item, completed
     except Exception as exc:
+        _LOG.exception("Experiment job failed; returning a structured failed-run record")
         return (
             "failed",
             item,
@@ -212,7 +217,7 @@ class ExperimentWorker(QThread):
             try:
                 event.set()
             except Exception:
-                pass
+                _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
 
     def _cancelled(self) -> bool:
         return self._cancel_event.is_set()
@@ -306,7 +311,7 @@ class ExperimentWorker(QThread):
         try:
             payload = json.loads(str(row.get("result_json", "{}") or "{}"))
             return int(payload.get("evaluations", 0) or 0)
-        except Exception:
+        except (json.JSONDecodeError, TypeError, ValueError):
             return 0
 
     def _persist_completed(self, experiment_id: str, store: ResultStore, item, completed) -> None:
@@ -1091,7 +1096,7 @@ class ExperimentWorker(QThread):
                 try:
                     profile.save(profile_path)
                 except Exception:
-                    pass
+                    _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
 
                 lane_throughputs = {
                     lane: max(0.0, float(record.evaluations_per_second))
@@ -1402,7 +1407,7 @@ class ExperimentWorker(QThread):
                     try:
                         pool.close()
                     except Exception:
-                        pass
+                        _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
                 self._process_cancel_event = None
 
         return not self._cancelled() and not self._pause_requested()

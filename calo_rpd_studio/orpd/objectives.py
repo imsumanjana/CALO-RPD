@@ -1,4 +1,4 @@
-"""Modular ORPD objectives with raw component retention."""
+"""Modular ORPD objectives with a fixed, pre-solve mathematical bus partition."""
 
 from __future__ import annotations
 from dataclasses import dataclass
@@ -32,7 +32,13 @@ class ObjectiveResult:
     components: dict[str, float]
 
 
-def calculate_objective(pf, config: ObjectiveConfig):
+def calculate_objective(pf, config: ObjectiveConfig, *, formulation_case=None):
+    """Calculate the objective using the declared pre-solve formulation partition.
+
+    Dynamic PV->PQ switching is a numerical feasibility mechanism and must not redefine which
+    buses belong to the voltage-deviation or L-index objective from candidate to candidate.
+    ``formulation_case`` is therefore the controlled/scenario case *before* Q-limit switching.
+    """
     if not pf.converged:
         return ObjectiveResult(
             float("inf"),
@@ -42,10 +48,13 @@ def calculate_objective(pf, config: ObjectiveConfig):
                 "l_index_max": float("inf"),
             },
         )
-    pq = np.where(pf.case.bus[:, BUS_TYPE].astype(int) == PQ)[0]
+    reference = formulation_case if formulation_case is not None else pf.case
+    pq = np.where(reference.bus[:, BUS_TYPE].astype(int) == PQ)[0]
     loss = float(pf.total_loss_mw)
     vd = float(np.sum(np.abs(pf.vm_pu[pq] - 1.0)))
-    li = kessel_glavitsch_l_index(pf.case, pf.voltage).maximum
+    li = kessel_glavitsch_l_index(
+        pf.case, pf.voltage, partition_case=reference
+    ).maximum
     c = {"active_power_loss_mw": loss, "voltage_deviation_pu": vd, "l_index_max": float(li)}
     if config.kind is ObjectiveKind.ACTIVE_POWER_LOSS:
         v = loss

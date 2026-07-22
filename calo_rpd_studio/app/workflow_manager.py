@@ -16,48 +16,13 @@ class WorkflowDescriptor:
 
 
 SETUP_STEPS = (
-    WorkflowDescriptor(
-        "calo",
-        1,
-        "Confirm CALO intelligence",
-        "Validate the CALO policy checkpoint and apply the frozen evaluation configuration.",
-    ),
-    WorkflowDescriptor(
-        "power_system",
-        2,
-        "Validate the power system",
-        "Load a case, run the base AC power flow, then complete the independent PYPOWER cross-check.",
-    ),
-    WorkflowDescriptor(
-        "orpd",
-        3,
-        "Define the ORPD formulation",
-        "Apply the common objective, decision variables, mixed-variable decoding, and constraint policy.",
-    ),
-    WorkflowDescriptor(
-        "algorithms",
-        4,
-        "Select optimization algorithms",
-        "Choose the comparison algorithms and apply their declared parameter configuration.",
-    ),
-    WorkflowDescriptor(
-        "portfolio",
-        5,
-        "Plan the evidence portfolio",
-        "Choose single-run diagnostics or an overall repeated-run portfolio. The planner will derive only the runs, traces, validation, statistics, and figures required.",
-    ),
-    WorkflowDescriptor(
-        "scenarios",
-        6,
-        "Configure operating scenarios",
-        "Apply deterministic or robust scenario settings and the robust aggregation rule.",
-    ),
-    WorkflowDescriptor(
-        "experiment",
-        7,
-        "Run or resume the experiment",
-        "Audit fairness, reuse exact completed work, and execute only the unfinished jobs required by the portfolio.",
-    ),
+    WorkflowDescriptor("power_system", 2, "Validate the power system", "Load a case, run the base AC power flow, then complete the independent PYPOWER cross-check."),
+    WorkflowDescriptor("orpd", 3, "Define the ORPD formulation", "Apply the common objective, decision variables, mixed-variable decoding, and constraint policy."),
+    WorkflowDescriptor("algorithms", 4, "Select optimization algorithms", "Choose the comparison algorithms and apply their declared parameter configuration."),
+    WorkflowDescriptor("calo", 1, "Confirm CALO intelligence", "Required only when CALO is selected: validate and explicitly bind the policy-assisted or explicit No-AI mode."),
+    WorkflowDescriptor("scenarios", 6, "Configure operating scenarios", "Apply deterministic or robust scenario settings and the declared robust aggregation rule."),
+    WorkflowDescriptor("portfolio", 5, "Plan the evidence portfolio", "Choose the evidence plan only after case, formulation, algorithms/CALO mode, and scenarios are fixed."),
+    WorkflowDescriptor("experiment", 7, "Run or resume the experiment", "Audit fairness, reuse exact completed work, and execute only unfinished jobs required by the portfolio."),
 )
 
 
@@ -165,6 +130,7 @@ class WorkflowManager(QObject):
         infer_experiment: bool = False,
         experiment_completed: bool = False,
         verified_results: int = 0,
+        inferred_completed: set[str] | None = None,
     ) -> None:
         data = dict(payload or {})
         if data:
@@ -181,10 +147,11 @@ class WorkflowManager(QObject):
                 int(data.get("verified_results", verified_results)), int(verified_results)
             )
         else:
-            # An experiment row can only exist after the complete setup sequence has been applied.
-            self.completed = {"power_system", "orpd", "algorithms", "portfolio", "scenarios"}
-            if self.calo_required():
-                self.completed.add("calo")
+            # Legacy rows are restored conservatively from explicitly validated prerequisites.
+            self.completed = {
+                str(key) for key in (inferred_completed or set())
+                if str(key) in {step.key for step in SETUP_STEPS}
+            }
             self.experiment_started = bool(infer_experiment)
             self.experiment_completed = bool(experiment_completed)
             self.statistics_completed = False
@@ -202,66 +169,39 @@ class WorkflowManager(QObject):
 
     def workspace_state(self, index: int) -> tuple[str, str]:
         """Return visual state and explanatory tooltip for one workspace."""
+        descriptors = {step.key: step for step in SETUP_STEPS}
         if index in (0, 13, 14, 15):
             return "available", "Always available."
-        if index == 1:
-            if not self.calo_required():
-                return "optional", "CALO is not selected; this workspace is optional."
-            return (
-                ("completed", "CALO policy configuration validated.")
-                if self._setup_complete("calo")
-                else ("recommended", SETUP_STEPS[0].instruction)
-            )
         if index == 2:
-            if self.calo_required() and not self._setup_complete("calo"):
-                return "locked", "Validate CALO Intelligence first."
-            return (
-                ("completed", "Power system validated.")
-                if self._setup_complete("power_system")
-                else ("recommended", SETUP_STEPS[1].instruction)
-            )
+            return (("completed", "Power system validated.") if self._setup_complete("power_system") else ("recommended", descriptors["power_system"].instruction))
         if index == 3:
             if not self._setup_complete("power_system"):
                 return "locked", "Complete Power System validation first."
-            return (
-                ("completed", "ORPD formulation applied.")
-                if self._setup_complete("orpd")
-                else ("recommended", SETUP_STEPS[2].instruction)
-            )
+            return (("completed", "ORPD formulation applied.") if self._setup_complete("orpd") else ("recommended", descriptors["orpd"].instruction))
         if index == 4:
             if not self._setup_complete("orpd"):
                 return "locked", "Apply the ORPD formulation first."
-            return (
-                ("completed", "Algorithm configuration applied.")
-                if self._setup_complete("algorithms")
-                else ("recommended", SETUP_STEPS[3].instruction)
-            )
-        if index == 5:
+            return (("completed", "Algorithm configuration applied.") if self._setup_complete("algorithms") else ("recommended", descriptors["algorithms"].instruction))
+        if index == 1:
+            if not self._setup_complete("algorithms"):
+                return "locked", "Select algorithms first; CALO Intelligence is required only when CALO is selected."
+            if not self.calo_required():
+                return "optional", "CALO is not selected; this workspace is optional."
+            return (("completed", "CALO policy/mode configuration validated.") if self._setup_complete("calo") else ("recommended", descriptors["calo"].instruction))
+        if index == 6:
             if not self._setup_complete("algorithms"):
                 return "locked", "Apply the algorithm selection first."
-            return (
-                ("completed", "Evidence portfolio planned.")
-                if self._setup_complete("portfolio")
-                else ("recommended", SETUP_STEPS[4].instruction)
-            )
-        if index == 6:
+            if self.calo_required() and not self._setup_complete("calo"):
+                return "locked", "Validate CALO Intelligence for the selected CALO algorithm first."
+            return (("completed", "Scenario configuration applied.") if self._setup_complete("scenarios") else ("recommended", descriptors["scenarios"].instruction))
+        if index == 5:
+            if not self._setup_complete("scenarios"):
+                return "locked", "Apply the scenario configuration first."
+            return (("completed", "Evidence portfolio planned.") if self._setup_complete("portfolio") else ("recommended", descriptors["portfolio"].instruction))
+        if index == 7:
             if not self._setup_complete("portfolio"):
                 return "locked", "Apply the Portfolio Manager plan first."
-            if self.calo_required() and not self._setup_complete("calo"):
-                return "locked", "Validate and apply CALO Intelligence first."
-            return (
-                ("completed", "Scenario configuration applied.")
-                if self._setup_complete("scenarios")
-                else ("recommended", SETUP_STEPS[5].instruction)
-            )
-        if index == 7:
-            if not self._setup_complete("scenarios"):
-                return "locked", "Apply the robust scenario configuration first."
-            return (
-                ("completed", "The portfolio experiment is complete.")
-                if self.experiment_completed
-                else ("recommended", SETUP_STEPS[6].instruction)
-            )
+            return (("completed", "The portfolio experiment is complete.") if self.experiment_completed else ("recommended", descriptors["experiment"].instruction))
         if index == 8:
             if not self.experiment_started:
                 return "locked", "Start or resume an experiment first."
@@ -269,45 +209,19 @@ class WorkflowManager(QObject):
         if index == 9:
             if not self.experiment_completed:
                 return "locked", "Complete the numerical portfolio tasks first."
-            return (
-                ("completed", "Statistical analysis completed for the selected experiment.")
-                if self.statistics_completed
-                else (
-                    "recommended",
-                    "Compute only the statistics requested by the applied portfolio.",
-                )
-            )
+            return (("completed", "Statistical analysis completed for the selected experiment.") if self.statistics_completed else ("recommended", "Compute only the statistics requested by the applied portfolio."))
         if index == 10:
-            if (
-                not self.statistics_completed
-                and self.state.config.portfolio.kind.value != "single_run"
-            ):
-                return "locked", "Complete Statistical Analysis first."
-            return (
-                ("completed", "Result review confirmed.")
-                if self.results_reviewed
-                else (
-                    "recommended",
-                    "Inspect the stored runs and confirm the result review before independent validation.",
-                )
-            )
+            if not self.experiment_completed:
+                return "locked", "Complete the experiment before exploring results."
+            return "available", "Stored numerical evidence is available for inspection."
         if index == 11:
-            if not self.results_reviewed:
-                return "locked", "Complete the Results Explorer review first."
-            return (
-                "available",
-                "Independent and bulk validation are available for stored solutions.",
-            )
+            if not self.experiment_completed:
+                return "locked", "Complete the experiment before independent validation."
+            return "available", "Independent validation and fairness audit are available."
         if index == 12:
-            if (
-                self.verified_results <= 0
-                and self.state.config.portfolio.require_independent_validation
-            ):
-                return "locked", "Independently verify the portfolio's required results first."
-            return (
-                "available",
-                f"{self.verified_results} verified result(s) are available for portfolio export.",
-            )
+            if not self.experiment_completed:
+                return "locked", "Complete the experiment before publication export."
+            return "available", "Publication export is available subject to strict evidence gates."
         return "available", "Available."
 
     def is_workspace_enabled(self, index: int) -> bool:

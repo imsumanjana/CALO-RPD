@@ -6,8 +6,9 @@ from datetime import datetime, timezone
 import hashlib
 import json
 from pathlib import Path
-import tempfile
 import uuid
+
+from calo_rpd_studio.ai.model_io import durable_write_bytes
 
 from .models import ResumeItem, ResumeStatus, ResumeTaskType
 
@@ -125,14 +126,8 @@ class ResumeService:
     @staticmethod
     def atomic_write_json(path: str | Path, payload: dict) -> tuple[Path, str]:
         destination = Path(path)
-        destination.parent.mkdir(parents=True, exist_ok=True)
         encoded = json.dumps(payload, indent=2, allow_nan=False).encode("utf-8")
-        with tempfile.NamedTemporaryFile(
-            delete=False, dir=destination.parent, suffix=".tmp"
-        ) as handle:
-            handle.write(encoded)
-            temp_path = Path(handle.name)
-        temp_path.replace(destination)
+        durable_write_bytes(destination, encoded)
         return destination, hashlib.sha256(encoded).hexdigest()
 
     def archive(self, task_id: str) -> None:

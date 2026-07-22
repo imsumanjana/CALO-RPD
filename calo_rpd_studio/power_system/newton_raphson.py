@@ -1,8 +1,19 @@
-"""Sparse Newton-Raphson AC power-flow kernel."""
+"""Sparse Newton-Raphson AC power-flow reference kernel.
+
+v5.8 constructs the polar Jacobian directly from sparse complex-voltage derivatives when SciPy is
+available. It no longer densifies Ybus or allocates full NxN angle/trigonometric matrices before
+converting back to sparse form. A deterministic vectorized dense fallback is retained only for
+minimal environments without SciPy sparse support.
+"""
 
 from __future__ import annotations
+
+import logging
 from dataclasses import dataclass
+
 import numpy as np
+
+_LOG = logging.getLogger(__name__)
 
 
 @dataclass(slots=True)
@@ -14,56 +25,147 @@ class NewtonResult:
     mismatch_history: list[float]
 
 
-def solve_newton_raphson(ybus, sbus, v0, ref, pv, pq, tolerance=1e-8, max_iterations=30):
-    v = np.asarray(v0, dtype=complex).copy()
+def _mismatch(ybus, sbus, voltage, pvpq, pq):
+    mis = voltage * np.conj(ybus @ voltage) - sbus
+    return np.r_[mis[pvpq].real, mis[pq].imag]
+
+
+def _dense_jacobian(ybus, voltage, pvpq, pq):
+    """Deterministic compatibility fallback used only when SciPy sparse is unavailable."""
+    y = ybus.toarray() if hasattr(ybus, "toarray") else np.asarray(ybus)
+    g = y.real
+    b = y.imag
+    vm = np.abs(voltage)
+    va = np.angle(voltage)
+    theta = va[:, None] - va[None, :]
+    sin_t = np.sin(theta)
+    cos_t = np.cos(theta)
+    s = voltage * np.conj(y @ voltage)
+    p = s.real
+    q = s.imag
+    vprod = vm[:, None] * vm[None, :]
+    h = vprod * (g * sin_t - b * cos_t)
+    n = vm[:, None] * (g * cos_t + b * sin_t)
+    m = -vprod * (g * cos_t + b * sin_t)
+    ell = vm[:, None] * (g * sin_t - b * cos_t)
+    diag = np.arange(len(vm))
+    h[diag, diag] = -q - np.diag(b) * vm**2
+    n[diag, diag] = p / np.maximum(vm, 1e-15) + np.diag(g) * vm
+    m[diag, diag] = p - np.diag(g) * vm**2
+    ell[diag, diag] = q / np.maximum(vm, 1e-15) - np.diag(b) * vm
+    return np.block(
+        [
+            [h[np.ix_(pvpq, pvpq)], n[np.ix_(pvpq, pq)]],
+            [m[np.ix_(pq, pvpq)], ell[np.ix_(pq, pq)]],
+        ]
+    )
+
+
+def _jacobian(ybus, voltage, pvpq, pq):
+    """Build MATPOWER-style dS/dVa,dS/dVm blocks without dense Ybus/Jacobian construction."""
+    try:
+        from scipy.sparse import csr_matrix, diags, hstack, vstack
+
+        y = csr_matrix(ybus)
+        voltage = np.asarray(voltage, dtype=complex)
+        nbus = voltage.size
+        ibus = y @ voltage
+        vm = np.abs(voltage)
+        vnorm = voltage / np.maximum(vm, 1e-15)
+        diag_v = diags(voltage, 0, shape=(nbus, nbus), format="csr")
+        diag_i = diags(ibus, 0, shape=(nbus, nbus), format="csr")
+        diag_vnorm = diags(vnorm, 0, shape=(nbus, nbus), format="csr")
+
+        dS_dVm = diag_v @ (y @ diag_vnorm).conjugate() + diag_i.conjugate() @ diag_vnorm
+        dS_dVa = 1j * diag_v @ (diag_i - y @ diag_v).conjugate()
+
+        pvpq = np.asarray(pvpq, dtype=int)
+        pq = np.asarray(pq, dtype=int)
+        j11 = dS_dVa[pvpq, :][:, pvpq].real.tocsr()
+        j12 = dS_dVm[pvpq, :][:, pq].real.tocsr()
+        j21 = dS_dVa[pq, :][:, pvpq].imag.tocsr()
+        j22 = dS_dVm[pq, :][:, pq].imag.tocsr()
+        return vstack([hstack([j11, j12], format="csr"), hstack([j21, j22], format="csr")], format="csr")
+    except ImportError:
+        return _dense_jacobian(ybus, voltage, pvpq, pq)
+
+
+def _solve_linear(jacobian, rhs):
+    try:
+        from scipy.sparse import csr_matrix, issparse
+        from scipy.sparse.linalg import spsolve
+
+        matrix = jacobian if issparse(jacobian) else csr_matrix(jacobian)
+        with np.errstate(all="ignore"):
+            dx = np.asarray(spsolve(matrix, rhs), dtype=float)
+        if np.all(np.isfinite(dx)):
+            return dx
+    except (ImportError, RuntimeError, ValueError, TypeError):
+        _LOG.debug("Sparse linear solve unavailable/failed; using deterministic dense fallback", exc_info=True)
+    dense = jacobian.toarray() if hasattr(jacobian, "toarray") else np.asarray(jacobian)
+    return np.linalg.solve(dense, rhs)
+
+
+def solve_newton_raphson(
+    ybus,
+    sbus,
+    v0,
+    ref,
+    pv,
+    pq,
+    tolerance=1e-8,
+    max_iterations=30,
+    *,
+    minimum_damping=1.0 / 32.0,
+):
     pvpq = np.r_[pv, pq].astype(int)
     pq = np.asarray(pq, dtype=int)
-    history = []
-    for it in range(max_iterations + 1):
-        i = ybus @ v
-        calc = v * np.conj(i)
-        mis = sbus - calc
-        f = np.r_[mis[pvpq].real, mis[pq].imag]
+    voltage = np.asarray(v0, dtype=complex).copy()
+    history: list[float] = []
+
+    for iteration in range(int(max_iterations) + 1):
+        f = _mismatch(ybus, sbus, voltage, pvpq, pq)
         norm = float(np.max(np.abs(f))) if f.size else 0.0
         history.append(norm)
-        if norm < tolerance:
-            return NewtonResult(True, v, it, norm, history)
-        if it == max_iterations:
+        if norm <= float(tolerance):
+            return NewtonResult(True, voltage, iteration, norm, history)
+        if iteration >= int(max_iterations):
             break
-        vm = np.abs(v)
-        va = np.angle(v)
-        g = ybus.real.toarray()
-        b = ybus.imag.toarray()
-        p = calc.real
-        q = calc.imag
-        nbus = len(v)
-        H = np.zeros((nbus, nbus))
-        N = np.zeros((nbus, nbus))
-        M = np.zeros((nbus, nbus))
-        L = np.zeros((nbus, nbus))
-        for a in range(nbus):
-            for c in range(nbus):
-                if a == c:
-                    H[a, a] = -q[a] - b[a, a] * vm[a] ** 2
-                    N[a, a] = p[a] / max(vm[a], 1e-15) + g[a, a] * vm[a]
-                    M[a, a] = p[a] - g[a, a] * vm[a] ** 2
-                    L[a, a] = q[a] / max(vm[a], 1e-15) - b[a, a] * vm[a]
-                else:
-                    d = va[a] - va[c]
-                    H[a, c] = vm[a] * vm[c] * (g[a, c] * np.sin(d) - b[a, c] * np.cos(d))
-                    N[a, c] = vm[a] * (g[a, c] * np.cos(d) + b[a, c] * np.sin(d))
-                    M[a, c] = -vm[a] * vm[c] * (g[a, c] * np.cos(d) + b[a, c] * np.sin(d))
-                    L[a, c] = vm[a] * (g[a, c] * np.sin(d) - b[a, c] * np.cos(d))
-        j = np.block(
-            [[H[np.ix_(pvpq, pvpq)], N[np.ix_(pvpq, pq)]], [M[np.ix_(pq, pvpq)], L[np.ix_(pq, pq)]]]
-        )
         try:
-            dx = np.linalg.solve(j, f)
-        except np.linalg.LinAlgError:
-            return NewtonResult(False, v, it, norm, history)
-        va[pvpq] += dx[: len(pvpq)]
-        vm[pq] += dx[len(pvpq) :]
-        if np.any(vm <= 0) or not np.all(np.isfinite(dx)):
-            return NewtonResult(False, v, it, norm, history)
-        v = vm * np.exp(1j * va)
-    return NewtonResult(False, v, max_iterations, history[-1], history)
+            jacobian = _jacobian(ybus, voltage, pvpq, pq)
+            dx = _solve_linear(jacobian, -f)
+        except (np.linalg.LinAlgError, ValueError, FloatingPointError):
+            break
+        if not np.all(np.isfinite(dx)):
+            break
+
+        vm = np.abs(voltage)
+        va = np.angle(voltage)
+        best_voltage = None
+        best_norm = float("inf")
+        damping = 1.0
+        while damping >= float(minimum_damping) - 1e-15:
+            va_trial = va.copy()
+            vm_trial = vm.copy()
+            va_trial[pvpq] += damping * dx[: len(pvpq)]
+            vm_trial[pq] += damping * dx[len(pvpq) :]
+            if np.any(vm_trial[pq] <= 0.0) or not np.all(np.isfinite(vm_trial)):
+                damping *= 0.5
+                continue
+            trial = vm_trial * np.exp(1j * va_trial)
+            trial_f = _mismatch(ybus, sbus, trial, pvpq, pq)
+            trial_norm = float(np.max(np.abs(trial_f))) if trial_f.size else 0.0
+            if trial_norm < best_norm:
+                best_norm = trial_norm
+                best_voltage = trial
+            if trial_norm < norm:
+                best_voltage = trial
+                break
+            damping *= 0.5
+        if best_voltage is None or not np.all(np.isfinite(best_voltage)):
+            break
+        voltage = best_voltage
+
+    final = _mismatch(ybus, sbus, voltage, pvpq, pq)
+    max_mismatch = float(np.max(np.abs(final))) if final.size else 0.0
+    return NewtonResult(False, voltage, min(int(max_iterations), len(history) - 1), max_mismatch, history)

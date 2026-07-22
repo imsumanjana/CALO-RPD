@@ -20,7 +20,7 @@ class ExactEvaluationCache:
         capacity: int = 4096,
         *,
         adaptive: bool = True,
-        minimum_requests_before_adaptation: int = 512,
+        minimum_requests_before_adaptation: int = 64,
         minimum_persistent_hit_rate: float = 0.01,
     ) -> None:
         self.problem = problem

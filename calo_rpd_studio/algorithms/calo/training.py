@@ -16,6 +16,7 @@ from concurrent.futures import ProcessPoolExecutor, as_completed
 from dataclasses import asdict, dataclass
 from pathlib import Path
 import json
+import logging
 import multiprocessing as mp
 import os
 import random
@@ -27,11 +28,14 @@ import numpy as np
 import torch
 
 from calo_rpd_studio.ai.model_io import (
+    durable_torch_save,
     load_trusted_resume,
     write_trusted_resume_hash,
     load_checkpoint,
 )
 from torch import nn
+
+_LOG = logging.getLogger(__name__)
 
 from .archives import ConstraintBoundaryArchive, FeasibleEliteArchive
 from .cognitive_state import (
@@ -100,11 +104,11 @@ class TrainingConfig:
     initial_policy_checkpoint: str = (
         ""  # weights-only fine-tune/fork start; not an exact optimizer resume
     )
-    # v5.6 continuation semantics. ``epochs`` is the fixed length of the current cumulative session.
+    # v5.8 continuation semantics. ``epochs`` is the fixed length of the current cumulative session.
     # ``additional`` remains accepted only as a backward-compatible synonym for old saved configs.
     training_mode: str = "cumulative"  # cumulative | additional(legacy synonym) | indefinite
     checkpoint_interval_epochs: int = 1
-    qualification_interval_epochs: int = 10000
+    qualification_interval_epochs: int = 0  # v5.8: retired; formal qualification applies only to saved Base artifacts
     policy_lineage_id: str = ""
     policy_lineage_name: str = ""
     policy_phase_index: int = 1
@@ -112,7 +116,7 @@ class TrainingConfig:
     # Primarily for controlled tests/automation. Zero means no session cap in indefinite mode.
     max_session_epochs: int = 0
     parallel_runs: int = 1
-    # v5.6 competitive multi-branch policy evolution. Explicit seed counts are authoritative.
+    # v5.8 competitive multi-branch policy evolution. Explicit seed counts are authoritative.
     parallel_same_seed_branches: int = 0
     parallel_incremental_branches: int = 0
     parallel_decremental_branches: int = 0
@@ -123,9 +127,19 @@ class TrainingConfig:
     safe_snapshot_interval_epochs: int = 10
     max_branch_lead_epochs: int = 30
     champion_validation_interval_epochs: int = 10
-    champion_validation_episodes: int = 1
+    champion_validation_episodes: int = 5
     champion_validation_horizon: int = 12
     champion_validation_seed: int = 918273
+    champion_min_feasible_rate: float = 0.80
+    # Scientific curriculum is absolute and immutable across continuation-session duration changes.
+    curriculum_stage_milestones: tuple[int, int, int, int] = (5, 10, 16, 20)
+    # Infinite-session state is deliberately bounded in RAM/checkpoints; full telemetry belongs outside resume state.
+    resume_history_limit: int = 256
+    coordinator_message_limit: int = 2000
+    champion_decision_history_limit: int = 200
+    safe_stop_grace_seconds: float = 30.0
+    max_branches_per_accelerator: int = 1
+    telemetry_enabled: bool = True
 
 
 class TrainingCancelled(RuntimeError):
@@ -621,17 +635,47 @@ class SyntheticCALOEnvironment:
         return reward
 
 
-def _curriculum_stage(epoch: int, epochs: int, has_development_cases: bool = False) -> int:
-    fraction = epoch / max(epochs, 1)
+def _curriculum_stage(
+    epoch: int,
+    epochs: int | None = None,
+    has_development_cases: bool = False,
+    *,
+    milestones: tuple[int, int, int, int] | None = None,
+) -> int:
+    """Return the curriculum stage from absolute persisted milestones.
+
+    ``epochs`` is retained only for source/API compatibility and is intentionally ignored when
+    explicit milestones are supplied. v5.8 training always supplies immutable absolute milestones,
+    so changing Cumulative/Infinite session duration cannot silently change future learning dynamics.
+    """
+    if milestones is not None:
+        if len(milestones) != 4:
+            raise ValueError("curriculum_stage_milestones must contain exactly four increasing epochs")
+        values = tuple(int(v) for v in milestones)
+        if values[0] < 0 or any(b <= a for a, b in zip(values, values[1:])):
+            raise ValueError("curriculum_stage_milestones must be non-negative and strictly increasing")
+        m0, m1, m2, m3 = values
+        if epoch < m0:
+            return 0
+        if epoch < m1:
+            return 1
+        if epoch < m2:
+            return 2
+        if not has_development_cases or epoch < m3:
+            return 3
+        return 4
+
+    # Legacy compatibility for direct callers only. New training paths never use duration fractions.
+    fraction = epoch / max(int(epochs or 1), 1)
     if fraction < 0.18:
-        return 0  # continuous unconstrained
+        return 0
     if fraction < 0.40:
-        return 1  # constrained continuous
+        return 1
     if fraction < 0.64:
-        return 2  # mixed-variable constrained
+        return 2
     if not has_development_cases or fraction < 0.82:
-        return 3  # narrow feasible region
-    return 4  # explicitly configured ORPD development system
+        return 3
+    return 4
 
 
 def _parameter_action_distribution(alpha, beta):
@@ -671,12 +715,14 @@ def available_training_devices() -> dict[str, str | bool]:
         try:
             xpu_name = str(torch.xpu.get_device_properties(0).name)
         except Exception:
+            _LOG.debug("Could not query Intel XPU properties; using generic device name", exc_info=True)
             xpu_name = "Intel XPU"
     try:
         from calo_rpd_studio.compute.resource_scheduler import configured_xpu_interpreter
 
         xpu_sidecar = bool(configured_xpu_interpreter())
     except Exception:
+        _LOG.debug("Could not probe configured XPU sidecar interpreter", exc_info=True)
         xpu_sidecar = False
     recommended = "cuda" if cuda else ("xpu" if xpu else ("xpu_sidecar" if xpu_sidecar else "cpu"))
     return {
@@ -1053,6 +1099,21 @@ def training_resume_path(config: TrainingConfig, output_path) -> Path:
     return Path(output_path).with_suffix(".resume.pt")
 
 
+
+
+def _append_training_telemetry(resume_path: Path, record: dict, *, enabled: bool = True) -> None:
+    """Append non-resume-critical epoch telemetry outside the bounded exact-resume payload."""
+    if not enabled:
+        return
+    path = Path(str(resume_path) + ".telemetry.jsonl")
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with path.open("a", encoding="utf-8") as handle:
+            handle.write(json.dumps(record, sort_keys=True, allow_nan=False) + "\n")
+            handle.flush()
+    except (OSError, TypeError, ValueError):
+        _LOG.warning("Could not append non-critical policy-training telemetry to %s", path, exc_info=True)
+
 def _optimizer_to_device(optimizer, device) -> None:
     for state in optimizer.state.values():
         for key, value in tuple(state.items()):
@@ -1083,6 +1144,13 @@ _EXACT_RESUME_MUTABLE_FIELDS = {
     "base_model_checkpoint",
     "training_scratch_dir",
     "max_branch_lead_epochs",
+    "safe_snapshot_interval_epochs",  # compatibility field; competitive v5.8 cadence is fixed at 10
+    "resume_history_limit",
+    "coordinator_message_limit",
+    "champion_decision_history_limit",
+    "safe_stop_grace_seconds",
+    "max_branches_per_accelerator",
+    "telemetry_enabled",
     # Execution placement may change between sessions. This is recorded in provenance; exact
     # numerical bit-replay across different hardware is not claimed.
     "ppo_device",
@@ -1130,7 +1198,7 @@ def save_training_resume(
 ) -> Path:
     path.parent.mkdir(parents=True, exist_ok=True)
     payload = {
-        "format": "calo_policy_training_resume_v56",
+        "format": "calo_policy_training_resume_v58",
         "runtime_architecture_version": CALO_RUNTIME_ARCHITECTURE,
         "state_schema_version": POLICY_STATE_SCHEMA,
         "action_schema_version": POLICY_ACTION_SCHEMA,
@@ -1139,7 +1207,7 @@ def save_training_resume(
         "next_epoch": int(next_epoch),
         "model_state_dict": _cpu_state_dict(network),
         "optimizer_state_dict": optimizer.state_dict(),
-        "history": list(history),
+        "history": list(history)[-max(1, int(getattr(config, "resume_history_limit", 256) or 256)):],
         "historical_pretraining": dict(historical_pretraining or {}),
         "python_random_state": random.getstate(),
         "numpy_global_state": np.random.get_state(),
@@ -1149,10 +1217,7 @@ def save_training_resume(
         "training_config": asdict(config),
         "extra": dict(extra or {}),
     }
-    with tempfile.NamedTemporaryFile(delete=False, dir=path.parent, suffix=".tmp") as handle:
-        temporary = Path(handle.name)
-    torch.save(payload, temporary)
-    temporary.replace(path)
+    durable_torch_save(payload, path)
     write_trusted_resume_hash(path)
     return path
 
@@ -1162,7 +1227,7 @@ def load_training_resume(
 ) -> tuple[int, list, dict, dict]:
     payload = load_trusted_resume(path, map_location=device)
     resume_format = str(payload.get("format", ""))
-    if resume_format not in {"calo_policy_training_resume_v56", "calo_policy_training_resume_v5", "calo_policy_training_resume_v41"}:
+    if resume_format not in {"calo_policy_training_resume_v58", "calo_policy_training_resume_v56", "calo_policy_training_resume_v5", "calo_policy_training_resume_v41"}:
         if resume_format == "calo_policy_training_resume_v32":
             raise ValueError(
                 "This resume checkpoint belongs to the legacy 24-feature CALO policy architecture and "
@@ -1206,7 +1271,7 @@ def _resolve_training_target(config: TrainingConfig, start_epoch: int) -> tuple[
         cap = int(getattr(config, "max_session_epochs", 0) or 0)
         return ((start_epoch + cap) if cap > 0 else None), mode
     requested = max(1, int(config.epochs))
-    # v5.6 user semantics: Cumulative is a fixed-length training session that accumulates on the
+    # v5.8 user semantics: Cumulative is a fixed-length training session that accumulates on the
     # exact saved state. ``additional`` is retained as a backward-compatible synonym.
     return start_epoch + requested, mode
 
@@ -1244,7 +1309,7 @@ def _deployable_policy_payload(
         "metadata": {
             "algorithm": "CALO",
             "calo_core": "v5.0",
-            "policy_training_architecture": "v5.6",
+            "policy_training_architecture": "v5.8",
             "training_method": "PPO",
             "candidate_checkpoint": bool(getattr(config, "heterogeneous_rollouts", False)),
             "training_config": asdict(config),
@@ -1295,7 +1360,7 @@ def save_deployable_policy_snapshot(
 ) -> Path:
     """Create one immutable deployable artifact; the logical output path is only an alias.
 
-    v5.6 never reuses an immutable artifact path for later training.  Older experiments may remain
+    v5.8 never reuses an immutable artifact path for later training.  Older experiments may remain
     bound to the original SHA while the logical policy lineage continues improving.
     """
     output_path = Path(output_path)
@@ -1413,10 +1478,9 @@ def _train_policy_impl(
     # Never regress the curriculum when a completed/partial lineage is extended to a larger target.
     # A policy that already reached a harder stage remains at least at that stage on continuation.
     stage_floor = _stage_floor_from_history(history, resume_extra)
-    # In indefinite mode progress is epoch based rather than percent-to-target.
-    nominal_target = (
-        target_epoch if target_epoch is not None else max(start_epoch + 1, int(config.epochs), 1)
-    )
+    # In indefinite mode progress is epoch based rather than percent-to-target. ``nominal_target``
+    # is presentation/accounting only; curriculum progression is decoupled from session duration.
+    nominal_target = target_epoch if target_epoch is not None else max(start_epoch + 1, 1)
     total_units = nominal_target * config.episodes_per_epoch
     completed_units = start_epoch * config.episodes_per_epoch
     epoch = start_epoch
@@ -1490,7 +1554,10 @@ def _train_policy_impl(
                     f"CALO policy training stopped safely after cumulative epoch {epoch}."
                 )
         proposed_stage = _curriculum_stage(
-            epoch, max(nominal_target, epoch + 1), bool(config.development_cases)
+            epoch,
+            None,
+            bool(config.development_cases),
+            milestones=tuple(config.curriculum_stage_milestones),
         )
         stage = max(stage_floor, proposed_stage)
         stage_floor = max(stage_floor, stage)
@@ -1597,17 +1664,22 @@ def _train_policy_impl(
                 optimizer.step()
                 epoch_losses.append(float(loss.detach().cpu().item()))
         network.eval()
-        history.append(
-            {
-                "epoch": epoch + 1,
-                "curriculum_stage": stage,
-                "mean_loss": float(np.mean(epoch_losses)) if epoch_losses else 0.0,
-                "mean_episode_return": float(np.mean(episode_returns)),
-                "rollout_workers": workers,
-                "ppo_device": str(device),
-                "transitions": len(rollout["state"]),
-            }
+        epoch_record = {
+            "epoch": epoch + 1,
+            "curriculum_stage": stage,
+            "mean_loss": float(np.mean(epoch_losses)) if epoch_losses else 0.0,
+            "mean_episode_return": float(np.mean(episode_returns)),
+            "rollout_workers": workers,
+            "ppo_device": str(device),
+            "transitions": len(rollout["state"]),
+        }
+        history.append(epoch_record)
+        _append_training_telemetry(
+            resume_path, epoch_record, enabled=bool(getattr(config, "telemetry_enabled", True))
         )
+        history_limit = max(1, int(getattr(config, "resume_history_limit", 256) or 256))
+        if len(history) > history_limit:
+            del history[:-history_limit]
         completed_epoch = epoch + 1
         _notify_epoch(completed_epoch, stage, episode_returns, epoch_losses)
         checkpoint_interval = max(1, int(getattr(config, "checkpoint_interval_epochs", 1) or 1))
@@ -1659,7 +1731,7 @@ def _train_policy_impl(
     metadata = {
         "algorithm": "CALO",
         "calo_core": "v5.0",
-            "policy_training_architecture": "v5.6",
+            "policy_training_architecture": "v5.8",
         "training_method": "PPO",
         "training_config": asdict(config),
         "training_seed": config.seed,
@@ -1757,7 +1829,7 @@ def train_policy_parallel(
     progress_callback=None,
     cancel_callback=None,
 ) -> tuple[str, list]:
-    """v5.6 competitive independent-branch training.
+    """v5.8 transactional competitive independent-branch training.
 
     Branches retain separate exact optimizer/RNG states and compete through a fixed multi-metric
     champion comparator.  Independent neural-network parameters are never arithmetically averaged.

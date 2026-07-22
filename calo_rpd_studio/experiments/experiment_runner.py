@@ -1,7 +1,7 @@
 """Run construction, robust scenarios, budget enforcement, and failure isolation."""
 
 from __future__ import annotations
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 import hashlib, json, time, traceback
 from calo_rpd_studio.algorithms.base_optimizer import OptimizerConfig
 from calo_rpd_studio.algorithms.registry import SPECS, create_optimizer
@@ -9,6 +9,7 @@ from calo_rpd_studio.algorithms.result import OptimizerResult
 from calo_rpd_studio.orpd.problem import ORPDProblem, ORPDProblemConfig
 from calo_rpd_studio.accelerated.torch_orpd import AcceleratedORPDProblem
 from calo_rpd_studio.power_system.case_loader import CaseLoader
+from calo_rpd_studio.power_system.case_validation import validate_case
 from calo_rpd_studio.robustness.scenario import Scenario
 from calo_rpd_studio.robustness.scenario_generator import (
     ScenarioGeneratorConfig,
@@ -100,13 +101,13 @@ def build_scenarios(config, seed, case=None):
         raise ValueError(f"Unsupported scenario mode: {settings.mode}")
     if not scenarios:
         raise ValueError("Scenario generation produced no scenarios")
-    weights = np.asarray([float(item.weight) for item in scenarios], dtype=float)
-    if not np.all(np.isfinite(weights)) or np.any(weights < 0.0) or float(weights.sum()) <= 0.0:
-        raise ValueError("Scenario weights must be finite, non-negative, and have a positive sum")
-    weights /= float(weights.sum())
-    for item, weight in zip(scenarios, weights, strict=True):
-        item.weight = float(weight)
-        if case is not None:
+    from calo_rpd_studio.robustness.robust_objectives import normalize_scenario_weights
+
+    weights = normalize_scenario_weights([float(item.weight) for item in scenarios])
+    normalized = [replace(item, weight=float(weight)) for item, weight in zip(scenarios, weights, strict=True)]
+    if case is not None:
+        base_bus_numbers = set(case.bus[:, 0].astype(int).tolist())
+        for item in normalized:
             transformed = item.apply(case)
             if (
                 transformed.n_bus != case.n_bus
@@ -114,12 +115,24 @@ def build_scenarios(config, seed, case=None):
                 or transformed.n_gen != case.n_gen
             ):
                 raise ValueError(f"Scenario {item.name!r} changed the case topology dimensions")
-    return scenarios
+            if abs(float(transformed.base_mva) - float(case.base_mva)) > 1e-12:
+                raise ValueError(f"Scenario {item.name!r} changed baseMVA, which is not supported")
+            if set(transformed.bus[:, 0].astype(int).tolist()) != base_bus_numbers:
+                raise ValueError(f"Scenario {item.name!r} changed the declared bus-number set")
+            report = validate_case(transformed)
+            if not report.valid:
+                raise ValueError(
+                    f"Scenario {item.name!r} produced an invalid power-system case: "
+                    + " ".join(report.errors)
+                )
+    return normalized
 
 
 def build_problem(config, scenario_seed):
     case = CaseLoader.load(config.case_name)
-    problem_config = ORPDProblemConfig(config.objective, config.variables, config.robust_objective)
+    problem_config = ORPDProblemConfig(
+        config.objective, config.variables, config.robust_objective, config.power_flow
+    )
     scenarios = build_scenarios(config, scenario_seed, case)
     if str(getattr(config, "scientific_backend", "cpu_reference")) == "torch_fp64":
         return AcceleratedORPDProblem(

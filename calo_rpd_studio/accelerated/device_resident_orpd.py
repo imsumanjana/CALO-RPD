@@ -50,7 +50,7 @@ from calo_rpd_studio.power_system.case_model import (
     VMAX,
     VMIN,
 )
-from calo_rpd_studio.robustness.robust_objectives import RobustAggregation
+from calo_rpd_studio.robustness.robust_objectives import RobustAggregation, ConstraintAggregation
 from calo_rpd_studio.robustness.cvar import weighted_cvar_torch
 
 from .torch_power_flow import solve_newton_raphson_batch_torch
@@ -681,7 +681,7 @@ class DeviceResidentORPDEvaluator:
             generator_p = torch.sum(
                 torch.where(
                     gen_mask,
-                    torch.relu(pmin - pg) / pspan + torch.relu(pg - pmax) / pspan,
+                    torch.relu(pmin - pg - 1e-6) / pspan + torch.relu(pg - pmax - 1e-6) / pspan,
                     torch.zeros_like(pg),
                 ),
                 dim=1,
@@ -689,7 +689,7 @@ class DeviceResidentORPDEvaluator:
             generator_q = torch.sum(
                 torch.where(
                     gen_mask,
-                    torch.relu(qmin - qg) / qspan + torch.relu(qg - qmax) / qspan,
+                    torch.relu(qmin - qg - 1e-6) / qspan + torch.relu(qg - qmax - 1e-6) / qspan,
                     torch.zeros_like(qg),
                 ),
                 dim=1,
@@ -751,7 +751,10 @@ class DeviceResidentORPDEvaluator:
             scenario_violation = torch.sum(scenario_constraints, dim=2)
             robust_objective = self._robust(scenario_objective)
             weights = self.weights[None, :]
-            violation = torch.sum(weights * scenario_violation, dim=1)
+            if self.config.robust.constraint_aggregation is ConstraintAggregation.ALL_SCENARIO_MAX:
+                violation = torch.max(scenario_violation, dim=1).values
+            else:
+                violation = torch.sum(weights * scenario_violation, dim=1)
             feasible = (
                 torch.all(finite_mask.reshape(batch, self.scenario_count), dim=1)
                 & torch.isfinite(robust_objective)
@@ -774,10 +777,16 @@ class DeviceResidentORPDEvaluator:
                 "scenario_objective_mean": objective_mean,
                 "scenario_objective_std": objective_std,
             }
-            constraint_components = {
-                name: torch.sum(weights * scenario_constraints[:, :, index], dim=1)
-                for index, name in enumerate(CONSTRAINT_COMPONENT_NAMES)
-            }
+            if self.config.robust.constraint_aggregation is ConstraintAggregation.ALL_SCENARIO_MAX:
+                constraint_components = {
+                    name: torch.max(scenario_constraints[:, :, index], dim=1).values
+                    for index, name in enumerate(CONSTRAINT_COMPONENT_NAMES)
+                }
+            else:
+                constraint_components = {
+                    name: torch.sum(weights * scenario_constraints[:, :, index], dim=1)
+                    for index, name in enumerate(CONSTRAINT_COMPONENT_NAMES)
+                }
             metadata = {
                 "scenario_count": self.scenario_count,
                 "scientific_backend": "torch_batched_dense_newton_raphson",

@@ -29,6 +29,7 @@ def _tiny_config(**updates):
         parallel_incremental_branches=1,
         champion_validation_horizon=2,
         champion_validation_episodes=1,
+        champion_min_feasible_rate=0.0,
     )
     values.update(updates)
     return TrainingConfig(**values)
@@ -114,6 +115,8 @@ def test_exact_competitive_resume_restores_same_branches_and_advances_epoch(tmp_
     train_policy_parallel(_tiny_config(), output, parallel_runs=2)
     first = json.loads(output.with_suffix(".branches.json").read_text(encoding="utf-8"))
     assert first["common_resume_epoch"] == 1
+    first_generation_paths = [Path(row["resume_path"]) for row in first["branches"]]
+    first_generation_bytes = [path.read_bytes() for path in first_generation_paths]
 
     resumed = _tiny_config(
         seed=999,
@@ -129,6 +132,12 @@ def test_exact_competitive_resume_restores_same_branches_and_advances_epoch(tmp_
         ("B01", 100),
         ("B02", 101),
     ]
+    # v5.8 exact-resume continuation publishes a new immutable generation; the previous coherent
+    # branch set remains byte-for-byte intact until/after the new authoritative manifest commit.
+    assert [path.read_bytes() for path in first_generation_paths] == first_generation_bytes
+    assert {str(Path(row["resume_path"]).parent) for row in first["branches"]} != {
+        str(Path(row["resume_path"]).parent) for row in second["branches"]
+    }
 
 
 def test_base_guided_fork_starts_fresh_branches_without_mutating_parent(tmp_path):
@@ -173,7 +182,9 @@ def test_safe_stop_commits_exact_branch_resume_states_and_cleans_scratch(tmp_pat
     )
     # Immediate Safe Stop is deterministic and should commit the common exact epoch-0 state rather
     # than leaving worker-specific partial trajectories or permanent intermediate snapshots.
-    path, _history = train_policy_parallel(cfg, output, parallel_runs=2, cancel_callback=lambda: True)
+    result = train_policy_parallel(cfg, output, parallel_runs=2, cancel_callback=lambda: True)
+    path, _history = result
+    assert str(getattr(result.status, "value", result.status)).startswith("SAFE_STOPPED")
     manifest = json.loads(Path(path).with_suffix(".branches.json").read_text(encoding="utf-8"))
     assert manifest["session"]["cancelled_safe_stop"] is True
     assert manifest["common_resume_epoch"] == 0

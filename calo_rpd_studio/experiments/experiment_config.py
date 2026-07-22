@@ -11,7 +11,10 @@ import yaml
 
 from calo_rpd_studio.orpd.objectives import ObjectiveConfig, ObjectiveKind
 from calo_rpd_studio.orpd.variable_decoder import ORPDVariableConfig, ShuntControlDefinition
-from calo_rpd_studio.robustness.robust_objectives import RobustAggregation, RobustObjectiveConfig
+from calo_rpd_studio.robustness.robust_objectives import (
+    RobustAggregation, RobustObjectiveConfig, ConstraintAggregation,
+)
+from calo_rpd_studio.power_system.ac_power_flow import PowerFlowOptions
 from .evaluation_budget import BudgetPolicy, EvaluationBudget
 from calo_rpd_studio.portfolio.models import PortfolioConfig
 
@@ -78,6 +81,7 @@ class ExperimentConfig:
     objective: ObjectiveConfig = field(default_factory=ObjectiveConfig)
     variables: ORPDVariableConfig = field(default_factory=ORPDVariableConfig)
     robust_objective: RobustObjectiveConfig = field(default_factory=RobustObjectiveConfig)
+    power_flow: PowerFlowOptions = field(default_factory=PowerFlowOptions)
     scenarios: RobustScenarioSettings = field(default_factory=RobustScenarioSettings)
     algorithm_parameters: dict[str, dict] = field(default_factory=dict)
     output_directory: str = "results_data"
@@ -231,6 +235,14 @@ class ExperimentConfig:
         if self.execution_backend in {"cuda_only", "gpu_preferred"} and shares != (100, 0, 0):
             raise ValueError(f"{self.execution_backend} requires the fixed 100/0/0 preferred share")
         self.budget.validate()
+        if (
+            self.budget.policy is BudgetPolicy.EQUAL_EVALUATIONS
+            and int(self.budget.max_evaluations) % int(self.population_size) != 0
+        ):
+            raise ValueError(
+                "Equal-evaluation publication fairness requires max_evaluations to be divisible "
+                "by population_size so every optimizer, including CALO, consumes exactly the same FE budget."
+            )
 
     def to_dict(self) -> dict:
         def convert(value):
@@ -258,13 +270,13 @@ class ExperimentConfig:
     def from_dict(cls, data: dict) -> "ExperimentConfig":
         objective_data = data.get("objective", {})
         objective = ObjectiveConfig(
-            ObjectiveKind(objective_data.get("kind", ObjectiveKind.ACTIVE_POWER_LOSS.value)),
-            float(objective_data.get("weight_loss", 1)),
-            float(objective_data.get("weight_voltage_deviation", 0)),
-            float(objective_data.get("weight_l_index", 0)),
-            float(objective_data.get("loss_scale", 1)),
-            float(objective_data.get("voltage_deviation_scale", 1)),
-            float(objective_data.get("l_index_scale", 1)),
+            kind=ObjectiveKind(objective_data.get("kind", ObjectiveKind.ACTIVE_POWER_LOSS.value)),
+            weight_loss=float(objective_data.get("weight_loss", 1)),
+            weight_voltage_deviation=float(objective_data.get("weight_voltage_deviation", 0)),
+            weight_l_index=float(objective_data.get("weight_l_index", 0)),
+            loss_scale=float(objective_data.get("loss_scale", 1)),
+            voltage_deviation_scale=float(objective_data.get("voltage_deviation_scale", 1)),
+            l_index_scale=float(objective_data.get("l_index_scale", 1)),
         )
         variable_data = data.get("variables", {})
         shunts = tuple(
@@ -284,9 +296,24 @@ class ExperimentConfig:
         )
         robust_data = data.get("robust_objective", {})
         robust = RobustObjectiveConfig(
-            RobustAggregation(robust_data.get("aggregation", RobustAggregation.EXPECTED.value)),
-            float(robust_data.get("risk_lambda", 1)),
-            float(robust_data.get("cvar_alpha", 0.95)),
+            aggregation=RobustAggregation(
+                robust_data.get("aggregation", RobustAggregation.EXPECTED.value)
+            ),
+            risk_lambda=float(robust_data.get("risk_lambda", 1)),
+            cvar_alpha=float(robust_data.get("cvar_alpha", 0.95)),
+            constraint_aggregation=ConstraintAggregation(
+                robust_data.get(
+                    "constraint_aggregation", ConstraintAggregation.ALL_SCENARIO_MAX.value
+                )
+            ),
+        )
+        pf_data = dict(data.get("power_flow", {}) or {})
+        power_flow = PowerFlowOptions(
+            tolerance=float(pf_data.get("tolerance", 1e-8)),
+            max_iterations=int(pf_data.get("max_iterations", 30)),
+            enforce_q_limits=bool(pf_data.get("enforce_q_limits", True)),
+            max_q_limit_rounds=int(pf_data.get("max_q_limit_rounds", 10)),
+            q_limit_tolerance_mvar=float(pf_data.get("q_limit_tolerance_mvar", 1e-6)),
         )
         budget_data = data.get("budget", {})
         budget = EvaluationBudget(
@@ -310,6 +337,7 @@ class ExperimentConfig:
             objective=objective,
             variables=variables,
             robust_objective=robust,
+            power_flow=power_flow,
             scenarios=RobustScenarioSettings(**data.get("scenarios", {})),
             algorithm_parameters=dict(data.get("algorithm_parameters", {})),
             output_directory=data.get("output_directory", "results_data"),

@@ -17,6 +17,8 @@ packed before calling the same FP64 scientific evaluator.
 
 from __future__ import annotations
 
+import logging
+
 from dataclasses import asdict, dataclass, field
 import json
 from pathlib import Path
@@ -27,6 +29,8 @@ from typing import Any, Iterable
 
 import numpy as np
 
+
+_LOG = logging.getLogger(__name__)
 
 @dataclass(slots=True)
 class StageTiming:
@@ -239,7 +243,7 @@ class CrossRunBatchBroker:
                 )
                 return f"{scientific}|{representation}"
         except Exception:
-            pass
+            _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
         array = np.asarray(candidates)
         width = int(array.shape[1]) if array.ndim == 2 else -1
         return f"{scientific}|numpy:{array.dtype.str}:{width}"
@@ -482,7 +486,7 @@ def calibrate_evaluator(
                     elif device.startswith("xpu") and hasattr(torch, "xpu"):
                         torch.xpu.synchronize(device)
                 except Exception:
-                    pass
+                    _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
             seconds = max(time.perf_counter() - started, 1e-12)
             record = DeviceCalibration(
                 device=device,

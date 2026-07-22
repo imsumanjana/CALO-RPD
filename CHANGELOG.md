@@ -1,5 +1,23 @@
 # Changelog
 
+## 5.8.0
+
+- Added two-phase immutable competitive branch generations so cumulative exact-resume sessions no longer mutate the authoritative branch set before whole-session success.
+- Decoupled Infinite-mode curriculum milestones from hidden session epoch duration and bounded resume history, coordinator messages, champion decisions, and checkpoint payload growth.
+- Added typed Safe Stop outcomes, initial exact safe-state materialization, stuck-worker grace/termination handling, final queue drain, durable recovery index, and Recover/Discard workflow.
+- Reworked champion/Base evidence to be feasibility-first, hardware-neutral, validation-fingerprinted, common-bundle re-evaluated, and globally order-independent.
+- Added branch-aware accelerator admission with per-device concurrency caps and provenance of actual assignment.
+- Made formal superiority qualification fail closed without complete paired favorable/effect/Holm evidence; separated non-inferiority into an explicit protocol.
+- Blocked publication portfolio generation from incomplete or partially verified expected evidence when independent validation is required.
+- Extended scenario callable fingerprinting to partials, bound methods and callable-object state; added explicit legacy trusted-resume migration.
+- Replaced the primary Newton Jacobian construction with a genuinely sparse SciPy derivative path.
+
+## 5.7.0
+
+- Closed the carried-forward v5.4 scientific correctness, evidence-integrity, qualification, restoration, trust-boundary, robustness, and fairness findings targeted by the v5.7 remediation. Residual full-device/per-learner CALO performance work and large-module structural maintainability debt remain explicitly partial rather than being relabeled as solved.
+- Separated source releases from generated publication evidence and updated benchmark-facing names to v5.7/v570.
+- Retained `calo-v4.1` policy ABI/state/action schema identifiers intentionally for compatible checkpoints; application version and ABI generation remain separate namespaces.
+
 ## 5.6.0
 
 - Replaced terminal arithmetic averaging of independently trained PPO networks with **competitive multi-branch policy evolution**. Independent branches never merge neural parameters, optimizer state, RNG state, or curriculum state.

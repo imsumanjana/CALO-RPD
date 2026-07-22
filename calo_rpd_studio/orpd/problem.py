@@ -7,7 +7,9 @@ import numpy as np
 from calo_rpd_studio.power_system.ac_power_flow import PowerFlowOptions, run_ac_power_flow
 from calo_rpd_studio.power_system.case_model import *
 from calo_rpd_studio.power_system.voltage_stability import kessel_glavitsch_l_index
-from calo_rpd_studio.robustness.robust_objectives import RobustObjectiveConfig, aggregate_robust
+from calo_rpd_studio.robustness.robust_objectives import (
+    RobustObjectiveConfig, aggregate_robust, aggregate_constraint_violation, normalize_scenario_weights,
+)
 from calo_rpd_studio.robustness.scenario import Scenario
 from .constraints import evaluate_constraints
 from .objectives import ObjectiveConfig, calculate_objective
@@ -59,8 +61,9 @@ class ORPDProblem:
         constraint_acc = {}
         scenario_constraint_components = []
         for scenario in self.scenarios:
-            pf = run_ac_power_flow(scenario.apply(controlled), self.config.power_flow)
-            obj = calculate_objective(pf, self.config.objective)
+            formulation_case = scenario.apply(controlled)
+            pf = run_ac_power_flow(formulation_case, self.config.power_flow)
+            obj = calculate_objective(pf, self.config.objective, formulation_case=formulation_case)
             con = evaluate_constraints(pf)
             value = float(obj.value)
             values.append(value)
@@ -72,19 +75,10 @@ class ORPDProblem:
                 comp_acc.setdefault(k, []).append(float(v))
             for k, v in con.components.items():
                 constraint_acc.setdefault(k, []).append(float(v))
-        w = np.asarray(weights, float)
-        w = w / w.sum()
+        w = normalize_scenario_weights(weights)
         finite = np.asarray(values, float)
-        robust = (
-            float("inf")
-            if not np.all(np.isfinite(finite))
-            else aggregate_robust(values, w, self.config.robust)
-        )
-        violation = (
-            float(np.sum(w * np.asarray(violations)))
-            if np.all(np.isfinite(violations))
-            else float("inf")
-        )
+        robust = aggregate_robust(values, w, self.config.robust)
+        violation = aggregate_constraint_violation(violations, w, self.config.robust)
         feasible = violation <= 1e-12 and np.isfinite(robust)
         components = {k: float(np.sum(w * np.asarray(v))) for k, v in comp_acc.items()}
         components["scenario_objective_mean"] = (
@@ -96,7 +90,8 @@ class ORPDProblem:
             else float("inf")
         )
         constraint_components = {
-            k: float(np.sum(w * np.asarray(v))) for k, v in constraint_acc.items()
+            k: aggregate_constraint_violation(v, w, self.config.robust)
+            for k, v in constraint_acc.items()
         }
         metadata = {
             "scenario_count": len(self.scenarios),
@@ -112,8 +107,9 @@ class ORPDProblem:
         controlled, physical = self.decoder.decode(z)
         records = []
         for sc in self.scenarios:
-            pf = run_ac_power_flow(sc.apply(controlled), self.config.power_flow)
-            obj = calculate_objective(pf, self.config.objective)
+            formulation_case = sc.apply(controlled)
+            pf = run_ac_power_flow(formulation_case, self.config.power_flow)
+            obj = calculate_objective(pf, self.config.objective, formulation_case=formulation_case)
             con = evaluate_constraints(pf)
             online = np.where(pf.case.gen[:, GEN_STATUS] > 0)[0]
             rec = {
@@ -133,7 +129,7 @@ class ORPDProblem:
                 "constraint_components": dict(con.components),
                 "total_constraint_violation": float(con.total),
                 "total_loss_mw": float(pf.total_loss_mw),
-                "l_index_max": float(kessel_glavitsch_l_index(pf.case, pf.voltage).maximum)
+                "l_index_max": float(kessel_glavitsch_l_index(pf.case, pf.voltage, partition_case=formulation_case).maximum)
                 if pf.converged
                 else float("inf"),
             }

@@ -25,9 +25,12 @@ from calo_rpd_studio.power_system.case_model import (
     VMAX,
     VMIN,
 )
-from calo_rpd_studio.robustness.robust_objectives import RobustAggregation
+from calo_rpd_studio.robustness.robust_objectives import (
+    RobustAggregation, aggregate_constraint_violation, normalize_scenario_weights,
+)
 from calo_rpd_studio.robustness.cvar import weighted_cvar_torch
 from calo_rpd_studio.robustness.scenario import Scenario
+from calo_rpd_studio.orpd.constraints import generator_limit_violation
 
 from .device import resolve_device, torch_dtype
 from .torch_power_flow import (
@@ -99,15 +102,22 @@ class AcceleratedORPDProblem:
         )
         self._device_resident_evaluator = None
         if self.device_resident_enabled:
-            from .device_resident_orpd import DeviceResidentORPDEvaluator
+            # The device-resident evaluator currently stores generator capability by bus.
+            # When multiple online units share a bus, use the batched torch path below so
+            # per-generator PMIN/PMAX/QMIN/QMAX enforcement remains exact.
+            online = self.case.gen[self.case.gen[:, GEN_STATUS] > 0]
+            buses = online[:, GEN_BUS].astype(int) if len(online) else np.asarray([], dtype=int)
+            has_colocated_units = len(set(buses.tolist())) != len(buses)
+            if not has_colocated_units:
+                from .device_resident_orpd import DeviceResidentORPDEvaluator
 
-            self._device_resident_evaluator = DeviceResidentORPDEvaluator(self)
+                self._device_resident_evaluator = DeviceResidentORPDEvaluator(self)
 
     @property
     def dimension(self) -> int:
         return self.decoder.dimension
 
-    def _objective(self, pf):
+    def _objective(self, pf, formulation_case=None):
         import torch
 
         if not pf.converged or pf.branch is None:
@@ -117,13 +127,16 @@ class AcceleratedORPDProblem:
                 "voltage_deviation_pu": inf,
                 "l_index_max": inf,
             }
-        pq = np.where(pf.case.bus[:, BUS_TYPE].astype(int) == PQ)[0]
+        reference = formulation_case if formulation_case is not None else pf.case
+        pq = np.where(reference.bus[:, BUS_TYPE].astype(int) == PQ)[0]
         pq_t = torch.as_tensor(pq, dtype=torch.long, device=self.device)
         loss = float(pf.total_loss_mw)
         voltage_deviation = (
             float(torch.sum(torch.abs(pf.vm_pu[pq_t] - 1.0)).detach().cpu()) if pq.size else 0.0
         )
-        _, l_index = torch_l_index(pf.case, pf.voltage, pf.ybus)
+        partitioned_case = pf.case.clone()
+        partitioned_case.bus[:, BUS_TYPE] = reference.bus[:, BUS_TYPE]
+        _, l_index = torch_l_index(partitioned_case, pf.voltage, pf.ybus)
         components = {
             "active_power_loss_mw": loss,
             "voltage_deviation_pu": voltage_deviation,
@@ -161,34 +174,9 @@ class AcceleratedORPDProblem:
             torch.relu(lower - pf.vm_pu) / span + torch.relu(pf.vm_pu - upper) / span
         )
 
-        index = case.bus_index_map()
-        generator_q = torch.zeros((), dtype=dtype, device=device)
-        generator_p = torch.zeros((), dtype=dtype, device=device)
-        for bus_number in case.bus[:, BUS_I].astype(int):
-            generators = np.where(
-                (case.gen[:, GEN_STATUS] > 0) & (case.gen[:, GEN_BUS].astype(int) == bus_number)
-            )[0]
-            if not generators.size:
-                continue
-            bus_index = index[bus_number]
-            qmin = float(case.gen[generators, QMIN].sum())
-            qmax = float(case.gen[generators, QMAX].sum())
-            qspan = max(qmax - qmin, 1.0)
-            actual_q = pf.actual_qg_mvar[bus_index]
-            generator_q = (
-                generator_q
-                + torch.relu(torch.as_tensor(qmin, dtype=dtype, device=device) - actual_q) / qspan
-                + torch.relu(actual_q - torch.as_tensor(qmax, dtype=dtype, device=device)) / qspan
-            )
-            pmin = float(case.gen[generators, PMIN].sum())
-            pmax = float(case.gen[generators, PMAX].sum())
-            pspan = max(pmax - pmin, 1.0)
-            actual_p = pf.actual_pg_mw[bus_index]
-            generator_p = (
-                generator_p
-                + torch.relu(torch.as_tensor(pmin, dtype=dtype, device=device) - actual_p) / pspan
-                + torch.relu(actual_p - torch.as_tensor(pmax, dtype=dtype, device=device)) / pspan
-            )
+        qv, pv = generator_limit_violation(case)
+        generator_q = torch.as_tensor(qv, dtype=dtype, device=device)
+        generator_p = torch.as_tensor(pv, dtype=dtype, device=device)
 
         branch_thermal = torch.zeros((), dtype=dtype, device=device)
         if pf.branch is not None:
@@ -333,7 +321,7 @@ class AcceleratedORPDProblem:
                     )
             with timed_stage("objective_constraint_aggregation", count, GLOBAL_LEDGER):
                 for index, pf in enumerate(scenario_results):
-                    value, obj_components = self._objective(pf)
+                    value, obj_components = self._objective(pf, scenario_cases[index])
                     violation, con_components = self._constraints(pf)
                     converged_all[index] = converged_all[index] and bool(pf.converged)
                     values[index].append(float(value))
@@ -349,18 +337,15 @@ class AcceleratedORPDProblem:
         results: list[Evaluation] = []
         with timed_stage("robust_result_finalize", count, GLOBAL_LEDGER):
             for index in range(count):
-                weights_np = np.asarray(weights[index], dtype=float)
-                weights_np = weights_np / weights_np.sum()
+                weights_np = normalize_scenario_weights(weights[index])
                 finite = np.asarray(values[index], dtype=float)
                 robust_value = (
                     float("inf")
                     if not np.all(np.isfinite(finite))
                     else self._aggregate_robust(values[index], weights_np)
                 )
-                violation = (
-                    float(np.sum(weights_np * np.asarray(violations[index], dtype=float)))
-                    if np.all(np.isfinite(violations[index]))
-                    else float("inf")
+                violation = aggregate_constraint_violation(
+                    violations[index], weights_np, self.config.robust
                 )
                 feasible = bool(
                     converged_all[index] and np.isfinite(robust_value) and violation <= 1e-12
@@ -379,7 +364,7 @@ class AcceleratedORPDProblem:
                     components["scenario_objective_mean"] = float("inf")
                     components["scenario_objective_std"] = float("inf")
                 weighted_constraints = {
-                    key: float(np.sum(weights_np * np.asarray(series, dtype=float)))
+                    key: aggregate_constraint_violation(series, weights_np, self.config.robust)
                     for key, series in constraint_components[index].items()
                 }
                 metadata = {

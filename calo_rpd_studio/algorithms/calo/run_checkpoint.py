@@ -7,7 +7,7 @@ import tempfile
 
 import torch
 
-from calo_rpd_studio.ai.model_io import load_trusted_resume, write_trusted_resume_hash
+from calo_rpd_studio.ai.model_io import durable_torch_save, load_trusted_resume, write_trusted_resume_hash
 
 FORMAT = "calo_exact_run_checkpoint_v5"
 

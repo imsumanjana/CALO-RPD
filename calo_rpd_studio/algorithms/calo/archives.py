@@ -43,6 +43,20 @@ class FeasibleEliteArchive:
         weights /= weights.sum()
         return self.entries[int(rng.choice(len(self.entries), p=weights))].vector.copy()
 
+    def sample_many(self, rng: np.random.Generator, fallback: np.ndarray, count: int) -> np.ndarray:
+        """Vectorized rank-biased teacher sampling for a learner batch."""
+        count = max(0, int(count))
+        fallback = np.asarray(fallback, float)
+        if count == 0:
+            return np.empty((0, fallback.size), dtype=float)
+        if not self.entries:
+            return np.repeat(fallback[None, :], count, axis=0)
+        ranks = np.arange(1, len(self.entries) + 1, dtype=float)
+        weights = (1.0 / ranks); weights /= weights.sum()
+        indices = rng.choice(len(self.entries), size=count, p=weights)
+        bank = np.asarray([entry.vector for entry in self.entries], dtype=float)
+        return bank[np.asarray(indices, dtype=int)].copy()
+
     @property
     def best(self) -> ArchiveEntry | None:
         return self.entries[0] if self.entries else None
@@ -105,6 +119,18 @@ class ConstraintBoundaryArchive:
             return np.asarray(fallback, float).copy()
         index = int(rng.integers(len(self.entries)))
         return self.entries[index].vector.copy()
+
+    def sample_many(self, rng: np.random.Generator, fallback: np.ndarray, count: int) -> np.ndarray:
+        """Vectorized uniform boundary-teacher sampling for a learner batch."""
+        count = max(0, int(count))
+        fallback = np.asarray(fallback, float)
+        if count == 0:
+            return np.empty((0, fallback.size), dtype=float)
+        if not self.entries:
+            return np.repeat(fallback[None, :], count, axis=0)
+        indices = rng.integers(0, len(self.entries), size=count)
+        bank = np.asarray([entry.vector for entry in self.entries], dtype=float)
+        return bank[np.asarray(indices, dtype=int)].copy()
 
     @property
     def best(self) -> ArchiveEntry | None:

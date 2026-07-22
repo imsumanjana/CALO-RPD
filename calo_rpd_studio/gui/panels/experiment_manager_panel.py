@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import logging
+
 from copy import deepcopy
 import json
 import os
@@ -50,6 +52,8 @@ from calo_rpd_studio.gui.widgets.workspace_page import WorkspacePage
 from calo_rpd_studio.results.database import ResultDatabase
 
 
+_LOG = logging.getLogger(__name__)
+
 class ScientificAuditWorker(QThread):
     """Run parity, fairness, and reuse checks away from the Qt GUI thread."""
 
@@ -75,7 +79,7 @@ class ScientificAuditWorker(QThread):
             if hasattr(torch, "xpu") and torch.xpu.is_available():
                 return "xpu:0"
         except Exception:
-            pass
+            _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
         return "cpu"
 
     def run(self) -> None:
@@ -115,7 +119,7 @@ class ScientificAuditWorker(QThread):
                         try:
                             torch_module.set_num_threads(previous_threads)
                         except Exception:
-                            pass
+                            _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
                 if bool(self.config.require_backend_parity) and not bool(parity.get("passed")):
                     raise RuntimeError("CPU/accelerator numerical parity gate did not pass")
             if self.parity_only:
@@ -763,7 +767,7 @@ class ExperimentManagerPanel(WorkspacePage):
                     f"{allocation.accelerator_eligible_jobs}/{allocation.total_jobs} jobs are accelerator-compatible under the v3 torch FP64 backend."
                 )
             except Exception:
-                pass
+                _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
         self.plan_summary.setText(summary_text)
         workers = int(self.workers.value())
         backend = str(self.execution_backend.currentData() or "adaptive_hybrid")

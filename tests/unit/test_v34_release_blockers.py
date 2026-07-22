@@ -36,6 +36,7 @@ def test_campaign_preserves_requested_run_count_exactly(runs):
 
 
 def test_campaign_plan_persists_exact_formulation_manifest(tmp_path):
+    pytest.importorskip("pypower", reason="PYPOWER is required for bundled IEEE formulation manifests")
     campaign = BenchmarkCampaignConfig(cases=("case118",), study_keys=("deterministic",), runs=30)
     tasks = build_campaign(campaign, verify_freeze=False)
     path = write_campaign_plan(campaign, tasks, tmp_path / "campaign.json")
@@ -46,7 +47,7 @@ def test_campaign_plan_persists_exact_formulation_manifest(tmp_path):
     assert {row["bus_number"] for row in manifest["fixed_shunts"]} >= {5, 37}
 
 
-def _insert_verified_run(db, experiment_id, *, run_id, objective, feasible, violation):
+def _insert_verified_run(db, experiment_id, *, run_id, objective, feasible, violation, run_index=0):
     result = {
         "algorithm": "CALO",
         "seed": 1,
@@ -67,18 +68,18 @@ def _insert_verified_run(db, experiment_id, *, run_id, objective, feasible, viol
     with db.connect() as con:
         con.execute(
             "INSERT INTO runs(id,experiment_id,algorithm,run_index,seed_json,result_json,arrays_path,validation_status) VALUES(?,?,?,?,?,?,?,?)",
-            (run_id, experiment_id, "CALO", 0, "{}", json.dumps(result), "", "verified"),
+            (run_id, experiment_id, "CALO", int(run_index), "{}", json.dumps(result), "", "verified"),
         )
 
 
 def test_publication_export_excludes_infeasible_objective_from_statistics(tmp_path):
     db = ResultDatabase(tmp_path / "results.sqlite")
-    experiment_id = db.create_experiment(ExperimentConfig(), collect_provenance())
+    experiment_id = db.create_experiment(ExperimentConfig(algorithms=["CALO"], runs=2), collect_provenance())
     _insert_verified_run(
         db, experiment_id, run_id=str(uuid.uuid4()), objective=1.0, feasible=True, violation=0.0
     )
     _insert_verified_run(
-        db, experiment_id, run_id=str(uuid.uuid4()), objective=-999.0, feasible=False, violation=0.2
+        db, experiment_id, run_id=str(uuid.uuid4()), objective=-999.0, feasible=False, violation=0.2, run_index=1
     )
     output = PublicationExporter(db).export(experiment_id, tmp_path / "publication")
     stats = pd.read_csv(output / "descriptive_statistics_verified_feasible.csv")

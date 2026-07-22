@@ -221,11 +221,7 @@ class PortfolioExporter:
             data = json.loads(row["result_json"])
             if data.get("feasible") and np.isfinite(data.get("best_objective", np.inf)):
                 candidates.append((float(data["best_objective"]), row))
-        return (
-            min(candidates, key=lambda item: item[0])[1]
-            if candidates
-            else (rows[0] if rows else None)
-        )
+        return min(candidates, key=lambda item: item[0])[1] if candidates else None
 
     @staticmethod
     def _aligned_histories(
@@ -612,6 +608,7 @@ class PortfolioExporter:
                     "cliffs_delta": float(cliffs_delta(matrix[:, ref_index], matrix[:, index])),
                     "reference_mean_merit": float(np.mean(matrix[:, ref_index])),
                     "baseline_mean_merit": float(np.mean(matrix[:, index])),
+                    "statistic_basis": "feasibility_first_composite_merit_not_raw_objective",
                 }
             )
         corrected = holm_correction([record["p_value"] for record in raw]) if raw else []
@@ -637,7 +634,7 @@ class PortfolioExporter:
         ax.set_yticklabels(pairwise["baseline"])
         ax.axvline(0, linewidth=1)
         ax.set_xlabel("Cliff's delta (reference minus baseline merit)")
-        ax.set_title("Paired effect sizes")
+        ax.set_title("Paired effect sizes on feasibility-first composite merit")
         ax.grid(True, axis="x", alpha=0.35)
         return self._save_figure(fig, path)
 
@@ -667,9 +664,10 @@ class PortfolioExporter:
             values = []
             for scenario in scenarios:
                 if field == "feasible":
-                    value = 1.0 if bool(scenario.get("converged", False)) else 0.0
+                    violation = float(scenario.get("total_constraint_violation", float("inf")))
+                    value = 1.0 if bool(scenario.get("converged", False)) and np.isfinite(violation) and violation <= 1e-12 else 0.0
                 elif field == "loss":
-                    value = scenario.get("active_loss_mw", scenario.get("loss_mw", np.nan))
+                    value = scenario.get("total_loss_mw", np.nan)
                 else:
                     value = scenario.get(field, np.nan)
                 values.append(float(value))
@@ -787,10 +785,28 @@ class PortfolioExporter:
         verified_rows = [
             row for row in all_rows if str(row.get("validation_status", "unverified")) == "verified"
         ]
-        publication_rows = (
-            verified_rows if portfolio.get("require_independent_validation", True) else all_rows
-        )
-        best = self._best_row(publication_rows or all_rows)
+        require_validation = bool(portfolio.get("require_independent_validation", True))
+        publication_rows = verified_rows if require_validation else all_rows
+        if require_validation:
+            expected_count = int(horizon_status.get("expected_count", 0) or 0)
+            available_count = int(horizon_status.get("available_count", len(all_rows)) or len(all_rows))
+            if expected_count <= 0:
+                raise ValueError(
+                    "Publication export is blocked: the campaign protocol does not declare a positive expected paired evidence count."
+                )
+            if available_count != expected_count or len(all_rows) != expected_count:
+                raise ValueError(
+                    "Publication export is blocked because the selected evidence horizon is incomplete: "
+                    f"expected {expected_count} paired rows, found {len(all_rows)}."
+                )
+            if len(verified_rows) != expected_count:
+                raise ValueError(
+                    "Publication export is blocked: independent validation is required for every expected paired row; "
+                    f"verified {len(verified_rows)}/{expected_count}. Partial verified subsets are exploratory only."
+                )
+        if not publication_rows:
+            raise ValueError("Publication export has no admissible evidence rows at the selected horizon")
+        best = self._best_row(publication_rows)
 
         records = []
         for row in all_rows:
@@ -809,7 +825,10 @@ class PortfolioExporter:
                 }
             )
         frame = pd.DataFrame(records)
+        publication_ids = {str(row["id"]) for row in publication_rows}
+        publication_frame = frame[frame["run_id"].astype(str).isin(publication_ids)].copy()
         frame.to_csv(raw / "all_runs.csv", index=False)
+        publication_frame.to_csv(raw / "publication_evidence_runs.csv", index=False)
         (configs / "experiment_config.json").write_text(
             json.dumps(config, indent=2), encoding="utf-8"
         )
@@ -854,7 +873,17 @@ class PortfolioExporter:
             try:
                 path = ""
                 target = figures / key
-                row = best or all_rows[0]
+                row = best
+                best_required = {
+                    "objective_convergence", "constraint_convergence", "constraint_decomposition",
+                    "voltage_profile", "best_validated_voltage_profile", "voltage_heatmap",
+                    "branch_loading", "branch_loading_heatmap", "best_validated_branch_heatmap",
+                    "generator_reactive_power", "control_changes",
+                }
+                if key in best_required and row is None:
+                    raise ValueError(
+                        "No feasible finite publication-eligible solution exists for this best-solution artifact"
+                    )
                 if key == "objective_convergence":
                     path = self._single_convergence(
                         row,
@@ -900,29 +929,29 @@ class PortfolioExporter:
                 elif key == "control_changes":
                     path = self._controls(row, target)
                 elif key == "objective_violation_scatter":
-                    path = self._objective_violation_scatter(all_rows, target)
+                    path = self._objective_violation_scatter(publication_rows, target)
                 elif key == "median_convergence":
-                    path = self._median_convergence(all_rows, target, False)
+                    path = self._median_convergence(publication_rows, target, False)
                 elif key == "convergence_uncertainty_band":
-                    path = self._median_convergence(all_rows, target, True)
+                    path = self._median_convergence(publication_rows, target, True)
                 elif key == "objective_boxplot":
-                    path = self._distribution(frame[frame["feasible"]], target, False)
+                    path = self._distribution(publication_frame[publication_frame["feasible"]], target, False)
                 elif key == "objective_violin":
-                    path = self._distribution(frame[frame["feasible"]], target, True)
+                    path = self._distribution(publication_frame[publication_frame["feasible"]], target, True)
                 elif key == "feasible_run_probability":
-                    path = self._feasible_probability(frame, target)
+                    path = self._feasible_probability(publication_frame, target)
                 elif key == "evaluations_to_feasibility":
-                    path = self._evaluations_to_feasibility(all_rows, target)
+                    path = self._evaluations_to_feasibility(publication_rows, target)
                 elif key == "calo_regime_timeline":
-                    path = self._calo_regime_plot(all_rows, target)
+                    path = self._calo_regime_plot(publication_rows, target)
                 elif key == "calo_operator_usage":
-                    path = self._calo_operator_plot(all_rows, target, False)
+                    path = self._calo_operator_plot(publication_rows, target, False)
                 elif key == "calo_operator_success":
-                    path = self._calo_operator_plot(all_rows, target, True)
+                    path = self._calo_operator_plot(publication_rows, target, True)
                 elif key == "scenario_loss_heatmap":
-                    path = self._scenario_heatmap(all_rows, target, "loss")
+                    path = self._scenario_heatmap(publication_rows, target, "loss")
                 elif key == "scenario_feasibility_heatmap":
-                    path = self._scenario_heatmap(all_rows, target, "feasible")
+                    path = self._scenario_heatmap(publication_rows, target, "feasible")
                 elif key in {"cvar_curve", "contingency_matrix"}:
                     raise ValueError(
                         "The selected experiment does not contain the specialized risk/contingency array required for this plot"
@@ -933,7 +962,7 @@ class PortfolioExporter:
                     )
                 elif key in {"wilcoxon_holm", "effect_sizes", "friedman_ranking"}:
                     pairwise, rankings = self._pairwise_statistics(
-                        publication_rows or all_rows, tables
+                        publication_rows, tables
                     )
                     if key == "wilcoxon_holm":
                         path = str(tables / "wilcoxon_holm_effect_sizes.csv")
@@ -941,7 +970,7 @@ class PortfolioExporter:
                         path = self._effect_size_plot(pairwise, target)
                     else:
                         algorithms, blocks, matrix = self._paired_merits(
-                            publication_rows or all_rows
+                            publication_rows
                         )
                         if len(blocks) < 2 or len(algorithms) < 3:
                             raise ValueError(
@@ -968,20 +997,20 @@ class PortfolioExporter:
                 elif key == "descriptive_statistics":
                     stats = {
                         name: descriptive_statistics(group["objective"].dropna().to_numpy())
-                        for name, group in frame.groupby("algorithm")
+                        for name, group in publication_frame.groupby("algorithm")
                     }
                     pd.DataFrame(stats).T.to_csv(tables / "descriptive_statistics.csv")
                     path = str(tables / "descriptive_statistics.csv")
                 elif key == "portfolio_tables":
-                    frame.to_csv(tables / "run_level_results.csv", index=False)
-                    if not frame.empty:
+                    publication_frame.to_csv(tables / "run_level_results.csv", index=False)
+                    if not publication_frame.empty:
                         stats = {
                             name: descriptive_statistics(group["objective"].dropna().to_numpy())
-                            for name, group in frame.groupby("algorithm")
+                            for name, group in publication_frame.groupby("algorithm")
                         }
                         pd.DataFrame(stats).T.to_csv(tables / "descriptive_statistics.csv")
                         (tables / "run_level_results.tex").write_text(
-                            frame.to_latex(index=False), encoding="utf-8"
+                            publication_frame.to_latex(index=False), encoding="utf-8"
                         )
                     path = str(tables / "run_level_results.csv")
                 elif key == "portfolio_metadata":
@@ -991,6 +1020,8 @@ class PortfolioExporter:
                         "requested_outputs": requested,
                         "completed_runs": len(all_rows),
                         "verified_runs": len(verified_rows),
+                        "publication_evidence_runs": len(publication_rows),
+                        "publication_evidence_basis": "verified_only" if require_validation else "all_completed",
                     }
                     self._atomic_json(out / "portfolio_metadata.json", metadata)
                     path = str(out / "portfolio_metadata.json")

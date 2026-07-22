@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import logging
+
 import json
 import math
 from collections import Counter
@@ -25,6 +27,8 @@ from calo_rpd_studio.portfolio.catalog import OUTPUT_REQUIREMENTS
 from calo_rpd_studio.power_system.case_loader import CaseLoader
 from calo_rpd_studio.power_system.case_model import BUS_I, VM
 
+
+_LOG = logging.getLogger(__name__)
 
 class LiveOptimizationPanel(WorkspacePage):
     """Monitor every repeated run without mixing their convergence histories.
@@ -378,7 +382,7 @@ class LiveOptimizationPanel(WorkspacePage):
             try:
                 self._portfolio_colorbar.remove()
             except Exception:
-                pass
+                _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
             self._portfolio_colorbar = None
 
     def _draw_series(
@@ -748,8 +752,9 @@ class LiveOptimizationPanel(WorkspacePage):
                     )
                 except Exception:
                     # A live preview must never break the optimization UI because a
-                    # custom case cannot be reloaded for its initial trace.
-                    pass
+                    # custom case cannot be reloaded for its initial trace, but the failure
+                    # remains diagnosable in the application log.
+                    _LOG.debug("Could not reload base case for live voltage preview", exc_info=True)
             for row in active_rows:
                 scenario = self._solution_scenario(row)
                 if not scenario:

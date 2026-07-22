@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import logging
+
 from contextlib import contextmanager
 from datetime import datetime, timezone
 import json
@@ -10,6 +12,8 @@ import sqlite3
 import threading
 import uuid
 
+
+_LOG = logging.getLogger(__name__)
 
 class ResultDatabase:
     """Persist experiment metadata and provide safe history deletion operations.
@@ -122,6 +126,9 @@ class ResultDatabase:
             checkpoint_path TEXT NOT NULL DEFAULT '', sha256 TEXT NOT NULL DEFAULT '',
             binding_json TEXT NOT NULL DEFAULT '{}', created_at TEXT NOT NULL,
             FOREIGN KEY(experiment_id) REFERENCES experiments(id)
+        );
+        CREATE TABLE IF NOT EXISTS suppressed_policies(
+            sha256 TEXT PRIMARY KEY, created_at TEXT NOT NULL, reason TEXT NOT NULL DEFAULT ''
         );
         CREATE TABLE IF NOT EXISTS experiment_workspace_state(
             experiment_id TEXT PRIMARY KEY, workflow_json TEXT NOT NULL DEFAULT '{}',
@@ -1056,6 +1063,27 @@ class ResultDatabase:
             ).fetchone()["n"]
         return int(count)
 
+    def list_suppressed_policy_sha256(self) -> set[str]:
+        """Return policy suppressions scoped to this project/results database."""
+        with self.connect() as con:
+            rows = con.execute("SELECT sha256 FROM suppressed_policies").fetchall()
+        return {str(row["sha256"]).lower() for row in rows}
+
+    def suppress_policy_sha256(self, sha256: str, *, reason: str = "user_deleted") -> None:
+        value = str(sha256).strip().lower()
+        if not value:
+            raise ValueError("Policy SHA-256 cannot be empty")
+        with self._lock, self.connect() as con:
+            con.execute(
+                "INSERT INTO suppressed_policies(sha256,created_at,reason) VALUES(?,?,?) "
+                "ON CONFLICT(sha256) DO UPDATE SET reason=excluded.reason",
+                (value, self._utcnow(), str(reason)),
+            )
+
+    def unsuppress_policy_sha256(self, sha256: str) -> None:
+        with self._lock, self.connect() as con:
+            con.execute("DELETE FROM suppressed_policies WHERE sha256=?", (str(sha256).strip().lower(),))
+
     def save_workspace_state(
         self, experiment_id: str, *, workflow: dict, ui: dict | None = None
     ) -> None:
@@ -1563,7 +1591,7 @@ class ResultDatabase:
                     )
                 )
             except Exception:
-                pass
+                _LOG.debug("Suppressed non-fatal fallback/cleanup exception", exc_info=True)
         horizons.discard(0)
         return horizons
 

@@ -53,7 +53,7 @@ DISPUTES: tuple[Dispute, ...] = (
         "RESOLVED",
         "High",
         "Long-running policy evolution needs a non-destructive distinction between resumable working state and best deployable policy.",
-        "v5.6 keeps exact per-branch resume state separate from branch champions and the logical base model. Base promotion is competitive and immutable/content-addressed; later training cannot overwrite an older experiment-bound SHA. Formal qualification remains a separate gate tracked by C08.",
+        "v5.8 keeps exact per-branch resume state separate from branch champions and the logical Base, commits exact branches as immutable all-or-nothing generations, and preserves immutable experiment-bound SHA artifacts. Formal qualification remains a separate gate tracked by C08.",
     ),
     Dispute(
         "P06",
@@ -88,14 +88,14 @@ DISPUTES: tuple[Dispute, ...] = (
         "PARTIAL",
         "High performance",
         "Per-learner candidate decisions still include Python-level logic.",
-        "Bounded tensor-shaped memories and reused 3D scratch reduce overhead while preserving seeded behavior; grouped device kernels remain future work.",
+        "v5.8 deliberately preserves the frozen seeded CALO search trajectory. The per-learner stochastic candidate path remains partly Python/host-side; a deeper vectorized/device rewrite is deferred until exact seeded/scientific parity can be demonstrated under a separately qualified algorithm-version protocol.",
     ),
     Dispute(
         "P11",
-        "OPEN",
+        "RESOLVED",
         "High performance",
-        "CUDA policy inference still materializes small action arrays on the host for NumPy CALO control.",
-        "Elimination depends on the future device-resident CALO control path.",
+        "CUDA policy inference could add pointless device synchronization/host materialization while CALO control remains NumPy-host based.",
+        "v5.8 defaults policy inference to CPU for the current host-control architecture and keeps the ORPD numerical evaluator accelerator-native. Explicit accelerator policy inference remains experimental until CALO control itself is device-resident.",
     ),
     Dispute(
         "P12",
@@ -120,10 +120,10 @@ DISPUTES: tuple[Dispute, ...] = (
     ),
     Dispute(
         "P15",
-        "OPEN",
+        "RESOLVED",
         "Medium",
-        "Cross-run policy broker can add latency for an isolated single CALO run.",
-        "Retain it for multi-run batching; add a direct fast path only after end-to-end profiling shows a reproducible benefit.",
+        "Cross-run policy/evaluation brokering could add batching latency to isolated single-run execution.",
+        "v5.8 creates cross-run brokers only when cross-run batching is enabled and more than one execution slot exists; single-slot execution uses the direct path.",
     ),
     Dispute(
         "R01",
@@ -151,14 +151,14 @@ DISPUTES: tuple[Dispute, ...] = (
         "RESOLVED",
         "Critical",
         "Policy training could not continue safely across sessions or completed targets.",
-        "v5.6 supports fixed-length cumulative sessions, infinite-until-Safe-Stop sessions, and exact branch resume with model/optimizer/RNG/curriculum/history restoration. Duration mode may change after exact restore without relabeling the saved training state as a fresh trajectory.",
+        "v5.8 supports cumulative and infinite-until-Safe-Stop sessions plus exact branch resume with model/optimizer/RNG/curriculum restoration. Session duration is decoupled from immutable curriculum milestones, and resume-critical history is bounded.",
     ),
     Dispute(
         "C02",
         "RESOLVED",
         "High",
         "More policy epochs or parallel training could destructively replace a better earlier policy.",
-        "v5.6 separates exact resumable branch state from branch champion/base state, never averages independently trained PPO weights, promotes only scientifically superior champions, and preserves immutable experiment-bound policy artifacts by SHA.",
+        "v5.8 separates exact resumable branch state from champion/Base state, never averages independent PPO weights, re-evaluates candidates under one fingerprinted validation bundle, and uses order-independent feasibility-first Base selection while preserving immutable experiment-bound SHA artifacts.",
     ),
     Dispute(
         "C03",
@@ -200,14 +200,14 @@ DISPUTES: tuple[Dispute, ...] = (
         "RESOLVED",
         "Critical scientific",
         "Independent PPO branches were previously vulnerable to scientifically unjustified terminal parameter averaging and incoherent merged optimizer/RNG state.",
-        "v5.6 competitive multi-branch policy evolution keeps every branch independent and exactly resumable. Branches compete under one fixed multi-metric champion comparator; the best validated champion may promote the logical base, but neural parameters, optimizer state, RNG state, and curriculum state are never arithmetically merged across branches.",
+        "v5.8 competitive multi-branch policy evolution keeps every branch independent and exactly resumable in transactional immutable generations. Final candidates are evaluated under one common validation bundle with deterministic order-independent feasibility-first ranking; neural parameters, optimizer state, RNG state, and curriculum state are never arithmetically merged.",
     ),
     Dispute(
         "C08",
-        "OPEN",
+        "RESOLVED",
         "Medium",
-        "Configured policy qualification intervals do not automatically execute expensive qualification campaigns during training.",
-        "The interval is currently advisory. Automatic asynchronous qualification/promotion requires a separately budgeted, non-training validation scheduler to avoid leakage and resource contention.",
+        "Periodic in-training formal qualification could be mistaken for automatic scientific promotion and would conflict with the no-intermediate-permanent-snapshot training contract.",
+        "v5.8 retires periodic formal qualification by design: the compatibility field is fixed at 0, and formal paired Candidate-vs-Reference-vs-No-AI qualification is run only for saved Base artifacts under a separately budgeted campaign.",
     ),
 )
 

@@ -25,6 +25,14 @@ def validate_fairness(config):
         and config.budget.max_evaluations < config.population_size
     ):
         errors.append("Equal-evaluation budget must be at least the population size.")
+    if (
+        config.budget.policy is BudgetPolicy.EQUAL_EVALUATIONS
+        and int(config.budget.max_evaluations) % int(config.population_size) != 0
+    ):
+        errors.append(
+            "Strict equal-evaluation fairness requires max_evaluations to be divisible by "
+            "population_size so every algorithm is assigned the exact same requested FE budget."
+        )
     if config.budget.policy is BudgetPolicy.ALGORITHM_NATIVE:
         warnings.append("Algorithm-native limits do not provide a universal equal-cost comparison.")
     if config.budget.policy is BudgetPolicy.EQUAL_WALL_CLOCK:

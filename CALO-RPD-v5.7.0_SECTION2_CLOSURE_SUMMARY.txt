@@ -1,0 +1,74 @@
+CALO-RPD Studio v5.7.0 — Section 2 Carried-Forward v5.4 Findings Closure Summary
+================================================================================
+
+Scope: findings listed under “2. PREVIOUS v5.4 FINDINGS THAT STILL NEED RESOLUTION” in the v5.6 deep re-audit.
+
+Total tracked findings/design questions: 74
+
+ACCEPTED_ABI_COMPATIBILITY (1)
+  E-008
+
+ACCEPTED_NON_SCIENTIFIC_TELEMETRY_SCOPE (1)
+  J-008
+
+ENVIRONMENT_LIMITATION (1)
+  N-003
+
+MITIGATED (1)
+  H-003
+
+PARTIAL_DEFERRED_FOR_PARITY (1)
+  H-002
+
+PARTIAL_NEW_V56_SCOPE_DEFERRED (1)
+  N-004
+
+PARTIAL_STRUCTURAL_TECH_DEBT (1)
+  O-001
+
+RESOLVED (48)
+  A-005, A-008, NEW-A-011, E-001, E-002, E-003, E-004, E-005, E-006, E-007, F-001, F-002, F-003, F-004, F-005, G-001, G-002, G-003, G-004, G-005, G-006, G-007, H-005, I-001, I-002, I-003, I-004, I-005, I-006, I-007, I-008, I-009, J-001, J-002, J-003, J-004, J-005, J-007, K-001, K-002, K-003, K-004, L-001, L-002, L-003, L-004, L-005, L-006
+
+RESOLVED_BY_DESIGN (1)
+  D-009
+
+RESOLVED_BY_EXPLICIT_SEMANTICS (1)
+  J-006
+
+RESOLVED_BY_METRIC_SEPARATION (1)
+  M-003
+
+RESOLVED_BY_PROTOCOL (1)
+  H-001
+
+RESOLVED_CARRIED_FORWARD_SCOPE (8)
+  P-001, P-002, P-003, P-004, P-005, P-006, P-007, P-008
+
+RESOLVED_CURRENT_ARCHITECTURE (1)
+  H-004
+
+RESOLVED_DOCUMENTED (1)
+  O-003
+
+RESOLVED_FOR_SILENT_FAILURE_PROVENANCE (1)
+  M-004
+
+RESOLVED_FOR_SILENT_PASS_CLASS (2)
+  C-014, O-002
+
+RESOLVED_WITH_FAULT_TESTS (1)
+  M-002
+
+TARGET_ENVIRONMENT_VALIDATION_PENDING (1)
+  N-001
+
+Important residual classifications
+---------------------------------
+H-002 remains partial/deferred because a deeper candidate-generation vectorization changed the frozen seeded CALO trajectory; the change was rejected rather than silently redefining the algorithm.
+H-003 is mitigated with earlier adaptive cache disabling/telemetry; exact in-request keying remains intentional.
+J-008 is accepted as non-scientific telemetry scope: UI-only transient points may be lost after a hard crash, while publication evidence uses committed state.
+N-001/N-003 are target-environment limitations: PyQt6/PYPOWER/Ruff/physical accelerator gates were unavailable here and are not falsely marked passed.
+N-004 remains partial only for the separate NEW v5.6 Section-3 issues, which are explicitly outside this v5.7-first remediation scope.
+O-001 remains structural technical debt: boundaries are documented but large orchestration modules are not falsely claimed fully refactored.
+
+The detailed item-by-item evidence is in FINDINGS_CLOSURE_v5.7.0.csv.

@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import logging
+
 from dataclasses import asdict
 import hashlib
 import json
@@ -42,6 +44,11 @@ from calo_rpd_studio.algorithms.calo.training import (
     train_policy,
     train_policy_parallel,
 )
+from calo_rpd_studio.algorithms.calo.competitive_training import (
+    discard_recovery_session,
+    list_recoverable_sessions,
+    recover_competitive_session,
+)
 from calo_rpd_studio.algorithms.calo.heterogeneous_training import (
     HeterogeneousTrainingConfig,
     plan_training_lanes,
@@ -57,6 +64,8 @@ from calo_rpd_studio.algorithms.calo.policy_qualification import (
 )
 from calo_rpd_studio.resume.models import ResumeStatus, ResumeTaskType
 
+
+_LOG = logging.getLogger(__name__)
 
 class TrainingWorker(QThread):
     progress = pyqtSignal(int, str)
@@ -79,16 +88,25 @@ class TrainingWorker(QThread):
         try:
             pr = int(getattr(self.config, "parallel_runs", 1))
             if pr >= 1 and str(self.config.ppo_device).lower() != "xpu_sidecar":
-                # v5.6 uses the competitive branch coordinator even for one branch so Cumulative,
+                # v5.8 uses the competitive branch coordinator even for one branch so Cumulative,
                 # Infinite, Safe Stop, exact branch resume, champion tracking and Base-Guided Fork
                 # all share one scientifically consistent persistence contract.
-                train_policy_parallel(
+                result = train_policy_parallel(
                     self.config,
                     self.path,
                     parallel_runs=pr,
                     progress_callback=self.progress.emit,
                     cancel_callback=self._cancel_event.is_set,
                 )
+                status = str(getattr(getattr(result, "status", ""), "value", getattr(result, "status", "")))
+                if status.startswith("SAFE_STOPPED"):
+                    epoch = int(getattr(result, "common_resume_epoch", 0) or 0)
+                    degraded = tuple(getattr(result, "degraded_branches", ()) or ())
+                    detail = f"CALO policy training safe-stopped at common exact epoch {epoch}."
+                    if degraded:
+                        detail += " Forced termination after the grace deadline: " + ", ".join(degraded)
+                    self.cancelled.emit(detail)
+                    return
             elif str(self.config.ppo_device).lower() == "xpu_sidecar":
                 from calo_rpd_studio.compute.xpu_sidecar import train_policy_in_xpu_sidecar
 
@@ -165,7 +183,7 @@ class CALOIntelligencePanel(ScrollablePage):
         layout.addWidget(
             PageHeader(
                 "CALO Intelligence",
-                "Manage CALO v5.6.0 policies, qualify Candidate vs active/reference vs No-AI CALO under paired budgets, bind an immutable policy to runtime, and train the native 32-feature policy schema reproducibly.",
+                "Manage CALO v5.8.0 policies, qualify Candidate vs active/reference vs No-AI CALO under paired budgets, bind an immutable policy to runtime, and train the native 32-feature policy schema reproducibly.",
             )
         )
 
@@ -187,11 +205,11 @@ class CALOIntelligencePanel(ScrollablePage):
         self.checkpoint_interval.setRange(10, 10)
         self.checkpoint_interval.setValue(10)
         self.checkpoint_interval.setToolTip(
-            "v5.6 keeps rolling temporary exact states every 10 epochs on disk. No permanent intermediate snapshots are created."
+            "v5.8 keeps bounded rolling temporary exact states every 10 epochs on disk; the exact session-start state is also a valid Safe Stop point. No permanent intermediate snapshots are created before transactional commit."
         )
         self.qualification_interval = QSpinBox()
-        self.qualification_interval.setRange(1, 100_000_000)
-        self.qualification_interval.setValue(10000)
+        self.qualification_interval.setRange(0, 0)
+        self.qualification_interval.setValue(0)
         self.episodes = QSpinBox()
         self.episodes.setRange(1, 10_000)
         self.episodes.setValue(12)
@@ -325,7 +343,7 @@ class CALOIntelligencePanel(ScrollablePage):
         )
         self.accelerated_training_orpd.setChecked(True)
         self.accelerated_training_orpd.setToolTip(
-            "CALO v5.6 uses the native 32-feature policy state/action schema and accelerator-native FP64 ORPD evaluation for configured development-case rollouts; synthetic curriculum stages remain lightweight host environments."
+            "CALO v5.8 uses the native 32-feature policy state/action schema and accelerator-native FP64 ORPD evaluation for configured development-case rollouts; synthetic curriculum stages remain lightweight host environments."
         )
         self.cross_episode_training_batch = QCheckBox(
             "Batch compatible ORPD populations across simultaneous rollout episodes"
@@ -430,6 +448,10 @@ class CALOIntelligencePanel(ScrollablePage):
         self.train_button.clicked.connect(self.train_policy)
         self.resume_training_button = QPushButton("Resume exact saved training")
         self.resume_training_button.clicked.connect(self.resume_saved_training)
+        self.recover_training_button = QPushButton("Recover interrupted session")
+        self.recover_training_button.clicked.connect(self.recover_interrupted_training)
+        self.discard_recovery_button = QPushButton("Discard recovery")
+        self.discard_recovery_button.clicked.connect(self.discard_interrupted_training_recovery)
         self.training_import_button = QPushButton("Import existing policy")
         self.training_import_button.clicked.connect(self.import_policy)
         training_button_row = QWidget()
@@ -437,12 +459,15 @@ class CALOIntelligencePanel(ScrollablePage):
         training_button_layout.setContentsMargins(0, 0, 0, 0)
         training_button_layout.addWidget(self.train_button, 1)
         training_button_layout.addWidget(self.resume_training_button)
+        training_button_layout.addWidget(self.recover_training_button)
+        training_button_layout.addWidget(self.discard_recovery_button)
         training_button_layout.addWidget(self.training_import_button)
         training_form.addRow("Training continuation mode", self.training_mode)
         training_form.addRow("Cumulative session epochs", self.epochs)
         training_form.addRow("Policy lineage", self.policy_lineage_name)
         training_form.addRow("Safe rollback interval", self.checkpoint_interval)
-        training_form.addRow("Suggested qualification interval", self.qualification_interval)
+        training_form.addRow("Periodic formal qualification", QLabel("Disabled by design — qualify only saved Base artifacts"))
+        self.qualification_interval.hide()
         training_form.addRow("Episodes per epoch", self.episodes)
         training_form.addRow("Episode horizon", self.horizon)
         training_form.addRow("Training seed", self.seed)
@@ -624,7 +649,7 @@ class CALOIntelligencePanel(ScrollablePage):
         self.qualification_cases = QLineEdit("case30, case57")
         self.qualification_runs = QSpinBox()
         self.qualification_runs.setRange(2, 100)
-        self.qualification_runs.setValue(5)
+        self.qualification_runs.setValue(30)
         self.qualification_budget = QSpinBox()
         self.qualification_budget.setRange(100, 10_000_000)
         self.qualification_budget.setValue(1000)
@@ -700,7 +725,7 @@ class CALOIntelligencePanel(ScrollablePage):
             "constraint violation, objective and constraint progress, population and elite "
             "diversity, separate stagnation states, archive occupancy, remaining evaluation "
             "budget, and online operator credit.\n\n"
-            "CALO v5.6.0 operators — feasible-elite learning, constraint-boundary differential "
+            "CALO v5.8.0 operators — feasible-elite learning, constraint-boundary differential "
             "learning, cognitive teacher learning, success-distribution memory, mixed-variable "
             "neighbourhood learning, and diversity recovery. Operators are allocated per learner.\n\n"
             "The hierarchical policy selects a search regime, operator probabilities, and bounded "
@@ -1409,7 +1434,7 @@ class CALOIntelligencePanel(ScrollablePage):
             if isinstance(pvalue, (int, float)) and np.isfinite(float(pvalue))
             else ""
         )
-        native_text = "native v5.6-compatible" if result.get("native_v41") else "legacy-compatible"
+        native_text = "native v5.8-compatible" if result.get("native_v41") else "legacy-compatible"
         self.qualification_status.setText(
             f"Qualification {'PASS' if result.get('passed') else 'FAIL'} · {native_text} · grade {result.get('grade')} · "
             f"grade index {float(result.get('score', 0.0)):.0f}{ptext}. "
@@ -2026,8 +2051,10 @@ class CALOIntelligencePanel(ScrollablePage):
         self.training_resume_task_id = task_id
         self.train_button.setEnabled(False)
         self.resume_training_button.setEnabled(False)
+        self.recover_training_button.setEnabled(False)
+        self.discard_recovery_button.setEnabled(False)
         self.metadata.setPlainText(
-            "CALO v5 policy-lineage training is running with crash-safe exact-resume checkpoints and immutable usable policy snapshots. "
+            "CALO v5.8 policy-lineage training is running with transactional branch generations, bounded infinite-session resume state, durability-hardened exact-resume checkpoints, and immutable usable policy snapshots. Only a committed generation manifest is authoritative after interruption. "
             "A completed checkpoint remains a usable policy; later sessions continue the same lineage without changing experiments already bound to an older SHA."
         )
         self.worker = TrainingWorker(config, path)
@@ -2047,6 +2074,68 @@ class CALOIntelligencePanel(ScrollablePage):
             cancellable=True,
         )
         self.worker.start()
+
+
+    def _choose_recovery_session(self):
+        output, _ = QFileDialog.getOpenFileName(
+            self,
+            "Select CALO logical policy output",
+            "",
+            "CALO policy (*.pt);;All files (*)",
+        )
+        if not output:
+            return "", None
+        sessions = list_recoverable_sessions(output)
+        if not sessions:
+            QMessageBox.information(
+                self, "Competitive training recovery", "No interrupted/recoverable branch session was found for this output."
+            )
+            return "", None
+        labels = [
+            f"{row.get('session_id')} · {row.get('status')} · common safe {row.get('latest_common_safe_epoch', '?')}"
+            for row in sessions
+        ]
+        choice, accepted = QInputDialog.getItem(
+            self, "Competitive training recovery", "Interrupted session", labels, 0, False
+        )
+        if not accepted:
+            return "", None
+        return output, sessions[labels.index(choice)]
+
+    def recover_interrupted_training(self) -> None:
+        output, session = self._choose_recovery_session()
+        if not output or not session:
+            return
+        try:
+            manifest = recover_competitive_session(output, str(session["session_id"]))
+        except Exception as exc:
+            QMessageBox.critical(self, "Competitive training recovery", str(exc))
+            return
+        QMessageBox.information(
+            self,
+            "Competitive training recovery",
+            f"Recovered one coherent exact-resume generation at common epoch {manifest.get('common_resume_epoch')}. "
+            "The previously committed Base was retained; unfinalized branch champions were not promoted.",
+        )
+        self.refresh_policy_library()
+
+    def discard_interrupted_training_recovery(self) -> None:
+        output, session = self._choose_recovery_session()
+        if not output or not session:
+            return
+        answer = QMessageBox.question(
+            self,
+            "Discard competitive recovery",
+            "Permanently discard this interrupted session's scratch recovery data? Previously committed generations are not changed.",
+        )
+        if answer != QMessageBox.StandardButton.Yes:
+            return
+        try:
+            discard_recovery_session(output, str(session["session_id"]))
+        except Exception as exc:
+            QMessageBox.critical(self, "Discard competitive recovery", str(exc))
+            return
+        QMessageBox.information(self, "Discard competitive recovery", "Interrupted-session recovery data was discarded.")
 
     def resume_saved_training(self) -> None:
         items = self.state.resume_service.list_all(
@@ -2096,7 +2185,7 @@ class CALOIntelligencePanel(ScrollablePage):
                 "The saved task does not contain an output checkpoint path.",
             )
             return
-        # v5.6 keeps one logical base alias while immutable artifacts preserve every experiment-bound SHA.
+        # v5.8 keeps one logical base alias while immutable artifacts preserve every experiment-bound SHA.
         # Exact multi-branch resume reopens the branch manifest and resumes each branch's own optimizer/RNG state.
         if Path(path).with_suffix(".branches.json").is_file():
             config.parallel_start_mode = "exact_resume"
@@ -2204,9 +2293,10 @@ class CALOIntelligencePanel(ScrollablePage):
                     )
                     known_sha.add(policy.sha256.lower())
                 registered.append(policy.id)
-            except Exception:
-                # A partial/crash-written artifact is intentionally ignored; CheckpointManager's
-                # atomic write means valid snapshots remain self-contained and discoverable.
+            except Exception as exc:
+                # Legacy snapshot import is non-authoritative, but failures are never silent because
+                # missing lineage evidence must remain diagnosable.
+                _LOG.warning("Could not register legacy training snapshot %s: %s", snapshot, exc, exc_info=True)
                 continue
         return registered
 
@@ -2214,6 +2304,8 @@ class CALOIntelligencePanel(ScrollablePage):
         self._disconnect_training_cancel()
         self.train_button.setEnabled(True)
         self.resume_training_button.setEnabled(True)
+        self.recover_training_button.setEnabled(True)
+        self.discard_recovery_button.setEnabled(True)
         if self.training_resume_task_id:
             self.state.resume_service.update(
                 self.training_resume_task_id,
@@ -2264,8 +2356,15 @@ class CALOIntelligencePanel(ScrollablePage):
                 self.path.setText(path)
             self.refresh_policy_library()
             self._select_policy_id(selected_policy.id)
-        except Exception:
+        except Exception as exc:
+            _LOG.error("Training completed but policy registration/lineage finalization failed: %s", exc, exc_info=True)
             self.path.setText(path)
+            QMessageBox.warning(
+                self,
+                "CALO policy registration",
+                "Training completed, but the resulting policy could not be fully registered in the lineage database. "
+                "The checkpoint remains on disk. Review the application log before using it for scientific evidence.\n\n" + str(exc),
+            )
         self.inspect_policy()
         self.state.task_status.finish("CALO policy training completed")
         QMessageBox.information(
@@ -2278,14 +2377,16 @@ class CALOIntelligencePanel(ScrollablePage):
         self._disconnect_training_cancel()
         self.train_button.setEnabled(True)
         self.resume_training_button.setEnabled(True)
+        self.recover_training_button.setEnabled(True)
+        self.discard_recovery_button.setEnabled(True)
         try:
             if self.worker is not None:
                 self._register_training_snapshots(
                     str(self.worker.path), getattr(self.worker, "config", None)
                 )
                 self.refresh_policy_library()
-        except Exception:
-            pass
+        except Exception as exc:
+            _LOG.warning("Safe-stop postprocessing could not register all legacy snapshots: %s", exc, exc_info=True)
         if self.training_resume_task_id:
             self.state.resume_service.update(
                 self.training_resume_task_id, status=ResumeStatus.PAUSED, resumable=True
@@ -2296,6 +2397,8 @@ class CALOIntelligencePanel(ScrollablePage):
         self._disconnect_training_cancel()
         self.train_button.setEnabled(True)
         self.resume_training_button.setEnabled(True)
+        self.recover_training_button.setEnabled(True)
+        self.discard_recovery_button.setEnabled(True)
         if self.training_resume_task_id:
             self.state.resume_service.update(
                 self.training_resume_task_id, status=ResumeStatus.INTERRUPTED, resumable=True

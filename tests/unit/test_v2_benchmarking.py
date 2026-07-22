@@ -51,13 +51,13 @@ def test_campaign_plan_uses_all_algorithms_and_equal_job_count():
         cases=("case30", "case57"),
         study_keys=("deterministic", "mixed"),
         runs=30,
-        max_evaluations=1234,
+        max_evaluations=1250,
     )
     tasks = build_campaign(campaign, base_config=ExperimentConfig(), verify_freeze=False)
     assert len(tasks) == 4
     assert all(task.planned_jobs == 20 * 30 for task in tasks)
     assert all(task.config.algorithms == list(primary_algorithm_names()) for task in tasks)
-    assert all(task.config.budget.max_evaluations == 1234 for task in tasks)
+    assert all(task.config.budget.max_evaluations == 1250 for task in tasks)
     assert all(task.config.runs == 30 for task in tasks)
 
 

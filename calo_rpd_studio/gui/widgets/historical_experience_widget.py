@@ -215,7 +215,7 @@ class HistoricalExperienceWidget(QGroupBox):
                 continue
             try:
                 result = json.loads(run.get("result_json") or "{}")
-            except Exception:
+            except (json.JSONDecodeError, TypeError, ValueError):
                 continue
             total += len((result.get("metadata") or {}).get("policy_trajectory") or [])
         return total

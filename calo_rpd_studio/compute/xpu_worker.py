@@ -7,6 +7,8 @@ independent CALO job in that interpreter without replacing the primary CUDA-enab
 
 from __future__ import annotations
 
+import logging
+
 import argparse
 from copy import deepcopy
 import json
@@ -14,6 +16,8 @@ import pickle
 from pathlib import Path
 import traceback
 
+
+_LOG = logging.getLogger(__name__)
 
 def _probe(run_test: bool = True) -> dict:
     try:
@@ -36,7 +40,7 @@ def _probe(run_test: bool = True) -> dict:
                         allocated = int(torch.xpu.memory.memory_allocated(index))
                         memory_percent = 100.0 * allocated / max(total, 1) if total else 0.0
                     except Exception:
-                        pass
+                        _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
                 utilization = None
                 try:
                     fn = getattr(torch.xpu, "utilization", None)
@@ -72,6 +76,7 @@ def _probe(run_test: bool = True) -> dict:
             "error": "",
         }
     except Exception as exc:
+        _LOG.warning("XPU probe failed; returning explicit unavailable diagnostics", exc_info=True)
         return {
             "available": False,
             "xpu_available": False,

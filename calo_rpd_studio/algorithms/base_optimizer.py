@@ -61,12 +61,25 @@ class BaseOptimizer:
         self._best_constraint_evaluation = None
         self.first_feasible_evaluation: int | None = None
         self.constraint_component_histories: dict[str, list[float]] = {}
+        self.repair_candidate_count = 0
+        self.repair_coordinate_count = 0
+        self.repair_total_coordinates = 0
 
     def cancelled(self):
         return bool(self.cancel_callback and self.cancel_callback())
 
     def can_evaluate(self, n=1):
         return not self.cancelled() and self.evaluations + n <= self.config.max_evaluations
+
+    def _repair_to_bounds(self, x):
+        raw = np.asarray(x, dtype=float)
+        clipped = np.clip(raw, 0.0, 1.0)
+        changed = np.not_equal(raw, clipped) | ~np.isfinite(raw)
+        self.repair_total_coordinates += int(raw.size)
+        if np.any(changed):
+            self.repair_candidate_count += 1
+            self.repair_coordinate_count += int(np.count_nonzero(changed))
+        return clipped
 
     def _register_evaluation(self, clipped, ev):
         """Account for one already-computed candidate evaluation.
@@ -92,7 +105,7 @@ class BaseOptimizer:
     def evaluate(self, x):
         if not self.can_evaluate():
             return None
-        clipped = np.clip(np.asarray(x, float), 0, 1)
+        clipped = self._repair_to_bounds(x)
         ev = self.problem.evaluate(clipped)
         return self._register_evaluation(clipped, ev)
 
@@ -103,7 +116,8 @@ class BaseOptimizer:
         remaining = max(0, int(self.config.max_evaluations) - int(self.evaluations))
         if remaining <= 0 or self.cancelled():
             return []
-        population = np.clip(population[:remaining], 0, 1)
+        raw_population = population[:remaining]
+        population = np.asarray([self._repair_to_bounds(x) for x in raw_population], dtype=float)
         batch_evaluator = getattr(self.problem, "evaluate_population", None)
         if callable(batch_evaluator):
             evaluations = list(batch_evaluator(population))
@@ -192,9 +206,20 @@ class BaseOptimizer:
             key: list(values) for key, values in self.constraint_component_histories.items()
         }
         md["first_feasible_evaluation"] = self.first_feasible_evaluation
+        md["boundary_repair_policy"] = "componentwise_clip_to_[0,1]"
+        md["boundary_repair_candidate_count"] = int(self.repair_candidate_count)
+        md["boundary_repair_coordinate_count"] = int(self.repair_coordinate_count)
+        md["boundary_repair_coordinate_rate"] = (
+            float(self.repair_coordinate_count) / max(int(self.repair_total_coordinates), 1)
+        )
         md["convergence_definition"] = (
             "best feasible objective and minimum normalized constraint violation versus objective-function evaluations"
         )
+        md["telemetry_durability"] = {
+            "scientific_authority": "committed_optimizer_history_checkpoints_and_stored_results",
+            "live_ui_transient_points": "ephemeral_non_publication_evidence",
+            "hard_crash_semantics": "UI-only transient points after the last committed scientific state may be lost without changing authoritative stored evidence",
+        }
         ev = self.best_evaluation
         return OptimizerResult(
             self.name,

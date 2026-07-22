@@ -7,6 +7,8 @@ campaign and communicates with length-prefixed pickle frames over stdin/stdout.
 
 from __future__ import annotations
 
+import logging
+
 from concurrent.futures import ThreadPoolExecutor
 import argparse
 from copy import deepcopy
@@ -37,6 +39,8 @@ from calo_rpd_studio.experiments.experiment_runner import (
 _HEADER = struct.Struct("!Q")
 _MAX_FRAME_BYTES = 512 * 1024 * 1024
 
+
+_LOG = logging.getLogger(__name__)
 
 def _write_frame(stream: BinaryIO, payload: Any, lock: threading.Lock | None = None) -> None:
     data = pickle.dumps(payload, protocol=pickle.HIGHEST_PROTOCOL)
@@ -110,7 +114,8 @@ def server(
     stopped = threading.Event()
     cancel_event = threading.Event()
     broker = None
-    if cross_run_batching:
+    effective_cross_run_batching = bool(cross_run_batching and int(slots) > 1)
+    if effective_cross_run_batching:
         broker = CrossRunBatchBroker(
             batch_window_ms=batch_window_ms, max_candidates=max_cross_run_batch
         )
@@ -188,7 +193,7 @@ def server(
                     "compute_device_assignment": device,
                     "execution_backend": str(config.execution_backend),
                     "persistent_accelerator_worker": True,
-                    "cross_run_batching": bool(cross_run_batching),
+                    "cross_run_batching": bool(effective_cross_run_batching),
                     "xpu_sidecar_runtime": True,
                     "throughput_stage_profile": GLOBAL_LEDGER.snapshot(),
                 }
@@ -201,6 +206,7 @@ def server(
             )
             return {"kind": kind, "job_id": job_id, "item": item, "payload": completed}
         except Exception as exc:
+            _LOG.exception("Persistent accelerator-sidecar job failed; returning structured failure")
             return {
                 "kind": "failed",
                 "job_id": job_id,
@@ -341,7 +347,8 @@ class PersistentSidecarPool:
                 if job_id:
                     self.active_jobs.discard(job_id)
                 self.results.put(message)
-        except Exception:
+        except (EOFError, OSError, ValueError):
+            _LOG.debug("Persistent accelerator-sidecar result stream closed", exc_info=True)
             return
 
     def _stderr_reader(self) -> None:
@@ -353,7 +360,8 @@ class PersistentSidecarPool:
                 if text:
                     self._stderr_tail.append(text)
                     del self._stderr_tail[:-80]
-        except Exception:
+        except (OSError, ValueError):
+            _LOG.debug("Persistent accelerator-sidecar stderr stream closed", exc_info=True)
             return
 
     def submit(self, job_id: str, config, mode: str, item, seeds) -> None:
@@ -403,14 +411,14 @@ class PersistentSidecarPool:
         try:
             self._send({"action": "cancel"})
         except Exception:
-            pass
+            _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
 
     def close(self, timeout: float = 30.0) -> None:
         if self.process.poll() is None:
             try:
                 self._send({"action": "shutdown"})
             except Exception:
-                pass
+                _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
             try:
                 self.process.wait(timeout=timeout)
             except subprocess.TimeoutExpired:

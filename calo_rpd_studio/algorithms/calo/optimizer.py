@@ -16,6 +16,8 @@ from __future__ import annotations
 from collections import Counter
 from dataclasses import asdict, is_dataclass
 from enum import Enum
+import functools
+import inspect
 import hashlib
 import json
 from pathlib import Path
@@ -328,15 +330,91 @@ class CALOOptimizer(BaseOptimizer):
             }
         if isinstance(value, (list, tuple)):
             return [CALOOptimizer._compatibility_jsonable(v) for v in value]
+        if isinstance(value, (set, frozenset)):
+            items = [CALOOptimizer._compatibility_jsonable(v) for v in value]
+            return sorted(items, key=lambda item: json.dumps(item, sort_keys=True, default=str))
+        if isinstance(value, Path):
+            return {"path": str(value)}
+        if isinstance(value, bytes):
+            return {"bytes_sha256": hashlib.sha256(value).hexdigest(), "length": len(value)}
+        if isinstance(value, functools.partial):
+            return {
+                "callable_kind": "functools.partial",
+                "func": CALOOptimizer._compatibility_jsonable(value.func),
+                "args": CALOOptimizer._compatibility_jsonable(value.args),
+                "keywords": CALOOptimizer._compatibility_jsonable(value.keywords or {}),
+            }
+        if inspect.ismethod(value):
+            owner = getattr(value, "__self__", None)
+            owner_state = {}
+            if owner is not None and not inspect.isclass(owner):
+                try:
+                    owner_state = CALOOptimizer._compatibility_jsonable(vars(owner))
+                except TypeError:
+                    owner_state = {"type": f"{type(owner).__module__}.{type(owner).__qualname__}"}
+            return {
+                "callable_kind": "bound_method",
+                "function": CALOOptimizer._compatibility_jsonable(value.__func__),
+                "owner_type": f"{type(owner).__module__}.{type(owner).__qualname__}" if owner is not None else "",
+                "owner_state": owner_state,
+            }
         if callable(value):
             defaults = getattr(value, "__defaults__", None)
+            kwdefaults = getattr(value, "__kwdefaults__", None)
+            closure = getattr(value, "__closure__", None) or ()
+            closure_values = []
+            for cell in closure:
+                try:
+                    closure_values.append(CALOOptimizer._compatibility_jsonable(cell.cell_contents))
+                except (ValueError, TypeError):
+                    closure_values.append({"unreadable_closure_cell": True})
+            code = getattr(value, "__code__", None)
+            if code is None and not inspect.isbuiltin(value):
+                # Callable instances carry scientific parameters in instance state and executable
+                # identity in their class __call__ implementation. Both are required to avoid
+                # partial/callable-object compatibility collisions.
+                call_impl = getattr(type(value), "__call__", None)
+                try:
+                    state = CALOOptimizer._compatibility_jsonable(vars(value))
+                except TypeError:
+                    state = {}
+                if call_impl is None and not state:
+                    raise ValueError(
+                        f"Cannot safely canonicalize callable scientific transform {type(value)!r}"
+                    )
+                return {
+                    "callable_kind": "callable_object",
+                    "class": f"{type(value).__module__}.{type(value).__qualname__}",
+                    "call_impl": CALOOptimizer._compatibility_jsonable(call_impl) if call_impl is not None else None,
+                    "state": state,
+                }
+            code_identity = None
+            if code is not None:
+                code_payload = {
+                    "co_code_sha256": hashlib.sha256(code.co_code).hexdigest(),
+                    "co_consts": CALOOptimizer._compatibility_jsonable(code.co_consts),
+                    "co_names": list(code.co_names),
+                    "co_varnames": list(code.co_varnames),
+                    "co_freevars": list(code.co_freevars),
+                }
+                encoded_code = json.dumps(code_payload, sort_keys=True, separators=(",", ":"), allow_nan=False).encode("utf-8")
+                code_identity = hashlib.sha256(encoded_code).hexdigest()
             return {
+                "callable_kind": "function" if code is not None else "builtin",
                 "callable_module": str(getattr(value, "__module__", "")),
                 "callable_qualname": str(getattr(value, "__qualname__", type(value).__qualname__)),
                 "defaults": CALOOptimizer._compatibility_jsonable(defaults or ()),
+                "kwdefaults": CALOOptimizer._compatibility_jsonable(kwdefaults or {}),
+                "closure": closure_values,
+                "code_identity_sha256": code_identity,
             }
         if value is None or isinstance(value, (str, int, float, bool)):
             return value
+        if hasattr(value, "__dict__"):
+            return {
+                "type": f"{type(value).__module__}.{type(value).__qualname__}",
+                "state": CALOOptimizer._compatibility_jsonable(vars(value)),
+            }
         return {"type": f"{type(value).__module__}.{type(value).__qualname__}"}
 
     def _problem_compatibility_fingerprint(self) -> str:
@@ -455,6 +533,12 @@ class CALOOptimizer(BaseOptimizer):
         started = time.perf_counter()
         parameters = dict(self.config.parameters)
         population_size = int(self.config.population_size)
+        if population_size <= 0 or int(self.config.max_evaluations) % population_size != 0:
+            raise ValueError(
+                "CALO strict FE fairness requires max_evaluations to be an exact multiple of "
+                f"population_size; got {self.config.max_evaluations} and {population_size}. "
+                "Use a divisible budget so CALO and every comparator are assigned identical requested FEs."
+            )
         run_checkpoint_path = str(parameters.get("run_checkpoint_path", "") or "").strip()
         resume_run_checkpoint = str(parameters.get("resume_run_checkpoint", "") or "").strip()
         checkpoint_interval = max(
@@ -1344,10 +1428,15 @@ class CALOOptimizer(BaseOptimizer):
             "scratch_pool_bytes": int(scratch.allocated_bytes),
             "exact_cache_hits": int(cache.cache_hits) if use_evaluation_cache else 0,
             "exact_cache_hit_rate": float(cache.hit_rate) if use_evaluation_cache else 0.0,
+            "exact_cache_persistent_enabled_final": bool(cache.persistent_enabled) if use_evaluation_cache else False,
+            "exact_cache_adaptation_requests": int(cache.minimum_requests_before_adaptation) if use_evaluation_cache else 0,
             "exact_cache_persistent_enabled": bool(cache.persistent_enabled)
             if use_evaluation_cache
             else False,
             "runtime_profile": {
+                "wall_seconds": float(max(time.perf_counter() - started, 1e-12)),
+                "end_to_end_requested_fe_per_second": float(self.evaluations / max(time.perf_counter() - started, 1e-12)),
+                "metric_definition": "full_CALO_control_plus_evaluator_wall_clock",
                 "policy_inference_seconds": float(policy_inference_seconds),
                 "candidate_generation_seconds": float(candidate_generation_seconds),
                 "evaluator_seconds": float(evaluator_seconds),

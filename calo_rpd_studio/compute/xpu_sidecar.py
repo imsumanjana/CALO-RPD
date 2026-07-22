@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import logging
+
 from dataclasses import asdict
 import json
 import os
@@ -13,6 +15,8 @@ import tempfile
 from calo_rpd_studio.compute.resource_scheduler import configured_xpu_interpreter
 from calo_rpd_studio.experiments.experiment_runner import failed_run_from_exception
 
+
+_LOG = logging.getLogger(__name__)
 
 def execute_xpu_job(config, mode, item, seeds, progress_queue, cancel_event, device: str = "xpu:0"):
     """Run one optimizer job in the isolated XPU interpreter and relay progress to the parent."""
@@ -76,7 +80,7 @@ def execute_xpu_job(config, mode, item, seeds, progress_queue, cancel_event, dev
                 try:
                     progress_queue.put(json.loads(line[len("CALO_PROGRESS ") :]))
                 except Exception:
-                    pass
+                    _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
         code = process.wait()
         if code != 0 or not output_path.exists():
             failure = failed_run_from_exception(
@@ -141,7 +145,7 @@ def train_policy_in_xpu_sidecar(
                     if progress_callback:
                         progress_callback(int(data.get("percent", 0)), str(data.get("detail", "")))
                 except Exception:
-                    pass
+                    _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
             elif text.startswith("CALO_TRAIN_ERROR "):
                 try:
                     last_error = str(json.loads(text[len("CALO_TRAIN_ERROR ") :]).get("error", ""))

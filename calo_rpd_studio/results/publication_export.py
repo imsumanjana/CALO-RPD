@@ -46,7 +46,29 @@ class PublicationExporter:
         completed = 0
 
         self._check_cancel(cancel_callback)
-        rows = self.database.list_runs(experiment_id, verified_only=True)
+        horizons = self.database.list_experiment_horizons(experiment_id)
+        if not horizons:
+            raise ValueError("Publication export requires completed run evidence at a declared FE horizon")
+        revisions = [
+            row for row in self.database.list_experiment_revisions(experiment_id)
+            if bool(row.get("publication_eligible")) and str(row.get("status")) == "completed"
+        ]
+        horizon = int(revisions[-1]["evaluation_target"]) if revisions else int(horizons[-1])
+        horizon_status = self.database.experiment_horizon_status(experiment_id, horizon)
+        if not horizon_status.get("complete"):
+            raise ValueError(
+                f"Publication export blocked: evidence horizon {horizon} FE is incomplete "
+                f"({horizon_status.get('available_count', 0)}/{horizon_status.get('expected_count', 0)})."
+            )
+        rows = [
+            row for row in horizon_status.get("rows", [])
+            if str(row.get("validation_status", "unverified")) == "verified"
+        ]
+        expected_count = int(horizon_status.get("expected_count", 0))
+        if len(rows) != expected_count:
+            raise ValueError(
+                f"Publication export blocked: all {expected_count} expected paired runs must be independently verified; found {len(rows)}."
+            )
         records = []
         for row in rows:
             data = json.loads(row["result_json"])
@@ -123,13 +145,25 @@ class PublicationExporter:
 
         self._check_cancel(cancel_callback)
         experiment = self.database.get_experiment(experiment_id)
+        algorithms = sorted(frame["algorithm"].astype(str).unique().tolist()) if not frame.empty else []
+        feasible_algorithms = set(feasible["algorithm"].astype(str).tolist()) if not feasible.empty else set()
+        publication_ready = bool(
+            horizon_status.get("complete")
+            and len(frame) == expected_count
+            and expected_count > 0
+            and set(algorithms).issubset(feasible_algorithms)
+        )
         metadata = {
             "experiment": experiment,
+            "evaluation_horizon": horizon,
+            "revision": horizon_status.get("revision"),
+            "expected_paired_run_count": expected_count,
             "verified_run_count": int(len(frame)),
             "verified_feasible_run_count": int(len(feasible)),
             "verified_infeasible_run_count": int(len(frame) - len(feasible)),
             "objective_statistics_basis": "independently verified AND feasible finite runs only",
-            "publication_ready": bool(len(frame) > 0 and len(feasible) > 0),
+            "publication_ready": publication_ready,
+            "publication_ready_rule": "complete declared paired horizon + every expected run independently verified + at least one verified-feasible run for every compared algorithm",
         }
         (out / "experiment_metadata.json").write_text(
             json.dumps(metadata, indent=2, allow_nan=True), encoding="utf-8"

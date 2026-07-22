@@ -2,7 +2,11 @@
 
 from __future__ import annotations
 
+import logging
+
 from calo_rpd_studio.version import VERSION
+
+_LOG = logging.getLogger(__name__)
 
 from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtGui import QAction, QKeySequence
@@ -273,8 +277,9 @@ class MainWindow(QMainWindow):
                     ),
                 },
             )
-        except Exception:
-            pass
+        except Exception as exc:
+            _LOG.exception("Failed to persist workspace state for experiment %s", experiment_id)
+            self.state.task_status.fail(f"Workspace-state persistence failed: {type(exc).__name__}: {exc}")
 
     def restore_experiment_workspace(self, experiment_id: str) -> None:
         try:

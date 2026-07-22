@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import logging
+
 import pickle
 import queue
 import struct
@@ -13,6 +15,8 @@ from typing import Any, BinaryIO
 _HEADER = struct.Struct("!Q")
 _MAX_FRAME_BYTES = 512 * 1024 * 1024
 
+
+_LOG = logging.getLogger(__name__)
 
 def write_frame(stream: BinaryIO, payload: Any, lock: threading.Lock | None = None) -> None:
     data = pickle.dumps(payload, protocol=pickle.HIGHEST_PROTOCOL)
@@ -86,7 +90,8 @@ class PersistentTrainingActorClient:
         try:
             while True:
                 self._results.put(read_frame(self.process.stdout))
-        except Exception:
+        except (EOFError, OSError, ValueError):
+            _LOG.debug("Persistent training actor result stream closed", exc_info=True)
             return
 
     def _read_stderr(self) -> None:
@@ -98,7 +103,8 @@ class PersistentTrainingActorClient:
                 if text:
                     self._stderr_tail.append(text)
                     del self._stderr_tail[:-80]
-        except Exception:
+        except (OSError, ValueError):
+            _LOG.debug("Persistent training actor stderr stream closed", exc_info=True)
             return
 
     def request(self, payload: dict[str, Any], timeout: float | None = None) -> Any:
@@ -108,7 +114,7 @@ class PersistentTrainingActorClient:
                 try:
                     stderr = self.process.stderr.read().decode("utf-8", errors="replace")[-4000:]
                 except Exception:
-                    pass
+                    _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
             raise RuntimeError(
                 f"Persistent {self.lane.upper()} actor exited with code {self.process.returncode}. {stderr}"
             )
@@ -141,7 +147,7 @@ class PersistentTrainingActorClient:
             try:
                 write_frame(self.process.stdin, {"action": "shutdown"}, self._write_lock)
             except Exception:
-                pass
+                _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
             try:
                 self.process.wait(timeout=timeout)
             except subprocess.TimeoutExpired:

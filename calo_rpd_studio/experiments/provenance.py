@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import logging
+
 from calo_rpd_studio.version import VERSION
 
 import importlib.metadata as md
@@ -23,6 +25,8 @@ PACKAGES = (
 )
 
 
+_LOG = logging.getLogger(__name__)
+
 def _git_commit() -> str:
     try:
         return subprocess.check_output(
@@ -31,7 +35,7 @@ def _git_commit() -> str:
             text=True,
             cwd=Path.cwd(),
         ).strip()
-    except Exception:
+    except (subprocess.SubprocessError, OSError):
         return ""
 
 
@@ -54,7 +58,7 @@ def _torch_accelerator() -> dict:
 
             sidecar_interpreter = configured_xpu_interpreter()
         except Exception:
-            pass
+            _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
         return {
             "cuda_available": cuda_available,
             "torch_cuda_runtime": str(torch.version.cuda or ""),
@@ -75,6 +79,7 @@ def _torch_accelerator() -> dict:
             "gpu_count": int(torch.cuda.device_count()) if cuda_available else 0,
         }
     except Exception as exc:
+        _LOG.warning("Accelerator provenance probe failed; recording explicit unavailable/error provenance", exc_info=True)
         return {
             "cuda_available": False,
             "torch_cuda_runtime": "",

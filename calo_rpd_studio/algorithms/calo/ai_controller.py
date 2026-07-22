@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import logging
+
 from dataclasses import dataclass
 import atexit
 import queue
@@ -39,6 +41,8 @@ _POLICY_NETWORK_CACHE: dict[
 ] = {}
 _POLICY_BROKER_CACHE: dict[_POLICY_CACHE_KEY, "_PolicyInferenceBroker"] = {}
 
+
+_LOG = logging.getLogger(__name__)
 
 class PolicyInferenceError(RuntimeError):
     """Base error for fail-closed CALO policy inference."""
@@ -201,7 +205,7 @@ def _close_policy_brokers() -> None:
         try:
             broker.close()
         except Exception:
-            pass
+            _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
     _POLICY_BROKER_CACHE.clear()
 
 
@@ -235,9 +239,11 @@ class AIController:
         requested = str(device or "auto").lower()
         xpu_available = bool(hasattr(torch, "xpu") and torch.xpu.is_available())
         if requested == "auto":
-            requested = (
-                "cuda:0" if torch.cuda.is_available() else ("xpu:0" if xpu_available else "cpu")
-            )
+            # CALO's current cognitive/control plane is NumPy/CPU resident. Sending this tiny policy
+            # network to CUDA/XPU forces a synchronization + device-to-host copy every decision and
+            # is slower/more fragile than CPU inference in the single-run path. Heavy ORPD evaluation
+            # remains accelerator-resident. Explicit cuda/xpu remains available for controlled/batched studies.
+            requested = "cpu"
         if requested.startswith("cuda") and not torch.cuda.is_available():
             raise RuntimeError(
                 "CUDA policy inference was requested, but this PyTorch installation cannot access a CUDA GPU."

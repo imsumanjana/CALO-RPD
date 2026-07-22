@@ -14,8 +14,11 @@ controlled case, so the validation remains independent of the internal solver's 
 from __future__ import annotations
 
 from dataclasses import dataclass
+import logging
 
 import numpy as np
+
+_LOG = logging.getLogger(__name__)
 from pypower.idx_brch import PF, PT
 
 from .case_model import (
@@ -182,6 +185,7 @@ def validate_against_pypower(
     try:
         solved, success, failure_message = _run_pypower_with_pv_q_switching(case)
     except Exception as exc:  # third-party cross-check must never terminate the GUI
+        _LOG.exception("Independent PYPOWER cross-validation failed; returning explicit failed-validation evidence")
         return CrossValidationResult(
             True,
             False,

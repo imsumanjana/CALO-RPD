@@ -8,6 +8,8 @@ cross-run candidate batching without changing optimizer equations or evaluation 
 
 from __future__ import annotations
 
+import logging
+
 from concurrent.futures import ThreadPoolExecutor
 from copy import deepcopy
 import multiprocessing as mp
@@ -31,6 +33,8 @@ from calo_rpd_studio.experiments.experiment_runner import (
 )
 
 
+_LOG = logging.getLogger(__name__)
+
 def configure_item_device(config, compute_device: str, item=None):
     local = deepcopy(config)
     local.runtime_compute_device = str(compute_device)
@@ -41,7 +45,12 @@ def configure_item_device(config, compute_device: str, item=None):
         if str(getattr(local, "scientific_backend", "cpu_reference")) == "torch_fp64":
             values["optimizer_backend"] = "torch"
         if algorithm_name == "CALO":
-            values["inference_device"] = str(compute_device)
+            # CALO cognitive/control remains CPU/NumPy in v5.8; keep the tiny policy on CPU to
+            # avoid a CUDA/XPU synchronize+host-copy every decision. Heavy ORPD evaluation still
+            # uses compute_device. Explicit experimental overrides can be applied outside this
+            # strict campaign binding if a fully device-resident control plane is introduced.
+            values["inference_device"] = "cpu"
+            values["policy_control_plane"] = "cpu_no_device_roundtrip_v57"
         parameters[algorithm_name] = values
     local.algorithm_parameters = parameters
     return bind_exact_run_checkpoint(local, item)
@@ -57,7 +66,7 @@ def _configure_numeric_threads() -> None:
         except RuntimeError:
             pass
     except Exception:
-        pass
+        _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
 
 
 def _worker_main(
@@ -73,7 +82,10 @@ def _worker_main(
 ):
     _configure_numeric_threads()
     broker = None
-    if cross_run_batching:
+    # A broker is useful only when at least two run threads can submit concurrently. Single-slot
+    # workers take the direct evaluator path and pay no microbatch wait.
+    effective_cross_run_batching = bool(cross_run_batching and int(slots) > 1)
+    if effective_cross_run_batching:
         broker = CrossRunBatchBroker(
             batch_window_ms=batch_window_ms,
             max_candidates=max_cross_run_batch,
@@ -153,7 +165,7 @@ def _worker_main(
                         "xpu": int(getattr(config, "xpu_task_share", 10)),
                         "cpu": int(getattr(config, "cpu_task_share", 10)),
                     },
-                    "cross_run_batching": bool(cross_run_batching),
+                    "cross_run_batching": bool(effective_cross_run_batching),
                     "cross_run_batch_window_ms": float(batch_window_ms),
                     "max_cross_run_batch": int(max_cross_run_batch),
                     "throughput_stage_profile": GLOBAL_LEDGER.snapshot(),
@@ -167,6 +179,7 @@ def _worker_main(
             )
             return {"kind": kind, "job_id": job_id, "item": item, "payload": completed}
         except Exception as exc:
+            _LOG.exception("Persistent accelerator job failed; returning structured failure")
             return {
                 "kind": "failed",
                 "job_id": job_id,

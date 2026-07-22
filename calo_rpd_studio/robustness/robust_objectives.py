@@ -1,4 +1,4 @@
-"""Scenario aggregation for robust ORPD."""
+"""Scenario aggregation for robust ORPD with explicit constraint semantics."""
 
 from __future__ import annotations
 from dataclasses import dataclass
@@ -14,17 +14,47 @@ class RobustAggregation(str, Enum):
     CVAR = "cvar"
 
 
+class ConstraintAggregation(str, Enum):
+    """How scenario constraint violations define robust feasibility.
+
+    ``ALL_SCENARIO_MAX`` is the publication-safe default: every scenario must satisfy the
+    constraint tolerance. ``EXPECTED_WEIGHTED`` is available only for explicitly declared
+    expected/risk formulations and must never be described as all-scenario robust feasibility.
+    """
+
+    ALL_SCENARIO_MAX = "all_scenario_max"
+    EXPECTED_WEIGHTED = "expected_weighted"
+
+
 @dataclass(slots=True)
 class RobustObjectiveConfig:
     aggregation: RobustAggregation = RobustAggregation.EXPECTED
     risk_lambda: float = 1.0
     cvar_alpha: float = 0.95
+    constraint_aggregation: ConstraintAggregation = ConstraintAggregation.ALL_SCENARIO_MAX
+
+
+def normalize_scenario_weights(weights) -> np.ndarray:
+    w = np.asarray(weights, dtype=float)
+    if w.ndim != 1 or w.size == 0:
+        raise ValueError("Scenario weights must be a non-empty one-dimensional sequence")
+    if not np.all(np.isfinite(w)):
+        raise ValueError("Scenario weights must be finite")
+    if np.any(w < 0.0):
+        raise ValueError("Scenario weights must be non-negative")
+    total = float(np.sum(w))
+    if not np.isfinite(total) or total <= 0.0:
+        raise ValueError("Scenario weights must have a positive finite sum")
+    return w / total
 
 
 def aggregate_robust(values, weights, config):
     v = np.asarray(values, float)
-    w = np.asarray(weights, float)
-    w = w / w.sum()
+    w = normalize_scenario_weights(weights)
+    if v.ndim != 1 or v.size != w.size:
+        raise ValueError("Scenario objective values and weights must have the same length")
+    if not np.all(np.isfinite(v)):
+        return float("inf")
     mean = float(np.sum(v * w))
     if config.aggregation is RobustAggregation.EXPECTED:
         return mean
@@ -33,3 +63,17 @@ def aggregate_robust(values, weights, config):
     if config.aggregation is RobustAggregation.WORST_CASE:
         return float(np.max(v))
     return weighted_cvar(v, w, config.cvar_alpha)
+
+
+def aggregate_constraint_violation(violations, weights, config: RobustObjectiveConfig) -> float:
+    """Aggregate scenario violations without silently diluting a violated scenario."""
+    v = np.asarray(violations, dtype=float)
+    w = normalize_scenario_weights(weights)
+    if v.ndim != 1 or v.size != w.size:
+        raise ValueError("Scenario constraint violations and weights must have the same length")
+    if not np.all(np.isfinite(v)):
+        return float("inf")
+    mode = ConstraintAggregation(config.constraint_aggregation)
+    if mode is ConstraintAggregation.ALL_SCENARIO_MAX:
+        return float(np.max(v))
+    return float(np.sum(w * v))

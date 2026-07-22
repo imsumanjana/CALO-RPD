@@ -74,7 +74,7 @@ def _completed(run_index: int = 0):
 
 def _database(tmp_path, requested_outputs=None):
     database = ResultDatabase(tmp_path / "results.sqlite")
-    config = ExperimentConfig(algorithms=["CALO"])
+    config = ExperimentConfig(algorithms=["CALO"], runs=1)
     config.portfolio = PortfolioConfig(
         kind=PortfolioKind.SINGLE_RUN,
         evidence_profile=EvidenceProfile.DIAGNOSTIC,
@@ -165,7 +165,7 @@ def test_standard_publication_export_reports_bundle_progress_and_reaches_100(tmp
     from calo_rpd_studio.results.publication_export import PublicationExporter
 
     database = ResultDatabase(tmp_path / "standard.sqlite")
-    config = ExperimentConfig(algorithms=["CALO"])
+    config = ExperimentConfig(algorithms=["CALO"], runs=1)
     experiment_id = database.create_experiment(config, {})
     completed = _completed()
     arrays_path = ResultStore(tmp_path / "standard_arrays").save_arrays(completed.result)

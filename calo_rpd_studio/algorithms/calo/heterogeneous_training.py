@@ -26,6 +26,8 @@ logic, so Task Manager percentages need not equal the episode allocation.
 
 from __future__ import annotations
 
+import logging
+
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, as_completed
 from dataclasses import asdict, dataclass
 import hashlib
@@ -95,6 +97,8 @@ ROLLOUT_KEYS = (
 )
 LANE_ORDER = ("cuda", "xpu", "cpu")
 
+
+_LOG = logging.getLogger(__name__)
 
 @dataclass(slots=True)
 class HeterogeneousTrainingConfig(TrainingConfig):
@@ -380,7 +384,7 @@ def _close_actor_runtime_caches() -> None:
         try:
             broker.close()
         except Exception:
-            pass
+            _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
     _ACTOR_BROKER_CACHE.clear()
     _ACTOR_NETWORK_CACHE.clear()
 
@@ -525,7 +529,7 @@ def collect_actor_lane_payload(payload: dict[str, Any]) -> dict[str, Any]:
         try:
             torch.xpu.synchronize(device)
         except Exception:
-            pass
+            _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
 
     return {
         "lane": lane,
@@ -1333,7 +1337,7 @@ def _train_policy_heterogeneous_impl(
             try:
                 client.close()
             except Exception:
-                pass
+                _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
 
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -1350,7 +1354,7 @@ def _train_policy_heterogeneous_impl(
     metadata = {
         "algorithm": "CALO",
         "calo_core": "v5.0",
-        "policy_training_architecture": "v5.6",
+        "policy_training_architecture": "v5.8",
         "training_method": "persistent auto-tuned batched heterogeneous PPO",
         "candidate_checkpoint": True,
         "benchmark_freeze_status": (

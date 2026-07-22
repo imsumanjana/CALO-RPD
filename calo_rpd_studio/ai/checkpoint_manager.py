@@ -1,4 +1,4 @@
-"""Crash-safe versioned checkpoint utilities used by CALO v5 continuation workflows."""
+"""Durability-hardened versioned checkpoint utilities used by CALO continuation workflows."""
 
 from __future__ import annotations
 
@@ -6,10 +6,11 @@ from dataclasses import dataclass
 import hashlib
 import json
 from pathlib import Path
-import tempfile
 from typing import Iterable
 
 import torch
+
+from calo_rpd_studio.ai.model_io import durable_torch_save, durable_write_bytes
 
 
 @dataclass(frozen=True, slots=True)
@@ -20,11 +21,11 @@ class CheckpointInfo:
 
 
 class CheckpointManager:
-    """Atomic checkpoint writer with checksums and conservative retention.
+    """Portable/deployable model checkpoint manager.
 
-    Scientific artifacts are never silently overwritten. ``write_torch`` writes to a temporary
-    file, fsync-equivalent close is provided by the file lifecycle, verifies readability and then
-    atomically replaces the destination. A sidecar SHA-256 is always written.
+    This API is intentionally *not* the exact-resume API. Payloads must remain readable by
+    ``torch.load(..., weights_only=True)``. Exact optimizer/RNG resume states use the separate
+    authenticated-local resume helpers in :mod:`calo_rpd_studio.ai.model_io`.
     """
 
     def __init__(self, directory) -> None:
@@ -56,37 +57,31 @@ class CheckpointManager:
             raise RuntimeError(f"Checkpoint checksum mismatch: {path}")
         return CheckpointInfo(path.resolve(), sha, path.stat().st_size)
 
-    def write_torch(self, filename: str | Path, payload: dict) -> CheckpointInfo:
+    def write_deployable_model(self, filename: str | Path, payload: dict) -> CheckpointInfo:
+        """Durably write a portable weights-only-safe checkpoint and checksum sidecar."""
         target = Path(filename)
         if not target.is_absolute():
             target = self.directory / target
-        target.parent.mkdir(parents=True, exist_ok=True)
-        with tempfile.NamedTemporaryFile(delete=False, dir=target.parent, suffix=".tmp") as handle:
-            temporary = Path(handle.name)
-        try:
-            torch.save(payload, temporary)
-            # Validate that the serialized container is readable before promotion.
-            torch.load(temporary, map_location="cpu", weights_only=True)
-            temporary.replace(target)
-            info = self.verify(target)
-            target.with_suffix(target.suffix + ".sha256").write_text(
-                info.sha256 + "\n", encoding="utf-8"
-            )
-            return info
-        finally:
-            temporary.unlink(missing_ok=True)
+        durable_torch_save(payload, target)
+        # Portable/deployable artifacts must never require pickle-capable loading.
+        torch.load(target, map_location="cpu", weights_only=True)
+        info = self.verify(target)
+        durable_write_bytes(
+            target.with_suffix(target.suffix + ".sha256"),
+            (info.sha256 + "\n").encode("ascii"),
+        )
+        return info
+
+    def write_torch(self, filename: str | Path, payload: dict) -> CheckpointInfo:
+        """Backward-compatible alias for :meth:`write_deployable_model`; not an exact-resume API."""
+        return self.write_deployable_model(filename, payload)
 
     def write_json(self, filename: str | Path, payload: dict) -> Path:
         target = Path(filename)
         if not target.is_absolute():
             target = self.directory / target
-        target.parent.mkdir(parents=True, exist_ok=True)
-        with tempfile.NamedTemporaryFile(
-            "w", delete=False, dir=target.parent, suffix=".tmp", encoding="utf-8"
-        ) as handle:
-            json.dump(payload, handle, indent=2, allow_nan=False)
-            temporary = Path(handle.name)
-        temporary.replace(target)
+        encoded = (json.dumps(payload, indent=2, allow_nan=False) + "\n").encode("utf-8")
+        durable_write_bytes(target, encoded)
         return target
 
     def apply_retention(

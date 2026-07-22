@@ -1,0 +1,29 @@
+Finding,Severity,Status,v5.8 closure/evidence,Primary implementation
+NEW-001,CRITICAL,RESOLVED,"Session-staged exact resumes plus immutable generation assembly; authoritative root manifest changes only after complete generation is ready; prior generation remains immutable.",competitive_training.py; test_v56_competitive_training.py
+NEW-002,CRITICAL/HIGH,RESOLVED,"Initial exact safe state is materialized before expensive validation; immediate Safe Stop regression passes.",competitive_training.py; test_v56_competitive_training.py
+NEW-003,HIGH SCIENTIFIC,RESOLVED,"Curriculum uses explicit persisted milestones independent of session duration/hidden epochs in Infinite mode.",training.py; test_v580_audit_closure.py
+NEW-004,HIGH,RESOLVED,"Resume history/coordinator messages/champion decisions bounded; detailed epoch telemetry external append-only JSONL.",training.py; competitive_training.py
+NEW-005,HIGH,RESOLVED,"Safe Stop grace deadline terminates nonresponsive children and reports degraded typed status.",competitive_training.py
+NEW-006,HIGH UX/PROVENANCE,RESOLVED,"Typed COMPLETED/SAFE_STOPPED/SAFE_STOPPED_DEGRADED result propagated to GUI cancellation/paused path rather than normal completion.",competitive_training.py; calo_intelligence_panel.py
+NEW-007,HIGH,RESOLVED_CORE,"Durable recovery index plus retained interrupted scratch and explicit Recover/Discard workflow; recovered branch generation retains previous Base and does not promote unfinalized champion.",competitive_training.py; calo_intelligence_panel.py
+NEW-008,HIGH SCIENTIFIC,RESOLVED,"Feasibility-first eligibility; hardware latency diagnostic-only; fixed validation bundle; grouped lexicographic hierarchy; stronger default validation evidence.",competitive_training.py; training.py
+NEW-009,HIGH SCIENTIFIC,RESOLVED,"Global Base chosen from common-bundle candidates with deterministic order-independent rank key rather than sequential pairwise update.",competitive_training.py; test_v580_audit_closure.py
+NEW-010,HIGH SCIENTIFIC,RESOLVED,"Comparator schema and validation-bundle fingerprints stored; final Base and branch candidates re-evaluated in one common bundle.",competitive_training.py; test_v580_audit_closure.py
+NEW-011,HIGH PERFORMANCE/RELIABILITY,RESOLVED_CORE,"Explicit branch-device assignments with per-accelerator concurrency cap; excess branches use CPU; actual assignments recorded.",competitive_training.py
+NEW-012,MEDIUM/HIGH,RESOLVED,"Deterministic final queue drain after joins plus terminal-message tracking.",competitive_training.py
+NEW-013,MEDIUM/HIGH,RESOLVED_BY_CONTRACT,"Safe cadence fixed to 10 epochs; session-start exact checkpoint is also valid; UI range fixed 10; semantics renamed latest validated common exact checkpoint.",competitive_training.py; calo_intelligence_panel.py
+NEW-014,MEDIUM,RESOLVED_CORE,"Durable fsync+atomic file helpers used for trusted resumes/Base/JSON; branch generations are immutable and root manifest is commit point.",model_io.py; competitive_training.py
+NEW-015,MEDIUM,RESOLVED,"Release-facing benchmark defaults use v5.8/v580 naming.",run_final_benchmark.py; benchmark_campaign_panel.py
+V57-NEW-001,HIGH/CRITICAL SCIENTIFIC,RESOLVED,"Callable fingerprint canonicalization covers functools.partial args/keywords, bound methods, callable objects and scientific state.",optimizer.py; test_v580_audit_closure.py
+V57-NEW-002,HIGH SCIENTIFIC/GOVERNANCE,RESOLVED,"Formal superiority PASS requires complete paired favorable/effect/Holm evidence; non-inferiority is a distinct explicit protocol.",policy_qualification.py; test_v580_audit_closure.py
+V57-NEW-003,HIGH PUBLICATION INTEGRITY,RESOLVED,"Verified publication portfolio requires complete expected evidence and every expected row independently verified; partial subsets fail closed.",portfolio/exporter.py; test_v57_audit_closure_integration.py
+V57-NEW-004,MEDIUM/HIGH COMPATIBILITY,RESOLVED,"Explicit opt-in local-trust migration utility verifies legacy integrity and re-saves authenticated v5.8 exact resume with provenance.",model_io.py; migrate_legacy_resume.py
+V57-NEW-005,MEDIUM/HIGH PERFORMANCE,RESOLVED_PRIMARY_PATH,"SciPy Newton Jacobian constructed directly from sparse derivatives without dense Ybus/full NxN trig matrices; dense fallback only when SciPy sparse unavailable.",newton_raphson.py; test_v580_audit_closure.py
+V57-NEW-006,MEDIUM/HIGH RELIABILITY,RESOLVED_SILENT_SUPPRESSION,"No broad Exception/BaseException/bare handler may consist solely of pass/continue/return; critical failures propagate or produce structured/logged diagnostic outcomes; static regression enforces the rule.",multiple source modules; test_v580_audit_closure.py
+H-002,HIGH PERFORMANCE,PARTIAL_DEFERRED_FOR_PARITY,"CALO control remains partly host-side to preserve frozen seeded trajectory; deeper device residency requires separately parity-qualified implementation.",v5_disputes.py
+H-003,MEDIUM,MITIGATED,"Adaptive evaluation-cache disable remains; early key/decode overhead is measured performance debt.",optimizer/runtime cache
+J-008,MEDIUM,ACCEPTED_NON_SCIENTIFIC_TELEMETRY_SCOPE,"Newest UI telemetry can be lost after hard crash; committed scientific state remains authoritative.",reproducibility docs
+N-001,HIGH,TARGET_ENVIRONMENT_VALIDATION_PENDING,"Full target PyQt/PYPOWER/static-analysis/physical CUDA-XPU gates not claimed in this build environment.",RELEASE_VALIDATION.md
+N-003,ENVIRONMENT,TARGET_ENVIRONMENT_VALIDATION_PENDING,"PYPOWER/PyQt6 unavailable in build runtime for full collection.",RELEASE_VALIDATION.md
+N-004,MEDIUM,IMPROVED,"New v5.8 regressions cover key competitive/scientific findings; long-duration physical fault/soak matrix remains target-environment work.",tests/unit/test_v580_audit_closure.py
+O-001,MEDIUM,PARTIAL_STRUCTURAL_TECH_DEBT,"Transactional/resource/evidence contracts strengthened but several legacy orchestration/UI modules remain large.",architecture

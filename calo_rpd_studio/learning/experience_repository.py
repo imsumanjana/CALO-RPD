@@ -33,7 +33,7 @@ def _json_load(value: str | dict | None, default):
         return value
     try:
         return json.loads(value)
-    except Exception:
+    except (json.JSONDecodeError, TypeError, ValueError):
         return default
 
 

@@ -1,107 +1,104 @@
 {
   "name": "CALO-RPD Studio",
-  "version": "5.6.0",
-  "release_name": "Competitive Multi-Branch Policy Evolution",
+  "version": "5.8.0",
+  "release_name": "Transactional Competitive Training and Scientific Closure",
   "release_date": "2026-07-22",
-  "scientific_claim": "Competitive multi-branch policy-training and continuation correction; no optimizer/policy superiority claim.",
+  "scope": "Resolve remaining NEW v5.6 competitive-training findings and new/reopened v5.7 deep re-audit findings without introducing a new optimizer family or fabricating superiority evidence.",
+  "closure_matrix": "FINDINGS_CLOSURE_v5.8.0.csv",
+  "implementation_report": "CALO-RPD-v5.8.0_IMPLEMENTATION_REPORT.md",
+  "scientific_claim": "Scientific/reliability closure release; no optimizer or policy superiority claim.",
   "policy_runtime": {
+    "application_version_namespace_separate_from_policy_abi": true,
+    "policy_abi": "calo-v4.1",
     "default_neural_policy_bundled": false,
     "untrained_fallback_allowed": false,
     "policy_assisted_execution_requires_explicit_binding": true,
-    "formal_policy_qualification_separate_from_branch_champion_selection": true
+    "formal_periodic_in_training_qualification": false,
+    "formal_qualification_saved_base_only": true
   },
-  "policy_training_v56": {
-    "duration_modes": [
-      "cumulative",
-      "infinite"
-    ],
-    "exact_resume": true,
-    "base_guided_fork": true,
-    "parallel_seed_strategies": [
-      "same",
-      "incremental",
-      "decremental",
-      "custom"
-    ],
+  "competitive_training": {
     "independent_branch_parameter_averaging": false,
-    "working_state_separate_from_branch_champion": true,
-    "logical_base_selected_competitively": true,
-    "rolling_temp_disk_safe_snapshots": true,
-    "safe_boundary_epochs": 10,
-    "safe_stop_common_previous_boundary": true
+    "transactional_immutable_branch_generations": true,
+    "authoritative_commit_point": "root .branches.json manifest",
+    "infinite_curriculum_independent_of_session_epochs": true,
+    "bounded_resume_history": true,
+    "bounded_coordinator_messages": true,
+    "bounded_champion_decisions": true,
+    "typed_safe_stop": true,
+    "safe_snapshot_cadence_epochs": 10,
+    "stuck_worker_grace_termination": true,
+    "durable_recovery_index": true,
+    "branch_aware_accelerator_admission": true,
+    "order_independent_common_bundle_base_selection": true,
+    "hardware_latency_used_as_scientific_promotion_vote": false
+  },
+  "scientific_protocol": {
+    "formal_policy_qualification_default_paired_runs": 30,
+    "formal_superiority_requires_adjusted_significance": true,
+    "formal_non_inferiority_separate_protocol": true,
+    "publication_validation": "complete_expected_verified_evidence_fail_closed",
+    "robust_feasibility_default": "all_scenario_max_constraint_violation",
+    "generator_limit_accounting": "individual_online_unit",
+    "voltage_deviation_partition": "fixed_declared_formulation",
+    "l_index_partition": "fixed_declared_formulation",
+    "strict_equal_fe_budget_rule": "max_evaluations_must_be_divisible_by_common_population_size",
+    "scenario_callable_fingerprint": "code_defaults_closure_partial_bound_method_callable_object_state",
+    "newton_primary_jacobian": "scipy_sparse_derivative_construction"
+  },
+  "trust_boundary": {
+    "portable_deployable_checkpoint": "weights_only_safe_loading",
+    "exact_resume_checkpoint": "trusted_local_hmac_sha_authenticated",
+    "external_pickle_resume_treated_as_safe": false,
+    "legacy_resume_migration": "explicit_user_trust_plus_legacy_integrity_verification"
+  },
+  "freeze": {
+    "manifest": "calo_rpd_studio/data/frozen/calo_v580_freeze.json",
+    "checked_files": 110,
+    "missing": 0,
+    "changed": 0,
+    "canonical_manifest_sha256": "0cfac9946fc73d7c329f31f8db313f42d6436b668a4cde770c77f7df4e0a68f1",
+    "file_sha256": "bd2ce992d341c1a1ff409122bf791e6d7afc35b53e273669635fa74cd1165b59",
+    "status": "PASS"
   },
   "validation": {
-    "targeted_v56_policy_continuation_partition": {
-      "passed": 40,
+    "compileall": "PASS",
+    "focused_tests": {
+      "passed": 71,
       "failed": 0
     },
-    "partitioned_dependency_light_unit_tests": {
-      "passed": 184,
-      "failed": 0,
-      "environment_deselected": 1,
-      "environment_uncollected": 2
-    },
-    "integration_regression": {
+    "competitive_training_regressions": {
       "passed": 9,
       "failed": 0
     },
-    "compileall": "PASS",
-    "ruff": "NOT_RUN_TOOL_UNAVAILABLE",
-    "full_gui_suite": "NOT_RUN_PYQT6_UNAVAILABLE",
-    "pypower_scientific_suite": "NOT_RUN_PYPOWER_UNAVAILABLE",
+    "v58_and_v57_audit_closure_regressions": {
+      "passed": 30,
+      "failed": 0
+    },
+    "release_integrity": {
+      "passed": 4,
+      "failed": 0
+    },
+    "policy_cache_policy_system_numerical": {
+      "passed": 12,
+      "failed": 0
+    },
+    "robustness_and_continuation": {
+      "passed": 16,
+      "failed": 0
+    },
+    "full_gui_suite": "NOT_RUN_IN_BUILD_RUNTIME",
+    "full_target_pypower_suite": "NOT_CLAIMED_IN_BUILD_RUNTIME",
     "physical_cuda_xpu": "NOT_AVAILABLE_IN_BUILD_RUNTIME",
-    "freeze": {
-      "status": "PASS",
-      "checked_files": 99,
-      "manifest": "calo_rpd_studio/data/frozen/calo_v560_freeze.json",
-      "manifest_sha256": "8e4598715934d17c95bf4e7f1a09674c19d80933fac78fcd4b5b50574e6867c1"
-    }
+    "long_duration_infinite_soak": "NOT_RUN_ON_TARGET_HARDWARE",
+    "ruff_full_gate": "NOT_CLAIMED_IN_BUILD_RUNTIME"
   },
-  "resolved_training_findings": [
-    "C-001",
-    "C-002",
-    "C-003",
-    "C-004",
-    "C-005",
-    "C-006",
-    "C-007",
-    "C-008",
-    "C-009",
-    "C-010",
-    "C-011",
-    "C-012",
-    "C-013",
-    "D-001",
-    "D-002",
-    "D-003",
-    "D-004",
-    "D-005",
-    "D-006",
-    "D-007",
-    "D-008"
-  ],
-  "explicit_open_or_partial": [
-    "C-014 broad exception suppression only partially narrowed",
-    "D-009 automatic periodic formal qualification remains open",
-    "Full CALO control path is not fully CUDA/XPU resident",
-    "Training environment is not bit-identical to the complete runtime optimizer loop"
-  ],
-  "repository_manifest": {
-    "status": "PASS",
-    "file_count": 369,
-    "path": "MANIFEST.sha256",
-    "excludes": [
-      "MANIFEST.sha256",
-      ".git/",
-      ".venv/",
-      "__pycache__/",
-      ".pytest_cache/",
-      ".ruff_cache/",
-      ".mypy_cache/",
-      "build/",
-      "dist/",
-      "*.pyc",
-      "*.pyo"
-    ]
+  "residual": {
+    "H-002": "PARTIAL_DEFERRED_FOR_SEEDED_PARITY",
+    "H-003": "MITIGATED_MEASURED_PERFORMANCE_DEBT",
+    "J-008": "ACCEPTED_NON_AUTHORITATIVE_UI_TELEMETRY_SCOPE",
+    "N-001": "TARGET_ENVIRONMENT_VALIDATION_PENDING",
+    "N-003": "ENVIRONMENT_LIMITATION",
+    "N-004": "IMPROVED_LONG_DURATION_PHYSICAL_FAULT_MATRIX_PENDING",
+    "O-001": "PARTIAL_STRUCTURAL_MAINTAINABILITY_DEBT"
   }
 }

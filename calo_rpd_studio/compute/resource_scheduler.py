@@ -12,6 +12,8 @@ The CUDA/XPU labels are PyTorch backend identifiers and do not have to match Win
 
 from __future__ import annotations
 
+import logging
+
 from dataclasses import dataclass
 import json
 import os
@@ -22,6 +24,8 @@ import time
 
 import psutil
 
+
+_LOG = logging.getLogger(__name__)
 
 @dataclass(frozen=True, slots=True)
 class DeviceSnapshot:
@@ -102,7 +106,7 @@ class ResourceMonitor:
             import torch
 
             return bool(torch.cuda.is_available())
-        except Exception:
+        except (ImportError, RuntimeError, AttributeError, OSError):
             return False
 
     @staticmethod
@@ -111,7 +115,7 @@ class ResourceMonitor:
             import torch
 
             return bool(hasattr(torch, "xpu") and torch.xpu.is_available())
-        except Exception:
+        except (ImportError, RuntimeError, AttributeError, OSError):
             return False
 
     @property
@@ -141,7 +145,7 @@ class ResourceMonitor:
                 try:
                     utilization = float(torch.cuda.utilization(index))
                 except Exception:
-                    pass
+                    _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
                 try:
                     free_bytes, total_bytes = torch.cuda.mem_get_info(index)
                     memory_percent = 100.0 * (total_bytes - free_bytes) / max(total_bytes, 1)
@@ -216,7 +220,7 @@ class ResourceMonitor:
                         updated.append(snapshot)
                 snapshots = updated
             except Exception:
-                pass
+                _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
 
         self._cuda_cache = tuple(snapshots)
         self._cuda_cache_time = now
@@ -244,7 +248,7 @@ class ResourceMonitor:
                         allocated = int(torch.xpu.memory.memory_allocated(index))
                         memory_percent = 100.0 * allocated / max(total, 1) if total else 0.0
                     except Exception:
-                        pass
+                        _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
                 utilization: float | None = None
                 # PyTorch's stable XPU API does not guarantee a utilization-percentage function.
                 # Use it opportunistically if a future/runtime-specific build provides one.
@@ -271,6 +275,7 @@ class ResourceMonitor:
                 )
             return tuple(snapshots)
         except Exception:
+            _LOG.debug("Accelerator telemetry probe failed; returning an explicit empty snapshot", exc_info=True)
             return ()
 
     def _sidecar_xpu_snapshots(self) -> tuple[DeviceSnapshot, ...]:
@@ -312,6 +317,7 @@ class ResourceMonitor:
                 )
             return tuple(devices)
         except Exception:
+            _LOG.debug("Accelerator telemetry probe failed; returning an explicit empty snapshot", exc_info=True)
             return ()
 
     def _sample_xpu(self) -> tuple[DeviceSnapshot, ...]:
@@ -354,7 +360,7 @@ def configured_xpu_interpreter() -> str:
         ):
             return interpreter
     except Exception:
-        pass
+        _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
     return ""
 
 

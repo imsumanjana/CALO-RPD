@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 import hashlib
 import json
+import logging
 from pathlib import Path
 import uuid
 
@@ -18,6 +19,8 @@ from .policy_schema import (
     infer_checkpoint_schema,
 )
 from .policy_lineage import PolicyLineageManager
+
+_LOG = logging.getLogger(__name__)
 
 
 def _utcnow() -> str:
@@ -54,39 +57,18 @@ class PolicyRecord:
         )
 
 
-_SUPPRESSED_FILE = Path.home() / ".calo_rpd_studio" / "suppressed_policies.json"
-
-
 class PolicyRegistry:
     """Manage policy artifacts without silently changing experiment provenance."""
 
     def __init__(self, database) -> None:
         self.database = database
         self.lineages = PolicyLineageManager(database)
-        self._suppressed: set[str] = self._load_suppressed()
 
-    @staticmethod
-    def _load_suppressed() -> set[str]:
-        if _SUPPRESSED_FILE.is_file():
-            try:
-                data = json.loads(_SUPPRESSED_FILE.read_text(encoding="utf-8"))
-                return {str(s).lower() for s in data}
-            except Exception:
-                return set()
-        return set()
-
-    def _save_suppressed(self) -> None:
-        _SUPPRESSED_FILE.parent.mkdir(parents=True, exist_ok=True)
-        _SUPPRESSED_FILE.write_text(
-            json.dumps(sorted(self._suppressed), indent=2), encoding="utf-8"
-        )
-
-    def suppress(self, sha256: str) -> None:
-        self._suppressed.add(sha256.lower())
-        self._save_suppressed()
+    def suppress(self, sha256: str, *, reason: str = "user_deleted") -> None:
+        self.database.suppress_policy_sha256(str(sha256), reason=reason)
 
     def is_suppressed(self, sha256: str) -> bool:
-        return sha256.lower() in self._suppressed
+        return str(sha256).lower() in self.database.list_suppressed_policy_sha256()
 
     @staticmethod
     def inspect_checkpoint(path: str | Path) -> dict:
@@ -148,7 +130,8 @@ class PolicyRegistry:
                 if self.is_suppressed(inspected["sha256"]):
                     continue
                 output.append(self.register(path, name=path.stem))
-            except Exception:
+            except Exception as exc:
+                _LOG.warning("Skipping malformed/incompatible bundled policy %s: %s: %s", path, type(exc).__name__, exc)
                 continue
         return output
 
@@ -223,23 +206,23 @@ class PolicyRegistry:
             )
         checkpoint = self.database.get_policy_checkpoint_by_sha256(policy.sha256)
         if delete_artifact and checkpoint is not None:
-            # A lineage checkpoint is scientific provenance, not a disposable cache. Physical
-            # deletion is allowed only for non-latest/non-best checkpoints with no fork children.
             self.database.delete_policy_checkpoint(str(checkpoint["id"]))
         self.database.delete_policy(policy_id)
-        if delete_artifact:
-            deleted_file = False
-            try:
-                Path(policy.checkpoint_path).unlink(missing_ok=True)
-                sidecar = Path(policy.checkpoint_path).with_suffix(
-                    Path(policy.checkpoint_path).suffix + ".sha256"
-                )
-                sidecar.unlink(missing_ok=True)
-                deleted_file = True
-            except OSError:
-                pass
-            if not deleted_file:
-                self.suppress(policy.sha256)
+        if not delete_artifact:
+            return
+        source = Path(policy.checkpoint_path)
+        existed = source.is_file()
+        try:
+            source.unlink(missing_ok=True)
+            sidecar = source.with_suffix(source.suffix + ".sha256")
+            sidecar.unlink(missing_ok=True)
+        except OSError as exc:
+            _LOG.error("Failed to delete policy artifact %s: %s", source, exc)
+            # Suppress the exact SHA so rediscovery cannot silently resurrect a deliberately deleted record.
+            self.suppress(policy.sha256, reason="delete_failed")
+            raise
+        # A deliberate delete is a project-scoped suppression even when the file was already absent.
+        self.suppress(policy.sha256, reason="deleted_artifact" if existed else "artifact_already_absent")
 
     def bind_to_experiment_config(
         self, policy_id: str, config, *, deterministic: bool, allow_unqualified: bool = False

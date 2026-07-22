@@ -79,3 +79,12 @@ Training produces candidate checkpoints without overwriting any registered polic
 ## Raw data
 
 Important numerical data are stored as JSON/SQLite records and compressed NPZ arrays. Figures are regenerated from raw data; they are not the sole record of a result. Preview visibility and export styling never alter stored scientific data.
+
+## v5.7 telemetry durability boundary
+
+Live GUI telemetry is a convenience preview, not scientific evidence. Publication/statistical reconstruction uses committed optimizer histories, run/revision records, exact checkpoints where supported, stored numerical results, and independent-validation records. A hard process/power failure may lose UI-only transient/downsampled points created after the last committed scientific state; those points are deliberately excluded from publication evidence and are never used to claim exact trajectory reconstruction.
+
+
+## v5.8 competitive training durability and bounded telemetry
+
+Competitive branch exact-resume state is committed by immutable generation plus one authoritative root manifest. Worker branches write staged states only. Resume-critical history is bounded; full per-epoch training telemetry is append-only external JSONL and is not required to reconstruct optimizer/RNG scientific state. Safe Stop is a typed resumable session outcome, not normal completion.
