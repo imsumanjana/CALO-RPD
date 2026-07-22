@@ -50,10 +50,10 @@ DISPUTES: tuple[Dispute, ...] = (
     ),
     Dispute(
         "P05",
-        "PARTIAL",
+        "RESOLVED",
         "High",
-        "Long-running policy evolution needs latest-vs-best checkpoint management.",
-        "v5 policy lineages, cumulative epochs, immutable deployable checkpoints, latest/best-qualified roles, forks, exact resume, and continuation phases are implemented. Qualification scheduling is suggested but not automatically launched at every configured interval.",
+        "Long-running policy evolution needs a non-destructive distinction between resumable working state and best deployable policy.",
+        "v5.6 keeps exact per-branch resume state separate from branch champions and the logical base model. Base promotion is competitive and immutable/content-addressed; later training cannot overwrite an older experiment-bound SHA. Formal qualification remains a separate gate tracked by C08.",
     ),
     Dispute(
         "P06",
@@ -151,14 +151,14 @@ DISPUTES: tuple[Dispute, ...] = (
         "RESOLVED",
         "Critical",
         "Policy training could not continue safely across sessions or completed targets.",
-        "Exact resume retains model, optimizer, RNG, curriculum/history and blocks scientific hyperparameter drift; cumulative, additional, and indefinite modes are supported.",
+        "v5.6 supports fixed-length cumulative sessions, infinite-until-Safe-Stop sessions, and exact branch resume with model/optimizer/RNG/curriculum/history restoration. Duration mode may change after exact restore without relabeling the saved training state as a fresh trajectory.",
     ),
     Dispute(
         "C02",
         "RESOLVED",
         "High",
-        "More policy epochs could destructively replace a better earlier policy.",
-        "Immutable lineage checkpoints keep latest and best-qualified roles separate; experiments remain bound to their original checkpoint SHA.",
+        "More policy epochs or parallel training could destructively replace a better earlier policy.",
+        "v5.6 separates exact resumable branch state from branch champion/base state, never averages independently trained PPO weights, promotes only scientifically superior champions, and preserves immutable experiment-bound policy artifacts by SHA.",
     ),
     Dispute(
         "C03",
@@ -194,6 +194,13 @@ DISPUTES: tuple[Dispute, ...] = (
         "High scientific",
         "A segmented 5k→10k continuation could be incorrectly presented as identical to a run planned for 10k from FE=0.",
         "Trajectory semantics are recorded explicitly. Exact continuation is labeled segmented; recompute-from-seed is the publication-safe from-start higher-horizon trajectory for paired comparisons.",
+    ),
+    Dispute(
+        "C09",
+        "RESOLVED",
+        "Critical scientific",
+        "Independent PPO branches were previously vulnerable to scientifically unjustified terminal parameter averaging and incoherent merged optimizer/RNG state.",
+        "v5.6 competitive multi-branch policy evolution keeps every branch independent and exactly resumable. Branches compete under one fixed multi-metric champion comparator; the best validated champion may promote the logical base, but neural parameters, optimizer state, RNG state, and curriculum state are never arithmetically merged across branches.",
     ),
     Dispute(
         "C08",

@@ -1,97 +1,118 @@
-# CALO-RPD Studio v5.4.1 — Release Validation
+# CALO-RPD Studio v5.6.0 — Release Validation
 
 **Release date:** 2026-07-22  
-**Release purpose:** policy-gated runtime safety + release-identity/provenance correction.
+**Release purpose:** competitive multi-branch policy evolution, exact branch continuation, low-RAM Safe Stop, and non-destructive Base Model promotion.
 
-This correction release resolves two audited release blockers together:
+## Scientific architecture implemented
 
-1. the active source/release identity and release evidence were stale at 5.0.0 and the old current manifests no longer matched the supplied v5.4 tree;
-2. policy-assisted CALO could encounter a missing default policy path and construct an untrained neural fallback instead of failing closed.
+v5.6 replaces the previous parallel-policy merge concept with independent competitive PPO branches.
 
-## Policy-gated runtime correction
+- Independent branches are **never neural-weight averaged**.
+- Branch seeds support same, incremental, decremental, and custom user-selected mixtures.
+- Cumulative sessions add a fixed user-selected epoch count to the saved lifetime epoch.
+- Infinite sessions have no target epoch and run until Safe Stop.
+- Exact Resume restores each branch's network, optimizer, RNG, curriculum/history, branch identity, seed identity, and saved epoch.
+- Base-Guided Fork is explicitly distinct from Exact Resume: it starts fresh optimizer/RNG trajectories from selected Base Model knowledge.
+- Every branch separates exact resumable working state from its best scientifically evaluated Branch Champion.
+- The logical Base Model is selected competitively from the previous Base and eligible Branch Champions; no parameter averaging is used.
+- Formal Policy Qualification remains separate from internal Branch Champion/Base selection.
 
-- CALO-RPD intentionally ships with **no automatically active/default neural policy artifact**.
-- `AIController` no longer creates a random/untrained fallback network when a checkpoint is absent.
-- Policy-assisted CALO requires an explicit checkpoint and strict immutable policy binding; missing-policy and non-bound execution are blocked.
-- Missing checkpoint paths raise a hard error instead of falling back.
-- Rule/No-AI control remains available only as an explicit research/qualification mode; it does not instantiate a fake neural model and is never an automatic fallback.
-- CALO Intelligence is policy-gated:
-  - with no registered usable policy artifact, only policy provisioning/training/import remains enabled;
-  - with policies present but no compatible active policy, the Policy Center can be used for qualification/activation while runtime intelligence controls remain locked;
-  - runtime controls unlock only when a compatible policy is explicitly active.
-- Training and import do not auto-activate a policy.
-- Runtime activation rejects incompatible legacy policy schemas.
-- Training is blocked from overwriting an already registered policy artifact.
-- The normal CALO default configuration keeps policy assistance enabled but now also defaults to strict policy binding, forcing explicit provisioning before policy-assisted evaluation.
+## Champion comparison
 
-## Release identity and provenance correction
+Branch promotion uses a hierarchical multi-metric comparator rather than PPO loss or a single reward:
 
-The active release identity is now **5.4.1** and is consistent across:
+1. mandatory policy validity and feasibility safeguards;
+2. critical-metric Pareto comparison;
+3. broad evidence across feasible objective statistics, convergence AUC, constraint violation, feasibility rate, time/steps to feasibility, stability, held-out validation return, and inference overhead;
+4. a guard preventing small efficiency gains from compensating for a material final-feasible-objective regression.
 
-- `pyproject.toml`;
-- `calo_rpd_studio/version.py`;
-- bootstrap fallback version;
-- application About/Settings/sidebar displays;
-- README and citation metadata;
-- benchmark campaign defaults;
-- current freeze manifest selection;
-- CI workflow label;
-- root release metadata and validation evidence.
+Every epoch receives a cheap training-evidence screen. Full fixed multi-metric validation is triggered by promising screen improvement, periodic deep-validation boundaries, initial state, and cumulative-session completion. This avoids imposing a full validation suite on every non-promising epoch in extremely long campaigns.
 
-A new current software freeze was generated:
+## Safe Stop and exact checkpointing
 
-`calo_rpd_studio/data/frozen/calo_v541_freeze.json`
+- No permanent epoch-by-epoch snapshots are produced.
+- During an active session, each branch keeps a bounded rolling window of exact-state files in a local scratch directory at 10-epoch safe boundaries.
+- Safe Stop signals every child branch, selects the lowest common available previous 10th epoch, discards later work, and commits one permanent exact resume checkpoint per branch at that common epoch.
+- Temporary session storage is deleted after permanent commit/base selection.
+- Normal cumulative completion commits each branch at the requested exact terminal epoch.
+- Branch resume state always advances after a completed session; Branch Champion/Base state advances only when the comparator supports improvement.
 
-The freeze deliberately does **not** contain a neural policy checkpoint. The software freeze certifies the CALO/software implementation scope; each policy-assisted experiment separately binds the exact user-selected policy SHA-256. This prevents the software release from implying that any bundled/default policy is scientifically preferred.
+## Parallel-training audit corrections
 
-Current freeze verification:
+The v5.6 architecture closes the main audited C/D defects:
 
-- status: **PASS**
-- frozen files checked: **98**
-- default/missing neural policy in freeze: **none by design**
-- untrained fallback permitted: **no**
+- multiprocessing synchronization objects and child processes use one `spawn` context;
+- exact branch resume paths are authoritative and actually used;
+- parent cancellation sets the shared child cancellation event;
+- coordinator waits for all branches rather than exiting when any one finishes;
+- fatal messages and process exit codes are checked before Base selection;
+- requested/started/successful/failed contributor counts are explicit;
+- independent PPO network averaging was removed;
+- no incoherent merged optimizer/RNG/curriculum state is created;
+- coordinator returns training/champion/base-selection history;
+- heterogeneous CUDA/XPU/CPU configuration is retained inside competitive branches;
+- legacy curriculum conversion is schema/version-driven;
+- caller global Python/NumPy/Torch/CUDA RNG state is restored after standalone training;
+- deployable artifacts are immutable and logical aliases are separate;
+- Safe Stop no longer overwrites a full policy with a reduced/incompatible payload.
 
-Current full-repository release manifest:
-
-- `MANIFEST.sha256`: **PASS**
-- release-controlled files hashed: **362**
-- caches/bytecode/build directories: excluded from the release manifest by design
-
-Historical freeze manifests remain in the repository for provenance but are not the current release gate.
+See `FINDINGS_CLOSURE_v5.6.0.csv` for itemized status.
 
 ## Validation executed in this build environment
 
-### Targeted policy/release tests
+### Targeted v5.6 / policy-continuation partition
 
-`25 passed`
+`40 passed`
 
-Covered:
+Included:
 
-- no-checkpoint fail-closed controller behavior;
-- missing checkpoint hard failure;
-- explicit No-AI controller contains no neural network;
-- native policy registration/qualification/activation;
-- incompatible legacy policy activation rejection;
-- policy-network cache reuse using a generated valid native checkpoint;
-- release version consistency and no bundled `.pt` default policy;
-- strict CALO policy-binding default.
+- competitive branch seed planning;
+- multi-metric scientific champion comparison;
+- separate branch exact resume files and single Base selection;
+- exact multi-branch resume with branch seed preservation;
+- Base-Guided Fork parent immutability;
+- Safe Stop exact branch commit and scratch cleanup;
+- legacy curriculum conversion;
+- caller global RNG restoration;
+- v5 experiment/policy continuation tests;
+- heterogeneous policy-training tests;
+- policy registry/gating tests;
+- SHA-based policy-cache and broker-timeout hardening tests;
+- v5.6 release-integrity/freeze tests.
 
-### Dependency-light unit partition
+### Partitioned dependency-light unit tests
 
-`173 passed`
+`184 passed`
 
-One additional PYPOWER-dependent unit test was deliberately deselected because **PYPOWER is not installed in this audit/build runtime**; it requires `case118` and is unrelated to the v5.4.1 policy/release corrections.
+The unit suite was executed in isolated partitions to avoid cross-test runtime/thread accumulation in the constrained build harness. One PYPOWER-dependent case118 test was deselected because PYPOWER is not installed. Two Qt workflow-restoration tests could not be collected because PyQt6 is not installed.
 
-One Qt workflow-restoration unit module could not be collected because **PyQt6 is not installed in this build runtime**.
+### Integration and regression
+
+`9 passed`
 
 ### Compilation
 
-`python -m compileall -q calo_rpd_studio calo_bootstrap tests` — **PASS**
+`python -m compileall -q calo_bootstrap calo_rpd_studio tests` — **PASS**
 
-### Ruff / full GUI / PYPOWER scientific suite
+### Current software freeze
 
-Not executed in this container because the required tooling/dependencies are not installed. No PASS claim is made for those checks in this correction artifact.
+- manifest: `calo_rpd_studio/data/frozen/calo_v560_freeze.json`
+- frozen files: **99**
+- verification: **PASS**
+- no default neural policy is bundled or implied
+- policy ABI identifiers remain `calo-v4.1` / `calo-state-v4.1-32` / existing action schema intentionally for checkpoint compatibility
 
-## Scientific claim discipline
+## Environment-limited checks
 
-v5.4.1 is a release-integrity and fail-closed policy-safety correction. It does **not** claim that any CALO policy is best, that policy training is fully corrected, or that the remaining v5.4 audit findings are resolved. A user policy must still be scientifically evaluated/qualified according to the configured study protocol before publication-grade use.
+The following were not falsely marked PASS in this build container:
+
+- **PYPOWER scientific IEEE suite:** not run because PYPOWER is unavailable.
+- **PyQt6 GUI suite/workflow restoration:** not run because PyQt6 is unavailable.
+- **Ruff:** tool unavailable in this runtime.
+- **Physical CUDA/XPU throughput:** no compatible accelerator hardware/runtime is exposed here.
+
+The existing scientific solver/evaluator code outside the policy-training upgrade was not intentionally changed by v5.6. Final publication use still requires the normal independent IEEE/PYPOWER validation and paired Policy Qualification on the user's fully provisioned workstation.
+
+## Claim discipline
+
+v5.6 does **not** claim that CALO or any policy is universally superior. Branch Champion selection is an internal training-selection mechanism, not publication qualification. A policy must still pass the configured Candidate-vs-Reference-vs-No-AI qualification protocol and experiment-level independent validation before scientific promotion/publication use.

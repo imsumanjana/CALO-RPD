@@ -1,5 +1,22 @@
 # Changelog
 
+## 5.6.0
+
+- Replaced terminal arithmetic averaging of independently trained PPO networks with **competitive multi-branch policy evolution**. Independent branches never merge neural parameters, optimizer state, RNG state, or curriculum state.
+- Added three user-facing continuation behaviors: fixed-length **Cumulative** sessions, **Infinite** training until Safe Stop, and **Exact Resume** of every saved branch state. Exact resume may continue in either duration mode without changing the restored optimizer/RNG trajectory.
+- Added explicit branch seed planning: same seed, incremental `seed+n`, decremental `seed-n`, and custom seed mixtures.
+- Separated each branch's exact resumable **working state** from its best validated **Branch Champion**. Working state always advances; champion/base state changes only when the fixed scientific comparator supports promotion.
+- Added a hierarchical multi-metric Branch Champion comparator with mandatory validity/feasibility gates, critical-metric Pareto checks, broad outcome metrics, and runtime as a secondary criterion. Formal Candidate-vs-Reference-vs-No-AI Policy Qualification remains separate.
+- Added low-RAM rolling **disk-backed temporary exact-state snapshots** at 10-epoch safe boundaries. Safe Stop commits the lowest common available previous 10th epoch across branches and removes temporary session storage after permanent branch checkpoints are verified.
+- Added **Base-Guided Fork** as a scientifically distinct start mode: branches inherit deployable base knowledge but start fresh optimizer/RNG trajectories. Exact Resume never injects base weights into a saved branch state.
+- Added a single logical Base Model selected competitively from the previous base and branch champions. Base artifacts are immutable/content-addressed for experiment binding; the policy table does not expose internal branch resume files as separate policies.
+- Fixed parallel-training coordination defects: synchronization primitives now share the spawn context; parent cancellation reaches children; the coordinator waits for all branches; exit codes/fatal errors are checked; successful contributor metadata is truthful; parallel history is returned.
+- Preserved heterogeneous CUDA/XPU/CPU training configuration in competitive branches and blocked unsupported multi-branch use of the secondary XPU sidecar path.
+- Fixed legacy curriculum resume conversion using explicit checkpoint schema/version metadata rather than numeric guessing.
+- Isolated training RNG side effects by restoring caller Python/NumPy/Torch/CUDA global RNG states after standalone training.
+- Reworked deployable policy persistence so immutable artifacts are not overwritten by logical aliases or Safe Stop payloads.
+- Updated release identity to 5.6.0 while retaining the existing `calo-v4.1` policy ABI/state/action schema identifiers for checkpoint compatibility.
+
 ## 5.4.1
 
 - Corrected the active software/release identity from stale 5.0.0 metadata to **5.4.1** across package metadata, application UI, bootstrap fallback version, citation metadata, benchmark defaults, release evidence, CI label, and the current software freeze.

@@ -78,21 +78,14 @@ class TrainingWorker(QThread):
     def run(self) -> None:
         try:
             pr = int(getattr(self.config, "parallel_runs", 1))
-            if pr > 1:
+            if pr >= 1 and str(self.config.ppo_device).lower() != "xpu_sidecar":
+                # v5.6 uses the competitive branch coordinator even for one branch so Cumulative,
+                # Infinite, Safe Stop, exact branch resume, champion tracking and Base-Guided Fork
+                # all share one scientifically consistent persistence contract.
                 train_policy_parallel(
                     self.config,
                     self.path,
                     parallel_runs=pr,
-                    progress_callback=self.progress.emit,
-                    cancel_callback=self._cancel_event.is_set,
-                )
-            elif (
-                isinstance(self.config, HeterogeneousTrainingConfig)
-                and self.config.heterogeneous_rollouts
-            ):
-                train_policy_heterogeneous(
-                    self.config,
-                    self.path,
                     progress_callback=self.progress.emit,
                     cancel_callback=self._cancel_event.is_set,
                 )
@@ -172,7 +165,7 @@ class CALOIntelligencePanel(ScrollablePage):
         layout.addWidget(
             PageHeader(
                 "CALO Intelligence",
-                "Manage CALO v5.4.1 policies, qualify Candidate vs active/reference vs No-AI CALO under paired budgets, bind an immutable policy to runtime, and train the native 32-feature policy schema reproducibly.",
+                "Manage CALO v5.6.0 policies, qualify Candidate vs active/reference vs No-AI CALO under paired budgets, bind an immutable policy to runtime, and train the native 32-feature policy schema reproducibly.",
             )
         )
 
@@ -183,17 +176,19 @@ class CALOIntelligencePanel(ScrollablePage):
         self.epochs.setRange(1, 2_000_000_000)
         self.epochs.setValue(24)
         self.training_mode = QComboBox()
-        self.training_mode.addItem("Cumulative target epoch", "cumulative")
-        self.training_mode.addItem("Additional epochs from saved state", "additional")
-        self.training_mode.addItem("Indefinite until Safe Stop", "indefinite")
+        self.training_mode.addItem("Cumulative fixed-length session", "cumulative")
+        self.training_mode.addItem("Infinite until Safe Stop", "indefinite")
         self.training_mode.currentIndexChanged.connect(self._update_training_mode_controls)
         self.policy_lineage_name = QLineEdit("CALO-policy-lineage")
         self.policy_lineage_name.setToolTip(
             "Stable policy family name. Continued sessions add immutable checkpoints to this lineage."
         )
         self.checkpoint_interval = QSpinBox()
-        self.checkpoint_interval.setRange(1, 10_000_000)
-        self.checkpoint_interval.setValue(1)
+        self.checkpoint_interval.setRange(10, 10)
+        self.checkpoint_interval.setValue(10)
+        self.checkpoint_interval.setToolTip(
+            "v5.6 keeps rolling temporary exact states every 10 epochs on disk. No permanent intermediate snapshots are created."
+        )
         self.qualification_interval = QSpinBox()
         self.qualification_interval.setRange(1, 100_000_000)
         self.qualification_interval.setValue(10000)
@@ -330,7 +325,7 @@ class CALOIntelligencePanel(ScrollablePage):
         )
         self.accelerated_training_orpd.setChecked(True)
         self.accelerated_training_orpd.setToolTip(
-            "CALO v5.0 uses the native 32-feature policy state/action schema and accelerator-native FP64 ORPD evaluation for configured development-case rollouts; synthetic curriculum stages remain lightweight host environments."
+            "CALO v5.6 uses the native 32-feature policy state/action schema and accelerator-native FP64 ORPD evaluation for configured development-case rollouts; synthetic curriculum stages remain lightweight host environments."
         )
         self.cross_episode_training_batch = QCheckBox(
             "Batch compatible ORPD populations across simultaneous rollout episodes"
@@ -444,9 +439,9 @@ class CALOIntelligencePanel(ScrollablePage):
         training_button_layout.addWidget(self.resume_training_button)
         training_button_layout.addWidget(self.training_import_button)
         training_form.addRow("Training continuation mode", self.training_mode)
-        training_form.addRow("Target / additional epochs", self.epochs)
+        training_form.addRow("Cumulative session epochs", self.epochs)
         training_form.addRow("Policy lineage", self.policy_lineage_name)
-        training_form.addRow("Exact resume checkpoint every", self.checkpoint_interval)
+        training_form.addRow("Safe rollback interval", self.checkpoint_interval)
         training_form.addRow("Suggested qualification interval", self.qualification_interval)
         training_form.addRow("Episodes per epoch", self.episodes)
         training_form.addRow("Episode horizon", self.horizon)
@@ -478,11 +473,45 @@ class CALOIntelligencePanel(ScrollablePage):
         self.parallel_runs.setValue(1)
         self.parallel_runs.setSuffix(" runs")
         self.parallel_runs.setToolTip(
-            "Number of parallel training processes. Each run uses a unique sub-seed "
-            "and GPUs are assigned round-robin. On stop, all runs synchronize at the "
-            "nearest 10th epoch and their weights are merged into one base model."
+            "Total competitive branches. Branches are independent exact PPO trajectories; their "
+            "neural weights are never averaged. The best scientifically evaluated champion becomes the base model."
         )
-        training_form.addRow("Parallel runs", self.parallel_runs)
+        self.parallel_start_mode = QComboBox()
+        self.parallel_start_mode.addItem("New independent branches", "new")
+        self.parallel_start_mode.addItem("Exact resume existing branches", "exact_resume")
+        self.parallel_start_mode.addItem("Base-Guided Fork from current base", "base_guided_fork")
+        self.same_seed_branches = QSpinBox()
+        self.same_seed_branches.setRange(0, 64)
+        self.same_seed_branches.setValue(1)
+        self.incremental_seed_branches = QSpinBox()
+        self.incremental_seed_branches.setRange(0, 64)
+        self.incremental_seed_branches.setValue(0)
+        self.decremental_seed_branches = QSpinBox()
+        self.decremental_seed_branches.setRange(0, 64)
+        self.decremental_seed_branches.setValue(0)
+        self.custom_branch_seeds = QLineEdit()
+        self.custom_branch_seeds.setPlaceholderText("Optional comma-separated seeds, e.g. 575,901")
+        self.training_scratch_dir = QLineEdit()
+        self.training_scratch_dir.setPlaceholderText("Blank = fast local OS temp directory")
+        seed_plan_host = QWidget()
+        seed_plan_layout = QHBoxLayout(seed_plan_host)
+        seed_plan_layout.setContentsMargins(0, 0, 0, 0)
+        seed_plan_layout.addWidget(QLabel("same"))
+        seed_plan_layout.addWidget(self.same_seed_branches)
+        seed_plan_layout.addWidget(QLabel("+seed"))
+        seed_plan_layout.addWidget(self.incremental_seed_branches)
+        seed_plan_layout.addWidget(QLabel("-seed"))
+        seed_plan_layout.addWidget(self.decremental_seed_branches)
+        for control in (self.same_seed_branches, self.incremental_seed_branches, self.decremental_seed_branches):
+            control.valueChanged.connect(self._sync_parallel_branch_count)
+        self.custom_branch_seeds.textChanged.connect(self._sync_parallel_branch_count)
+        self.parallel_runs.setReadOnly(True)
+        training_form.addRow("Parallel branch start", self.parallel_start_mode)
+        training_form.addRow("Branch seed plan", seed_plan_host)
+        training_form.addRow("Custom branch seeds", self.custom_branch_seeds)
+        training_form.addRow("Parallel branches", self.parallel_runs)
+        training_form.addRow("Training scratch storage", self.training_scratch_dir)
+        self._sync_parallel_branch_count()
         self.policy_gate_status = QLabel()
         self.policy_gate_status.setWordWrap(True)
         self.policy_gate_status.setObjectName("HelpText")
@@ -499,13 +528,15 @@ class CALOIntelligencePanel(ScrollablePage):
         library_host = QWidget()
         library_layout = QVBoxLayout(library_host)
         library_layout.setContentsMargins(0, 0, 0, 0)
-        self.policy_table = QTableWidget(0, 10)
+        self.policy_table = QTableWidget(0, 12)
         self.policy_table.setHorizontalHeaderLabels(
             [
                 "Active",
                 "Policy",
                 "Lineage",
                 "Epoch",
+                "Branches",
+                "Seed plan",
                 "Role",
                 "Grade",
                 "Scientific status",
@@ -522,7 +553,7 @@ class CALOIntelligencePanel(ScrollablePage):
             0, QHeaderView.ResizeMode.ResizeToContents
         )
         self.policy_table.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeMode.Stretch)
-        for column in range(2, 10):
+        for column in range(2, 12):
             self.policy_table.horizontalHeader().setSectionResizeMode(
                 column, QHeaderView.ResizeMode.ResizeToContents
             )
@@ -533,7 +564,8 @@ class CALOIntelligencePanel(ScrollablePage):
         self.policy_activate_button = QPushButton("Set active")
         self.policy_archive_button = QPushButton("Archive")
         self.policy_delete_button = QPushButton("Delete safely")
-        self.policy_continue_button = QPushButton("Continue/fine-tune")
+        self.policy_continue_button = QPushButton("Base-guided continue")
+        self.policy_exact_resume_button = QPushButton("Exact resume branches")
         self.policy_fork_button = QPushButton("Fork lineage")
         self.policy_refresh_button = QPushButton("Refresh")
         self.show_archived_policies = QCheckBox("Show archived")
@@ -543,6 +575,7 @@ class CALOIntelligencePanel(ScrollablePage):
         self.policy_archive_button.clicked.connect(self.archive_selected_policy)
         self.policy_delete_button.clicked.connect(self.delete_selected_policy)
         self.policy_continue_button.clicked.connect(self.continue_selected_policy)
+        self.policy_exact_resume_button.clicked.connect(self.exact_resume_selected_policy)
         self.policy_fork_button.clicked.connect(self.fork_selected_policy)
         self.policy_refresh_button.clicked.connect(self.refresh_policy_library)
         for button in (
@@ -551,6 +584,7 @@ class CALOIntelligencePanel(ScrollablePage):
             self.policy_archive_button,
             self.policy_delete_button,
             self.policy_continue_button,
+            self.policy_exact_resume_button,
             self.policy_fork_button,
             self.policy_refresh_button,
         ):
@@ -666,7 +700,7 @@ class CALOIntelligencePanel(ScrollablePage):
             "constraint violation, objective and constraint progress, population and elite "
             "diversity, separate stagnation states, archive occupancy, remaining evaluation "
             "budget, and online operator credit.\n\n"
-            "CALO v5.4.1 operators — feasible-elite learning, constraint-boundary differential "
+            "CALO v5.6.0 operators — feasible-elite learning, constraint-boundary differential "
             "learning, cognitive teacher learning, success-distribution memory, mixed-variable "
             "neighbourhood learning, and diversity recovery. Operators are allocated per learner.\n\n"
             "The hierarchical policy selects a search regime, operator probabilities, and bounded "
@@ -712,11 +746,23 @@ class CALOIntelligencePanel(ScrollablePage):
                     if bool(checkpoint.get("is_best"))
                     else ("latest" if bool(checkpoint.get("is_latest")) else "checkpoint")
                 )
+            metadata = dict(policy.metadata or {})
+            branch_count = metadata.get("parallel_branches", "")
+            seed_plan = metadata.get("parallel_seed_plan", []) or []
+            seed_text = ""
+            if seed_plan:
+                counts = {}
+                for item in seed_plan:
+                    strategy = str(item.get("strategy", "?")) if isinstance(item, dict) else "?"
+                    counts[strategy] = counts.get(strategy, 0) + 1
+                seed_text = "/".join(f"{key}:{value}" for key, value in sorted(counts.items()))
             values = [
                 "●" if policy.active else "",
                 policy.name,
                 lineage_name,
-                epoch,
+                epoch or str(metadata.get("champion_epoch", metadata.get("cumulative_epoch", ""))),
+                branch_count,
+                seed_text,
                 role,
                 policy.grade,
                 ("archived · " if policy.archived else "") + policy.qualification_status,
@@ -815,16 +861,19 @@ class CALOIntelligencePanel(ScrollablePage):
         return policy, self.state.database.get_policy_checkpoint_by_sha256(policy.sha256)
 
     def continue_selected_policy(self) -> None:
-        """Load training parameters from the selected checkpoint and start training.
+        """Start a same-lineage Base-Guided Fork from the selected deployable policy.
 
-        Reads the stored training config from the checkpoint file metadata, populates
-        all GUI training widgets, derives the output path from the existing checkpoint,
-        and launches training directly (overwriting in place).
+        This is deliberately not Exact Resume: branch optimizer/RNG trajectories are fresh while
+        the selected base weights provide the starting knowledge and promotion threshold. Exact
+        Resume is launched from a saved resumable training session and restores every branch state.
         """
         policy, checkpoint = self._selected_policy_checkpoint_record()
         if policy is None:
             return
-        self._pending_initial_policy_checkpoint = str(policy.checkpoint_path)
+        self._pending_initial_policy_checkpoint = ""
+        self.parallel_start_mode.setCurrentIndex(
+            max(0, self.parallel_start_mode.findData("base_guided_fork"))
+        )
         if checkpoint is not None:
             lineage = self.state.database.get_policy_lineage(str(checkpoint.get("lineage_id", "")))
             self._pending_policy_lineage_id = str(checkpoint.get("lineage_id", ""))
@@ -939,7 +988,12 @@ class CALOIntelligencePanel(ScrollablePage):
                 f"Prepared fine-tuning from {policy.name} ({policy.sha256[:12]}…). "
                 "No stored training config found; using current widget values."
             )
-        output_path = str(Path(policy.checkpoint_path).with_suffix(".pt"))
+        policy_source = Path(policy.checkpoint_path)
+        if policy_source.parent.name.endswith("_artifacts"):
+            alias_stem = policy_source.parent.name[: -len("_artifacts")]
+            output_path = str(policy_source.parent.parent / f"{alias_stem}.pt")
+        else:
+            output_path = str(policy_source)
         weighted = str(self.rollout_mode.currentData()) == "weighted"
         selected_training_device = str(self.training_device.currentData())
         device_info = available_training_devices()
@@ -949,7 +1003,21 @@ class CALOIntelligencePanel(ScrollablePage):
             and device_info["recommended_device"] == "xpu_sidecar"
         ):
             selected_training_device = "xpu_sidecar"
+        if selected_training_device == "xpu_sidecar" and self.parallel_runs.value() > 1:
+            QMessageBox.critical(
+                self,
+                "Policy training configuration",
+                "The secondary XPU sidecar runtime currently supports one branch per training job. "
+                "Choose Automatic/direct XPU/CUDA/CPU for competitive multi-branch training, or "
+                "reduce the branch count to one.",
+            )
+            return
         historical_options = self.historical_experience.policy_training_options()
+        try:
+            custom_seeds = self._custom_seed_values()
+        except ValueError as exc:
+            QMessageBox.critical(self, "Parallel branch seed configuration", str(exc))
+            return
         common = dict(
             epochs=self.epochs.value(),
             episodes_per_epoch=self.episodes.value(),
@@ -978,6 +1046,18 @@ class CALOIntelligencePanel(ScrollablePage):
             ),
             keep_resume_after_completion=True,
             parallel_runs=self.parallel_runs.value(),
+            parallel_same_seed_branches=self.same_seed_branches.value(),
+            parallel_incremental_branches=self.incremental_seed_branches.value(),
+            parallel_decremental_branches=self.decremental_seed_branches.value(),
+            parallel_custom_seeds=custom_seeds,
+            parallel_start_mode=str(self.parallel_start_mode.currentData() or "new"),
+            base_model_checkpoint=(
+                str(policy.checkpoint_path)
+                if str(self.parallel_start_mode.currentData() or "new") == "base_guided_fork"
+                else ""
+            ),
+            training_scratch_dir=self.training_scratch_dir.text().strip(),
+            safe_snapshot_interval_epochs=10,
         )
         if weighted:
             config = HeterogeneousTrainingConfig(
@@ -1014,12 +1094,94 @@ class CALOIntelligencePanel(ScrollablePage):
                 else self.state.policy_registry.create_lineage(lineage_name)
             )
             self._pending_initial_policy_checkpoint = ""
+            self._pending_base_model_checkpoint = ""
             self._pending_policy_lineage_id = ""
             self._pending_policy_phase_index = 1
         except Exception as exc:
             QMessageBox.critical(self, "Policy lineage", str(exc))
             return
         self._launch_training(config, output_path)
+
+    def exact_resume_selected_policy(self) -> None:
+        """Resume the exact independent branch states behind the selected current Base Model."""
+        policy = self._selected_policy()
+        if policy is None:
+            return
+        source = Path(policy.checkpoint_path).expanduser().resolve()
+        if source.parent.name.endswith("_artifacts"):
+            alias_stem = source.parent.name[: -len("_artifacts")]
+            output_path = source.parent.parent / f"{alias_stem}.pt"
+        else:
+            output_path = source
+        manifest_path = output_path.with_suffix(".branches.json")
+        if not manifest_path.is_file():
+            QMessageBox.critical(
+                self,
+                "Exact branch resume",
+                "The selected policy has no competitive-branch manifest. Use Base-guided continue "
+                "to start fresh branches from this policy instead.",
+            )
+            return
+        try:
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            if str(manifest.get("base_sha256", "")).lower() != str(policy.sha256).lower():
+                raise ValueError(
+                    "The selected artifact is not the current Base Model represented by this branch "
+                    "manifest. Select the current Base or use Base-guided continue/fork."
+                )
+            payload = load_checkpoint(source, map_location="cpu")
+            metadata = dict(payload.get("metadata", {}) or {})
+            config_data = dict(metadata.get("training_config", {}) or {})
+            use_hetero = bool(config_data.get("heterogeneous_rollouts", False))
+            cls = HeterogeneousTrainingConfig if use_hetero else TrainingConfig
+            valid = {
+                key: value for key, value in config_data.items() if key in cls.__dataclass_fields__
+            }
+            if "development_cases" in valid:
+                valid["development_cases"] = tuple(valid["development_cases"] or ())
+            if "parallel_custom_seeds" in valid:
+                valid["parallel_custom_seeds"] = tuple(valid["parallel_custom_seeds"] or ())
+            config = cls(**valid)
+            config.parallel_start_mode = "exact_resume"
+            config.parallel_runs = max(1, len(manifest.get("branches", []) or []))
+            config.base_model_checkpoint = str(manifest.get("base_artifact_path", "") or source)
+
+            previous_mode = str(manifest.get("previous_training_mode", "cumulative") or "cumulative")
+            mode_labels = ["Cumulative fixed-length session", "Infinite until Safe Stop"]
+            default_index = 1 if previous_mode == "indefinite" else 0
+            mode_choice, accepted = QInputDialog.getItem(
+                self,
+                "Exact resume duration",
+                "Continue the exact saved branches as:",
+                mode_labels,
+                default_index,
+                False,
+            )
+            if not accepted:
+                return
+            if mode_choice == mode_labels[1]:
+                config.training_mode = "indefinite"
+            else:
+                previous_epochs = int(manifest.get("previous_session_epochs", 0) or self.epochs.value())
+                session_epochs, accepted = QInputDialog.getInt(
+                    self,
+                    "Cumulative session epochs",
+                    "Epochs to add to every exact-resumed branch in this session:",
+                    max(1, previous_epochs),
+                    1,
+                    2_000_000_000,
+                    1,
+                )
+                if not accepted:
+                    return
+                config.training_mode = "cumulative"
+                config.epochs = int(session_epochs)
+            scratch = self.training_scratch_dir.text().strip()
+            if scratch:
+                config.training_scratch_dir = scratch
+            self._launch_training(config, str(output_path))
+        except Exception as exc:
+            QMessageBox.critical(self, "Exact branch resume", str(exc))
 
     def fork_selected_policy(self) -> None:
         policy, checkpoint = self._selected_policy_checkpoint_record()
@@ -1039,7 +1201,11 @@ class CALOIntelligencePanel(ScrollablePage):
                 )
             else:
                 lineage_id = self.state.policy_registry.create_lineage(name.strip())
-            self._pending_initial_policy_checkpoint = str(policy.checkpoint_path)
+            self._pending_initial_policy_checkpoint = ""
+            self._pending_base_model_checkpoint = str(policy.checkpoint_path)
+            idx = self.parallel_start_mode.findData("base_guided_fork")
+            if idx >= 0:
+                self.parallel_start_mode.setCurrentIndex(idx)
             self._pending_policy_lineage_id = str(lineage_id)
             self._pending_policy_phase_index = 1
             self.policy_lineage_name.setText(name.strip())
@@ -1243,7 +1409,7 @@ class CALOIntelligencePanel(ScrollablePage):
             if isinstance(pvalue, (int, float)) and np.isfinite(float(pvalue))
             else ""
         )
-        native_text = "native v5.0" if result.get("native_v41") else "legacy-compatible"
+        native_text = "native v5.6-compatible" if result.get("native_v41") else "legacy-compatible"
         self.qualification_status.setText(
             f"Qualification {'PASS' if result.get('passed') else 'FAIL'} · {native_text} · grade {result.get('grade')} · "
             f"grade index {float(result.get('score', 0.0)):.0f}{ptext}. "
@@ -1627,6 +1793,40 @@ class CALOIntelligencePanel(ScrollablePage):
         except Exception as exc:
             self.metadata.setPlainText(str(exc))
 
+    def _custom_seed_values(self) -> tuple[int, ...]:
+        values = []
+        if not hasattr(self, "custom_branch_seeds"):
+            return ()
+        for token in self.custom_branch_seeds.text().split(","):
+            token = token.strip()
+            if not token:
+                continue
+            try:
+                values.append(int(token))
+            except ValueError as exc:
+                raise ValueError(f"Invalid custom branch seed: {token!r}") from exc
+        return tuple(values)
+
+    def _sync_parallel_branch_count(self) -> None:
+        if not hasattr(self, "parallel_runs"):
+            return
+        custom = []
+        if hasattr(self, "custom_branch_seeds"):
+            for token in self.custom_branch_seeds.text().split(","):
+                token = token.strip()
+                if token:
+                    try:
+                        custom.append(int(token))
+                    except ValueError:
+                        continue
+        total = (
+            int(getattr(self, "same_seed_branches", self.parallel_runs).value())
+            + int(getattr(self, "incremental_seed_branches", self.parallel_runs).value())
+            + int(getattr(self, "decremental_seed_branches", self.parallel_runs).value())
+            + len(custom)
+        )
+        self.parallel_runs.setValue(max(1, total))
+
     def _update_training_mode_controls(self) -> None:
         mode = (
             str(self.training_mode.currentData() or "cumulative")
@@ -1636,11 +1836,9 @@ class CALOIntelligencePanel(ScrollablePage):
         if hasattr(self, "epochs"):
             self.epochs.setEnabled(mode != "indefinite")
             self.epochs.setToolTip(
-                "Absolute cumulative epoch target"
+                "Fixed number of epochs to add during this cumulative session"
                 if mode == "cumulative"
-                else "Number of additional epochs to run from the saved optimizer/RNG state"
-                if mode == "additional"
-                else "Ignored in indefinite mode; training continues until Safe Stop and remains resumable"
+                else "Ignored in infinite mode; training continues until Safe Stop and remains exactly resumable"
             )
 
     def train_policy(self) -> None:
@@ -1687,6 +1885,15 @@ class CALOIntelligencePanel(ScrollablePage):
                 "runtime is still used automatically as the XPU actor lane.",
             )
             return
+        if selected_training_device == "xpu_sidecar" and self.parallel_runs.value() > 1:
+            QMessageBox.critical(
+                self,
+                "Policy training configuration",
+                "The secondary XPU sidecar runtime currently supports one policy-training branch per "
+                "training job. Choose Automatic/direct XPU/CUDA/CPU for competitive multi-branch "
+                "training, or reduce the branch count to one.",
+            )
+            return
         share_total = (
             self.cuda_rollout_share.value()
             + self.xpu_rollout_share.value()
@@ -1728,6 +1935,14 @@ class CALOIntelligencePanel(ScrollablePage):
             ),
             keep_resume_after_completion=True,
             parallel_runs=self.parallel_runs.value(),
+            parallel_same_seed_branches=self.same_seed_branches.value(),
+            parallel_incremental_branches=self.incremental_seed_branches.value(),
+            parallel_decremental_branches=self.decremental_seed_branches.value(),
+            parallel_custom_seeds=self._custom_seed_values(),
+            parallel_start_mode=str(self.parallel_start_mode.currentData() or "new"),
+            base_model_checkpoint=str(getattr(self, "_pending_base_model_checkpoint", "") or ""),
+            training_scratch_dir=self.training_scratch_dir.text().strip(),
+            safe_snapshot_interval_epochs=10,
         )
         if weighted:
             config = HeterogeneousTrainingConfig(
@@ -1764,6 +1979,7 @@ class CALOIntelligencePanel(ScrollablePage):
                 else self.state.policy_registry.create_lineage(lineage_name)
             )
             self._pending_initial_policy_checkpoint = ""
+            self._pending_base_model_checkpoint = ""
             self._pending_policy_lineage_id = ""
             self._pending_policy_phase_index = 1
         except Exception as exc:
@@ -1868,7 +2084,7 @@ class CALOIntelligencePanel(ScrollablePage):
             valid["development_cases"] = tuple(valid["development_cases"])
         config = cls(**valid)
         if str(item.status) == ResumeStatus.COMPLETED.value:
-            config.training_mode = str(self.training_mode.currentData() or "additional")
+            config.training_mode = str(self.training_mode.currentData() or "cumulative")
             config.epochs = int(self.epochs.value())
             config.checkpoint_interval_epochs = int(self.checkpoint_interval.value())
             config.qualification_interval_epochs = int(self.qualification_interval.value())
@@ -1880,16 +2096,10 @@ class CALOIntelligencePanel(ScrollablePage):
                 "The saved task does not contain an output checkpoint path.",
             )
             return
-        if str(item.status) == ResumeStatus.COMPLETED.value:
-            # Never overwrite a previously completed/deployable policy artifact. Continue the exact
-            # optimizer/RNG state into a fresh working alias; immutable lineage checkpoints remain stable.
-            source = Path(path)
-            candidate = source.with_name(source.stem + "_continued" + source.suffix)
-            counter = 2
-            while candidate.exists():
-                candidate = source.with_name(f"{source.stem}_continued_{counter}{source.suffix}")
-                counter += 1
-            path = str(candidate)
+        # v5.6 keeps one logical base alias while immutable artifacts preserve every experiment-bound SHA.
+        # Exact multi-branch resume reopens the branch manifest and resumes each branch's own optimizer/RNG state.
+        if Path(path).with_suffix(".branches.json").is_file():
+            config.parallel_start_mode = "exact_resume"
         self._launch_training(config, path, resume_task_id=item.id)
 
     def resume_task_by_id(self, task_id: str) -> None:
@@ -1927,14 +2137,8 @@ class CALOIntelligencePanel(ScrollablePage):
                 "The saved task does not contain an output checkpoint path.",
             )
             return
-        if str(item.status) == ResumeStatus.COMPLETED.value:
-            source = Path(path)
-            candidate = source.with_name(source.stem + "_continued" + source.suffix)
-            counter = 2
-            while candidate.exists():
-                candidate = source.with_name(f"{source.stem}_continued_{counter}{source.suffix}")
-                counter += 1
-            path = str(candidate)
+        if Path(path).with_suffix(".branches.json").is_file():
+            config.parallel_start_mode = "exact_resume"
         self._launch_training(config, path, resume_task_id=item.id)
 
     def _training_progress(self, percent: int, detail: str) -> None:
@@ -1958,7 +2162,7 @@ class CALOIntelligencePanel(ScrollablePage):
             pass
 
     def _register_training_snapshots(self, output_path: str, config=None) -> list[str]:
-        """Register deployable lineage snapshots without changing the active/default policy."""
+        """Register legacy epoch_* lineage snapshots when importing older trainer outputs."""
         output = Path(output_path)
         lineage_dir = output.parent / f"{output.stem}_lineage"
         if not lineage_dir.is_dir():
@@ -2029,9 +2233,30 @@ class CALOIntelligencePanel(ScrollablePage):
             if immutable_path and Path(immutable_path).is_file():
                 selected_policy = self.state.policy_registry.register(
                     immutable_path,
-                    name=f"{alias_metadata.get('policy_lineage_name') or Path(path).stem}@{int(alias_metadata.get('cumulative_epoch', 0) or 0)}",
+                    name=f"{alias_metadata.get('policy_lineage_name') or Path(path).stem}@{int(alias_metadata.get('champion_epoch', alias_metadata.get('cumulative_epoch', 0)) or 0)}",
                     status="candidate",
                 )
+                lineage_id = str(getattr(config, "policy_lineage_id", "") or "") if config is not None else ""
+                if lineage_id and self.state.database.get_policy_checkpoint_by_sha256(selected_policy.sha256) is None:
+                    resume_reference = (
+                        str(Path(path).with_suffix(".branches.json"))
+                        if Path(path).with_suffix(".branches.json").is_file()
+                        else str(Path(path).with_suffix(".resume.pt"))
+                    )
+                    self.state.policy_registry.lineages.register_checkpoint(
+                        lineage_id,
+                        immutable_path,
+                        cumulative_epoch=int(alias_metadata.get("champion_epoch", alias_metadata.get("cumulative_epoch", 0)) or 0),
+                        phase_index=int(alias_metadata.get("policy_phase_index", 1) or 1),
+                        resume_path=resume_reference,
+                        metadata={
+                            "policy_id": selected_policy.id,
+                            "policy_name": selected_policy.name,
+                            "competitive_base": bool(alias_metadata.get("checkpoint_role") == "competitive_base_model"),
+                            "parallel_branches": alias_metadata.get("parallel_branches", 1),
+                            "champion_metrics": alias_metadata.get("champion_metrics", {}),
+                        },
+                    )
                 self.path.setText(immutable_path)
             else:
                 # Compatibility fallback for a legacy trainer that did not emit immutable snapshots.

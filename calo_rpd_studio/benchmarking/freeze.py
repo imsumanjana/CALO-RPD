@@ -58,6 +58,7 @@ DEFAULT_FREEZE_RELATIVE_PATHS = (
     "calo_rpd_studio/algorithms/calo/variable_intelligence.py",
     "calo_rpd_studio/algorithms/calo/v5_disputes.py",
     "calo_rpd_studio/algorithms/calo/training.py",
+    "calo_rpd_studio/algorithms/calo/competitive_training.py",
     "calo_rpd_studio/algorithms/calo/heterogeneous_training.py",
     "calo_rpd_studio/algorithms/registry.py",
     "calo_rpd_studio/compute/persistent_accelerator_worker.py",

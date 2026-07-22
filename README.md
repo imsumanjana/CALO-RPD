@@ -1,41 +1,41 @@
-# CALO-RPD Studio 5.4.1
+# CALO-RPD Studio 5.6.0
 
-**CALO-RPD Studio 5.4.1** is a Python/PyQt6 research platform for deterministic and robust optimal reactive power dispatch (ORPD), reproducible comparison of twenty optimizers, Cognitive Adaptive Learning Optimizer (CALO) research, policy qualification, independent validation, statistics, and publication evidence.
+**CALO-RPD Studio 5.6.0** is a Python/PyQt6 research platform for deterministic and robust optimal reactive power dispatch (ORPD), reproducible comparison of twenty optimizers, Cognitive Adaptive Learning Optimizer (CALO) research, policy qualification, independent validation, statistics, and publication evidence.
 
-## v5.0 — Continuation without destroying provenance
+## v5.6 — Competitive Multi-Branch Policy Evolution
 
-Version 5.0 adds long-lived research continuation while preserving the v4.1 scientific evaluator, policy qualification rules, immutable experiment-policy binding, workspace restoration, and equal-function-evaluation fairness.
+Version 5.6 replaces independent-policy parameter averaging with **competitive, independently resumable PPO branches** and keeps the logical Base Model separate from exact branch training state.
 
-### Policy evolution
+### Policy training modes
 
-- Policy training supports **cumulative target**, **additional epochs**, and **indefinite** modes across multiple application sessions.
-- Exact training resume preserves network, optimizer, PPO/curriculum state and Python/NumPy/Torch/CUDA RNG state at trusted SHA-verified checkpoints.
-- Periodic model-only checkpoints are immediately usable for policy evaluation or CALO runtime while the same lineage continues training.
-- Policy lineages track **latest** and **best-qualified** checkpoints separately. More epochs never automatically mean a better policy.
-- A selected checkpoint may be continued/fine-tuned as a new documented phase or forked into a child lineage; old policy artifacts and experiments remain bound to their original SHA-256.
-- Safe-stop preserves exact resume state. Atomic checkpoint writes and SHA sidecars protect long training campaigns.
+- **Cumulative:** the user selects a fixed number of epochs for the current session; exact resume adds the same or a newly selected fixed session length to the saved lifetime epoch.
+- **Infinite:** no terminal epoch is specified. Training continues until Safe Stop.
+- **Exact Resume:** restores each branch's model, optimizer, RNG, curriculum/history and epoch exactly, then continues in either Cumulative or Infinite duration mode.
+- **Base-Guided Fork:** starts fresh optimizer/RNG trajectories from a selected Base Model's deployable knowledge. It is explicitly distinct from Exact Resume.
 
-### Experiment evolution
+### Competitive parallel branches
 
-- An existing experiment can increase its independent paired-run target without rerunning or overwriting completed runs.
-- Deterministic seed schedules are extended by run index, preserving original paired seeds.
-- Experiment revisions record run target, FE horizon, extension mode, protocol, publication eligibility, status and provenance.
-- CALO runs write exact full optimizer-state checkpoints and can continue from an old FE horizon to a larger one without hidden fresh-population evaluations.
-- The previous run result is snapshotted before an extended result replaces the current run head; run segments and horizon snapshots preserve the complete evidence history.
-- Post-hoc selected run extensions are explicitly marked **exploratory** and excluded from unbiased primary statistics. Publication-eligible protocols require paired/predeclared extension.
-- **Exact segmented continuation** is available only where a scientifically complete optimizer-state checkpoint exists; CALO v5 supports it. For multi-algorithm publication comparisons, unsupported baselines use the distinct **paired recompute-from-original-seed** strategy at the larger FE horizon. The software never labels recomputation as exact continuation.
-- Exact continuation records an explicit **source FE horizon** and writes revision-scoped checkpoints, so a later branch cannot silently resume from the wrong exploratory trajectory or overwrite an earlier checkpoint.
-- A segmented `5k → 10k` continuation is not claimed to be identical to a run planned for `10k` from FE=0, because adaptive schedules experienced the original horizon during the first segment. Publication-safe higher-horizon comparison therefore defaults to paired recompute-from-seed when from-start horizon semantics are required.
+- Parallel branches may use the **same seed**, `seed+1/+2/...`, `seed-1/-2/...`, or an explicit custom seed mixture selected by the user. Same-seed branches are allowed to remain identical if deterministic execution produces identical trajectories.
+- Branches are independent PPO trajectories. **Their neural-network parameters are never arithmetically averaged.**
+- Each branch maintains two distinct concepts: an exact resumable **working state**, which always advances, and a **Branch Champion**, which changes only when fixed validation evidence is scientifically superior.
+- Branch Champion comparison uses mandatory validity/feasibility gates followed by critical-metric Pareto checks and a broad multi-metric evidence comparison including final feasible objective, convergence AUC, feasibility, violation, stability, validation return and computational overhead. Formal Policy Qualification remains a separate Candidate-vs-Reference-vs-No-AI gate.
+- At session completion, the previous Base and all Branch Champions compete under the same comparator. The logical Base changes only when a superior candidate exists. Older experiment-bound policy artifacts remain immutable by SHA-256.
 
-### Experiment restoration
+### Safe Stop and low-RAM exact rollback
 
-The v4.1 workspace restoration remains in place: opening/resuming an experiment restores configuration, CALO intelligence and immutable policy binding, workflow access, historical convergence data, selected run/plot state, and stored results where available.
+- No permanent epoch-by-epoch checkpoint snapshots are created. During an active session, every branch keeps only a bounded rolling set of **temporary exact-state snapshots on local disk** at 10-epoch safe boundaries.
+- On Safe Stop, the coordinator selects the lowest common available previous 10-epoch boundary, discards later work, writes one permanent exact resume checkpoint per branch, selects/promotes the best Base if justified, and deletes the temporary session directory.
+- The disk-backed rolling window limits RAM pressure while allowing faster branches to remain a bounded distance ahead of slower branches.
+
+### Experiment evolution and restoration
+
+The v5 continuation architecture remains available: experiments can add independent paired runs, extend supported FE horizons with explicit provenance, preserve old horizon evidence, and restore stored workspace parameters/plots/policy bindings. Exact segmented continuation and from-start recomputation remain scientifically distinct.
 
 ## Scientific rules
 
 CALO never receives hidden extra objective evaluations. A continuation segment starts from an authenticated optimizer checkpoint and all newly requested evaluations count normally. Increasing the number of runs preserves paired seed semantics. Historical or selectively extended evidence is never silently mixed into primary publication statistics.
 
-CALO-RPD 5.4.1 intentionally ships with **no automatically active/default neural policy**. Policy-assisted CALO is fail-closed: the user must train or import a compatible policy, qualify it as required, explicitly activate it, and bind its immutable SHA-256 to the experiment. No random/untrained/legacy/missing-policy fallback is permitted. Policy promotion remains based on recorded Candidate vs Reference vs No-AI CALO qualification under paired equal-FE runs. IEEE 118/300 remain protected holdout systems unless a study explicitly documents otherwise.
+CALO-RPD 5.6.0 intentionally ships with **no automatically active/default neural policy**. Policy-assisted CALO is fail-closed: the user must train or import a compatible policy, qualify it as required, explicitly activate it, and bind its immutable SHA-256 to the experiment. No random/untrained/legacy/missing-policy fallback is permitted. Policy promotion remains based on recorded Candidate vs Reference vs No-AI CALO qualification under paired equal-FE runs. IEEE 118/300 remain protected holdout systems unless a study explicitly documents otherwise.
 
 ## Run
 
@@ -46,7 +46,7 @@ python bootstrap.py
 Windows launcher and dependency/bootstrap helpers remain included in the repository.
 
 
-## Important v5.4.1 limitations and open research work
+## Important v5.6.0 limitations and open research work
 
 - CALO cognitive/control state is **not yet fully Torch/CUDA/XPU resident**; the common ORPD numerical evaluator is accelerator-capable, while portions of CALO control remain compact NumPy/Python host logic. No full-device-control claim is made.
 - The lightweight PPO training environment uses the native 32-feature policy schema and CALO cognition semantics, but it is **not a bit-identical implementation of the complete runtime transition loop**. Candidate policies still require real-optimizer Policy Qualification before scientific promotion.

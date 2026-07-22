@@ -1,53 +1,107 @@
 {
   "name": "CALO-RPD Studio",
-  "version": "5.4.1",
-  "release_name": "Policy-Gated Release Integrity Correction",
+  "version": "5.6.0",
+  "release_name": "Competitive Multi-Branch Policy Evolution",
   "release_date": "2026-07-22",
-  "scientific_claim": "Release-integrity and fail-closed policy-safety correction; no optimizer/policy superiority claim.",
+  "scientific_claim": "Competitive multi-branch policy-training and continuation correction; no optimizer/policy superiority claim.",
   "policy_runtime": {
     "default_neural_policy_bundled": false,
     "untrained_fallback_allowed": false,
     "policy_assisted_execution_requires_explicit_binding": true,
-    "activation_requires_runtime_compatible_policy": true,
-    "training_or_import_auto_activates_policy": false,
-    "explicit_no_ai_research_control_supported": true
+    "formal_policy_qualification_separate_from_branch_champion_selection": true
+  },
+  "policy_training_v56": {
+    "duration_modes": [
+      "cumulative",
+      "infinite"
+    ],
+    "exact_resume": true,
+    "base_guided_fork": true,
+    "parallel_seed_strategies": [
+      "same",
+      "incremental",
+      "decremental",
+      "custom"
+    ],
+    "independent_branch_parameter_averaging": false,
+    "working_state_separate_from_branch_champion": true,
+    "logical_base_selected_competitively": true,
+    "rolling_temp_disk_safe_snapshots": true,
+    "safe_boundary_epochs": 10,
+    "safe_stop_common_previous_boundary": true
   },
   "validation": {
-    "targeted_policy_release_tests": {
-      "passed": 25,
+    "targeted_v56_policy_continuation_partition": {
+      "passed": 40,
       "failed": 0
     },
-    "dependency_light_unit_partition": {
-      "passed": 173,
-      "deselected_environment_dependent": 1,
-      "environment_blockers": [
-        "PYPOWER unavailable for case118-dependent unit",
-        "PyQt6 unavailable for Qt workflow-restoration module"
-      ]
+    "partitioned_dependency_light_unit_tests": {
+      "passed": 184,
+      "failed": 0,
+      "environment_deselected": 1,
+      "environment_uncollected": 2
+    },
+    "integration_regression": {
+      "passed": 9,
+      "failed": 0
     },
     "compileall": "PASS",
     "ruff": "NOT_RUN_TOOL_UNAVAILABLE",
     "full_gui_suite": "NOT_RUN_PYQT6_UNAVAILABLE",
     "pypower_scientific_suite": "NOT_RUN_PYPOWER_UNAVAILABLE",
+    "physical_cuda_xpu": "NOT_AVAILABLE_IN_BUILD_RUNTIME",
     "freeze": {
       "status": "PASS",
-      "checked_files": 98,
-      "manifest": "calo_rpd_studio/data/frozen/calo_v541_freeze.json",
-      "manifest_sha256": "7625799bf776e438a44dd0fd6bcdb318873ab6508165c81b331ab1922a88806e"
-    },
-    "repository_manifest": {
-      "status": "PASS",
-      "manifest": "MANIFEST.sha256",
-      "checked_files": 362
+      "checked_files": 99,
+      "manifest": "calo_rpd_studio/data/frozen/calo_v560_freeze.json",
+      "manifest_sha256": "8e4598715934d17c95bf4e7f1a09674c19d80933fac78fcd4b5b50574e6867c1"
     }
   },
-  "resolved_findings": [
-    "F-001 stale release identity/manifest/freeze",
-    "F-002 missing-policy untrained fallback"
+  "resolved_training_findings": [
+    "C-001",
+    "C-002",
+    "C-003",
+    "C-004",
+    "C-005",
+    "C-006",
+    "C-007",
+    "C-008",
+    "C-009",
+    "C-010",
+    "C-011",
+    "C-012",
+    "C-013",
+    "D-001",
+    "D-002",
+    "D-003",
+    "D-004",
+    "D-005",
+    "D-006",
+    "D-007",
+    "D-008"
   ],
-  "explicit_limitations": [
-    "Remaining v5.4 deep-audit findings are not claimed resolved by this correction.",
-    "No neural policy is bundled or scientifically promoted by the software release.",
-    "Policy qualification quality and remaining training/runtime disputes require separate correction work."
-  ]
+  "explicit_open_or_partial": [
+    "C-014 broad exception suppression only partially narrowed",
+    "D-009 automatic periodic formal qualification remains open",
+    "Full CALO control path is not fully CUDA/XPU resident",
+    "Training environment is not bit-identical to the complete runtime optimizer loop"
+  ],
+  "repository_manifest": {
+    "status": "PASS",
+    "file_count": 369,
+    "path": "MANIFEST.sha256",
+    "excludes": [
+      "MANIFEST.sha256",
+      ".git/",
+      ".venv/",
+      "__pycache__/",
+      ".pytest_cache/",
+      ".ruff_cache/",
+      ".mypy_cache/",
+      "build/",
+      "dist/",
+      "*.pyc",
+      "*.pyo"
+    ]
+  }
 }

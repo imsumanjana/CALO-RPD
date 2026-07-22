@@ -95,14 +95,14 @@ class TrainingConfig:
     use_historical_trajectories: bool = False
     historical_pretraining_epochs: int = 4
     resume_checkpoint: str = ""
-    checkpoint_each_epoch: bool = True
+    checkpoint_each_epoch: bool = False
     resume_task_id: str = ""
     initial_policy_checkpoint: str = (
         ""  # weights-only fine-tune/fork start; not an exact optimizer resume
     )
-    # v5 continuation semantics. ``epochs`` remains the requested target/additional amount for
-    # backward compatibility; ``training_mode`` defines how it is interpreted.
-    training_mode: str = "cumulative"  # cumulative | additional | indefinite
+    # v5.6 continuation semantics. ``epochs`` is the fixed length of the current cumulative session.
+    # ``additional`` remains accepted only as a backward-compatible synonym for old saved configs.
+    training_mode: str = "cumulative"  # cumulative | additional(legacy synonym) | indefinite
     checkpoint_interval_epochs: int = 1
     qualification_interval_epochs: int = 10000
     policy_lineage_id: str = ""
@@ -112,6 +112,20 @@ class TrainingConfig:
     # Primarily for controlled tests/automation. Zero means no session cap in indefinite mode.
     max_session_epochs: int = 0
     parallel_runs: int = 1
+    # v5.6 competitive multi-branch policy evolution. Explicit seed counts are authoritative.
+    parallel_same_seed_branches: int = 0
+    parallel_incremental_branches: int = 0
+    parallel_decremental_branches: int = 0
+    parallel_custom_seeds: tuple[int, ...] = ()
+    parallel_start_mode: str = "new"  # new | exact_resume | base_guided_fork
+    base_model_checkpoint: str = ""
+    training_scratch_dir: str = ""
+    safe_snapshot_interval_epochs: int = 10
+    max_branch_lead_epochs: int = 30
+    champion_validation_interval_epochs: int = 10
+    champion_validation_episodes: int = 1
+    champion_validation_horizon: int = 12
+    champion_validation_seed: int = 918273
 
 
 class TrainingCancelled(RuntimeError):
@@ -686,10 +700,15 @@ def recommended_worker_distribution(
     CUDA (10x) > XPU (4x) > CPU (1x).  When only a subset of accelerators is
     available the pool is redistributed across the remaining devices.
     """
+    total_workers = int(total_workers)
+    if total_workers <= 0:
+        raise ValueError("total_workers must be a positive integer")
     if device_info is None:
         device_info = available_training_devices()
     cuda = bool(device_info.get("cuda_available", False))
-    xpu = bool(device_info.get("xpu_available", False))
+    # Treat the verified secondary XPU runtime as a real scheduling capability even when the
+    # primary PyTorch build has no direct torch.xpu backend.
+    xpu = bool(device_info.get("xpu_available", False) or device_info.get("xpu_sidecar_available", False))
     weights: dict[str, float] = {}
     if cuda:
         weights["cuda"] = 10.0
@@ -1052,6 +1071,18 @@ _EXACT_RESUME_MUTABLE_FIELDS = {
     "resume_checkpoint",
     "resume_task_id",
     "initial_policy_checkpoint",
+    # Competitive-branch orchestration may change at the session boundary without changing the
+    # exact saved optimizer/RNG trajectory of an existing branch. Exact resume restores the branch
+    # identities/seeds from the branch manifest, not from these GUI planning fields.
+    "parallel_runs",
+    "parallel_same_seed_branches",
+    "parallel_incremental_branches",
+    "parallel_decremental_branches",
+    "parallel_custom_seeds",
+    "parallel_start_mode",
+    "base_model_checkpoint",
+    "training_scratch_dir",
+    "max_branch_lead_epochs",
     # Execution placement may change between sessions. This is recorded in provenance; exact
     # numerical bit-replay across different hardware is not claimed.
     "ppo_device",
@@ -1099,11 +1130,12 @@ def save_training_resume(
 ) -> Path:
     path.parent.mkdir(parents=True, exist_ok=True)
     payload = {
-        "format": "calo_policy_training_resume_v5",
+        "format": "calo_policy_training_resume_v56",
         "runtime_architecture_version": CALO_RUNTIME_ARCHITECTURE,
         "state_schema_version": POLICY_STATE_SCHEMA,
         "action_schema_version": POLICY_ACTION_SCHEMA,
         "training_environment_version": TRAINING_ENVIRONMENT_VERSION,
+        "curriculum_encoding": "zero_based_0_4",
         "next_epoch": int(next_epoch),
         "model_state_dict": _cpu_state_dict(network),
         "optimizer_state_dict": optimizer.state_dict(),
@@ -1130,7 +1162,7 @@ def load_training_resume(
 ) -> tuple[int, list, dict, dict]:
     payload = load_trusted_resume(path, map_location=device)
     resume_format = str(payload.get("format", ""))
-    if resume_format not in {"calo_policy_training_resume_v5", "calo_policy_training_resume_v41"}:
+    if resume_format not in {"calo_policy_training_resume_v56", "calo_policy_training_resume_v5", "calo_policy_training_resume_v41"}:
         if resume_format == "calo_policy_training_resume_v32":
             raise ValueError(
                 "This resume checkpoint belongs to the legacy 24-feature CALO policy architecture and "
@@ -1155,11 +1187,14 @@ def load_training_resume(
     torch.random.set_rng_state(payload["torch_rng_state"])
     if torch.cuda.is_available() and payload.get("cuda_rng_state_all"):
         torch.cuda.set_rng_state_all(payload["cuda_rng_state_all"])
+    extra = dict(payload.get("extra", {}))
+    extra.setdefault("_resume_format", resume_format)
+    extra.setdefault("_curriculum_encoding", str(payload.get("curriculum_encoding", "")))
     return (
         int(payload.get("next_epoch", 0)),
         list(payload.get("history", [])),
         dict(payload.get("historical_pretraining", {})),
-        dict(payload.get("extra", {})),
+        extra,
     )
 
 
@@ -1171,14 +1206,26 @@ def _resolve_training_target(config: TrainingConfig, start_epoch: int) -> tuple[
         cap = int(getattr(config, "max_session_epochs", 0) or 0)
         return ((start_epoch + cap) if cap > 0 else None), mode
     requested = max(1, int(config.epochs))
-    if mode == "additional":
-        return start_epoch + requested, mode
-    if requested < start_epoch:
-        raise ValueError(
-            f"Cumulative target {requested} is below already completed epoch {start_epoch}. "
-            "Choose additional or indefinite training, or increase the cumulative target."
-        )
-    return requested, mode
+    # v5.6 user semantics: Cumulative is a fixed-length training session that accumulates on the
+    # exact saved state. ``additional`` is retained as a backward-compatible synonym.
+    return start_epoch + requested, mode
+
+
+def _stage_floor_from_history(history: list, resume_extra: dict | None = None) -> int:
+    """Restore curriculum stage without guessing old/new encodings from the numeric value alone."""
+    if not history:
+        return 0
+    try:
+        raw = int(history[-1].get("curriculum_stage", 0))
+    except (TypeError, ValueError):
+        return 0
+    extra = dict(resume_extra or {})
+    encoding = str(extra.get("_curriculum_encoding", "") or extra.get("curriculum_encoding", ""))
+    resume_format = str(extra.get("_resume_format", ""))
+    if encoding == "one_based_1_5" or resume_format == "calo_policy_training_resume_v41":
+        return int(np.clip(raw - 1, 0, 4))
+    # v5/v5.6 and all new checkpoints use the native zero-based 0..4 encoding.
+    return int(np.clip(raw, 0, 4))
 
 
 def _deployable_policy_payload(
@@ -1197,7 +1244,9 @@ def _deployable_policy_payload(
         "metadata": {
             "algorithm": "CALO",
             "calo_core": "v5.0",
+            "policy_training_architecture": "v5.6",
             "training_method": "PPO",
+            "candidate_checkpoint": bool(getattr(config, "heterogeneous_rollouts", False)),
             "training_config": asdict(config),
             "training_seed": config.seed,
             "cumulative_epoch": int(cumulative_epoch),
@@ -1209,9 +1258,24 @@ def _deployable_policy_payload(
             "action_schema_version": POLICY_ACTION_SCHEMA,
             "runtime_architecture_version": CALO_RUNTIME_ARCHITECTURE,
             "training_environment_version": TRAINING_ENVIRONMENT_VERSION,
-            "execution": {"rollout_workers": int(rollout_workers), "ppo_device": str(device)},
+            "execution": {
+                "rollout_workers": int(rollout_workers),
+                "ppo_device": str(device),
+                "architecture": (
+                    "same-policy synchronous persistent CUDA/XPU/CPU actor lanes with one centralized PPO learner"
+                    if bool(getattr(config, "heterogeneous_rollouts", False))
+                    else "parallel rollout collection with one centralized PPO learner"
+                ),
+            },
             "development_cases": list(config.development_cases),
+            "final_publication_benchmarks_used_for_training": bool(
+                {Path(item).stem.lower() for item in config.development_cases} & {"case118", "case300"}
+            ),
             "historical_pretraining": historical_pretraining,
+            "historical_data_policy": (
+                "eligible TRAIN experiments only; validation/test experiments excluded; old trajectories "
+                "used only for offline pretraining, never as PPO on-policy rollouts"
+            ),
             "history": list(history),
             "checkpoint_role": "usable_policy_snapshot",
         },
@@ -1229,36 +1293,58 @@ def save_deployable_policy_snapshot(
     device: str,
     rollout_workers: int,
 ) -> Path:
-    """Write the latest policy snapshot directly to the output path.
+    """Create one immutable deployable artifact; the logical output path is only an alias.
 
-    Overwrites the output file with the current model state — merging across
-    runs is handled exclusively by the parallel training coordinator
-    (train_policy_parallel / _merge_policy_weights).
+    v5.6 never reuses an immutable artifact path for later training.  Older experiments may remain
+    bound to the original SHA while the logical policy lineage continues improving.
     """
     output_path = Path(output_path)
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-
-    payload = _deployable_policy_payload(
-        network,
-        config,
-        history,
-        historical_pretraining,
-        cumulative_epoch,
-        device=str(device),
-        rollout_workers=int(rollout_workers),
+    artifact_dir = output_path.parent / f"{output_path.stem}_artifacts"
+    artifact_dir.mkdir(parents=True, exist_ok=True)
+    artifact_path = artifact_dir / (
+        f"policy_e{int(cumulative_epoch):012d}_{int(time.time_ns()):x}.pt"
     )
-
-    with tempfile.NamedTemporaryFile(delete=False, dir=output_path.parent, suffix=".tmp") as f:
-        tmp = Path(f.name)
+    payload = _deployable_policy_payload(
+        network, config, history, historical_pretraining, cumulative_epoch,
+        device=str(device), rollout_workers=int(rollout_workers),
+    )
+    payload["metadata"]["immutable_artifact_path"] = str(artifact_path.resolve())
+    payload["metadata"]["immutable_terminal_checkpoint"] = str(artifact_path.resolve())
+    with tempfile.NamedTemporaryFile(delete=False, dir=artifact_dir, suffix=".tmp") as handle:
+        temporary = Path(handle.name)
     try:
-        torch.save(payload, tmp)
-        tmp.replace(output_path)
+        torch.save(payload, temporary)
+        temporary.replace(artifact_path)
     finally:
-        tmp.unlink(missing_ok=True)
-    return output_path
+        temporary.unlink(missing_ok=True)
+    return artifact_path
 
 
-def train_policy(config: TrainingConfig, output_path, progress_callback=None, cancel_callback=None):
+def _write_policy_alias(output_path, artifact_path: Path) -> None:
+    """Atomically refresh the mutable convenience alias from an immutable artifact."""
+    output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.NamedTemporaryFile(delete=False, dir=output_path.parent, suffix=".tmp") as handle:
+        temporary = Path(handle.name)
+    try:
+        import shutil
+        shutil.copy2(artifact_path, temporary)
+        temporary.replace(output_path)
+    finally:
+        temporary.unlink(missing_ok=True)
+
+
+def _train_policy_impl(
+    config: TrainingConfig,
+    output_path,
+    progress_callback=None,
+    cancel_callback=None,
+    *,
+    epoch_observer=None,
+    resume_extra_provider=None,
+    cancel_during_rollout: bool = True,
+    suppress_cancel_persistence: bool = False,
+):
     final_benchmark_names = {"case118", "case300"}
     development_names = {Path(item).stem.lower() for item in config.development_cases}
     leaked = sorted(final_benchmark_names & development_names)
@@ -1295,13 +1381,16 @@ def train_policy(config: TrainingConfig, output_path, progress_callback=None, ca
             )
         network.load_state_dict(payload.get("model_state_dict", payload))
         _initial_meta = dict(payload.get("metadata", {}) or {})
-        start_epoch = int(_initial_meta.get("cumulative_epoch", 0) or 0)
+        fork_source_epoch = int(_initial_meta.get("cumulative_epoch", 0) or 0)
+        start_epoch = 0
     else:
+        fork_source_epoch = 0
         start_epoch = 0
     history = []
     historical_pretraining = {}
+    resume_extra = {}
     if resume_path.is_file():
-        start_epoch, history, historical_pretraining, _extra = load_training_resume(
+        start_epoch, history, historical_pretraining, resume_extra = load_training_resume(
             resume_path, network, optimizer, device, rng, current_config=config
         )
         if progress_callback:
@@ -1323,13 +1412,7 @@ def train_policy(config: TrainingConfig, output_path, progress_callback=None, ca
     target_epoch, training_mode = _resolve_training_target(config, start_epoch)
     # Never regress the curriculum when a completed/partial lineage is extended to a larger target.
     # A policy that already reached a harder stage remains at least at that stage on continuation.
-    stage_floor = 0
-    if history:
-        try:
-            raw = int(history[-1].get("curriculum_stage", 0))
-            stage_floor = raw - 1 if raw > 4 else raw  # backward compat: old checkpoints stored 1..5
-        except (TypeError, ValueError):
-            stage_floor = 0
+    stage_floor = _stage_floor_from_history(history, resume_extra)
     # In indefinite mode progress is epoch based rather than percent-to-target.
     nominal_target = (
         target_epoch if target_epoch is not None else max(start_epoch + 1, int(config.epochs), 1)
@@ -1337,6 +1420,42 @@ def train_policy(config: TrainingConfig, output_path, progress_callback=None, ca
     total_units = nominal_target * config.episodes_per_epoch
     completed_units = start_epoch * config.episodes_per_epoch
     epoch = start_epoch
+
+    def _current_resume_extra(**updates):
+        extra = {
+            "device": str(device),
+            "rollout_workers": workers,
+            "training_mode": training_mode,
+            "curriculum_encoding": "zero_based_0_4",
+            "fork_source_cumulative_epoch": int(fork_source_epoch),
+            "exact_resume": bool(resume_path.is_file() and start_epoch > 0),
+        }
+        if resume_extra_provider is not None:
+            supplied = resume_extra_provider()
+            if supplied:
+                extra.update(dict(supplied))
+        extra.update(updates)
+        return extra
+
+    def _notify_epoch(completed_epoch: int, stage_value: int, episode_returns_value=None, epoch_losses_value=None):
+        if epoch_observer is None:
+            return
+        epoch_observer({
+            "epoch": int(completed_epoch),
+            "stage": int(stage_value),
+            "network": network,
+            "optimizer": optimizer,
+            "rng": rng,
+            "history": history,
+            "historical_pretraining": historical_pretraining,
+            "config": config,
+            "device": device,
+            "rollout_workers": workers,
+            "episode_returns": list(episode_returns_value or []),
+            "epoch_losses": list(epoch_losses_value or []),
+        })
+
+    _notify_epoch(start_epoch, stage_floor, [], [])
     while target_epoch is None or epoch < target_epoch:
         cancel = cancel_callback() if cancel_callback else False
         if cancel:
@@ -1347,6 +1466,10 @@ def train_policy(config: TrainingConfig, output_path, progress_callback=None, ca
                         0, f"Rounding to epoch {target_epoch} before stop..."
                     )
             else:
+                if suppress_cancel_persistence:
+                    raise TrainingCancelled(
+                        f"CALO policy training stop requested after completed epoch {epoch}."
+                    )
                 save_training_resume(
                     resume_path,
                     network=network,
@@ -1356,23 +1479,13 @@ def train_policy(config: TrainingConfig, output_path, progress_callback=None, ca
                     rng=rng,
                     historical_pretraining=historical_pretraining,
                     config=config,
-                    extra={
-                        "device": str(device),
-                        "rollout_workers": workers,
-                        "training_mode": training_mode,
-                        "safe_stop": True,
-                    },
+                    extra=_current_resume_extra(safe_stop=True),
                 )
-                save_deployable_policy_snapshot(
-                    output_path,
-                    network,
-                    config,
-                    history,
-                    historical_pretraining,
-                    epoch,
-                    device=str(device),
-                    rollout_workers=workers,
+                terminal = save_deployable_policy_snapshot(
+                    output_path, network, config, history, historical_pretraining, epoch,
+                    device=str(device), rollout_workers=workers,
                 )
+                _write_policy_alias(output_path, terminal)
                 raise TrainingCancelled(
                     f"CALO policy training stopped safely after cumulative epoch {epoch}."
                 )
@@ -1399,52 +1512,23 @@ def train_policy(config: TrainingConfig, output_path, progress_callback=None, ca
                 stage,
                 workers,
                 progress_callback=epoch_progress,
-                cancel_callback=cancel_callback,
+                cancel_callback=(cancel_callback if cancel_during_rollout else None),
             )
         except TrainingCancelled:
-            # No PPO update for the incomplete epoch has been accepted. Persist the exact state at
-            # the last completed epoch even when the normal checkpoint interval has not elapsed.
+            # The incomplete epoch is never accepted. Competitive branch orchestration owns its
+            # own rolling safe snapshots; standalone training persists the last completed state.
+            if suppress_cancel_persistence:
+                raise
             save_training_resume(
-                resume_path,
-                network=network,
-                optimizer=optimizer,
-                next_epoch=epoch,
-                history=history,
-                rng=rng,
-                historical_pretraining=historical_pretraining,
-                config=config,
-                extra={
-                    "device": str(device),
-                    "rollout_workers": workers,
-                    "training_mode": training_mode,
-                    "safe_stop": True,
-                },
+                resume_path, network=network, optimizer=optimizer, next_epoch=epoch, history=history,
+                rng=rng, historical_pretraining=historical_pretraining, config=config,
+                extra=_current_resume_extra(safe_stop=True),
             )
-            save_deployable_policy_snapshot(
-                output_path,
-                network,
-                config,
-                history,
-                historical_pretraining,
-                epoch,
-                device=str(device),
-                rollout_workers=workers,
+            terminal = save_deployable_policy_snapshot(
+                output_path, network, config, history, historical_pretraining, epoch,
+                device=str(device), rollout_workers=workers,
             )
-            _safe_output = Path(output_path)
-            _safe_output.parent.mkdir(parents=True, exist_ok=True)
-            torch.save(
-                {
-                    "model_state_dict": _cpu_state_dict(network),
-                    "architecture": {"input_dim": POLICY_STATE_DIM, "hidden_dim": config.hidden_dim},
-                    "metadata": {
-                        "cumulative_epoch": epoch,
-                        "training_config": asdict(config),
-                        "policy_lineage_id": str(getattr(config, "policy_lineage_id", "")),
-                        "policy_lineage_name": str(getattr(config, "policy_lineage_name", "")),
-                    },
-                },
-                _safe_output,
-            )
+            _write_policy_alias(output_path, terminal)
             raise
         completed_units += len(completed)
         if progress_callback:
@@ -1525,6 +1609,7 @@ def train_policy(config: TrainingConfig, output_path, progress_callback=None, ca
             }
         )
         completed_epoch = epoch + 1
+        _notify_epoch(completed_epoch, stage, episode_returns, epoch_losses)
         checkpoint_interval = max(1, int(getattr(config, "checkpoint_interval_epochs", 1) or 1))
         if (
             bool(getattr(config, "checkpoint_each_epoch", True))
@@ -1539,11 +1624,7 @@ def train_policy(config: TrainingConfig, output_path, progress_callback=None, ca
                 rng=rng,
                 historical_pretraining=historical_pretraining,
                 config=config,
-                extra={
-                    "device": str(device),
-                    "rollout_workers": workers,
-                    "training_mode": training_mode,
-                },
+                extra=_current_resume_extra(),
             )
         epoch += 1
 
@@ -1558,12 +1639,7 @@ def train_policy(config: TrainingConfig, output_path, progress_callback=None, ca
         rng=rng,
         historical_pretraining=historical_pretraining,
         config=config,
-        extra={
-            "device": str(device),
-            "rollout_workers": workers,
-            "training_mode": training_mode,
-            "completed_target": target_epoch,
-        },
+        extra=_current_resume_extra(completed_target=target_epoch),
     )
     # The working output alias may be replaced in a later continuation session. Always create an
     # immutable, immediately deployable terminal checkpoint for experiment binding/provenance.
@@ -1583,6 +1659,7 @@ def train_policy(config: TrainingConfig, output_path, progress_callback=None, ca
     metadata = {
         "algorithm": "CALO",
         "calo_core": "v5.0",
+            "policy_training_architecture": "v5.6",
         "training_method": "PPO",
         "training_config": asdict(config),
         "training_seed": config.seed,
@@ -1622,14 +1699,10 @@ def train_policy(config: TrainingConfig, output_path, progress_callback=None, ca
         "training_mode": training_mode,
         "immutable_terminal_checkpoint": str(terminal_snapshot),
     }
-    torch.save(
-        {
-            "model_state_dict": _cpu_state_dict(network),
-            "architecture": {"input_dim": POLICY_STATE_DIM, "hidden_dim": config.hidden_dim},
-            "metadata": metadata,
-        },
-        output_path,
-    )
+    # The mutable convenience alias always mirrors the immutable artifact byte-for-byte.
+    _write_policy_alias(output_path, terminal_snapshot)
+    metadata["immutable_artifact_path"] = str(terminal_snapshot)
+    metadata["immutable_terminal_checkpoint"] = str(terminal_snapshot)
     output_path.with_suffix(".json").write_text(json.dumps(metadata, indent=2), encoding="utf-8")
     # v5 deliberately keeps the trusted resume checkpoint after a completed target. The final
     # deployable policy remains immutable for experiments already bound to its SHA; future training
@@ -1643,71 +1716,37 @@ def train_policy(config: TrainingConfig, output_path, progress_callback=None, ca
     return str(output_path), history
 
 
-def _training_instance_main(
-    config_dict: dict,
-    output_path_str: str,
-    resume_path_str: str,
-    cancel_event,
-    round_epoch_value,
-    run_index: int,
-    gpu_id: int | None,
-) -> None:
-    """Subprocess entry point for a single parallel training run."""
-    training_fields = set(TrainingConfig.__dataclass_fields__)
-    config = TrainingConfig(**{k: v for k, v in config_dict.items() if k in training_fields})
-    config.seed = config.seed + run_index
-    config.rollout_workers = 1
-    config.resume_checkpoint = ""
-    if gpu_id is not None:
-        torch.cuda.set_device(gpu_id)
-        config.ppo_device = f"cuda:{gpu_id}"
-    else:
-        config.ppo_device = "cpu"
-    output_path = Path(output_path_str)
-    resume_path = Path(resume_path_str)
-
-    def _parallel_cancel():
-        if cancel_event.is_set():
-            target = round_epoch_value.value
-            if target > 0:
-                return target
-            return True
-        return False
-
+def train_policy(
+    config: TrainingConfig,
+    output_path,
+    progress_callback=None,
+    cancel_callback=None,
+    *,
+    epoch_observer=None,
+    resume_extra_provider=None,
+    cancel_during_rollout: bool = True,
+    suppress_cancel_persistence: bool = False,
+):
+    """Train one coherent PPO policy while isolating process-global RNG state from GUI callers."""
+    caller_python = random.getstate()
+    caller_numpy = np.random.get_state()
+    caller_torch = torch.random.get_rng_state()
+    caller_cuda = torch.cuda.get_rng_state_all() if torch.cuda.is_available() else []
     try:
-        train_policy(
-            config,
-            output_path,
-            progress_callback=None,
-            cancel_callback=_parallel_cancel,
+        return _train_policy_impl(
+            config, output_path, progress_callback, cancel_callback,
+            epoch_observer=epoch_observer,
+            resume_extra_provider=resume_extra_provider,
+            cancel_during_rollout=cancel_during_rollout,
+            suppress_cancel_persistence=suppress_cancel_persistence,
         )
-    except TrainingCancelled:
-        pass
+    finally:
+        random.setstate(caller_python)
+        np.random.set_state(caller_numpy)
+        torch.random.set_rng_state(caller_torch)
+        if torch.cuda.is_available() and caller_cuda:
+            torch.cuda.set_rng_state_all(caller_cuda)
 
-
-def _merge_policy_weights(checkpoint_paths: list[Path]) -> dict:
-    """Average model_state_dict across N independent checkpoints."""
-    merged: dict | None = None
-    count = len(checkpoint_paths)
-    common_keys: set | None = None
-    for path in checkpoint_paths:
-        ckpt = torch.load(path, map_location="cpu", weights_only=True)
-        sd = ckpt["model_state_dict"]
-        if merged is None:
-            merged = {k: v.clone().float() for k, v in sd.items()}
-            common_keys = set(sd.keys())
-        else:
-            common_keys &= sd.keys()
-            for k in merged:
-                if k in sd:
-                    merged[k] += sd[k].float()
-    if merged is not None and common_keys is not None:
-        for k in list(merged):
-            if k not in common_keys:
-                del merged[k]
-            else:
-                merged[k] /= count
-    return merged
 
 
 def train_policy_parallel(
@@ -1718,106 +1757,17 @@ def train_policy_parallel(
     progress_callback=None,
     cancel_callback=None,
 ) -> tuple[str, list]:
-    """Run N parallel training processes and merge their weights on stop.
+    """v5.6 competitive independent-branch training.
 
-    Each process uses a unique sub-seed (``config.seed + run_index``).  GPUs
-    are assigned round-robin.  On cancel, all processes round to the nearest
-    10th epoch, their final weights are averaged, and the merged model replaces
-    the main policy file.
+    Branches retain separate exact optimizer/RNG states and compete through a fixed multi-metric
+    champion comparator.  Independent neural-network parameters are never arithmetically averaged.
     """
-    output_path = Path(output_path)
-    num_gpus = max(0, torch.cuda.device_count()) if torch.cuda.is_available() else 0
-    cancel_event = mp.Event()
-    round_epoch_value = mp.Value("i", 0)
-    ctx = mp.get_context("spawn")
+    from .competitive_training import train_policy_competitive
 
-    processes: list[mp.Process] = []
-    for run_index in range(parallel_runs):
-        gpu_id = run_index % num_gpus if num_gpus > 0 else None
-        run_output = output_path.with_suffix(f".run_{run_index}.pt")
-        run_resume = output_path.with_suffix(f".resume.run_{run_index}.pt")
-        config_dict = asdict(config)
-        p = ctx.Process(
-            target=_training_instance_main,
-            args=(
-                config_dict,
-                str(run_output),
-                str(run_resume),
-                cancel_event,
-                round_epoch_value,
-                run_index,
-                gpu_id,
-            ),
-        )
-        p.start()
-        processes.append(p)
-
-    try:
-        while True:
-            all_alive = all(p.is_alive() for p in processes)
-            if cancel_callback and cancel_callback():
-                break
-            if not all_alive:
-                break
-            if progress_callback:
-                progress_callback(0, f"Parallel training · {sum(1 for p in processes if p.is_alive())}/{parallel_runs} runs active")
-            time.sleep(1.0)
-    finally:
-        max_epoch = 0
-        for run_index, p in enumerate(processes):
-            run_resume = output_path.with_suffix(f".resume.run_{run_index}.pt")
-            if run_resume.is_file():
-                try:
-                    rp = torch.load(run_resume, map_location="cpu", weights_only=True)
-                    ep = int(rp.get("next_epoch", 0) or 0)
-                    max_epoch = max(max_epoch, ep)
-                except Exception:
-                    pass
-
-        round_target = ((max_epoch + 9) // 10) * 10
-        if round_target > max_epoch:
-            round_epoch_value.value = round_target
-            if progress_callback:
-                progress_callback(0, f"Rounding runs to epoch {round_target}...")
-
-            alive = [p for p in processes if p.is_alive()]
-            for _ in range(60):
-                if not any(p.is_alive() for p in alive):
-                    break
-                time.sleep(1.0)
-            for p in alive:
-                if p.is_alive():
-                    p.terminate()
-                    p.join()
-
-        for p in processes:
-            if p.is_alive():
-                p.terminate()
-                p.join()
-
-        run_outputs = [output_path.with_suffix(f".run_{run_index}.pt") for run_index in range(parallel_runs)]
-        valid = [rp for rp in run_outputs if rp.is_file()]
-        if valid:
-            merged_sd = _merge_policy_weights(valid)
-            if merged_sd is not None:
-                ref = torch.load(valid[0], map_location="cpu", weights_only=True)
-                payload = {
-                    "model_state_dict": merged_sd,
-                    "architecture": ref.get("architecture", {}),
-                    "metadata": {
-                        **ref.get("metadata", {}),
-                        "cumulative_epoch": max_epoch,
-                        "parallel_runs": parallel_runs,
-                        "merged_checkpoints": parallel_runs,
-                        "_merge_count": 1,
-                        "algorithm": "CALO parallel-merged",
-                    },
-                }
-                output_path.parent.mkdir(parents=True, exist_ok=True)
-                torch.save(payload, output_path)
-                for run_output in run_outputs:
-                    run_output.unlink(missing_ok=True)
-
-    if progress_callback:
-        progress_callback(100, f"Parallel training complete · merged {parallel_runs} runs at epoch {max_epoch}")
-    return str(output_path), []
+    return train_policy_competitive(
+        config,
+        output_path,
+        parallel_runs=parallel_runs,
+        progress_callback=progress_callback,
+        cancel_callback=cancel_callback,
+    )

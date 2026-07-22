@@ -1,0 +1,512 @@
+{
+  "benchmark_rule": "No CALO tuning is permitted after TEST campaign execution begins. The software freeze does not choose or fabricate a neural policy. Policy-assisted CALO requires an explicitly imported/trained, compatible, activated and immutable experiment policy SHA-256 binding. No random/untrained/missing-policy fallback is permitted. Explicit No-AI CALO is reserved for declared research/qualification controls and is never an automatic fallback.",
+  "calo_default_parameters": {
+    "ai_credit_blend": 0.65,
+    "ai_policy_weight": 0.35,
+    "credit_decay": 0.9,
+    "epsilon_control_fraction": 0.65,
+    "epsilon_exponent": 2.0,
+    "epsilon_quantile": 0.75,
+    "memory_capacity": 256,
+    "precision_max_radius": 0.15,
+    "precision_min_radius": 0.0005,
+    "precision_start_radius": 0.04,
+    "stagnation_window": 12,
+    "strict_benchmark_mode": true,
+    "strict_policy_binding": true,
+    "use_ai": true,
+    "use_cognitive_precision": true,
+    "use_contextual_credit": true,
+    "use_diversity_recovery": true,
+    "use_dual_archives": true,
+    "use_dual_lane": true,
+    "use_epsilon": true,
+    "use_exact_evaluation_cache": true,
+    "use_hpem": true,
+    "use_memory": true,
+    "use_mixed_variable": true,
+    "use_variable_intelligence": true
+  },
+  "created_at": "2026-07-22T08:02:08.952721+00:00",
+  "files": {
+    "calo_rpd_studio/accelerated/device.py": {
+      "sha256": "04751ca49a354289419e846056766a6e75609d9837d139f7d3845ea581a53410",
+      "size_bytes": 4137
+    },
+    "calo_rpd_studio/accelerated/device_resident_orpd.py": {
+      "sha256": "ec72430e6dc9c5b8a4b1b981283196f70df93d9d337bb7f9dc5e654789b18fa3",
+      "size_bytes": 35881
+    },
+    "calo_rpd_studio/accelerated/runtime_context.py": {
+      "sha256": "a4b5e16c09fce532cd692a137e25001a96d47a5cfe38b9f8d5dc3813968756ba",
+      "size_bytes": 635
+    },
+    "calo_rpd_studio/accelerated/scratch_pool.py": {
+      "sha256": "972f275c5f4d6802fc68ac616b46cbac0eeecd6e8d4021450a64bd4e6d973f2a",
+      "size_bytes": 1061
+    },
+    "calo_rpd_studio/accelerated/throughput_engine.py": {
+      "sha256": "54b9253958745ecf071e322d625c5423d41ec1dbbbbe19ecf5488ee321be6475",
+      "size_bytes": 20952
+    },
+    "calo_rpd_studio/accelerated/torch_decoder.py": {
+      "sha256": "49458871bd8f9a8e8483d1cb6ac8164652b36301c717cbadefed83150bf4a46d",
+      "size_bytes": 3679
+    },
+    "calo_rpd_studio/accelerated/torch_orpd.py": {
+      "sha256": "6b2f26d6120796f2b76c3a37b87941873f5972c6eda6044632a32a91431a63cc",
+      "size_bytes": 23023
+    },
+    "calo_rpd_studio/accelerated/torch_power_flow.py": {
+      "sha256": "37af616dcfb7701c81e91591092928ae6ef1d59e8775c83ebf028ea7a95529f5",
+      "size_bytes": 31174
+    },
+    "calo_rpd_studio/ai/checkpoint_manager.py": {
+      "sha256": "39c4cf56fd53b57e53e96c934c036a2ddf33ed6558c87f1a1891aca0b46605cb",
+      "size_bytes": 4339
+    },
+    "calo_rpd_studio/ai/model_io.py": {
+      "sha256": "7af74af2892d78767f26ef702a01d67724d41de5810dbf7977abc87f804d0722",
+      "size_bytes": 2880
+    },
+    "calo_rpd_studio/algorithms/base_optimizer.py": {
+      "sha256": "a6970f46a4045e41ae241cef955f7bb210f62df65d4e48975ee8eb29e85b5d96",
+      "size_bytes": 9272
+    },
+    "calo_rpd_studio/algorithms/calo/adaptive_epsilon.py": {
+      "sha256": "dd50352eed269fb8801db575d455d126045fdcb5713f0a7a03e664280dae4eb0",
+      "size_bytes": 2073
+    },
+    "calo_rpd_studio/algorithms/calo/ai_controller.py": {
+      "sha256": "ffc72a3901a930c0edfd33440aaa2d7cf9eee5e282ad20e4907ad920b920a169",
+      "size_bytes": 16506
+    },
+    "calo_rpd_studio/algorithms/calo/archives.py": {
+      "sha256": "dea592189fd316cbb3de72674abd3c8854c9f358b0b09b6d6a946d529ff5698b",
+      "size_bytes": 4618
+    },
+    "calo_rpd_studio/algorithms/calo/cognitive_state.py": {
+      "sha256": "1175b3ab416ee95baaacf7759bee054448e584dea9a171e3aa16c165586e427c",
+      "size_bytes": 5879
+    },
+    "calo_rpd_studio/algorithms/calo/competitive_training.py": {
+      "sha256": "0241b484bc619660364bb9c7a2a3a4887315f738c6929f2be39f6427bfd10e3e",
+      "size_bytes": 47571
+    },
+    "calo_rpd_studio/algorithms/calo/contextual_credit.py": {
+      "sha256": "40315c5cb690662ea53ca23ec8b11dcb4dd2ddab01ac5dcdd0b0186cccfa2844",
+      "size_bytes": 8607
+    },
+    "calo_rpd_studio/algorithms/calo/diagnostics.py": {
+      "sha256": "11f824f799f1029708efd35bfb0e3c767a8a64373c805addbfabd66676546a58",
+      "size_bytes": 3120
+    },
+    "calo_rpd_studio/algorithms/calo/diversity_manager.py": {
+      "sha256": "330bd97148e8514b11e0e64c91156643ddd68ce20bc9305b2ac969c88d002269",
+      "size_bytes": 363
+    },
+    "calo_rpd_studio/algorithms/calo/dual_lane_controller.py": {
+      "sha256": "ebfbb7d6bc6c8cbe93c5cde52f95ae5e8a80259494bb028920f0440b6e72c681",
+      "size_bytes": 2688
+    },
+    "calo_rpd_studio/algorithms/calo/environmental_selection.py": {
+      "sha256": "a4ca74a970c1fcf48cc4b10597d24fa45a153a427c1477b1c3854b9f8841fe3a",
+      "size_bytes": 2803
+    },
+    "calo_rpd_studio/algorithms/calo/evaluation_cache.py": {
+      "sha256": "105c2f591208ef3ae1d76729e02ccb3b213ad60f5f1007fad5d715d5004a3016",
+      "size_bytes": 4970
+    },
+    "calo_rpd_studio/algorithms/calo/heterogeneous_training.py": {
+      "sha256": "6e63a9bdf858235929103ba5872b0ef8719ac109a0a7af69edecc9057a179642",
+      "size_bytes": 60641
+    },
+    "calo_rpd_studio/algorithms/calo/hierarchical_memory.py": {
+      "sha256": "1de73c9fd8f84aafbcb7135896401e7118776cd7f2ed8296d01084a7926e8257",
+      "size_bytes": 9770
+    },
+    "calo_rpd_studio/algorithms/calo/learning_operators.py": {
+      "sha256": "b971de772339cb402b43b2bb11de38b4b367c6969af209f81ac5813737b86627",
+      "size_bytes": 4377
+    },
+    "calo_rpd_studio/algorithms/calo/operator_credit.py": {
+      "sha256": "7175550f27cc79a273e2b8e367343e242941f2ff430c6e132c6698cc0aa23585",
+      "size_bytes": 3592
+    },
+    "calo_rpd_studio/algorithms/calo/optimizer.py": {
+      "sha256": "c77d2de7620b3abe9a98c6d878f9207750630cb84079c4f427f66f3513692cfd",
+      "size_bytes": 68297
+    },
+    "calo_rpd_studio/algorithms/calo/policy_lineage.py": {
+      "sha256": "7628411278b0e3435f1dc381fd6509aaece495093a8aaa488a66f1337f00e4d8",
+      "size_bytes": 5144
+    },
+    "calo_rpd_studio/algorithms/calo/policy_network.py": {
+      "sha256": "407a17ea12616a396d1d5c2d460a0b5473cf4c14eed02c3340d3c46181b52367",
+      "size_bytes": 1838
+    },
+    "calo_rpd_studio/algorithms/calo/policy_qualification.py": {
+      "sha256": "ec32fa051ee21411400b5e735efe40adc2cd14a679c86ef27117a7c1eab8a758",
+      "size_bytes": 16450
+    },
+    "calo_rpd_studio/algorithms/calo/policy_registry.py": {
+      "sha256": "37a49091dfe412b9c712251561309daf5adfbb28504529a178cdfbc0d554dbf9",
+      "size_bytes": 13421
+    },
+    "calo_rpd_studio/algorithms/calo/policy_schema.py": {
+      "sha256": "43b992e72150a96a4c8e140615a3f719f9606116795c749da22e73d48f1b862b",
+      "size_bytes": 5440
+    },
+    "calo_rpd_studio/algorithms/calo/precision_engine.py": {
+      "sha256": "33c679ba2b82a4844c6aac53227c3edf6a759b12d3313ad30e7daeffda6f71b8",
+      "size_bytes": 3796
+    },
+    "calo_rpd_studio/algorithms/calo/reward.py": {
+      "sha256": "8505f3540e77427f7ef65cc6bd16d0f51032f79ee15d90ae9b28abf158d60956",
+      "size_bytes": 1644
+    },
+    "calo_rpd_studio/algorithms/calo/run_checkpoint.py": {
+      "sha256": "e8547d4c0c0f19e8effcf941523dbc750ac4999e5326e968d47d38d9924266c1",
+      "size_bytes": 1331
+    },
+    "calo_rpd_studio/algorithms/calo/success_memory.py": {
+      "sha256": "30b7399f86ad645e2bc9a2df6b17a1d2d953692b893679a48a7cc4d1ce0f1fc3",
+      "size_bytes": 10145
+    },
+    "calo_rpd_studio/algorithms/calo/tensor_state.py": {
+      "sha256": "9d5ae4b8fd6c5225a0b24c757d49ec672d0815f6a44bbaa4ac14d948ac3f2910",
+      "size_bytes": 4244
+    },
+    "calo_rpd_studio/algorithms/calo/training.py": {
+      "sha256": "e150c07b91650f09abfdb9711c3401d446f893d397481adbbb69b91d765a9713",
+      "size_bytes": 78808
+    },
+    "calo_rpd_studio/algorithms/calo/v5_disputes.py": {
+      "sha256": "66b34133cd622b1eca7d885aea83ed695d2881964c54b69b81bce5becd12f119",
+      "size_bytes": 10524
+    },
+    "calo_rpd_studio/algorithms/calo/variable_intelligence.py": {
+      "sha256": "5cf7917543d8ea729f62ae069b4d5afa19884a5bcf506a6d73892f855ee432da",
+      "size_bytes": 5648
+    },
+    "calo_rpd_studio/algorithms/registry.py": {
+      "sha256": "989cb469a1eb9009cbc40f488185f420b53186f1aa2a81e0f7bc79a119057091",
+      "size_bytes": 5744
+    },
+    "calo_rpd_studio/algorithms/torch_suite.py": {
+      "sha256": "af6372cf37c85baa8f602f9158d10fb333db577e41be24ba921fb00285ea6b0a",
+      "size_bytes": 34259
+    },
+    "calo_rpd_studio/app/experiment_manager.py": {
+      "sha256": "d734087b13876948b40823ccbdf64c880715083efbef7af03c3f37a7db0d1aef",
+      "size_bytes": 115487
+    },
+    "calo_rpd_studio/app/experiment_workspace_restorer.py": {
+      "sha256": "1bb60148d7dabbf6ec8fd253787fcab07678fecb30d1d0e8b6b47ad7ca8ab3c5",
+      "size_bytes": 5313
+    },
+    "calo_rpd_studio/app/main_window.py": {
+      "sha256": "ba13fb9b977f05b81661377bf1458a198e9a3c758801e584183976baddbe6c1a",
+      "size_bytes": 17654
+    },
+    "calo_rpd_studio/app/state_manager.py": {
+      "sha256": "1ff924dc53d8c0fca5ddffce288c66864e12630b983915960d76882b8a8bb4a3",
+      "size_bytes": 1414
+    },
+    "calo_rpd_studio/app/workflow_manager.py": {
+      "sha256": "62747b131a6cdb2c767e20466f8c13f66fec3e310d576033f2224a6ba4a0a24c",
+      "size_bytes": 14957
+    },
+    "calo_rpd_studio/benchmarking/campaign.py": {
+      "sha256": "4262050d28ffc3cbe4e43f02fb0c5ae6b0b0a05ca226c8441a5094bd95529102",
+      "size_bytes": 7128
+    },
+    "calo_rpd_studio/benchmarking/evidence.py": {
+      "sha256": "7f4af1cd3508b30d4cdfb989257fab6338b021cf986c32fbd187b36568aca663",
+      "size_bytes": 10737
+    },
+    "calo_rpd_studio/benchmarking/package.py": {
+      "sha256": "4967fdf6a4ad5c326a76ddfb9c93e435f7900ab8a5a30bc7c1e6d711e4d3a3ec",
+      "size_bytes": 11864
+    },
+    "calo_rpd_studio/compute/persistent_accelerator_sidecar.py": {
+      "sha256": "40c9c98cd4b0ce78663429d8bd96b6e968f2c1644019de3dba3033afadbf458f",
+      "size_bytes": 15442
+    },
+    "calo_rpd_studio/compute/persistent_accelerator_worker.py": {
+      "sha256": "9e53b93fb2ff8ca6c8d87bc7865673bf55451272dfae8fcacce4baac083c8033",
+      "size_bytes": 12662
+    },
+    "calo_rpd_studio/compute/persistent_training_actor.py": {
+      "sha256": "428a1b719d523bddd9fcb005d586cf633b1def20b578680fb9a9a47df7e795f3",
+      "size_bytes": 5753
+    },
+    "calo_rpd_studio/compute/resource_scheduler.py": {
+      "sha256": "d303856124bb7cd532ff92834f39f0be5b8f2c27acf2d0fc3b3102a8ac2b6870",
+      "size_bytes": 27758
+    },
+    "calo_rpd_studio/compute/training_actor_worker.py": {
+      "sha256": "95014c45723e514dd751a2f22fa721f86485274f0b62bd165216378331af6810",
+      "size_bytes": 2410
+    },
+    "calo_rpd_studio/continuation/experiment_evolution.py": {
+      "sha256": "5709d69e99c58e90170c98330d019d6f848898dfb809205933ad9f005269b81e",
+      "size_bytes": 12249
+    },
+    "calo_rpd_studio/continuation/runtime_binding.py": {
+      "sha256": "4314f66545f254d47884ede5b55ff93bcebb05e2a3157701b55a719b117bf198",
+      "size_bytes": 2623
+    },
+    "calo_rpd_studio/data/frozen/historical_training_snapshot_v2.json": {
+      "sha256": "32ea80760361c15c92a1186e8f707d70498633fe940530bcd19b153b1b193e3f",
+      "size_bytes": 1177
+    },
+    "calo_rpd_studio/experiments/calo_ablation.py": {
+      "sha256": "a1aa5c219c456aee6de70d10460c787f77b3fd4792169b4465627854b670f1e2",
+      "size_bytes": 3389
+    },
+    "calo_rpd_studio/experiments/experiment_config.py": {
+      "sha256": "552d193c23d0ba1c2a0af8064f19758e3612d380ccd90527aeb40ec2ede714ba",
+      "size_bytes": 21030
+    },
+    "calo_rpd_studio/experiments/experiment_runner.py": {
+      "sha256": "96af8b577d7e325eb6207269b705df23063326cc21fba881dc0f10234db7ca85",
+      "size_bytes": 9732
+    },
+    "calo_rpd_studio/gui/panels/calo_intelligence_panel.py": {
+      "sha256": "d314c6d38cb00a77345f579d437c5b8959e17ee3d3d122d00394a9a27707f8de",
+      "size_bytes": 111941
+    },
+    "calo_rpd_studio/gui/panels/experiment_manager_panel.py": {
+      "sha256": "b5c5bab1f8ddc682ff631260a347cfa279d804a29dbf76c5cb47d6dcf1c6d83a",
+      "size_bytes": 71747
+    },
+    "calo_rpd_studio/gui/panels/live_optimization_panel.py": {
+      "sha256": "172dccf0410dc05db29663167c57a6ca41cada395a57d17f2aff5c1277f4b380",
+      "size_bytes": 58946
+    },
+    "calo_rpd_studio/gui/panels/results_explorer_panel.py": {
+      "sha256": "5389f6f707edbada88e6a5ce08bdeb1561bea66e971795fb3a475e3c55f7d034",
+      "size_bytes": 14424
+    },
+    "calo_rpd_studio/gui/panels/resume_center_panel.py": {
+      "sha256": "6856733e4f89931a3b3f1f0eef2c5d99429a0a609b83ba553177ed43fc45e369",
+      "size_bytes": 7992
+    },
+    "calo_rpd_studio/gui/widgets/historical_experience_widget.py": {
+      "sha256": "d2e13f616268febc09f20d14cf3d277e0f1a41bfbba156ede604dd48b47fb47b",
+      "size_bytes": 18708
+    },
+    "calo_rpd_studio/orpd/constraint_violation.py": {
+      "sha256": "ab2e80bdc19f7b3caca952ddd66ed5eb415becc6cf86c2d1b7f06a7c93b93339",
+      "size_bytes": 286
+    },
+    "calo_rpd_studio/orpd/constraints.py": {
+      "sha256": "9d266539f1ac112f35b045de9109766b57102a5624f3d874d68f8b5bf14024ae",
+      "size_bytes": 2196
+    },
+    "calo_rpd_studio/orpd/feasibility_rules.py": {
+      "sha256": "2c27e5e4271ff4bcaae030945a92fa3dda0d5792c51da331127b4e6f0006ce80",
+      "size_bytes": 587
+    },
+    "calo_rpd_studio/orpd/mixed_variable_handler.py": {
+      "sha256": "395e7bfb8f959919bd2389fcc7f5b6c9b6aefe5be369ca2fb2d1d082e46d7509",
+      "size_bytes": 706
+    },
+    "calo_rpd_studio/orpd/problem.py": {
+      "sha256": "b051d4e727ee339bd2edac0f6ec6e7c53a5271b1a1ae798c4f06d584b343f7d9",
+      "size_bytes": 7025
+    },
+    "calo_rpd_studio/orpd/variable_decoder.py": {
+      "sha256": "729a20400ef9330f529ce95b980065d2311e30e11eb45a4e252aab9bfe89921c",
+      "size_bytes": 12037
+    },
+    "calo_rpd_studio/portfolio/catalog.py": {
+      "sha256": "38c04640aa0ae78067bb8a9d5b8d34b9c17fe709cf5480419e10d0fc94afd124",
+      "size_bytes": 7693
+    },
+    "calo_rpd_studio/portfolio/exporter.py": {
+      "sha256": "f923f619a9e87a1edf0ed4a47e3a4fd1ef64cfebc09a489ea73f38f8cef5fd93",
+      "size_bytes": 47927
+    },
+    "calo_rpd_studio/portfolio/fingerprint.py": {
+      "sha256": "100243cff94c720e14c885ba64f28c61a6c77f0978dfe5146cca77c5f0817d84",
+      "size_bytes": 3892
+    },
+    "calo_rpd_studio/portfolio/models.py": {
+      "sha256": "012d509df38ba6ee5c212f7169d3483661b611a5e78392f5e199809f8384a267",
+      "size_bytes": 5731
+    },
+    "calo_rpd_studio/portfolio/planner.py": {
+      "sha256": "a6cd646fed409c34c0fa0d510769e9f2b267aea47f917bb38d16f4345775c71a",
+      "size_bytes": 8752
+    },
+    "calo_rpd_studio/power_system/ac_power_flow.py": {
+      "sha256": "4f21e5e60bc7cb9c7f9b7608676d7e3661d135337485f6f1025fec0c98a77983",
+      "size_bytes": 5943
+    },
+    "calo_rpd_studio/power_system/case_loader.py": {
+      "sha256": "f4c736b137eb4a17d38aeb57ea426df576d716aa7371f2ed32aca79366426e1b",
+      "size_bytes": 1606
+    },
+    "calo_rpd_studio/power_system/case_validation.py": {
+      "sha256": "242b58a374d7c894a7e8db05487179352a9eefd7ca6a11802dfecc32af7cd2ec",
+      "size_bytes": 6228
+    },
+    "calo_rpd_studio/power_system/independent_validator.py": {
+      "sha256": "f2fb9174d2541460f1582276a410ee14784c6fd915c34a58f928519905892ea2",
+      "size_bytes": 10585
+    },
+    "calo_rpd_studio/power_system/pv_pq_switching.py": {
+      "sha256": "3008fe61df4e5d10d9868ec99c783d6f9e96477065a747e5c96798a2311874b0",
+      "size_bytes": 2090
+    },
+    "calo_rpd_studio/power_system/ybus.py": {
+      "sha256": "1c5b4949ff5275424476f3f5a92ee44068cfdadddbd40c22b991ae8305cd307d",
+      "size_bytes": 1788
+    },
+    "calo_rpd_studio/results/database.py": {
+      "sha256": "6022129a9937c9d09c1759fd4ab65300c36206f1742b1b38c2ecc5f38aff114c",
+      "size_bytes": 91224
+    },
+    "calo_rpd_studio/results/publication_export.py": {
+      "sha256": "9439b531b728e5fe054874a7821c5653622943291c7291390702715f743a2de9",
+      "size_bytes": 7885
+    },
+    "calo_rpd_studio/results/result_store.py": {
+      "sha256": "56b5f32577463f4a35f4defea4b9e45dfed784737693fd9980e15e12796dc5d2",
+      "size_bytes": 2456
+    },
+    "calo_rpd_studio/resume/models.py": {
+      "sha256": "cdf894c0753fe42eaa084f39c276b0e4e2325ac27c2c1daa96e00d32bd5b91a3",
+      "size_bytes": 973
+    },
+    "calo_rpd_studio/resume/service.py": {
+      "sha256": "a46b0b44e925c8bf995419520cd632c504140bddfacf0a96a4861f262edd7762",
+      "size_bytes": 5161
+    },
+    "calo_rpd_studio/robustness/contingencies.py": {
+      "sha256": "8a590a23db849d40c7d62e89e6ea4d748b75b718e9f343ec4a84651570b06c0d",
+      "size_bytes": 1687
+    },
+    "calo_rpd_studio/robustness/cvar.py": {
+      "sha256": "95beb0a5385f35a39afbacfe7637bba842bf797ffedb45e4c04b70ca8624ca8d",
+      "size_bytes": 3754
+    },
+    "calo_rpd_studio/robustness/load_uncertainty.py": {
+      "sha256": "439de24a0876584aab02f05522dd052a94ae5e63ee91226b2880242bfc560d9b",
+      "size_bytes": 310
+    },
+    "calo_rpd_studio/robustness/renewable_uncertainty.py": {
+      "sha256": "a9dd72229802ce252e13b86bb16292d3f172e661af393dae9d0aeeb4afb0a1a0",
+      "size_bytes": 681
+    },
+    "calo_rpd_studio/robustness/robust_objectives.py": {
+      "sha256": "bd37c961ee26647f247dd39de7b2c8e70e01dab30ef752e739e7dfe0b07477ef",
+      "size_bytes": 1036
+    },
+    "calo_rpd_studio/robustness/scenario.py": {
+      "sha256": "3223cf716a321cb59c5fd1e3794f161459d64234abe9817c3134c8858f19212e",
+      "size_bytes": 373
+    },
+    "calo_rpd_studio/robustness/scenario_generator.py": {
+      "sha256": "48cea61c9f364dd21fd9b1831f8ee9a35f164781e473fda9ab62e30c211de1b5",
+      "size_bytes": 949
+    },
+    "calo_rpd_studio/version.py": {
+      "sha256": "47811dc6fadb16ab43cb0ecff35bdf2fa3c67c7cf5adec4c3b61374f2ecd7bec",
+      "size_bytes": 390
+    },
+    "calo_rpd_studio/visualization/font_preflight.py": {
+      "sha256": "972ac0949fc0aa2e75661b02acff92dd65ef8313d9723b16697a2ca79bcb8aed",
+      "size_bytes": 1110
+    },
+    "calo_rpd_studio/visualization/publication_evidence.py": {
+      "sha256": "92cb39c6cd43d148d816cd432c8f263c5998ebeac61846decb422f61d74c70fb",
+      "size_bytes": 15786
+    }
+  },
+  "frozen_scope": {
+    "accelerator_constraint_evaluator": true,
+    "accelerator_power_flow": true,
+    "add_more_paired_runs_same_experiment": true,
+    "archive_rules": true,
+    "asynchronous_fairness_audit": true,
+    "asynchronous_standard_publication_export": true,
+    "automatic_batch_calibration": true,
+    "automatic_periodic_policy_qualification": false,
+    "baseline_exact_optimizer_state_continuation": false,
+    "behavior_driven_epsilon": true,
+    "bounded_reproducibility_bundle": true,
+    "calo_control_fully_device_resident": false,
+    "campaign_resume_journal": true,
+    "case_specific_formulation_profiles": true,
+    "constraint_handling": true,
+    "contextual_batch_operator_credit": true,
+    "contextual_success_direction_memory": true,
+    "continuable_policy_training_checkpoints": true,
+    "counted_cognitive_precision": true,
+    "crash_safe_atomic_policy_checkpoints": true,
+    "cross_episode_policy_rollout_batching": true,
+    "cross_run_batching": true,
+    "cuda_only_execution": true,
+    "device_resident_execution": true,
+    "evaluation_horizon_evidence_snapshots": true,
+    "exact_calo_run_state_continuation": true,
+    "exact_evaluation_dedup_fe_accounting_preserved": true,
+    "experiment_revision_history": true,
+    "experiment_workspace_restoration": true,
+    "export_subprogress_and_safe_cancel": true,
+    "fairness_audit_progress_and_cpu_throttling": true,
+    "font_preflight_and_metadata": true,
+    "fractional_tail_weighted_cvar": true,
+    "gpu_maximum_100_percent_cuda_when_available": true,
+    "grouped_tensor_pv_pq_switching": true,
+    "horizon_aware_statistics_and_export": true,
+    "hpem_best_1_3_5_7": true,
+    "hyperparameters": true,
+    "ieee300_matched_pypower_validation": true,
+    "immutable_experiment_policy_binding": true,
+    "independent_q_limit_validation": true,
+    "mathematical_equations": true,
+    "max_persistent_calo_tensor_dimension_3d": true,
+    "measured_throughput_scheduling": true,
+    "mixed_variable_quality_diversity_memory": true,
+    "mixed_variable_tensor_decoder": true,
+    "multi_run_live_telemetry": true,
+    "nan_safe_convergence_statistics": true,
+    "native_v41_policy_schema": true,
+    "operator_definitions": true,
+    "paired_recompute_from_seed_horizon_extension": true,
+    "partial_recovery_without_forgetting": true,
+    "persistent_accelerator_workers": true,
+    "persistent_personal_memory": true,
+    "persistent_policy_training_actors": true,
+    "policy_gated_no_default_neural_policy": true,
+    "policy_library_and_qualification": true,
+    "policy_lineage_latest_vs_best": true,
+    "portfolio_artifact_resume": true,
+    "portfolio_dependency_planning": true,
+    "ppo_architecture": true,
+    "progressive_portfolio_live_preview": true,
+    "publication_safe_extension_protocols": true,
+    "revision_scoped_run_checkpoints": true,
+    "safe_hashed_checkpoint_loading": true,
+    "scenario_manifest_and_validation": true,
+    "scientific_fingerprint_reuse": true,
+    "single_budget_dual_lane_self_learning": true,
+    "state_vector": true,
+    "strict_cross_run_memory_independence": true,
+    "torch_canonical_baselines": true,
+    "training_dataset_snapshot": true,
+    "unclipped_reference_q_reporting": true,
+    "untrained_policy_fallback_forbidden": true,
+    "variable_group_intelligence": true,
+    "verified_feasible_publication_statistics": true,
+    "verified_only_article_package": true
+  },
+  "manifest_sha256": "8e4598715934d17c95bf4e7f1a09674c19d80933fac78fcd4b5b50574e6867c1",
+  "note": "CALO-RPD v5.6.0 competitive multi-branch policy-evolution software freeze. Independent PPO branches are never parameter-averaged; cumulative/infinite/exact-resume duration semantics, Base-Guided Fork, disk-backed Safe Stop, multi-metric champion/base selection, policy gating and immutable experiment policy binding are frozen. No default neural policy is bundled or implied.",
+  "schema_version": 1,
+  "software_version": "5.6.0"
+}
