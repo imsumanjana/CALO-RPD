@@ -1774,14 +1774,28 @@ class ExperimentWorker(QThread):
             calo_parameters = dict(self.config.algorithm_parameters.get("CALO", {}))
             policy_id = str(calo_parameters.get("policy_id", "") or "")
             policy_checkpoint = str(calo_parameters.get("policy_checkpoint", "") or "")
-            if bool(calo_parameters.get("use_ai", True)) and bool(
-                calo_parameters.get("strict_policy_binding", False)
-            ):
+            if bool(calo_parameters.get("use_ai", True)):
+                if not bool(calo_parameters.get("strict_policy_binding", False)):
+                    raise ValueError(
+                        "CALO policy-assisted execution is fail-closed and requires an explicitly "
+                        "activated immutable policy binding. Reapply CALO Intelligence before starting the experiment."
+                    )
                 if not policy_id or not policy_checkpoint:
                     raise ValueError(
-                        "Strict CALO policy binding is incomplete; reapply CALO Intelligence before starting the experiment"
+                        "CALO policy binding is incomplete. Train or import a compatible policy, "
+                        "qualify/activate it, then reapply CALO Intelligence before starting the experiment."
                     )
                 policy = self.state.policy_registry.get(policy_id)
+                if not is_extension and not policy.active:
+                    raise ValueError(
+                        "New policy-assisted CALO experiments must use the explicitly active policy. "
+                        "Activate the intended policy in CALO Intelligence and reapply the configuration."
+                    )
+                if not is_extension and not policy.runtime_compatible:
+                    raise ValueError(
+                        "The selected CALO policy is not compatible with the current runtime schema. "
+                        "Train/import and activate a compatible policy before starting the experiment."
+                    )
                 if not bool(
                     calo_parameters.get("allow_unqualified_policy", False)
                 ) and policy.qualification_status not in {"qualified", "legacy_qualified"}:

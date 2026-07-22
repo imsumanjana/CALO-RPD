@@ -14,13 +14,14 @@ from calo_rpd_studio.experiments.experiment_config import ExperimentConfig
 from calo_rpd_studio.orpd.variable_decoder import ORPDVariableDecoder
 from calo_rpd_studio.portfolio.models import EvidenceProfile, PortfolioKind
 from calo_rpd_studio.power_system.case_loader import CaseLoader
+from calo_rpd_studio.version import VERSION, FREEZE_MANIFEST
 from .freeze import verify_freeze_manifest
 from .suite import BenchmarkSuite, standard_benchmark_suite
 
 
 @dataclass(slots=True)
 class BenchmarkCampaignConfig:
-    name: str = "CALO-RPD v5.0 benchmark campaign"
+    name: str = f"CALO-RPD v{VERSION} benchmark campaign"
     cases: tuple[str, ...] = ("case30", "case57", "case118", "case300")
     study_keys: tuple[str, ...] = (
         "deterministic",
@@ -33,12 +34,12 @@ class BenchmarkCampaignConfig:
     max_evaluations: int = 5000
     population_size: int = 50
     master_seed: int = 2026
-    output_directory: str = "benchmark_v500"
+    output_directory: str = "benchmark_v541"
     parallel_workers: int = 1
     execution_backend: str = "weighted_split"
     freeze_manifest: str = field(
         default_factory=lambda: str(
-            Path(__file__).resolve().parents[1] / "data" / "frozen" / "calo_v500_freeze.json"
+            Path(__file__).resolve().parents[1] / "data" / "frozen" / FREEZE_MANIFEST
         )
     )
     algorithms: tuple[str, ...] = field(default_factory=primary_algorithm_names)
@@ -51,7 +52,7 @@ class BenchmarkCampaignConfig:
             raise ValueError("max_evaluations must be positive")
         if tuple(self.algorithms) != tuple(primary_algorithm_names()):
             raise ValueError(
-                "The frozen v5.0 benchmark campaign must include exactly the 20 primary algorithms."
+                f"The frozen v{VERSION} benchmark campaign must include exactly the 20 primary algorithms."
             )
         unknown_cases = set(self.cases) - set(suite.cases)
         if unknown_cases:

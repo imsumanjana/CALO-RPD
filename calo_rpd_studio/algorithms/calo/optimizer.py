@@ -87,9 +87,6 @@ class CALOOptimizer(BaseOptimizer):
     name = "CALO"
     supports_exact_resume = True
 
-    def _default_checkpoint(self) -> Path:
-        return Path(__file__).resolve().parents[2] / "data" / "trained_models" / "calo_policy_v2.pt"
-
     @staticmethod
     def _rule_operator_probabilities(regime: int) -> np.ndarray:
         values = REGIME_OPERATOR_PRIORS[int(regime)].copy()
@@ -590,11 +587,15 @@ class CALOOptimizer(BaseOptimizer):
 
         checkpoint = str(parameters.get("policy_checkpoint", "") or "").strip()
         if use_ai and not checkpoint:
-            if bool(parameters.get("strict_policy_binding", False)):
-                raise ValueError(
-                    "CALO AI is enabled but no immutable policy checkpoint is bound to this experiment"
-                )
-            checkpoint = str(self._default_checkpoint())
+            raise ValueError(
+                "CALO policy-assisted execution requires an explicitly imported/trained and "
+                "activated policy checkpoint. No default or untrained fallback policy is permitted."
+            )
+        if use_ai and not bool(parameters.get("strict_policy_binding", False)):
+            raise ValueError(
+                "CALO policy-assisted execution requires strict immutable policy binding. "
+                "Reapply CALO Intelligence after explicitly activating the intended policy."
+            )
         controller = AIController(
             checkpoint if use_ai else None,
             seed=int(parameters.get("ai_inference_seed", self.seed + 7919)),
@@ -607,6 +608,7 @@ class CALOOptimizer(BaseOptimizer):
             expected_action_schema=str(parameters.get("policy_action_schema_version", ""))
             if use_ai
             else "",
+            allow_no_policy=not use_ai,
         )
 
         diagnostics_history = diagnostic_history_template()

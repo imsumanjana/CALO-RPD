@@ -51,7 +51,7 @@ The packaged CALO Core v2 checkpoint has adjacent JSON metadata containing:
 
 The checkpoint SHA-256 hash is stored in CALO result metadata. Final benchmark studies should freeze the selected checkpoint before execution. Changing the checkpoint creates a different experiment configuration.
 
-Legacy CALO policy checkpoints are rejected by the Core v2 runtime because their input/output architecture is not compatible with the 24-value constraint-aware state and hierarchical regime/operator/Beta-parameter controller.
+Legacy/incompatible CALO policy checkpoints may remain visible for provenance, but they cannot become the active runtime policy. Policy-assisted execution requires a current compatible policy schema, explicit activation, and immutable experiment SHA-256 binding.
 
 ## PPO training reproducibility
 
@@ -70,11 +70,11 @@ The policy trainer records all fields of `TrainingConfig`, including:
 - hidden dimension;
 - training population size.
 
-The Python, NumPy, and PyTorch random seeds are set from the declared training seed. The training environment reuses the runtime CALO Core v2 operator and selection modules.
+The Python, NumPy, and PyTorch random seeds are set from the declared training seed. The training environment records the current versioned policy state/action/training schemas. Candidate policies must still pass real-runtime qualification before scientific promotion.
 
 In weighted heterogeneous mode, each PPO epoch records the requested CUDA/XPU/CPU shares, the effective integer episode allocation, the actor devices, and the policy-snapshot SHA-256 used by every lane. All actor trajectories must match the current snapshot before entering the PPO buffer. The update begins only after the synchronous CUDA, XPU, and CPU actors have completed. Configured shares refer to rollout episodes/transitions rather than measured hardware utilization.
 
-Weighted training produces a candidate checkpoint and cannot overwrite the bundled frozen policy. A candidate must be validated and explicitly included in a new freeze manifest before final TEST execution.
+Training produces candidate checkpoints without overwriting any registered policy artifact. CALO-RPD does not fabricate or silently choose a default neural policy; a candidate must be registered, qualified as required, explicitly activated, and immutably bound to an experiment before policy-assisted TEST execution.
 
 ## Raw data
 

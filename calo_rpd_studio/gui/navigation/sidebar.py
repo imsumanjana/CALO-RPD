@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from calo_rpd_studio.version import VERSION
+
 from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtWidgets import (
     QButtonGroup,
@@ -95,7 +97,7 @@ class NavigationSidebar(QFrame):
         footer_layout.setSpacing(2)
         edition = QLabel("Scientific workspace")
         edition.setObjectName("SidebarFooterTitle")
-        version = QLabel("CALO-RPD Studio 5.0.0")
+        version = QLabel(f"CALO-RPD Studio {VERSION}")
         version.setObjectName("SidebarFooterText")
         footer_layout.addWidget(edition)
         footer_layout.addWidget(version)

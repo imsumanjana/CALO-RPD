@@ -1,5 +1,15 @@
 # Changelog
 
+## 5.4.1
+
+- Corrected the active software/release identity from stale 5.0.0 metadata to **5.4.1** across package metadata, application UI, bootstrap fallback version, citation metadata, benchmark defaults, release evidence, CI label, and the current software freeze.
+- Replaced the stale current-release freeze with `calo_v541_freeze.json`; the current software freeze intentionally contains **no default neural policy artifact**. Each policy-assisted experiment must bind an explicit user-selected policy SHA-256 separately.
+- Removed the missing-policy/random-network fallback from `AIController` and CALO runtime. Policy-assisted CALO now fails closed when no explicit immutable policy checkpoint is supplied.
+- Added policy-gated CALO Intelligence behavior: when no policy artifact exists, only policy provisioning/training/import remains available; runtime intelligence controls remain locked. When policies exist but none is active, the Policy Center is available for qualification/activation while runtime controls remain locked.
+- Runtime activation now requires a current compatible policy schema, and experiment configuration binds only the explicitly active policy. Missing, incompatible, checksum-mismatched, or non-bound policy-assisted execution is blocked rather than silently falling back.
+- Training/import never auto-activates a policy, and training cannot overwrite an existing registered policy artifact.
+- Preserved explicit No-AI CALO only as a deliberate research/qualification mode; it is never used automatically as a missing-policy fallback.
+
 ## 5.0.0
 
 - Added long-lived **policy lineages** with immutable deployable checkpoints, cumulative epoch accounting, latest-vs-best-qualified roles, safe forks/fine-tuning phases, and experiment-safe SHA-256 provenance.

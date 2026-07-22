@@ -10,7 +10,13 @@ from pathlib import Path
 import uuid
 
 from calo_rpd_studio.ai.model_io import load_checkpoint
-from .policy_schema import infer_checkpoint_schema
+from .policy_schema import (
+    CALO_RUNTIME_ARCHITECTURE,
+    POLICY_ACTION_SCHEMA,
+    POLICY_STATE_SCHEMA,
+    TRAINING_ENVIRONMENT_VERSION,
+    infer_checkpoint_schema,
+)
 from .policy_lineage import PolicyLineageManager
 
 
@@ -37,6 +43,15 @@ class PolicyRecord:
     @property
     def usable(self) -> bool:
         return not self.archived and Path(self.checkpoint_path).is_file()
+
+    @property
+    def runtime_compatible(self) -> bool:
+        return (
+            self.architecture_version == CALO_RUNTIME_ARCHITECTURE
+            and self.state_schema_version == POLICY_STATE_SCHEMA
+            and self.action_schema_version == POLICY_ACTION_SCHEMA
+            and self.training_environment_version == TRAINING_ENVIRONMENT_VERSION
+        )
 
 
 _SUPPRESSED_FILE = Path.home() / ".calo_rpd_studio" / "suppressed_policies.json"
@@ -161,6 +176,13 @@ class PolicyRegistry:
 
     def activate(self, policy_id: str, *, allow_unqualified: bool = False) -> PolicyRecord:
         policy = self.get(policy_id)
+        if not policy.usable:
+            raise ValueError(f"Policy {policy.name!r} is archived or its checkpoint file is unavailable")
+        if not policy.runtime_compatible:
+            raise ValueError(
+                f"Policy {policy.name!r} is not compatible with the current CALO runtime schema. "
+                "Import/train a native compatible policy before activation."
+            )
         if (
             policy.qualification_status not in {"qualified", "legacy_qualified"}
             and not allow_unqualified
@@ -223,6 +245,12 @@ class PolicyRegistry:
         self, policy_id: str, config, *, deterministic: bool, allow_unqualified: bool = False
     ) -> dict:
         policy = self.get(policy_id)
+        if not policy.usable:
+            raise ValueError(f"Policy {policy.name!r} is archived or its checkpoint file is unavailable")
+        if not policy.runtime_compatible:
+            raise ValueError(
+                f"Policy {policy.name!r} is incompatible with the current CALO runtime; experiment binding refused"
+            )
         if (
             policy.qualification_status not in {"qualified", "legacy_qualified"}
             and not allow_unqualified

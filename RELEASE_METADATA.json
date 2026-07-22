@@ -1,48 +1,53 @@
 {
   "name": "CALO-RPD Studio",
-  "version": "5.0.0",
-  "release_name": "Continuable Policy and Experiment Evolution Release",
-  "release_date": "2026-07-21",
-  "scientific_claim": "Software continuation/provenance release; no universal optimizer or policy superiority claim.",
+  "version": "5.4.1",
+  "release_name": "Policy-Gated Release Integrity Correction",
+  "release_date": "2026-07-22",
+  "scientific_claim": "Release-integrity and fail-closed policy-safety correction; no optimizer/policy superiority claim.",
+  "policy_runtime": {
+    "default_neural_policy_bundled": false,
+    "untrained_fallback_allowed": false,
+    "policy_assisted_execution_requires_explicit_binding": true,
+    "activation_requires_runtime_compatible_policy": true,
+    "training_or_import_auto_activates_policy": false,
+    "explicit_no_ai_research_control_supported": true
+  },
   "validation": {
-    "tests": {
-      "unit_integration_regression": 177,
-      "scientific": 20,
-      "gui": 25,
-      "total": 222,
+    "targeted_policy_release_tests": {
+      "passed": 25,
       "failed": 0
     },
-    "ruff": "PASS",
+    "dependency_light_unit_partition": {
+      "passed": 173,
+      "deselected_environment_dependent": 1,
+      "environment_blockers": [
+        "PYPOWER unavailable for case118-dependent unit",
+        "PyQt6 unavailable for Qt workflow-restoration module"
+      ]
+    },
     "compileall": "PASS",
+    "ruff": "NOT_RUN_TOOL_UNAVAILABLE",
+    "full_gui_suite": "NOT_RUN_PYQT6_UNAVAILABLE",
+    "pypower_scientific_suite": "NOT_RUN_PYPOWER_UNAVAILABLE",
     "freeze": {
       "status": "PASS",
-      "checked_files": 101,
-      "manifest": "calo_rpd_studio/data/frozen/calo_v500_freeze.json"
+      "checked_files": 98,
+      "manifest": "calo_rpd_studio/data/frozen/calo_v541_freeze.json",
+      "manifest_sha256": "7625799bf776e438a44dd0fd6bcdb318873ab6508165c81b331ab1922a88806e"
     },
-    "ieee_pypower_cases": [
-      "IEEE 30",
-      "IEEE 57",
-      "IEEE 118",
-      "IEEE 300"
-    ],
-    "ieee_pypower_status": "PASS"
+    "repository_manifest": {
+      "status": "PASS",
+      "manifest": "MANIFEST.sha256",
+      "checked_files": 362
+    }
   },
-  "major_capabilities": [
-    "exact resumable policy-training checkpoints with cumulative/additional/indefinite modes",
-    "policy lineages with immutable checkpoints and latest vs best-qualified roles",
-    "experiment revisions and deterministic additional paired-run extension",
-    "exact CALO optimizer-state continuation from explicit source FE horizons",
-    "paired recompute-from-original-seed higher-horizon extension for all algorithms",
-    "publication-safe all-paired/predeclared protocols and explicitly exploratory manual extension",
-    "horizon-specific evidence snapshots, validation, statistics and export",
-    "scientific problem fingerprints bound to exact CALO run checkpoints",
-    "workspace restoration retained from v4.1"
+  "resolved_findings": [
+    "F-001 stale release identity/manifest/freeze",
+    "F-002 missing-policy untrained fallback"
   ],
   "explicit_limitations": [
-    "policy training and complete runtime CALO are not one bit-identical transition implementation",
-    "bundled policy superiority is not proven",
-    "full CALO cognitive/control path is not fully device-resident",
-    "exact optimizer-state continuation is CALO-only; baselines use paired recompute-from-seed",
-    "automatic periodic policy qualification is not implemented"
+    "Remaining v5.4 deep-audit findings are not claimed resolved by this correction.",
+    "No neural policy is bundled or scientifically promoted by the software release.",
+    "Policy qualification quality and remaining training/runtime disputes require separate correction work."
   ]
 }

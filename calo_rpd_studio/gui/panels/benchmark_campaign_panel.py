@@ -37,6 +37,7 @@ from calo_rpd_studio.benchmarking.validation import validate_campaign
 from calo_rpd_studio.benchmarking.suite import standard_benchmark_suite
 from calo_rpd_studio.gui.widgets.section_card import SectionCard
 from calo_rpd_studio.gui.widgets.workspace_page import WorkspacePage
+from calo_rpd_studio.version import FREEZE_MANIFEST
 
 
 class BenchmarkCampaignPanel(WorkspacePage):
@@ -59,11 +60,11 @@ class BenchmarkCampaignPanel(WorkspacePage):
 
         freeze_card = SectionCard(
             "A. Frozen CALO gate",
-            "Final TEST execution is blocked unless the release freeze manifest matches the CALO equations, operators, state, archives, PPO architecture, policy checkpoint, training snapshot, hyperparameters, decoder, and feasibility rules.",
+            "Final TEST execution is blocked unless the release software freeze matches the CALO equations, operators, state, archives, PPO architecture, training semantics, hyperparameters, decoder, and feasibility rules. The experiment policy is separately bound by explicit artifact SHA-256; no default policy is implied by the software freeze.",
         )
         freeze_row = QHBoxLayout()
         self.freeze_path = QLineEdit(
-            str(Path(__file__).resolve().parents[2] / "data" / "frozen" / "calo_v500_freeze.json")
+            str(Path(__file__).resolve().parents[2] / "data" / "frozen" / FREEZE_MANIFEST)
         )
         self.freeze_status = QLabel("Not verified")
         verify = QPushButton("Verify frozen CALO")

@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from calo_rpd_studio.version import VERSION
+
 import json
 from dataclasses import asdict
 from pathlib import Path
@@ -113,7 +115,7 @@ class TransactionsPackageBuilder:
                 shutil.copy2(source, destination)
 
         article_lines = [
-            "# CALO-RPD v5.0.0 — Article-ready evidence summary",
+            f"# CALO-RPD v{VERSION} — Article-ready evidence summary",
             "",
             "## Evidence basis",
             f"- Completed campaign tasks: {len(task_experiments)}",

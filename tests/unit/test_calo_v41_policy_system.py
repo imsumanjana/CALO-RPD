@@ -150,3 +150,43 @@ def test_policy_qualification_protects_holdout_cases_by_default():
     PolicyQualificationConfig(cases=("case30", "case57"), runs=5).validate()
     with pytest.raises(ValueError, match="protected holdout"):
         PolicyQualificationConfig(cases=("case118",), runs=5).validate()
+
+
+def test_policy_assisted_controller_fails_closed_without_checkpoint(tmp_path):
+    from calo_rpd_studio.algorithms.calo.ai_controller import AIController
+
+    with pytest.raises(RuntimeError, match="fail-closed"):
+        AIController(None, seed=1, device="cpu")
+    with pytest.raises(FileNotFoundError, match="requires an explicitly imported/trained"):
+        AIController(tmp_path / "missing.pt", seed=1, device="cpu")
+
+    # Rule-only/No-AI control is an explicit mode and must not instantiate a fake neural model.
+    controller = AIController(None, seed=1, device="cpu", allow_no_policy=True)
+    assert controller.network is None
+    assert controller.checkpoint_path == ""
+
+
+def test_policy_activation_rejects_incompatible_legacy_policy(tmp_path):
+    database = ResultDatabase(tmp_path / "results.sqlite")
+    registry = PolicyRegistry(database)
+    legacy = CALOPolicyNetwork(input_dim=24, hidden_dim=16)
+    path = tmp_path / "legacy.pt"
+    torch.save(
+        {
+            "model_state_dict": legacy.state_dict(),
+            "architecture": {"input_dim": 24, "hidden_dim": 16},
+            "metadata": {},
+        },
+        path,
+    )
+    policy = registry.register(path, name="Legacy")
+    database.add_policy_qualification(
+        qualification_id="legacy-q",
+        policy_id=policy.id,
+        passed=True,
+        grade="A",
+        score=99.0,
+        qualification_status="legacy_qualified",
+    )
+    with pytest.raises(ValueError, match="not compatible"):
+        registry.activate(policy.id)

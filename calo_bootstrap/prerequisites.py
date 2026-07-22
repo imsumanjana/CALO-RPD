@@ -25,7 +25,7 @@ try:
 
     APP_VERSION = distribution_version("calo-rpd-studio")
 except Exception:
-    APP_VERSION = "5.0.0"
+    APP_VERSION = "5.4.1"
 STATE_DIR = Path.home() / ".calo_rpd_studio"
 STATE_FILE = STATE_DIR / "environment_state.json"
 CORE_REQUIREMENTS_FILE = "requirements-core.txt"

@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from PyQt6.QtWidgets import QComboBox, QFormLayout, QLabel, QPushButton
 
+from calo_rpd_studio.version import VERSION
+
 from calo_rpd_studio.gui.dialogs.experiment_history_dialog import ExperimentHistoryDialog
 from calo_rpd_studio.gui.widgets.section_card import SectionCard
 from calo_rpd_studio.gui.widgets.workspace_page import WorkspacePage
@@ -51,7 +53,7 @@ class ApplicationSettingsPanel(WorkspacePage):
         information = SectionCard("Application")
         info = QFormLayout()
         info.addRow("Name", QLabel("CALO-RPD Studio"))
-        info.addRow("Version", QLabel("5.0.0"))
+        info.addRow("Version", QLabel(VERSION))
         info.addRow("Result database", QLabel(state.database.path))
         information.layout_root.addLayout(info)
         self.layout_root.addWidget(information)

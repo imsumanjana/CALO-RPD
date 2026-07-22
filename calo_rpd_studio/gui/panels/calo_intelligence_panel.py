@@ -172,11 +172,12 @@ class CALOIntelligencePanel(ScrollablePage):
         layout.addWidget(
             PageHeader(
                 "CALO Intelligence",
-                "Manage CALO v5.0 policies, qualify Candidate vs active/reference vs No-AI CALO under paired budgets, bind an immutable policy to runtime, and train the native 32-feature policy schema reproducibly.",
+                "Manage CALO v5.4.1 policies, qualify Candidate vs active/reference vs No-AI CALO under paired budgets, bind an immutable policy to runtime, and train the native 32-feature policy schema reproducibly.",
             )
         )
 
-        training = QGroupBox("Reproducible policy training")
+        training = QGroupBox("Policy provisioning and reproducible training")
+        self.training_group = training
         training_form = QFormLayout(training)
         self.epochs = QSpinBox()
         self.epochs.setRange(1, 2_000_000_000)
@@ -434,11 +435,14 @@ class CALOIntelligencePanel(ScrollablePage):
         self.train_button.clicked.connect(self.train_policy)
         self.resume_training_button = QPushButton("Resume exact saved training")
         self.resume_training_button.clicked.connect(self.resume_saved_training)
+        self.training_import_button = QPushButton("Import existing policy")
+        self.training_import_button.clicked.connect(self.import_policy)
         training_button_row = QWidget()
         training_button_layout = QHBoxLayout(training_button_row)
         training_button_layout.setContentsMargins(0, 0, 0, 0)
         training_button_layout.addWidget(self.train_button, 1)
         training_button_layout.addWidget(self.resume_training_button)
+        training_button_layout.addWidget(self.training_import_button)
         training_form.addRow("Training continuation mode", self.training_mode)
         training_form.addRow("Target / additional epochs", self.epochs)
         training_form.addRow("Policy lineage", self.policy_lineage_name)
@@ -479,6 +483,10 @@ class CALOIntelligencePanel(ScrollablePage):
             "nearest 10th epoch and their weights are merged into one base model."
         )
         training_form.addRow("Parallel runs", self.parallel_runs)
+        self.policy_gate_status = QLabel()
+        self.policy_gate_status.setWordWrap(True)
+        self.policy_gate_status.setObjectName("HelpText")
+        training_form.addRow("Policy availability", self.policy_gate_status)
         training_form.addRow("", training_button_row)
         self._update_training_mode_controls()
         layout.addWidget(training)
@@ -486,6 +494,7 @@ class CALOIntelligencePanel(ScrollablePage):
         policy_center = QGroupBox(
             "CALO Policy Center — library, qualification, comparison, and activation"
         )
+        self.policy_center_group = policy_center
         center_layout = QVBoxLayout(policy_center)
         library_host = QWidget()
         library_layout = QVBoxLayout(library_host)
@@ -609,17 +618,13 @@ class CALOIntelligencePanel(ScrollablePage):
         layout.addWidget(policy_center)
 
         policy = QGroupBox("Policy controller")
+        self.policy_controller_group = policy
         form = QFormLayout(policy)
-        self.path = QLineEdit(
-            str(
-                Path(__file__).resolve().parents[2]
-                / "data"
-                / "trained_models"
-                / "calo_policy_v2.pt"
-            )
-        )
-        choose = QPushButton("Choose policy")
-        choose.clicked.connect(self.choose_policy)
+        self.path = QLineEdit("")
+        self.path.setReadOnly(True)
+        self.path.setPlaceholderText("Activate a compatible policy in the Policy Center")
+        choose = QPushButton("Import policy")
+        choose.clicked.connect(self.import_policy)
         row = QWidget()
         row_layout = QHBoxLayout(row)
         row_layout.setContentsMargins(0, 0, 0, 0)
@@ -654,13 +659,14 @@ class CALOIntelligencePanel(ScrollablePage):
         layout.addWidget(policy)
 
         architecture = QGroupBox("Cognitive adaptive architecture")
+        self.architecture_group = architecture
         architecture_layout = QVBoxLayout(architecture)
         description = QLabel(
             "Cognitive state — exact and epsilon-feasible ratios, total and component-wise "
             "constraint violation, objective and constraint progress, population and elite "
             "diversity, separate stagnation states, archive occupancy, remaining evaluation "
             "budget, and online operator credit.\n\n"
-            "CALO v5.0 operators — feasible-elite learning, constraint-boundary differential "
+            "CALO v5.4.1 operators — feasible-elite learning, constraint-boundary differential "
             "learning, cognitive teacher learning, success-distribution memory, mixed-variable "
             "neighbourhood learning, and diversity recovery. Operators are allocated per learner.\n\n"
             "The hierarchical policy selects a search regime, operator probabilities, and bounded "
@@ -734,7 +740,55 @@ class CALOIntelligencePanel(ScrollablePage):
         if idx >= 0:
             self.qualification_reference.setCurrentIndex(idx)
         self.qualification_reference.blockSignals(False)
+        self._update_policy_gate_state()
         self._draw_policy_comparison()
+
+    def _update_policy_gate_state(self) -> None:
+        """Fail closed until a real policy exists and a compatible policy is explicitly active."""
+        all_records = self.state.policy_registry.list(include_archived=True)
+        usable_records = [p for p in all_records if not p.archived and p.usable]
+        active = next(
+            (p for p in usable_records if p.active and p.runtime_compatible),
+            None,
+        )
+        has_registered_policy = bool(all_records)
+
+        # Training/import provisioning is always available. With no policy record at all, every
+        # other CALO-intelligence block is deliberately disabled so a missing model can never be
+        # mistaken for a usable AI controller. Existing archived/incompatible records keep the
+        # Policy Center reachable for inspection/restoration/deletion, but never unlock runtime.
+        self.training_group.setEnabled(True)
+        self.policy_center_group.setEnabled(has_registered_policy)
+        runtime_enabled = active is not None
+        self.policy_controller_group.setEnabled(runtime_enabled)
+        self.architecture_group.setEnabled(runtime_enabled)
+        self.historical_experience.setEnabled(runtime_enabled)
+
+        if not has_registered_policy:
+            self.policy_gate_status.setText(
+                "NO CALO POLICY AVAILABLE. Policy-assisted CALO is locked. Train a policy or "
+                "import an existing compatible policy first; no random/untrained/default fallback model will be created."
+            )
+            self.path.clear()
+            return
+        if active is None:
+            compatible = sum(1 for p in usable_records if p.runtime_compatible)
+            self.policy_gate_status.setText(
+                f"{len(all_records)} policy record(s) registered ({compatible} usable runtime-compatible), "
+                "but no compatible policy is active. Qualify/select the intended policy and click Set active before runtime configuration is enabled."
+            )
+            self.path.clear()
+            return
+
+        self.policy_gate_status.setText(
+            f"ACTIVE POLICY: {active.name} · {active.grade} · {active.qualification_status} · "
+            f"SHA-256 {active.sha256[:12]}… Runtime configuration is gated to this explicit active policy."
+        )
+        parameters = dict(self.state.config.algorithm_parameters.get("CALO", {}))
+        bound_policy_id = str(parameters.get("policy_id", "") or "")
+        if not bound_policy_id:
+            self.path.setText(active.checkpoint_path)
+            self._select_policy_id(active.id)
 
     def _selected_policy(self):
         row = self.policy_table.currentRow()
@@ -1013,9 +1067,11 @@ class CALOIntelligencePanel(ScrollablePage):
         if policy is None:
             return
         try:
-            self.state.policy_registry.activate(policy.id)
+            activated = self.state.policy_registry.activate(policy.id)
             self.refresh_policy_library()
-            self._select_policy_id(policy.id)
+            self._select_policy_id(activated.id)
+            self.path.setText(activated.checkpoint_path)
+            self._update_policy_gate_state()
             self.qualification_status.setText(
                 f"Active default policy: {policy.name}. Existing experiments remain bound to their original immutable checkpoint SHA."
             )
@@ -1518,18 +1574,21 @@ class CALOIntelligencePanel(ScrollablePage):
             self.state.update_config()
             self.stage_completed.emit()
             return
-        path = Path(self.path.text().strip())
-        if not path.exists():
-            QMessageBox.critical(
-                self, "CALO policy configuration", "Select a valid CALO policy checkpoint first."
-            )
-            return
         try:
+            active = next(
+                (p for p in self.state.policy_registry.list() if p.active and p.usable and p.runtime_compatible),
+                None,
+            )
+            if active is None:
+                raise RuntimeError(
+                    "No compatible active CALO policy exists. Train/import, qualify, and explicitly activate a policy first."
+                )
             policy = self._selected_policy()
-            if policy is None or Path(policy.checkpoint_path).resolve() != path.resolve():
-                policy = self.state.policy_registry.register(path)
+            if policy is None or policy.id != active.id:
+                policy = active
                 self.refresh_policy_library()
                 self._select_policy_id(policy.id)
+            self.path.setText(policy.checkpoint_path)
             self.state.config.algorithm_parameters.setdefault("CALO", {})["use_ai"] = True
             binding = self.state.policy_registry.bind_to_experiment_config(
                 policy.id,
@@ -1586,12 +1645,9 @@ class CALOIntelligencePanel(ScrollablePage):
 
     def train_policy(self) -> None:
         weighted = str(self.rollout_mode.currentData()) == "weighted"
-        default_path = self.path.text()
-        frozen_policy = (
-            Path(__file__).resolve().parents[2] / "data" / "trained_models" / "calo_policy_v2.pt"
-        )
-        if weighted:
-            default_path = str(frozen_policy.with_name("calo_policy_v4_1_candidate.pt"))
+        models_dir = Path(__file__).resolve().parents[2] / "data" / "trained_models"
+        models_dir.mkdir(parents=True, exist_ok=True)
+        default_path = str(models_dir / "calo_policy_candidate.pt")
         path, _ = QFileDialog.getSaveFileName(
             self,
             "Save trained CALO policy candidate" if weighted else "Save trained CALO policy",
@@ -1600,13 +1656,18 @@ class CALOIntelligencePanel(ScrollablePage):
         )
         if not path:
             return
-        if weighted and Path(path).resolve() == frozen_policy.resolve():
+        target = Path(path).expanduser().resolve()
+        protected_paths = {
+            Path(policy.checkpoint_path).expanduser().resolve()
+            for policy in self.state.policy_registry.list(include_archived=True)
+            if Path(policy.checkpoint_path).is_file()
+        }
+        if target in protected_paths:
             QMessageBox.critical(
                 self,
-                "Frozen CALO protection",
-                "The frozen CALO v2 policy cannot be overwritten by candidate training. Save the "
-                "candidate under a new filename, validate it, and create a new freeze manifest "
-                "before using it in a TEST campaign.",
+                "Policy artifact protection",
+                "Training cannot overwrite a registered policy artifact. Save to a new candidate "
+                "filename so existing experiment and policy SHA-256 provenance remains immutable.",
             )
             return
         selected_training_device = str(self.training_device.currentData())

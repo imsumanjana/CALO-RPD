@@ -100,17 +100,34 @@ def test_v31_experiment_configuration_round_trip_preserves_throughput_fields():
     assert restored.telemetry_iteration_interval == 20
 
 
-def test_v31_calo_policy_checkpoint_is_reused_inside_a_persistent_process():
-    from pathlib import Path
+def test_v31_calo_policy_checkpoint_is_reused_inside_a_persistent_process(tmp_path):
+    import torch
 
     from calo_rpd_studio.algorithms.calo.ai_controller import AIController
+    from calo_rpd_studio.algorithms.calo.policy_network import CALOPolicyNetwork
+    from calo_rpd_studio.algorithms.calo.policy_schema import (
+        CALO_RUNTIME_ARCHITECTURE,
+        POLICY_ACTION_SCHEMA,
+        POLICY_STATE_DIM,
+        POLICY_STATE_SCHEMA,
+        TRAINING_ENVIRONMENT_VERSION,
+    )
 
-    checkpoint = (
-        Path(__file__).resolve().parents[2]
-        / "calo_rpd_studio"
-        / "data"
-        / "trained_models"
-        / "calo_policy_v2.pt"
+    checkpoint = tmp_path / "native_policy.pt"
+    network = CALOPolicyNetwork(input_dim=POLICY_STATE_DIM, hidden_dim=16)
+    torch.save(
+        {
+            "model_state_dict": network.state_dict(),
+            "architecture": {"input_dim": POLICY_STATE_DIM, "hidden_dim": 16},
+            "metadata": {
+                "state_dimension": POLICY_STATE_DIM,
+                "runtime_architecture_version": CALO_RUNTIME_ARCHITECTURE,
+                "state_schema_version": POLICY_STATE_SCHEMA,
+                "action_schema_version": POLICY_ACTION_SCHEMA,
+                "training_environment_version": TRAINING_ENVIRONMENT_VERSION,
+            },
+        },
+        checkpoint,
     )
     first = AIController(checkpoint, seed=1, device="cpu")
     second = AIController(checkpoint, seed=2, device="cpu")

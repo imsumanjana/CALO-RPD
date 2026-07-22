@@ -1,8 +1,10 @@
 """Cryptographic freeze manifest for final CALO benchmark campaigns.
 
 The manifest is intentionally explicit: final benchmark execution is allowed only when the
-mathematical implementation, policy checkpoint, training repository snapshot, default CALO
-hyperparameters, mixed-variable decoder, and feasibility rules match the frozen hashes.
+mathematical implementation, training semantics/repository snapshot, default CALO hyperparameters,
+mixed-variable decoder, and feasibility rules match the frozen hashes. A neural policy is never
+implied by the software freeze; policy-assisted experiments must separately bind an explicit policy
+artifact SHA-256.
 """
 
 from __future__ import annotations
@@ -13,6 +15,8 @@ import hashlib
 import json
 from pathlib import Path
 from typing import Iterable
+
+from calo_rpd_studio.version import VERSION
 
 
 FREEZE_SCHEMA_VERSION = 1
@@ -42,7 +46,6 @@ DEFAULT_FREEZE_RELATIVE_PATHS = (
     "calo_rpd_studio/algorithms/calo/policy_lineage.py",
     "calo_rpd_studio/algorithms/calo/run_checkpoint.py",
     "calo_rpd_studio/algorithms/calo/policy_qualification.py",
-    "calo_rpd_studio/algorithms/calo/recovery.py",
     "calo_rpd_studio/algorithms/calo/reward.py",
     "calo_rpd_studio/algorithms/calo/success_memory.py",
     "calo_rpd_studio/algorithms/calo/adaptive_epsilon.py",
@@ -115,8 +118,6 @@ DEFAULT_FREEZE_RELATIVE_PATHS = (
     "calo_rpd_studio/gui/widgets/historical_experience_widget.py",
     "calo_rpd_studio/gui/panels/live_optimization_panel.py",
     "calo_rpd_studio/version.py",
-    "calo_rpd_studio/data/trained_models/calo_policy_v2.json",
-    "calo_rpd_studio/data/trained_models/calo_policy_v2.pt",
     "calo_rpd_studio/data/frozen/historical_training_snapshot_v2.json",
 )
 
@@ -156,8 +157,8 @@ def create_freeze_manifest(
     *,
     project_root: str | Path | None = None,
     relative_paths: Iterable[str] = DEFAULT_FREEZE_RELATIVE_PATHS,
-    software_version: str = "5.0.0",
-    note: str = "CALO-RPD v5.0.0 continuation-aware constraint-cognitive CALO architecture frozen before final benchmark/test execution",
+    software_version: str = VERSION,
+    note: str | None = None,
 ) -> Path:
     root = Path(project_root) if project_root is not None else project_root_from_module()
     root = root.resolve()
@@ -176,6 +177,12 @@ def create_freeze_manifest(
 
     from calo_rpd_studio.algorithms.registry import SPECS
 
+    if note is None:
+        note = (
+            f"CALO-RPD v{software_version} policy-gated software architecture freeze. "
+            "No default neural policy is bundled or implied; every policy-assisted experiment must bind an explicit validated policy artifact SHA-256."
+        )
+
     payload = {
         "schema_version": FREEZE_SCHEMA_VERSION,
         "software_version": software_version,
@@ -187,7 +194,9 @@ def create_freeze_manifest(
             "state_vector": True,
             "archive_rules": True,
             "ppo_architecture": True,
-            "packaged_reference_policy_and_immutable_experiment_policy_binding": True,
+            "policy_gated_no_default_neural_policy": True,
+            "immutable_experiment_policy_binding": True,
+            "untrained_policy_fallback_forbidden": True,
             "training_dataset_snapshot": True,
             "hyperparameters": True,
             "constraint_handling": True,
@@ -260,7 +269,13 @@ def create_freeze_manifest(
         },
         "calo_default_parameters": SPECS["CALO"].default_parameters,
         "files": files,
-        "benchmark_rule": "No CALO tuning is permitted after TEST campaign execution begins. The software freeze does not choose the experiment policy; every benchmark experiment must retain an immutable policy checkpoint SHA-256 binding (or explicit No-AI mode).",
+        "benchmark_rule": (
+            "No CALO tuning is permitted after TEST campaign execution begins. The software freeze "
+            "does not choose or fabricate a neural policy. Policy-assisted CALO requires an explicitly "
+            "imported/trained, compatible, activated and immutable experiment policy SHA-256 binding. "
+            "No random/untrained/missing-policy fallback is permitted. Explicit No-AI CALO is reserved "
+            "for declared research/qualification controls and is never an automatic fallback."
+        ),
     }
     payload["manifest_sha256"] = _canonical_json_hash(payload)
     destination = Path(destination)
