@@ -1,8 +1,6 @@
 """Single source of release identity."""
 
-VERSION = "5.8.0"
-RELEASE_NAME = "Transactional Competitive Training and Scientific Closure"
-# Software-release identity only. Scientific benchmark freezes bind the code release and require
-# each policy-assisted CALO experiment to retain its own explicit policy artifact SHA-256.
-FREEZE_ID = "calo_v580_software_release"
-FREEZE_MANIFEST = "calo_v580_freeze.json"
+VERSION = "6.2.1"
+RELEASE_NAME = "Adaptive Compute Protection, Recovery and Scientific Qualification"
+FREEZE_ID = "calo_v621_software_release"
+FREEZE_MANIFEST = "calo_v621_freeze.json"

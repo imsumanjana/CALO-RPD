@@ -15,9 +15,12 @@ import json
 import hashlib
 import threading
 import time
+import uuid
 
 from PyQt6.QtCore import QObject, QThread, pyqtSignal
 
+from calo_rpd_studio.compute.governor import AdaptiveComputeGovernor, GovernorConfig, ProtectionState
+from calo_rpd_studio.compute.provenance import ComputeProvenanceRecorder
 from calo_rpd_studio.compute.resource_scheduler import (
     ResourceMonitor,
     build_weighted_lane_plan,
@@ -204,6 +207,10 @@ class ExperimentWorker(QThread):
         self.resume_task_id = ""
         self._task_by_job: dict[int, dict] = {}
         self._run_fingerprint_by_job: dict[int, str] = {}
+        self._compute_governor = None
+        self._compute_provenance = None
+        self._last_governor_decision = None
+        self._experiment_governor_session_id = uuid.uuid4().hex
 
     def pause(self) -> None:
         """Stop admitting new jobs and let active jobs finish at a reproducible boundary."""
@@ -224,6 +231,69 @@ class ExperimentWorker(QThread):
 
     def _pause_requested(self) -> bool:
         return self._pause_event.is_set()
+
+    def _ensure_compute_governor(self):
+        """Create the experiment-wide adaptive governor from the Dashboard Safe-80 profile."""
+        if self._compute_governor is not None:
+            return self._compute_governor
+        profile = getattr(self.state, "compute_protection_profile", None)
+        if profile is None and hasattr(self.state, "refresh_compute_profile"):
+            # Real GUI/runtime state must not silently execute experiments without a protection profile.
+            self.state.refresh_compute_profile()
+            profile = getattr(self.state, "compute_protection_profile", None)
+        if profile is None:
+            # Dependency-light test doubles may omit the runtime protection service entirely.
+            return None
+        self._compute_governor = AdaptiveComputeGovernor(
+            profile,
+            monitor=ResourceMonitor(),
+            config=GovernorConfig(allocation_limit_fraction=float(profile.allocation_limit_fraction)),
+        )
+        path = Path("results_data") / "compute_provenance" / f"experiment_{self._experiment_governor_session_id}.jsonl"
+        self._compute_provenance = ComputeProvenanceRecorder(
+            path,
+            session_id=self._experiment_governor_session_id,
+            metadata={
+                "kind": "experiment_compute_protection",
+                "experiment_id": str(self.experiment_id or ""),
+                "profile": profile.to_dict() if hasattr(profile, "to_dict") else {},
+            },
+        )
+        return self._compute_governor
+
+    def _governor_allows_admission(self, *, active_jobs: int) -> bool:
+        governor = self._ensure_compute_governor()
+        if governor is None:
+            return True
+        decision = governor.sample(active_branches=max(0, int(active_jobs)))
+        self._last_governor_decision = decision
+        if self._compute_provenance is not None:
+            self._compute_provenance.append("GOVERNOR_SAMPLE", decision.to_dict())
+        if decision.request_safe_stop or decision.state is ProtectionState.RED:
+            # Experiments have committed run boundaries rather than optimizer exact-resume branch sets.
+            # Emergency protection therefore cancels active jobs; completed runs remain immutable.
+            self._pause_event.set()
+            self.cancel()
+            if self._compute_provenance is not None:
+                self._compute_provenance.append(
+                    "PROTECTIVE_STOP_REQUESTED",
+                    {"reasons": list(decision.reasons), "active_jobs": int(active_jobs)},
+                )
+            return False
+        if not decision.allow_new_admission:
+            return False
+        if active_jobs > 0 and not governor.staged_delay_elapsed():
+            return False
+        return True
+
+    def _governor_note_launch(self, *, job_index: int, device: str) -> None:
+        governor = self._ensure_compute_governor()
+        if governor is not None:
+            governor.note_branch_launch()
+        if self._compute_provenance is not None:
+            self._compute_provenance.append(
+                "JOB_ADMITTED", {"job_index": int(job_index), "device": str(device)}
+            )
 
     def _fraction_for_payload(self, payload: dict) -> float:
         if self.config.budget.policy.value == "equal_evaluations":
@@ -720,6 +790,7 @@ class ExperimentWorker(QThread):
                                 device_id,
                             )
                         pending[future] = (item, lane, device_id)
+                        self._governor_note_launch(job_index=item.job_index, device=device_id)
                         active_lane[lane] += 1
                         if lane != "cpu":
                             active_by_device[device_id] = active_by_device.get(device_id, 0) + 1
@@ -763,6 +834,8 @@ class ExperimentWorker(QThread):
 
                     def admit_jobs() -> bool:
                         admitted_any = False
+                        if not self._governor_allows_admission(active_jobs=len(pending)):
+                            return False
                         # CUDA and XPU lanes are considered first on every admission cycle.
                         for lane in ("cuda", "xpu", "cpu"):
                             while (
@@ -772,6 +845,8 @@ class ExperimentWorker(QThread):
                                 and not self._cancelled()
                                 and not self._pause_requested()
                             ):
+                                if admitted_any and self._ensure_compute_governor() is not None:
+                                    break
                                 snapshot = monitor.sample()
                                 if lane == "cpu":
                                     if not cpu_admission_allowed(
@@ -975,9 +1050,7 @@ class ExperimentWorker(QThread):
                     and (backend != "gpu_preferred" or gpu_max_lane == "xpu")
                 ):
                     if xpu_device.runtime == "sidecar":
-                        from calo_rpd_studio.compute.resource_scheduler import (
-                            configured_xpu_interpreter,
-                        )
+                        from calo_rpd_studio.compute.resource_scheduler import configured_xpu_interpreter
 
                         interpreter = configured_xpu_interpreter()
                         if interpreter:
@@ -1190,6 +1263,8 @@ class ExperimentWorker(QThread):
 
                 def submit_available() -> bool:
                     admitted = False
+                    if not self._governor_allows_admission(active_jobs=active_total()):
+                        return False
                     current_snapshot = monitor.sample()
                     # CUDA-priority work stealing is limited to unstarted jobs. It preserves each
                     # run's seed and numerical protocol while preventing a fast NVIDIA lane from
@@ -1216,6 +1291,8 @@ class ExperimentWorker(QThread):
                             and not self._cancelled()
                             and not self._pause_requested()
                         ):
+                            if admitted and self._ensure_compute_governor() is not None:
+                                break
                             if lane == "cpu":
                                 if (
                                     not cpu_admission_allowed(
@@ -1258,6 +1335,7 @@ class ExperimentWorker(QThread):
                             local.tensor_batch_size = int(calibration_records[lane].batch_size)
                             self._mark_task_started(item)
                             pool.submit(job_id, local, self.mode, item, seeds[item.run_index])
+                            self._governor_note_launch(job_index=item.job_index, device=getattr(pool, "device", lane))
                             active_by_lane[lane] += 1
                             item_by_job_id[job_id] = (item, lane)
                             admitted = True
@@ -1490,6 +1568,7 @@ class ExperimentWorker(QThread):
                                 device,
                             )
                         pending[future] = (item, device)
+                        self._governor_note_launch(job_index=item.job_index, device=device)
                         if device == "cpu":
                             active_cpu_jobs += 1
                         else:
@@ -1531,12 +1610,16 @@ class ExperimentWorker(QThread):
                     def admit_jobs() -> bool:
                         """Admit jobs while respecting CUDA -> XPU -> CPU priority."""
                         admitted_any = False
+                        if not self._governor_allows_admission(active_jobs=len(pending)):
+                            return False
                         while (
                             queued
                             and len(pending) < max_workers
                             and not self._cancelled()
                             and not self._pause_requested()
                         ):
+                            if admitted_any and self._ensure_compute_governor() is not None:
+                                break
                             snapshot = monitor.sample()
                             admitted = False
 

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 from dataclasses import dataclass
+import math
 from enum import Enum
 import numpy as np
 from .cvar import weighted_cvar
@@ -33,6 +34,17 @@ class RobustObjectiveConfig:
     cvar_alpha: float = 0.95
     constraint_aggregation: ConstraintAggregation = ConstraintAggregation.ALL_SCENARIO_MAX
 
+    def __post_init__(self) -> None:
+        self.aggregation = RobustAggregation(self.aggregation)
+        self.constraint_aggregation = ConstraintAggregation(self.constraint_aggregation)
+        self.validate()
+
+    def validate(self) -> None:
+        if not math.isfinite(float(self.risk_lambda)) or float(self.risk_lambda) < 0.0:
+            raise ValueError("risk_lambda must be finite and non-negative")
+        if not math.isfinite(float(self.cvar_alpha)) or not 0.0 < float(self.cvar_alpha) < 1.0:
+            raise ValueError("cvar_alpha must be finite and lie strictly between 0 and 1")
+
 
 def normalize_scenario_weights(weights) -> np.ndarray:
     w = np.asarray(weights, dtype=float)
@@ -49,6 +61,7 @@ def normalize_scenario_weights(weights) -> np.ndarray:
 
 
 def aggregate_robust(values, weights, config):
+    config.validate()
     v = np.asarray(values, float)
     w = normalize_scenario_weights(weights)
     if v.ndim != 1 or v.size != w.size:
@@ -67,6 +80,7 @@ def aggregate_robust(values, weights, config):
 
 def aggregate_constraint_violation(violations, weights, config: RobustObjectiveConfig) -> float:
     """Aggregate scenario violations without silently diluting a violated scenario."""
+    config.validate()
     v = np.asarray(violations, dtype=float)
     w = normalize_scenario_weights(weights)
     if v.ndim != 1 or v.size != w.size:

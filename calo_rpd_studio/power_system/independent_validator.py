@@ -21,6 +21,8 @@ import numpy as np
 _LOG = logging.getLogger(__name__)
 from pypower.idx_brch import PF, PT
 
+from .ac_power_flow import PowerFlowOptions
+
 from .case_model import (
     BUS_I,
     BUS_TYPE,
@@ -88,8 +90,21 @@ def _allocate_aggregate_q_at_limit(gen: np.ndarray, bus_number: int, target_q: f
     gen[rows, QG] = values
 
 
-def _run_pypower_with_pv_q_switching(case, *, max_rounds: int = 20, tolerance_mvar: float = 1e-6):
-    """Solve with PYPOWER while matching CALO-RPD's PV-only aggregate Q switching."""
+def _run_pypower_with_pv_q_switching(
+    case,
+    *,
+    options: PowerFlowOptions | None = None,
+):
+    """Solve with PYPOWER while matching the declared CALO-RPD PF/Q-limit settings.
+
+    PYPOWER remains the independent numerical engine; only the experiment's declared convergence
+    and PV-only Q-limit policy parameters are propagated so the cross-check validates the same
+    scientific configuration rather than an unrelated default configuration.
+    """
+    options = options or PowerFlowOptions()
+    options.validate()
+    max_rounds = int(options.max_q_limit_rounds if options.enforce_q_limits else 0)
+    tolerance_mvar = float(options.q_limit_tolerance_mvar)
     from pypower.ppoption import ppoption
     from pypower.runpf import runpf
 
@@ -105,7 +120,16 @@ def _run_pypower_with_pv_q_switching(case, *, max_rounds: int = 20, tolerance_mv
         }
         if working.gencost is not None:
             ppc["gencost"] = working.gencost.copy()
-        solved, success = runpf(ppc, ppoption(VERBOSE=0, OUT_ALL=0, ENFORCE_Q_LIMS=0))
+        solved, success = runpf(
+            ppc,
+            ppoption(
+                VERBOSE=0,
+                OUT_ALL=0,
+                ENFORCE_Q_LIMS=0,
+                PF_TOL=float(options.tolerance),
+                PF_MAX_IT=int(options.max_iterations),
+            ),
+        )
         if not success:
             return None, False, "PYPOWER did not converge."
 
@@ -164,6 +188,8 @@ def _run_pypower_with_pv_q_switching(case, *, max_rounds: int = 20, tolerance_mv
 def validate_against_pypower(
     case,
     internal,
+    *,
+    power_flow_options: PowerFlowOptions | None = None,
     vm_tolerance: float = 1e-5,
     va_tolerance_deg: float = 1e-3,
     loss_tolerance_mw: float = 1e-3,
@@ -183,7 +209,9 @@ def validate_against_pypower(
         )
 
     try:
-        solved, success, failure_message = _run_pypower_with_pv_q_switching(case)
+        solved, success, failure_message = _run_pypower_with_pv_q_switching(
+            case, options=power_flow_options
+        )
     except Exception as exc:  # third-party cross-check must never terminate the GUI
         _LOG.exception("Independent PYPOWER cross-validation failed; returning explicit failed-validation evidence")
         return CrossValidationResult(

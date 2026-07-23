@@ -129,7 +129,7 @@ def test_v4_single_run_never_exceeds_common_requested_fe_budget_and_starts_fresh
     assert result2.evaluations == result1.evaluations
     np.testing.assert_allclose(result1.best_vector, result2.best_vector)
     assert result1.best_objective == pytest.approx(result2.best_objective, abs=1e-15)
-    assert result1.metadata["calo_version"] == "v5.0"
+    assert result1.metadata["calo_version"] == "v5.9"
     assert result1.metadata["hpem"]["hierarchy_shape"][0] == 4
 
 

@@ -64,12 +64,35 @@ def _problem_identity(config: dict, result: dict) -> dict:
         "scenario_mode": str((config.get("scenarios") or {}).get("mode", "deterministic")),
         "objective": dict(config.get("objective") or {}),
         "variables": dict(config.get("variables") or {}),
+        "robust_objective": dict(config.get("robust_objective") or {}),
+        "power_flow": dict(config.get("power_flow") or {}),
+        "constraint_tolerances": dict(config.get("constraint_tolerances") or {}),
+        "scenarios": dict(config.get("scenarios") or {}),
+        "scientific_problem_fingerprint": str(metadata.get("scientific_problem_fingerprint", "") or ""),
     }
 
 
 def _problem_key(identity: dict) -> str:
+    fingerprint = str(identity.get("scientific_problem_fingerprint", "") or "")
+    if fingerprint:
+        return f"scientific={fingerprint}"
     checksum = identity.get("case_checksum") or identity.get("case_name") or "unknown"
-    return f"{checksum}|d={int(identity.get('dimension', 0))}|scenario={identity.get('scenario_mode', 'deterministic')}"
+    # Legacy repositories are kept segregated by all declared formulation fields instead of
+    # the old case/dimension/scenario-mode key. They are never treated as exact-compatible with
+    # a v5.9 caller that supplies a scientific_problem_fingerprint.
+    payload = {
+        "case": checksum,
+        "dimension": int(identity.get("dimension", 0)),
+        "scenario_mode": identity.get("scenario_mode", "deterministic"),
+        "objective": identity.get("objective") or {},
+        "variables": identity.get("variables") or {},
+        "robust_objective": identity.get("robust_objective") or {},
+        "power_flow": identity.get("power_flow") or {},
+        "constraint_tolerances": identity.get("constraint_tolerances") or {},
+        "scenarios": identity.get("scenarios") or {},
+    }
+    encoded = json.dumps(payload, sort_keys=True, separators=(",", ":"), default=str).encode("utf-8")
+    return "legacy-formulation=" + hashlib.sha256(encoded).hexdigest()
 
 
 def _repository_checksum(payload: dict) -> str:
@@ -258,29 +281,43 @@ class HistoricalExperienceRepository:
         return dict(self.payload.get("parameter_priors") or {})
 
     def compatible_solutions(
-        self, *, case_checksum: str, case_name: str, dimension: int
+        self, *, case_checksum: str, case_name: str, dimension: int, scientific_problem_fingerprint: str = ""
     ) -> list[dict]:
         output = []
+        expected_fp = str(scientific_problem_fingerprint or "")
         for item in self.cross_algorithm_solutions:
             identity = item.get("problem") or {}
-            same_case = bool(case_checksum and identity.get("case_checksum") == case_checksum)
-            same_name = str(identity.get("case_name", "")).lower() == str(case_name).lower()
+            item_fp = str(identity.get("scientific_problem_fingerprint", "") or "")
+            if expected_fp:
+                if item_fp != expected_fp:
+                    continue
+            else:
+                same_case = bool(case_checksum and identity.get("case_checksum") == case_checksum)
+                same_name = str(identity.get("case_name", "")).lower() == str(case_name).lower()
+                if not (same_case or (not case_checksum and same_name) or same_name):
+                    continue
             if int(identity.get("dimension", -1)) != int(dimension):
                 continue
-            if same_case or (not case_checksum and same_name) or same_name:
-                output.append(item)
+            output.append(item)
         return output
 
-    def calo_parameter_prior(self, *, case_checksum: str, case_name: str, dimension: int) -> dict:
+    def calo_parameter_prior(self, *, case_checksum: str, case_name: str, dimension: int, scientific_problem_fingerprint: str = "") -> dict:
         candidates = []
+        expected_fp = str(scientific_problem_fingerprint or "")
         for key, item in self.parameter_priors.items():
             identity = item.get("problem") or {}
-            same_case = bool(case_checksum and identity.get("case_checksum") == case_checksum)
-            same_name = str(identity.get("case_name", "")).lower() == str(case_name).lower()
+            item_fp = str(identity.get("scientific_problem_fingerprint", "") or "")
+            if expected_fp:
+                if item_fp != expected_fp:
+                    continue
+            else:
+                same_case = bool(case_checksum and identity.get("case_checksum") == case_checksum)
+                same_name = str(identity.get("case_name", "")).lower() == str(case_name).lower()
+                if not (same_case or same_name):
+                    continue
             if int(identity.get("dimension", -1)) != int(dimension):
                 continue
-            if same_case or same_name:
-                candidates.append((key, item))
+            candidates.append((key, item))
         if not candidates:
             return {}
         # Exact checksum match wins; otherwise use the most supported same-name prior.

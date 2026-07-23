@@ -1,10 +1,9 @@
-"""Reproducible PPO training for the CALO v4.1 hierarchical policy.
+"""Reproducible PPO training for the native CALO v5.9 hierarchical policy.
 
-The training environment uses the CALO v4.1 cognitive state/action schema and reuses the same core
-operator, persistent-memory, HPEM, contextual-credit, adaptive-epsilon, dual-lane, and mixed-variable
-components used by runtime. It is a lightweight rollout environment rather than a bit-identical copy
-of the complete runtime transition loop; Policy Qualification on the real optimizer is therefore the
-mandatory promotion gate. The
+The v5.9 rollout environment follows the deployed CALO controller transition semantics for raw policy
+actions, per-learner regime adaptation, memory/group selection, precision/recovery intervention,
+operator credit and reward decomposition. Policy Qualification on real ORPD development systems remains
+a separate mandatory gate for deployable Scientific Base promotion. The
 curriculum progresses through unconstrained, constrained, mixed-variable, and narrow-feasible
 problems. Final publication benchmark systems are not used by this module unless a user explicitly
 adds separate development systems to an external training workflow.
@@ -44,7 +43,7 @@ from .cognitive_state import (
     population_diversity,
     rule_based_regime_prior,
 )
-from .environmental_selection import environmental_select, epsilon_better
+from .environmental_selection import environmental_select, epsilon_better, epsilon_sort_key
 from .learning_operators import (
     cognitive_teacher_learning,
     constraint_boundary_differential,
@@ -60,6 +59,9 @@ from .dual_lane_controller import DualLaneController
 from .precision_engine import CognitivePrecisionEngine
 from .adaptive_epsilon import AdaptiveEpsilonController
 from .ai_controller import PARAMETER_LOW, PARAMETER_HIGH
+from .operator_credit import blend_probabilities
+from .reward import calculate_reward
+from calo_rpd_studio.orpd.feasibility_rules import better
 from .policy_schema import (
     POLICY_STATE_DIM,
     POLICY_STATE_SCHEMA,
@@ -94,6 +96,11 @@ class TrainingConfig:
     ppo_device: str = "auto"
     cpu_threads_per_worker: int = 1
     development_cases: tuple[str, ...] = ()
+    # Optional full ExperimentConfig JSON/YAML used to reproduce the exact ORPD formulation
+    # (objective, variables, PF options, robust scenarios and constraint tolerances) on every
+    # development case. Without this, real-case results are screening evidence only and cannot
+    # qualify a deployable Scientific Base.
+    development_experiment_config_path: str = ""
     allow_final_benchmark_training: bool = False
     historical_repository: str = ""
     use_historical_trajectories: bool = False
@@ -104,11 +111,11 @@ class TrainingConfig:
     initial_policy_checkpoint: str = (
         ""  # weights-only fine-tune/fork start; not an exact optimizer resume
     )
-    # v5.8 continuation semantics. ``epochs`` is the fixed length of the current cumulative session.
+    # v5.9 continuation semantics. ``epochs`` is the fixed length of the current cumulative session.
     # ``additional`` remains accepted only as a backward-compatible synonym for old saved configs.
     training_mode: str = "cumulative"  # cumulative | additional(legacy synonym) | indefinite
     checkpoint_interval_epochs: int = 1
-    qualification_interval_epochs: int = 0  # v5.8: retired; formal qualification applies only to saved Base artifacts
+    qualification_interval_epochs: int = 0  # v5.9: retired; formal qualification applies only to saved Base artifacts
     policy_lineage_id: str = ""
     policy_lineage_name: str = ""
     policy_phase_index: int = 1
@@ -116,7 +123,15 @@ class TrainingConfig:
     # Primarily for controlled tests/automation. Zero means no session cap in indefinite mode.
     max_session_epochs: int = 0
     parallel_runs: int = 1
-    # v5.8 competitive multi-branch policy evolution. Explicit seed counts are authoritative.
+    # v6.1: total scientific branches and simultaneous execution concurrency are separate.
+    # Zero concurrency means "use the current Dashboard Safe-80 maximum".
+    parallel_concurrency: int = 0
+    # Queue scheduler time-slices branches at exact-resume boundaries so indefinite training can
+    # fairly rotate more scientific branches than may safely run simultaneously.
+    branch_queue_quantum_epochs: int = 10
+    # Internal process-lease target. This is orchestration-only and never changes curriculum semantics.
+    lease_target_epoch: int = 0
+    # v5.9 competitive multi-branch policy evolution. Explicit seed counts are authoritative.
     parallel_same_seed_branches: int = 0
     parallel_incremental_branches: int = 0
     parallel_decremental_branches: int = 0
@@ -139,7 +154,24 @@ class TrainingConfig:
     champion_decision_history_limit: int = 200
     safe_stop_grace_seconds: float = 30.0
     max_branches_per_accelerator: int = 1
+    accelerator_memory_reserve_fraction: float = 0.20
+    estimated_branch_memory_mb: int = 1024
+    # v6.1 Safe-80 protection provenance. A zero parallel limit means a legacy/programmatic
+    # configuration that must be validated by the caller before competitive launch.
+    safe_parallel_branches: int = 0
+    safe_global_cpu_workers: int = 0
+    compute_profile_fingerprint: str = ""
+    compute_topology_fingerprint: str = ""
+    # v6.2 adaptive compute/thermal governor. These fields are orchestration/safety controls and do
+    # not alter the scientific PPO objective/curriculum semantics.
+    adaptive_compute_governor: bool = True
+    staged_startup_delay_seconds: float = 2.0
+    governor_sample_interval_seconds: float = 1.0
+    governor_amber_pause_seconds: float = 0.25
+    governor_startup_admission_timeout_seconds: float = 30.0
     telemetry_enabled: bool = True
+    telemetry_segment_max_bytes: int = 8 * 1024 * 1024
+    telemetry_max_segments: int = 64
 
 
 class TrainingCancelled(RuntimeError):
@@ -239,11 +271,11 @@ class CurriculumProblem:
 
 
 class SyntheticCALOEnvironment:
-    """Compact v4.1 training environment sharing runtime cognition semantics.
+    """Native v5.9 training environment sharing runtime cognition semantics.
 
     The environment remains deliberately lightweight enough for PPO rollouts, but it uses the same
     persistent personal memory, HPEM, contextual credit, variable-group intelligence, adaptive
-    epsilon, dual-lane readiness, and recovery semantics exposed to the v4.1 runtime policy.
+    epsilon, dual-lane readiness, and recovery semantics exposed to the v5.9 runtime policy.
     """
 
     def __init__(
@@ -261,8 +293,8 @@ class SyntheticCALOEnvironment:
         )
         self.personal_best = self.population.copy()
         self.personal_best_evaluations = list(self.evaluations)
-        self.feasible_archive = FeasibleEliteArchive(24)
-        self.boundary_archive = ConstraintBoundaryArchive(36)
+        self.feasible_archive = FeasibleEliteArchive(32)
+        self.boundary_archive = ConstraintBoundaryArchive(48)
         self.feasible_archive.update(self.population, self.evaluations)
         self.boundary_archive.update(self.population, self.evaluations)
         variables = getattr(getattr(self.problem, "decoder", None), "variables", None) or getattr(
@@ -270,7 +302,7 @@ class SyntheticCALOEnvironment:
         )
         self.hpem = HierarchicalPrefixEliteMemory(self.problem.dimension, variables=variables)
         self.hpem.update(self.population, self.evaluations)
-        self.memory = SuccessMemory(192, 0.97, n_operators=7)
+        self.memory = SuccessMemory(256, 0.97, n_operators=7)
         self.credit = ContextualCredit(4, 6, 4, 4, decay=0.90, floor=0.02)
         self.group_intelligence = VariableGroupIntelligence(variables, decay=0.90)
         self.lane_controller = DualLaneController(max_learning=0.92)
@@ -300,28 +332,46 @@ class SyntheticCALOEnvironment:
             float(np.mean([e.feasible for e in evaluations])),
         )
 
+    def _runtime_clock(self, horizon: int) -> tuple[int, int, float, int]:
+        """Mirror deployed CALO's FE/batch clock for one training transition.
+
+        Deployed CALO evaluates the initial population before iteration 1. Therefore, immediately
+        before training transition ``step_index == 0``, the equivalent requested-FE count is one
+        complete population batch, not zero. ``horizon`` denotes the number of offspring
+        transitions in the rollout, so the exact equivalent run budget is ``horizon + 1``
+        population batches (initial population + offspring batches).
+        """
+        transitions = max(int(horizon), 1)
+        batch_count = int(self.step_index) + 1
+        evaluations = int(self.population_size) * batch_count
+        max_evaluations = int(self.population_size) * (transitions + 1)
+        progress = float(np.clip(evaluations / max(max_evaluations, 1), 0.0, 1.0))
+        return evaluations, max_evaluations, progress, batch_count
+
     def _epsilon(self, horizon: int) -> float:
         best_violation, _best_obj, feasible_ratio = self._diagnostics(self.evaluations)
         improving = best_violation < self.previous_violation - 1e-12
+        evaluations, max_evaluations, _progress, _batch_count = self._runtime_clock(horizon)
         return self.epsilon_controller.value(
-            self.step_index,
-            max(int(horizon), 1),
+            evaluations,
+            max_evaluations,
             feasible_ratio,
             improving,
-            min(self.constraint_stagnation / 8.0, 1.0),
+            min(self.constraint_stagnation / 12.0, 1.0),
         )
 
     def state(self, horizon: int):
         epsilon = self._epsilon(horizon)
+        _evaluations, _max_evaluations, progress, batch_count = self._runtime_clock(horizon)
         cognitive = build_cognitive_state(
             self.population,
             self.evaluations,
             epsilon=epsilon,
             previous_best_violation=self.previous_violation,
             previous_best_objective=self.previous_objective,
-            constraint_stagnation=min(self.constraint_stagnation / 8.0, 1.0),
-            objective_stagnation=min(self.objective_stagnation / 8.0, 1.0),
-            remaining_budget=max(0.0, 1.0 - self.step_index / max(horizon, 1)),
+            constraint_stagnation=min(self.constraint_stagnation / 12.0, 1.0),
+            objective_stagnation=min(self.objective_stagnation / 12.0, 1.0),
+            remaining_budget=max(0.0, 1.0 - progress),
             operator_credit=self.credit.global_operator_probabilities(),
             feasible_archive_size=len(self.feasible_archive),
             feasible_archive_capacity=self.feasible_archive.capacity,
@@ -335,17 +385,16 @@ class SyntheticCALOEnvironment:
             feasible_ratio,
             self.hpem.occupancy,
             self.memory.density,
-            min(self.step_index / 6.0, 1.0),
+            min(batch_count / 6.0, 1.0),
             consensus,
         )
-        progress = self.step_index / max(horizon, 1)
-        severe = max(self.constraint_stagnation, self.objective_stagnation) >= 8
+        severe = max(self.constraint_stagnation, self.objective_stagnation) >= 12
         learning_fraction = self.lane_controller.learning_fraction(
             readiness, progress, diversity, severe
         )
         precision_active = self.precision.active(
             feasible_ratio,
-            min(self.objective_stagnation / 8.0, 1.0),
+            min(self.objective_stagnation / 12.0, 1.0),
             progress,
             len(self.hpem),
         )
@@ -372,137 +421,243 @@ class SyntheticCALOEnvironment:
         cognitive = self.state(horizon)
         return build_policy_vector(cognitive, self._last_context, input_dim=POLICY_STATE_DIM)
 
+    @staticmethod
+    def _individual_regime(global_regime: int, context: int) -> int:
+        if int(context) == 3:
+            return 3
+        if int(context) == 2 and int(global_regime) >= 2:
+            return 1
+        if int(context) <= 1 and int(global_regime) == 0:
+            return 1
+        return int(global_regime)
+
+    @staticmethod
+    def _memory_prior(regime: int) -> np.ndarray:
+        priors = np.asarray(
+            [
+                [0.05, 0.15, 0.30, 0.50],
+                [0.10, 0.25, 0.40, 0.25],
+                [0.40, 0.35, 0.20, 0.05],
+                [0.05, 0.10, 0.20, 0.65],
+            ],
+            dtype=float,
+        )
+        return priors[int(regime)].copy()
+
     def step(self, regime: int, operator: int, raw_parameters: np.ndarray, horizon: int) -> float:
+        """Execute one native-v5.9 CALO controller transition.
+
+        ``regime``/``operator``/``raw_parameters`` are the *raw neural-policy action*.  Per-learner
+        regime adaptation, memory/group choices, precision and forced recovery are environmental
+        controller interventions matching deployed CALO semantics.  ``last_step_trace`` records both
+        layers so PPO credit is never assigned to an overridden action as if it were executed.
+        """
         low = PARAMETER_LOW
         high = PARAMETER_HIGH
-        params = low + np.asarray(raw_parameters, float) * (high - low)
+        raw_parameters = np.clip(np.asarray(raw_parameters, float), 0.0, 1.0)
+        params = low + raw_parameters * (high - low)
         attraction, differential, sigma, memory_weight, diversity_weight, recovery_fraction = params
+        adaptive = {
+            "attraction": float(attraction),
+            "differential": float(differential),
+            "exploration_sigma": float(sigma),
+            "memory_weight": float(memory_weight),
+            "diversity_weight": float(diversity_weight),
+            "recovery_fraction": float(recovery_fraction),
+        }
         epsilon = self._epsilon(horizon)
         old_violation, old_objective, old_feasible = self._diagnostics(self.evaluations)
         old_diversity = population_diversity(self.population)
         mean = self.population.mean(axis=0)
-        quality = sorted(
-            range(len(self.evaluations)),
-            key=lambda i: (
-                0 if self.evaluations[i].feasible else 1,
-                self.evaluations[i].value
-                if self.evaluations[i].feasible
-                else self.evaluations[i].violation,
-            ),
+        quality_order = sorted(
+            range(self.population_size),
+            key=lambda i: epsilon_sort_key(self.evaluations[i], epsilon),
         )
-        best = self.population[quality[0]]
+        best = self.population[quality_order[0]]
         consensus = self.hpem.consensus(mean) if len(self.hpem) else 0.0
+        _evaluations, _max_evaluations, progress, batch_count = self._runtime_clock(horizon)
         readiness = self.lane_controller.memory_readiness(
             old_feasible,
             self.hpem.occupancy,
             self.memory.density,
-            min(self.step_index / 6.0, 1.0),
+            min(batch_count / 6.0, 1.0),
             consensus,
         )
-        progress = self.step_index / max(horizon, 1)
-        severe = max(self.constraint_stagnation, self.objective_stagnation) >= 8
+        severe = max(self.constraint_stagnation, self.objective_stagnation) >= 12
         learning_fraction = self.lane_controller.learning_fraction(
             readiness, progress, old_diversity, severe
         )
+        # Native deterministic-policy mode applies only to network sampling.  Controller/environment
+        # stochasticity remains in the transition kernel exactly as in deployed CALO.
         learned_lanes = self.lane_controller.assign(
             self.population_size, learning_fraction, self.rng, False
         )
         contexts = classify_contexts(
-            self.population, self.evaluations, old_violation < self.previous_violation - 1e-12
+            self.population,
+            self.evaluations,
+            old_violation < self.previous_violation - 1e-12,
         )
-        group_probs = self.group_intelligence.probabilities(regime)
-        groups = self.rng.choice(len(group_probs), size=self.population_size, p=group_probs)
-        variables = getattr(self.problem, "variables", None)
-        if variables is None:
-            variables = getattr(getattr(self.problem, "decoder", None), "variables", [])
-        offspring = []
-        assigned_memory = np.zeros(self.population_size, dtype=int)
+        precision_active = self.precision.active(
+            old_feasible,
+            min(self.objective_stagnation / 12.0, 1.0),
+            progress,
+            len(self.hpem),
+        )
+        precision_fraction = 0.0
+        if precision_active:
+            precision_fraction = float(
+                np.clip(
+                    0.12
+                    + 0.28 * min(self.objective_stagnation / 12.0, 1.0)
+                    + 0.15 * max(progress - 0.70, 0.0) / 0.30,
+                    0.12,
+                    0.55,
+                )
+            )
+
+        sigma = float(adaptive["exploration_sigma"])
+        if severe and old_diversity < 0.05:
+            sigma *= 1.35
+        elif old_feasible >= 0.65 and self.objective_stagnation > 0:
+            sigma *= 0.75
+        adaptive["exploration_sigma"] = float(np.clip(sigma, PARAMETER_LOW[2], PARAMETER_HIGH[2]))
+
+        forced_recovery: set[int] = set()
+        if severe and old_diversity < 0.06:
+            fraction = float(np.clip(adaptive["recovery_fraction"], 0.05, 0.45))
+            count = max(1, min(self.population_size - 1, int(round(self.population_size * fraction))))
+            worst_first = sorted(
+                range(self.population_size),
+                key=lambda i: epsilon_sort_key(self.evaluations[i], epsilon),
+                reverse=True,
+            )
+            forced_recovery = set(worst_first[:count])
+
+        variables = getattr(getattr(self.problem, "decoder", None), "variables", None) or getattr(
+            self.problem, "variables", []
+        )
+        hierarchy = self.hpem.hierarchy() if len(self.hpem) else np.zeros((4, self.problem.dimension))
+        offspring = np.empty_like(self.population)
+        assigned_memory = np.zeros(self.population_size, dtype=np.int8)
+        assigned_groups = np.zeros(self.population_size, dtype=np.int8)
+        assigned_operators = np.full(self.population_size, -1, dtype=np.int8)
+        individual_regimes = np.zeros(self.population_size, dtype=np.int8)
+        precision_mask = np.zeros(self.population_size, dtype=bool)
+        discovery_memory_prior = np.asarray([0.03, 0.07, 0.25, 0.65], dtype=float)
+
         for index, x in enumerate(self.population):
-            candidates = np.delete(np.arange(self.population_size), index)
-            if candidates.size >= 2:
+            context = int(contexts[index])
+            local_regime = self._individual_regime(int(regime), context)
+            individual_regimes[index] = local_regime
+            learned_lane = bool(learned_lanes[index])
+
+            memory_prior = self._memory_prior(local_regime)
+            if not learned_lane:
+                memory_prior = discovery_memory_prior.copy()
+            memory_online = self.credit.memory_probabilities(local_regime, context)
+            memory_probabilities = blend_probabilities(memory_prior, memory_online, alpha=0.65)
+            memory_level = int(self.rng.choice(4, p=memory_probabilities)) if len(self.hpem) else 0
+            assigned_memory[index] = memory_level
+
+            group = self.group_intelligence.choose(local_regime, self.rng, False)
+            assigned_groups[index] = group
+
+            should_precision = (
+                precision_active
+                and learned_lane
+                and index not in forced_recovery
+                and self.rng.random() < precision_fraction
+            )
+            if should_precision and len(self.hpem):
+                success_direction = self.memory.mean_direction(
+                    self.problem.dimension,
+                    regime=local_regime,
+                    context=context,
+                    group=group,
+                )
+                group_mask = self.group_intelligence.mask(group, self.problem.dimension)
+                offspring[index] = self.precision.propose(
+                    self.hpem.best_vector,
+                    hierarchy,
+                    success_direction,
+                    variables,
+                    group_mask,
+                    self.rng,
+                    consensus,
+                )
+                precision_mask[index] = True
+                continue
+
+            executed_operator = 5 if index in forced_recovery else int(operator)
+            if index in forced_recovery:
+                learned_lanes[index] = 0
+                assigned_memory[index] = 3
+            assigned_operators[index] = executed_operator
+
+            candidates = [i for i in range(self.population_size) if i != index]
+            if len(candidates) >= 2:
                 r1_i, r2_i = self.rng.choice(candidates, size=2, replace=False)
                 r1, r2 = self.population[int(r1_i)], self.population[int(r2_i)]
             else:
                 r1 = r2 = x
             feasible_teacher = self.feasible_archive.sample(self.rng, best)
             boundary_teacher = self.boundary_archive.sample(self.rng, best)
-            mem_probs = self.credit.memory_probabilities(regime, int(contexts[index]))
-            level = int(self.rng.choice(4, p=mem_probs)) if len(self.hpem) else 0
-            assigned_memory[index] = level
-            memory_teacher = (
-                self.hpem.summary(level, feasible_teacher) if len(self.hpem) else feasible_teacher
-            )
-            teacher = (
-                memory_teacher
-                if learned_lanes[index]
-                else (feasible_teacher if len(self.feasible_archive) else boundary_teacher)
-            )
-            if operator == 0:
+            memory_teacher = self.hpem.summary(int(assigned_memory[index]), feasible_teacher) if len(self.hpem) else feasible_teacher
+            group_mask = self.group_intelligence.mask(group, self.problem.dimension)
+
+            if executed_operator == 0:
+                teacher = memory_teacher if learned_lanes[index] and len(self.hpem) else (feasible_teacher if len(self.feasible_archive) else boundary_teacher)
                 candidate = feasible_elite_learning(
-                    x, teacher, r1, r2, self.rng, attraction, differential
+                    x, teacher, r1, r2, self.rng, adaptive["attraction"], adaptive["differential"]
                 )
-            elif operator == 1:
+            elif executed_operator == 1:
                 candidate = constraint_boundary_differential(
-                    x, boundary_teacher, r1, r2, self.rng, attraction, differential
+                    x, boundary_teacher, r1, r2, self.rng, adaptive["attraction"], adaptive["differential"]
                 )
-            elif operator == 2:
+            elif executed_operator == 2:
+                if learned_lanes[index] and len(self.hpem):
+                    teacher = memory_teacher
+                else:
+                    teacher = feasible_teacher if local_regime >= 2 and len(self.feasible_archive) else boundary_teacher
                 candidate = cognitive_teacher_learning(
-                    x, teacher, mean, self.rng, attraction, 0.35 * sigma
+                    x, teacher, mean, self.rng, adaptive["attraction"], 0.35 * adaptive["exploration_sigma"]
                 )
-            elif operator == 3:
+            elif executed_operator == 3:
                 direction = self.memory.sample_direction(
                     self.problem.dimension,
                     self.rng,
-                    prefer_feasibility=regime <= 1,
-                    regime=regime,
-                    context=int(contexts[index]),
-                    group=int(groups[index]),
+                    prefer_feasibility=local_regime <= 1,
+                    regime=local_regime,
+                    context=context,
+                    group=group,
                 )
                 candidate = success_distribution_memory(
-                    x, self.personal_best[index], direction, self.rng, 0.55, memory_weight
+                    x, self.personal_best[index], direction, self.rng, 0.55, adaptive["memory_weight"]
                 )
-            elif operator == 4:
+                if learned_lanes[index] and len(self.hpem):
+                    candidate = np.clip(
+                        candidate + 0.12 * adaptive["attraction"] * (memory_teacher - candidate),
+                        0.0,
+                        1.0,
+                    )
+            elif executed_operator == 4:
                 candidate = mixed_variable_neighbourhood(
-                    x, variables, self.rng, max(0.35 * sigma, 0.006), 1
+                    x,
+                    variables,
+                    self.rng,
+                    max(adaptive["exploration_sigma"] * 0.35, 0.004),
+                    2 if local_regime == 3 else 1,
                 )
             else:
-                reference = (
-                    boundary_teacher
-                    if regime <= 1
-                    else (
-                        self.hpem.summary(3, feasible_teacher)
-                        if len(self.hpem)
-                        else feasible_teacher
-                    )
-                )
+                reference = boundary_teacher if local_regime <= 1 else (self.hpem.summary(3, feasible_teacher) if len(self.hpem) else feasible_teacher)
                 candidate = diversity_recovery(
-                    reference, self.population, self.rng, max(sigma, 0.06)
+                    reference, self.population, self.rng, max(adaptive["exploration_sigma"], 0.05)
                 )
-            mask = self.group_intelligence.mask(int(groups[index]), self.problem.dimension)
-            if operator != 5 and np.any(mask):
+            if executed_operator != 5 and np.any(group_mask):
                 focused = x.copy()
-                focused[mask] = candidate[mask]
+                focused[group_mask] = np.asarray(candidate)[group_mask]
                 candidate = focused
-            offspring.append(np.clip(candidate, 0.0, 1.0))
-        offspring = np.asarray(offspring)
-
-        # Make recovery_fraction operational under the same stagnation/diversity condition as runtime.
-        if severe and old_diversity < 0.06:
-            count = max(
-                1,
-                min(
-                    self.population_size - 1,
-                    int(
-                        round(self.population_size * float(np.clip(recovery_fraction, 0.05, 0.45)))
-                    ),
-                ),
-            )
-            worst = quality[-count:]
-            reference = self.hpem.summary(3, best) if len(self.hpem) else best
-            for index in worst:
-                offspring[index] = diversity_recovery(
-                    reference, self.population, self.rng, max(sigma, 0.06)
-                )
+            offspring[index] = np.clip(candidate, 0.0, 1.0)
 
         batch_evaluator = getattr(self.problem, "evaluate_population", None)
         offspring_evaluations = (
@@ -514,125 +669,124 @@ class SyntheticCALOEnvironment:
         objective_gains = np.zeros(self.population_size)
         feasibility_gains = np.zeros(self.population_size)
         transitions = np.zeros(self.population_size)
-        step_norms = np.linalg.norm(offspring - self.population, axis=1) / max(
-            np.sqrt(self.problem.dimension), 1.0
-        )
+        step_norms = np.linalg.norm(offspring - self.population, axis=1)
+        offspring_pb = self.personal_best.copy()
+        offspring_pb_ev = list(self.personal_best_evaluations)
+        precision_successes = 0
         for index, (child, child_ev) in enumerate(zip(offspring, offspring_evaluations)):
             parent_ev = self.evaluations[index]
             ok = epsilon_better(child_ev, parent_ev, epsilon)
             successful[index] = ok
-            feasibility_gain = max(parent_ev.violation - child_ev.violation, 0.0)
-            objective_gain = (
-                max((parent_ev.value - child_ev.value) / max(abs(parent_ev.value), 1.0), 0.0)
-                if parent_ev.feasible and child_ev.feasible
-                else 0.0
-            )
-            objective_gains[index] = objective_gain
-            feasibility_gains[index] = feasibility_gain
+            if parent_ev.feasible and child_ev.feasible and np.isfinite(parent_ev.value):
+                objective_gains[index] = max(
+                    (float(parent_ev.value) - float(child_ev.value)) / max(abs(float(parent_ev.value)), 1.0),
+                    0.0,
+                )
+            pv = float(parent_ev.violation)
+            cv = float(child_ev.violation)
+            if np.isposinf(pv) and np.isfinite(cv):
+                feasibility_gains[index] = np.inf
+            elif np.isfinite(pv) and np.isfinite(cv):
+                feasibility_gains[index] = max(pv - cv, 0.0)
             transitions[index] = float((not parent_ev.feasible) and child_ev.feasible)
+            if better(child_ev, offspring_pb_ev[index]):
+                offspring_pb[index] = child.copy()
+                offspring_pb_ev[index] = child_ev
             if ok:
+                memory_operator = 6 if precision_mask[index] else int(assigned_operators[index])
                 self.memory.add(
                     child - self.population[index],
-                    operator,
-                    objective_gain,
-                    feasibility_gain,
-                    regime=regime,
+                    memory_operator,
+                    objective_gains[index],
+                    feasibility_gains[index],
+                    regime=int(individual_regimes[index]),
                     context=int(contexts[index]),
-                    group=int(groups[index]),
+                    group=int(assigned_groups[index]),
                 )
-                if epsilon_better(child_ev, self.personal_best_evaluations[index], 0.0):
-                    self.personal_best[index] = child
-                    self.personal_best_evaluations[index] = child_ev
+            if precision_mask[index] and ok:
+                precision_successes += 1
+
         self.credit.batch_update(
-            regime=np.full(self.population_size, regime),
-            contexts=contexts,
-            operators=np.full(self.population_size, operator),
-            memory_levels=assigned_memory,
-            successful=successful,
-            objective_gain=objective_gains,
-            feasibility_gain=feasibility_gains,
-            feasibility_transition=transitions,
+            individual_regimes,
+            contexts,
+            assigned_operators,
+            assigned_memory,
+            successful,
+            objective_gains,
+            feasibility_gains,
+            transitions,
         )
         self.group_intelligence.batch_update(
-            np.full(self.population_size, regime),
-            groups,
+            individual_regimes,
+            assigned_groups,
             successful,
             objective_gains,
             feasibility_gains,
             step_norms,
         )
+        self.precision.update(int(np.count_nonzero(precision_mask)), precision_successes)
+
         combined_population = np.vstack([self.population, offspring])
         combined_evaluations = list(self.evaluations) + list(offspring_evaluations)
-        # Preserve lineage-aware personal memory across environmental selection.
-        selected_population, selected_evaluations = environmental_select(
+        selected_population, selected_evaluations, selected_indices = environmental_select(
             combined_population,
             combined_evaluations,
             self.population_size,
             epsilon,
-            diversity_weight=float(diversity_weight),
+            diversity_weight=float(adaptive["diversity_weight"]),
+            return_indices=True,
         )
-        # Recover selected source indices without changing scientific selection semantics.
-        used = set()
-        selected_indices = []
-        for vec, ev in zip(selected_population, selected_evaluations):
-            matches = [
-                i
-                for i, (src, sev) in enumerate(zip(combined_population, combined_evaluations))
-                if i not in used and np.array_equal(src, vec) and sev is ev
-            ]
-            if not matches:
-                matches = [
-                    i
-                    for i, src in enumerate(combined_population)
-                    if i not in used and np.array_equal(src, vec)
-                ]
-            idx = matches[0] if matches else 0
-            used.add(idx)
-            selected_indices.append(idx)
         parent_pb = self.personal_best.copy()
         parent_pb_ev = list(self.personal_best_evaluations)
-        combined_pb = np.vstack([parent_pb, parent_pb])
-        combined_pb_ev = parent_pb_ev + parent_pb_ev
-        for i in range(self.population_size):
-            if successful[i] and epsilon_better(offspring_evaluations[i], parent_pb_ev[i], 0.0):
-                combined_pb[self.population_size + i] = offspring[i]
-                combined_pb_ev[self.population_size + i] = offspring_evaluations[i]
+        combined_pb = np.vstack([parent_pb, offspring_pb])
+        combined_pb_ev = parent_pb_ev + offspring_pb_ev
         self.population = np.asarray(selected_population)
         self.evaluations = list(selected_evaluations)
         self.personal_best = combined_pb[np.asarray(selected_indices)].copy()
-        self.personal_best_evaluations = [combined_pb_ev[i] for i in selected_indices]
+        self.personal_best_evaluations = [combined_pb_ev[int(i)] for i in selected_indices]
         self.feasible_archive.update(combined_population, combined_evaluations)
         self.boundary_archive.update(combined_population, combined_evaluations)
         self.hpem.update(combined_population, combined_evaluations)
+
         new_violation, new_objective, new_feasible = self._diagnostics(self.evaluations)
         new_diversity = population_diversity(self.population)
-        violation_gain = (
-            0.0
-            if not np.isfinite(old_violation)
-            else np.clip((old_violation - new_violation) / max(abs(old_violation), 1e-12), -1, 1)
+        reward_components = calculate_reward(
+            old_objective,
+            new_objective,
+            old_violation,
+            new_violation,
+            old_feasible,
+            new_feasible,
+            old_diversity,
+            new_diversity,
+            overhead=0.0,
         )
-        objective_gain = 0.0
-        if np.isfinite(old_objective) and np.isfinite(new_objective):
-            objective_gain = np.clip(
-                (old_objective - new_objective) / max(abs(old_objective), 1e-12), -1, 1
-            )
-        reward = float(
-            1.2 * violation_gain
-            + 0.85 * objective_gain
-            + 0.75 * (new_feasible - old_feasible)
-            + 0.10 * np.clip(new_diversity - old_diversity, -0.5, 0.5)
-        )
-        self.constraint_stagnation = (
-            0 if new_violation < old_violation - 1e-12 else self.constraint_stagnation + 1
-        )
-        if np.isfinite(new_objective):
-            self.objective_stagnation = (
-                0 if new_objective < old_objective - 1e-12 else self.objective_stagnation + 1
-            )
+        violation_improving = new_violation < old_violation - 1e-12
+        objective_improving = np.isfinite(new_objective) and new_objective < old_objective - 1e-12
+        self.constraint_stagnation = 0 if violation_improving else self.constraint_stagnation + 1
+        self.objective_stagnation = 0 if objective_improving else self.objective_stagnation + 1
         self.previous_violation = new_violation
         self.previous_objective = new_objective
         self.step_index += 1
-        return reward
+        raw_operator_executed = (assigned_operators == int(operator)) & (~precision_mask)
+        self.last_step_trace = {
+            "schema_version": "calo-policy-transition-v5.9",
+            "raw_regime": int(regime),
+            "raw_operator": int(operator),
+            "individual_regimes": individual_regimes.astype(int).tolist(),
+            "executed_operators": assigned_operators.astype(int).tolist(),
+            "precision_mask": precision_mask.astype(bool).tolist(),
+            "forced_recovery_indices": sorted(int(i) for i in forced_recovery),
+            "operator_policy_active_fraction": float(np.mean(raw_operator_executed)) if self.population_size else 0.0,
+            "reward_components": {
+                "objective_improvement": reward_components.objective_improvement,
+                "constraint_improvement": reward_components.constraint_improvement,
+                "feasible_ratio_improvement": reward_components.feasible_ratio_improvement,
+                "diversity_recovery": reward_components.diversity_recovery,
+                "overhead_penalty": reward_components.overhead_penalty,
+            },
+        }
+        return float(reward_components.total)
 
 
 def _curriculum_stage(
@@ -645,7 +799,7 @@ def _curriculum_stage(
     """Return the curriculum stage from absolute persisted milestones.
 
     ``epochs`` is retained only for source/API compatibility and is intentionally ignored when
-    explicit milestones are supplied. v5.8 training always supplies immutable absolute milestones,
+    explicit milestones are supplied. v5.9 training always supplies immutable absolute milestones,
     so changing Cumulative/Infinite session duration cannot silently change future learning dynamics.
     """
     if milestones is not None:
@@ -847,13 +1001,33 @@ def _collect_rollout_chunk(payload):
         torch.manual_seed(episode_seed)
         rng = np.random.default_rng(episode_seed)
         if stage == 4:
-            from calo_rpd_studio.orpd.problem import ORPDProblem
+            from calo_rpd_studio.experiments.experiment_config import ExperimentConfig
+            from calo_rpd_studio.experiments.experiment_runner import build_scenarios
+            from calo_rpd_studio.orpd.problem import ORPDProblem, ORPDProblemConfig
             from calo_rpd_studio.power_system.case_loader import CaseLoader
 
+            config_path = str(config.development_experiment_config_path or "").strip()
+            if not config_path:
+                raise RuntimeError(
+                    "Real ORPD policy rollouts require development_experiment_config_path so the "
+                    "training formulation exactly matches the declared objective/controls/PF/scenarios."
+                )
             source = config.development_cases[
                 (epoch * config.episodes_per_epoch + int(episode)) % len(config.development_cases)
             ]
-            development_problem = ORPDProblem(CaseLoader.load(source))
+            experiment = ExperimentConfig.load(config_path)
+            experiment.case_name = str(source)
+            experiment.validate()
+            case = CaseLoader.load(experiment.case_name)
+            scenarios = build_scenarios(experiment, episode_seed, case)
+            problem_config = ORPDProblemConfig(
+                objective=experiment.objective,
+                variables=experiment.variables,
+                robust=experiment.robust_objective,
+                power_flow=experiment.power_flow,
+                constraint_tolerances=experiment.constraint_tolerances,
+            )
+            development_problem = ORPDProblem(case, problem_config, scenarios)
             environment = SyntheticCALOEnvironment(
                 rng, stage, config.population_size, problem=development_problem
             )
@@ -989,18 +1163,34 @@ def _historical_pretrain(
             running = reward + float(config.gamma) * running
             returns[index] = running
         for transition, return_value in zip(transitions, returns):
-            state = np.asarray(transition.get("state") or [], dtype=float)
-            parameter = np.asarray(transition.get("parameter") or [], dtype=float)
-            regime = int(transition.get("regime", -1))
-            operator = int(transition.get("operator", -1))
-            if state.shape not in {(STATE_DIM,), (POLICY_STATE_DIM,)} or parameter.shape != (6,):
+            schema_version = str(transition.get("schema_version", "") or "")
+            raw_policy = dict(transition.get("raw_policy") or {})
+            if schema_version == "calo-policy-trajectory-v5.9" and raw_policy:
+                state = np.asarray(transition.get("policy_state") or [], dtype=float)
+                parameter = np.asarray(raw_policy.get("parameter") or [], dtype=float)
+                regime = int(raw_policy.get("regime", -1))
+                operator = int(raw_policy.get("operator", -1))
+                exact_native = True
+            else:
+                # Legacy records may contain only the old 24-D cognitive vector and a composite
+                # post-controller action. They remain importable only as explicitly down-weighted
+                # compatibility evidence; they are never represented as exact native supervision.
+                state = np.asarray(transition.get("state") or [], dtype=float)
+                parameter = np.asarray(transition.get("parameter") or [], dtype=float)
+                regime = int(transition.get("regime", -1))
+                operator = int(transition.get("operator", -1))
+                exact_native = state.shape == (POLICY_STATE_DIM,)
+                if state.shape == (STATE_DIM,):
+                    state = np.concatenate((state, np.zeros(POLICY_STATE_DIM - STATE_DIM, dtype=float)))
+            if state.shape != (POLICY_STATE_DIM,) or parameter.shape != (6,):
                 continue
-            if state.shape == (STATE_DIM,):
-                state = np.concatenate((state, np.zeros(POLICY_STATE_DIM - STATE_DIM, dtype=float)))
             if not (0 <= regime < 4 and 0 <= operator < 6):
                 continue
             if not np.all(np.isfinite(state)) or not np.all(np.isfinite(parameter)):
                 continue
+            quality = float(np.clip(transition.get("quality_weight", 1.0), 0.05, 1.0))
+            if not exact_native:
+                quality *= 0.20
             records.append(
                 {
                     "state": np.clip(state, -1.0, 1.0),
@@ -1009,10 +1199,9 @@ def _historical_pretrain(
                     "parameter": np.clip(parameter, 1e-5, 1 - 1e-5),
                     "reward": float(transition.get("reward", 0.0)),
                     "return": float(return_value),
-                    "parameter_supervision": bool(transition.get("parameter_supervision", True)),
-                    "quality_weight": float(
-                        np.clip(transition.get("quality_weight", 1.0), 0.05, 1.0)
-                    ),
+                    "parameter_supervision": bool(exact_native and transition.get("parameter_supervision", True)),
+                    "quality_weight": quality,
+                    "exact_native_supervision": exact_native,
                 }
             )
 
@@ -1101,18 +1290,79 @@ def training_resume_path(config: TrainingConfig, output_path) -> Path:
 
 
 
-def _append_training_telemetry(resume_path: Path, record: dict, *, enabled: bool = True) -> None:
-    """Append non-resume-critical epoch telemetry outside the bounded exact-resume payload."""
+def _append_training_telemetry(
+    resume_path: Path,
+    record: dict,
+    *,
+    enabled: bool = True,
+    segment_max_bytes: int = 8 * 1024 * 1024,
+    max_segments: int = 64,
+) -> None:
+    """Append bounded, segmented non-critical telemetry outside exact-resume state.
+
+    Infinite training must be bounded in both RAM *and disk*. Telemetry therefore rotates immutable-ish
+    JSONL segments under a fixed retention cap. Losing an old segment never changes optimizer state.
+    """
     if not enabled:
         return
-    path = Path(str(resume_path) + ".telemetry.jsonl")
+    resume_path = Path(resume_path)
+    max_bytes = max(64 * 1024, int(segment_max_bytes or 0))
+    keep = max(1, int(max_segments or 1))
+    prefix = resume_path.name + ".telemetry."
+    parent = resume_path.parent
+    manifest_path = Path(str(resume_path) + ".telemetry.manifest.json")
     try:
-        path.parent.mkdir(parents=True, exist_ok=True)
-        with path.open("a", encoding="utf-8") as handle:
-            handle.write(json.dumps(record, sort_keys=True, allow_nan=False) + "\n")
+        parent.mkdir(parents=True, exist_ok=True)
+        segments = sorted(parent.glob(prefix + "*.jsonl"))
+        if segments:
+            current = segments[-1]
+            try:
+                index = int(current.name.split(".telemetry.", 1)[1].split(".jsonl", 1)[0])
+            except (ValueError, IndexError):
+                index = len(segments)
+        else:
+            index = 1
+            current = parent / f"{prefix}{index:06d}.jsonl"
+        line = (json.dumps(record, sort_keys=True, allow_nan=False) + "\n").encode("utf-8")
+        if current.exists() and current.stat().st_size + len(line) > max_bytes:
+            index += 1
+            current = parent / f"{prefix}{index:06d}.jsonl"
+        with current.open("ab") as handle:
+            handle.write(line)
             handle.flush()
+            os.fsync(handle.fileno())
+
+        segments = sorted(parent.glob(prefix + "*.jsonl"))
+        while len(segments) > keep:
+            oldest = segments.pop(0)
+            oldest.unlink(missing_ok=True)
+        manifest = {
+            "schema_version": "calo-policy-telemetry-v5.9",
+            "resume_path": str(resume_path),
+            "segment_max_bytes": max_bytes,
+            "max_segments": keep,
+            "segments": [
+                {"name": item.name, "size_bytes": int(item.stat().st_size)} for item in segments
+            ],
+            "retention": "bounded_ring_noncritical_telemetry",
+        }
+        tmp = manifest_path.with_name(manifest_path.name + f".{os.getpid()}.tmp")
+        with tmp.open("w", encoding="utf-8") as handle:
+            json.dump(manifest, handle, indent=2, sort_keys=True, allow_nan=False)
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(tmp, manifest_path)
+        try:
+            fd = os.open(str(parent), os.O_RDONLY)
+            try:
+                os.fsync(fd)
+            finally:
+                os.close(fd)
+        except OSError:
+            pass
     except (OSError, TypeError, ValueError):
-        _LOG.warning("Could not append non-critical policy-training telemetry to %s", path, exc_info=True)
+        _LOG.warning("Could not append non-critical policy-training telemetry for %s", resume_path, exc_info=True)
+
 
 def _optimizer_to_device(optimizer, device) -> None:
     for state in optimizer.state.values():
@@ -1136,6 +1386,9 @@ _EXACT_RESUME_MUTABLE_FIELDS = {
     # exact saved optimizer/RNG trajectory of an existing branch. Exact resume restores the branch
     # identities/seeds from the branch manifest, not from these GUI planning fields.
     "parallel_runs",
+    "parallel_concurrency",
+    "branch_queue_quantum_epochs",
+    "lease_target_epoch",
     "parallel_same_seed_branches",
     "parallel_incremental_branches",
     "parallel_decremental_branches",
@@ -1144,12 +1397,23 @@ _EXACT_RESUME_MUTABLE_FIELDS = {
     "base_model_checkpoint",
     "training_scratch_dir",
     "max_branch_lead_epochs",
-    "safe_snapshot_interval_epochs",  # compatibility field; competitive v5.8 cadence is fixed at 10
+    "safe_snapshot_interval_epochs",  # compatibility field; competitive v5.9 cadence is fixed at 10
     "resume_history_limit",
     "coordinator_message_limit",
     "champion_decision_history_limit",
     "safe_stop_grace_seconds",
     "max_branches_per_accelerator",
+    "safe_parallel_branches",
+    "safe_global_cpu_workers",
+    "compute_profile_fingerprint",
+    "compute_topology_fingerprint",
+    "adaptive_compute_governor",
+    "staged_startup_delay_seconds",
+    "governor_sample_interval_seconds",
+    "governor_amber_pause_seconds",
+    "governor_startup_admission_timeout_seconds",
+    "accelerator_memory_reserve_fraction",
+    "estimated_branch_memory_mb",
     "telemetry_enabled",
     # Execution placement may change between sessions. This is recorded in provenance; exact
     # numerical bit-replay across different hardware is not claimed.
@@ -1214,6 +1478,13 @@ def save_training_resume(
         "numpy_generator_state": rng.bit_generator.state,
         "torch_rng_state": torch.random.get_rng_state(),
         "cuda_rng_state_all": torch.cuda.get_rng_state_all() if torch.cuda.is_available() else [],
+        "xpu_rng_state_all": (
+            torch.xpu.get_rng_state_all()
+            if hasattr(torch, "xpu")
+            and torch.xpu.is_available()
+            and hasattr(torch.xpu, "get_rng_state_all")
+            else []
+        ),
         "training_config": asdict(config),
         "extra": dict(extra or {}),
     }
@@ -1252,6 +1523,13 @@ def load_training_resume(
     torch.random.set_rng_state(payload["torch_rng_state"])
     if torch.cuda.is_available() and payload.get("cuda_rng_state_all"):
         torch.cuda.set_rng_state_all(payload["cuda_rng_state_all"])
+    if (
+        hasattr(torch, "xpu")
+        and torch.xpu.is_available()
+        and payload.get("xpu_rng_state_all")
+        and hasattr(torch.xpu, "set_rng_state_all")
+    ):
+        torch.xpu.set_rng_state_all(payload["xpu_rng_state_all"])
     extra = dict(payload.get("extra", {}))
     extra.setdefault("_resume_format", resume_format)
     extra.setdefault("_curriculum_encoding", str(payload.get("curriculum_encoding", "")))
@@ -1267,11 +1545,17 @@ def _resolve_training_target(config: TrainingConfig, start_epoch: int) -> tuple[
     mode = str(getattr(config, "training_mode", "cumulative") or "cumulative").strip().lower()
     if mode not in {"cumulative", "additional", "indefinite"}:
         raise ValueError(f"Unsupported CALO policy training mode: {mode}")
+    # v6.1 protected queue leases cap one child process at an absolute exact-resume epoch while
+    # preserving the original scientific training_mode. This makes process rotation orchestration-
+    # only: curriculum, reward, optimizer and RNG semantics remain those of the parent session.
+    lease_target = int(getattr(config, "lease_target_epoch", 0) or 0)
+    if lease_target > int(start_epoch):
+        return lease_target, mode
     if mode == "indefinite":
         cap = int(getattr(config, "max_session_epochs", 0) or 0)
         return ((start_epoch + cap) if cap > 0 else None), mode
     requested = max(1, int(config.epochs))
-    # v5.8 user semantics: Cumulative is a fixed-length training session that accumulates on the
+    # v5.9 user semantics: Cumulative is a fixed-length training session that accumulates on the
     # exact saved state. ``additional`` is retained as a backward-compatible synonym.
     return start_epoch + requested, mode
 
@@ -1309,7 +1593,7 @@ def _deployable_policy_payload(
         "metadata": {
             "algorithm": "CALO",
             "calo_core": "v5.0",
-            "policy_training_architecture": "v5.8",
+            "policy_training_architecture": "v5.9",
             "training_method": "PPO",
             "candidate_checkpoint": bool(getattr(config, "heterogeneous_rollouts", False)),
             "training_config": asdict(config),
@@ -1360,7 +1644,7 @@ def save_deployable_policy_snapshot(
 ) -> Path:
     """Create one immutable deployable artifact; the logical output path is only an alias.
 
-    v5.8 never reuses an immutable artifact path for later training.  Older experiments may remain
+    v5.9 never reuses an immutable artifact path for later training.  Older experiments may remain
     bound to the original SHA while the logical policy lineage continues improving.
     """
     output_path = Path(output_path)
@@ -1399,6 +1683,29 @@ def _write_policy_alias(output_path, artifact_path: Path) -> None:
         temporary.unlink(missing_ok=True)
 
 
+def _apply_protection_control(config: TrainingConfig, protection_callback, progress_callback=None) -> None:
+    """Apply v6.2 governor throttling between scientific training units.
+
+    Level 1 (AMBER) introduces a small duty-cycle pause without changing RNG or optimization
+    semantics. Level 2 (RED) is treated as a Safe-Stop request; competitive orchestration also sets
+    the shared cancellation event and commits the latest common exact checkpoint.
+    """
+    if protection_callback is None:
+        return
+    try:
+        level = int(protection_callback() or 0)
+    except Exception:
+        level = 0
+    if level >= 2:
+        raise TrainingCancelled("CALO policy training stopped by the compute/thermal protection governor.")
+    if level == 1:
+        pause = max(0.0, float(getattr(config, "governor_amber_pause_seconds", 0.25) or 0.25))
+        if progress_callback:
+            progress_callback(0, "Compute protection AMBER · pausing briefly before the next training unit")
+        if pause > 0:
+            time.sleep(pause)
+
+
 def _train_policy_impl(
     config: TrainingConfig,
     output_path,
@@ -1409,6 +1716,7 @@ def _train_policy_impl(
     resume_extra_provider=None,
     cancel_during_rollout: bool = True,
     suppress_cancel_persistence: bool = False,
+    protection_callback=None,
 ):
     final_benchmark_names = {"case118", "case300"}
     development_names = {Path(item).stem.lower() for item in config.development_cases}
@@ -1521,6 +1829,7 @@ def _train_policy_impl(
 
     _notify_epoch(start_epoch, stage_floor, [], [])
     while target_epoch is None or epoch < target_epoch:
+        _apply_protection_control(config, protection_callback, progress_callback)
         cancel = cancel_callback() if cancel_callback else False
         if cancel:
             if isinstance(cancel, (int, float)) and not isinstance(cancel, bool) and cancel > epoch:
@@ -1556,7 +1865,7 @@ def _train_policy_impl(
         proposed_stage = _curriculum_stage(
             epoch,
             None,
-            bool(config.development_cases),
+            bool(config.development_cases and str(config.development_experiment_config_path or "").strip()),
             milestones=tuple(config.curriculum_stage_milestones),
         )
         stage = max(stage_floor, proposed_stage)
@@ -1675,7 +1984,11 @@ def _train_policy_impl(
         }
         history.append(epoch_record)
         _append_training_telemetry(
-            resume_path, epoch_record, enabled=bool(getattr(config, "telemetry_enabled", True))
+            resume_path,
+            epoch_record,
+            enabled=bool(getattr(config, "telemetry_enabled", True)),
+            segment_max_bytes=int(getattr(config, "telemetry_segment_max_bytes", 8 * 1024 * 1024)),
+            max_segments=int(getattr(config, "telemetry_max_segments", 64)),
         )
         history_limit = max(1, int(getattr(config, "resume_history_limit", 256) or 256))
         if len(history) > history_limit:
@@ -1731,7 +2044,7 @@ def _train_policy_impl(
     metadata = {
         "algorithm": "CALO",
         "calo_core": "v5.0",
-            "policy_training_architecture": "v5.8",
+            "policy_training_architecture": "v5.9",
         "training_method": "PPO",
         "training_config": asdict(config),
         "training_seed": config.seed,
@@ -1798,6 +2111,7 @@ def train_policy(
     resume_extra_provider=None,
     cancel_during_rollout: bool = True,
     suppress_cancel_persistence: bool = False,
+    protection_callback=None,
 ):
     """Train one coherent PPO policy while isolating process-global RNG state from GUI callers."""
     caller_python = random.getstate()
@@ -1811,6 +2125,7 @@ def train_policy(
             resume_extra_provider=resume_extra_provider,
             cancel_during_rollout=cancel_during_rollout,
             suppress_cancel_persistence=suppress_cancel_persistence,
+            protection_callback=protection_callback,
         )
     finally:
         random.setstate(caller_python)
@@ -1828,8 +2143,9 @@ def train_policy_parallel(
     parallel_runs: int = 2,
     progress_callback=None,
     cancel_callback=None,
+    session_state_callback=None,
 ) -> tuple[str, list]:
-    """v5.8 transactional competitive independent-branch training.
+    """v6.1 protected queued transactional competitive independent-branch training.
 
     Branches retain separate exact optimizer/RNG states and compete through a fixed multi-metric
     champion comparator.  Independent neural-network parameters are never arithmetically averaged.
@@ -1842,4 +2158,5 @@ def train_policy_parallel(
         parallel_runs=parallel_runs,
         progress_callback=progress_callback,
         cancel_callback=cancel_callback,
+        session_state_callback=session_state_callback,
     )

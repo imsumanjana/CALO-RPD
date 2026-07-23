@@ -123,8 +123,8 @@ def test_real_ppo_training_smoke_saves_core_v2_checkpoint(tmp_path):
     payload = torch.load(path, map_location="cpu", weights_only=False)
     assert payload["metadata"]["training_method"] == "PPO"
     assert payload["metadata"]["calo_core"] == "v5.0"
-    assert payload["metadata"]["state_schema_version"] == "calo-state-v4.1-32"
-    assert payload["metadata"]["action_schema_version"] == "calo-action-v4.1-4r-6o-6p"
+    assert payload["metadata"]["state_schema_version"] == "calo-state-v5.9-32"
+    assert payload["metadata"]["action_schema_version"] == "calo-action-v5.9-raw-global-4r-6o-6p"
     assert payload["metadata"]["final_publication_benchmarks_used_for_training"] is False
     assert history
 

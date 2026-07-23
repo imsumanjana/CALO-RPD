@@ -126,7 +126,7 @@ class BenchmarkCampaignPanel(WorkspacePage):
         self.workers = QSpinBox()
         self.workers.setRange(1, 256)
         self.workers.setValue(max(1, int(self.state.config.parallel_workers)))
-        self.output_directory = QLineEdit("benchmark_v580")
+        self.output_directory = QLineEdit("benchmark_v600a4")
         numeric.addWidget(QLabel("Independent runs / algorithm / task"), 0, 0)
         numeric.addWidget(self.runs, 0, 1)
         numeric.addWidget(QLabel("Evaluation budget"), 1, 0)
@@ -176,7 +176,7 @@ class BenchmarkCampaignPanel(WorkspacePage):
             "Generate verified tables, advanced publication figures, global nonparametric statistics, evidence-based interpretation, raw run records, experiment configurations, validation status, frozen CALO manifest, and a reproducibility archive.",
         )
         package_row = QHBoxLayout()
-        self.package_manifest = QLineEdit("benchmark_v580/campaign_manifest.json")
+        self.package_manifest = QLineEdit("benchmark_v600a4/campaign_manifest.json")
         browse = QPushButton("Load campaign manifest")
         browse.clicked.connect(self.choose_manifest)
         validate_button = QPushButton("Validate completed campaign")
@@ -214,7 +214,7 @@ class BenchmarkCampaignPanel(WorkspacePage):
             max_evaluations=self.evaluations.value(),
             population_size=self.population.value(),
             master_seed=self.master_seed.value(),
-            output_directory=self.output_directory.text().strip() or "benchmark_v580",
+            output_directory=self.output_directory.text().strip() or "benchmark_v600a4",
             parallel_workers=self.workers.value(),
             execution_backend=self.state.config.execution_backend,
             freeze_manifest=self.freeze_path.text().strip(),

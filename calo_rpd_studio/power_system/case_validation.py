@@ -102,19 +102,26 @@ def validate_case(case) -> CaseValidationReport:
     known = set(numbers)
 
     generator_status = case.gen[:, GEN_STATUS]
-    if np.any(~np.isin(generator_status, (0, 1))):
-        errors.append("Generator status values must be 0 or 1.")
+    # MATPOWER/PYPOWER semantics treat status > 0 as in service and <= 0 as out of service.
+    # Preserve compatibility with custom cases that use non-binary status values.
+    if np.any(~np.isfinite(generator_status)):
+        errors.append("Generator status values must be finite.")
+    elif np.any(~np.isin(generator_status, (0, 1))):
+        warnings.append("Non-binary generator status values are interpreted by sign (>0 online, <=0 offline).")
     for bus in case.gen[:, GEN_BUS].astype(int):
         if bus not in known:
             errors.append(f"Generator references unknown bus {bus}.")
 
     branch_status = case.branch[:, BR_STATUS]
-    if np.any(~np.isin(branch_status, (0, 1))):
-        errors.append("Branch status values must be 0 or 1.")
-    for from_bus, to_bus in case.branch[:, [F_BUS, T_BUS]].astype(int):
+    if np.any(~np.isfinite(branch_status)):
+        errors.append("Branch status values must be finite.")
+    elif np.any(~np.isin(branch_status, (0, 1))):
+        warnings.append("Non-binary branch status values are interpreted by sign (>0 online, <=0 offline).")
+    for row in case.branch:
+        from_bus, to_bus = int(row[F_BUS]), int(row[T_BUS])
         if from_bus not in known or to_bus not in known:
             errors.append(f"Branch references unknown buses {from_bus}-{to_bus}.")
-        if from_bus == to_bus:
+        if row[BR_STATUS] > 0 and from_bus == to_bus:
             errors.append(f"In-service topology contains a self-loop branch at bus {from_bus}.")
 
     if np.any(case.bus[:, VMAX] <= case.bus[:, VMIN]):

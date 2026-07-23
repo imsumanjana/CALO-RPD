@@ -1,4 +1,81 @@
+# CALO-RPD Changelog
+
+## 6.2.1 — Dashboard Scrollable Three-Tab Layout
+
+- Dashboard body is vertically scrollable.
+- System Readiness, Training Queue, and Scientific Context are now three independent scrollable tabs.
+- Hardware mapping table keeps a usable minimum height.
+- Summary metric cards use a 3-column responsive grid.
+- No scientific CALO/policy/ORPD semantics changed.
+
+## 6.2.0 — Adaptive Compute Protection, Recovery and Scientific Qualification
+
+- Added Green/Amber/Red adaptive compute/thermal governor with hysteresis and staged admission.
+- Added trustworthy temperature/power telemetry when available; missing telemetry remains explicitly unavailable.
+- Extended governor protection to policy training and experiment admission.
+- Added hash-chained compute-protection provenance.
+- Added workspace schema 3 migration and conservative legacy restore.
+- Added durable unclean-session recovery journal that never bypasses scientific workflow gates.
+- Added protected hardware-soak qualification protocol/CLI and scientific scheduling-equivalence utilities.
+- Added dependency-light GUI contract validation and v6.2 regression coverage.
+
 # Changelog
+
+## 6.1.0 — Protected Training Queue and Capability-Aware Scheduling — 2026-07-23
+
+### Beta architecture
+- Added Global Training Exclusive Lock across scientific/configuration workspaces.
+- Separated total scientific branch count from Safe-80 simultaneous concurrency.
+- Added protected queued exact-resume branch scheduling for cumulative and indefinite training.
+- Enforced one global CPU worker budget across simultaneous branch slots.
+- Removed uncontrolled accelerator-to-CPU competitive branch spillover.
+- Added capability-aware CUDA/direct-XPU/XPU-sidecar scheduling and per-device Safe-80 headroom checks.
+- Added direct accelerator FP64 runtime smoke gating for full scientific branch capability.
+- Added XPU RNG exact-resume persistence where the runtime exposes RNG state APIs.
+- Added Dashboard live protected-training queue/resource map.
+- Froze compute-topology refresh while policy training is active.
+
+### Declared boundary
+- Continuous thermal/power Green/Amber/Red governor and target-hardware thermal soak remain later v6 RC work.
+- XPU sidecar remains actor/evaluator-only and is not certified as an independent full PPO branch.
+
+
+## 5.9.0 — Scientific Closure and Exact Controller Parity — 2026-07-23
+
+### Scientific closure
+- Added native v5.9 32-D policy/action/training ABI with raw-policy versus executed-controller provenance.
+- Aligned PPO training and deployed CALO transition/reward semantics and added seeded multi-transition parity regression.
+- Corrected forced-recovery credit attribution.
+- Separated synthetic Training Champion screening from real-ORPD Deployable Scientific Base promotion.
+- Added exact development ExperimentConfig/formulation fingerprints and order-independent common-bundle Base ranking.
+- Added stale-recovery authority guard using parent manifest SHA-256 + generation identity.
+- Added segmented bounded training telemetry and memory-aware branch admission.
+- Centralized repair accounting across cached/uncached evaluation.
+- Added versioned engineering/numerical constraint tolerances.
+- Added intact base state to N-1 bundles and enforced MATPOWER branch angle-difference limits.
+- Removed dead PQ-bus generator-voltage decision variables.
+- Strengthened accelerator parity to exact PF/scientific config plus component/state-level evidence.
+- Added direct sparse Yf/Yt construction and preserved sparse Newton Jacobian path.
+- Added fail-fast Objective/PF/robust/variable/qualification configuration validation.
+- Added full scientific historical-transfer fingerprint and exact 32-D raw/executed policy trajectory provenance.
+- Added case-wise one-sided Holm-adjusted non-inferiority qualification.
+- Distinguished deterministic load-uncertainty scenarios from seeded Monte Carlo load scenarios.
+- Aligned GUI order to Power System → ORPD → Algorithms → Portfolio → CALO → Scenarios → Experiment.
+
+### Post-generation audit corrections
+- Fixed hidden training/runtime clock/RNG/memory/intervention mismatches discovered by seeded parity audit.
+- Fixed device-resident branch-angle endpoint indexing.
+- Fixed scientific cross-run batch signature to use the full formulation fingerprint.
+- Fixed default PolicyQualifier non-inferiority margin access to use validated `qconfig`.
+- Strengthened formal qualification to gate comparator-by-case, not only aggregate evidence.
+- Added scenario transform structural identity validation.
+- Expanded the v5.9 scientific freeze scope to cover new parity/fingerprint/experience and core scientific modules.
+
+### Declared residuals
+- Full PyQt6, PYPOWER, physical CUDA/XPU, long-soak and Ruff gates remain target-environment requirements.
+- CALO controller orchestration remains partly host-side pending separately qualified deeper device residency.
+- Load/renewable uncertainty models remain simplified as documented.
+- Independent validation remains AC power-flow cross-validation rather than a second complete ORPD implementation.
 
 ## 5.8.0
 

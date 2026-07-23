@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from dataclasses import asdict, dataclass
 from typing import Literal
+import math
 
 import numpy as np
 
@@ -15,8 +16,11 @@ from calo_rpd_studio.power_system.case_model import (
     BR_STATUS,
     BS,
     BUS_I,
+    BUS_TYPE,
     GEN_BUS,
     GEN_STATUS,
+    PV,
+    REF,
     TAP,
     T_BUS,
     F_BUS,
@@ -49,6 +53,9 @@ class ShuntControlDefinition:
     source: str = "user-defined"
 
     def validate(self) -> None:
+        values = (float(self.minimum_mvar), float(self.maximum_mvar), float(self.step_mvar))
+        if not all(math.isfinite(value) for value in values):
+            raise ValueError(f"Shunt control at bus {self.bus_number} must use finite bounds/step")
         if self.minimum_mvar > self.maximum_mvar:
             raise ValueError(f"Shunt control at bus {self.bus_number} has inverted bounds")
         if self.step_mvar <= 0:
@@ -69,6 +76,32 @@ class ORPDVariableConfig:
     transformer_step: float = 0.0125
     shunt_controls: tuple[ShuntControlDefinition, ...] = ()
     formulation_profile: str = FORMULATION_PROFILE_VERSION
+
+    def __post_init__(self) -> None:
+        self.shunt_controls = tuple(self.shunt_controls or ())
+        self.validate()
+
+    def validate(self) -> None:
+        lo = float(self.transformer_minimum)
+        hi = float(self.transformer_maximum)
+        step = float(self.transformer_step)
+        if not (math.isfinite(lo) and math.isfinite(hi)) or lo <= 0.0 or hi <= lo:
+            raise ValueError(
+                "Transformer tap bounds must be finite, strictly positive, and maximum must exceed minimum"
+            )
+        if not math.isfinite(step) or step <= 0.0:
+            raise ValueError("Transformer tap step must be finite and strictly positive")
+        if not str(self.formulation_profile).strip():
+            raise ValueError("ORPD formulation_profile must be non-empty")
+        seen: set[int] = set()
+        for control in self.shunt_controls:
+            if not isinstance(control, ShuntControlDefinition):
+                raise TypeError("shunt_controls must contain ShuntControlDefinition objects")
+            control.validate()
+            bus = int(control.bus_number)
+            if bus in seen:
+                raise ValueError(f"Duplicate shunt control declaration at bus {bus}")
+            seen.add(bus)
 
 
 def _case_bus_bs(case) -> dict[int, float]:
@@ -146,8 +179,14 @@ class ORPDVariableDecoder:
                 bus = int(case.gen[generator_index, GEN_BUS])
                 if bus in seen:
                     continue
-                seen.add(bus)
                 bus_index = index[bus]
+                # Generator voltage set-points are physical ORPD controls only on voltage-controlled
+                # REF/PV buses. A generator attached to a PQ bus does not impose VG in AC PF; exposing
+                # such a variable would create a dead decision dimension that changes only an initial
+                # guess and can bias optimizer fairness.
+                if int(case.bus[bus_index, BUS_TYPE]) not in {REF, PV}:
+                    continue
+                seen.add(bus)
                 lower = float(case.bus[bus_index, VMIN])
                 upper = float(case.bus[bus_index, VMAX])
                 self.variables.append(DecisionVariable(f"Vg@{bus}", lower, upper))

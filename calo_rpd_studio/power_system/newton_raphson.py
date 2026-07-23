@@ -1,6 +1,6 @@
 """Sparse Newton-Raphson AC power-flow reference kernel.
 
-v5.8 constructs the polar Jacobian directly from sparse complex-voltage derivatives when SciPy is
+v5.9 constructs the polar Jacobian directly from sparse complex-voltage derivatives when SciPy is
 available. It no longer densifies Ybus or allocates full NxN angle/trigonometric matrices before
 converting back to sparse form. A deterministic vectorized dense fallback is retained only for
 minimal environments without SciPy sparse support.

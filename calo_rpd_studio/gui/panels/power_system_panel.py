@@ -206,6 +206,7 @@ class PowerSystemPanel(WorkspacePage):
             result = validate_against_pypower(
                 self.state.current_case,
                 self.state.current_power_flow,
+                power_flow_options=self.state.config.power_flow,
             )
             self.result.setText(
                 f"{result.message} · available: {result.available} · passed: {result.passed} · "

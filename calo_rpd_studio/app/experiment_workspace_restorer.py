@@ -9,6 +9,7 @@ from typing import Any
 from calo_rpd_studio.experiments.experiment_config import ExperimentConfig
 from calo_rpd_studio.power_system.case_loader import CaseLoader
 from calo_rpd_studio.power_system.ac_power_flow import run_ac_power_flow
+from calo_rpd_studio.app.workspaces import migrate_workspace_ui
 
 _LOG = logging.getLogger(__name__)
 
@@ -141,14 +142,14 @@ class ExperimentWorkspaceRestorer:
                 selector(str(experiment_id))
 
         workspace = self.state.database.get_workspace_state(str(experiment_id)) or {}
+        migrated_ui, migration_report = migrate_workspace_ui(dict(workspace.get("ui") or {}))
         campaign_status = str(row.get("campaign_status", "completed"))
         completed = campaign_status in {"completed", "complete"}
         verified = len(self.state.database.list_runs(str(experiment_id), verified_only=True))
         # Legacy rows without workspace state are inferred conservatively only after config validation
-        # and a successful exact-option PF restore. CALO is complete only with a verified binding.
+        # and a successful exact-option PF restore. v6 never infers governing-intelligence readiness
+        # from historical workflow state; WorkflowManager re-evaluates the currently active policy live.
         inferred_completed = {"power_system", "orpd", "algorithms", "portfolio", "scenarios"}
-        if "CALO" in config.algorithms and policy_binding_status == "verified":
-            inferred_completed.add("calo")
         self.workflow.restore(
             workspace.get("workflow"),
             infer_experiment=True,
@@ -159,7 +160,8 @@ class ExperimentWorkspaceRestorer:
         return {
             "experiment_id": str(experiment_id),
             "campaign_status": campaign_status,
-            "ui": dict(workspace.get("ui") or {}),
+            "ui": migrated_ui,
+            "workspace_migration": migration_report.as_dict(),
             "runs": len(self.state.database.list_runs(str(experiment_id))),
             "policy_binding_status": policy_binding_status,
             "policy_binding_error": policy_binding_error,

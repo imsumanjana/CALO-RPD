@@ -11,6 +11,7 @@ import numpy as np
 
 from calo_rpd_studio.orpd.objectives import ObjectiveKind
 from calo_rpd_studio.orpd.problem import Evaluation, ORPDProblem, ORPDProblemConfig
+from calo_rpd_studio.orpd.formulation_fingerprint import scientific_problem_fingerprint
 from calo_rpd_studio.power_system.case_model import (
     BUS_I,
     BUS_TYPE,
@@ -22,6 +23,7 @@ from calo_rpd_studio.power_system.case_model import (
     QMAX,
     QMIN,
     RATE_A,
+    BR_STATUS,
     VMAX,
     VMIN,
 )
@@ -30,7 +32,7 @@ from calo_rpd_studio.robustness.robust_objectives import (
 )
 from calo_rpd_studio.robustness.cvar import weighted_cvar_torch
 from calo_rpd_studio.robustness.scenario import Scenario
-from calo_rpd_studio.orpd.constraints import generator_limit_violation
+from calo_rpd_studio.orpd.constraints import branch_angle_limit_violation, generator_limit_violation
 
 from .device import resolve_device, torch_dtype
 from .torch_power_flow import (
@@ -53,6 +55,12 @@ class ParityReport:
     feasibility_mismatches: int
     max_voltage_error: float
     details: tuple[dict[str, Any], ...] = ()
+    max_constraint_component_error: float = 0.0
+    max_objective_component_error: float = 0.0
+    max_angle_error_deg: float = 0.0
+    convergence_mismatches: int = 0
+    bus_type_mismatches: int = 0
+    scenario_count_mismatches: int = 0
 
 
 class AcceleratedORPDProblem:
@@ -143,6 +151,7 @@ class AcceleratedORPDProblem:
             "l_index_max": float(l_index),
         }
         config = self.config.objective
+        config.validate()
         if config.kind is ObjectiveKind.ACTIVE_POWER_LOSS:
             value = loss
         elif config.kind is ObjectiveKind.VOLTAGE_DEVIATION:
@@ -151,11 +160,11 @@ class AcceleratedORPDProblem:
             value = l_index
         else:
             value = (
-                config.weight_loss * loss / max(config.loss_scale, 1e-15)
+                config.weight_loss * loss / config.loss_scale
                 + config.weight_voltage_deviation
                 * voltage_deviation
-                / max(config.voltage_deviation_scale, 1e-15)
-                + config.weight_l_index * l_index / max(config.l_index_scale, 1e-15)
+                / config.voltage_deviation_scale
+                + config.weight_l_index * l_index / config.l_index_scale
             )
         return float(value), components
 
@@ -167,29 +176,44 @@ class AcceleratedORPDProblem:
         case = pf.case
         dtype = pf.vm_pu.dtype
         device = pf.vm_pu.device
+        tolerances = self.config.constraint_tolerances
         lower = torch.as_tensor(case.bus[:, VMIN], dtype=dtype, device=device)
         upper = torch.as_tensor(case.bus[:, VMAX], dtype=dtype, device=device)
         span = torch.clamp(upper - lower, min=1e-12)
-        bus_voltage = torch.sum(
-            torch.relu(lower - pf.vm_pu) / span + torch.relu(pf.vm_pu - upper) / span
-        )
+        below = lower - pf.vm_pu
+        above = pf.vm_pu - upper
+        below = torch.where(below > float(tolerances.voltage_pu), below, torch.zeros_like(below))
+        above = torch.where(above > float(tolerances.voltage_pu), above, torch.zeros_like(above))
+        bus_voltage = torch.sum(torch.relu(below) / span + torch.relu(above) / span)
 
-        qv, pv = generator_limit_violation(case)
+        qv, pv = generator_limit_violation(case, tolerances)
         generator_q = torch.as_tensor(qv, dtype=dtype, device=device)
         generator_p = torch.as_tensor(pv, dtype=dtype, device=device)
 
         branch_thermal = torch.zeros((), dtype=dtype, device=device)
         if pf.branch is not None:
-            rated = torch.as_tensor(case.branch[:, RATE_A] > 0, dtype=torch.bool, device=device)
+            rated = torch.as_tensor(
+                (case.branch[:, BR_STATUS] > 0) & (case.branch[:, RATE_A] > 0),
+                dtype=torch.bool,
+                device=device,
+            )
             if bool(torch.any(rated)):
-                branch_thermal = torch.sum(
-                    torch.relu(pf.branch.loading_percent[rated] - 100.0) / 100.0
+                overload = pf.branch.loading_percent[rated] - 100.0
+                overload = torch.where(
+                    overload > float(tolerances.branch_loading_percent),
+                    overload,
+                    torch.zeros_like(overload),
                 )
+                branch_thermal = torch.sum(torch.relu(overload) / 100.0)
+        branch_angle = branch_angle_limit_violation(
+            case, np.asarray(pf.va_deg.detach().cpu(), dtype=float), tolerances
+        )
         components = {
             "bus_voltage": float(bus_voltage.detach().cpu()),
             "generator_q": float(generator_q.detach().cpu()),
             "generator_p": float(generator_p.detach().cpu()),
             "branch_thermal": float(branch_thermal.detach().cpu()),
+            "branch_angle": float(branch_angle),
             "power_flow": 0.0,
         }
         return float(sum(components.values())), components
@@ -213,46 +237,18 @@ class AcceleratedORPDProblem:
         return float(result.detach().cpu())
 
     def batch_signature(self) -> str:
-        """Stable compatibility key for cross-run evaluation batching."""
+        """Strict scientific compatibility key for cross-run evaluation batching.
+
+        Cross-run microbatching is permitted only for problems with the exact same canonical
+        scientific formulation. v5.9 therefore reuses the same fingerprint as continuation,
+        policy-development evidence and accelerator parity, then binds device/dtype as execution
+        identity. No broad fallback to scenario names is allowed.
+        """
         if self._batch_signature_cache is None:
-            scenario_records = []
-            for scenario in self.scenarios:
-                try:
-                    checksum = scenario.apply(self.case).checksum()
-                except Exception:
-                    checksum = scenario.name
-                scenario_records.append((scenario.name, float(scenario.weight), checksum))
-            objective = self.config.objective
-            robust = self.config.robust
             payload = {
-                "case": self.case.checksum(),
-                "dimension": self.dimension,
-                "scenarios": scenario_records,
-                "objective": {
-                    "kind": objective.kind.value,
-                    "weights": [
-                        objective.weight_loss,
-                        objective.weight_voltage_deviation,
-                        objective.weight_l_index,
-                    ],
-                    "scales": [
-                        objective.loss_scale,
-                        objective.voltage_deviation_scale,
-                        objective.l_index_scale,
-                    ],
-                },
-                "robust": {
-                    "aggregation": robust.aggregation.value,
-                    "risk_lambda": robust.risk_lambda,
-                    "cvar_alpha": robust.cvar_alpha,
-                },
-                "device": self.device,
+                "scientific_problem_fingerprint": scientific_problem_fingerprint(self.reference),
+                "device": str(self.device),
                 "dtype": str(self.dtype),
-                "power_flow": {
-                    "tolerance": self.power_flow_options.tolerance,
-                    "max_iterations": self.power_flow_options.max_iterations,
-                    "enforce_q_limits": self.power_flow_options.enforce_q_limits,
-                },
             }
             encoded = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
             self._batch_signature_cache = hashlib.sha256(encoded).hexdigest()
@@ -348,7 +344,7 @@ class AcceleratedORPDProblem:
                     violations[index], weights_np, self.config.robust
                 )
                 feasible = bool(
-                    converged_all[index] and np.isfinite(robust_value) and violation <= 1e-12
+                    converged_all[index] and np.isfinite(robust_value) and violation <= float(self.config.constraint_tolerances.feasibility_total)
                 )
                 components = {
                     key: float(np.sum(weights_np * np.asarray(series, dtype=float)))
@@ -412,6 +408,7 @@ class AcceleratedORPDProblem:
                 "converged": bool(pf.converged),
                 "iterations": int(pf.iterations),
                 "max_mismatch": float(pf.max_mismatch),
+                "bus_types": pf.case.bus[:, BUS_TYPE].astype(int).tolist(),
                 "vm_pu": np.asarray(pf.vm_pu.detach().cpu(), dtype=float).tolist(),
                 "va_deg": np.asarray(pf.va_deg.detach().cpu(), dtype=float).tolist(),
                 "total_loss_mw": float(pf.total_loss_mw),
@@ -450,7 +447,9 @@ def parity_check(
     objective_tolerance=1e-5,
     violation_tolerance=1e-6,
     voltage_tolerance=1e-6,
+    angle_tolerance_deg=1e-4,
 ):
+    """Fail-closed scientific parity across objectives, constraints and solved states."""
     candidates = np.asarray(candidates, dtype=float)
     if candidates.ndim == 1:
         candidates = candidates[None, :]
@@ -458,64 +457,127 @@ def parity_check(
     max_objective_error = 0.0
     max_violation_error = 0.0
     max_voltage_error = 0.0
+    max_angle_error = 0.0
+    max_constraint_component_error = 0.0
+    max_objective_component_error = 0.0
     feasibility_mismatches = 0
+    convergence_mismatches = 0
+    bus_type_mismatches = 0
+    scenario_count_mismatches = 0
+
+    def scalar_error(a, b):
+        a, b = float(a), float(b)
+        if np.isfinite(a) and np.isfinite(b):
+            return abs(a - b)
+        return 0.0 if a == b else float("inf")
+
     for index, candidate in enumerate(candidates):
         cpu = reference.evaluate(candidate)
         gpu = accelerated.evaluate(candidate)
-        objective_error = (
-            abs(float(cpu.value) - float(gpu.value))
-            if np.isfinite(cpu.value) and np.isfinite(gpu.value)
-            else (0.0 if cpu.value == gpu.value else float("inf"))
-        )
-        violation_error = (
-            abs(float(cpu.violation) - float(gpu.violation))
-            if np.isfinite(cpu.violation) and np.isfinite(gpu.violation)
-            else (0.0 if cpu.violation == gpu.violation else float("inf"))
-        )
+        objective_error = scalar_error(cpu.value, gpu.value)
+        violation_error = scalar_error(cpu.violation, gpu.violation)
         feasibility_mismatch = bool(cpu.feasible) != bool(gpu.feasible)
+
+        cpu_constraints = dict((cpu.metadata or {}).get("constraint_components", {}) or {})
+        gpu_constraints = dict((gpu.metadata or {}).get("constraint_components", {}) or {})
+        constraint_component_error = 0.0
+        for key in sorted(set(cpu_constraints) | set(gpu_constraints)):
+            constraint_component_error = max(
+                constraint_component_error,
+                scalar_error(cpu_constraints.get(key, 0.0), gpu_constraints.get(key, 0.0)),
+            )
+        objective_component_error = 0.0
+        for key in sorted(set(cpu.components) | set(gpu.components)):
+            objective_component_error = max(
+                objective_component_error,
+                scalar_error(cpu.components.get(key, 0.0), gpu.components.get(key, 0.0)),
+            )
+
         cpu_state = reference.solution_state(candidate)
         gpu_state = accelerated.accelerator_solution_state(candidate)
         voltage_error = 0.0
-        try:
-            for cpu_scenario, gpu_scenario in zip(cpu_state["scenarios"], gpu_state["scenarios"]):
-                voltage_error = max(
-                    voltage_error,
-                    float(
-                        np.max(
-                            np.abs(
-                                np.asarray(cpu_scenario["vm_pu"])
-                                - np.asarray(gpu_scenario["vm_pu"])
-                            )
-                        )
-                    ),
-                )
-        except Exception:
-            voltage_error = float("inf")
+        angle_error = 0.0
+        convergence_mismatch = 0
+        bus_type_mismatch = 0
+        scenario_count_mismatch = int(len(cpu_state.get("scenarios", [])) != len(gpu_state.get("scenarios", [])))
+        if not scenario_count_mismatch:
+            try:
+                for cpu_scenario, gpu_scenario in zip(
+                    cpu_state["scenarios"], gpu_state["scenarios"], strict=True
+                ):
+                    convergence_mismatch += int(
+                        bool(cpu_scenario.get("converged")) != bool(gpu_scenario.get("converged"))
+                    )
+                    cpu_types = np.asarray(cpu_scenario.get("bus_types", []), dtype=int)
+                    gpu_types = np.asarray(gpu_scenario.get("bus_types", []), dtype=int)
+                    if cpu_types.shape != gpu_types.shape or not np.array_equal(cpu_types, gpu_types):
+                        bus_type_mismatch += 1
+                    cpu_vm = np.asarray(cpu_scenario["vm_pu"], dtype=float)
+                    gpu_vm = np.asarray(gpu_scenario["vm_pu"], dtype=float)
+                    cpu_va = np.asarray(cpu_scenario["va_deg"], dtype=float)
+                    gpu_va = np.asarray(gpu_scenario["va_deg"], dtype=float)
+                    if cpu_vm.shape != gpu_vm.shape or cpu_va.shape != gpu_va.shape:
+                        voltage_error = angle_error = float("inf")
+                        break
+                    if cpu_vm.size:
+                        voltage_error = max(voltage_error, float(np.max(np.abs(cpu_vm - gpu_vm))))
+                    if cpu_va.size:
+                        # Voltage angles have a fixed reference bus in both solvers; direct comparison is valid.
+                        angle_error = max(angle_error, float(np.max(np.abs(cpu_va - gpu_va))))
+            except Exception:
+                voltage_error = angle_error = float("inf")
+                convergence_mismatch += 1
+
         max_objective_error = max(max_objective_error, objective_error)
         max_violation_error = max(max_violation_error, violation_error)
         max_voltage_error = max(max_voltage_error, voltage_error)
+        max_angle_error = max(max_angle_error, angle_error)
+        max_constraint_component_error = max(max_constraint_component_error, constraint_component_error)
+        max_objective_component_error = max(max_objective_component_error, objective_component_error)
         feasibility_mismatches += int(feasibility_mismatch)
+        convergence_mismatches += int(convergence_mismatch)
+        bus_type_mismatches += int(bus_type_mismatch)
+        scenario_count_mismatches += int(scenario_count_mismatch)
         details.append(
             {
                 "candidate": index,
                 "objective_error": objective_error,
                 "violation_error": violation_error,
+                "constraint_component_error": constraint_component_error,
+                "objective_component_error": objective_component_error,
                 "voltage_error": voltage_error,
+                "angle_error_deg": angle_error,
                 "feasibility_mismatch": feasibility_mismatch,
+                "convergence_mismatches": int(convergence_mismatch),
+                "bus_type_mismatches": int(bus_type_mismatch),
+                "scenario_count_mismatch": bool(scenario_count_mismatch),
             }
         )
     passed = bool(
         feasibility_mismatches == 0
+        and convergence_mismatches == 0
+        and bus_type_mismatches == 0
+        and scenario_count_mismatches == 0
         and max_objective_error <= objective_tolerance
+        and max_objective_component_error <= objective_tolerance
         and max_violation_error <= violation_tolerance
+        and max_constraint_component_error <= violation_tolerance
         and max_voltage_error <= voltage_tolerance
+        and max_angle_error <= angle_tolerance_deg
     )
     return ParityReport(
-        int(candidates.shape[0]),
-        passed,
-        max_objective_error,
-        max_violation_error,
-        feasibility_mismatches,
-        max_voltage_error,
-        tuple(details),
+        candidate_count=int(candidates.shape[0]),
+        passed=passed,
+        max_objective_error=max_objective_error,
+        max_violation_error=max_violation_error,
+        feasibility_mismatches=feasibility_mismatches,
+        max_voltage_error=max_voltage_error,
+        details=tuple(details),
+        max_constraint_component_error=max_constraint_component_error,
+        max_objective_component_error=max_objective_component_error,
+        max_angle_error_deg=max_angle_error,
+        convergence_mismatches=convergence_mismatches,
+        bus_type_mismatches=bus_type_mismatches,
+        scenario_count_mismatches=scenario_count_mismatches,
     )
+

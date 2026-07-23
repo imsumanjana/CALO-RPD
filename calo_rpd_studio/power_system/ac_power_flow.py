@@ -2,11 +2,17 @@
 
 from __future__ import annotations
 from dataclasses import dataclass, field
+import math
 import numpy as np
 from .case_model import *
 from .ybus import build_ybus
 from .newton_raphson import solve_newton_raphson
-from .pv_pq_switching import aggregate_q_limits, distribute_reactive_power, online_generators_at_bus
+from .pv_pq_switching import (
+    REACTIVE_ALLOCATION_CONVENTION,
+    aggregate_q_limits,
+    distribute_reactive_power,
+    online_generators_at_bus,
+)
 from .branch_flows import calculate_branch_flows, BranchFlowResult
 
 
@@ -17,6 +23,19 @@ class PowerFlowOptions:
     enforce_q_limits: bool = True
     max_q_limit_rounds: int = 10
     q_limit_tolerance_mvar: float = 1e-6
+
+    def __post_init__(self) -> None:
+        self.validate()
+
+    def validate(self) -> None:
+        if not math.isfinite(float(self.tolerance)) or float(self.tolerance) <= 0.0:
+            raise ValueError("Power-flow tolerance must be finite and strictly positive")
+        if int(self.max_iterations) < 1:
+            raise ValueError("Power-flow max_iterations must be at least 1")
+        if int(self.max_q_limit_rounds) < 0:
+            raise ValueError("Power-flow max_q_limit_rounds cannot be negative")
+        if not math.isfinite(float(self.q_limit_tolerance_mvar)) or float(self.q_limit_tolerance_mvar) < 0.0:
+            raise ValueError("Power-flow q_limit_tolerance_mvar must be finite and non-negative")
 
 
 @dataclass(slots=True)
@@ -32,6 +51,7 @@ class PowerFlowResult:
     mismatch_history: list[float]
     branch: BranchFlowResult | None
     warnings: list[str] = field(default_factory=list)
+    reactive_allocation_convention: str = REACTIVE_ALLOCATION_CONVENTION
 
     @property
     def total_loss_mw(self):
@@ -87,6 +107,7 @@ def _update_outputs(case, pg, qg):
 
 def run_ac_power_flow(input_case, options: PowerFlowOptions | None = None):
     options = options or PowerFlowOptions()
+    options.validate()
     case = input_case.clone()
     warnings = []
     adm = build_ybus(case)

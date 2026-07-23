@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 import numpy as np
 
-from .diagnostics import CONSTRAINT_COMPONENTS, population_diagnostics, transformed_violation
+from .diagnostics import POLICY_CONSTRAINT_COMPONENTS, population_diagnostics, transformed_violation
 
 STATE_DIM = 24
 REGIME_NAMES = ("feasibility", "transition", "objective_refinement", "recovery")
@@ -112,7 +112,7 @@ def build_cognitive_state(
     components = np.asarray(
         [
             transformed_violation(diagnostics.component_best.get(name, 0.0))
-            for name in CONSTRAINT_COMPONENTS
+            for name in POLICY_CONSTRAINT_COMPONENTS
         ],
         dtype=float,
     )

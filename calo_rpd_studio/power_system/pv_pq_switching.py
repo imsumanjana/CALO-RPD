@@ -4,6 +4,11 @@ from __future__ import annotations
 import numpy as np
 from .case_model import *
 
+REACTIVE_ALLOCATION_CONVENTION = (
+    "capability-proportional post-allocation across co-located online generators; "
+    "this is a deterministic reporting/limit-accounting convention, not a uniquely solved unit-level AVR dispatch"
+)
+
 
 def online_generators_at_bus(case, bus_number):
     return np.where(
@@ -22,6 +27,11 @@ def aggregate_q_limits(case, bus_number):
 
 def distribute_reactive_power(case, bus_number, required_q, *, clip_to_limits=True):
     """Allocate aggregate reactive output across online generators at one bus.
+
+    CALO-RPD solves the AC network at bus injection level.  When multiple online generators
+    share a bus, the bus-level reactive requirement is post-allocated in proportion to each
+    unit's declared Q capability range.  This deterministic convention supports per-unit limit
+    accounting but is not claimed to be a uniquely determined physical AVR participation model.
 
     For ordinary PV/PQ reporting and PV->PQ switching the aggregate value is clipped to
     the declared generator-Q capability.  A reference/slack bus is different: the solved

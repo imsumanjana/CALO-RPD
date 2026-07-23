@@ -1,104 +1,73 @@
 {
   "name": "CALO-RPD Studio",
-  "version": "5.8.0",
-  "release_name": "Transactional Competitive Training and Scientific Closure",
-  "release_date": "2026-07-22",
-  "scope": "Resolve remaining NEW v5.6 competitive-training findings and new/reopened v5.7 deep re-audit findings without introducing a new optimizer family or fabricating superiority evidence.",
-  "closure_matrix": "FINDINGS_CLOSURE_v5.8.0.csv",
-  "implementation_report": "CALO-RPD-v5.8.0_IMPLEMENTATION_REPORT.md",
-  "scientific_claim": "Scientific/reliability closure release; no optimizer or policy superiority claim.",
-  "policy_runtime": {
-    "application_version_namespace_separate_from_policy_abi": true,
-    "policy_abi": "calo-v4.1",
-    "default_neural_policy_bundled": false,
-    "untrained_fallback_allowed": false,
-    "policy_assisted_execution_requires_explicit_binding": true,
-    "formal_periodic_in_training_qualification": false,
-    "formal_qualification_saved_base_only": true
+  "version": "6.2.1",
+  "release_name": "Adaptive Compute Protection, Recovery and Scientific Qualification",
+  "release_date": "2026-07-23",
+  "scope": "Dashboard usability patch on the v6.2 scientific baseline: vertically scrollable Dashboard body, three dedicated independently scrollable tabs for System Readiness, Training Queue and Scientific Context, and less compressed summary metrics. Scientific compute/policy/ORPD semantics remain unchanged.",
+  "implementation_report": "CALO-RPD-v6.2.1_IMPLEMENTATION_REPORT.md",
+  "post_generation_audit": "CALO-RPD-v6.2.1_DEEP_POST_GENERATION_AUDIT.txt",
+  "scientific_claim": "Research-validation software baseline. Physical hardware/GUI/PYPOWER qualification is explicitly machine/environment dependent and is not fabricated by the build runtime.",
+  "compute_protection": {
+    "profile": "Safe 80%",
+    "adaptive_green_amber_red_governor": true,
+    "staged_training_startup": true,
+    "staged_experiment_admission": true,
+    "global_training_exclusive_lock": true,
+    "total_branches_separate_from_concurrency": true,
+    "queued_exact_resume_scheduler": true,
+    "global_cpu_worker_budget": true,
+    "automatic_accelerator_to_cpu_spillover": false,
+    "xpu_capability_aware": true,
+    "trustworthy_temperature_power_only_when_available": true,
+    "hash_chained_compute_provenance": true
   },
-  "competitive_training": {
-    "independent_branch_parameter_averaging": false,
-    "transactional_immutable_branch_generations": true,
-    "authoritative_commit_point": "root .branches.json manifest",
-    "infinite_curriculum_independent_of_session_epochs": true,
-    "bounded_resume_history": true,
-    "bounded_coordinator_messages": true,
-    "bounded_champion_decisions": true,
-    "typed_safe_stop": true,
-    "safe_snapshot_cadence_epochs": 10,
-    "stuck_worker_grace_termination": true,
-    "durable_recovery_index": true,
-    "branch_aware_accelerator_admission": true,
-    "order_independent_common_bundle_base_selection": true,
-    "hardware_latency_used_as_scientific_promotion_vote": false
+  "recovery": {
+    "workspace_schema": 3,
+    "legacy_workspace_migration": true,
+    "unclean_application_session_journal": true,
+    "ui_recovery_is_not_optimizer_authority": true,
+    "competitive_exact_resume_recovery": true
   },
-  "scientific_protocol": {
-    "formal_policy_qualification_default_paired_runs": 30,
-    "formal_superiority_requires_adjusted_significance": true,
-    "formal_non_inferiority_separate_protocol": true,
-    "publication_validation": "complete_expected_verified_evidence_fail_closed",
-    "robust_feasibility_default": "all_scenario_max_constraint_violation",
-    "generator_limit_accounting": "individual_online_unit",
-    "voltage_deviation_partition": "fixed_declared_formulation",
-    "l_index_partition": "fixed_declared_formulation",
-    "strict_equal_fe_budget_rule": "max_evaluations_must_be_divisible_by_common_population_size",
-    "scenario_callable_fingerprint": "code_defaults_closure_partial_bound_method_callable_object_state",
-    "newton_primary_jacobian": "scipy_sparse_derivative_construction"
-  },
-  "trust_boundary": {
-    "portable_deployable_checkpoint": "weights_only_safe_loading",
-    "exact_resume_checkpoint": "trusted_local_hmac_sha_authenticated",
-    "external_pickle_resume_treated_as_safe": false,
-    "legacy_resume_migration": "explicit_user_trust_plus_legacy_integrity_verification"
+  "qualification": {
+    "hardware_soak_protocol": true,
+    "scientific_scheduling_equivalence_protocol": true,
+    "short_build_cpu_soak": "PASS_GREEN_NOT_PHYSICAL_QUALIFICATION",
+    "physical_multi_hour_cuda_xpu": "PENDING_TARGET_HARDWARE"
   },
   "freeze": {
-    "manifest": "calo_rpd_studio/data/frozen/calo_v580_freeze.json",
-    "checked_files": 110,
-    "missing": 0,
-    "changed": 0,
-    "canonical_manifest_sha256": "0cfac9946fc73d7c329f31f8db313f42d6436b668a4cde770c77f7df4e0a68f1",
-    "file_sha256": "bd2ce992d341c1a1ff409122bf791e6d7afc35b53e273669635fa74cd1165b59",
-    "status": "PASS"
+    "id": "calo_v621_software_release",
+    "manifest": "calo_rpd_studio/data/frozen/calo_v621_freeze.json",
+    "status": "VERIFIED",
+    "checked_files": 135,
+    "missing_files": 0,
+    "changed_files": 0,
+    "manifest_sha256": "42f457a9439093bd08c0681088af62549c257ffb02979cf143faed812950a745",
+    "file_sha256": "350869cb586fb862e1e96a3bb8b0c0a6c32c55491359b51ea1b2c53b53efdcf2"
   },
   "validation": {
     "compileall": "PASS",
-    "focused_tests": {
-      "passed": 71,
-      "failed": 0
-    },
-    "competitive_training_regressions": {
-      "passed": 9,
-      "failed": 0
-    },
-    "v58_and_v57_audit_closure_regressions": {
-      "passed": 30,
-      "failed": 0
-    },
-    "release_integrity": {
-      "passed": 4,
-      "failed": 0
-    },
-    "policy_cache_policy_system_numerical": {
-      "passed": 12,
-      "failed": 0
-    },
-    "robustness_and_continuation": {
-      "passed": 16,
-      "failed": 0
-    },
-    "full_gui_suite": "NOT_RUN_IN_BUILD_RUNTIME",
-    "full_target_pypower_suite": "NOT_CLAIMED_IN_BUILD_RUNTIME",
-    "physical_cuda_xpu": "NOT_AVAILABLE_IN_BUILD_RUNTIME",
-    "long_duration_infinite_soak": "NOT_RUN_ON_TARGET_HARDWARE",
-    "ruff_full_gate": "NOT_CLAIMED_IN_BUILD_RUNTIME"
+    "v620_rc_final_dependency_light": "9 passed",
+    "v620_v610_v600_v590_focused_architecture_science": "43 passed",
+    "calo_core": "11 passed",
+    "v610_beta_architecture": "12 passed",
+    "v56_competitive_training": "9 passed after post-generation fixes",
+    "short_protected_cpu_soak": "GREEN; no protection stop; physical_qualified=false",
+    "root_manifest": "VERIFIED \u2014 425 packaged files listed",
+    "physical_cuda_xpu": "NOT AVAILABLE IN BUILD RUNTIME",
+    "pyqt6": "NOT AVAILABLE IN BUILD RUNTIME",
+    "pypower": "NOT AVAILABLE IN BUILD RUNTIME",
+    "physical_multi_hour_hardware_soak": "NOT EXECUTED IN BUILD RUNTIME",
+    "full_target_machine_gui": "PENDING TARGET ENVIRONMENT",
+    "dashboard_layout_patch": "4 passed",
+    "focused_patch_regression": "39 passed"
   },
-  "residual": {
-    "H-002": "PARTIAL_DEFERRED_FOR_SEEDED_PARITY",
-    "H-003": "MITIGATED_MEASURED_PERFORMANCE_DEBT",
-    "J-008": "ACCEPTED_NON_AUTHORITATIVE_UI_TELEMETRY_SCOPE",
-    "N-001": "TARGET_ENVIRONMENT_VALIDATION_PENDING",
-    "N-003": "ENVIRONMENT_LIMITATION",
-    "N-004": "IMPROVED_LONG_DURATION_PHYSICAL_FAULT_MATRIX_PENDING",
-    "O-001": "PARTIAL_STRUCTURAL_MAINTAINABILITY_DEBT"
+  "ui": {
+    "dashboard_scrollable_body": true,
+    "dashboard_three_tabs": [
+      "System Readiness",
+      "Training Queue",
+      "Scientific Context"
+    ],
+    "independent_tab_scrolling": true
   }
 }

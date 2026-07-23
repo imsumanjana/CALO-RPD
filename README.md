@@ -1,76 +1,69 @@
-# CALO-RPD Studio 5.8.0
+# CALO-RPD Studio v6.2.1
 
-**CALO-RPD Studio 5.8.0** is a Python/PyQt6 research platform for deterministic and robust optimal reactive power dispatch (ORPD), reproducible comparison of twenty optimizers, Cognitive Adaptive Learning Optimizer (CALO) research, policy training and qualification, independent validation, statistics, and publication evidence.
+**CALO-RPD Studio 6.2.1 — Adaptive Compute Protection, Recovery and Scientific Qualification** completes the planned v6 architecture on top of the scientifically hardened v5.9 core and the v6.0/v6.1 policy-first protected scheduler.
 
-## v5.8 — Transactional Competitive Training and Scientific Closure
+## v6.2.1 dashboard layout patch
 
-Version 5.8 focuses on the unresolved competitive-training findings identified in the v5.6/v5.7 deep audits and on the new/reopened v5.7 scientific-integrity issues. It preserves the central design rule that parallel PPO branches are **independent trajectories**: neural weights, optimizer states, RNG states, and curriculum states are never arithmetically averaged.
+The Dashboard now uses a vertically scrollable page body and three dedicated scrollable tabs: **System Readiness**, **Training Queue**, and **Scientific Context**. The three previously stacked dashboard panels no longer compress each other; the hardware/device table keeps a usable minimum height and each tab can scroll independently. Summary metric cards use a 3-column responsive grid rather than one dense 5-card row.
 
-### Competitive training and exact resume
 
-- **Two-phase branch-generation persistence:** exact-resume branches train only against session-staged checkpoints. A complete immutable branch generation is prepared first; the root branch manifest is the authoritative commit point. A failed later branch cannot overwrite only part of the previously coherent official generation.
-- **Cumulative and Infinite modes:** session duration is separated from curriculum science. Infinite training no longer derives curriculum progression from the hidden/disabled cumulative-epoch value; explicit curriculum milestones are part of exact scientific state.
-- **Bounded infinite state:** resume history, coordinator messages, and champion-decision history are bounded. Full epoch telemetry is written separately as append-only JSONL rather than growing the exact-resume payload indefinitely.
-- **Safe Stop:** the exact session-start state is materialized before expensive validation. Rolling common safe checkpoints use a fixed 10-epoch cadence. Safe Stop is reported as `SAFE_STOPPED`/`SAFE_STOPPED_DEGRADED`, not as normal completion.
-- **Stuck-worker protection:** Safe Stop has a grace deadline; nonresponsive branch processes can be terminated after the deadline while the coordinator retains the latest coherent common safe generation.
-- **Crash recovery index:** interrupted competitive sessions retain a durable recovery record and staged exact states for explicit Recover/Discard handling. Recovery restores a coherent branch generation and does not promote an unfinalized branch champion.
-- **Branch-aware accelerator admission:** CUDA/XPU slots are assigned per branch with configurable per-accelerator concurrency; excess branches fall back to CPU rather than silently oversubscribing the same accelerator.
-- **Final queue accounting:** the coordinator performs a deterministic final queue drain and tracks terminal branch messages before result construction.
+## Canonical workflow
 
-### Champion and Base Model science
+Dashboard → CALO Intelligence → Power System → ORPD Formulation → Algorithms → Portfolio → Robust Scenarios → Experiment → Results/Validation/Publication.
 
-- Branch candidates must pass validity/feasibility eligibility before promotion.
-- Hardware-dependent inference latency is diagnostic only and is excluded from scientific policy-quality ranking.
-- Champion evidence carries a comparator schema and validation-bundle fingerprint.
-- Final Base selection re-evaluates the previous Base and all final branch candidates under one common validation bundle.
-- Global selection uses a deterministic, order-independent feasibility-first scientific ranking with stable tie resolution; it is not a sequential majority-vote tournament.
-- If no candidate is eligible, no candidate is falsely promoted as a Base. A terminal model may be retained only as an explicitly provisional artifact.
+Power System remains locked until a qualified, active, runtime-compatible and integrity-verified CALO governing policy is ready.
 
-### Qualification, publication, continuation, and power flow
+## v6.2 final upgrades
 
-- **Formal superiority qualification is fail-closed:** saved-Base promotion requires the predeclared paired evidence size, favorable direction, win/effect gates, and Holm-adjusted significance. Non-inferiority is a distinct protocol with an explicit margin.
-- **Publication evidence is complete-or-blocked:** when independent validation is required, publication-grade portfolio export requires the complete expected paired evidence set to be independently verified; partial verified subsets are not silently promoted to publication-ready evidence.
-- **Scenario compatibility hashing is stronger:** `functools.partial`, bound methods, callable objects, closures/defaults, and scientific instance state are canonicalized so different physical transforms do not silently share an exact-resume fingerprint.
-- **Legacy exact-resume migration:** a deliberate local-trust migration utility can convert verified legacy pre-HMAC exact-resume checkpoints into the authenticated v5.8 trusted-local format. Migration is never automatic.
-- **Sparse Newton reference path:** when SciPy is available, the AC Newton Jacobian is constructed from sparse complex-voltage derivatives without densifying Ybus or allocating full dense angle/trigonometric matrices.
+### Adaptive compute/thermal governor and staged startup
+- One authoritative Safe-80 protection envelope is shared by Dashboard, policy training and experiment admission.
+- Green/Amber/Red state machine with hysteresis.
+- Live CPU/RAM/accelerator-memory protection; actual temperature/power telemetry is used only when the runtime can obtain it reliably. Missing telemetry is reported as unavailable, never invented.
+- Amber blocks new admissions and applies protected pacing where supported.
+- Red requests a protective Safe Stop/cancel boundary rather than continuing to add load.
+- Competitive training starts branches in staged intervals instead of launching every admitted branch at once.
+- Experiment admission is also governor-controlled and staged.
+- Hash-chained compute-protection provenance records resource decisions and protection events.
 
-## Policy training modes
+### Workspace migration, recovery and provenance
+- Workspace schema 3 uses stable workspace keys and a v6.2 layout identity.
+- v5.9 positional and v6.0/v6.1 keyed workspace payloads migrate explicitly.
+- Unknown historical navigation identities restore conservatively to Dashboard and still obey live workflow gates.
+- Durable application-session recovery journal detects unclean shutdowns without treating UI state as authoritative optimizer state.
+- Existing experiment scientific restoration still validates saved configuration, exact PowerFlowOptions and policy binding before unlocking downstream workflow.
 
-- **Cumulative:** run a fixed number of additional epochs for the current session.
-- **Infinite:** run without a terminal epoch until Safe Stop; scientific curriculum milestones remain independent of the duration field.
-- **Exact Resume:** restore model, optimizer, RNG, curriculum and branch state exactly from the last committed coherent branch generation.
-- **Base-Guided Fork:** initialize fresh optimizer/RNG trajectories from deployable Base knowledge. This is scientifically distinct from Exact Resume.
+### Hardware-soak and scientific-equivalence qualification
+- Protected hardware-soak protocol/CLI with durable governor provenance.
+- A run is marked physically qualified only when a real accelerator is exercised for the declared qualification duration without a protection stop. Short CI/CPU runs validate the protocol but are never mislabeled as physical hardware certification.
+- Scientific-equivalence utilities verify that queue/concurrency changes preserve branch IDs, seeds, scientific configuration fingerprints and targets while allowing wall-clock/device placement to differ.
+- Dependency-light GUI contract validation complements the full PyQt6 target-machine GUI suite.
 
-## Scientific rules
+## Safe-80 semantics
 
-CALO never receives hidden extra objective evaluations. Equal-FE comparisons use the same evaluator, formulation, constraints, scenarios, seeds and declared FE budget semantics. Robust feasibility defaults to all-scenario maximum constraint violation unless a different formulation is explicitly selected. Per-generator P/Q capability is enforced at individual online units, while voltage-deviation and L-index partitions are fixed by the declared formulation rather than changing candidate-by-candidate after Q-limit switching.
+Safe-80 is an allocation/protection envelope, not an artificial 80% GPU-utilization cap. The system reserves approximately 20% operating capacity and continuously reassesses admission using the telemetry it can trust. Firmware/driver thermal protection is never overridden.
 
-CALO-RPD 5.8.0 intentionally ships with **no automatically active/default neural policy**. Policy-assisted CALO is fail-closed: the user must train or import a compatible policy, qualify it as required, explicitly activate it, and bind its immutable SHA-256 to the experiment. No random, untrained, missing-policy, or legacy fallback is permitted.
+## Important validation boundary
 
-## Run
+The source tree contains the complete v6.2 protection, recovery and qualification implementation. Physical multi-hour CUDA/XPU laptop soak, full PyQt6 GUI execution, complete PYPOWER validation and physical CPU↔CUDA↔XPU equivalence must still be executed on the intended target hardware before a publication/hardware qualification certificate is claimed. Build environments without those devices/dependencies must report that limitation rather than fabricate a pass.
+
+## Launch
 
 ```bash
 python bootstrap.py
 ```
 
-Windows and Linux launch helpers are included. The bootstrapper checks the local environment and installs/verifies supported prerequisites according to the packaged requirements.
-
-## Legacy exact-resume migration
-
-A pre-v5.7 trusted-local exact-resume checkpoint is **not automatically trusted**. After manually verifying its provenance, migration requires an explicit trust assertion:
+## Hardware soak qualification
 
 ```bash
-python -m calo_rpd_studio.scripts.migrate_legacy_resume legacy.resume.pt --i-trust-this-local-file
+python -m calo_rpd_studio.scripts.validate_hardware_soak --backend auto --duration-seconds 14400
 ```
 
-The original file is retained; the migrated copy receives the current machine-local authenticated trust sidecar and migration provenance.
+Generated qualification evidence is written under `results_data/hardware_soak/`.
 
-## Important remaining limitations
+## Release evidence
 
-- CALO cognitive/control execution is not yet fully Torch/CUDA/XPU resident. The numerical ORPD evaluator is accelerator-capable, but portions of seeded CALO control remain host-side to preserve the frozen trajectory until a separately parity-qualified device-native implementation exists.
-- Exact optimizer-state horizon continuation remains CALO-specific; other algorithms use paired recomputation from original seeds when extending horizons.
-- Full target-environment release qualification still requires the complete PYPOWER, PyQt6 GUI, static-analysis, physical CUDA/XPU parity/fault-injection, and long-duration soak suites on the intended deployment hardware.
-- Recovery of an interrupted first-ever competitive session can restore coherent exact branch state, but no unqualified/unfinalized branch model is promoted as a deployable Base.
-- Large orchestration modules still contain maintainability debt. v5.8 strengthens service contracts and transactional behavior without claiming a complete structural rewrite.
-
-See `RELEASE_VALIDATION.md`, `CALO-RPD-v5.8.0_IMPLEMENTATION_REPORT.md`, and `FINDINGS_CLOSURE_v5.8.0.csv` for release evidence and residual scope.
+- `CALO-RPD-v6.2.1_IMPLEMENTATION_REPORT.md`
+- `CALO-RPD-v6.2.1_DEEP_POST_GENERATION_AUDIT.txt`
+- `FINDINGS_CLOSURE_v6.2.1.csv`
+- `calo_rpd_studio/data/frozen/calo_v621_freeze.json`
+- `MANIFEST.sha256`

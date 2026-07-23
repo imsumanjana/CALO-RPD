@@ -1,0 +1,36 @@
+CALO-RPD v6.2.1 — DASHBOARD UI POST-GENERATION AUDIT
+=====================================================
+
+Scope
+-----
+Dashboard-only presentation patch requested after observing the v6.2 dashboard panels compressed into one vertically stacked surface.
+
+Verified changes
+----------------
+1. Dashboard body uses a vertical QScrollArea.
+2. The previous three stacked sections are no longer added directly to the root page layout.
+3. A QTabWidget contains exactly three functional dashboard tabs:
+   - System Readiness
+   - Training Queue
+   - Scientific Context
+4. Each of the three tabs is independently vertically scrollable.
+5. System Readiness keeps the CPU/XPU/GPU mapping table in its own tab with a usable minimum table height.
+6. Metric cards use a 3-column responsive grid rather than one five-card row.
+7. Existing state signal connections and refresh methods were retained.
+8. No CALO/policy/ORPD/compute-governor scientific logic was intentionally modified.
+
+Regression risk review
+----------------------
+- The patch changes widget composition only; underlying labels and table objects retain the same instance attributes used by refresh methods.
+- `self.device_table`, `self.compute_labels`, `self.training_labels`, and `self.labels` are preserved.
+- Refresh/telemetry methods therefore continue writing to the same widgets after they are reparented into tabs.
+- Tab scroll wrappers disable outer horizontal scrolling; the QTableWidget retains its own horizontal scrollbar for wide device columns.
+- The overall Dashboard body is also vertically scrollable, preventing the fixed page header + summary cards + tab surface from being clipped on smaller windows.
+
+Environment limitation
+----------------------
+PyQt6 is unavailable in this build runtime. Therefore visual rendering on the target Windows machine remains a target-environment gate. Static source/regression validation confirms the intended widget structure but is not presented as a physical GUI screenshot test.
+
+Conclusion
+----------
+The dashboard compression issue is structurally corrected: the three large areas no longer compete for vertical space simultaneously. Each area has a dedicated tab and scroll surface, while the complete Dashboard body can scroll when the application window is smaller than its preferred content height.

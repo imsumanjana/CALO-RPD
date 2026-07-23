@@ -100,10 +100,15 @@ def test_competitive_training_creates_separate_branch_resume_states_and_one_base
     output = tmp_path / "base.pt"
     path, history = train_policy_parallel(_tiny_config(), output, parallel_runs=2)
     manifest = json.loads(Path(path).with_suffix(".branches.json").read_text(encoding="utf-8"))
-    assert manifest["session"]["method"] == "competitive independent PPO branches; no parameter averaging"
+    assert manifest["session"]["method"] == "competitive independent PPO branches with protected queued scheduling and exact-resume indefinite rotation; no parameter averaging"
+    assert manifest["session"]["queued_branch_scheduler"] is True
     assert len(manifest["branches"]) == 2
-    assert Path(manifest["base_artifact_path"]).is_file()
-    assert Path(path).is_file()
+    # v5.9 separates synthetic Training Champion screening from deployable scientific Base
+    # promotion. Without an exact real-ORPD development bundle, the selected artifact is
+    # provisional and must not overwrite the logical deployable Base alias.
+    assert manifest["base_artifact_path"] == ""
+    assert Path(manifest["provisional_artifact_path"]).is_file()
+    assert not Path(path).is_file()
     assert history
     for branch in manifest["branches"]:
         assert Path(branch["resume_path"]).is_file()
@@ -148,7 +153,9 @@ def test_base_guided_fork_starts_fresh_branches_without_mutating_parent(tmp_path
         parallel_runs=1,
     )
     parent_manifest = json.loads(parent.with_suffix(".branches.json").read_text(encoding="utf-8"))
-    parent_artifact = Path(parent_manifest["base_artifact_path"])
+    parent_artifact = Path(
+        parent_manifest["base_artifact_path"] or parent_manifest["provisional_artifact_path"]
+    )
     parent_bytes = parent_artifact.read_bytes()
 
     child = tmp_path / "child.pt"

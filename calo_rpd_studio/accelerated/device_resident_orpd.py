@@ -24,6 +24,8 @@ from calo_rpd_studio.power_system.case_model import (
     BR_R,
     BR_STATUS,
     BR_X,
+    ANGMIN,
+    ANGMAX,
     BS,
     BUS_TYPE,
     F_BUS,
@@ -68,6 +70,7 @@ CONSTRAINT_COMPONENT_NAMES = (
     "generator_q",
     "generator_p",
     "branch_thermal",
+    "branch_angle",
     "power_flow",
 )
 
@@ -294,6 +297,8 @@ class DeviceResidentORPDEvaluator:
             torch.as_tensor(branch[:, :, SHIFT], dtype=dtype, device=device)
         )
         self.rate_a = torch.as_tensor(branch[:, :, RATE_A], dtype=dtype, device=device)
+        self.angmin = torch.as_tensor(branch[:, :, ANGMIN], dtype=dtype, device=device)
+        self.angmax = torch.as_tensor(branch[:, :, ANGMAX], dtype=dtype, device=device)
 
         self.base_vm = torch.as_tensor(bus[:, :, VM], dtype=dtype, device=device)
         self.base_va = torch.deg2rad(torch.as_tensor(bus[:, :, VA], dtype=dtype, device=device))
@@ -663,10 +668,18 @@ class DeviceResidentORPDEvaluator:
                 .expand(batch, -1, -1)
                 .reshape(batch * self.scenario_count, self.n_bus)
             )
+            tolerances = self.config.constraint_tolerances
             span = torch.clamp(upper - lower, min=1e-12)
+            below_v = lower - vm_final
+            above_v = vm_final - upper
+            below_v = torch.where(
+                below_v > float(tolerances.voltage_pu), below_v, torch.zeros_like(below_v)
+            )
+            above_v = torch.where(
+                above_v > float(tolerances.voltage_pu), above_v, torch.zeros_like(above_v)
+            )
             bus_voltage = torch.sum(
-                torch.relu(lower - vm_final) / span + torch.relu(vm_final - upper) / span,
-                dim=1,
+                torch.relu(below_v) / span + torch.relu(above_v) / span, dim=1
             )
             scenario_indices = (
                 torch.arange(batch * self.scenario_count, device=self.device) % self.scenario_count
@@ -681,7 +694,8 @@ class DeviceResidentORPDEvaluator:
             generator_p = torch.sum(
                 torch.where(
                     gen_mask,
-                    torch.relu(pmin - pg - 1e-6) / pspan + torch.relu(pg - pmax - 1e-6) / pspan,
+                    torch.relu(pmin - pg - float(tolerances.generator_p_mw)) / pspan
+                    + torch.relu(pg - pmax - float(tolerances.generator_p_mw)) / pspan,
                     torch.zeros_like(pg),
                 ),
                 dim=1,
@@ -689,16 +703,48 @@ class DeviceResidentORPDEvaluator:
             generator_q = torch.sum(
                 torch.where(
                     gen_mask,
-                    torch.relu(qmin - qg - 1e-6) / qspan + torch.relu(qg - qmax - 1e-6) / qspan,
+                    torch.relu(qmin - qg - float(tolerances.generator_q_mvar)) / qspan
+                    + torch.relu(qg - qmax - float(tolerances.generator_q_mvar)) / qspan,
                     torch.zeros_like(qg),
                 ),
                 dim=1,
             )
-            rated = self.rate_a[scenario_indices] > 0
-            branch_thermal = torch.sum(
-                torch.where(rated, torch.relu(loading - 100.0) / 100.0, torch.zeros_like(loading)),
-                dim=1,
+            active_branch = self.branch_status[scenario_indices]
+            rated = active_branch & (self.rate_a[scenario_indices] > 0)
+            overload = loading - 100.0
+            overload = torch.where(
+                overload > float(tolerances.branch_loading_percent), overload, torch.zeros_like(overload)
             )
+            branch_thermal = torch.sum(
+                torch.where(rated, torch.relu(overload) / 100.0, torch.zeros_like(loading)), dim=1
+            )
+
+            va_final_deg = torch.rad2deg(torch.angle(voltage))
+            # Branch endpoint indices are topology-invariant across the validated scenario bundle.
+            # Index the bus-angle matrix directly; scenario_indices selects only scenario-varying
+            # branch limits/status arrays below.
+            delta = va_final_deg[:, self.fidx] - va_final_deg[:, self.tidx]
+            angmin = self.angmin[scenario_indices]
+            angmax = self.angmax[scenario_indices]
+            unconstrained = (angmin == 0.0) & (angmax == 0.0)
+            lo_active = active_branch & (~unconstrained) & (angmin > -360.0)
+            hi_active = active_branch & (~unconstrained) & (angmax < 360.0)
+            angle_span = torch.where(
+                lo_active & hi_active, torch.clamp(angmax - angmin, min=1.0), torch.full_like(angmin, 360.0)
+            )
+            below_angle = angmin - delta
+            above_angle = delta - angmax
+            below_angle = torch.where(
+                lo_active & (below_angle > float(tolerances.branch_angle_deg)),
+                below_angle / angle_span,
+                torch.zeros_like(below_angle),
+            )
+            above_angle = torch.where(
+                hi_active & (above_angle > float(tolerances.branch_angle_deg)),
+                above_angle / angle_span,
+                torch.zeros_like(above_angle),
+            )
+            branch_angle = torch.sum(below_angle + above_angle, dim=1)
             power_flow = torch.where(
                 converged & (~failed),
                 torch.zeros_like(loss),
@@ -722,6 +768,9 @@ class DeviceResidentORPDEvaluator:
             branch_thermal = torch.where(
                 finite_mask, branch_thermal, torch.full_like(branch_thermal, float("inf"))
             )
+            branch_angle = torch.where(
+                finite_mask, branch_angle, torch.full_like(branch_angle, float("inf"))
+            )
 
             objective_kind = self.config.objective.kind
             if objective_kind is ObjectiveKind.ACTIVE_POWER_LOSS:
@@ -735,18 +784,18 @@ class DeviceResidentORPDEvaluator:
                 scenario_objective = (
                     float(objective_config.weight_loss)
                     * loss
-                    / max(float(objective_config.loss_scale), 1e-15)
+                    / float(objective_config.loss_scale)
                     + float(objective_config.weight_voltage_deviation)
                     * voltage_deviation
-                    / max(float(objective_config.voltage_deviation_scale), 1e-15)
+                    / float(objective_config.voltage_deviation_scale)
                     + float(objective_config.weight_l_index)
                     * l_index
-                    / max(float(objective_config.l_index_scale), 1e-15)
+                    / float(objective_config.l_index_scale)
                 )
 
             scenario_objective = scenario_objective.reshape(batch, self.scenario_count)
             scenario_constraints = torch.stack(
-                (bus_voltage, generator_q, generator_p, branch_thermal, power_flow), dim=1
+                (bus_voltage, generator_q, generator_p, branch_thermal, branch_angle, power_flow), dim=1
             ).reshape(batch, self.scenario_count, len(CONSTRAINT_COMPONENT_NAMES))
             scenario_violation = torch.sum(scenario_constraints, dim=2)
             robust_objective = self._robust(scenario_objective)
@@ -758,7 +807,7 @@ class DeviceResidentORPDEvaluator:
             feasible = (
                 torch.all(finite_mask.reshape(batch, self.scenario_count), dim=1)
                 & torch.isfinite(robust_objective)
-                & (violation <= 1e-12)
+                & (violation <= float(self.config.constraint_tolerances.feasibility_total))
             )
             objective_mean = torch.sum(weights * scenario_objective, dim=1)
             objective_std = torch.sqrt(

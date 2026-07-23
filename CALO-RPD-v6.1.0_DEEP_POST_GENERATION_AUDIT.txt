@@ -1,0 +1,290 @@
+CALO-RPD v6.1.0 — DEEP POST-GENERATION BETA ARCHITECTURE AUDIT
+================================================================
+
+Audited release : CALO-RPD v6.1.0
+Audit date      : 2026-07-23
+Audit focus     : requested beta1–beta4 upgrades, queue/exact-resume correctness,
+                  CPU/XPU/GPU admission semantics, workflow lock integration,
+                  release consistency, and regression impact on the v5.9 scientific core.
+Audit mode      : read-only verification after implementation fixes; no superiority claim.
+
+EXECUTIVE VERDICT
+-----------------
+
+v6.1 materially implements the four requested beta upgrades:
+
+  BETA1  Global Training Exclusive Lock
+  BETA2  total scientific branch count separated from simultaneous concurrency + queue scheduler
+  BETA3  one global CPU worker budget + no uncontrolled accelerator-to-CPU branch spillover
+  BETA4  XPU capability-aware scheduling
+
+The most important architectural improvement is that asking for 4 scientific branches no longer means the
+application must attempt to run all 4 simultaneously. Safe-80 concurrency is separately planned, excess branches
+are queued, and the CPU budget is one global protected budget rather than a full per-branch recommendation.
+
+The release also correctly refuses to count an XPU sidecar as a fake full independent training branch. A direct
+XPU can be a primary branch only when the direct runtime exists and the required FP64 runtime smoke passes.
+
+No new blocker was found in the implemented beta1–beta4 logic during the final targeted audit. Several important
+limitations remain deliberate release boundaries rather than hidden claims: continuous thermal/power protection,
+physical CUDA/XPU soak/parity on the user's laptop, and full PyQt6/PYPOWER target-environment validation are not
+available in this build runtime.
+
+================================================================
+1. BETA1 — GLOBAL TRAINING EXCLUSIVE LOCK
+================================================================
+
+STATUS: IMPLEMENTED / TARGETED STRUCTURAL REGRESSION PASS
+
+Verified architecture:
+- AppState exposes explicit policy-training active/detail/plan state.
+- MainWindow subscribes to the training state.
+- Every page is disabled during training except Dashboard, which remains a read-only monitor.
+- CALO Intelligence configuration is disabled; Safe Stop remains reachable through the global task/status control.
+- Open/Save mutable configuration actions are disabled.
+- compute-topology refresh fails closed while policy training is active.
+- closeEvent requests exact Safe Stop before application shutdown.
+- training completion, Safe Stop/cancellation, failure and launch-failure paths release the global lock.
+- WorkflowManager locks downstream workspaces while training owns the runtime.
+
+Audit note:
+The workflow text may still allow navigation to CALO Intelligence as a view target, but the page itself is disabled.
+This is consistent with the user's requirement to disable panels; it does not permit configuration mutation.
+
+================================================================
+2. BETA2 — BRANCH COUNT / CONCURRENCY SEPARATION AND QUEUE
+================================================================
+
+STATUS: IMPLEMENTED / FIXED + INDEFINITE QUEUE REGRESSIONS PASS
+
+Verified semantics:
+- parallel_runs = total independent scientific trajectories.
+- parallel_concurrency = maximum simultaneous protected execution slots.
+- total branches may exceed concurrency.
+- each branch retains independent exact policy/optimizer/RNG/curriculum/champion state.
+- no neural parameter averaging.
+
+Fixed/cumulative mode:
+- admitted branches run to their session target in one process lease;
+- queued branches start when their assigned protected slot becomes free;
+- repeated CUDA/XPU context startup for every 10 epochs is avoided in fixed mode;
+- final transaction requires one coherent terminal epoch across all branches.
+
+Indefinite mode:
+- queued branches cannot starve;
+- active branches rotate through exact-resume lease boundaries;
+- queue quantum is at least 10 epochs and rounded to a 10-epoch safe boundary;
+- a direct regression with 2 scientific branches / 1 simultaneous slot reached both branches at >=10 epochs and
+  produced a coherent common Safe-Stop state.
+
+Safe Stop:
+- active work receives cancellation;
+- never-started queued branches are initialized under cancellation only to materialize their exact starting safe state;
+- already-started queued branches use their authenticated saved safe state;
+- complete scientific branch-set exact state is required before a normal Safe-Stop commit.
+
+Potential performance boundary, not a correctness blocker:
+- indefinite rotation restarts a branch process at lease boundaries, which recreates accelerator process/context state.
+  This is intentionally bounded and exact-resume-safe, but a later persistent-paused-worker architecture could reduce
+  restart overhead after thermal behavior is physically characterized.
+
+================================================================
+3. BETA3 — GLOBAL CPU BUDGET / NO UNCONTROLLED CPU FALLBACK
+================================================================
+
+STATUS: IMPLEMENTED / POST-AUDIT ALIGNMENT FIX APPLIED
+
+Verified design:
+- Dashboard/Safe-80 calculates one global protected CPU worker-equivalent budget.
+- scheduler reserves 2 host support equivalents per active branch.
+- at least 1 rollout worker per active branch is required.
+- only the remaining rollout budget is divided across simultaneous slots.
+- per-branch native BLAS/OpenMP/PyTorch host thread caps reduce hidden process-thread multiplication.
+
+Post-generation audit correction:
+The first beta implementation used a two-worker minimum in Dashboard CPU capacity but the scheduler actually needed
+2 support equivalents + 1 rollout worker = 3. This could have made Dashboard overstate concurrency on small/CPU-bound
+systems. A shared constant now makes Dashboard and scheduler use the same 3-equivalent minimum model.
+
+No uncontrolled CPU spillover:
+- selected accelerator unavailable/full -> fail closed or reduce concurrency/queue; no hidden heavy CPU branch.
+- automatic mode with detected-but-unavailable full accelerators does not silently spill onto CPU.
+- CPU-only execution remains possible only as an explicit/protected choice or on a genuinely CPU-only topology.
+- strict heterogeneous lane binding prevents missing CUDA/XPU lanes from being silently redistributed to CPU.
+
+Important interpretation:
+The CPU budget is a scheduling/process budget, not a literal electrical power cap. The later thermal/power governor is
+still required for dynamic protection based on physical telemetry.
+
+================================================================
+4. BETA4 — XPU CAPABILITY-AWARE SCHEDULING
+================================================================
+
+STATUS: IMPLEMENTED WITH DELIBERATE SIDECAR LIMITATION
+
+Direct CUDA / direct XPU:
+- direct runtime identity is mapped through ComputeTopology;
+- deterministic FP64 tensor/matmul smoke is required for scientific full-branch runtime capability;
+- per-device Safe-80 accelerator-memory headroom is checked before slot selection;
+- a busy first accelerator cannot be selected simply because a different device contributed aggregate capacity.
+
+XPU sidecar:
+- classified as actor/evaluator assistance only;
+- never counted as an independent full training branch;
+- may be leased as an auxiliary XPU lane to at most one simultaneous slot in the current resource plan;
+- unavailable auxiliary XPU share is not converted to hidden CPU load.
+
+Scientific limitation:
+A tiny FP64 runtime smoke verifies basic numerical/runtime capability, not long-duration scientific parity, driver
+stability, or thermal suitability. Physical target-hardware parity/soak remains mandatory before claiming a direct XPU
+configuration is fully qualified for final publication campaigns.
+
+================================================================
+5. GLOBAL RESOURCE-PLAN CONSISTENCY
+================================================================
+
+STATUS: PASS AFTER CORRECTIONS
+
+One authoritative TrainingResourcePlan records:
+- total branches;
+- simultaneous branches;
+- queued branches;
+- global CPU budget;
+- support reserve;
+- rollout-worker total;
+- primary device per slot;
+- optional auxiliary XPU;
+- topology fingerprint;
+- protection-profile fingerprint.
+
+GUI preflight and live launch both use the same planner contract. The live launch recalculates resource pressure and
+freezes the actual admission identity in provenance.
+
+Per-device memory-headroom audit:
+Aggregate accelerator slot counts alone are insufficient. v6.1 explicitly rechecks the candidate device's own memory
+headroom. A regression confirms that a busy cuda:0 is skipped when xpu:0 owns the actual safe headroom.
+
+================================================================
+6. EXACT-RESUME / TRANSACTIONAL SCIENCE IMPACT
+================================================================
+
+STATUS: NO NEW PARAMETER-AVERAGING OR BRANCH-STATE MERGE INTRODUCED
+
+Preserved from v5.9:
+- transactional immutable branch generation commit;
+- stale-recovery authority guard;
+- common safe-state semantics;
+- independent optimizer/RNG/curriculum state;
+- scientific Training Champion vs Deployable Base separation;
+- validation-bundle/formulation fingerprinting.
+
+v6.1 adds XPU RNG persistence where runtime APIs expose get/set RNG state.
+
+Hardware placement may change across session boundaries. This is recorded in provenance. Exact continuation means exact
+saved optimizer/RNG/training state is restored; bit-identical floating-point replay across different CPU/CUDA/XPU
+hardware is not claimed.
+
+================================================================
+7. REGRESSION / VALIDATION EVIDENCE
+================================================================
+
+Executed successfully:
+
+A. compileall
+   calo_bootstrap + calo_rpd_studio + tests : PASS
+
+B. focused architecture/scientific closure group
+   55 passed
+   (v6.1 beta, v6.0 alpha, v5.9 scientific closure, v5.8 audit closure, CALO core)
+
+C. competitive-training targeted regressions
+   3 passed
+   - normal competitive transaction/base generation
+   - exact competitive resume branch advancement
+   - Safe Stop common exact branch state
+
+D. broad scientific/unit partition
+   101 passed
+
+E. additional release/workflow/export/worker partition
+   78 passed, 1 skipped
+   Skip reason: PYPOWER unavailable for one bundled IEEE formulation-manifest test.
+
+F. workflow/startup partition
+   1 passed, 1 skipped
+   Skip reason: PyQt6 unavailable for the PyQt-dependent workflow-restore test.
+
+The above counts are evidence from separate runs and are not summed as a single deduplicated full-suite total because
+some targeted historical regression groups intentionally overlap.
+
+A full `tests/unit` attempt progressed without observed failures before exceeding the execution time window; therefore
+this audit does not falsely claim a complete all-tests pass.
+
+================================================================
+8. RELEASE CONSISTENCY / STATIC AUDIT
+================================================================
+
+- active version surfaces updated to 6.1.0;
+- bootstrap fallback version corrected to 6.1.0;
+- release name: Protected Training Queue and Capability-Aware Scheduling;
+- no silent broad Exception/BaseException/bare handler whose sole action is pass/continue/return was found by AST scan;
+- no new placeholder/TODO implementation markers were found in beta modules;
+- abstract BaseOptimizer NotImplementedError remains intentional interface behavior;
+- historical v5.x/v6.0 evidence/freeze files are retained as history rather than rewritten.
+
+================================================================
+9. DELIBERATE RESIDUALS / NOT CLAIMED COMPLETE
+================================================================
+
+R-001  Continuous thermal/power governor is NOT implemented.
+       Safe-80 is static/live-admission resource budgeting, not temperature-based closed-loop thermal protection.
+
+R-002  Green/Amber/Red dynamic throttling and automatic thermal-triggered exact Safe Stop remain later v6 RC work.
+
+R-003  No physical NVIDIA CUDA or Intel XPU hardware was available in this audit runtime.
+       Device capability code was tested structurally/synthetically, not physically certified here.
+
+R-004  XPU sidecar remains actor/evaluator-only; full independent PPO-branch certification is explicitly false.
+
+R-005  PyQt6 was unavailable, so complete GUI interaction testing of the Exclusive Lock could not be executed here.
+       Structural wiring/regression tests passed; target-machine GUI validation remains required.
+
+R-006  PYPOWER was unavailable, so the complete target scientific validation suite was not run in this environment.
+       v5.9 scientific closure regressions and dependency-light ORPD/power-flow tests passed.
+
+R-007  The estimated per-branch RAM/accelerator working set remains a conservative configuration estimate rather than
+       a calibrated live memory model. Dynamic measured admission belongs to the later compute/thermal governor.
+
+R-008  Safe-80 CPU worker-equivalents limit process/thread admission; they do not directly cap CPU package watts.
+
+================================================================
+10. FINAL AUDIT ASSESSMENT
+================================================================
+
+Global Training Exclusive Lock              : IMPLEMENTED
+Total branches vs simultaneous concurrency  : IMPLEMENTED
+Protected queued fixed/cumulative waves      : IMPLEMENTED
+Indefinite exact-resume rotation             : IMPLEMENTED
+Global CPU worker budget                     : IMPLEMENTED
+No uncontrolled accelerator->CPU spill       : IMPLEMENTED / FAIL-CLOSED
+Direct XPU capability-aware full branch       : IMPLEMENTED WITH FP64 RUNTIME GATE
+XPU sidecar as fake full branch               : BLOCKED
+Dashboard protected queue/resource map        : IMPLEMENTED
+Dynamic thermal/power governor                : NOT YET IMPLEMENTED (DECLARED BOUNDARY)
+Physical target-laptop thermal qualification  : NOT EXECUTED IN THIS ENVIRONMENT
+
+FINAL VERDICT:
+CALO-RPD v6.1.0 is a coherent beta architecture release for protected queued policy training. It materially reduces
+the specific oversubscription pattern that could occur when several requested branches independently multiplied CPU
+workers or silently fell back from accelerators to CPU. It should still not be described as a complete laptop thermal
+protection system until the later continuous telemetry/governor/physical-soak work is implemented and validated.
+
+END OF AUDIT
+
+
+FINAL SOURCE-TREE CRYPTOGRAPHIC CHECK
+-------------------------------------
+- v6.1 freeze: 128/128 verified; 0 missing; 0 changed.
+- root MANIFEST.sha256: 403 packaged files listed.
+- v6.1 release-integrity suite: 5 passed.
+- archive extraction is independently verified after ZIP generation.

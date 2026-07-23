@@ -63,12 +63,14 @@ from calo_rpd_studio.algorithms.calo.policy_qualification import (
     PolicyQualificationConfig,
 )
 from calo_rpd_studio.resume.models import ResumeStatus, ResumeTaskType
+from calo_rpd_studio.compute.training_resources import build_training_resource_plan
 
 
 _LOG = logging.getLogger(__name__)
 
 class TrainingWorker(QThread):
     progress = pyqtSignal(int, str)
+    session_state = pyqtSignal(object)
     completed = pyqtSignal(str)
     cancelled = pyqtSignal(str)
     failed = pyqtSignal(str)
@@ -88,7 +90,7 @@ class TrainingWorker(QThread):
         try:
             pr = int(getattr(self.config, "parallel_runs", 1))
             if pr >= 1 and str(self.config.ppo_device).lower() != "xpu_sidecar":
-                # v5.8 uses the competitive branch coordinator even for one branch so Cumulative,
+                # v5.9 uses the competitive branch coordinator even for one branch so Cumulative,
                 # Infinite, Safe Stop, exact branch resume, champion tracking and Base-Guided Fork
                 # all share one scientifically consistent persistence contract.
                 result = train_policy_parallel(
@@ -97,6 +99,7 @@ class TrainingWorker(QThread):
                     parallel_runs=pr,
                     progress_callback=self.progress.emit,
                     cancel_callback=self._cancel_event.is_set,
+                    session_state_callback=self.session_state.emit,
                 )
                 status = str(getattr(getattr(result, "status", ""), "value", getattr(result, "status", "")))
                 if status.startswith("SAFE_STOPPED"):
@@ -107,6 +110,9 @@ class TrainingWorker(QThread):
                         detail += " Forced termination after the grace deadline: " + ", ".join(degraded)
                     self.cancelled.emit(detail)
                     return
+                selected = str(getattr(result, "selected_artifact_path", "") or "")
+                self.completed.emit(selected or str(getattr(result, "output_path", self.path)))
+                return
             elif str(self.config.ppo_device).lower() == "xpu_sidecar":
                 from calo_rpd_studio.compute.xpu_sidecar import train_policy_in_xpu_sidecar
 
@@ -183,7 +189,7 @@ class CALOIntelligencePanel(ScrollablePage):
         layout.addWidget(
             PageHeader(
                 "CALO Intelligence",
-                "Manage CALO v5.8.0 policies, qualify Candidate vs active/reference vs No-AI CALO under paired budgets, bind an immutable policy to runtime, and train the native 32-feature policy schema reproducibly.",
+                "Governing CALO intelligence control plane. Train/provision first, qualify candidates, and explicitly activate one integrity-verified compatible policy before Power System can unlock. Safe-80 compute protection governs protected parallel training and queued branch admission.",
             )
         )
 
@@ -205,7 +211,7 @@ class CALOIntelligencePanel(ScrollablePage):
         self.checkpoint_interval.setRange(10, 10)
         self.checkpoint_interval.setValue(10)
         self.checkpoint_interval.setToolTip(
-            "v5.8 keeps bounded rolling temporary exact states every 10 epochs on disk; the exact session-start state is also a valid Safe Stop point. No permanent intermediate snapshots are created before transactional commit."
+            "v5.9 keeps bounded rolling temporary exact states every 10 epochs on disk; the exact session-start state is also a valid Safe Stop point. No permanent intermediate snapshots are created before transactional commit."
         )
         self.qualification_interval = QSpinBox()
         self.qualification_interval.setRange(0, 0)
@@ -343,7 +349,7 @@ class CALOIntelligencePanel(ScrollablePage):
         )
         self.accelerated_training_orpd.setChecked(True)
         self.accelerated_training_orpd.setToolTip(
-            "CALO v5.8 uses the native 32-feature policy state/action schema and accelerator-native FP64 ORPD evaluation for configured development-case rollouts; synthetic curriculum stages remain lightweight host environments."
+            "CALO v5.9 uses the native 32-feature policy state/action schema and accelerator-native FP64 ORPD evaluation for configured development-case rollouts; synthetic curriculum stages remain lightweight host environments."
         )
         self.cross_episode_training_batch = QCheckBox(
             "Batch compatible ORPD populations across simultaneous rollout episodes"
@@ -494,13 +500,24 @@ class CALOIntelligencePanel(ScrollablePage):
         training_form.addRow("Distribution hint", self.task_share_status)
         training_form.addRow("Compute status", self.accelerator_status)
         self.parallel_runs = QSpinBox()
-        self.parallel_runs.setRange(1, 16)
+        self.parallel_runs.setRange(1, 64)
         self.parallel_runs.setValue(1)
         self.parallel_runs.setSuffix(" runs")
         self.parallel_runs.setToolTip(
             "Total competitive branches. Branches are independent exact PPO trajectories; their "
             "neural weights are never averaged. The best scientifically evaluated champion becomes the base model."
         )
+        self.parallel_concurrency = QSpinBox()
+        self.parallel_concurrency.setRange(1, 64)
+        self.parallel_concurrency.setValue(1)
+        self.parallel_concurrency.setToolTip(
+            "Maximum branches allowed to execute simultaneously. This may be lower than total scientific branches. "
+            "The Dashboard Safe-80 ceiling is a hard maximum; remaining branches are queued and exact-resume rotated."
+        )
+        self.parallel_concurrency.valueChanged.connect(self._update_queue_plan_label)
+        self.queue_plan_status = QLabel()
+        self.queue_plan_status.setWordWrap(True)
+        self.queue_plan_status.setObjectName("HelpText")
         self.parallel_start_mode = QComboBox()
         self.parallel_start_mode.addItem("New independent branches", "new")
         self.parallel_start_mode.addItem("Exact resume existing branches", "exact_resume")
@@ -534,7 +551,13 @@ class CALOIntelligencePanel(ScrollablePage):
         training_form.addRow("Parallel branch start", self.parallel_start_mode)
         training_form.addRow("Branch seed plan", seed_plan_host)
         training_form.addRow("Custom branch seeds", self.custom_branch_seeds)
-        training_form.addRow("Parallel branches", self.parallel_runs)
+        training_form.addRow("Total scientific branches", self.parallel_runs)
+        training_form.addRow("Maximum simultaneous branches", self.parallel_concurrency)
+        training_form.addRow("Protected queue plan", self.queue_plan_status)
+        self.safe_parallel_limit = QLabel("Safe parallel limit: waiting for Dashboard system scan")
+        self.safe_parallel_limit.setWordWrap(True)
+        self.safe_parallel_limit.setObjectName("HelpText")
+        training_form.addRow("Safe-80 branch protection", self.safe_parallel_limit)
         training_form.addRow("Training scratch storage", self.training_scratch_dir)
         self._sync_parallel_branch_count()
         self.policy_gate_status = QLabel()
@@ -725,7 +748,7 @@ class CALOIntelligencePanel(ScrollablePage):
             "constraint violation, objective and constraint progress, population and elite "
             "diversity, separate stagnation states, archive occupancy, remaining evaluation "
             "budget, and online operator credit.\n\n"
-            "CALO v5.8.0 operators — feasible-elite learning, constraint-boundary differential "
+            "CALO v6.2 operators — feasible-elite learning, constraint-boundary differential "
             "learning, cognitive teacher learning, success-distribution memory, mixed-variable "
             "neighbourhood learning, and diversity recovery. Operators are allocated per learner.\n\n"
             "The hierarchical policy selects a search regime, operator probabilities, and bounded "
@@ -742,7 +765,9 @@ class CALOIntelligencePanel(ScrollablePage):
 
         self.refresh_policy_library()
         self.state.config_changed.connect(lambda config: self.load_from_config(config))
+        self.state.compute_profile_changed.connect(lambda _profile: self._update_compute_protection())
         self.load_from_config(self.state.config)
+        self._update_compute_protection()
 
     def refresh_policy_library(self) -> None:
         bundled = Path(__file__).resolve().parents[2] / "data" / "trained_models"
@@ -813,6 +838,7 @@ class CALOIntelligencePanel(ScrollablePage):
         self.qualification_reference.blockSignals(False)
         self._update_policy_gate_state()
         self._draw_policy_comparison()
+        self.state.notify_policy_state_changed()
 
     def _update_policy_gate_state(self) -> None:
         """Fail closed until a real policy exists and a compatible policy is explicitly active."""
@@ -830,10 +856,12 @@ class CALOIntelligencePanel(ScrollablePage):
         # Policy Center reachable for inspection/restoration/deletion, but never unlock runtime.
         self.training_group.setEnabled(True)
         self.policy_center_group.setEnabled(has_registered_policy)
-        runtime_enabled = active is not None
-        self.policy_controller_group.setEnabled(runtime_enabled)
-        self.architecture_group.setEnabled(runtime_enabled)
-        self.historical_experience.setEnabled(runtime_enabled)
+        # v6.1: when no policy exists, only Training & Provisioning is enabled. Once any
+        # policy record exists, the remaining intelligence blocks become inspectable/configurable;
+        # scientific runtime application still fails closed unless a qualified compatible policy is active.
+        self.policy_controller_group.setEnabled(has_registered_policy)
+        self.architecture_group.setEnabled(has_registered_policy)
+        self.historical_experience.setEnabled(has_registered_policy)
 
         if not has_registered_policy:
             self.policy_gate_status.setText(
@@ -1019,6 +1047,11 @@ class CALOIntelligencePanel(ScrollablePage):
             output_path = str(policy_source.parent.parent / f"{alias_stem}.pt")
         else:
             output_path = str(policy_source)
+        try:
+            self._validate_safe_training_capacity()
+        except Exception as exc:
+            QMessageBox.critical(self, "Safe-80 compute protection", str(exc))
+            return
         weighted = str(self.rollout_mode.currentData()) == "weighted"
         selected_training_device = str(self.training_device.currentData())
         device_info = available_training_devices()
@@ -1071,6 +1104,8 @@ class CALOIntelligencePanel(ScrollablePage):
             ),
             keep_resume_after_completion=True,
             parallel_runs=self.parallel_runs.value(),
+            parallel_concurrency=self.parallel_concurrency.value(),
+            branch_queue_quantum_epochs=10,
             parallel_same_seed_branches=self.same_seed_branches.value(),
             parallel_incremental_branches=self.incremental_seed_branches.value(),
             parallel_decremental_branches=self.decremental_seed_branches.value(),
@@ -1083,6 +1118,10 @@ class CALOIntelligencePanel(ScrollablePage):
             ),
             training_scratch_dir=self.training_scratch_dir.text().strip(),
             safe_snapshot_interval_epochs=10,
+            safe_parallel_branches=int(self.state.compute_protection_profile.safe_parallel_branches),
+            safe_global_cpu_workers=int(self.state.compute_protection_profile.safe_cpu_worker_budget),
+            compute_profile_fingerprint=str(self.state.compute_protection_profile.profile_fingerprint),
+            compute_topology_fingerprint=str(self.state.compute_topology.fingerprint if self.state.compute_topology is not None else ""),
         )
         if weighted:
             config = HeterogeneousTrainingConfig(
@@ -1354,7 +1393,7 @@ class CALOIntelligencePanel(ScrollablePage):
         self.qualify_button.setEnabled(True)
         qualification_status = (
             "qualified"
-            if result.get("passed") and result.get("native_v41")
+            if result.get("passed") and result.get("native_v59", result.get("native_v41"))
             else "legacy_qualified"
             if result.get("passed")
             else "failed"
@@ -1434,7 +1473,7 @@ class CALOIntelligencePanel(ScrollablePage):
             if isinstance(pvalue, (int, float)) and np.isfinite(float(pvalue))
             else ""
         )
-        native_text = "native v5.8-compatible" if result.get("native_v41") else "legacy-compatible"
+        native_text = "native v5.9-compatible" if result.get("native_v59", result.get("native_v41")) else "legacy-compatible"
         self.qualification_status.setText(
             f"Qualification {'PASS' if result.get('passed') else 'FAIL'} · {native_text} · grade {result.get('grade')} · "
             f"grade index {float(result.get('score', 0.0)):.0f}{ptext}. "
@@ -1818,6 +1857,59 @@ class CALOIntelligencePanel(ScrollablePage):
         except Exception as exc:
             self.metadata.setPlainText(str(exc))
 
+    def _update_compute_protection(self) -> None:
+        profile = getattr(self.state, "compute_protection_profile", None)
+        if profile is None:
+            if hasattr(self, "safe_parallel_limit"):
+                self.safe_parallel_limit.setText("Dashboard system scan pending; training is protected until a Safe-80 profile exists.")
+            return
+        if hasattr(self, "safe_parallel_limit"):
+            self.safe_parallel_limit.setText(
+                f"{profile.profile_name}: maximum {profile.safe_parallel_branches} simultaneous competitive branch(es); "
+                f"global CPU worker budget {profile.safe_cpu_worker_budget}; {profile.reserve_percent}% reserve retained."
+            )
+        if hasattr(self, "rollout_workers"):
+            self.rollout_workers.setMaximum(max(1, int(profile.safe_cpu_worker_budget)))
+            if self.rollout_workers.value() > int(profile.safe_cpu_worker_budget):
+                self.rollout_workers.setValue(max(1, int(profile.safe_cpu_worker_budget)))
+        if hasattr(self, "parallel_concurrency"):
+            safe_limit = max(1, int(profile.safe_parallel_branches)) if profile.ready else 1
+            self.parallel_concurrency.setMaximum(safe_limit)
+            self.parallel_concurrency.setValue(min(self.parallel_concurrency.value(), safe_limit))
+        if hasattr(self, "parallel_runs"):
+            self._sync_parallel_branch_count()
+            self._update_queue_plan_label()
+
+    def _safe_parallel_branch_limit(self) -> int:
+        profile = getattr(self.state, "compute_protection_profile", None)
+        if profile is None or not bool(getattr(profile, "ready", False)):
+            return 0
+        return max(0, int(getattr(profile, "safe_parallel_branches", 0) or 0))
+
+    def _validate_safe_training_capacity(self) -> None:
+        profile = getattr(self.state, "compute_protection_profile", None)
+        if profile is None:
+            raise RuntimeError("Dashboard system readiness scan has not completed. Refresh the system map before training.")
+        if not profile.ready or int(profile.safe_parallel_branches) < 1:
+            raise RuntimeError(
+                "Safe-80 compute protection reports no safe training-branch capacity. "
+                + " ".join(profile.reasons)
+            )
+        total = int(self.parallel_runs.value())
+        concurrency = int(self.parallel_concurrency.value())
+        if concurrency > int(profile.safe_parallel_branches):
+            raise RuntimeError(
+                f"Requested simultaneous concurrency ({concurrency}) exceeds the Dashboard Safe-80 hard limit "
+                f"({profile.safe_parallel_branches}). Lower concurrency; total scientific branches ({total}) may remain unchanged."
+            )
+        if concurrency > total:
+            raise RuntimeError("Simultaneous branch concurrency cannot exceed total scientific branch count.")
+        if int(self.rollout_workers.value()) > int(profile.safe_cpu_worker_budget):
+            raise RuntimeError(
+                f"CPU actor workers ({self.rollout_workers.value()}) exceed the global Safe-80 worker budget "
+                f"({profile.safe_cpu_worker_budget})."
+            )
+
     def _custom_seed_values(self) -> tuple[int, ...]:
         values = []
         if not hasattr(self, "custom_branch_seeds"):
@@ -1850,7 +1942,34 @@ class CALOIntelligencePanel(ScrollablePage):
             + int(getattr(self, "decremental_seed_branches", self.parallel_runs).value())
             + len(custom)
         )
-        self.parallel_runs.setValue(max(1, total))
+        total = max(1, total)
+        self.parallel_runs.setValue(total)
+        limit = self._safe_parallel_branch_limit() if hasattr(self, "state") else 0
+        if hasattr(self, "parallel_concurrency"):
+            self.parallel_concurrency.setMaximum(max(1, limit if limit > 0 else total))
+            desired = min(total, max(1, limit if limit > 0 else 1))
+            if self.parallel_concurrency.value() > total or self.parallel_concurrency.value() < 1:
+                self.parallel_concurrency.setValue(desired)
+            elif total == 1:
+                self.parallel_concurrency.setValue(1)
+        if hasattr(self, "safe_parallel_limit") and limit > 0:
+            profile = self.state.compute_protection_profile
+            self.safe_parallel_limit.setText(
+                f"{profile.profile_name}: hard simultaneous ceiling {limit}; total scientific branches may exceed this and are queued. "
+                f"Global CPU worker budget {profile.safe_cpu_worker_budget}."
+            )
+        self._update_queue_plan_label()
+
+    def _update_queue_plan_label(self, *_args) -> None:
+        if not hasattr(self, "queue_plan_status") or not hasattr(self, "parallel_runs"):
+            return
+        total = max(1, int(self.parallel_runs.value()))
+        concurrency = max(1, min(total, int(self.parallel_concurrency.value())))
+        queued = max(0, total - concurrency)
+        self.queue_plan_status.setText(
+            f"{total} independent scientific branch(es): up to {concurrency} active simultaneously, {queued} initially queued. "
+            "Queued branches use exact-resume time slices; branch weights are never averaged."
+        )
 
     def _update_training_mode_controls(self) -> None:
         mode = (
@@ -1867,6 +1986,11 @@ class CALOIntelligencePanel(ScrollablePage):
             )
 
     def train_policy(self) -> None:
+        try:
+            self._validate_safe_training_capacity()
+        except Exception as exc:
+            QMessageBox.critical(self, "Safe-80 compute protection", str(exc))
+            return
         weighted = str(self.rollout_mode.currentData()) == "weighted"
         models_dir = Path(__file__).resolve().parents[2] / "data" / "trained_models"
         models_dir.mkdir(parents=True, exist_ok=True)
@@ -1960,6 +2084,8 @@ class CALOIntelligencePanel(ScrollablePage):
             ),
             keep_resume_after_completion=True,
             parallel_runs=self.parallel_runs.value(),
+            parallel_concurrency=self.parallel_concurrency.value(),
+            branch_queue_quantum_epochs=10,
             parallel_same_seed_branches=self.same_seed_branches.value(),
             parallel_incremental_branches=self.incremental_seed_branches.value(),
             parallel_decremental_branches=self.decremental_seed_branches.value(),
@@ -1968,6 +2094,10 @@ class CALOIntelligencePanel(ScrollablePage):
             base_model_checkpoint=str(getattr(self, "_pending_base_model_checkpoint", "") or ""),
             training_scratch_dir=self.training_scratch_dir.text().strip(),
             safe_snapshot_interval_epochs=10,
+            safe_parallel_branches=int(self.state.compute_protection_profile.safe_parallel_branches),
+            safe_global_cpu_workers=int(self.state.compute_protection_profile.safe_cpu_worker_budget),
+            compute_profile_fingerprint=str(self.state.compute_protection_profile.profile_fingerprint),
+            compute_topology_fingerprint=str(self.state.compute_topology.fingerprint if self.state.compute_topology is not None else ""),
         )
         if weighted:
             config = HeterogeneousTrainingConfig(
@@ -2016,6 +2146,40 @@ class CALOIntelligencePanel(ScrollablePage):
         if self.state.task_status.busy:
             QMessageBox.information(self, "Task busy", "Wait for the active task to finish first.")
             return
+        profile = getattr(self.state, "compute_protection_profile", None)
+        if profile is None or not profile.ready:
+            QMessageBox.critical(
+                self,
+                "Safe-80 compute protection",
+                "Training is blocked until Dashboard completes a READY Safe-80 system scan.",
+            )
+            return
+        requested = max(1, int(getattr(config, "parallel_runs", 1) or 1))
+        concurrency = int(getattr(config, "parallel_concurrency", 0) or 0)
+        if concurrency <= 0:
+            concurrency = min(requested, int(profile.safe_parallel_branches))
+        config.parallel_concurrency = max(1, min(requested, concurrency))
+        config.safe_parallel_branches = int(profile.safe_parallel_branches)
+        config.safe_global_cpu_workers = int(profile.safe_cpu_worker_budget)
+        config.compute_profile_fingerprint = str(profile.profile_fingerprint)
+        config.compute_topology_fingerprint = str(self.state.compute_topology.fingerprint if self.state.compute_topology is not None else "")
+        config.rollout_workers = max(1, min(int(getattr(config, "rollout_workers", 1) or 1), int(profile.safe_cpu_worker_budget)))
+        # Preflight the exact selected device/capability plan before registering a resumable task or
+        # entering the Global Training Exclusive Lock. This catches cases such as requesting two
+        # CUDA branches on one CUDA device even when a different XPU contributed another aggregate
+        # Dashboard slot. The coordinator recalculates the same plan at process launch and fails
+        # closed if live headroom/topology has changed.
+        try:
+            preflight_plan = build_training_resource_plan(
+                config,
+                requested,
+                topology=self.state.compute_topology,
+                profile=profile,
+            )
+        except Exception as exc:
+            QMessageBox.critical(self, "Protected training resource plan", str(exc))
+            return
+        config.parallel_concurrency = int(preflight_plan.simultaneous_branches)
         configured_resume = str(getattr(config, "resume_checkpoint", "") or "").strip()
         resume_path = (
             Path(configured_resume) if configured_resume else Path(path).with_suffix(".resume.pt")
@@ -2054,26 +2218,54 @@ class CALOIntelligencePanel(ScrollablePage):
         self.recover_training_button.setEnabled(False)
         self.discard_recovery_button.setEnabled(False)
         self.metadata.setPlainText(
-            "CALO v5.8 policy-lineage training is running with transactional branch generations, bounded infinite-session resume state, durability-hardened exact-resume checkpoints, and immutable usable policy snapshots. Only a committed generation manifest is authoritative after interruption. "
-            "A completed checkpoint remains a usable policy; later sessions continue the same lineage without changing experiments already bound to an older SHA."
+            "CALO v6.2 protected policy-lineage training is running under the Global Training Exclusive Lock. "
+            "Total scientific branch count is separated from Safe-80 simultaneous concurrency; excess branches are exact-resume queued/rotated. "
+            "One global CPU worker budget is shared across active slots, and XPU roles are capability-aware. Only a committed generation manifest is authoritative."
         )
         self.worker = TrainingWorker(config, path)
         self.worker.progress.connect(self._training_progress)
+        self.worker.session_state.connect(self._training_session_state)
         self.worker.completed.connect(self._training_done)
         self.worker.cancelled.connect(self._training_cancelled)
         self.worker.failed.connect(self._training_failed)
         self.state.task_status.cancel_requested.connect(self._cancel_training)
+        initial_plan = {
+            "status": "STARTING",
+            "total_branches": requested,
+            "simultaneous_limit": int(config.parallel_concurrency),
+            "active_branches": 0,
+            "queued_branches": requested,
+            "completed_branches": 0,
+            "safe_parallel_ceiling": int(profile.safe_parallel_branches),
+            "global_cpu_worker_budget": int(preflight_plan.global_cpu_worker_budget),
+            "compute_profile_fingerprint": str(profile.profile_fingerprint),
+            "resource_plan": preflight_plan.to_dict(),
+        }
+        self.state.update_policy_training_plan(initial_plan)
+        self.state.begin_policy_training(
+            f"CALO policy training · {requested} total branch(es) · max {config.parallel_concurrency} simultaneous"
+        )
         self.state.task_status.begin(
             "Training CALO policy",
             detail=(
                 "Resuming from the last completed PPO epoch"
                 if Path(config.resume_checkpoint).is_file()
-                else "Initializing reproducible training"
+                else f"Initializing protected queue · {requested} total / {config.parallel_concurrency} simultaneous"
             ),
             progress=0,
             cancellable=True,
         )
-        self.worker.start()
+        try:
+            self.worker.start()
+        except Exception as exc:
+            self.state.task_status.fail(f"Policy training could not start: {type(exc).__name__}: {exc}")
+            self.state.end_policy_training("Policy training launch failed")
+            self.state.resume_service.update(
+                task_id, status=ResumeStatus.FAILED, state=state_payload, resumable=True
+            )
+            self.train_button.setEnabled(True)
+            self.resume_training_button.setEnabled(True)
+            QMessageBox.critical(self, "Policy training launch failed", f"{type(exc).__name__}: {exc}")
 
 
     def _choose_recovery_session(self):
@@ -2185,7 +2377,7 @@ class CALOIntelligencePanel(ScrollablePage):
                 "The saved task does not contain an output checkpoint path.",
             )
             return
-        # v5.8 keeps one logical base alias while immutable artifacts preserve every experiment-bound SHA.
+        # v5.9 keeps one logical base alias while immutable artifacts preserve every experiment-bound SHA.
         # Exact multi-branch resume reopens the branch manifest and resumes each branch's own optimizer/RNG state.
         if Path(path).with_suffix(".branches.json").is_file():
             config.parallel_start_mode = "exact_resume"
@@ -2229,6 +2421,13 @@ class CALOIntelligencePanel(ScrollablePage):
         if Path(path).with_suffix(".branches.json").is_file():
             config.parallel_start_mode = "exact_resume"
         self._launch_training(config, path, resume_task_id=item.id)
+
+    def _training_session_state(self, payload: dict) -> None:
+        self.state.update_policy_training_plan(dict(payload or {}))
+
+    def request_training_safe_stop(self) -> None:
+        """Public application-level Safe Stop hook used by the global exclusive-lock close path."""
+        self._cancel_training()
 
     def _training_progress(self, percent: int, detail: str) -> None:
         self.state.task_status.update(percent, detail)
@@ -2320,6 +2519,7 @@ class CALOIntelligencePanel(ScrollablePage):
             # Read the mutable working alias only to locate its immutable terminal snapshot.
             alias_payload = load_checkpoint(path, map_location="cpu")
             alias_metadata = dict(alias_payload.get("metadata", {}) or {})
+            deployable_eligible = bool(alias_metadata.get("base_eligible", True))
             immutable_path = str(alias_metadata.get("immutable_terminal_checkpoint", "") or "")
             self._register_training_snapshots(path, config)
             if immutable_path and Path(immutable_path).is_file():
@@ -2367,11 +2567,26 @@ class CALOIntelligencePanel(ScrollablePage):
             )
         self.inspect_policy()
         self.state.task_status.finish("CALO policy training completed")
-        QMessageBox.information(
-            self,
-            "CALO policy",
-            "Training session completed. An immutable usable checkpoint was saved and the exact training state remains resumable for future sessions.",
-        )
+        self.state.update_policy_training_plan({
+            **dict(getattr(self.state, "policy_training_plan", {}) or {}),
+            "status": "COMPLETED",
+            "active_branches": 0,
+            "queued_branches": 0,
+        })
+        self.state.end_policy_training("CALO policy training completed")
+        if 'deployable_eligible' in locals() and not deployable_eligible:
+            message = (
+                "Training completed and an immutable Training Champion candidate was saved. "
+                "It is explicitly provisional and cannot be activated as a deployable scientific Base "
+                "until it passes the required exact real-ORPD development/qualification evidence gates. "
+                "Exact branch training state remains resumable."
+            )
+        else:
+            message = (
+                "Training completed. An immutable deployable-eligible Base/candidate artifact was saved, "
+                "and exact branch training state remains resumable for future sessions."
+            )
+        QMessageBox.information(self, "CALO policy", message)
 
     def _training_cancelled(self, message: str) -> None:
         self._disconnect_training_cancel()
@@ -2392,6 +2607,12 @@ class CALOIntelligencePanel(ScrollablePage):
                 self.training_resume_task_id, status=ResumeStatus.PAUSED, resumable=True
             )
         self.state.task_status.cancelled(message)
+        self.state.update_policy_training_plan({
+            **dict(getattr(self.state, "policy_training_plan", {}) or {}),
+            "status": "SAFE_STOPPED",
+            "active_branches": 0,
+        })
+        self.state.end_policy_training(message)
 
     def _training_failed(self, message: str) -> None:
         self._disconnect_training_cancel()
@@ -2404,6 +2625,12 @@ class CALOIntelligencePanel(ScrollablePage):
                 self.training_resume_task_id, status=ResumeStatus.INTERRUPTED, resumable=True
             )
         self.state.task_status.fail(message)
+        self.state.update_policy_training_plan({
+            **dict(getattr(self.state, "policy_training_plan", {}) or {}),
+            "status": "FAILED",
+            "active_branches": 0,
+        })
+        self.state.end_policy_training(message)
         QMessageBox.critical(self, "Policy training failed", message)
 
     def set_experiment_navigation_enabled(self, enabled: bool) -> None:  # noqa: ARG002

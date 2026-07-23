@@ -74,6 +74,7 @@ from .training import (
     _parameter_action_distribution,
     _resolve_training_device,
     _resolve_training_target,
+    _apply_protection_control,
     _stage_floor_from_history,
     _write_policy_alias,
     available_training_devices,
@@ -117,6 +118,9 @@ class HeterogeneousTrainingConfig(TrainingConfig):
     training_batch_window_ms: float = 4.0
     training_max_cross_batch: int = 2048
     training_tensor_batch_size: int = 64
+    # v6.1 competitive scheduling freezes admitted lane capabilities. When true, an unavailable
+    # accelerator lane is a fail-closed resource fault, never an implicit CPU/XPU redistribution.
+    strict_resource_binding: bool = False
 
 
 @dataclass(frozen=True, slots=True)
@@ -185,6 +189,7 @@ def plan_training_lanes(
     cuda_available: bool | None = None,
     xpu_available: bool | None = None,
     xpu_sidecar_available: bool | None = None,
+    strict_unavailable: bool = False,
 ) -> TrainingLanePlan:
     """Create a deterministic per-epoch actor allocation.
 
@@ -202,6 +207,14 @@ def plan_training_lanes(
     )
     xpu_ok = direct_xpu or sidecar_xpu
     available = {"cuda": cuda_ok, "xpu": xpu_ok, "cpu": True}
+
+    if strict_unavailable:
+        missing = [name.upper() for name in ("cuda", "xpu") if requested[name] > 0 and not available[name]]
+        if missing:
+            raise RuntimeError(
+                "Protected training resource binding failed: requested accelerator lane(s) became "
+                "unavailable after admission: " + ", ".join(missing) + ". CPU redistribution is disabled."
+            )
 
     usable_weights = {name: requested[name] if available[name] else 0 for name in LANE_ORDER}
     warnings: list[str] = []
@@ -716,6 +729,7 @@ def collect_weighted_epoch_rollouts(
         cuda_share=config.cuda_rollout_share,
         xpu_share=config.xpu_rollout_share,
         cpu_share=config.cpu_rollout_share,
+        strict_unavailable=bool(getattr(config, "strict_resource_binding", False)),
     )
     actor_clients = actor_clients or {}
     network_state = _cpu_state_dict(network)
@@ -839,6 +853,7 @@ def calibrate_training_actor_throughput(
         cuda_share=config.cuda_rollout_share,
         xpu_share=config.xpu_rollout_share,
         cpu_share=config.cpu_rollout_share,
+        strict_unavailable=bool(getattr(config, "strict_resource_binding", False)),
     )
     network_state = _cpu_state_dict(network)
     snapshot = _state_dict_sha256(network_state)
@@ -903,6 +918,7 @@ def _train_policy_heterogeneous_impl(
     resume_extra_provider=None,
     cancel_during_rollout: bool = True,
     suppress_cancel_persistence: bool = False,
+    protection_callback=None,
 ):
     """Train a candidate CALO policy with synchronous weighted heterogeneous actors."""
     final_benchmark_names = {"case118", "case300"}
@@ -932,6 +948,7 @@ def _train_policy_heterogeneous_impl(
             resume_extra_provider=resume_extra_provider,
             cancel_during_rollout=cancel_during_rollout,
             suppress_cancel_persistence=suppress_cancel_persistence,
+            protection_callback=protection_callback,
         )
 
     _validate_shares(
@@ -1016,6 +1033,7 @@ def _train_policy_heterogeneous_impl(
         cuda_share=config.cuda_rollout_share,
         xpu_share=config.xpu_rollout_share,
         cpu_share=config.cpu_rollout_share,
+        strict_unavailable=bool(getattr(config, "strict_resource_binding", False)),
     )
     actor_clients: dict[str, PersistentTrainingActorClient] = {}
     cpu_executor = None
@@ -1100,6 +1118,7 @@ def _train_policy_heterogeneous_impl(
 
         epoch = start_epoch
         while target_epoch is None or epoch < target_epoch:
+            _apply_protection_control(config, protection_callback, progress_callback)
             cancel = cancel_callback() if cancel_callback else False
             if cancel:
                 if isinstance(cancel, (int, float)) and not isinstance(cancel, bool) and cancel > epoch:
@@ -1354,7 +1373,7 @@ def _train_policy_heterogeneous_impl(
     metadata = {
         "algorithm": "CALO",
         "calo_core": "v5.0",
-        "policy_training_architecture": "v5.8",
+        "policy_training_architecture": "v5.9",
         "training_method": "persistent auto-tuned batched heterogeneous PPO",
         "candidate_checkpoint": True,
         "benchmark_freeze_status": (
@@ -1450,6 +1469,7 @@ def train_policy_heterogeneous(
     resume_extra_provider=None,
     cancel_during_rollout: bool = True,
     suppress_cancel_persistence: bool = False,
+    protection_callback=None,
 ):
     """Isolated wrapper that prevents GUI-thread policy training from perturbing global RNG users."""
     caller_python = random.getstate()
@@ -1463,6 +1483,7 @@ def train_policy_heterogeneous(
             resume_extra_provider=resume_extra_provider,
             cancel_during_rollout=cancel_during_rollout,
             suppress_cancel_persistence=suppress_cancel_persistence,
+            protection_callback=protection_callback,
         )
     finally:
         random.setstate(caller_python)

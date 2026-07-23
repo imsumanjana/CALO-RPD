@@ -123,11 +123,13 @@ class BaseOptimizer:
             evaluations = list(batch_evaluator(population))
             return [self._register_evaluation(x, ev) for x, ev in zip(population, evaluations)]
         out = []
+        # ``population`` has already passed through the single common repair authority above.
+        # Do not call ``evaluate()`` here because that would repair/count the same coordinates twice.
         for x in population:
-            ev = self.evaluate(x)
-            if ev is None:
+            if not self.can_evaluate():
                 break
-            out.append(ev)
+            ev = self.problem.evaluate(x)
+            out.append(self._register_evaluation(x, ev))
         return out
 
     def random_population(self, n=None):

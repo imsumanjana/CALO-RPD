@@ -63,7 +63,18 @@ class ExactEvaluationCache:
         if population.ndim == 1:
             population = population[None, :]
         remaining = max(0, int(optimizer.config.max_evaluations) - int(optimizer.evaluations))
-        population = np.clip(population[:remaining], 0.0, 1.0)
+        raw_population = population[:remaining]
+        # v5.9: one repair authority for cached and uncached paths. Repair telemetry is therefore
+        # identical regardless of exact-cache hits or scientific backend.
+        repair = getattr(optimizer, "_repair_to_bounds", None)
+        if callable(repair):
+            population = np.asarray([repair(row) for row in raw_population], dtype=float)
+        else:
+            # Lightweight test/compatibility optimizers may not inherit BaseOptimizer.  They do
+            # not expose repair telemetry, so use the canonical normalized-domain repair without
+            # inventing counters. Production optimizers always use the single BaseOptimizer repair
+            # authority above.
+            population = np.clip(np.asarray(raw_population, dtype=float), 0.0, 1.0)
         if len(population) == 0 or optimizer.cancelled():
             return []
 

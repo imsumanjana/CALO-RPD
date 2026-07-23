@@ -192,7 +192,7 @@ def migrate_legacy_local_resume(
     Legacy exact resumes contain pickle-capable optimizer/RNG state. A bare SHA-256 sidecar proves
     integrity, not authorship. Therefore migration is deliberately opt-in: callers must explicitly
     assert that the file is a trusted local artifact. The legacy digest is verified before unsafe
-    deserialization, and the migrated copy is re-saved with the v5.8 machine-local HMAC trust
+    deserialization, and the migrated copy is re-saved with the v5.9 machine-local HMAC trust
     boundary. The original file is never modified.
     """
     if not explicit_trust:

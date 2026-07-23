@@ -1,0 +1,142 @@
+CALO-RPD STUDIO v6.0.0a4 — ALPHA 1–4 POST-IMPLEMENTATION AUDIT
+================================================================
+
+Audit date : 2026-07-23
+Baseline   : CALO-RPD v5.9.0
+Scope      : alpha1 key navigation; alpha2 compute topology; alpha3 Safe-80 static protection;
+             alpha4 policy-first governing workflow
+Mode       : source/logic audit + targeted automated regression; no physical accelerator/thermal soak
+
+EXECUTIVE VERDICT
+-----------------
+The requested v6 alpha1–alpha4 architecture is implemented coherently on top of the v5.9 scientific
+baseline. The most important changes are structural rather than cosmetic: workspace identity is now key-based,
+CALO Intelligence is the first mandatory scientific gate after Dashboard, Power System fails closed until a
+qualified active integrity-verified governing policy exists, and Dashboard computes a protected Safe-80 static
+resource profile before policy training is admitted.
+
+The alpha implementation deliberately remains conservative. It blocks branch requests above the calculated safe
+simultaneous ceiling rather than pretending that queue scheduling already exists. It also does not count an XPU
+sidecar as a full independent competitive branch before later capability/parity certification.
+
+ALPHA-1 AUDIT — KEY-BASED WORKSPACES
+------------------------------------
+PASS:
+- Stable workspace keys are defined centrally.
+- Canonical order begins Dashboard -> CALO Intelligence -> Power System.
+- MainWindow page construction, navigation helpers, workflow gates and persistence use keys.
+- Saved v6 UI state stores workspace_key and schema version.
+- Old v5.9 positional indexes are migrated with an explicit historical map.
+- Search found no scientific MainWindow/app page routing that still depends on literal pages[N] indexes.
+- Governing policy SHA is stored in workflow state; a changed active policy invalidates unfinished downstream
+  setup for reconfirmation.
+
+Residual compatibility note:
+- The QStackedWidget/sidebar necessarily still have physical indexes internally, but those indexes are derived from
+  the central workspace registry and are not the scientific identity.
+
+ALPHA-2 AUDIT — COMPUTE TOPOLOGY / HARDWARE MAPPING
+----------------------------------------------------
+PASS:
+- Dashboard receives a canonical ComputeTopologySnapshot from application state.
+- CPU physical/logical topology and RAM are mapped.
+- CUDA/direct-XPU/sidecar-XPU resources exposed by the existing ResourceMonitor are represented.
+- Device roles distinguish PPO, Actor, ORPD and Full branch capability.
+- Windows mapping is best-effort by adapter name/vendor and is displayed as an OS-adapter identity, not falsely
+  asserted to equal Task Manager numbering.
+- Runtime identifiers such as cuda:0/xpu:0 are displayed separately from OS/physical adapter labels.
+
+Conservative boundary:
+- XPU sidecar is visible but full_training_branch=False in alpha.
+- No physical CUDA/XPU device was available in the audit runtime, so actual device mapping must still be validated
+  on the target laptop.
+
+ALPHA-3 AUDIT — SAFE-80 STATIC RESOURCE PROTECTION
+--------------------------------------------------
+PASS:
+- Default allocation envelope = 80%; reserve = 20%.
+- This is correctly defined as allocatable-resource protection, not an 80% GPU-utilization cap.
+- One global CPU worker budget is calculated.
+- RAM ceiling and protected RAM headroom participate in branch capacity.
+- Measurable accelerator memory must have enough headroom below the 80% ceiling for the estimated branch working set.
+- Maximum simultaneous branches are bounded by compute slots, CPU support and RAM capacity.
+- Competitive branch payloads divide one global CPU budget rather than giving each branch the full host budget.
+- Training launch is blocked above the Dashboard hard branch ceiling.
+- Automatic excess accelerator -> CPU branch spillover is blocked.
+- Explicit unavailable CUDA/XPU selection no longer silently falls back to CPU.
+- Compute-profile fingerprint and safe limits are carried into training provenance/configuration.
+
+Important alpha limitation:
+- This is a static startup/admission profile, not a continuous temperature/power governor.
+- Total scientific branches are not yet separately queued from simultaneous concurrency; over-limit requests are
+  blocked in alpha.
+
+ALPHA-4 AUDIT — POLICY-FIRST GOVERNING WORKFLOW
+-----------------------------------------------
+PASS:
+- CALO Intelligence is workspace 1 immediately after Dashboard.
+- Power System is locked until governing policy readiness is true.
+- Governing readiness requires active + usable + compatible + qualified + non-archived + SHA-integrity match.
+- No-AI mode does not satisfy this gate.
+- With zero policy records, CALO Intelligence enables Training/Provisioning and disables the remaining intelligence
+  blocks.
+- With any policy record, inspection/qualification/intelligence blocks become available, while downstream Power
+  System remains locked until the policy is actually qualified and active.
+- Governing-policy readiness is recomputed live instead of trusting restored workflow flags.
+- Changing governing policy identity invalidates unfinished downstream setup.
+
+TARGETED VALIDATION EVIDENCE
+----------------------------
+PASS:
+- Python compileall: PASS.
+- v6 alpha architecture tests: 8 passed.
+- CALO core v2: 9 passed.
+- competitive-training regression: 9 passed.
+- v5.9 scientific closure regression: 14 passed.
+- heterogeneous training + cache/broker hardening: 7 passed.
+- combined targeted set: 47 passed, 0 failed.
+- historical v5.9 release evidence retention: 1 passed.
+- v6 freeze verification before packaging: 127/127 files, 0 missing, 0 changed.
+
+ENVIRONMENT LIMITATIONS
+-----------------------
+NOT RUN / NOT AVAILABLE:
+- PyQt6 GUI suite (PyQt6 unavailable).
+- PYPOWER full scientific validation suite (PYPOWER unavailable).
+- physical NVIDIA CUDA mapping/utilization/VRAM tests (CPU-only PyTorch runtime).
+- physical Intel XPU/sidecar branch qualification.
+- thermal/power laptop soak and protection-trip testing.
+- Ruff gate (Ruff unavailable).
+
+FINDINGS / RISKS LEFT FOR BETA/RC
+---------------------------------
+1. HIGH/PLANNED — global training-exclusive UI/application lock is not part of alpha1–alpha4.
+2. HIGH/PLANNED — requested total scientific branches are not yet decoupled from simultaneous active branches;
+   alpha correctly blocks over-limit requests rather than queueing them.
+3. HIGH/PLANNED — continuous thermal/power governor and staged admission are not implemented in alpha.
+4. MED/HIGH/PLANNED — XPU sidecar requires capability/parity certification before it can count as a full branch.
+5. MED/PLANNED — Dashboard startup scan is static/readiness-oriented; later beta/RC should move expensive probes into
+   a non-blocking worker and add dynamic telemetry/admission updates.
+6. TARGET-MACHINE GATE — actual OS-adapter <-> cuda/xpu mapping must be verified on the user's Windows laptop,
+   because this build environment has no physical accelerators.
+
+SCIENTIFIC SAFETY ASSESSMENT
+----------------------------
+The alpha architecture is safer than v5.9 for the reported four-branch laptop use case because it establishes one
+global CPU budget, computes a hard safe simultaneous branch ceiling, accounts for protected memory headroom, and
+refuses silent accelerator-overflow CPU branches. With one validated accelerator and an unqualified sidecar XPU,
+the expected alpha safe concurrency will normally be one branch rather than four simultaneous branches.
+
+The implementation does NOT yet claim to solve the complete overheating/power-cut problem because continuous
+thermal telemetry, dynamic throttling, queued branch admission and target-laptop soak qualification are explicitly
+later phases.
+
+FINAL ALPHA VERDICT
+-------------------
+Requested v6.0 alpha1–alpha4 scope: IMPLEMENTED.
+Release integrity: READY FOR PACKAGING after current manifest/evidence verification.
+Native CALO/policy scientific core: retained from v5.9; no policy ABI migration introduced.
+Safe to claim continuous thermal protection: NO (deferred, explicitly documented).
+Safe to claim queued 4-total / 2-active scheduler: NO (beta2 deferred, over-limit alpha requests fail closed).
+
+END OF AUDIT

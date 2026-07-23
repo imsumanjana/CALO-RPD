@@ -1,0 +1,592 @@
+CALO-RPD REPOSITORY v5.9.0 — DEEP POST-GENERATION CODE / LOGIC / SCIENTIFIC RE-AUDIT
+=====================================================================================
+
+Audited artifact : CALO-RPD v5.9.0 working release tree before final ZIP packaging
+Audit date       : 2026-07-23
+Baseline         : CALO-RPD v5.8.0 + CALO-RPD-v5.8.0_DEEP_SCIENTIFIC_REAUDIT_FINDINGS.txt
+Audit mode       : deep read-only/rework cycle followed by targeted corrections, regression execution,
+                   release freeze verification and final package-integrity preparation
+
+=====================================================================================
+1. EXECUTIVE VERDICT
+=====================================================================================
+
+v5.9.0 is materially stronger than v5.8.0 in the exact areas identified by the v5.8 deep scientific audit.
+The release now has a substantially more coherent scientific chain from policy training through CALO execution,
+ORPD evaluation, robust/security scenarios, backend parity, formal qualification and publication evidence.
+
+Most importantly, v5.9 does NOT merely rename the old policy ABI or add superficial guards. It changes the native
+policy/controller semantics and therefore introduces an explicit new v5.9 semantic ABI. Training Champion evidence
+is separated from deployable Base evidence, stale recovery is authority-checked, repair accounting is unified,
+N-1 includes the intact system, branch angle limits are enforced, exact experiment PF/tolerance configuration is
+included in accelerator parity, and formal non-inferiority is statistically defined rather than inferred from the
+absence of superiority.
+
+The post-generation audit itself found additional defects after the first v5.9 implementation pass. Those defects
+were corrected before release rather than being hidden in a “completed” package. The most important self-audit
+corrections were:
+
+  1. hidden PPO-training versus deployed-CALO clock/RNG/memory/intervention mismatches;
+  2. device-resident branch-angle endpoint indexing;
+  3. scientifically incomplete cross-run accelerator batch signatures;
+  4. a default PolicyQualifier.run() non-inferiority margin bug caused by referencing optional `config`
+     instead of resolved validated `qconfig`;
+  5. aggregate-only formal statistical gating, strengthened to comparator-by-case gating;
+  6. dead PQ-bus generator-voltage decision variables;
+  7. scenario transform structural-identity validation gaps;
+  8. Experiment workspace prerequisite gating inconsistency;
+  9. incomplete v5.9 freeze coverage for newly introduced scientific modules.
+
+After those corrections, no known unresolved P0/P1 correctness defect from the v5.8 scientific-audit scope was
+identified in the source paths that could be exercised in this build runtime.
+
+That statement is intentionally narrower than “the software is proven bug-free.” Full PyQt6, PYPOWER and physical
+CUDA/XPU validation are still unavailable in this runtime and remain mandatory target-environment gates.
+
+FINAL CLASSIFICATION
+--------------------
+
+Release identity / packaging integrity              : STRONG
+Competitive exact-resume transaction                : STRONGER; stale-recovery authority guarded
+Safe Stop / stuck-worker provenance                 : STRONGER
+Infinite-state boundedness                           : STRONGER; segmented bounded telemetry
+Policy architecture richness                        : HIGH
+Native v5.9 training/deployment semantic consistency : STRONG for tested seeded transition parity
+Policy deployable-Base evidence                      : STRONGER; exact real ORPD evidence required
+CALO algorithm richness                              : VERY HIGH
+CALO FE/repair fairness                              : STRONGER; common repair authority
+AC power-flow / ORPD core                            : STRONG RESEARCH-GRADE IMPLEMENTATION
+N-1 / branch-angle scientific completeness           : MATERIAL CORRECTIONS IMPLEMENTED
+Accelerator parity contract                          : MUCH STRONGER; physical-device qualification pending
+Formal superiority / non-inferiority                 : STRONGER; case-wise Holm-gated protocols
+Publication evidence fail-closed behavior            : STRONG
+Final publication campaign readiness                 : CONDITIONAL ON TARGET-ENVIRONMENT GATES + FROZEN CAMPAIGN
+
+=====================================================================================
+2. RELEASE / TEST EVIDENCE EXECUTED
+=====================================================================================
+
+2.1 COMPILE
+-----------
+
+`python -m compileall -q calo_bootstrap calo_rpd_studio tests`
+
+Result: PASS.
+
+2.2 NON-PYQT UNIT PARTITIONS
+----------------------------
+
+The unit suite was deliberately split into clean-exit partitions because PyQt6 is not installed in the build
+runtime and one combined long invocation can retain test-created worker resources longer during teardown.
+
+Partition A:
+  87 passed
+
+Partition B:
+  65 passed, 1 skipped
+  Skip reason: PYPOWER required for bundled IEEE formulation-manifest test.
+
+Partition C:
+  76 passed
+
+Total cleanly completed non-PyQt unit evidence:
+  228 passed, 1 skipped
+
+The dedicated v5.9 scientific-closure suite is included in the above and contains 14 tests after the final
+audit additions.
+
+2.3 INTEGRATION / REGRESSION
+----------------------------
+
+Executed:
+- database workflow
+- historical learning
+- history deletion
+- seed reproducibility
+
+Result:
+  9 passed
+
+2.4 ENVIRONMENT LIMITATIONS
+---------------------------
+
+Unavailable in this audit runtime:
+- PyQt6
+- PYPOWER
+- physical NVIDIA CUDA
+- physical Intel XPU
+- Ruff
+
+Therefore this report does NOT claim:
+- full GUI interaction validation,
+- full bundled IEEE/PYPOWER scientific cross-validation,
+- physical CUDA/XPU parity or fault-injection,
+- multi-day long-duration soak on target hardware,
+- complete Ruff/static CI gate.
+
+=====================================================================================
+3. v5.8 CRITICAL/HIGH FINDINGS — FINAL v5.9 STATUS
+=====================================================================================
+
+CT-001 — STALE RECOVERY AUTHORITY
+STATUS: RESOLVED
+
+Recovery metadata persists the parent manifest SHA-256 and parent generation ID. Before an interrupted session may
+publish recovered branch state as authoritative, v5.9 recomputes/loads current authority and requires an exact
+match. If another session has advanced authority, stale recovery fails closed with explicit fork/export guidance.
+
+This prevents the v5.8 failure mode:
+  G100 interrupted recovery -> later G200 success -> old G100 recovery silently replacing G200.
+
+Dedicated stale-recovery regression: PASS.
+
+-------------------------------------------------------------------------------------
+
+POLICY-001 — TRAINING ENVIRONMENT != DEPLOYED CALO
+STATUS: RESOLVED FOR THE NATIVE v5.9 SEMANTIC CONTRACT, WITH DECLARED TEST SCOPE
+
+A new v5.9 policy ABI explicitly defines:
+- one raw global neural regime/operator/parameter action;
+- explicit environment/controller interventions;
+- per-learner executed decision provenance.
+
+During self-audit, hidden differences were found in archive/success-memory capacities, epsilon/progress clocks,
+stagnation context, deterministic-policy handling of environmental randomness, probability handling, RNG
+consumption, personal-best propagation and feasibility credit. These were corrected.
+
+The final seeded multi-transition regression compares PPO environment transition state to actual deployed
+`CALOOptimizer` and verifies equality of:
+- population,
+- personal best,
+- optimizer RNG state,
+- epsilon,
+- operator contextual credit,
+- memory contextual credit,
+- reward,
+- executed operators.
+
+This is strong evidence for the tested transition kernel. It is not overclaimed as exhaustive proof over every
+possible long-horizon/hardware/configuration trajectory.
+
+-------------------------------------------------------------------------------------
+
+POLICY-002 — FORCED RECOVERY CREDIT MISATTRIBUTION
+STATUS: RESOLVED
+
+Raw neural operator and final executed operator/intervention are separate. When forced recovery replaces ordinary
+candidate generation, success is attributed to the executed recovery intervention rather than the overridden
+neural operator.
+
+-------------------------------------------------------------------------------------
+
+POLICY-003 — REWARD MISMATCH
+STATUS: RESOLVED
+
+Training/runtime use the same reward implementation and coefficients. Seeded parity validates reward equality for
+tested transitions.
+
+-------------------------------------------------------------------------------------
+
+POLICY-004/005/006 — CHAMPION/BASE EVIDENCE SCIENCE
+STATUS: RESOLVED/MATERIALLY REDESIGNED
+
+v5.9 separates:
+
+A. Training Champion / provisional candidate
+   Synthetic curriculum screening is allowed.
+
+B. Deployable Scientific Base
+   Requires exact real-ORPD development evidence under an explicit ExperimentConfig.
+
+Deployable evidence includes exact:
+- objective definition/scales,
+- variable/control profile,
+- robust formulation/scenarios,
+- PF options,
+- constraint tolerances.
+
+Metrics distinguish:
+- any feasible found,
+- final best feasible,
+- final feasible ratio.
+
+Base eligibility uses final-best feasibility for every required real development case.
+
+Raw heterogeneous task objectives are not used as one unqualified deployment median. Real-case objective evidence
+is normalized by a fixed formulation-specific reference scale and retained per case.
+
+-------------------------------------------------------------------------------------
+
+POLICY-007/008 — HISTORICAL TRAJECTORY / TRANSFER IDENTITY
+STATUS: RESOLVED FOR NATIVE v5.9 EVIDENCE
+
+v5.9 trajectory schema stores:
+- full 32-D policy input,
+- raw distributions/actions,
+- final executed controller action/interventions.
+
+Historical compatibility uses a scientific formulation fingerprint including case, variables, objective, PF,
+robust/scenario identity, tolerances and callable transform identity.
+
+Legacy 24-D records remain explicitly legacy and are not silently declared exact native-v5.9 supervision.
+
+-------------------------------------------------------------------------------------
+
+CALO-001 — REPAIR FAIRNESS TELEMETRY
+STATUS: RESOLVED
+
+The v5.8 direct audit demonstrated path-dependent repair accounting. v5.9 centralizes repair before cache/evaluation.
+Cached and uncached regression evidence now agrees on candidate and coordinate repair counts/denominator.
+
+-------------------------------------------------------------------------------------
+
+CALO-002 — FEASIBILITY TOLERANCE SEMANTICS
+STATUS: RESOLVED/MATERIALLY IMPROVED
+
+A versioned `ConstraintToleranceConfig` is part of the scientific formulation and is propagated to CPU and
+accelerated evaluation.
+
+The remaining scientific responsibility is to predeclare the chosen engineering/numerical tolerance values for a
+publication campaign; v5.9 no longer hides this choice as backend-specific implicit epsilon behavior.
+
+-------------------------------------------------------------------------------------
+
+PF-001 — N-1 OMITTED INTACT BASE
+STATUS: RESOLVED
+
+Branch/generator N-1 builders include intact base/P0 plus selected single contingencies by default.
+
+-------------------------------------------------------------------------------------
+
+PF-002 — BRANCH ANGLE LIMITS NOT ENFORCED
+STATUS: RESOLVED
+
+Active ANGMIN/ANGMAX constraints are evaluated in CPU and accelerator paths with MATPOWER-compatible conventions:
+- angle(Vf) - angle(Vt),
+- 0/0 pair unconstrained,
+- ±360 sentinel handling,
+- only active branches constrained.
+
+Post-generation audit found and corrected a device-resident indexing bug so bus endpoint indices are applied to the
+bus-angle matrix and scenario indices only to scenario-varying branch status/limit arrays.
+
+-------------------------------------------------------------------------------------
+
+PF-003/004 — ACCELERATOR PARITY CONFIG/COVERAGE
+STATUS: RESOLVED/MATERIALLY STRENGTHENED
+
+Parity now binds to exact:
+- scientific problem fingerprint,
+- PF options,
+- objective/variables,
+- robust/scenario configuration,
+- constraint tolerances,
+- device/dtype.
+
+Evidence compares:
+- aggregate objective/violation,
+- objective components,
+- constraint components,
+- feasibility,
+- convergence,
+- bus types,
+- Vm,
+- Va,
+- scenario count.
+
+Battery includes deterministic center/bound/corner/alternating candidates plus random evidence.
+
+Physical CUDA/XPU execution is still a mandatory target-hardware gate.
+
+-------------------------------------------------------------------------------------
+
+PF-005 / CFG-001 / CFG-002 — SCIENTIFIC CONFIG VALIDATION
+STATUS: RESOLVED/MATERIALLY IMPROVED
+
+Fail-fast object-boundary validation now covers objective weights/scales, PF settings, robust risk parameters,
+scenario settings, variable/tap/shunt definitions, constraint tolerances and qualification thresholds.
+
+Post-generation audit additionally hardened PolicyQualificationConfig finite/domain checks.
+
+-------------------------------------------------------------------------------------
+
+PF-006 — DENSE Yf/Yt TEMPORARIES
+STATUS: RESOLVED
+
+Yf/Yt are constructed directly as sparse branch-incidence/admittance matrices.
+
+-------------------------------------------------------------------------------------
+
+STAT-001 — NON-INFERIORITY NOT A FORMAL TEST
+STATUS: RESOLVED
+
+v5.9 uses a predeclared relative NI margin with a one-sided paired Wilcoxon test and sign-test fallback, then Holm
+adjustment.
+
+Post-generation audit further strengthened the protocol: formal promotion is gated comparator-by-case, with Holm
+correction across required comparator × case hypotheses. Aggregate paired evidence remains UI summary only and
+cannot allow an easy case to statistically hide a weak required case.
+
+A self-audit bug was also found/fixed: `PolicyQualifier.run()` initially referenced optional `config` when applying
+NI margin; it now correctly uses the validated resolved `qconfig`.
+
+-------------------------------------------------------------------------------------
+
+GUI-001 — WORKFLOW ORDER
+STATUS: RESOLVED
+
+Canonical setup:
+Power System -> ORPD -> Algorithms -> Portfolio -> CALO -> Scenarios -> Experiment.
+
+Portfolio is immediately after Algorithms as requested, while final experiment execution remains gated on the final
+CALO/scenario prerequisites.
+
+=====================================================================================
+4. CALO SCIENTIFIC AUDIT — v5.9 ASSESSMENT
+=====================================================================================
+
+SCIENTIFIC RICHNESS: VERY HIGH
+
+CALO retains a substantial custom architecture:
+- feasibility-first selection,
+- adaptive epsilon,
+- personal best,
+- feasible/boundary archives,
+- hierarchical population experience memory,
+- contextual operator/memory credit,
+- success-direction memory,
+- variable-group intelligence,
+- dual discovery/learning lanes,
+- precision exploitation,
+- recovery/diversity mechanisms,
+- mixed-variable handling,
+- exact FE accounting,
+- exact run continuation.
+
+The release improves scientific defensibility by fixing repair accounting and policy causal semantics.
+
+IMPORTANT CLAIM BOUNDARY:
+A rich architecture alone does not prove that every mechanism improves performance. Final publications still need
+predeclared ablation studies under identical FE budgets/seeds/evaluator/repair/scenarios.
+
+No code should convert absence of ablation evidence into an automatic superiority claim.
+
+=====================================================================================
+5. POLICY SCIENTIFIC AUDIT — v5.9 ASSESSMENT
+=====================================================================================
+
+SCIENTIFIC RICHNESS: HIGH
+SCIENTIFIC CONSISTENCY: MATERIAL IMPROVEMENT
+
+Strong points:
+- explicit semantic ABI,
+- full 32-D state,
+- regime/operator/continuous parameter heads,
+- PPO/GAE,
+- raw versus executed provenance,
+- exact-resume state,
+- common reward,
+- training/runtime transition parity regression,
+- real-ORPD deployable Base evidence,
+- formal qualification,
+- no default/untrained silent policy fallback.
+
+Remaining validation boundary:
+The seeded parity regression is strong but finite. Before strongest publication claims about policy benefit, run:
+- longer seeded training/runtime parity batteries,
+- multiple problem dimensions/formulations,
+- stochastic-policy distribution checks,
+- physical accelerator/broker parity,
+- real ORPD development/holdout qualification.
+
+The code now supports this evidence model without pretending the evidence already exists.
+
+=====================================================================================
+6. POWER-SYSTEM / COMPLETE RPD WORKFLOW SCIENTIFIC AUDIT
+=====================================================================================
+
+SCIENTIFIC RICHNESS: HIGH
+CLASSIFICATION: STRONG RESEARCH-GRADE ORPD/RPD PLATFORM, WITH DECLARED MODELING SCOPE
+
+Strong implemented elements:
+- nonlinear AC Newton power flow,
+- sparse Jacobian,
+- transformer taps and phase shifts,
+- branch complex flows / loading,
+- Q-limit switching,
+- individual P/Q capability accounting,
+- mixed ORPD controls,
+- fixed voltage-deviation/L-index partitions,
+- active-loss / voltage-deviation / L-index / multiobjective modes,
+- robust/scenario aggregation,
+- N-1 base + selected contingencies,
+- branch angle limits,
+- accelerator parity,
+- independent AC-PF cross-validation,
+- reproducible experiment/seed/evidence workflow.
+
+Declared scientific modeling conventions/limitations:
+
+1. Co-located generator Q allocation
+   Bus-level solved reactive requirement is distributed capability-proportionally for deterministic reporting and
+   per-unit limit accounting. It is not a uniquely solved physical AVR participation model.
+
+2. Load uncertainty
+   Current model is aggregate/system-wide scaling, not a spatially correlated nodal stochastic forecast model.
+
+3. Renewable uncertainty
+   Current model is simplified net-load uncertainty, not a full inverter P-Q capability/curtailment/voltage-control
+   stochastic model.
+
+4. Independent validation
+   PYPOWER is used as independent AC power-flow numerical cross-validation. It is not a second independent
+   implementation of the complete ORPD decoder/repair/optimizer/robust formulation.
+
+These are now documented instead of being overclaimed.
+
+=====================================================================================
+7. RELEASE-FREEZE AUDIT
+=====================================================================================
+
+The initial v5.9 freeze scope was audited against files changed/added since v5.8.
+
+The audit found that several new/changed scientific modules were not initially included in the explicit freeze,
+including the parity audit, formulation fingerprint and experience repository.
+
+This was corrected before release.
+
+The final v5.9 freeze scope was expanded to include key scientific/runtime sources including:
+- accelerator parity audit,
+- formulation fingerprint,
+- experience repository,
+- evaluation budget / seed manager,
+- case model / branch flows,
+- direct scientific scripts,
+- relevant scientific workflow panels,
+- freeze implementation itself.
+
+Final freeze verification details are recorded in RELEASE_VALIDATION.md / RELEASE_METADATA.json.
+
+=====================================================================================
+8. BROAD EXCEPTION / FAILURE-PROVENANCE AUDIT
+=====================================================================================
+
+An AST scan of `calo_rpd_studio` found:
+
+  broad Exception/BaseException/bare handlers whose sole action is pass/continue/return: 0
+
+This does not imply every broad exception is ideal. Some broad handlers remain where logging/wrapping/fallback is
+intentional. Critical scientific-authority paths must continue to be fault-injection tested.
+
+No scientific checkpoint/provenance authority failure should be silently swallowed.
+
+=====================================================================================
+9. NEW ISSUES FOUND DURING v5.9 POST-GENERATION AUDIT AND FIXED
+=====================================================================================
+
+SELF-590-001 [HIGH] TRAINING/RUNTIME TRANSITION CLOCK AND RNG MISMATCHES
+FIXED.
+
+SELF-590-002 [HIGH] DEVICE-RESIDENT BRANCH ANGLE INDEXING
+FIXED.
+
+SELF-590-003 [HIGH] CROSS-RUN SCIENTIFIC BATCH SIGNATURE TOO WEAK
+FIXED using canonical scientific problem fingerprint + device/dtype.
+
+SELF-590-004 [HIGH] DEFAULT POLICY QUALIFICATION NI MARGIN BUG
+FIXED: validated `qconfig` is used.
+
+SELF-590-005 [HIGH SCIENTIFIC] FORMAL QUALIFICATION AGGREGATE STATISTICS COULD MASK ONE WEAK CASE
+FIXED: formal gate is comparator-by-case with Holm correction across required hypotheses.
+
+SELF-590-006 [HIGH/MED] PQ-BUS DEAD GENERATOR VOLTAGE VARIABLES
+FIXED: only REF/PV online generators expose voltage-control variables.
+
+SELF-590-007 [HIGH/MED] SCENARIO TRANSFORM STRUCTURAL IDENTITY
+FIXED: baseMVA, dimensions, finite data, row identities/endpoints are validated.
+
+SELF-590-008 [MED] GUI EXPERIMENT WORKSPACE GATE
+FIXED: final experiment requires portfolio + CALO when selected + scenarios.
+
+SELF-590-009 [HIGH RELEASE INTEGRITY] INCOMPLETE NEW SCIENTIFIC FREEZE COVERAGE
+FIXED: explicit v5.9 freeze scope expanded.
+
+=====================================================================================
+10. RESIDUAL OPEN / DECLARED ITEMS
+=====================================================================================
+
+R-001 [TARGET-ENVIRONMENT]
+Full PyQt6 GUI suite unavailable here.
+
+R-002 [TARGET-ENVIRONMENT]
+Full PYPOWER scientific suite unavailable here.
+
+R-003 [TARGET-ENVIRONMENT]
+Physical CUDA/XPU parity, utilization, OOM admission and forced-worker fault injection pending target hardware.
+
+R-004 [PERFORMANCE]
+CALO control/candidate orchestration remains partly host/Python-side. Do not perform a trajectory-changing device
+rewrite without a new parity-qualified implementation.
+
+R-005 [MODELING]
+Load and renewable uncertainty remain simplified models as explicitly documented.
+
+R-006 [VALIDATION SCOPE]
+Independent validation is AC-PF cross-validation, not an independent complete ORPD solver implementation.
+
+R-007 [GOVERNANCE]
+Final CALO superiority claims require predeclared ablation and repeated paired independently validated benchmark
+campaigns; code architecture does not substitute for evidence.
+
+R-008 [MAINTAINABILITY]
+Some orchestration/UI modules remain large and deserve future structural decomposition after scientific behavior is
+frozen and regression-protected.
+
+=====================================================================================
+11. REQUIRED TARGET-MACHINE FINAL GATES BEFORE PUBLICATION FREEZE
+=====================================================================================
+
+1. Install exact release dependencies in intended environment.
+2. Run complete PyQt6 GUI/workflow suite.
+3. Run complete PYPOWER scientific/case/formulation suite.
+4. Run CPU reference vs physical CUDA vs physical XPU parity battery using exact experiment configs.
+5. Run forced accelerator failure / broker shutdown / Safe Stop / stale recovery fault injection.
+6. Run long-duration/infinite-training soak with telemetry quota/rotation monitoring.
+7. Run IEEE 30/57/118/300 intended benchmark campaigns under frozen seeds/FE budgets.
+8. Run predeclared CALO ablation campaign.
+9. Run formal policy qualification only on declared development cases; preserve protected holdouts.
+10. Independently validate every required publication run and verify complete portfolio cells.
+11. Freeze final policy SHA(s), software freeze, scenario/formulation fingerprints and publication evidence package.
+
+=====================================================================================
+12. FINAL CONCLUSION
+=====================================================================================
+
+v5.9.0 is a genuine scientific-closure improvement over v5.8.0.
+
+POLICY:
+The native v5.9 policy system is now much more scientifically coherent because raw neural action, environmental
+interventions, executed action, reward and provenance are explicitly separated and tested for seeded transition
+parity. Deployable Base promotion no longer rests on synthetic-only evidence.
+
+CALO:
+CALO remains a scientifically rich custom optimizer. Fairness instrumentation is stronger because repair accounting
+is path-independent and FE-budget rules are explicit. Publication superiority still requires empirical ablation and
+paired benchmark evidence.
+
+POWER SYSTEM / RPD:
+The workflow is substantially more complete and accurate: N-1 includes the intact system, active branch angle limits
+are enforced, dead PQ voltage controls are removed, PF/tolerances are part of parity, and sparse power-flow support is
+stronger. Simplified uncertainty and co-located Q allocation are correctly documented as modeling conventions rather
+than hidden “exact physics.”
+
+POST-GENERATION AUDIT RESULT:
+No known unresolved critical/high source-code defect from the v5.8 scientific-audit closure scope remains in the
+paths that could be exercised in this runtime after the final self-audit corrections above.
+
+RELEASE RECOMMENDATION:
+v5.9.0 can be used as the corrected next research-validation baseline and as the source for target-machine release
+qualification. It should be called a final publication freeze only after the missing PyQt6/PYPOWER/physical
+accelerator/long-soak and frozen repeated-campaign gates are successfully completed.
+
+END OF v5.9 DEEP POST-GENERATION RE-AUDIT

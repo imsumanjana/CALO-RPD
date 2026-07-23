@@ -215,8 +215,10 @@ atexit.register(_close_policy_brokers)
 @dataclass(slots=True)
 class PolicyDecision:
     regime: int
+    operator: int
     regime_probabilities: np.ndarray
     operator_probabilities: np.ndarray
+    raw_parameter_action: np.ndarray
     parameters: dict[str, float]
     value_estimate: float
 
@@ -300,7 +302,7 @@ class AIController:
                 if "regime_head.weight" not in state_dict or "alpha_head.weight" not in state_dict:
                     raise RuntimeError(
                         "This checkpoint uses an unsupported earlier CALO policy architecture. "
-                        "Select a compatible hierarchical CALO checkpoint or train a native v4.1 candidate."
+                        "Select a compatible hierarchical CALO checkpoint or train a native v5.9 candidate."
                     )
                 architecture = payload.get("architecture", {})
                 schema = infer_checkpoint_schema(payload)
@@ -364,26 +366,46 @@ class AIController:
                 beta_values = beta[0].cpu().numpy()
                 critic_scalar = float(critic_value.item())
 
-        prior = (
-            rule_based_regime_prior(state) if hasattr(state, "feasible_ratio") else np.full(4, 0.25)
-        )
-        regime_probabilities = 0.35 * learned_regime + 0.65 * prior
-        regime_probabilities /= regime_probabilities.sum()
+        learned_regime = np.asarray(learned_regime, dtype=float)
+        learned_regime = learned_regime / max(float(learned_regime.sum()), 1e-12)
+        operator_probabilities = np.asarray(operator_probabilities, dtype=float)
+        operator_probabilities = operator_probabilities / max(float(operator_probabilities.sum()), 1e-12)
+
+        # v5.9 native policy semantics: the network owns one raw global regime/operator/parameter
+        # action. CALO's per-learner lane/memory/group/precision/recovery interventions are explicit
+        # environment/controller transitions and are recorded separately. Legacy checkpoints retain
+        # their historical regime-prior blend only when explicitly loaded as legacy.
+        if bool(self.schema.get("native_v59", False)):
+            regime_probabilities = learned_regime
+        else:
+            prior = (
+                rule_based_regime_prior(state) if hasattr(state, "feasible_ratio") else np.full(4, 0.25)
+            )
+            regime_probabilities = 0.35 * learned_regime + 0.65 * prior
+            regime_probabilities /= regime_probabilities.sum()
         regime = (
             int(np.argmax(regime_probabilities))
             if self.deterministic
             else int(self.rng.choice(len(regime_probabilities), p=regime_probabilities))
+        )
+        operator = (
+            int(np.argmax(operator_probabilities))
+            if self.deterministic
+            else int(self.rng.choice(len(operator_probabilities), p=operator_probabilities))
         )
 
         if self.deterministic:
             raw = alpha_values / (alpha_values + beta_values)
         else:
             raw = self.rng.beta(alpha_values, beta_values)
+        raw = np.clip(np.asarray(raw, dtype=float), 0.0, 1.0)
         values = PARAMETER_LOW + raw * (PARAMETER_HIGH - PARAMETER_LOW)
         return PolicyDecision(
             regime=regime,
+            operator=operator,
             regime_probabilities=regime_probabilities,
-            operator_probabilities=operator_probabilities / operator_probabilities.sum(),
+            operator_probabilities=operator_probabilities,
+            raw_parameter_action=raw.copy(),
             parameters={
                 name: float(parameter_value)
                 for name, parameter_value in zip(PARAMETER_NAMES, values)

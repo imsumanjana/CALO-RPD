@@ -40,6 +40,11 @@ class DeviceSnapshot:
     memory_percent: float = 0.0
     telemetry: str = ""
     runtime: str = "primary"
+    temperature_c: float | None = None
+    thermal_limit_c: float | None = None
+    power_w: float | None = None
+    power_limit_w: float | None = None
+    throttle_reason: str = ""
 
 
 @dataclass(frozen=True, slots=True)
@@ -53,6 +58,8 @@ class ResourceSnapshot:
     cpu_percent: float
     devices: tuple[DeviceSnapshot, ...] = ()
     system_memory_percent: float = 0.0
+    cpu_temperature_c: float | None = None
+    sampled_at_monotonic: float = 0.0
 
     def _first_cuda(self) -> DeviceSnapshot | None:
         return next(
@@ -167,60 +174,91 @@ class ResourceMonitor:
         except Exception:
             snapshots = []
 
-        # When utilization is unavailable through PyTorch, supplement it from nvidia-smi.  The
-        # ordering usually matches visible CUDA devices on ordinary desktop installations; names
-        # are also checked before the sample is accepted.
-        if (
-            snapshots
-            and self._nvidia_smi
-            and any(item.utilization_percent is None for item in snapshots)
-        ):
-            try:
-                result = subprocess.run(
-                    [
-                        self._nvidia_smi,
-                        "--query-gpu=index,name,utilization.gpu,memory.used,memory.total",
-                        "--format=csv,noheader,nounits",
-                    ],
-                    capture_output=True,
-                    text=True,
-                    timeout=4,
-                    check=False,
-                    creationflags=(
-                        getattr(subprocess, "CREATE_NO_WINDOW", 0) if os.name == "nt" else 0
-                    ),
-                )
-                rows = []
-                for line in result.stdout.splitlines():
-                    parts = [part.strip() for part in line.split(",")]
-                    if len(parts) >= 5:
-                        rows.append(parts)
-                updated: list[DeviceSnapshot] = []
-                for snapshot in snapshots:
-                    row = rows[snapshot.index] if snapshot.index < len(rows) else None
-                    if row and (
-                        snapshot.name.lower() in row[1].lower()
-                        or row[1].lower() in snapshot.name.lower()
-                    ):
-                        used, total = float(row[3]), max(float(row[4]), 1.0)
-                        updated.append(
-                            DeviceSnapshot(
-                                snapshot.device_id,
-                                snapshot.backend,
-                                snapshot.index,
-                                snapshot.name,
-                                snapshot.available,
-                                float(row[2]),
-                                100.0 * used / total,
-                                "nvidia-smi",
-                                snapshot.runtime,
-                            )
+        # Supplement PyTorch enumeration with NVIDIA telemetry when nvidia-smi is available.
+        # Temperature/power are never fabricated: unsupported fields remain ``None``.
+        if snapshots and self._nvidia_smi:
+            rows: list[list[str]] = []
+            queries = [
+                "index,name,utilization.gpu,memory.used,memory.total,temperature.gpu,power.draw,power.limit",
+                "index,name,utilization.gpu,memory.used,memory.total,temperature.gpu",
+                "index,name,utilization.gpu,memory.used,memory.total",
+            ]
+            for query in queries:
+                try:
+                    result = subprocess.run(
+                        [
+                            self._nvidia_smi,
+                            f"--query-gpu={query}",
+                            "--format=csv,noheader,nounits",
+                        ],
+                        capture_output=True,
+                        text=True,
+                        timeout=4,
+                        check=False,
+                        creationflags=(
+                            getattr(subprocess, "CREATE_NO_WINDOW", 0) if os.name == "nt" else 0
+                        ),
+                    )
+                    if result.returncode != 0:
+                        continue
+                    candidate = [
+                        [part.strip() for part in line.split(",")]
+                        for line in result.stdout.splitlines()
+                        if line.strip()
+                    ]
+                    if candidate:
+                        rows = candidate
+                        break
+                except (OSError, subprocess.SubprocessError):
+                    continue
+
+            def _optional_float(parts: list[str], index: int) -> float | None:
+                if index >= len(parts):
+                    return None
+                raw = parts[index].strip()
+                if not raw or raw.lower() in {"n/a", "na", "not supported", "[not supported]"}:
+                    return None
+                try:
+                    return float(raw)
+                except (TypeError, ValueError):
+                    return None
+
+            updated: list[DeviceSnapshot] = []
+            for snapshot in snapshots:
+                row = rows[snapshot.index] if snapshot.index < len(rows) else None
+                if row and len(row) >= 5 and (
+                    snapshot.name.lower() in row[1].lower()
+                    or row[1].lower() in snapshot.name.lower()
+                ):
+                    used = _optional_float(row, 3)
+                    total = _optional_float(row, 4)
+                    memory_percent = snapshot.memory_percent
+                    if used is not None and total is not None and total > 0:
+                        memory_percent = 100.0 * used / total
+                    utilization = _optional_float(row, 2)
+                    updated.append(
+                        DeviceSnapshot(
+                            device_id=snapshot.device_id,
+                            backend=snapshot.backend,
+                            index=snapshot.index,
+                            name=snapshot.name,
+                            available=snapshot.available,
+                            utilization_percent=(
+                                utilization
+                                if utilization is not None
+                                else snapshot.utilization_percent
+                            ),
+                            memory_percent=float(memory_percent),
+                            telemetry="nvidia-smi + PyTorch CUDA",
+                            runtime=snapshot.runtime,
+                            temperature_c=_optional_float(row, 5),
+                            power_w=_optional_float(row, 6),
+                            power_limit_w=_optional_float(row, 7),
                         )
-                    else:
-                        updated.append(snapshot)
-                snapshots = updated
-            except Exception:
-                _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
+                    )
+                else:
+                    updated.append(snapshot)
+            snapshots = updated
 
         self._cuda_cache = tuple(snapshots)
         self._cuda_cache_time = now
@@ -334,12 +372,53 @@ class ResourceMonitor:
         self._xpu_cache_time = now
         return self._xpu_cache
 
+    @staticmethod
+    def _cpu_temperature_c() -> float | None:
+        """Return a trustworthy host CPU/package temperature when the OS exposes one.
+
+        Windows commonly does not expose reliable temperatures through psutil. In that case this
+        function returns ``None``; CALO-RPD never invents a temperature value.
+        """
+        try:
+            sensors = getattr(psutil, "sensors_temperatures", None)
+            if not callable(sensors):
+                return None
+            groups = sensors(fahrenheit=False) or {}
+            preferred = []
+            fallback = []
+            for group_name, entries in groups.items():
+                for entry in entries or ():
+                    value = getattr(entry, "current", None)
+                    if value is None:
+                        continue
+                    try:
+                        temperature = float(value)
+                    except (TypeError, ValueError):
+                        continue
+                    if not (0.0 < temperature < 150.0):
+                        continue
+                    label = f"{group_name} {getattr(entry, 'label', '')}".lower()
+                    fallback.append(temperature)
+                    if any(token in label for token in ("package", "cpu", "tctl", "tdie", "coretemp")):
+                        preferred.append(temperature)
+            values = preferred or fallback
+            return max(values) if values else None
+        except (AttributeError, OSError, RuntimeError, ValueError):
+            return None
+
     def sample(self) -> ResourceSnapshot:
+        now = time.monotonic()
         cpu = float(psutil.cpu_percent(interval=None))
         ram = float(psutil.virtual_memory().percent)
         # Priority order is encoded by tuple order: all CUDA devices first, then XPU devices.
         devices = (*self._sample_cuda(), *self._sample_xpu())
-        return ResourceSnapshot(cpu_percent=cpu, devices=tuple(devices), system_memory_percent=ram)
+        return ResourceSnapshot(
+            cpu_percent=cpu,
+            devices=tuple(devices),
+            system_memory_percent=ram,
+            cpu_temperature_c=self._cpu_temperature_c(),
+            sampled_at_monotonic=now,
+        )
 
 
 def configured_xpu_interpreter() -> str:

@@ -10,7 +10,7 @@ from calo_rpd_studio.ai.model_io import migrate_legacy_local_resume
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(
         description=(
-            "Migrate a trusted local legacy CALO exact-resume checkpoint to the v5.8 HMAC-authenticated format. "
+            "Migrate a trusted local legacy CALO exact-resume checkpoint to the v5.9 HMAC-authenticated format. "
             "Never use this for downloaded/untrusted pickle-capable files."
         )
     )

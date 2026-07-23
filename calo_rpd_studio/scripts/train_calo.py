@@ -1,4 +1,4 @@
-"""Command-line CALO v5.8 competitive policy-training entry point."""
+"""Command-line CALO v5.9 competitive policy-training entry point."""
 
 from __future__ import annotations
 
@@ -16,7 +16,7 @@ from calo_rpd_studio.algorithms.calo.training import (
 def main() -> int:
     parser = argparse.ArgumentParser(
         description=(
-            "Train a CALO v5.8 competitive multi-branch candidate policy on the documented "
+            "Train a CALO v5.9 competitive multi-branch candidate policy on the documented "
             "constrained mixed-variable curriculum."
         )
     )
@@ -151,7 +151,7 @@ def main() -> int:
             cpu_rollout_share=int(args.cpu_share),
         )
         path, history = train_policy_parallel(config, args.output, parallel_runs=branch_count)
-        print(f"Saved CALO v5.8 competitive base policy: {Path(path).resolve()}")
+        print(f"Saved CALO v5.9 competitive base policy: {Path(path).resolve()}")
         print(f"Parallel branches: {branch_count}; mode: {args.mode}; start mode: {args.start_mode}")
         print(f"Final coordinator record: {history[-1] if history else {}}")
         print("Formal Policy Qualification remains separate from branch-champion/base selection.")
@@ -168,7 +168,7 @@ def main() -> int:
         return 0
 
     path, history = train_policy_parallel(config, args.output, parallel_runs=branch_count)
-    print(f"Saved CALO v5.8 competitive base policy: {Path(path).resolve()}")
+    print(f"Saved CALO v5.9 competitive base policy: {Path(path).resolve()}")
     print(f"Parallel branches: {branch_count}; mode: {args.mode}; start mode: {args.start_mode}")
     print(f"Final coordinator record: {history[-1] if history else {}}")
     return 0

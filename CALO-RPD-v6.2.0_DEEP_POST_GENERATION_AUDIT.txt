@@ -1,0 +1,70 @@
+CALO-RPD v6.2.0 — DEEP POST-GENERATION AUDIT
+==============================================
+
+AUDIT SCOPE
+-----------
+- release identity and packaging
+- adaptive compute/thermal governor
+- staged competitive/experiment admission
+- Safe-80 resource protection
+- exact Safe Stop / emergency authority semantics
+- workspace migration and application-session recovery
+- compute-protection provenance
+- hardware-soak qualification protocol
+- scientific scheduling equivalence
+- regression compatibility with v6.1/v6.0/v5.9/v5.6 architecture
+
+EXECUTIVE VERDICT
+-----------------
+v6.2 materially completes the planned v6 software architecture. Dynamic Green/Amber/Red protection and staged admission are now implemented rather than only statically planned. Workspace persistence is migrated to schema 3 with conservative legacy handling. An unclean-session recovery journal is added without confusing UI recovery with authoritative exact-resume state. Hardware-soak and scheduling-equivalence protocols are implemented with explicit fail-closed qualification semantics.
+
+The post-generation audit also found and corrected two concrete scheduler regressions during development:
+1. a malformed edit had commented out `config_dict = _config_payload(config)` in competitive training, causing branch-launch NameError;
+2. child process `exitcode` was read after `process.close()`, causing `ValueError: process object is closed` under Python 3.13.
+Both were corrected and the relevant competitive queue/exact-resume tests passed afterward.
+
+SCIENTIFIC / SAFETY ASSESSMENT
+------------------------------
+1. Safe-80 remains a resource/protection envelope, not an artificial GPU-utilization cap.
+2. Missing temperature telemetry is not fabricated.
+3. A raw RED sample blocks new work immediately; confirmed RED requests protective stop.
+4. Staged startup limits simultaneous admission spikes.
+5. Competitive RED stop never starts additional never-started branches merely to manufacture a new common generation. Where a new coherent generation cannot be committed safely, prior authority is retained.
+6. Experiment protection preserves already committed run evidence and stops new admissions/cancels active uncommitted jobs on RED.
+7. Compute-protection provenance is hash-chained/tamper-evident but is not a cryptographic signer/authenticity mechanism.
+8. Workspace/session recovery never overrides authenticated optimizer/campaign recovery authority.
+9. Hardware-soak `physical_qualified` is deliberately impossible for CPU-only/short validation runs.
+10. Scheduling equivalence treats wall-clock/device placement as non-scientific metadata; branch seeds/config/targets and committed results remain scientific identity.
+
+KNOWN TARGET-MACHINE GATES
+--------------------------
+The build runtime lacks PyQt6, PYPOWER and physical CUDA/XPU devices. Therefore the following are NOT claimed as executed passes:
+- full real GUI interaction/visual validation;
+- full PYPOWER scientific validation;
+- multi-hour physical laptop thermal/power soak;
+- physical CPU/CUDA/XPU scientific equivalence.
+
+These are release-qualification gates, not hidden source-code TODOs. The runner/tests/provenance mechanisms required to perform them are present.
+
+POST-GENERATION TEST EVIDENCE
+-----------------------------
+- Python compileall: PASS for calo_bootstrap, calo_rpd_studio, tests.
+- v6.2 RC/final dependency-light suite: 9 passed.
+- v6.2 + v6.1 + v6.0 + v5.9 focused architecture/scientific group: 43 passed.
+- CALO core tests: 11 passed.
+- v6.1 beta architecture: 12 passed.
+- v5.6 competitive training targeted suite: 9 passed after post-generation process-handle correction.
+- Short protected CPU soak protocol validation: GREEN, no protection stop, explicitly NOT physical accelerator qualified.
+- PyQt6 GUI module is present but skipped/unavailable in this build environment.
+
+REMAINING DESIGN LIMITATIONS / NON-BLOCKING NOTES
+-------------------------------------------------
+A. Amber protection primarily blocks admissions and paces supported training loops; already-running external/native kernels cannot always be dynamically resized in place without changing their scientific/runtime semantics.
+B. CPU temperature availability on Windows varies by hardware/provider. When unavailable the governor relies on CPU utilization, RAM and available accelerator telemetry conservatively.
+C. Manufacturer-specific thermal limits are not inferred. Configured policy thresholds are software protection thresholds and do not override firmware protections.
+D. Application-session recovery is intentionally conservative; it restores navigation/experiment intent but does not pretend UI state is scientific exact-resume state.
+E. True physical qualification is machine-specific. A release ZIP cannot honestly certify a laptop it has never run on.
+
+FINAL SOURCE ASSESSMENT
+-----------------------
+The v6.2 source architecture is suitable as the final planned v6 software baseline for target-machine qualification. No publication/hardware certificate should be issued until the explicit target-machine GUI/PYPOWER/physical-accelerator soak/parity gates are executed and archived.

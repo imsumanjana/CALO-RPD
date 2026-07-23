@@ -6,10 +6,12 @@ from dataclasses import asdict, dataclass, field
 from enum import Enum
 import json
 from pathlib import Path
+import math
 
 import yaml
 
 from calo_rpd_studio.orpd.objectives import ObjectiveConfig, ObjectiveKind
+from calo_rpd_studio.orpd.constraints import ConstraintToleranceConfig
 from calo_rpd_studio.orpd.variable_decoder import ORPDVariableConfig, ShuntControlDefinition
 from calo_rpd_studio.robustness.robust_objectives import (
     RobustAggregation, RobustObjectiveConfig, ConstraintAggregation,
@@ -45,16 +47,20 @@ class RobustScenarioSettings:
             raise ValueError(f"Unsupported scenario mode: {self.mode}")
         if self.mode != "deterministic" and int(self.count) <= 0:
             raise ValueError("Robust scenario count must be positive")
-        if float(self.active_load_std) < 0 or float(self.reactive_load_std) < 0:
-            raise ValueError("Load standard deviations must be non-negative")
+        for value, label in (
+            (self.active_load_std, "active_load_std"),
+            (self.reactive_load_std, "reactive_load_std"),
+        ):
+            if not math.isfinite(float(value)) or float(value) < 0:
+                raise ValueError(f"{label} must be finite and non-negative")
         if self.mode == "renewable_uncertainty":
-            if int(self.renewable_bus) <= 0 or float(self.renewable_rated_mw) <= 0:
+            if int(self.renewable_bus) <= 0 or not math.isfinite(float(self.renewable_rated_mw)) or float(self.renewable_rated_mw) <= 0:
                 raise ValueError(
                     "Renewable uncertainty requires a positive bus number and rated MW"
                 )
-            if not 0.0 <= float(self.renewable_mean_capacity_factor) <= 1.0:
+            if not math.isfinite(float(self.renewable_mean_capacity_factor)) or not 0.0 <= float(self.renewable_mean_capacity_factor) <= 1.0:
                 raise ValueError("Renewable mean capacity factor must be between 0 and 1")
-            if float(self.renewable_std_capacity_factor) < 0:
+            if not math.isfinite(float(self.renewable_std_capacity_factor)) or float(self.renewable_std_capacity_factor) < 0:
                 raise ValueError(
                     "Renewable capacity-factor standard deviation must be non-negative"
                 )
@@ -82,6 +88,7 @@ class ExperimentConfig:
     variables: ORPDVariableConfig = field(default_factory=ORPDVariableConfig)
     robust_objective: RobustObjectiveConfig = field(default_factory=RobustObjectiveConfig)
     power_flow: PowerFlowOptions = field(default_factory=PowerFlowOptions)
+    constraint_tolerances: ConstraintToleranceConfig = field(default_factory=ConstraintToleranceConfig)
     scenarios: RobustScenarioSettings = field(default_factory=RobustScenarioSettings)
     algorithm_parameters: dict[str, dict] = field(default_factory=dict)
     output_directory: str = "results_data"
@@ -107,6 +114,7 @@ class ExperimentConfig:
     parity_objective_tolerance: float = 1e-5
     parity_violation_tolerance: float = 1e-6
     parity_voltage_tolerance: float = 1e-5
+    parity_angle_tolerance_deg: float = 1e-4
     runtime_compute_device: str = "cpu"
     throughput_engine_enabled: bool = True
     persistent_accelerator_workers: bool = True
@@ -176,8 +184,8 @@ class ExperimentConfig:
             raise ValueError("The cpu_reference scientific backend requires CPU-only scheduling")
         if int(self.tensor_batch_size) <= 0:
             raise ValueError("tensor_batch_size must be positive")
-        if float(self.cross_run_batch_window_ms) <= 0:
-            raise ValueError("cross_run_batch_window_ms must be positive")
+        if not math.isfinite(float(self.cross_run_batch_window_ms)) or float(self.cross_run_batch_window_ms) <= 0:
+            raise ValueError("cross_run_batch_window_ms must be finite and positive")
         if int(self.max_cross_run_batch) <= 0:
             raise ValueError("max_cross_run_batch must be positive")
         if int(self.calibration_repetitions) <= 0:
@@ -190,6 +198,11 @@ class ExperimentConfig:
             raise ValueError("telemetry_iteration_interval must be positive")
         if int(self.checkpoint_interval_evaluations) <= 0:
             raise ValueError("checkpoint_interval_evaluations must be positive")
+        self.objective.validate()
+        self.variables.validate()
+        self.power_flow.validate()
+        self.constraint_tolerances.validate()
+        self.robust_objective.validate()
         self.scenarios.validate()
         if (
             self.robust_objective.aggregation is RobustAggregation.CVAR
@@ -202,6 +215,7 @@ class ExperimentConfig:
             (self.parity_objective_tolerance, "parity_objective_tolerance"),
             (self.parity_violation_tolerance, "parity_violation_tolerance"),
             (self.parity_voltage_tolerance, "parity_voltage_tolerance"),
+            (self.parity_angle_tolerance_deg, "parity_angle_tolerance_deg"),
         ):
             if not 0.0 < float(value) < 1.0:
                 raise ValueError(f"{label} must be positive and below 1")
@@ -315,6 +329,16 @@ class ExperimentConfig:
             max_q_limit_rounds=int(pf_data.get("max_q_limit_rounds", 10)),
             q_limit_tolerance_mvar=float(pf_data.get("q_limit_tolerance_mvar", 1e-6)),
         )
+        tolerance_data = dict(data.get("constraint_tolerances", {}) or {})
+        constraint_tolerances = ConstraintToleranceConfig(
+            voltage_pu=float(tolerance_data.get("voltage_pu", 1e-7)),
+            generator_p_mw=float(tolerance_data.get("generator_p_mw", 1e-6)),
+            generator_q_mvar=float(tolerance_data.get("generator_q_mvar", 1e-6)),
+            branch_loading_percent=float(tolerance_data.get("branch_loading_percent", 1e-6)),
+            branch_angle_deg=float(tolerance_data.get("branch_angle_deg", 1e-6)),
+            feasibility_total=float(tolerance_data.get("feasibility_total", 1e-12)),
+            schema_version=str(tolerance_data.get("schema_version", "calo_rpd_constraint_tolerance_v5.9")),
+        )
         budget_data = data.get("budget", {})
         budget = EvaluationBudget(
             BudgetPolicy(budget_data.get("policy", BudgetPolicy.EQUAL_EVALUATIONS.value)),
@@ -338,6 +362,7 @@ class ExperimentConfig:
             variables=variables,
             robust_objective=robust,
             power_flow=power_flow,
+            constraint_tolerances=constraint_tolerances,
             scenarios=RobustScenarioSettings(**data.get("scenarios", {})),
             algorithm_parameters=dict(data.get("algorithm_parameters", {})),
             output_directory=data.get("output_directory", "results_data"),
@@ -363,6 +388,7 @@ class ExperimentConfig:
             parity_objective_tolerance=float(data.get("parity_objective_tolerance", 1e-5)),
             parity_violation_tolerance=float(data.get("parity_violation_tolerance", 1e-6)),
             parity_voltage_tolerance=float(data.get("parity_voltage_tolerance", 1e-5)),
+            parity_angle_tolerance_deg=float(data.get("parity_angle_tolerance_deg", 1e-4)),
             runtime_compute_device=str(data.get("runtime_compute_device", "cpu")),
             throughput_engine_enabled=bool(data.get("throughput_engine_enabled", True)),
             persistent_accelerator_workers=bool(data.get("persistent_accelerator_workers", True)),

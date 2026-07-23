@@ -11,7 +11,7 @@ from calo_rpd_studio.robustness.robust_objectives import (
     RobustObjectiveConfig, aggregate_robust, aggregate_constraint_violation, normalize_scenario_weights,
 )
 from calo_rpd_studio.robustness.scenario import Scenario
-from .constraints import evaluate_constraints
+from .constraints import ConstraintToleranceConfig, evaluate_constraints
 from .objectives import ObjectiveConfig, calculate_objective
 from .variable_decoder import ORPDVariableConfig, ORPDVariableDecoder
 
@@ -22,6 +22,14 @@ class ORPDProblemConfig:
     variables: ORPDVariableConfig = field(default_factory=ORPDVariableConfig)
     robust: RobustObjectiveConfig = field(default_factory=RobustObjectiveConfig)
     power_flow: PowerFlowOptions = field(default_factory=PowerFlowOptions)
+    constraint_tolerances: ConstraintToleranceConfig = field(default_factory=ConstraintToleranceConfig)
+
+    def __post_init__(self) -> None:
+        self.objective.validate()
+        self.variables.validate()
+        self.robust.validate()
+        self.power_flow.validate()
+        self.constraint_tolerances.validate()
 
 
 @dataclass(slots=True)
@@ -64,7 +72,7 @@ class ORPDProblem:
             formulation_case = scenario.apply(controlled)
             pf = run_ac_power_flow(formulation_case, self.config.power_flow)
             obj = calculate_objective(pf, self.config.objective, formulation_case=formulation_case)
-            con = evaluate_constraints(pf)
+            con = evaluate_constraints(pf, self.config.constraint_tolerances)
             value = float(obj.value)
             values.append(value)
             violations.append(float(con.total))
@@ -79,7 +87,7 @@ class ORPDProblem:
         finite = np.asarray(values, float)
         robust = aggregate_robust(values, w, self.config.robust)
         violation = aggregate_constraint_violation(violations, w, self.config.robust)
-        feasible = violation <= 1e-12 and np.isfinite(robust)
+        feasible = violation <= float(self.config.constraint_tolerances.feasibility_total) and np.isfinite(robust)
         components = {k: float(np.sum(w * np.asarray(v))) for k, v in comp_acc.items()}
         components["scenario_objective_mean"] = (
             float(np.sum(w * finite)) if np.all(np.isfinite(finite)) else float("inf")
@@ -110,7 +118,7 @@ class ORPDProblem:
             formulation_case = sc.apply(controlled)
             pf = run_ac_power_flow(formulation_case, self.config.power_flow)
             obj = calculate_objective(pf, self.config.objective, formulation_case=formulation_case)
-            con = evaluate_constraints(pf)
+            con = evaluate_constraints(pf, self.config.constraint_tolerances)
             online = np.where(pf.case.gen[:, GEN_STATUS] > 0)[0]
             rec = {
                 "scenario": sc.name,
@@ -119,6 +127,7 @@ class ORPDProblem:
                 "iterations": int(pf.iterations),
                 "max_mismatch": float(pf.max_mismatch),
                 "bus_numbers": pf.case.bus[:, BUS_I].astype(int).tolist(),
+                "bus_types": pf.case.bus[:, BUS_TYPE].astype(int).tolist(),
                 "vm_pu": pf.vm_pu.tolist(),
                 "va_deg": pf.va_deg.tolist(),
                 "generator_bus": pf.case.gen[online, GEN_BUS].astype(int).tolist(),

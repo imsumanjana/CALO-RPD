@@ -1,8 +1,8 @@
-"""Versioned CALO policy/runtime schemas and v4.1 policy-state construction.
+"""Versioned CALO policy/runtime schemas and v5.9 policy-state construction.
 
 The policy schema is deliberately independent from the optimizer implementation.  A checkpoint
 must declare the state/action semantics it was trained against; legacy checkpoints remain readable
-but are explicitly classified as legacy rather than silently treated as native v4.1 policies.
+but are explicitly classified as legacy rather than silently treated as native v5.9 policies.
 """
 
 from __future__ import annotations
@@ -14,17 +14,17 @@ import numpy as np
 
 from .cognitive_state import STATE_DIM as LEGACY_STATE_DIM
 
-CALO_RUNTIME_ARCHITECTURE = "calo-v4.1"
+CALO_RUNTIME_ARCHITECTURE = "calo-v5.9"
 LEGACY_STATE_SCHEMA = "calo-state-v2-24"
-POLICY_STATE_SCHEMA = "calo-state-v4.1-32"
-POLICY_ACTION_SCHEMA = "calo-action-v4.1-4r-6o-6p"
-TRAINING_ENVIRONMENT_VERSION = "calo-training-v4.1"
+POLICY_STATE_SCHEMA = "calo-state-v5.9-32"
+POLICY_ACTION_SCHEMA = "calo-action-v5.9-raw-global-4r-6o-6p"
+TRAINING_ENVIRONMENT_VERSION = "calo-training-v5.9-exact-controller"
 POLICY_STATE_DIM = 32
 
 
 @dataclass(slots=True)
 class PolicyRuntimeContext:
-    """Compact v4.1 runtime features unavailable in the historical 24-D state."""
+    """Compact v5.9 runtime features unavailable in the historical 24-D state."""
 
     hpem_occupancy: float = 0.0
     memory_consensus: float = 0.0
@@ -57,7 +57,7 @@ def build_policy_vector(
 ) -> np.ndarray:
     """Build exactly the state vector declared by a checkpoint.
 
-    ``input_dim == 24`` is retained solely for legacy checkpoint compatibility.  Native v4.1
+    ``input_dim == 24`` is retained solely for legacy checkpoint compatibility.  Native v5.9
     checkpoints consume the same historical cognitive vector plus eight bounded features that make
     HPEM, dual-lane readiness, precision, and variable-group learning observable to the policy.
     """
@@ -76,7 +76,7 @@ def build_policy_vector(
         )
     if base.size != LEGACY_STATE_DIM:
         raise ValueError(
-            f"CALO v4.1 policy requires the {LEGACY_STATE_DIM}-feature cognitive base, received {base.size}"
+            f"CALO v5.9 policy requires the {LEGACY_STATE_DIM}-feature cognitive base, received {base.size}"
         )
     extra = (context or PolicyRuntimeContext()).vector()
     return np.concatenate((base, extra), dtype=np.float32)
@@ -114,6 +114,9 @@ def infer_checkpoint_schema(payload: dict) -> dict[str, str | int | bool]:
         "action_schema_version": action_schema,
         "runtime_architecture_version": runtime_arch or "legacy",
         "training_environment_version": training_env or "legacy",
+        "native_v59": bool(native),
+        # Compatibility-only inspector alias for legacy callers/tests. A true value means the
+        # checkpoint is native to the CURRENT 32-D ABI, not that v4.1 execution semantics are enabled.
         "native_v41": bool(native),
     }
 

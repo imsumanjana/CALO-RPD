@@ -15,14 +15,24 @@ class AdmittanceMatrices:
 
 
 def build_ybus(case: PowerSystemCase) -> AdmittanceMatrices:
+    """Build Ybus/Yf/Yt directly from sparse non-zero triplets.
+
+    Each in-service branch contributes four Ybus entries and two entries to each branch-current
+    incidence matrix.  No dense ``n_branch x n_bus`` temporary is created, which keeps memory
+    proportional to network sparsity for large/robust scenario campaigns.
+    """
     n = case.n_bus
     nl = case.n_branch
     idx = case.bus_index_map()
-    rows = []
-    cols = []
-    vals = []
-    yf = np.zeros((nl, n), dtype=complex)
-    yt = np.zeros((nl, n), dtype=complex)
+    rows: list[int] = []
+    cols: list[int] = []
+    vals: list[complex] = []
+    yf_rows: list[int] = []
+    yf_cols: list[int] = []
+    yf_vals: list[complex] = []
+    yt_rows: list[int] = []
+    yt_cols: list[int] = []
+    yt_vals: list[complex] = []
     for k, br in enumerate(case.branch):
         if br[BR_STATUS] <= 0:
             continue
@@ -42,15 +52,13 @@ def build_ybus(case: PowerSystemCase) -> AdmittanceMatrices:
         yft = -y / np.conj(a)
         ytf = -y / a
         ytt = y + b
-        yf[k, f] = yff
-        yf[k, t] = yft
-        yt[k, f] = ytf
-        yt[k, t] = ytt
+        yf_rows.extend((k, k)); yf_cols.extend((f, t)); yf_vals.extend((yff, yft))
+        yt_rows.extend((k, k)); yt_cols.extend((f, t)); yt_vals.extend((ytf, ytt))
         for r, c, v in ((f, f, yff), (f, t, yft), (t, f, ytf), (t, t, ytt)):
-            rows.append(r)
-            cols.append(c)
-            vals.append(v)
+            rows.append(r); cols.append(c); vals.append(v)
     ybus = csr_matrix((vals, (rows, cols)), shape=(n, n), dtype=complex)
     sh = (case.bus[:, GS] + 1j * case.bus[:, BS]) / case.base_mva
     ybus = ybus + csr_matrix((sh, (np.arange(n), np.arange(n))), shape=(n, n))
-    return AdmittanceMatrices(ybus, csr_matrix(yf), csr_matrix(yt))
+    y_from = csr_matrix((yf_vals, (yf_rows, yf_cols)), shape=(nl, n), dtype=complex)
+    y_to = csr_matrix((yt_vals, (yt_rows, yt_cols)), shape=(nl, n), dtype=complex)
+    return AdmittanceMatrices(ybus, y_from, y_to)

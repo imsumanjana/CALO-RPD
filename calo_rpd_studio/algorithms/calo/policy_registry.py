@@ -96,7 +96,7 @@ class PolicyRegistry:
         existing = self.database.get_policy_by_sha256(inspected["sha256"])
         if existing is not None:
             return self._from_row(existing)
-        native = bool(schema["native_v41"])
+        native = bool(schema.get("native_v59", False))
         policy_id = str(uuid.uuid4())
         qualification_status = status or ("candidate" if native else "legacy_unqualified")
         grade = "U" if native else "C"

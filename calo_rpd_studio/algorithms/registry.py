@@ -39,7 +39,7 @@ SPECS = {
     "CALO": AlgorithmSpec(
         "CALO",
         CALOOptimizer,
-        "CALO v5.8.0 continuation-aware constraint-cognitive tensor-native optimizer with persistent personal memory, HPEM Best-1/3/5/7, contextual batch credit, mixed-variable group intelligence, single-budget dual-lane self-learning, partial recovery, and counted cognitive precision.",
+        "CALO v5.9.0 scientifically closed continuation-aware constraint-cognitive tensor-native optimizer with persistent personal memory, HPEM Best-1/3/5/7, contextual batch credit, mixed-variable group intelligence, single-budget dual-lane self-learning, partial recovery, and counted cognitive precision.",
         {
             "use_ai": True,
             "strict_policy_binding": True,

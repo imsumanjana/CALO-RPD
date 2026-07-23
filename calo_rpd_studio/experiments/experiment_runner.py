@@ -7,6 +7,7 @@ from calo_rpd_studio.algorithms.base_optimizer import OptimizerConfig
 from calo_rpd_studio.algorithms.registry import SPECS, create_optimizer
 from calo_rpd_studio.algorithms.result import OptimizerResult
 from calo_rpd_studio.orpd.problem import ORPDProblem, ORPDProblemConfig
+from calo_rpd_studio.orpd.formulation_fingerprint import scientific_problem_fingerprint
 from calo_rpd_studio.accelerated.torch_orpd import AcceleratedORPDProblem
 from calo_rpd_studio.power_system.case_loader import CaseLoader
 from calo_rpd_studio.power_system.case_validation import validate_case
@@ -14,6 +15,7 @@ from calo_rpd_studio.robustness.scenario import Scenario
 from calo_rpd_studio.robustness.scenario_generator import (
     ScenarioGeneratorConfig,
     generate_load_scenarios,
+    generate_stratified_load_scenarios,
 )
 from calo_rpd_studio.robustness.renewable_uncertainty import renewable_scenarios
 from calo_rpd_studio.robustness.contingencies import (
@@ -63,7 +65,13 @@ def build_scenarios(config, seed, case=None):
     settings.validate()
     if settings.mode == "deterministic":
         scenarios = [Scenario("base", 1.0)]
-    elif settings.mode in {"load_uncertainty", "monte_carlo"}:
+    elif settings.mode == "load_uncertainty":
+        scenarios = generate_stratified_load_scenarios(
+            ScenarioGeneratorConfig(
+                settings.count, settings.active_load_std, settings.reactive_load_std
+            )
+        )
+    elif settings.mode == "monte_carlo":
         scenarios = generate_load_scenarios(
             ScenarioGeneratorConfig(
                 settings.count, settings.active_load_std, settings.reactive_load_std
@@ -131,7 +139,11 @@ def build_scenarios(config, seed, case=None):
 def build_problem(config, scenario_seed):
     case = CaseLoader.load(config.case_name)
     problem_config = ORPDProblemConfig(
-        config.objective, config.variables, config.robust_objective, config.power_flow
+        objective=config.objective,
+        variables=config.variables,
+        robust=config.robust_objective,
+        power_flow=config.power_flow,
+        constraint_tolerances=config.constraint_tolerances,
     )
     scenarios = build_scenarios(config, scenario_seed, case)
     if str(getattr(config, "scientific_backend", "cpu_reference")) == "torch_fp64":
@@ -189,6 +201,9 @@ def run_single(config, algorithm, run_index, seeds, progress_callback=None, canc
         cancel,
     )
     result = opt.run()
+    # Every algorithm result carries the exact same scientific formulation identity so historical
+    # transfer cannot silently cross objectives, controls, PF settings, tolerances or scenarios.
+    result.metadata["scientific_problem_fingerprint"] = scientific_problem_fingerprint(problem)
     decoder = getattr(problem, "decoder", None)
     if decoder is not None and hasattr(decoder, "formulation_manifest"):
         result.metadata["formulation_manifest"] = decoder.formulation_manifest()

@@ -12,13 +12,17 @@ from typing import Iterable
 
 import numpy as np
 
-CONSTRAINT_COMPONENTS = (
+# Full scientific diagnostics include every enforced constraint. The native 24-D cognitive base
+# intentionally keeps its historical five component slots for ABI stability; branch-angle stress
+# is still represented through total violation and is reported explicitly in histories/results.
+POLICY_CONSTRAINT_COMPONENTS = (
     "bus_voltage",
     "generator_q",
     "generator_p",
     "branch_thermal",
     "power_flow",
 )
+CONSTRAINT_COMPONENTS = POLICY_CONSTRAINT_COMPONENTS + ("branch_angle",)
 
 
 def components_of(evaluation) -> dict[str, float]:

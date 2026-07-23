@@ -45,7 +45,7 @@ def configure_item_device(config, compute_device: str, item=None):
         if str(getattr(local, "scientific_backend", "cpu_reference")) == "torch_fp64":
             values["optimizer_backend"] = "torch"
         if algorithm_name == "CALO":
-            # CALO cognitive/control remains CPU/NumPy in v5.8; keep the tiny policy on CPU to
+            # CALO cognitive/control remains CPU/NumPy in v5.9; keep the tiny policy on CPU to
             # avoid a CUDA/XPU synchronize+host-copy every decision. Heavy ORPD evaluation still
             # uses compute_device. Explicit experimental overrides can be applied outside this
             # strict campaign binding if a fully device-resident control plane is introduced.

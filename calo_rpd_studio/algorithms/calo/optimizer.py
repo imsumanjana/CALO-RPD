@@ -28,6 +28,7 @@ import numpy as np
 from calo_rpd_studio.algorithms.base_optimizer import BaseOptimizer
 from calo_rpd_studio.accelerated.scratch_pool import ScratchPool
 from calo_rpd_studio.orpd.feasibility_rules import better
+from calo_rpd_studio.orpd.formulation_fingerprint import scientific_problem_fingerprint
 from .adaptive_epsilon import AdaptiveEpsilonController
 from .ai_controller import AIController, PARAMETER_HIGH, PARAMETER_LOW, PARAMETER_NAMES
 from .archives import ConstraintBoundaryArchive, FeasibleEliteArchive
@@ -54,7 +55,7 @@ from .learning_operators import (
 )
 from .operator_credit import blend_probabilities
 from .precision_engine import CognitivePrecisionEngine
-from .policy_schema import PolicyRuntimeContext, variable_group_concentration
+from .policy_schema import PolicyRuntimeContext, variable_group_concentration, build_policy_vector, POLICY_STATE_DIM
 from .reward import calculate_reward
 from .success_memory import SuccessMemory
 from .tensor_state import CALOTensorState
@@ -287,6 +288,7 @@ class CALOOptimizer(BaseOptimizer):
                 case_checksum=self.problem.case.checksum(),
                 case_name=self.problem.case.name,
                 dimension=self.problem.dimension,
+                scientific_problem_fingerprint=self._problem_compatibility_fingerprint(),
             )
             blend = float(np.clip(parameters.get("historical_prior_blend", 0.35), 0.0, 1.0))
             tunable = {
@@ -418,33 +420,7 @@ class CALOOptimizer(BaseOptimizer):
         return {"type": f"{type(value).__module__}.{type(value).__qualname__}"}
 
     def _problem_compatibility_fingerprint(self) -> str:
-        decoder = getattr(self.problem, "decoder", None)
-        manifest = None
-        if decoder is not None and callable(getattr(decoder, "formulation_manifest", None)):
-            manifest = decoder.formulation_manifest()
-        scenarios = []
-        for scenario in list(getattr(self.problem, "scenarios", []) or []):
-            scenarios.append(
-                {
-                    "name": str(getattr(scenario, "name", "")),
-                    "weight": float(getattr(scenario, "weight", 1.0)),
-                    "transform": self._compatibility_jsonable(getattr(scenario, "transform", None)),
-                }
-            )
-        payload = {
-            "case_checksum": str(self.problem.case.checksum()),
-            "dimension": int(self.problem.dimension),
-            "formulation_manifest": manifest,
-            "problem_config": self._compatibility_jsonable(getattr(self.problem, "config", None)),
-            "scenarios": scenarios,
-        }
-        encoded = json.dumps(
-            self._compatibility_jsonable(payload),
-            sort_keys=True,
-            separators=(",", ":"),
-            allow_nan=False,
-        ).encode("utf-8")
-        return hashlib.sha256(encoded).hexdigest()
+        return scientific_problem_fingerprint(self.problem)
 
     def _checkpoint_compatibility(self, parameters: dict, controller) -> dict:
         ignored = {
@@ -594,6 +570,7 @@ class CALOOptimizer(BaseOptimizer):
                     case_checksum=self.problem.case.checksum(),
                     case_name=self.problem.case.name,
                     dimension=self.problem.dimension,
+                    scientific_problem_fingerprint=self._problem_compatibility_fingerprint(),
                 )
                 fraction = float(
                     np.clip(parameters.get("historical_warm_start_fraction", 0.15), 0.0, 0.50)
@@ -804,9 +781,9 @@ class CALOOptimizer(BaseOptimizer):
                 boundary_archive_capacity=boundary_archive.capacity,
             )
 
-            # Native v4.1 policies observe the same 24-D cognitive base plus compact HPEM,
-            # dual-lane, success-memory, precision, and variable-intelligence signals.  Legacy
-            # 24-D checkpoints remain explicitly supported through the checkpoint schema adapter.
+            # Native v5.9 policies observe the 24-D cognitive base plus compact HPEM,
+            # dual-lane, success-memory, precision, and variable-intelligence signals (32-D total).
+            # Legacy checkpoints remain isolated behind explicit compatibility/migration adapters.
             hpem_reference = state.population.mean(axis=0)
             pre_consensus = hpem.consensus(hpem_reference) if use_hpem else 0.0
             pre_readiness = lane_controller.memory_readiness(
@@ -842,10 +819,13 @@ class CALOOptimizer(BaseOptimizer):
                     group_intelligence.probabilities(provisional_regime)
                 ),
             )
+            native_v59_policy = False
+            decision = None
             if use_ai:
                 _policy_started = time.perf_counter()
                 decision = controller.decide(cognitive, policy_context)
                 policy_inference_seconds += time.perf_counter() - _policy_started
+                native_v59_policy = bool(controller.schema.get("native_v59", False))
                 regime_probabilities = decision.regime_probabilities.copy()
                 ai_operator_probabilities = decision.operator_probabilities.copy()
                 adaptive = dict(decision.parameters)
@@ -864,16 +844,23 @@ class CALOOptimizer(BaseOptimizer):
             severe_stagnation = (
                 max(constraint_stagnation, objective_stagnation) >= stagnation_window
             )
-            if severe_stagnation:
+            # Native v5.9 action semantics: the network's sampled global regime is the raw
+            # policy action. Stagnation/recovery remain explicit controller interventions rather
+            # than silently changing the PPO action distribution after sampling. Legacy/no-AI
+            # behavior keeps the historical prior blend for backward-compatible trajectories.
+            if severe_stagnation and not native_v59_policy:
                 recovery_prior = np.asarray([0.05, 0.10, 0.10, 0.75])
                 regime_probabilities = self._normalise(
                     0.50 * regime_probabilities + 0.50 * recovery_prior
                 )
-            global_regime = (
-                int(np.argmax(regime_probabilities))
-                if deterministic_policy
-                else int(self.rng.choice(4, p=self._normalise(regime_probabilities)))
-            )
+            if native_v59_policy and decision is not None:
+                global_regime = int(decision.regime)
+            else:
+                global_regime = (
+                    int(np.argmax(regime_probabilities))
+                    if deterministic_policy
+                    else int(self.rng.choice(4, p=self._normalise(regime_probabilities)))
+                )
 
             # Behavior-driven search scale. The learned policy supplies the base scale;
             # cognition only modulates it within its declared training bounds.
@@ -899,8 +886,12 @@ class CALOOptimizer(BaseOptimizer):
                 if use_dual_lane
                 else 1.0
             )
+            # deterministic_policy controls only the neural policy action for native v5.9.
+            # Environmental/controller stochasticity remains part of the transition kernel and
+            # therefore uses the optimizer RNG in both PPO rollouts and deployed CALO.
+            environment_deterministic = bool(deterministic_policy and not native_v59_policy)
             lanes = lane_controller.assign(
-                population_size, learning_fraction, self.rng, deterministic_policy
+                population_size, learning_fraction, self.rng, environment_deterministic
             )
 
             precision_active = use_precision and precision.active(
@@ -980,13 +971,13 @@ class CALOOptimizer(BaseOptimizer):
                 memory_probabilities = blend_probabilities(memory_prior, memory_online, alpha=0.65)
                 memory_level = (
                     int(np.argmax(memory_probabilities))
-                    if deterministic_policy
+                    if environment_deterministic
                     else int(self.rng.choice(4, p=memory_probabilities))
                 )
                 assigned_memory[index] = memory_level
 
                 group = (
-                    group_intelligence.choose(regime, self.rng, deterministic_policy)
+                    group_intelligence.choose(regime, self.rng, environment_deterministic)
                     if use_variable_intelligence
                     else -1
                 )
@@ -997,9 +988,9 @@ class CALOOptimizer(BaseOptimizer):
                     and learned_lane
                     and index not in forced_recovery
                     and (
-                        deterministic_policy
+                        environment_deterministic
                         and index < int(round(population_size * precision_fraction))
-                        or (not deterministic_policy and self.rng.random() < precision_fraction)
+                        or (not environment_deterministic and self.rng.random() < precision_fraction)
                     )
                 )
                 if should_precision and len(hpem):
@@ -1022,41 +1013,60 @@ class CALOOptimizer(BaseOptimizer):
                     precision_mask[index] = True
                     continue
 
-                base_prior = self._rule_operator_probabilities(regime)
-                learned_policy = self._normalise(
-                    ai_policy_weight * ai_operator_probabilities
-                    + (1.0 - ai_policy_weight) * base_prior
-                )
-                online = (
-                    credit.operator_probabilities(regime, context)
-                    if use_contextual_credit
-                    else np.full(6, 1.0 / 6.0)
-                )
-                operator_probabilities = blend_probabilities(
-                    learned_policy,
-                    online,
-                    alpha=ai_credit_blend,
-                )
-                if not learned_lane:
-                    operator_probabilities = self._normalise(
-                        0.45 * operator_probabilities + 0.55 * DISCOVERY_OPERATOR_PRIOR
+                if native_v59_policy and decision is not None:
+                    # The raw neural operator is authoritative for ordinary learners. Contextual
+                    # credit, rule priors and discovery priors remain diagnostics/learning memory;
+                    # they do not silently redefine the PPO action. Precision and forced recovery
+                    # are explicit interventions recorded separately below.
+                    raw_operator = int(decision.operator)
+                    operator_probabilities = ai_operator_probabilities.copy()
+                    if (raw_operator == 4 and not use_mixed_variable) or (
+                        raw_operator == 5 and not use_diversity_recovery
+                    ):
+                        allowed = np.ones(6, dtype=float)
+                        if not use_mixed_variable:
+                            allowed[4] = 0.0
+                        if not use_diversity_recovery:
+                            allowed[5] = 0.0
+                        masked = self._normalise(operator_probabilities * allowed)
+                        raw_operator = int(np.argmax(masked))
+                else:
+                    base_prior = self._rule_operator_probabilities(regime)
+                    learned_policy = self._normalise(
+                        ai_policy_weight * ai_operator_probabilities
+                        + (1.0 - ai_policy_weight) * base_prior
                     )
-                if not use_mixed_variable:
-                    operator_probabilities[4] = 0.0
-                if not use_diversity_recovery:
-                    operator_probabilities[5] = 0.0
-                operator_probabilities = self._normalise(operator_probabilities)
+                    online = (
+                        credit.operator_probabilities(regime, context)
+                        if use_contextual_credit
+                        else np.full(6, 1.0 / 6.0)
+                    )
+                    operator_probabilities = blend_probabilities(
+                        learned_policy,
+                        online,
+                        alpha=ai_credit_blend,
+                    )
+                    if not learned_lane:
+                        operator_probabilities = self._normalise(
+                            0.45 * operator_probabilities + 0.55 * DISCOVERY_OPERATOR_PRIOR
+                        )
+                    if not use_mixed_variable:
+                        operator_probabilities[4] = 0.0
+                    if not use_diversity_recovery:
+                        operator_probabilities[5] = 0.0
+                    operator_probabilities = self._normalise(operator_probabilities)
+                    raw_operator = (
+                        int(np.argmax(operator_probabilities))
+                        if environment_deterministic
+                        else int(self.rng.choice(6, p=operator_probabilities))
+                    )
 
                 if index in forced_recovery:
                     operator = 5
                     lanes[index] = 0
                     assigned_memory[index] = 3
                 else:
-                    operator = (
-                        int(np.argmax(operator_probabilities))
-                        if deterministic_policy
-                        else int(self.rng.choice(6, p=operator_probabilities))
-                    )
+                    operator = int(raw_operator)
                 assigned_operators[index] = operator
                 offspring[index] = self._candidate(
                     operator,
@@ -1251,19 +1261,53 @@ class CALOOptimizer(BaseOptimizer):
                 else 4
             )
             adaptive_vector = np.asarray([adaptive[name] for name in PARAMETER_NAMES], dtype=float)
-            raw_parameter_action = np.clip(
+            derived_parameter_action = np.clip(
                 (adaptive_vector - PARAMETER_LOW)
                 / np.maximum(PARAMETER_HIGH - PARAMETER_LOW, 1e-12),
                 0.0,
                 1.0,
             )
             if bool(parameters.get("record_policy_trajectory", True)):
+                full_policy_state = build_policy_vector(
+                    cognitive, policy_context, input_dim=POLICY_STATE_DIM
+                )
+                raw_policy_record = {
+                    "regime": int(decision.regime) if decision is not None else int(global_regime),
+                    "operator": int(decision.operator) if decision is not None else -1,
+                    "regime_probabilities": (
+                        decision.regime_probabilities.tolist() if decision is not None else regime_probabilities.tolist()
+                    ),
+                    "operator_probabilities": (
+                        decision.operator_probabilities.tolist() if decision is not None else ai_operator_probabilities.tolist()
+                    ),
+                    "parameter": (
+                        decision.raw_parameter_action.tolist() if decision is not None else derived_parameter_action.tolist()
+                    ),
+                    "value_estimate": float(decision.value_estimate) if decision is not None else None,
+                }
                 policy_trajectory.append(
                     {
-                        "state": cognitive.vector().tolist(),
-                        "regime": int(global_regime),
-                        "operator": int(dominant_operator),
-                        "parameter": raw_parameter_action.tolist(),
+                        "schema_version": "calo-policy-trajectory-v5.9",
+                        "policy_state": full_policy_state.tolist(),
+                        "cognitive_state": cognitive.vector().tolist(),
+                        "raw_policy": raw_policy_record,
+                        "executed_controller": {
+                            "global_regime": int(global_regime),
+                            "individual_regimes": individual_regimes.astype(int).tolist(),
+                            "executed_operators": assigned_operators.astype(int).tolist(),
+                            "memory_levels": assigned_memory.astype(int).tolist(),
+                            "variable_groups": assigned_groups.astype(int).tolist(),
+                            "precision_mask": precision_mask.astype(bool).tolist(),
+                            "forced_recovery_indices": sorted(int(i) for i in forced_recovery),
+                            "final_parameters": {name: float(adaptive[name]) for name in PARAMETER_NAMES},
+                        },
+                        # Legacy aliases remain for repository readers, but exact v5.9 pretraining
+                        # uses policy_state/raw_policy above rather than these composite summaries.
+                        "state": full_policy_state.tolist(),
+                        "regime": int(raw_policy_record["regime"]),
+                        "operator": int(raw_policy_record["operator"]),
+                        "parameter": list(raw_policy_record["parameter"]),
+                        "parameter_supervision": bool(decision is not None),
                         "reward": float(reward.total),
                         "evaluations": int(self.evaluations),
                         "source_policy": "ai" if use_ai else "rule_based",
@@ -1390,7 +1434,8 @@ class CALOOptimizer(BaseOptimizer):
 
         hpem_snapshot = hpem.snapshot()
         metadata = {
-            "calo_version": "v5.0",
+            "calo_version": "v5.9",
+            "scientific_problem_fingerprint": self._problem_compatibility_fingerprint(),
             "architecture": "constraint-cognitive tensor-native HPEM dual-lane precision",
             "operator_names": list(OPERATOR_NAMES),
             "operator_attempts": credit.attempts.tolist(),

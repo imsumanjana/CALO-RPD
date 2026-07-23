@@ -1,20 +1,22 @@
 from __future__ import annotations
 
 from pathlib import Path
-import tomllib
+import json
 
 import pytest
 
 from calo_rpd_studio.algorithms.calo.ai_controller import AIController
 from calo_rpd_studio.algorithms.registry import SPECS
-from calo_rpd_studio.version import FREEZE_MANIFEST, VERSION
 
 
-def test_release_identity_matches_pyproject_and_current_freeze_name():
+def test_historical_v580_freeze_artifact_is_preserved():
+    """v5.8 freeze is historical evidence, not the current-source release gate."""
     root = Path(__file__).resolve().parents[2]
-    payload = tomllib.loads((root / "pyproject.toml").read_text(encoding="utf-8"))
-    assert payload["project"]["version"] == VERSION == "5.8.0"
-    assert FREEZE_MANIFEST == "calo_v580_freeze.json"
+    freeze_path = root / "calo_rpd_studio" / "data" / "frozen" / "calo_v580_freeze.json"
+    assert freeze_path.is_file()
+    payload = json.loads(freeze_path.read_text(encoding="utf-8"))
+    assert payload["software_version"] == "5.8.0"
+    assert payload.get("manifest_sha256")
 
 
 def test_release_does_not_bundle_or_assume_a_default_neural_policy():
@@ -33,14 +35,10 @@ def test_missing_policy_never_constructs_an_untrained_fallback(tmp_path):
         AIController(tmp_path / "missing.pt", seed=7, device="cpu")
 
 
-def test_current_release_freeze_verifies_and_does_not_freeze_a_default_policy():
-    from calo_rpd_studio.benchmarking.freeze import verify_freeze_manifest
-
+def test_historical_v580_freeze_did_not_bundle_a_default_policy():
     root = Path(__file__).resolve().parents[2]
-    freeze_path = root / "calo_rpd_studio" / "data" / "frozen" / FREEZE_MANIFEST
-    result = verify_freeze_manifest(freeze_path, project_root=root)
-    assert result.passed is True
-    payload = __import__("json").loads(freeze_path.read_text(encoding="utf-8"))
+    freeze_path = root / "calo_rpd_studio" / "data" / "frozen" / "calo_v580_freeze.json"
+    payload = json.loads(freeze_path.read_text(encoding="utf-8"))
     assert not any("data/trained_models/" in item for item in payload["files"])
     assert payload["frozen_scope"]["policy_gated_no_default_neural_policy"] is True
     assert payload["frozen_scope"]["untrained_policy_fallback_forbidden"] is True
