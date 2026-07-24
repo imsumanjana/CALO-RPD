@@ -15,6 +15,9 @@ import numpy as np
 
 _LOG = logging.getLogger(__name__)
 
+# Prevent an optional dense compatibility fallback from becoming an accidental multi-GB allocation.
+MAX_DENSE_FALLBACK_BUSES = 1200
+
 
 @dataclass(slots=True)
 class NewtonResult:
@@ -31,7 +34,14 @@ def _mismatch(ybus, sbus, voltage, pvpq, pq):
 
 
 def _dense_jacobian(ybus, voltage, pvpq, pq):
-    """Deterministic compatibility fallback used only when SciPy sparse is unavailable."""
+    """Deterministic compatibility fallback for bounded-size systems only."""
+    nbus = int(np.asarray(voltage).size)
+    if nbus > MAX_DENSE_FALLBACK_BUSES:
+        raise RuntimeError(
+            "Dense Newton-Jacobian fallback is disabled for large systems "
+            f"({nbus} buses > {MAX_DENSE_FALLBACK_BUSES}). Install/repair SciPy sparse support "
+            "instead of risking an O(n^2) memory allocation."
+        )
     y = ybus.toarray() if hasattr(ybus, "toarray") else np.asarray(ybus)
     g = y.real
     b = y.imag
@@ -86,7 +96,12 @@ def _jacobian(ybus, voltage, pvpq, pq):
         j21 = dS_dVa[pq, :][:, pvpq].imag.tocsr()
         j22 = dS_dVm[pq, :][:, pq].imag.tocsr()
         return vstack([hstack([j11, j12], format="csr"), hstack([j21, j22], format="csr")], format="csr")
-    except ImportError:
+    except (ImportError, RuntimeError, ValueError, TypeError, AttributeError) as exc:
+        _LOG.warning(
+            "Sparse Jacobian construction unavailable/failed (%s); considering bounded dense fallback",
+            type(exc).__name__,
+            exc_info=True,
+        )
         return _dense_jacobian(ybus, voltage, pvpq, pq)
 
 

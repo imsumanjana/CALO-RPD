@@ -4,13 +4,12 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import datetime, timezone
-import hashlib
 import json
 import logging
 from pathlib import Path
 import uuid
 
-from calo_rpd_studio.ai.model_io import load_checkpoint
+from calo_rpd_studio.ai.model_io import checkpoint_sha256, load_checkpoint
 from .policy_schema import (
     CALO_RUNTIME_ARCHITECTURE,
     POLICY_ACTION_SCHEMA,
@@ -78,7 +77,7 @@ class PolicyRegistry:
         payload = load_checkpoint(source, map_location="cpu")
         schema = infer_checkpoint_schema(payload)
         metadata = dict(payload.get("metadata", {}) or {})
-        checksum = hashlib.sha256(source.read_bytes()).hexdigest()
+        checksum = checkpoint_sha256(source)
         return {
             "checkpoint_path": str(source),
             "sha256": checksum,

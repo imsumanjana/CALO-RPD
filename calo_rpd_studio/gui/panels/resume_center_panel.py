@@ -23,6 +23,8 @@ class ResumeCenterPanel(WorkspacePage):
     workspace_requested = pyqtSignal(int)
     experiment_restore_requested = pyqtSignal(str)
     policy_training_resumed = pyqtSignal(str)
+    validation_resumed = pyqtSignal(str)
+    portfolio_export_resumed = pyqtSignal(str)
 
     def __init__(self, state, experiment_manager, parent=None) -> None:
         super().__init__(
@@ -149,20 +151,12 @@ class ResumeCenterPanel(WorkspacePage):
             return True
         if task_type == "validation":
             self.workspace_requested.emit(11)
-            QMessageBox.information(
-                self,
-                "Validation resume",
-                "Validation & Audit is open. Choose Resume bulk validation.",
-            )
-            return False
+            self.validation_resumed.emit(item["id"])
+            return True
         if task_type == "portfolio_export":
             self.workspace_requested.emit(12)
-            QMessageBox.information(
-                self,
-                "Portfolio export resume",
-                "Publication & Portfolio Export is open. Choose Resume portfolio generation.",
-            )
-            return False
+            self.portfolio_export_resumed.emit(item["id"])
+            return True
         return False
 
     def resume_selected(self) -> None:
@@ -171,10 +165,33 @@ class ResumeCenterPanel(WorkspacePage):
             self.refresh()
 
     def resume_all(self) -> None:
-        for item in self._rows:
-            if item["task_type"] == "experiment":
-                if self._resume(item):
-                    break  # only one scientific task may run at a time
+        resumed: list[str] = []
+        deferred: list[str] = []
+        unsupported: list[str] = []
+        # Global scientific exclusivity permits only one executing/resumed task at a time. Select
+        # the first compatible record regardless of task type and explicitly summarize the rest.
+        for item in list(self._rows):
+            task_type = str(item.get("task_type", ""))
+            if task_type not in {"experiment", "policy_training", "validation", "portfolio_export"}:
+                unsupported.append(f"{task_type}: {item.get('title', item.get('id', ''))}")
+                continue
+            if resumed:
+                deferred.append(f"{task_type}: {item.get('title', item.get('id', ''))}")
+                continue
+            if self._resume(item):
+                resumed.append(f"{task_type}: {item.get('title', item.get('id', ''))}")
+            else:
+                deferred.append(f"{task_type}: {item.get('title', item.get('id', ''))}")
+        self.refresh()
+        if deferred or unsupported:
+            lines = []
+            if resumed:
+                lines.append("Resumed: " + resumed[0])
+            if deferred:
+                lines.append("Deferred/manual action required: " + "; ".join(deferred))
+            if unsupported:
+                lines.append("Unsupported resume record types: " + "; ".join(unsupported))
+            QMessageBox.information(self, "Resume all compatible", "\n".join(lines))
 
     def inspect_selected(self) -> None:
         item = self._selected()

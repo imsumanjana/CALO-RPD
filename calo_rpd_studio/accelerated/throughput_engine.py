@@ -202,7 +202,7 @@ class CrossRunBatchBroker:
                 array = np.asarray(candidates, dtype=float)
                 if array.ndim == 1:
                     array = array[None, :]
-        except Exception:
+        except (ImportError, TypeError, ValueError, RuntimeError):
             array = np.asarray(candidates, dtype=float)
             if array.ndim == 1:
                 array = array[None, :]
@@ -242,8 +242,8 @@ class CrossRunBatchBroker:
                     f"torch:{candidates.device}:{candidates.dtype}:{candidates.layout}:{width}"
                 )
                 return f"{scientific}|{representation}"
-        except Exception:
-            _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
+        except (ImportError, TypeError, ValueError, RuntimeError, AttributeError) as exc:
+            _LOG.debug("Torch batch-signature inspection unavailable; using NumPy signature: %s", exc)
         array = np.asarray(candidates)
         width = int(array.shape[1]) if array.ndim == 2 else -1
         return f"{scientific}|numpy:{array.dtype.str}:{width}"
@@ -267,7 +267,7 @@ class CrossRunBatchBroker:
                 import torch
 
                 tensor_batch = bool(matrices and isinstance(matrices[0], torch.Tensor))
-            except Exception:
+            except (ImportError, RuntimeError, TypeError, AttributeError):
                 tensor_batch = False
             if tensor_batch:
                 import torch
@@ -485,8 +485,8 @@ def calibrate_evaluator(
                         torch.cuda.synchronize(device)
                     elif device.startswith("xpu") and hasattr(torch, "xpu"):
                         torch.xpu.synchronize(device)
-                except Exception:
-                    _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
+                except (ImportError, RuntimeError, AttributeError, TypeError, ValueError) as exc:
+                    _LOG.warning("Accelerator synchronization failed during calibration on %s: %s", device, exc)
             seconds = max(time.perf_counter() - started, 1e-12)
             record = DeviceCalibration(
                 device=device,

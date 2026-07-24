@@ -1,4 +1,4 @@
-"""Run the current v6.4.0 frozen 20-algorithm benchmark campaign from the command line."""
+"""Run the current v6.5.0 frozen 20-algorithm benchmark campaign from the command line."""
 
 from __future__ import annotations
 
@@ -24,10 +24,10 @@ from calo_rpd_studio.results.result_store import ResultStore
 
 def parser() -> argparse.ArgumentParser:
     command = argparse.ArgumentParser(
-        description="Run the frozen CALO-RPD v6.4.0 benchmark campaign."
+        description="Run the frozen CALO-RPD v6.5.0 benchmark campaign."
     )
     command.add_argument("--database", default="calo_rpd_results.sqlite")
-    command.add_argument("--output", default="benchmark_v640")
+    command.add_argument("--output", default="benchmark_v650")
     command.add_argument("--runs", type=int, default=30)
     command.add_argument("--budget", type=int, default=5000)
     command.add_argument("--population", type=int, default=50)

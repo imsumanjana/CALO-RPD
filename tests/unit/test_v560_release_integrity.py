@@ -9,6 +9,8 @@ from calo_rpd_studio.algorithms.calo.ai_controller import AIController
 from calo_rpd_studio.algorithms.registry import SPECS
 from calo_rpd_studio.version import FREEZE_MANIFEST, VERSION
 
+pytestmark = pytest.mark.skipif(VERSION != "5.6.0", reason="historical v5.6.0 release gate")
+
 
 def test_release_identity_matches_pyproject_and_current_freeze_name():
     root = Path(__file__).resolve().parents[2]

@@ -520,7 +520,7 @@ class ResultDatabase:
             return [
                 dict(row)
                 for row in con.execute(
-                    "SELECT * FROM portfolios ORDER BY updated_at DESC"
+                    "SELECT * FROM portfolios ORDER BY updated_at DESC, id DESC"
                 ).fetchall()
             ]
 
@@ -559,7 +559,7 @@ class ResultDatabase:
             query += (
                 " WHERE status IN ('planned','running','pausing','paused','interrupted','failed')"
             )
-        query += " ORDER BY updated_at DESC"
+        query += " ORDER BY updated_at DESC, id DESC"
         with self.connect() as con:
             return [dict(row) for row in con.execute(query).fetchall()]
 
@@ -806,7 +806,7 @@ class ResultDatabase:
         query = "SELECT * FROM resumable_tasks"
         if unfinished_only:
             query += " WHERE resumable=1 AND status IN ('planned','running','pausing','paused','interrupted','failed')"
-        query += " ORDER BY updated_at DESC"
+        query += " ORDER BY updated_at DESC, id DESC"
         with self.connect() as con:
             return [dict(row) for row in con.execute(query).fetchall()]
 
@@ -1232,7 +1232,7 @@ class ResultDatabase:
         q = "SELECT * FROM policy_lineages"
         if not include_archived:
             q += " WHERE archived=0"
-        q += " ORDER BY updated_at DESC"
+        q += " ORDER BY updated_at DESC, id DESC"
         with self.connect() as con:
             return [dict(r) for r in con.execute(q).fetchall()]
 
@@ -1261,11 +1261,28 @@ class ResultDatabase:
     ) -> None:
         now = self._utcnow()
         with self._lock, self.connect() as con:
+            con.execute("BEGIN IMMEDIATE")
+            effective_latest = False
             if is_latest:
-                con.execute(
-                    "UPDATE policy_checkpoints SET is_latest=0 WHERE lineage_id=?",
-                    (str(lineage_id),),
+                current = con.execute(
+                    """SELECT id,cumulative_epoch,phase_index FROM policy_checkpoints
+                       WHERE lineage_id=? AND id<>?
+                       ORDER BY cumulative_epoch DESC,phase_index DESC,created_at DESC LIMIT 1""",
+                    (str(lineage_id), str(checkpoint_id)),
+                ).fetchone()
+                effective_latest = (
+                    current is None
+                    or int(cumulative_epoch) > int(current["cumulative_epoch"])
+                    or (
+                        int(cumulative_epoch) == int(current["cumulative_epoch"])
+                        and int(phase_index) >= int(current["phase_index"])
+                    )
                 )
+                if effective_latest:
+                    con.execute(
+                        "UPDATE policy_checkpoints SET is_latest=0 WHERE lineage_id=?",
+                        (str(lineage_id),),
+                    )
             if is_best:
                 con.execute(
                     "UPDATE policy_checkpoints SET is_best=0 WHERE lineage_id=?", (str(lineage_id),)
@@ -1286,7 +1303,7 @@ class ResultDatabase:
                     str(sha256),
                     str(qualification_status),
                     str(grade),
-                    int(bool(is_latest)),
+                    int(bool(effective_latest)),
                     int(bool(is_best)),
                     json.dumps(metadata or {}, allow_nan=True),
                     now,
@@ -1341,18 +1358,28 @@ class ResultDatabase:
         return int(row["n"] if row else 0)
 
     def delete_policy_checkpoint(self, checkpoint_id: str) -> None:
-        row = self.get_policy_checkpoint(checkpoint_id)
-        if row is None:
-            return
-        if bool(row.get("is_latest")) or bool(row.get("is_best")):
-            raise ValueError(
-                "Latest or best-qualified lineage checkpoints must be retained; archive the policy instead"
-            )
-        if self.policy_checkpoint_fork_reference_count(checkpoint_id) > 0:
-            raise ValueError(
-                "This checkpoint is the parent of a forked policy lineage and cannot be deleted"
-            )
+        # Read protection state and delete inside one write transaction so no thread/process can
+        # change latest/best/fork references between the checks and deletion.
         with self._lock, self.connect() as con:
+            con.execute("BEGIN IMMEDIATE")
+            row = con.execute(
+                "SELECT is_latest,is_best FROM policy_checkpoints WHERE id=?",
+                (str(checkpoint_id),),
+            ).fetchone()
+            if row is None:
+                return
+            if bool(row["is_latest"]) or bool(row["is_best"]):
+                raise ValueError(
+                    "Latest or best-qualified lineage checkpoints must be retained; archive the policy instead"
+                )
+            forks = con.execute(
+                "SELECT COUNT(*) AS n FROM policy_lineages WHERE forked_from_checkpoint_id=?",
+                (str(checkpoint_id),),
+            ).fetchone()
+            if int(forks["n"] if forks else 0) > 0:
+                raise ValueError(
+                    "This checkpoint is the parent of a forked policy lineage and cannot be deleted"
+                )
             con.execute("DELETE FROM policy_checkpoints WHERE id=?", (str(checkpoint_id),))
 
     def update_policy_checkpoint_qualification(
@@ -1363,12 +1390,22 @@ class ResultDatabase:
         grade: str,
         metadata_updates: dict | None = None,
     ) -> None:
-        current = self.get_policy_checkpoint(checkpoint_id)
-        if current is None:
-            raise KeyError(checkpoint_id)
-        metadata = dict(current.get("metadata", {}))
-        metadata.update(metadata_updates or {})
+        # Merge metadata under the same transaction as the update to prevent lost concurrent writes.
         with self._lock, self.connect() as con:
+            con.execute("BEGIN IMMEDIATE")
+            current = con.execute(
+                "SELECT metadata_json FROM policy_checkpoints WHERE id=?",
+                (str(checkpoint_id),),
+            ).fetchone()
+            if current is None:
+                raise KeyError(checkpoint_id)
+            try:
+                metadata = json.loads(current["metadata_json"] or "{}")
+            except (TypeError, ValueError, json.JSONDecodeError):
+                metadata = {}
+            if not isinstance(metadata, dict):
+                metadata = {}
+            metadata.update(metadata_updates or {})
             con.execute(
                 "UPDATE policy_checkpoints SET qualification_status=?,grade=?,metadata_json=? WHERE id=?",
                 (

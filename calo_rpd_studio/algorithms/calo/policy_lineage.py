@@ -3,12 +3,11 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
-import hashlib
 import json
 from pathlib import Path
 import uuid
 
-from calo_rpd_studio.ai.model_io import load_checkpoint
+from calo_rpd_studio.ai.model_io import checkpoint_sha256, load_checkpoint
 
 
 @dataclass(frozen=True, slots=True)
@@ -76,7 +75,7 @@ class PolicyLineageManager:
             raise FileNotFoundError(path)
         # Ensure the artifact is actually a loadable policy before recording it.
         load_checkpoint(path, map_location="cpu")
-        sha = hashlib.sha256(path.read_bytes()).hexdigest()
+        sha = checkpoint_sha256(path)
         checkpoint_id = str(checkpoint_id or uuid.uuid4())
         self.database.add_policy_checkpoint(
             checkpoint_id=checkpoint_id,

@@ -37,6 +37,7 @@ from calo_rpd_studio.orpd.constraints import branch_angle_limit_violation, gener
 from .device import resolve_device, torch_dtype
 from .torch_power_flow import (
     TorchPowerFlowOptions,
+    MAX_DENSE_TORCH_BUSES,
     run_torch_ac_power_flow,
     run_torch_ac_power_flow_batch,
     torch_l_index,
@@ -101,15 +102,17 @@ class AcceleratedORPDProblem:
         pf = self.config.power_flow
         self._broker = get_cross_run_broker()
         self._batch_signature_cache = None
+        self._large_case_reference_fallback = bool(self.case.n_bus > MAX_DENSE_TORCH_BUSES)
         self.power_flow_options = TorchPowerFlowOptions(
             tolerance=float(pf.tolerance),
             max_iterations=int(pf.max_iterations),
             enforce_q_limits=bool(pf.enforce_q_limits),
             max_q_limit_rounds=int(pf.max_q_limit_rounds),
             q_limit_tolerance_mvar=float(pf.q_limit_tolerance_mvar),
+            minimum_damping=1.0 / 32.0,
         )
         self._device_resident_evaluator = None
-        if self.device_resident_enabled:
+        if self.device_resident_enabled and not self._large_case_reference_fallback:
             # The device-resident evaluator currently stores generator capability by bus.
             # When multiple online units share a bus, use the batched torch path below so
             # per-generator PMIN/PMAX/QMIN/QMAX enforcement remains exact.
@@ -179,7 +182,12 @@ class AcceleratedORPDProblem:
         tolerances = self.config.constraint_tolerances
         lower = torch.as_tensor(case.bus[:, VMIN], dtype=dtype, device=device)
         upper = torch.as_tensor(case.bus[:, VMAX], dtype=dtype, device=device)
-        span = torch.clamp(upper - lower, min=1e-12)
+        raw_span = upper - lower
+        span_floor = max(2.0 * float(tolerances.voltage_pu), 1e-12)
+        # Fixed/near-fixed voltage limits are constraints, not a meaningful normalization span.
+        # Use a neutral 1 pu denominator so tiny declared spans cannot amplify a small physical
+        # excess into an enormous normalized violation.
+        span = torch.where(raw_span > span_floor, raw_span, torch.ones_like(raw_span))
         below = lower - pf.vm_pu
         above = pf.vm_pu - upper
         below = torch.where(below > float(tolerances.voltage_pu), below, torch.zeros_like(below))
@@ -262,6 +270,11 @@ class AcceleratedORPDProblem:
 
     def evaluate_population_tensor(self, population):
         """Return one device-resident population result without host materialisation."""
+        if self._large_case_reference_fallback:
+            raise RuntimeError(
+                "Device-resident dense Torch evaluation is intentionally disabled for this large case; "
+                "use evaluate_population() to invoke the sparse CPU-reference fallback."
+            )
         if self._device_resident_evaluator is None:
             raise RuntimeError("Device-resident evaluation is disabled for this problem")
         return self._device_resident_evaluator.evaluate_tensor(population)
@@ -275,6 +288,31 @@ class AcceleratedORPDProblem:
         return self._evaluate_population_direct(population)
 
     def _evaluate_population_direct(self, population: Iterable):
+        if self._large_case_reference_fallback:
+            # The large-case path deliberately avoids dense Torch O(n^2) admittance/Jacobian
+            # allocations. Accept tensor populations without trying to coerce a CUDA tensor
+            # through NumPy directly, then execute the sparse CPU reference formulation.
+            try:
+                import torch
+                if isinstance(population, torch.Tensor):
+                    candidates = population.detach().to("cpu", dtype=torch.float64).numpy()
+                else:
+                    candidates = np.asarray(population, dtype=float)
+            except (ImportError, TypeError, ValueError, RuntimeError):
+                candidates = np.asarray(population, dtype=float)
+            if candidates.ndim == 1:
+                candidates = candidates[None, :]
+            results = []
+            for candidate in np.clip(candidates, 0.0, 1.0):
+                evaluation = self.reference.evaluate(candidate)
+                evaluation.metadata = {
+                    **dict(evaluation.metadata or {}),
+                    "scientific_backend": "cpu_reference_sparse_large_case_fallback",
+                    "requested_accelerator": str(self.device),
+                    "dense_torch_bus_limit": int(MAX_DENSE_TORCH_BUSES),
+                }
+                results.append(evaluation)
+            return results
         if self._device_resident_evaluator is not None:
             return self._device_resident_evaluator.evaluate_tensor(population).to_evaluations()
         try:
@@ -284,7 +322,7 @@ class AcceleratedORPDProblem:
                 candidates = population.detach().to("cpu", dtype=torch.float64).numpy()
             else:
                 candidates = np.asarray(population, dtype=float)
-        except Exception:
+        except (ImportError, TypeError, ValueError, RuntimeError):
             candidates = np.asarray(population, dtype=float)
         if candidates.ndim == 1:
             candidates = candidates[None, :]
@@ -301,34 +339,46 @@ class AcceleratedORPDProblem:
         scenario_constraint_components = [[] for _ in range(count)]
         converged_all = [True] * count
 
-        for scenario in self.scenarios:
-            with timed_stage("scenario_prepare", count, GLOBAL_LEDGER):
-                scenario_cases = [scenario.apply(case) for case in controlled_cases]
-            scenario_results = []
-            with timed_stage("batched_ac_power_flow", count, GLOBAL_LEDGER):
-                for offset in range(0, count, self.batch_size):
-                    scenario_results.extend(
-                        run_torch_ac_power_flow_batch(
-                            scenario_cases[offset : offset + self.batch_size],
-                            device=self.device,
-                            dtype=self.dtype,
-                            options=self.power_flow_options,
-                        )
+        # v6.6: flatten candidate × scenario work into one compatible stream before chunking.
+        # The old loop launched a separate batch sequence for each scenario, which caused small
+        # under-filled GPU batches in robust studies. Scenario-major ordering is retained so the
+        # final per-candidate histories remain deterministic and identical to the reference order.
+        flat_records = []
+        total_network_solves = count * len(self.scenarios)
+        with timed_stage("scenario_prepare", total_network_solves, GLOBAL_LEDGER):
+            for scenario in self.scenarios:
+                for index, case in enumerate(controlled_cases):
+                    flat_records.append(
+                        (scenario, index, scenario.apply(case, copy_base=False))
                     )
-            with timed_stage("objective_constraint_aggregation", count, GLOBAL_LEDGER):
-                for index, pf in enumerate(scenario_results):
-                    value, obj_components = self._objective(pf, scenario_cases[index])
-                    violation, con_components = self._constraints(pf)
-                    converged_all[index] = converged_all[index] and bool(pf.converged)
-                    values[index].append(float(value))
-                    violations[index].append(float(violation))
-                    weights[index].append(float(scenario.weight))
-                    scenario_values[index].append(float(value))
-                    scenario_constraint_components[index].append(dict(con_components))
-                    for key, component in obj_components.items():
-                        objective_components[index].setdefault(key, []).append(float(component))
-                    for key, component in con_components.items():
-                        constraint_components[index].setdefault(key, []).append(float(component))
+
+        flat_results = []
+        with timed_stage("batched_ac_power_flow", total_network_solves, GLOBAL_LEDGER):
+            for offset in range(0, len(flat_records), self.batch_size):
+                batch_records = flat_records[offset : offset + self.batch_size]
+                flat_results.extend(
+                    run_torch_ac_power_flow_batch(
+                        [record[2] for record in batch_records],
+                        device=self.device,
+                        dtype=self.dtype,
+                        options=self.power_flow_options,
+                    )
+                )
+
+        with timed_stage("objective_constraint_aggregation", total_network_solves, GLOBAL_LEDGER):
+            for (scenario, index, formulation_case), pf in zip(flat_records, flat_results, strict=True):
+                value, obj_components = self._objective(pf, formulation_case)
+                violation, con_components = self._constraints(pf)
+                converged_all[index] = converged_all[index] and bool(pf.converged)
+                values[index].append(float(value))
+                violations[index].append(float(violation))
+                weights[index].append(float(scenario.weight))
+                scenario_values[index].append(float(value))
+                scenario_constraint_components[index].append(dict(con_components))
+                for key, component in obj_components.items():
+                    objective_components[index].setdefault(key, []).append(float(component))
+                for key, component in con_components.items():
+                    constraint_components[index].setdefault(key, []).append(float(component))
 
         results: list[Evaluation] = []
         with timed_stage("robust_result_finalize", count, GLOBAL_LEDGER):
@@ -386,6 +436,7 @@ class AcceleratedORPDProblem:
                         physical_controls[index],
                         scenario_values[index],
                         metadata,
+                        float(self.config.constraint_tolerances.feasibility_total),
                     )
                 )
         return results
@@ -500,6 +551,7 @@ def parity_check(
         convergence_mismatch = 0
         bus_type_mismatch = 0
         scenario_count_mismatch = int(len(cpu_state.get("scenarios", [])) != len(gpu_state.get("scenarios", [])))
+        state_error = ""
         if not scenario_count_mismatch:
             try:
                 for cpu_scenario, gpu_scenario in zip(
@@ -524,7 +576,10 @@ def parity_check(
                     if cpu_va.size:
                         # Voltage angles have a fixed reference bus in both solvers; direct comparison is valid.
                         angle_error = max(angle_error, float(np.max(np.abs(cpu_va - gpu_va))))
-            except Exception:
+            except (KeyError, TypeError, ValueError, IndexError) as exc:
+                # Malformed parity state is an explicit fail-closed record, not a silently masked
+                # accelerator defect. Unexpected runtime/system exceptions propagate to the audit.
+                state_error = f"{type(exc).__name__}: {exc}"
                 voltage_error = angle_error = float("inf")
                 convergence_mismatch += 1
 
@@ -551,6 +606,7 @@ def parity_check(
                 "convergence_mismatches": int(convergence_mismatch),
                 "bus_type_mismatches": int(bus_type_mismatch),
                 "scenario_count_mismatch": bool(scenario_count_mismatch),
+                "state_error": state_error,
             }
         )
     passed = bool(

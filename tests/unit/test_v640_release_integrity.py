@@ -5,8 +5,12 @@ import hashlib
 import json
 import tomllib
 
+import pytest
+
 from calo_rpd_studio.benchmarking.freeze import verify_freeze_manifest
 from calo_rpd_studio.version import FREEZE_ID, FREEZE_MANIFEST, RELEASE_NAME, VERSION
+
+pytestmark = pytest.mark.skipif(VERSION != "6.4.0", reason="historical v6.4.0 release gate")
 
 
 def _root() -> Path:

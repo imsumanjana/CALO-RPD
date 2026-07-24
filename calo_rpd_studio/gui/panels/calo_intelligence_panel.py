@@ -35,7 +35,7 @@ from PyQt6.QtWidgets import (
     QWidget,
 )
 
-from calo_rpd_studio.ai.model_io import load_checkpoint
+from calo_rpd_studio.ai.model_io import checkpoint_sha256, load_checkpoint
 from calo_rpd_studio.algorithms.calo.training import (
     TrainingCancelled,
     TrainingConfig,
@@ -1925,8 +1925,9 @@ class CALOIntelligencePanel(ScrollablePage):
         )
         if not cases:
             raise ValueError("Enable at least one real ORPD development case or disable the development suite.")
-        protected = {"case118", "case300"}
-        forbidden = sorted({Path(item).stem.lower() for item in cases} & protected)
+        from calo_rpd_studio.power_system.case_identity import protected_holdout_matches
+
+        forbidden = list(protected_holdout_matches(cases))
         if forbidden:
             raise ValueError(
                 "Protected held-out final benchmark cases cannot be used for policy development: "
@@ -2161,7 +2162,7 @@ class CALOIntelligencePanel(ScrollablePage):
         try:
             payload = load_checkpoint(path, map_location="cpu")
             metadata = payload.get("metadata", {})
-            metadata["sha256"] = hashlib.sha256(path.read_bytes()).hexdigest()
+            metadata["sha256"] = checkpoint_sha256(path)
             self.metadata.setPlainText(json.dumps(metadata, indent=2))
         except Exception as exc:
             self.metadata.setPlainText(str(exc))
@@ -2871,6 +2872,7 @@ class CALOIntelligencePanel(ScrollablePage):
                 resumable=True,
             )
         selected_policy = None
+        deployable_eligible: bool | None = None
         try:
             config = getattr(self.worker, "config", None)
             # Read the mutable working alias only to locate its immutable terminal snapshot.
@@ -2932,17 +2934,23 @@ class CALOIntelligencePanel(ScrollablePage):
         })
         self.state.end_policy_training("CALO policy training completed")
         self._update_training_plan()
-        if 'deployable_eligible' in locals() and not deployable_eligible:
+        if deployable_eligible is False:
             message = (
                 "Training completed and an immutable Training Champion candidate was saved. "
                 "It is explicitly provisional and cannot be activated as a deployable scientific Base "
                 "until it passes the required exact real-ORPD development/qualification evidence gates. "
                 "Exact branch training state remains resumable."
             )
-        else:
+        elif deployable_eligible is True:
             message = (
                 "Training completed. An immutable deployable-eligible Base/candidate artifact was saved, "
                 "and exact branch training state remains resumable for future sessions."
+            )
+        else:
+            message = (
+                "Training completed, but deployable eligibility could not be confirmed during final "
+                "registration. The checkpoint remains recoverable; review the registration warning/log "
+                "before activation or scientific use."
             )
         QMessageBox.information(self, "CALO policy", message)
 

@@ -42,6 +42,9 @@ from calo_rpd_studio.power_system.case_model import (
     VG,
     VM,
 )
+ZERO_IMPEDANCE_TOLERANCE = 1e-12
+MAX_DENSE_TORCH_BUSES = 1200
+
 from calo_rpd_studio.power_system.pv_pq_switching import (
     aggregate_q_limits,
     distribute_reactive_power,
@@ -56,6 +59,7 @@ class TorchPowerFlowOptions:
     enforce_q_limits: bool = True
     max_q_limit_rounds: int = 10
     q_limit_tolerance_mvar: float = 1e-6
+    minimum_damping: float = 1.0 / 32.0
 
 
 @dataclass(slots=True)
@@ -109,6 +113,11 @@ def build_dense_admittance(case, device: str, dtype=None):
     dtype = dtype or torch.float64
     cdtype = torch.complex128 if dtype == torch.float64 else torch.complex64
     n = case.n_bus
+    if n > MAX_DENSE_TORCH_BUSES:
+        raise RuntimeError(
+            f"Dense Torch AC power flow is disabled above {MAX_DENSE_TORCH_BUSES} buses "
+            f"(received {n}); use the sparse CPU-reference fallback for this formulation."
+        )
     nl = case.n_branch
     idx = case.bus_index_map()
     ybus = torch.zeros((n, n), dtype=cdtype, device=device)
@@ -120,7 +129,13 @@ def build_dense_admittance(case, device: str, dtype=None):
         f = idx[int(br[F_BUS])]
         t = idx[int(br[T_BUS])]
         z = complex(float(br[BR_R]), float(br[BR_X]))
-        y = 0j if abs(z) == 0 else 1 / z
+        if abs(z) <= ZERO_IMPEDANCE_TOLERANCE:
+            raise ValueError(
+                f"In-service branch {k} has zero/near-zero impedance "
+                f"(|z|={abs(z):.3e} <= {ZERO_IMPEDANCE_TOLERANCE:.1e}); "
+                "validate or regularize the source case explicitly."
+            )
+        y = 1 / z
         b = 1j * float(br[BR_B]) / 2
         tap = float(br[TAP]) if float(br[TAP]) != 0 else 1.0
         shift = np.deg2rad(float(br[SHIFT]))
@@ -169,7 +184,19 @@ def _initial_voltage(case, device: str, dtype):
     return torch.polar(vm, va)
 
 
-def solve_newton_raphson_torch(ybus, sbus, v0, ref, pv, pq, *, tolerance=1e-8, max_iterations=30):
+def solve_newton_raphson_torch(
+    ybus,
+    sbus,
+    v0,
+    ref,
+    pv,
+    pq,
+    *,
+    tolerance=1e-8,
+    max_iterations=30,
+    minimum_damping=1.0 / 32.0,
+):
+    """Dense FP64 Newton solve with CPU-reference backtracking/damping semantics."""
     torch = _torch()
     device = v0.device
     dtype = v0.real.dtype
@@ -224,13 +251,37 @@ def solve_newton_raphson_torch(ybus, sbus, v0, ref, pv, pq, *, tolerance=1e-8, m
             return False, v, iteration, norm, history
         if not bool(torch.all(torch.isfinite(dx))):
             return False, v, iteration, norm, history
-        va = va.clone()
-        vm = vm.clone()
-        va[pvpq] += dx[: pvpq.numel()]
-        vm[pq_t] += dx[pvpq.numel() :]
-        if bool(torch.any(vm <= 0)):
+
+        # Mirror the trusted CPU solver: halve the Newton step until mismatch improves, while
+        # retaining the best finite trial if no tested damping factor improves this iteration.
+        best_voltage = None
+        best_norm = float("inf")
+        damping = 1.0
+        while damping >= float(minimum_damping) - 1e-15:
+            va_trial = va.clone()
+            vm_trial = vm.clone()
+            va_trial[pvpq] += damping * dx[: pvpq.numel()]
+            vm_trial[pq_t] += damping * dx[pvpq.numel() :]
+            if bool(torch.any(vm_trial[pq_t] <= 0)) or not bool(torch.all(torch.isfinite(vm_trial))):
+                damping *= 0.5
+                continue
+            trial = torch.polar(vm_trial, va_trial)
+            trial_current = ybus @ trial
+            trial_calc = trial * torch.conj(trial_current)
+            trial_mismatch = sbus - trial_calc
+            trial_f = torch.cat((trial_mismatch[pvpq].real, trial_mismatch[pq_t].imag))
+            trial_norm = (
+                float(torch.max(torch.abs(trial_f)).detach().cpu()) if trial_f.numel() else 0.0
+            )
+            if np.isfinite(trial_norm) and trial_norm < best_norm:
+                best_norm = trial_norm
+                best_voltage = trial
+            if np.isfinite(trial_norm) and trial_norm < norm:
+                break
+            damping *= 0.5
+        if best_voltage is None or not bool(torch.all(torch.isfinite(best_voltage))):
             return False, v, iteration, norm, history
-        v = torch.polar(vm, va)
+        v = best_voltage
 
     return False, v, max_iterations, history[-1], history
 
@@ -304,6 +355,7 @@ def run_torch_ac_power_flow(
             pq,
             tolerance=options.tolerance,
             max_iterations=options.max_iterations,
+            minimum_damping=options.minimum_damping,
         )
         total_iterations += int(iterations)
         history.extend(local_history)
@@ -427,12 +479,24 @@ def torch_l_index(case, voltage, ybus):
 
 
 def solve_newton_raphson_batch_torch(
-    ybus, sbus, v0, ref, pv, pq, *, tolerance=1e-8, max_iterations=30, collect_history=True
+    ybus,
+    sbus,
+    v0,
+    ref,
+    pv,
+    pq,
+    *,
+    tolerance=1e-8,
+    max_iterations=30,
+    collect_history=True,
+    minimum_damping=1.0 / 32.0,
 ):
-    """Batched dense Newton-Raphson solve for candidates sharing bus-type sets.
+    """Batched dense Newton-Raphson with per-candidate CPU-parity backtracking.
 
-    Singular/non-finite candidates are isolated with ``torch.linalg.solve_ex`` and do not abort the
-    remaining batch.  Returned histories are candidate-specific.
+    Singular/non-finite candidates are isolated with ``torch.linalg.solve_ex``. Backtracking is
+    vectorized across still-searching candidates so stressed cases receive the same 1, 1/2, ...
+    minimum-damping search semantics as the trusted CPU reference without falling back to one
+    Python power-flow solve per candidate.
     """
     torch = _torch()
     device = v0.device
@@ -497,43 +561,74 @@ def solve_newton_raphson_batch_torch(
         bottom = torch.cat((m[:, pq_t][:, :, pvpq], ell[:, pq_t][:, :, pq_t]), dim=2)
         jacobian = torch.cat((top, bottom), dim=1)
 
-        inactive = ~active
-        if bool(torch.any(inactive)):
-            size = jacobian.shape[-1]
-            identity = torch.eye(size, dtype=dtype, device=device)
-            jacobian = jacobian.clone()
-            f = f.clone()
-            jacobian[inactive] = identity
-            f[inactive] = 0.0
-        try:
-            dx, info = torch.linalg.solve_ex(jacobian, f.unsqueeze(-1), check_errors=False)
-            dx = dx.squeeze(-1)
-        except Exception:
-            # Conservative fallback for runtimes without batched solve_ex support.
-            dx = torch.zeros_like(f)
-            info = torch.zeros(batch, dtype=torch.int32, device=device)
-            for i in range(batch):
-                if not bool(active[i]):
-                    continue
-                try:
-                    dx[i] = torch.linalg.solve(jacobian[i], f[i])
-                except RuntimeError:
-                    info[i] = 1
+        # Solve only still-active candidates. Converged/failed rows no longer consume linear-solver
+        # FLOPs through synthetic identity Jacobians. Results are scattered back to full-batch order.
+        active_rows = torch.where(active)[0]
+        dx = torch.zeros_like(f)
+        info = torch.zeros(batch, dtype=torch.int32, device=device)
+        if active_rows.numel():
+            jacobian_active = jacobian.index_select(0, active_rows)
+            rhs_active = f.index_select(0, active_rows)
+            try:
+                solved, active_info = torch.linalg.solve_ex(
+                    jacobian_active, rhs_active.unsqueeze(-1), check_errors=False
+                )
+                dx[active_rows] = solved.squeeze(-1)
+                info[active_rows] = active_info.to(info.dtype)
+            except RuntimeError:
+                for row in active_rows.detach().cpu().tolist():
+                    try:
+                        dx[row] = torch.linalg.solve(jacobian[row], f[row])
+                    except RuntimeError:
+                        info[row] = 1
         bad = active & ((info != 0) | (~torch.all(torch.isfinite(dx), dim=1)))
         failed = failed | bad
-        active = active & (~bad)
-        va_new = va.clone()
-        vm_new = vm.clone()
-        # Advanced indexing by active batch rows keeps the bus-index vectors unchanged.
-        rows = torch.where(active)[0]
-        if rows.numel():
-            va_new[rows[:, None], pvpq[None, :]] += dx[rows, : pvpq.numel()]
-            vm_new[rows[:, None], pq_t[None, :]] += dx[rows, pvpq.numel() :]
-        invalid_vm = active & torch.any(vm_new <= 0, dim=1)
-        failed = failed | invalid_vm
-        valid_rows = torch.where(active & (~invalid_vm))[0]
-        if valid_rows.numel():
-            v[valid_rows] = torch.polar(vm_new[valid_rows], va_new[valid_rows])
+        searching = active & (~bad)
+        best_norm = torch.full((batch,), float("inf"), dtype=dtype, device=device)
+        best_voltage = v.clone()
+
+        damping = 1.0
+        while damping >= float(minimum_damping) - 1e-15 and bool(torch.any(searching)):
+            rows = torch.where(searching)[0]
+            va_trial = va[rows].clone()
+            vm_trial = vm[rows].clone()
+            va_trial[:, pvpq] += damping * dx[rows, : pvpq.numel()]
+            vm_trial[:, pq_t] += damping * dx[rows, pvpq.numel() :]
+            valid_vm = torch.all(torch.isfinite(vm_trial), dim=1)
+            if pq_t.numel():
+                valid_vm = valid_vm & torch.all(vm_trial[:, pq_t] > 0.0, dim=1)
+            trial = torch.polar(vm_trial, va_trial)
+            trial_current = torch.bmm(ybus[rows], trial.unsqueeze(-1)).squeeze(-1)
+            trial_calc = trial * torch.conj(trial_current)
+            trial_mismatch = sbus[rows] - trial_calc
+            trial_f = torch.cat(
+                (trial_mismatch[:, pvpq].real, trial_mismatch[:, pq_t].imag), dim=1
+            )
+            trial_norms = (
+                torch.max(torch.abs(trial_f), dim=1).values
+                if trial_f.shape[1]
+                else torch.zeros(len(rows), dtype=dtype, device=device)
+            )
+            finite = valid_vm & torch.isfinite(trial_norms)
+            better = finite & (trial_norms < best_norm[rows])
+            if bool(torch.any(better)):
+                better_rows = rows[better]
+                best_norm[better_rows] = trial_norms[better]
+                best_voltage[better_rows] = trial[better]
+            improved = finite & (trial_norms < norms[rows])
+            if bool(torch.any(improved)):
+                accepted_rows = rows[improved]
+                v[accepted_rows] = trial[improved]
+                searching[accepted_rows] = False
+            damping *= 0.5
+
+        # CPU reference accepts the best finite damped trial even if no trial strictly improves.
+        remaining = active & (~bad) & searching
+        finite_best = remaining & torch.isfinite(best_norm)
+        if bool(torch.any(finite_best)):
+            v[finite_best] = best_voltage[finite_best]
+        no_valid_trial = remaining & (~torch.isfinite(best_norm))
+        failed = failed | no_valid_trial
 
     max_mismatch = torch.where(converged, torch.zeros_like(max_mismatch), max_mismatch)
     if collect_history:
@@ -545,7 +640,6 @@ def solve_newton_raphson_batch_torch(
             if not bool(converged_cpu[i]) and int(iterations_cpu[i]) == 0:
                 iterations[i] = min(max_iterations, len(histories[i]) - 1 if histories[i] else 0)
     else:
-        # Preserve a compact device-side mismatch summary without per-iteration host transfers.
         unconverged = ~converged
         iterations = torch.where(
             unconverged & (iterations == 0),
@@ -581,6 +675,11 @@ def build_batched_admittance(cases, device: str, dtype=None):
     first = cases[0]
     batch = len(cases)
     n = first.n_bus
+    if n > MAX_DENSE_TORCH_BUSES:
+        raise RuntimeError(
+            f"Batched dense Torch AC power flow is disabled above {MAX_DENSE_TORCH_BUSES} buses "
+            f"(received {n}); use the sparse CPU-reference fallback."
+        )
     nl = first.n_branch
     index = first.bus_index_map()
     fidx_np = np.asarray([index[int(v)] for v in first.branch[:, F_BUS]], dtype=np.int64)
@@ -607,8 +706,18 @@ def build_batched_admittance(cases, device: str, dtype=None):
     tap = torch.as_tensor(tap_np, dtype=dtype, device=device)
     shift = torch.deg2rad(torch.as_tensor(branch[:, :, SHIFT], dtype=dtype, device=device))
     z = torch.complex(r, x)
-    eps = torch.finfo(dtype).eps
-    y = torch.where(torch.abs(z) > eps, 1.0 / z, torch.zeros_like(z))
+    impedance_np = np.hypot(branch[:, :, BR_R], branch[:, :, BR_X])
+    invalid = (branch[:, :, BR_STATUS] > 0) & (impedance_np <= ZERO_IMPEDANCE_TOLERANCE)
+    if np.any(invalid):
+        first_bad = np.argwhere(invalid)[0]
+        raise ValueError(
+            "In-service zero/near-zero impedance branch is unsupported in batched torch power flow: "
+            f"case_index={int(first_bad[0])}, branch_index={int(first_bad[1])}, "
+            f"|z|={impedance_np[tuple(first_bad)]:.3e}."
+        )
+    valid_impedance = torch.abs(z) > ZERO_IMPEDANCE_TOLERANCE
+    safe_z = torch.where(valid_impedance, z, torch.ones_like(z))
+    y = torch.where(valid_impedance, 1.0 / safe_z, torch.zeros_like(z))
     y = torch.where(status, y, torch.zeros_like(y))
     charging = torch.where(
         status, torch.complex(torch.zeros_like(line_b), line_b / 2.0), torch.zeros_like(y)
@@ -747,6 +856,7 @@ def run_torch_ac_power_flow_batch(
         pq,
         tolerance=options.tolerance,
         max_iterations=options.max_iterations,
+        minimum_damping=options.minimum_damping,
     )
     pg_batch, qg_batch = _required_generation_batch(cases, voltage, admittance.ybus)
     qg_cpu = np.asarray(qg_batch.detach().cpu(), dtype=float)

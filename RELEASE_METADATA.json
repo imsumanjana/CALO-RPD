@@ -1,30 +1,75 @@
 {
   "name": "CALO-RPD Studio",
-  "version": "6.4.0",
-  "release_name": "Stage-B Device-Resident Policy Training",
-  "release_date": "2026-07-23",
-  "scope": "Stage-B GPU/XPU training architecture: device-resident FP64 synthetic curriculum population evaluation, cross-episode synthetic microbatching, fail-closed NumPy parity, protected host concurrency, configurable real ORPD policy-development suite, and exact ExperimentConfig propagation into accelerated development rollouts.",
-  "implementation_report": "CALO-RPD-v6.4.0_IMPLEMENTATION_REPORT.md",
-  "post_generation_audit": "CALO-RPD-v6.4.0_DEEP_POST_GENERATION_AUDIT.txt",
-  "scientific_claim": "Research-validation software baseline. v6.4 moves deterministic synthetic population objective/constraint evaluation and configured real-ORPD development evaluation onto admitted accelerator paths while retaining stochastic CALO controller/archive/memory semantics on the trusted reference path.",
+  "version": "6.6.0",
+  "release_name": "Remaining Audit Closure",
+  "release_date": "2026-07-24",
+  "scope": "Closes every issue ID retained in the v6.4 priority list under Better to Resolve: accelerator/ORPD throughput and scalability, unified feasibility semantics, reproducibility/statistical guards, bounded caches, narrower diagnostics, GUI/workspace/configuration recovery, fallback safety, deterministic ordering, and Stage-B request/static-tensor efficiency. H19 is verified as factually incorrect rather than artificially modified.",
+  "implementation_report": "CALO-RPD-v6.6.0_IMPLEMENTATION_REPORT.md",
+  "post_generation_audit": "CALO-RPD-v6.6.0_DEEP_POST_GENERATION_AUDIT.txt",
+  "findings_closure": "FINDINGS_CLOSURE_v6.6.0.csv",
+  "scientific_claim": "Research-validation software baseline. v6.6 closes all actionable remaining priority-list findings while preserving v6.5 must-resolve scientific/integrity closure. Physical accelerator, PyQt6, PYPOWER, long thermal-soak, and target-machine performance qualification remain external gates.",
+  "remaining_audit_closure": {
+    "priority_ids_total": 33,
+    "engineering_resolutions": 32,
+    "verified_not_defect": [
+      "H19"
+    ],
+    "throughput_scalability": [
+      "C02",
+      "C05",
+      "H03",
+      "M36",
+      "M37",
+      "V64-N04",
+      "V64-N05",
+      "V64-N06"
+    ],
+    "scientific_consistency_reproducibility_statistics": [
+      "C03",
+      "M04",
+      "M05",
+      "H10",
+      "H14",
+      "H23"
+    ],
+    "bounded_caches": [
+      "M16"
+    ],
+    "error_diagnostics": [
+      "H16",
+      "H17",
+      "H18",
+      "H20"
+    ],
+    "gui_workspace_configuration_recovery": [
+      "H25",
+      "H26",
+      "H27",
+      "M48",
+      "M52",
+      "M54",
+      "L19",
+      "L20",
+      "L23",
+      "M57"
+    ],
+    "edge_fallback_safety": [
+      "C06",
+      "C07",
+      "M34"
+    ]
+  },
+  "v650_must_resolve_closure_preserved": true,
   "stage_b": {
     "device_resident_synthetic_evaluation": true,
     "cross_episode_synthetic_microbatching": true,
     "synthetic_startup_parity_fail_closed": true,
-    "periodic_synthetic_parity_recheck": true,
-    "preserves_reference_curriculum_rng_generation": true,
-    "protected_host_controller_thread_cap": true,
+    "equal_length_parity_required": true,
+    "oversized_request_chunking": true,
+    "bounded_static_tensor_cache": true,
     "real_orpd_development_suite_configured": true,
-    "default_development_cases": [
-      "case30",
-      "case57"
-    ],
-    "default_development_formulation": "calo_rpd_studio/data/examples/policy_development_active_loss.yaml",
-    "protected_normal_gui_holdouts": [
-      "case118",
-      "case300"
-    ],
-    "exact_development_experiment_config_propagation": true,
+    "real_development_config_case_cache": true,
+    "canonical_protected_holdout_identity": true,
     "full_stochastic_calo_controller_gpu_resident": false,
     "guaranteed_high_gpu_utilization": false
   },
@@ -33,6 +78,7 @@
     "adaptive_green_amber_red_governor": true,
     "staged_training_startup": true,
     "global_training_exclusive_lock": true,
+    "lazy_governor_allocation_fraction_parity": true,
     "total_branches_separate_from_concurrency": true,
     "queued_exact_resume_scheduler": true,
     "global_cpu_worker_budget": true,
@@ -40,28 +86,28 @@
     "xpu_capability_aware": true
   },
   "freeze": {
-    "id": "calo_v640_software_release",
-    "manifest": "calo_rpd_studio/data/frozen/calo_v640_freeze.json",
+    "id": "calo_v660_software_release",
+    "manifest": "calo_rpd_studio/data/frozen/calo_v660_freeze.json",
     "status": "VERIFIED",
-    "checked_files": 138,
+    "checked_files": 141,
     "missing_files": 0,
     "changed_files": 0,
-    "manifest_sha256": "f8c3d650194724bf75c33d70fa36c4f297f23ae6fd98f8369ca0129c2592d263",
-    "file_sha256": "f02f9bc21f7afc3e1c67cc82a40cc0a4bd68be0480a1de823fcda0d95e538258"
+    "manifest_sha256": "02900ecc9738ee2e268a0626c5070dfe13b9be9e7e38621b741646641be208c8",
+    "file_sha256": "ecff20ebfe3126eccf518daa35490d95d70d92eddf1c448853676baadc0be2cd"
   },
   "validation": {
     "compileall": "PASS",
-    "focused_stage_b_architecture_science_core": "66 passed",
-    "heterogeneous_history_broker_audit_group": "38 passed",
-    "historical_competitive_training": "9/9 passed in two bounded groups",
-    "stage_b_cpu_logic_validation": "PASS parity; max startup error approximately 4.44e-15; physical_accelerator=false",
-    "silent_broad_handler_ast_audit": "0 sole-pass/continue/return broad handlers",
+    "focused_remaining_audit": "22 passed",
+    "foundational_regression_selection": "82 passed",
+    "accelerator_regression_selection": "91 passed",
+    "note": "Regression selections overlap and are not summed as a unique test total.",
     "physical_cuda_xpu": "NOT AVAILABLE IN BUILD RUNTIME",
     "pyqt6": "NOT AVAILABLE IN BUILD RUNTIME",
     "pypower": "NOT AVAILABLE IN BUILD RUNTIME",
+    "torch": "2.10.0+cpu",
     "guaranteed_high_gpu_utilization": false,
-    "full_target_machine_stage_b": "PENDING TARGET ENVIRONMENT",
-    "release_integrity_plus_stage_b": "13 passed",
-    "root_manifest": "VERIFIED \u2014 441 packaged files listed before final ZIP extraction verification"
+    "full_target_machine_validation": "PENDING TARGET ENVIRONMENT",
+    "root_manifest": "VERIFIED BY v6.6 RELEASE-INTEGRITY GATE \u2014 464 packaged files listed",
+    "release_integrity": "5 passed"
   }
 }

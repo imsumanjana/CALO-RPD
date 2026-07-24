@@ -17,6 +17,20 @@ class LIndexResult:
 def kessel_glavitsch_l_index(case, voltage, *, partition_case=None):
     """Evaluate L-index without letting dynamic PV/PQ switching redefine the partition."""
     partition = partition_case if partition_case is not None else case
+    voltage = np.asarray(voltage, dtype=complex)
+    if int(partition.n_bus) != int(case.n_bus):
+        raise ValueError(
+            "L-index partition_case must have the same bus dimension as case: "
+            f"{partition.n_bus} != {case.n_bus}"
+        )
+    if voltage.shape != (int(case.n_bus),):
+        raise ValueError(
+            f"L-index voltage vector must have shape ({case.n_bus},), got {voltage.shape}"
+        )
+    if not np.array_equal(
+        partition.bus[:, 0].astype(int), case.bus[:, 0].astype(int)
+    ):
+        raise ValueError("L-index partition_case must preserve bus identity and ordering")
     types = partition.bus[:, BUS_TYPE].astype(int)
     load = np.where(types == PQ)[0]
     gen = np.where((types == PV) | (types == REF))[0]

@@ -154,6 +154,20 @@ def _case_summaries(records: list[dict]) -> dict[str, dict]:
     return {case: _aggregate([row for row in records if str(row["case"]) == case]) for case in cases}
 
 
+
+
+def _stable_relative_difference(candidate: float, comparator: float) -> float:
+    """Symmetric, near-zero-safe paired objective difference.
+
+    The previous comparator-only denominator could turn harmless numerical differences around a
+    zero objective into enormous ratios.  The symmetric scale preserves ordinary relative
+    interpretation for objectives above one unit and falls back to an absolute one-unit scale
+    around zero, preventing a near-zero comparator from dominating qualification evidence.
+    """
+    a = float(candidate)
+    b = float(comparator)
+    return (a - b) / max(abs(a), abs(b), 1.0)
+
 def _paired_evidence(candidate_rows: list[dict], comparator_rows: list[dict]) -> dict:
     comp_map = {(row["case"], int(row["run_index"])): row for row in comparator_rows}
     pairs = []
@@ -168,8 +182,8 @@ def _paired_evidence(candidate_rows: list[dict], comparator_rows: list[dict]) ->
         return {"n_pairs": 0, "median_difference": float("nan"), "win_rate": float("nan"), "wilcoxon_p_two_sided": float("nan"), "holm_p": float("nan"), "noninferiority_p_one_sided": float("nan"), "holm_noninferiority_p": float("nan"), "rank_biserial": float("nan")}
     a = np.asarray([p[0] for p in pairs], float)
     b = np.asarray([p[1] for p in pairs], float)
-    # Case-wise relative paired differences avoid pooling incomparable raw objective scales.
-    d = (a - b) / np.maximum(np.abs(b), 1e-12)
+    # Symmetric near-zero-safe relative differences avoid comparator-denominator explosions.
+    d = np.asarray([_stable_relative_difference(x, y) for x, y in zip(a, b)], dtype=float)
     nonzero = d[np.abs(d) > 1e-15]
     pvalue = float("nan")
     noninferiority_p = float("nan")
@@ -267,7 +281,7 @@ def _grade(candidate, reference, no_ai, config, paired, case_summaries, case_pai
             tolerance = abs(comp_med) * float(config.objective_regression_tolerance)
             if cand_med > comp_med + tolerance:
                 reasons.append(f"{case}: candidate materially regresses versus {label}")
-            relative_case_improvements.append((comp_med - cand_med) / max(abs(comp_med), 1e-12))
+            relative_case_improvements.append(-_stable_relative_difference(cand_med, comp_med))
 
     evidence_source = case_paired if case_paired else paired
     evidence_rows = [item for item in evidence_source.values()]

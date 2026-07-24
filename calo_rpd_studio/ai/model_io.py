@@ -6,6 +6,9 @@ import hashlib
 import hmac
 import json
 import os
+import io
+import tempfile
+import zipfile
 from pathlib import Path
 import secrets
 from typing import Any
@@ -15,10 +18,19 @@ import torch
 _TRUST_SCHEMA = "calo-local-resume-trust-v1"
 _TRUST_DIR = Path.home() / ".calo_rpd_studio"
 _TRUST_KEY = _TRUST_DIR / "resume_trust.key"
+_TRUSTED_ENVELOPE_MAGIC = b"CALO_TRUSTED_RESUME_V2\n"
 
 
-def checkpoint_sha256(path) -> str:
-    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+def checkpoint_sha256(path, *, chunk_size: int = 8 * 1024 * 1024) -> str:
+    """Stream a checkpoint SHA-256 without loading large artifacts into RAM."""
+    digest = hashlib.sha256()
+    with Path(path).open("rb") as handle:
+        while True:
+            chunk = handle.read(max(64 * 1024, int(chunk_size)))
+            if not chunk:
+                break
+            digest.update(chunk)
+    return digest.hexdigest()
 
 
 def verify_checkpoint_hash(path, expected_sha256: str | None = None) -> str:
@@ -146,6 +158,86 @@ def write_trusted_resume_hash(path) -> str:
     return digest
 
 
+def durable_trusted_torch_save(payload: Any, path: str | Path) -> str:
+    """Atomically publish a self-authenticating exact-resume envelope.
+
+    The checkpoint bytes and their machine-local HMAC trust record live inside one envelope, so an
+    interruption can never expose a new resume payload without its matching authentication record.
+    A legacy external ``.sha256`` sidecar is still emitted for tooling compatibility, but loading
+    the v2 envelope does not depend on that second file.
+    """
+    target = Path(path).expanduser().resolve()
+    target.parent.mkdir(parents=True, exist_ok=True)
+    payload_temp = target.with_name(f".{target.name}.{os.getpid()}.{secrets.token_hex(4)}.payload.tmp")
+    envelope_temp = target.with_name(f".{target.name}.{os.getpid()}.{secrets.token_hex(4)}.envelope.tmp")
+    try:
+        with payload_temp.open("wb") as handle:
+            torch.save(payload, handle)
+            handle.flush()
+            os.fsync(handle.fileno())
+        payload_digest = checkpoint_sha256(payload_temp)
+        trust = {
+            "schema": _TRUST_SCHEMA,
+            "sha256": payload_digest,
+            "hmac_sha256": _resume_signature(payload_digest),
+            "trust_boundary": "trusted_local_exact_resume_only",
+            "container": "calo_trusted_resume_v2",
+        }
+        with envelope_temp.open("wb") as raw:
+            raw.write(_TRUSTED_ENVELOPE_MAGIC)
+            with zipfile.ZipFile(raw, mode="w", compression=zipfile.ZIP_STORED, allowZip64=True) as archive:
+                archive.write(payload_temp, arcname="checkpoint.pt")
+                archive.writestr("trust.json", json.dumps(trust, sort_keys=True, indent=2) + "\n")
+            raw.flush()
+            os.fsync(raw.fileno())
+        os.replace(envelope_temp, target)
+        _fsync_directory(target.parent)
+        outer_digest = checkpoint_sha256(target)
+        # Compatibility sidecar only; the v2 envelope is already self-authenticating atomically.
+        write_trusted_resume_hash(target)
+        return outer_digest
+    finally:
+        payload_temp.unlink(missing_ok=True)
+        envelope_temp.unlink(missing_ok=True)
+
+
+def _load_trusted_resume_envelope(source: Path, *, map_location="cpu"):
+    with source.open("rb") as handle:
+        magic = handle.read(len(_TRUSTED_ENVELOPE_MAGIC))
+        if magic != _TRUSTED_ENVELOPE_MAGIC:
+            return None
+        with zipfile.ZipFile(handle, mode="r") as archive:
+            names = set(archive.namelist())
+            if {"checkpoint.pt", "trust.json"} - names:
+                raise ValueError("Trusted-resume envelope is incomplete")
+            trust = json.loads(archive.read("trust.json").decode("utf-8"))
+            if str(trust.get("schema", "")) != _TRUST_SCHEMA:
+                raise ValueError("Unsupported or unauthenticated exact-resume trust schema")
+            expected = str(trust.get("sha256", "")).strip().lower()
+            signature = str(trust.get("hmac_sha256", "")).strip().lower()
+            if not expected or not signature:
+                raise ValueError("Incomplete exact-resume trust record")
+            digest = hashlib.sha256()
+            with archive.open("checkpoint.pt", "r") as checkpoint_stream:
+                with tempfile.SpooledTemporaryFile(max_size=16 * 1024 * 1024, mode="w+b") as spool:
+                    while True:
+                        chunk = checkpoint_stream.read(8 * 1024 * 1024)
+                        if not chunk:
+                            break
+                        digest.update(chunk)
+                        spool.write(chunk)
+                    actual = digest.hexdigest()
+                    if not hmac.compare_digest(actual, expected):
+                        raise ValueError("Exact-resume envelope checkpoint digest mismatch")
+                    expected_signature = _resume_signature(actual)
+                    if not hmac.compare_digest(signature, expected_signature):
+                        raise ValueError(
+                            "Exact-resume artifact is not authenticated as locally created; unsafe deserialization refused"
+                        )
+                    spool.seek(0)
+                    return torch.load(spool, map_location=map_location, weights_only=False)  # nosec B614 -- HMAC-authenticated local state
+
+
 def load_trusted_resume(path, *, map_location="cpu"):
     """Load an application-created exact-resume checkpoint only after local authenticity verification.
 
@@ -156,6 +248,9 @@ def load_trusted_resume(path, *, map_location="cpu"):
     Base-Guided Fork rather than importing an untrusted exact-resume pickle.
     """
     source = Path(path).expanduser().resolve()
+    enveloped = _load_trusted_resume_envelope(source, map_location=map_location)
+    if enveloped is not None:
+        return enveloped
     sidecar = trusted_resume_sha_path(source)
     if not sidecar.is_file():
         raise ValueError("Exact-resume checkpoint lacks an authenticated local trust sidecar")

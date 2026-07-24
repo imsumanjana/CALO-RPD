@@ -24,6 +24,16 @@ from calo_rpd_studio.gui.dialogs.experiment_history_dialog import ExperimentHist
 from calo_rpd_studio.gui.widgets.workspace_page import WorkspacePage
 
 
+def _safe_json_object(value, *, default=None) -> dict:
+    """Parse a stored JSON object without allowing one damaged row to crash the explorer."""
+    fallback = {} if default is None else dict(default)
+    try:
+        parsed = json.loads(value or "{}") if isinstance(value, str) else value
+    except (TypeError, ValueError, json.JSONDecodeError):
+        return fallback
+    return dict(parsed) if isinstance(parsed, dict) else fallback
+
+
 class ResultsExplorerPanel(WorkspacePage):
     """Inspect stored runs and explicitly hand the selected run to validation."""
 
@@ -209,17 +219,18 @@ class ResultsExplorerPanel(WorkspacePage):
         self._rows = rows
         self.table.setRowCount(len(rows))
         for row_index, row in enumerate(rows):
-            data = json.loads(row["result_json"])
-            seed = json.loads(row["seed_json"])["algorithm_seed"]
+            data = _safe_json_object(row.get("result_json"))
+            seed_data = _safe_json_object(row.get("seed_json"))
+            seed = seed_data.get("algorithm_seed", "Unavailable")
             values = [
                 row["id"],
                 row["algorithm"],
                 row["run_index"] + 1,
                 seed,
-                data["best_objective"],
-                data["feasible"],
-                data["total_constraint_violation"],
-                data["runtime_seconds"],
+                data.get("best_objective", "Unavailable"),
+                data.get("feasible", "Unavailable"),
+                data.get("total_constraint_violation", "Unavailable"),
+                data.get("runtime_seconds", "Unavailable"),
                 row["validation_status"],
                 int(row.get("evaluation_horizon", data.get("evaluations", 0)) or 0),
                 str(row.get("evidence_source", "current")),
@@ -247,9 +258,9 @@ class ResultsExplorerPanel(WorkspacePage):
             return
 
         row = self._rows[row_index]
-        data = json.loads(row["result_json"])
+        data = _safe_json_object(row.get("result_json"))
         self._selected_experiment_id = str(row["experiment_id"])
-        self._selected_run_id = str(row.get("run_id", row["id"]))
+        self._selected_run_id = str(row.get("run_id") or row["id"])
         historical_snapshot = str(row.get("evidence_source", "current")) == "snapshot"
         self.review_button.setEnabled(not historical_snapshot)
         self.review_button.setToolTip(
@@ -260,7 +271,7 @@ class ResultsExplorerPanel(WorkspacePage):
         self.details.setPlainText(
             json.dumps(
                 {
-                    "run_id": row.get("run_id", row["id"]),
+                    "run_id": row.get("run_id") or row["id"],
                     "snapshot_id": row.get("snapshot_id", ""),
                     "evidence_horizon": int(
                         row.get("evaluation_horizon", data.get("evaluations", 0)) or 0
@@ -281,8 +292,8 @@ class ResultsExplorerPanel(WorkspacePage):
             )
         )
 
-    def select_run(self, experiment_id: str, run_id: str) -> None:
-        """Select an exact stored run, preserving compatibility with linked validation views."""
+    def select_run(self, experiment_id: str, run_id: str) -> bool:
+        """Select an exact stored run; return False when it disappeared concurrently."""
         self.refresh_experiments()
         index = self.experiment.findData(str(experiment_id))
         if index >= 0:
@@ -292,8 +303,15 @@ class ResultsExplorerPanel(WorkspacePage):
             if str(row.get("run_id", row.get("id"))) == str(run_id):
                 self.table.selectRow(row_index)
                 self.show_selected()
-                return
-        raise KeyError(f"Run {run_id!r} is not available in experiment {experiment_id!r}")
+                return True
+        self._selected_experiment_id = ""
+        self._selected_run_id = ""
+        self.details.setPlainText(
+            f"Run {run_id!r} is no longer available in experiment {experiment_id!r}. "
+            "Refresh the experiment results; it may have been deleted or replaced by another revision."
+        )
+        self.review_button.setEnabled(False)
+        return False
 
     def _restore_selected_experiment(self) -> None:
         experiment_id = str(self.experiment.currentData() or "")

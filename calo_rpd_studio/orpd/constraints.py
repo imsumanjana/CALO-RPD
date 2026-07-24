@@ -49,16 +49,33 @@ class ConstraintToleranceConfig:
             )
 
 
+def _safe_normalization_span(span, *, absolute_tolerance=0.0):
+    """Return a stable normalization scale for bounded engineering quantities.
+
+    A zero/near-zero declared span represents a fixed target, not a request to amplify
+    numerical residue by 1e12.  Spans no wider than twice the numerical/engineering
+    tolerance therefore use a 1.0 absolute engineering-unit scale; ordinary bounded
+    ranges retain their declared span.
+    """
+    span = np.asarray(span, dtype=float)
+    threshold = max(2.0 * float(absolute_tolerance), 1e-12)
+    return np.where(span > threshold, span, 1.0)
+
+
 def _normalized_below(x, lo, span, *, absolute_tolerance=0.0):
     excess = lo - x
     excess = np.where(excess > float(absolute_tolerance), excess, 0.0)
-    return np.maximum(excess, 0.0) / np.maximum(span, 1e-12)
+    return np.maximum(excess, 0.0) / _safe_normalization_span(
+        span, absolute_tolerance=absolute_tolerance
+    )
 
 
 def _normalized_above(x, hi, span, *, absolute_tolerance=0.0):
     excess = x - hi
     excess = np.where(excess > float(absolute_tolerance), excess, 0.0)
-    return np.maximum(excess, 0.0) / np.maximum(span, 1e-12)
+    return np.maximum(excess, 0.0) / _safe_normalization_span(
+        span, absolute_tolerance=absolute_tolerance
+    )
 
 
 def generator_limit_violation(
@@ -104,34 +121,60 @@ def branch_angle_limit_violation(
     tolerances = tolerances or ConstraintToleranceConfig()
     if case.branch.shape[1] <= ANGMAX:
         return 0.0
-    idx = case.bus_index_map()
-    total = 0.0
-    for row in case.branch:
-        if row[BR_STATUS] <= 0:
-            continue
-        lo = float(row[ANGMIN])
-        hi = float(row[ANGMAX])
-        if lo == 0.0 and hi == 0.0:
-            continue
-        f = idx[int(row[F_BUS])]
-        t = idx[int(row[T_BUS])]
-        delta = float(va_deg[f] - va_deg[t])
-        lo_active = lo > -360.0
-        hi_active = hi < 360.0
-        # A 360-degree reference span avoids arbitrary inflation for one-sided limits.
-        span = max((hi - lo) if lo_active and hi_active else 360.0, 1.0)
-        if lo_active and lo - delta > tolerances.branch_angle_deg:
-            total += (lo - delta) / span
-        if hi_active and delta - hi > tolerances.branch_angle_deg:
-            total += (delta - hi) / span
-    return float(total)
+    branch = np.asarray(case.branch, dtype=float)
+    if branch.size == 0:
+        return 0.0
+    active = branch[:, BR_STATUS] > 0
+    lo = branch[:, ANGMIN]
+    hi = branch[:, ANGMAX]
+    constrained = ~((lo == 0.0) & (hi == 0.0))
+    mask = active & constrained
+    if not np.any(mask):
+        return 0.0
+    rows = branch[mask]
+    # Fully vectorized bus-number -> row-index mapping. Avoid a Python dictionary lookup loop for
+    # every constrained branch in every objective evaluation.
+    bus_numbers = np.asarray(case.bus[:, BUS_I], dtype=np.int64)
+    order = np.argsort(bus_numbers, kind="stable")
+    sorted_bus_numbers = bus_numbers[order]
+    f_numbers = np.asarray(rows[:, F_BUS], dtype=np.int64)
+    t_numbers = np.asarray(rows[:, T_BUS], dtype=np.int64)
+    f_pos = np.searchsorted(sorted_bus_numbers, f_numbers)
+    t_pos = np.searchsorted(sorted_bus_numbers, t_numbers)
+    if (
+        np.any(f_pos >= len(sorted_bus_numbers))
+        or np.any(t_pos >= len(sorted_bus_numbers))
+        or not np.array_equal(sorted_bus_numbers[f_pos], f_numbers)
+        or not np.array_equal(sorted_bus_numbers[t_pos], t_numbers)
+    ):
+        raise ValueError("Branch angle constraints reference an unknown bus number")
+    f = order[f_pos]
+    t = order[t_pos]
+    delta = np.asarray(va_deg, dtype=float)[f] - np.asarray(va_deg, dtype=float)[t]
+    lo = rows[:, ANGMIN]
+    hi = rows[:, ANGMAX]
+    lo_active = lo > -360.0
+    hi_active = hi < 360.0
+    spans = np.where(lo_active & hi_active, hi - lo, 360.0)
+    spans = np.maximum(spans, 1.0)
+    low_excess = np.where(
+        lo_active & ((lo - delta) > float(tolerances.branch_angle_deg)),
+        lo - delta,
+        0.0,
+    )
+    high_excess = np.where(
+        hi_active & ((delta - hi) > float(tolerances.branch_angle_deg)),
+        delta - hi,
+        0.0,
+    )
+    return float(np.sum((low_excess + high_excess) / spans))
 
 
 def evaluate_constraints(pf, tolerances: ConstraintToleranceConfig | None = None):
     tolerances = tolerances or ConstraintToleranceConfig()
     tolerances.validate()
     if not pf.converged:
-        return ConstraintViolation(float("inf"), {"power_flow": float("inf")})
+        return ConstraintViolation(float("inf"), {"power_flow": float("inf")}, tolerances.feasibility_total)
     case = pf.case
     v = pf.vm_pu
     lo = case.bus[:, VMIN]
@@ -159,4 +202,4 @@ def evaluate_constraints(pf, tolerances: ConstraintToleranceConfig | None = None
         "branch_angle": av,
         "power_flow": 0.0,
     }
-    return ConstraintViolation(float(sum(comp.values())), comp)
+    return ConstraintViolation(float(sum(comp.values())), comp, tolerances.feasibility_total)

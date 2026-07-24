@@ -100,7 +100,7 @@ class MainWindow(QMainWindow):
         self.pages = [self.pages_by_key[key] for key in WORKSPACE_KEYS]
         for page in self.pages:
             self.stack.addWidget(page)
-        self.restorer = ExperimentWorkspaceRestorer(self.state, self.workflow, self.pages)
+        self.restorer = ExperimentWorkspaceRestorer(self.state, self.workflow, self.pages_by_key)
         self.session_recovery = SessionRecoveryJournal()
         self._previous_unclean_session = self.session_recovery.previous_unclean()
         self.session_recovery.begin(workspace_ui={"workspace_schema_version": WORKSPACE_SCHEMA_VERSION, "workspace_layout_id": WORKSPACE_LAYOUT_ID, "workspace_key": "dashboard", "workspace_index": 0})
@@ -159,6 +159,12 @@ class MainWindow(QMainWindow):
         self.pages_by_key["resume_center"].experiment_restore_requested.connect(self.restore_experiment_workspace)
         self.pages_by_key["resume_center"].policy_training_resumed.connect(
             lambda task_id: self.pages_by_key["calo_intelligence"].resume_task_by_id(task_id)
+        )
+        self.pages_by_key["resume_center"].validation_resumed.connect(
+            lambda task_id: self.pages_by_key["validation"].resume_task_by_id(task_id)
+        )
+        self.pages_by_key["resume_center"].portfolio_export_resumed.connect(
+            lambda task_id: self.pages_by_key["publication"].resume_task_by_id(task_id)
         )
         self.state.runs_changed.connect(self._refresh_verified_count)
         self.state.policy_state_changed.connect(lambda _status: self.workflow.notify_governing_policy_changed())

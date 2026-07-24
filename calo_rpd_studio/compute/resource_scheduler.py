@@ -151,12 +151,13 @@ class ResourceMonitor:
                 telemetry = "PyTorch CUDA"
                 try:
                     utilization = float(torch.cuda.utilization(index))
-                except Exception:
-                    _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
+                except (AttributeError, RuntimeError, TypeError, ValueError) as exc:
+                    _LOG.warning("CUDA utilization telemetry unavailable for cuda:%s: %s", index, exc)
                 try:
                     free_bytes, total_bytes = torch.cuda.mem_get_info(index)
                     memory_percent = 100.0 * (total_bytes - free_bytes) / max(total_bytes, 1)
-                except Exception:
+                except (AttributeError, RuntimeError, TypeError, ValueError) as exc:
+                    _LOG.warning("CUDA memory telemetry unavailable for cuda:%s: %s", index, exc)
                     memory_percent = 0.0
                 snapshots.append(
                     DeviceSnapshot(
@@ -171,7 +172,8 @@ class ResourceMonitor:
                         runtime="primary",
                     )
                 )
-        except Exception:
+        except (ImportError, RuntimeError, AttributeError, OSError, TypeError, ValueError) as exc:
+            _LOG.warning("CUDA runtime enumeration failed: %s", exc, exc_info=True)
             snapshots = []
 
         # Supplement PyTorch enumeration with NVIDIA telemetry when nvidia-smi is available.
@@ -281,12 +283,17 @@ class ResourceMonitor:
                 try:
                     free_bytes, total_bytes = torch.xpu.memory.mem_get_info(index)
                     memory_percent = 100.0 * (total_bytes - free_bytes) / max(total_bytes, 1)
-                except Exception:
+                except (AttributeError, RuntimeError, TypeError, ValueError) as exc:
+                    _LOG.warning("XPU free-memory telemetry unavailable for xpu:%s: %s", index, exc)
                     try:
                         allocated = int(torch.xpu.memory.memory_allocated(index))
                         memory_percent = 100.0 * allocated / max(total, 1) if total else 0.0
-                    except Exception:
-                        _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
+                    except (AttributeError, RuntimeError, TypeError, ValueError) as fallback_exc:
+                        _LOG.warning(
+                            "XPU allocated-memory fallback unavailable for xpu:%s: %s",
+                            index,
+                            fallback_exc,
+                        )
                 utilization: float | None = None
                 # PyTorch's stable XPU API does not guarantee a utilization-percentage function.
                 # Use it opportunistically if a future/runtime-specific build provides one.
@@ -294,7 +301,8 @@ class ResourceMonitor:
                     utilization_fn = getattr(torch.xpu, "utilization", None)
                     if callable(utilization_fn):
                         utilization = float(utilization_fn(index))
-                except Exception:
+                except (AttributeError, RuntimeError, TypeError, ValueError) as exc:
+                    _LOG.warning("XPU utilization telemetry unavailable for xpu:%s: %s", index, exc)
                     utilization = None
                 snapshots.append(
                     DeviceSnapshot(
@@ -312,8 +320,12 @@ class ResourceMonitor:
                     )
                 )
             return tuple(snapshots)
-        except Exception:
-            _LOG.debug("Accelerator telemetry probe failed; returning an explicit empty snapshot", exc_info=True)
+        except (ImportError, RuntimeError, AttributeError, OSError, TypeError, ValueError) as exc:
+            _LOG.warning(
+                "Primary XPU runtime enumeration failed; sidecar discovery may still succeed: %s",
+                exc,
+                exc_info=True,
+            )
             return ()
 
     def _sidecar_xpu_snapshots(self) -> tuple[DeviceSnapshot, ...]:
@@ -354,8 +366,16 @@ class ResourceMonitor:
                     )
                 )
             return tuple(devices)
-        except Exception:
-            _LOG.debug("Accelerator telemetry probe failed; returning an explicit empty snapshot", exc_info=True)
+        except (
+            OSError,
+            subprocess.SubprocessError,
+            json.JSONDecodeError,
+            IndexError,
+            KeyError,
+            TypeError,
+            ValueError,
+        ) as exc:
+            _LOG.warning("XPU sidecar telemetry failed: %s", exc, exc_info=True)
             return ()
 
     def _sample_xpu(self) -> tuple[DeviceSnapshot, ...]:
@@ -438,8 +458,8 @@ def configured_xpu_interpreter() -> str:
             and Path(interpreter).exists()
         ):
             return interpreter
-    except Exception:
-        _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
+    except (OSError, json.JSONDecodeError, TypeError, ValueError, KeyError) as exc:
+        _LOG.warning("Unable to read configured XPU bootstrap state: %s", exc, exc_info=True)
     return ""
 
 

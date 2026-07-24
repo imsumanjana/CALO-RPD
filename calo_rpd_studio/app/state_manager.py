@@ -76,7 +76,13 @@ class AppState(QObject):
             if self.compute_protection_profile is None:
                 return None
             self.compute_governor = AdaptiveComputeGovernor(
-                self.compute_protection_profile, monitor=self.compute_topology_service.monitor
+                self.compute_protection_profile,
+                monitor=self.compute_topology_service.monitor,
+                config=GovernorConfig(
+                    allocation_limit_fraction=float(
+                        self.compute_protection_profile.allocation_limit_fraction
+                    )
+                ),
             )
         if active_branches is None:
             active_branches = int(dict(self.policy_training_plan or {}).get("active_branches", 0) or 0)

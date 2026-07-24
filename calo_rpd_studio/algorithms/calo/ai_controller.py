@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+from collections import OrderedDict
 
 from dataclasses import dataclass
 import atexit
@@ -36,10 +37,9 @@ PARAMETER_HIGH = np.asarray([1.40, 0.95, 0.30, 1.00, 0.45, 0.45], dtype=float)
 # NumPy action RNG, so run-level stochastic decisions remain seed-isolated.
 _POLICY_CACHE_LOCK = threading.Lock()
 _POLICY_CACHE_KEY = tuple[str, str, str, str, str]
-_POLICY_NETWORK_CACHE: dict[
-    _POLICY_CACHE_KEY, tuple[CALOPolicyNetwork, dict, str, dict]
-] = {}
-_POLICY_BROKER_CACHE: dict[_POLICY_CACHE_KEY, "_PolicyInferenceBroker"] = {}
+_POLICY_CACHE_MAX_ENTRIES = 8
+_POLICY_NETWORK_CACHE: "OrderedDict[_POLICY_CACHE_KEY, tuple[CALOPolicyNetwork, dict, str, dict]]" = OrderedDict()
+_POLICY_BROKER_CACHE: "OrderedDict[_POLICY_CACHE_KEY, _PolicyInferenceBroker]" = OrderedDict()
 
 
 _LOG = logging.getLogger(__name__)
@@ -61,7 +61,12 @@ class _PolicyInferenceRequest:
 
 
 class _PolicyInferenceBroker:
-    """Microbatch frozen CALO policy inference across simultaneous comparison runs."""
+    """Microbatch frozen CALO policy inference across simultaneous comparison runs.
+
+    v6.5 makes lifecycle transitions atomic: a request is either admitted while the broker is
+    RUNNING or rejected immediately. ``close()`` fails every queued/in-flight waiter before posting
+    the sentinel, so no scientific request can be stranded behind shutdown.
+    """
 
     def __init__(
         self,
@@ -79,8 +84,10 @@ class _PolicyInferenceBroker:
         self.request_timeout_s = max(0.1, float(request_timeout_s))
         self.queue: queue.Queue[_PolicyInferenceRequest | None] = queue.Queue()
         self.closed = threading.Event()
-        self._state_lock = threading.Lock()
+        self._state_lock = threading.RLock()
+        self._lifecycle = "running"
         self._fatal_error: BaseException | None = None
+        self._pending: dict[int, _PolicyInferenceRequest] = {}
         self._last_success_monotonic = time.monotonic()
         self.thread = threading.Thread(
             target=self._run, name="CALO-PolicyInferenceBroker", daemon=True
@@ -96,33 +103,62 @@ class _PolicyInferenceBroker:
         with self._state_lock:
             return self._fatal_error
 
-    def _fail_pending(self, exc: BaseException) -> None:
+    def _finish_request(
+        self,
+        request: _PolicyInferenceRequest,
+        *,
+        result=None,
+        error: BaseException | None = None,
+    ) -> None:
+        with self._state_lock:
+            # Shutdown/fatal completion wins over a late worker result.
+            if request.ready.is_set():
+                self._pending.pop(id(request), None)
+                return
+            if error is not None:
+                request.error = error
+            else:
+                request.result = result
+            self._pending.pop(id(request), None)
+            request.ready.set()
+
+    def _fail_all_pending(self, exc: BaseException) -> None:
+        with self._state_lock:
+            requests = list(self._pending.values())
+            self._pending.clear()
+            for request in requests:
+                if not request.ready.is_set():
+                    request.error = exc
+                    request.ready.set()
+        # Drain queue references after waiters have already been released.
         while True:
             try:
-                item = self.queue.get_nowait()
+                self.queue.get_nowait()
             except queue.Empty:
-                return
-            if item is None:
-                continue
-            item.error = exc
-            item.ready.set()
+                break
 
     def infer(self, vector: np.ndarray):
-        fatal_error = self._get_fatal_error()
-        if fatal_error is not None:
-            raise PolicyInferenceError("CALO policy-inference broker has failed") from fatal_error
-        if self.closed.is_set() or not self.thread.is_alive():
-            raise PolicyInferenceError("CALO policy-inference broker is not running")
-
         request = _PolicyInferenceRequest(np.asarray(vector, dtype=np.float32), threading.Event())
-        self.queue.put(request)
+        with self._state_lock:
+            fatal_error = self._fatal_error
+            if fatal_error is not None:
+                raise PolicyInferenceError("CALO policy-inference broker has failed") from fatal_error
+            if self._lifecycle != "running" or self.closed.is_set() or not self.thread.is_alive():
+                raise PolicyInferenceError("CALO policy-inference broker is not running")
+            self._pending[id(request)] = request
+            # Enqueue while holding the lifecycle lock so close() cannot place the sentinel first.
+            self.queue.put(request)
+
         if not request.ready.wait(timeout=self.request_timeout_s):
-            fatal_error = self._get_fatal_error()
+            with self._state_lock:
+                self._pending.pop(id(request), None)
+                fatal_error = self._fatal_error
+                lifecycle = self._lifecycle
             alive = self.thread.is_alive()
             age = max(0.0, time.monotonic() - self._last_success_monotonic)
             message = (
                 "CALO policy-inference broker timed out after "
-                f"{self.request_timeout_s:.3f}s (thread_alive={alive}, "
+                f"{self.request_timeout_s:.3f}s (thread_alive={alive}, lifecycle={lifecycle}, "
                 f"queue_depth={self.queue.qsize()}, last_success_age_s={age:.3f}). "
                 "Policy-assisted execution is fail-closed; no alternate policy or No-AI "
                 "fallback was used."
@@ -140,11 +176,8 @@ class _PolicyInferenceBroker:
 
     def _run(self) -> None:
         try:
-            while not self.closed.is_set():
-                try:
-                    first = self.queue.get(timeout=0.1)
-                except queue.Empty:
-                    continue
+            while True:
+                first = self.queue.get()
                 if first is None:
                     break
                 requests = [first]
@@ -158,7 +191,10 @@ class _PolicyInferenceBroker:
                     except queue.Empty:
                         break
                     if item is None:
-                        self.closed.set()
+                        # Sentinel is terminal; do not requeue it behind accepted requests.
+                        with self._state_lock:
+                            self._lifecycle = "closing"
+                            self.closed.set()
                         break
                     requests.append(item)
                 try:
@@ -172,40 +208,88 @@ class _PolicyInferenceBroker:
                         beta_np = beta.detach().cpu().numpy()
                         critic_np = critic.detach().cpu().numpy()
                     for index, item in enumerate(requests):
-                        item.result = (
-                            learned_regime[index],
-                            operator[index],
-                            alpha_np[index],
-                            beta_np[index],
-                            float(critic_np[index]),
+                        self._finish_request(
+                            item,
+                            result=(
+                                learned_regime[index],
+                                operator[index],
+                                alpha_np[index],
+                                beta_np[index],
+                                float(critic_np[index]),
+                            ),
                         )
                     self._last_success_monotonic = time.monotonic()
-                except Exception as exc:
+                except BaseException as exc:
                     for item in requests:
-                        item.error = exc
-                finally:
-                    for item in requests:
-                        item.ready.set()
+                        self._finish_request(item, error=exc)
+                with self._state_lock:
+                    if self._lifecycle != "running":
+                        break
         except BaseException as exc:
             self._set_fatal_error(exc)
-            self.closed.set()
-            self._fail_pending(exc)
+            self._fail_all_pending(PolicyInferenceError("CALO policy-inference broker terminated"))
+        finally:
+            with self._state_lock:
+                self._lifecycle = "closed"
+                self.closed.set()
 
     def close(self) -> None:
-        was_closed = self.closed.is_set()
-        self.closed.set()
-        if not was_closed:
-            self.queue.put(None)
+        shutdown_error = PolicyInferenceError("CALO policy-inference broker closed during request")
+        with self._state_lock:
+            if self._lifecycle == "closed":
+                return
+            if self._lifecycle == "running":
+                self._lifecycle = "closing"
+                self.closed.set()
+                # Release every current waiter before the worker is asked to stop.
+                for request in list(self._pending.values()):
+                    if not request.ready.is_set():
+                        request.error = shutdown_error
+                        request.ready.set()
+                self._pending.clear()
+                self.queue.put(None)
         if threading.current_thread() is not self.thread:
-            self.thread.join(timeout=5)
+            self.thread.join(timeout=5.0)
+        with self._state_lock:
+            if not self.thread.is_alive():
+                self._lifecycle = "closed"
+
+
+def _touch_lru(cache, key):
+    try:
+        cache.move_to_end(key)
+    except KeyError:
+        return None
+    return cache[key]
+
+
+def _evict_policy_caches_locked() -> None:
+    """Bound long-running GUI cache growth while preserving hot policy reuse."""
+    while len(_POLICY_BROKER_CACHE) > _POLICY_CACHE_MAX_ENTRIES:
+        key, broker = _POLICY_BROKER_CACHE.popitem(last=False)
+        try:
+            broker.close()
+        except RuntimeError:
+            _LOG.warning("Policy broker eviction reported a shutdown error", exc_info=True)
+        # A broker owns a reference to its network; once closed, the corresponding network can be
+        # evicted too unless it was recently reinserted independently.
+        _POLICY_NETWORK_CACHE.pop(key, None)
+    while len(_POLICY_NETWORK_CACHE) > _POLICY_CACHE_MAX_ENTRIES:
+        key, _cached = _POLICY_NETWORK_CACHE.popitem(last=False)
+        broker = _POLICY_BROKER_CACHE.pop(key, None)
+        if broker is not None:
+            try:
+                broker.close()
+            except RuntimeError:
+                _LOG.warning("Policy broker eviction reported a shutdown error", exc_info=True)
 
 
 def _close_policy_brokers() -> None:
     for broker in list(_POLICY_BROKER_CACHE.values()):
         try:
             broker.close()
-        except Exception:
-            _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
+        except RuntimeError:
+            _LOG.warning("Policy broker cleanup reported a runtime error", exc_info=True)
     _POLICY_BROKER_CACHE.clear()
 
 
@@ -296,6 +380,8 @@ class AIController:
         )
         with _POLICY_CACHE_LOCK:
             cached = _POLICY_NETWORK_CACHE.get(cache_key)
+            if cached is not None:
+                _POLICY_NETWORK_CACHE.move_to_end(cache_key)
             if cached is None:
                 payload = load_checkpoint(path, expected_sha256=checksum, map_location="cpu")
                 state_dict = payload.get("model_state_dict", payload)
@@ -316,6 +402,8 @@ class AIController:
                 metadata = dict(payload.get("metadata", {}))
                 cached = (network, metadata, checksum, schema)
                 _POLICY_NETWORK_CACHE[cache_key] = cached
+                _POLICY_NETWORK_CACHE.move_to_end(cache_key)
+                _evict_policy_caches_locked()
             self.network, metadata, self.checksum, schema = cached
             self.schema = dict(schema)
             self.input_dim = int(self.schema.get("input_dim", STATE_DIM))
@@ -340,6 +428,8 @@ class AIController:
                 if broker is None:
                     broker = _PolicyInferenceBroker(self.network, self.device)
                     _POLICY_BROKER_CACHE[cache_key] = broker
+                _POLICY_BROKER_CACHE.move_to_end(cache_key)
+                _evict_policy_caches_locked()
                 self._inference_broker = broker
                 self.batched_inference = True
         self.metadata = dict(metadata)

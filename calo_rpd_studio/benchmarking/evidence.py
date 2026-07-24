@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import warnings
 from dataclasses import dataclass
 import json
 from math import isfinite
@@ -138,15 +139,30 @@ def build_campaign_evidence(
             name: float(value) for name, value in zip(algorithms, average)
         }
         if len(blocks) >= 2:
-            result = friedmanchisquare(*[matrix[:, i] for i in range(len(algorithms))])
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore", RuntimeWarning)
+                result = friedmanchisquare(*[matrix[:, i] for i in range(len(algorithms))])
+            statistic = float(result.statistic)
+            p_value = float(result.pvalue)
+            if not (np.isfinite(statistic) and np.isfinite(p_value)):
+                statistic = 0.0
+                p_value = 1.0
+                friedman_status = "degenerate_or_all_tied"
+            else:
+                friedman_status = "ok"
             global_statistics["friedman"] = {
-                "statistic": float(result.statistic),
-                "p_value": float(result.pvalue),
-                "significant": bool(result.pvalue < alpha),
+                "statistic": statistic,
+                "p_value": p_value,
+                "significant": bool(p_value < alpha),
+                "status": friedman_status,
             }
             k = len(algorithms)
             q_alpha = float(studentized_range.ppf(1.0 - alpha, k, np.inf) / np.sqrt(2.0))
-            critical_difference = q_alpha * np.sqrt(k * (k + 1) / (6.0 * len(blocks)))
+            if not np.isfinite(q_alpha):
+                q_alpha = float("nan")
+                critical_difference = float("nan")
+            else:
+                critical_difference = q_alpha * np.sqrt(k * (k + 1) / (6.0 * len(blocks)))
             global_statistics["nemenyi_critical_difference"] = {
                 "alpha": float(alpha),
                 "q_alpha": q_alpha,

@@ -1,5 +1,33 @@
 # Changelog
 
+## 6.6.0 — Remaining Audit Closure
+
+- Reduced ORPD hot-loop case cloning with reusable thread-local decoder workspaces and base-scenario no-copy evaluation semantics.
+- Unified feasibility tolerance propagation and canonical feasibility-first ordering across ConstraintViolation, Evaluation, `better()` and `sort_key()`.
+- Added bounded large-case dense Torch/dense Newton fallbacks, L-index dimension/identity validation, and broader safe sparse-Jacobian fallback handling.
+- Fully vectorized branch-angle constraint indexing/evaluation and removed converged/failed candidates from batched linear solves.
+- Fused candidate×scenario Torch evaluation into cross-scenario batches for stronger accelerator occupancy.
+- Added persistent separated RNG streams for training shuffling/pretraining and finite guards for degenerate Friedman evidence.
+- Bounded policy/broker caches and Stage-B static tensor caches; deterministically split oversized synthetic requests.
+- Cached immutable real-ORPD development ExperimentConfig/case templates per rollout worker.
+- Hardened resource probes, throughput/profile/pool error reporting, parity state validation, workspace restoration, configuration unknown-field validation, universal resume dispatch, stale Results Explorer selections, corrupt portfolio manifests, campaign ordering, verified-result preservation, and lazy Safe-80 governor reconstruction.
+- Added v6.6 focused remaining-audit closure tests and release-integrity evidence.
+
+## 6.5.0 — Must-Resolve Audit Closure
+
+- Added CPU-reference-style damping/backtracking to single and batched Torch Newton–Raphson solvers and propagated minimum damping through accelerated ORPD.
+- Prevented stepped discrete-variable lattices from exceeding declared upper bounds.
+- Stabilized zero/near-zero voltage-span constraint normalization and near-zero policy-qualification relative evidence.
+- Unified active zero-impedance validation across single, batched, and device-resident Torch power-flow paths.
+- Made policy-checkpoint deletion and qualification metadata updates transactional; made latest-checkpoint lineage monotonic under out-of-order registration.
+- Added an atomically published self-authenticating exact-resume envelope and streaming checkpoint SHA-256 hashing.
+- Hardened policy and synthetic brokers against submit/infer-vs-close races with deterministic pending-request failure propagation.
+- Made Comparison Study apply the latest GUI configuration before execution and hardened Results Explorer against malformed JSON/null run IDs.
+- Added mandatory equal-length Stage-B parity verification before element-wise comparison.
+- Replaced filename-only case118/case300 holdout protection with canonical scientific identity/checksum protection plus conservative fallback.
+- Added a focused 16-test must-resolve closure suite and v6.5 release-integrity evidence.
+- Items classified only as “Better to Resolve” remain explicitly deferred rather than being relabelled as closed.
+
 ## 6.4.0 — Stage-B Device-Resident Policy Training
 
 - Added persistent FP64 device-resident synthetic curriculum objective/constraint evaluation for admitted CUDA/direct-XPU rollout actors.

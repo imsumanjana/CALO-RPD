@@ -41,6 +41,7 @@ class Evaluation:
     physical_controls: dict[str, float] = field(default_factory=dict)
     scenario_values: list[float] = field(default_factory=list)
     metadata: dict[str, Any] = field(default_factory=dict)
+    feasibility_tolerance: float = 1e-12
 
 
 class ORPDProblem:
@@ -60,7 +61,7 @@ class ORPDProblem:
 
     def evaluate(self, normalized):
         z = np.clip(np.asarray(normalized, float), 0, 1)
-        controlled, physical = self.decoder.decode(z)
+        controlled, physical = self.decoder.decode_reusable(z)
         values = []
         violations = []
         weights = []
@@ -69,7 +70,7 @@ class ORPDProblem:
         constraint_acc = {}
         scenario_constraint_components = []
         for scenario in self.scenarios:
-            formulation_case = scenario.apply(controlled)
+            formulation_case = scenario.apply(controlled, copy_base=False)
             pf = run_ac_power_flow(formulation_case, self.config.power_flow)
             obj = calculate_objective(pf, self.config.objective, formulation_case=formulation_case)
             con = evaluate_constraints(pf, self.config.constraint_tolerances)
@@ -107,15 +108,16 @@ class ORPDProblem:
             "scenario_constraint_components": scenario_constraint_components,
         }
         return Evaluation(
-            robust, feasible, violation, components, physical, scenario_values, metadata
+            robust, feasible, violation, components, physical, scenario_values, metadata,
+            float(self.config.constraint_tolerances.feasibility_total),
         )
 
     def solution_state(self, normalized):
         z = np.clip(np.asarray(normalized, float), 0, 1)
-        controlled, physical = self.decoder.decode(z)
+        controlled, physical = self.decoder.decode_reusable(z)
         records = []
         for sc in self.scenarios:
-            formulation_case = sc.apply(controlled)
+            formulation_case = sc.apply(controlled, copy_base=False)
             pf = run_ac_power_flow(formulation_case, self.config.power_flow)
             obj = calculate_objective(pf, self.config.objective, formulation_case=formulation_case)
             con = evaluate_constraints(pf, self.config.constraint_tolerances)

@@ -62,6 +62,7 @@ from .ai_controller import PARAMETER_LOW, PARAMETER_HIGH
 from .operator_credit import blend_probabilities
 from .reward import calculate_reward
 from calo_rpd_studio.orpd.feasibility_rules import better
+from calo_rpd_studio.power_system.case_identity import protected_holdout_matches
 from .policy_schema import (
     POLICY_STATE_DIM,
     POLICY_STATE_SCHEMA,
@@ -994,6 +995,29 @@ def _collect_rollout_chunk(payload):
         for key in ("state", "regime", "operator", "parameter", "logp", "value", "reward", "done")
     }
     episode_returns: list[float] = []
+    development_experiment = None
+    development_problem_config = None
+    development_case_cache: dict[str, object] = {}
+    if stage == 4:
+        from calo_rpd_studio.experiments.experiment_config import ExperimentConfig
+        from calo_rpd_studio.orpd.problem import ORPDProblemConfig
+
+        config_path = str(config.development_experiment_config_path or "").strip()
+        if not config_path:
+            raise RuntimeError(
+                "Real ORPD policy rollouts require development_experiment_config_path so the "
+                "training formulation exactly matches the declared objective/controls/PF/scenarios."
+            )
+        # Immutable experiment formulation is parsed once per rollout worker/chunk. Case templates
+        # are cached by scientific source identity and ORPDProblem clones only mutable numerical arrays.
+        development_experiment = ExperimentConfig.load(config_path)
+        development_problem_config = ORPDProblemConfig(
+            objective=development_experiment.objective,
+            variables=development_experiment.variables,
+            robust=development_experiment.robust_objective,
+            power_flow=development_experiment.power_flow,
+            constraint_tolerances=development_experiment.constraint_tolerances,
+        )
     for episode in episode_indices:
         episode_seed = int(config.seed + 1_000_003 * epoch + 10_007 * int(episode))
         random.seed(episode_seed)
@@ -1001,33 +1025,22 @@ def _collect_rollout_chunk(payload):
         torch.manual_seed(episode_seed)
         rng = np.random.default_rng(episode_seed)
         if stage == 4:
-            from calo_rpd_studio.experiments.experiment_config import ExperimentConfig
             from calo_rpd_studio.experiments.experiment_runner import build_scenarios
-            from calo_rpd_studio.orpd.problem import ORPDProblem, ORPDProblemConfig
+            from calo_rpd_studio.orpd.problem import ORPDProblem
             from calo_rpd_studio.power_system.case_loader import CaseLoader
 
-            config_path = str(config.development_experiment_config_path or "").strip()
-            if not config_path:
-                raise RuntimeError(
-                    "Real ORPD policy rollouts require development_experiment_config_path so the "
-                    "training formulation exactly matches the declared objective/controls/PF/scenarios."
-                )
-            source = config.development_cases[
+            source = str(config.development_cases[
                 (epoch * config.episodes_per_epoch + int(episode)) % len(config.development_cases)
-            ]
-            experiment = ExperimentConfig.load(config_path)
-            experiment.case_name = str(source)
-            experiment.validate()
-            case = CaseLoader.load(experiment.case_name)
-            scenarios = build_scenarios(experiment, episode_seed, case)
-            problem_config = ORPDProblemConfig(
-                objective=experiment.objective,
-                variables=experiment.variables,
-                robust=experiment.robust_objective,
-                power_flow=experiment.power_flow,
-                constraint_tolerances=experiment.constraint_tolerances,
-            )
-            development_problem = ORPDProblem(case, problem_config, scenarios)
+            ])
+            assert development_experiment is not None and development_problem_config is not None
+            development_experiment.case_name = source
+            development_experiment.validate()
+            case = development_case_cache.get(source)
+            if case is None:
+                case = CaseLoader.load(source)
+                development_case_cache[source] = case
+            scenarios = build_scenarios(development_experiment, episode_seed, case)
+            development_problem = ORPDProblem(case, development_problem_config, scenarios)
             environment = SyntheticCALOEnvironment(
                 rng, stage, config.population_size, problem=development_problem
             )
@@ -1457,6 +1470,7 @@ def save_training_resume(
     history: list,
     rng,
     historical_pretraining: dict,
+    rng_streams: dict[str, np.random.Generator] | None = None,
     config,
     extra: dict | None = None,
 ) -> Path:
@@ -1476,6 +1490,10 @@ def save_training_resume(
         "python_random_state": random.getstate(),
         "numpy_global_state": np.random.get_state(),
         "numpy_generator_state": rng.bit_generator.state,
+        "numpy_generator_stream_states": {
+            str(name): generator.bit_generator.state
+            for name, generator in dict(rng_streams or {}).items()
+        },
         "torch_rng_state": torch.random.get_rng_state(),
         "cuda_rng_state_all": torch.cuda.get_rng_state_all() if torch.cuda.is_available() else [],
         "xpu_rng_state_all": (
@@ -1494,7 +1512,8 @@ def save_training_resume(
 
 
 def load_training_resume(
-    path: Path, network, optimizer, device, rng, current_config: TrainingConfig | None = None
+    path: Path, network, optimizer, device, rng, current_config: TrainingConfig | None = None,
+    rng_streams: dict[str, np.random.Generator] | None = None,
 ) -> tuple[int, list, dict, dict]:
     payload = load_trusted_resume(path, map_location=device)
     resume_format = str(payload.get("format", ""))
@@ -1520,6 +1539,11 @@ def load_training_resume(
     random.setstate(payload["python_random_state"])
     np.random.set_state(payload["numpy_global_state"])
     rng.bit_generator.state = payload["numpy_generator_state"]
+    stored_streams = dict(payload.get("numpy_generator_stream_states", {}) or {})
+    for name, generator in dict(rng_streams or {}).items():
+        state = stored_streams.get(str(name))
+        if state is not None:
+            generator.bit_generator.state = state
     torch.random.set_rng_state(payload["torch_rng_state"])
     if torch.cuda.is_available() and payload.get("cuda_rng_state_all"):
         torch.cuda.set_rng_state_all(payload["cuda_rng_state_all"])
@@ -1618,7 +1642,7 @@ def _deployable_policy_payload(
             },
             "development_cases": list(config.development_cases),
             "final_publication_benchmarks_used_for_training": bool(
-                {Path(item).stem.lower() for item in config.development_cases} & {"case118", "case300"}
+                protected_holdout_matches(config.development_cases)
             ),
             "historical_pretraining": historical_pretraining,
             "historical_data_policy": (
@@ -1718,9 +1742,7 @@ def _train_policy_impl(
     suppress_cancel_persistence: bool = False,
     protection_callback=None,
 ):
-    final_benchmark_names = {"case118", "case300"}
-    development_names = {Path(item).stem.lower() for item in config.development_cases}
-    leaked = sorted(final_benchmark_names & development_names)
+    leaked = list(protected_holdout_matches(config.development_cases))
     if leaked and not config.allow_final_benchmark_training:
         raise ValueError(
             "Final publication benchmark cases cannot be used for CALO policy training by default: "
@@ -1732,7 +1754,12 @@ def _train_policy_impl(
     torch.manual_seed(config.seed)
     if torch.cuda.is_available():
         torch.cuda.manual_seed_all(config.seed)
-    rng = np.random.default_rng(config.seed)
+    # Independent deterministic RNG streams prevent minibatch implementation details from
+    # perturbing historical-pretraining order or future curriculum/environment stochasticity.
+    rng = np.random.default_rng(config.seed)  # general/curriculum compatibility stream
+    pretrain_rng = np.random.default_rng(np.random.SeedSequence([config.seed, 0x505245]))
+    shuffle_rng = np.random.default_rng(np.random.SeedSequence([config.seed, 0x534855]))
+    rng_streams = {"historical_pretraining": pretrain_rng, "ppo_minibatch_shuffle": shuffle_rng}
     device = _resolve_training_device(config.ppo_device)
     workers = (
         recommended_rollout_workers(config.episodes_per_epoch)
@@ -1764,7 +1791,8 @@ def _train_policy_impl(
     resume_extra = {}
     if resume_path.is_file():
         start_epoch, history, historical_pretraining, resume_extra = load_training_resume(
-            resume_path, network, optimizer, device, rng, current_config=config
+            resume_path, network, optimizer, device, rng, current_config=config,
+            rng_streams=rng_streams,
         )
         if progress_callback:
             progress_callback(
@@ -1777,7 +1805,7 @@ def _train_policy_impl(
             optimizer,
             device,
             config,
-            rng,
+            pretrain_rng,
             progress_callback=progress_callback,
             cancel_callback=cancel_callback,
         )
@@ -1850,6 +1878,7 @@ def _train_policy_impl(
                     next_epoch=epoch,
                     history=history,
                     rng=rng,
+                    rng_streams=rng_streams,
                     historical_pretraining=historical_pretraining,
                     config=config,
                     extra=_current_resume_extra(safe_stop=True),
@@ -1897,7 +1926,7 @@ def _train_policy_impl(
                 raise
             save_training_resume(
                 resume_path, network=network, optimizer=optimizer, next_epoch=epoch, history=history,
-                rng=rng, historical_pretraining=historical_pretraining, config=config,
+                rng=rng, rng_streams=rng_streams, historical_pretraining=historical_pretraining, config=config,
                 extra=_current_resume_extra(safe_stop=True),
             )
             terminal = save_deployable_policy_snapshot(
@@ -1938,7 +1967,7 @@ def _train_policy_impl(
         indices = np.arange(len(states))
         network.train()
         for _ in range(config.ppo_epochs):
-            rng.shuffle(indices)
+            shuffle_rng.shuffle(indices)
             for start in range(0, len(indices), config.minibatch_size):
                 batch = indices[start : start + config.minibatch_size]
                 batch_t = torch.as_tensor(batch, dtype=torch.long, device=device)
@@ -2007,6 +2036,7 @@ def _train_policy_impl(
                 next_epoch=completed_epoch,
                 history=history,
                 rng=rng,
+                rng_streams=rng_streams,
                 historical_pretraining=historical_pretraining,
                 config=config,
                 extra=_current_resume_extra(),
@@ -2022,6 +2052,7 @@ def _train_policy_impl(
         next_epoch=epoch,
         history=history,
         rng=rng,
+        rng_streams=rng_streams,
         historical_pretraining=historical_pretraining,
         config=config,
         extra=_current_resume_extra(completed_target=target_epoch),

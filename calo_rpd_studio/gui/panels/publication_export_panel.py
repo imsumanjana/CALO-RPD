@@ -241,6 +241,39 @@ class PublicationExportPanel(WorkspacePage):
                 return item.id, item.state
         return "", None
 
+    def resume_task_by_id(self, task_id: str) -> bool:
+        """Resume the exact portfolio-export record selected by Resume Center."""
+        item = next(
+            (candidate for candidate in self.state.resume_service.unfinished() if candidate.id == str(task_id)),
+            None,
+        )
+        if item is None:
+            QMessageBox.information(
+                self, "Resume portfolio", "The selected portfolio-export task is no longer resumable."
+            )
+            return False
+        experiment_id = str(item.state.get("experiment_id", "") or "")
+        if not experiment_id:
+            QMessageBox.critical(
+                self, "Resume portfolio", "The selected resume record has no experiment ID."
+            )
+            return False
+        index = self.experiment.findData(experiment_id)
+        if index < 0:
+            self.refresh()
+            index = self.experiment.findData(experiment_id)
+        if index < 0:
+            QMessageBox.critical(
+                self, "Resume portfolio", "The experiment referenced by this resume record is unavailable."
+            )
+            return False
+        self.experiment.setCurrentIndex(index)
+        directory = str(item.state.get("directory", "") or "")
+        if directory:
+            self.directory.setText(directory)
+        self.export_portfolio(resume=True)
+        return True
+
     def export_portfolio(self, *, resume: bool) -> None:
         if self.worker is not None and self.worker.isRunning():
             QMessageBox.information(

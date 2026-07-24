@@ -65,6 +65,7 @@ from calo_rpd_studio.accelerated.throughput_engine import (
 )
 from calo_rpd_studio.compute.persistent_training_actor import PersistentTrainingActorClient
 from calo_rpd_studio.ai.model_io import load_checkpoint
+from calo_rpd_studio.power_system.case_identity import protected_holdout_matches
 
 from .training import (
     CurriculumProblem,
@@ -1046,9 +1047,7 @@ def _train_policy_heterogeneous_impl(
     protection_callback=None,
 ):
     """Train a candidate CALO policy with synchronous weighted heterogeneous actors."""
-    final_benchmark_names = {"case118", "case300"}
-    development_names = {Path(item).stem.lower() for item in config.development_cases}
-    leaked = sorted(final_benchmark_names & development_names)
+    leaked = list(protected_holdout_matches(config.development_cases))
     if leaked and not config.allow_final_benchmark_training:
         raise ValueError(
             "Final publication benchmark cases cannot be used for CALO policy training by default: "

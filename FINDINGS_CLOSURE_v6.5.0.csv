@@ -1,0 +1,17 @@
+ID,Area,Status,Resolution_or_boundary,Regression_evidence
+C04,Torch/CUDA Newton-Raphson parity,CLOSED,"Added CPU-reference-style damping/backtracking to single and batched Torch NR; minimum damping propagates through accelerated ORPD.",test_v650_must_resolve.py stressed-start CPU/Torch parity
+C10,Discrete stepped bounds,CLOSED,"stepped_values validates finite ordered bounds/positive step and filters floating-point endpoints above upper bound.",test_v650_must_resolve.py upper-bound regression
+H01,Voltage violation normalization,CLOSED,"Zero/near-zero voltage span uses stable engineering-scale normalization instead of tiny explosive denominator.",test_v650_must_resolve.py fixed-span regression
+H05,Zero-impedance threshold parity,CLOSED,"Single batch and device-resident Torch paths share one active zero-impedance tolerance.",test_v650_must_resolve.py single/batch rejection parity
+H15,Policy qualification near-zero arithmetic,CLOSED,"Relative evidence uses symmetric stable denominator max(abs(a),abs(b),1.0).",test_v650_must_resolve.py near-zero evidence regression
+H21,Checkpoint delete TOCTOU,CLOSED,"Reference checks and deletion execute inside one BEGIN IMMEDIATE transaction.",transaction/source regression in test_v650_must_resolve.py
+H22,Checkpoint qualification lost-update race,CLOSED,"Metadata read/merge/write executes inside one BEGIN IMMEDIATE transaction.",concurrent metadata update regression in test_v650_must_resolve.py
+H28,Comparison stale GUI configuration,CLOSED,"start_comparison applies/validates current GUI state before fairness gating and plan construction.",source-order regression in test_v650_must_resolve.py
+H30,Results Explorer malformed rows,CLOSED,"Guarded JSON parsing safe field access and null run_id fallback to row id.",source/behavior regression in test_v650_must_resolve.py
+M18,Policy broker submit-close race,CLOSED,"Lifecycle lock pending registry and deterministic close failure propagation prevent stranded waiters.",in-flight close regression in test_v650_must_resolve.py
+V64-N01,Synthetic broker submit-close race,CLOSED,"Lifecycle lock pending registry and deterministic close failure propagation prevent stranded synthetic requests.",synthetic in-flight close regression in test_v650_must_resolve.py
+M30,Checkpoint latest lineage ordering,CLOSED,"Registration transaction chooses latest monotonically by cumulative epoch then phase.",older-registration-not-latest regression in test_v650_must_resolve.py
+M32,Checkpoint/hash publication atomicity,CLOSED,"Trusted exact resume uses one self-authenticating atomically replaced v2 envelope containing payload and signed trust metadata.",sidecar-independent trusted resume regression in test_v650_must_resolve.py
+M45,Whole-file checkpoint hashing,CLOSED,"SHA-256 streams file chunks instead of Path.read_bytes().",no-read_bytes regression in test_v650_must_resolve.py
+V64-N02,Stage-B truncated parity result,CLOSED,"Parity verifier rejects unequal result lengths before element comparison.",truncated-result rejection in test_v650_must_resolve.py
+V64-N03,Filename-only holdout protection,CLOSED,"Canonical standard-case checksum identity plus conservative fallback protects renamed case118/case300 equivalents.",renamed canonical case regression in test_v650_must_resolve.py

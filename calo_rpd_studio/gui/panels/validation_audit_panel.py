@@ -337,18 +337,22 @@ class ValidationAuditPanel(WorkspacePage):
             )
         QMessageBox.critical(self, "Bulk validation failed", message)
 
-    def resume_bulk_validation(self) -> None:
-        items = [
-            item
-            for item in self.state.resume_service.unfinished()
-            if item.task_type == ResumeTaskType.VALIDATION.value
-        ]
-        if not items:
+    def resume_task_by_id(self, task_id: str) -> bool:
+        """Resume one specific bulk-validation record selected by Resume Center."""
+        item = next(
+            (
+                candidate
+                for candidate in self.state.resume_service.unfinished()
+                if candidate.id == str(task_id)
+                and candidate.task_type == ResumeTaskType.VALIDATION.value
+            ),
+            None,
+        )
+        if item is None:
             QMessageBox.information(
-                self, "Bulk validation resume", "No resumable bulk-validation task was found."
+                self, "Bulk validation resume", "The selected validation task is no longer resumable."
             )
-            return
-        item = items[0]
+            return False
         rows = []
         for run_id in item.state.get("run_ids", []):
             row = self.state.database.get_run(str(run_id))
@@ -363,11 +367,25 @@ class ValidationAuditPanel(WorkspacePage):
                 "Bulk validation resume",
                 "All runs in the saved validation queue are already verified.",
             )
-            return
+            return False
         self._bulk_resume_task_id = item.id
         self._start_bulk_validation(
             rows, scope=str(item.state.get("scope", "saved validation queue"))
         )
+        return True
+
+    def resume_bulk_validation(self) -> None:
+        items = [
+            item
+            for item in self.state.resume_service.unfinished()
+            if item.task_type == ResumeTaskType.VALIDATION.value
+        ]
+        if not items:
+            QMessageBox.information(
+                self, "Bulk validation resume", "No resumable bulk-validation task was found."
+            )
+            return
+        self.resume_task_by_id(items[0].id)
 
     def cancel_bulk_validation(self) -> None:
         if self._bulk_worker is None:

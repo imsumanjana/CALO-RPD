@@ -55,7 +55,7 @@ from calo_rpd_studio.power_system.case_model import (
 from calo_rpd_studio.robustness.robust_objectives import RobustAggregation, ConstraintAggregation
 from calo_rpd_studio.robustness.cvar import weighted_cvar_torch
 
-from .torch_power_flow import solve_newton_raphson_batch_torch
+from .torch_power_flow import ZERO_IMPEDANCE_TOLERANCE, solve_newton_raphson_batch_torch
 
 
 OBJECTIVE_COMPONENT_NAMES = (
@@ -184,6 +184,7 @@ class DeviceResidentBatch:
                     physical,
                     scenario_values[row].astype(float).tolist(),
                     metadata,
+                    float(metadata.get("feasibility_tolerance", 1e-12)),
                 )
             )
         return out
@@ -392,8 +393,14 @@ class DeviceResidentORPDEvaluator:
         tap_flat = tap.reshape(rows, self.n_branch)
         shift = self.branch_shift.unsqueeze(0).expand(batch, -1, -1).reshape(rows, self.n_branch)
         z = torch.complex(r, x)
-        eps = torch.finfo(self.dtype).eps
-        y = torch.where(torch.abs(z) > eps, 1.0 / z, torch.zeros_like(z))
+        invalid_impedance = status & (torch.abs(z) <= ZERO_IMPEDANCE_TOLERANCE)
+        if bool(torch.any(invalid_impedance)):
+            raise ValueError(
+                "In-service zero/near-zero impedance branch is unsupported by the device-resident ORPD evaluator"
+            )
+        valid_impedance = torch.abs(z) > ZERO_IMPEDANCE_TOLERANCE
+        safe_z = torch.where(valid_impedance, z, torch.ones_like(z))
+        y = torch.where(valid_impedance, 1.0 / safe_z, torch.zeros_like(z))
         y = torch.where(status, y, torch.zeros_like(y))
         charging = torch.where(
             status,
@@ -507,6 +514,7 @@ class DeviceResidentORPDEvaluator:
                     tolerance=float(self.options.tolerance),
                     max_iterations=int(self.options.max_iterations),
                     collect_history=False,
+                    minimum_damping=float(getattr(self.options, "minimum_damping", 1.0 / 32.0)),
                 )
                 voltage[group_rows] = solved
                 iterations[group_rows] += iters
@@ -669,7 +677,9 @@ class DeviceResidentORPDEvaluator:
                 .reshape(batch * self.scenario_count, self.n_bus)
             )
             tolerances = self.config.constraint_tolerances
-            span = torch.clamp(upper - lower, min=1e-12)
+            raw_span = upper - lower
+            span_floor = max(2.0 * float(self.config.constraint_tolerances.voltage_pu), 1e-12)
+            span = torch.where(raw_span > span_floor, raw_span, torch.ones_like(raw_span))
             below_v = lower - vm_final
             above_v = vm_final - upper
             below_v = torch.where(
@@ -848,6 +858,7 @@ class DeviceResidentORPDEvaluator:
                 "grouped_tensor_q_limit_switching": True,
                 "device_state_retained_until_population_complete": True,
                 "solver_diagnostics_retained_on_device": True,
+                "feasibility_tolerance": float(self.config.constraint_tolerances.feasibility_total),
             }
             return DeviceResidentBatch(
                 robust_objective,

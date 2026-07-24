@@ -3,11 +3,8 @@
 from __future__ import annotations
 
 from pathlib import Path
-import tempfile
 
-import torch
-
-from calo_rpd_studio.ai.model_io import durable_torch_save, load_trusted_resume, write_trusted_resume_hash
+from calo_rpd_studio.ai.model_io import durable_trusted_torch_save, load_trusted_resume
 
 FORMAT = "calo_exact_run_checkpoint_v5"
 
@@ -16,16 +13,10 @@ def save_exact_run_checkpoint(path: str | Path, payload: dict) -> str:
     destination = Path(path).expanduser().resolve()
     destination.parent.mkdir(parents=True, exist_ok=True)
     wrapped = {"format": FORMAT, **dict(payload)}
-    with tempfile.NamedTemporaryFile(delete=False, dir=destination.parent, suffix=".tmp") as handle:
-        temporary = Path(handle.name)
-    try:
-        torch.save(wrapped, temporary)
-        # Validate the serialized container before atomically promoting it over the latest resume state.
-        torch.load(temporary, map_location="cpu", weights_only=False)
-        temporary.replace(destination)
-        return write_trusted_resume_hash(destination)
-    finally:
-        temporary.unlink(missing_ok=True)
+    # v6.5 publishes checkpoint bytes + HMAC trust metadata as one atomically replaced envelope.
+    # The external .sha256 sidecar remains compatibility metadata only and is no longer a trust
+    # dependency, eliminating the old checkpoint/sidecar publication window.
+    return durable_trusted_torch_save(wrapped, destination)
 
 
 def load_exact_run_checkpoint(path: str | Path) -> dict:

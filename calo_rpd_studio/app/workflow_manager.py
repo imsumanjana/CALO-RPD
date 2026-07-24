@@ -168,7 +168,9 @@ class WorkflowManager(QObject):
         self.experiment_completed = False
         self.statistics_completed = False
         self.results_reviewed = False
-        self.verified_results = 0
+        # Preserve already verified database evidence. A safe stop must not make valid completed
+        # verification work appear to have vanished; refresh/restore may increase this count later.
+        self.verified_results = max(0, int(self.verified_results))
         self.changed.emit()
 
     def mark_statistics_completed(self) -> None:

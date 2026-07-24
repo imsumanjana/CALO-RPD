@@ -121,9 +121,19 @@ class PortfolioConfig:
             EvidenceProfile.DIAGNOSTIC,
             EvidenceProfile.CUSTOM,
         }:
-            # Single-run mode is diagnostic by definition. Normalize instead of silently planning
-            # publication statistics from one stochastic run.
+            raise ValueError(
+                "Single-run portfolios require the diagnostic or custom evidence profile; "
+                "validation never mutates the selected scientific evidence profile."
+            )
+
+    def normalize_for_execution(self) -> "PortfolioConfig":
+        """Explicitly normalize legacy/saved combinations before execution."""
+        if self.kind is PortfolioKind.SINGLE_RUN and self.evidence_profile not in {
+            EvidenceProfile.DIAGNOSTIC,
+            EvidenceProfile.CUSTOM,
+        }:
             self.evidence_profile = EvidenceProfile.DIAGNOSTIC
+        return self
 
     def to_dict(self) -> dict:
         payload = asdict(self)

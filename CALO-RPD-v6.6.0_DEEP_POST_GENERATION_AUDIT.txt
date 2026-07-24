@@ -1,0 +1,43 @@
+CALO-RPD v6.6.0 — DEEP POST-GENERATION AUDIT
+===================================================
+Date: 24 July 2026
+Release: 6.6.0 — Remaining Audit Closure
+
+AUDIT SCOPE
+-----------
+Re-audited every issue ID retained in CALO-RPD v6.4 Priority Resolution List -> “Better to Resolve”.
+Total priority-list IDs: 33
+Engineering defects/improvements resolved: 32
+Finding closed as factually incorrect / not a defect: 1 (H19)
+
+CLOSED IDS
+----------
+C02, C03, C05, C06, C07, H03, H10, H14, H16, H17, H18, H19, H20, H23, H25, H26, H27, M04, M05, M16, M34, M36, M37, M48, M52, M54, M57, L19, L20, L23, V64-N04, V64-N05, V64-N06
+
+IMPORTANT AUDIT CORRECTION
+--------------------------
+H19 alleged that `except Exception` catches `KeyboardInterrupt` and `SystemExit`. In Python it does not; both derive from BaseException, not Exception. The independent-validator failure wrapper remains an explicit ordinary-error boundary and records failure. H19 is therefore VERIFIED_NOT_DEFECT, not cosmetically “fixed”.
+
+KEY TECHNICAL RESULTS
+---------------------
+1. Hot-loop and accelerator work reduced: reusable ORPD decode workspace, vectorized branch angles, active-row Newton solving, cross-scenario batches, cached development cases/config, bounded oversized synthetic requests, static-tensor LRU.
+2. Scientific consistency improved: one configured feasibility tolerance and one deterministic ranking order.
+3. Statistics/reproducibility hardened: separated persistent RNG streams and finite neutral handling for degenerate Friedman evidence.
+4. Memory/scalability paths bounded: dense Torch and dense Newton fallback ceilings; bounded policy/broker/static-tensor caches.
+5. GUI/workspace/config recovery hardened: semantic restore mapping, structured case-load errors, strict unknown-field rejection, read-only validation, broader resume dispatch, stale-run safety, corrupt-manifest diagnostics.
+6. Error handling narrowed in resource/accelerator/orchestration code while preserving explicit top-level fail-forward boundaries.
+
+VALIDATION EXECUTED BEFORE RELEASE FINALIZATION
+-----------------------------------------------
+- v6.6 issue-focused closure suite: 22 passed.
+- Foundational/configuration/scientific regression selection: 82 passed.
+- Accelerator/continuation/v6.4/v6.5/v6.6 regression selection: 91 passed.
+- The selections overlap and are not added as a unique-test count.
+- No failures remained in these executed selections after the final source corrections.
+- v6.6 release-integrity gate: 5 passed.
+
+SCIENTIFIC/PERFORMANCE CLAIM BOUNDARY
+-------------------------------------
+C05 is resolved as a safe scalability path by preventing uncontrolled dense accelerator allocation and routing large cases to a bounded/reference-capable path. v6.6 does NOT claim a new sparse-GPU Newton/Ybus implementation.
+
+Physical CUDA/XPU performance and utilization, long thermal soak, full PyQt6 GUI interaction, and PYPOWER/commercial-reference validation cannot be certified by a CPU-only dependency-light build runtime. Those gates remain pending on the intended target environment.

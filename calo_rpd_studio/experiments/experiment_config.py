@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass, field, fields
 from enum import Enum
 import json
 from pathlib import Path
@@ -19,6 +19,20 @@ from calo_rpd_studio.robustness.robust_objectives import (
 from calo_rpd_studio.power_system.ac_power_flow import PowerFlowOptions
 from .evaluation_budget import BudgetPolicy, EvaluationBudget
 from calo_rpd_studio.portfolio.models import PortfolioConfig
+
+
+def _reject_unknown_keys(payload: dict, allowed: set[str], context: str) -> None:
+    unknown = sorted(set(map(str, payload.keys())) - set(allowed))
+    if unknown:
+        raise ValueError(
+            f"Unknown {context} configuration field(s): {', '.join(unknown)}. "
+            "Configuration keys are validated strictly so spelling mistakes cannot silently fall back to defaults."
+        )
+
+
+def _field_names(cls) -> set[str]:
+    return {item.name for item in fields(cls)}
+
 
 
 @dataclass(slots=True)
@@ -79,7 +93,9 @@ class ExperimentConfig:
     name: str = "CALO-RPD comparative experiment"
     case_name: str = "case30"
     algorithms: list[str] = field(default_factory=lambda: ["CALO", "TLBO", "PSO"])
-    runs: int = 5
+    # The default portfolio is JOURNAL evidence, whose explicit minimum is 30 runs.
+    # Keep the default intrinsically valid rather than relying on validate() to mutate it.
+    runs: int = 30
     master_seed: int = 2026
     population_size: int = 50
     max_iterations: int = 1000
@@ -220,9 +236,15 @@ class ExperimentConfig:
             if not 0.0 < float(value) < 1.0:
                 raise ValueError(f"{label} must be positive and below 1")
         self.portfolio.validate()
-        # Portfolio requirements are a minimum, never a reason to silently reduce a user's
-        # requested repetitions. A request for 31–50 runs must remain exactly 31–50.
-        self.runs = max(int(self.runs), int(self.portfolio.required_runs()))
+        # Validation is deliberately read-only. Portfolio repetition requirements must be
+        # normalized explicitly by the caller or corrected by the user; validate() never mutates
+        # the scientific configuration behind the GUI's back.
+        required_runs = int(self.portfolio.required_runs())
+        if int(self.runs) < required_runs:
+            raise ValueError(
+                f"runs={self.runs} is below the portfolio-required minimum of {required_runs}. "
+                "Apply explicit portfolio normalization before execution."
+            )
         if not 10 <= int(self.gpu_utilization_target) <= 100:
             raise ValueError("gpu_utilization_target must be between 10 and 100")
         if not 10 <= int(self.cpu_utilization_target) <= 100:
@@ -258,6 +280,16 @@ class ExperimentConfig:
                 "by population_size so every optimizer, including CALO, consumes exactly the same FE budget."
             )
 
+    def normalize_for_execution(self) -> "ExperimentConfig":
+        """Apply explicit execution normalization and return ``self``.
+
+        This method is intentionally separate from :meth:`validate` so validation remains
+        read-only. At present only the portfolio minimum repetition count is normalized.
+        """
+        self.portfolio.normalize_for_execution()
+        self.runs = max(int(self.runs), int(self.portfolio.required_runs()))
+        return self
+
     def to_dict(self) -> dict:
         def convert(value):
             if isinstance(value, Enum):
@@ -281,8 +313,16 @@ class ExperimentConfig:
         return destination
 
     @classmethod
-    def from_dict(cls, data: dict) -> "ExperimentConfig":
-        objective_data = data.get("objective", {})
+    def from_dict(
+        cls, data: dict, *, allow_unknown_fields: bool = False
+    ) -> "ExperimentConfig":
+        if not isinstance(data, dict):
+            raise TypeError("Experiment configuration must be a mapping/object")
+        if not allow_unknown_fields:
+            _reject_unknown_keys(data, _field_names(cls), "experiment")
+        objective_data = dict(data.get("objective", {}) or {})
+        if not allow_unknown_fields:
+            _reject_unknown_keys(objective_data, _field_names(ObjectiveConfig), "objective")
         objective = ObjectiveConfig(
             kind=ObjectiveKind(objective_data.get("kind", ObjectiveKind.ACTIVE_POWER_LOSS.value)),
             weight_loss=float(objective_data.get("weight_loss", 1)),
@@ -292,10 +332,19 @@ class ExperimentConfig:
             voltage_deviation_scale=float(objective_data.get("voltage_deviation_scale", 1)),
             l_index_scale=float(objective_data.get("l_index_scale", 1)),
         )
-        variable_data = data.get("variables", {})
-        shunts = tuple(
-            ShuntControlDefinition(**item) for item in variable_data.get("shunt_controls", [])
-        )
+        variable_data = dict(data.get("variables", {}) or {})
+        if not allow_unknown_fields:
+            _reject_unknown_keys(variable_data, _field_names(ORPDVariableConfig), "variables")
+        shunt_items = list(variable_data.get("shunt_controls", []) or [])
+        if not allow_unknown_fields:
+            for index, item in enumerate(shunt_items):
+                if not isinstance(item, dict):
+                    raise TypeError(f"variables.shunt_controls[{index}] must be an object")
+                _reject_unknown_keys(
+                    item, _field_names(ShuntControlDefinition),
+                    f"variables.shunt_controls[{index}]",
+                )
+        shunts = tuple(ShuntControlDefinition(**item) for item in shunt_items)
         variables = ORPDVariableConfig(
             bool(variable_data.get("generator_voltages", True)),
             bool(variable_data.get("transformer_taps", True)),
@@ -308,7 +357,9 @@ class ExperimentConfig:
             shunts,
             str(variable_data.get("formulation_profile", "ieee-orpd-controls-v3.4.0")),
         )
-        robust_data = data.get("robust_objective", {})
+        robust_data = dict(data.get("robust_objective", {}) or {})
+        if not allow_unknown_fields:
+            _reject_unknown_keys(robust_data, _field_names(RobustObjectiveConfig), "robust_objective")
         robust = RobustObjectiveConfig(
             aggregation=RobustAggregation(
                 robust_data.get("aggregation", RobustAggregation.EXPECTED.value)
@@ -322,6 +373,8 @@ class ExperimentConfig:
             ),
         )
         pf_data = dict(data.get("power_flow", {}) or {})
+        if not allow_unknown_fields:
+            _reject_unknown_keys(pf_data, _field_names(PowerFlowOptions), "power_flow")
         power_flow = PowerFlowOptions(
             tolerance=float(pf_data.get("tolerance", 1e-8)),
             max_iterations=int(pf_data.get("max_iterations", 30)),
@@ -330,6 +383,10 @@ class ExperimentConfig:
             q_limit_tolerance_mvar=float(pf_data.get("q_limit_tolerance_mvar", 1e-6)),
         )
         tolerance_data = dict(data.get("constraint_tolerances", {}) or {})
+        if not allow_unknown_fields:
+            _reject_unknown_keys(
+                tolerance_data, _field_names(ConstraintToleranceConfig), "constraint_tolerances"
+            )
         constraint_tolerances = ConstraintToleranceConfig(
             voltage_pu=float(tolerance_data.get("voltage_pu", 1e-7)),
             generator_p_mw=float(tolerance_data.get("generator_p_mw", 1e-6)),
@@ -339,12 +396,19 @@ class ExperimentConfig:
             feasibility_total=float(tolerance_data.get("feasibility_total", 1e-12)),
             schema_version=str(tolerance_data.get("schema_version", "calo_rpd_constraint_tolerance_v5.9")),
         )
-        budget_data = data.get("budget", {})
+        budget_data = dict(data.get("budget", {}) or {})
+        if not allow_unknown_fields:
+            _reject_unknown_keys(budget_data, _field_names(EvaluationBudget), "budget")
         budget = EvaluationBudget(
             BudgetPolicy(budget_data.get("policy", BudgetPolicy.EQUAL_EVALUATIONS.value)),
             int(budget_data.get("max_evaluations", 5000)),
             float(budget_data["wall_clock_seconds"]) if "wall_clock_seconds" in budget_data and budget_data["wall_clock_seconds"] is not None else None,
         )
+        scenario_data = dict(data.get("scenarios", {}) or {})
+        portfolio_data = dict(data.get("portfolio", {}) or {})
+        if not allow_unknown_fields:
+            _reject_unknown_keys(scenario_data, _field_names(RobustScenarioSettings), "scenarios")
+            _reject_unknown_keys(portfolio_data, _field_names(PortfolioConfig), "portfolio")
         execution_backend = str(data.get("execution_backend", "gpu_preferred"))
         preset_shares = (
             (100, 0, 0) if execution_backend in {"cuda_only", "gpu_preferred"} else (80, 10, 10)
@@ -353,7 +417,7 @@ class ExperimentConfig:
             name=data.get("name", "CALO-RPD comparative experiment"),
             case_name=data.get("case_name", "case30"),
             algorithms=list(data.get("algorithms", ["CALO", "TLBO", "PSO"])),
-            runs=int(data.get("runs", 5)),
+            runs=int(data.get("runs", 30)),
             master_seed=int(data.get("master_seed", 2026)),
             population_size=int(data.get("population_size", 50)),
             max_iterations=int(data.get("max_iterations", 1000)),
@@ -363,7 +427,7 @@ class ExperimentConfig:
             robust_objective=robust,
             power_flow=power_flow,
             constraint_tolerances=constraint_tolerances,
-            scenarios=RobustScenarioSettings(**data.get("scenarios", {})),
+            scenarios=RobustScenarioSettings(**scenario_data),
             algorithm_parameters=dict(data.get("algorithm_parameters", {})),
             output_directory=data.get("output_directory", "results_data"),
             parallel_workers=int(data.get("parallel_workers", 1)),
@@ -406,7 +470,7 @@ class ExperimentConfig:
             compile_stable_kernels=bool(data.get("compile_stable_kernels", False)),
             telemetry_iteration_interval=int(data.get("telemetry_iteration_interval", 10)),
             buffered_trace_writes=bool(data.get("buffered_trace_writes", True)),
-            portfolio=PortfolioConfig.from_dict(data.get("portfolio", {})),
+            portfolio=PortfolioConfig.from_dict(portfolio_data),
             portfolio_id=str(data.get("portfolio_id", "")),
             resume_enabled=bool(data.get("resume_enabled", True)),
             resume_campaign_id=str(data.get("resume_campaign_id", "")),
@@ -436,10 +500,10 @@ class ExperimentConfig:
         )
 
     @classmethod
-    def load(cls, path) -> "ExperimentConfig":
+    def load(cls, path, *, allow_unknown_fields: bool = False) -> "ExperimentConfig":
         source = Path(path)
         text = source.read_text(encoding="utf-8")
         data = (
             yaml.safe_load(text) if source.suffix.lower() in {".yaml", ".yml"} else json.loads(text)
         )
-        return cls.from_dict(data)
+        return cls.from_dict(data, allow_unknown_fields=allow_unknown_fields)

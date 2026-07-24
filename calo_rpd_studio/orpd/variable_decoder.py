@@ -9,6 +9,7 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass
 from typing import Literal
 import math
+import threading
 
 import numpy as np
 
@@ -171,6 +172,9 @@ class ORPDVariableDecoder:
         self._actions: list[tuple[str, int, float, float, tuple[float, ...] | None]] = []
         self._shunt_definitions: list[ShuntControlDefinition] = []
         index = case.bus_index_map()
+        self._bus_index = dict(index)
+        self._workspace_local = threading.local()
+        self._vg_generators_by_bus: dict[int, np.ndarray] = {}
 
         if config.generator_voltages:
             online = np.where(case.gen[:, GEN_STATUS] > 0)[0]
@@ -191,6 +195,10 @@ class ORPDVariableDecoder:
                 upper = float(case.bus[bus_index, VMAX])
                 self.variables.append(DecisionVariable(f"Vg@{bus}", lower, upper))
                 self._actions.append(("vg", bus, lower, upper, None))
+                self._vg_generators_by_bus[bus] = np.where(
+                    (case.gen[:, GEN_STATUS] > 0)
+                    & (case.gen[:, GEN_BUS].astype(int) == bus)
+                )[0]
 
         if config.transformer_taps:
             taps = np.where((case.branch[:, BR_STATUS] > 0) & (case.branch[:, TAP] != 0))[0]
@@ -270,13 +278,11 @@ class ORPDVariableDecoder:
     def dimension(self) -> int:
         return len(self.variables)
 
-    def decode(self, normalized):
+    def _decode_into(self, output, normalized):
         z = np.asarray(normalized, dtype=float)
         if z.shape != (self.dimension,):
             raise ValueError(f"Expected decision vector shape ({self.dimension},), got {z.shape}")
-        output = self.case.clone()
         physical: dict[str, float] = {}
-        index = output.bus_index_map()
         for value, action, variable in zip(z, self._actions, self.variables):
             action_kind, target, lower, upper, lattice = action
             decoded = (
@@ -286,18 +292,56 @@ class ORPDVariableDecoder:
             )
             physical[variable.name] = decoded
             if action_kind == "vg":
-                generators = np.where(
-                    (output.gen[:, GEN_STATUS] > 0) & (output.gen[:, GEN_BUS].astype(int) == target)
-                )[0]
+                generators = self._vg_generators_by_bus[int(target)]
                 output.gen[generators, VG] = decoded
-                output.bus[index[target], VM] = decoded
+                output.bus[self._bus_index[int(target)], VM] = decoded
             elif action_kind == "tap":
                 output.branch[target, TAP] = decoded
             elif action_kind == "shunt":
-                output.bus[index[target], BS] = decoded
+                output.bus[self._bus_index[int(target)], BS] = decoded
             elif action_kind == "shunt_delta":
-                output.bus[index[target], BS] = self.case.bus[index[target], BS] + decoded
+                bus_index = self._bus_index[int(target)]
+                output.bus[bus_index, BS] = self.case.bus[bus_index, BS] + decoded
         return output, physical
+
+    def _reset_reusable_workspace(self, output) -> None:
+        """Reset only decision-controlled cells instead of cloning all case arrays every FE."""
+        for action in self._actions:
+            action_kind, target, _lower, _upper, _lattice = action
+            if action_kind == "vg":
+                generators = self._vg_generators_by_bus[int(target)]
+                output.gen[generators, VG] = self.case.gen[generators, VG]
+                bus_index = self._bus_index[int(target)]
+                output.bus[bus_index, VM] = self.case.bus[bus_index, VM]
+            elif action_kind == "tap":
+                output.branch[int(target), TAP] = self.case.branch[int(target), TAP]
+            elif action_kind in {"shunt", "shunt_delta"}:
+                bus_index = self._bus_index[int(target)]
+                output.bus[bus_index, BS] = self.case.bus[bus_index, BS]
+
+    def decode_reusable(self, normalized):
+        """Hot-loop decoder using one thread-local mutable case workspace.
+
+        The returned case is valid until the next ``decode_reusable`` call on the same thread.
+        Production ORPD evaluation immediately clones only where a scenario/PF needs mutation, so
+        this removes the unconditional full-case clone from every objective evaluation without
+        exposing shared mutable state across worker threads.
+        """
+        output = getattr(self._workspace_local, "case", None)
+        if output is None:
+            output = self.case.clone()
+            # Generator-cost data is immutable during ORPD evaluation; share it rather than copying.
+            output.gencost = self.case.gencost
+            self._workspace_local.case = output
+        else:
+            self._reset_reusable_workspace(output)
+        return self._decode_into(output, normalized)
+
+    def decode(self, normalized):
+        """Compatibility decoder returning an independently owned case."""
+        output = self.case.clone()
+        output.gencost = self.case.gencost
+        return self._decode_into(output, normalized)
 
     def control_validity(self, normalized) -> bool:
         z = np.asarray(normalized, dtype=float)

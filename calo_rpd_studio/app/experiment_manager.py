@@ -71,8 +71,8 @@ def _configure_child_numeric_threads() -> None:
                 torch.set_num_interop_threads(1)
             except RuntimeError:
                 pass
-    except Exception:
-        _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
+    except (ImportError, RuntimeError, AttributeError, OSError) as exc:
+        _LOG.warning("Unable to configure child PyTorch numeric threads: %s", exc)
 
 
 def _config_for_item_device(config, mode: str, item: PlannedItem, compute_device: str):
@@ -223,8 +223,8 @@ class ExperimentWorker(QThread):
         if event is not None:
             try:
                 event.set()
-            except Exception:
-                _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
+            except (OSError, RuntimeError, ValueError) as exc:
+                _LOG.warning("Unable to propagate cancellation to child workers: %s", exc)
 
     def _cancelled(self) -> bool:
         return self._cancel_event.is_set()
@@ -688,7 +688,8 @@ class ExperimentWorker(QThread):
                 messages.append(progress_queue.get_nowait())
             except queue.Empty:
                 break
-            except Exception:
+            except (EOFError, OSError, ValueError) as exc:
+                _LOG.warning("Progress queue became unavailable while draining messages: %s", exc)
                 break
         return messages
 
@@ -1127,7 +1128,8 @@ class ExperimentWorker(QThread):
                 profile_path = str(self.config.throughput_profile_path)
                 try:
                     previous = ThroughputProfile.load(profile_path)
-                except Exception:
+                except (OSError, json.JSONDecodeError, TypeError, ValueError, KeyError) as exc:
+                    _LOG.warning("Ignoring unreadable throughput profile %s: %s", profile_path, exc)
                     previous = None
                 if previous is not None and previous.case_name == self.config.case_name:
                     for lane in pools:
@@ -1168,8 +1170,8 @@ class ExperimentWorker(QThread):
                 )
                 try:
                     profile.save(profile_path)
-                except Exception:
-                    _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
+                except (OSError, TypeError, ValueError) as exc:
+                    _LOG.warning("Unable to persist throughput profile %s: %s", profile_path, exc)
 
                 lane_throughputs = {
                     lane: max(0.0, float(record.evaluations_per_second))
@@ -1484,8 +1486,8 @@ class ExperimentWorker(QThread):
                 for pool in pools.values():
                     try:
                         pool.close()
-                    except Exception:
-                        _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
+                    except (OSError, RuntimeError, ValueError) as exc:
+                        _LOG.warning("Accelerator pool close failed during shutdown: %s", exc, exc_info=True)
                 self._process_cancel_event = None
 
         return not self._cancelled() and not self._pause_requested()

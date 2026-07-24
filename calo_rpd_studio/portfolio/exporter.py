@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 import json
+import warnings
 from pathlib import Path
 import zipfile
 
@@ -63,6 +64,24 @@ class PortfolioExporter:
     @staticmethod
     def _load_result(row: dict) -> dict:
         return json.loads(row["result_json"])
+
+    @staticmethod
+    def _load_manifest(path: Path) -> dict:
+        if not path.is_file():
+            return {"artifacts": {}}
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+            raise ValueError(
+                f"Portfolio manifest {path} is unreadable or corrupt: {type(exc).__name__}: {exc}. "
+                "Move/delete the damaged manifest or restore it from backup before resuming export."
+            ) from exc
+        if not isinstance(payload, dict):
+            raise ValueError(f"Portfolio manifest {path} must contain a JSON object")
+        artifacts = payload.get("artifacts", {})
+        if not isinstance(artifacts, dict):
+            raise ValueError(f"Portfolio manifest {path} has an invalid 'artifacts' object")
+        return payload
 
     @staticmethod
     def _atomic_json(path: Path, payload: dict) -> None:
@@ -712,11 +731,7 @@ class PortfolioExporter:
         for folder in (figures, tables, raw, configs):
             folder.mkdir(parents=True, exist_ok=True)
         manifest_path = out / "portfolio_manifest.json"
-        manifest = (
-            json.loads(manifest_path.read_text(encoding="utf-8"))
-            if manifest_path.is_file()
-            else {"artifacts": {}}
-        )
+        manifest = self._load_manifest(manifest_path)
 
         experiment = self.database.get_experiment(experiment_id)
         if experiment is None:
@@ -976,12 +991,25 @@ class PortfolioExporter:
                             raise ValueError(
                                 "Friedman ranking requires at least two complete paired blocks and three algorithms"
                             )
-                        result = friedmanchisquare(*[matrix[:, i] for i in range(matrix.shape[1])])
+                        with warnings.catch_warnings():
+                            warnings.simplefilter("ignore", RuntimeWarning)
+                            result = friedmanchisquare(*[matrix[:, i] for i in range(matrix.shape[1])])
+                        statistic = float(result.statistic)
+                        p_value = float(result.pvalue)
+                        if not (np.isfinite(statistic) and np.isfinite(p_value)):
+                            # scipy legitimately returns NaN for degenerate/all-tied blocks. Treat
+                            # that as non-informative evidence, never as a publishable significance result.
+                            statistic = 0.0
+                            p_value = 1.0
+                            status = "degenerate_or_all_tied"
+                        else:
+                            status = "ok"
                         (tables / "friedman_test.json").write_text(
                             json.dumps(
                                 {
-                                    "statistic": float(result.statistic),
-                                    "p_value": float(result.pvalue),
+                                    "statistic": statistic,
+                                    "p_value": p_value,
+                                    "status": status,
                                     "blocks": len(blocks),
                                     "algorithms": algorithms,
                                 },

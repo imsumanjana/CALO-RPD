@@ -1162,6 +1162,14 @@ class ExperimentManagerPanel(WorkspacePage):
     def start_comparison(self) -> None:
         if not self._manager_available():
             return
+        # Always commit the latest visible widgets before constructing the execution plan.
+        # Widget edits already invalidate fairness, so a valid audit remains valid only when the
+        # applied values are exactly those that were audited.
+        try:
+            self.apply()
+        except Exception as exc:
+            QMessageBox.critical(self, "Configuration error", str(exc))
+            return
         if not self.fairness_passed:
             QMessageBox.information(
                 self,

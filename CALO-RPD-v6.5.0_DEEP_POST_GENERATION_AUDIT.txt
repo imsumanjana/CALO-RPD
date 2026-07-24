@@ -1,0 +1,91 @@
+CALO-RPD v6.5.0 — DEEP POST-GENERATION MUST-RESOLVE CLOSURE AUDIT
+=================================================================
+
+Release: 6.5.0 — Must-Resolve Audit Closure
+Audit date: 24 July 2026
+Audit scope: the sixteen individual issue IDs classified "Must Resolve" after the v6.4 audit
+
+EXECUTIVE VERDICT
+-----------------
+
+All sixteen must-resolve issue IDs have a concrete source-level remediation and targeted regression coverage in v6.5. No "Better to Resolve" item is silently promoted to resolved status.
+
+The highest-impact closures are: CPU/Torch Newton damping parity, stable edge-case constraint/qualification arithmetic, transactional checkpoint mutations, self-authenticating atomic exact-resume publication, deterministic broker shutdown, stale-comparison-configuration prevention, equal-length Stage-B parity, and canonical holdout identity protection.
+
+CLOSURE REVIEW
+--------------
+
+C04 — CLOSED
+Torch single and batched Newton-Raphson paths implement CPU-reference-style damping/backtracking with propagated minimum damping. Stressed-start parity regression is included.
+
+C10 — CLOSED
+stepped_values() validates inputs and cannot return a lattice value above the upper bound after floating-point filtering.
+
+H01 — CLOSED
+Zero/near-zero voltage-range normalization uses a stable engineering scale instead of an explosive tiny denominator.
+
+H05 — CLOSED
+Single, batched, and device-resident Torch network construction share one active zero-impedance tolerance.
+
+H15 — CLOSED
+Policy qualification uses symmetric stable relative scaling and is protected from near-zero comparator blow-up.
+
+H21 — CLOSED
+Policy-checkpoint deletion eligibility and deletion execute under one immediate transaction.
+
+H22 — CLOSED
+Qualification metadata read/merge/write executes under one immediate transaction, preventing lost-update races.
+
+H28 — CLOSED
+Comparison Study applies/validates current GUI inputs before fairness checks and plan construction.
+
+H30 — CLOSED
+Results Explorer guards JSON parsing and correctly falls back from null run_id to the row ID.
+
+M18 — CLOSED
+Policy inference broker shutdown fails pending/in-flight requests deterministically and rejects new work once closing begins.
+
+V64-N01 — CLOSED
+Synthetic cross-episode broker has equivalent lifecycle protection and deterministic pending-request failure on close.
+
+M30 — CLOSED
+Latest checkpoint authority is monotonic by cumulative epoch/phase inside the registration transaction.
+
+M32 — CLOSED
+Trusted exact-resume payload and authentication metadata are packaged in one atomically published self-authenticating envelope; trust verification occurs before pickle-capable loading.
+
+M45 — CLOSED
+Checkpoint SHA-256 is streamed in chunks and no longer requires whole-file RAM loading.
+
+V64-N02 — CLOSED
+Stage-B parity first requires equal result lengths, preventing prefix-only false passes.
+
+V64-N03 — CLOSED
+Protected holdouts are recognized by canonical scientific identity/checksum rather than filename alone, with conservative bus-count protection when canonical standard-case loading is unavailable.
+
+REGRESSION EVIDENCE
+-------------------
+
+1. Focused v6.5 must-resolve suite: 16 passed.
+2. Combined must-resolve/Stage-B/broker/continuation/accelerated power-flow selection: 57 passed.
+3. Python compileall: PASS.
+4. Build runtime has CPU-only PyTorch; physical CUDA/XPU validation remains pending target hardware.
+5. PyQt6 and PYPOWER are unavailable in the build runtime; physical GUI and PYPOWER validation remain target-environment gates.
+
+RESIDUAL ITEMS
+--------------
+
+The separate "Better to Resolve" list remains valid future engineering work, particularly accelerator throughput optimization, unified feasibility tolerances/ranking, RNG-stream separation, statistical NaN hardening, cache bounding, narrower exception handling, GUI/workspace robustness, fallback hardening, and deterministic secondary campaign sorting.
+
+These residuals are not must-resolve blockers for the requested v6.5 closure scope and are not represented as completed.
+
+FINAL ASSESSMENT
+----------------
+
+Must-resolve issue closure: COMPLETE IN SOURCE/TARGETED TEST SCOPE
+Scientific/numerical correctness risk: MATERIALLY REDUCED
+Checkpoint/concurrency integrity: MATERIALLY HARDENED
+Stage-B parity/holdout protection: HARDENED
+Physical accelerator qualification: PENDING TARGET MACHINE
+Full PyQt6/PYPOWER validation: PENDING TARGET ENVIRONMENT
+Recommendation: SUITABLE AS v6.5 MUST-RESOLVE CLOSURE BASELINE, subject to the already-declared target-hardware/environment qualification gates.

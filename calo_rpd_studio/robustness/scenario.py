@@ -25,9 +25,11 @@ class Scenario:
         if self.transform is not None and not callable(self.transform):
             raise TypeError("Scenario transform must be callable or None")
 
-    def apply(self, case):
+    def apply(self, case, *, copy_base: bool = True):
         source = case
-        transformed = source.clone() if self.transform is None else self.transform(source.clone())
+        transformed = (
+            source.clone() if copy_base else source
+        ) if self.transform is None else self.transform(source.clone())
         if transformed is None:
             raise ValueError(f"Scenario {self.name!r} transform returned None")
         required = ("base_mva", "bus", "gen", "branch", "clone")

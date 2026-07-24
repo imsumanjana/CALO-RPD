@@ -8,7 +8,9 @@ from dataclasses import dataclass
 class ConstraintViolation:
     total: float
     components: dict[str, float]
+    feasibility_tolerance: float = 1e-12
 
     @property
-    def feasible(self):
-        return self.total <= 1e-12
+    def feasible(self) -> bool:
+        """Use the same persisted feasibility tolerance as the problem evaluator."""
+        return bool(self.total <= float(self.feasibility_tolerance))

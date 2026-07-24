@@ -1,4 +1,40 @@
-# CALO-RPD Studio v6.4.0
+# CALO-RPD Studio v6.6.0
+
+**CALO-RPD Studio 6.6.0 — Remaining Audit Closure** resolves the remaining medium-priority / “Better to Resolve” findings retained after v6.5, while preserving all v6.5 must-resolve scientific and integrity closures.
+
+## v6.6 remaining-audit closure
+
+- Reduces hot-loop case copying, vectorizes branch-angle constraints, removes inactive candidates from batched Newton linear solves, and fuses compatible candidate×scenario work into larger Torch batches.
+- Bounds dense Torch/dense-fallback large-case memory paths and hardens sparse-to-dense fallback behavior.
+- Uses one carried feasibility tolerance and one deterministic feasibility-first ordering across helper, pairwise, and bulk ranking paths.
+- Separates persistent training RNG streams for PPO minibatch shuffling and historical pretraining, and makes degenerate Friedman evidence finite/non-significant instead of NaN.
+- Bounds policy/network broker caches and Stage-B immutable static-tensor caches; oversized synthetic requests are split deterministically before device allocation.
+- Narrows silent accelerator/resource/orchestration exception paths and reports device/profile/pool failures explicitly while retaining fail-forward scientific boundaries.
+- Hardens workspace restore, configuration validation, resume-all task coverage, Results Explorer stale-run handling, portfolio manifest recovery, verified-count preservation, and Safe-80 governor reconstruction.
+- Caches immutable real-development ExperimentConfig/case templates per rollout worker and preserves deterministic campaign ordering with a secondary key.
+
+The v6.6 source-level closure suite covers every issue ID retained in the v6.4 priority list’s **Better to Resolve** section. Physical CUDA/XPU saturation, PyQt6 GUI interaction, and PYPOWER/commercial-reference validation remain target-environment qualification gates rather than simulated claims.
+
+## v6.5 baseline — Must-Resolve Audit Closure
+
+**CALO-RPD Studio 6.5.0 — Must-Resolve Audit Closure** closes every issue classified as **Must Resolve** in the post-v6.4 audit priority list while preserving the v6.4 Stage-B hybrid accelerator architecture.
+
+## v6.5 must-resolve closure
+
+- CPU-reference-style damping/backtracking is now implemented in single and batched Torch Newton–Raphson paths.
+- Discrete stepped-variable generation cannot overshoot declared upper bounds.
+- Zero/near-zero voltage-span normalization and near-zero policy-qualification arithmetic are stabilized.
+- Single, batched, and device-resident Torch power-flow paths use one zero-impedance validity threshold.
+- Policy checkpoint delete/update operations are transactional; latest-lineage registration is monotonic.
+- Exact-resume checkpoints use an atomically published self-authenticating envelope, and checkpoint hashes are streamed.
+- Policy and synthetic inference brokers fail pending/in-flight requests deterministically during shutdown.
+- Comparison Study applies current GUI values before execution; Results Explorer tolerates malformed/incomplete JSON rows.
+- Stage-B parity rejects unequal result lengths before comparison.
+- Protected case118/case300 holdouts use canonical scientific identity rather than filename-only checks.
+
+Focused must-resolve tests: **16 passed**. Combined must-resolve and accelerator/continuation regression selection: **57 passed** in the build runtime. Physical CUDA/XPU, PyQt6, and PYPOWER qualification remain target-environment gates.
+
+## v6.4 Stage-B baseline retained
 
 **CALO-RPD Studio 6.4.0 — Stage-B Device-Resident Policy Training** is a focused GPU/XPU training architecture upgrade on the v6.3 truthful-reporting baseline.
 

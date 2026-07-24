@@ -4,7 +4,8 @@ from __future__ import annotations
 
 import json
 import logging
-from typing import Any
+import numpy as np
+from typing import Any, Mapping
 
 from calo_rpd_studio.experiments.experiment_config import ExperimentConfig
 from calo_rpd_studio.power_system.case_loader import CaseLoader
@@ -13,6 +14,22 @@ from calo_rpd_studio.app.workspaces import migrate_workspace_ui
 
 _LOG = logging.getLogger(__name__)
 
+class WorkspaceRestoreError(RuntimeError):
+    """Structured restoration failure with an explicit stage and experiment identity."""
+
+    def __init__(self, experiment_id: str, stage: str, message: str):
+        self.experiment_id = str(experiment_id)
+        self.stage = str(stage)
+        super().__init__(f"Workspace restore failed at {self.stage}: {message}")
+
+    def as_dict(self) -> dict[str, str]:
+        return {
+            "experiment_id": self.experiment_id,
+            "stage": self.stage,
+            "error": str(self),
+        }
+
+
 
 class ExperimentWorkspaceRestorer:
     """Restore the explicit latest scientific revision, never whichever campaign was updated last."""
@@ -20,8 +37,21 @@ class ExperimentWorkspaceRestorer:
     def __init__(self, state, workflow, pages) -> None:
         self.state = state
         self.workflow = workflow
-        self.pages = pages
-        self._page_by_name = {page.__class__.__name__: page for page in pages}
+        if isinstance(pages, Mapping):
+            self.pages_by_key = dict(pages)
+            self.pages = list(self.pages_by_key.values())
+        else:
+            # Compatibility for callers outside MainWindow: derive stable semantic keys only from
+            # declared workspace_key attributes. Class-name strings are intentionally not used.
+            self.pages = list(pages)
+            self.pages_by_key = {
+                str(getattr(page, "workspace_key")): page
+                for page in self.pages
+                if str(getattr(page, "workspace_key", "")).strip()
+            }
+
+    def _page(self, workspace_key: str) -> Any | None:
+        return self.pages_by_key.get(str(workspace_key))
 
     def _select_revision(self, experiment_id: str) -> dict | None:
         revisions = self.state.database.list_experiment_revisions(str(experiment_id))
@@ -49,16 +79,27 @@ class ExperimentWorkspaceRestorer:
                 continue
             candidates.append((int((revision or {}).get("revision_number", 0)), payload))
         if candidates:
-            config = ExperimentConfig.from_dict(candidates[-1][1])
+            try:
+                config = ExperimentConfig.from_dict(candidates[-1][1])
+            except (TypeError, ValueError, KeyError) as exc:
+                raise WorkspaceRestoreError(
+                    str(experiment_id),
+                    "configuration",
+                    f"saved revision configuration is incompatible or corrupt: {exc}",
+                ) from exc
             return config, target_id
-        base_payload = json.loads(str(row.get("config_json", "{}") or "{}"))
-        config = ExperimentConfig.from_dict(base_payload)
+        try:
+            base_payload = json.loads(str(row.get("config_json", "{}") or "{}"))
+            if not isinstance(base_payload, dict):
+                raise TypeError("saved experiment config is not a JSON object")
+            config = ExperimentConfig.from_dict(base_payload)
+        except (TypeError, ValueError, json.JSONDecodeError) as exc:
+            raise WorkspaceRestoreError(
+                str(experiment_id), "configuration", f"saved experiment configuration is corrupt: {exc}"
+            ) from exc
         # Never silently claim a different revision. If the latest revision has no matching campaign
         # configuration, restore the immutable original definition and surface that fact.
         return config, str(config.experiment_revision_id or "")
-
-    def _page(self, class_name: str) -> Any | None:
-        return self._page_by_name.get(class_name)
 
     def restore(self, experiment_id: str) -> dict:
         row = self.state.database.get_experiment(experiment_id)
@@ -68,7 +109,12 @@ class ExperimentWorkspaceRestorer:
         revision = self._select_revision(str(experiment_id))
         config, restored_revision_id = self._config_for_revision(str(experiment_id), row, revision)
         config.resume_campaign_id = ""
-        config.validate()
+        try:
+            config.validate()
+        except (TypeError, ValueError, KeyError) as exc:
+            raise WorkspaceRestoreError(
+                str(experiment_id), "configuration", f"saved configuration failed validation: {exc}"
+            ) from exc
         self.state.config = config
         self.state.current_experiment_id = str(experiment_id)
 
@@ -96,15 +142,28 @@ class ExperimentWorkspaceRestorer:
                     policy_binding_error = f"{type(exc).__name__}: {exc}; checkpoint={checkpoint}; expected_sha256={expected_sha}"
                     _LOG.error("Policy binding inspection failed during restore: %s", policy_binding_error)
 
-        case = CaseLoader.load(config.case_name)
+        try:
+            case = CaseLoader.load(config.case_name)
+        except (FileNotFoundError, OSError, ValueError, KeyError) as exc:
+            raise WorkspaceRestoreError(
+                str(experiment_id),
+                "case_load",
+                f"saved case {config.case_name!r} is missing, unreadable, or invalid: {exc}",
+            ) from exc
         self.state.current_case = case
         # Restoration must use the exact persisted solver options. A failed PF blocks scientific
         # restoration instead of unlocking downstream pages with current_power_flow=None.
-        power_flow = run_ac_power_flow(case, config.power_flow)
+        try:
+            power_flow = run_ac_power_flow(case, config.power_flow)
+        except (ValueError, RuntimeError, np.linalg.LinAlgError) as exc:
+            raise WorkspaceRestoreError(
+                str(experiment_id), "power_flow", f"saved power-flow state could not be reconstructed: {exc}"
+            ) from exc
         if not bool(power_flow.converged):
-            raise RuntimeError(
-                f"Cannot restore experiment {experiment_id}: base AC power flow did not converge "
-                f"with the saved PowerFlowOptions."
+            raise WorkspaceRestoreError(
+                str(experiment_id),
+                "power_flow",
+                "base AC power flow did not converge with the saved PowerFlowOptions",
             )
         self.state.current_power_flow = power_flow
         self.state.update_config()
@@ -115,23 +174,21 @@ class ExperimentWorkspaceRestorer:
             if callable(loader):
                 loader(config)
             refresher = getattr(page, "refresh", None)
-            if callable(refresher) and page.__class__.__name__ in {
-                "RobustScenariosPanel", "PortfolioManagerPanel", "ExperimentManagerPanel"
+            if callable(refresher) and page in {
+                self._page("scenarios"), self._page("portfolio"), self._page("experiment")
             }:
                 refresher()
 
-        power_page = self._page("PowerSystemPanel")
+        power_page = self._page("power_system")
         restore_case = getattr(power_page, "restore_case_state", None) if power_page is not None else None
         if callable(restore_case):
             restore_case(case, power_flow)
 
-        live = self._page("LiveOptimizationPanel")
+        live = self._page("live_optimization")
         if live is not None:
             live.load_experiment(str(experiment_id))
-        for class_name in (
-            "StatisticalAnalysisPanel", "ResultsExplorerPanel", "ValidationAuditPanel", "PublicationExportPanel"
-        ):
-            page = self._page(class_name)
+        for workspace_key in ("statistics", "results", "validation", "publication"):
+            page = self._page(workspace_key)
             if page is None:
                 continue
             fn = getattr(page, "refresh_experiments", None) or getattr(page, "refresh", None)
