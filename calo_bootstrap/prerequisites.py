@@ -25,7 +25,7 @@ try:
 
     APP_VERSION = distribution_version("calo-rpd-studio")
 except Exception:
-    APP_VERSION = "6.2.1"
+    APP_VERSION = "6.8.0"
 STATE_DIR = Path.home() / ".calo_rpd_studio"
 STATE_FILE = STATE_DIR / "environment_state.json"
 CORE_REQUIREMENTS_FILE = "requirements-core.txt"
@@ -38,6 +38,7 @@ CORE_REQUIREMENTS: tuple[str, ...] = (
     "PYPOWER>=5.1.18,<6",
     "PyYAML>=6,<7",
     "psutil>=5.9,<8",
+    "nvidia-ml-py>=13,<14",
 )
 
 CORE_DISTRIBUTIONS: tuple[tuple[str, str], ...] = (
@@ -49,6 +50,7 @@ CORE_DISTRIBUTIONS: tuple[tuple[str, str], ...] = (
     ("PYPOWER", "PYPOWER"),
     ("PyYAML", "PyYAML"),
     ("psutil", "psutil"),
+    ("nvidia-ml-py", "NVIDIA NVML Python telemetry"),
 )
 
 # Candidate official PyTorch wheel channels.  The installer chooses the newest channel that does
@@ -72,6 +74,7 @@ COMPUTE_REQUIREMENTS: tuple[str, ...] = (
     "PYPOWER>=5.1.18,<6",
     "PyYAML>=6,<7",
     "psutil>=5.9,<8",
+    "nvidia-ml-py>=13,<14",
 )
 
 
@@ -226,6 +229,24 @@ def detect_intel_gpu() -> IntelGpuInfo:
             intel = [str(name) for name in names if "intel" in str(name).lower()]
             if intel:
                 return IntelGpuInfo(True, intel[0], "")
+
+            # Hybrid-laptop firmware/driver modes can hide the Intel adapter from
+            # Win32_VideoController while the PnP display device (VEN_8086) is still present.
+            # Use the stable hardware vendor tag as the fallback identity instead of relying only
+            # on a friendly display name.
+            pnp_script = (
+                "Get-PnpDevice -Class Display | "
+                "Select-Object FriendlyName,InstanceId,Status | ConvertTo-Json -Compress"
+            )
+            pnp_result = _run([powershell, "-NoProfile", "-Command", pnp_script], timeout=20)
+            if pnp_result.returncode == 0 and pnp_result.stdout.strip():
+                pnp_payload = json.loads(pnp_result.stdout.strip())
+                rows = [pnp_payload] if isinstance(pnp_payload, dict) else list(pnp_payload or [])
+                for row in rows:
+                    name = str(row.get("FriendlyName", "") or "")
+                    instance = str(row.get("InstanceId", "") or "")
+                    if "intel" in name.lower() or "VEN_8086" in instance.upper():
+                        return IntelGpuInfo(True, name or instance or "Intel GPU", "")
             return IntelGpuInfo(error="No Intel display adapter detected")
 
         lspci = shutil.which("lspci")

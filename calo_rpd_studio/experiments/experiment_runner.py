@@ -10,6 +10,7 @@ from calo_rpd_studio.orpd.problem import ORPDProblem, ORPDProblemConfig
 from calo_rpd_studio.orpd.formulation_fingerprint import scientific_problem_fingerprint
 from calo_rpd_studio.accelerated.torch_orpd import AcceleratedORPDProblem
 from calo_rpd_studio.power_system.case_loader import CaseLoader
+from calo_rpd_studio.compute.device_binding import result_device_attestation
 from calo_rpd_studio.power_system.case_validation import validate_case
 from calo_rpd_studio.robustness.scenario import Scenario
 from calo_rpd_studio.robustness.scenario_generator import (
@@ -201,6 +202,7 @@ def run_single(config, algorithm, run_index, seeds, progress_callback=None, canc
         cancel,
     )
     result = opt.run()
+    result.metadata["device_attestation"] = result_device_attestation(config, problem, result)
     # Every algorithm result carries the exact same scientific formulation identity so historical
     # transfer cannot silently cross objectives, controls, PF settings, tolerances or scenarios.
     result.metadata["scientific_problem_fingerprint"] = scientific_problem_fingerprint(problem)

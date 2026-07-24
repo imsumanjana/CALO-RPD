@@ -170,6 +170,28 @@ class ExperimentConfig:
     extension_checkpoint_paths: dict[str, str] = field(default_factory=dict)
     extension_existing_run_ids: dict[str, str] = field(default_factory=dict)
 
+    def validate_policy_development(self) -> None:
+        """Validate only the scientific formulation consumed by CALO Intelligence.
+
+        Policy training is an independent workflow.  It may reuse an ExperimentConfig file as an
+        immutable container for objective/controls/power-flow/scenario definitions, but it must not
+        inherit Comparison Study portfolio repetition minima, benchmark run counts, execution-lane
+        shares, campaign budgets, or other tab-specific execution constraints.
+        """
+        self.objective.validate()
+        self.variables.validate()
+        self.power_flow.validate()
+        self.constraint_tolerances.validate()
+        self.robust_objective.validate()
+        self.scenarios.validate()
+        if (
+            self.robust_objective.aggregation is RobustAggregation.CVAR
+            and not 0.0 < float(self.robust_objective.cvar_alpha) < 1.0
+        ):
+            raise ValueError("CVaR alpha must lie strictly between 0 and 1")
+        if float(self.robust_objective.risk_lambda) < 0.0:
+            raise ValueError("risk_lambda must be non-negative")
+
     def validate(self) -> None:
         from calo_rpd_studio.algorithms.registry import SPECS
 

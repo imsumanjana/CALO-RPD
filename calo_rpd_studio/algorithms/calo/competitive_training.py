@@ -443,7 +443,7 @@ def _exact_development_problem(config, source: str, scenario_seed: int):
         raise ValueError("A development_experiment_config_path is required for deployable Base evidence")
     experiment = ExperimentConfig.load(config_path)
     experiment.case_name = str(source)
-    experiment.validate()
+    experiment.validate_policy_development()
     case = CaseLoader.load(experiment.case_name)
     scenarios = build_scenarios(experiment, int(scenario_seed), case)
     problem_config = ORPDProblemConfig(

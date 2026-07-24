@@ -1,6 +1,6 @@
 {
-  "release": "6.6.0",
-  "status": "REMAINING_AUDIT_SOFTWARE_CLOSURE_COMPLETE_PHYSICAL_TARGET_GATE_PENDING",
+  "release": "6.8.0",
+  "status": "INDEPENDENT_CALO_INTELLIGENCE_AND_XPU_RECOVERY_SOFTWARE_CLOSURE_COMPLETE_PHYSICAL_XPU_GATE_PENDING",
   "safe80_governor": "IMPLEMENTED_WITH_LAZY_INITIALIZATION_CONFIG_PARITY",
   "staged_startup": "IMPLEMENTED",
   "device_resident_synthetic_kernel": "IMPLEMENTED",
@@ -10,7 +10,7 @@
   "cross_scenario_torch_batching": "IMPLEMENTED",
   "inactive_candidate_batch_elision": "IMPLEMENTED",
   "large_case_dense_accelerator_safety": "BOUNDED_WITH_REFERENCE_FALLBACK_NOT_SPARSE_GPU_REWRITE",
-  "build_runtime_regression_validation": "82_FOUNDATIONAL_AND_91_ACCELERATOR_SELECTIONS_PASSED_OVERLAPPING_NOT_PHYSICAL_ACCELERATOR_QUALIFICATION",
+  "build_runtime_regression_validation": "36 focused/relevant v6.8 independence/XPU + hardware/prerequisite/heterogeneous/configuration/release-integrity tests passed; selections overlap",
   "physical_cuda_validation": "NOT_EXECUTED_BUILD_RUNTIME_NO_PHYSICAL_CUDA",
   "physical_xpu_validation": "NOT_EXECUTED_BUILD_RUNTIME_NO_PHYSICAL_XPU",
   "physical_multi_hour_cuda_soak": "NOT_EXECUTED_BUILD_RUNTIME_NO_PHYSICAL_CUDA",
@@ -18,5 +18,14 @@
   "full_pyqt6_gui_validation": "NOT_EXECUTED_BUILD_RUNTIME_NO_PYQT6",
   "full_pypower_validation": "NOT_EXECUTED_BUILD_RUNTIME_NO_PYPOWER",
   "rule": "Do not claim physical CUDA/XPU throughput, utilization, or equivalence qualification until the intended devices pass parity, scientific-regression, thermal/soak, and protected execution gates on the target machine.",
-  "performance_claim_boundary": "v6.6 removes confirmed software bottlenecks and bounds unsafe paths but does not guarantee a fixed GPU utilization percentage, speedup, or sparse-GPU scaling on untested hardware."
+  "performance_claim_boundary": "v6.8 repairs per-backend discovery/provisioning and CALO Intelligence independence but does not claim unmeasured Intel-XPU throughput or a fixed utilization percentage.",
+  "nvml_python_dependency": "DECLARED_AND_BOOTSTRAP_INSTALLED",
+  "cuda_compute_independent_from_optional_telemetry": true,
+  "nvidia_identity_mapping": "UUID_PCI_FIRST_WITH_CONSERVATIVE_FALLBACK",
+  "canonical_cross_runtime_device_binding": true,
+  "xpu_sidecar_fp64_capability_smoke": true,
+  "planned_vs_actual_device_attestation": true,
+  "v680_per_backend_accelerator_repair": true,
+  "v680_xpu_live_rediscovery": true,
+  "v680_intel_pnp_hardware_tag_detection": true
 }

@@ -827,9 +827,10 @@ class CALOIntelligencePanel(ScrollablePage):
         layout.addWidget(self.historical_experience)
 
         self.refresh_policy_library()
-        self.state.config_changed.connect(lambda config: self.load_from_config(config))
+        # CALO Intelligence is an independent workspace. Changes made in Power System, Comparison,
+        # Portfolio, or other experiment tabs must not silently rewrite policy-training/intelligence
+        # controls. Experiment binding occurs only through the explicit Apply Policy action.
         self.state.compute_profile_changed.connect(lambda _profile: self._update_compute_protection())
-        self.load_from_config(self.state.config)
         self._update_compute_protection()
 
     def refresh_policy_library(self) -> None:
@@ -946,10 +947,10 @@ class CALOIntelligencePanel(ScrollablePage):
             f"ACTIVE POLICY: {active.name} · {active.grade} · {active.qualification_status} · "
             f"SHA-256 {active.sha256[:12]}… Runtime configuration is gated to this explicit active policy."
         )
-        parameters = dict(self.state.config.algorithm_parameters.get("CALO", {}))
-        bound_policy_id = str(parameters.get("policy_id", "") or "")
-        if not bound_policy_id:
-            self.path.setText(active.checkpoint_path)
+        # CALO Intelligence follows its own active policy registry state, not another tab's
+        # experiment-bound CALO parameters. Applying a policy to an experiment remains explicit.
+        self.path.setText(active.checkpoint_path)
+        if self._selected_policy() is None:
             self._select_policy_id(active.id)
 
     def _selected_policy(self):
@@ -1420,6 +1421,21 @@ class CALOIntelligencePanel(ScrollablePage):
         except Exception as exc:
             QMessageBox.critical(self, "Policy deletion blocked", str(exc))
 
+    def _intelligence_scientific_template(self):
+        """Return CALO Intelligence's own scientific template, independent of other tabs."""
+        from calo_rpd_studio.experiments.experiment_config import ExperimentConfig
+
+        candidate = Path(self.development_experiment_config.text().strip()).expanduser()
+        if candidate.is_file():
+            config = ExperimentConfig.load(candidate)
+            config.validate_policy_development()
+            return config
+        # Fail closed to the packaged/default scientific formulation rather than borrowing mutable
+        # Experiment Manager / Comparison Study state.
+        config = ExperimentConfig()
+        config.validate_policy_development()
+        return config
+
     def qualify_selected_policy(self) -> None:
         policy = self._selected_policy()
         if policy is None:
@@ -1436,17 +1452,18 @@ class CALOIntelligencePanel(ScrollablePage):
             runs=self.qualification_runs.value(),
             max_evaluations=self.qualification_budget.value(),
             population_size=self.qualification_population.value(),
-            master_seed=int(self.state.config.master_seed),
+            master_seed=int(self.seed.value()),
         )
         try:
             config.validate()
+            intelligence_template = self._intelligence_scientific_template()
         except Exception as exc:
             QMessageBox.critical(self, "Policy qualification", str(exc))
             return
         reference_id = str(self.qualification_reference.currentData() or "")
         if reference_id == policy.id:
             reference_id = ""
-        qualifier = PolicyQualifier(self.state.config, self.state.policy_registry)
+        qualifier = PolicyQualifier(intelligence_template, self.state.policy_registry)
         self.qualification_worker = PolicyQualificationWorker(
             qualifier, policy.id, reference_id, config
         )
@@ -1942,7 +1959,7 @@ class CALOIntelligencePanel(ScrollablePage):
         from calo_rpd_studio.experiments.experiment_config import ExperimentConfig
 
         experiment = ExperimentConfig.load(candidate)
-        experiment.validate()
+        experiment.validate_policy_development()
         return cases, str(candidate.resolve())
 
     def _update_training_plan(self, *_args) -> None:

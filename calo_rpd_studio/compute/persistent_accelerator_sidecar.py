@@ -11,7 +11,6 @@ import logging
 
 from concurrent.futures import ThreadPoolExecutor
 import argparse
-from copy import deepcopy
 import pickle
 import queue
 import struct
@@ -27,7 +26,7 @@ from calo_rpd_studio.accelerated.throughput_engine import (
     GLOBAL_LEDGER,
     calibrate_evaluator,
 )
-from calo_rpd_studio.continuation.runtime_binding import bind_exact_run_checkpoint
+from calo_rpd_studio.compute.device_binding import bind_config_to_device
 from calo_rpd_studio.experiments.calo_ablation import run_ablation
 from calo_rpd_studio.experiments.execution_plan import ABLATION_MODE, COMPARISON_MODE
 from calo_rpd_studio.experiments.experiment_runner import (
@@ -79,18 +78,7 @@ def _read_frame(stream: BinaryIO) -> Any:
 
 
 def _configure(config, device: str, item=None):
-    local = deepcopy(config)
-    local.runtime_compute_device = device
-    parameters = dict(local.algorithm_parameters)
-    for name in tuple(getattr(local, "algorithms", ())) + ("CALO", "TLBO"):
-        values = dict(parameters.get(name, {}))
-        values["execution_device"] = device
-        values["optimizer_backend"] = "torch"
-        if name == "CALO":
-            values["inference_device"] = device
-        parameters[name] = values
-    local.algorithm_parameters = parameters
-    return bind_exact_run_checkpoint(local, item)
+    return bind_config_to_device(config, device, item)
 
 
 def server(

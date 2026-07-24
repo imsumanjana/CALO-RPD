@@ -10,7 +10,6 @@ from __future__ import annotations
 import logging
 
 import argparse
-from copy import deepcopy
 import json
 import pickle
 from pathlib import Path
@@ -31,6 +30,12 @@ def _probe(run_test: bool = True) -> dict:
                 properties = torch.xpu.get_device_properties(index)
                 name = str(getattr(properties, "name", f"Intel XPU {index}"))
                 total = int(getattr(properties, "total_memory", 0) or 0)
+                hardware_uuid = str(getattr(properties, "uuid", "") or "")
+                pci_bus_id = str(getattr(properties, "pci_bus_id", "") or "")
+                vendor_id = str(getattr(properties, "vendor_id", "") or "8086")
+                product_id = str(getattr(properties, "device_id", "") or getattr(properties, "product_id", "") or "")
+                driver_version = str(getattr(properties, "driver_version", "") or "")
+                runtime_version = str(getattr(properties, "runtime_version", "") or "")
                 memory_percent = 0.0
                 try:
                     free_bytes, total_bytes = torch.xpu.memory.mem_get_info(index)
@@ -58,15 +63,25 @@ def _probe(run_test: bool = True) -> dict:
                         "telemetry": "PyTorch XPU"
                         if utilization is not None
                         else "XPU memory + job-cap admission",
+                        "memory_total_bytes": total,
+                        "hardware_uuid": hardware_uuid,
+                        "pci_bus_id": pci_bus_id,
+                        "vendor_id": vendor_id,
+                        "product_id": product_id,
+                        "driver_version": driver_version,
+                        "runtime_version": runtime_version,
+                        "fp64_test_passed": None,
                     }
                 )
-            if run_test:
-                x = torch.randn((128, 128), device="xpu:0")
-                y = x @ x
-                torch.xpu.synchronize()
-                test_passed = bool(torch.isfinite(y).all().item())
-            else:
-                test_passed = True
+            # Always execute a small FP64 tensor/matmul smoke.  ORPD scientific acceleration is
+            # double precision, so a float32-only "GPU available" probe is not sufficient proof.
+            size = 128 if run_test else 2
+            x = torch.randn((size, size), dtype=torch.float64, device="xpu:0")
+            y = x @ x
+            torch.xpu.synchronize()
+            test_passed = bool(torch.isfinite(y).all().item())
+        for item in devices:
+            item["fp64_test_passed"] = bool(test_passed)
         return {
             "available": available and test_passed,
             "xpu_available": available,
@@ -88,17 +103,9 @@ def _probe(run_test: bool = True) -> dict:
 
 
 def _configure_item_device(config, mode: str, item, device: str):
-    from calo_rpd_studio.compute.resource_scheduler import item_uses_calo_ai
-    from calo_rpd_studio.continuation.runtime_binding import bind_exact_run_checkpoint
+    from calo_rpd_studio.compute.device_binding import bind_config_to_device
 
-    local_config = deepcopy(config)
-    if item_uses_calo_ai(mode, item):
-        parameters = dict(local_config.algorithm_parameters)
-        calo_parameters = dict(parameters.get("CALO", {}))
-        calo_parameters["inference_device"] = str(device)
-        parameters["CALO"] = calo_parameters
-        local_config.algorithm_parameters = parameters
-    return bind_exact_run_checkpoint(local_config, item)
+    return bind_config_to_device(config, device, item)
 
 
 def _run_job(input_path: Path, output_path: Path) -> int:

@@ -1,0 +1,63 @@
+CALO-RPD v6.8.0 DEEP POST-GENERATION AUDIT
+===========================================
+
+AUDIT TARGET
+------------
+Two user-observed defects from v6.7:
+1) CALO Intelligence must remain independent from Comparison/Portfolio and other tabs.
+2) Intel XPU was absent from System Readiness on a mixed NVIDIA/Intel laptop.
+
+FINDING 1 — CALO INTELLIGENCE / PORTFOLIO COUPLING
+--------------------------------------------------
+CONFIRMED ROOT CAUSE:
+The packaged policy-development template intentionally uses runs=1. The generic
+ExperimentConfig.validate() also enforces publication portfolio repetition minima. CALO Intelligence
+called the generic validator while loading the development template, so a valid one-run training
+formulation could fail with: "runs=1 is below the portfolio-required minimum of 30".
+
+CORRECTION:
+- Added ExperimentConfig.validate_policy_development().
+- Switched GUI validation plus heterogeneous, standard, and competitive policy-development paths
+  to the independent scientific-only validator.
+- Removed automatic global config_changed rehydration from CALO Intelligence.
+- Policy qualification now obtains its base scientific formulation from CALO Intelligence itself,
+  not mutable global Experiment Manager/Comparison Study state.
+
+STATUS: RESOLVED.
+
+FINDING 2 — XPU MISSING WHILE CUDA IS READY
+-------------------------------------------
+CONFIRMED ROOT CAUSES:
+A. Bootstrap used aggregate gpu_ready. On a mixed host, CUDA could make gpu_ready=True even when
+   Intel XPU was missing, so later launches did not necessarily force XPU repair.
+B. configured_xpu_interpreter() trusted bootstrap-state flags and could ignore a working canonical
+   sidecar if state was stale/missing.
+C. ResourceMonitor captured the XPU interpreter at construction and could remain blind after a
+   sidecar repair until restart.
+D. Windows physical discovery relied primarily on Win32_VideoController; hybrid graphics may keep
+   Intel hardware visible only through PnP Display devices/hardware tags.
+E. The dashboard only rendered runtime devices, so physical Intel hardware could disappear entirely
+   instead of being shown as detected-but-unavailable.
+
+CORRECTIONS:
+- Per-backend CUDA/XPU bootstrap repair decision.
+- Live sidecar interpreter candidate probing with canonical-path fallback.
+- Runtime re-discovery from existing ResourceMonitor instances.
+- PnP Display + VEN_8086 Intel hardware-tag fallback.
+- Detected-only, non-schedulable XPU hardware row when runtime verification is absent.
+
+STATUS: RESOLVED IN CODE. Physical Intel XPU execution still requires target-machine verification.
+
+VALIDATION
+----------
+- compileall: PASS
+- tests/unit/test_v680_independence_xpu.py: 5 passed
+- focused/regression selection including v6.7 hardware mapping, prerequisite/resource scheduling,
+  heterogeneous policy training and configuration: 36 passed
+
+LIMITATIONS / TRUTHFULNESS BOUNDARY
+-----------------------------------
+The build environment did not expose a physical Intel XPU. Therefore this audit verifies discovery,
+repair, mapping, admission contracts and simulated topology behavior, but does not claim measured
+Intel-XPU throughput. On the user's target machine, bootstrap must still successfully provision the
+official Intel XPU PyTorch sidecar and the xpu:0 FP64 scientific probe must pass before scheduling.

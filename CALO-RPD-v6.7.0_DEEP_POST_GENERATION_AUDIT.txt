@@ -1,0 +1,19 @@
+CALO-RPD v6.7.0 — DEEP POST-GENERATION AUDIT
+================================================
+Release: 6.7.0 — Hardware Runtime Binding & Telemetry Integrity
+Base: v6.6.0
+
+AUDIT RESULT
+------------
+1. The target-machine traceback was correctly localized to optional NVIDIA NVML Python telemetry (`torch.cuda.utilization`) rather than CUDA compute availability.
+2. v6.7 no longer converts an optional telemetry failure into loss of CUDA scheduling visibility.
+3. Fresh-install dependency declarations now include `nvidia-ml-py`.
+4. CUDA telemetry mapping no longer assumes CUDA index == nvidia-smi row == Windows/Task-Manager GPU number.
+5. Primary/persistent/sidecar/one-shot execution paths now share one canonical device-binding implementation.
+6. XPU sidecar scientific capability requires an explicit FP64 device smoke and propagates sidecar memory/identity information to the primary topology.
+7. Completed optimizer results carry planned-vs-actual device attestation so a scheduled lane can be audited against evaluator/optimizer/policy runtime evidence.
+8. Existing v6.5/v6.6 scientific and audit closures remain preserved by regression tests.
+
+IMPORTANT CLAIM BOUNDARY
+------------------------
+The release build environment is CPU-only and lacks PyQt6/PYPOWER. This audit therefore does not claim physical CUDA/XPU saturation, speedup, multi-hour thermal stability, or complete GUI/external-reference qualification. Those remain target-machine gates.

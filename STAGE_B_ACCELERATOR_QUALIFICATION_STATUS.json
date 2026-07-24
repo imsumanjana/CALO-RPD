@@ -1,6 +1,6 @@
 {
   "schema": "calo-stage-b-qualification-status-v1",
-  "release": "6.6.0",
+  "release": "6.8.0",
   "software_stage_b_implemented": true,
   "v650_must_resolve_closure_preserved": true,
   "v660_remaining_audit_closure_implemented": true,
@@ -15,5 +15,12 @@
   "physical_cuda_qualified": false,
   "physical_xpu_qualified": false,
   "required_command": "python -m calo_rpd_studio.scripts.validate_stage_b_synthetic --device auto",
-  "qualification_rule": "A physical accelerator is not qualified by CPU-only validation. Run the validator and protected policy-training equivalence/soak suite on the intended target accelerator before performance claims."
+  "qualification_rule": "A physical accelerator is not qualified by CPU-only validation. Run the validator and protected policy-training equivalence/soak suite on the intended target accelerator before performance claims.",
+  "v670_hardware_runtime_binding_closure_implemented": true,
+  "cuda_optional_telemetry_fail_safe": true,
+  "stable_accelerator_identity_mapping": true,
+  "canonical_device_binding": true,
+  "per_run_device_attestation": true,
+  "v680_independent_calo_intelligence": true,
+  "v680_per_backend_xpu_repair_and_rediscovery": true
 }

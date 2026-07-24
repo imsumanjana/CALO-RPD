@@ -1,0 +1,8 @@
+id,severity,status,finding,resolution
+V68-R01,High,RESOLVED,"CALO Intelligence policy development inherited portfolio minimum-run validation","Added validate_policy_development() and switched all policy-development ExperimentConfig paths to scientific-only validation."
+V68-R02,High,RESOLVED,"Other tabs could silently rehydrate/alter CALO Intelligence controls through global config_changed","Removed automatic cross-tab config rehydration; experiment binding is explicit only."
+V68-R03,Medium,RESOLVED,"Policy qualification borrowed mutable global experiment configuration and master seed","Qualification now uses CALO Intelligence's own scientific template and local seed control."
+V68-R04,High,RESOLVED,"Aggregate gpu_ready allowed healthy CUDA to hide a missing Intel XPU runtime","Bootstrap now evaluates/repairs each detected accelerator backend independently."
+V68-R05,High,RESOLVED,"XPU discovery depended on serialized bootstrap readiness state and could miss an existing repaired sidecar","Added live-verified interpreter discovery from override, recorded path, and canonical sidecar path; ResourceMonitor can rediscover at runtime."
+V68-R06,Medium,RESOLVED,"Intel GPU detection relied primarily on Win32_VideoController and could miss hybrid-graphics hardware","Added PnP Display-class fallback using stable VEN_8086 hardware identity and merged PnP adapters into topology mapping."
+V68-R07,Medium,RESOLVED,"System Readiness silently omitted a physically present Intel GPU when XPU runtime was unavailable","Added detected-only non-schedulable Intel/XPU readiness row with explicit repair status."

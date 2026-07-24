@@ -54,7 +54,7 @@ from calo_rpd_studio.continuation.experiment_evolution import (
     ExperimentEvolutionService,
     ExtensionProtocol,
 )
-from calo_rpd_studio.continuation.runtime_binding import bind_exact_run_checkpoint
+from calo_rpd_studio.compute.device_binding import bind_config_to_device
 
 
 _LOG = logging.getLogger(__name__)
@@ -76,21 +76,8 @@ def _configure_child_numeric_threads() -> None:
 
 
 def _config_for_item_device(config, mode: str, item: PlannedItem, compute_device: str):
-    local_config = deepcopy(config)
-    local_config.runtime_compute_device = str(compute_device)
-    parameters = dict(local_config.algorithm_parameters)
-    # v3 routes every canonical optimizer through the common torch FP64 scientific backend when
-    # an accelerator lane is selected. CALO additionally places policy inference on that device.
-    for algorithm_name in tuple(getattr(local_config, "algorithms", ())) + ("CALO", "TLBO"):
-        values = dict(parameters.get(algorithm_name, {}))
-        values["execution_device"] = str(compute_device)
-        if str(getattr(local_config, "scientific_backend", "cpu_reference")) == "torch_fp64":
-            values["optimizer_backend"] = "torch"
-        if algorithm_name == "CALO":
-            values["inference_device"] = str(compute_device)
-        parameters[algorithm_name] = values
-    local_config.algorithm_parameters = parameters
-    return bind_exact_run_checkpoint(local_config, item)
+    # Single authoritative binding shared with persistent CUDA and XPU sidecar workers.
+    return bind_config_to_device(config, compute_device, item)
 
 
 def _execute_process_job(
@@ -385,6 +372,26 @@ class ExperimentWorker(QThread):
             return 0
 
     def _persist_completed(self, experiment_id: str, store: ResultStore, item, completed) -> None:
+        attestation = dict(completed.result.metadata.get("device_attestation", {}) or {})
+        completed.result.metadata["device_routing_audit"] = {
+            "requested_task_shares_percent": {
+                "cuda": int(getattr(self.config, "cuda_task_share", 0)),
+                "xpu": int(getattr(self.config, "xpu_task_share", 0)),
+                "cpu": int(getattr(self.config, "cpu_task_share", 0)),
+            },
+            "planned_device": str(
+                completed.result.metadata.get("compute_device_assignment", "")
+                or attestation.get("planned_device", "")
+            ),
+            "actual_evaluator_device": str(attestation.get("actual_evaluator_device", "")),
+            "actual_optimizer_device": str(attestation.get("actual_optimizer_device", "")),
+            "actual_policy_device": str(attestation.get("actual_policy_device", "")),
+            "binding_consistent": bool(attestation.get("binding_consistent", False)),
+            "semantics": (
+                "Configured percentages control job/lane routing; this record stores the actual runtime "
+                "devices attested for this completed run rather than inferring execution from GUI labels."
+            ),
+        }
         path = store.save_arrays(completed.result)
         fingerprint = self._run_fingerprint_by_job.get(int(item.job_index), "")
         key = f"{item.label}:{int(item.run_index)}"
@@ -1422,11 +1429,23 @@ class ExperimentWorker(QThread):
                                         "throughput_allocation": allocation.effective_text,
                                         "measured_lane_throughputs": dict(lane_throughputs),
                                         "numerical_device_residency": (
-                                            "100% candidate evaluation on CUDA"
-                                            if expected_lane == "cuda"
-                                            else "100% candidate evaluation on XPU"
-                                            if expected_lane == "xpu"
-                                            else "CPU fallback because no compatible accelerator was available"
+                                            "attested:"
+                                            + str(
+                                                dict(
+                                                    completed.result.metadata.get(
+                                                        "device_attestation", {}
+                                                    )
+                                                    or {}
+                                                ).get("actual_evaluator_device", "unknown")
+                                            )
+                                        ),
+                                        "device_binding_consistent": bool(
+                                            dict(
+                                                completed.result.metadata.get(
+                                                    "device_attestation", {}
+                                                )
+                                                or {}
+                                            ).get("binding_consistent", False)
                                         ),
                                     }
                                 )

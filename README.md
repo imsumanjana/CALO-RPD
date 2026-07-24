@@ -1,4 +1,28 @@
-# CALO-RPD Studio v6.6.0
+# CALO-RPD Studio v6.8.0
+
+**CALO-RPD Studio 6.8.0 — Independent CALO Intelligence & XPU Recovery** decouples CALO Intelligence policy-development/qualification workflows from Comparison/Portfolio tab constraints and hardens mixed NVIDIA+Intel XPU detection, repair, rediscovery, and readiness reporting. It preserves the v6.5-v6.7 scientific, audit, and hardware-binding closures.
+
+## v6.8 independence and XPU recovery
+
+- CALO Intelligence uses scientific-only policy-development validation; a valid one-run training formulation is no longer blocked by publication portfolio minimum-run rules.
+- Other tabs no longer silently rehydrate CALO Intelligence controls through global `config_changed` events; applying a policy to an experiment remains explicit.
+- Policy qualification uses CALO Intelligence's own scientific template and local seed rather than mutable Experiment Manager/Comparison Study state.
+- Bootstrap repairs CUDA and XPU readiness per detected hardware family, so a healthy CUDA backend cannot hide a missing Intel XPU runtime.
+- XPU sidecar discovery live-probes the recorded/canonical interpreter and can recover stale bootstrap state without requiring a restart after repair.
+- Windows Intel detection adds PnP Display/`VEN_8086` hardware-tag fallback for hybrid-graphics laptops.
+- A physical Intel GPU with no verified XPU runtime remains visible in System Readiness as detected-but-unavailable and is never scheduled until `xpu:0` passes the scientific probe.
+
+## Prior release: v6.7 hardware-runtime closure
+
+- NVIDIA CUDA compute discovery is now independent from optional NVML telemetry; a missing `nvidia-ml-py` can no longer erase a valid CUDA device from the scheduler.
+- `nvidia-ml-py` is an explicit bootstrap/project dependency, with `nvidia-smi` retained as an independent telemetry supplement/fallback.
+- NVIDIA telemetry is matched to runtime devices by UUID/PCI identity where available instead of assuming CUDA index equals `nvidia-smi` row/Windows GPU number.
+- A single canonical device-binding function is used by primary, persistent CUDA, persistent XPU-sidecar, and one-shot XPU execution paths.
+- XPU sidecar telemetry reports total memory and hardware identity fields and performs an explicit FP64 tensor/matmul smoke before ORPD evaluator capability is accepted.
+- Every completed run records planned-vs-actual device attestation for runtime probe, evaluator, optimizer/control plane, and CALO policy inference.
+- Windows adapter labels no longer imply that CIM enumeration order equals Task Manager GPU numbering.
+
+## Prior release: CALO-RPD Studio v6.6.0
 
 **CALO-RPD Studio 6.6.0 — Remaining Audit Closure** resolves the remaining medium-priority / “Better to Resolve” findings retained after v6.5, while preserving all v6.5 must-resolve scientific and integrity closures.
 

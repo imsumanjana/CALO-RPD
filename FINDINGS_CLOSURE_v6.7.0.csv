@@ -1,0 +1,8 @@
+id,status,area,resolution,evidence
+V67-R01,RESOLVED,Dependency contract,"Declared nvidia-ml-py in requirements, pyproject, bootstrap core/compute requirements, and CPU validation lock.",tests/unit/test_v670_hardware_mapping.py
+V67-R02,RESOLVED,CUDA discovery,"Telemetry exceptions no longer clear valid CUDA snapshots; CUDA compute remains available when NVML telemetry is absent.",tests/unit/test_v670_hardware_mapping.py
+V67-R03,RESOLVED,Hardware identity,"nvidia-smi rows are matched by UUID/PCI identity with conservative fallbacks rather than runtime row index.",tests/unit/test_v670_hardware_mapping.py
+V67-R04,RESOLVED,Runtime binding,"Primary, persistent CUDA, persistent XPU sidecar, and one-shot XPU workers use one canonical device-binding function.",tests/unit/test_v670_hardware_mapping.py
+V67-R05,RESOLVED,XPU capability,"Sidecar reports total memory/hardware identity and performs FP64 scientific smoke before evaluator capability is accepted.",tests/unit/test_v670_hardware_mapping.py
+V67-R06,RESOLVED,Execution provenance,"Completed runs record planned-vs-actual runtime/evaluator/optimizer/policy device attestation.",calo_rpd_studio/compute/device_binding.py
+V67-R07,RESOLVED,Windows mapping,"OS adapter labels no longer imply Task Manager numbering equivalence; stable hardware/runtime identity is authoritative.",calo_rpd_studio/compute/topology.py

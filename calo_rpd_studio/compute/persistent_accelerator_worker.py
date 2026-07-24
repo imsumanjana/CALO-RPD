@@ -11,7 +11,6 @@ from __future__ import annotations
 import logging
 
 from concurrent.futures import ThreadPoolExecutor
-from copy import deepcopy
 import multiprocessing as mp
 import queue
 import time
@@ -25,7 +24,7 @@ from calo_rpd_studio.accelerated.throughput_engine import (
 )
 from calo_rpd_studio.experiments.calo_ablation import run_ablation
 from calo_rpd_studio.experiments.execution_plan import ABLATION_MODE, COMPARISON_MODE
-from calo_rpd_studio.continuation.runtime_binding import bind_exact_run_checkpoint
+from calo_rpd_studio.compute.device_binding import bind_config_to_device
 from calo_rpd_studio.experiments.experiment_runner import (
     build_problem,
     failed_run_from_exception,
@@ -36,24 +35,7 @@ from calo_rpd_studio.experiments.experiment_runner import (
 _LOG = logging.getLogger(__name__)
 
 def configure_item_device(config, compute_device: str, item=None):
-    local = deepcopy(config)
-    local.runtime_compute_device = str(compute_device)
-    parameters = dict(local.algorithm_parameters)
-    for algorithm_name in tuple(getattr(local, "algorithms", ())) + ("CALO", "TLBO"):
-        values = dict(parameters.get(algorithm_name, {}))
-        values["execution_device"] = str(compute_device)
-        if str(getattr(local, "scientific_backend", "cpu_reference")) == "torch_fp64":
-            values["optimizer_backend"] = "torch"
-        if algorithm_name == "CALO":
-            # CALO cognitive/control remains CPU/NumPy in v5.9; keep the tiny policy on CPU to
-            # avoid a CUDA/XPU synchronize+host-copy every decision. Heavy ORPD evaluation still
-            # uses compute_device. Explicit experimental overrides can be applied outside this
-            # strict campaign binding if a fully device-resident control plane is introduced.
-            values["inference_device"] = "cpu"
-            values["policy_control_plane"] = "cpu_no_device_roundtrip_v57"
-        parameters[algorithm_name] = values
-    local.algorithm_parameters = parameters
-    return bind_exact_run_checkpoint(local, item)
+    return bind_config_to_device(config, compute_device, item)
 
 
 def _configure_numeric_threads() -> None:

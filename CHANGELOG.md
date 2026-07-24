@@ -1,5 +1,26 @@
 # Changelog
 
+## 6.8.0 — Independent CALO Intelligence & XPU Recovery
+
+- Added scientific-only `ExperimentConfig.validate_policy_development()` and switched all CALO policy-development paths to it.
+- Removed automatic cross-tab configuration rehydration from CALO Intelligence; experiment policy binding remains explicit.
+- Made policy qualification use CALO Intelligence's own scientific template and local seed.
+- Changed bootstrap repair logic from aggregate GPU readiness to per-detected-backend CUDA/XPU readiness.
+- Added live XPU-sidecar interpreter rediscovery from environment override, recorded state, and canonical runtime path.
+- Added Intel PnP Display/`VEN_8086` hardware-tag detection fallback for hybrid-graphics systems.
+- Added detected-only, non-schedulable Intel/XPU rows in System Readiness when hardware exists but the XPU runtime is unavailable.
+
+## 6.7.0 — Hardware Runtime Binding & Telemetry Integrity
+
+- Declared and bootstrap-installed `nvidia-ml-py` for NVIDIA utilization telemetry.
+- Decoupled CUDA compute discovery from NVML telemetry failures and rate-limited optional telemetry warnings.
+- Added UUID/PCI-aware `nvidia-smi` mapping with conservative single-device fallback.
+- Unified CPU/CUDA/XPU experiment binding across primary, persistent, and sidecar execution paths.
+- Added XPU sidecar FP64 capability smoke plus memory/hardware identity telemetry propagation.
+- Added per-run planned-vs-actual device attestation metadata.
+- Removed misleading assumptions that OS adapter enumeration equals Task Manager GPU numbering.
+
+
 ## 6.6.0 — Remaining Audit Closure
 
 - Reduced ORPD hot-loop case cloning with reusable thread-local decoder workspaces and base-scenario no-copy evaluation semantics.

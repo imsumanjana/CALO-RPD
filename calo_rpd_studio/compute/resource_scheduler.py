@@ -21,11 +21,24 @@ from pathlib import Path
 import shutil
 import subprocess
 import time
+import threading
 
 import psutil
 
 
 _LOG = logging.getLogger(__name__)
+_WARNED_TELEMETRY_KEYS: set[str] = set()
+_WARN_LOCK = threading.Lock()
+
+
+def _warn_once(key: str, message: str, *args) -> None:
+    """Rate-limit optional telemetry warnings across all ResourceMonitor instances."""
+    with _WARN_LOCK:
+        if key in _WARNED_TELEMETRY_KEYS:
+            return
+        _WARNED_TELEMETRY_KEYS.add(key)
+    _LOG.warning(message, *args)
+
 
 @dataclass(frozen=True, slots=True)
 class DeviceSnapshot:
@@ -45,6 +58,14 @@ class DeviceSnapshot:
     power_w: float | None = None
     power_limit_w: float | None = None
     throttle_reason: str = ""
+    memory_total_bytes: int = 0
+    hardware_uuid: str = ""
+    pci_bus_id: str = ""
+    vendor_id: str = ""
+    product_id: str = ""
+    driver_version: str = ""
+    runtime_version: str = ""
+    fp64_test_passed: bool | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -140,52 +161,108 @@ class ResourceMonitor:
             self._cuda_cache_time = now
             return self._cuda_cache
 
-        # Prefer PyTorch's own device enumeration so CUDA_VISIBLE_DEVICES remapping is respected.
+        # CUDA compute discovery is authoritative and independent from optional NVML telemetry.
+        # A missing nvidia-ml-py package must never make an otherwise usable CUDA device disappear.
         try:
             import torch
 
             count = int(torch.cuda.device_count())
             for index in range(count):
-                name = str(torch.cuda.get_device_name(index))
-                utilization: float | None = None
-                telemetry = "PyTorch CUDA"
                 try:
-                    utilization = float(torch.cuda.utilization(index))
-                except (AttributeError, RuntimeError, TypeError, ValueError) as exc:
-                    _LOG.warning("CUDA utilization telemetry unavailable for cuda:%s: %s", index, exc)
-                try:
-                    free_bytes, total_bytes = torch.cuda.mem_get_info(index)
-                    memory_percent = 100.0 * (total_bytes - free_bytes) / max(total_bytes, 1)
-                except (AttributeError, RuntimeError, TypeError, ValueError) as exc:
-                    _LOG.warning("CUDA memory telemetry unavailable for cuda:%s: %s", index, exc)
-                    memory_percent = 0.0
-                snapshots.append(
-                    DeviceSnapshot(
-                        device_id=f"cuda:{index}",
-                        backend="cuda",
-                        index=index,
-                        name=name,
-                        available=True,
-                        utilization_percent=utilization,
-                        memory_percent=float(memory_percent),
-                        telemetry=telemetry,
-                        runtime="primary",
+                    properties = torch.cuda.get_device_properties(index)
+                    name = str(torch.cuda.get_device_name(index))
+                    total_memory = int(getattr(properties, "total_memory", 0) or 0)
+                    hardware_uuid = str(getattr(properties, "uuid", "") or "")
+                    pci_bus_id = str(getattr(properties, "pci_bus_id", "") or "")
+                    utilization: float | None = None
+                    telemetry_parts = ["PyTorch CUDA"]
+                    try:
+                        utilization = float(torch.cuda.utilization(index))
+                    except (ImportError, AttributeError, RuntimeError, OSError, TypeError, ValueError) as exc:
+                        _warn_once(
+                            f"cuda-util:{type(exc).__name__}:{exc}",
+                            "CUDA utilization telemetry unavailable; CUDA compute remains enabled: %s",
+                            exc,
+                        )
+                    try:
+                        free_bytes, total_bytes = torch.cuda.mem_get_info(index)
+                        total_memory = int(total_bytes or total_memory)
+                        memory_percent = 100.0 * (total_bytes - free_bytes) / max(total_bytes, 1)
+                    except (ImportError, AttributeError, RuntimeError, OSError, TypeError, ValueError) as exc:
+                        _warn_once(
+                            f"cuda-mem:{type(exc).__name__}:{exc}",
+                            "CUDA memory telemetry unavailable; CUDA compute remains enabled: %s",
+                            exc,
+                        )
+                        memory_percent = 0.0
+                    snapshots.append(
+                        DeviceSnapshot(
+                            device_id=f"cuda:{index}",
+                            backend="cuda",
+                            index=index,
+                            name=name,
+                            available=True,
+                            utilization_percent=utilization,
+                            memory_percent=float(memory_percent),
+                            telemetry=" + ".join(telemetry_parts),
+                            runtime="primary",
+                            memory_total_bytes=total_memory,
+                            hardware_uuid=hardware_uuid,
+                            pci_bus_id=pci_bus_id,
+                            vendor_id="10DE",
+                            runtime_version=str(getattr(torch.version, "cuda", "") or ""),
+                        )
                     )
-                )
+                except (RuntimeError, AttributeError, OSError, TypeError, ValueError) as exc:
+                    _warn_once(
+                        f"cuda-device-enum:{index}:{type(exc).__name__}:{exc}",
+                        "CUDA device cuda:%s could not be enumerated: %s",
+                        index,
+                        exc,
+                    )
         except (ImportError, RuntimeError, AttributeError, OSError, TypeError, ValueError) as exc:
-            _LOG.warning("CUDA runtime enumeration failed: %s", exc, exc_info=True)
-            snapshots = []
+            _warn_once(
+                f"cuda-runtime-enum:{type(exc).__name__}:{exc}",
+                "CUDA runtime enumeration failed: %s",
+                exc,
+            )
 
-        # Supplement PyTorch enumeration with NVIDIA telemetry when nvidia-smi is available.
-        # Temperature/power are never fabricated: unsupported fields remain ``None``.
+        # Supplement each already-discovered CUDA runtime device with nvidia-smi telemetry. Match by
+        # stable UUID/PCI identity when available; only use name/index as conservative fallbacks.
         if snapshots and self._nvidia_smi:
-            rows: list[list[str]] = []
+            rows: list[dict[str, str]] = []
             queries = [
-                "index,name,utilization.gpu,memory.used,memory.total,temperature.gpu,power.draw,power.limit",
-                "index,name,utilization.gpu,memory.used,memory.total,temperature.gpu",
-                "index,name,utilization.gpu,memory.used,memory.total",
+                (
+                    "uuid,pci.bus_id,pci.device_id,index,name,utilization.gpu,memory.used,memory.total,"
+                    "temperature.gpu,power.draw,power.limit,driver_version",
+                    (
+                        "uuid", "pci_bus_id", "pci_device_id", "index", "name", "utilization", "memory_used",
+                        "memory_total", "temperature", "power", "power_limit", "driver_version",
+                    ),
+                ),
+                (
+                    "uuid,pci.bus_id,pci.device_id,index,name,utilization.gpu,memory.used,memory.total,temperature.gpu",
+                    (
+                        "uuid", "pci_bus_id", "pci_device_id", "index", "name", "utilization", "memory_used",
+                        "memory_total", "temperature",
+                    ),
+                ),
+                (
+                    "uuid,pci.bus_id,pci.device_id,index,name,utilization.gpu,memory.used,memory.total",
+                    (
+                        "uuid", "pci_bus_id", "pci_device_id", "index", "name", "utilization", "memory_used",
+                        "memory_total",
+                    ),
+                ),
+                (
+                    "uuid,pci.bus_id,index,name,utilization.gpu,memory.used,memory.total",
+                    (
+                        "uuid", "pci_bus_id", "index", "name", "utilization", "memory_used",
+                        "memory_total",
+                    ),
+                ),
             ]
-            for query in queries:
+            for query, keys in queries:
                 try:
                     result = subprocess.run(
                         [
@@ -203,63 +280,100 @@ class ResourceMonitor:
                     )
                     if result.returncode != 0:
                         continue
-                    candidate = [
-                        [part.strip() for part in line.split(",")]
-                        for line in result.stdout.splitlines()
-                        if line.strip()
-                    ]
+                    candidate = []
+                    for line in result.stdout.splitlines():
+                        if not line.strip():
+                            continue
+                        parts = [part.strip() for part in line.split(",")]
+                        candidate.append({key: parts[i] if i < len(parts) else "" for i, key in enumerate(keys)})
                     if candidate:
                         rows = candidate
                         break
-                except (OSError, subprocess.SubprocessError):
-                    continue
+                except (OSError, subprocess.SubprocessError) as exc:
+                    _warn_once(
+                        f"nvidia-smi:{type(exc).__name__}:{exc}",
+                        "nvidia-smi telemetry unavailable; CUDA compute remains enabled: %s",
+                        exc,
+                    )
 
-            def _optional_float(parts: list[str], index: int) -> float | None:
-                if index >= len(parts):
-                    return None
-                raw = parts[index].strip()
-                if not raw or raw.lower() in {"n/a", "na", "not supported", "[not supported]"}:
+            def _optional_float(raw: str | None) -> float | None:
+                text = str(raw or "").strip()
+                if not text or text.lower() in {"n/a", "na", "not supported", "[not supported]"}:
                     return None
                 try:
-                    return float(raw)
+                    return float(text)
                 except (TypeError, ValueError):
                     return None
 
+            def _norm_pci(value: str) -> str:
+                return str(value or "").strip().lower().replace("00000000:", "").replace("0000:", "")
+
+            def _row_for(snapshot: DeviceSnapshot) -> dict[str, str] | None:
+                if snapshot.hardware_uuid:
+                    for row in rows:
+                        if row.get("uuid", "").strip().lower() == snapshot.hardware_uuid.strip().lower():
+                            return row
+                if snapshot.pci_bus_id:
+                    target = _norm_pci(snapshot.pci_bus_id)
+                    for row in rows:
+                        if _norm_pci(row.get("pci_bus_id", "")) == target:
+                            return row
+                name_matches = [
+                    row for row in rows
+                    if snapshot.name.lower() in row.get("name", "").lower()
+                    or row.get("name", "").lower() in snapshot.name.lower()
+                ]
+                if len(name_matches) == 1:
+                    return name_matches[0]
+                # Last-resort fallback is allowed only when there is a single NVIDIA device, avoiding
+                # CUDA_VISIBLE_DEVICES/index-reordering mis-association on multi-GPU systems.
+                return rows[0] if len(rows) == 1 and len(snapshots) == 1 else None
+
+            def _nvidia_product_id(raw: str) -> str:
+                text = str(raw or "").strip().lower().replace("0x", "")
+                # nvidia-smi commonly reports PCI device ID as DDDDVVVV (device then vendor).
+                if len(text) >= 8 and all(ch in "0123456789abcdef" for ch in text[:8]):
+                    return text[:4].upper()
+                return text.upper()
+
             updated: list[DeviceSnapshot] = []
             for snapshot in snapshots:
-                row = rows[snapshot.index] if snapshot.index < len(rows) else None
-                if row and len(row) >= 5 and (
-                    snapshot.name.lower() in row[1].lower()
-                    or row[1].lower() in snapshot.name.lower()
-                ):
-                    used = _optional_float(row, 3)
-                    total = _optional_float(row, 4)
-                    memory_percent = snapshot.memory_percent
-                    if used is not None and total is not None and total > 0:
-                        memory_percent = 100.0 * used / total
-                    utilization = _optional_float(row, 2)
-                    updated.append(
-                        DeviceSnapshot(
-                            device_id=snapshot.device_id,
-                            backend=snapshot.backend,
-                            index=snapshot.index,
-                            name=snapshot.name,
-                            available=snapshot.available,
-                            utilization_percent=(
-                                utilization
-                                if utilization is not None
-                                else snapshot.utilization_percent
-                            ),
-                            memory_percent=float(memory_percent),
-                            telemetry="nvidia-smi + PyTorch CUDA",
-                            runtime=snapshot.runtime,
-                            temperature_c=_optional_float(row, 5),
-                            power_w=_optional_float(row, 6),
-                            power_limit_w=_optional_float(row, 7),
-                        )
-                    )
-                else:
+                row = _row_for(snapshot)
+                if not row:
                     updated.append(snapshot)
+                    continue
+                used = _optional_float(row.get("memory_used"))
+                total_mib = _optional_float(row.get("memory_total"))
+                memory_percent = snapshot.memory_percent
+                total_bytes = snapshot.memory_total_bytes
+                if total_mib is not None and total_mib > 0:
+                    total_bytes = int(total_mib * 1024**2)
+                    if used is not None:
+                        memory_percent = 100.0 * used / total_mib
+                utilization = _optional_float(row.get("utilization"))
+                updated.append(
+                    DeviceSnapshot(
+                        device_id=snapshot.device_id,
+                        backend=snapshot.backend,
+                        index=snapshot.index,
+                        name=snapshot.name,
+                        available=True,
+                        utilization_percent=utilization if utilization is not None else snapshot.utilization_percent,
+                        memory_percent=float(memory_percent),
+                        telemetry="nvidia-smi + PyTorch CUDA",
+                        runtime=snapshot.runtime,
+                        temperature_c=_optional_float(row.get("temperature")),
+                        power_w=_optional_float(row.get("power")),
+                        power_limit_w=_optional_float(row.get("power_limit")),
+                        memory_total_bytes=total_bytes,
+                        hardware_uuid=str(row.get("uuid", "") or snapshot.hardware_uuid),
+                        pci_bus_id=str(row.get("pci_bus_id", "") or snapshot.pci_bus_id),
+                        vendor_id=snapshot.vendor_id,
+                        product_id=_nvidia_product_id(row.get("pci_device_id", "")) or snapshot.product_id,
+                        driver_version=str(row.get("driver_version", "") or snapshot.driver_version),
+                        runtime_version=snapshot.runtime_version,
+                    )
+                )
             snapshots = updated
 
         self._cuda_cache = tuple(snapshots)
@@ -317,6 +431,13 @@ class ResourceMonitor:
                         if utilization is not None
                         else "XPU memory + job-cap admission",
                         runtime="primary",
+                        memory_total_bytes=total,
+                        hardware_uuid=str(getattr(properties, "uuid", "") or ""),
+                        pci_bus_id=str(getattr(properties, "pci_bus_id", "") or ""),
+                        vendor_id=str(getattr(properties, "vendor_id", "") or "8086"),
+                        product_id=str(getattr(properties, "device_id", "") or getattr(properties, "product_id", "") or ""),
+                        driver_version=str(getattr(properties, "driver_version", "") or ""),
+                        runtime_version=str(getattr(properties, "runtime_version", "") or ""),
                     )
                 )
             return tuple(snapshots)
@@ -330,6 +451,11 @@ class ResourceMonitor:
 
     def _sidecar_xpu_snapshots(self) -> tuple[DeviceSnapshot, ...]:
         interpreter = self._xpu_interpreter
+        if not interpreter or not Path(interpreter).exists():
+            # The sidecar may have been repaired after this ResourceMonitor was constructed.
+            # Re-discover it live rather than requiring an application restart.
+            interpreter = configured_xpu_interpreter(force_refresh=True)
+            self._xpu_interpreter = interpreter
         if not interpreter or not Path(interpreter).exists():
             return ()
         try:
@@ -363,6 +489,18 @@ class ResourceMonitor:
                         memory_percent=float(item.get("memory_percent", 0.0)),
                         telemetry=str(item.get("telemetry", "XPU sidecar")),
                         runtime="sidecar",
+                        memory_total_bytes=int(item.get("memory_total_bytes", 0) or 0),
+                        hardware_uuid=str(item.get("hardware_uuid", "") or ""),
+                        pci_bus_id=str(item.get("pci_bus_id", "") or ""),
+                        vendor_id=str(item.get("vendor_id", "") or "8086"),
+                        product_id=str(item.get("product_id", "") or ""),
+                        driver_version=str(item.get("driver_version", "") or ""),
+                        runtime_version=str(item.get("runtime_version", "") or ""),
+                        fp64_test_passed=(
+                            bool(item.get("fp64_test_passed"))
+                            if item.get("fp64_test_passed") is not None
+                            else None
+                        ),
                     )
                 )
             return tuple(devices)
@@ -441,25 +579,97 @@ class ResourceMonitor:
         )
 
 
-def configured_xpu_interpreter() -> str:
-    """Return a verified secondary XPU-runtime interpreter recorded by the bootstrap wizard."""
-    try:
-        from calo_bootstrap.prerequisites import STATE_FILE
+_XPU_INTERPRETER_CACHE: tuple[str, float] = ("", 0.0)
+_XPU_INTERPRETER_CACHE_SECONDS = 30.0
 
-        if not STATE_FILE.exists():
-            return ""
-        payload = json.loads(STATE_FILE.read_text(encoding="utf-8"))
-        report = dict(payload.get("report", {}))
-        sidecar = dict(report.get("xpu_sidecar", {}))
-        interpreter = str(sidecar.get("interpreter", ""))
-        if (
-            sidecar.get("xpu_available")
-            and sidecar.get("gpu_test_passed")
-            and Path(interpreter).exists()
-        ):
-            return interpreter
-    except (OSError, json.JSONDecodeError, TypeError, ValueError, KeyError) as exc:
-        _LOG.warning("Unable to read configured XPU bootstrap state: %s", exc, exc_info=True)
+
+def _xpu_interpreter_candidates() -> tuple[Path, ...]:
+    """Return candidate isolated-XPU interpreters without trusting stale bootstrap metadata.
+
+    A CUDA-ready mixed NVIDIA/Intel machine can legitimately skip the prerequisite wizard on a
+    later launch.  Therefore XPU discovery must not depend solely on a previously serialized
+    ``xpu_available`` flag.  The canonical sidecar path and an explicit environment override are
+    always considered and then verified by a live probe.
+    """
+    candidates: list[Path] = []
+    override = str(os.environ.get("CALO_XPU_PYTHON", "") or "").strip()
+    if override:
+        candidates.append(Path(override).expanduser())
+    try:
+        from calo_bootstrap.prerequisites import STATE_FILE, XPU_RUNTIME_DIR
+
+        if STATE_FILE.exists():
+            try:
+                payload = json.loads(STATE_FILE.read_text(encoding="utf-8"))
+                sidecar = dict(dict(payload.get("report", {})).get("xpu_sidecar", {}))
+                recorded = str(sidecar.get("interpreter", "") or "").strip()
+                if recorded:
+                    candidates.append(Path(recorded).expanduser())
+            except (OSError, json.JSONDecodeError, TypeError, ValueError, KeyError) as exc:
+                _warn_once("xpu-state-read", "Unable to read XPU bootstrap state: %s", exc)
+        candidates.append(
+            Path(XPU_RUNTIME_DIR)
+            / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
+        )
+    except (ImportError, AttributeError):
+        runtime_dir = Path.home() / ".calo_rpd_studio" / "xpu_runtime"
+        candidates.append(runtime_dir / ("Scripts/python.exe" if os.name == "nt" else "bin/python"))
+
+    unique: list[Path] = []
+    seen: set[str] = set()
+    for candidate in candidates:
+        key = str(candidate)
+        if key and key not in seen:
+            seen.add(key)
+            unique.append(candidate)
+    return tuple(unique)
+
+
+def _probe_xpu_interpreter(interpreter: Path) -> bool:
+    if not interpreter.is_file():
+        return False
+    try:
+        result = subprocess.run(
+            [str(interpreter), "-m", "calo_rpd_studio.compute.xpu_worker", "--probe"],
+            capture_output=True,
+            text=True,
+            timeout=20,
+            check=False,
+            creationflags=(getattr(subprocess, "CREATE_NO_WINDOW", 0) if os.name == "nt" else 0),
+        )
+        if result.returncode != 0 or not result.stdout.strip():
+            return False
+        payload = json.loads(result.stdout.strip().splitlines()[-1])
+        return bool(
+            payload.get("available")
+            and payload.get("xpu_available")
+            and payload.get("gpu_test_passed")
+        )
+    except (OSError, subprocess.SubprocessError, json.JSONDecodeError, IndexError, TypeError, ValueError):
+        return False
+
+
+def configured_xpu_interpreter(*, force_refresh: bool = False) -> str:
+    """Return a live-verified secondary Intel-XPU interpreter.
+
+    v6.8 intentionally self-heals stale or missing environment-state metadata: a working sidecar
+    at the canonical path is rediscovered even when an older bootstrap report forgot or rejected it.
+    """
+    global _XPU_INTERPRETER_CACHE
+    now = time.monotonic()
+    cached, sampled_at = _XPU_INTERPRETER_CACHE
+    if (
+        not force_refresh
+        and sampled_at > 0.0
+        and now - sampled_at < _XPU_INTERPRETER_CACHE_SECONDS
+    ):
+        return cached
+    for candidate in _xpu_interpreter_candidates():
+        if _probe_xpu_interpreter(candidate):
+            resolved = str(candidate.resolve())
+            _XPU_INTERPRETER_CACHE = (resolved, now)
+            return resolved
+    _XPU_INTERPRETER_CACHE = ("", now)
     return ""
 
 

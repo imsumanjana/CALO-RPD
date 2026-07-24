@@ -32,6 +32,13 @@ def _normalise_name(value: str) -> str:
     return " ".join(text.split())
 
 
+def _normalise_pci_hex(value: str, width: int = 4) -> str:
+    text = re.sub(r"[^0-9a-fA-F]", "", str(value or ""))
+    if not text:
+        return ""
+    return text[-width:].upper().zfill(width)
+
+
 @dataclass(frozen=True, slots=True)
 class ComputeDevice:
     physical_id: str
@@ -50,6 +57,12 @@ class ComputeDevice:
     full_training_branch: bool
     capability_status: str = "validated"
     capability_detail: str = ""
+    hardware_uuid: str = ""
+    pci_bus_id: str = ""
+    vendor_id: str = ""
+    product_id: str = ""
+    driver_version: str = ""
+    runtime_version: str = ""
 
     @property
     def mapping_text(self) -> str:
@@ -134,9 +147,10 @@ class ComputeTopologyService:
         powershell = shutil.which("powershell") or shutil.which("pwsh")
         if not powershell:
             return []
+        rows: list[dict] = []
         script = (
             "Get-CimInstance Win32_VideoController | "
-            "Select-Object Name,AdapterRAM,PNPDeviceID | ConvertTo-Json -Compress"
+            "Select-Object Name,AdapterRAM,PNPDeviceID,DeviceID,VideoProcessor,DriverVersion | ConvertTo-Json -Compress"
         )
         try:
             result = subprocess.run(
@@ -147,15 +161,55 @@ class ComputeTopologyService:
                 check=False,
                 creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
             )
-            if result.returncode != 0 or not result.stdout.strip():
-                return []
-            payload = json.loads(result.stdout.strip())
-            return [payload] if isinstance(payload, dict) else [dict(row) for row in payload]
+            if result.returncode == 0 and result.stdout.strip():
+                payload = json.loads(result.stdout.strip())
+                rows.extend([payload] if isinstance(payload, dict) else [dict(row) for row in payload])
+
+            # Some hybrid-graphics laptops expose the Intel device only through the PnP display
+            # class. Add those physical adapters using stable InstanceId hardware tags, then dedupe.
+            pnp_script = (
+                "Get-PnpDevice -Class Display | "
+                "Select-Object FriendlyName,InstanceId,Status | ConvertTo-Json -Compress"
+            )
+            pnp_result = subprocess.run(
+                [powershell, "-NoProfile", "-Command", pnp_script],
+                capture_output=True,
+                text=True,
+                timeout=5,
+                check=False,
+                creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
+            )
+            if pnp_result.returncode == 0 and pnp_result.stdout.strip():
+                payload = json.loads(pnp_result.stdout.strip())
+                pnp_rows = [payload] if isinstance(payload, dict) else [dict(row) for row in payload]
+                known_pnp = {str(row.get("PNPDeviceID", "") or "").upper() for row in rows}
+                known_names = {_normalise_name(str(row.get("Name", "") or "")) for row in rows}
+                for item in pnp_rows:
+                    name = str(item.get("FriendlyName", "") or "")
+                    instance = str(item.get("InstanceId", "") or "")
+                    if not name and not instance:
+                        continue
+                    if instance.upper() in known_pnp or _normalise_name(name) in known_names:
+                        continue
+                    rows.append(
+                        {
+                            "Name": name or instance,
+                            "AdapterRAM": 0,
+                            "PNPDeviceID": instance,
+                            "DeviceID": "",
+                            "VideoProcessor": name,
+                            "DriverVersion": "",
+                            "Status": str(item.get("Status", "") or ""),
+                        }
+                    )
+            return rows
         except (OSError, subprocess.SubprocessError, json.JSONDecodeError, TypeError, ValueError):
-            return []
+            return rows
 
     @staticmethod
-    def _match_adapter(name: str, adapters: Iterable[dict], used: set[int]) -> tuple[str, int]:
+    def _match_adapter(
+        name: str, adapters: Iterable[dict], used: set[int], *, vendor_id: str = "", product_id: str = ""
+    ) -> tuple[str, int]:
         target = _normalise_name(name)
         best_index = -1
         best_score = -1
@@ -168,7 +222,15 @@ class ComputeTopologyService:
             for vendor in ("nvidia", "intel", "amd", "radeon"):
                 if vendor in target and vendor in candidate:
                     vendor_bonus = 4
-            score = len(tokens) + vendor_bonus
+            pnp = str(row.get("PNPDeviceID", "") or "").upper()
+            vendor_hex = _normalise_pci_hex(vendor_id)
+            product_hex = _normalise_pci_hex(product_id)
+            pci_bonus = 0
+            if vendor_hex and f"VEN_{vendor_hex}" in pnp:
+                pci_bonus += 12
+            if product_hex and f"DEV_{product_hex}" in pnp:
+                pci_bonus += 20
+            score = len(tokens) + vendor_bonus + pci_bonus
             if score > best_score:
                 best_score = score
                 best_index = index
@@ -218,12 +280,18 @@ class ComputeTopologyService:
         used_adapters: set[int] = set()
         devices: list[ComputeDevice] = []
         for snapshot in resource.devices:
-            os_name, os_index = self._match_adapter(snapshot.name, adapters, used_adapters)
+            os_name, os_index = self._match_adapter(
+                snapshot.name,
+                adapters,
+                used_adapters,
+                vendor_id=snapshot.vendor_id,
+                product_id=snapshot.product_id,
+            )
             if os_index >= 0:
-                os_label = f"OS adapter {os_index} — {os_name}"
+                os_label = f"Windows adapter — {os_name}"
                 physical_id = str(adapters[os_index].get("PNPDeviceID", "") or f"os-gpu:{os_index}")
             else:
-                os_label = f"OS adapter — {snapshot.name}"
+                os_label = f"Runtime device — {snapshot.name}"
                 physical_id = f"runtime:{snapshot.runtime}:{snapshot.device_id}"
             direct = snapshot.runtime == "primary"
             cuda = snapshot.backend == "cuda"
@@ -232,12 +300,18 @@ class ComputeTopologyService:
                 fp64_ok, capability_detail = self._fp64_runtime_smoke(snapshot.device_id)
                 capability_status = "FP64 scientific branch validated" if fp64_ok else "restricted"
             elif xpu and snapshot.runtime == "sidecar":
-                # configured_xpu_interpreter() is returned only after the bootstrap sidecar GPU smoke
-                # passes. Sidecar capability is therefore explicit but intentionally limited to
-                # actor/evaluator assistance until a full independent PPO-branch runtime contract exists.
-                fp64_ok = True
-                capability_status = "sidecar actor/evaluator validated"
-                capability_detail = "Bootstrap XPU GPU smoke passed; full independent PPO branch not certified"
+                # The sidecar probe performs an explicit FP64 tensor/matmul test because the ORPD
+                # scientific evaluator is double precision. Full independent PPO-branch training
+                # remains conservatively restricted until its separate learner contract is certified.
+                fp64_ok = bool(snapshot.fp64_test_passed)
+                capability_status = (
+                    "sidecar FP64 actor/evaluator validated" if fp64_ok else "sidecar restricted"
+                )
+                capability_detail = (
+                    "XPU sidecar FP64 tensor/matmul smoke passed; full independent PPO branch not certified"
+                    if fp64_ok
+                    else "XPU sidecar did not pass the required FP64 scientific smoke"
+                )
             else:
                 fp64_ok = False
                 capability_status = "detected"
@@ -250,7 +324,7 @@ class ComputeTopologyService:
                     backend=snapshot.backend,
                     runtime=snapshot.runtime,
                     name=snapshot.name,
-                    memory_total_bytes=self._runtime_memory_total(snapshot.device_id),
+                    memory_total_bytes=int(snapshot.memory_total_bytes or self._runtime_memory_total(snapshot.device_id)),
                     memory_used_percent=float(snapshot.memory_percent),
                     utilization_percent=snapshot.utilization_percent,
                     telemetry=snapshot.telemetry,
@@ -260,6 +334,54 @@ class ComputeTopologyService:
                     full_training_branch=bool(direct and (cuda or xpu) and fp64_ok),
                     capability_status=capability_status,
                     capability_detail=capability_detail,
+                    hardware_uuid=snapshot.hardware_uuid,
+                    pci_bus_id=snapshot.pci_bus_id,
+                    vendor_id=snapshot.vendor_id,
+                    product_id=snapshot.product_id,
+                    driver_version=snapshot.driver_version,
+                    runtime_version=snapshot.runtime_version,
+                )
+            )
+
+        # Do not make a physically present Intel GPU disappear merely because the isolated XPU
+        # runtime is missing or temporarily unhealthy.  Keep it visible as a non-schedulable
+        # detected-only adapter so System Readiness can explain exactly what needs repair.
+        for index, row in enumerate(adapters):
+            if index in used_adapters:
+                continue
+            name = str(row.get("Name", "") or "").strip()
+            lowered = name.lower()
+            if "intel" not in lowered or not any(
+                token in lowered for token in ("graphics", "iris", "uhd", "arc", "gpu")
+            ):
+                continue
+            pnp = str(row.get("PNPDeviceID", "") or f"os-gpu:{index}")
+            vendor_match = re.search(r"VEN_([0-9A-Fa-f]{4})", pnp)
+            product_match = re.search(r"DEV_([0-9A-Fa-f]{4})", pnp)
+            devices.append(
+                ComputeDevice(
+                    physical_id=pnp,
+                    os_label=f"Windows adapter — {name}",
+                    runtime_id="",
+                    backend="xpu",
+                    runtime="unavailable",
+                    name=name,
+                    memory_total_bytes=0,
+                    memory_used_percent=0.0,
+                    utilization_percent=None,
+                    telemetry="Physical adapter detection only",
+                    ppo_learner=False,
+                    policy_actor=False,
+                    orpd_evaluator=False,
+                    full_training_branch=False,
+                    capability_status="XPU hardware detected — runtime unavailable",
+                    capability_detail=(
+                        "Run bootstrap repair to provision/verify the isolated Intel XPU runtime; "
+                        "this adapter is not schedulable until xpu:0 passes the scientific probe."
+                    ),
+                    vendor_id=(vendor_match.group(1) if vendor_match else "8086"),
+                    product_id=(product_match.group(1) if product_match else ""),
+                    driver_version=str(row.get("DriverVersion", "") or ""),
                 )
             )
         memory = psutil.virtual_memory()
@@ -277,6 +399,10 @@ class ComputeTopologyService:
                     "backend": d.backend,
                     "runtime": d.runtime,
                     "name": d.name,
+                    "hardware_uuid": d.hardware_uuid,
+                    "pci_bus_id": d.pci_bus_id,
+                    "vendor_id": d.vendor_id,
+                    "product_id": d.product_id,
                     "full_training_branch": d.full_training_branch,
                     "capability_status": d.capability_status,
                 }

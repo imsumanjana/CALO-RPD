@@ -1034,7 +1034,7 @@ def _collect_rollout_chunk(payload):
             ])
             assert development_experiment is not None and development_problem_config is not None
             development_experiment.case_name = source
-            development_experiment.validate()
+            development_experiment.validate_policy_development()
             case = development_case_cache.get(source)
             if case is None:
                 case = CaseLoader.load(source)

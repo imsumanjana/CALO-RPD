@@ -1,113 +1,43 @@
 {
   "name": "CALO-RPD Studio",
-  "version": "6.6.0",
-  "release_name": "Remaining Audit Closure",
+  "version": "6.8.0",
+  "release_name": "Independent CALO Intelligence & XPU Recovery",
   "release_date": "2026-07-24",
-  "scope": "Closes every issue ID retained in the v6.4 priority list under Better to Resolve: accelerator/ORPD throughput and scalability, unified feasibility semantics, reproducibility/statistical guards, bounded caches, narrower diagnostics, GUI/workspace/configuration recovery, fallback safety, deterministic ordering, and Stage-B request/static-tensor efficiency. H19 is verified as factually incorrect rather than artificially modified.",
-  "implementation_report": "CALO-RPD-v6.6.0_IMPLEMENTATION_REPORT.md",
-  "post_generation_audit": "CALO-RPD-v6.6.0_DEEP_POST_GENERATION_AUDIT.txt",
-  "findings_closure": "FINDINGS_CLOSURE_v6.6.0.csv",
-  "scientific_claim": "Research-validation software baseline. v6.6 closes all actionable remaining priority-list findings while preserving v6.5 must-resolve scientific/integrity closure. Physical accelerator, PyQt6, PYPOWER, long thermal-soak, and target-machine performance qualification remain external gates.",
-  "remaining_audit_closure": {
-    "priority_ids_total": 33,
-    "engineering_resolutions": 32,
-    "verified_not_defect": [
-      "H19"
-    ],
-    "throughput_scalability": [
-      "C02",
-      "C05",
-      "H03",
-      "M36",
-      "M37",
-      "V64-N04",
-      "V64-N05",
-      "V64-N06"
-    ],
-    "scientific_consistency_reproducibility_statistics": [
-      "C03",
-      "M04",
-      "M05",
-      "H10",
-      "H14",
-      "H23"
-    ],
-    "bounded_caches": [
-      "M16"
-    ],
-    "error_diagnostics": [
-      "H16",
-      "H17",
-      "H18",
-      "H20"
-    ],
-    "gui_workspace_configuration_recovery": [
-      "H25",
-      "H26",
-      "H27",
-      "M48",
-      "M52",
-      "M54",
-      "L19",
-      "L20",
-      "L23",
-      "M57"
-    ],
-    "edge_fallback_safety": [
-      "C06",
-      "C07",
-      "M34"
-    ]
-  },
+  "scope": "Decouples CALO Intelligence policy development/qualification from other tabs and repairs mixed NVIDIA+Intel XPU discovery/provisioning/readiness behavior.",
+  "implementation_report": "CALO-RPD-v6.8.0_IMPLEMENTATION_REPORT.md",
+  "post_generation_audit": "CALO-RPD-v6.8.0_DEEP_POST_GENERATION_AUDIT.txt",
+  "findings_closure": "FINDINGS_CLOSURE_v6.8.0.csv",
+  "scientific_claim": "Research-validation software baseline. v6.8 changes workflow validation and hardware discovery/repair plumbing; it does not change the frozen CALO mathematical operators/objectives or claim unmeasured Intel-XPU throughput.",
   "v650_must_resolve_closure_preserved": true,
-  "stage_b": {
-    "device_resident_synthetic_evaluation": true,
-    "cross_episode_synthetic_microbatching": true,
-    "synthetic_startup_parity_fail_closed": true,
-    "equal_length_parity_required": true,
-    "oversized_request_chunking": true,
-    "bounded_static_tensor_cache": true,
-    "real_orpd_development_suite_configured": true,
-    "real_development_config_case_cache": true,
-    "canonical_protected_holdout_identity": true,
-    "full_stochastic_calo_controller_gpu_resident": false,
-    "guaranteed_high_gpu_utilization": false
-  },
-  "compute_protection": {
-    "profile": "Safe 80%",
-    "adaptive_green_amber_red_governor": true,
-    "staged_training_startup": true,
-    "global_training_exclusive_lock": true,
-    "lazy_governor_allocation_fraction_parity": true,
-    "total_branches_separate_from_concurrency": true,
-    "queued_exact_resume_scheduler": true,
-    "global_cpu_worker_budget": true,
-    "automatic_accelerator_to_cpu_spillover": false,
-    "xpu_capability_aware": true
-  },
-  "freeze": {
-    "id": "calo_v660_software_release",
-    "manifest": "calo_rpd_studio/data/frozen/calo_v660_freeze.json",
-    "status": "VERIFIED",
-    "checked_files": 141,
-    "missing_files": 0,
-    "changed_files": 0,
-    "manifest_sha256": "02900ecc9738ee2e268a0626c5070dfe13b9be9e7e38621b741646641be208c8",
-    "file_sha256": "ecff20ebfe3126eccf518daa35490d95d70d92eddf1c448853676baadc0be2cd"
+  "v660_remaining_audit_closure_preserved": true,
+  "v670_hardware_runtime_closure_preserved": true,
+  "v680_independence_xpu_closure": {
+    "runtime_findings_total": 7,
+    "resolved": 7,
+    "calo_intelligence_scientific_validation_independent": true,
+    "cross_tab_auto_rehydration_removed": true,
+    "policy_qualification_uses_intelligence_template": true,
+    "per_accelerator_backend_repair": true,
+    "xpu_sidecar_live_rediscovery": true,
+    "intel_pnp_hardware_tag_detection": true,
+    "detected_only_xpu_readiness_visibility": true
   },
   "validation": {
     "compileall": "PASS",
-    "focused_remaining_audit": "22 passed",
-    "foundational_regression_selection": "82 passed",
-    "accelerator_regression_selection": "91 passed",
-    "note": "Regression selections overlap and are not summed as a unique test total.",
-    "physical_cuda_xpu": "NOT AVAILABLE IN BUILD RUNTIME",
-    "pyqt6": "NOT AVAILABLE IN BUILD RUNTIME",
-    "pypower": "NOT AVAILABLE IN BUILD RUNTIME",
-    "torch": "2.10.0+cpu",
-    "guaranteed_high_gpu_utilization": false,
-    "full_target_machine_validation": "PENDING TARGET ENVIRONMENT",
-    "root_manifest": "VERIFIED BY v6.6 RELEASE-INTEGRITY GATE \u2014 464 packaged files listed",
-    "release_integrity": "5 passed"
+    "focused_v680_independence_xpu": "5 passed",
+    "combined_relevant_regression_selection": "36 passed",
+    "physical_intel_xpu": "NOT AVAILABLE IN BUILD RUNTIME",
+    "target_machine_xpu_qualification": "PENDING",
+    "note": "The 36-test selection includes focused v6.8 tests, v6.8 release-integrity tests, and overlapping relevant v6.7 hardware/prerequisite/heterogeneous/configuration regressions."
+  },
+  "freeze": {
+    "id": "calo_v680_software_release",
+    "manifest": "calo_rpd_studio/data/frozen/calo_v680_freeze.json",
+    "status": "VERIFIED",
+    "checked_files": 149,
+    "missing_files": 0,
+    "changed_files": 0,
+    "manifest_sha256": "50e49cea2279b43a66eae3c96d1e9071571807f00b25bd9ef0fbcda6155c93d5",
+    "file_sha256": "3fd87cfb2f20f7c80f44923c1787a8a40c1ae03e0585a3c9ab8e2346649cb22f"
   }
 }

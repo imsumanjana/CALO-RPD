@@ -355,7 +355,7 @@ def _environment_for_episode(
         ]
         experiment = ExperimentConfig.load(config_path)
         experiment.case_name = str(source)
-        experiment.validate()
+        experiment.validate_policy_development()
         case = CaseLoader.load(experiment.case_name)
         scenarios = build_scenarios(experiment, episode_seed, case)
         problem_config = ORPDProblemConfig(
