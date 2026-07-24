@@ -36,6 +36,7 @@ DEFAULT_FREEZE_RELATIVE_PATHS = (
     "calo_rpd_studio/algorithms/calo/archives.py",
     "calo_rpd_studio/algorithms/calo/cognitive_state.py",
     "calo_rpd_studio/algorithms/calo/diagnostics.py",
+    "calo_rpd_studio/algorithms/calo/device_resident_synthetic.py",
     "calo_rpd_studio/algorithms/calo/diversity_manager.py",
     "calo_rpd_studio/algorithms/calo/environmental_selection.py",
     "calo_rpd_studio/algorithms/calo/learning_operators.py",
@@ -153,9 +154,11 @@ DEFAULT_FREEZE_RELATIVE_PATHS = (
     "calo_rpd_studio/scripts/run_final_benchmark.py",
     "calo_rpd_studio/scripts/migrate_legacy_resume.py",
     "calo_rpd_studio/scripts/validate_hardware_soak.py",
+    "calo_rpd_studio/scripts/validate_stage_b_synthetic.py",
     "calo_rpd_studio/validation/gui_contract.py",
     "calo_rpd_studio/version.py",
     "calo_rpd_studio/data/frozen/historical_training_snapshot_v2.json",
+    "calo_rpd_studio/data/examples/policy_development_active_loss.yaml",
 )
 
 
@@ -247,6 +250,11 @@ def create_freeze_manifest(
             "measured_throughput_scheduling": True,
             "persistent_policy_training_actors": True,
             "cross_episode_policy_rollout_batching": True,
+            "stage_b_device_resident_synthetic_evaluation": True,
+            "stage_b_cross_episode_synthetic_microbatching": True,
+            "stage_b_synthetic_startup_parity_fail_closed": True,
+            "stage_b_real_orpd_development_suite_configurable": True,
+            "stage_b_full_stochastic_calo_controller_gpu_resident": False,
             "portfolio_dependency_planning": True,
             "scientific_fingerprint_reuse": True,
             "campaign_resume_journal": True,

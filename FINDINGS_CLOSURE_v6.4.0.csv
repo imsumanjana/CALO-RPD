@@ -1,0 +1,13 @@
+ID,Area,Status,Resolution_or_boundary
+V64-01,Synthetic curriculum GPU/XPU execution,RESOLVED,"Added FP64 device-resident deterministic population objective/constraint kernel for admitted CUDA/direct-XPU actors."
+V64-02,Per-step tiny synthetic accelerator workload,RESOLVED,"Added persistent cross-episode synthetic microbatch broker for compatible episode populations."
+V64-03,Synthetic accelerator scientific drift risk,RESOLVED,"Fail-closed NumPy-reference startup parity plus periodic parity rechecks."
+V64-04,Curriculum RNG preservation,RESOLVED,"Original CurriculumProblem is generated first; device wrapper consumes no RNG and preserves task/random-stream identity."
+V64-05,Stage-B CPU oversubscription risk,RESOLVED,"Host controller ThreadPool is capped by protected per-branch rollout-worker budget."
+V64-06,Normal GUI empty development_cases,RESOLVED,"Added configurable real ORPD development suite; default case30/case57."
+V64-07,Heterogeneous stage-4 default ORPD formulation,RESOLVED,"Loads exact ExperimentConfig and propagates objective/variables/PF/robust/scenarios/tolerances."
+V64-08,Final-test leakage through normal development selector,RESOLVED,"case118 and case300 rejected as protected holdouts in the normal GUI development selector."
+V64-09,Stage-B physical CUDA/XPU performance qualification,PENDING_TARGET_HARDWARE,"Build runtime is CPU-only; no RTX/XPU utilization or speedup claim made."
+V64-10,Full stochastic CALO controller/archive/memory GPU residency,NOT_IMPLEMENTED_BY_DESIGN,"Trusted host/reference transition retained to protect scientific trajectory semantics; future optimization only with parity proof."
+V64-11,CUDA-100% misleading semantics,RESOLVED,"Stage-A truthful routing semantics retained; Stage B reports actual scope rather than claiming all code is CUDA resident."
+V64-12,Stage-B validation tooling,RESOLVED,"Added validate_stage_b_synthetic CLI with parity, throughput, batch metrics and explicit physical-accelerator qualification flag."

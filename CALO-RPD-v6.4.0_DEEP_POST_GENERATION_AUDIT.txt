@@ -1,0 +1,210 @@
+CALO-RPD v6.4.0 — DEEP POST-GENERATION STAGE-B AUDIT
+=====================================================
+
+Release: 6.4.0 — Stage-B Device-Resident Policy Training
+Audit date: 23 July 2026
+Audit mode: read-only post-implementation source/logic/scientific review plus targeted regression execution
+
+EXECUTIVE VERDICT
+-----------------
+
+v6.4 materially improves the GPU/XPU training architecture while preserving the scientific separation established in v5.9–v6.3.
+
+The most important improvement is that admitted CUDA/direct-XPU synthetic rollout actors no longer use the accelerator only for a small policy forward pass. The deterministic synthetic curriculum population objective/constraint kernel can now execute in persistent FP64 device tensors, and simultaneous episode requests can be merged into larger cross-episode microbatches.
+
+The second major improvement is scientific rather than purely performance-related: the normal GUI now supplies an explicit real ORPD development suite, and the heterogeneous accelerated ORPD path now inherits the exact declared ExperimentConfig instead of silently constructing a default formulation.
+
+No new P0 scientific blocker was found in the implemented Stage-B scope during this audit.
+
+The principal remaining boundary is deliberate: the stochastic CALO controller, candidate/controller orchestration, archive updates, memory updates and parts of state construction remain on the trusted host/reference path. Therefore v6.4 is a hybrid device-resident training architecture, not a fully GPU-resident CALO rewrite.
+
+1. DEVICE-RESIDENT SYNTHETIC KERNEL
+------------------------------------
+
+PASS / SCIENTIFICALLY SOUND FOR IMPLEMENTED SCOPE
+
+The wrapper is constructed only after the original CurriculumProblem has already been generated. It does not consume RNG state. This preserves generated task identity and subsequent environment random streams.
+
+Static task tensors are padded to bounded dimensions and placed on the selected PyTorch device. Heterogeneous problem dimensions can share a merged batch through masks.
+
+The implemented PyTorch math was compared against the NumPy reference for curriculum stages 0–3. Dependency-light tests achieved errors on the order of floating-point roundoff (~1e-15 on CPU FP64).
+
+2. FAIL-CLOSED PARITY
+---------------------
+
+PASS
+
+The first accelerated population request is checked against the NumPy reference. Checked evidence includes:
+- objective;
+- total violation;
+- feasibility;
+- named constraint components.
+
+A mismatch raises instead of silently continuing.
+
+Periodic rechecks are also supported.
+
+Remaining target-hardware gate:
+CUDA/direct-XPU FP64 trajectory/parity must still be executed on the physical target runtime. CPU FP64 validation cannot certify a physical GPU implementation.
+
+3. CROSS-EPISODE MICROBATCH BROKER
+----------------------------------
+
+PASS
+
+The broker can merge simultaneous heterogeneous synthetic requests on one device. A direct regression merged four requests / 80 candidates into one microbatch. The standalone validation observed merged batches up to 96 candidates in the executed CPU logic run.
+
+Request integrity is preserved; an oversized next request is deferred rather than split in a way that would alter request result ordering.
+
+4. CPU OVERSUBSCRIPTION SAFETY
+------------------------------
+
+PASS FOR IMPLEMENTED STAGE-B PATH
+
+The host controller ThreadPoolExecutor is explicitly capped by the protected rollout-worker budget instead of scaling automatically to all environments. This is important because an earlier design could multiply CPU process/thread pressure and contribute to laptop thermal load.
+
+Stage B does not remove all host-side work, but it does not intentionally bypass the global protected CPU budget.
+
+5. REAL ORPD DEVELOPMENT SUITE
+------------------------------
+
+PASS / MAJOR SCIENTIFIC CORRECTION
+
+Normal GUI training no longer hardcodes development_cases=().
+
+Default normal-GUI suite:
+- case30
+- case57
+
+Default formulation:
+- policy_development_active_loss.yaml
+
+case118/case300 are blocked in the normal development selector as protected final/held-out systems.
+
+6. EXACT ORPD FORMULATION PROPAGATION
+-------------------------------------
+
+PASS / BUG FIXED
+
+Audit found that the pre-v6.4 heterogeneous stage-4 path could construct AcceleratedORPDProblem(case) with defaults. v6.4 instead loads the exact development ExperimentConfig and propagates:
+- objective;
+- variables;
+- robust formulation;
+- PowerFlowOptions;
+- constraint tolerances;
+- scenarios.
+
+A regression test changes objective kind and PF tolerance and verifies that the constructed development environment receives those exact values.
+
+7. TRAINING/DEPLOYMENT SCIENTIFIC SEMANTICS
+-------------------------------------------
+
+PASS FOR REFERENCE-CONTROLLER SEMANTICS
+
+The Stage-B wrapper does not rewrite the stochastic CALO controller. A multi-transition regression compares the original NumPy curriculum environment against the device-wrapper path (torch CPU) under fixed actions and verifies:
+- policy state;
+- reward;
+- population;
+- executed operators;
+- forced recovery indices.
+
+This protects the v5.9 policy-controller parity design from an overly aggressive GPU rewrite.
+
+Physical CUDA/XPU trajectory equivalence remains a target-machine gate.
+
+8. CUDA 100% SEMANTICS
+----------------------
+
+PASS / TRUTHFUL
+
+v6.4 retains the v6.3 Stage-A wording:
+CUDA 100% means eligible rollout routing, not 100% of every program instruction.
+
+Stage B increases actual accelerator work by moving deterministic population evaluation to the accelerator, but does not claim that archives/memory/controller logic are fully device-resident.
+
+9. PERFORMANCE EXPECTATION
+--------------------------
+
+IMPROVED ARCHITECTURE; PHYSICAL CLAIM PENDING
+
+The architecture should provide more useful GPU work than v6.3 because:
+- fixed synthetic task data stay device-resident;
+- multiple episode populations can be merged;
+- one host materialization occurs after a merged batch;
+- real ORPD development cases can invoke the heavier FP64 accelerator evaluator.
+
+However, this build environment has torch CPU only. No numerical statement about RTX 4060 utilization or speedup is made.
+
+A CPU execution of the Stage-B validator was slower than the NumPy reference, as expected for small CPU torch tensors. That result is correctly classified as logic/parity validation rather than performance evidence.
+
+10. EXACT RESUME / COMPETITIVE TRAINING
+---------------------------------------
+
+PASS IN TARGETED REGRESSION
+
+The nine historical competitive tests were executed in two bounded groups and all passed, including:
+- branch seed plans;
+- champion comparator guards;
+- transactional branch resume creation;
+- exact competitive resume;
+- Base-Guided Fork;
+- common exact Safe Stop;
+- legacy curriculum encoding;
+- caller RNG restoration.
+
+Stage-B evaluation fields do not change branch seed identity or exact-resume transaction authority.
+
+11. GUI / CONFIGURATION
+-----------------------
+
+SOURCE/CONTRACT PASS; PHYSICAL RENDERING PENDING
+
+The CALO Intelligence source exposes:
+- Stage-B synthetic accelerator kernel toggle;
+- accelerated ORPD rollout toggle;
+- cross-episode batching;
+- real ORPD development suite;
+- development cases;
+- development ExperimentConfig.
+
+Saved training configurations restore the Stage-B toggle and development-suite values.
+
+PyQt6 is unavailable in the build runtime, so physical GUI rendering and interaction on Windows remains a target-machine gate.
+
+12. RELEASE/STATIC QUALITY
+--------------------------
+
+- compileall: PASS.
+- Focused Stage-B/v6/v5.9/CALO selection: 66 passed.
+- Additional hetero/history/broker/audit group: 38 passed.
+- Historical competitive suite: 9/9 passed in bounded groups.
+- Silent broad-handler AST audit: 0 sole pass/continue/return broad handlers.
+
+13. REMAINING NON-BLOCKING / FUTURE ITEMS
+-----------------------------------------
+
+A. Full stochastic CALO controller GPU residency
+Status: NOT IMPLEMENTED BY DESIGN.
+Future work could vectorize candidate operators/archive-related deterministic pieces only after preserving seeded trajectory equivalence.
+
+B. Physical CUDA/XPU Stage-B qualification
+Status: PENDING.
+Must run validate_stage_b_synthetic on target CUDA/XPU and then run complete policy training/parity/thermal soak.
+
+C. Sustained utilization expectation
+Status: NO GUARANTEE.
+Small populations or host-heavy controller phases can still produce bursty GPU utilization. Performance should be measured as scientifically valid transitions/second and training time, not only Task Manager percentage.
+
+D. Larger/learned development curriculum
+Status: FUTURE RESEARCH OPTION.
+The default suite is deliberately limited to case30/case57. Final held-out systems must remain protected from training leakage.
+
+FINAL ASSESSMENT
+----------------
+
+Stage-B implementation correctness: STRONG
+Scientific parity design: STRONG FOR IMPLEMENTED HYBRID SCOPE
+Real ORPD development formulation integrity: STRONG / CORRECTED
+GPU/XPU physical performance evidence: PENDING TARGET MACHINE
+Full CALO GPU residency: NOT CLAIMED
+Release recommendation: SUITABLE AS v6.4 RESEARCH-VALIDATION BASELINE, subject to target-machine physical accelerator qualification before performance claims.

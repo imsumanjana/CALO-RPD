@@ -79,6 +79,44 @@ class TrainingResourcePlan:
         }
 
 
+
+def protected_rollout_shares(
+    *,
+    cuda_share: int,
+    xpu_share: int,
+    cpu_share: int,
+    primary_device: str,
+    auxiliary_xpu_runtime: str = "",
+) -> dict[str, int]:
+    """Return the exact protected rollout routing executed for one admitted branch slot.
+
+    This is the single reporting/runtime authority for v6.4 Stage B. It preserves the v6.1/v6.2
+    fail-closed rule: unavailable accelerator share is never silently converted into extra CPU heat.
+    Instead an already-admitted accelerator primary absorbs sibling accelerator share where the
+    protected runtime contract permits it.
+    """
+
+    cuda = max(0, min(100, int(cuda_share)))
+    xpu = max(0, min(100, int(xpu_share)))
+    cpu = max(0, min(100, int(cpu_share)))
+    if cuda + xpu + cpu != 100:
+        raise ValueError("Protected heterogeneous CUDA/XPU/CPU rollout shares must total exactly 100%")
+    assigned = str(primary_device or "cpu").lower()
+    aux_xpu = bool(str(auxiliary_xpu_runtime or "").strip())
+    if assigned.startswith("cuda"):
+        return {
+            "cuda": cuda + (0 if aux_xpu else xpu),
+            "xpu": xpu if aux_xpu else 0,
+            "cpu": cpu,
+        }
+    if assigned.startswith("xpu"):
+        return {"cuda": 0, "xpu": min(100, xpu + cuda), "cpu": cpu}
+    return {
+        "cuda": 0,
+        "xpu": xpu if aux_xpu else 0,
+        "cpu": min(100, cpu + cuda + (0 if aux_xpu else xpu)),
+    }
+
 def _device_has_safe_headroom(device: ComputeDevice, profile: ComputeProtectionProfile) -> bool:
     """Return whether a full-branch accelerator is currently admissible inside Safe-80.
 

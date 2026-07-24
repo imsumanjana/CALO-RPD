@@ -1,73 +1,67 @@
 {
   "name": "CALO-RPD Studio",
-  "version": "6.2.1",
-  "release_name": "Adaptive Compute Protection, Recovery and Scientific Qualification",
+  "version": "6.4.0",
+  "release_name": "Stage-B Device-Resident Policy Training",
   "release_date": "2026-07-23",
-  "scope": "Dashboard usability patch on the v6.2 scientific baseline: vertically scrollable Dashboard body, three dedicated independently scrollable tabs for System Readiness, Training Queue and Scientific Context, and less compressed summary metrics. Scientific compute/policy/ORPD semantics remain unchanged.",
-  "implementation_report": "CALO-RPD-v6.2.1_IMPLEMENTATION_REPORT.md",
-  "post_generation_audit": "CALO-RPD-v6.2.1_DEEP_POST_GENERATION_AUDIT.txt",
-  "scientific_claim": "Research-validation software baseline. Physical hardware/GUI/PYPOWER qualification is explicitly machine/environment dependent and is not fabricated by the build runtime.",
+  "scope": "Stage-B GPU/XPU training architecture: device-resident FP64 synthetic curriculum population evaluation, cross-episode synthetic microbatching, fail-closed NumPy parity, protected host concurrency, configurable real ORPD policy-development suite, and exact ExperimentConfig propagation into accelerated development rollouts.",
+  "implementation_report": "CALO-RPD-v6.4.0_IMPLEMENTATION_REPORT.md",
+  "post_generation_audit": "CALO-RPD-v6.4.0_DEEP_POST_GENERATION_AUDIT.txt",
+  "scientific_claim": "Research-validation software baseline. v6.4 moves deterministic synthetic population objective/constraint evaluation and configured real-ORPD development evaluation onto admitted accelerator paths while retaining stochastic CALO controller/archive/memory semantics on the trusted reference path.",
+  "stage_b": {
+    "device_resident_synthetic_evaluation": true,
+    "cross_episode_synthetic_microbatching": true,
+    "synthetic_startup_parity_fail_closed": true,
+    "periodic_synthetic_parity_recheck": true,
+    "preserves_reference_curriculum_rng_generation": true,
+    "protected_host_controller_thread_cap": true,
+    "real_orpd_development_suite_configured": true,
+    "default_development_cases": [
+      "case30",
+      "case57"
+    ],
+    "default_development_formulation": "calo_rpd_studio/data/examples/policy_development_active_loss.yaml",
+    "protected_normal_gui_holdouts": [
+      "case118",
+      "case300"
+    ],
+    "exact_development_experiment_config_propagation": true,
+    "full_stochastic_calo_controller_gpu_resident": false,
+    "guaranteed_high_gpu_utilization": false
+  },
   "compute_protection": {
     "profile": "Safe 80%",
     "adaptive_green_amber_red_governor": true,
     "staged_training_startup": true,
-    "staged_experiment_admission": true,
     "global_training_exclusive_lock": true,
     "total_branches_separate_from_concurrency": true,
     "queued_exact_resume_scheduler": true,
     "global_cpu_worker_budget": true,
     "automatic_accelerator_to_cpu_spillover": false,
-    "xpu_capability_aware": true,
-    "trustworthy_temperature_power_only_when_available": true,
-    "hash_chained_compute_provenance": true
-  },
-  "recovery": {
-    "workspace_schema": 3,
-    "legacy_workspace_migration": true,
-    "unclean_application_session_journal": true,
-    "ui_recovery_is_not_optimizer_authority": true,
-    "competitive_exact_resume_recovery": true
-  },
-  "qualification": {
-    "hardware_soak_protocol": true,
-    "scientific_scheduling_equivalence_protocol": true,
-    "short_build_cpu_soak": "PASS_GREEN_NOT_PHYSICAL_QUALIFICATION",
-    "physical_multi_hour_cuda_xpu": "PENDING_TARGET_HARDWARE"
+    "xpu_capability_aware": true
   },
   "freeze": {
-    "id": "calo_v621_software_release",
-    "manifest": "calo_rpd_studio/data/frozen/calo_v621_freeze.json",
+    "id": "calo_v640_software_release",
+    "manifest": "calo_rpd_studio/data/frozen/calo_v640_freeze.json",
     "status": "VERIFIED",
-    "checked_files": 135,
+    "checked_files": 138,
     "missing_files": 0,
     "changed_files": 0,
-    "manifest_sha256": "42f457a9439093bd08c0681088af62549c257ffb02979cf143faed812950a745",
-    "file_sha256": "350869cb586fb862e1e96a3bb8b0c0a6c32c55491359b51ea1b2c53b53efdcf2"
+    "manifest_sha256": "f8c3d650194724bf75c33d70fa36c4f297f23ae6fd98f8369ca0129c2592d263",
+    "file_sha256": "f02f9bc21f7afc3e1c67cc82a40cc0a4bd68be0480a1de823fcda0d95e538258"
   },
   "validation": {
     "compileall": "PASS",
-    "v620_rc_final_dependency_light": "9 passed",
-    "v620_v610_v600_v590_focused_architecture_science": "43 passed",
-    "calo_core": "11 passed",
-    "v610_beta_architecture": "12 passed",
-    "v56_competitive_training": "9 passed after post-generation fixes",
-    "short_protected_cpu_soak": "GREEN; no protection stop; physical_qualified=false",
-    "root_manifest": "VERIFIED \u2014 425 packaged files listed",
+    "focused_stage_b_architecture_science_core": "66 passed",
+    "heterogeneous_history_broker_audit_group": "38 passed",
+    "historical_competitive_training": "9/9 passed in two bounded groups",
+    "stage_b_cpu_logic_validation": "PASS parity; max startup error approximately 4.44e-15; physical_accelerator=false",
+    "silent_broad_handler_ast_audit": "0 sole-pass/continue/return broad handlers",
     "physical_cuda_xpu": "NOT AVAILABLE IN BUILD RUNTIME",
     "pyqt6": "NOT AVAILABLE IN BUILD RUNTIME",
     "pypower": "NOT AVAILABLE IN BUILD RUNTIME",
-    "physical_multi_hour_hardware_soak": "NOT EXECUTED IN BUILD RUNTIME",
-    "full_target_machine_gui": "PENDING TARGET ENVIRONMENT",
-    "dashboard_layout_patch": "4 passed",
-    "focused_patch_regression": "39 passed"
-  },
-  "ui": {
-    "dashboard_scrollable_body": true,
-    "dashboard_three_tabs": [
-      "System Readiness",
-      "Training Queue",
-      "Scientific Context"
-    ],
-    "independent_tab_scrolling": true
+    "guaranteed_high_gpu_utilization": false,
+    "full_target_machine_stage_b": "PENDING TARGET ENVIRONMENT",
+    "release_integrity_plus_stage_b": "13 passed",
+    "root_manifest": "VERIFIED \u2014 441 packaged files listed before final ZIP extraction verification"
   }
 }

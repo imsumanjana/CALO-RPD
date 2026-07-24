@@ -18,10 +18,13 @@ Each PPO epoch follows a synchronous actor--learner protocol:
 The requested 80% CUDA, 10% XPU, and 10% CPU split is retained as a deterministic fallback.
 Version 3.3 can first time complete discarded calibration episodes on each verified lane and then
 allocate fresh on-policy episodes by measured transitions per second.  CUDA/XPU actor interpreters,
-policy modules and ORPD tensors remain resident for the full training session.  Compatible ORPD
+policy modules and ORPD tensors remain resident for the full training session. Compatible ORPD
 population requests from simultaneous episodes are combined by the same FP64 cross-run batching
-engine used during comparative evaluation.  Synthetic curriculum stages still contain host-side
-logic, so Task Manager percentages need not equal the episode allocation.
+engine used during comparative evaluation. v6.4 Stage B additionally keeps generated synthetic
+curriculum objective/constraint tensors resident on CUDA/XPU and cross-episode microbatches their
+population evaluation after a fail-closed NumPy-reference parity check. Stochastic CALO controller,
+archive and memory semantics remain the trusted trajectory authority, so Task Manager percentages
+still need not equal the requested episode allocation exactly.
 """
 
 from __future__ import annotations
@@ -64,6 +67,7 @@ from calo_rpd_studio.compute.persistent_training_actor import PersistentTraining
 from calo_rpd_studio.ai.model_io import load_checkpoint
 
 from .training import (
+    CurriculumProblem,
     SyntheticCALOEnvironment,
     TrainingCancelled,
     TrainingConfig,
@@ -118,6 +122,14 @@ class HeterogeneousTrainingConfig(TrainingConfig):
     training_batch_window_ms: float = 4.0
     training_max_cross_batch: int = 2048
     training_tensor_batch_size: int = 64
+    # v6.4 Stage B: persistent accelerator-resident synthetic curriculum evaluation.
+    device_resident_synthetic_rollouts: bool = True
+    synthetic_cross_episode_batching: bool = True
+    synthetic_batch_window_ms: float = 2.0
+    synthetic_max_cross_batch: int = 4096
+    synthetic_parity_tolerance: float = 1e-9
+    require_synthetic_startup_parity: bool = True
+    synthetic_parity_recheck_interval: int = 16
     # v6.1 competitive scheduling freezes admitted lane capabilities. When true, an unavailable
     # accelerator lane is a fail-closed resource fault, never an implicit CPU/XPU redistribution.
     strict_resource_binding: bool = False
@@ -319,30 +331,53 @@ def _environment_for_episode(
     stage: int,
     episode: int,
     compute_device: str = "cpu",
+    synthetic_broker=None,
 ):
     episode_seed = int(config.seed + 1_000_003 * epoch + 10_007 * int(episode))
     random.seed(episode_seed)
     np.random.seed(episode_seed % (2**32 - 1))
     rng = np.random.default_rng(episode_seed)
     if stage == 4:
-        from calo_rpd_studio.orpd.problem import ORPDProblem
+        from calo_rpd_studio.experiments.experiment_config import ExperimentConfig
+        from calo_rpd_studio.experiments.experiment_runner import build_scenarios
+        from calo_rpd_studio.orpd.problem import ORPDProblem, ORPDProblemConfig
         from calo_rpd_studio.power_system.case_loader import CaseLoader
 
+        config_path = str(config.development_experiment_config_path or "").strip()
+        if not config_path:
+            raise RuntimeError(
+                "Real ORPD policy rollouts require development_experiment_config_path so the "
+                "training formulation exactly matches the declared objective/controls/PF/scenarios."
+            )
         source = config.development_cases[
             (epoch * config.episodes_per_epoch + int(episode)) % len(config.development_cases)
         ]
-        case = CaseLoader.load(source)
+        experiment = ExperimentConfig.load(config_path)
+        experiment.case_name = str(source)
+        experiment.validate()
+        case = CaseLoader.load(experiment.case_name)
+        scenarios = build_scenarios(experiment, episode_seed, case)
+        problem_config = ORPDProblemConfig(
+            objective=experiment.objective,
+            variables=experiment.variables,
+            robust=experiment.robust_objective,
+            power_flow=experiment.power_flow,
+            constraint_tolerances=experiment.constraint_tolerances,
+        )
         if bool(config.use_accelerated_orpd_rollouts):
             from calo_rpd_studio.accelerated.torch_orpd import AcceleratedORPDProblem
 
             problem = AcceleratedORPDProblem(
                 case,
+                config=problem_config,
+                scenarios=scenarios,
                 device=compute_device,
                 dtype_name="float64",
                 batch_size=max(1, int(config.training_tensor_batch_size)),
+                device_resident=True,
             )
         else:
-            problem = ORPDProblem(case)
+            problem = ORPDProblem(case, problem_config, scenarios)
         environment = SyntheticCALOEnvironment(
             rng,
             stage,
@@ -350,7 +385,31 @@ def _environment_for_episode(
             problem=problem,
         )
     else:
-        environment = SyntheticCALOEnvironment(rng, stage, config.population_size)
+        # Preserve the exact legacy RNG stream: construct the same NumPy curriculum problem first,
+        # then wrap only its deterministic population evaluator. The wrapper consumes no RNG.
+        reference_problem = CurriculumProblem(rng, stage)
+        device_type = torch.device(compute_device).type
+        use_device_resident = bool(
+            config.device_resident_synthetic_rollouts and device_type in {"cuda", "xpu"}
+        )
+        problem = reference_problem
+        if use_device_resident:
+            from .device_resident_synthetic import DeviceResidentCurriculumProblem
+
+            problem = DeviceResidentCurriculumProblem(
+                reference_problem,
+                device=str(compute_device),
+                broker=synthetic_broker,
+                parity_tolerance=float(config.synthetic_parity_tolerance),
+                require_startup_parity=bool(config.require_synthetic_startup_parity),
+                parity_recheck_interval=int(config.synthetic_parity_recheck_interval),
+            )
+        environment = SyntheticCALOEnvironment(
+            rng,
+            stage,
+            config.population_size,
+            problem=problem,
+        )
     return episode_seed, environment
 
 
@@ -390,6 +449,7 @@ def _sample_actions(regime_logits, operator_logits, alpha, beta):
 
 _ACTOR_NETWORK_CACHE: dict[tuple[str, int], nn.Module] = {}
 _ACTOR_BROKER_CACHE: dict[tuple[str, float, int], CrossRunBatchBroker] = {}
+_SYNTHETIC_BROKER_CACHE: dict[tuple[str, float, int], object] = {}
 
 
 def _close_actor_runtime_caches() -> None:
@@ -399,6 +459,12 @@ def _close_actor_runtime_caches() -> None:
         except Exception:
             _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
     _ACTOR_BROKER_CACHE.clear()
+    for broker in list(_SYNTHETIC_BROKER_CACHE.values()):
+        try:
+            broker.close()
+        except Exception:
+            _LOG.debug("Suppressed non-fatal synthetic-broker cleanup exception", exc_info=True)
+    _SYNTHETIC_BROKER_CACHE.clear()
     _ACTOR_NETWORK_CACHE.clear()
 
 
@@ -429,6 +495,32 @@ def _persistent_actor_broker(config: HeterogeneousTrainingConfig, device_name: s
             max_candidates=int(config.training_max_cross_batch),
         )
         _ACTOR_BROKER_CACHE[key] = broker
+    return broker
+
+
+
+
+def _persistent_synthetic_broker(config: HeterogeneousTrainingConfig, device_name: str):
+    if not bool(config.device_resident_synthetic_rollouts and config.synthetic_cross_episode_batching):
+        return None
+    device_type = torch.device(device_name).type
+    if device_type not in {"cuda", "xpu"}:
+        return None
+    from .device_resident_synthetic import SyntheticCrossEpisodeBatchBroker
+
+    key = (
+        str(device_name),
+        float(config.synthetic_batch_window_ms),
+        int(config.synthetic_max_cross_batch),
+    )
+    broker = _SYNTHETIC_BROKER_CACHE.get(key)
+    if broker is None:
+        broker = SyntheticCrossEpisodeBatchBroker(
+            device=str(device_name),
+            batch_window_ms=float(config.synthetic_batch_window_ms),
+            max_candidates=int(config.synthetic_max_cross_batch),
+        )
+        _SYNTHETIC_BROKER_CACHE[key] = broker
     return broker
 
 
@@ -469,6 +561,8 @@ def collect_actor_lane_payload(payload: dict[str, Any]) -> dict[str, Any]:
     broker = _persistent_actor_broker(config, device_name)
     if broker is not None:
         set_cross_run_broker(broker)
+    synthetic_broker = _persistent_synthetic_broker(config, device_name) if stage != 4 else None
+    synthetic_before = dict(synthetic_broker.metrics()) if synthetic_broker is not None else {}
     environments = []
     for episode in episode_indices:
         _, environment = _environment_for_episode(
@@ -477,6 +571,7 @@ def collect_actor_lane_payload(payload: dict[str, Any]) -> dict[str, Any]:
             stage=stage,
             episode=episode,
             compute_device=device_name,
+            synthetic_broker=synthetic_broker,
         )
         environments.append((episode, environment))
 
@@ -518,8 +613,13 @@ def collect_actor_lane_payload(payload: dict[str, Any]) -> dict[str, Any]:
             )
             return index, episode, reward
 
-        if broker is not None and len(environments) > 1:
-            with ThreadPoolExecutor(max_workers=len(environments)) as step_executor:
+        if (broker is not None or synthetic_broker is not None) and len(environments) > 1:
+            # Stage B must not reintroduce the pre-v6 CPU oversubscription problem inside one
+            # accelerator actor. Host-side controller steps are capped by the protected per-branch
+            # rollout worker budget, while the deterministic population evaluations are merged by
+            # the accelerator broker.
+            step_workers = max(1, min(len(environments), int(config.rollout_workers)))
+            with ThreadPoolExecutor(max_workers=step_workers) as step_executor:
                 step_results = list(step_executor.map(_step_one, enumerate(environments)))
         else:
             step_results = [_step_one(item) for item in enumerate(environments)]
@@ -556,6 +656,30 @@ def collect_actor_lane_payload(payload: dict[str, Any]) -> dict[str, Any]:
             }
             for episode in sorted(episode_rollouts)
         ],
+        "stage_b_synthetic": (
+            (lambda after, before: {
+                "device": str(after.get("device", device_name)),
+                "batch_count": int(after.get("batch_count", 0)) - int(before.get("batch_count", 0)),
+                "candidate_count": int(after.get("candidate_count", 0)) - int(before.get("candidate_count", 0)),
+                "request_count": int(after.get("request_count", 0)) - int(before.get("request_count", 0)),
+                "max_batch_candidates": int(after.get("max_batch_candidates", 0)),
+                "mean_candidates_per_batch": (
+                    float(
+                        (int(after.get("candidate_count", 0)) - int(before.get("candidate_count", 0)))
+                        / max(int(after.get("batch_count", 0)) - int(before.get("batch_count", 0)), 1)
+                    )
+                ),
+            })(dict(synthetic_broker.metrics()), synthetic_before)
+            if synthetic_broker is not None
+            else {
+                "device": device_name,
+                "batch_count": 0,
+                "candidate_count": 0,
+                "request_count": 0,
+                "max_batch_candidates": 0,
+                "mean_candidates_per_batch": 0.0,
+            }
+        ),
     }
 
 
@@ -682,6 +806,7 @@ def _flatten_actor_results(
                 "lane": str(result.get("lane", "")),
                 "device": str(result.get("device", "")),
                 "episodes": len(result.get("episodes", [])),
+                "stage_b_synthetic": dict(result.get("stage_b_synthetic", {}) or {}),
             }
         )
         for episode in result.get("episodes", []):
@@ -1201,6 +1326,19 @@ def _train_policy_heterogeneous_impl(
                 _write_policy_alias(output_path, terminal)
                 raise
             completed_units += config.episodes_per_epoch
+            stage_b_candidates = sum(
+                int(dict(record.get("stage_b_synthetic", {}) or {}).get("candidate_count", 0))
+                for record in lane_records
+            )
+            stage_b_batches = sum(
+                int(dict(record.get("stage_b_synthetic", {}) or {}).get("batch_count", 0))
+                for record in lane_records
+            )
+            stage_b_text = (
+                f" · Stage-B synthetic {stage_b_candidates} candidate evals / {stage_b_batches} accelerator microbatch(es)"
+                if stage_b_candidates > 0
+                else ""
+            )
             if progress_callback:
                 progress_callback(
                     (
@@ -1209,7 +1347,7 @@ def _train_policy_heterogeneous_impl(
                         else 0
                     ),
                     f"Epoch {epoch + 1}/{target_epoch if target_epoch is not None else '∞'} · PPO update on {learner_device} · "
-                    f"{len(rollout['state'])} fresh transitions · {plan.summary()}",
+                    f"{len(rollout['state'])} fresh transitions · {plan.summary()}{stage_b_text}",
                 )
 
             advantages, returns = _compute_gae(
@@ -1395,8 +1533,9 @@ def _train_policy_heterogeneous_impl(
         "training_environment_version": TRAINING_ENVIRONMENT_VERSION,
         "execution": {
             "architecture": (
-                "same-policy synchronous persistent CUDA/XPU/CPU actor lanes with cross-episode "
-                "ORPD batching, measured-throughput allocation, and one centralized PPO learner update"
+                "same-policy synchronous persistent CUDA/XPU/CPU actor lanes with v6.4 device-resident "
+                "synthetic curriculum microbatching, exact-formulation ORPD batching, measured-throughput "
+                "allocation, and one centralized PPO learner update"
             ),
             "ppo_learner_device": str(learner_device),
             "requested_rollout_shares": final_plan.requested_shares,
@@ -1412,6 +1551,13 @@ def _train_policy_heterogeneous_impl(
             "persistent_actor_workers": bool(config.persistent_actor_workers),
             "throughput_adaptive_rollouts": bool(config.throughput_adaptive_rollouts),
             "measured_actor_transitions_per_second": dict(measured_actor_throughput),
+            "device_resident_synthetic_rollouts": bool(config.device_resident_synthetic_rollouts),
+            "synthetic_cross_episode_batching": bool(config.synthetic_cross_episode_batching),
+            "synthetic_batch_window_ms": float(config.synthetic_batch_window_ms),
+            "synthetic_max_cross_batch": int(config.synthetic_max_cross_batch),
+            "synthetic_startup_parity_required": bool(config.require_synthetic_startup_parity),
+            "synthetic_parity_tolerance": float(config.synthetic_parity_tolerance),
+            "synthetic_parity_recheck_interval": int(config.synthetic_parity_recheck_interval),
             "accelerated_orpd_rollouts": bool(config.use_accelerated_orpd_rollouts),
             "cross_episode_batching": bool(config.training_cross_episode_batching),
             "cross_episode_batch_window_ms": float(config.training_batch_window_ms),
@@ -1422,10 +1568,12 @@ def _train_policy_heterogeneous_impl(
                 "all matching trajectories arrive."
             ),
             "hardware_scope_note": (
-                "Auto-tuned shares are based on measured complete actor transitions per second, "
-                "not Task Manager utilization percentages. Explicit ORPD development rollouts use "
-                "the FP64 accelerator evaluator on the actor device; synthetic curriculum stages "
-                "still contain host-side environment logic."
+                "Auto-tuned shares are based on measured complete actor transitions per second, not Task Manager "
+                "utilization percentages. On admitted CUDA/XPU actors, v6.4 keeps synthetic curriculum task tensors "
+                "resident and cross-episode microbatches FP64 population objective/constraint evaluation after a "
+                "fail-closed NumPy-reference parity gate. The stochastic CALO controller/archive/memory transition "
+                "semantics remain the trusted reference authority. Explicit ORPD development rollouts use the exact "
+                "declared ExperimentConfig and the FP64 accelerator evaluator on the actor device."
             ),
         },
         "curriculum": [

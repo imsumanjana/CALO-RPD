@@ -191,12 +191,14 @@ class DashboardPanel(WorkspacePage):
             "Active branches",
             "Queued branches",
             "Completed branches",
+            "Scientific epoch progress",
+            "Exact safe checkpoint",
             "Global CPU worker budget",
             "Resource assignment",
         )
         for index, name in enumerate(queue_fields):
-            row = index % 4
-            col = (index // 4) * 2
+            row = index % 5
+            col = (index // 5) * 2
             key = QLabel(name)
             key.setObjectName("MetricLabel")
             value = QLabel("—")
@@ -467,6 +469,24 @@ class DashboardPanel(WorkspacePage):
         self.training_labels["Active branches"].setText(str(active))
         self.training_labels["Queued branches"].setText(str(queued))
         self.training_labels["Completed branches"].setText(str(completed))
+        overall_raw = plan.get("overall_percent", -1)
+        overall = int(overall_raw) if overall_raw is not None else -1
+        completed_branch_epochs = int(plan.get("completed_branch_epochs", 0) or 0)
+        total_branch_epochs = int(plan.get("total_branch_epochs", 0) or 0)
+        if overall >= 0 and total_branch_epochs > 0:
+            epoch_progress = f"{overall}% · {completed_branch_epochs}/{total_branch_epochs} branch-epochs"
+        elif active_lock:
+            branch_rows = list(plan.get("branch_progress", []) or [])
+            epoch_progress = " · ".join(
+                f"{row.get('branch_id')} e{int(row.get('current_epoch', 0) or 0)}" for row in branch_rows[:6]
+            ) or "Indefinite / initializing"
+        else:
+            epoch_progress = "—"
+        self.training_labels["Scientific epoch progress"].setText(epoch_progress)
+        safe_epoch = plan.get("common_safe_epoch", None)
+        self.training_labels["Exact safe checkpoint"].setText(
+            f"Last common exact epoch {int(safe_epoch)}" if safe_epoch is not None and int(safe_epoch) >= 0 else "Not yet materialized"
+        )
         self.training_labels["Global CPU worker budget"].setText(
             str(plan.get("global_cpu_worker_budget", resource_plan.get("global_cpu_worker_budget", "—")))
         )

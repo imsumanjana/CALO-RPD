@@ -1,0 +1,11 @@
+ID,Severity,Finding,v6.3.0 Status,Resolution / Remaining Boundary
+A-001,High UX/Correctness,Selected CUDA 9/XPU 0/CPU 0 could show stale CUDA 6/XPU 2/CPU 1 distribution hint,RESOLVED,"Selected routing now derives from live controls; recommendation is separate and only applied explicitly."
+A-002,Medium UX/Correctness,CPU actor workers label conflated host process cap with routing share units,RESOLVED,"Separated CPU rollout process cap from CUDA/XPU/CPU equivalent share-planner units."
+A-003,High Reliability,GUI protected routing could drift from runtime rebinding semantics,RESOLVED,"Shared protected_rollout_shares() is used by reporting and runtime competitive branch binding."
+A-004,High UX/Provenance,24-epoch competitive run displayed 0% and only epochs [2],RESOLVED,"Target-aware competitive_progress_snapshot reports session/cumulative branch progress and real percentage."
+A-005,Medium UX,common safe 0 wording was ambiguous,RESOLVED,"Reports last exact-safe checkpoint and next exact-safe boundary separately."
+A-006,Medium UX,Compute status could imply episode-routing count was worker/process count,RESOLVED,"Status explicitly labels counts as EPISODES and planner values as equivalent units."
+A-007,High Scientific Communication,CUDA 100% could be interpreted as 100% of all program compute on GPU,RESOLVED AS REPORTING,"UI explicitly states percentages are eligible rollout routing; synthetic CALO environment remains host-side in Stage A."
+A-008,High Performance,Synthetic CALO training environment remains substantially CPU/NumPy host-side,OPEN FOR STAGE B,"No GPU-resident environment rewrite is claimed in v6.3 Stage A."
+A-009,High Scientific/Performance,Normal GUI policy training supplies no real ORPD development cases,OPEN FOR FUTURE DEVELOPMENT SUITE,"development_cases remains empty in normal GUI training; accelerator-native ORPD development evaluator therefore has no such workload."
+A-010,Low/Medium Observability,Windows Task Manager 3D engine can show 0% while CUDA/Compute engine differs,DOCUMENTED,"In-app runtime assignment is authoritative for scheduling; physical CUDA utilization still requires correct telemetry/engine selection."

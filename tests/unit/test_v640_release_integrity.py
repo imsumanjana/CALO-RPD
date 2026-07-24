@@ -5,76 +5,66 @@ import hashlib
 import json
 import tomllib
 
-import pytest
-
 from calo_rpd_studio.benchmarking.freeze import verify_freeze_manifest
 from calo_rpd_studio.version import FREEZE_ID, FREEZE_MANIFEST, RELEASE_NAME, VERSION
-
-pytestmark = pytest.mark.skipif(VERSION != "6.2.1", reason="historical v6.2.1 release gate")
 
 
 def _root() -> Path:
     return Path(__file__).resolve().parents[2]
 
 
-def test_v621_release_identity_is_consistent():
+def test_v640_release_identity_is_consistent():
     root = _root()
     project = tomllib.loads((root / "pyproject.toml").read_text(encoding="utf-8"))["project"]
     metadata = json.loads((root / "RELEASE_METADATA.json").read_text(encoding="utf-8"))
-    assert project["version"] == VERSION == metadata["version"] == "6.2.1"
-    assert RELEASE_NAME == metadata["release_name"] == "Adaptive Compute Protection, Recovery and Scientific Qualification"
-    assert FREEZE_ID == "calo_v621_software_release"
-    assert FREEZE_MANIFEST == "calo_v621_freeze.json"
+    assert project["version"] == VERSION == metadata["version"] == "6.4.0"
+    assert RELEASE_NAME == metadata["release_name"] == "Stage-B Device-Resident Policy Training"
+    assert FREEZE_ID == "calo_v640_software_release"
+    assert FREEZE_MANIFEST == "calo_v640_freeze.json"
 
 
-def test_v621_freeze_verifies_and_covers_rc_final_architecture():
+def test_v640_freeze_verifies_and_covers_stage_b_science():
     root = _root()
     freeze_path = root / "calo_rpd_studio" / "data" / "frozen" / FREEZE_MANIFEST
     result = verify_freeze_manifest(freeze_path, project_root=root)
     assert result.passed
     payload = json.loads(freeze_path.read_text(encoding="utf-8"))
     required = {
-        "calo_rpd_studio/compute/governor.py",
-        "calo_rpd_studio/compute/provenance.py",
-        "calo_rpd_studio/compute/soak.py",
-        "calo_rpd_studio/compute/scientific_equivalence.py",
-        "calo_rpd_studio/app/session_recovery.py",
-        "calo_rpd_studio/app/workspaces.py",
-        "calo_rpd_studio/app/main_window.py",
-        "calo_rpd_studio/algorithms/calo/competitive_training.py",
-        "calo_rpd_studio/app/experiment_manager.py",
-        "calo_rpd_studio/validation/gui_contract.py",
+        "calo_rpd_studio/algorithms/calo/device_resident_synthetic.py",
+        "calo_rpd_studio/algorithms/calo/heterogeneous_training.py",
+        "calo_rpd_studio/algorithms/calo/training.py",
+        "calo_rpd_studio/gui/panels/calo_intelligence_panel.py",
+        "calo_rpd_studio/scripts/validate_stage_b_synthetic.py",
+        "calo_rpd_studio/data/examples/policy_development_active_loss.yaml",
     }
     assert required <= set(payload["files"])
     scope = payload["frozen_scope"]
-    assert scope["dynamic_thermal_power_governor"] is True
-    assert scope["staged_compute_startup"] is True
-    assert scope["hash_chained_compute_provenance"] is True
-    assert scope["workspace_schema_v3_migration"] is True
-    assert scope["unclean_application_session_recovery"] is True
-    assert scope["hardware_soak_qualification_protocol"] is True
-    assert scope["scheduling_scientific_equivalence_protocol"] is True
-    assert scope["physical_multi_hour_hardware_soak_certified_in_build_runtime"] is False
+    assert scope["stage_b_device_resident_synthetic_evaluation"] is True
+    assert scope["stage_b_cross_episode_synthetic_microbatching"] is True
+    assert scope["stage_b_synthetic_startup_parity_fail_closed"] is True
+    assert scope["stage_b_real_orpd_development_suite_configurable"] is True
+    assert scope["stage_b_full_stochastic_calo_controller_gpu_resident"] is False
 
 
-def test_v621_release_evidence_files_exist_and_are_truthful():
+def test_v640_release_evidence_and_stage_b_boundaries_exist():
     root = _root()
     for name in (
-        "CALO-RPD-v6.2.1_IMPLEMENTATION_REPORT.md",
-        "CALO-RPD-v6.2.1_DEEP_POST_GENERATION_AUDIT.txt",
-        "FINDINGS_CLOSURE_v6.2.1.csv",
+        "CALO-RPD-v6.4.0_IMPLEMENTATION_REPORT.md",
+        "CALO-RPD-v6.4.0_DEEP_POST_GENERATION_AUDIT.txt",
+        "FINDINGS_CLOSURE_v6.4.0.csv",
         "HARDWARE_QUALIFICATION_STATUS.json",
         "SCIENTIFIC_EQUIVALENCE_STATUS.json",
         "RELEASE_VALIDATION.md",
         "RELEASE_METADATA.json",
     ):
         assert (root / name).is_file(), name
-    hardware = json.loads((root / "HARDWARE_QUALIFICATION_STATUS.json").read_text(encoding="utf-8"))
-    assert "PENDING" in hardware["status"]
-    assert "NOT_EXECUTED" in hardware["physical_multi_hour_cuda_soak"]
+    metadata = json.loads((root / "RELEASE_METADATA.json").read_text(encoding="utf-8"))
+    assert metadata["stage_b"]["device_resident_synthetic_evaluation"] is True
+    assert metadata["stage_b"]["real_orpd_development_suite_configured"] is True
+    assert metadata["stage_b"]["full_stochastic_calo_controller_gpu_resident"] is False
 
 
-def test_v621_root_manifest_matches_every_packaged_file():
+def test_v640_root_manifest_matches_every_packaged_file():
     root = _root()
     manifest = root / "MANIFEST.sha256"
     rows = {}
@@ -87,7 +77,6 @@ def test_v621_root_manifest_matches_every_packaged_file():
         path = root / relative
         assert path.is_file(), relative
         assert hashlib.sha256(path.read_bytes()).hexdigest() == expected, relative
-    # Complete package accounting: every non-cache regular file except the manifest itself is listed.
     excluded_parts = {"__pycache__", ".pytest_cache", ".git"}
     actual = {
         path.relative_to(root).as_posix()
@@ -100,7 +89,7 @@ def test_v621_root_manifest_matches_every_packaged_file():
     assert set(rows) == actual
 
 
-def test_v621_metadata_records_environment_boundaries():
+def test_v640_metadata_records_target_hardware_boundary():
     root = _root()
     metadata = json.loads((root / "RELEASE_METADATA.json").read_text(encoding="utf-8"))
     assert metadata["freeze"]["status"] == "VERIFIED"
@@ -108,3 +97,4 @@ def test_v621_metadata_records_environment_boundaries():
     assert metadata["validation"]["physical_cuda_xpu"] == "NOT AVAILABLE IN BUILD RUNTIME"
     assert metadata["validation"]["pyqt6"] == "NOT AVAILABLE IN BUILD RUNTIME"
     assert metadata["validation"]["pypower"] == "NOT AVAILABLE IN BUILD RUNTIME"
+    assert metadata["validation"]["guaranteed_high_gpu_utilization"] is False

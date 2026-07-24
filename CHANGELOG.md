@@ -1,3 +1,31 @@
+# Changelog
+
+## 6.4.0 — Stage-B Device-Resident Policy Training
+
+- Added persistent FP64 device-resident synthetic curriculum objective/constraint evaluation for admitted CUDA/direct-XPU rollout actors.
+- Added fail-closed NumPy-reference startup parity and periodic parity rechecks for every generated accelerator-backed synthetic curriculum problem.
+- Added persistent cross-episode synthetic microbatch broker to merge compatible population evaluations into larger accelerator batches.
+- Preserved original curriculum RNG/task generation by wrapping already-generated reference problems without consuming additional RNG state.
+- Capped host-side controller stepping by the protected per-branch rollout-worker budget to avoid reintroducing CPU oversubscription.
+- Added Stage-B synthetic microbatch metrics to actor/training provenance and progress reporting.
+- Added normal-GUI real ORPD policy-development suite configuration with default case30/case57 development systems.
+- Added bundled active-loss development ExperimentConfig and protected final holdout rejection for case118/case300 in the normal development-suite selector.
+- Corrected heterogeneous real-ORPD rollouts to inherit the exact declared ExperimentConfig objective, variables, PowerFlowOptions, robust formulation, scenarios and constraint tolerances instead of constructing a default ORPD problem.
+- Added Stage-B synthetic parity/throughput validation CLI.
+- Preserved the Stage-A truthful meaning of CUDA/XPU/CPU routing; v6.4 does not claim every stochastic CALO controller/archive/memory operation is GPU-resident.
+
+## 6.3.0 — Training Status and Device Reporting Correctness
+
+- Stage-A truthfulness patch for CALO policy training; no GPU-resident Stage-B scientific rewrite is claimed.
+- Separated selected rollout routing, advisory recommendation, Safe-80 protected admission, actual runtime device mapping, and execution-scope reporting.
+- Fixed stale distribution-hint behavior after manual CUDA/XPU/CPU selection; recommendations no longer overwrite or masquerade as selected routing.
+- Clarified that share-planner units are not literal accelerator process counts and that `rollout_workers` is a CPU rollout process cap.
+- Added one shared protected rollout-share rebinding authority used by runtime and reporting.
+- Fixed competitive queue progress so fixed sessions report real branch-epoch percentage/targets and exact safe-checkpoint state instead of repeatedly emitting 0%.
+- Added session-vs-cumulative epoch reporting for exact resume and indeterminate progress for infinite mode.
+- Dashboard Training Queue now reports scientific epoch progress and exact-safe checkpoint state.
+- Explicitly reports the current implementation boundary: accelerator policy/PPO tensors are used where supported, while synthetic CALO curriculum environment steps remain host-side; the normal GUI training path currently configures no real development ORPD cases.
+
 # CALO-RPD Changelog
 
 ## 6.2.1 — Dashboard Scrollable Three-Tab Layout

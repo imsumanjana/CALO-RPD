@@ -1,4 +1,4 @@
-"""Command-line CALO v5.9 competitive policy-training entry point."""
+"""Command-line CALO v6.4 Stage-B competitive policy-training entry point."""
 
 from __future__ import annotations
 
@@ -16,7 +16,7 @@ from calo_rpd_studio.algorithms.calo.training import (
 def main() -> int:
     parser = argparse.ArgumentParser(
         description=(
-            "Train a CALO v5.9 competitive multi-branch candidate policy on the documented "
+            "Train a CALO v6.4 Stage-B competitive multi-branch candidate policy on the documented "
             "constrained mixed-variable curriculum."
         )
     )
@@ -60,16 +60,24 @@ def main() -> int:
         action="append",
         default=[],
         help=(
-            "Optional custom ORPD development case path. Repeat the option for multiple "
-            "development systems."
+            "ORPD development case name/path. Repeat for multiple development systems. "
+            "Protected final holdouts case118/case300 are rejected unless explicitly allowed."
+        ),
+    )
+    parser.add_argument(
+        "--development-experiment-config",
+        default="",
+        help=(
+            "Exact ExperimentConfig YAML/JSON used for every development case. Required whenever "
+            "--development-case is supplied."
         ),
     )
     parser.add_argument(
         "--allow-final-benchmark-training",
         action="store_true",
         help=(
-            "Explicitly allow IEEE case30/case57/case118 in training. Do not use this for final "
-            "publication benchmarking."
+            "Explicitly allow protected final holdout cases such as case118/case300 in training. "
+            "Do not use this for a final publication benchmark campaign."
         ),
     )
     parser.add_argument(
@@ -116,6 +124,7 @@ def main() -> int:
         rollout_workers=args.rollout_workers,
         ppo_device=selected_device,
         development_cases=tuple(args.development_case),
+        development_experiment_config_path=str(args.development_experiment_config or ""),
         allow_final_benchmark_training=bool(args.allow_final_benchmark_training),
         historical_repository=str(args.historical_repository),
         use_historical_trajectories=bool(args.use_historical_trajectories),
@@ -142,6 +151,9 @@ def main() -> int:
     if args.start_mode == "base_guided_fork" and not str(args.base_model).strip():
         parser.error("--base-model is required for --start-mode base_guided_fork.")
 
+    if args.development_case and not str(args.development_experiment_config).strip():
+        parser.error("--development-experiment-config is required when --development-case is used.")
+
     if not args.legacy_cpu_rollouts:
         config = HeterogeneousTrainingConfig(
             **common,
@@ -151,7 +163,7 @@ def main() -> int:
             cpu_rollout_share=int(args.cpu_share),
         )
         path, history = train_policy_parallel(config, args.output, parallel_runs=branch_count)
-        print(f"Saved CALO v5.9 competitive base policy: {Path(path).resolve()}")
+        print(f"Saved CALO v6.4 Stage-B competitive base policy: {Path(path).resolve()}")
         print(f"Parallel branches: {branch_count}; mode: {args.mode}; start mode: {args.start_mode}")
         print(f"Final coordinator record: {history[-1] if history else {}}")
         print("Formal Policy Qualification remains separate from branch-champion/base selection.")
@@ -168,7 +180,7 @@ def main() -> int:
         return 0
 
     path, history = train_policy_parallel(config, args.output, parallel_runs=branch_count)
-    print(f"Saved CALO v5.9 competitive base policy: {Path(path).resolve()}")
+    print(f"Saved CALO v6.4 Stage-B competitive base policy: {Path(path).resolve()}")
     print(f"Parallel branches: {branch_count}; mode: {args.mode}; start mode: {args.start_mode}")
     print(f"Final coordinator record: {history[-1] if history else {}}")
     return 0

@@ -1,13 +1,19 @@
 {
-  "release": "6.2.1",
-  "status": "SOFTWARE_PROTOCOL_COMPLETE_PHYSICAL_TARGET_GATE_PENDING",
+  "release": "6.4.0",
+  "status": "STAGE_B_SOFTWARE_IMPLEMENTED_PHYSICAL_TARGET_GATE_PENDING",
   "safe80_governor": "IMPLEMENTED",
   "staged_startup": "IMPLEMENTED",
-  "hardware_soak_protocol": "IMPLEMENTED",
-  "build_runtime_short_cpu_soak": "PASS_GREEN_NOT_PHYSICAL_ACCELERATOR_QUALIFICATION",
+  "device_resident_synthetic_kernel": "IMPLEMENTED",
+  "cross_episode_synthetic_microbatching": "IMPLEMENTED",
+  "real_orpd_development_accelerator_path": "IMPLEMENTED",
+  "build_runtime_stage_b_cpu_validation": "PASS_LOGIC_PARITY_NOT_PHYSICAL_ACCELERATOR_QUALIFICATION",
+  "build_runtime_max_startup_parity_error": 4.440892098500626e-15,
+  "physical_cuda_stage_b_validation": "NOT_EXECUTED_BUILD_RUNTIME_NO_PHYSICAL_CUDA",
+  "physical_xpu_stage_b_validation": "NOT_EXECUTED_BUILD_RUNTIME_NO_PHYSICAL_XPU",
   "physical_multi_hour_cuda_soak": "NOT_EXECUTED_BUILD_RUNTIME_NO_PHYSICAL_CUDA",
   "physical_multi_hour_xpu_soak": "NOT_EXECUTED_BUILD_RUNTIME_NO_PHYSICAL_XPU",
   "full_pyqt6_gui_validation": "NOT_EXECUTED_BUILD_RUNTIME_NO_PYQT6",
   "full_pypower_validation": "NOT_EXECUTED_BUILD_RUNTIME_NO_PYPOWER",
-  "rule": "Do not mark a machine physically qualified until validate_hardware_soak completes the declared duration on that physical accelerator without a protection stop and the target-machine scientific parity suite passes."
+  "rule": "Do not claim Stage-B physical throughput/utilization qualification until the intended CUDA/XPU device passes the Stage-B parity validator, scientific training regression/equivalence gates, and the declared protected hardware soak on that physical machine.",
+  "performance_claim_boundary": "v6.4 increases useful accelerator-resident work but does not guarantee a fixed GPU utilization percentage or speedup on untested hardware."
 }

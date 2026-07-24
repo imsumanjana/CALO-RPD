@@ -1,0 +1,198 @@
+CALO-RPD v6.3.0 — DEEP POST-GENERATION STAGE-A AUDIT
+====================================================
+
+Release name : Training Status and Device Reporting Correctness
+Audit date   : 2026-07-23
+Baseline     : CALO-RPD v6.2.1
+Scope        : Stage A reporting/progress/device truthfulness only
+
+EXECUTIVE VERDICT
+-----------------
+
+v6.3.0 successfully addresses the concrete reporting inconsistencies observed in the v6.2.1 GUI:
+
+1. A selected CUDA-100% / 9-0-0 routing can no longer be accompanied by a stale 6-2-1 recommendation presented as the selected distribution.
+2. Recommendation and current selection are explicitly separate.
+3. Planner units are no longer presented as literal process counts.
+4. The protected runtime branch/device mapping is shown independently from requested routing.
+5. Competitive training no longer emits normal progress as a permanent 0% while only showing an opaque epoch array.
+6. Fixed/cumulative sessions now have target-aware branch-epoch progress and explicit exact-safe checkpoint wording.
+7. Dashboard training status now exposes scientific epoch progress and exact-safe state separately.
+8. The GUI explicitly states the Stage-A computational reality: CUDA-100% means eligible rollout routing, while the synthetic CALO environment remains substantially host/CPU/NumPy based.
+
+No Stage-B GPU-resident environment claim is made.
+
+AUDIT FINDINGS AND CLOSURE
+--------------------------
+
+A-001 [RESOLVED] STALE DISTRIBUTION HINT
+Prior symptom:
+  Selected controls: CUDA 9 / XPU 0 / CPU 0
+  Displayed hint:   CUDA 6 / XPU 2 / CPU 1
+
+Root cause class:
+  selected state and advisory recommendation were not sufficiently separated/refreshed.
+
+v6.3 correction:
+  - current selected routing is derived from the live controls;
+  - advisory recommendation is displayed separately;
+  - recommendation is applied only by explicit user action;
+  - changing the CPU process cap does not silently overwrite selected routing.
+
+Status: RESOLVED.
+
+A-002 [RESOLVED] AMBIGUOUS "CPU ACTOR WORKERS" LABEL
+Prior problem:
+  one integer could visually appear to be both CPU processes and total CUDA/XPU/CPU share units.
+
+v6.3 correction:
+  - CPU rollout process cap is a distinct host-process field;
+  - CUDA/XPU/CPU planner values are explicitly equivalent share-planner units;
+  - units are not described as literal processes.
+
+Status: RESOLVED.
+
+A-003 [RESOLVED] SELECTED VS PROTECTED ROUTING DRIFT RISK
+v6.3 introduces one shared protected_rollout_shares() authority consumed by runtime worker binding and reporting.
+
+Status: RESOLVED for Stage-A reporting/runtime routing semantics.
+
+A-004 [RESOLVED] 24-EPOCH RUN DISPLAYED AS 0% / "epochs [2]"
+Prior problem:
+  competitive coordinator normal callbacks hard-coded progress to 0 and exposed only current epoch arrays.
+
+v6.3 correction:
+  - competitive_progress_snapshot() computes branch/session target progress;
+  - one fresh branch at epoch 2 of 24 reports ~8%;
+  - exact-resume sessions distinguish session delta from cumulative epoch;
+  - multi-branch progress uses completed branch-epochs / total branch-epochs;
+  - indefinite mode is intentionally indeterminate rather than falsely 0%.
+
+Status: RESOLVED.
+
+A-005 [RESOLVED] "COMMON SAFE 0" WORDING AMBIGUITY
+v6.3 reports:
+  - last exact-safe checkpoint;
+  - next exact-safe boundary;
+separately from scientific target progress.
+
+Status: RESOLVED.
+
+A-006 [RESOLVED] COMPUTE STATUS COULD IMPLY EPISODE COUNT = WORKER COUNT
+v6.3 explicitly labels per-epoch routed counts as EPISODES, not rollout-worker/process counts.
+
+Status: RESOLVED.
+
+A-007 [RESOLVED] CUDA 100% COULD BE READ AS 100% OF ALL PROGRAM COMPUTE
+v6.3 explicitly states:
+  - percentages route eligible rollout episodes/transitions;
+  - policy inference/PPO may run on the accelerator;
+  - synthetic CALO environment steps remain substantially host-side in Stage A;
+  - hardware utilization is an observed runtime metric, not guaranteed by routing percentage.
+
+Status: RESOLVED AS A TRUTHFULNESS/WORDING ISSUE.
+
+A-008 [OPEN BY DESIGN — STAGE B] SYNTHETIC CALO ENVIRONMENT IS NOT GPU RESIDENT
+This was intentionally not rewritten in Stage A.
+
+Current architecture still contains host/NumPy environment work and CPU↔accelerator transitions. Therefore sustained high NVIDIA utilization is not guaranteed by CUDA-100% rollout routing.
+
+Status: OPEN FOR STAGE B.
+
+A-009 [OPEN BY DESIGN — STAGE B] NORMAL GUI DEVELOPMENT-CASE SUITE IS EMPTY
+Normal GUI training paths still supply development_cases=(). This means accelerator-native FP64 ORPD development evaluation does not receive a real development-case workload in those runs.
+
+Status: OPEN FOR A FUTURE SCIENTIFICALLY DESIGNED POLICY-DEVELOPMENT-SUITE UPGRADE.
+
+A-010 [LIMITATION] TASK MANAGER 3D GRAPH IS NOT A CUDA-COMPUTE CERTIFICATE
+Windows Task Manager may show the 3D engine rather than CUDA/Compute engine. v6.3 improves in-app assignment truthfulness but does not make Task Manager engine selection authoritative.
+
+Status: DOCUMENTED LIMITATION.
+
+SCIENTIFIC REGRESSION REVIEW
+----------------------------
+
+No intentional changes were made to CALO mathematics, ORPD formulations, AC power flow, robust scenario definitions, policy ABI, or exact-resume scientific state.
+
+The competitive-training change is target-aware reporting plus use of a shared protected-routing helper. The helper preserves the existing protected rebinding behavior.
+
+Progress calculations are derived from scientific session targets and current branch epochs. They do not influence optimizer decisions, rewards, branch seeds, or model updates.
+
+TEST EVIDENCE
+-------------
+
+Environment:
+  PyQt6    : unavailable
+  PYPOWER  : unavailable
+  CUDA     : unavailable in build runtime
+  Intel XPU: unavailable in build runtime
+
+Executed:
+  compileall : PASS
+
+Focused Stage-A + architecture/scientific/core selection:
+  58 passed
+
+Dedicated v6.3 Stage-A tests cover:
+  - fresh single-branch target progress;
+  - exact-resume session/cumulative progress;
+  - multi-branch branch-epoch progress;
+  - indefinite indeterminate progress;
+  - selected/recommended UI source contract;
+  - non-zero coordinator progress contract;
+  - protected-routing helper semantics;
+  - tiny real competitive-training progress callback.
+
+Competitive multiprocessing historical regression:
+  tests/unit/test_v56_competitive_training.py printed 9 passed.
+  The external container command wrapper did not terminate cleanly after the suite, although process inspection found no lingering pytest/CALO processes. This evidence is recorded transparently and is not represented as a clean wrapper-exit PASS.
+
+Static silent-handler audit:
+  0 broad Exception/BaseException/bare handlers whose sole action is pass/continue/return.
+
+POST-GENERATION RISK ASSESSMENT
+-------------------------------
+
+P0 Stage-A correctness blockers found after implementation: NONE remaining in the audited reporting path.
+
+Remaining non-Stage-A risks:
+  1. GPU utilization remains architecture/workload dependent because the synthetic environment is host-heavy.
+  2. A real ORPD development suite is not configured by the normal GUI training path.
+  3. Physical CUDA/XPU utilization/thermal behavior cannot be certified in this CPU-only build runtime.
+  4. PyQt6 visual rendering requires target-machine validation.
+
+RECOMMENDATION FOR NEXT PERFORMANCE RELEASE
+-------------------------------------------
+
+Do not reinterpret Stage A as performance closure.
+
+Stage B should be a separate scientifically controlled project with:
+  - CPU reference trajectory oracle;
+  - GPU-resident/vectorized synthetic environment components where parity can be proved;
+  - minimized per-step CPU<->GPU synchronization;
+  - larger batched independent environments;
+  - explicit real ORPD development-suite configuration using protected held-out test separation;
+  - throughput, trajectory-parity, and thermal-soak evidence before promotion.
+
+FINAL CONCLUSION
+----------------
+
+v6.3.0 is a correct Stage-A reporting/progress baseline. It fixes the visible contradiction between selected routing and hint text, distinguishes recommendation from execution, exposes the actual protected device mapping, and makes fixed/cumulative competitive-training progress target aware.
+
+It deliberately does not claim that CUDA-100% routing makes the full CALO environment CUDA resident. That distinction is now visible in the application rather than hidden behind misleading wording.
+
+FINAL RELEASE-INTEGRITY SNAPSHOT
+--------------------------------
+
+v6.3 freeze:
+  135 / 135 verified
+  missing: 0
+  changed: 0
+  freeze ID: calo_v630_software_release
+  canonical SHA-256: 19438e3c54fd01e7cd8671acb22a4e143e02a6c1a360241efd9b5c8b01561d6d
+  freeze-file SHA-256: 80d97d6d142c7bb5b10781d35f1ec6c1dd3491ef81545c68857e0dc4475be2b8
+
+Root package manifest target:
+  431 packaged non-cache files, excluding MANIFEST.sha256 itself.
+
+Final delivery procedure requires extracting the actual ZIP and reverifying both the root package manifest and the v6.3 software freeze before the archive is presented as complete.

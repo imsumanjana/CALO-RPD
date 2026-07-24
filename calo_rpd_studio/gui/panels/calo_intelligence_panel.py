@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+from types import SimpleNamespace
 
 from dataclasses import asdict
 import hashlib
@@ -63,7 +64,7 @@ from calo_rpd_studio.algorithms.calo.policy_qualification import (
     PolicyQualificationConfig,
 )
 from calo_rpd_studio.resume.models import ResumeStatus, ResumeTaskType
-from calo_rpd_studio.compute.training_resources import build_training_resource_plan
+from calo_rpd_studio.compute.training_resources import build_training_resource_plan, protected_rollout_shares
 
 
 _LOG = logging.getLogger(__name__)
@@ -283,10 +284,11 @@ class CALOIntelligencePanel(ScrollablePage):
             "one synchronized policy snapshot. Automatic learner priority is NVIDIA CUDA, then "
             "direct Intel XPU, then CPU. " + device_text
         )
+        self.training_device.currentIndexChanged.connect(self._update_training_plan)
 
         self.rollout_mode = QComboBox()
         self.rollout_mode.addItem(
-            "GPU-maximum device-resident actors — CUDA 100% when available",
+            "Accelerator-routed policy actors — CUDA 100% episode routing when available",
             "weighted",
         )
         self.rollout_mode.addItem(
@@ -315,10 +317,10 @@ class CALOIntelligencePanel(ScrollablePage):
         split_layout.addWidget(self.xpu_rollout_share)
         split_layout.addWidget(self.cpu_rollout_share)
         self.training_cuda_priority = QPushButton("100/0/0 GPU max")
-        self.training_cuda_priority.setToolTip("CUDA-priority device-resident rollout allocation")
+        self.training_cuda_priority.setToolTip("CUDA-priority rollout episode/transition routing; this does not mean every CALO environment operation is GPU-resident")
         self.training_cuda_only = QPushButton("100% CUDA")
         self.training_cuda_only.setToolTip(
-            "Route all compatible rollout episodes and the PPO learner to NVIDIA CUDA"
+            "Route all compatible rollout episodes and the PPO learner to NVIDIA CUDA. v6.4 Stage B also enables the device-resident synthetic curriculum evaluation kernel when its parity gate passes."
         )
         self.training_cuda_priority.clicked.connect(lambda: self._set_training_split(100, 0, 0))
         self.training_cuda_only.clicked.connect(lambda: self._set_training_split(100, 0, 0))
@@ -329,7 +331,7 @@ class CALOIntelligencePanel(ScrollablePage):
             self.xpu_rollout_share,
             self.cpu_rollout_share,
         ):
-            control.valueChanged.connect(self._update_training_plan)
+            control.valueChanged.connect(self._on_rollout_shares_changed)
 
         self.auto_tuned_training = QCheckBox(
             "Auto-tune CUDA/XPU/CPU rollout shares from measured complete actor throughput"
@@ -344,17 +346,50 @@ class CALOIntelligencePanel(ScrollablePage):
             "Keep CUDA/XPU actors and CPU rollout pool persistent for the full training session"
         )
         self.persistent_training_actors.setChecked(True)
+        self.device_resident_synthetic = QCheckBox(
+            "Use v6.4 device-resident FP64 synthetic curriculum evaluation on CUDA/XPU"
+        )
+        self.device_resident_synthetic.setChecked(True)
+        self.device_resident_synthetic.setToolTip(
+            "Stage B keeps generated curriculum tasks and their objective/constraint tensors resident on the admitted accelerator, cross-episode microbatches population evaluations, and performs a fail-closed NumPy-reference parity check before trusting each generated task. CALO controller/archive logic remains scientifically identical to the reference transition kernel."
+        )
         self.accelerated_training_orpd = QCheckBox(
             "Use FP64 accelerator-native ORPD evaluation in development-case rollouts"
         )
         self.accelerated_training_orpd.setChecked(True)
         self.accelerated_training_orpd.setToolTip(
-            "CALO v5.9 uses the native 32-feature policy state/action schema and accelerator-native FP64 ORPD evaluation for configured development-case rollouts; synthetic curriculum stages remain lightweight host environments."
+            "Uses the exact declared development ExperimentConfig objective/controls/PF/scenarios with accelerator-native FP64 ORPD evaluation."
         )
         self.cross_episode_training_batch = QCheckBox(
-            "Batch compatible ORPD populations across simultaneous rollout episodes"
+            "Batch compatible synthetic/ORPD populations across simultaneous rollout episodes"
         )
         self.cross_episode_training_batch.setChecked(True)
+
+        self.enable_development_suite = QCheckBox(
+            "Enable real ORPD policy-development suite after the synthetic curriculum"
+        )
+        self.enable_development_suite.setChecked(True)
+        self.development_cases = QLineEdit("case30, case57")
+        self.development_cases.setToolTip(
+            "Comma-separated TRAIN/DEVELOPMENT cases only. case118 and case300 are protected holdouts and cannot be used here by default."
+        )
+        default_development_config = (
+            Path(__file__).resolve().parents[2]
+            / "data"
+            / "examples"
+            / "policy_development_active_loss.yaml"
+        )
+        self.development_experiment_config = QLineEdit(str(default_development_config))
+        self.development_experiment_config.setToolTip(
+            "Exact ExperimentConfig template used for every development case. The case_name is replaced by each selected development case; objective, controls, PF options, robust scenarios and tolerances are preserved."
+        )
+        self.development_config_browse = QPushButton("Browse…")
+        self.development_config_browse.clicked.connect(self._browse_development_config)
+        development_config_row = QWidget()
+        development_config_layout = QHBoxLayout(development_config_row)
+        development_config_layout.setContentsMargins(0, 0, 0, 0)
+        development_config_layout.addWidget(self.development_experiment_config, 1)
+        development_config_layout.addWidget(self.development_config_browse)
 
         self.training_calibration_episodes = QSpinBox()
         self.training_calibration_episodes.setRange(1, 20)
@@ -383,8 +418,10 @@ class CALOIntelligencePanel(ScrollablePage):
         for control in (
             self.auto_tuned_training,
             self.persistent_training_actors,
+            self.device_resident_synthetic,
             self.accelerated_training_orpd,
             self.cross_episode_training_batch,
+            self.enable_development_suite,
         ):
             control.toggled.connect(self._update_training_plan)
         for control in (
@@ -394,10 +431,16 @@ class CALOIntelligencePanel(ScrollablePage):
             self.training_batch_window,
         ):
             control.valueChanged.connect(self._update_training_plan)
+        self.development_cases.textChanged.connect(self._update_training_plan)
+        self.development_experiment_config.textChanged.connect(self._update_training_plan)
 
         self.rollout_workers = QSpinBox()
         self.rollout_workers.setRange(1, max(1, recommended_rollout_workers() + 8))
         self.rollout_workers.setValue(recommended_rollout_workers(self.episodes.value()))
+        self.rollout_workers.setToolTip(
+            "Maximum host CPU rollout processes used only when the CPU rollout lane has assigned episodes. "
+            "This is not the number of CUDA/XPU actor processes and is further clamped by the global Safe-80 per-branch CPU budget."
+        )
         self.recommended_workers_button = QPushButton("Use recommended")
         self.recommended_workers_button.clicked.connect(self._use_recommended_workers)
         worker_row = QWidget()
@@ -411,21 +454,21 @@ class CALOIntelligencePanel(ScrollablePage):
         self.cuda_workers = QSpinBox()
         self.cuda_workers.setRange(0, 999)
         self.cuda_workers.setValue(0)
-        self.cuda_workers.setSuffix(" CUDA")
-        self.cuda_workers.setToolTip("Number of rollout workers to assign to NVIDIA CUDA")
+        self.cuda_workers.setSuffix(" CUDA units")
+        self.cuda_workers.setToolTip("Nominal share-planner units used to derive the CUDA rollout percentage. This is not a count of CUDA processes.")
         self.xpu_workers = QSpinBox()
         self.xpu_workers.setRange(0, 999)
         self.xpu_workers.setValue(0)
-        self.xpu_workers.setSuffix(" XPU")
-        self.xpu_workers.setToolTip("Number of rollout workers to assign to Intel XPU")
+        self.xpu_workers.setSuffix(" XPU units")
+        self.xpu_workers.setToolTip("Nominal share-planner units used to derive the XPU rollout percentage. This is not a count of XPU processes.")
         self.cpu_workers = QSpinBox()
         self.cpu_workers.setRange(0, 999)
         self.cpu_workers.setValue(0)
-        self.cpu_workers.setSuffix(" CPU")
-        self.cpu_workers.setToolTip("Number of rollout workers to assign to host CPU")
-        self.recommend_workers_button = QPushButton("Recommend split")
+        self.cpu_workers.setSuffix(" CPU units")
+        self.cpu_workers.setToolTip("Nominal share-planner units used to derive the CPU rollout percentage. Actual CPU process count is governed by the CPU rollout process cap and Safe-80 budget.")
+        self.recommend_workers_button = QPushButton("Apply recommendation")
         self.recommend_workers_button.setToolTip(
-            "Auto-distribute total workers across CUDA, XPU, and CPU based on detected hardware"
+            "Apply the advisory hardware-based rollout routing. The displayed equivalent units only derive percentages; they are not literal CUDA/XPU process counts. The recommendation never replaces the selected routing unless you click this button."
         )
         self.recommend_workers_button.clicked.connect(self._apply_recommended_worker_split)
         task_share_row = QWidget()
@@ -441,13 +484,24 @@ class CALOIntelligencePanel(ScrollablePage):
         self.task_share_status.setObjectName("HelpText")
         for ctrl in (self.cuda_workers, self.xpu_workers, self.cpu_workers):
             ctrl.valueChanged.connect(self._sync_shares_from_workers)
-        self.rollout_workers.valueChanged.connect(self._apply_recommended_worker_split)
+        # v6.4 preserves the Stage-A selected-routing contract while adding the Stage-B accelerator kernels.
+        # Recommendations are advisory and are applied only by the explicit Apply recommendation button.
+        self.rollout_workers.valueChanged.connect(self._sync_workers_from_shares)
 
+        self.recommended_share_status = QLabel()
+        self.recommended_share_status.setWordWrap(True)
+        self.recommended_share_status.setObjectName("HelpText")
+        self.protected_allocation_status = QLabel()
+        self.protected_allocation_status.setWordWrap(True)
+        self.protected_allocation_status.setObjectName("HelpText")
+        self.runtime_assignment_status = QLabel()
+        self.runtime_assignment_status.setWordWrap(True)
+        self.runtime_assignment_status.setObjectName("HelpText")
         self.accelerator_status = QLabel()
         self.accelerator_status.setWordWrap(True)
         self._device_text = device_text
+        self._sync_workers_from_shares()
         self._update_training_plan()
-        self._apply_recommended_worker_split()
 
         self.train_button = QPushButton("Start / continue CALO policy lineage")
         self.train_button.setObjectName("PrimaryButton")
@@ -489,20 +543,28 @@ class CALOIntelligencePanel(ScrollablePage):
         training_form.addRow("Rollout transition split", split_row)
         training_form.addRow("Throughput allocation", self.auto_tuned_training)
         training_form.addRow("Persistent training actors", self.persistent_training_actors)
+        training_form.addRow("Stage-B synthetic accelerator kernel", self.device_resident_synthetic)
         training_form.addRow("Accelerated ORPD rollouts", self.accelerated_training_orpd)
         training_form.addRow("Cross-episode batching", self.cross_episode_training_batch)
+        training_form.addRow("Real ORPD development suite", self.enable_development_suite)
+        training_form.addRow("Development cases", self.development_cases)
+        training_form.addRow("Development formulation", development_config_row)
         training_form.addRow("Calibration episodes/device", self.training_calibration_episodes)
         training_form.addRow("ORPD tensor microbatch", self.training_tensor_batch)
         training_form.addRow("Maximum merged candidates", self.training_cross_batch)
         training_form.addRow("Cross-episode batch window", self.training_batch_window)
-        training_form.addRow("CPU actor workers", worker_row)
-        training_form.addRow("Task sharing (workers)", task_share_row)
-        training_form.addRow("Distribution hint", self.task_share_status)
-        training_form.addRow("Compute status", self.accelerator_status)
+        training_form.addRow("CPU rollout process cap", worker_row)
+        training_form.addRow("Share planner (equivalent units)", task_share_row)
+        training_form.addRow("Selected rollout routing", self.task_share_status)
+        training_form.addRow("Recommended routing", self.recommended_share_status)
+        training_form.addRow("Safe-80 branch admission", self.protected_allocation_status)
+        training_form.addRow("Runtime device mapping", self.runtime_assignment_status)
+        training_form.addRow("Execution scope", self.accelerator_status)
         self.parallel_runs = QSpinBox()
         self.parallel_runs.setRange(1, 64)
         self.parallel_runs.setValue(1)
         self.parallel_runs.setSuffix(" runs")
+        self.parallel_runs.valueChanged.connect(self._update_training_plan)
         self.parallel_runs.setToolTip(
             "Total competitive branches. Branches are independent exact PPO trajectories; their "
             "neural weights are never averaged. The best scientifically evaluated champion becomes the base model."
@@ -515,6 +577,7 @@ class CALOIntelligencePanel(ScrollablePage):
             "The Dashboard Safe-80 ceiling is a hard maximum; remaining branches are queued and exact-resume rotated."
         )
         self.parallel_concurrency.valueChanged.connect(self._update_queue_plan_label)
+        self.parallel_concurrency.valueChanged.connect(self._update_training_plan)
         self.queue_plan_status = QLabel()
         self.queue_plan_status.setWordWrap(True)
         self.queue_plan_status.setObjectName("HelpText")
@@ -1009,6 +1072,16 @@ class CALOIntelligencePanel(ScrollablePage):
                 self.persistent_training_actors.setChecked(
                     bool(tc.get("persistent_actor_workers", True))
                 )
+                self.device_resident_synthetic.setChecked(
+                    bool(tc.get("device_resident_synthetic_rollouts", True))
+                )
+                saved_development_cases = tuple(tc.get("development_cases", ()) or ())
+                self.enable_development_suite.setChecked(bool(saved_development_cases))
+                if saved_development_cases:
+                    self.development_cases.setText(", ".join(str(item) for item in saved_development_cases))
+                saved_development_config = str(tc.get("development_experiment_config_path", "") or "")
+                if saved_development_config:
+                    self.development_experiment_config.setText(saved_development_config)
                 self.accelerated_training_orpd.setChecked(
                     bool(tc.get("use_accelerated_orpd_rollouts", True))
                 )
@@ -1073,8 +1146,9 @@ class CALOIntelligencePanel(ScrollablePage):
         historical_options = self.historical_experience.policy_training_options()
         try:
             custom_seeds = self._custom_seed_values()
-        except ValueError as exc:
-            QMessageBox.critical(self, "Parallel branch seed configuration", str(exc))
+            development_cases, development_config_path = self._development_suite_values()
+        except Exception as exc:
+            QMessageBox.critical(self, "Policy training configuration", str(exc))
             return
         common = dict(
             epochs=self.epochs.value(),
@@ -1090,7 +1164,8 @@ class CALOIntelligencePanel(ScrollablePage):
             population_size=self.training_population.value(),
             rollout_workers=self.rollout_workers.value(),
             ppo_device=selected_training_device,
-            development_cases=(),
+            development_cases=development_cases,
+            development_experiment_config_path=development_config_path,
             historical_repository=historical_options["historical_repository"],
             use_historical_trajectories=historical_options["use_historical_trajectories"],
             historical_pretraining_epochs=historical_options["historical_pretraining_epochs"],
@@ -1138,6 +1213,10 @@ class CALOIntelligencePanel(ScrollablePage):
                 training_batch_window_ms=self.training_batch_window.value(),
                 training_max_cross_batch=self.training_cross_batch.value(),
                 training_tensor_batch_size=self.training_tensor_batch.value(),
+                device_resident_synthetic_rollouts=self.device_resident_synthetic.isChecked(),
+                synthetic_cross_episode_batching=self.cross_episode_training_batch.isChecked(),
+                synthetic_batch_window_ms=self.training_batch_window.value(),
+                synthetic_max_cross_batch=self.training_cross_batch.value(),
             )
         else:
             config = TrainingConfig(**common)
@@ -1604,6 +1683,46 @@ class CALOIntelligencePanel(ScrollablePage):
     def _use_recommended_workers(self, *_args) -> None:
         self.rollout_workers.setValue(recommended_rollout_workers(self.episodes.value()))
 
+    @staticmethod
+    def _integer_worker_allocation(total: int, cuda_share: int, xpu_share: int, cpu_share: int) -> tuple[int, int, int]:
+        """Convert percentage shares to an exact integer worker split without changing the total."""
+        total = max(0, int(total))
+        shares = [max(0, int(cuda_share)), max(0, int(xpu_share)), max(0, int(cpu_share))]
+        share_sum = sum(shares)
+        if total == 0:
+            return 0, 0, 0
+        if share_sum <= 0:
+            return 0, 0, total
+        exact = [total * value / share_sum for value in shares]
+        base = [int(value) for value in exact]
+        remainder = total - sum(base)
+        order = sorted(range(3), key=lambda i: (-(exact[i] - base[i]), i))
+        for index in order[:remainder]:
+            base[index] += 1
+        return int(base[0]), int(base[1]), int(base[2])
+
+    def _on_rollout_shares_changed(self, *_args) -> None:
+        self._sync_workers_from_shares()
+
+    def _sync_workers_from_shares(self, *_args) -> None:
+        c, x, p = self._integer_worker_allocation(
+            self.rollout_workers.value(),
+            self.cuda_rollout_share.value(),
+            self.xpu_rollout_share.value(),
+            self.cpu_rollout_share.value(),
+        )
+        self.cuda_workers.blockSignals(True)
+        self.xpu_workers.blockSignals(True)
+        self.cpu_workers.blockSignals(True)
+        self.cuda_workers.setValue(c)
+        self.xpu_workers.setValue(x)
+        self.cpu_workers.setValue(p)
+        self.cuda_workers.blockSignals(False)
+        self.xpu_workers.blockSignals(False)
+        self.cpu_workers.blockSignals(False)
+        self._update_task_share_status()
+        self._update_training_plan()
+
     def _apply_recommended_worker_split(self, *_args) -> None:
         total = self.rollout_workers.value()
         dist = recommended_worker_distribution(total)
@@ -1617,19 +1736,21 @@ class CALOIntelligencePanel(ScrollablePage):
         self.xpu_workers.blockSignals(False)
         self.cpu_workers.blockSignals(False)
         self._sync_shares_from_workers()
-        self._update_task_share_status()
 
     def _sync_shares_from_workers(self, *_args) -> None:
         c, x, p = self.cuda_workers.value(), self.xpu_workers.value(), self.cpu_workers.value()
         total = c + x + p
         if total <= 0:
+            self._update_task_share_status()
             return
         self.cuda_rollout_share.blockSignals(True)
         self.xpu_rollout_share.blockSignals(True)
         self.cpu_rollout_share.blockSignals(True)
-        self.cuda_rollout_share.setValue(round(100 * c / total))
-        self.xpu_rollout_share.setValue(round(100 * x / total))
-        self.cpu_rollout_share.setValue(100 - round(100 * c / total) - round(100 * x / total))
+        cuda_pct = round(100 * c / total)
+        xpu_pct = round(100 * x / total)
+        self.cuda_rollout_share.setValue(cuda_pct)
+        self.xpu_rollout_share.setValue(xpu_pct)
+        self.cpu_rollout_share.setValue(100 - cuda_pct - xpu_pct)
         self.cuda_rollout_share.blockSignals(False)
         self.xpu_rollout_share.blockSignals(False)
         self.cpu_rollout_share.blockSignals(False)
@@ -1637,49 +1758,198 @@ class CALOIntelligencePanel(ScrollablePage):
         self._update_training_plan()
 
     def _update_task_share_status(self) -> None:
+        if not hasattr(self, "task_share_status"):
+            return
         c, x, p = self.cuda_workers.value(), self.xpu_workers.value(), self.cpu_workers.value()
         total = c + x + p
-        parts = []
-        if c:
-            parts.append(f"CUDA {c}")
-        if x:
-            parts.append(f"XPU {x}")
-        parts.append(f"CPU {p}")
         workers_total = self.rollout_workers.value()
-        match_str = (
-            " ✓" if total == workers_total
-            else f" (total {total} ≠ {workers_total})"
+        cuda_pct = int(self.cuda_rollout_share.value())
+        xpu_pct = int(self.xpu_rollout_share.value())
+        cpu_pct = int(self.cpu_rollout_share.value())
+        match_str = "✓" if total == workers_total else f"WARNING: planner-unit total {total} ≠ reference scale {workers_total}"
+        self.task_share_status.setText(
+            f"Selected rollout routing: CUDA {cuda_pct}% · XPU {xpu_pct}% · CPU {cpu_pct}%. "
+            f"Equivalent planner units: CUDA {c} · XPU {x} · CPU {p} · {match_str}. "
+            "Planner units derive the percentages only; they are NOT counts of CUDA/XPU processes."
         )
-        self.task_share_status.setText(f"Split {total} workers: {', '.join(parts)}{match_str}")
+        if hasattr(self, "recommended_share_status"):
+            dist = recommended_worker_distribution(workers_total)
+            rc, rx, rp = int(dist.get('cuda', 0)), int(dist.get('xpu', 0)), int(dist.get('cpu', 0))
+            denom = max(1, rc + rx + rp)
+            rc_pct = round(100 * rc / denom)
+            rx_pct = round(100 * rx / denom)
+            rp_pct = 100 - rc_pct - rx_pct
+            self.recommended_share_status.setText(
+                "Advisory only — not selected automatically: "
+                f"CUDA {rc_pct}% · XPU {rx_pct}% · CPU {rp_pct}% "
+                f"(equivalent planner units {rc}/{rx}/{rp}). Click Apply recommendation to replace the selected routing."
+            )
 
     def _set_training_split(self, cuda: int, xpu: int, cpu: int) -> None:
+        self.cuda_rollout_share.blockSignals(True)
+        self.xpu_rollout_share.blockSignals(True)
+        self.cpu_rollout_share.blockSignals(True)
         self.cuda_rollout_share.setValue(int(cuda))
         self.xpu_rollout_share.setValue(int(xpu))
         self.cpu_rollout_share.setValue(int(cpu))
-        total = self.rollout_workers.value()
-        self.cuda_workers.blockSignals(True)
-        self.xpu_workers.blockSignals(True)
-        self.cpu_workers.blockSignals(True)
-        self.cuda_workers.setValue(round(total * cuda / 100))
-        self.xpu_workers.setValue(round(total * xpu / 100))
-        self.cpu_workers.setValue(total - round(total * cuda / 100) - round(total * xpu / 100))
-        self.cuda_workers.blockSignals(False)
-        self.xpu_workers.blockSignals(False)
-        self.cpu_workers.blockSignals(False)
+        self.cuda_rollout_share.blockSignals(False)
+        self.xpu_rollout_share.blockSignals(False)
+        self.cpu_rollout_share.blockSignals(False)
         if cuda == 100:
             weighted_idx = self.rollout_mode.findData("weighted")
             if weighted_idx >= 0:
                 self.rollout_mode.setCurrentIndex(weighted_idx)
             cuda_idx = self.training_device.findData("cuda")
-            if cuda_idx >= 0:
+            if cuda_idx >= 0 and self.training_device.model().item(cuda_idx).isEnabled():
                 self.training_device.setCurrentIndex(cuda_idx)
+        self._sync_workers_from_shares()
+        self._update_task_share_status()
         self._update_training_plan()
+
+    def _runtime_device_request_text(self) -> str:
+        requested = str(self.training_device.currentData() or "auto").lower()
+        topology = getattr(self.state, "compute_topology", None)
+        if topology is None:
+            return f"Requested primary learner device: {requested}. Dashboard system map is not available yet."
+        devices = list(getattr(topology, "devices", ()) or ())
+        if requested == "cpu":
+            return "Requested primary learner device: CPU. No accelerator branch is requested."
+        if requested == "xpu_sidecar":
+            matches = [d for d in devices if d.backend == "xpu" and d.runtime != "primary"]
+            if matches:
+                d = matches[0]
+                return f"Requested secondary XPU runtime: {d.mapping_text} · {d.name}. This is an auxiliary actor/evaluator runtime, not a full competitive branch."
+            return "Requested secondary XPU runtime, but no mapped sidecar is currently available."
+        if requested.startswith("cuda"):
+            matches = [d for d in devices if d.backend == "cuda" and d.full_training_branch]
+        elif requested.startswith("xpu"):
+            matches = [d for d in devices if d.backend == "xpu" and d.runtime == "primary" and d.full_training_branch]
+        else:
+            matches = [d for d in devices if d.full_training_branch and d.backend in {"cuda", "xpu"}]
+        if matches:
+            d = matches[0]
+            prefix = "Automatic protected primary preview" if requested == "auto" else "Requested primary learner device"
+            return f"{prefix}: {d.mapping_text} · {d.name} · backend {d.backend}. Final branch assignment is frozen by the Safe-80 scheduler at launch."
+        return f"Requested primary learner device: {requested}. No validated matching full-branch accelerator is currently mapped; launch will fail closed rather than silently spill to CPU."
+
+    def _protected_assignment_preview_text(self) -> str:
+        profile = getattr(self.state, "compute_protection_profile", None)
+        topology = getattr(self.state, "compute_topology", None)
+        if profile is None or topology is None:
+            return "Safe-80 preview unavailable until Dashboard system mapping is complete."
+        if not hasattr(self, "parallel_runs") or not hasattr(self, "parallel_concurrency"):
+            return (
+                f"Safe-80 profile {profile.profile_name}: global CPU worker budget {profile.safe_cpu_worker_budget}; "
+                f"hard simultaneous branch ceiling {profile.safe_parallel_branches}."
+            )
+        total = max(1, int(self.parallel_runs.value()))
+        concurrency = max(1, min(total, int(self.parallel_concurrency.value())))
+        preview = SimpleNamespace(
+            ppo_device=str(self.training_device.currentData() or "auto"),
+            parallel_concurrency=concurrency,
+            safe_global_cpu_workers=int(profile.safe_cpu_worker_budget),
+            compute_topology_fingerprint=str(topology.fingerprint),
+        )
+        try:
+            plan = build_training_resource_plan(preview, total, topology=topology, profile=profile)
+        except Exception as exc:
+            _LOG.debug("Protected assignment preview is not admissible", exc_info=True)
+            return f"Protected assignment preview: NOT ADMISSIBLE — {type(exc).__name__}: {exc}"
+        slot_texts = []
+        for slot in plan.slots:
+            effective = protected_rollout_shares(
+                cuda_share=int(self.cuda_rollout_share.value()),
+                xpu_share=int(self.xpu_rollout_share.value()),
+                cpu_share=int(self.cpu_rollout_share.value()),
+                primary_device=str(slot.primary_device),
+                auxiliary_xpu_runtime=str(slot.auxiliary_xpu_runtime or ""),
+            )
+            route = f"CUDA {effective['cuda']}% / XPU {effective['xpu']}% / CPU {effective['cpu']}%"
+            slot_texts.append(
+                f"slot {slot.slot_index + 1} → {slot.primary_device} ({slot.device_name}) · effective routing {route}"
+            )
+        slots = "; ".join(slot_texts) or "no active slot"
+        return (
+            f"Protected preview: {plan.simultaneous_branches} simultaneous / {plan.total_branches} total; "
+            f"{plan.queued_branches} queued; {slots}. Global CPU budget {plan.global_cpu_worker_budget}. "
+            "The scheduler does not silently create extra CPU branches."
+        )
+
+    def _actual_runtime_assignment_text(self, payload: dict | None = None) -> str:
+        payload = dict(payload or {})
+        plan = dict(payload.get("resource_plan", {}) or {})
+        slots = list(plan.get("slots", []) or [])
+        if not slots:
+            return self._runtime_device_request_text()
+        parts = []
+        for slot in slots:
+            primary = str(slot.get("primary_device", "") or "")
+            name = str(slot.get("device_name", "") or "")
+            aux = str(slot.get("auxiliary_xpu_runtime", "") or "")
+            effective = protected_rollout_shares(
+                cuda_share=int(self.cuda_rollout_share.value()),
+                xpu_share=int(self.xpu_rollout_share.value()),
+                cpu_share=int(self.cpu_rollout_share.value()),
+                primary_device=primary,
+                auxiliary_xpu_runtime=aux,
+            )
+            text = f"slot {int(slot.get('slot_index', 0)) + 1} → {primary}"
+            if name:
+                text += f" ({name})"
+            if aux:
+                text += f" + auxiliary {aux}"
+            text += (
+                f" · effective episode routing CUDA {effective['cuda']}% / "
+                f"XPU {effective['xpu']}% / CPU {effective['cpu']}%"
+            )
+            parts.append(text)
+        return "Actual protected runtime assignment: " + " · ".join(parts)
+
+    def _browse_development_config(self) -> None:
+        path, _ = QFileDialog.getOpenFileName(
+            self,
+            "Select policy-development ExperimentConfig",
+            self.development_experiment_config.text().strip(),
+            "Experiment configuration (*.yaml *.yml *.json);;All files (*)",
+        )
+        if path:
+            self.development_experiment_config.setText(path)
+
+    def _development_suite_values(self) -> tuple[tuple[str, ...], str]:
+        if not self.enable_development_suite.isChecked():
+            return (), ""
+        cases = tuple(
+            item.strip()
+            for item in self.development_cases.text().split(",")
+            if item.strip()
+        )
+        if not cases:
+            raise ValueError("Enable at least one real ORPD development case or disable the development suite.")
+        protected = {"case118", "case300"}
+        forbidden = sorted({Path(item).stem.lower() for item in cases} & protected)
+        if forbidden:
+            raise ValueError(
+                "Protected held-out final benchmark cases cannot be used for policy development: "
+                + ", ".join(forbidden)
+            )
+        config_path = self.development_experiment_config.text().strip()
+        if not config_path:
+            raise ValueError("Select an exact ExperimentConfig for the real ORPD development suite.")
+        candidate = Path(config_path).expanduser()
+        if not candidate.is_file():
+            raise ValueError(f"Development ExperimentConfig does not exist: {candidate}")
+        from calo_rpd_studio.experiments.experiment_config import ExperimentConfig
+
+        experiment = ExperimentConfig.load(candidate)
+        experiment.validate()
+        return cases, str(candidate.resolve())
 
     def _update_training_plan(self, *_args) -> None:
         weighted = str(self.rollout_mode.currentData()) == "weighted"
         advanced_controls = (
             self.auto_tuned_training,
             self.persistent_training_actors,
+            self.device_resident_synthetic,
             self.accelerated_training_orpd,
             self.cross_episode_training_batch,
             self.training_calibration_episodes,
@@ -1701,22 +1971,43 @@ class CALOIntelligencePanel(ScrollablePage):
         self.training_calibration_episodes.setEnabled(
             weighted and self.auto_tuned_training.isChecked()
         )
+        development_enabled = self.enable_development_suite.isChecked()
+        self.development_cases.setEnabled(development_enabled)
+        self.development_experiment_config.setEnabled(development_enabled)
+        self.development_config_browse.setEnabled(development_enabled)
         batching_enabled = (
             weighted
-            and self.accelerated_training_orpd.isChecked()
             and self.cross_episode_training_batch.isChecked()
+            and (
+                self.device_resident_synthetic.isChecked()
+                or (self.accelerated_training_orpd.isChecked() and self.enable_development_suite.isChecked())
+            )
         )
         self.training_cross_batch.setEnabled(batching_enabled)
         self.training_batch_window.setEnabled(batching_enabled)
         self.training_tensor_batch.setEnabled(
             weighted and self.accelerated_training_orpd.isChecked()
         )
+
+        self._update_task_share_status()
+        if hasattr(self, "protected_allocation_status"):
+            self.protected_allocation_status.setText(
+                f"Selected rollout routing remains CUDA {self.cuda_rollout_share.value()}% · "
+                f"XPU {self.xpu_rollout_share.value()}% · CPU {self.cpu_rollout_share.value()}%. "
+                + self._protected_assignment_preview_text()
+                + " Host-support CPU budget and the CPU rollout process cap are separate from the selected CPU rollout percentage; they do not mean hidden CPU rollout spillover."
+            )
+        if hasattr(self, "runtime_assignment_status") and not bool(getattr(self.state, "policy_training_active", False)):
+            self.runtime_assignment_status.setText(self._runtime_device_request_text())
+
         if not weighted:
             self.accelerator_status.setText(
-                "Legacy architecture: CPU rollout processes collect all episodes; one selected "
-                "device performs centralized PPO updates. " + self._device_text
+                "Legacy execution scope: rollout environments run in CPU processes; the selected learner device "
+                "performs centralized PPO updates only. This mode is not GPU-resident CALO training. "
+                + self._device_text
             )
             return
+
         total = (
             self.cuda_rollout_share.value()
             + self.xpu_rollout_share.value()
@@ -1724,54 +2015,72 @@ class CALOIntelligencePanel(ScrollablePage):
         )
         if total != 100:
             self.accelerator_status.setText(
-                f"Invalid fallback split: {total}%. CUDA, XPU, and CPU shares must total 100%."
+                f"Invalid selected rollout split: {total}%. CUDA, XPU, and CPU shares must total 100%."
             )
             return
         try:
+            requested_primary = str(self.training_device.currentData() or "auto").lower()
             plan = plan_training_lanes(
                 self.episodes.value(),
                 cuda_share=self.cuda_rollout_share.value(),
                 xpu_share=self.xpu_rollout_share.value(),
                 cpu_share=self.cpu_rollout_share.value(),
+                strict_unavailable=requested_primary in {"cuda", "xpu"},
             )
             warning = (" " + " ".join(plan.warnings)) if plan.warnings else ""
+            routing_text = (
+                f"Per-epoch episode/transition routing ({self.episodes.value()} episode(s)): {plan.summary()}. "
+                "This count is EPISODES, not rollout-worker count. "
+            )
             allocation_text = (
-                "The displayed 100/0/0 split is a fallback only; short discarded calibration "
-                "episodes measure complete transitions per second and subsequent epochs are "
-                "allocated by measured throughput."
+                "Auto-tuning is enabled: the displayed share is the deterministic fallback; short discarded "
+                "calibration episodes may change later episode routing according to measured complete-transition throughput. "
                 if self.auto_tuned_training.isChecked()
-                else "The fixed episode split shown below is used for every epoch."
+                else "The selected episode/transition split is fixed for each epoch unless the protected branch scheduler must fail closed or rebind an unavailable auxiliary accelerator to the already-admitted primary. "
             )
             persistence_text = (
-                " CUDA/XPU contexts, actor networks and CPU worker processes remain resident."
+                "Actor runtimes are persistent for the training session. "
                 if self.persistent_training_actors.isChecked()
-                else " Actor runtimes may be recreated between collection calls."
+                else "Actor runtimes may be recreated between collection calls. "
             )
-            orpd_text = (
-                " Development-case ORPD stages use the same FP64 accelerator evaluator as the "
-                "comparative engine"
-                + (
-                    f" and merge compatible episode populations for up to "
-                    f"{self.training_cross_batch.value()} candidates."
-                    if batching_enabled
-                    else "."
+            try:
+                development_cases, development_config = self._development_suite_values()
+                development_text = (
+                    "Real ORPD development suite: " + ", ".join(development_cases)
+                    + f" · formulation {Path(development_config).name}. "
+                    if development_cases
+                    else "Real ORPD development suite: disabled. "
                 )
-                if self.accelerated_training_orpd.isChecked()
-                else " Development-case ORPD stages use the reference host evaluator."
+            except Exception as exc:
+                development_text = f"Real ORPD development suite configuration error: {exc}. "
+            synthetic_text = (
+                "Stage-B synthetic curriculum evaluation: device-resident FP64 objective/constraint tensors with fail-closed startup parity and cross-episode microbatching on admitted CUDA/XPU actors. "
+                if self.device_resident_synthetic.isChecked()
+                else "Stage-B synthetic accelerator kernel: disabled; synthetic curriculum evaluation remains on the CPU reference path. "
+            )
+            compute_text = (
+                "Neural policy inference and PPO tensors use the admitted learner/actor device where supported. "
+                "The stochastic CALO controller/archive/memory semantics remain the trusted trajectory authority; Stage B accelerates deterministic population evaluation and batches compatible episode work without redefining the policy ABI. "
+                "CUDA/XPU/CPU percentages describe eligible rollout episode routing, not exact Task Manager utilization percentages. "
+            )
+            batching_text = (
+                f"Cross-episode batching is enabled for up to {self.training_cross_batch.value()} compatible candidates with a {self.training_batch_window.value():.1f} ms merge window. "
+                if batching_enabled
+                else "Cross-episode batching is not active for the current configuration. "
             )
             self.accelerator_status.setText(
-                "Initial synchronous actor plan: "
-                + plan.summary()
-                + ". "
+                routing_text
                 + allocation_text
                 + persistence_text
-                + orpd_text
-                + " Shares refer to rollout episodes/transitions, not exact hardware utilization. "
-                "All accepted trajectories use one policy snapshot and PPO starts only after "
-                "all matching lanes return. " + self._device_text + warning
+                + compute_text
+                + synthetic_text
+                + development_text
+                + batching_text
+                + self._device_text
+                + warning
             )
         except Exception as exc:
-            self.accelerator_status.setText(str(exc))
+            self.accelerator_status.setText(f"Training execution-plan validation failed: {type(exc).__name__}: {exc}")
 
     def apply_policy_configuration(self) -> None:
         if self.no_ai_mode.isChecked():
@@ -1879,6 +2188,8 @@ class CALOIntelligencePanel(ScrollablePage):
         if hasattr(self, "parallel_runs"):
             self._sync_parallel_branch_count()
             self._update_queue_plan_label()
+        if hasattr(self, "accelerator_status"):
+            self._update_training_plan()
 
     def _safe_parallel_branch_limit(self) -> int:
         profile = getattr(self.state, "compute_protection_profile", None)
@@ -1906,7 +2217,7 @@ class CALOIntelligencePanel(ScrollablePage):
             raise RuntimeError("Simultaneous branch concurrency cannot exceed total scientific branch count.")
         if int(self.rollout_workers.value()) > int(profile.safe_cpu_worker_budget):
             raise RuntimeError(
-                f"CPU actor workers ({self.rollout_workers.value()}) exceed the global Safe-80 worker budget "
+                f"CPU rollout process cap ({self.rollout_workers.value()}) exceeds the global Safe-80 worker budget "
                 f"({profile.safe_cpu_worker_budget})."
             )
 
@@ -2056,6 +2367,11 @@ class CALOIntelligencePanel(ScrollablePage):
             )
             return
         historical_options = self.historical_experience.policy_training_options()
+        try:
+            development_cases, development_config_path = self._development_suite_values()
+        except Exception as exc:
+            QMessageBox.critical(self, "Policy training configuration", str(exc))
+            return
         common = dict(
             epochs=self.epochs.value(),
             episodes_per_epoch=self.episodes.value(),
@@ -2070,7 +2386,8 @@ class CALOIntelligencePanel(ScrollablePage):
             population_size=self.training_population.value(),
             rollout_workers=self.rollout_workers.value(),
             ppo_device=selected_training_device,
-            development_cases=(),
+            development_cases=development_cases,
+            development_experiment_config_path=development_config_path,
             historical_repository=historical_options["historical_repository"],
             use_historical_trajectories=historical_options["use_historical_trajectories"],
             historical_pretraining_epochs=historical_options["historical_pretraining_epochs"],
@@ -2114,6 +2431,10 @@ class CALOIntelligencePanel(ScrollablePage):
                 training_batch_window_ms=self.training_batch_window.value(),
                 training_max_cross_batch=self.training_cross_batch.value(),
                 training_tensor_batch_size=self.training_tensor_batch.value(),
+                device_resident_synthetic_rollouts=self.device_resident_synthetic.isChecked(),
+                synthetic_cross_episode_batching=self.cross_episode_training_batch.isChecked(),
+                synthetic_batch_window_ms=self.training_batch_window.value(),
+                synthetic_max_cross_batch=self.training_cross_batch.value(),
             )
         else:
             config = TrainingConfig(**common)
@@ -2218,7 +2539,7 @@ class CALOIntelligencePanel(ScrollablePage):
         self.recover_training_button.setEnabled(False)
         self.discard_recovery_button.setEnabled(False)
         self.metadata.setPlainText(
-            "CALO v6.2 protected policy-lineage training is running under the Global Training Exclusive Lock. "
+            "CALO v6.4 Stage-B protected policy-lineage training is running under the Global Training Exclusive Lock. "
             "Total scientific branch count is separated from Safe-80 simultaneous concurrency; excess branches are exact-resume queued/rotated. "
             "One global CPU worker budget is shared across active slots, and XPU roles are capability-aware. Only a committed generation manifest is authoritative."
         )
@@ -2242,17 +2563,30 @@ class CALOIntelligencePanel(ScrollablePage):
             "resource_plan": preflight_plan.to_dict(),
         }
         self.state.update_policy_training_plan(initial_plan)
+        if hasattr(self, "runtime_assignment_status"):
+            self.runtime_assignment_status.setText(self._actual_runtime_assignment_text(initial_plan))
+        if hasattr(self, "protected_allocation_status"):
+            self.protected_allocation_status.setText(
+                f"Selected rollout routing: CUDA {self.cuda_rollout_share.value()}% · XPU {self.xpu_rollout_share.value()}% · CPU {self.cpu_rollout_share.value()}%. "
+                + self._protected_assignment_preview_text()
+                + " Training launch accepted by Safe-80; actual slot assignments are shown in Runtime device mapping."
+            )
         self.state.begin_policy_training(
             f"CALO policy training · {requested} total branch(es) · max {config.parallel_concurrency} simultaneous"
+        )
+        fixed_target_text = (
+            f" · {int(config.epochs)} epoch(s) per branch"
+            if str(getattr(config, "training_mode", "cumulative")) != "indefinite"
+            else " · indefinite until Safe Stop"
         )
         self.state.task_status.begin(
             "Training CALO policy",
             detail=(
-                "Resuming from the last completed PPO epoch"
+                "Resuming protected exact training" + fixed_target_text
                 if Path(config.resume_checkpoint).is_file()
-                else f"Initializing protected queue · {requested} total / {config.parallel_concurrency} simultaneous"
+                else f"Initializing protected queue · {requested} total / {config.parallel_concurrency} simultaneous" + fixed_target_text
             ),
-            progress=0,
+            progress=(0 if str(getattr(config, "training_mode", "cumulative")) != "indefinite" else -1),
             cancellable=True,
         )
         try:
@@ -2423,7 +2757,30 @@ class CALOIntelligencePanel(ScrollablePage):
         self._launch_training(config, path, resume_task_id=item.id)
 
     def _training_session_state(self, payload: dict) -> None:
-        self.state.update_policy_training_plan(dict(payload or {}))
+        payload = dict(payload or {})
+        self.state.update_policy_training_plan(payload)
+        if hasattr(self, "runtime_assignment_status"):
+            self.runtime_assignment_status.setText(self._actual_runtime_assignment_text(payload))
+        if hasattr(self, "protected_allocation_status"):
+            overall_raw = payload.get("overall_percent", -1)
+            overall = int(overall_raw) if overall_raw is not None else -1
+            branch_progress = list(payload.get("branch_progress", []) or [])
+            selected = (
+                f"Selected rollout routing: CUDA {self.cuda_rollout_share.value()}% · "
+                f"XPU {self.xpu_rollout_share.value()}% · CPU {self.cpu_rollout_share.value()}%. "
+            )
+            progress_text = ""
+            if branch_progress:
+                parts = []
+                for row in branch_progress[:6]:
+                    target = int(row.get("session_target", 0) or 0)
+                    done = int(row.get("session_done", 0) or 0)
+                    state = str(row.get("state", ""))
+                    parts.append(f"{row.get('branch_id')} {state} {done}/{target if target > 0 else '∞'}")
+                progress_text = " Runtime: " + " · ".join(parts)
+                if overall >= 0:
+                    progress_text += f" · overall {overall}%"
+            self.protected_allocation_status.setText(selected + self._protected_assignment_preview_text() + progress_text)
 
     def request_training_safe_stop(self) -> None:
         """Public application-level Safe Stop hook used by the global exclusive-lock close path."""
@@ -2574,6 +2931,7 @@ class CALOIntelligencePanel(ScrollablePage):
             "queued_branches": 0,
         })
         self.state.end_policy_training("CALO policy training completed")
+        self._update_training_plan()
         if 'deployable_eligible' in locals() and not deployable_eligible:
             message = (
                 "Training completed and an immutable Training Champion candidate was saved. "
@@ -2613,6 +2971,7 @@ class CALOIntelligencePanel(ScrollablePage):
             "active_branches": 0,
         })
         self.state.end_policy_training(message)
+        self._update_training_plan()
 
     def _training_failed(self, message: str) -> None:
         self._disconnect_training_cancel()
@@ -2631,6 +2990,7 @@ class CALOIntelligencePanel(ScrollablePage):
             "active_branches": 0,
         })
         self.state.end_policy_training(message)
+        self._update_training_plan()
         QMessageBox.critical(self, "Policy training failed", message)
 
     def set_experiment_navigation_enabled(self, enabled: bool) -> None:  # noqa: ARG002

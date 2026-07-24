@@ -1,0 +1,13 @@
+{
+  "schema": "calo-stage-b-qualification-status-v1",
+  "release": "6.4.0",
+  "software_stage_b_implemented": true,
+  "build_runtime_device": "cpu",
+  "build_runtime_parity_verified": true,
+  "build_runtime_maximum_startup_parity_error": 4.440892098500626e-15,
+  "build_runtime_physical_accelerator": false,
+  "physical_cuda_qualified": false,
+  "physical_xpu_qualified": false,
+  "required_command": "python -m calo_rpd_studio.scripts.validate_stage_b_synthetic --device auto",
+  "qualification_rule": "A physical accelerator is not qualified by CPU-only validation. Run the validator and protected policy-training equivalence/soak suite on the intended target accelerator before performance claims."
+}

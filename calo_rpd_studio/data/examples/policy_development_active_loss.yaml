@@ -1,0 +1,52 @@
+name: CALO policy development active-loss formulation
+case_name: case30
+algorithms: [CALO]
+runs: 1
+master_seed: 2026
+population_size: 20
+max_iterations: 100
+budget:
+  policy: equal_evaluations
+  max_evaluations: 2000
+  wall_clock_seconds: null
+objective:
+  kind: active_power_loss
+  weight_loss: 1.0
+  weight_voltage_deviation: 0.0
+  weight_l_index: 0.0
+  loss_scale: 1.0
+  voltage_deviation_scale: 1.0
+  l_index_scale: 1.0
+variables:
+  generator_voltages: true
+  transformer_taps: true
+  shunt_compensation: true
+  discrete_transformer_taps: true
+  discrete_shunts: true
+  transformer_minimum: 0.9
+  transformer_maximum: 1.1
+  transformer_step: 0.0125
+  shunt_controls: []
+robust_objective:
+  aggregation: expected
+  risk_lambda: 1.0
+  cvar_alpha: 0.95
+scenarios:
+  mode: deterministic
+  count: 1
+  active_load_std: 0.0
+  reactive_load_std: 0.0
+  branch_outages: []
+  generator_outages: []
+  renewable_bus: 0
+  renewable_rated_mw: 0.0
+  renewable_mean_capacity_factor: 0.5
+  renewable_std_capacity_factor: 0.15
+algorithm_parameters: {}
+output_directory: results_data/policy_development
+parallel_workers: 1
+execution_backend: gpu_preferred
+scientific_backend: torch_fp64
+device_resident_execution: true
+require_backend_parity: true
+strict_device_shares: true

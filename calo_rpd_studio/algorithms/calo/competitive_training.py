@@ -87,6 +87,125 @@ class BranchSeed:
     strategy: str
 
 
+def competitive_progress_snapshot(
+    branch_payloads: list[dict],
+    current_epochs,
+    *,
+    active_indices: Iterable[int] = (),
+    finished_indices: Iterable[int] = (),
+    concurrency: int = 1,
+    common_safe_epoch: int = -1,
+    training_mode: str = "cumulative",
+) -> tuple[int, str, dict]:
+    """Return truthful user-facing competitive training progress.
+
+    The percentage is based on *scientific session branch-epochs*, not process leases or safe
+    checkpoint cadence. For indefinite training the percentage is ``-1`` (indeterminate). The
+    detail deliberately distinguishes session progress, cumulative epoch, device assignment and
+    durable exact-safe checkpoints so a status such as ``epochs [2]`` can never be mistaken for a
+    configured two-epoch target.
+    """
+
+    payloads = list(branch_payloads or [])
+    epochs = [int(current_epochs[i]) for i in range(len(payloads))]
+    active = {int(i) for i in active_indices}
+    finished = {int(i) for i in finished_indices}
+    mode = str(training_mode or "cumulative").lower()
+    fixed = mode != "indefinite"
+
+    rows: list[dict] = []
+    completed_units = 0
+    total_units = 0
+    for index, payload in enumerate(payloads):
+        start = int(payload.get("start_epoch", 0) or 0)
+        target = int(payload.get("scientific_session_target_epoch", 0) or 0)
+        current = int(epochs[index])
+        session_target = max(0, target - start) if target > 0 else 0
+        session_done = max(0, current - start)
+        if session_target > 0:
+            session_done = min(session_done, session_target)
+            completed_units += session_done
+            total_units += session_target
+        state = "active" if index in active else "completed" if index in finished else "queued"
+        rows.append(
+            {
+                "branch_id": str(payload.get("branch_id", f"B{index + 1:02d}")),
+                "state": state,
+                "device": str(payload.get("assigned_device", "") or "unassigned"),
+                "start_epoch": start,
+                "current_epoch": current,
+                "target_epoch": target,
+                "session_done": session_done,
+                "session_target": session_target,
+            }
+        )
+
+    if fixed and total_units > 0:
+        percent = max(0, min(100, int(round(100.0 * completed_units / total_units))))
+    else:
+        percent = -1
+
+    safe = int(common_safe_epoch)
+    if len(rows) == 1:
+        row = rows[0]
+        current = int(row["current_epoch"])
+        start = int(row["start_epoch"])
+        target = int(row["target_epoch"])
+        session_done = int(row["session_done"])
+        session_target = int(row["session_target"])
+        last_safe = safe if safe >= 0 else start
+        next_rolling = ((max(current, last_safe) // 10) + 1) * 10
+        if target > 0 and next_rolling > target:
+            next_safe_text = f"terminal {target}"
+        else:
+            next_safe_text = str(next_rolling)
+        if fixed and session_target > 0:
+            session_text = f"session {session_done}/{session_target} epoch(s)"
+            cumulative_text = (
+                f" · cumulative {current}/{target}" if start > 0 else f" · epoch {current}/{target}"
+            )
+        else:
+            session_text = f"cumulative epoch {current} · indefinite"
+            cumulative_text = ""
+        detail = (
+            f"{row['branch_id']} {row['state']} · {session_text}{cumulative_text} · {row['device']} · "
+            f"last exact safe {last_safe} · next exact safe {next_safe_text}"
+        )
+    else:
+        active_count = sum(1 for row in rows if row["state"] == "active")
+        completed_count = sum(1 for row in rows if row["state"] == "completed")
+        queued_count = max(0, len(rows) - active_count - completed_count)
+        if fixed and total_units > 0:
+            overall = f"overall {completed_units}/{total_units} branch-epochs"
+        else:
+            overall = "indefinite branch rotation"
+        branch_bits = []
+        for row in rows[:8]:
+            if int(row["session_target"]) > 0:
+                branch_bits.append(
+                    f"{row['branch_id']} {row['session_done']}/{row['session_target']}"
+                )
+            else:
+                branch_bits.append(f"{row['branch_id']} e{row['current_epoch']}")
+        if len(rows) > 8:
+            branch_bits.append(f"+{len(rows) - 8} more")
+        detail = (
+            f"Competitive queue · {active_count}/{max(1, int(concurrency))} active · {queued_count} queued · "
+            f"{completed_count} completed · {overall} · "
+            + ", ".join(branch_bits)
+            + f" · last common exact safe {safe if safe >= 0 else 0}"
+        )
+
+    payload = {
+        "overall_percent": int(percent),
+        "completed_branch_epochs": int(completed_units),
+        "total_branch_epochs": int(total_units),
+        "branches": rows,
+        "common_safe_epoch": int(safe),
+    }
+    return int(percent), detail, payload
+
+
 @dataclass(frozen=True, slots=True)
 class ChampionDecision:
     superior: bool
@@ -731,30 +850,19 @@ def _branch_worker_main(
     # XPU is an auxiliary actor/evaluator only and may be leased to at most one simultaneous slot.
     # No branch may silently instantiate a sibling branch's accelerator.
     if bool(getattr(config, "heterogeneous_rollouts", False)):
+        from calo_rpd_studio.compute.training_resources import protected_rollout_shares
+
         config.strict_resource_binding = True
-        assigned = str(config.ppo_device).lower()
-        aux_xpu = bool(branch_payload.get("auxiliary_xpu_runtime"))
-        original_cuda = max(0, min(100, int(getattr(config, "cuda_rollout_share", 0) or 0)))
-        original_xpu = max(0, min(100, int(getattr(config, "xpu_rollout_share", 0) or 0)))
-        original_cpu = max(0, min(100, int(getattr(config, "cpu_rollout_share", 0) or 0)))
-        if original_cuda + original_xpu + original_cpu != 100:
-            raise ValueError("Protected heterogeneous CUDA/XPU/CPU rollout shares must total exactly 100%")
-        if assigned.startswith("cuda"):
-            # If no validated auxiliary XPU was leased to this slot, move the requested XPU share
-            # onto the already-admitted CUDA primary rather than creating hidden CPU heat/load.
-            config.cuda_rollout_share = original_cuda + (0 if aux_xpu else original_xpu)
-            config.xpu_rollout_share = original_xpu if aux_xpu else 0
-            config.cpu_rollout_share = original_cpu
-        elif assigned.startswith("xpu"):
-            # A direct validated XPU primary absorbs CUDA accelerator share; CPU keeps only the
-            # explicitly requested CPU share. No sibling CUDA branch/lane is silently instantiated.
-            config.cuda_rollout_share = 0
-            config.xpu_rollout_share = min(100, original_xpu + original_cuda)
-            config.cpu_rollout_share = original_cpu
-        else:
-            config.cuda_rollout_share = 0
-            config.xpu_rollout_share = original_xpu if aux_xpu else 0
-            config.cpu_rollout_share = min(100, original_cpu + original_cuda + (0 if aux_xpu else original_xpu))
+        effective = protected_rollout_shares(
+            cuda_share=int(getattr(config, "cuda_rollout_share", 0) or 0),
+            xpu_share=int(getattr(config, "xpu_rollout_share", 0) or 0),
+            cpu_share=int(getattr(config, "cpu_rollout_share", 0) or 0),
+            primary_device=str(config.ppo_device),
+            auxiliary_xpu_runtime=str(branch_payload.get("auxiliary_xpu_runtime", "") or ""),
+        )
+        config.cuda_rollout_share = int(effective["cuda"])
+        config.xpu_rollout_share = int(effective["xpu"])
+        config.cpu_rollout_share = int(effective["cpu"])
     output_path = Path(branch_payload["working_output"])
     scratch = RollingSafeStore(Path(scratch_root), branch_id)
     base_payload, _stored_metrics = _load_base_payload(branch_payload.get("base_model_checkpoint"))
@@ -1438,6 +1546,15 @@ def train_policy_competitive(
             for index in range(len(branch_payloads))
             if index not in active and index not in finished
         ]
+        progress_percent, progress_detail, progress_payload = competitive_progress_snapshot(
+            branch_payloads,
+            current_epochs,
+            active_indices=active.keys(),
+            finished_indices=finished,
+            concurrency=concurrency,
+            common_safe_epoch=int(global_safe_epoch.value),
+            training_mode=str(getattr(config, "training_mode", "cumulative")),
+        )
         session_state_callback({
             "session_id": session_id,
             "total_branches": len(branch_payloads),
@@ -1448,6 +1565,11 @@ def train_policy_competitive(
             "active_branch_ids": [branch_payloads[index]["branch_id"] for index in sorted(active)],
             "queued_branch_ids": [branch_payloads[index]["branch_id"] for index in queued],
             "epochs": [int(current_epochs[index]) for index in range(len(branch_payloads))],
+            "branch_progress": progress_payload["branches"],
+            "overall_percent": int(progress_percent),
+            "progress_detail": progress_detail,
+            "completed_branch_epochs": int(progress_payload["completed_branch_epochs"]),
+            "total_branch_epochs": int(progress_payload["total_branch_epochs"]),
             "common_safe_epoch": int(global_safe_epoch.value),
             "resource_plan": resource_plan.to_dict(),
             "cancel_requested": bool(cancel_event.value),
@@ -1639,7 +1761,15 @@ def train_policy_competitive(
                         },
                     )
                     if progress_callback:
-                        progress_callback(0, f"Compute protection RED · exact Safe Stop requested · {protection_reason}")
+                        progress_percent, progress_detail, _ = competitive_progress_snapshot(
+                            branch_payloads, current_epochs, active_indices=active.keys(), finished_indices=finished,
+                            concurrency=concurrency, common_safe_epoch=int(global_safe_epoch.value),
+                            training_mode=str(getattr(config, "training_mode", "cumulative")),
+                        )
+                        progress_callback(
+                            progress_percent,
+                            f"Compute protection RED · exact Safe Stop requested · {protection_reason} · {progress_detail}",
+                        )
 
             if (
                 not started_once
@@ -1678,7 +1808,15 @@ def train_policy_competitive(
                 # cancellation-time initialization of their exact starting safe state.
                 pending = deque(index for index in pending if index not in started_once)
                 if progress_callback:
-                    progress_callback(0, "Safe Stop requested · preserving one coherent exact checkpoint across active and queued branches")
+                    progress_percent, progress_detail, _ = competitive_progress_snapshot(
+                        branch_payloads, current_epochs, active_indices=active.keys(), finished_indices=finished,
+                        concurrency=concurrency, common_safe_epoch=int(global_safe_epoch.value),
+                        training_mode=str(getattr(config, "training_mode", "cumulative")),
+                    )
+                    progress_callback(
+                        progress_percent,
+                        "Safe Stop requested · preserving one coherent exact checkpoint · " + progress_detail,
+                    )
 
             if slice_failures:
                 fatal_messages.extend(slice_failures)
@@ -1719,15 +1857,16 @@ def train_policy_competitive(
                     break
 
             if progress_callback:
-                queued_count = sum(
-                    1 for index in range(len(branch_payloads)) if index not in active and index not in finished
+                progress_percent, progress_detail, _ = competitive_progress_snapshot(
+                    branch_payloads,
+                    current_epochs,
+                    active_indices=active.keys(),
+                    finished_indices=finished,
+                    concurrency=concurrency,
+                    common_safe_epoch=int(global_safe_epoch.value),
+                    training_mode=str(getattr(config, "training_mode", "cumulative")),
                 )
-                epoch_values = [int(current_epochs[i]) for i in range(len(branch_payloads))]
-                progress_callback(
-                    0,
-                    f"Competitive queue · {len(active)}/{concurrency} active · {queued_count} queued · "
-                    f"{len(finished)} completed · epochs {epoch_values} · common safe {int(global_safe_epoch.value)}",
-                )
+                progress_callback(progress_percent, progress_detail)
             emit_session_state()
             time.sleep(0.20)
 
