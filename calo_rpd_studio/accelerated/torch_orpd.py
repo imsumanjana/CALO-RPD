@@ -60,6 +60,8 @@ class ParityReport:
     convergence_mismatches: int = 0
     bus_type_mismatches: int = 0
     scenario_count_mismatches: int = 0
+    jointly_nonconverged_scenarios: int = 0
+    compared_converged_scenarios: int = 0
 
 
 class AcceleratedORPDProblem:
@@ -541,7 +543,12 @@ def parity_check(
     voltage_tolerance=1e-6,
     angle_tolerance_deg=1e-4,
 ):
-    """Fail-closed scientific parity across objectives, constraints and solved states."""
+    """Fail-closed scientific parity across outcomes and scientifically usable solved states.
+
+    When both backends reject a scenario as nonconverged, parity requires matching fail-closed
+    evaluation semantics but does not compare the discarded terminal Newton iterates. Converged
+    states retain the unchanged voltage, angle, bus-type, objective, and constraint tolerances.
+    """
     candidates = np.asarray(candidates, dtype=float)
     if candidates.ndim == 1:
         candidates = candidates[None, :]
@@ -556,6 +563,8 @@ def parity_check(
     convergence_mismatches = 0
     bus_type_mismatches = 0
     scenario_count_mismatches = 0
+    jointly_nonconverged_scenarios = 0
+    compared_converged_scenarios = 0
 
     def scalar_error(a, b):
         a, b = float(a), float(b)
@@ -591,6 +600,8 @@ def parity_check(
         angle_error = 0.0
         convergence_mismatch = 0
         bus_type_mismatch = 0
+        jointly_nonconverged = 0
+        compared_converged = 0
         scenario_count_mismatch = int(
             len(cpu_state.get("scenarios", [])) != len(gpu_state.get("scenarios", []))
         )
@@ -600,9 +611,15 @@ def parity_check(
                 for cpu_scenario, gpu_scenario in zip(
                     cpu_state["scenarios"], gpu_state["scenarios"], strict=True
                 ):
-                    convergence_mismatch += int(
-                        bool(cpu_scenario.get("converged")) != bool(gpu_scenario.get("converged"))
-                    )
+                    cpu_converged = bool(cpu_scenario.get("converged"))
+                    gpu_converged = bool(gpu_scenario.get("converged"))
+                    if cpu_converged != gpu_converged:
+                        convergence_mismatch += 1
+                        continue
+                    if not cpu_converged:
+                        jointly_nonconverged += 1
+                        continue
+                    compared_converged += 1
                     cpu_types = np.asarray(cpu_scenario.get("bus_types", []), dtype=int)
                     gpu_types = np.asarray(gpu_scenario.get("bus_types", []), dtype=int)
                     if cpu_types.shape != gpu_types.shape or not np.array_equal(
@@ -642,6 +659,8 @@ def parity_check(
         convergence_mismatches += int(convergence_mismatch)
         bus_type_mismatches += int(bus_type_mismatch)
         scenario_count_mismatches += int(scenario_count_mismatch)
+        jointly_nonconverged_scenarios += int(jointly_nonconverged)
+        compared_converged_scenarios += int(compared_converged)
         details.append(
             {
                 "candidate": index,
@@ -655,6 +674,8 @@ def parity_check(
                 "convergence_mismatches": int(convergence_mismatch),
                 "bus_type_mismatches": int(bus_type_mismatch),
                 "scenario_count_mismatch": bool(scenario_count_mismatch),
+                "jointly_nonconverged_scenarios": int(jointly_nonconverged),
+                "compared_converged_scenarios": int(compared_converged),
                 "state_error": state_error,
             }
         )
@@ -684,4 +705,6 @@ def parity_check(
         convergence_mismatches=convergence_mismatches,
         bus_type_mismatches=bus_type_mismatches,
         scenario_count_mismatches=scenario_count_mismatches,
+        jointly_nonconverged_scenarios=jointly_nonconverged_scenarios,
+        compared_converged_scenarios=compared_converged_scenarios,
     )

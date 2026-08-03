@@ -838,21 +838,18 @@ class DeviceResidentORPDEvaluator:
                 finite_mask, voltage_deviation, torch.full_like(voltage_deviation, float("inf"))
             )
             l_index = torch.where(finite_mask, l_index, torch.full_like(l_index, float("inf")))
-            bus_voltage = torch.where(
-                finite_mask, bus_voltage, torch.full_like(bus_voltage, float("inf"))
-            )
-            generator_p = torch.where(
-                finite_mask, generator_p, torch.full_like(generator_p, float("inf"))
-            )
-            generator_q = torch.where(
-                finite_mask, generator_q, torch.full_like(generator_q, float("inf"))
-            )
+            # Match the CPU reference's fail-closed record exactly. A nonconverged solve has one
+            # authoritative failure component (power_flow=inf); constraints derived from its
+            # discarded terminal iterate are neither finite evidence nor additional violations.
+            # Keeping those unused components at zero also avoids manufacturing six independent
+            # infinities from one solver failure while the aggregate remains infinite.
+            bus_voltage = torch.where(finite_mask, bus_voltage, torch.zeros_like(bus_voltage))
+            generator_p = torch.where(finite_mask, generator_p, torch.zeros_like(generator_p))
+            generator_q = torch.where(finite_mask, generator_q, torch.zeros_like(generator_q))
             branch_thermal = torch.where(
-                finite_mask, branch_thermal, torch.full_like(branch_thermal, float("inf"))
+                finite_mask, branch_thermal, torch.zeros_like(branch_thermal)
             )
-            branch_angle = torch.where(
-                finite_mask, branch_angle, torch.full_like(branch_angle, float("inf"))
-            )
+            branch_angle = torch.where(finite_mask, branch_angle, torch.zeros_like(branch_angle))
 
             objective_kind = self.config.objective.kind
             if objective_kind is ObjectiveKind.ACTIVE_POWER_LOSS:
@@ -879,7 +876,13 @@ class DeviceResidentORPDEvaluator:
                 dim=1,
             ).reshape(batch, self.scenario_count, len(CONSTRAINT_COMPONENT_NAMES))
             scenario_violation = torch.sum(scenario_constraints, dim=2)
-            robust_objective = self._robust(scenario_objective)
+            finite_objective = torch.all(torch.isfinite(scenario_objective), dim=1)
+            raw_robust_objective = self._robust(scenario_objective)
+            robust_objective = torch.where(
+                finite_objective,
+                raw_robust_objective,
+                torch.full_like(raw_robust_objective, float("inf")),
+            )
             weights = self.weights[None, :]
             if self.config.robust.constraint_aggregation is ConstraintAggregation.ALL_SCENARIO_MAX:
                 violation = torch.max(scenario_violation, dim=1).values
@@ -890,9 +893,21 @@ class DeviceResidentORPDEvaluator:
                 & torch.isfinite(robust_objective)
                 & (violation <= float(self.config.constraint_tolerances.feasibility_total))
             )
-            objective_mean = torch.sum(weights * scenario_objective, dim=1)
-            objective_std = torch.sqrt(
-                torch.sum(weights * (scenario_objective - objective_mean[:, None]).square(), dim=1)
+            raw_objective_mean = torch.sum(weights * scenario_objective, dim=1)
+            raw_objective_std = torch.sqrt(
+                torch.sum(
+                    weights * (scenario_objective - raw_objective_mean[:, None]).square(), dim=1
+                )
+            )
+            objective_mean = torch.where(
+                finite_objective,
+                raw_objective_mean,
+                torch.full_like(raw_objective_mean, float("inf")),
+            )
+            objective_std = torch.where(
+                finite_objective,
+                raw_objective_std,
+                torch.full_like(raw_objective_std, float("inf")),
             )
             objective_components = {
                 "active_power_loss_mw": torch.sum(
