@@ -66,7 +66,7 @@ def test_action_mask_assigns_zero_probability_to_invalid_and_unavailable_groups(
 
     torch.testing.assert_close(
         probabilities[0],
-        torch.nn.functional.one_hot(torch.tensor(2), 6).to(probabilities.dtype),
+        torch.nn.functional.one_hot(torch.tensor(2), N_OPERATORS).to(probabilities.dtype),
     )
     assert torch.count_nonzero(probabilities[1:]) == 0
     with pytest.raises(ValueError, match="permit at least one"):

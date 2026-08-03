@@ -220,6 +220,12 @@ deterministic intervention traces and explicit block-or-relabelled-baseline fall
 focused tests. The cumulative A–D focus is 28 passed and the full tree is 480 passed with 63 skips.
 No uncertainty calibration, policy quality or optimization benefit has been established.
 
+Change E is locally complete and disabled by default. The new seventh operator consumes only a
+supplied counted-evaluation linearization, masks unsafe contexts, is trust-bounded/lattice-valid,
+performs no hidden power-flow call, declares no feasibility and requires an explicit trusted FE.
+Ten focused tests pass; cumulative A–E focus is 38 passed and the full tree is 490 passed with 63
+skips. No physics-repair benefit or acceptable-cost evidence exists yet.
+
 Required order after approval:
 
 1. Extract the canonical transition kernel with **zero behavior change**.

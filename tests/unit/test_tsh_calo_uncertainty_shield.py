@@ -63,12 +63,14 @@ def _output_and_action(toy_case):
 def test_ensemble_disagreement_is_zero_for_identical_members_and_increases_on_conflict(toy_case):
     output, _action = _output_and_action(toy_case)
     identical = aggregate_policy_ensemble([output, output])
+    group_conflict = torch.full((1, N_OPERATORS), -8.0)
+    group_conflict[0, 0] = 8.0
+    context_conflict = torch.full((1, N_OPERATORS), -8.0)
+    context_conflict[0, 1] = 8.0
     conflicting = TSHCALOPolicyOutput(
         regime_logits=output.regime_logits + torch.tensor([8.0, -8.0, -8.0, -8.0]),
-        group_operator_logits=output.group_operator_logits
-        + torch.tensor([[8.0, -8.0, -8.0, -8.0, -8.0, -8.0]]).expand(3, -1),
-        context_operator_logits=output.context_operator_logits
-        + torch.tensor([[-8.0, 8.0, -8.0, -8.0, -8.0, -8.0]]).expand(4, -1),
+        group_operator_logits=output.group_operator_logits + group_conflict.expand(3, -1),
+        context_operator_logits=output.context_operator_logits + context_conflict.expand(4, -1),
         group_alpha=output.group_alpha,
         group_beta=output.group_beta,
         value=output.value,

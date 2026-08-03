@@ -361,8 +361,9 @@ class UncertaintySafetyShield:
         )
         allowed = mask.allowed[groups]
         neural = torch.softmax(neural_logits.masked_fill(~allowed, -torch.inf), dim=-1)
+        frozen_rule_prior = np.pad(REGIME_OPERATOR_PRIORS[int(action.regime)], (0, N_OPERATORS - 6))
         rule_prior = torch.as_tensor(
-            REGIME_OPERATOR_PRIORS[int(action.regime)],
+            frozen_rule_prior,
             device=groups.device,
             dtype=neural.dtype,
         ).expand(len(groups), -1)

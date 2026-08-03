@@ -15,7 +15,10 @@ contract, strict masks, bounded controls and independent learner sampling; its e
 and 474-test active-tree regression pass. Change D then added ensemble/OOD attenuation, exact-
 resumable contextual bandit residuals, declared mixture weights, safety shielding, deterministic
 traces and explicit fallback identity; its six focused tests, cumulative 28-test A–D focus and
-480-test active-tree regression pass. Changes E–F remain unimplemented at this record point, and no
+480-test active-tree regression pass. Change E then added the independently masked seventh physics-
+repair proposal with counted-evaluation provenance, trust/lattice bounds, no hidden solver call and
+mandatory trusted reevaluation; its ten focused tests, cumulative 38-test A–E focus and 490-test
+active-tree regression pass. Change F remains unimplemented and disabled by default, and no
 component benefit has been claimed.
 **Decision owner:** user/project scientific lead
 **Proposed working name:** Topology-Aware Shielded Hierarchical CALO (TSH-CALO)

@@ -54,6 +54,7 @@ class GroupActionMask:
         *,
         mixed_variable_enabled: bool = True,
         diversity_recovery_enabled: bool = True,
+        physics_repair_enabled: bool = False,
         compatibility: torch.Tensor | None = None,
     ) -> "GroupActionMask":
         groups = torch.as_tensor(control_groups, dtype=torch.long)
@@ -67,6 +68,8 @@ class GroupActionMask:
             allowed[:, 4] = False
         if not diversity_recovery_enabled:
             allowed[:, 5] = False
+        if not physics_repair_enabled:
+            allowed[:, 6] = False
         if compatibility is not None:
             compatibility = torch.as_tensor(compatibility, dtype=torch.bool)
             if compatibility.shape != allowed.shape:
