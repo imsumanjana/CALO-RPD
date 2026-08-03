@@ -8,7 +8,10 @@ component has been implemented or scientifically validated.
 
 **Implementation ledger:** Change A was subsequently extracted and passed the repository's seeded
 runtime/training, frozen optimizer snapshot/exact-budget, continuation, kernel-invariant and complete
-active-tree regression gates. Changes B–F remain unimplemented at this record point.
+active-tree regression gates. Change B then added a distinct TSH-CALO ABI plus strict topology state
+and permutation-consistent graph/control-group encoding; its five focused tests and the 466-test
+active-tree regression pass. Changes C–F remain unimplemented at this record point, and no component
+benefit has been claimed.
 **Decision owner:** user/project scientific lead
 **Proposed working name:** Topology-Aware Shielded Hierarchical CALO (TSH-CALO)
 

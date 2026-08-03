@@ -202,6 +202,12 @@ skipped on the complete active tree, 45 focused CALO/parity/continuation tests, 
 optimizer snapshot/exact-budget cases, and eight dedicated kernel invariants. This is parity/refactor
 evidence only; B–F, a fresh policy, qualification, and ablation evidence remain absent.
 
+Change B is also locally complete: the new TSH-CALO candidate ABI and strict aggregate-plus-topology
+state/encoder have five focused graph-versioning, validation, permutation and topology-change tests;
+the complete tree passes 466 tests with 63 skips. The builder requires an already-computed converged
+power-flow result and cannot create a hidden solver call. This does not establish performance benefit.
+C–F, fresh training, qualification and every ablation remain pending.
+
 Required order after approval:
 
 1. Extract the canonical transition kernel with **zero behavior change**.
