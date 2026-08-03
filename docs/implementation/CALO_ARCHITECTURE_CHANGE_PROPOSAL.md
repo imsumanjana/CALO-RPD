@@ -25,8 +25,12 @@ the intentionally stale v6.9 release-integrity file pass. Change F remains disab
 unpromoted. The subsequent candidate-artifact boundary records the exact TSH-CALO ABIs, independent-
 training provenance and feature flags, rejects protected holdouts, and makes registration,
 qualification, explicit activation and immutable consumption separate actions. Its seven dedicated
-tests and 506-test active-tree regression pass. No policy has actually been trained, qualified or
-activated, and no component benefit or acceptable-cost result has been claimed.
+tests and 506-test active-tree regression pass. The independent PPO core subsequently added a
+separate design-hashed configuration, protected-holdout rejection, masked hierarchical update,
+checksum/design-bound exact resume and unqualified-only export without experiment or registry
+authority; its seven tests and the 513-test active-tree regression pass. No policy has actually been
+trained, qualified or activated, and no component benefit or acceptable-cost result has been
+claimed.
 **Decision owner:** user/project scientific lead
 **Proposed working name:** Topology-Aware Shielded Hierarchical CALO (TSH-CALO)
 

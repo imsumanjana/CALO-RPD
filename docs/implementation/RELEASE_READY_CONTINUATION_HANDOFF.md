@@ -245,6 +245,15 @@ scientific provenance under the separate `TSH-CALO` key. Seven dedicated lifecyc
 policy compatibility/independence focus and the 506-pass active tree are green. No real candidate has
 been trained, qualified or activated.
 
+The independent TSH-CALO PPO core is locally complete. It uses a separate training configuration and
+scientific design hash, rejects protected holdouts, accepts already-built topology rollout states,
+applies the declared masks to global/group/context actions, resumes model/optimizer/local RNG state
+only with the expected SHA-256 and unchanged scientific design, and can export only an unqualified
+candidate after at least one update. It has no experiment-manager, experiment-runner, registry,
+activation or binding authority. Seven dedicated tests, the 22-test trainer/lifecycle/action focus
+and the 513-pass active tree pass. This does not represent a real training run; development rollout
+production, Safe-80 target-device admission and physical CPU/CUDA evidence remain open.
+
 Required order after approval:
 
 1. Extract the canonical transition kernel with **zero behavior change**.
