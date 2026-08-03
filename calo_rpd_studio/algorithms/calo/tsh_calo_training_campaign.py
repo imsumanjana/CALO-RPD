@@ -378,6 +378,7 @@ class IndependentTSHCALOTrainingCampaign:
         self.transition_callback = transition_callback
         self._active_session: IndependentTSHCALOTrainingSession | None = None
         self._last_failure_provenance: dict | None = None
+        self._last_failure_resumable = False
 
     @property
     def _plan_path(self) -> Path:
@@ -563,6 +564,8 @@ class IndependentTSHCALOTrainingCampaign:
         return artifact
 
     def _run_member(self, status: dict, member_index: int) -> TSHCALOCandidateArtifact:
+        self._last_failure_provenance = None
+        self._last_failure_resumable = False
         member = self.plan.members[member_index]
         training = self.plan.training_config(member)
         episode_index = int(status.get("current_episode_index", 0))
@@ -602,10 +605,15 @@ class IndependentTSHCALOTrainingCampaign:
                     source_commit=self.plan.source_commit,
                 )
             return candidate
-        except Exception:
+        except Exception as exc:
             if self._active_session is not None:
                 self._last_failure_provenance = (
                     self._active_session.environment.scientific_provenance()
+                )
+                self._last_failure_resumable = bool(
+                    isinstance(exc, OSError)
+                    and not self._active_session.failed
+                    and self._active_session.environment.accounting_complete
                 )
             raise
         finally:
@@ -712,10 +720,16 @@ class IndependentTSHCALOTrainingCampaign:
             self._write_status(status)
             raise
         except Exception as exc:
-            status["state"] = "failed"
+            status["state"] = "interrupted" if self._last_failure_resumable else "failed"
             status["failure"] = {
                 "type": type(exc).__name__,
                 "message": str(exc),
+                "category": (
+                    "resumable_infrastructure_interruption"
+                    if self._last_failure_resumable
+                    else "non_resumable_training_or_integrity_failure"
+                ),
+                "resumable": self._last_failure_resumable,
                 "environment_provenance": (
                     self._last_failure_provenance
                     if self._active_session is None

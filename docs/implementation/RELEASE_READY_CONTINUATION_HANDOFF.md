@@ -142,7 +142,7 @@ The most recent complete active-tree run, excluding only the intentionally stale
 release-integrity file, produced:
 
 ```text
-575 passed, 63 skipped
+576 passed, 63 skipped
 ```
 
 Other verified evidence:
@@ -382,11 +382,25 @@ exact progress; interruption is resumable, while a counted solver failure is rec
 retry under the same campaign identity. Member candidates must have distinct training-run IDs and
 source artifacts before unqualified ensemble assembly. The `calo-rpd-train-tsh` command requires the
 plan's exact checked-out Git commit and a clean tracked tree, and it has no experiment, registration,
-qualification, activation or inference authority. Six dedicated campaign cases, a 61-test adjacent
-training/lifecycle/inference/optimizer focus and the 575-pass active tree pass; Ruff lint/format
-passes across 403 Python files and the schema is current. Only toy-fixture mechanics ran. No IEEE
-training plan, real candidate, qualification, protected-test opening, ablation or benefit evidence
-exists.
+qualification, activation or inference authority. Seven dedicated campaign cases, a 62-test adjacent
+training/lifecycle/inference/optimizer focus and the 576-pass active tree pass; Ruff lint/format
+passes across 403 Python files and the schema is current. Those validation cases use toy fixtures;
+they do not establish qualification, protected-test, ablation or benefit evidence.
+
+The first frozen IEEE 30/57 execution (`tsh-calo-ieee30-57-v1-20260803`) was retained as a failed
+campaign rather than rewritten. Its plan was bound to source `d639630`, scientific design
+`5f4a29361e8d8d93428fa71bdd054176c08f9d4eb99957e2e9e42f61f9d601b7`, execution plan
+`490b0b0158a663a228071774c48a639f5cefaf7d70f6ac9d0d9cb6d8825fdc62` and seed manifest
+`aa92dd769bc34cbc536b85f841379775773c3ae9639895357a9ebdbcc2baeb49`. Three members completed
+10 episodes, 20,000 FE/scenario calls and 70 PPO updates each on admitted `cuda:0`; the fourth
+reached episode 10 transition 20. Windows then denied one atomic status-file replacement. The
+retained checkpoint independently authenticated and reports an unfailed session with complete
+840/840 accounting. The v1 runner nevertheless classified every exception as terminal, so its
+failed status is not bypassed. Recovery semantics now distinguish only an `OSError` with an
+unfailed, accounting-complete active session as an explicit resumable infrastructure interruption;
+solver, trainer, integrity and design failures remain terminal. This correction passes a synthetic
+status-lock/resume test. The partial candidates are not an ensemble and have not been qualified or
+used as evidence of benefit.
 
 Required order after approval:
 

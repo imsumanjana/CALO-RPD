@@ -15,6 +15,7 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign import (
     TSHCALOTrainingEpisodePlan,
     TSHCALOTrainingMemberPlan,
 )
+import calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign as campaign_module
 from calo_rpd_studio.algorithms.calo.tsh_calo_training_resources import (
     TSHCALOTrainingResourceEnvelope,
 )
@@ -207,6 +208,47 @@ def test_campaign_resume_rejects_checkpoint_status_mismatch(tmp_path, toy_case):
         ).resume()
     failed = json.loads(status_path.read_text(encoding="utf-8"))
     assert failed["state"] == "failed"
+
+
+def test_campaign_can_resume_safe_infrastructure_write_interruption(
+    tmp_path, toy_case, monkeypatch
+):
+    plan = _plan()
+    output = tmp_path / "infrastructure-interruption"
+    original_write_json = campaign_module._write_json
+    interrupted = False
+
+    def interrupt_status_write(path, payload):
+        nonlocal interrupted
+        if (
+            not interrupted
+            and Path(path).name == "training_status.json"
+            and payload.get("session_checkpoint") is not None
+        ):
+            interrupted = True
+            raise PermissionError("synthetic Windows status replacement lock")
+        return original_write_json(path, payload)
+
+    monkeypatch.setattr(campaign_module, "_write_json", interrupt_status_write)
+    with pytest.raises(PermissionError, match="synthetic Windows"):
+        IndependentTSHCALOTrainingCampaign(
+            plan,
+            output,
+            problem_factory=_factory(toy_case),
+        ).start()
+    status = json.loads((output / "training_status.json").read_text(encoding="utf-8"))
+    assert status["state"] == "interrupted"
+    assert status["failure"]["resumable"] is True
+    assert status["failure"]["category"] == "resumable_infrastructure_interruption"
+    assert status["failure"]["environment_provenance"]["accounting_complete"] is True
+
+    monkeypatch.setattr(campaign_module, "_write_json", original_write_json)
+    result = IndependentTSHCALOTrainingCampaign(
+        plan,
+        output,
+        problem_factory=_factory(toy_case),
+    ).resume()
+    assert result.ensemble_candidate.ensemble_size == 2
 
 
 def test_campaign_rejects_leakage_reused_seeds_and_lifecycle_authority():
