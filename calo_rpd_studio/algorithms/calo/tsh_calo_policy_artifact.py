@@ -26,6 +26,7 @@ from .tsh_calo_schema import (
     TSH_CALO_TRAINING_ENVIRONMENT,
     TSHCALOFeatureFlags,
 )
+from .tsh_calo_training_resources import validate_tsh_calo_training_device_provenance
 
 
 @dataclass(frozen=True, slots=True)
@@ -37,6 +38,7 @@ class IndependentTrainingProvenance:
     source_commit: str
     development_cases: tuple[str, ...]
     seed_manifest_sha256: str
+    training_device_provenance: dict
     source_kind: str = "independent_policy_training"
 
     def validate(self) -> None:
@@ -58,6 +60,7 @@ class IndependentTrainingProvenance:
             raise ValueError(
                 "Protected holdout cases cannot enter TSH-CALO training: " + ", ".join(leaked)
             )
+        validate_tsh_calo_training_device_provenance(self.training_device_provenance)
 
 
 @dataclass(frozen=True, slots=True)

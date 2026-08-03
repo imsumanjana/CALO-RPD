@@ -331,8 +331,27 @@ solve. Pending observations and all environment state/RNG/components resume exac
 design and problem hashes. Eight dedicated environment tests and a 29-test environment/training/
 transition/context focus pass; the active tree excluding only the deliberately stale v6.9 release-
 integrity file is 555 passed with 63 skips. Repository Ruff lint/format passes across 395 Python files
-and the generated schema is current. This is mechanics evidence only: Safe-80 trainer admission,
-fresh ensemble-member training, qualification, ablations and any benefit claim remain pending.
+and the generated schema is current. This is mechanics evidence only: fresh ensemble-member
+training, qualification, ablations and any benefit claim remain pending.
+
+Independent trainer Safe-80 admission is now locally complete under training-environment ABI
+`tsh-calo-training-v2-counted-safe80`. Every training design declares and hashes maximum rollout,
+population, node, directed-edge, control and scenario counts. A deterministic versioned estimator
+accounts for parameters/buffers, gradients and Adam moments, retained rollout state, autograd
+activations, fragmentation safety and an explicit runtime floor. The trainer checks every state and
+batch against that envelope, admits CUDA first only when the estimate fits within 80% of VRAM free
+at admission, otherwise uses CPU only when CUDA is unavailable or explicit fallback is permitted and
+the estimate fits within 80% of currently available RAM. CUDA training holds cross-process and local
+single-owner leases and applies the admitted allocator ceiling; lease contention blocks instead of
+spilling to CPU. Exact resume requires the same admitted computation device. Candidate provenance
+records the estimate, live admission, selected compute device, fallback reason and the truthful fact
+that the NVIDIA GPU or CPU computes while memory stores data. Mutated Safe-80 or computation records
+are rejected, and earlier v1 training-environment artifacts are non-native rather than silently
+migrated. Seven dedicated resource tests and a 49-test resource/training/environment/lifecycle/
+inference/optimizer focus pass. The active tree excluding only the deliberately stale v6.9 release-
+integrity file is 563 passed with 63 skips; Ruff lint/format passes across 397 Python files and the
+generated schema is current. This is local CPU and mocked-CUDA mechanics evidence; no physical CUDA
+training, fresh member, qualification, ablation or benefit result exists.
 
 Required order after approval:
 

@@ -19,6 +19,9 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_training_environment import (
     IndependentTSHCALOTrainingEnvironment,
     TSHCALOTrainingEnvironmentConfig,
 )
+from calo_rpd_studio.algorithms.calo.tsh_calo_training_resources import (
+    TSHCALOTrainingResourceEnvelope,
+)
 from calo_rpd_studio.orpd.problem import ORPDProblem
 
 
@@ -31,6 +34,7 @@ def _training_config(**changes) -> TSHCALOTrainingConfig:
         training_run_id="development-rollout-001",
         development_cases=("toy-development",),
         seed_manifest_sha256=_sha("development-seeds"),
+        resource_envelope=TSHCALOTrainingResourceEnvelope(4, 8, 16, 32, 16, 8),
         seed=41,
         hidden_dim=16,
         graph_steps=1,
@@ -213,6 +217,16 @@ def test_experimental_population_schedule_is_rejected_before_any_solve(toy_case)
     with pytest.raises(ValueError, match="Experimental Change F"):
         IndependentTSHCALOTrainingEnvironment(problem, training, _environment_config())
 
+    assert calls == 0
+    bounded = replace(
+        _training_config(),
+        resource_envelope=replace(
+            _training_config().resource_envelope,
+            maximum_topology_nodes=2,
+        ),
+    )
+    with pytest.raises(MemoryError, match="before solve"):
+        IndependentTSHCALOTrainingEnvironment(problem, bounded, _environment_config())
     assert calls == 0
 
 

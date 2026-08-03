@@ -9,6 +9,7 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass, field
 import hashlib
 import json
+import logging
 from pathlib import Path
 
 import numpy as np
@@ -40,7 +41,15 @@ from .tsh_calo_schema import (
     TSH_CALO_TRAINING_ENVIRONMENT,
     TSHCALOFeatureFlags,
 )
+from .tsh_calo_training_resources import (
+    TSHCALOTrainingDeviceGuard,
+    TSHCALOTrainingResourceEnvelope,
+    estimate_tsh_calo_training_working_set,
+)
 from .transition_kernel import TransitionResult
+
+
+_LOG = logging.getLogger(__name__)
 
 
 def _valid_sha256(value: str) -> bool:
@@ -53,6 +62,7 @@ class TSHCALOTrainingConfig:
     training_run_id: str
     development_cases: tuple[str, ...]
     seed_manifest_sha256: str
+    resource_envelope: TSHCALOTrainingResourceEnvelope
     seed: int = 0
     hidden_dim: int = 64
     graph_steps: int = 2
@@ -65,6 +75,7 @@ class TSHCALOTrainingConfig:
     discount_factor: float = 0.99
     gae_lambda: float = 0.95
     device: str = "auto"
+    allow_cpu_fallback: bool = True
     feature_flags: TSHCALOFeatureFlags = field(default_factory=TSHCALOFeatureFlags)
 
     def validate(self) -> None:
@@ -93,12 +104,14 @@ class TSHCALOTrainingConfig:
             self.device
         ).lower().startswith("cuda:"):
             raise ValueError("TSH-CALO training device must be auto, cpu, cuda, or cuda:<index>")
+        self.resource_envelope.validate()
         self.feature_flags.validate()
 
     def scientific_design_hash(self) -> str:
         self.validate()
         payload = asdict(self)
         payload.pop("device", None)
+        payload.pop("allow_cpu_fallback", None)
         encoded = json.dumps(payload, sort_keys=True, separators=(",", ":"))
         return hashlib.sha256(encoded.encode("utf-8")).hexdigest()
 
@@ -211,6 +224,8 @@ class IndependentTSHCALORolloutCollector:
     ) -> PendingTSHCALORolloutStep:
         if self._pending is not None:
             raise RuntimeError("TSH-CALO rollout has an uncommitted sampled action")
+        if len(self.states) >= self.trainer.config.resource_envelope.rollout_capacity:
+            raise RuntimeError("TSH-CALO rollout reached its frozen resource-envelope capacity")
         action, log_probability, value = self.trainer.sample_action(
             state,
             action_mask,
@@ -335,17 +350,6 @@ class IndependentTSHCALORolloutCollector:
         return collector
 
 
-def _resolve_device(requested: str) -> torch.device:
-    choice = str(requested).strip().lower()
-    if choice == "auto":
-        return torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    if choice.startswith("cuda"):
-        if not torch.cuda.is_available():
-            raise RuntimeError("CUDA TSH-CALO training was requested but CUDA is unavailable")
-        return torch.device(choice if ":" in choice else "cuda:0")
-    return torch.device("cpu")
-
-
 def _optimizer_to_device(optimizer: torch.optim.Optimizer, device: torch.device) -> None:
     for state in optimizer.state.values():
         for key, value in tuple(state.items()):
@@ -356,20 +360,71 @@ def _optimizer_to_device(optimizer: torch.optim.Optimizer, device: torch.device)
 class IndependentTSHCALOTrainer:
     """PPO learner with no registry, activation, GUI, or experiment-workflow authority."""
 
-    RESUME_FORMAT = "tsh_calo_independent_training_resume_v1"
+    RESUME_FORMAT = "tsh_calo_independent_training_resume_v2"
 
     def __init__(self, config: TSHCALOTrainingConfig) -> None:
+        self._closed = False
         config.validate()
         self.config = config
-        self.device = _resolve_device(config.device)
         with torch.random.fork_rng(devices=[]):
             torch.manual_seed(int(config.seed))
             network = TSHCALOPolicyNetwork(config.hidden_dim, config.graph_steps)
-        self.network = network.to(self.device)
+        self.memory_estimate = estimate_tsh_calo_training_working_set(
+            network, config.resource_envelope
+        )
+        self.device_guard = TSHCALOTrainingDeviceGuard.admit(
+            self.memory_estimate,
+            requested_device=config.device,
+            allow_cpu_fallback=config.allow_cpu_fallback,
+        )
+        self.device = torch.device(self.device_guard.admission.selected_device)
+        try:
+            self.network = network.to(self.device)
+        except torch.cuda.OutOfMemoryError:
+            if self.device.type != "cuda" or not config.allow_cpu_fallback:
+                self.device_guard.close()
+                raise
+            torch.cuda.empty_cache()
+            self.device_guard = self.device_guard.fallback_after_cuda_oom(self.memory_estimate)
+            self.device = torch.device("cpu")
+            self.network = network.to(self.device)
         self.optimizer = torch.optim.Adam(self.network.parameters(), lr=config.learning_rate)
         self.numpy_rng = np.random.default_rng(config.seed)
         self.torch_generator = torch.Generator(device=self.device).manual_seed(int(config.seed))
         self.update_steps = 0
+
+    def close(self) -> None:
+        if self._closed:
+            return
+        self._closed = True
+        self.device_guard.close()
+
+    def _assert_open(self) -> None:
+        if self._closed:
+            raise RuntimeError("TSH-CALO trainer is closed and no longer owns its admitted device")
+
+    def __enter__(self) -> "IndependentTSHCALOTrainer":
+        return self
+
+    def __exit__(self, _exc_type, _exc, _tb) -> None:
+        self.close()
+
+    def __del__(self) -> None:
+        try:
+            self.close()
+        except Exception:
+            _LOG.debug("Unable to release TSH-CALO training resources", exc_info=True)
+
+    def device_provenance(self) -> dict:
+        return {
+            "memory_estimate": self.memory_estimate.to_dict(),
+            "memory_admission": self.device_guard.admission.to_dict(),
+            "computation_semantics": (
+                "NVIDIA GPU computes; VRAM is admitted storage"
+                if self.device.type == "cuda"
+                else "CPU computes; system RAM is admitted storage"
+            ),
+        }
 
     def _log_probability_entropy_value(
         self, state: TopologyAwarePolicyState, action: TSHCALOTrainingAction
@@ -436,6 +491,9 @@ class IndependentTSHCALOTrainer:
         *,
         deterministic: bool = False,
     ) -> tuple[TSHCALOTrainingAction, float, float]:
+        self._assert_open()
+        population_size = len(np.asarray(learner_groups).reshape(-1))
+        self.config.resource_envelope.validate_state(state, population_size=population_size)
         self.network.eval()
         output = self.network(state)
         hierarchical = hierarchical_action(
@@ -467,7 +525,14 @@ class IndependentTSHCALOTrainer:
         return action, float(log_probability.item()), float(value.item())
 
     def update(self, batch: TSHCALORolloutBatch) -> dict[str, float]:
+        self._assert_open()
         batch.validate()
+        if len(batch.states) > self.config.resource_envelope.rollout_capacity:
+            raise MemoryError("TSH-CALO PPO batch exceeds its frozen rollout capacity")
+        for state, action in zip(batch.states, batch.actions):
+            self.config.resource_envelope.validate_state(
+                state, population_size=len(action.learner_groups)
+            )
         old_log_probabilities = torch.as_tensor(
             batch.old_log_probabilities, dtype=torch.float32, device=self.device
         )
@@ -521,6 +586,7 @@ class IndependentTSHCALOTrainer:
         return metrics
 
     def save_resume(self, path: str | Path) -> str:
+        self._assert_open()
         target = Path(path).expanduser().resolve()
         payload = {
             "format": self.RESUME_FORMAT,
@@ -531,6 +597,7 @@ class IndependentTSHCALOTrainer:
             "training_environment_version": TSH_CALO_TRAINING_ENVIRONMENT,
             "scientific_design_hash": self.config.scientific_design_hash(),
             "training_config": asdict(self.config),
+            "training_device_provenance": self.device_provenance(),
             "model_state_dict": {
                 name: tensor.detach().cpu() for name, tensor in self.network.state_dict().items()
             },
@@ -569,6 +636,22 @@ class IndependentTSHCALOTrainer:
             if str(payload.get(key, "")) != expected:
                 raise ValueError(f"TSH-CALO training resume {key} is incompatible")
         trainer = cls(expected_config)
+        saved_device = str(
+            dict(payload.get("training_device_provenance", {}))
+            .get("memory_admission", {})
+            .get("selected_device", "")
+        )
+        if saved_device != trainer.device_guard.admission.selected_device:
+            trainer.close()
+            raise RuntimeError(
+                "TSH-CALO exact resume requires the same admitted computation device"
+            )
+        saved_estimate = dict(payload.get("training_device_provenance", {})).get(
+            "memory_estimate", {}
+        )
+        if saved_estimate != trainer.memory_estimate.to_dict():
+            trainer.close()
+            raise ValueError("TSH-CALO exact resume memory estimate changed")
         trainer.network.load_state_dict(payload["model_state_dict"], strict=True)
         trainer.optimizer.load_state_dict(payload["optimizer_state_dict"])
         _optimizer_to_device(trainer.optimizer, trainer.device)
@@ -584,6 +667,7 @@ class IndependentTSHCALOTrainer:
         *,
         source_commit: str,
     ) -> TSHCALOCandidateArtifact:
+        self._assert_open()
         if self.update_steps < 1:
             raise ValueError("TSH-CALO candidate export requires at least one completed PPO update")
         provenance = IndependentTrainingProvenance(
@@ -592,6 +676,7 @@ class IndependentTSHCALOTrainer:
             source_commit=str(source_commit),
             development_cases=tuple(self.config.development_cases),
             seed_manifest_sha256=self.config.seed_manifest_sha256,
+            training_device_provenance=self.device_provenance(),
         )
         return save_tsh_calo_candidate(
             path,

@@ -23,6 +23,7 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact import (
 from calo_rpd_studio.algorithms.calo.tsh_calo_schema import (
     TSH_CALO_ACTION_SCHEMA,
     TSH_CALO_ALGORITHM_ID,
+    TSH_CALO_TRAINING_ENVIRONMENT,
 )
 from calo_rpd_studio.algorithms.calo.tsh_calo_qualification import (
     build_tsh_calo_qualification_receipt,
@@ -37,6 +38,34 @@ def _sha(label: str) -> str:
     return hashlib.sha256(label.encode("utf-8")).hexdigest()
 
 
+def _device_provenance() -> dict:
+    total = 1 << 30
+    available = 512 << 20
+    allowance = int(0.80 * available)
+    estimate = 64 << 20
+    return {
+        "memory_estimate": {
+            "estimator_version": "tsh-calo-training-memory-v1",
+            "estimated_working_set_bytes": estimate,
+        },
+        "memory_admission": {
+            "requested_device": "cpu",
+            "selected_device": "cpu",
+            "computation_device": "cpu",
+            "estimated_working_set_bytes": estimate,
+            "total_bytes": total,
+            "available_bytes_at_admission": available,
+            "baseline_reserved_bytes": 0,
+            "allowance_bytes": allowance,
+            "process_ceiling_bytes": allowance,
+            "allocator_fraction_of_total": allowance / total,
+            "fallback_reason": "explicit CPU training",
+            "estimator_version": "tsh-calo-training-memory-v1",
+        },
+        "computation_semantics": "CPU computes; system RAM is admitted storage",
+    }
+
+
 def _provenance(*cases: str) -> IndependentTrainingProvenance:
     return IndependentTrainingProvenance(
         training_run_id="training-run-001",
@@ -44,6 +73,7 @@ def _provenance(*cases: str) -> IndependentTrainingProvenance:
         source_commit="0a8989f",
         development_cases=tuple(cases or ("case30", "case57")),
         seed_manifest_sha256=_sha("seeds"),
+        training_device_provenance=_device_provenance(),
     )
 
 
@@ -184,6 +214,16 @@ def test_tsh_registration_cannot_self_qualify_or_accept_an_incompatible_abi(tmp_
     incompatible = tmp_path / "incompatible.pt"
     torch.save(payload, incompatible)
     record = registry.register(incompatible)
+    assert record.compatible_with(TSH_CALO_ALGORITHM_ID) is False
+
+    payload = torch.load(candidate, map_location="cpu", weights_only=True)
+    assert payload["metadata"]["training_environment_version"] == TSH_CALO_TRAINING_ENVIRONMENT
+    payload["metadata"]["training_environment_version"] = (
+        "tsh-calo-training-v1-canonical-transition"
+    )
+    legacy_environment = tmp_path / "legacy-training-environment.pt"
+    torch.save(payload, legacy_environment)
+    record = registry.register(legacy_environment)
     assert record.compatible_with(TSH_CALO_ALGORITHM_ID) is False
 
 

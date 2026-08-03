@@ -49,6 +49,34 @@ def _sha(label: str) -> str:
     return hashlib.sha256(label.encode("utf-8")).hexdigest()
 
 
+def _device_provenance() -> dict:
+    total = 1 << 30
+    available = 512 << 20
+    allowance = int(0.80 * available)
+    estimate = 64 << 20
+    return {
+        "memory_estimate": {
+            "estimator_version": "tsh-calo-training-memory-v1",
+            "estimated_working_set_bytes": estimate,
+        },
+        "memory_admission": {
+            "requested_device": "cpu",
+            "selected_device": "cpu",
+            "computation_device": "cpu",
+            "estimated_working_set_bytes": estimate,
+            "total_bytes": total,
+            "available_bytes_at_admission": available,
+            "baseline_reserved_bytes": 0,
+            "allowance_bytes": allowance,
+            "process_ceiling_bytes": allowance,
+            "allocator_fraction_of_total": allowance / total,
+            "fallback_reason": "explicit CPU training",
+            "estimator_version": "tsh-calo-training-memory-v1",
+        },
+        "computation_semantics": "CPU computes; system RAM is admitted storage",
+    }
+
+
 def _member(path: Path, seed: int) -> Path:
     torch.manual_seed(seed)
     provenance = IndependentTrainingProvenance(
@@ -57,6 +85,7 @@ def _member(path: Path, seed: int) -> Path:
         source_commit="85c4ce4",
         development_cases=("case30", "case57"),
         seed_manifest_sha256=_sha("seeds"),
+        training_device_provenance=_device_provenance(),
     )
     save_tsh_calo_candidate(path, TSHCALOPolicyNetwork(hidden_dim=16), provenance)
     return path

@@ -119,6 +119,10 @@ class TSHCALOTrainingEnvironmentConfig:
             )
         if self.population_size < 2:
             raise ValueError("TSH-CALO training population must contain at least two learners")
+        if self.population_size > training_config.resource_envelope.maximum_population_size:
+            raise ValueError(
+                "TSH-CALO environment population exceeds the frozen training resource envelope"
+            )
         if self.max_evaluations < 2 * self.population_size:
             raise ValueError("TSH-CALO training requires an initial and one offspring population")
         if self.max_evaluations % self.population_size != 0:
@@ -237,6 +241,31 @@ class IndependentTSHCALOTrainingEnvironment:
             raise ValueError(f"Protected holdout {protected} cannot enter TSH-CALO policy training")
         if int(getattr(problem, "dimension", 0)) < 1:
             raise ValueError("TSH-CALO training problem must have a positive dimension")
+        envelope = training_config.resource_envelope
+        static_counts = {
+            "topology nodes": int(problem.case.n_bus),
+            "topology edges": 2 * int(problem.case.n_branch),
+            "topology controls": len(
+                list(getattr(getattr(problem, "decoder", None), "variables", None) or [])
+            ),
+            "scenarios": len(list(getattr(problem, "scenarios", None) or [])),
+        }
+        declared = {
+            "topology nodes": envelope.maximum_topology_nodes,
+            "topology edges": envelope.maximum_topology_edges,
+            "topology controls": envelope.maximum_topology_controls,
+            "scenarios": envelope.maximum_scenarios,
+        }
+        exceeded = [
+            f"{name}={static_counts[name]}>{declared[name]}"
+            for name in static_counts
+            if static_counts[name] > declared[name]
+        ]
+        if exceeded:
+            raise MemoryError(
+                "TSH-CALO problem exceeds the frozen training resource envelope before solve: "
+                + ", ".join(exceeded)
+            )
 
         self.problem = problem
         self.training_config = training_config

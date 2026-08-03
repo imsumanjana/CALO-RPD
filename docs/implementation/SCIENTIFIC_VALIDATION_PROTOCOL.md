@@ -32,11 +32,14 @@ Implementation checkpoint (not scientific evidence): the development environment
 configured and hash-bound to its declared case identity, loaded case checksum, ORPD formulation and
 training design. It spends full counted populations through the shared ORPD evaluator, constructs
 state only from already-counted solver context, and returns only the canonical transition reward.
-It executes a raw single-member policy action; ensemble uncertainty, the residual bandit, admission,
-fallback, qualification and activation belong to separate production boundaries. A protected loaded
-case is rejected by content identity. Optional physics repair remains masked when no counted
-Jacobian/sensitivity exists, and experimental population scheduling is rejected before evaluation.
-Passing these invariants permits fresh development training; it does not establish policy quality.
+It executes a raw single-member policy action; ensemble uncertainty, the residual bandit, production
+fallback, qualification and activation belong to separate boundaries. The independent trainer is
+admitted separately against a hash-bound maximum rollout/topology envelope and 80% of memory free or
+available at that admission instant; its artifact records the actual GPU-or-CPU computation path and
+never attributes computation to memory. A protected loaded case is rejected by content identity.
+Optional physics repair remains masked when no counted Jacobian/sensitivity exists, and experimental
+population scheduling is rejected before evaluation. Passing these invariants permits fresh
+development training; it does not establish policy quality or constitute physical CUDA evidence.
 
 ## 2. Claims decided before results
 

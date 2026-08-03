@@ -24,6 +24,9 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_training import (
     TSHCALORolloutBatch,
     TSHCALOTrainingConfig,
 )
+from calo_rpd_studio.algorithms.calo.tsh_calo_training_resources import (
+    TSHCALOTrainingResourceEnvelope,
+)
 from calo_rpd_studio.algorithms.calo.reward import RewardComponents
 from calo_rpd_studio.algorithms.calo.transition_kernel import TransitionResult
 from calo_rpd_studio.orpd.variable_decoder import ORPDVariableConfig, ORPDVariableDecoder
@@ -39,6 +42,7 @@ def _config(**changes) -> TSHCALOTrainingConfig:
         training_run_id="independent-training-001",
         development_cases=("case30", "case57"),
         seed_manifest_sha256=_sha("seed-manifest"),
+        resource_envelope=TSHCALOTrainingResourceEnvelope(4, 16, 16, 32, 16, 8),
         seed=29,
         hidden_dim=16,
         graph_steps=1,
@@ -112,7 +116,18 @@ def test_training_config_is_independent_hashed_and_rejects_protected_cases():
         config.scientific_design_hash() == replace(config, device="auto").scientific_design_hash()
     )
     assert (
+        config.scientific_design_hash()
+        == replace(config, allow_cpu_fallback=False).scientific_design_hash()
+    )
+    assert (
         config.scientific_design_hash() != replace(config, clip_ratio=0.25).scientific_design_hash()
+    )
+    assert (
+        config.scientific_design_hash()
+        != replace(
+            config,
+            resource_envelope=replace(config.resource_envelope, rollout_capacity=5),
+        ).scientific_design_hash()
     )
     with pytest.raises(ValueError, match="Protected holdout"):
         _config(development_cases=("case118",)).validate()
@@ -135,6 +150,24 @@ def test_independent_ppo_update_is_finite_and_changes_policy(toy_case):
         not torch.equal(before[name], tensor)
         for name, tensor in trainer.network.state_dict().items()
     )
+    provenance = trainer.device_provenance()
+    assert provenance["memory_admission"]["selected_device"] == "cpu"
+    assert provenance["memory_admission"]["available_bytes_at_admission"] > 0
+    assert provenance["memory_admission"]["allowance_bytes"] > 0
+    assert provenance["computation_semantics"].startswith("CPU computes")
+
+
+def test_training_state_cannot_exceed_frozen_resource_envelope(toy_case):
+    config = _config(resource_envelope=TSHCALOTrainingResourceEnvelope(4, 16, 1, 32, 16, 8))
+    trainer = IndependentTSHCALOTrainer(config)
+    state = _state(toy_case)
+    mask, groups, contexts = _mask_and_learners(state)
+
+    with pytest.raises(MemoryError, match="resource envelope"):
+        trainer.sample_action(state, mask, groups, contexts)
+    trainer.close()
+    with pytest.raises(RuntimeError, match="trainer is closed"):
+        trainer.sample_action(state, mask, groups, contexts)
 
 
 def test_training_action_rejects_mask_bypass(toy_case):
@@ -259,6 +292,9 @@ def test_training_can_only_export_unqualified_candidate_after_update(tmp_path, t
         inspected.training_provenance["training_design_sha256"]
         == trainer.config.scientific_design_hash()
     )
+    admission = inspected.training_provenance["training_device_provenance"]["memory_admission"]
+    assert admission["selected_device"] == "cpu"
+    assert admission["estimated_working_set_bytes"] <= admission["allowance_bytes"]
     payload = torch.load(artifact.path, map_location="cpu", weights_only=True)
     assert payload["metadata"]["lifecycle_status"] == "candidate_unqualified"
 
