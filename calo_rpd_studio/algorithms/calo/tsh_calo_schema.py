@@ -11,7 +11,7 @@ TSH_CALO_ALGORITHM_VERSION = "tsh-calo-v1.0.0-candidate"
 TSH_CALO_POLICY_ARCHITECTURE = "tsh-calo-policy-v1"
 TSH_CALO_STATE_SCHEMA = "tsh-calo-state-v1-aggregate32-topology"
 TSH_CALO_ACTION_SCHEMA = "tsh-calo-action-v1-hierarchical-4r-3g-4c-7o-6p"
-TSH_CALO_TRAINING_ENVIRONMENT = "tsh-calo-training-v2-counted-safe80"
+TSH_CALO_TRAINING_ENVIRONMENT = "tsh-calo-training-v3-counted-safe80-receipts"
 
 
 class ControlGroup(IntEnum):

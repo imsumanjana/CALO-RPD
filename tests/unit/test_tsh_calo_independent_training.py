@@ -16,7 +16,6 @@ from calo_rpd_studio.algorithms.calo.topology_context import (
     build_topology_graph_state,
 )
 from calo_rpd_studio.algorithms.calo.tsh_calo_policy import GroupActionMask
-from calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact import inspect_tsh_calo_candidate
 from calo_rpd_studio.algorithms.calo.tsh_calo_schema import TSHCALOFeatureFlags
 from calo_rpd_studio.algorithms.calo.tsh_calo_training import (
     IndependentTSHCALORolloutCollector,
@@ -276,27 +275,14 @@ def test_exact_resume_rejects_hash_and_scientific_design_drift(tmp_path):
         )
 
 
-def test_training_can_only_export_unqualified_candidate_after_update(tmp_path, toy_case):
+def test_training_cannot_export_without_update_and_counted_episode_receipt(tmp_path, toy_case):
     trainer = IndependentTSHCALOTrainer(_config())
     with pytest.raises(ValueError, match="at least one"):
         trainer.export_unqualified_candidate(tmp_path / "early.pt", source_commit="380e7a7")
     trainer.update(_rollout(trainer, _state(toy_case)))
-
-    artifact = trainer.export_unqualified_candidate(
-        tmp_path / "candidate.pt", source_commit="380e7a7"
-    )
-    inspected = inspect_tsh_calo_candidate(artifact.path, expected_sha256=artifact.sha256)
-
-    assert inspected.training_provenance["training_run_id"] == "independent-training-001"
-    assert (
-        inspected.training_provenance["training_design_sha256"]
-        == trainer.config.scientific_design_hash()
-    )
-    admission = inspected.training_provenance["training_device_provenance"]["memory_admission"]
-    assert admission["selected_device"] == "cpu"
-    assert admission["estimated_working_set_bytes"] <= admission["allowance_bytes"]
-    payload = torch.load(artifact.path, map_location="cpu", weights_only=True)
-    assert payload["metadata"]["lifecycle_status"] == "candidate_unqualified"
+    with pytest.raises(ValueError, match="counted training episode receipt"):
+        trainer.export_unqualified_candidate(tmp_path / "candidate.pt", source_commit="380e7a7")
+    assert not (tmp_path / "candidate.pt").exists()
 
 
 def test_training_module_has_no_experiment_registry_or_activation_authority():

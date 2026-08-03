@@ -40,6 +40,10 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_shield import (
     OODCalibration,
     topology_ood_signature,
 )
+from calo_rpd_studio.algorithms.calo.tsh_calo_training_receipt import (
+    build_tsh_calo_training_episode_receipt,
+    canonical_reward_sequence_sha256,
+)
 from calo_rpd_studio.experiments.experiment_config import ExperimentConfig
 from calo_rpd_studio.orpd.problem import ORPDProblem
 from calo_rpd_studio.results.database import ResultDatabase
@@ -77,15 +81,42 @@ def _device_provenance() -> dict:
     }
 
 
+def _episode_receipts(run_id: str, design: str) -> tuple[dict, ...]:
+    return (
+        build_tsh_calo_training_episode_receipt(
+            session_id=run_id + "-session",
+            training_run_id=run_id,
+            training_design_sha256=design,
+            session_design_sha256=_sha("session"),
+            environment_design_sha256=_sha("environment"),
+            case_identity="case30",
+            case_checksum=_sha("case30"),
+            problem_fingerprint=_sha("problem"),
+            seed=17,
+            deterministic_policy=True,
+            candidate_evaluations=8,
+            scenario_power_flow_calls=8,
+            canonical_transition_count=1,
+            ppo_update_count=1,
+            canonical_reward_sha256=canonical_reward_sequence_sha256((0.25,)),
+            accounting_complete=True,
+            terminal=True,
+        ).to_dict(),
+    )
+
+
 def _member(path: Path, seed: int) -> Path:
     torch.manual_seed(seed)
+    run_id = f"independent-{seed}"
+    design = _sha("design")
     provenance = IndependentTrainingProvenance(
-        training_run_id=f"independent-{seed}",
-        training_design_sha256=_sha("design"),
+        training_run_id=run_id,
+        training_design_sha256=design,
         source_commit="optimizer-test",
         development_cases=("case30", "case57"),
         seed_manifest_sha256=_sha("seeds"),
         training_device_provenance=_device_provenance(),
+        training_episode_receipts=_episode_receipts(run_id, design),
     )
     save_tsh_calo_candidate(path, TSHCALOPolicyNetwork(hidden_dim=16), provenance)
     return path

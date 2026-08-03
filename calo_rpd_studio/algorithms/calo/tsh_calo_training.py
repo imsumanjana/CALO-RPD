@@ -45,7 +45,9 @@ from .tsh_calo_training_resources import (
     TSHCALOTrainingDeviceGuard,
     TSHCALOTrainingResourceEnvelope,
     estimate_tsh_calo_training_working_set,
+    validate_tsh_calo_training_device_provenance,
 )
+from .tsh_calo_training_receipt import load_tsh_calo_training_episode_receipt
 from .transition_kernel import TransitionResult
 
 
@@ -360,7 +362,7 @@ def _optimizer_to_device(optimizer: torch.optim.Optimizer, device: torch.device)
 class IndependentTSHCALOTrainer:
     """PPO learner with no registry, activation, GUI, or experiment-workflow authority."""
 
-    RESUME_FORMAT = "tsh_calo_independent_training_resume_v2"
+    RESUME_FORMAT = "tsh_calo_independent_training_resume_v3"
 
     def __init__(self, config: TSHCALOTrainingConfig) -> None:
         self._closed = False
@@ -392,6 +394,7 @@ class IndependentTSHCALOTrainer:
         self.numpy_rng = np.random.default_rng(config.seed)
         self.torch_generator = torch.Generator(device=self.device).manual_seed(int(config.seed))
         self.update_steps = 0
+        self.training_episode_receipts: list[dict] = []
 
     def close(self) -> None:
         if self._closed:
@@ -425,6 +428,38 @@ class IndependentTSHCALOTrainer:
                 else "CPU computes; system RAM is admitted storage"
             ),
         }
+
+    def estimate_value(self, state: TopologyAwarePolicyState, *, population_size: int) -> float:
+        self._assert_open()
+        self.config.resource_envelope.validate_state(state, population_size=int(population_size))
+        self.network.eval()
+        with torch.no_grad():
+            value = float(self.network(state).value.detach().cpu())
+        if not np.isfinite(value):
+            raise RuntimeError("TSH-CALO bootstrap value is non-finite")
+        return value
+
+    def record_training_episode_receipt(self, payload: dict) -> None:
+        self._assert_open()
+        receipt = load_tsh_calo_training_episode_receipt(payload)
+        if receipt.training_run_id != self.config.training_run_id:
+            raise ValueError("TSH-CALO episode receipt belongs to another training run")
+        if receipt.training_design_sha256 != self.config.scientific_design_hash():
+            raise ValueError("TSH-CALO episode receipt training design changed")
+        if receipt.case_identity not in self.config.development_cases:
+            raise ValueError("TSH-CALO episode receipt case is undeclared")
+        if receipt.ppo_update_count < 1 or receipt.ppo_update_count > self.update_steps:
+            raise ValueError("TSH-CALO episode receipt PPO update count is inconsistent")
+        if any(
+            item.get("receipt_sha256") == receipt.receipt_sha256
+            for item in self.training_episode_receipts
+        ):
+            raise ValueError("TSH-CALO episode receipt was already recorded")
+        if any(
+            item.get("session_id") == receipt.session_id for item in self.training_episode_receipts
+        ):
+            raise ValueError("TSH-CALO training session ID was already recorded")
+        self.training_episode_receipts.append(receipt.to_dict())
 
     def _log_probability_entropy_value(
         self, state: TopologyAwarePolicyState, action: TSHCALOTrainingAction
@@ -585,10 +620,9 @@ class IndependentTSHCALOTrainer:
         self.network.eval()
         return metrics
 
-    def save_resume(self, path: str | Path) -> str:
+    def resume_state_dict(self) -> dict:
         self._assert_open()
-        target = Path(path).expanduser().resolve()
-        payload = {
+        return {
             "format": self.RESUME_FORMAT,
             "algorithm_id": TSH_CALO_ALGORITHM_ID,
             "algorithm_version": TSH_CALO_ALGORITHM_VERSION,
@@ -605,19 +639,22 @@ class IndependentTSHCALOTrainer:
             "numpy_generator_state": self.numpy_rng.bit_generator.state,
             "torch_generator_state": self.torch_generator.get_state().cpu(),
             "update_steps": self.update_steps,
+            "training_episode_receipts": tuple(self.training_episode_receipts),
         }
+
+    def save_resume(self, path: str | Path) -> str:
+        target = Path(path).expanduser().resolve()
+        payload = self.resume_state_dict()
         durable_torch_save(payload, target)
         return checkpoint_sha256(target)
 
     @classmethod
-    def load_resume(
+    def from_resume_state_dict(
         cls,
-        path: str | Path,
+        payload: dict,
         *,
-        expected_sha256: str,
         expected_config: TSHCALOTrainingConfig,
     ) -> "IndependentTSHCALOTrainer":
-        payload = load_checkpoint(path, expected_sha256=expected_sha256, map_location="cpu")
         if str(payload.get("format", "")) != cls.RESUME_FORMAT:
             raise ValueError("TSH-CALO training resume format is incompatible")
         expected_config.validate()
@@ -635,6 +672,9 @@ class IndependentTSHCALOTrainer:
         ):
             if str(payload.get(key, "")) != expected:
                 raise ValueError(f"TSH-CALO training resume {key} is incompatible")
+        validate_tsh_calo_training_device_provenance(
+            dict(payload.get("training_device_provenance", {}) or {})
+        )
         trainer = cls(expected_config)
         saved_device = str(
             dict(payload.get("training_device_provenance", {}))
@@ -658,8 +698,23 @@ class IndependentTSHCALOTrainer:
         trainer.numpy_rng.bit_generator.state = payload["numpy_generator_state"]
         trainer.torch_generator.set_state(payload["torch_generator_state"].cpu())
         trainer.update_steps = int(payload.get("update_steps", 0))
+        receipts = list(payload.get("training_episode_receipts", ()))
+        trainer.training_episode_receipts = []
+        for receipt in receipts:
+            trainer.record_training_episode_receipt(receipt)
         trainer.network.eval()
         return trainer
+
+    @classmethod
+    def load_resume(
+        cls,
+        path: str | Path,
+        *,
+        expected_sha256: str,
+        expected_config: TSHCALOTrainingConfig,
+    ) -> "IndependentTSHCALOTrainer":
+        payload = load_checkpoint(path, expected_sha256=expected_sha256, map_location="cpu")
+        return cls.from_resume_state_dict(payload, expected_config=expected_config)
 
     def export_unqualified_candidate(
         self,
@@ -670,6 +725,10 @@ class IndependentTSHCALOTrainer:
         self._assert_open()
         if self.update_steps < 1:
             raise ValueError("TSH-CALO candidate export requires at least one completed PPO update")
+        if not self.training_episode_receipts:
+            raise ValueError(
+                "TSH-CALO candidate export requires a completed counted training episode receipt"
+            )
         provenance = IndependentTrainingProvenance(
             training_run_id=self.config.training_run_id,
             training_design_sha256=self.config.scientific_design_hash(),
@@ -677,6 +736,7 @@ class IndependentTSHCALOTrainer:
             development_cases=tuple(self.config.development_cases),
             seed_manifest_sha256=self.config.seed_manifest_sha256,
             training_device_provenance=self.device_provenance(),
+            training_episode_receipts=tuple(self.training_episode_receipts),
         )
         return save_tsh_calo_candidate(
             path,

@@ -142,14 +142,14 @@ The most recent complete active-tree run, excluding only the intentionally stale
 release-integrity file, produced:
 
 ```text
-453 passed, 63 skipped
+568 passed, 63 skipped
 ```
 
 Other verified evidence:
 
 - complete offscreen GUI/scientist suite: 33 passed and a validated 1440×900 dashboard PNG;
 - latest measured CI-style coverage: 66%, threshold 60%;
-- repository Ruff lint and format: pass across 359 Python files;
+- repository Ruff lint and format: pass across 400 Python files;
 - generated experiment schema: current;
 - bounded mypy safety target: pass on the recorded nine-module target;
 - automatic scheduler/configuration/GUI focus: 54 passed;
@@ -335,7 +335,7 @@ and the generated schema is current. This is mechanics evidence only: fresh ense
 training, qualification, ablations and any benefit claim remain pending.
 
 Independent trainer Safe-80 admission is now locally complete under training-environment ABI
-`tsh-calo-training-v2-counted-safe80`. Every training design declares and hashes maximum rollout,
+`tsh-calo-training-v3-counted-safe80-receipts`. Every training design declares and hashes maximum rollout,
 population, node, directed-edge, control and scenario counts. A deterministic versioned estimator
 accounts for parameters/buffers, gradients and Adam moments, retained rollout state, autograd
 activations, fragmentation safety and an explicit runtime floor. The trainer checks every state and
@@ -346,12 +346,30 @@ single-owner leases and applies the admitted allocator ceiling; lease contention
 spilling to CPU. Exact resume requires the same admitted computation device. Candidate provenance
 records the estimate, live admission, selected compute device, fallback reason and the truthful fact
 that the NVIDIA GPU or CPU computes while memory stores data. Mutated Safe-80 or computation records
-are rejected, and earlier v1 training-environment artifacts are non-native rather than silently
+are rejected, and earlier v1/v2 training-environment artifacts are non-native rather than silently
 migrated. Seven dedicated resource tests and a 49-test resource/training/environment/lifecycle/
 inference/optimizer focus pass. The active tree excluding only the deliberately stale v6.9 release-
 integrity file is 563 passed with 63 skips; Ruff lint/format passes across 397 Python files and the
 generated schema is current. This is local CPU and mocked-CUDA mechanics evidence; no physical CUDA
 training, fresh member, qualification, ablation or benefit result exists.
+
+Fresh-member session orchestration is now locally complete as a development-only boundary. A session
+joins exactly one trainer and one counted environment under a separately hashed session identity,
+commits only canonical transition rewards, updates PPO at the admitted rollout boundary or terminal,
+and issues an integrity-checked receipt only after terminal accounting completes. The receipt binds
+the training/session/environment designs, run and unique session IDs, loaded development-case
+identity/checksum, formulation fingerprint, seed, exact candidate and scenario-call totals,
+transition and update counts, and the canonical reward-sequence hash. Candidate export now requires
+at least one such receipt but remains an explicit, separate action and always produces an unqualified
+artifact. Trainer, environment, collector, reward history and update metrics share one trusted,
+authenticated exact-resume checkpoint; solver failure poisons the session and forbids checkpointing,
+receipt issuance and continuation. The orchestration module has no experiment, registry,
+qualification, activation or inference authority. Five dedicated session/receipt cases and a
+39-test adjacent focus pass. The active tree excluding only the deliberately stale v6.9
+release-integrity file is 568 passed with 63 skips; Ruff lint/format passes across 400 Python files
+and the generated schema is current. The exercised toy episode is test-fixture mechanics only: no
+real member, training campaign, qualification evidence, component benefit or scientific claim was
+produced.
 
 Required order after approval:
 

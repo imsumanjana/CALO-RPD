@@ -27,6 +27,7 @@ from .tsh_calo_schema import (
     TSHCALOFeatureFlags,
 )
 from .tsh_calo_training_resources import validate_tsh_calo_training_device_provenance
+from .tsh_calo_training_receipt import load_tsh_calo_training_episode_receipt
 
 
 @dataclass(frozen=True, slots=True)
@@ -39,6 +40,7 @@ class IndependentTrainingProvenance:
     development_cases: tuple[str, ...]
     seed_manifest_sha256: str
     training_device_provenance: dict
+    training_episode_receipts: tuple[dict, ...]
     source_kind: str = "independent_policy_training"
 
     def validate(self) -> None:
@@ -61,6 +63,23 @@ class IndependentTrainingProvenance:
                 "Protected holdout cases cannot enter TSH-CALO training: " + ", ".join(leaked)
             )
         validate_tsh_calo_training_device_provenance(self.training_device_provenance)
+        if not self.training_episode_receipts:
+            raise ValueError("TSH-CALO candidate requires a completed counted training episode")
+        receipts = [
+            load_tsh_calo_training_episode_receipt(item) for item in self.training_episode_receipts
+        ]
+        if any(item.training_run_id != self.training_run_id for item in receipts):
+            raise ValueError("TSH-CALO training episode belongs to another training run")
+        if any(item.training_design_sha256 != self.training_design_sha256 for item in receipts):
+            raise ValueError("TSH-CALO training episode design differs from the candidate")
+        if any(item.case_identity not in self.development_cases for item in receipts):
+            raise ValueError("TSH-CALO training episode case is undeclared")
+        receipt_hashes = [item.receipt_sha256 for item in receipts]
+        if len(set(receipt_hashes)) != len(receipt_hashes):
+            raise ValueError("TSH-CALO candidate contains duplicate training episode receipts")
+        session_ids = [item.session_id for item in receipts]
+        if len(set(session_ids)) != len(session_ids):
+            raise ValueError("TSH-CALO candidate contains duplicate training session IDs")
 
 
 @dataclass(frozen=True, slots=True)
