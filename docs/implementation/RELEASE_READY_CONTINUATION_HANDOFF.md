@@ -142,14 +142,14 @@ The most recent complete active-tree run, excluding only the intentionally stale
 release-integrity file, produced:
 
 ```text
-568 passed, 63 skipped
+575 passed, 63 skipped
 ```
 
 Other verified evidence:
 
 - complete offscreen GUI/scientist suite: 33 passed and a validated 1440×900 dashboard PNG;
 - latest measured CI-style coverage: 66%, threshold 60%;
-- repository Ruff lint and format: pass across 400 Python files;
+- repository Ruff lint and format: pass across 403 Python files;
 - generated experiment schema: current;
 - bounded mypy safety target: pass on the recorded nine-module target;
 - automatic scheduler/configuration/GUI focus: 54 passed;
@@ -370,6 +370,23 @@ release-integrity file is 568 passed with 63 skips; Ruff lint/format passes acro
 and the generated schema is current. The exercised toy episode is test-fixture mechanics only: no
 real member, training campaign, qualification evidence, component benefit or scientific claim was
 produced.
+
+The explicit fresh-member campaign boundary is now locally complete. A versioned JSON plan freezes
+the exact source commit, development cases, independent member IDs/seeds, globally unique sessions,
+matched case curriculum, PPO/environment controls, FE budget, resource envelope, A–F flags and
+requested Safe-80 execution route. Separate scientific-design, execution-plan and seed-manifest
+hashes prevent device routing from changing the equations while retaining the actual route. Start
+requires a new output directory; resume is a separate command and verifies the unchanged plan,
+recorded checkpoint path/SHA and authenticated session envelope. Per-transition checkpoints retain
+exact progress; interruption is resumable, while a counted solver failure is recorded and may not
+retry under the same campaign identity. Member candidates must have distinct training-run IDs and
+source artifacts before unqualified ensemble assembly. The `calo-rpd-train-tsh` command requires the
+plan's exact checked-out Git commit and a clean tracked tree, and it has no experiment, registration,
+qualification, activation or inference authority. Six dedicated campaign cases, a 61-test adjacent
+training/lifecycle/inference/optimizer focus and the 575-pass active tree pass; Ruff lint/format
+passes across 403 Python files and the schema is current. Only toy-fixture mechanics ran. No IEEE
+training plan, real candidate, qualification, protected-test opening, ablation or benefit evidence
+exists.
 
 Required order after approval:
 

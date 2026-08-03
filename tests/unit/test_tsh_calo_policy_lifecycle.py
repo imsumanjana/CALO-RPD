@@ -94,8 +94,7 @@ def _episode_receipts(run_id: str, design: str) -> tuple[dict, ...]:
     )
 
 
-def _provenance(*cases: str) -> IndependentTrainingProvenance:
-    run_id = "training-run-001"
+def _provenance(*cases: str, run_id: str = "training-run-001") -> IndependentTrainingProvenance:
     design = _sha("design")
     return IndependentTrainingProvenance(
         training_run_id=run_id,
@@ -110,7 +109,11 @@ def _provenance(*cases: str) -> IndependentTrainingProvenance:
 
 def _candidate(path: Path, seed: int = 17) -> Path:
     torch.manual_seed(seed)
-    save_tsh_calo_candidate(path, TSHCALOPolicyNetwork(hidden_dim=16), _provenance())
+    save_tsh_calo_candidate(
+        path,
+        TSHCALOPolicyNetwork(hidden_dim=16),
+        _provenance(run_id=f"training-run-{seed}"),
+    )
     return path
 
 
@@ -178,6 +181,32 @@ def test_ensemble_assembly_preserves_independent_member_provenance(tmp_path):
     assert loaded == artifact
     assert artifact.training_provenance["source_kind"] == "independent_policy_training_ensemble"
     assert len(artifact.training_provenance["members"]) == 2
+
+
+def test_ensemble_rejects_duplicate_candidate_or_training_run(tmp_path):
+    first = _candidate(tmp_path / "member-1.pt", seed=17)
+    first_sha = inspect_tsh_calo_candidate(first).sha256
+    with pytest.raises(ValueError, match="duplicate a source candidate"):
+        assemble_tsh_calo_ensemble_candidate(
+            tmp_path / "duplicate.pt",
+            [(first, first_sha), (first, first_sha)],
+        )
+
+    torch.manual_seed(23)
+    same_run = tmp_path / "same-run.pt"
+    save_tsh_calo_candidate(
+        same_run,
+        TSHCALOPolicyNetwork(hidden_dim=16),
+        _provenance(run_id="training-run-17"),
+    )
+    with pytest.raises(ValueError, match="independent training-run IDs"):
+        assemble_tsh_calo_ensemble_candidate(
+            tmp_path / "same-run-ensemble.pt",
+            [
+                (first, first_sha),
+                (same_run, inspect_tsh_calo_candidate(same_run).sha256),
+            ],
+        )
 
 
 def test_registry_keeps_tsh_candidate_separate_from_frozen_calo_runtime(tmp_path):

@@ -184,12 +184,21 @@ def inspect_tsh_calo_candidate(
         state_dicts = list(payload.get("ensemble_model_state_dicts", []) or [])
         if ensemble_size < 2 or len(members) != ensemble_size or len(state_dicts) != ensemble_size:
             raise ValueError("TSH-CALO ensemble artifact has inconsistent member cardinality")
+        source_hashes: list[str] = []
+        training_run_ids: list[str] = []
         for member in members:
             if not _is_sha256(str(member.get("source_candidate_sha256", ""))):
                 raise ValueError("TSH-CALO ensemble member SHA-256 is invalid")
-            IndependentTrainingProvenance(
+            provenance = IndependentTrainingProvenance(
                 **dict(member.get("training_provenance", {}) or {})
-            ).validate()
+            )
+            provenance.validate()
+            source_hashes.append(str(member["source_candidate_sha256"]))
+            training_run_ids.append(provenance.training_run_id)
+        if len(set(source_hashes)) != len(source_hashes):
+            raise ValueError("TSH-CALO ensemble cannot duplicate a source candidate")
+        if len(set(training_run_ids)) != len(training_run_ids):
+            raise ValueError("TSH-CALO ensemble members require independent training-run IDs")
         training_provenance = {
             "source_kind": "independent_policy_training_ensemble",
             "members": members,
@@ -261,6 +270,14 @@ def assemble_tsh_calo_ensemble_candidate(
         payloads.append(
             load_checkpoint(member_path, expected_sha256=expected_sha256, map_location="cpu")
         )
+    source_hashes = [artifact.sha256 for artifact in artifacts]
+    training_run_ids = [
+        str(artifact.training_provenance.get("training_run_id", "")) for artifact in artifacts
+    ]
+    if len(set(source_hashes)) != len(source_hashes):
+        raise ValueError("TSH-CALO ensemble cannot duplicate a source candidate")
+    if len(set(training_run_ids)) != len(training_run_ids):
+        raise ValueError("TSH-CALO ensemble members require independent training-run IDs")
     architecture = dict(payloads[0].get("architecture", {}) or {})
     feature_flags = dict(artifacts[0].feature_flags)
     for payload, artifact in zip(payloads[1:], artifacts[1:]):
