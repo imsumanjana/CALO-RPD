@@ -12,8 +12,11 @@ active-tree regression gates. Change B then added a distinct TSH-CALO ABI plus s
 and permutation-consistent graph/control-group encoding; its five focused tests and the 466-test
 active-tree regression pass. Change C then added the versioned global/group/context policy-action
 contract, strict masks, bounded controls and independent learner sampling; its eight focused tests
-and 474-test active-tree regression pass. Changes D–F remain unimplemented at this record point,
-and no component benefit has been claimed.
+and 474-test active-tree regression pass. Change D then added ensemble/OOD attenuation, exact-
+resumable contextual bandit residuals, declared mixture weights, safety shielding, deterministic
+traces and explicit fallback identity; its six focused tests, cumulative 28-test A–D focus and
+480-test active-tree regression pass. Changes E–F remain unimplemented at this record point, and no
+component benefit has been claimed.
 **Decision owner:** user/project scientific lead
 **Proposed working name:** Topology-Aware Shielded Hierarchical CALO (TSH-CALO)
 

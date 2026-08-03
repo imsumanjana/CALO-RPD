@@ -214,6 +214,12 @@ have eight focused tests. The complete tree passes 474 tests with 63 skips. A bo
 CPU/CUDA check passed on the available device, but this is not target-hardware qualification. D–F,
 training, qualification, activation and scientific evidence remain pending.
 
+Change D is locally complete: ensemble disagreement, frozen-reference OOD attenuation, exact
+sliding-window bandit resume, the declared four-way mixture, FE/lattice/operator shielding,
+deterministic intervention traces and explicit block-or-relabelled-baseline fallback have six
+focused tests. The cumulative A–D focus is 28 passed and the full tree is 480 passed with 63 skips.
+No uncertainty calibration, policy quality or optimization benefit has been established.
+
 Required order after approval:
 
 1. Extract the canonical transition kernel with **zero behavior change**.

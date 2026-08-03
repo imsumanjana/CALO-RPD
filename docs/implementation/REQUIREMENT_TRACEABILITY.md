@@ -52,7 +52,7 @@ Status vocabulary:
 |---|---|---|---|
 | Explain final runtime/training architecture before changing CALO semantics | Approved / confirmation complete | Exact 2026-08-03 decision “Approve TSH-CALO A–E, with F experimental and evidence-gated”; `CALO_ARCHITECTURE_CHANGE_PROPOSAL.md`; nine-part pre-implementation confirmation | Preserve the recorded boundary; deviations require new approval |
 | Canonical runtime/training transition authority | Locally verified | `algorithms/calo/transition_kernel.py`; shared runtime/training authority invariant; native one-step parity; 22 frozen seeded optimizer snapshot/exact-budget cases; 45-test CALO/continuation focus; complete active tree 461 passed, 63 skipped | Retain parity in every later B–F stage and execute external CPU/CUDA qualification |
-| Topology context, hierarchical actions, and uncertainty/bandit shield | B/C locally verified; D not yet implemented | B evidence plus `tsh_calo_policy.py`; eight group/context-head, mask, bounded-action, replay, independent-learner and CPU/CUDA-forward tests; complete active tree 474 passed and 63 skipped | Implement D, train fresh candidates, run paired ablations and protected tests; no benefit claim yet |
+| Topology context, hierarchical actions, and uncertainty/bandit shield | B–D locally verified | B/C evidence plus `tsh_calo_shield.py`; six ensemble/OOD/bandit/resume/mixture/budget/lattice/fallback tests; cumulative A–D focus 28 passed; complete active tree 480 passed and 63 skipped | Fit calibration on development assets only, train fresh candidates, run paired ablations and protected tests; no benefit claim yet |
 | Physics-informed repair | Approved; not yet implemented | Approved Change E | Separate flag and incremental-value ablation |
 | Evidence-driven population schedule | Approved experimental; disabled by default | Approved Change F with evidence gate | Must earn inclusion through anytime/feasibility evidence without unacceptable cost/regression |
 | Correct paired statistics, effect estimates, CIs, multiplicity control, power and anytime metrics | Locally verified at harness level | `statistics/`, campaign design, `SCIENTIFIC_VALIDATION_PROTOCOL.md`, statistical tests | Execute final frozen campaign |
@@ -63,7 +63,7 @@ Status vocabulary:
 
 ## Current verification checkpoint
 
-- Active development suite after Change C: **474 passed, 63 skipped**.
+- Active development suite after Change D: **480 passed, 63 skipped**.
 - Repository Ruff lint and format: **pass**.
 - Generated experiment schema: **current**.
 - Focused automatic scheduling/configuration/GUI set: **54 passed**.
@@ -78,6 +78,5 @@ The exact decision was recorded on 2026-08-03:
 
 > Approve TSH-CALO A–E, with F experimental and evidence-gated.
 
-Changes A–C have passed their local correctness gates. The next legal step is Change D's
-uncertainty/OOD, contextual-bandit residual and safety-shield contract; later components remain
-ordered and F remains experimental and disabled by default.
+Changes A–D have passed their local correctness gates. The next legal step is optional Change E's
+fully counted, masked physics-repair proposal; F remains experimental and disabled by default.
