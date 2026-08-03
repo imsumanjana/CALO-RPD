@@ -33,7 +33,9 @@ trained, qualified or activated. Immutable ensemble assembly and inference then 
 provenance preservation, single-member activation refusal, exact binding/calibration checks, CUDA-
 first Safe-80 admission, ensemble/shield decisions and explicit block or relabelled-baseline fallback;
 its six tests and the 520-test active-tree regression pass. No component benefit or acceptable-cost
-result has been claimed.
+result has been claimed. The additive ORPD counted-context API then retained exact scenario solves
+without extra PF calls or result-metadata contamination; its three tests and the 523-test active-tree
+regression pass. Actual TSH transition consumption remains pending.
 **Decision owner:** user/project scientific lead
 **Proposed working name:** Topology-Aware Shielded Hierarchical CALO (TSH-CALO)
 

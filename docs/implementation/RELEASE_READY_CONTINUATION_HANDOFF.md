@@ -266,6 +266,14 @@ declared shield and explicit block/relabelled-baseline fallback are traced. Six 
 35-test inference/lifecycle/shield/trainer/action focus and the 520-pass active tree pass. The core is
 not yet connected to actual TSH optimizer transitions and is not physical CUDA evidence.
 
+The ORPD evaluator now exposes already-counted scenario solver context through a separate additive
+API. It returns the same `Evaluation` values as ordinary evaluation, retains each exact power-flow
+object only ephemerally, never inserts it into JSON result metadata, prefers the counted base solve
+(otherwise the highest-weight converged solve), and fails closed when none converged. It performs no
+second power-flow call for state construction. Three dedicated tests, a 37-test CALO/topology/repair
+focus and the 523-pass active tree pass. The TSH optimizer and training rollout still need to consume
+this boundary.
+
 Required order after approval:
 
 1. Extract the canonical transition kernel with **zero behavior change**.

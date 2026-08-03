@@ -49,6 +49,36 @@ class Evaluation:
     feasibility_tolerance: float = 1e-12
 
 
+@dataclass(frozen=True, slots=True)
+class ScenarioEvaluationContext:
+    """One already-counted scenario solve retained outside serializable result metadata."""
+
+    name: str
+    weight: float
+    power_flow: Any
+
+
+@dataclass(frozen=True, slots=True)
+class ORPDEvaluationContext:
+    """Ephemeral solver context for topology/sensitivity consumers; never an extra evaluation."""
+
+    normalized_controls: np.ndarray
+    scenarios: tuple[ScenarioEvaluationContext, ...]
+
+    def primary_converged_power_flow(self):
+        converged = [
+            item
+            for item in self.scenarios
+            if bool(getattr(item.power_flow, "converged", False))
+            and getattr(item.power_flow, "branch", None) is not None
+        ]
+        if not converged:
+            raise ValueError("No already-counted converged power-flow context is available")
+        base = next((item for item in converged if item.name.lower() == "base"), None)
+        selected = base or max(converged, key=lambda item: float(item.weight))
+        return selected.power_flow
+
+
 class ORPDProblem:
     def __init__(self, case, config=None, scenarios=None):
         self.case = case.clone()
@@ -65,6 +95,17 @@ class ORPDProblem:
         return self.decoder.dimension
 
     def evaluate(self, normalized):
+        evaluation, _context = self._evaluate(normalized, retain_context=False)
+        return evaluation
+
+    def evaluate_with_context(self, normalized) -> tuple[Evaluation, ORPDEvaluationContext]:
+        """Evaluate once and retain the exact scenario solves without rerunning power flow."""
+
+        evaluation, context = self._evaluate(normalized, retain_context=True)
+        assert context is not None
+        return evaluation, context
+
+    def _evaluate(self, normalized, *, retain_context: bool):
         z = np.clip(np.asarray(normalized, float), 0, 1)
         controlled, physical = self.decoder.decode_reusable(z)
         values = []
@@ -74,9 +115,14 @@ class ORPDProblem:
         comp_acc = {}
         constraint_acc = {}
         scenario_constraint_components = []
+        retained_scenarios: list[ScenarioEvaluationContext] = []
         for scenario in self.scenarios:
             formulation_case = scenario.apply(controlled, copy_base=False)
             pf = run_ac_power_flow(formulation_case, self.config.power_flow)
+            if retain_context:
+                retained_scenarios.append(
+                    ScenarioEvaluationContext(str(scenario.name), float(scenario.weight), pf)
+                )
             obj = calculate_objective(pf, self.config.objective, formulation_case=formulation_case)
             con = evaluate_constraints(pf, self.config.constraint_tolerances)
             value = float(obj.value)
@@ -114,7 +160,7 @@ class ORPDProblem:
             "constraint_components": constraint_components,
             "scenario_constraint_components": scenario_constraint_components,
         }
-        return Evaluation(
+        evaluation = Evaluation(
             robust,
             feasible,
             violation,
@@ -124,6 +170,10 @@ class ORPDProblem:
             metadata,
             float(self.config.constraint_tolerances.feasibility_total),
         )
+        context = (
+            ORPDEvaluationContext(z.copy(), tuple(retained_scenarios)) if retain_context else None
+        )
+        return evaluation, context
 
     def solution_state(self, normalized):
         z = np.clip(np.asarray(normalized, float), 0, 1)
