@@ -11,11 +11,20 @@ import uuid
 
 from calo_rpd_studio.ai.model_io import checkpoint_sha256, load_checkpoint
 from .policy_schema import (
+    CALO_ALGORITHM_ID,
     CALO_RUNTIME_ARCHITECTURE,
     POLICY_ACTION_SCHEMA,
     POLICY_STATE_SCHEMA,
     TRAINING_ENVIRONMENT_VERSION,
     infer_checkpoint_schema,
+)
+from .tsh_calo_schema import (
+    TSH_CALO_ACTION_SCHEMA,
+    TSH_CALO_ALGORITHM_ID,
+    TSH_CALO_ALGORITHM_VERSION,
+    TSH_CALO_POLICY_ARCHITECTURE,
+    TSH_CALO_STATE_SCHEMA,
+    TSH_CALO_TRAINING_ENVIRONMENT,
 )
 from .policy_lineage import PolicyLineageManager
 
@@ -36,6 +45,7 @@ class PolicyRecord:
     state_schema_version: str
     action_schema_version: str
     training_environment_version: str
+    algorithm_id: str
     qualification_status: str
     grade: str
     active: bool
@@ -48,8 +58,24 @@ class PolicyRecord:
 
     @property
     def runtime_compatible(self) -> bool:
+        """Backward-compatible alias for the frozen CALO v5.9 runtime."""
+        return self.compatible_with(CALO_ALGORITHM_ID)
+
+    def compatible_with(self, algorithm_id: str) -> bool:
+        if str(algorithm_id) == TSH_CALO_ALGORITHM_ID:
+            return (
+                self.algorithm_id == TSH_CALO_ALGORITHM_ID
+                and self.architecture_version == TSH_CALO_ALGORITHM_VERSION
+                and self.state_schema_version == TSH_CALO_STATE_SCHEMA
+                and self.action_schema_version == TSH_CALO_ACTION_SCHEMA
+                and self.training_environment_version == TSH_CALO_TRAINING_ENVIRONMENT
+                and str(self.metadata.get("policy_architecture_version", ""))
+                == TSH_CALO_POLICY_ARCHITECTURE
+            )
         return (
-            self.architecture_version == CALO_RUNTIME_ARCHITECTURE
+            str(algorithm_id) == CALO_ALGORITHM_ID
+            and self.algorithm_id == CALO_ALGORITHM_ID
+            and self.architecture_version == CALO_RUNTIME_ARCHITECTURE
             and self.state_schema_version == POLICY_STATE_SCHEMA
             and self.action_schema_version == POLICY_ACTION_SCHEMA
             and self.training_environment_version == TRAINING_ENVIRONMENT_VERSION
@@ -95,7 +121,15 @@ class PolicyRegistry:
         existing = self.database.get_policy_by_sha256(inspected["sha256"])
         if existing is not None:
             return self._from_row(existing)
-        native = bool(schema.get("native_v59", False))
+        metadata.setdefault("algorithm_id", str(schema["algorithm_id"]))
+        metadata.setdefault(
+            "policy_architecture_version", str(schema["policy_architecture_version"])
+        )
+        native = bool(schema.get("native_supported", False))
+        if bool(schema.get("native_tsh_calo", False)) and status not in {None, "candidate"}:
+            raise ValueError(
+                "TSH-CALO registration creates candidates only; qualification is a separate lifecycle action"
+            )
         policy_id = str(uuid.uuid4())
         qualification_status = status or ("candidate" if native else "legacy_unqualified")
         grade = "U" if native else "C"
@@ -161,15 +195,23 @@ class PolicyRegistry:
             raise KeyError(f"Unknown CALO policy: {policy_id}")
         return self._from_row(row)
 
-    def activate(self, policy_id: str, *, allow_unqualified: bool = False) -> PolicyRecord:
+    def activate(
+        self,
+        policy_id: str,
+        *,
+        allow_unqualified: bool = False,
+        algorithm_id: str = CALO_ALGORITHM_ID,
+    ) -> PolicyRecord:
         policy = self.get(policy_id)
+        if algorithm_id == TSH_CALO_ALGORITHM_ID and allow_unqualified:
+            raise ValueError("TSH-CALO policies cannot be activated before qualification")
         if not policy.usable:
             raise ValueError(
                 f"Policy {policy.name!r} is archived or its checkpoint file is unavailable"
             )
-        if not policy.runtime_compatible:
+        if not policy.compatible_with(algorithm_id):
             raise ValueError(
-                f"Policy {policy.name!r} is not compatible with the current CALO runtime schema. "
+                f"Policy {policy.name!r} is not compatible with the {algorithm_id} runtime schema. "
                 "Import/train a native compatible policy before activation."
             )
         if (
@@ -233,16 +275,24 @@ class PolicyRegistry:
         )
 
     def bind_to_experiment_config(
-        self, policy_id: str, config, *, deterministic: bool, allow_unqualified: bool = False
+        self,
+        policy_id: str,
+        config,
+        *,
+        deterministic: bool,
+        allow_unqualified: bool = False,
+        algorithm_id: str = CALO_ALGORITHM_ID,
     ) -> dict:
         policy = self.get(policy_id)
+        if algorithm_id == TSH_CALO_ALGORITHM_ID and allow_unqualified:
+            raise ValueError("TSH-CALO experiments cannot consume an unqualified policy")
         if not policy.usable:
             raise ValueError(
                 f"Policy {policy.name!r} is archived or its checkpoint file is unavailable"
             )
-        if not policy.runtime_compatible:
+        if not policy.compatible_with(algorithm_id):
             raise ValueError(
-                f"Policy {policy.name!r} is incompatible with the current CALO runtime; experiment binding refused"
+                f"Policy {policy.name!r} is incompatible with the {algorithm_id} runtime; experiment binding refused"
             )
         if (
             policy.qualification_status not in {"qualified", "legacy_qualified"}
@@ -255,8 +305,9 @@ class PolicyRegistry:
         inspected = self.inspect_checkpoint(policy.checkpoint_path)
         if inspected["sha256"] != policy.sha256:
             raise RuntimeError("Policy artifact checksum mismatch; experiment binding refused")
-        parameters = dict(config.algorithm_parameters.get("CALO", {}))
+        parameters = dict(config.algorithm_parameters.get(algorithm_id, {}))
         binding = {
+            "policy_algorithm_id": policy.algorithm_id,
             "policy_id": policy.id,
             "policy_name": policy.name,
             "policy_checkpoint": policy.checkpoint_path,
@@ -271,8 +322,13 @@ class PolicyRegistry:
             "strict_policy_binding": True,
             "allow_unqualified_policy": bool(allow_unqualified),
         }
+        if policy.algorithm_id == TSH_CALO_ALGORITHM_ID:
+            binding["policy_feature_flags"] = dict(policy.metadata.get("feature_flags", {}))
+            binding["policy_training_provenance"] = dict(
+                policy.metadata.get("training_provenance", {})
+            )
         parameters.update(binding)
-        config.algorithm_parameters["CALO"] = parameters
+        config.algorithm_parameters[algorithm_id] = parameters
         return binding
 
     def register_lineage_snapshot(
@@ -314,6 +370,7 @@ class PolicyRegistry:
 
     @staticmethod
     def _from_row(row: dict) -> PolicyRecord:
+        metadata = json.loads(row.get("metadata_json") or "{}")
         return PolicyRecord(
             id=str(row["id"]),
             name=str(row["name"]),
@@ -323,9 +380,10 @@ class PolicyRegistry:
             state_schema_version=str(row["state_schema_version"]),
             action_schema_version=str(row["action_schema_version"]),
             training_environment_version=str(row["training_environment_version"]),
+            algorithm_id=str(metadata.get("algorithm_id", CALO_ALGORITHM_ID)),
             qualification_status=str(row["qualification_status"]),
             grade=str(row["grade"]),
             active=bool(row["active"]),
             archived=bool(row["archived"]),
-            metadata=json.loads(row.get("metadata_json") or "{}"),
+            metadata=metadata,
         )

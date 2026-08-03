@@ -235,6 +235,16 @@ stale v6.9 release-integrity file, the active tree is 499 passed with 63 skips. 
 502 passed, 63 skipped and the same two expected stale freeze/manifest failures. This is not evidence
 of performance benefit or grounds for promotion.
 
+The immutable TSH-CALO candidate boundary is also locally complete. Candidate export records the
+exact algorithm/policy/state/action/training ABIs, feature flags, independent-training design and
+seed hashes, source commit and development-case identities, and always labels the portable artifact
+unqualified. Protected holdouts are rejected before writing. Registration, qualification,
+activation and experiment binding remain distinct actions; TSH-CALO cannot use the older research-
+only unqualified activation/binding path. Integrity-checked loading and binding preserve SHA-256 and
+scientific provenance under the separate `TSH-CALO` key. Seven dedicated lifecycle tests, a 33-test
+policy compatibility/independence focus and the 506-pass active tree are green. No real candidate has
+been trained, qualified or activated.
+
 Required order after approval:
 
 1. Extract the canonical transition kernel with **zero behavior change**.

@@ -13,7 +13,16 @@ import math
 import numpy as np
 
 from .cognitive_state import STATE_DIM as LEGACY_STATE_DIM
+from .tsh_calo_schema import (
+    TSH_CALO_ACTION_SCHEMA,
+    TSH_CALO_ALGORITHM_ID,
+    TSH_CALO_ALGORITHM_VERSION,
+    TSH_CALO_POLICY_ARCHITECTURE,
+    TSH_CALO_STATE_SCHEMA,
+    TSH_CALO_TRAINING_ENVIRONMENT,
+)
 
+CALO_ALGORITHM_ID = "CALO"
 CALO_RUNTIME_ARCHITECTURE = "calo-v5.9"
 LEGACY_STATE_SCHEMA = "calo-state-v2-24"
 POLICY_STATE_SCHEMA = "calo-state-v5.9-32"
@@ -94,6 +103,8 @@ def infer_checkpoint_schema(payload: dict) -> dict[str, str | int | bool]:
     action_schema = str(metadata.get("action_schema_version", "") or "")
     runtime_arch = str(metadata.get("runtime_architecture_version", "") or "")
     training_env = str(metadata.get("training_environment_version", "") or "")
+    algorithm_id = str(metadata.get("algorithm_id", "") or CALO_ALGORITHM_ID)
+    policy_architecture = str(metadata.get("policy_architecture_version", "") or "")
     if not state_schema:
         state_schema = POLICY_STATE_SCHEMA if input_dim == POLICY_STATE_DIM else LEGACY_STATE_SCHEMA
     if not action_schema:
@@ -102,19 +113,33 @@ def infer_checkpoint_schema(payload: dict) -> dict[str, str | int | bool]:
             POLICY_ACTION_SCHEMA if input_dim == POLICY_STATE_DIM else "calo-action-legacy-4r-6o-6p"
         )
     native = (
-        input_dim == POLICY_STATE_DIM
+        algorithm_id == CALO_ALGORITHM_ID
+        and input_dim == POLICY_STATE_DIM
         and state_schema == POLICY_STATE_SCHEMA
         and action_schema == POLICY_ACTION_SCHEMA
         and runtime_arch == CALO_RUNTIME_ARCHITECTURE
         and training_env == TRAINING_ENVIRONMENT_VERSION
     )
+    native_tsh_calo = (
+        algorithm_id == TSH_CALO_ALGORITHM_ID
+        and input_dim == POLICY_STATE_DIM
+        and state_schema == TSH_CALO_STATE_SCHEMA
+        and action_schema == TSH_CALO_ACTION_SCHEMA
+        and runtime_arch == TSH_CALO_ALGORITHM_VERSION
+        and training_env == TSH_CALO_TRAINING_ENVIRONMENT
+        and policy_architecture == TSH_CALO_POLICY_ARCHITECTURE
+    )
     return {
+        "algorithm_id": algorithm_id,
         "input_dim": input_dim,
         "state_schema_version": state_schema,
         "action_schema_version": action_schema,
         "runtime_architecture_version": runtime_arch or "legacy",
         "training_environment_version": training_env or "legacy",
+        "policy_architecture_version": policy_architecture or "legacy",
         "native_v59": bool(native),
+        "native_tsh_calo": bool(native_tsh_calo),
+        "native_supported": bool(native or native_tsh_calo),
         # Compatibility-only inspector alias for legacy callers/tests. A true value means the
         # checkpoint is native to the CURRENT 32-D ABI, not that v4.1 execution semantics are enabled.
         "native_v41": bool(native),

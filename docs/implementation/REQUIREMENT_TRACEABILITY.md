@@ -55,6 +55,7 @@ Status vocabulary:
 | Topology context, hierarchical actions, and uncertainty/bandit shield | B–D locally verified | B/C evidence plus `tsh_calo_shield.py`; six ensemble/OOD/bandit/resume/mixture/budget/lattice/fallback tests; cumulative A–D focus 28 passed; complete active tree 480 passed and 63 skipped | Fit calibration on development assets only, train fresh candidates, run paired ablations and protected tests; no benefit claim yet |
 | Physics-informed repair | Locally verified; disabled by default | `tsh_calo_physics_repair.py`; ten mask/convergence/conditioning/trust/lattice/no-hidden-solver/exact-FE/failure tests; cumulative A–E focus 38 passed; complete tree 490 passed and 63 skipped | Supply retained counted-evaluation Jacobian context in the eventual runtime, then run separate incremental-value/cost ablation; no benefit claim yet |
 | Evidence-driven population schedule | Experimental mechanics locally verified; disabled by default; promotion evidence absent | `tsh_calo_population_schedule.py`; separate `enabled` plus `experimental_mode` gates; preregistered design hash; feasibility/archive/diversity/budget/spacing conditions; deterministic feasibility-first contraction; no hidden FE; exact resume; nine focused tests | Must earn inclusion through paired-seed anytime/feasibility evidence without unacceptable cost, instability, overfitting or regression; otherwise keep disabled or remove |
+| Versioned TSH-CALO candidate lifecycle | Locally verified at artifact/registry level | `tsh_calo_policy_artifact.py`, algorithm-aware `policy_schema.py` and `policy_registry.py`; seven dedicated tests; immutable SHA-256, exact ABI and independent-training provenance; protected-holdout rejection; candidate-only registration; qualified-only explicit TSH activation/binding | Implement independent TSH training and formal TSH qualification, create fresh candidates, and prove runtime consumption/fallback; no candidate or qualification evidence exists yet |
 | Correct paired statistics, effect estimates, CIs, multiplicity control, power and anytime metrics | Locally verified at harness level | `statistics/`, campaign design, `SCIENTIFIC_VALIDATION_PROTOCOL.md`, statistical tests | Execute final frozen campaign |
 | Modern strong stochastic baselines | Locally verified at implementation level | Source-traceable L-SHADE 1.0.1 and pinned pycma 4.4.4 CMA-ES with deterministic snapshots | External benchmark execution |
 | Deterministic/mathematical reference solutions and broader licensed case corpus | Partial | Protocol specifies reference and licensed-import requirements | Add/verify solver adapters and checksummed datasets without redistributing restricted assets |
@@ -63,8 +64,9 @@ Status vocabulary:
 
 ## Current verification checkpoint
 
-- Active development suite after Change F, excluding the deliberately stale v6.9 release-integrity
-  file: **499 passed, 63 skipped**. The complete tree reports **502 passed, 63 skipped, 2 failed**;
+- Active development suite after the TSH-CALO candidate lifecycle, excluding the deliberately stale
+  v6.9 release-integrity file: **506 passed, 63 skipped**. The preceding complete-tree checkpoint
+  after Change F reported **502 passed, 63 skipped, 2 failed**;
   both failures are the expected stale release freeze/root manifest and are not regenerated during
   G9 development.
 - Repository Ruff lint and format: **pass**.
@@ -81,8 +83,9 @@ The exact decision was recorded on 2026-08-03:
 
 > Approve TSH-CALO A–E, with F experimental and evidence-gated.
 
-Changes A–E and the disabled Change-F mechanics have passed their local correctness gates. Change F
-has not earned promotion and remains off. The next legal step is to connect the approved, versioned
-TSH-CALO runtime and independent training path to immutable candidate artifacts, then train and
-qualify fresh candidates without protected-test leakage. Paired-seed component ablations must retain
-the disabled baseline and may not weaken preregistered acceptance criteria.
+Changes A–E, the disabled Change-F mechanics, and immutable candidate registration/binding have
+passed their local correctness gates. Change F has not earned promotion and remains off. The next
+legal step is the independent TSH-CALO training entry point and exact-resume state, followed by
+runtime inference/fallback and formal qualification. Fresh candidates must be trained without
+protected-test leakage. Paired-seed component ablations must retain the disabled baseline and may
+not weaken preregistered acceptance criteria.
