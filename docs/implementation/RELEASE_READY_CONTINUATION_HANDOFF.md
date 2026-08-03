@@ -436,7 +436,30 @@ All six verified wrapper/child process IDs were stopped; four ambiguous cell fil
 are retained under a `scientific_use_permitted=false` failure record. They are not screening results.
 The qualifier now holds a non-blocking OS-released single-writer lease for the entire output directory
 and refuses any failed-integrity resume. Six dedicated campaign cases and a 21-test focused
-campaign/inference/optimizer pass. The real v2 ensemble has not been validly screened or qualified.
+campaign/inference/optimizer pass.
+
+A new, single-writer v3 screening identity
+(`tsh-calo-ieee30-57-v2-screening-v3-20260804`) then completed validly from source
+`33f29370ade972ee00ae07c22bf3d204a2dbaedd`. Its scientific-design, execution-plan and seed-manifest
+identities are `9d1583703ee5ae211b00269dab6054676354d2d524ebf0085e92e17e63ce92a9`,
+`0a3ba70c35b1601b850af49da2772aa59c127e2ca8682fdfe5bd627b5657c46a` and
+`4cfe6933eea9abe26a4273db66a676458ff63450a53394c24c2aff730b8b22f1`. All 40 expected records are
+unique and complete, with zero failure records, exact 2,000 candidate evaluations and scenario
+power-flow calls per cell, paired seeds, independent validation of every retained solution, admitted
+CPU policy inference, and no fallback. OOD calibration used 16 development-only states and 640
+counted evaluations/calls; its logical identity is
+`f90d93045cd31b918301ab801da701dc70b77ead151384c4f4080100628b485c`.
+
+The v3 result is valid negative evidence. IEEE 30 produced no feasible run in either arm (0/10
+baseline and 0/10 candidate), so objective inference is unavailable. IEEE 57 produced 10/10 feasible
+runs in each arm and a median paired relative objective improvement of `0.011492392668353543`, but its
+95% bootstrap interval `[-0.0019638316095621712, 0.01484160649928978]` crosses zero and the one-sided
+Wilcoxon/Holm-adjusted value `0.052734375` misses the frozen `0.05` threshold. The immutable evidence
+SHA-256 is `039f2bfe31e39196e126da3961c65e4a248133ed09b009a93f64c933b2292778`; its decision is grade `U`,
+score `0.0`, `passed=false`, and claim scope `no qualification or policy-benefit claim`. Screening
+correctly emitted no receipt and performed no registration or activation. Candidate v2 remains
+unqualified and inactive, is not eligible for formal qualification under this frozen design, and
+protected cases remain unopened. Do not weaken the criteria or reinterpret this screen as benefit.
 
 Required order after approval:
 
