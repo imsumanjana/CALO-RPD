@@ -10,8 +10,10 @@ component has been implemented or scientifically validated.
 runtime/training, frozen optimizer snapshot/exact-budget, continuation, kernel-invariant and complete
 active-tree regression gates. Change B then added a distinct TSH-CALO ABI plus strict topology state
 and permutation-consistent graph/control-group encoding; its five focused tests and the 466-test
-active-tree regression pass. Changes C–F remain unimplemented at this record point, and no component
-benefit has been claimed.
+active-tree regression pass. Change C then added the versioned global/group/context policy-action
+contract, strict masks, bounded controls and independent learner sampling; its eight focused tests
+and 474-test active-tree regression pass. Changes D–F remain unimplemented at this record point,
+and no component benefit has been claimed.
 **Decision owner:** user/project scientific lead
 **Proposed working name:** Topology-Aware Shielded Hierarchical CALO (TSH-CALO)
 

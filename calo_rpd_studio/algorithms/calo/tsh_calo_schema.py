@@ -10,7 +10,7 @@ TSH_CALO_ALGORITHM_ID = "TSH-CALO"
 TSH_CALO_ALGORITHM_VERSION = "tsh-calo-v1.0.0-candidate"
 TSH_CALO_POLICY_ARCHITECTURE = "tsh-calo-policy-v1"
 TSH_CALO_STATE_SCHEMA = "tsh-calo-state-v1-aggregate32-topology"
-TSH_CALO_ACTION_SCHEMA = "tsh-calo-action-v1-hierarchical-4r-3g-6o-6p"
+TSH_CALO_ACTION_SCHEMA = "tsh-calo-action-v1-hierarchical-4r-3g-4c-6o-6p"
 TSH_CALO_TRAINING_ENVIRONMENT = "tsh-calo-training-v1-canonical-transition"
 
 
@@ -22,6 +22,7 @@ class ControlGroup(IntEnum):
 
 N_CONTROL_GROUPS = len(ControlGroup)
 N_SEARCH_REGIMES = 4
+N_LEARNER_CONTEXTS = 4
 N_OPERATORS = 6
 N_BOUNDED_PARAMETERS = 6
 

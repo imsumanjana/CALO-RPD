@@ -208,6 +208,12 @@ the complete tree passes 466 tests with 63 skips. The builder requires an alread
 power-flow result and cannot create a hidden solver call. This does not establish performance benefit.
 C–F, fresh training, qualification and every ablation remain pending.
 
+Change C is locally complete behind the new ABI: global regime, physical control-group and learner-
+context action heads, strict masks, bounded controls and independently replayable learner sampling
+have eight focused tests. The complete tree passes 474 tests with 63 skips. A bounded policy-forward
+CPU/CUDA check passed on the available device, but this is not target-hardware qualification. D–F,
+training, qualification, activation and scientific evidence remain pending.
+
 Required order after approval:
 
 1. Extract the canonical transition kernel with **zero behavior change**.
