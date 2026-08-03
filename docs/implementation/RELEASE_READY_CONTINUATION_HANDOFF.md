@@ -8,6 +8,12 @@
 [`../COMPLETE_REPOSITORY_CONTAINERIZATION_SCIENTIFIC_AUDIT_2026-08-03.md`](../COMPLETE_REPOSITORY_CONTAINERIZATION_SCIENTIFIC_AUDIT_2026-08-03.md)
 without overstating unexecuted hardware or scientific evidence.
 
+**Continuation update (2026-08-03):** work resumed from `main` at
+`7ec5b840193a4fe347c42e2d9ea1796fcac929e6`. The scientific lead supplied the exact decision
+“Approve TSH-CALO A–E, with F experimental and evidence-gated.” The frozen current CALO remains
+the baseline; TSH-CALO requires new algorithm and policy ABI versions, and no candidate may
+auto-activate or inherit prior superiority evidence.
+
 This document is the continuation contract for another Codex account. Begin by checking out the
 branch above and reading this file, then inspect the current worktree and latest commit rather than
 reconstructing the project from conversation history.
@@ -173,7 +179,11 @@ python -m calo_rpd_studio.scripts.verify_requirements_lock requirements-lock-cud
 
 ## 5. Remaining gates in required order
 
-### G8 — record exact architecture approval
+### G8 — exact architecture approval recorded
+
+**Status:** complete on 2026-08-03. Approved A–E for careful production-candidate implementation;
+approved F only as an independent experiment, disabled by default and promotable only through its
+preregistered ablation/falsification gate.
 
 Exit criteria:
 

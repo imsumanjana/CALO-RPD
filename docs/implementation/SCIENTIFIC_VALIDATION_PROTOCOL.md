@@ -1,6 +1,8 @@
 # CALO scientific validation and preregistration protocol
 
-Status: protocol design only; no CALO architecture change is authorized by this document.
+Status: frozen validation protocol. The separate architecture decision recorded on 2026-08-03
+approved TSH-CALO A–E, with F experimental, independently evidence-gated, and disabled by default.
+This protocol does not constitute implementation or scientific evidence.
 
 This protocol converts the repository audit into a falsifiable evaluation program. Its purpose is
 not to prove that CALO is universally best. The defensible target is to determine whether a frozen

@@ -50,11 +50,11 @@ Status vocabulary:
 
 | Requirement | Status | Authoritative evidence | Remaining proof |
 |---|---|---|---|
-| Explain final runtime/training architecture before changing CALO semantics | Complete proposal; decision pending | `CALO_ARCHITECTURE_CHANGE_PROPOSAL.md` and the final A–F architecture confirmation | Exact approval of A–E and evidence-gated F |
-| Canonical runtime/training transition authority | Approval-gated | Proposed Change A | Implement only after approval; seeded zero-difference gate |
-| Topology context, hierarchical actions, and uncertainty/bandit shield | Approval-gated | Proposed Changes B–D | Versioned implementation, training, ablations, protected tests |
-| Physics-informed repair | Approval-gated | Proposed Change E | Separate flag and incremental-value ablation |
-| Evidence-driven population schedule | Approval-gated and experimental | Proposed Change F | Must earn inclusion through anytime/feasibility evidence |
+| Explain final runtime/training architecture before changing CALO semantics | Approved / confirmation complete | Exact 2026-08-03 decision “Approve TSH-CALO A–E, with F experimental and evidence-gated”; `CALO_ARCHITECTURE_CHANGE_PROPOSAL.md`; nine-part pre-implementation confirmation | Preserve the recorded boundary; deviations require new approval |
+| Canonical runtime/training transition authority | Approved; implementation in progress | Approved Change A | Seeded zero-difference gate must pass before B–F |
+| Topology context, hierarchical actions, and uncertainty/bandit shield | Approved; not yet implemented | Approved Changes B–D | Versioned implementation, training, ablations, protected tests |
+| Physics-informed repair | Approved; not yet implemented | Approved Change E | Separate flag and incremental-value ablation |
+| Evidence-driven population schedule | Approved experimental; disabled by default | Approved Change F with evidence gate | Must earn inclusion through anytime/feasibility evidence without unacceptable cost/regression |
 | Correct paired statistics, effect estimates, CIs, multiplicity control, power and anytime metrics | Locally verified at harness level | `statistics/`, campaign design, `SCIENTIFIC_VALIDATION_PROTOCOL.md`, statistical tests | Execute final frozen campaign |
 | Modern strong stochastic baselines | Locally verified at implementation level | Source-traceable L-SHADE 1.0.1 and pinned pycma 4.4.4 CMA-ES with deterministic snapshots | External benchmark execution |
 | Deterministic/mathematical reference solutions and broader licensed case corpus | Partial | Protocol specifies reference and licensed-import requirements | Add/verify solver adapters and checksummed datasets without redistributing restricted assets |
@@ -74,9 +74,9 @@ Status vocabulary:
 
 ## Next legal implementation step
 
-Scientific implementation begins only after the exact decision:
+The exact decision was recorded on 2026-08-03:
 
 > Approve TSH-CALO A–E, with F experimental and evidence-gated.
 
-Until then, only architecture-neutral engineering, documentation correction, diagnostic tests, and
-external qualification preparation may proceed.
+The next legal step is Change A only: extract the canonical transition authority and prove seeded
+zero-difference behavior against the frozen baseline before introducing any B–F semantics.

@@ -1,7 +1,10 @@
 # CALO architecture change proposal — approval required
 
-**Status:** proposal only; no CALO search, policy, reward, operator, selection, or training semantics
-described below have been implemented.
+**Status:** approved on 2026-08-03 as “Approve TSH-CALO A–E, with F experimental and
+evidence-gated.” A–E are authorized for careful production-candidate implementation. F is
+authorized only behind an independent flag, disabled by default, and may be retained only if its
+preregistered ablation and falsification evidence passes. This record does not itself claim that any
+component has been implemented or scientifically validated.
 **Decision owner:** user/project scientific lead
 **Proposed working name:** Topology-Aware Shielded Hierarchical CALO (TSH-CALO)
 
@@ -238,6 +241,11 @@ The new architecture is rejected or revised unless it passes all applicable gate
   final evaluation and retain all failed trials.
 
 ## 10. Approval choices
+
+**Recorded decision (2026-08-03):** A–E approved; F experimental, independently evidence-gated,
+and disabled by default. The current CALO remains the frozen baseline. TSH-CALO receives new
+algorithm and policy ABI versions, never auto-activates, and cannot inherit prior superiority
+evidence.
 
 No architecture item will be implemented without an explicit decision. The recommended choices are:
 
