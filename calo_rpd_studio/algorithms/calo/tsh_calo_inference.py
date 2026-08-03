@@ -10,6 +10,7 @@ import psutil
 import torch
 
 from calo_rpd_studio.compute.memory_budget import calculate_available_memory_admission
+from calo_rpd_studio.power_system.case_identity import protected_holdout_matches
 
 from .tsh_calo_policy import GroupActionMask, hierarchical_action
 from .tsh_calo_policy_artifact import load_tsh_calo_ensemble
@@ -51,6 +52,34 @@ class InferenceMemoryAdmission:
     available_bytes_at_admission: int
     allowance_bytes: int
     fallback_reason: str = ""
+
+
+@dataclass(frozen=True, slots=True)
+class QualificationCandidateAuthority:
+    """Non-serializable authority for evaluating, never deploying, one candidate ensemble."""
+
+    qualification_run_id: str
+    qualification_plan_sha256: str
+    source_policy_sha256: str
+    source_commit: str
+    development_cases: tuple[str, ...]
+    ood_calibration_sha256: str
+
+    def validate(self) -> None:
+        if not self.qualification_run_id.strip() or not self.source_commit.strip():
+            raise ValueError("TSH-CALO qualification authority requires run/source identities")
+        for label, digest in (
+            ("plan", self.qualification_plan_sha256),
+            ("policy", self.source_policy_sha256),
+            ("OOD calibration", self.ood_calibration_sha256),
+        ):
+            value = str(digest).strip().lower()
+            if len(value) != 64 or any(character not in "0123456789abcdef" for character in value):
+                raise ValueError(f"TSH-CALO qualification authority {label} SHA-256 is invalid")
+        if not self.development_cases or protected_holdout_matches(self.development_cases):
+            raise ValueError(
+                "TSH-CALO qualification authority requires development-only case identities"
+            )
 
 
 @dataclass(slots=True)
@@ -145,6 +174,7 @@ class TSHCALOInferenceController:
         requested_device: str = "auto",
         allow_cpu_fallback: bool = True,
         baseline_fallback_permitted: bool = False,
+        _qualification_authority: QualificationCandidateAuthority | None = None,
     ) -> None:
         self.binding = dict(binding or {})
         self.deterministic = bool(deterministic)
@@ -154,6 +184,7 @@ class TSHCALOInferenceController:
         self.networks = []
         self.artifact = None
         self.admission: InferenceMemoryAdmission | None = None
+        self.qualification_authority = _qualification_authority
         self.rejection_reason = ""
         self.device = torch.device("cpu")
         self.generator = torch.Generator(device="cpu").manual_seed(int(seed))
@@ -177,10 +208,20 @@ class TSHCALOInferenceController:
         for key, value in expected.items():
             if str(binding.get(key, "")) != value:
                 raise ValueError(f"TSH-CALO policy binding {key} is incompatible")
-        if str(binding.get("policy_qualification_status", "")) != "qualified":
-            raise ValueError("TSH-CALO runtime requires a qualified policy")
-        if not bool(binding.get("policy_active_at_binding", False)):
-            raise ValueError("TSH-CALO runtime requires an explicitly activated policy")
+        authority = self.qualification_authority
+        if authority is None:
+            if str(binding.get("policy_qualification_status", "")) != "qualified":
+                raise ValueError("TSH-CALO runtime requires a qualified policy")
+            if not bool(binding.get("policy_active_at_binding", False)):
+                raise ValueError("TSH-CALO runtime requires an explicitly activated policy")
+        else:
+            authority.validate()
+            if str(binding.get("policy_qualification_status", "")) != "candidate_unqualified":
+                raise ValueError("Qualification authority accepts only an unqualified candidate")
+            if bool(binding.get("policy_active_at_binding", False)):
+                raise ValueError("Qualification authority cannot consume an active policy")
+            if str(binding.get("policy_sha256", "")).lower() != authority.source_policy_sha256:
+                raise ValueError("Qualification authority belongs to another policy")
         if (
             str(binding.get("policy_artifact_kind", "")) != "ensemble_policy"
             or int(binding.get("policy_ensemble_size", 0)) < 2
@@ -191,23 +232,28 @@ class TSHCALOInferenceController:
         calibration_sha = ood_calibration_sha256(self.ood_calibration)
         if calibration_sha != self.expected_ood_calibration_sha256:
             raise ValueError("TSH-CALO OOD calibration SHA-256 mismatch")
-        if str(binding.get("policy_ood_calibration_sha256", "")).lower() != calibration_sha:
-            raise ValueError("TSH-CALO binding does not identify the frozen OOD calibration")
-        receipt = load_tsh_calo_qualification_receipt(
-            {
-                TSH_CALO_QUALIFICATION_RECEIPT_KEY: dict(
-                    binding.get("policy_qualification_receipt", {}) or {}
+        if authority is None:
+            if str(binding.get("policy_ood_calibration_sha256", "")).lower() != calibration_sha:
+                raise ValueError("TSH-CALO binding does not identify the frozen OOD calibration")
+            receipt = load_tsh_calo_qualification_receipt(
+                {
+                    TSH_CALO_QUALIFICATION_RECEIPT_KEY: dict(
+                        binding.get("policy_qualification_receipt", {}) or {}
+                    )
+                },
+                expected_policy_sha256=str(binding.get("policy_sha256", "")),
+            )
+            if (
+                str(binding.get("policy_qualification_receipt_sha256", "")).lower()
+                != receipt.receipt_sha256
+            ):
+                raise ValueError("TSH-CALO binding qualification receipt SHA-256 mismatch")
+            if receipt.ood_calibration_sha256 != calibration_sha:
+                raise ValueError(
+                    "TSH-CALO bound calibration differs from its qualification receipt"
                 )
-            },
-            expected_policy_sha256=str(binding.get("policy_sha256", "")),
-        )
-        if (
-            str(binding.get("policy_qualification_receipt_sha256", "")).lower()
-            != receipt.receipt_sha256
-        ):
-            raise ValueError("TSH-CALO binding qualification receipt SHA-256 mismatch")
-        if receipt.ood_calibration_sha256 != calibration_sha:
-            raise ValueError("TSH-CALO bound calibration differs from its qualification receipt")
+        elif authority.ood_calibration_sha256 != calibration_sha:
+            raise ValueError("Qualification authority identifies another OOD calibration")
         checkpoint = str(binding.get("policy_checkpoint", "") or "")
         expected_sha = str(binding.get("policy_sha256", "") or "").lower()
         self.admission = admit_inference_device(
@@ -333,7 +379,7 @@ class TSHCALOInferenceController:
             )
 
     def _provenance(self, *, runtime_rejection: str = "") -> dict:
-        return {
+        provenance = {
             "schema_version": self.TRACE_SCHEMA,
             "policy_id": str(self.binding.get("policy_id", "")),
             "policy_sha256": str(self.binding.get("policy_sha256", "")),
@@ -342,3 +388,10 @@ class TSHCALOInferenceController:
             "device_admission": asdict(self.admission) if self.admission is not None else {},
             "runtime_rejection": runtime_rejection or self.rejection_reason,
         }
+        if self.qualification_authority is not None:
+            provenance["authority_boundary"] = "independent_qualification_only"
+            provenance["qualification_run_id"] = self.qualification_authority.qualification_run_id
+            provenance["qualification_plan_sha256"] = (
+                self.qualification_authority.qualification_plan_sha256
+            )
+        return provenance

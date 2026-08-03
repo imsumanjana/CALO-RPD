@@ -1,6 +1,6 @@
 # CALO-RPD Studio release-ready continuation handoff
 
-**Prepared:** 2026-08-03
+**Prepared:** 2026-08-04
 **Repository:** `https://github.com/imsumanjana/CALO-RPD.git`
 **Continuation branch:** `codex/calo-complete-modernization`
 **Starting baseline recorded by this modernization:** `307402df5c7a44a6bb852770347b1b1ef995548d`
@@ -142,14 +142,14 @@ The most recent complete active-tree run, excluding only the intentionally stale
 release-integrity file, produced:
 
 ```text
-576 passed, 63 skipped
+580 passed, 63 skipped
 ```
 
 Other verified evidence:
 
 - complete offscreen GUI/scientist suite: 33 passed and a validated 1440×900 dashboard PNG;
 - latest measured CI-style coverage: 66%, threshold 60%;
-- repository Ruff lint and format: pass across 403 Python files;
+- repository Ruff lint and format: pass across 406 Python files;
 - generated experiment schema: current;
 - bounded mypy safety target: pass on the recorded nine-module target;
 - automatic scheduler/configuration/GUI focus: 54 passed;
@@ -402,6 +402,38 @@ solver, trainer, integrity and design failures remain terminal. This correction 
 status-lock/resume test. The partial candidates are not an ensemble and have not been qualified or
 used as evidence of benefit.
 
+The fresh v2 campaign (`tsh-calo-ieee30-57-v2-20260804`) then completed under corrected
+interruption semantics from source `78e6f800b675670365bebf58f876e3da4fef117d`. Its plan-file,
+scientific-design, execution-plan and seed-manifest SHA-256 values are respectively
+`2d63f2d48e9152e9ae51e9f0812ef63a9a0aac90d08d1115d2da19285e08554c`,
+`b6aaf7fe785fc85bae31a9e52280a7e80d2161828e33d8c7a8a84e3d3d63b7f3`,
+`e6b08c79c856a2e427e59bc5d187633f4db00f675e7cdd75424fd2e35dc931c2` and
+`65d1113ac8adae9cd9990bac1683078d613faf60800f3c26ba46dd55701bc287`. Five independently seeded
+members each completed 10 alternating IEEE 30/57 episodes, 20,000 candidate evaluations, 20,000
+scenario power-flow calls, 490 canonical transitions and 70 PPO updates. Aggregate accounting is
+100,000 evaluations/calls, 2,450 transitions and 350 updates. Every member used admitted `cuda:0`
+NVIDIA computation with a 67,108,864-byte estimated working set below 80% of currently free VRAM;
+no fallback occurred. The immutable ensemble SHA-256 is
+`3adf5017dc51f33d76214aeb505da598984b9da0e4263e1ee8fe59a667180ceb`, and the campaign manifest
+SHA-256 is `ded60598652d552a70f03c811969092ab243437f2d5adaf8d7f75f665bc80f33`. This remains a
+`candidate_unqualified` artifact and real CUDA training provenance only. It is not CPU/CUDA parity,
+calibrated uncertainty, policy benefit, component-ablation, qualification or activation evidence.
+
+The independent qualification boundary is now implemented. A frozen plan and explicit
+`calo-rpd-qualify-tsh` command fit OOD calibration from counted development-only topology states,
+then run retained paired-seed, equal-FE candidate-versus-frozen-CALO cells. Every retained solution
+is checked through the independent PYPOWER validator; evidence includes feasibility-first results,
+paired practical effects, deterministic bootstrap intervals, Holm correction, frozen anytime
+checkpoints, failures, device admission and exact policy/plan/seed/calibration hashes. The candidate
+is exercised only through a non-serializable qualification capability; ordinary production
+inference still requires a qualified, active immutable binding. Screening can never issue a receipt.
+Formal receipt issuance additionally requires at least 30 pairs per case and checksum-verified,
+accepted A–E component evidence. Change F is rejected from the production qualification plan.
+Neither the qualifier nor its CLI can register or activate a policy. Four dedicated campaign cases,
+a 32-test qualification/inference/optimizer/lifecycle focus and the **580 passed, 63 skipped** active
+tree pass; Ruff lint/format passes across 406 files and the generated schema is current. The real v2
+ensemble has not yet been screened or qualified.
+
 Required order after approval:
 
 1. Extract the canonical transition kernel with **zero behavior change**.
@@ -525,7 +557,8 @@ expected to be stale on this development branch. Do not “fix” them early.
 - No successful Docker CPU/CUDA runtime build on this workstation yet.
 - No WSL2/WSLg target-laptop report yet.
 - No GitHub Actions run artifacts from the new workflow yet.
-- Approved TSH-CALO mechanics are implemented locally, but no fresh trained or qualified policy yet.
+- A fresh five-member TSH-CALO ensemble exists, but it is unqualified, inactive and not benefit
+  evidence.
 - No approved-architecture ablation campaign yet.
 - No imported/reviewed PGLib typical/API/SAD ORPD corpus yet.
 - No deterministic mathematical-solver comparison package yet.

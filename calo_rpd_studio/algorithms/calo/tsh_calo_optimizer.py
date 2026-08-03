@@ -112,6 +112,24 @@ class TSHCALOOptimizer(BaseOptimizer):
     supports_exact_resume = True
     CHECKPOINT_SCHEMA = "tsh-calo-exact-runtime-v1"
 
+    def _build_inference_controller(
+        self, parameters: dict, calibration: OODCalibration
+    ) -> TSHCALOInferenceController:
+        """Build the production controller; qualification overrides this non-public seam."""
+
+        return TSHCALOInferenceController(
+            parameters,
+            ood_calibration=calibration,
+            expected_ood_calibration_sha256=str(
+                parameters.get("policy_ood_calibration_sha256", "")
+            ),
+            deterministic=bool(parameters.get("deterministic_policy", False)),
+            seed=int(parameters.get("ai_inference_seed", self.seed + 7919)),
+            requested_device=str(parameters.get("inference_device", "auto")),
+            allow_cpu_fallback=bool(parameters.get("allow_cpu_fallback", True)),
+            baseline_fallback_permitted=bool(parameters.get("baseline_fallback_permitted", False)),
+        )
+
     def _evaluate_population_with_context(self, population):
         evaluator = getattr(self.problem, "evaluate_with_context", None)
         if not callable(evaluator):
@@ -239,18 +257,7 @@ class TSHCALOOptimizer(BaseOptimizer):
             )
 
         calibration = _ood_calibration(parameters)
-        controller = TSHCALOInferenceController(
-            parameters,
-            ood_calibration=calibration,
-            expected_ood_calibration_sha256=str(
-                parameters.get("policy_ood_calibration_sha256", "")
-            ),
-            deterministic=bool(parameters.get("deterministic_policy", False)),
-            seed=int(parameters.get("ai_inference_seed", self.seed + 7919)),
-            requested_device=str(parameters.get("inference_device", "auto")),
-            allow_cpu_fallback=bool(parameters.get("allow_cpu_fallback", True)),
-            baseline_fallback_permitted=bool(parameters.get("baseline_fallback_permitted", False)),
-        )
+        controller = self._build_inference_controller(parameters, calibration)
         preflight = controller.fallback_decision()
         if preflight.disposition is FallbackDisposition.EXPLICIT_BASELINE:
             raise TSHCALOBaselineFallbackRequired(
