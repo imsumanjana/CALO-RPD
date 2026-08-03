@@ -52,6 +52,10 @@ Activation, binding and inference revalidate the receipt; protected identities a
 closed. Five added receipt-path cases, a 27-test lifecycle/inference/optimizer focus and the 545-test
 active-tree regression pass. Receipt integrity is not qualification evidence, and no real receipt or
 scientific acceptance decision has been produced.
+The independent trainer then added a design-hashed canonical-reward rollout collector with explicit
+sample/commit semantics, deterministic terminal GAE and exact design-bound restore. Nine dedicated
+training cases, a 22-test training/transition focus and the 547-test active-tree regression pass.
+It does not yet execute a counted ORPD training environment and is not a trained-candidate result.
 
 **Decision owner:** user/project scientific lead
 **Proposed working name:** Topology-Aware Shielded Hierarchical CALO (TSH-CALO)

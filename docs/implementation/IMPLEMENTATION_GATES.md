@@ -156,6 +156,12 @@ Latest verification evidence:
   tree is **545 passed, 63 skipped**; Ruff lint/format passes across 391 Python files and the schema
   is current. A receipt authenticates declared inputs only and does not prove that qualification
   evidence exists, is sufficient, or passed its preregistered criteria.
+- Independent canonical-reward rollout collection: the training design now freezes discount/GAE
+  factors; sampled actions must be committed with a versioned canonical `TransitionResult`; terminal-
+  aware GAE/returns are deterministic; pending actions cannot be checkpointed; and collector restore
+  requires the unchanged scientific design hash. **9 passed** dedicated training cases, **22 passed**
+  with canonical/runtime transition guards and **547 passed, 63 skipped** on the active tree. This is
+  a rollout data boundary, not a counted ORPD environment, completed training run or benefit result.
 
 - automatic CUDA-first scheduling/config/GUI regressions: **54 passed**; versioned database migration,
   history, learning, resume and continuation regressions: **29 passed**;

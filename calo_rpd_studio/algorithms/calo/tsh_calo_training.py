@@ -40,6 +40,7 @@ from .tsh_calo_schema import (
     TSH_CALO_TRAINING_ENVIRONMENT,
     TSHCALOFeatureFlags,
 )
+from .transition_kernel import TransitionResult
 
 
 def _valid_sha256(value: str) -> bool:
@@ -61,6 +62,8 @@ class TSHCALOTrainingConfig:
     value_weight: float = 0.50
     entropy_weight: float = 0.01
     gradient_norm: float = 0.50
+    discount_factor: float = 0.99
+    gae_lambda: float = 0.95
     device: str = "auto"
     feature_flags: TSHCALOFeatureFlags = field(default_factory=TSHCALOFeatureFlags)
 
@@ -84,6 +87,8 @@ class TSHCALOTrainingConfig:
             raise ValueError("TSH-CALO PPO clip ratio must be within (0, 1)")
         if self.value_weight < 0.0 or self.entropy_weight < 0.0 or self.gradient_norm <= 0.0:
             raise ValueError("TSH-CALO PPO loss and gradient weights are invalid")
+        if not 0.0 <= self.discount_factor <= 1.0 or not 0.0 <= self.gae_lambda <= 1.0:
+            raise ValueError("TSH-CALO discount and GAE factors must be within [0, 1]")
         if str(self.device).lower() not in {"auto", "cpu", "cuda"} and not str(
             self.device
         ).lower().startswith("cuda:"):
@@ -170,6 +175,164 @@ class TSHCALORolloutBatch:
             vector = np.asarray(values, dtype=float)
             if vector.shape != (count,) or not np.all(np.isfinite(vector)):
                 raise ValueError(f"TSH-CALO rollout {name} must be a finite aligned vector")
+
+
+@dataclass(frozen=True, slots=True)
+class PendingTSHCALORolloutStep:
+    state: TopologyAwarePolicyState
+    action: TSHCALOTrainingAction
+    log_probability: float
+    value: float
+
+
+class IndependentTSHCALORolloutCollector:
+    """Collect PPO data only from the versioned canonical transition reward authority."""
+
+    SCHEMA_VERSION = "tsh-calo-independent-rollout-v1"
+
+    def __init__(self, trainer: "IndependentTSHCALOTrainer") -> None:
+        self.trainer = trainer
+        self._pending: PendingTSHCALORolloutStep | None = None
+        self.states: list[TopologyAwarePolicyState] = []
+        self.actions: list[TSHCALOTrainingAction] = []
+        self.log_probabilities: list[float] = []
+        self.values: list[float] = []
+        self.rewards: list[float] = []
+        self.terminals: list[bool] = []
+
+    def sample(
+        self,
+        state: TopologyAwarePolicyState,
+        action_mask: GroupActionMask,
+        learner_groups,
+        learner_contexts,
+        *,
+        deterministic: bool = False,
+    ) -> PendingTSHCALORolloutStep:
+        if self._pending is not None:
+            raise RuntimeError("TSH-CALO rollout has an uncommitted sampled action")
+        action, log_probability, value = self.trainer.sample_action(
+            state,
+            action_mask,
+            learner_groups,
+            learner_contexts,
+            deterministic=deterministic,
+        )
+        pending = PendingTSHCALORolloutStep(
+            state,
+            action,
+            float(log_probability),
+            float(value),
+        )
+        self._pending = pending
+        return pending
+
+    def commit(self, transition: TransitionResult, *, terminal: bool = False) -> None:
+        if self._pending is None:
+            raise RuntimeError("TSH-CALO rollout cannot commit without a sampled action")
+        if not isinstance(transition, TransitionResult):
+            raise TypeError("TSH-CALO rollout rewards must come from the canonical transition")
+        reward = float(transition.reward.total)
+        if not np.isfinite(reward):
+            raise ValueError("TSH-CALO canonical transition reward must be finite")
+        pending = self._pending
+        self.states.append(pending.state)
+        self.actions.append(pending.action)
+        self.log_probabilities.append(pending.log_probability)
+        self.values.append(pending.value)
+        self.rewards.append(reward)
+        self.terminals.append(bool(terminal))
+        self._pending = None
+
+    def discard_pending(self) -> None:
+        """Explicitly discard an unevaluated action after a failed/cancelled environment step."""
+
+        if self._pending is None:
+            raise RuntimeError("TSH-CALO rollout has no pending action to discard")
+        self._pending = None
+
+    def build_batch(self, *, bootstrap_value: float = 0.0) -> TSHCALORolloutBatch:
+        if self._pending is not None:
+            raise RuntimeError("TSH-CALO rollout cannot finalize an uncommitted action")
+        if not self.states:
+            raise ValueError("TSH-CALO rollout requires at least one canonical transition")
+        bootstrap = float(bootstrap_value)
+        if not np.isfinite(bootstrap):
+            raise ValueError("TSH-CALO rollout bootstrap value must be finite")
+        rewards = np.asarray(self.rewards, dtype=float)
+        values = np.asarray(self.values, dtype=float)
+        terminals = np.asarray(self.terminals, dtype=bool)
+        advantages = np.zeros_like(rewards)
+        gae = 0.0
+        next_value = bootstrap
+        gamma = float(self.trainer.config.discount_factor)
+        gae_lambda = float(self.trainer.config.gae_lambda)
+        for index in range(len(rewards) - 1, -1, -1):
+            continuation = 0.0 if terminals[index] else 1.0
+            delta = rewards[index] + gamma * next_value * continuation - values[index]
+            gae = delta + gamma * gae_lambda * continuation * gae
+            advantages[index] = gae
+            next_value = values[index]
+        batch = TSHCALORolloutBatch(
+            tuple(self.states),
+            tuple(self.actions),
+            np.asarray(self.log_probabilities, dtype=float),
+            values,
+            advantages,
+            advantages + values,
+        )
+        batch.validate()
+        return batch
+
+    def state_dict(self) -> dict:
+        if self._pending is not None:
+            raise RuntimeError("TSH-CALO rollout cannot checkpoint an uncommitted action")
+        return {
+            "schema_version": self.SCHEMA_VERSION,
+            "scientific_design_hash": self.trainer.config.scientific_design_hash(),
+            "states": tuple(self.states),
+            "actions": tuple(self.actions),
+            "log_probabilities": np.asarray(self.log_probabilities, dtype=float),
+            "values": np.asarray(self.values, dtype=float),
+            "rewards": np.asarray(self.rewards, dtype=float),
+            "terminals": np.asarray(self.terminals, dtype=bool),
+        }
+
+    @classmethod
+    def from_state_dict(
+        cls,
+        trainer: "IndependentTSHCALOTrainer",
+        payload: dict,
+    ) -> "IndependentTSHCALORolloutCollector":
+        if str(payload.get("schema_version", "")) != cls.SCHEMA_VERSION:
+            raise ValueError("TSH-CALO rollout checkpoint schema is incompatible")
+        if (
+            str(payload.get("scientific_design_hash", ""))
+            != trainer.config.scientific_design_hash()
+        ):
+            raise ValueError("TSH-CALO rollout checkpoint scientific design changed")
+        collector = cls(trainer)
+        collector.states = list(payload.get("states", ()))
+        collector.actions = list(payload.get("actions", ()))
+        collector.log_probabilities = np.asarray(
+            payload.get("log_probabilities", []), dtype=float
+        ).tolist()
+        collector.values = np.asarray(payload.get("values", []), dtype=float).tolist()
+        collector.rewards = np.asarray(payload.get("rewards", []), dtype=float).tolist()
+        collector.terminals = np.asarray(payload.get("terminals", []), dtype=bool).tolist()
+        count = len(collector.states)
+        if not (
+            len(collector.actions)
+            == len(collector.log_probabilities)
+            == len(collector.values)
+            == len(collector.rewards)
+            == len(collector.terminals)
+            == count
+        ):
+            raise ValueError("TSH-CALO rollout checkpoint arrays are not aligned")
+        if count:
+            collector.build_batch(bootstrap_value=0.0)
+        return collector
 
 
 def _resolve_device(requested: str) -> torch.device:

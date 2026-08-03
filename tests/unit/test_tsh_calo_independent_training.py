@@ -19,10 +19,13 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_policy import GroupActionMask
 from calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact import inspect_tsh_calo_candidate
 from calo_rpd_studio.algorithms.calo.tsh_calo_schema import TSHCALOFeatureFlags
 from calo_rpd_studio.algorithms.calo.tsh_calo_training import (
+    IndependentTSHCALORolloutCollector,
     IndependentTSHCALOTrainer,
     TSHCALORolloutBatch,
     TSHCALOTrainingConfig,
 )
+from calo_rpd_studio.algorithms.calo.reward import RewardComponents
+from calo_rpd_studio.algorithms.calo.transition_kernel import TransitionResult
 from calo_rpd_studio.orpd.variable_decoder import ORPDVariableConfig, ORPDVariableDecoder
 from calo_rpd_studio.power_system.ac_power_flow import run_ac_power_flow
 
@@ -80,6 +83,28 @@ def _rollout(trainer: IndependentTSHCALOTrainer, state: TopologyAwarePolicyState
     )
 
 
+def _transition(reward: float) -> TransitionResult:
+    empty = np.empty(0)
+    return TransitionResult(
+        combined_population=empty,
+        combined_evaluations=[],
+        selected_population=empty,
+        selected_evaluations=[],
+        selected_indices=np.empty(0, dtype=int),
+        offspring_personal_best=empty,
+        offspring_personal_best_evaluations=[],
+        successful=np.empty(0, dtype=bool),
+        objective_gain=empty,
+        feasibility_gain=empty,
+        feasibility_transition=empty,
+        precision_attempts=0,
+        precision_successes=0,
+        new_diagnostics=None,
+        new_diversity=0.0,
+        reward=RewardComponents(reward / 0.85, 0.0, 0.0, 0.0, 0.0),
+    )
+
+
 def test_training_config_is_independent_hashed_and_rejects_protected_cases():
     config = _config()
     config.validate()
@@ -127,6 +152,50 @@ def test_training_action_rejects_mask_bypass(toy_case):
     changed_learners[0] = 6
     with pytest.raises(ValueError, match="mask"):
         replace(action, learner_operators=changed_learners).validate()
+
+
+def test_independent_collector_uses_only_canonical_rewards_and_computes_exact_gae(toy_case):
+    trainer = IndependentTSHCALOTrainer(_config(discount_factor=0.9, gae_lambda=0.8))
+    state = _state(toy_case)
+    mask, groups, contexts = _mask_and_learners(state)
+    collector = IndependentTSHCALORolloutCollector(trainer)
+    first = collector.sample(state, mask, groups, contexts, deterministic=True)
+    collector.commit(_transition(1.0))
+    second = collector.sample(state, mask, groups, contexts, deterministic=True)
+    collector.commit(_transition(0.5), terminal=True)
+
+    batch = collector.build_batch(bootstrap_value=99.0)
+
+    expected_second = 0.5 - second.value
+    expected_first = 1.0 + 0.9 * second.value - first.value + 0.9 * 0.8 * expected_second
+    np.testing.assert_allclose(batch.advantages, [expected_first, expected_second])
+    np.testing.assert_allclose(batch.returns, batch.advantages + batch.old_values)
+    with pytest.raises(TypeError, match="canonical transition"):
+        collector.sample(state, mask, groups, contexts, deterministic=True)
+        collector.commit(object())
+    collector.discard_pending()
+
+
+def test_rollout_collector_checkpoint_is_exact_and_design_bound(toy_case):
+    trainer = IndependentTSHCALOTrainer(_config())
+    state = _state(toy_case)
+    mask, groups, contexts = _mask_and_learners(state)
+    collector = IndependentTSHCALORolloutCollector(trainer)
+    collector.sample(state, mask, groups, contexts, deterministic=True)
+    with pytest.raises(RuntimeError, match="uncommitted"):
+        collector.state_dict()
+    collector.commit(_transition(0.25))
+
+    restored = IndependentTSHCALORolloutCollector.from_state_dict(trainer, collector.state_dict())
+
+    left = collector.build_batch(bootstrap_value=0.3)
+    right = restored.build_batch(bootstrap_value=0.3)
+    np.testing.assert_array_equal(left.old_log_probabilities, right.old_log_probabilities)
+    np.testing.assert_array_equal(left.old_values, right.old_values)
+    np.testing.assert_array_equal(left.advantages, right.advantages)
+    changed = IndependentTSHCALOTrainer(replace(trainer.config, gae_lambda=0.5))
+    with pytest.raises(ValueError, match="scientific design changed"):
+        IndependentTSHCALORolloutCollector.from_state_dict(changed, collector.state_dict())
 
 
 def test_training_resume_restores_exact_model_optimizer_and_action_rng(tmp_path, toy_case):

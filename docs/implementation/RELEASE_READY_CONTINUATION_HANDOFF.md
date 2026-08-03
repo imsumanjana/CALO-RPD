@@ -311,6 +311,14 @@ a 27-test qualification/lifecycle/inference/optimizer focus pass; the active tre
 63 skips. This establishes integrity and separation mechanics only. No evidence artifact was produced
 or evaluated, no policy was scientifically qualified, and no acceptance claim is made.
 
+Independent PPO rollout collection now accepts only rewards from the canonical versioned transition
+result. Discount and GAE factors are part of the training design hash; terminal-aware advantages and
+returns are deterministic; an unevaluated pending action cannot be checkpointed; and restored
+collector state must match the exact scientific design. Nine dedicated training cases, a 22-test
+training/transition focus and the 547-pass active tree pass. The collector still consumes already-
+executed transitions: a counted development-only ORPD environment adapter, Safe-80 training-device
+admission, fresh member training and scientific qualification remain pending.
+
 Required order after approval:
 
 1. Extract the canonical transition kernel with **zero behavior change**.
