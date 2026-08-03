@@ -254,6 +254,18 @@ activation or binding authority. Seven dedicated tests, the 22-test trainer/life
 and the 513-pass active tree pass. This does not represent a real training run; development rollout
 production, Safe-80 target-device admission and physical CPU/CUDA evidence remain open.
 
+The immutable ensemble and shielded inference core is locally complete. Independent single-member
+candidates are assembled without losing member SHA/provenance and cannot activate individually.
+Runtime loading requires a qualified, explicitly activated binding and verifies the ensemble SHA,
+exact ABIs, feature flags, member identities and frozen OOD-calibration hash. Admission selects CUDA
+first when a conservative working-set estimate fits within 80% of currently free VRAM; CPU is used
+only when CUDA is unavailable, that admitted estimate cannot fit, or a real CUDA allocation fails,
+and it is separately checked against 80% of currently available RAM. The NVIDIA GPU or CPU performs
+the computation; memory is only admitted storage. Ensemble disagreement, OOD attenuation, the
+declared shield and explicit block/relabelled-baseline fallback are traced. Six dedicated tests, a
+35-test inference/lifecycle/shield/trainer/action focus and the 520-pass active tree pass. The core is
+not yet connected to actual TSH optimizer transitions and is not physical CUDA evidence.
+
 Required order after approval:
 
 1. Extract the canonical transition kernel with **zero behavior change**.

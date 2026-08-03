@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import asdict, dataclass
 from pathlib import Path
+from typing import Sequence
 import torch
 
 from calo_rpd_studio.ai.model_io import (
@@ -68,6 +69,8 @@ class TSHCALOCandidateArtifact:
     state_schema_version: str
     action_schema_version: str
     training_environment_version: str
+    artifact_kind: str
+    ensemble_size: int
     feature_flags: dict[str, bool]
     training_provenance: dict
 
@@ -108,6 +111,8 @@ def build_tsh_calo_candidate_payload(
             "action_schema_version": TSH_CALO_ACTION_SCHEMA,
             "training_environment_version": TSH_CALO_TRAINING_ENVIRONMENT,
             "lifecycle_status": "candidate_unqualified",
+            "artifact_kind": "single_policy_member",
+            "ensemble_size": 1,
             "feature_flags": asdict(flags),
             "training_provenance": asdict(provenance),
         },
@@ -142,10 +147,33 @@ def inspect_tsh_calo_candidate(
         raise ValueError("Portable TSH-CALO artifacts must be exported as unqualified candidates")
     flags = TSHCALOFeatureFlags(**dict(metadata.get("feature_flags", {}) or {}))
     flags.validate()
-    provenance = IndependentTrainingProvenance(
-        **dict(metadata.get("training_provenance", {}) or {})
-    )
-    provenance.validate()
+    artifact_kind = str(metadata.get("artifact_kind", "single_policy_member"))
+    ensemble_size = int(metadata.get("ensemble_size", 1))
+    if artifact_kind == "single_policy_member":
+        if ensemble_size != 1:
+            raise ValueError("Single TSH-CALO candidate must declare ensemble_size=1")
+        provenance = IndependentTrainingProvenance(
+            **dict(metadata.get("training_provenance", {}) or {})
+        )
+        provenance.validate()
+        training_provenance = asdict(provenance)
+    elif artifact_kind == "ensemble_policy":
+        members = list(metadata.get("ensemble_members", []) or [])
+        state_dicts = list(payload.get("ensemble_model_state_dicts", []) or [])
+        if ensemble_size < 2 or len(members) != ensemble_size or len(state_dicts) != ensemble_size:
+            raise ValueError("TSH-CALO ensemble artifact has inconsistent member cardinality")
+        for member in members:
+            if not _is_sha256(str(member.get("source_candidate_sha256", ""))):
+                raise ValueError("TSH-CALO ensemble member SHA-256 is invalid")
+            IndependentTrainingProvenance(
+                **dict(member.get("training_provenance", {}) or {})
+            ).validate()
+        training_provenance = {
+            "source_kind": "independent_policy_training_ensemble",
+            "members": members,
+        }
+    else:
+        raise ValueError("Unknown TSH-CALO candidate artifact kind")
     architecture = dict(payload.get("architecture", {}) or {})
     hidden_dim = int(architecture.get("hidden_dim", 0))
     graph_steps = int(architecture.get("graph_steps", 0))
@@ -159,8 +187,10 @@ def inspect_tsh_calo_candidate(
         state_schema_version=TSH_CALO_STATE_SCHEMA,
         action_schema_version=TSH_CALO_ACTION_SCHEMA,
         training_environment_version=TSH_CALO_TRAINING_ENVIRONMENT,
+        artifact_kind=artifact_kind,
+        ensemble_size=ensemble_size,
         feature_flags=asdict(flags),
-        training_provenance=asdict(provenance),
+        training_provenance=training_provenance,
     )
 
 
@@ -173,6 +203,8 @@ def load_tsh_calo_candidate(
     """Integrity-check and reconstruct one immutable policy for inference only."""
 
     artifact = inspect_tsh_calo_candidate(path, expected_sha256=expected_sha256)
+    if artifact.artifact_kind != "single_policy_member":
+        raise ValueError("Use load_tsh_calo_ensemble for an ensemble policy artifact")
     payload = load_checkpoint(path, expected_sha256=expected_sha256, map_location=device)
     architecture = dict(payload["architecture"])
     network = TSHCALOPolicyNetwork(
@@ -182,3 +214,86 @@ def load_tsh_calo_candidate(
     network.load_state_dict(payload["model_state_dict"], strict=True)
     network.eval()
     return network, artifact
+
+
+def _is_sha256(value: str) -> bool:
+    text = str(value).strip().lower()
+    return len(text) == 64 and all(character in "0123456789abcdef" for character in text)
+
+
+def assemble_tsh_calo_ensemble_candidate(
+    path: str | Path,
+    members: Sequence[tuple[str | Path, str]],
+) -> TSHCALOCandidateArtifact:
+    """Assemble independently trained members without qualifying or activating the ensemble."""
+
+    if len(members) < 2:
+        raise ValueError("TSH-CALO epistemic ensemble requires at least two policy members")
+    payloads: list[dict] = []
+    artifacts: list[TSHCALOCandidateArtifact] = []
+    for member_path, expected_sha256 in members:
+        artifact = inspect_tsh_calo_candidate(member_path, expected_sha256=expected_sha256)
+        if artifact.artifact_kind != "single_policy_member":
+            raise ValueError("TSH-CALO ensembles can only be assembled from single policy members")
+        artifacts.append(artifact)
+        payloads.append(
+            load_checkpoint(member_path, expected_sha256=expected_sha256, map_location="cpu")
+        )
+    architecture = dict(payloads[0].get("architecture", {}) or {})
+    feature_flags = dict(artifacts[0].feature_flags)
+    for payload, artifact in zip(payloads[1:], artifacts[1:]):
+        if dict(payload.get("architecture", {}) or {}) != architecture:
+            raise ValueError("TSH-CALO ensemble members must use the same network architecture")
+        if artifact.feature_flags != feature_flags:
+            raise ValueError("TSH-CALO ensemble members must use the same feature flags")
+    metadata = dict(payloads[0].get("metadata", {}) or {})
+    metadata.update(
+        {
+            "artifact_kind": "ensemble_policy",
+            "ensemble_size": len(artifacts),
+            "lifecycle_status": "candidate_unqualified",
+            "ensemble_members": [
+                {
+                    "source_candidate_sha256": artifact.sha256,
+                    "training_provenance": dict(artifact.training_provenance),
+                }
+                for artifact in artifacts
+            ],
+        }
+    )
+    metadata.pop("training_provenance", None)
+    state_dicts = [payload["model_state_dict"] for payload in payloads]
+    target = Path(path).expanduser().resolve()
+    durable_torch_save(
+        {
+            "model_state_dict": state_dicts[0],
+            "ensemble_model_state_dicts": state_dicts,
+            "architecture": architecture,
+            "metadata": metadata,
+        },
+        target,
+    )
+    return inspect_tsh_calo_candidate(target)
+
+
+def load_tsh_calo_ensemble(
+    path: str | Path,
+    *,
+    expected_sha256: str,
+    device: str | torch.device = "cpu",
+) -> tuple[list[TSHCALOPolicyNetwork], TSHCALOCandidateArtifact]:
+    artifact = inspect_tsh_calo_candidate(path, expected_sha256=expected_sha256)
+    if artifact.artifact_kind != "ensemble_policy" or artifact.ensemble_size < 2:
+        raise ValueError("TSH-CALO runtime requires an assembled epistemic ensemble")
+    payload = load_checkpoint(path, expected_sha256=expected_sha256, map_location=device)
+    architecture = dict(payload["architecture"])
+    networks: list[TSHCALOPolicyNetwork] = []
+    for state_dict in payload["ensemble_model_state_dicts"]:
+        network = TSHCALOPolicyNetwork(
+            hidden_dim=int(architecture["hidden_dim"]),
+            graph_steps=int(architecture["graph_steps"]),
+        ).to(device)
+        network.load_state_dict(state_dict, strict=True)
+        network.eval()
+        networks.append(network)
+    return networks, artifact

@@ -29,8 +29,11 @@ tests and 506-test active-tree regression pass. The independent PPO core subsequ
 separate design-hashed configuration, protected-holdout rejection, masked hierarchical update,
 checksum/design-bound exact resume and unqualified-only export without experiment or registry
 authority; its seven tests and the 513-test active-tree regression pass. No policy has actually been
-trained, qualified or activated, and no component benefit or acceptable-cost result has been
-claimed.
+trained, qualified or activated. Immutable ensemble assembly and inference then added member-
+provenance preservation, single-member activation refusal, exact binding/calibration checks, CUDA-
+first Safe-80 admission, ensemble/shield decisions and explicit block or relabelled-baseline fallback;
+its six tests and the 520-test active-tree regression pass. No component benefit or acceptable-cost
+result has been claimed.
 **Decision owner:** user/project scientific lead
 **Proposed working name:** Topology-Aware Shielded Hierarchical CALO (TSH-CALO)
 

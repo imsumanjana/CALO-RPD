@@ -57,6 +57,7 @@ Status vocabulary:
 | Evidence-driven population schedule | Experimental mechanics locally verified; disabled by default; promotion evidence absent | `tsh_calo_population_schedule.py`; separate `enabled` plus `experimental_mode` gates; preregistered design hash; feasibility/archive/diversity/budget/spacing conditions; deterministic feasibility-first contraction; no hidden FE; exact resume; nine focused tests | Must earn inclusion through paired-seed anytime/feasibility evidence without unacceptable cost, instability, overfitting or regression; otherwise keep disabled or remove |
 | Versioned TSH-CALO candidate lifecycle | Locally verified at artifact/registry level | `tsh_calo_policy_artifact.py`, algorithm-aware `policy_schema.py` and `policy_registry.py`; seven dedicated tests; immutable SHA-256, exact ABI and independent-training provenance; protected-holdout rejection; candidate-only registration; qualified-only explicit TSH activation/binding | Implement independent TSH training and formal TSH qualification, create fresh candidates, and prove runtime consumption/fallback; no candidate or qualification evidence exists yet |
 | Independent TSH-CALO policy training | PPO core locally verified; rollout integration and physical execution pending | `tsh_calo_training.py`; independent config/design hash; protected-holdout exclusion; masked hierarchical PPO; exact checksum-bound model/optimizer/RNG resume; design-drift rejection; unqualified-only export; static absence of experiment/registry/activation authority; seven dedicated tests | Connect counted development-only rollout state/reward production through the canonical transition authority, apply Safe-80 device admission, execute fresh training, and retain target CPU/CUDA provenance; no trained candidate exists yet |
+| Immutable TSH-CALO ensemble inference and fallback | Core locally verified; optimizer integration and physical execution pending | Ensemble candidate assembly/load, activated-qualified binding guard, `tsh_calo_inference.py`; exact SHA/ABI/feature/member/calibration checks; CUDA-first current-free-VRAM 80% admission; governed CPU fallback; ensemble disagreement and safety shield; explicit block or frozen-CALO relabel; six dedicated tests | Connect to the counted TSH runtime transition without changing frozen CALO, capture target CPU/CUDA parity and memory-pressure traces, and qualify a real ensemble; no optimization result exists yet |
 | Correct paired statistics, effect estimates, CIs, multiplicity control, power and anytime metrics | Locally verified at harness level | `statistics/`, campaign design, `SCIENTIFIC_VALIDATION_PROTOCOL.md`, statistical tests | Execute final frozen campaign |
 | Modern strong stochastic baselines | Locally verified at implementation level | Source-traceable L-SHADE 1.0.1 and pinned pycma 4.4.4 CMA-ES with deterministic snapshots | External benchmark execution |
 | Deterministic/mathematical reference solutions and broader licensed case corpus | Partial | Protocol specifies reference and licensed-import requirements | Add/verify solver adapters and checksummed datasets without redistributing restricted assets |
@@ -65,8 +66,8 @@ Status vocabulary:
 
 ## Current verification checkpoint
 
-- Active development suite after the independent TSH-CALO PPO core, excluding the deliberately stale
-  v6.9 release-integrity file: **513 passed, 63 skipped**. The preceding complete-tree checkpoint
+- Active development suite after the immutable ensemble/inference core, excluding the deliberately
+  stale v6.9 release-integrity file: **520 passed, 63 skipped**. The preceding complete-tree checkpoint
   after Change F reported **502 passed, 63 skipped, 2 failed**;
   both failures are the expected stale release freeze/root manifest and are not regenerated during
   G9 development.
@@ -84,10 +85,9 @@ The exact decision was recorded on 2026-08-03:
 
 > Approve TSH-CALO A–E, with F experimental and evidence-gated.
 
-Changes A–E, the disabled Change-F mechanics, immutable candidate registration/binding, and the
-independent PPO update/resume core have passed their local correctness gates. Change F has not earned
-promotion and remains off. The next legal step is counted development-only rollout state/reward
-production through the canonical transition authority, followed by runtime inference/fallback and
-formal qualification. Fresh candidates must be trained without protected-test leakage. Paired-seed
-component ablations must retain the disabled baseline and may not weaken preregistered acceptance
-criteria.
+Changes A–E, the disabled Change-F mechanics, immutable ensemble lifecycle, independent PPO core and
+shielded inference core have passed their local correctness gates. Change F has not earned promotion
+and remains off. The next legal step is counted development-only rollout state/reward production and
+actual optimizer transition integration, followed by formal qualification. Fresh candidates must be
+trained without protected-test leakage. Paired-seed component ablations must retain the disabled
+baseline and may not weaken preregistered acceptance criteria.

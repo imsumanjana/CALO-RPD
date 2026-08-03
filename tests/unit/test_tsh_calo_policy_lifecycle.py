@@ -13,7 +13,9 @@ from calo_rpd_studio.algorithms.calo.policy_schema import infer_checkpoint_schem
 from calo_rpd_studio.algorithms.calo.tsh_calo_policy import TSHCALOPolicyNetwork
 from calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact import (
     IndependentTrainingProvenance,
+    assemble_tsh_calo_ensemble_candidate,
     inspect_tsh_calo_candidate,
+    load_tsh_calo_ensemble,
     load_tsh_calo_candidate,
     save_tsh_calo_candidate,
 )
@@ -39,10 +41,24 @@ def _provenance(*cases: str) -> IndependentTrainingProvenance:
     )
 
 
-def _candidate(path: Path) -> Path:
-    torch.manual_seed(17)
+def _candidate(path: Path, seed: int = 17) -> Path:
+    torch.manual_seed(seed)
     save_tsh_calo_candidate(path, TSHCALOPolicyNetwork(hidden_dim=16), _provenance())
     return path
+
+
+def _ensemble(tmp_path: Path) -> Path:
+    first = _candidate(tmp_path / "member-1.pt", seed=17)
+    second = _candidate(tmp_path / "member-2.pt", seed=23)
+    return Path(
+        assemble_tsh_calo_ensemble_candidate(
+            tmp_path / "ensemble.pt",
+            [
+                (first, inspect_tsh_calo_candidate(first).sha256),
+                (second, inspect_tsh_calo_candidate(second).sha256),
+            ],
+        ).path
+    )
 
 
 def test_candidate_export_is_exact_versioned_unqualified_and_loadable(tmp_path):
@@ -71,9 +87,21 @@ def test_protected_holdout_is_rejected_before_candidate_export(tmp_path):
     assert not (tmp_path / "leaked.pt").exists()
 
 
+def test_ensemble_assembly_preserves_independent_member_provenance(tmp_path):
+    path = _ensemble(tmp_path)
+    artifact = inspect_tsh_calo_candidate(path)
+    networks, loaded = load_tsh_calo_ensemble(path, expected_sha256=artifact.sha256, device="cpu")
+
+    assert artifact.artifact_kind == "ensemble_policy"
+    assert artifact.ensemble_size == len(networks) == 2
+    assert loaded == artifact
+    assert artifact.training_provenance["source_kind"] == "independent_policy_training_ensemble"
+    assert len(artifact.training_provenance["members"]) == 2
+
+
 def test_registry_keeps_tsh_candidate_separate_from_frozen_calo_runtime(tmp_path):
     registry = PolicyRegistry(ResultDatabase(tmp_path / "results.sqlite"))
-    policy = registry.register(_candidate(tmp_path / "candidate.pt"), name="TSH candidate")
+    policy = registry.register(_ensemble(tmp_path), name="TSH ensemble")
 
     assert policy.algorithm_id == TSH_CALO_ALGORITHM_ID
     assert policy.qualification_status == "candidate"
@@ -88,7 +116,7 @@ def test_registry_keeps_tsh_candidate_separate_from_frozen_calo_runtime(tmp_path
 def test_qualified_tsh_policy_activation_and_binding_are_explicit_and_immutable(tmp_path):
     database = ResultDatabase(tmp_path / "results.sqlite")
     registry = PolicyRegistry(database)
-    policy = registry.register(_candidate(tmp_path / "candidate.pt"), name="TSH candidate")
+    policy = registry.register(_ensemble(tmp_path), name="TSH ensemble")
     database.add_policy_qualification(
         qualification_id="qualification-001",
         policy_id=policy.id,
@@ -111,7 +139,11 @@ def test_qualified_tsh_policy_activation_and_binding_are_explicit_and_immutable(
     assert binding["policy_algorithm_id"] == TSH_CALO_ALGORITHM_ID
     assert binding["policy_sha256"] == policy.sha256
     assert binding["policy_feature_flags"]["population_schedule"] is False
-    assert binding["policy_training_provenance"]["source_kind"] == "independent_policy_training"
+    assert (
+        binding["policy_training_provenance"]["source_kind"]
+        == "independent_policy_training_ensemble"
+    )
+    assert binding["policy_ensemble_size"] == 2
     assert "policy_id" not in config.algorithm_parameters.get("CALO", {})
     assert config.algorithm_parameters[TSH_CALO_ALGORITHM_ID]["policy_id"] == policy.id
 
@@ -134,8 +166,7 @@ def test_tsh_registration_cannot_self_qualify_or_accept_an_incompatible_abi(tmp_
 def test_registered_artifact_mutation_blocks_tsh_activation(tmp_path):
     database = ResultDatabase(tmp_path / "results.sqlite")
     registry = PolicyRegistry(database)
-    path = _candidate(tmp_path / "candidate.pt")
-    policy = registry.register(path)
+    policy = registry.register(_ensemble(tmp_path))
     database.add_policy_qualification(
         qualification_id="qualification-001",
         policy_id=policy.id,
@@ -144,6 +175,7 @@ def test_registered_artifact_mutation_blocks_tsh_activation(tmp_path):
         score=80.0,
         qualification_status="qualified",
     )
+    path = Path(policy.checkpoint_path)
     payload = torch.load(path, map_location="cpu", weights_only=True)
     first = next(iter(payload["model_state_dict"]))
     payload["model_state_dict"][first] = payload["model_state_dict"][first] + 1.0

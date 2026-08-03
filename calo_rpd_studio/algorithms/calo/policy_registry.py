@@ -205,6 +205,11 @@ class PolicyRegistry:
         policy = self.get(policy_id)
         if algorithm_id == TSH_CALO_ALGORITHM_ID and allow_unqualified:
             raise ValueError("TSH-CALO policies cannot be activated before qualification")
+        if (
+            algorithm_id == TSH_CALO_ALGORITHM_ID
+            and int(policy.metadata.get("ensemble_size", 1)) < 2
+        ):
+            raise ValueError("TSH-CALO activation requires a qualified epistemic ensemble artifact")
         if not policy.usable:
             raise ValueError(
                 f"Policy {policy.name!r} is archived or its checkpoint file is unavailable"
@@ -286,6 +291,13 @@ class PolicyRegistry:
         policy = self.get(policy_id)
         if algorithm_id == TSH_CALO_ALGORITHM_ID and allow_unqualified:
             raise ValueError("TSH-CALO experiments cannot consume an unqualified policy")
+        if (
+            algorithm_id == TSH_CALO_ALGORITHM_ID
+            and int(policy.metadata.get("ensemble_size", 1)) < 2
+        ):
+            raise ValueError("TSH-CALO experiments require an activated epistemic ensemble")
+        if algorithm_id == TSH_CALO_ALGORITHM_ID and not policy.active:
+            raise ValueError("TSH-CALO experiments require the explicitly activated ensemble")
         if not policy.usable:
             raise ValueError(
                 f"Policy {policy.name!r} is archived or its checkpoint file is unavailable"
@@ -318,14 +330,23 @@ class PolicyRegistry:
             "policy_training_environment_version": policy.training_environment_version,
             "policy_qualification_status": policy.qualification_status,
             "policy_grade": policy.grade,
+            "policy_active_at_binding": bool(policy.active),
             "deterministic_policy": bool(deterministic),
             "strict_policy_binding": True,
             "allow_unqualified_policy": bool(allow_unqualified),
         }
         if policy.algorithm_id == TSH_CALO_ALGORITHM_ID:
             binding["policy_feature_flags"] = dict(policy.metadata.get("feature_flags", {}))
-            binding["policy_training_provenance"] = dict(
-                policy.metadata.get("training_provenance", {})
+            binding["policy_artifact_kind"] = str(policy.metadata.get("artifact_kind", ""))
+            binding["policy_ensemble_size"] = int(policy.metadata.get("ensemble_size", 1))
+            binding["policy_ensemble_members"] = list(policy.metadata.get("ensemble_members", []))
+            binding["policy_training_provenance"] = (
+                {
+                    "source_kind": "independent_policy_training_ensemble",
+                    "members": list(policy.metadata.get("ensemble_members", [])),
+                }
+                if binding["policy_artifact_kind"] == "ensemble_policy"
+                else dict(policy.metadata.get("training_provenance", {}))
             )
         parameters.update(binding)
         config.algorithm_parameters[algorithm_id] = parameters
