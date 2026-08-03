@@ -51,7 +51,7 @@ Status vocabulary:
 | Requirement | Status | Authoritative evidence | Remaining proof |
 |---|---|---|---|
 | Explain final runtime/training architecture before changing CALO semantics | Approved / confirmation complete | Exact 2026-08-03 decision “Approve TSH-CALO A–E, with F experimental and evidence-gated”; `CALO_ARCHITECTURE_CHANGE_PROPOSAL.md`; nine-part pre-implementation confirmation | Preserve the recorded boundary; deviations require new approval |
-| Canonical runtime/training transition authority | Approved; implementation in progress | Approved Change A | Seeded zero-difference gate must pass before B–F |
+| Canonical runtime/training transition authority | Locally verified | `algorithms/calo/transition_kernel.py`; shared runtime/training authority invariant; native one-step parity; 22 frozen seeded optimizer snapshot/exact-budget cases; 45-test CALO/continuation focus; complete active tree 461 passed, 63 skipped | Retain parity in every later B–F stage and execute external CPU/CUDA qualification |
 | Topology context, hierarchical actions, and uncertainty/bandit shield | Approved; not yet implemented | Approved Changes B–D | Versioned implementation, training, ablations, protected tests |
 | Physics-informed repair | Approved; not yet implemented | Approved Change E | Separate flag and incremental-value ablation |
 | Evidence-driven population schedule | Approved experimental; disabled by default | Approved Change F with evidence gate | Must earn inclusion through anytime/feasibility evidence without unacceptable cost/regression |
@@ -63,7 +63,7 @@ Status vocabulary:
 
 ## Current verification checkpoint
 
-- Active development suite: **453 passed, 63 skipped**.
+- Active development suite after Change A: **461 passed, 63 skipped**.
 - Repository Ruff lint and format: **pass**.
 - Generated experiment schema: **current**.
 - Focused automatic scheduling/configuration/GUI set: **54 passed**.
@@ -78,5 +78,6 @@ The exact decision was recorded on 2026-08-03:
 
 > Approve TSH-CALO A–E, with F experimental and evidence-gated.
 
-The next legal step is Change A only: extract the canonical transition authority and prove seeded
-zero-difference behavior against the frozen baseline before introducing any B–F semantics.
+Change A's local seeded zero-difference gate is complete. The next legal step is Change B's new,
+versioned graph-state contract; later components remain ordered and F remains experimental and
+disabled by default.

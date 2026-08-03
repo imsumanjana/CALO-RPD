@@ -5,6 +5,10 @@ evidence-gated.” A–E are authorized for careful production-candidate impleme
 authorized only behind an independent flag, disabled by default, and may be retained only if its
 preregistered ablation and falsification evidence passes. This record does not itself claim that any
 component has been implemented or scientifically validated.
+
+**Implementation ledger:** Change A was subsequently extracted and passed the repository's seeded
+runtime/training, frozen optimizer snapshot/exact-budget, continuation, kernel-invariant and complete
+active-tree regression gates. Changes B–F remain unimplemented at this record point.
 **Decision owner:** user/project scientific lead
 **Proposed working name:** Topology-Aware Shielded Hierarchical CALO (TSH-CALO)
 

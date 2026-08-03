@@ -196,6 +196,12 @@ Do not treat “make it stronger” or general approval in principle as the exac
 
 ### G9 — implement the approved TSH-CALO architecture
 
+**Continuation progress:** Change A is locally complete. Runtime CALO and independent PPO rollouts
+share `calo_rpd_studio/algorithms/calo/transition_kernel.py`. Direct evidence is 461 passed and 63
+skipped on the complete active tree, 45 focused CALO/parity/continuation tests, 22 frozen seeded
+optimizer snapshot/exact-budget cases, and eight dedicated kernel invariants. This is parity/refactor
+evidence only; B–F, a fresh policy, qualification, and ablation evidence remain absent.
+
 Required order after approval:
 
 1. Extract the canonical transition kernel with **zero behavior change**.

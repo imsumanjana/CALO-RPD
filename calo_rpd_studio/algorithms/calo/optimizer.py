@@ -27,7 +27,6 @@ import numpy as np
 
 from calo_rpd_studio.algorithms.base_optimizer import BaseOptimizer
 from calo_rpd_studio.accelerated.scratch_pool import ScratchPool
-from calo_rpd_studio.orpd.feasibility_rules import better
 from calo_rpd_studio.orpd.formulation_fingerprint import scientific_problem_fingerprint
 from .adaptive_epsilon import AdaptiveEpsilonController
 from .ai_controller import AIController, PARAMETER_HIGH, PARAMETER_LOW, PARAMETER_NAMES
@@ -41,19 +40,10 @@ from .cognitive_state import (
 from .contextual_credit import ContextualCredit, classify_contexts
 from .diagnostics import CONSTRAINT_COMPONENTS, diagnostic_history_template, population_diagnostics
 from .dual_lane_controller import DualLaneController
-from .environmental_selection import environmental_select, epsilon_better, epsilon_sort_key
+from .environmental_selection import epsilon_sort_key
 from .evaluation_cache import ExactEvaluationCache
 from .hierarchical_memory import HierarchicalPrefixEliteMemory
-from .learning_operators import (
-    OPERATOR_NAMES,
-    cognitive_teacher_learning,
-    constraint_boundary_differential,
-    diversity_recovery,
-    feasible_elite_learning,
-    mixed_variable_neighbourhood,
-    success_distribution_memory,
-)
-from .operator_credit import blend_probabilities
+from .learning_operators import OPERATOR_NAMES
 from .precision_engine import CognitivePrecisionEngine
 from .policy_schema import (
     PolicyRuntimeContext,
@@ -61,34 +51,16 @@ from .policy_schema import (
     build_policy_vector,
     POLICY_STATE_DIM,
 )
-from .reward import calculate_reward
 from .success_memory import SuccessMemory
 from .tensor_state import CALOTensorState
 from .run_checkpoint import save_exact_run_checkpoint, load_exact_run_checkpoint
+from .transition_kernel import (
+    complete_transition,
+    evaluate_candidates,
+    generate_offspring,
+    normalise_probabilities,
+)
 from .variable_intelligence import VariableGroupIntelligence
-
-
-REGIME_OPERATOR_PRIORS = np.asarray(
-    [
-        [0.05, 0.33, 0.12, 0.08, 0.30, 0.12],  # feasibility
-        [0.18, 0.24, 0.18, 0.14, 0.18, 0.08],  # transition
-        [0.34, 0.08, 0.22, 0.20, 0.12, 0.04],  # objective refinement
-        [0.08, 0.15, 0.10, 0.10, 0.12, 0.45],  # recovery
-    ],
-    dtype=float,
-)
-
-REGIME_MEMORY_PRIORS = np.asarray(
-    [
-        [0.05, 0.15, 0.30, 0.50],  # feasibility: preserve broad routes
-        [0.10, 0.25, 0.40, 0.25],  # transition: structural memory dominates
-        [0.40, 0.35, 0.20, 0.05],  # objective: anchor + local elite geometry
-        [0.05, 0.10, 0.20, 0.65],  # recovery: diverse Best-7 knowledge
-    ],
-    dtype=float,
-)
-DISCOVERY_OPERATOR_PRIOR = np.asarray([0.05, 0.28, 0.08, 0.05, 0.22, 0.32], dtype=float)
-DISCOVERY_MEMORY_PRIOR = np.asarray([0.03, 0.07, 0.25, 0.65], dtype=float)
 
 
 class CALOOptimizer(BaseOptimizer):
@@ -96,177 +68,8 @@ class CALOOptimizer(BaseOptimizer):
     supports_exact_resume = True
 
     @staticmethod
-    def _rule_operator_probabilities(regime: int) -> np.ndarray:
-        values = REGIME_OPERATOR_PRIORS[int(regime)].copy()
-        return values / values.sum()
-
-    @staticmethod
     def _normalise(values: np.ndarray) -> np.ndarray:
-        values = np.asarray(values, dtype=float)
-        values = np.where(np.isfinite(values) & (values >= 0.0), values, 0.0)
-        total = float(values.sum())
-        return values / total if total > 0.0 else np.full(values.shape, 1.0 / len(values))
-
-    def _select_distinct(
-        self, population: np.ndarray, index: int, count: int = 2
-    ) -> list[np.ndarray]:
-        candidates = [i for i in range(len(population)) if i != index]
-        if len(candidates) < count:
-            return [population[index].copy() for _ in range(count)]
-        chosen = self.rng.choice(candidates, size=count, replace=False)
-        return [population[int(i)].copy() for i in chosen]
-
-    @staticmethod
-    def _individual_regime(global_regime: int, context: int) -> int:
-        # Global policy remains authoritative unless a learner's feasibility state makes
-        # that regime inappropriate.  This is compact per-individual cognition, not a
-        # second independent policy network.
-        if context == 3:
-            return 3  # infeasible and stagnated -> recovery
-        if context == 2 and global_regime >= 2:
-            return 1  # infeasible but improving -> transition learning
-        if context <= 1 and global_regime == 0:
-            return 1  # already feasible -> do not keep treating learner as infeasible
-        return int(global_regime)
-
-    @staticmethod
-    def _focus_to_group(
-        x: np.ndarray, candidate: np.ndarray, mask: np.ndarray, operator: int
-    ) -> np.ndarray:
-        if operator == 5 or not np.any(mask):
-            return np.clip(candidate, 0.0, 1.0)
-        focused = np.asarray(x, float).copy()
-        focused[mask] = np.asarray(candidate, float)[mask]
-        return np.clip(focused, 0.0, 1.0)
-
-    def _candidate(
-        self,
-        operator: int,
-        index: int,
-        state: CALOTensorState,
-        memory: SuccessMemory,
-        hpem: HierarchicalPrefixEliteMemory,
-        feasible_archive: FeasibleEliteArchive,
-        boundary_archive: ConstraintBoundaryArchive,
-        parameters: dict[str, float],
-        regime: int,
-        context: int,
-        memory_level: int,
-        memory_direction: np.ndarray,
-        group: int,
-        group_intelligence: VariableGroupIntelligence,
-        learned_lane: bool,
-        *,
-        r1: np.ndarray | None = None,
-        r2: np.ndarray | None = None,
-        best: np.ndarray | None = None,
-        mean: np.ndarray | None = None,
-        variables=None,
-    ) -> np.ndarray:
-        population = state.population
-        evaluations = state.evaluations
-        x = population[index]
-        if r1 is None or r2 is None:
-            r1, r2 = self._select_distinct(population, index, 2)
-        if best is None:
-            best = population[self.order(evaluations)[0]]
-        if mean is None:
-            mean = population.mean(axis=0)
-        feasible_teacher = feasible_archive.sample(self.rng, best)
-        boundary_teacher = boundary_archive.sample(self.rng, best)
-        memory_teacher = (
-            np.clip(x + np.asarray(memory_direction, dtype=float), 0.0, 1.0)
-            if len(hpem)
-            else feasible_teacher
-        )
-        if variables is None:
-            variables = getattr(getattr(self.problem, "decoder", None), "variables", None)
-        group_mask = group_intelligence.mask(group, self.problem.dimension)
-
-        if operator == 0:
-            teacher = (
-                memory_teacher
-                if learned_lane and len(hpem)
-                else (feasible_teacher if len(feasible_archive) else boundary_teacher)
-            )
-            candidate = feasible_elite_learning(
-                x,
-                teacher,
-                r1,
-                r2,
-                self.rng,
-                parameters["attraction"],
-                parameters["differential"],
-            )
-        elif operator == 1:
-            candidate = constraint_boundary_differential(
-                x,
-                boundary_teacher,
-                r1,
-                r2,
-                self.rng,
-                parameters["attraction"],
-                parameters["differential"],
-            )
-        elif operator == 2:
-            if learned_lane and len(hpem):
-                teacher = memory_teacher
-            else:
-                teacher = (
-                    feasible_teacher if regime >= 2 and len(feasible_archive) else boundary_teacher
-                )
-            candidate = cognitive_teacher_learning(
-                x,
-                teacher,
-                mean,
-                self.rng,
-                parameters["attraction"],
-                0.35 * parameters["exploration_sigma"],
-            )
-        elif operator == 3:
-            direction = memory.sample_direction(
-                self.problem.dimension,
-                self.rng,
-                prefer_feasibility=regime <= 1,
-                regime=regime,
-                context=context,
-                group=group,
-            )
-            candidate = success_distribution_memory(
-                x,
-                state.personal_best[index],
-                direction,
-                self.rng,
-                0.55,
-                parameters["memory_weight"],
-            )
-            if learned_lane and len(hpem):
-                candidate = np.clip(
-                    candidate + 0.12 * parameters["attraction"] * (memory_teacher - candidate),
-                    0.0,
-                    1.0,
-                )
-        elif operator == 4:
-            candidate = mixed_variable_neighbourhood(
-                x,
-                variables,
-                self.rng,
-                continuous_sigma=max(parameters["exploration_sigma"] * 0.35, 0.004),
-                discrete_radius=2 if regime == 3 else 1,
-            )
-        else:
-            reference = (
-                boundary_teacher
-                if regime <= 1
-                else (hpem.summary(3, feasible_teacher) if len(hpem) else feasible_teacher)
-            )
-            candidate = diversity_recovery(
-                reference,
-                population,
-                self.rng,
-                sigma=max(parameters["exploration_sigma"], 0.05),
-            )
-        return self._focus_to_group(x, candidate, group_mask, operator)
+        return normalise_probabilities(values)
 
     def _historical_learning_setup(
         self, parameters: dict
@@ -942,292 +745,113 @@ class CALOOptimizer(BaseOptimizer):
                 forced_recovery_evaluations += count
 
             _candidate_started = time.perf_counter()
-            offspring = scratch.get("offspring", state.population.shape, np.float64)
-            assigned_operators = np.full(population_size, -1, dtype=np.int8)
-            assigned_memory = np.zeros(population_size, dtype=np.int8)
-            assigned_groups = np.zeros(population_size, dtype=np.int8)
-            individual_regimes = np.zeros(population_size, dtype=np.int8)
-            precision_mask = np.zeros(population_size, dtype=bool)
-
+            offspring_buffer = scratch.get("offspring", state.population.shape, np.float64)
             ai_policy_weight = float(np.clip(parameters.get("ai_policy_weight", 0.35), 0.0, 1.0))
             ai_credit_blend = float(np.clip(parameters.get("ai_credit_blend", 0.65), 0.0, 1.0))
-            hierarchy = hpem.hierarchy() if len(hpem) else np.zeros((4, self.problem.dimension))
-            # One temporary 3D broadcast fuses all learner-to-memory directions [P,4,D].
-            # The scratch buffer is reused every batch and is never historized.
-            memory_directions = scratch.get(
-                "memory_directions",
-                (population_size, 4, self.problem.dimension),
-                np.float64,
-            )
-            np.subtract(
-                hierarchy[None, :, :],
-                state.population[:, None, :],
-                out=memory_directions,
-            )
             quality_order = self.order(state.evaluations)
-            batch_best = state.population[quality_order[0]]
-            batch_mean = state.population.mean(axis=0)
             batch_variables = getattr(getattr(self.problem, "decoder", None), "variables", None)
-
-            for index in range(population_size):
-                context = int(contexts[index])
-                regime = self._individual_regime(global_regime, context)
-                individual_regimes[index] = regime
-                learned_lane = bool(lanes[index])
-
-                memory_prior = REGIME_MEMORY_PRIORS[regime].copy()
-                if not learned_lane:
-                    memory_prior = DISCOVERY_MEMORY_PRIOR.copy()
-                memory_online = credit.memory_probabilities(regime, context)
-                memory_probabilities = blend_probabilities(memory_prior, memory_online, alpha=0.65)
-                memory_level = (
-                    int(np.argmax(memory_probabilities))
-                    if environment_deterministic
-                    else int(self.rng.choice(4, p=memory_probabilities))
-                )
-                assigned_memory[index] = memory_level
-
-                group = (
-                    group_intelligence.choose(regime, self.rng, environment_deterministic)
-                    if use_variable_intelligence
-                    else -1
-                )
-                assigned_groups[index] = group
-
-                should_precision = (
-                    precision_active
-                    and learned_lane
-                    and index not in forced_recovery
-                    and (
-                        environment_deterministic
-                        and index < int(round(population_size * precision_fraction))
-                        or (
-                            not environment_deterministic and self.rng.random() < precision_fraction
-                        )
-                    )
-                )
-                if should_precision and len(hpem):
-                    success_direction = memory.mean_direction(
-                        self.problem.dimension,
-                        regime=regime,
-                        context=context,
-                        group=group,
-                    )
-                    group_mask = group_intelligence.mask(group, self.problem.dimension)
-                    offspring[index] = precision.propose(
-                        hpem.best_vector,
-                        hierarchy,
-                        success_direction,
-                        variables,
-                        group_mask,
-                        self.rng,
-                        consensus,
-                    )
-                    precision_mask[index] = True
-                    continue
-
-                if native_v59_policy and decision is not None:
-                    # The raw neural operator is authoritative for ordinary learners. Contextual
-                    # credit, rule priors and discovery priors remain diagnostics/learning memory;
-                    # they do not silently redefine the PPO action. Precision and forced recovery
-                    # are explicit interventions recorded separately below.
-                    raw_operator = int(decision.operator)
-                    operator_probabilities = ai_operator_probabilities.copy()
-                    if (raw_operator == 4 and not use_mixed_variable) or (
-                        raw_operator == 5 and not use_diversity_recovery
-                    ):
-                        allowed = np.ones(6, dtype=float)
-                        if not use_mixed_variable:
-                            allowed[4] = 0.0
-                        if not use_diversity_recovery:
-                            allowed[5] = 0.0
-                        masked = self._normalise(operator_probabilities * allowed)
-                        raw_operator = int(np.argmax(masked))
-                else:
-                    base_prior = self._rule_operator_probabilities(regime)
-                    learned_policy = self._normalise(
-                        ai_policy_weight * ai_operator_probabilities
-                        + (1.0 - ai_policy_weight) * base_prior
-                    )
-                    online = (
-                        credit.operator_probabilities(regime, context)
-                        if use_contextual_credit
-                        else np.full(6, 1.0 / 6.0)
-                    )
-                    operator_probabilities = blend_probabilities(
-                        learned_policy,
-                        online,
-                        alpha=ai_credit_blend,
-                    )
-                    if not learned_lane:
-                        operator_probabilities = self._normalise(
-                            0.45 * operator_probabilities + 0.55 * DISCOVERY_OPERATOR_PRIOR
-                        )
-                    if not use_mixed_variable:
-                        operator_probabilities[4] = 0.0
-                    if not use_diversity_recovery:
-                        operator_probabilities[5] = 0.0
-                    operator_probabilities = self._normalise(operator_probabilities)
-                    raw_operator = (
-                        int(np.argmax(operator_probabilities))
-                        if environment_deterministic
-                        else int(self.rng.choice(6, p=operator_probabilities))
-                    )
-
-                if index in forced_recovery:
-                    operator = 5
-                    lanes[index] = 0
-                    assigned_memory[index] = 3
-                else:
-                    operator = int(raw_operator)
-                assigned_operators[index] = operator
-                offspring[index] = self._candidate(
-                    operator,
-                    index,
-                    state,
-                    memory,
-                    hpem,
-                    feasible_archive,
-                    boundary_archive,
-                    adaptive,
-                    regime,
-                    context,
-                    int(assigned_memory[index]),
-                    memory_directions[index, int(assigned_memory[index])],
-                    group,
-                    group_intelligence,
-                    bool(lanes[index]),
-                    best=batch_best,
-                    mean=batch_mean,
-                    variables=batch_variables,
-                )
+            candidate_batch = generate_offspring(
+                population=state.population,
+                evaluations=state.evaluations,
+                personal_best=state.personal_best,
+                rng=self.rng,
+                dimension=self.problem.dimension,
+                variables=batch_variables,
+                quality_order=quality_order,
+                contexts=contexts,
+                learned_lanes=lanes,
+                global_regime=global_regime,
+                raw_operator=int(decision.operator) if decision is not None else -1,
+                native_policy=bool(native_v59_policy and decision is not None),
+                ai_operator_probabilities=ai_operator_probabilities,
+                adaptive=adaptive,
+                memory=memory,
+                hpem=hpem,
+                feasible_archive=feasible_archive,
+                boundary_archive=boundary_archive,
+                credit=credit,
+                group_intelligence=group_intelligence,
+                precision=precision,
+                precision_active=precision_active,
+                precision_fraction=precision_fraction,
+                forced_recovery=forced_recovery,
+                consensus=consensus,
+                environment_deterministic=environment_deterministic,
+                use_mixed_variable=use_mixed_variable,
+                use_diversity_recovery=use_diversity_recovery,
+                use_contextual_credit=use_contextual_credit,
+                use_variable_intelligence=use_variable_intelligence,
+                ai_policy_weight=ai_policy_weight,
+                ai_credit_blend=ai_credit_blend,
+                out=offspring_buffer,
+            )
+            offspring = candidate_batch.offspring
+            assigned_operators = candidate_batch.assigned_operators
+            assigned_memory = candidate_batch.assigned_memory
+            assigned_groups = candidate_batch.assigned_groups
+            individual_regimes = candidate_batch.individual_regimes
+            precision_mask = candidate_batch.precision_mask
+            lanes = candidate_batch.learned_lanes
             candidate_generation_seconds += time.perf_counter() - _candidate_started
 
             _evaluation_started = time.perf_counter()
-            offspring_evaluations = (
-                cache.evaluate_requests(self, offspring)
-                if use_evaluation_cache
-                else self.evaluate_population(offspring)
+            evaluation_batch = evaluate_candidates(
+                offspring,
+                lambda values: (
+                    cache.evaluate_requests(self, values)
+                    if use_evaluation_cache
+                    else self.evaluate_population(values)
+                ),
             )
             evaluator_seconds += time.perf_counter() - _evaluation_started
-            if len(offspring_evaluations) != len(offspring):
+            offspring_evaluations = evaluation_batch.evaluations
+            if not evaluation_batch.complete:
                 break
 
             _learning_started = time.perf_counter()
-            successful = np.zeros(population_size, dtype=bool)
-            objective_gain = np.zeros(population_size, dtype=float)
-            feasibility_gain = np.zeros(population_size, dtype=float)
-            feasibility_transition = np.zeros(population_size, dtype=float)
-            step_norm = np.linalg.norm(offspring - state.population, axis=1)
-            offspring_pb = state.personal_best.copy()
-            offspring_pb_ev = list(state.personal_best_evaluations)
-
-            precision_batch_success = 0
-            precision_batch_attempts = int(np.count_nonzero(precision_mask))
-            precision_evaluations += precision_batch_attempts
-
-            for index, (child, child_ev) in enumerate(zip(offspring, offspring_evaluations)):
-                parent_ev = state.evaluations[index]
-                successful[index] = epsilon_better(child_ev, parent_ev, epsilon)
-                if parent_ev.feasible and child_ev.feasible and np.isfinite(parent_ev.value):
-                    objective_gain[index] = max(
-                        (float(parent_ev.value) - float(child_ev.value))
-                        / max(abs(float(parent_ev.value)), 1.0),
-                        0.0,
-                    )
-                parent_violation = float(parent_ev.violation)
-                child_violation = float(child_ev.violation)
-                if np.isposinf(parent_violation) and np.isfinite(child_violation):
-                    feasibility_gain[index] = np.inf
-                elif np.isfinite(parent_violation) and np.isfinite(child_violation):
-                    feasibility_gain[index] = max(parent_violation - child_violation, 0.0)
-                feasibility_transition[index] = float(not parent_ev.feasible and child_ev.feasible)
-
-                # Persistent pbest uses exact common feasibility-first dominance, not temporary
-                # epsilon-feasibility, so a feasible personal record cannot be replaced by a merely
-                # epsilon-feasible point with a lower raw objective.
-                if better(child_ev, offspring_pb_ev[index]):
-                    offspring_pb[index] = child.copy()
-                    offspring_pb_ev[index] = child_ev
-
-                if successful[index] and use_memory:
-                    memory_operator = 6 if precision_mask[index] else int(assigned_operators[index])
-                    memory.add(
-                        child - state.population[index],
-                        memory_operator,
-                        objective_gain[index],
-                        feasibility_gain[index],
-                        regime=int(individual_regimes[index]),
-                        context=int(contexts[index]),
-                        group=int(assigned_groups[index]),
-                    )
-                if precision_mask[index] and successful[index]:
-                    precision_batch_success += 1
-
-            if use_contextual_credit:
-                credit.batch_update(
-                    individual_regimes,
-                    contexts,
-                    assigned_operators,
-                    assigned_memory,
-                    successful,
-                    objective_gain,
-                    feasibility_gain,
-                    feasibility_transition,
-                )
-            if use_variable_intelligence:
-                group_intelligence.batch_update(
-                    individual_regimes,
-                    assigned_groups,
-                    successful,
-                    objective_gain,
-                    feasibility_gain,
-                    step_norm,
-                )
-            precision.update(precision_batch_attempts, precision_batch_success)
-            precision_successes += precision_batch_success
-
-            combined_population = np.vstack([state.population, offspring])
-            combined_evaluations = list(state.evaluations) + list(offspring_evaluations)
-            _, _, selected_indices = environmental_select(
-                combined_population,
-                combined_evaluations,
-                population_size,
-                epsilon,
+            transition = complete_transition(
+                population=state.population,
+                evaluations=state.evaluations,
+                personal_best=state.personal_best,
+                personal_best_evaluations=state.personal_best_evaluations,
+                offspring=offspring,
+                offspring_evaluations=offspring_evaluations,
+                epsilon=epsilon,
+                assigned_operators=assigned_operators,
+                assigned_memory=assigned_memory,
+                assigned_groups=assigned_groups,
+                individual_regimes=individual_regimes,
+                contexts=contexts,
+                precision_mask=precision_mask,
+                memory=memory,
+                credit=credit,
+                group_intelligence=group_intelligence,
+                precision=precision,
+                feasible_archive=feasible_archive,
+                boundary_archive=boundary_archive,
+                hpem=hpem,
+                old_diagnostics=current_diag,
+                old_diversity=current_diversity,
                 diversity_weight=float(adaptive["diversity_weight"]),
-                return_indices=True,
+                population_size=population_size,
+                use_memory=use_memory,
+                use_contextual_credit=use_contextual_credit,
+                use_variable_intelligence=use_variable_intelligence,
+                use_dual_archives=use_dual_archives,
+                use_hpem=use_hpem,
             )
+            precision_evaluations += transition.precision_attempts
+            precision_successes += transition.precision_successes
             state.select_from_combined(
-                combined_population,
-                combined_evaluations,
-                selected_indices,
-                offspring_pb,
-                offspring_pb_ev,
+                transition.combined_population,
+                transition.combined_evaluations,
+                transition.selected_indices,
+                transition.offspring_personal_best,
+                transition.offspring_personal_best_evaluations,
             )
-
-            if use_dual_archives:
-                feasible_archive.update(combined_population, combined_evaluations)
-                boundary_archive.update(combined_population, combined_evaluations)
-            else:
-                feasible_archive.entries = []
-                boundary_archive.entries = []
-                feasible_archive.update(state.population, state.evaluations)
-                boundary_archive.update(state.population, state.evaluations)
-            if use_hpem:
-                hpem.update(combined_population, combined_evaluations)
-
-            new_diag = population_diagnostics(state.evaluations, epsilon)
-            new_diversity = population_diversity(state.population)
-            reward = calculate_reward(
-                current_diag.best_feasible_objective,
-                new_diag.best_feasible_objective,
-                current_diag.best_violation,
-                new_diag.best_violation,
-                current_diag.feasible_ratio,
-                new_diag.feasible_ratio,
-                current_diversity,
-                new_diversity,
-            )
+            new_diag = transition.new_diagnostics
+            new_diversity = transition.new_diversity
+            reward = transition.reward
             reward_history.append(float(reward.total))
 
             violation_improving = new_diag.best_violation < current_diag.best_violation - 1e-12

@@ -41,15 +41,8 @@ from .cognitive_state import (
     population_diversity,
     rule_based_regime_prior,
 )
-from .environmental_selection import environmental_select, epsilon_better, epsilon_sort_key
-from .learning_operators import (
-    cognitive_teacher_learning,
-    constraint_boundary_differential,
-    diversity_recovery,
-    feasible_elite_learning,
-    mixed_variable_neighbourhood,
-    success_distribution_memory,
-)
+from .diagnostics import population_diagnostics
+from .environmental_selection import epsilon_sort_key
 from .contextual_credit import ContextualCredit, classify_contexts
 from .hierarchical_memory import HierarchicalPrefixEliteMemory
 from .variable_intelligence import VariableGroupIntelligence
@@ -57,9 +50,6 @@ from .dual_lane_controller import DualLaneController
 from .precision_engine import CognitivePrecisionEngine
 from .adaptive_epsilon import AdaptiveEpsilonController
 from .ai_controller import PARAMETER_LOW, PARAMETER_HIGH
-from .operator_credit import blend_probabilities
-from .reward import calculate_reward
-from calo_rpd_studio.orpd.feasibility_rules import better
 from calo_rpd_studio.power_system.case_identity import protected_holdout_matches
 from .policy_schema import (
     POLICY_STATE_DIM,
@@ -73,6 +63,7 @@ from .policy_schema import (
 )
 from .policy_network import CALOPolicyNetwork
 from .success_memory import SuccessMemory
+from .transition_kernel import complete_transition, evaluate_candidates, generate_offspring
 
 _LOG = logging.getLogger(__name__)
 
@@ -424,29 +415,6 @@ class SyntheticCALOEnvironment:
         cognitive = self.state(horizon)
         return build_policy_vector(cognitive, self._last_context, input_dim=POLICY_STATE_DIM)
 
-    @staticmethod
-    def _individual_regime(global_regime: int, context: int) -> int:
-        if int(context) == 3:
-            return 3
-        if int(context) == 2 and int(global_regime) >= 2:
-            return 1
-        if int(context) <= 1 and int(global_regime) == 0:
-            return 1
-        return int(global_regime)
-
-    @staticmethod
-    def _memory_prior(regime: int) -> np.ndarray:
-        priors = np.asarray(
-            [
-                [0.05, 0.15, 0.30, 0.50],
-                [0.10, 0.25, 0.40, 0.25],
-                [0.40, 0.35, 0.20, 0.05],
-                [0.05, 0.10, 0.20, 0.65],
-            ],
-            dtype=float,
-        )
-        return priors[int(regime)].copy()
-
     def step(self, regime: int, operator: int, raw_parameters: np.ndarray, horizon: int) -> float:
         """Execute one native-v5.9 CALO controller transition.
 
@@ -476,7 +444,6 @@ class SyntheticCALOEnvironment:
             range(self.population_size),
             key=lambda i: epsilon_sort_key(self.evaluations[i], epsilon),
         )
-        best = self.population[quality_order[0]]
         consensus = self.hpem.consensus(mean) if len(self.hpem) else 0.0
         _evaluations, _max_evaluations, progress, batch_count = self._runtime_clock(horizon)
         readiness = self.lane_controller.memory_readiness(
@@ -541,270 +508,98 @@ class SyntheticCALOEnvironment:
         variables = getattr(getattr(self.problem, "decoder", None), "variables", None) or getattr(
             self.problem, "variables", []
         )
-        hierarchy = (
-            self.hpem.hierarchy() if len(self.hpem) else np.zeros((4, self.problem.dimension))
+        ai_operator_probabilities = np.zeros(6, dtype=float)
+        ai_operator_probabilities[int(operator)] = 1.0
+        candidate_batch = generate_offspring(
+            population=self.population,
+            evaluations=self.evaluations,
+            personal_best=self.personal_best,
+            rng=self.rng,
+            dimension=self.problem.dimension,
+            variables=variables,
+            quality_order=quality_order,
+            contexts=contexts,
+            learned_lanes=learned_lanes,
+            global_regime=int(regime),
+            raw_operator=int(operator),
+            native_policy=True,
+            ai_operator_probabilities=ai_operator_probabilities,
+            adaptive=adaptive,
+            memory=self.memory,
+            hpem=self.hpem,
+            feasible_archive=self.feasible_archive,
+            boundary_archive=self.boundary_archive,
+            credit=self.credit,
+            group_intelligence=self.group_intelligence,
+            precision=self.precision,
+            precision_active=precision_active,
+            precision_fraction=precision_fraction,
+            forced_recovery=forced_recovery,
+            consensus=consensus,
+            environment_deterministic=False,
         )
-        offspring = np.empty_like(self.population)
-        assigned_memory = np.zeros(self.population_size, dtype=np.int8)
-        assigned_groups = np.zeros(self.population_size, dtype=np.int8)
-        assigned_operators = np.full(self.population_size, -1, dtype=np.int8)
-        individual_regimes = np.zeros(self.population_size, dtype=np.int8)
-        precision_mask = np.zeros(self.population_size, dtype=bool)
-        discovery_memory_prior = np.asarray([0.03, 0.07, 0.25, 0.65], dtype=float)
-
-        for index, x in enumerate(self.population):
-            context = int(contexts[index])
-            local_regime = self._individual_regime(int(regime), context)
-            individual_regimes[index] = local_regime
-            learned_lane = bool(learned_lanes[index])
-
-            memory_prior = self._memory_prior(local_regime)
-            if not learned_lane:
-                memory_prior = discovery_memory_prior.copy()
-            memory_online = self.credit.memory_probabilities(local_regime, context)
-            memory_probabilities = blend_probabilities(memory_prior, memory_online, alpha=0.65)
-            memory_level = int(self.rng.choice(4, p=memory_probabilities)) if len(self.hpem) else 0
-            assigned_memory[index] = memory_level
-
-            group = self.group_intelligence.choose(local_regime, self.rng, False)
-            assigned_groups[index] = group
-
-            should_precision = (
-                precision_active
-                and learned_lane
-                and index not in forced_recovery
-                and self.rng.random() < precision_fraction
-            )
-            if should_precision and len(self.hpem):
-                success_direction = self.memory.mean_direction(
-                    self.problem.dimension,
-                    regime=local_regime,
-                    context=context,
-                    group=group,
-                )
-                group_mask = self.group_intelligence.mask(group, self.problem.dimension)
-                offspring[index] = self.precision.propose(
-                    self.hpem.best_vector,
-                    hierarchy,
-                    success_direction,
-                    variables,
-                    group_mask,
-                    self.rng,
-                    consensus,
-                )
-                precision_mask[index] = True
-                continue
-
-            executed_operator = 5 if index in forced_recovery else int(operator)
-            if index in forced_recovery:
-                learned_lanes[index] = 0
-                assigned_memory[index] = 3
-            assigned_operators[index] = executed_operator
-
-            candidates = [i for i in range(self.population_size) if i != index]
-            if len(candidates) >= 2:
-                r1_i, r2_i = self.rng.choice(candidates, size=2, replace=False)
-                r1, r2 = self.population[int(r1_i)], self.population[int(r2_i)]
-            else:
-                r1 = r2 = x
-            feasible_teacher = self.feasible_archive.sample(self.rng, best)
-            boundary_teacher = self.boundary_archive.sample(self.rng, best)
-            memory_teacher = (
-                self.hpem.summary(int(assigned_memory[index]), feasible_teacher)
-                if len(self.hpem)
-                else feasible_teacher
-            )
-            group_mask = self.group_intelligence.mask(group, self.problem.dimension)
-
-            if executed_operator == 0:
-                teacher = (
-                    memory_teacher
-                    if learned_lanes[index] and len(self.hpem)
-                    else (feasible_teacher if len(self.feasible_archive) else boundary_teacher)
-                )
-                candidate = feasible_elite_learning(
-                    x, teacher, r1, r2, self.rng, adaptive["attraction"], adaptive["differential"]
-                )
-            elif executed_operator == 1:
-                candidate = constraint_boundary_differential(
-                    x,
-                    boundary_teacher,
-                    r1,
-                    r2,
-                    self.rng,
-                    adaptive["attraction"],
-                    adaptive["differential"],
-                )
-            elif executed_operator == 2:
-                if learned_lanes[index] and len(self.hpem):
-                    teacher = memory_teacher
-                else:
-                    teacher = (
-                        feasible_teacher
-                        if local_regime >= 2 and len(self.feasible_archive)
-                        else boundary_teacher
-                    )
-                candidate = cognitive_teacher_learning(
-                    x,
-                    teacher,
-                    mean,
-                    self.rng,
-                    adaptive["attraction"],
-                    0.35 * adaptive["exploration_sigma"],
-                )
-            elif executed_operator == 3:
-                direction = self.memory.sample_direction(
-                    self.problem.dimension,
-                    self.rng,
-                    prefer_feasibility=local_regime <= 1,
-                    regime=local_regime,
-                    context=context,
-                    group=group,
-                )
-                candidate = success_distribution_memory(
-                    x,
-                    self.personal_best[index],
-                    direction,
-                    self.rng,
-                    0.55,
-                    adaptive["memory_weight"],
-                )
-                if learned_lanes[index] and len(self.hpem):
-                    candidate = np.clip(
-                        candidate + 0.12 * adaptive["attraction"] * (memory_teacher - candidate),
-                        0.0,
-                        1.0,
-                    )
-            elif executed_operator == 4:
-                candidate = mixed_variable_neighbourhood(
-                    x,
-                    variables,
-                    self.rng,
-                    max(adaptive["exploration_sigma"] * 0.35, 0.004),
-                    2 if local_regime == 3 else 1,
-                )
-            else:
-                reference = (
-                    boundary_teacher
-                    if local_regime <= 1
-                    else (
-                        self.hpem.summary(3, feasible_teacher)
-                        if len(self.hpem)
-                        else feasible_teacher
-                    )
-                )
-                candidate = diversity_recovery(
-                    reference, self.population, self.rng, max(adaptive["exploration_sigma"], 0.05)
-                )
-            if executed_operator != 5 and np.any(group_mask):
-                focused = x.copy()
-                focused[group_mask] = np.asarray(candidate)[group_mask]
-                candidate = focused
-            offspring[index] = np.clip(candidate, 0.0, 1.0)
+        offspring = candidate_batch.offspring
+        assigned_memory = candidate_batch.assigned_memory
+        assigned_groups = candidate_batch.assigned_groups
+        assigned_operators = candidate_batch.assigned_operators
+        individual_regimes = candidate_batch.individual_regimes
+        precision_mask = candidate_batch.precision_mask
 
         batch_evaluator = getattr(self.problem, "evaluate_population", None)
-        offspring_evaluations = (
-            list(batch_evaluator(offspring))
-            if callable(batch_evaluator)
-            else [self.problem.evaluate(x) for x in offspring]
+        evaluation_batch = evaluate_candidates(
+            offspring,
+            lambda values: (
+                list(batch_evaluator(values))
+                if callable(batch_evaluator)
+                else [self.problem.evaluate(x) for x in values]
+            ),
         )
-        successful = np.zeros(self.population_size, dtype=bool)
-        objective_gains = np.zeros(self.population_size)
-        feasibility_gains = np.zeros(self.population_size)
-        transitions = np.zeros(self.population_size)
-        step_norms = np.linalg.norm(offspring - self.population, axis=1)
-        offspring_pb = self.personal_best.copy()
-        offspring_pb_ev = list(self.personal_best_evaluations)
-        precision_successes = 0
-        for index, (child, child_ev) in enumerate(zip(offspring, offspring_evaluations)):
-            parent_ev = self.evaluations[index]
-            ok = epsilon_better(child_ev, parent_ev, epsilon)
-            successful[index] = ok
-            if parent_ev.feasible and child_ev.feasible and np.isfinite(parent_ev.value):
-                objective_gains[index] = max(
-                    (float(parent_ev.value) - float(child_ev.value))
-                    / max(abs(float(parent_ev.value)), 1.0),
-                    0.0,
-                )
-            pv = float(parent_ev.violation)
-            cv = float(child_ev.violation)
-            if np.isposinf(pv) and np.isfinite(cv):
-                feasibility_gains[index] = np.inf
-            elif np.isfinite(pv) and np.isfinite(cv):
-                feasibility_gains[index] = max(pv - cv, 0.0)
-            transitions[index] = float((not parent_ev.feasible) and child_ev.feasible)
-            if better(child_ev, offspring_pb_ev[index]):
-                offspring_pb[index] = child.copy()
-                offspring_pb_ev[index] = child_ev
-            if ok:
-                memory_operator = 6 if precision_mask[index] else int(assigned_operators[index])
-                self.memory.add(
-                    child - self.population[index],
-                    memory_operator,
-                    objective_gains[index],
-                    feasibility_gains[index],
-                    regime=int(individual_regimes[index]),
-                    context=int(contexts[index]),
-                    group=int(assigned_groups[index]),
-                )
-            if precision_mask[index] and ok:
-                precision_successes += 1
+        if not evaluation_batch.complete:
+            raise RuntimeError(
+                "CALO training evaluator returned an incomplete candidate batch: "
+                f"{evaluation_batch.completed}/{evaluation_batch.requested}"
+            )
 
-        self.credit.batch_update(
-            individual_regimes,
-            contexts,
-            assigned_operators,
-            assigned_memory,
-            successful,
-            objective_gains,
-            feasibility_gains,
-            transitions,
-        )
-        self.group_intelligence.batch_update(
-            individual_regimes,
-            assigned_groups,
-            successful,
-            objective_gains,
-            feasibility_gains,
-            step_norms,
-        )
-        self.precision.update(int(np.count_nonzero(precision_mask)), precision_successes)
-
-        combined_population = np.vstack([self.population, offspring])
-        combined_evaluations = list(self.evaluations) + list(offspring_evaluations)
-        selected_population, selected_evaluations, selected_indices = environmental_select(
-            combined_population,
-            combined_evaluations,
-            self.population_size,
-            epsilon,
+        old_diagnostics = population_diagnostics(self.evaluations, epsilon)
+        transition = complete_transition(
+            population=self.population,
+            evaluations=self.evaluations,
+            personal_best=self.personal_best,
+            personal_best_evaluations=self.personal_best_evaluations,
+            offspring=offspring,
+            offspring_evaluations=evaluation_batch.evaluations,
+            epsilon=epsilon,
+            assigned_operators=assigned_operators,
+            assigned_memory=assigned_memory,
+            assigned_groups=assigned_groups,
+            individual_regimes=individual_regimes,
+            contexts=contexts,
+            precision_mask=precision_mask,
+            memory=self.memory,
+            credit=self.credit,
+            group_intelligence=self.group_intelligence,
+            precision=self.precision,
+            feasible_archive=self.feasible_archive,
+            boundary_archive=self.boundary_archive,
+            hpem=self.hpem,
+            old_diagnostics=old_diagnostics,
+            old_diversity=old_diversity,
             diversity_weight=float(adaptive["diversity_weight"]),
-            return_indices=True,
+            population_size=self.population_size,
         )
         parent_pb = self.personal_best.copy()
         parent_pb_ev = list(self.personal_best_evaluations)
-        combined_pb = np.vstack([parent_pb, offspring_pb])
-        combined_pb_ev = parent_pb_ev + offspring_pb_ev
-        self.population = np.asarray(selected_population)
-        self.evaluations = list(selected_evaluations)
-        self.personal_best = combined_pb[np.asarray(selected_indices)].copy()
+        combined_pb = np.vstack([parent_pb, transition.offspring_personal_best])
+        combined_pb_ev = parent_pb_ev + transition.offspring_personal_best_evaluations
+        selected_indices = transition.selected_indices
+        self.population = transition.selected_population.copy()
+        self.evaluations = list(transition.selected_evaluations)
+        self.personal_best = combined_pb[selected_indices].copy()
         self.personal_best_evaluations = [combined_pb_ev[int(i)] for i in selected_indices]
-        self.feasible_archive.update(combined_population, combined_evaluations)
-        self.boundary_archive.update(combined_population, combined_evaluations)
-        self.hpem.update(combined_population, combined_evaluations)
 
-        new_violation, new_objective, new_feasible = self._diagnostics(self.evaluations)
-        new_diversity = population_diversity(self.population)
-        reward_components = calculate_reward(
-            old_objective,
-            new_objective,
-            old_violation,
-            new_violation,
-            old_feasible,
-            new_feasible,
-            old_diversity,
-            new_diversity,
-            overhead=0.0,
-        )
+        new_violation = transition.new_diagnostics.best_violation
+        new_objective = transition.new_diagnostics.best_feasible_objective
+        reward_components = transition.reward
         violation_improving = new_violation < old_violation - 1e-12
         objective_improving = np.isfinite(new_objective) and new_objective < old_objective - 1e-12
         self.constraint_stagnation = 0 if violation_improving else self.constraint_stagnation + 1

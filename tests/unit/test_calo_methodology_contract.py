@@ -18,7 +18,12 @@ def test_native_optimizer_preserves_the_documented_authority_boundary():
     optimizer = (root / "calo_rpd_studio" / "algorithms" / "calo" / "optimizer.py").read_text(
         encoding="utf-8"
     )
-    normalized = " ".join(optimizer.split())
-    assert "raw_operator = int(decision.operator)" in normalized
-    assert "raw neural operator is authoritative for ordinary learners" in normalized
-    assert "they do not silently redefine the PPO" in normalized
+    kernel = (root / "calo_rpd_studio" / "algorithms" / "calo" / "transition_kernel.py").read_text(
+        encoding="utf-8"
+    )
+    normalized_optimizer = " ".join(optimizer.split())
+    normalized_kernel = " ".join(kernel.split())
+    assert "raw_operator=int(decision.operator)" in normalized_optimizer
+    assert "selected_operator = int(raw_operator)" in normalized_kernel
+    assert "raw neural operator is authoritative for ordinary learners" in normalized_kernel
+    assert "they do not silently redefine the PPO" in normalized_kernel
