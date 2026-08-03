@@ -13,7 +13,9 @@ from dataclasses import asdict, dataclass, field
 import hashlib
 import json
 import math
+import os
 from pathlib import Path
+import threading
 from typing import Any
 
 import numpy as np
@@ -54,6 +56,83 @@ TSH_CALO_QUALIFICATION_PLAN_SCHEMA = "tsh-calo-qualification-plan-v1"
 TSH_CALO_QUALIFICATION_EVIDENCE_SCHEMA = "tsh-calo-qualification-evidence-v1"
 TSH_CALO_COMPONENT_EVIDENCE_SCHEMA = "tsh-calo-component-ablation-evidence-v1"
 _REQUIRED_COMPONENTS = ("A", "B", "C", "D", "E")
+
+
+class QualificationCampaignLeaseUnavailable(RuntimeError):
+    """Raised when another process or thread owns the same evidence directory."""
+
+
+class _ExclusiveQualificationCampaignLease:
+    """OS-released single-writer lease; a timeout cannot leave a stale ownership claim."""
+
+    _guard = threading.RLock()
+    _owned: set[str] = set()
+
+    def __init__(self, directory: Path) -> None:
+        directory.mkdir(parents=True, exist_ok=True)
+        self.path = (directory / "qualification_campaign.lock").resolve()
+        self.key = str(self.path).lower()
+        self.stream = None
+        with self._guard:
+            if self.key in self._owned:
+                raise QualificationCampaignLeaseUnavailable(
+                    "This process already owns the TSH-CALO qualification evidence directory"
+                )
+            stream = open(self.path, "a+b")  # noqa: SIM115 - held for campaign lifetime
+            try:
+                self._lock_stream(stream)
+            except BaseException:
+                stream.close()
+                raise
+            self.stream = stream
+            self._owned.add(self.key)
+
+    @staticmethod
+    def _lock_stream(stream) -> None:
+        stream.seek(0, os.SEEK_END)
+        if stream.tell() == 0:
+            stream.write(b"0")
+            stream.flush()
+        stream.seek(0)
+        try:
+            if os.name == "nt":
+                import msvcrt
+
+                msvcrt.locking(stream.fileno(), msvcrt.LK_NBLCK, 1)
+            else:
+                import fcntl
+
+                fcntl.flock(stream.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except OSError as exc:
+            raise QualificationCampaignLeaseUnavailable(
+                "Another process owns the TSH-CALO qualification evidence directory"
+            ) from exc
+
+    def close(self) -> None:
+        stream = self.stream
+        if stream is None:
+            return
+        self.stream = None
+        with self._guard:
+            self._owned.discard(self.key)
+            try:
+                stream.seek(0)
+                if os.name == "nt":
+                    import msvcrt
+
+                    msvcrt.locking(stream.fileno(), msvcrt.LK_UNLCK, 1)
+                else:
+                    import fcntl
+
+                    fcntl.flock(stream.fileno(), fcntl.LOCK_UN)
+            finally:
+                stream.close()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, _exc_type, _exc, _traceback) -> None:
+        self.close()
 
 
 def _canonical_sha256(payload: Any) -> str:
@@ -744,6 +823,8 @@ class TSHCALOQualificationCampaign:
         return self._run(resume=False)
 
     def resume(self) -> dict:
+        if (self.output_directory / "campaign_integrity_failure.json").exists():
+            raise RuntimeError("Failed-integrity TSH-CALO qualification campaigns cannot resume")
         stored = TSHCALOQualificationPlan.from_dict(
             _read_json(self.output_directory / "qualification_plan.json")
         )
@@ -754,6 +835,10 @@ class TSHCALOQualificationCampaign:
         return self._run(resume=True)
 
     def _run(self, *, resume: bool) -> dict:
+        with _ExclusiveQualificationCampaignLease(self.output_directory):
+            return self._run_owned(resume=resume)
+
+    def _run_owned(self, *, resume: bool) -> dict:
         artifact, component_evidence = self._preflight()
         plan_hash = self.plan.execution_plan_sha256()
         seed_manifest = self.plan.seed_manifest()
@@ -919,6 +1004,7 @@ class TSHCALOQualificationCampaign:
             "case_evidence": cases,
             "decision": decision,
             "authority_boundary": "independent_qualification_only_no_registration_or_activation",
+            "single_writer_semantics": "OS-released exclusive evidence-directory lease",
         }
         evidence_path = self.output_directory / "qualification_evidence.json"
         evidence_sha = _write_json(evidence_path, evidence)

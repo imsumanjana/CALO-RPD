@@ -220,11 +220,12 @@ Latest verification evidence:
   exact-FE frozen-CALO comparison; retained failures; independent PYPOWER checks; feasibility-first
   endpoints, paired practical effects, deterministic bootstrap intervals, Holm correction and
   frozen anytime checkpoints; exact-resume cell retention; screening/formal separation; A–E direct
-  evidence prerequisite; F exclusion; and no registry/activation authority. **4 passed** dedicated
-  campaign cases and **32 passed** across campaign, receipt, inference, optimizer and lifecycle.
-  The active tree excluding only the deliberately stale v6.9 release-integrity file is **580 passed,
-  63 skipped**; Ruff lint/format passes across **406 files** and the generated schema is current. No
-  real v2 screening or formal qualification evidence has yet been executed.
+  evidence prerequisite; F exclusion; and no registry/activation authority. The first real screening
+  attempt is retained failed-integrity after three timeout-surviving Python processes raced the same
+  directory; four ambiguous cells are explicitly barred from scientific use. An OS-released
+  single-writer evidence-directory lease and failed-resume guard now close that defect. **6 passed**
+  dedicated campaign cases and **21 passed** across campaign, inference and optimizer. No valid real
+  v2 screening or formal qualification evidence has yet been executed.
 
 - automatic CUDA-first scheduling/config/GUI regressions: **54 passed**; versioned database migration,
   history, learning, resume and continuation regressions: **29 passed**;

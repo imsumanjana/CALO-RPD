@@ -142,7 +142,7 @@ The most recent complete active-tree run, excluding only the intentionally stale
 release-integrity file, produced:
 
 ```text
-580 passed, 63 skipped
+582 passed, 63 skipped
 ```
 
 Other verified evidence:
@@ -429,10 +429,14 @@ is exercised only through a non-serializable qualification capability; ordinary 
 inference still requires a qualified, active immutable binding. Screening can never issue a receipt.
 Formal receipt issuance additionally requires at least 30 pairs per case and checksum-verified,
 accepted A–E component evidence. Change F is rejected from the production qualification plan.
-Neither the qualifier nor its CLI can register or activate a policy. Four dedicated campaign cases,
-a 32-test qualification/inference/optimizer/lifecycle focus and the **580 passed, 63 skipped** active
-tree pass; Ruff lint/format passes across 406 files and the generated schema is current. The real v2
-ensemble has not yet been screened or qualified.
+Neither the qualifier nor its CLI can register or activate a policy. The first real screening attempt
+under this harness is retained as failed-integrity evidence: shell timeouts left two Python children
+running, a third explicit resume was started, and the three processes raced one output directory.
+All six verified wrapper/child process IDs were stopped; four ambiguous cell files and their hashes
+are retained under a `scientific_use_permitted=false` failure record. They are not screening results.
+The qualifier now holds a non-blocking OS-released single-writer lease for the entire output directory
+and refuses any failed-integrity resume. Six dedicated campaign cases and a 21-test focused
+campaign/inference/optimizer pass. The real v2 ensemble has not been validly screened or qualified.
 
 Required order after approval:
 

@@ -17,8 +17,10 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact import (
     save_tsh_calo_candidate,
 )
 from calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign import (
+    QualificationCampaignLeaseUnavailable,
     TSHCALOQualificationCampaign,
     TSHCALOQualificationPlan,
+    _ExclusiveQualificationCampaignLease,
 )
 from calo_rpd_studio.algorithms.calo.tsh_calo_training_receipt import (
     build_tsh_calo_training_episode_receipt,
@@ -185,3 +187,22 @@ def test_qualification_campaign_has_no_registry_or_activation_authority():
     assert ".activate(" not in source
     assert "add_policy_qualification" not in source
     assert "tsh_calo_training_session" not in source
+
+
+def test_qualification_campaign_has_one_OS_released_writer(tmp_path):
+    with _ExclusiveQualificationCampaignLease(tmp_path):
+        with pytest.raises(QualificationCampaignLeaseUnavailable, match="already owns"):
+            _ExclusiveQualificationCampaignLease(tmp_path)
+
+    with _ExclusiveQualificationCampaignLease(tmp_path):
+        pass
+
+
+def test_integrity_failed_campaign_cannot_resume(tmp_path):
+    output = tmp_path / "failed"
+    output.mkdir()
+    (output / "campaign_integrity_failure.json").write_text("{}", encoding="utf-8")
+    plan = _plan(tmp_path / "missing.pt", _sha("missing"))
+
+    with pytest.raises(RuntimeError, match="Failed-integrity"):
+        TSHCALOQualificationCampaign(plan, output).resume()
