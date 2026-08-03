@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from typing import Any
 from .base_optimizer import OptimizerConfig
 from .calo.optimizer import CALOOptimizer
+from .calo.tsh_calo_optimizer import TSHCALOOptimizer
 from .tlbo import TLBOOptimizer
 from .pso import PSOOptimizer
 from .clpso import CLPSOOptimizer
@@ -102,7 +103,10 @@ SPECS = {
         {"memory_size": 5, "p_best_rate": 0.11, "archive_rate": 1.4},
     ),
     "QODE": AlgorithmSpec(
-        "QODE", QODEOptimizer, "Quasi-Oppositional Differential Evolution.", {"f": 0.5, "cr": 0.9}
+        "QODE",
+        QODEOptimizer,
+        "Quasi-Oppositional Differential Evolution.",
+        {"f": 0.5, "cr": 0.9},
     ),
     "DA": AlgorithmSpec("DA", DragonflyOptimizer, "Dragonfly Algorithm.", {}),
     "SA": AlgorithmSpec(
@@ -148,19 +152,42 @@ SPECS = {
 }
 
 
+# Policy-gated algorithms are explicitly constructible but do not silently enter the frozen
+# primary comparison campaign. A qualified experiment binding must name one of these directly.
+POLICY_GATED_SPECS = {
+    "TSH-CALO": AlgorithmSpec(
+        "TSH-CALO",
+        TSHCALOOptimizer,
+        "Topology-aware, uncertainty-shielded hierarchical CALO requiring a separately qualified and explicitly activated immutable policy ensemble.",
+        {
+            "strict_policy_binding": True,
+            "deterministic_policy": False,
+            "inference_device": "auto",
+            "allow_cpu_fallback": True,
+            "baseline_fallback_permitted": False,
+        },
+    )
+}
+
+
 def create_optimizer(
     name, problem, config: OptimizerConfig, seed=0, progress_callback=None, cancel_callback=None
 ):
-    if name not in SPECS:
+    available = {**SPECS, **POLICY_GATED_SPECS}
+    if name not in available:
         raise KeyError(f"Unknown optimizer: {name}")
     parameters = dict(config.parameters or {})
     backend = str(parameters.get("optimizer_backend", "legacy")).lower()
-    if name not in {"CALO", "CMA-ES"} and backend == "torch":
+    if name not in {"CALO", "TSH-CALO", "CMA-ES"} and backend == "torch":
         return TorchCanonicalOptimizer(
             name, problem, config, seed, progress_callback, cancel_callback
         )
-    return SPECS[name].cls(problem, config, seed, progress_callback, cancel_callback)
+    return available[name].cls(problem, config, seed, progress_callback, cancel_callback)
 
 
 def primary_algorithm_names():
     return tuple(SPECS)
+
+
+def policy_gated_algorithm_names():
+    return tuple(POLICY_GATED_SPECS)

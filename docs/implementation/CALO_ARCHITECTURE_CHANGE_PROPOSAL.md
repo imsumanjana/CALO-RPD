@@ -38,8 +38,15 @@ without extra PF calls or result-metadata contamination; its three tests and the
 regression pass. Versioned runtime context and candidate-transition mechanics then consumed those
 counted records, independently shielded group/operator/parameter actions and optional fail-closed
 physics proposals while reserving a distinct precision-memory channel. Nine dedicated runtime tests,
-a 68-test frozen-snapshot/parity focus and the 532-test active-tree regression pass. End-to-end
-optimizer orchestration and scientific-benefit evidence remain pending.
+a 68-test frozen-snapshot/parity focus and the 532-test active-tree regression pass.
+The policy-gated optimizer subsequently connected immutable ensemble preflight, counted context,
+shielded hierarchical actions, versioned candidate generation and canonical completion with exact
+stochastic resume and explicit block/relabelled-baseline fallback. It remains outside the frozen
+primary campaign unless explicitly named by a bound experiment. Eight dedicated optimizer cases, a
+66-test optimizer/registry/campaign focus and the 540-test active-tree regression pass. This used
+synthetic CPU test ensembles only; no trained candidate, formal qualification, target-CUDA evidence,
+component benefit or release claim follows from it.
+
 **Decision owner:** user/project scientific lead
 **Proposed working name:** Topology-Aware Shielded Hierarchical CALO (TSH-CALO)
 

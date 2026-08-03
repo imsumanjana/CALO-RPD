@@ -286,6 +286,21 @@ only the deliberately stale v6.9 release-integrity file passes 532 tests with 63
 Ruff lint/format and the generated schema pass. End-to-end optimizer/rollout orchestration, real
 candidate training, target CUDA evidence, qualification and every benefit claim remain pending.
 
+The policy-gated `TSHCALOOptimizer` now joins these cores without entering the frozen default
+comparison campaign. It loads and validates the immutable ensemble before any power-system
+evaluation, uses counted contexts for each selected learner, applies independently shielded actions,
+calls the canonical completion transition, keeps candidate FE and per-scenario PF counts explicit,
+and checkpoints population, contexts, archives, memories, bandit, optimizer RNG and policy RNG for
+exact stochastic resume. Policy/device/OOD/mixture/action/intervention/fallback provenance is retained.
+A rejected policy blocks at preflight or requires an explicit relaunch under the `CALO-v5.9`
+identity; it is never silently executed or reported as TSH-CALO. Experimental F is rejected by this
+fixed-population production path before evaluation. Because the current power-flow result does not
+retain a counted Jacobian/sensitivity, E is runtime-masked rather than synthesized. Eight dedicated
+optimizer cases, a 66-test optimizer/registry/campaign focus and the 540-pass active tree pass.
+This evidence used synthetic test ensembles and CPU inference. Fresh independent training, formal
+qualification plus immutable calibration binding, physical CUDA/CPU parity, E linearization support,
+component ablations and protected tests remain pending.
+
 Required order after approval:
 
 1. Extract the canonical transition kernel with **zero behavior change**.
