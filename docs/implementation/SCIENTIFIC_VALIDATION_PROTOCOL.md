@@ -28,6 +28,16 @@ Policy training is an independent workflow. It generates a candidate policy arti
 and explicit activation produce the governing policy. Every later power-system experiment records
 that governing policy's identifier and SHA-256, but the experiment workflow does not retrain it.
 
+Implementation checkpoint (not scientific evidence): the development environment is separately
+configured and hash-bound to its declared case identity, loaded case checksum, ORPD formulation and
+training design. It spends full counted populations through the shared ORPD evaluator, constructs
+state only from already-counted solver context, and returns only the canonical transition reward.
+It executes a raw single-member policy action; ensemble uncertainty, the residual bandit, admission,
+fallback, qualification and activation belong to separate production boundaries. A protected loaded
+case is rejected by content identity. Optional physics repair remains masked when no counted
+Jacobian/sensitivity exists, and experimental population scheduling is rejected before evaluation.
+Passing these invariants permits fresh development training; it does not establish policy quality.
+
 ## 2. Claims decided before results
 
 ### 2.1 Primary claim

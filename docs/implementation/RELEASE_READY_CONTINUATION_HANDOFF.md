@@ -263,16 +263,16 @@ only when CUDA is unavailable, that admitted estimate cannot fit, or a real CUDA
 and it is separately checked against 80% of currently available RAM. The NVIDIA GPU or CPU performs
 the computation; memory is only admitted storage. Ensemble disagreement, OOD attenuation, the
 declared shield and explicit block/relabelled-baseline fallback are traced. Six dedicated tests, a
-35-test inference/lifecycle/shield/trainer/action focus and the 520-pass active tree pass. The core is
-not yet connected to actual TSH optimizer transitions and is not physical CUDA evidence.
+35-test inference/lifecycle/shield/trainer/action focus and the 520-pass active tree pass. Later
+checkpoints connect this core to the TSH optimizer; physical CUDA evidence remains absent.
 
 The ORPD evaluator now exposes already-counted scenario solver context through a separate additive
 API. It returns the same `Evaluation` values as ordinary evaluation, retains each exact power-flow
 object only ephemerally, never inserts it into JSON result metadata, prefers the counted base solve
 (otherwise the highest-weight converged solve), and fails closed when none converged. It performs no
 second power-flow call for state construction. Three dedicated tests, a 37-test CALO/topology/repair
-focus and the 523-pass active tree pass. The TSH optimizer and training rollout still need to consume
-this boundary.
+focus and the 523-pass active tree pass. Later optimizer and training-environment checkpoints now
+consume this boundary; this earlier count remains its introduction checkpoint.
 
 The versioned runtime context and candidate-transition mechanics now consume that boundary without
 rerunning power flow. Scenario descriptors are measured from the already-counted scenario cases;
@@ -283,8 +283,9 @@ requires trusted evaluation. Forced recovery and precision remain explicit, with
 successes isolated in memory channel 7 because operator 6 belongs to physics repair. Nine dedicated
 runtime invariants and a 68-test runtime/frozen-snapshot/parity focus pass. The active tree excluding
 only the deliberately stale v6.9 release-integrity file passes 532 tests with 63 skips; repository
-Ruff lint/format and the generated schema pass. End-to-end optimizer/rollout orchestration, real
-candidate training, target CUDA evidence, qualification and every benefit claim remain pending.
+Ruff lint/format and the generated schema pass. Later checkpoints add the end-to-end optimizer and
+counted training environment; real candidate training, target CUDA evidence, qualification and every
+benefit claim remain pending.
 
 The policy-gated `TSHCALOOptimizer` now joins these cores without entering the frozen default
 comparison campaign. It loads and validates the immutable ensemble before any power-system
@@ -316,8 +317,22 @@ result. Discount and GAE factors are part of the training design hash; terminal-
 returns are deterministic; an unevaluated pending action cannot be checkpointed; and restored
 collector state must match the exact scientific design. Nine dedicated training cases, a 22-test
 training/transition focus and the 547-pass active tree pass. The collector still consumes already-
-executed transitions: a counted development-only ORPD environment adapter, Safe-80 training-device
-admission, fresh member training and scientific qualification remain pending.
+executed transitions.
+
+The counted development-only ORPD environment adapter is now locally complete. It binds the declared
+development-case identity, loaded case checksum, formulation fingerprint, training design and fixed
+environment design; rejects a loaded protected case by content identity; evaluates only full batches
+through `ORPDProblem.evaluate_with_context`; reports candidate FE and per-scenario solver calls; builds
+topology state from the selected already-counted context; and executes raw single-member hierarchical
+actions through `generate_tsh_offspring` and the canonical `complete_tsh_transition`. It has no
+experiment, registry, qualification, activation, GUI or production-inference authority. E remains
+masked because the counted result has no retained Jacobian/sensitivity, and F is rejected before any
+solve. Pending observations and all environment state/RNG/components resume exactly under unchanged
+design and problem hashes. Eight dedicated environment tests and a 29-test environment/training/
+transition/context focus pass; the active tree excluding only the deliberately stale v6.9 release-
+integrity file is 555 passed with 63 skips. Repository Ruff lint/format passes across 395 Python files
+and the generated schema is current. This is mechanics evidence only: Safe-80 trainer admission,
+fresh ensemble-member training, qualification, ablations and any benefit claim remain pending.
 
 Required order after approval:
 
@@ -442,7 +457,7 @@ expected to be stale on this development branch. Do not “fix” them early.
 - No successful Docker CPU/CUDA runtime build on this workstation yet.
 - No WSL2/WSLg target-laptop report yet.
 - No GitHub Actions run artifacts from the new workflow yet.
-- No approved TSH-CALO implementation or fresh policy yet.
+- Approved TSH-CALO mechanics are implemented locally, but no fresh trained or qualified policy yet.
 - No approved-architecture ablation campaign yet.
 - No imported/reviewed PGLib typical/API/SAD ORPD corpus yet.
 - No deterministic mathematical-solver comparison package yet.

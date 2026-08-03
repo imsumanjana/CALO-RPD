@@ -56,9 +56,9 @@ Status vocabulary:
 | Physics-informed repair | Locally verified; disabled by default | `tsh_calo_physics_repair.py`; ten mask/convergence/conditioning/trust/lattice/no-hidden-solver/exact-FE/failure tests; cumulative A–E focus 38 passed; complete tree 490 passed and 63 skipped | Supply retained counted-evaluation Jacobian context in the eventual runtime, then run separate incremental-value/cost ablation; no benefit claim yet |
 | Evidence-driven population schedule | Experimental mechanics locally verified; disabled by default; promotion evidence absent | `tsh_calo_population_schedule.py`; separate `enabled` plus `experimental_mode` gates; preregistered design hash; feasibility/archive/diversity/budget/spacing conditions; deterministic feasibility-first contraction; no hidden FE; exact resume; nine focused tests | Must earn inclusion through paired-seed anytime/feasibility evidence without unacceptable cost, instability, overfitting or regression; otherwise keep disabled or remove |
 | Versioned TSH-CALO candidate lifecycle | Locally verified through optimizer consumption and immutable qualification receipt | `tsh_calo_policy_artifact.py`, `tsh_calo_qualification.py`, algorithm-aware registry; exact ABI/provenance; protected-holdout rejection; candidate-only registration; activation freezes policy/protocol/seed/evidence-reference/calibration receipt; binding and inference revalidate it; policy-gated preflight/fallback | Produce fresh independent members and execute the formal qualifier against preregistered evidence; receipt integrity is not evidence sufficiency |
-| Independent TSH-CALO policy training | PPO and canonical-reward collector locally verified; counted environment and physical execution pending | `tsh_calo_training.py`; independent config/design hash including discount/GAE; protected-holdout exclusion; masked PPO; canonical-`TransitionResult` reward-only collection; terminal GAE; exact trainer/collector resume; unqualified-only export; static absence of experiment/registry/activation authority; nine dedicated tests | Connect the collector to a counted development-only ORPD environment through the versioned transition, apply Safe-80 device admission, execute fresh training, and retain target CPU/CUDA provenance; no trained candidate exists yet |
+| Independent TSH-CALO policy training | PPO, canonical-reward collector and counted development environment locally verified; physical execution pending | `tsh_calo_training.py`, `tsh_calo_training_environment.py`; independent training/environment design hashes; loaded-case checksum and formulation binding; protected-holdout exclusion by declared and content identity; full-batch counted `evaluate_with_context`; selected counted topology state; raw single-member hierarchical action execution through the canonical transition; exact FE/scenario-call accounting and resume; solver-failure poisoning with incomplete-accounting provenance; E mask; pre-solve F rejection; unqualified-only export; static absence of experiment/registry/activation/inference authority; eight environment tests and 29-test adjacent focus | Apply Safe-80 trainer device admission, execute fresh independent ensemble-member training, and retain target CPU/CUDA provenance; no trained candidate exists yet |
 | Immutable TSH-CALO ensemble inference and fallback | Integrated into policy-gated optimizer; physical execution pending | Ensemble candidate assembly/load, activated-qualified binding guard, `tsh_calo_inference.py`, `tsh_calo_optimizer.py`; exact SHA/ABI/feature/member/calibration checks; CUDA-first current-free-VRAM 80% admission; governed CPU fallback; ensemble disagreement and safety shield; pre-evaluation block or explicit frozen-CALO relaunch; deterministic traces and exact resume | Bind calibration through formal qualification, capture target CPU/CUDA parity and memory-pressure traces, and qualify a real ensemble; synthetic CPU mechanics are not scientific evidence |
-| Reuse already-counted power-flow state for topology/physics context | Locally verified through optimizer candidate generation | `ORPDProblem.evaluate_with_context`; ephemeral scenario solve records; base/weighted converged selection; measured scenario descriptors; topology-state construction; selected-context provenance; exact candidate/scenario-call accounting; no solver objects in result metadata or hidden PF calls | Integrate the same boundary into independent training rollouts; counted Jacobian/sensitivity retention for optional E remains separate |
+| Reuse already-counted power-flow state for topology/physics context | Locally verified through production optimizer and independent training environment | `ORPDProblem.evaluate_with_context`; ephemeral scenario solve records; base/weighted converged selection; measured scenario descriptors; optimizer and training-environment topology-state construction; selected-context provenance; exact candidate/scenario-call accounting; no solver objects in result metadata or hidden PF calls | Counted Jacobian/sensitivity retention for optional E remains separate; target execution evidence is still required |
 | Correct paired statistics, effect estimates, CIs, multiplicity control, power and anytime metrics | Locally verified at harness level | `statistics/`, campaign design, `SCIENTIFIC_VALIDATION_PROTOCOL.md`, statistical tests | Execute final frozen campaign |
 | Modern strong stochastic baselines | Locally verified at implementation level | Source-traceable L-SHADE 1.0.1 and pinned pycma 4.4.4 CMA-ES with deterministic snapshots | External benchmark execution |
 | Deterministic/mathematical reference solutions and broader licensed case corpus | Partial | Protocol specifies reference and licensed-import requirements | Add/verify solver adapters and checksummed datasets without redistributing restricted assets |
@@ -67,8 +67,8 @@ Status vocabulary:
 
 ## Current verification checkpoint
 
-- Active development suite after independent canonical-reward rollout collection, excluding the
-  deliberately stale v6.9 release-integrity file: **547 passed, 63 skipped**. The preceding complete-tree checkpoint
+- Active development suite after the counted independent training environment, excluding the
+  deliberately stale v6.9 release-integrity file: **555 passed, 63 skipped**. The preceding complete-tree checkpoint
   after Change F reported **502 passed, 63 skipped, 2 failed**;
   both failures are the expected stale release freeze/root manifest and are not regenerated during
   G9 development.
@@ -86,10 +86,10 @@ The exact decision was recorded on 2026-08-03:
 
 > Approve TSH-CALO A–E, with F experimental and evidence-gated.
 
-Changes A–E, the disabled Change-F mechanics, immutable ensemble lifecycle, independent PPO core,
-shielded inference, versioned runtime transition and policy-gated optimizer mechanics have passed
-their local correctness gates. Change F has not earned promotion and remains off. The next legal step
-is the counted development-only rollout environment for fresh independent ensemble members, followed by execution
-of the formal qualifier that produces the now-required immutable calibration receipt. Fresh candidates must be
-trained without protected-test leakage. Paired-seed component ablations must retain the disabled
-baseline and may not weaken preregistered acceptance criteria.
+Changes A–E, disabled Change-F mechanics, immutable ensemble lifecycle, independent PPO and counted
+development environment, shielded inference, versioned runtime transition and policy-gated optimizer
+mechanics have passed their local correctness gates. Change F has not earned promotion and remains
+off. The next legal step is Safe-80 admission for independent trainer execution, followed by fresh
+development-only ensemble-member training and formal qualification against preregistered evidence.
+No protected case may enter training or tuning. Paired-seed component ablations must retain the
+disabled baseline and may not weaken preregistered acceptance criteria.
