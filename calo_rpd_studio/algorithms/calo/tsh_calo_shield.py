@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum
+import hashlib
+import json
 
 import numpy as np
 import torch
@@ -165,6 +167,18 @@ class OODCalibration:
         excess = max(score - float(self.attenuation_start), 0.0)
         attenuation = max(float(self.minimum_neural_weight), 1.0 / (1.0 + excess))
         return score, float(np.clip(attenuation, 0.0, 1.0))
+
+
+def ood_calibration_sha256(calibration: OODCalibration) -> str:
+    calibration.validate()
+    payload = {
+        "mean": np.asarray(calibration.mean, dtype=float).tolist(),
+        "scale": np.asarray(calibration.scale, dtype=float).tolist(),
+        "attenuation_start": float(calibration.attenuation_start),
+        "minimum_neural_weight": float(calibration.minimum_neural_weight),
+    }
+    encoded = json.dumps(payload, sort_keys=True, separators=(",", ":"), allow_nan=False)
+    return hashlib.sha256(encoded.encode("utf-8")).hexdigest()
 
 
 class SlidingWindowContextualBandit:

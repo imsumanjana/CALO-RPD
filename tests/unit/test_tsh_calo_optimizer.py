@@ -16,7 +16,6 @@ from calo_rpd_studio.algorithms.registry import (
     primary_algorithm_names,
 )
 from calo_rpd_studio.algorithms.calo.policy_registry import PolicyRegistry
-from calo_rpd_studio.algorithms.calo.tsh_calo_inference import ood_calibration_sha256
 from calo_rpd_studio.algorithms.calo.tsh_calo_optimizer import (
     TSHCALOBaselineFallbackRequired,
     TSHCALOOptimizer,
@@ -31,6 +30,10 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact import (
 )
 from calo_rpd_studio.algorithms.calo.tsh_calo_runtime_context import (
     build_runtime_topology_policy_context,
+)
+from calo_rpd_studio.algorithms.calo.tsh_calo_qualification import (
+    build_tsh_calo_qualification_receipt,
+    qualification_config,
 )
 from calo_rpd_studio.algorithms.calo.tsh_calo_schema import TSH_CALO_ALGORITHM_ID
 from calo_rpd_studio.algorithms.calo.tsh_calo_shield import (
@@ -68,12 +71,27 @@ def _parameters(tmp_path: Path, problem: ORPDProblem, *, deterministic: bool) ->
     database = ResultDatabase(tmp_path / "results.sqlite")
     registry = PolicyRegistry(database)
     policy = registry.register(ensemble.path)
+    _evaluation, counted = problem.evaluate_with_context(np.full(problem.dimension, 0.5))
+    state = build_runtime_topology_policy_context(np.zeros(32), problem, counted).policy_state
+    signature = topology_ood_signature(state)
+    calibration = OODCalibration(np.zeros_like(signature), np.ones_like(signature), 100.0)
+    receipt = build_tsh_calo_qualification_receipt(
+        qualification_run_id="qualification-001",
+        source_policy_sha256=policy.sha256,
+        source_commit="optimizer-test",
+        qualification_protocol_sha256=_sha("qualification-protocol"),
+        seed_manifest_sha256=_sha("qualification-seeds"),
+        evidence_artifact_sha256=_sha("synthetic-evidence-fixture"),
+        development_cases=("case30", "case57"),
+        ood_calibration=calibration,
+    )
     database.add_policy_qualification(
         qualification_id="qualification-001",
         policy_id=policy.id,
         passed=True,
         grade="A",
         qualification_status="qualified",
+        config=qualification_config(receipt),
     )
     registry.activate(policy.id, algorithm_id=TSH_CALO_ALGORITHM_ID)
     binding = registry.bind_to_experiment_config(
@@ -82,20 +100,8 @@ def _parameters(tmp_path: Path, problem: ORPDProblem, *, deterministic: bool) ->
         deterministic=deterministic,
         algorithm_id=TSH_CALO_ALGORITHM_ID,
     )
-    _evaluation, counted = problem.evaluate_with_context(np.full(problem.dimension, 0.5))
-    state = build_runtime_topology_policy_context(np.zeros(32), problem, counted).policy_state
-    signature = topology_ood_signature(state)
-    calibration = OODCalibration(np.zeros_like(signature), np.ones_like(signature), 100.0)
-    calibration_sha = ood_calibration_sha256(calibration)
     binding.update(
         {
-            "policy_ood_calibration_sha256": calibration_sha,
-            "ood_calibration": {
-                "mean": calibration.mean.tolist(),
-                "scale": calibration.scale.tolist(),
-                "attenuation_start": calibration.attenuation_start,
-                "minimum_neural_weight": calibration.minimum_neural_weight,
-            },
             "inference_device": "cpu",
             "deterministic_policy": deterministic,
         }

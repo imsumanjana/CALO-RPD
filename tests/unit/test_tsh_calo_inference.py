@@ -27,6 +27,10 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact import (
     inspect_tsh_calo_candidate,
     save_tsh_calo_candidate,
 )
+from calo_rpd_studio.algorithms.calo.tsh_calo_qualification import (
+    build_tsh_calo_qualification_receipt,
+    qualification_config,
+)
 from calo_rpd_studio.algorithms.calo.tsh_calo_schema import TSH_CALO_ALGORITHM_ID
 from calo_rpd_studio.algorithms.calo.tsh_calo_shield import (
     FallbackDisposition,
@@ -80,11 +84,23 @@ def _state(toy_case) -> TopologyAwarePolicyState:
     return TopologyAwarePolicyState(np.linspace(0.0, 1.0, 32), topology)
 
 
-def _binding(tmp_path: Path) -> dict:
+def _binding(tmp_path: Path, state: TopologyAwarePolicyState) -> dict:
     tmp_path.mkdir(parents=True, exist_ok=True)
     database = ResultDatabase(tmp_path / "results.sqlite")
     registry = PolicyRegistry(database)
     policy = registry.register(_ensemble(tmp_path), name="TSH ensemble")
+    signature = topology_ood_signature(state)
+    calibration = OODCalibration(signature.copy(), np.ones_like(signature))
+    receipt = build_tsh_calo_qualification_receipt(
+        qualification_run_id="qualification-001",
+        source_policy_sha256=policy.sha256,
+        source_commit="inference-test",
+        qualification_protocol_sha256=_sha("qualification-protocol"),
+        seed_manifest_sha256=_sha("qualification-seeds"),
+        evidence_artifact_sha256=_sha("synthetic-evidence-fixture"),
+        development_cases=("case30", "case57"),
+        ood_calibration=calibration,
+    )
     database.add_policy_qualification(
         qualification_id="qualification-001",
         policy_id=policy.id,
@@ -92,6 +108,7 @@ def _binding(tmp_path: Path) -> dict:
         grade="A",
         score=80.0,
         qualification_status="qualified",
+        config=qualification_config(receipt),
     )
     registry.activate(policy.id, algorithm_id=TSH_CALO_ALGORITHM_ID)
     config = ExperimentConfig()
@@ -104,11 +121,15 @@ def _binding(tmp_path: Path) -> dict:
 
 
 def _controller(tmp_path: Path, state, **changes):
-    binding = _binding(tmp_path)
-    signature = topology_ood_signature(state)
-    calibration = OODCalibration(signature.copy(), np.ones_like(signature))
-    calibration_sha = ood_calibration_sha256(calibration)
-    binding["policy_ood_calibration_sha256"] = calibration_sha
+    binding = _binding(tmp_path, state)
+    payload = binding["ood_calibration"]
+    calibration = OODCalibration(
+        np.asarray(payload["mean"]),
+        np.asarray(payload["scale"]),
+        payload["attenuation_start"],
+        payload["minimum_neural_weight"],
+    )
+    calibration_sha = binding["policy_ood_calibration_sha256"]
     values = dict(
         binding=binding,
         ood_calibration=calibration,
@@ -189,7 +210,7 @@ def test_unavailable_or_mismatched_policy_blocks_or_explicitly_relabels_baseline
     tmp_path, toy_case
 ):
     state = _state(toy_case)
-    binding = _binding(tmp_path)
+    binding = _binding(tmp_path, state)
     binding["policy_sha256"] = _sha("wrong")
     signature = topology_ood_signature(state)
     calibration = OODCalibration(signature, np.ones_like(signature))
@@ -216,6 +237,33 @@ def test_unavailable_or_mismatched_policy_blocks_or_explicitly_relabels_baseline
     assert fallback.disposition is FallbackDisposition.EXPLICIT_BASELINE
     assert fallback.algorithm_identity == "CALO-v5.9"
     assert fallback.algorithm_identity != TSH_CALO_ALGORITHM_ID
+
+
+def test_runtime_rejects_a_binding_whose_frozen_qualification_receipt_was_mutated(
+    tmp_path, toy_case
+):
+    state = _state(toy_case)
+    binding = _binding(tmp_path, state)
+    calibration_payload = binding["ood_calibration"]
+    calibration = OODCalibration(
+        np.asarray(calibration_payload["mean"]),
+        np.asarray(calibration_payload["scale"]),
+        calibration_payload["attenuation_start"],
+        calibration_payload["minimum_neural_weight"],
+    )
+    binding["policy_qualification_receipt"]["ood_calibration"]["mean"][0] += 1.0
+
+    controller = TSHCALOInferenceController(
+        binding,
+        ood_calibration=calibration,
+        expected_ood_calibration_sha256=binding["policy_ood_calibration_sha256"],
+        deterministic=True,
+        seed=1,
+        requested_device="cpu",
+    )
+
+    assert controller.fallback_decision().disposition is FallbackDisposition.BLOCK
+    assert "checksum mismatch" in controller.rejection_reason
 
 
 def test_runtime_safety_rejection_never_returns_a_partial_policy_action(tmp_path, toy_case):

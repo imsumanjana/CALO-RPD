@@ -301,6 +301,16 @@ This evidence used synthetic test ensembles and CPU inference. Fresh independent
 qualification plus immutable calibration binding, physical CUDA/CPU parity, E linearization support,
 component ablations and protected tests remain pending.
 
+TSH activation and binding now require an immutable qualification receipt rather than trusting a
+generic database status. The receipt binds the exact policy SHA, qualification run/protocol/source,
+seed manifest, referenced evidence artifact, development-case identities and frozen OOD calibration.
+Protected holdout identities are rejected before receipt creation. Activation freezes the receipt in
+policy metadata; experiment binding carries it; inference verifies the policy, receipt and calibration
+hashes again. Missing, cross-policy or mutated receipts fail closed. Five added receipt-path cases and
+a 27-test qualification/lifecycle/inference/optimizer focus pass; the active tree is 545 passed with
+63 skips. This establishes integrity and separation mechanics only. No evidence artifact was produced
+or evaluated, no policy was scientifically qualified, and no acceptance claim is made.
+
 Required order after approval:
 
 1. Extract the canonical transition kernel with **zero behavior change**.

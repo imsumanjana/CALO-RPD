@@ -26,6 +26,7 @@ from .tsh_calo_schema import (
     TSH_CALO_STATE_SCHEMA,
     TSH_CALO_TRAINING_ENVIRONMENT,
 )
+from .tsh_calo_qualification import load_tsh_calo_qualification_receipt
 from .policy_lineage import PolicyLineageManager
 
 _LOG = logging.getLogger(__name__)
@@ -233,6 +234,27 @@ class PolicyRegistry:
             raise RuntimeError(
                 "Policy checkpoint checksum changed since registration; activation is blocked"
             )
+        if algorithm_id == TSH_CALO_ALGORITHM_ID:
+            rows = [
+                row
+                for row in self.database.list_policy_qualifications(policy.id)
+                if bool(row.get("passed", False))
+            ]
+            if not rows:
+                raise ValueError("TSH-CALO activation requires a passed qualification record")
+            qualification = rows[0]
+            receipt = load_tsh_calo_qualification_receipt(
+                json.loads(str(qualification.get("config_json", "{}")) or "{}"),
+                expected_policy_sha256=policy.sha256,
+            )
+            metadata = dict(policy.metadata)
+            metadata["activated_qualification"] = {
+                "qualification_id": str(qualification.get("id", "")),
+                "created_at": str(qualification.get("created_at", "")),
+                "grade": str(qualification.get("grade", "")),
+                "receipt": receipt.as_dict(),
+            }
+            self.database.update_policy(policy.id, metadata_json=metadata)
         self.database.set_active_policy(policy_id)
         return self.get(policy_id)
 
@@ -348,6 +370,16 @@ class PolicyRegistry:
                 if binding["policy_artifact_kind"] == "ensemble_policy"
                 else dict(policy.metadata.get("training_provenance", {}))
             )
+            activated = dict(policy.metadata.get("activated_qualification", {}) or {})
+            receipt = load_tsh_calo_qualification_receipt(
+                {"tsh_calo_qualification_receipt": activated.get("receipt", {})},
+                expected_policy_sha256=policy.sha256,
+            )
+            binding["policy_qualification_id"] = str(activated.get("qualification_id", ""))
+            binding["policy_qualification_receipt_sha256"] = receipt.receipt_sha256
+            binding["policy_qualification_receipt"] = receipt.as_dict()
+            binding["policy_ood_calibration_sha256"] = receipt.ood_calibration_sha256
+            binding["ood_calibration"] = dict(receipt.ood_calibration)
         parameters.update(binding)
         config.algorithm_parameters[algorithm_id] = parameters
         return binding

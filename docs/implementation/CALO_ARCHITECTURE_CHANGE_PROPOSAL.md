@@ -46,6 +46,12 @@ primary campaign unless explicitly named by a bound experiment. Eight dedicated 
 66-test optimizer/registry/campaign focus and the 540-test active-tree regression pass. This used
 synthetic CPU test ensembles only; no trained candidate, formal qualification, target-CUDA evidence,
 component benefit or release claim follows from it.
+Activation subsequently gained a versioned qualification receipt that binds the exact policy,
+development-only calibration identities, protocol, seeds, evidence reference and OOD calibration.
+Activation, binding and inference revalidate the receipt; protected identities and mutations fail
+closed. Five added receipt-path cases, a 27-test lifecycle/inference/optimizer focus and the 545-test
+active-tree regression pass. Receipt integrity is not qualification evidence, and no real receipt or
+scientific acceptance decision has been produced.
 
 **Decision owner:** user/project scientific lead
 **Proposed working name:** Topology-Aware Shielded Hierarchical CALO (TSH-CALO)

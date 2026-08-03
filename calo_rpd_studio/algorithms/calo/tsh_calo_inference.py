@@ -3,11 +3,9 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
-import hashlib
 import json
 from pathlib import Path
 
-import numpy as np
 import psutil
 import torch
 
@@ -15,6 +13,10 @@ from calo_rpd_studio.compute.memory_budget import calculate_available_memory_adm
 
 from .tsh_calo_policy import GroupActionMask, hierarchical_action
 from .tsh_calo_policy_artifact import load_tsh_calo_ensemble
+from .tsh_calo_qualification import (
+    TSH_CALO_QUALIFICATION_RECEIPT_KEY,
+    load_tsh_calo_qualification_receipt,
+)
 from .tsh_calo_schema import (
     TSH_CALO_ACTION_SCHEMA,
     TSH_CALO_ALGORITHM_ID,
@@ -31,24 +33,13 @@ from .tsh_calo_shield import (
     SlidingWindowContextualBandit,
     UncertaintySafetyShield,
     aggregate_policy_ensemble,
+    ood_calibration_sha256,
     resolve_policy_fallback,
     topology_ood_signature,
 )
 
 
 FROZEN_CALO_BASELINE_IDENTITY = "CALO-v5.9"
-
-
-def ood_calibration_sha256(calibration: OODCalibration) -> str:
-    calibration.validate()
-    payload = {
-        "mean": np.asarray(calibration.mean, dtype=float).tolist(),
-        "scale": np.asarray(calibration.scale, dtype=float).tolist(),
-        "attenuation_start": float(calibration.attenuation_start),
-        "minimum_neural_weight": float(calibration.minimum_neural_weight),
-    }
-    encoded = json.dumps(payload, sort_keys=True, separators=(",", ":"), allow_nan=False)
-    return hashlib.sha256(encoded.encode("utf-8")).hexdigest()
 
 
 @dataclass(frozen=True, slots=True)
@@ -202,6 +193,21 @@ class TSHCALOInferenceController:
             raise ValueError("TSH-CALO OOD calibration SHA-256 mismatch")
         if str(binding.get("policy_ood_calibration_sha256", "")).lower() != calibration_sha:
             raise ValueError("TSH-CALO binding does not identify the frozen OOD calibration")
+        receipt = load_tsh_calo_qualification_receipt(
+            {
+                TSH_CALO_QUALIFICATION_RECEIPT_KEY: dict(
+                    binding.get("policy_qualification_receipt", {}) or {}
+                )
+            },
+            expected_policy_sha256=str(binding.get("policy_sha256", "")),
+        )
+        if (
+            str(binding.get("policy_qualification_receipt_sha256", "")).lower()
+            != receipt.receipt_sha256
+        ):
+            raise ValueError("TSH-CALO binding qualification receipt SHA-256 mismatch")
+        if receipt.ood_calibration_sha256 != calibration_sha:
+            raise ValueError("TSH-CALO bound calibration differs from its qualification receipt")
         checkpoint = str(binding.get("policy_checkpoint", "") or "")
         expected_sha = str(binding.get("policy_sha256", "") or "").lower()
         self.admission = admit_inference_device(
