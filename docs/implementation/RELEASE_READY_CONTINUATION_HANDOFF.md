@@ -226,6 +226,15 @@ performs no hidden power-flow call, declares no feasibility and requires an expl
 Ten focused tests pass; cumulative A–E focus is 38 passed and the full tree is 490 passed with 63
 skips. No physics-repair benefit or acceptable-cost evidence exists yet.
 
+Change F mechanics are locally complete but remain experimental and disabled by default. Enabling
+requires both the independent feature flag and explicit experimental mode. The design hash binds
+the preregistered feasibility, archive-coverage, diversity, remaining-budget, spacing and bounded-
+contraction conditions. Contraction is deterministic, feasibility-first, adds no FE and resumes
+exactly. Nine focused tests pass; cumulative A–F mechanics are 47 passed. Excluding the deliberately
+stale v6.9 release-integrity file, the active tree is 499 passed with 63 skips. The complete tree is
+502 passed, 63 skipped and the same two expected stale freeze/manifest failures. This is not evidence
+of performance benefit or grounds for promotion.
+
 Required order after approval:
 
 1. Extract the canonical transition kernel with **zero behavior change**.

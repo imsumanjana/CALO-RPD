@@ -54,7 +54,7 @@ Status vocabulary:
 | Canonical runtime/training transition authority | Locally verified | `algorithms/calo/transition_kernel.py`; shared runtime/training authority invariant; native one-step parity; 22 frozen seeded optimizer snapshot/exact-budget cases; 45-test CALO/continuation focus; complete active tree 461 passed, 63 skipped | Retain parity in every later B–F stage and execute external CPU/CUDA qualification |
 | Topology context, hierarchical actions, and uncertainty/bandit shield | B–D locally verified | B/C evidence plus `tsh_calo_shield.py`; six ensemble/OOD/bandit/resume/mixture/budget/lattice/fallback tests; cumulative A–D focus 28 passed; complete active tree 480 passed and 63 skipped | Fit calibration on development assets only, train fresh candidates, run paired ablations and protected tests; no benefit claim yet |
 | Physics-informed repair | Locally verified; disabled by default | `tsh_calo_physics_repair.py`; ten mask/convergence/conditioning/trust/lattice/no-hidden-solver/exact-FE/failure tests; cumulative A–E focus 38 passed; complete tree 490 passed and 63 skipped | Supply retained counted-evaluation Jacobian context in the eventual runtime, then run separate incremental-value/cost ablation; no benefit claim yet |
-| Evidence-driven population schedule | Approved experimental; disabled by default | Approved Change F with evidence gate | Must earn inclusion through anytime/feasibility evidence without unacceptable cost/regression |
+| Evidence-driven population schedule | Experimental mechanics locally verified; disabled by default; promotion evidence absent | `tsh_calo_population_schedule.py`; separate `enabled` plus `experimental_mode` gates; preregistered design hash; feasibility/archive/diversity/budget/spacing conditions; deterministic feasibility-first contraction; no hidden FE; exact resume; nine focused tests | Must earn inclusion through paired-seed anytime/feasibility evidence without unacceptable cost, instability, overfitting or regression; otherwise keep disabled or remove |
 | Correct paired statistics, effect estimates, CIs, multiplicity control, power and anytime metrics | Locally verified at harness level | `statistics/`, campaign design, `SCIENTIFIC_VALIDATION_PROTOCOL.md`, statistical tests | Execute final frozen campaign |
 | Modern strong stochastic baselines | Locally verified at implementation level | Source-traceable L-SHADE 1.0.1 and pinned pycma 4.4.4 CMA-ES with deterministic snapshots | External benchmark execution |
 | Deterministic/mathematical reference solutions and broader licensed case corpus | Partial | Protocol specifies reference and licensed-import requirements | Add/verify solver adapters and checksummed datasets without redistributing restricted assets |
@@ -63,7 +63,10 @@ Status vocabulary:
 
 ## Current verification checkpoint
 
-- Active development suite after Change E: **490 passed, 63 skipped**.
+- Active development suite after Change F, excluding the deliberately stale v6.9 release-integrity
+  file: **499 passed, 63 skipped**. The complete tree reports **502 passed, 63 skipped, 2 failed**;
+  both failures are the expected stale release freeze/root manifest and are not regenerated during
+  G9 development.
 - Repository Ruff lint and format: **pass**.
 - Generated experiment schema: **current**.
 - Focused automatic scheduling/configuration/GUI set: **54 passed**.
@@ -78,6 +81,8 @@ The exact decision was recorded on 2026-08-03:
 
 > Approve TSH-CALO A–E, with F experimental and evidence-gated.
 
-Changes A–E have passed their local correctness gates. The next legal step is experimental Change
-F behind its independent disabled-by-default flag; it cannot be promoted without its preregistered
-incremental anytime/feasibility/cost evidence.
+Changes A–E and the disabled Change-F mechanics have passed their local correctness gates. Change F
+has not earned promotion and remains off. The next legal step is to connect the approved, versioned
+TSH-CALO runtime and independent training path to immutable candidate artifacts, then train and
+qualify fresh candidates without protected-test leakage. Paired-seed component ablations must retain
+the disabled baseline and may not weaken preregistered acceptance criteria.
