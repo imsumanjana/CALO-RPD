@@ -35,7 +35,11 @@ first Safe-80 admission, ensemble/shield decisions and explicit block or relabel
 its six tests and the 520-test active-tree regression pass. No component benefit or acceptable-cost
 result has been claimed. The additive ORPD counted-context API then retained exact scenario solves
 without extra PF calls or result-metadata contamination; its three tests and the 523-test active-tree
-regression pass. Actual TSH transition consumption remains pending.
+regression pass. Versioned runtime context and candidate-transition mechanics then consumed those
+counted records, independently shielded group/operator/parameter actions and optional fail-closed
+physics proposals while reserving a distinct precision-memory channel. Nine dedicated runtime tests,
+a 68-test frozen-snapshot/parity focus and the 532-test active-tree regression pass. End-to-end
+optimizer orchestration and scientific-benefit evidence remain pending.
 **Decision owner:** user/project scientific lead
 **Proposed working name:** Topology-Aware Shielded Hierarchical CALO (TSH-CALO)
 

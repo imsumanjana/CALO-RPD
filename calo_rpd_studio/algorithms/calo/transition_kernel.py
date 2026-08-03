@@ -487,6 +487,7 @@ def complete_transition(
     use_variable_intelligence: bool = True,
     use_dual_archives: bool = True,
     use_hpem: bool = True,
+    precision_memory_operator: int = 6,
 ) -> TransitionResult:
     """Apply the frozen learning, selection, archive, diagnostic, and reward transition."""
 
@@ -521,7 +522,11 @@ def complete_transition(
             offspring_pb[index] = child.copy()
             offspring_pb_ev[index] = child_ev
         if successful[index] and use_memory:
-            memory_operator = 6 if precision_mask[index] else int(assigned_operators[index])
+            memory_operator = (
+                int(precision_memory_operator)
+                if precision_mask[index]
+                else int(assigned_operators[index])
+            )
             memory.add(
                 child - population[index],
                 memory_operator,

@@ -274,6 +274,18 @@ second power-flow call for state construction. Three dedicated tests, a 37-test 
 focus and the 523-pass active tree pass. The TSH optimizer and training rollout still need to consume
 this boundary.
 
+The versioned runtime context and candidate-transition mechanics now consume that boundary without
+rerunning power flow. Scenario descriptors are measured from the already-counted scenario cases;
+unknown roles are explicitly neutral and do not make an OOD claim. Per-learner shielded group and
+operator actions plus bounded group parameters drive candidate generation. Optional physics repair
+requires a supplied counted context and fails closed if it becomes unavailable; every proposal still
+requires trusted evaluation. Forced recovery and precision remain explicit, with TSH precision
+successes isolated in memory channel 7 because operator 6 belongs to physics repair. Nine dedicated
+runtime invariants and a 68-test runtime/frozen-snapshot/parity focus pass. The active tree excluding
+only the deliberately stale v6.9 release-integrity file passes 532 tests with 63 skips; repository
+Ruff lint/format and the generated schema pass. End-to-end optimizer/rollout orchestration, real
+candidate training, target CUDA evidence, qualification and every benefit claim remain pending.
+
 Required order after approval:
 
 1. Extract the canonical transition kernel with **zero behavior change**.

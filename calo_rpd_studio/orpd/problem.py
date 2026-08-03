@@ -65,7 +65,7 @@ class ORPDEvaluationContext:
     normalized_controls: np.ndarray
     scenarios: tuple[ScenarioEvaluationContext, ...]
 
-    def primary_converged_power_flow(self):
+    def primary_converged_scenario(self) -> ScenarioEvaluationContext:
         converged = [
             item
             for item in self.scenarios
@@ -75,8 +75,10 @@ class ORPDEvaluationContext:
         if not converged:
             raise ValueError("No already-counted converged power-flow context is available")
         base = next((item for item in converged if item.name.lower() == "base"), None)
-        selected = base or max(converged, key=lambda item: float(item.weight))
-        return selected.power_flow
+        return base or max(converged, key=lambda item: float(item.weight))
+
+    def primary_converged_power_flow(self):
+        return self.primary_converged_scenario().power_flow
 
 
 class ORPDProblem:
