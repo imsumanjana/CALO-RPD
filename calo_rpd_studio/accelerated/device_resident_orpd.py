@@ -56,6 +56,7 @@ from calo_rpd_studio.robustness.robust_objectives import RobustAggregation, Cons
 from calo_rpd_studio.robustness.cvar import weighted_cvar_torch
 
 from .torch_power_flow import ZERO_IMPEDANCE_TOLERANCE, solve_newton_raphson_batch_torch
+from .vram_residency import VramResidencyGovernor, VramResidencyPolicy
 
 
 OBJECTIVE_COMPONENT_NAMES = (
@@ -105,6 +106,64 @@ class DeviceResidentBatch:
     @property
     def count(self) -> int:
         return int(self.objective.shape[0])
+
+    @classmethod
+    def concatenate(
+        cls, batches: list["DeviceResidentBatch"], residency_metadata: dict[str, Any] | None = None
+    ) -> "DeviceResidentBatch":
+        """Join completed microbatches entirely on the execution device."""
+        if not batches:
+            raise ValueError("At least one device-resident batch is required")
+        if len(batches) == 1:
+            batch = batches[0]
+            if residency_metadata:
+                batch.metadata = {
+                    **dict(batch.metadata),
+                    "vram_residency": dict(residency_metadata),
+                }
+            return batch
+        torch = _torch()
+        variable_names = batches[0].variable_names
+        if any(batch.variable_names != variable_names for batch in batches[1:]):
+            raise ValueError("Cannot concatenate batches with different decision-variable schemas")
+        metadata = dict(batches[0].metadata)
+        metadata["device_microbatch_count"] = len(batches)
+        if residency_metadata:
+            metadata["vram_residency"] = dict(residency_metadata)
+        return cls(
+            objective=torch.cat([batch.objective for batch in batches], dim=0),
+            violation=torch.cat([batch.violation for batch in batches], dim=0),
+            feasible=torch.cat([batch.feasible for batch in batches], dim=0),
+            normalized_values=torch.cat([batch.normalized_values for batch in batches], dim=0),
+            decoded_values=torch.cat([batch.decoded_values for batch in batches], dim=0),
+            scenario_values=torch.cat([batch.scenario_values for batch in batches], dim=0),
+            objective_components={
+                name: torch.cat([batch.objective_components[name] for batch in batches], dim=0)
+                for name in OBJECTIVE_COMPONENT_NAMES
+            },
+            constraint_components={
+                name: torch.cat([batch.constraint_components[name] for batch in batches], dim=0)
+                for name in CONSTRAINT_COMPONENT_NAMES
+            },
+            scenario_constraint_components=torch.cat(
+                [batch.scenario_constraint_components for batch in batches], dim=0
+            ),
+            variable_names=variable_names,
+            metadata=metadata,
+        )
+
+    def compact_host_summary(self) -> dict[str, np.ndarray]:
+        """Transfer only objective/violation/feasibility scalars for coarse telemetry."""
+        torch = _torch()
+        packed = torch.stack(
+            (self.objective, self.violation, self.feasible.to(self.objective.dtype)), dim=1
+        )
+        host = np.asarray(packed.detach().to("cpu"), dtype=float)
+        return {
+            "objective": host[:, 0],
+            "violation": host[:, 1],
+            "feasible": host[:, 2] > 0.5,
+        }
 
     def to_evaluations(self) -> list[Evaluation]:
         """Materialise the complete population with one packed host transfer."""
@@ -205,6 +264,13 @@ class DeviceResidentORPDEvaluator:
         self.cdtype = torch.complex128 if self.dtype == torch.float64 else torch.complex64
         self.options = problem.power_flow_options
         self.variable_names = tuple(variable.name for variable in self.decoder.variables)
+        self.vram_policy = VramResidencyPolicy(
+            budget_fraction=float(getattr(problem, "cuda_vram_budget_fraction", 0.80)),
+            oom_retry_count=int(getattr(problem, "cuda_oom_retry_count", 4)),
+            minimum_microbatch=int(getattr(problem, "cuda_minimum_microbatch", 1)),
+            retain_outputs_on_device=True,
+        )
+        self.vram_governor = VramResidencyGovernor(self.device, self.vram_policy)
         self._prepare_host_arrays()
         self._prepare_device_tensors()
 
@@ -236,6 +302,14 @@ class DeviceResidentORPDEvaluator:
         self.bus_np = np.stack([case.bus for case in cases], axis=0)
         self.gen_np = np.stack([case.gen for case in cases], axis=0)
         self.branch_np = np.stack([case.branch for case in cases], axis=0)
+        impedance = self.branch_np[:, :, BR_R] + 1j * self.branch_np[:, :, BR_X]
+        invalid = (self.branch_np[:, :, BR_STATUS] > 0) & (
+            np.abs(impedance) <= ZERO_IMPEDANCE_TOLERANCE
+        )
+        if np.any(invalid):
+            raise ValueError(
+                "In-service zero/near-zero impedance branch is unsupported by the device-resident ORPD evaluator"
+            )
 
         shape = (self.scenario_count, self.n_bus)
         pg = np.zeros(shape, dtype=float)
@@ -393,11 +467,6 @@ class DeviceResidentORPDEvaluator:
         tap_flat = tap.reshape(rows, self.n_branch)
         shift = self.branch_shift.unsqueeze(0).expand(batch, -1, -1).reshape(rows, self.n_branch)
         z = torch.complex(r, x)
-        invalid_impedance = status & (torch.abs(z) <= ZERO_IMPEDANCE_TOLERANCE)
-        if bool(torch.any(invalid_impedance)):
-            raise ValueError(
-                "In-service zero/near-zero impedance branch is unsupported by the device-resident ORPD evaluator"
-            )
         valid_impedance = torch.abs(z) > ZERO_IMPEDANCE_TOLERANCE
         safe_z = torch.where(valid_impedance, z, torch.ones_like(z))
         y = torch.where(valid_impedance, 1.0 / safe_z, torch.zeros_like(z))
@@ -515,6 +584,7 @@ class DeviceResidentORPDEvaluator:
                     max_iterations=int(self.options.max_iterations),
                     collect_history=False,
                     minimum_damping=float(getattr(self.options, "minimum_damping", 1.0 / 32.0)),
+                    host_early_exit=not bool(getattr(self.problem, "cuda_resident_hot_loop", True)),
                 )
                 voltage[group_rows] = solved
                 iterations[group_rows] += iters
@@ -640,7 +710,7 @@ class DeviceResidentORPDEvaluator:
             float(self.config.robust.cvar_alpha),
         )
 
-    def evaluate_tensor(self, normalized) -> DeviceResidentBatch:
+    def _evaluate_tensor_once(self, normalized) -> DeviceResidentBatch:
         torch = _torch()
         with torch.inference_mode():
             z, decoded, vm, tap, bs = self.decode(normalized)
@@ -688,9 +758,7 @@ class DeviceResidentORPDEvaluator:
             above_v = torch.where(
                 above_v > float(tolerances.voltage_pu), above_v, torch.zeros_like(above_v)
             )
-            bus_voltage = torch.sum(
-                torch.relu(below_v) / span + torch.relu(above_v) / span, dim=1
-            )
+            bus_voltage = torch.sum(torch.relu(below_v) / span + torch.relu(above_v) / span, dim=1)
             scenario_indices = (
                 torch.arange(batch * self.scenario_count, device=self.device) % self.scenario_count
             )
@@ -723,7 +791,9 @@ class DeviceResidentORPDEvaluator:
             rated = active_branch & (self.rate_a[scenario_indices] > 0)
             overload = loading - 100.0
             overload = torch.where(
-                overload > float(tolerances.branch_loading_percent), overload, torch.zeros_like(overload)
+                overload > float(tolerances.branch_loading_percent),
+                overload,
+                torch.zeros_like(overload),
             )
             branch_thermal = torch.sum(
                 torch.where(rated, torch.relu(overload) / 100.0, torch.zeros_like(loading)), dim=1
@@ -740,7 +810,9 @@ class DeviceResidentORPDEvaluator:
             lo_active = active_branch & (~unconstrained) & (angmin > -360.0)
             hi_active = active_branch & (~unconstrained) & (angmax < 360.0)
             angle_span = torch.where(
-                lo_active & hi_active, torch.clamp(angmax - angmin, min=1.0), torch.full_like(angmin, 360.0)
+                lo_active & hi_active,
+                torch.clamp(angmax - angmin, min=1.0),
+                torch.full_like(angmin, 360.0),
             )
             below_angle = angmin - delta
             above_angle = delta - angmax
@@ -792,9 +864,7 @@ class DeviceResidentORPDEvaluator:
             else:
                 objective_config = self.config.objective
                 scenario_objective = (
-                    float(objective_config.weight_loss)
-                    * loss
-                    / float(objective_config.loss_scale)
+                    float(objective_config.weight_loss) * loss / float(objective_config.loss_scale)
                     + float(objective_config.weight_voltage_deviation)
                     * voltage_deviation
                     / float(objective_config.voltage_deviation_scale)
@@ -805,7 +875,8 @@ class DeviceResidentORPDEvaluator:
 
             scenario_objective = scenario_objective.reshape(batch, self.scenario_count)
             scenario_constraints = torch.stack(
-                (bus_voltage, generator_q, generator_p, branch_thermal, branch_angle, power_flow), dim=1
+                (bus_voltage, generator_q, generator_p, branch_thermal, branch_angle, power_flow),
+                dim=1,
             ).reshape(batch, self.scenario_count, len(CONSTRAINT_COMPONENT_NAMES))
             scenario_violation = torch.sum(scenario_constraints, dim=2)
             robust_objective = self._robust(scenario_objective)
@@ -873,3 +944,46 @@ class DeviceResidentORPDEvaluator:
                 self.variable_names,
                 metadata,
             )
+
+    def evaluate_tensor(self, normalized) -> DeviceResidentBatch:
+        """Evaluate with availability-based VRAM admission and host-staged OOM backoff.
+
+        Input candidates may remain in host memory and are transferred in active microbatches,
+        analogous to explicit model/tensor offload. Numerical work and completed microbatch outputs
+        remain on CUDA; the public result is materialized only after the request completes.
+        """
+        torch = _torch()
+        if isinstance(normalized, torch.Tensor):
+            population = normalized.to(dtype=self.dtype)
+        else:
+            population = torch.as_tensor(np.asarray(normalized, dtype=float), dtype=self.dtype)
+        if population.ndim == 1:
+            population = population.unsqueeze(0)
+        host_staged = population.device.type == "cpu" and self.device.type == "cuda"
+        if host_staged and hasattr(population, "pin_memory"):
+            try:
+                population = population.pin_memory()
+            except RuntimeError:
+                pass
+
+        def evaluate_active_chunk(chunk):
+            active = chunk.to(
+                device=self.device,
+                dtype=self.dtype,
+                non_blocking=bool(host_staged and getattr(chunk, "is_pinned", lambda: False)()),
+            )
+            return self._evaluate_tensor_once(active)
+
+        # CUDA first attempts the complete request and then reduces only the transferred active
+        # chunk. The host population remains bounded host-side staging rather than occupying VRAM.
+        preferred = (
+            int(population.shape[0])
+            if self.vram_governor.enabled
+            else int(getattr(self.problem, "batch_size", int(population.shape[0])))
+        )
+        return self.vram_governor.run_microbatched(
+            population,
+            evaluate_active_chunk,
+            DeviceResidentBatch.concatenate,
+            preferred_microbatch=preferred,
+        )

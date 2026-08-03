@@ -1,5 +1,18 @@
 # Changelog
 
+## 6.9.0 — VRAM-Resident CUDA Data Plane
+
+- Added an 80%-default per-process CUDA VRAM ceiling with configurable 10–95% range.
+- Added adaptive CUDA OOM microbatch halving/retry with explicit no-CPU-fallback semantics.
+- Added device-resident completed-microbatch concatenation and one packed host materialization per completed population.
+- Reworked the device-resident Newton/backtracking path to use fixed-shape masked systems without CPU convergence/active-row scalar checks when enabled.
+- Moved zero/near-zero branch-impedance validation to static host preparation instead of synchronizing the CUDA hot loop.
+- Added PPO learner VRAM residency, adaptive CUDA minibatch OOM recovery, and one epoch-level loss materialization instead of per-minibatch `.item()` synchronization.
+- Added GUI controls for CUDA VRAM budget, OOM retries and CPU-free CUDA hot loop.
+- Added VRAM allocation/peak/retry provenance and v6.9 regression/release evidence.
+- Added focused VRAM-residency, configuration, release-integrity, freeze and package-manifest validation evidence.
+
+
 ## 6.8.0 — Independent CALO Intelligence & XPU Recovery
 
 - Added scientific-only `ExperimentConfig.validate_policy_development()` and switched all CALO policy-development paths to it.

@@ -49,15 +49,25 @@ def test_champion_quality_is_hardware_neutral_and_global_rank_is_order_independe
     ]
     winners = {
         min(order, key=lambda row: _rank_key(row[1], stable_id=row[0]))[0]
-        for order in (candidates, list(reversed(candidates)), [candidates[1], candidates[2], candidates[0]])
+        for order in (
+            candidates,
+            list(reversed(candidates)),
+            [candidates[1], candidates[2], candidates[0]],
+        )
     }
     assert winners == {"B01"}
 
 
 def test_validation_bundle_fingerprint_changes_with_scientific_evidence_bundle():
-    a = TrainingConfig(champion_validation_seed=17, champion_validation_episodes=5, champion_validation_horizon=32)
-    b = TrainingConfig(champion_validation_seed=18, champion_validation_episodes=5, champion_validation_horizon=32)
-    c = TrainingConfig(champion_validation_seed=17, champion_validation_episodes=6, champion_validation_horizon=32)
+    a = TrainingConfig(
+        champion_validation_seed=17, champion_validation_episodes=5, champion_validation_horizon=32
+    )
+    b = TrainingConfig(
+        champion_validation_seed=18, champion_validation_episodes=5, champion_validation_horizon=32
+    )
+    c = TrainingConfig(
+        champion_validation_seed=17, champion_validation_episodes=6, champion_validation_horizon=32
+    )
     assert validation_bundle_fingerprint(a) != validation_bundle_fingerprint(b)
     assert validation_bundle_fingerprint(a) != validation_bundle_fingerprint(c)
 
@@ -68,7 +78,9 @@ def test_infinite_curriculum_is_independent_of_hidden_session_epochs():
     for completed_epoch in (0, 4, 5, 9, 10, 16, 25, 1000):
         expected = _curriculum_stage(completed_epoch, None, False, milestones=milestones)
         assert expected == _curriculum_stage(completed_epoch, 24, False, milestones=milestones)
-        assert expected == _curriculum_stage(completed_epoch, 1_000_000, False, milestones=milestones)
+        assert expected == _curriculum_stage(
+            completed_epoch, 1_000_000, False, milestones=milestones
+        )
 
 
 def test_partial_callable_scientific_state_changes_exact_resume_fingerprint():
@@ -134,7 +146,6 @@ def test_formal_superiority_qualification_fails_without_favorable_significant_ev
     assert any("superiority" in reason.lower() or "holm" in reason.lower() for reason in reasons)
 
 
-
 def test_legacy_resume_migration_is_explicit_and_authenticates_new_copy(tmp_path, monkeypatch):
     import hashlib
     import torch
@@ -164,7 +175,6 @@ def test_legacy_resume_migration_is_explicit_and_authenticates_new_copy(tmp_path
     assert migration["source_sha256"] == digest
 
 
-
 def test_exact_resume_history_payload_is_bounded(tmp_path, monkeypatch):
     import torch
     from calo_rpd_studio.ai import model_io
@@ -191,6 +201,7 @@ def test_exact_resume_history_payload_is_bounded(tmp_path, monkeypatch):
     payload = model_io.load_trusted_resume(path, map_location="cpu")
     assert [row["epoch"] for row in payload["history"]] == [997, 998, 999]
 
+
 def test_no_silent_broad_exception_pass_continue_or_return_in_source_tree():
     root = Path(__file__).resolve().parents[2] / "calo_rpd_studio"
     offenders = []
@@ -199,10 +210,19 @@ def test_no_silent_broad_exception_pass_continue_or_return_in_source_tree():
         for node in ast.walk(tree):
             if not isinstance(node, ast.ExceptHandler):
                 continue
-            broad = node.type is None or (isinstance(node.type, ast.Name) and node.type.id in {"Exception", "BaseException"})
-            if broad and len(node.body) == 1 and isinstance(node.body[0], (ast.Pass, ast.Continue, ast.Return)):
-                offenders.append(f"{path.relative_to(root)}:{node.lineno}:{type(node.body[0]).__name__}")
+            broad = node.type is None or (
+                isinstance(node.type, ast.Name) and node.type.id in {"Exception", "BaseException"}
+            )
+            if (
+                broad
+                and len(node.body) == 1
+                and isinstance(node.body[0], (ast.Pass, ast.Continue, ast.Return))
+            ):
+                offenders.append(
+                    f"{path.relative_to(root)}:{node.lineno}:{type(node.body[0]).__name__}"
+                )
     assert offenders == []
+
 
 def test_training_session_status_has_safe_stop_distinct_from_completion():
     assert TrainingSessionStatus.SAFE_STOPPED != TrainingSessionStatus.COMPLETED

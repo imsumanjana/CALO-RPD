@@ -6,14 +6,27 @@ import logging
 
 from contextlib import contextmanager
 from datetime import datetime, timezone
+import hashlib
 import json
 from pathlib import Path
 import sqlite3
 import threading
 import uuid
 
+from calo_rpd_studio.version import VERSION
+
 
 _LOG = logging.getLogger(__name__)
+DATABASE_SCHEMA_VERSION = 1
+
+
+def _sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
 
 class ResultDatabase:
     """Persist experiment metadata and provide safe history deletion operations.
@@ -25,8 +38,49 @@ class ResultDatabase:
 
     def __init__(self, path="calo_rpd_results.sqlite"):
         self.path = str(path)
+        self.migration_backup_path: str | None = None
         self._lock = threading.RLock()
         self._initialize()
+
+    def _inspect_existing_schema(self) -> tuple[int, bool]:
+        """Return ``(user_version, has_user_tables)`` without mutating the database."""
+        if self.path == ":memory:":
+            return 0, False
+        source = Path(self.path)
+        if not source.is_file() or source.stat().st_size == 0:
+            return 0, False
+        uri = f"{source.resolve().as_uri()}?mode=ro"
+        with sqlite3.connect(uri, uri=True, timeout=30) as con:
+            version = int(con.execute("PRAGMA user_version").fetchone()[0])
+            has_tables = (
+                con.execute(
+                    "SELECT 1 FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' LIMIT 1"
+                ).fetchone()
+                is not None
+            )
+        if version > DATABASE_SCHEMA_VERSION:
+            raise RuntimeError(
+                f"Database schema v{version} is newer than supported v{DATABASE_SCHEMA_VERSION}; "
+                "open it with a compatible CALO-RPD Studio release."
+            )
+        return version, has_tables
+
+    def _backup_for_migration(self, source_version: int) -> tuple[str, str]:
+        """Create and verify a consistent SQLite backup before any legacy-schema DDL."""
+        source_path = Path(self.path).resolve()
+        stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
+        backup_path = source_path.with_name(
+            f"{source_path.stem}.pre-schema-v{source_version}-to-v{DATABASE_SCHEMA_VERSION}-{stamp}.sqlite"
+        )
+        source_uri = f"{source_path.as_uri()}?mode=ro"
+        with sqlite3.connect(source_uri, uri=True, timeout=30) as source:
+            with sqlite3.connect(backup_path, timeout=30) as backup:
+                source.backup(backup)
+                integrity = str(backup.execute("PRAGMA integrity_check").fetchone()[0])
+        if integrity.lower() != "ok":
+            raise RuntimeError(f"Pre-migration backup failed integrity_check: {integrity}")
+        self.migration_backup_path = str(backup_path)
+        return str(backup_path), _sha256_file(backup_path)
 
     @contextmanager
     def connect(self):
@@ -41,6 +95,11 @@ class ResultDatabase:
             con.close()
 
     def _initialize(self):
+        source_version, has_user_tables = self._inspect_existing_schema()
+        backup_path = ""
+        backup_sha256 = ""
+        if has_user_tables and source_version < DATABASE_SCHEMA_VERSION:
+            backup_path, backup_sha256 = self._backup_for_migration(source_version)
         schema = """
         CREATE TABLE IF NOT EXISTS experiments(
             id TEXT PRIMARY KEY, created_at TEXT NOT NULL, name TEXT NOT NULL,
@@ -171,6 +230,12 @@ class ResultDatabase:
             validations_json TEXT NOT NULL DEFAULT '[]', created_at TEXT NOT NULL,
             UNIQUE(run_id, evaluation_horizon), FOREIGN KEY(run_id) REFERENCES runs(id)
         );
+        CREATE TABLE IF NOT EXISTS schema_migrations(
+            id TEXT PRIMARY KEY, applied_at TEXT NOT NULL,
+            source_version INTEGER NOT NULL, target_version INTEGER NOT NULL,
+            backup_path TEXT NOT NULL DEFAULT '', backup_sha256 TEXT NOT NULL DEFAULT '',
+            application_version TEXT NOT NULL DEFAULT ''
+        );
         CREATE INDEX IF NOT EXISTS idx_runs_experiment ON runs(experiment_id);
         CREATE INDEX IF NOT EXISTS idx_failures_experiment ON run_failures(experiment_id);
         CREATE INDEX IF NOT EXISTS idx_validations_run ON validations(run_id);
@@ -188,9 +253,12 @@ class ResultDatabase:
         CREATE INDEX IF NOT EXISTS idx_run_horizon_snapshots ON run_horizon_snapshots(run_id,evaluation_horizon);
         """
         with self.connect() as con:
-            con.executescript(schema)
-            # Forward-compatible migration for repositories created before v1.3.0. Existing
-            # experiments are deliberately excluded from learning until the user classifies them.
+            # BEGIN is inside executescript so its implicit pre-script COMMIT cannot split the
+            # migration. The context manager commits only after every dynamic ALTER and the
+            # user_version receipt succeed; closing after an exception rolls the transaction back.
+            con.executescript("BEGIN IMMEDIATE;\n" + schema)
+            # Version-0 migrations preserve all historical rows. Existing experiments are
+            # deliberately excluded from learning until the user classifies them.
             columns = {
                 row["name"] for row in con.execute("PRAGMA table_info(experiments)").fetchall()
             }
@@ -246,6 +314,29 @@ class ResultDatabase:
                 con.execute(
                     "ALTER TABLE run_horizon_snapshots ADD COLUMN validations_json TEXT NOT NULL DEFAULT '[]'"
                 )
+            if source_version < DATABASE_SCHEMA_VERSION:
+                con.execute(
+                    """INSERT INTO schema_migrations(
+                        id,applied_at,source_version,target_version,
+                        backup_path,backup_sha256,application_version
+                    ) VALUES(?,?,?,?,?,?,?)""",
+                    (
+                        str(uuid.uuid4()),
+                        datetime.now(timezone.utc).isoformat(),
+                        int(source_version),
+                        DATABASE_SCHEMA_VERSION,
+                        backup_path,
+                        backup_sha256,
+                        VERSION,
+                    ),
+                )
+                con.execute(f"PRAGMA user_version={DATABASE_SCHEMA_VERSION}")
+
+    @property
+    def schema_version(self) -> int:
+        """Return the durable SQLite application schema version."""
+        with self.connect() as con:
+            return int(con.execute("PRAGMA user_version").fetchone()[0])
 
     def create_experiment(
         self,
@@ -1082,7 +1173,9 @@ class ResultDatabase:
 
     def unsuppress_policy_sha256(self, sha256: str) -> None:
         with self._lock, self.connect() as con:
-            con.execute("DELETE FROM suppressed_policies WHERE sha256=?", (str(sha256).strip().lower(),))
+            con.execute(
+                "DELETE FROM suppressed_policies WHERE sha256=?", (str(sha256).strip().lower(),)
+            )
 
     def save_workspace_state(
         self, experiment_id: str, *, workflow: dict, ui: dict | None = None

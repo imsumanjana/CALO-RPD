@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from pathlib import Path
 
 import pytest
 
@@ -68,7 +67,7 @@ def test_safe80_profile_calculates_global_budget_and_validated_branch_slots():
     topology = _topology(
         devices=(
             _device("cuda:0", "cuda"),
-            _device("xpu:0", "xpu"),
+            _device("cuda:1", "cuda"),
         )
     )
     profile = SafeResourceBudgetEngine(allocation_limit_fraction=0.80).calculate(topology)
@@ -79,18 +78,28 @@ def test_safe80_profile_calculates_global_budget_and_validated_branch_slots():
     assert profile.safe_parallel_branches == 2
 
 
-def test_safe80_sidecar_xpu_is_not_counted_as_full_branch_in_alpha():
+def test_safe80_host_allowance_is_80_percent_of_currently_available_ram():
+    gib = 1024**3
+    topology = _topology(devices=(), ram_gib=32, ram_used=25.0)
+    profile = SafeResourceBudgetEngine(
+        allocation_limit_fraction=0.80,
+        estimated_branch_ram_bytes=2 * gib,
+    ).calculate(topology)
+    # 32 GiB total at 25% used -> 24 GiB available -> 19.2 GiB admission allowance.
+    assert profile.safe_ram_ceiling_bytes == int(24 * gib * 0.80)
+    assert profile.ram_branch_capacity == 9
+
+
+def test_safe80_non_branch_cuda_device_is_not_counted_as_full_branch():
     topology = _topology(
         devices=(
             _device("cuda:0", "cuda"),
-            _device("xpu:0", "xpu", runtime="sidecar", full_branch=False),
+            _device("cuda:1", "cuda", runtime="telemetry-only", full_branch=False),
         )
     )
     profile = SafeResourceBudgetEngine().calculate(topology)
     assert profile.accelerator_branch_slots == 1
     assert profile.safe_parallel_branches == 1
-
-
 
 
 def test_safe80_accelerator_memory_headroom_is_required_for_branch_admission():
@@ -148,7 +157,10 @@ def test_governing_policy_is_fail_closed_until_qualified_active_integrity_verifi
     assert evaluate_governing_policy(_Registry([candidate])).state == "unqualified"
     qualified = _Policy(active=True, qualification_status="qualified", grade="A")
     assert evaluate_governing_policy(_Registry([qualified])).ready is True
-    assert evaluate_governing_policy(_Registry([qualified], checksum="changed")).state == "checksum_mismatch"
+    assert (
+        evaluate_governing_policy(_Registry([qualified], checksum="changed")).state
+        == "checksum_mismatch"
+    )
 
 
 def test_competitive_planner_beta_separates_total_branches_from_safe_concurrency():

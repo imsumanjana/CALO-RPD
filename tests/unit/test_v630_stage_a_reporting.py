@@ -67,7 +67,7 @@ def test_multi_branch_progress_uses_total_scientific_branch_epochs():
             "branch_id": f"B{i:02d}",
             "start_epoch": 0,
             "scientific_session_target_epoch": 24,
-            "assigned_device": "cuda:0" if i % 2 else "xpu:0",
+            "assigned_device": "cuda:0" if i % 2 else "cuda:1",
         }
         for i in range(1, 5)
     ]
@@ -113,26 +113,36 @@ def test_indefinite_progress_is_indeterminate_but_epoch_and_safe_state_remain_vi
     assert "next exact safe 20" in detail
 
 
-def test_stage_a_gui_contract_separates_selected_recommended_runtime_and_scope_text():
-    source = (_root() / "calo_rpd_studio/gui/panels/calo_intelligence_panel.py").read_text(encoding="utf-8")
-    assert 'training_form.addRow("CPU rollout process cap"' in source
-    assert 'training_form.addRow("Selected rollout routing"' in source
-    assert 'training_form.addRow("Recommended routing"' in source
-    assert 'training_form.addRow("Safe-80 branch admission"' in source
-    assert 'training_form.addRow("Runtime device mapping"' in source
-    assert 'training_form.addRow("Execution scope"' in source
-    assert "Advisory only — not selected automatically" in source
-    assert "Planner units derive the percentages only; they are NOT counts of CUDA/XPU processes" in source
-    assert "Stage-B synthetic curriculum evaluation" in source
-    assert "Real ORPD development suite" in source
-    assert "This count is EPISODES, not rollout-worker count" in source
-    assert "not exact Task Manager utilization percentages" in source
-    assert 'self.rollout_workers.valueChanged.connect(self._sync_workers_from_shares)' in source
-    assert 'self.rollout_workers.valueChanged.connect(self._apply_recommended_worker_split)' not in source
+def test_scientist_gui_hides_manual_routing_and_reports_automatic_memory_policy():
+    source = (_root() / "calo_rpd_studio/gui/panels/calo_intelligence_panel.py").read_text(
+        encoding="utf-8"
+    )
+    for forbidden_row in (
+        "CPU rollout process cap",
+        "Selected rollout routing",
+        "Recommended routing",
+        "Safe-80 branch admission",
+        "Runtime device mapping",
+        "Execution scope",
+        "ORPD tensor microbatch",
+    ):
+        assert f'training_form.addRow("{forbidden_row}"' not in source
+    assert 'training_form.addRow("Compute mode", self.training_device)' in source
+    assert 'training_form.addRow("Compute summary", self.accelerator_status)' in source
+    assert "80% of VRAM free at admission" in source
+    assert "80% of system memory available at admission" in source
+    assert "Real ORPD training cases" in source
+    assert "self.rollout_workers.valueChanged.connect(self._sync_workers_from_shares)" in source
+    assert (
+        "self.rollout_workers.valueChanged.connect(self._apply_recommended_worker_split)"
+        not in source
+    )
 
 
 def test_competitive_coordinator_no_longer_forces_normal_progress_to_zero():
-    source = (_root() / "calo_rpd_studio/algorithms/calo/competitive_training.py").read_text(encoding="utf-8")
+    source = (_root() / "calo_rpd_studio/algorithms/calo/competitive_training.py").read_text(
+        encoding="utf-8"
+    )
     assert "progress_callback(progress_percent, progress_detail)" in source
     assert "epochs {epoch_values} · common safe" not in source
     assert '"overall_percent": int(progress_percent)' in source
@@ -142,22 +152,14 @@ def test_competitive_coordinator_no_longer_forces_normal_progress_to_zero():
 def test_protected_rollout_share_reporting_matches_runtime_rebinding_rules():
     from calo_rpd_studio.compute.training_resources import protected_rollout_shares
 
-    assert protected_rollout_shares(
-        cuda_share=60, xpu_share=30, cpu_share=10, primary_device="cuda:0"
-    ) == {"cuda": 90, "xpu": 0, "cpu": 10}
-    assert protected_rollout_shares(
-        cuda_share=60,
-        xpu_share=30,
-        cpu_share=10,
-        primary_device="cuda:0",
-        auxiliary_xpu_runtime="sidecar",
-    ) == {"cuda": 60, "xpu": 30, "cpu": 10}
-    assert protected_rollout_shares(
-        cuda_share=60, xpu_share=30, cpu_share=10, primary_device="xpu:0"
-    ) == {"cuda": 0, "xpu": 90, "cpu": 10}
-    assert protected_rollout_shares(
-        cuda_share=60, xpu_share=30, cpu_share=10, primary_device="cpu"
-    ) == {"cuda": 0, "xpu": 0, "cpu": 100}
+    assert protected_rollout_shares(cuda_share=90, cpu_share=10, primary_device="cuda:0") == {
+        "cuda": 90,
+        "cpu": 10,
+    }
+    assert protected_rollout_shares(cuda_share=90, cpu_share=10, primary_device="cpu") == {
+        "cuda": 0,
+        "cpu": 100,
+    }
 
 
 def test_single_branch_competitive_training_emits_nonzero_target_aware_progress(tmp_path):

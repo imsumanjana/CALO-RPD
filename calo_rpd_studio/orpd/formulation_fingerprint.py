@@ -1,4 +1,5 @@
 """Canonical scientific formulation fingerprints for transfer/resume/parity provenance."""
+
 from __future__ import annotations
 
 from dataclasses import asdict, is_dataclass
@@ -53,7 +54,9 @@ def canonical_scientific_value(value):
         return {
             "callable_kind": "bound_method",
             "function": canonical_scientific_value(value.__func__),
-            "owner_type": f"{type(owner).__module__}.{type(owner).__qualname__}" if owner is not None else "",
+            "owner_type": f"{type(owner).__module__}.{type(owner).__qualname__}"
+            if owner is not None
+            else "",
             "owner_state": owner_state,
         }
     if callable(value):
@@ -74,11 +77,15 @@ def canonical_scientific_value(value):
             except TypeError:
                 state = {}
             if call_impl is None and not state:
-                raise ValueError(f"Cannot safely canonicalize callable scientific transform {type(value)!r}")
+                raise ValueError(
+                    f"Cannot safely canonicalize callable scientific transform {type(value)!r}"
+                )
             return {
                 "callable_kind": "callable_object",
                 "class": f"{type(value).__module__}.{type(value).__qualname__}",
-                "call_impl": canonical_scientific_value(call_impl) if call_impl is not None else None,
+                "call_impl": canonical_scientific_value(call_impl)
+                if call_impl is not None
+                else None,
                 "state": state,
             }
         code_identity = ""
@@ -89,7 +96,9 @@ def canonical_scientific_value(value):
                 "co_names": list(code.co_names),
                 "co_varnames": list(code.co_varnames),
             }
-            encoded = json.dumps(payload, sort_keys=True, separators=(",", ":"), allow_nan=False).encode("utf-8")
+            encoded = json.dumps(
+                payload, sort_keys=True, separators=(",", ":"), allow_nan=False
+            ).encode("utf-8")
             code_identity = hashlib.sha256(encoded).hexdigest()
         return {
             "callable_kind": "function" if code is not None else "builtin",

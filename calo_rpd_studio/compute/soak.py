@@ -73,8 +73,6 @@ def _resolve_backend(requested: str) -> str:
 
         if text in {"auto", "cuda"} and torch.cuda.is_available():
             return "cuda:0"
-        if text in {"auto", "xpu"} and hasattr(torch, "xpu") and torch.xpu.is_available():
-            return "xpu:0"
     except (ImportError, RuntimeError, AttributeError):
         pass
     return "cpu"
@@ -96,13 +94,13 @@ def _workload(device: str, size: int) -> str:
     sample = y[:8, :8].detach().cpu().numpy().astype(np.float64, copy=False)
     if device.startswith("cuda"):
         torch.cuda.synchronize(target)
-    elif device.startswith("xpu") and hasattr(torch, "xpu"):
-        torch.xpu.synchronize(target)
     return hashlib.sha256(sample.tobytes()).hexdigest()
 
 
 class HardwareSoakRunner:
-    def __init__(self, config: SoakConfig, *, output_dir: str | Path = "results_data/hardware_soak") -> None:
+    def __init__(
+        self, config: SoakConfig, *, output_dir: str | Path = "results_data/hardware_soak"
+    ) -> None:
         config.validate()
         self.config = config
         self.output_dir = Path(output_dir)
@@ -147,7 +145,13 @@ class HardwareSoakRunner:
                 recorder.append("GOVERNOR_SAMPLE", decision.to_dict())
                 samples += 1
                 if progress is not None:
-                    progress({"elapsed_seconds": elapsed, "decision": decision.to_dict(), "backend": backend})
+                    progress(
+                        {
+                            "elapsed_seconds": elapsed,
+                            "decision": decision.to_dict(),
+                            "backend": backend,
+                        }
+                    )
                 if decision.request_safe_stop or decision.state is ProtectionState.RED:
                     stopped = True
                     recorder.append("PROTECTIVE_STOP", {"reasons": list(decision.reasons)})
@@ -164,9 +168,11 @@ class HardwareSoakRunner:
             and duration >= float(self.config.duration_seconds) * 0.99
         )
         if stopped:
-            reason = "Protection governor requested Safe Stop before qualification duration completed."
+            reason = (
+                "Protection governor requested Safe Stop before qualification duration completed."
+            )
         elif backend == "cpu":
-            reason = "CPU/software soak completed; no physical CUDA/XPU accelerator was exercised."
+            reason = "CPU/software soak completed; no physical CUDA accelerator was exercised."
         elif duration < self.config.minimum_physical_qualification_seconds:
             reason = "Short qualification run completed; duration is below the declared physical-soak minimum."
         else:

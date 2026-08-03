@@ -49,7 +49,7 @@ class SphereProblem:
         }
 
 
-def test_all_nineteen_baselines_have_torch_canonical_kernels():
+def test_all_registered_baselines_declare_their_compute_kernel():
     for name in SPECS:
         if name == "CALO":
             continue
@@ -64,5 +64,9 @@ def test_all_nineteen_baselines_have_torch_canonical_kernels():
         result = optimizer.run()
         assert result.evaluations <= 40
         assert np.isfinite(result.best_objective)
-        assert result.metadata["optimizer_kernel"] == "torch_canonical"
-        assert result.metadata["optimizer_dtype"] == "float64"
+        if name == "CMA-ES":
+            assert result.metadata["optimizer_kernel"] == "pycma_reference_cpu_control"
+            assert result.metadata["optimizer_control_residency"] == "cpu_ram"
+        else:
+            assert result.metadata["optimizer_kernel"] == "torch_canonical"
+            assert result.metadata["optimizer_dtype"] == "float64"

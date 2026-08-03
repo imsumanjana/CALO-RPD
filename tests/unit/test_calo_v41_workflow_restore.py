@@ -60,7 +60,9 @@ def test_legacy_restore_never_infers_governing_policy_but_accepts_explicit_setup
         verified_results=0,
         inferred_completed=inferred,
     )
-    assert "calo_intelligence" in workflow.completed  # added only from live governing-policy readiness
+    assert (
+        "calo_intelligence" in workflow.completed
+    )  # added only from live governing-policy readiness
     assert inferred <= workflow.completed
     assert workflow.experiment_started is True
     assert workflow.is_workspace_enabled("experiment") is True
@@ -73,7 +75,14 @@ def test_restored_downstream_setup_is_invalidated_when_governing_policy_sha_chan
     workflow = WorkflowManager(state)
     payload = {
         "schema_version": 2,
-        "completed": ["calo_intelligence", "power_system", "orpd", "algorithms", "portfolio", "scenarios"],
+        "completed": [
+            "calo_intelligence",
+            "power_system",
+            "orpd",
+            "algorithms",
+            "portfolio",
+            "scenarios",
+        ],
         "governing_policy_sha": "old-sha",
     }
     workflow.restore(payload)

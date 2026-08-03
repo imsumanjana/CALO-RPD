@@ -26,7 +26,9 @@ class BranchScientificIdentity:
 
 
 def canonical_branch_set(identities: Iterable[BranchScientificIdentity]) -> dict[str, str]:
-    return {item.branch_id: item.fingerprint() for item in sorted(identities, key=lambda x: x.branch_id)}
+    return {
+        item.branch_id: item.fingerprint() for item in sorted(identities, key=lambda x: x.branch_id)
+    }
 
 
 def scheduling_equivalent(
@@ -48,21 +50,33 @@ def scheduling_equivalent(
 
 
 def compare_terminal_records(
-    sequential: dict[str, dict[str, Any]], concurrent: dict[str, dict[str, Any]], *, ignore_keys: set[str] | None = None
+    sequential: dict[str, dict[str, Any]],
+    concurrent: dict[str, dict[str, Any]],
+    *,
+    ignore_keys: set[str] | None = None,
 ) -> tuple[bool, dict[str, Any]]:
     """Compare branch terminal records while ignoring declared wall-clock/resource-placement metadata."""
-    ignore = set(ignore_keys or {"wall_clock_seconds", "device", "started_at", "completed_at", "queue_wait_seconds"})
+    ignore = set(
+        ignore_keys
+        or {"wall_clock_seconds", "device", "started_at", "completed_at", "queue_wait_seconds"}
+    )
 
     def canonical(record: dict[str, Any]) -> str:
         payload = {k: v for k, v in dict(record).items() if k not in ignore}
         return hashlib.sha256(
-            json.dumps(payload, sort_keys=True, separators=(",", ":"), allow_nan=False).encode("utf-8")
+            json.dumps(payload, sort_keys=True, separators=(",", ":"), allow_nan=False).encode(
+                "utf-8"
+            )
         ).hexdigest()
 
     keys = sorted(set(sequential) | set(concurrent))
     changed = []
     for key in keys:
-        if key not in sequential or key not in concurrent or canonical(sequential.get(key, {})) != canonical(concurrent.get(key, {})):
+        if (
+            key not in sequential
+            or key not in concurrent
+            or canonical(sequential.get(key, {})) != canonical(concurrent.get(key, {}))
+        ):
             changed.append(key)
     return not changed, {"changed_branches": changed}
 

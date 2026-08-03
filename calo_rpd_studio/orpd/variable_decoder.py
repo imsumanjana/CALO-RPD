@@ -196,8 +196,7 @@ class ORPDVariableDecoder:
                 self.variables.append(DecisionVariable(f"Vg@{bus}", lower, upper))
                 self._actions.append(("vg", bus, lower, upper, None))
                 self._vg_generators_by_bus[bus] = np.where(
-                    (case.gen[:, GEN_STATUS] > 0)
-                    & (case.gen[:, GEN_BUS].astype(int) == bus)
+                    (case.gen[:, GEN_STATUS] > 0) & (case.gen[:, GEN_BUS].astype(int) == bus)
                 )[0]
 
         if config.transformer_taps:

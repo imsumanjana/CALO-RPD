@@ -84,24 +84,38 @@ Objective and constraint progress are never combined into one raw scalar state.
 
 ## 6. Search regimes
 
-The hierarchical controller assigns probabilities to four regimes:
+The native v5.9 neural controller observes the aggregate generation state and samples one global
+regime from four possibilities:
 
 1. **Feasibility** — emphasize boundary learning and physically meaningful device moves.
 2. **Transition** — balance constraint reduction and objective quality near the feasible boundary.
 3. **Objective refinement** — exploit exact-feasible elites while preserving differential information.
 4. **Recovery** — temporarily rebuild diversity when objective or constraint progress stagnates.
 
-A transparent rule-based prior is blended with the learned regime policy. Recovery is temporary and includes a cooldown; it cannot become a permanent hard override.
+A transparent rule-based prior is used by the legacy/no-AI compatibility path. In the native neural
+path, the sampled regime remains the raw policy action; per-learner context can adapt the effective
+regime and recovery remains an explicitly logged environmental intervention. Recovery is temporary
+and includes a cooldown; it cannot become a permanent hidden override.
 
-## 7. Per-individual operator allocation
+## 7. Generation-level neural action and learner adaptations
 
-CALO does not apply one operator to the entire population. Each learner independently samples one of six operators from a probability distribution that combines:
+The native v5.9 policy samples one global operator per generation. That raw operator is used by
+ordinary learners. Learners can still differ through:
 
-- hierarchical AI output;
-- regime-specific prior knowledge;
-- online operator credit measured during the current run.
+- contextual effective-regime adaptation;
+- discovery/learning lane assignment;
+- HPEM memory depth and variable-group selection;
+- precision proposals; and
+- forced diversity-recovery interventions.
 
-This permits simultaneous exploration, feasibility repair, and objective refinement within one generation.
+Online contextual operator credit is recorded and updates diagnostic/success memory, but it does
+not override the native neural operator action. The legacy/no-AI compatibility path does blend rule
+priors and contextual credit into per-learner operator sampling. Results from these paths must not be
+described as the same controller semantics.
+
+This distinction is the behavior of the current implementation, not the proposed hierarchical
+per-group/per-learner architecture. Any change to that behavior requires a new algorithm version,
+new policy ABI, ablations, and qualification.
 
 ## 8. CALO Core v2 operators
 
@@ -222,7 +236,7 @@ The application provides nine fixed variants:
 8. CALO without diversity recovery;
 9. Complete CALO.
 
-Ablation results are stored separately from the primary 20-algorithm benchmark.
+Ablation results are stored separately from the registered primary-algorithm benchmark.
 
 ## 14. Required interpretation
 

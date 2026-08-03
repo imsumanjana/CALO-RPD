@@ -49,8 +49,12 @@ def generate_stratified_load_scenarios(config):
     for i, z in enumerate(z_values):
         # Pair Q in reverse order so the set covers both same-direction and opposing P/Q stress.
         zq = z_values[-(i + 1)] if count > 1 else 0.0
-        p = float(np.clip(1.0 + float(config.active_load_std) * z, config.clip_low, config.clip_high))
-        q = float(np.clip(1.0 + float(config.reactive_load_std) * zq, config.clip_low, config.clip_high))
+        p = float(
+            np.clip(1.0 + float(config.active_load_std) * z, config.clip_low, config.clip_high)
+        )
+        q = float(
+            np.clip(1.0 + float(config.reactive_load_std) * zq, config.clip_low, config.clip_high)
+        )
 
         def transform(case, p=p, q=q):
             case.bus[:, 2] *= p

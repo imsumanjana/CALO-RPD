@@ -5,7 +5,6 @@ from pathlib import Path
 import pytest
 
 from calo_rpd_studio.algorithms.calo.training import TrainingConfig, train_policy_parallel
-from calo_rpd_studio.algorithms.calo.heterogeneous_training import HeterogeneousTrainingConfig
 from calo_rpd_studio.compute.topology import (
     ComputeDevice,
     ComputeTopologySnapshot,
@@ -64,17 +63,17 @@ def _plan(config: TrainingConfig, total: int, topology: ComputeTopologySnapshot)
 
 
 def test_beta2_total_branches_are_separate_from_simultaneous_concurrency():
-    topology = _topology(_device("cuda:0", "cuda"), _device("xpu:0", "xpu"))
+    topology = _topology(_device("cuda:0", "cuda"), _device("cuda:1", "cuda"))
     cfg = TrainingConfig(ppo_device="auto", parallel_concurrency=2)
     plan = _plan(cfg, 4, topology)
     assert plan.total_branches == 4
     assert plan.simultaneous_branches == 2
     assert plan.queued_branches == 2
-    assert [slot.primary_device for slot in plan.slots] == ["cuda:0", "xpu:0"]
+    assert [slot.primary_device for slot in plan.slots] == ["cuda:0", "cuda:1"]
 
 
 def test_beta3_one_global_cpu_budget_is_partitioned_not_multiplied():
-    topology = _topology(_device("cuda:0", "cuda"), _device("xpu:0", "xpu"), logical=16)
+    topology = _topology(_device("cuda:0", "cuda"), _device("cuda:1", "cuda"), logical=16)
     cfg = TrainingConfig(ppo_device="auto", parallel_concurrency=2, safe_global_cpu_workers=12)
     plan = _plan(cfg, 6, topology)
     assert plan.global_cpu_worker_budget == 12
@@ -100,50 +99,27 @@ def test_beta3_explicit_cpu_is_a_deliberate_primary_not_fallback():
     assert plan.queued_branches == 3
 
 
-def test_beta4_sidecar_xpu_is_auxiliary_not_a_fake_full_branch():
-    topology = _topology(
-        _device("cuda:0", "cuda"),
-        _device("xpu-sidecar:0", "xpu", runtime="sidecar", full=False),
-    )
-    cfg = HeterogeneousTrainingConfig(
-        ppo_device="auto",
-        parallel_concurrency=1,
-        cuda_rollout_share=80,
-        xpu_rollout_share=10,
-        cpu_rollout_share=10,
-    )
-    plan = _plan(cfg, 4, topology)
-    assert plan.simultaneous_branches == 1
-    assert plan.queued_branches == 3
-    assert plan.slots[0].primary_device == "cuda:0"
-    assert plan.slots[0].uses_auxiliary_xpu
-    assert plan.slots[0].auxiliary_xpu_runtime == "sidecar"
-
-
-def test_beta4_direct_xpu_can_be_a_full_branch_when_capability_validated():
-    topology = _topology(_device("xpu:0", "xpu", runtime="primary", full=True))
-    cfg = TrainingConfig(ppo_device="xpu", parallel_concurrency=1)
-    plan = _plan(cfg, 3, topology)
-    assert plan.slots[0].primary_device == "xpu:0"
-    assert plan.queued_branches == 2
-
-
 def test_beta4_busy_first_accelerator_is_not_selected_using_another_devices_headroom():
     topology = _topology(
         _device("cuda:0", "cuda", memory_percent=70.0),  # < 2 GiB Safe-80 headroom
-        _device("xpu:0", "xpu", memory_percent=10.0),
+        _device("cuda:1", "cuda", memory_percent=10.0),
     )
     cfg = TrainingConfig(ppo_device="auto", parallel_concurrency=1)
     plan = _plan(cfg, 2, topology)
-    assert plan.slots[0].primary_device == "xpu:0"
-
+    assert plan.slots[0].primary_device == "cuda:1"
 
 
 def test_beta3_strict_actor_lane_binding_never_redistributes_missing_cuda_to_cpu():
     from calo_rpd_studio.algorithms.calo.heterogeneous_training import plan_training_lanes
 
     with pytest.raises(RuntimeError, match="CPU redistribution is disabled"):
-        plan_training_lanes(4, cuda_share=100, xpu_share=0, cpu_share=0, cuda_available=False, xpu_available=False, xpu_sidecar_available=False, strict_unavailable=True)
+        plan_training_lanes(
+            4,
+            cuda_share=100,
+            cpu_share=0,
+            cuda_available=False,
+            strict_unavailable=True,
+        )
 
 
 def test_beta1_global_training_exclusive_lock_is_wired_application_wide():
@@ -152,7 +128,7 @@ def test_beta1_global_training_exclusive_lock_is_wired_application_wide():
     workflow = (root / "calo_rpd_studio/app/workflow_manager.py").read_text(encoding="utf-8")
     state = (root / "calo_rpd_studio/app/state_manager.py").read_text(encoding="utf-8")
     assert "policy_training_changed.connect(self._on_policy_training_changed)" in main
-    assert "page.setEnabled(not active or key == \"dashboard\")" in main
+    assert 'page.setEnabled(not active or key == "dashboard")' in main
     assert "Global Training Exclusive Lock" in workflow
     assert "def begin_policy_training" in state and "def end_policy_training" in state
     assert "Compute topology cannot be refreshed while policy training is active" in state

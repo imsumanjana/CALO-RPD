@@ -525,7 +525,7 @@ class PortfolioExporter:
         else:
             totals = np.asarray([sum(collected[name]) for name in names], dtype=float)
             values = (totals / totals.sum()).tolist() if totals.sum() > 0 else totals.tolist()
-            ylabel, title = "Fraction of operator assignments", "CALO operator utilization"
+            ylabel, title = "Fraction of operator assignments", "CALO operator selection share"
         fig, ax = plt.subplots(figsize=(max(7.5, len(names) * 0.9), 5.0))
         ax.bar(names, values)
         ax.set_ylabel(ylabel)
@@ -684,7 +684,13 @@ class PortfolioExporter:
             for scenario in scenarios:
                 if field == "feasible":
                     violation = float(scenario.get("total_constraint_violation", float("inf")))
-                    value = 1.0 if bool(scenario.get("converged", False)) and np.isfinite(violation) and violation <= 1e-12 else 0.0
+                    value = (
+                        1.0
+                        if bool(scenario.get("converged", False))
+                        and np.isfinite(violation)
+                        and violation <= 1e-12
+                        else 0.0
+                    )
                 elif field == "loss":
                     value = scenario.get("total_loss_mw", np.nan)
                 else:
@@ -804,7 +810,9 @@ class PortfolioExporter:
         publication_rows = verified_rows if require_validation else all_rows
         if require_validation:
             expected_count = int(horizon_status.get("expected_count", 0) or 0)
-            available_count = int(horizon_status.get("available_count", len(all_rows)) or len(all_rows))
+            available_count = int(
+                horizon_status.get("available_count", len(all_rows)) or len(all_rows)
+            )
             if expected_count <= 0:
                 raise ValueError(
                     "Publication export is blocked: the campaign protocol does not declare a positive expected paired evidence count."
@@ -820,7 +828,9 @@ class PortfolioExporter:
                     f"verified {len(verified_rows)}/{expected_count}. Partial verified subsets are exploratory only."
                 )
         if not publication_rows:
-            raise ValueError("Publication export has no admissible evidence rows at the selected horizon")
+            raise ValueError(
+                "Publication export has no admissible evidence rows at the selected horizon"
+            )
         best = self._best_row(publication_rows)
 
         records = []
@@ -890,10 +900,17 @@ class PortfolioExporter:
                 target = figures / key
                 row = best
                 best_required = {
-                    "objective_convergence", "constraint_convergence", "constraint_decomposition",
-                    "voltage_profile", "best_validated_voltage_profile", "voltage_heatmap",
-                    "branch_loading", "branch_loading_heatmap", "best_validated_branch_heatmap",
-                    "generator_reactive_power", "control_changes",
+                    "objective_convergence",
+                    "constraint_convergence",
+                    "constraint_decomposition",
+                    "voltage_profile",
+                    "best_validated_voltage_profile",
+                    "voltage_heatmap",
+                    "branch_loading",
+                    "branch_loading_heatmap",
+                    "best_validated_branch_heatmap",
+                    "generator_reactive_power",
+                    "control_changes",
                 }
                 if key in best_required and row is None:
                     raise ValueError(
@@ -950,9 +967,13 @@ class PortfolioExporter:
                 elif key == "convergence_uncertainty_band":
                     path = self._median_convergence(publication_rows, target, True)
                 elif key == "objective_boxplot":
-                    path = self._distribution(publication_frame[publication_frame["feasible"]], target, False)
+                    path = self._distribution(
+                        publication_frame[publication_frame["feasible"]], target, False
+                    )
                 elif key == "objective_violin":
-                    path = self._distribution(publication_frame[publication_frame["feasible"]], target, True)
+                    path = self._distribution(
+                        publication_frame[publication_frame["feasible"]], target, True
+                    )
                 elif key == "feasible_run_probability":
                     path = self._feasible_probability(publication_frame, target)
                 elif key == "evaluations_to_feasibility":
@@ -976,24 +997,22 @@ class PortfolioExporter:
                         "Accelerator calibration/parity records are unavailable in the selected experiment"
                     )
                 elif key in {"wilcoxon_holm", "effect_sizes", "friedman_ranking"}:
-                    pairwise, rankings = self._pairwise_statistics(
-                        publication_rows, tables
-                    )
+                    pairwise, rankings = self._pairwise_statistics(publication_rows, tables)
                     if key == "wilcoxon_holm":
                         path = str(tables / "wilcoxon_holm_effect_sizes.csv")
                     elif key == "effect_sizes":
                         path = self._effect_size_plot(pairwise, target)
                     else:
-                        algorithms, blocks, matrix = self._paired_merits(
-                            publication_rows
-                        )
+                        algorithms, blocks, matrix = self._paired_merits(publication_rows)
                         if len(blocks) < 2 or len(algorithms) < 3:
                             raise ValueError(
                                 "Friedman ranking requires at least two complete paired blocks and three algorithms"
                             )
                         with warnings.catch_warnings():
                             warnings.simplefilter("ignore", RuntimeWarning)
-                            result = friedmanchisquare(*[matrix[:, i] for i in range(matrix.shape[1])])
+                            result = friedmanchisquare(
+                                *[matrix[:, i] for i in range(matrix.shape[1])]
+                            )
                         statistic = float(result.statistic)
                         p_value = float(result.pvalue)
                         if not (np.isfinite(statistic) and np.isfinite(p_value)):
@@ -1049,7 +1068,9 @@ class PortfolioExporter:
                         "completed_runs": len(all_rows),
                         "verified_runs": len(verified_rows),
                         "publication_evidence_runs": len(publication_rows),
-                        "publication_evidence_basis": "verified_only" if require_validation else "all_completed",
+                        "publication_evidence_basis": "verified_only"
+                        if require_validation
+                        else "all_completed",
                     }
                     self._atomic_json(out / "portfolio_metadata.json", metadata)
                     path = str(out / "portfolio_metadata.json")

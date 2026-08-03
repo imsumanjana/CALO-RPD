@@ -176,7 +176,9 @@ class PortfolioPlanner:
         if portfolio.evidence_profile is EvidenceProfile.JOURNAL and runs < 30:
             warnings.append("Journal profile normally requires at least 30 repeated runs.")
         if portfolio.evidence_profile is EvidenceProfile.TRANSACTIONS and runs < 50:
-            warnings.append("Transactions profile normally requires 50 repeated runs.")
+            warnings.append(
+                "The comprehensive profile normally requires at least 50 repeated runs."
+            )
 
         return PortfolioPlan(
             required_runs=runs,

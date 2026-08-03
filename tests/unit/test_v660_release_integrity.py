@@ -6,8 +6,16 @@ import json
 from pathlib import Path
 import tomllib
 
+import pytest
+
 from calo_rpd_studio.benchmarking.freeze import verify_freeze_manifest
 from calo_rpd_studio.version import FREEZE_ID, FREEZE_MANIFEST, RELEASE_NAME, VERSION
+
+
+pytestmark = pytest.mark.skipif(
+    VERSION != "6.6.0",
+    reason="historical v6.6 release gate runs only against a v6.6 release checkout",
+)
 
 
 def _root() -> Path:
@@ -96,10 +104,39 @@ def test_v660_release_evidence_records_every_remaining_priority_id():
     with (root / "FINDINGS_CLOSURE_v6.6.0.csv").open(encoding="utf-8", newline="") as stream:
         rows = {row["id"]: row for row in csv.DictReader(stream)}
     expected = {
-        "C02", "C03", "C05", "C06", "C07", "H03", "H10", "H14", "H16", "H17",
-        "H18", "H19", "H20", "H23", "H25", "H26", "H27", "M04", "M05", "M16",
-        "M34", "M36", "M37", "M48", "M52", "M54", "M57", "L19", "L20", "L23",
-        "V64-N04", "V64-N05", "V64-N06",
+        "C02",
+        "C03",
+        "C05",
+        "C06",
+        "C07",
+        "H03",
+        "H10",
+        "H14",
+        "H16",
+        "H17",
+        "H18",
+        "H19",
+        "H20",
+        "H23",
+        "H25",
+        "H26",
+        "H27",
+        "M04",
+        "M05",
+        "M16",
+        "M34",
+        "M36",
+        "M37",
+        "M48",
+        "M52",
+        "M54",
+        "M57",
+        "L19",
+        "L20",
+        "L23",
+        "V64-N04",
+        "V64-N05",
+        "V64-N06",
     }
     assert set(rows) == expected
     assert rows["H19"]["status"] == "VERIFIED_NOT_DEFECT"

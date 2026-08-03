@@ -27,9 +27,7 @@ def kessel_glavitsch_l_index(case, voltage, *, partition_case=None):
         raise ValueError(
             f"L-index voltage vector must have shape ({case.n_bus},), got {voltage.shape}"
         )
-    if not np.array_equal(
-        partition.bus[:, 0].astype(int), case.bus[:, 0].astype(int)
-    ):
+    if not np.array_equal(partition.bus[:, 0].astype(int), case.bus[:, 0].astype(int)):
         raise ValueError("L-index partition_case must preserve bus identity and ordering")
     types = partition.bus[:, BUS_TYPE].astype(int)
     load = np.where(types == PQ)[0]

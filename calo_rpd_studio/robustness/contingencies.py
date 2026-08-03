@@ -10,11 +10,13 @@ def n_minus_one_branch_scenarios(indices, *, include_base: bool = True):
     """Return intact P0 plus selected single-branch P1 contingencies by default."""
     out = [Scenario("base")] if include_base else []
     for k in indices:
+
         def transform(case, k=int(k)):
             if k < 0 or k >= case.n_branch:
                 raise IndexError(k)
             case.branch[k, BR_STATUS] = 0
             return case
+
         out.append(Scenario(f"branch_out_{k}", 1.0, transform))
     return out or [Scenario("base")]
 
@@ -23,6 +25,7 @@ def n_minus_one_generator_scenarios(indices, *, include_base: bool = True):
     """Return intact P0 plus selected single-generator P1 contingencies by default."""
     out = [Scenario("base")] if include_base else []
     for k in indices:
+
         def transform(case, k=int(k)):
             if k < 0 or k >= case.n_gen:
                 raise IndexError(k)
@@ -43,5 +46,6 @@ def n_minus_one_generator_scenarios(indices, *, include_base: bool = True):
                 new_bus = int(case.gen[online[0], GEN_BUS])
                 case.bus[idx[new_bus], BUS_TYPE] = REF
             return case
+
         out.append(Scenario(f"generator_out_{k}", 1.0, transform))
     return out or [Scenario("base")]

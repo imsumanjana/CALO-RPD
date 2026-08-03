@@ -81,6 +81,10 @@ class PowerSystemPanel(WorkspacePage):
         self.result.setWordWrap(True)
         self.result.setObjectName("ResultBanner")
         self.layout_root.addWidget(self.result)
+        self.state.case_changed.connect(
+            lambda case: self.restore_case_state(case) if case is not None else None
+        )
+        self.state.config_changed.connect(self.load_from_config)
 
     def restore_case_state(self, case, power_flow=None) -> None:
         index = self.case_combo.findText(str(case.name))

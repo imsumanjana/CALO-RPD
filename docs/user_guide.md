@@ -10,7 +10,7 @@ Select active-power loss, voltage deviation, L-index, or multi-objective optimiz
 
 ## 3. Algorithms
 
-Select any subset of the twenty primary methods. Algorithm parameter dictionaries are editable as JSON and saved with the experiment. All optimizers use the same normalized decision space, decoder, physical evaluator, constraints, scenarios, and budget policy.
+Select any subset of the registered primary methods. Method settings are saved with the experiment. All optimizers use the same normalized decision space, decoder, physical evaluator, constraints, scenarios, and budget policy.
 
 ## 4. CALO Intelligence
 

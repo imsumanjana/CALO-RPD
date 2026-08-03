@@ -113,7 +113,9 @@ def build_scenarios(config, seed, case=None):
     from calo_rpd_studio.robustness.robust_objectives import normalize_scenario_weights
 
     weights = normalize_scenario_weights([float(item.weight) for item in scenarios])
-    normalized = [replace(item, weight=float(weight)) for item, weight in zip(scenarios, weights, strict=True)]
+    normalized = [
+        replace(item, weight=float(weight)) for item, weight in zip(scenarios, weights, strict=True)
+    ]
     if case is not None:
         base_bus_numbers = set(case.bus[:, 0].astype(int).tolist())
         for item in normalized:
@@ -156,6 +158,11 @@ def build_problem(config, scenario_seed):
             dtype_name="float64",
             batch_size=int(getattr(config, "tensor_batch_size", 64)),
             device_resident=bool(getattr(config, "device_resident_execution", True)),
+            cuda_vram_budget_fraction=float(getattr(config, "cuda_vram_budget_fraction", 0.80)),
+            cuda_oom_retry_count=int(getattr(config, "cuda_oom_retry_count", 4)),
+            cuda_minimum_microbatch=int(getattr(config, "cuda_minimum_microbatch", 1)),
+            cuda_resident_hot_loop=bool(getattr(config, "cuda_resident_hot_loop", True)),
+            cuda_cpu_fallback_enabled=bool(getattr(config, "cuda_cpu_fallback_enabled", True)),
         )
     return ORPDProblem(case, problem_config, scenarios)
 

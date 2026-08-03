@@ -1,0 +1,129 @@
+# CALO-RPD modernization implementation gates
+
+This file controls implementation of the remediation plan in
+`docs/COMPLETE_REPOSITORY_CONTAINERIZATION_SCIENTIFIC_AUDIT_2026-08-03.md`.
+The live requirement-to-evidence audit is
+[`REQUIREMENT_TRACEABILITY.md`](REQUIREMENT_TRACEABILITY.md); it distinguishes local tests from
+physical/external and scientific-campaign proof.
+
+## Baseline
+
+- Starting commit: `307402df5c7a44a6bb852770347b1b1ef995548d`.
+- Starting branch: `main`; implementation branch: `codex/calo-complete-modernization`.
+- The starting checkout already contained uncommitted v6.9 work. Those changes are treated as
+  pre-existing work and must not be discarded or silently attributed to this modernization.
+- The v6.9 freeze and `MANIFEST.sha256` describe a historical candidate snapshot. They must fail
+  after a frozen file changes; they are regenerated only for a new verified release artifact.
+- The requested audit Markdown is an analysis artifact, not proof that any implementation gate has
+  passed.
+
+## Change classes
+
+### Class A — behavior-preserving engineering
+
+May proceed without algorithm approval:
+
+- tests and release-harness scoping;
+- schema/code contract alignment where runtime behavior is already strict;
+- container/build/CI infrastructure;
+- XPU compatibility readers and removal of executable XPU paths;
+- GUI terminology and presentation changes;
+- configuration decomposition that preserves scientific fingerprints and values;
+- memory admission, telemetry, resource leases, staging and explicitly governed backend fallback;
+- policy lifecycle orchestration and immutable experiment binding;
+- diagnostics and documentation that describe existing behavior truthfully.
+
+Every Class A change still requires focused tests and compatibility evidence.
+
+### Class B — scientific behavior or promotion semantics
+
+Requires explicit user approval before implementation:
+
+- operator allocation or operator equations;
+- policy state/action space, architecture, reward or training transition;
+- contextual-credit authority;
+- HPEM, personal/contextual memory or variable-group behavior;
+- environmental selection, adaptive epsilon, lane, precision or recovery behavior;
+- qualification/effect-size/non-inferiority/AUC changes that can alter policy promotion;
+- any change that makes an old CALO run scientifically non-equivalent under the same algorithm ID.
+
+Diagnostic tests may expose a Class B defect before approval, but production behavior remains
+unchanged until the proposal is approved.
+
+## Gates
+
+| Gate | Scope | Required evidence |
+|---|---|---|
+| G0 | Baseline and contracts | dirty-tree inventory, matching implementation branch, change classification |
+| G1 | Foundational correctness | configuration contract tests, correctly scoped historical/current release tests, clean relevant lint/tests |
+| G2 | Memory and fallback | shared GPU leases, 80% of free-at-admission tests, host available-RAM tests, OOM state-machine tests, parity/provenance |
+| G3 | XPU removal | versioned migration fixtures, zero executable XPU paths, historical records viewable, CUDA/CPU regressions |
+| G4 | Containers | hashed CPU/CUDA locks, non-root images, volumes, health checks, SBOM, CPU and physical-CUDA qualification |
+| G5 | Experiment protocol | lossless migrations, one immutable global protocol, transactional application, fingerprint stability |
+| G6 | Scientist GUI | no normal-view engineering/venue language, evidence wizard validation, headless interaction tests |
+| G7 | Policy lifecycle | independent training state, central resource leases, every experiment bound to governing policy SHA |
+| G8 | Algorithm proposal | alternatives, rationale, risks, versioning, ablations, falsification tests; explicit user approval |
+| G9 | Approved algorithm | new algorithm version, parity boundaries, ablations, development/validation qualification |
+| G10 | Scientific evidence | expanded cases/baselines/holdouts, power-aware runs, raw artifacts, independent validation |
+| G11 | Release | complete requirement audit, staged artifact manifests, reproducible images, documentation and handoff |
+
+## Current implementation status — 2026-08-03
+
+This is an implementation ledger, not a release declaration. “Implemented” means the source and
+focused tests exist; hardware-dependent gates remain open until they are executed on the target
+machine/container. The historical v6.9 freeze and root manifest are intentionally stale during this
+development branch and must not be regenerated before the final staged release audit.
+
+| Gate | Status | Current evidence / remaining boundary |
+|---|---|---|
+| G0 | Complete | Baseline commit and dirty-tree ownership recorded; work isolated on `codex/calo-complete-modernization`. |
+| G1 | Implemented, final release check pending | Current configuration contains no utilization, memory-percentage, lane-share, device-job-count or work-stealing knobs. Historical fields are accepted only at the strict loader migration boundary and discarded. SQLite now uses schema version 1, creates and integrity-checks an online backup before populated v0 migration, records its SHA-256 receipt, migrates transactionally, preserves representative legacy rows, reopens idempotently and rejects future schemas without mutation. Historical release artifacts remain immutable. |
+| G2 | Implemented, physical CUDA proof pending | Shared device lease, 80%-of-free VRAM/RAM admission, CUDA-resident/staged-host/CPU-fallback states and focused regression tests exist. Physical RTX 4060 pressure/parity/thermal qualification remains. |
+| G3 | Implemented | New schemas expose only `cuda_preferred` and `cpu_only`; old CUDA modes migrate to `cuda_preferred`; historical XPU modes remain readable but validation rejects them as view-only. No executable XPU source/import remains. |
+| G4 | CI/static/reproducibility inputs implemented; runtime proof pending | CPU/CUDA profiles, local-only noVNC, unprivileged UID/GID 10001, dropped capabilities, no-new-privileges, read-only root filesystem, bounded `/tmp`, persistent `/data`, one explicitly selected NVIDIA device, a 24 GiB default host-RAM ceiling, health check and runbook exist. The linux/amd64 Python base is digest-pinned, Debian APT uses a dated snapshot, and separate Python 3.11 CPU/CUDA 12.8 dependency graphs are exact and SHA-256 enforced. A third hash-complete CI lock drives the release-critical source/scientific, offscreen-GUI, staged-artifact and container lanes; every external action is pinned to a full commit SHA. The cross-version Linux/Windows compatibility matrix intentionally resolves within bounded project ranges because wheel graphs differ by Python and platform, then runs `pip check` and uploads the exact `pip freeze --all` result for each job rather than pretending the Python 3.11 Linux lock applies everywhere. CI verifies approved indexes, required exact pins and complete SHA-256 coverage without re-resolving the release graph against mutable index metadata, then pip enforces every release-lock hash during installation. The container smoke gate checks non-root/read-only execution, CUDA visibility contract, writable `/data`, the exact database schema version, config/SQLite round-trip, and an image-filesystem manifest derived from `/opt/calo`. Static contract tests pass. Actual workflow runs, generated image attestations, Docker runtime proof and WSL2 GPU passthrough remain open. This host has a Docker client but no daemon or Compose/Buildx plugin, so runtime proof cannot be produced here. |
+| G5 | Implemented | Study-strength protocols are validated on a deep copy, display a scientist-readable before/after diff, then atomically replace shared configuration and propagate through state signals. Run counts use a persisted paired-effect/power/Holm planning approximation, preserve governing-policy binding, and cannot be reduced by a fixed legacy evidence profile. Final run snapshots remain immutable in the experiment database. |
+| G6 | Implemented; Linux packaged-lane execution pending | Normal experiment UI exposes two compute choices and no device percentages/batches/schema controls; policy UI hides No-AI/unqualified and routing internals; Dashboard readiness exposes available memory, admission status and recoverable queue progress instead of utilization/worker engineering. A rendered-widget contract checks Dashboard, Experiment Manager, Portfolio Manager, CALO Intelligence and Benchmark & Evidence for venue/development/backend/schema/XPU/Safe-80/utilization language. The complete Windows/offscreen GUI suite passes locally (33 tests) and produced a validated 1440x900 dashboard PNG. CI persists the corresponding Linux rendering plus accessibility evidence; its first packaged execution remains pending. |
+| G7 | Implemented | Policy training remains independently configured; qualified active-policy binding is synchronized into every new experiment while stored experiment snapshots remain immutable. |
+| G8 | Approval in principle; exact confirmation pending | `CALO_ARCHITECTURE_CHANGE_PROPOSAL.md` documents Changes A–F, alternatives, risks, ABI/versioning, ablations and falsification gates. The scientific lead approved strengthening in principle and requested one final runtime/training architecture confirmation. No proposed CALO semantic change has been implemented; G9 waits for confirmation of A–E with F evidence-gated. |
+| G9 | Not started | Requires final confirmation of the proposed TSH-CALO scope before scientific implementation begins. |
+| G10 | Partially complete | Statistical corrections, honest claim boundaries, power-aware planning and a frozen-design preregistration protocol exist in `SCIENTIFIC_VALIDATION_PROTOCOL.md`. The runtime-enumerated 22-method campaign defaults to 98 initiated paired runs for 21 CALO-versus-comparator tests at effect 0.50, 95% power, Holm family control and 10% failures; pilot/simulation designs require an evidence SHA. Immutable campaign design is hashed while runtime status remains updateable. case30/57 are validation replays, case118/300 are protected tests, and a confirmatory plan cannot omit all protected tests or relabel one. Source-traceable L-SHADE 1.0.1 supplies corrected success-history DE mechanics on CPU/tensor paths. The official pinned pycma 4.4.4 engine supplies active CMA-ES with a disclosed feasibility-first dense-rank adapter, latent mixed-variable encoding, CPU control residency and CUDA-capable common evaluation. Both have deterministic snapshots and focused formulation tests. External campaign execution, mathematical-solver comparisons, approved-architecture ablations and physical qualification remain. |
+| G11 | Harness partially implemented | A fresh dedicated `artifacts/python-dist` stage is required to be absent before each build, preventing obsolete distributions from entering the new wheel/sdist manifest. Generated policy checkpoints, lineages and training metadata are explicitly excluded from packages. The CPU smoke container generates its filesystem manifest from the built `/opt/calo` tree. CI uploads those staged records with the GUI rendering and CycloneDX SBOM. Final release freeze, actual image digests/attestations, clean-machine reproduction and requirement-by-requirement closure still follow G9/G10. |
+
+Latest verification evidence:
+
+- automatic CUDA-first scheduling/config/GUI regressions: **54 passed**; versioned database migration,
+  history, learning, resume and continuation regressions: **29 passed**;
+- focused execution/schema/VRAM/GUI/policy suite: **39 passed**, followed by **27 passed** after
+  current-schema serialization was tightened;
+- full unit suite checkpoint: **358 passed, 62 skipped, 4 failed**; two failures were obsolete GUI
+  contract assertions and have since been corrected (**12 passed** on rerun); the two remaining
+  failures are the deliberately stale v6.9 freeze and package manifest gates;
+- current complete development-tree suite, including offscreen GUI, integration, regression and
+  scientific tests and excluding only that historical v6.9 release-integrity file:
+  **453 passed, 63 skipped**, with the latest measured CI-style coverage gate passing at **66%**
+  (threshold 60%);
+- complete offscreen GUI/scientist contract: **33 passed** with a validated 1440x900 PNG artifact;
+- repository-wide Ruff lint and format: **pass** across 359 Python files; the initial formatter pass
+  mechanically normalized 115 files without intentional behavior changes;
+- pinned mypy 1.20.2 bounded safety target with untyped-body checking: **pass, 9 source files**; artifact/container/lock/L-SHADE/
+  study-planning focused regression: **24 passed, 1 platform skip**;
+- latest power-planning/transactional-study/scientist-GUI checks: **18 passed**; schema and
+  fixed-memory contract checks: **24 passed**;
+- scientist-facing Dashboard readiness/queue contract plus study checks: **19 passed**;
+- power-aware campaign/design-hash/case-role and rendered-interface checks: **48 passed**;
+- focused L-SHADE mechanics, CPU/tensor execution, campaign integration and deterministic release
+  regression checks: **39 passed**, followed by **36 passed** after source-exact rounding and repair
+  telemetry corrections;
+- no executable XPU match remains outside the explicit historical view-only compatibility reader;
+- physical CUDA, Docker image, thermals, energy and WSL2/GUI evidence: **not yet executed**.
+
+## Invariants
+
+1. No old result, experiment, policy, or fingerprint is silently rewritten.
+2. A changed scientific method receives a new algorithm/schema version and new evidence.
+3. Training never auto-activates a policy.
+4. A new experiment snapshots its governing policy and scientific protocol immutably.
+5. Available-memory percentages are admission ceilings, never forced utilization targets.
+6. CPU/GPU timing comparisons never mix fallback modes without explicit stratification.
+7. Generated checkout files are not treated as packaged release contents.
+8. A release freeze is generated from staged artifacts only after all gates pass.

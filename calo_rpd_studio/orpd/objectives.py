@@ -55,8 +55,13 @@ class ObjectiveConfig:
             value = float(value)
             if not math.isfinite(value) or value <= 0.0:
                 raise ValueError(f"{name} must be finite and strictly positive")
-        if self.kind is ObjectiveKind.MULTI_OBJECTIVE and sum(float(v) for v in weights.values()) <= 0.0:
-            raise ValueError("Multi-objective ORPD requires at least one strictly positive objective weight")
+        if (
+            self.kind is ObjectiveKind.MULTI_OBJECTIVE
+            and sum(float(v) for v in weights.values()) <= 0.0
+        ):
+            raise ValueError(
+                "Multi-objective ORPD requires at least one strictly positive objective weight"
+            )
 
 
 @dataclass(slots=True)

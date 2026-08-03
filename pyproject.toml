@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "calo-rpd-studio"
-version = "6.8.0"
+version = "6.9.0"
 description = "Cognitive Adaptive Learning Optimizer for robust reactive power dispatch"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -20,6 +20,7 @@ dependencies = [
   "PyYAML>=6,<7",
   "psutil>=5.9,<8",
   "nvidia-ml-py>=13,<14",
+  "cma>=4.4.4,<5",
 ]
 
 [project.optional-dependencies]
@@ -48,12 +49,18 @@ include = ["calo_rpd_studio*", "calo_bootstrap*"]
 
 [tool.setuptools.package-data]
 calo_rpd_studio = [
-  "data/trained_models/*.pt",
-  "data/trained_models/*.json",
   "data/examples/*.yaml",
   "data/schemas/*.json",
   "data/frozen/*.json",
   "gui/resources/*",
+]
+
+[tool.setuptools.exclude-package-data]
+"calo_rpd_studio.data.trained_models" = [
+  "*.pt",
+  "*.pt.sha256",
+  "*.json",
+  "**/*",
 ]
 
 [tool.pytest.ini_options]

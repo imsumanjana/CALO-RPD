@@ -97,7 +97,7 @@ OUTPUT_REQUIREMENTS = {
         ),
         OutputRequirement(
             "calo_operator_usage",
-            "CALO operator utilization",
+            "CALO operator selection share",
             "CALO diagnostics",
             requires_calo=True,
             required_fields=("calo_diagnostics",),
@@ -223,7 +223,7 @@ OUTPUT_REQUIREMENTS = {
             accelerator_records=True,
         ),
         OutputRequirement(
-            "device_speedup", "CPU/CUDA/XPU speedup", "Accelerator", accelerator_records=True
+            "device_speedup", "CPU/CUDA speedup", "Accelerator", accelerator_records=True
         ),
         OutputRequirement(
             "parity_scatter",

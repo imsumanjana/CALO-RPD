@@ -350,7 +350,9 @@ class ValidationAuditPanel(WorkspacePage):
         )
         if item is None:
             QMessageBox.information(
-                self, "Bulk validation resume", "The selected validation task is no longer resumable."
+                self,
+                "Bulk validation resume",
+                "The selected validation task is no longer resumable.",
             )
             return False
         rows = []

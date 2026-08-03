@@ -34,7 +34,10 @@ class PowerFlowOptions:
             raise ValueError("Power-flow max_iterations must be at least 1")
         if int(self.max_q_limit_rounds) < 0:
             raise ValueError("Power-flow max_q_limit_rounds cannot be negative")
-        if not math.isfinite(float(self.q_limit_tolerance_mvar)) or float(self.q_limit_tolerance_mvar) < 0.0:
+        if (
+            not math.isfinite(float(self.q_limit_tolerance_mvar))
+            or float(self.q_limit_tolerance_mvar) < 0.0
+        ):
             raise ValueError("Power-flow q_limit_tolerance_mvar must be finite and non-negative")
 
 

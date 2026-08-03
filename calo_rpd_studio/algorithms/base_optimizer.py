@@ -86,7 +86,7 @@ class BaseOptimizer:
 
         Accelerator backends evaluate populations in batches.  Centralizing incumbent and
         convergence bookkeeping here keeps the evaluation budget and feasibility-first semantics
-        identical between scalar CPU and batched CUDA/XPU execution.
+        identical between scalar CPU and batched CUDA execution.
         """
         clipped = np.clip(np.asarray(clipped, float), 0, 1)
         self.evaluations += 1
@@ -208,11 +208,11 @@ class BaseOptimizer:
             key: list(values) for key, values in self.constraint_component_histories.items()
         }
         md["first_feasible_evaluation"] = self.first_feasible_evaluation
-        md["boundary_repair_policy"] = "componentwise_clip_to_[0,1]"
+        md.setdefault("boundary_repair_policy", "componentwise_clip_to_[0,1]")
         md["boundary_repair_candidate_count"] = int(self.repair_candidate_count)
         md["boundary_repair_coordinate_count"] = int(self.repair_coordinate_count)
-        md["boundary_repair_coordinate_rate"] = (
-            float(self.repair_coordinate_count) / max(int(self.repair_total_coordinates), 1)
+        md["boundary_repair_coordinate_rate"] = float(self.repair_coordinate_count) / max(
+            int(self.repair_total_coordinates), 1
         )
         md["convergence_definition"] = (
             "best feasible objective and minimum normalized constraint violation versus objective-function evaluations"

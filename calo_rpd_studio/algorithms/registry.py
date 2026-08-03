@@ -1,4 +1,4 @@
-"""Registry of the twenty primary optimizers."""
+"""Registry of the primary optimizers."""
 
 from __future__ import annotations
 from dataclasses import dataclass
@@ -8,6 +8,7 @@ from .calo.optimizer import CALOOptimizer
 from .tlbo import TLBOOptimizer
 from .pso import PSOOptimizer
 from .clpso import CLPSOOptimizer
+from .cma_es import CMAESOptimizer
 from .mtla_de import MTLADEOptimizer
 from .qode import QODEOptimizer
 from .dragonfly import DragonflyOptimizer
@@ -24,6 +25,7 @@ from .moth_flame import MothFlameOptimizer
 from .multi_verse import MultiVerseOptimizer
 from .whale import WhaleOptimizer
 from .imperialist_competitive import ImperialistCompetitiveOptimizer
+from .lshade import LSHADEOptimizer
 from .torch_suite import TorchCanonicalOptimizer
 
 
@@ -81,11 +83,23 @@ SPECS = {
         "Comprehensive Learning Particle Swarm Optimization.",
         {"refresh_gap": 7, "c": 1.49445},
     ),
+    "CMA-ES": AlgorithmSpec(
+        "CMA-ES",
+        CMAESOptimizer,
+        "Active Covariance Matrix Adaptation Evolution Strategy using the official pycma engine.",
+        {"sigma": 0.30, "active_covariance": True},
+    ),
     "MTLA-DE": AlgorithmSpec(
         "MTLA-DE",
         MTLADEOptimizer,
         "Modified teaching-learning search with DE/rand/1/bin hybridization.",
         {"f": 0.5, "cr": 0.9},
+    ),
+    "L-SHADE": AlgorithmSpec(
+        "L-SHADE",
+        LSHADEOptimizer,
+        "Success-history adaptive differential evolution with linear population reduction.",
+        {"memory_size": 5, "p_best_rate": 0.11, "archive_rate": 1.4},
     ),
     "QODE": AlgorithmSpec(
         "QODE", QODEOptimizer, "Quasi-Oppositional Differential Evolution.", {"f": 0.5, "cr": 0.9}
@@ -141,7 +155,7 @@ def create_optimizer(
         raise KeyError(f"Unknown optimizer: {name}")
     parameters = dict(config.parameters or {})
     backend = str(parameters.get("optimizer_backend", "legacy")).lower()
-    if name != "CALO" and backend == "torch":
+    if name not in {"CALO", "CMA-ES"} and backend == "torch":
         return TorchCanonicalOptimizer(
             name, problem, config, seed, progress_callback, cancel_callback
         )

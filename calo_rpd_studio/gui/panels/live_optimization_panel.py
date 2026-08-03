@@ -30,6 +30,7 @@ from calo_rpd_studio.power_system.case_model import BUS_I, VM
 
 _LOG = logging.getLogger(__name__)
 
+
 class LiveOptimizationPanel(WorkspacePage):
     """Monitor every repeated run without mixing their convergence histories.
 
@@ -512,7 +513,7 @@ class LiveOptimizationPanel(WorkspacePage):
                 self.constraint_component_series,
                 f"Constraint decomposition{run_suffix}",
                 "Normalized constraint component",
-                "Constraint-component telemetry is available for CALO Core v2 runs.",
+                "Constraint-component telemetry is available for CALO runs.",
                 include_zero=True,
             )
             self.metric_note.setText(
@@ -523,7 +524,7 @@ class LiveOptimizationPanel(WorkspacePage):
                 self.feasibility_series,
                 f"Feasibility evolution{run_suffix}",
                 "Population ratio",
-                "Feasible-population telemetry is available for CALO Core v2 runs.",
+                "Feasible-population telemetry is available for CALO runs.",
                 include_zero=True,
             )
             self.metric_note.setText(
@@ -534,7 +535,7 @@ class LiveOptimizationPanel(WorkspacePage):
                 self.diversity_series,
                 f"Population diversity{run_suffix}",
                 "Normalized decision-space diversity",
-                "Population-diversity telemetry is available for CALO Core v2 runs.",
+                "Population-diversity telemetry is available for CALO runs.",
                 include_zero=True,
             )
             self.metric_note.setText(
@@ -545,7 +546,7 @@ class LiveOptimizationPanel(WorkspacePage):
                 self.operator_success_series,
                 f"CALO operator success rate{run_suffix}",
                 "Recent success rate",
-                "Operator-success telemetry is available for CALO Core v2 runs.",
+                "Operator-success telemetry is available for CALO runs.",
                 include_zero=True,
             )
             self.metric_note.setText(
@@ -644,8 +645,8 @@ class LiveOptimizationPanel(WorkspacePage):
         if key == "calo_operator_usage":
             self._draw_series(
                 self.operator_usage_series,
-                f"CALO operator utilization{run_suffix}",
-                "Cumulative utilization share",
+                f"CALO operator selection{run_suffix}",
+                "Cumulative selection share",
                 "No CALO operator-selection telemetry is available yet.",
                 include_zero=True,
             )

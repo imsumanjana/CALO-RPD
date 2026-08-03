@@ -31,12 +31,6 @@ class BranchResourceSlot:
     runtime: str
     device_name: str
     cpu_worker_budget: int
-    auxiliary_xpu_runtime: str = ""
-    auxiliary_xpu_name: str = ""
-
-    @property
-    def uses_auxiliary_xpu(self) -> bool:
-        return bool(self.auxiliary_xpu_runtime)
 
     def to_dict(self) -> dict:
         return {
@@ -46,8 +40,6 @@ class BranchResourceSlot:
             "runtime": self.runtime,
             "device_name": self.device_name,
             "cpu_worker_budget": int(self.cpu_worker_budget),
-            "auxiliary_xpu_runtime": self.auxiliary_xpu_runtime,
-            "auxiliary_xpu_name": self.auxiliary_xpu_name,
         }
 
 
@@ -79,14 +71,11 @@ class TrainingResourcePlan:
         }
 
 
-
 def protected_rollout_shares(
     *,
     cuda_share: int,
-    xpu_share: int,
     cpu_share: int,
     primary_device: str,
-    auxiliary_xpu_runtime: str = "",
 ) -> dict[str, int]:
     """Return the exact protected rollout routing executed for one admitted branch slot.
 
@@ -97,25 +86,14 @@ def protected_rollout_shares(
     """
 
     cuda = max(0, min(100, int(cuda_share)))
-    xpu = max(0, min(100, int(xpu_share)))
     cpu = max(0, min(100, int(cpu_share)))
-    if cuda + xpu + cpu != 100:
-        raise ValueError("Protected heterogeneous CUDA/XPU/CPU rollout shares must total exactly 100%")
+    if cuda + cpu != 100:
+        raise ValueError("Protected CUDA/CPU rollout shares must total exactly 100%")
     assigned = str(primary_device or "cpu").lower()
-    aux_xpu = bool(str(auxiliary_xpu_runtime or "").strip())
     if assigned.startswith("cuda"):
-        return {
-            "cuda": cuda + (0 if aux_xpu else xpu),
-            "xpu": xpu if aux_xpu else 0,
-            "cpu": cpu,
-        }
-    if assigned.startswith("xpu"):
-        return {"cuda": 0, "xpu": min(100, xpu + cuda), "cpu": cpu}
-    return {
-        "cuda": 0,
-        "xpu": xpu if aux_xpu else 0,
-        "cpu": min(100, cpu + cuda + (0 if aux_xpu else xpu)),
-    }
+        return {"cuda": cuda, "cpu": cpu}
+    return {"cuda": 0, "cpu": 100}
+
 
 def _device_has_safe_headroom(device: ComputeDevice, profile: ComputeProtectionProfile) -> bool:
     """Return whether a full-branch accelerator is currently admissible inside Safe-80.
@@ -140,21 +118,12 @@ def _device_has_safe_headroom(device: ComputeDevice, profile: ComputeProtectionP
 def _primary_candidates(devices: Iterable[ComputeDevice], requested: str) -> list[ComputeDevice]:
     full = [device for device in devices if device.full_training_branch]
     cuda = [device for device in full if device.backend == "cuda"]
-    direct_xpu = [
-        device
-        for device in full
-        if device.backend == "xpu" and device.runtime == "primary"
-    ]
     if requested == "auto":
-        return [*cuda, *direct_xpu]
+        return cuda
     if requested.startswith("cuda"):
         if ":" in requested:
             return [device for device in cuda if device.runtime_id == requested]
         return cuda
-    if requested == "xpu" or requested.startswith("xpu:"):
-        if ":" in requested:
-            return [device for device in direct_xpu if device.runtime_id == requested]
-        return direct_xpu
     return []
 
 
@@ -203,7 +172,7 @@ def build_training_resource_plan(
     expected_topology = str(getattr(config, "compute_topology_fingerprint", "") or "")
     if expected_topology and expected_topology != topology.fingerprint:
         raise RuntimeError(
-            "The live CPU/XPU/GPU topology no longer matches the Dashboard hardware map used to configure training. "
+            "The live CPU/CUDA topology no longer matches the Dashboard hardware map used to configure training. "
             "Refresh Dashboard system mapping before launch."
         )
     # Resource pressure is intentionally re-evaluated live. A changed profile fingerprint caused only
@@ -233,11 +202,6 @@ def build_training_resource_plan(
         # CPU is allowed only because the user explicitly selected it. This is never an automatic
         # accelerator spillover path.
         slots_devices = [None] * concurrency
-    elif requested == "xpu_sidecar":
-        raise RuntimeError(
-            "The secondary XPU sidecar is capability-classified as an actor/evaluator runtime, not a "
-            "full independent competitive PPO branch. Select Automatic/direct XPU/CUDA/CPU."
-        )
     else:
         candidates = [
             device
@@ -286,29 +250,8 @@ def build_training_resource_plan(
     remainder = rollout_total % concurrency
     cpu_budgets = [base + (1 if index < remainder else 0) for index in range(concurrency)]
 
-    # XPU capability-aware auxiliary scheduling: a non-primary XPU actor/evaluator runtime may assist
-    # at most one simultaneous branch. It never masquerades as an independent full branch.
-    used_primary_ids = {
-        device.runtime_id for device in slots_devices if device is not None
-    }
-    auxiliary_xpus = [
-        device
-        for device in topology.devices
-        if device.backend == "xpu"
-        and device.policy_actor
-        and device.runtime_id not in used_primary_ids
-    ]
-    allow_aux_xpu = bool(getattr(config, "heterogeneous_rollouts", False)) and int(
-        getattr(config, "xpu_rollout_share", 0) or 0
-    ) > 0
-
     slots: list[BranchResourceSlot] = []
-    aux_index = 0
     for index, device in enumerate(slots_devices):
-        auxiliary = None
-        if allow_aux_xpu and aux_index < len(auxiliary_xpus):
-            auxiliary = auxiliary_xpus[aux_index]
-            aux_index += 1
         if device is None:
             slots.append(
                 BranchResourceSlot(
@@ -318,8 +261,6 @@ def build_training_resource_plan(
                     runtime="primary",
                     device_name="CPU",
                     cpu_worker_budget=max(1, int(cpu_budgets[index])),
-                    auxiliary_xpu_runtime=(auxiliary.runtime if auxiliary else ""),
-                    auxiliary_xpu_name=(auxiliary.name if auxiliary else ""),
                 )
             )
         else:
@@ -331,8 +272,6 @@ def build_training_resource_plan(
                     runtime=device.runtime,
                     device_name=device.name,
                     cpu_worker_budget=max(1, int(cpu_budgets[index])),
-                    auxiliary_xpu_runtime=(auxiliary.runtime if auxiliary else ""),
-                    auxiliary_xpu_name=(auxiliary.name if auxiliary else ""),
                 )
             )
 

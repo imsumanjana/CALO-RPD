@@ -2,7 +2,7 @@
 
 This module deliberately contains no scientific optimization logic.  It only maps the immutable
 campaign/run identity to the exact optimizer checkpoint path selected by the experiment manager.
-Keeping this mapping in one place prevents CPU, CUDA, persistent-device and XPU workers from
+Keeping this mapping in one place prevents CPU, CUDA, and persistent-device workers from
 silently using different continuation semantics.
 """
 
@@ -21,9 +21,7 @@ def bind_exact_run_checkpoint(config, item):
     if item is None:
         return config
     ablation_spec = getattr(item, "ablation_spec", None)
-    algorithm = str(
-        getattr(ablation_spec, "algorithm", getattr(item, "label", ""))
-    )
+    algorithm = str(getattr(ablation_spec, "algorithm", getattr(item, "label", "")))
     if algorithm != "CALO":
         return config
 

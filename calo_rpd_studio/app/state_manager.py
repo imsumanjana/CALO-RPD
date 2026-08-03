@@ -63,7 +63,9 @@ class AppState(QObject):
         self.compute_governor = AdaptiveComputeGovernor(
             profile,
             monitor=self.compute_topology_service.monitor,
-            config=GovernorConfig(allocation_limit_fraction=float(profile.allocation_limit_fraction)),
+            config=GovernorConfig(
+                allocation_limit_fraction=float(profile.allocation_limit_fraction)
+            ),
         )
         self.compute_governor_decision = self.compute_governor.sample(active_branches=0)
         self.compute_profile_changed.emit(profile)
@@ -85,12 +87,13 @@ class AppState(QObject):
                 ),
             )
         if active_branches is None:
-            active_branches = int(dict(self.policy_training_plan or {}).get("active_branches", 0) or 0)
+            active_branches = int(
+                dict(self.policy_training_plan or {}).get("active_branches", 0) or 0
+            )
         decision = self.compute_governor.sample(active_branches=max(0, int(active_branches)))
         self.compute_governor_decision = decision
         self.compute_governor_changed.emit(decision)
         return decision
-
 
     def begin_policy_training(self, detail: str = "Policy training active") -> None:
         self.policy_training_active = True
@@ -109,8 +112,51 @@ class AppState(QObject):
     def governing_policy_status(self):
         return evaluate_governing_policy(self.policy_registry)
 
+    def synchronize_governing_policy_binding(self, status=None) -> bool:
+        """Make the active governing policy the global binding for new experiments.
+
+        Training and qualification remain independent from experiment setup. Once a policy is
+        explicitly activated and passes readiness, every new in-memory experiment configuration
+        is bound automatically to that immutable artifact. Stored experiments and extensions keep
+        their original database binding.
+        """
+        status = status or self.governing_policy_status()
+        parameters = dict(self.config.algorithm_parameters.get("CALO", {}))
+        before = dict(parameters)
+        binding_keys = {
+            "policy_id",
+            "policy_name",
+            "policy_checkpoint",
+            "policy_sha256",
+            "policy_architecture_version",
+            "policy_state_schema_version",
+            "policy_action_schema_version",
+            "policy_training_environment_version",
+            "policy_qualification_status",
+            "policy_grade",
+        }
+        if status.ready:
+            parameters["use_ai"] = True
+            self.config.algorithm_parameters["CALO"] = parameters
+            self.policy_registry.bind_to_experiment_config(
+                status.policy_id,
+                self.config,
+                deterministic=bool(parameters.get("deterministic_policy", True)),
+                allow_unqualified=False,
+            )
+            parameters = dict(self.config.algorithm_parameters.get("CALO", {}))
+        else:
+            for key in binding_keys:
+                parameters.pop(key, None)
+            parameters["strict_policy_binding"] = False
+            parameters["allow_unqualified_policy"] = False
+            self.config.algorithm_parameters["CALO"] = parameters
+        return before != parameters
+
     def notify_policy_state_changed(self):
         status = self.governing_policy_status()
+        if self.synchronize_governing_policy_binding(status):
+            self.update_config()
         self.policy_state_changed.emit(status)
         return status
 

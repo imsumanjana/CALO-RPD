@@ -1,4 +1,4 @@
-"""Twenty-algorithm selection and parameter configuration."""
+"""Registered-algorithm selection and parameter configuration."""
 
 from __future__ import annotations
 
@@ -85,6 +85,7 @@ class AlgorithmsPanel(WorkspacePage):
         buttons.addStretch(1)
         card.layout_root.addLayout(buttons)
         self.layout_root.addWidget(card, 1)
+        self.state.config_changed.connect(self.load_from_config)
 
     def load_from_config(self, config) -> None:
         for row, (name, spec) in enumerate(SPECS.items()):

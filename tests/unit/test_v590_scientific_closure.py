@@ -2,14 +2,17 @@ from __future__ import annotations
 
 import hashlib
 import json
-from pathlib import Path
 
 import numpy as np
 import pytest
 
 from calo_rpd_studio.algorithms.base_optimizer import BaseOptimizer, OptimizerConfig
 from calo_rpd_studio.algorithms.calo.evaluation_cache import ExactEvaluationCache
-from calo_rpd_studio.algorithms.calo.policy_qualification import PolicyQualificationConfig, _apply_holm, _grade
+from calo_rpd_studio.algorithms.calo.policy_qualification import (
+    PolicyQualificationConfig,
+    _apply_holm,
+    _grade,
+)
 from calo_rpd_studio.algorithms.calo.competitive_training import recover_competitive_session
 from calo_rpd_studio.experiments.experiment_config import RobustScenarioSettings
 from calo_rpd_studio.orpd.constraints import ConstraintToleranceConfig, branch_angle_limit_violation
@@ -17,16 +20,29 @@ from calo_rpd_studio.orpd.objectives import ObjectiveConfig, ObjectiveKind
 from calo_rpd_studio.orpd.problem import Evaluation
 from calo_rpd_studio.orpd.variable_decoder import ORPDVariableDecoder, ORPDVariableConfig
 from calo_rpd_studio.power_system.ac_power_flow import PowerFlowOptions
-from calo_rpd_studio.power_system.case_model import ANGMAX, ANGMIN, BUS_TYPE, GEN_BUS, GEN_STATUS, PV, REF
+from calo_rpd_studio.power_system.case_model import (
+    ANGMAX,
+    ANGMIN,
+    BUS_TYPE,
+    GEN_BUS,
+    GEN_STATUS,
+    PV,
+    REF,
+)
 from calo_rpd_studio.power_system.ybus import build_ybus
-from calo_rpd_studio.robustness.contingencies import n_minus_one_branch_scenarios, n_minus_one_generator_scenarios
+from calo_rpd_studio.robustness.contingencies import (
+    n_minus_one_branch_scenarios,
+    n_minus_one_generator_scenarios,
+)
 from calo_rpd_studio.robustness.robust_objectives import RobustObjectiveConfig
 from calo_rpd_studio.robustness.scenario import Scenario
 
 
 def test_invalid_objective_config_fails_fast():
     with pytest.raises(ValueError):
-        ObjectiveConfig(ObjectiveKind.MULTI_OBJECTIVE, weight_loss=-1.0, weight_voltage_deviation=1.0)
+        ObjectiveConfig(
+            ObjectiveKind.MULTI_OBJECTIVE, weight_loss=-1.0, weight_voltage_deviation=1.0
+        )
     with pytest.raises(ValueError):
         ObjectiveConfig(ObjectiveKind.MULTI_OBJECTIVE, weight_loss=1.0, loss_scale=0.0)
     with pytest.raises(ValueError):
@@ -74,7 +90,9 @@ def test_generator_voltage_controls_exclude_pq_bus_generators(toy_case):
     extra[GEN_BUS] = 3
     extra[GEN_STATUS] = 1
     case.gen = np.vstack([case.gen, extra])
-    decoder = ORPDVariableDecoder(case, ORPDVariableConfig(transformer_taps=False, shunt_compensation=False))
+    decoder = ORPDVariableDecoder(
+        case, ORPDVariableConfig(transformer_taps=False, shunt_compensation=False)
+    )
     voltage_names = [v.name for v in decoder.variables if v.name.startswith("Vg@")]
     assert "Vg@1" in voltage_names and "Vg@2" in voltage_names
     assert "Vg@3" not in voltage_names
@@ -92,6 +110,7 @@ def test_yf_yt_are_direct_sparse_branch_incidence_matrices(toy_case):
 
 class _BoxProblem:
     dimension = 2
+
     def evaluate(self, x):
         x = np.asarray(x, float)
         return Evaluation(float(np.sum(x * x)), True, 0.0, {})
@@ -99,6 +118,7 @@ class _BoxProblem:
 
 class _BoxOptimizer(BaseOptimizer):
     name = "BOX"
+
     def run(self):  # pragma: no cover
         raise NotImplementedError
 
@@ -125,18 +145,22 @@ def test_stale_competitive_recovery_refuses_newer_authority(tmp_path):
     recovery_dir.mkdir(parents=True)
     session = "stale-session"
     (recovery_dir / f"{session}.json").write_text(
-        json.dumps({
-            "session_id": session,
-            "output_path": str(output),
-            "scratch_root": str(tmp_path / "scratch"),
-            "prior_manifest_sha256": old_sha,
-            "prior_generation_id": "G1",
-            "latest_common_safe_epoch": 0,
-            "branches": [],
-        }),
+        json.dumps(
+            {
+                "session_id": session,
+                "output_path": str(output),
+                "scratch_root": str(tmp_path / "scratch"),
+                "prior_manifest_sha256": old_sha,
+                "prior_generation_id": "G1",
+                "latest_common_safe_epoch": 0,
+                "branches": [],
+            }
+        ),
         encoding="utf-8",
     )
-    manifest.write_text(json.dumps({"schema_version": 3, "generation_id": "G2", "branches": []}), encoding="utf-8")
+    manifest.write_text(
+        json.dumps({"schema_version": 3, "generation_id": "G2", "branches": []}), encoding="utf-8"
+    )
     with pytest.raises(RuntimeError, match="Stale competitive recovery refused"):
         recover_competitive_session(output, session)
 
@@ -240,9 +264,7 @@ def test_native_v59_training_transition_matches_deployed_calo_one_step(tmp_path)
     )
     digest = checkpoint_sha256(artifact)
     seed = 17
-    environment = SyntheticCALOEnvironment(
-        np.random.default_rng(seed), 0, 4, problem=_Sphere()
-    )
+    environment = SyntheticCALOEnvironment(np.random.default_rng(seed), 0, 4, problem=_Sphere())
     controller = AIController(
         artifact,
         seed=seed + 7919,
@@ -295,14 +317,12 @@ def test_native_v59_training_transition_matches_deployed_calo_one_step(tmp_path)
     np.testing.assert_array_equal(
         environment.credit.operator_credit, runtime["credit"].operator_credit
     )
-    np.testing.assert_array_equal(
-        environment.credit.memory_credit, runtime["credit"].memory_credit
-    )
+    np.testing.assert_array_equal(environment.credit.memory_credit, runtime["credit"].memory_credit)
     assert training_reward == runtime["reward_history"][-1]
-    assert environment.last_step_trace["executed_operators"] == runtime["policy_trajectory"][-1][
-        "executed_controller"
-    ]["executed_operators"]
-
+    assert (
+        environment.last_step_trace["executed_operators"]
+        == runtime["policy_trajectory"][-1]["executed_controller"]["executed_operators"]
+    )
 
 
 def test_scenario_transform_rejects_structural_identity_changes(toy_case):
@@ -335,7 +355,6 @@ def test_variable_config_fails_fast_for_invalid_tap_science():
         ORPDVariableConfig(formulation_profile="")
 
 
-
 def test_policy_qualification_scientific_thresholds_fail_fast():
     with pytest.raises(ValueError, match="minimum_feasible_probability"):
         PolicyQualificationConfig(minimum_feasible_probability=float("nan")).validate()
@@ -345,9 +364,10 @@ def test_policy_qualification_scientific_thresholds_fail_fast():
         PolicyQualificationConfig(non_inferiority_margin=-0.01).validate()
 
 
-
 def test_formal_qualification_requires_each_case_to_pass_paired_gate():
-    config = PolicyQualificationConfig(cases=("case30", "case57"), runs=30, minimum_promotion_runs=30)
+    config = PolicyQualificationConfig(
+        cases=("case30", "case57"), runs=30, minimum_promotion_runs=30
+    )
     config.validate()
     candidate = {
         "feasible_probability": 1.0,
@@ -364,8 +384,12 @@ def test_formal_qualification_requires_each_case_to_pass_paired_gate():
         "no_ai": {"case30": {"median_objective": 1.0}, "case57": {"median_objective": 1.0}},
     }
     favorable = {
-        "n_pairs": 30, "median_difference": -0.1, "win_rate": 0.8,
-        "rank_biserial": 0.6, "holm_p": 0.01, "holm_noninferiority_p": 0.01,
+        "n_pairs": 30,
+        "median_difference": -0.1,
+        "win_rate": 0.8,
+        "rank_biserial": 0.6,
+        "holm_p": 0.01,
+        "holm_noninferiority_p": 0.01,
     }
     bad_case = dict(favorable, median_difference=0.02, win_rate=0.4, rank_biserial=-0.2, holm_p=0.5)
     aggregate = {"vs_no_ai": favorable}

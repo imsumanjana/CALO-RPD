@@ -130,7 +130,12 @@ class PolicyRegistry:
                     continue
                 output.append(self.register(path, name=path.stem))
             except Exception as exc:
-                _LOG.warning("Skipping malformed/incompatible bundled policy %s: %s: %s", path, type(exc).__name__, exc)
+                _LOG.warning(
+                    "Skipping malformed/incompatible bundled policy %s: %s: %s",
+                    path,
+                    type(exc).__name__,
+                    exc,
+                )
                 continue
         return output
 
@@ -159,7 +164,9 @@ class PolicyRegistry:
     def activate(self, policy_id: str, *, allow_unqualified: bool = False) -> PolicyRecord:
         policy = self.get(policy_id)
         if not policy.usable:
-            raise ValueError(f"Policy {policy.name!r} is archived or its checkpoint file is unavailable")
+            raise ValueError(
+                f"Policy {policy.name!r} is archived or its checkpoint file is unavailable"
+            )
         if not policy.runtime_compatible:
             raise ValueError(
                 f"Policy {policy.name!r} is not compatible with the current CALO runtime schema. "
@@ -221,14 +228,18 @@ class PolicyRegistry:
             self.suppress(policy.sha256, reason="delete_failed")
             raise
         # A deliberate delete is a project-scoped suppression even when the file was already absent.
-        self.suppress(policy.sha256, reason="deleted_artifact" if existed else "artifact_already_absent")
+        self.suppress(
+            policy.sha256, reason="deleted_artifact" if existed else "artifact_already_absent"
+        )
 
     def bind_to_experiment_config(
         self, policy_id: str, config, *, deterministic: bool, allow_unqualified: bool = False
     ) -> dict:
         policy = self.get(policy_id)
         if not policy.usable:
-            raise ValueError(f"Policy {policy.name!r} is archived or its checkpoint file is unavailable")
+            raise ValueError(
+                f"Policy {policy.name!r} is archived or its checkpoint file is unavailable"
+            )
         if not policy.runtime_compatible:
             raise ValueError(
                 f"Policy {policy.name!r} is incompatible with the current CALO runtime; experiment binding refused"

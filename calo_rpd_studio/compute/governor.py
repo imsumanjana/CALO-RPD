@@ -66,7 +66,10 @@ class GovernorConfig:
             raise ValueError("accelerator red temperature must exceed amber temperature")
         if self.cpu_red_temperature_c <= self.cpu_amber_temperature_c:
             raise ValueError("CPU red temperature must exceed amber temperature")
-        if min(self.amber_confirm_samples, self.red_confirm_samples, self.green_recovery_samples) < 1:
+        if (
+            min(self.amber_confirm_samples, self.red_confirm_samples, self.green_recovery_samples)
+            < 1
+        ):
             raise ValueError("governor hysteresis sample counts must be >= 1")
         if self.staged_startup_delay_seconds < 0 or self.sample_interval_seconds <= 0:
             raise ValueError("governor timing values are invalid")
@@ -130,7 +133,9 @@ class AdaptiveComputeGovernor:
 
     def staged_delay_elapsed(self, now: float | None = None) -> bool:
         current = float(time.monotonic() if now is None else now)
-        return current - self._last_launch_monotonic >= float(self.config.staged_startup_delay_seconds)
+        return current - self._last_launch_monotonic >= float(
+            self.config.staged_startup_delay_seconds
+        )
 
     @staticmethod
     def _snapshot_payload(snapshot: ResourceSnapshot) -> dict:
@@ -165,9 +170,13 @@ class AdaptiveComputeGovernor:
         red: list[str] = []
 
         if snapshot.cpu_percent >= red_limit:
-            red.append(f"CPU utilization {snapshot.cpu_percent:.1f}% >= red protection {red_limit:.0f}%")
+            red.append(
+                f"CPU utilization {snapshot.cpu_percent:.1f}% >= red protection {red_limit:.0f}%"
+            )
         elif snapshot.cpu_percent >= amber_limit:
-            amber.append(f"CPU utilization {snapshot.cpu_percent:.1f}% >= Safe-{amber_limit:.0f}% envelope")
+            amber.append(
+                f"CPU utilization {snapshot.cpu_percent:.1f}% >= Safe-{amber_limit:.0f}% envelope"
+            )
 
         if snapshot.system_memory_percent >= red_limit:
             red.append(
@@ -221,11 +230,11 @@ class AdaptiveComputeGovernor:
                 fraction = float(device.power_w) / float(device.power_limit_w)
                 if fraction >= cfg.power_red_fraction:
                     red.append(
-                        f"{label} power {device.power_w:.1f} W is {100*fraction:.1f}% of reported limit"
+                        f"{label} power {device.power_w:.1f} W is {100 * fraction:.1f}% of reported limit"
                     )
                 elif fraction >= cfg.power_amber_fraction:
                     amber.append(
-                        f"{label} power {device.power_w:.1f} W is {100*fraction:.1f}% of reported limit"
+                        f"{label} power {device.power_w:.1f} W is {100 * fraction:.1f}% of reported limit"
                     )
             if str(device.throttle_reason or "").strip():
                 amber.append(f"{label} reports throttling: {device.throttle_reason}")
@@ -258,7 +267,10 @@ class AdaptiveComputeGovernor:
             self._state = ProtectionState.GREEN
         elif self._red_count >= self.config.red_confirm_samples:
             self._state = ProtectionState.RED
-        elif self._amber_count >= self.config.amber_confirm_samples and self._state is not ProtectionState.RED:
+        elif (
+            self._amber_count >= self.config.amber_confirm_samples
+            and self._state is not ProtectionState.RED
+        ):
             self._state = ProtectionState.AMBER
         elif self._green_count >= self.config.green_recovery_samples:
             self._state = ProtectionState.GREEN
@@ -269,8 +281,16 @@ class AdaptiveComputeGovernor:
         )
         allow = effective_for_admission is ProtectionState.GREEN
         request_stop = self._state is ProtectionState.RED
-        level = 2 if self._state is ProtectionState.RED else 1 if self._state is ProtectionState.AMBER else 0
-        throttle_fraction = 0.0 if level == 2 else float(self.config.amber_duty_cycle) if level == 1 else 1.0
+        level = (
+            2
+            if self._state is ProtectionState.RED
+            else 1
+            if self._state is ProtectionState.AMBER
+            else 0
+        )
+        throttle_fraction = (
+            0.0 if level == 2 else float(self.config.amber_duty_cycle) if level == 1 else 1.0
+        )
         payload = self._snapshot_payload(snapshot)
         identity = {
             "state": self._state.value,
@@ -283,7 +303,9 @@ class AdaptiveComputeGovernor:
             "snapshot": payload,
         }
         fingerprint = hashlib.sha256(
-            json.dumps(identity, sort_keys=True, separators=(",", ":"), allow_nan=False).encode("utf-8")
+            json.dumps(identity, sort_keys=True, separators=(",", ":"), allow_nan=False).encode(
+                "utf-8"
+            )
         ).hexdigest()
         decision = GovernorDecision(
             state=self._state,

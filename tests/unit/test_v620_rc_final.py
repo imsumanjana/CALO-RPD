@@ -7,10 +7,17 @@ from calo_rpd_studio.app.workspaces import (
     WORKSPACE_SCHEMA_VERSION,
     migrate_workspace_ui,
 )
-from calo_rpd_studio.compute.governor import AdaptiveComputeGovernor, GovernorConfig, ProtectionState
+from calo_rpd_studio.compute.governor import (
+    AdaptiveComputeGovernor,
+    GovernorConfig,
+    ProtectionState,
+)
 from calo_rpd_studio.compute.provenance import ComputeProvenanceRecorder
 from calo_rpd_studio.compute.resource_scheduler import DeviceSnapshot, ResourceSnapshot
-from calo_rpd_studio.compute.scientific_equivalence import BranchScientificIdentity, scheduling_equivalent
+from calo_rpd_studio.compute.scientific_equivalence import (
+    BranchScientificIdentity,
+    scheduling_equivalent,
+)
 from calo_rpd_studio.compute.soak import HardwareSoakRunner, SoakConfig
 from calo_rpd_studio.compute.topology import ComputeProtectionProfile
 from calo_rpd_studio.validation.gui_contract import validate_gui_contract
@@ -39,7 +46,10 @@ def _profile() -> ComputeProtectionProfile:
 
 def test_governor_hysteresis_and_red_safe_stop():
     governor = AdaptiveComputeGovernor(
-        _profile(), config=GovernorConfig(amber_confirm_samples=1, red_confirm_samples=2, green_recovery_samples=1)
+        _profile(),
+        config=GovernorConfig(
+            amber_confirm_samples=1, red_confirm_samples=2, green_recovery_samples=1
+        ),
     )
     green = ResourceSnapshot(cpu_percent=20, system_memory_percent=20, sampled_at_monotonic=1)
     amber = ResourceSnapshot(cpu_percent=82, system_memory_percent=20, sampled_at_monotonic=2)
@@ -56,9 +66,13 @@ def test_governor_hysteresis_and_red_safe_stop():
 
 def test_governor_uses_actual_temperature_only_when_present():
     governor = AdaptiveComputeGovernor(_profile(), config=GovernorConfig(red_confirm_samples=1))
-    missing = ResourceSnapshot(cpu_percent=10, system_memory_percent=10, cpu_temperature_c=None, sampled_at_monotonic=1)
+    missing = ResourceSnapshot(
+        cpu_percent=10, system_memory_percent=10, cpu_temperature_c=None, sampled_at_monotonic=1
+    )
     assert not any("temperature" in r.lower() for r in governor.evaluate_snapshot(missing).reasons)
-    hot = ResourceSnapshot(cpu_percent=10, system_memory_percent=10, cpu_temperature_c=99, sampled_at_monotonic=2)
+    hot = ResourceSnapshot(
+        cpu_percent=10, system_memory_percent=10, cpu_temperature_c=99, sampled_at_monotonic=2
+    )
     decision = governor.evaluate_snapshot(hot)
     assert decision.state is ProtectionState.RED
     assert any("temperature" in r.lower() for r in decision.reasons)
@@ -67,10 +81,22 @@ def test_governor_uses_actual_temperature_only_when_present():
 def test_governor_detects_device_power_and_temperature():
     governor = AdaptiveComputeGovernor(_profile(), config=GovernorConfig(red_confirm_samples=1))
     device = DeviceSnapshot(
-        "cuda:0", "cuda", 0, "GPU", True, 50, 50, "nvidia-smi", "primary",
-        temperature_c=89, power_w=99, power_limit_w=100,
+        "cuda:0",
+        "cuda",
+        0,
+        "GPU",
+        True,
+        50,
+        50,
+        "nvidia-smi",
+        "primary",
+        temperature_c=89,
+        power_w=99,
+        power_limit_w=100,
     )
-    decision = governor.evaluate_snapshot(ResourceSnapshot(20, (device,), 20, sampled_at_monotonic=1))
+    decision = governor.evaluate_snapshot(
+        ResourceSnapshot(20, (device,), 20, sampled_at_monotonic=1)
+    )
     assert decision.request_safe_stop
 
 
@@ -79,10 +105,14 @@ def test_workspace_migration_v59_v61_and_unknown():
     assert v59["workspace_key"] == "calo_intelligence"
     assert v59["workspace_schema_version"] == WORKSPACE_SCHEMA_VERSION
     assert report59.migrated
-    v61, report61 = migrate_workspace_ui({"workspace_key": "power_system", "workspace_schema_version": 2})
+    v61, report61 = migrate_workspace_ui(
+        {"workspace_key": "power_system", "workspace_schema_version": 2}
+    )
     assert v61["workspace_key"] == "power_system"
     assert report61.migrated
-    bad, report_bad = migrate_workspace_ui({"workspace_key": "does_not_exist", "workspace_schema_version": 2})
+    bad, report_bad = migrate_workspace_ui(
+        {"workspace_key": "does_not_exist", "workspace_schema_version": 2}
+    )
     assert bad["workspace_key"] == "dashboard"
     assert report_bad.warning
 

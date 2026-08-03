@@ -1,0 +1,63 @@
+name: calo-rpd-studio
+
+x-calo-common: &calo-common
+  restart: unless-stopped
+  ports:
+    - "127.0.0.1:${CALO_PORT:-6080}:6080"
+  volumes:
+    - calo-runtime:/data
+  shm_size: "2gb"
+  mem_limit: "${CALO_HOST_MEMORY_LIMIT:-24g}"
+  user: "10001:10001"
+  read_only: true
+  cap_drop: ["ALL"]
+  security_opt:
+    - no-new-privileges:true
+  tmpfs:
+    - /tmp:rw,nosuid,nodev,size=536870912,uid=10001,gid=10001,mode=1777
+  environment:
+    CALO_CONTAINER_PORT: "6080"
+    CALO_WORKDIR: /data
+
+services:
+  cpu:
+    <<: *calo-common
+    platform: linux/amd64
+    profiles: ["cpu"]
+    image: calo-rpd-studio:cpu
+    build:
+      context: .
+      args:
+        RUNTIME_LOCK: requirements-lock-cpu-py311-linux.txt
+    environment:
+      CALO_CONTAINER_PORT: "6080"
+      CALO_WORKDIR: /data
+      CALO_COMPUTE_MODE: cpu
+      CUDA_VISIBLE_DEVICES: ""
+
+  cuda:
+    <<: *calo-common
+    platform: linux/amd64
+    profiles: ["cuda"]
+    image: calo-rpd-studio:cuda
+    build:
+      context: .
+      args:
+        RUNTIME_LOCK: requirements-lock-cuda128-py311-linux.txt
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ["${CALO_GPU_DEVICE:-0}"]
+              capabilities: ["gpu"]
+    environment:
+      CALO_CONTAINER_PORT: "6080"
+      CALO_WORKDIR: /data
+      CALO_COMPUTE_MODE: cuda
+      NVIDIA_VISIBLE_DEVICES: "${CALO_GPU_DEVICE:-0}"
+      NVIDIA_DRIVER_CAPABILITIES: compute,utility
+
+volumes:
+  calo-runtime:
+    name: calo-rpd-studio-runtime

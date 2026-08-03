@@ -5,8 +5,16 @@ import hashlib
 import json
 import tomllib
 
+import pytest
+
 from calo_rpd_studio.benchmarking.freeze import verify_freeze_manifest
 from calo_rpd_studio.version import FREEZE_ID, FREEZE_MANIFEST, RELEASE_NAME, VERSION
+
+
+pytestmark = pytest.mark.skipif(
+    VERSION != "6.5.0",
+    reason="historical v6.5 release gate runs only against a v6.5 release checkout",
+)
 
 
 def _root() -> Path:
@@ -79,8 +87,22 @@ def test_v650_release_evidence_exists_and_records_all_must_resolve_ids():
         assert (root / name).is_file(), name
     closure = (root / "FINDINGS_CLOSURE_v6.5.0.csv").read_text(encoding="utf-8")
     for issue_id in (
-        "C04", "C10", "H01", "H05", "H15", "H21", "H22", "H28", "H30",
-        "M18", "V64-N01", "M30", "M32", "M45", "V64-N02", "V64-N03",
+        "C04",
+        "C10",
+        "H01",
+        "H05",
+        "H15",
+        "H21",
+        "H22",
+        "H28",
+        "H30",
+        "M18",
+        "V64-N01",
+        "M30",
+        "M32",
+        "M45",
+        "V64-N02",
+        "V64-N03",
     ):
         assert f"{issue_id}," in closure
 

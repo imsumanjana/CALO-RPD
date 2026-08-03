@@ -58,33 +58,30 @@ def test_cross_run_broker_merges_compatible_population_requests():
 def test_measured_throughput_allocation_uses_observed_capacity():
     allocation = measured_throughput_allocation(
         100,
-        {"cuda": 700.0, "xpu": 200.0, "cpu": 100.0},
+        {"cuda": 800.0, "cpu": 200.0},
     )
-    assert allocation == {"cuda": 70, "xpu": 20, "cpu": 10}
+    assert allocation == {"cuda": 80, "cpu": 20}
 
 
 def test_policy_training_plan_can_be_auto_tuned_from_measured_throughput():
     base = plan_training_lanes(
         10,
-        cuda_share=50,
-        xpu_share=30,
+        cuda_share=80,
         cpu_share=20,
         cuda_available=True,
-        xpu_available=True,
-        xpu_sidecar_available=False,
     )
     tuned = plan_training_lanes_from_throughput(
         10,
-        {"cuda": 800.0, "xpu": 100.0, "cpu": 100.0},
+        {"cuda": 900.0, "cpu": 100.0},
         base_plan=base,
     )
-    assert tuned.episode_counts == {"cuda": 8, "xpu": 1, "cpu": 1}
+    assert tuned.episode_counts == {"cuda": 9, "cpu": 1}
     assert any("auto-tuned" in item for item in tuned.warnings)
 
 
 def test_v31_experiment_configuration_round_trip_preserves_throughput_fields():
     config = ExperimentConfig(
-        execution_backend="throughput_auto",
+        execution_backend="cuda_preferred",
         cross_run_batch_window_ms=6.5,
         max_cross_run_batch=8192,
         calibration_batch_sizes=[32, 64, 128],
@@ -92,7 +89,7 @@ def test_v31_experiment_configuration_round_trip_preserves_throughput_fields():
         telemetry_iteration_interval=20,
     )
     restored = ExperimentConfig.from_dict(config.to_dict())
-    assert restored.execution_backend == "throughput_auto"
+    assert restored.execution_backend == "cuda_preferred"
     assert restored.cross_run_batch_window_ms == 6.5
     assert restored.max_cross_run_batch == 8192
     assert restored.calibration_batch_sizes == [32, 64, 128]

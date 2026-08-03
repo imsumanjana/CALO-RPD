@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Callable, Iterable
 
 from calo_rpd_studio.results.solution_validator import validate_stored_run
+from calo_rpd_studio.benchmarking.campaign import verify_campaign_plan_design
 
 
 def select_runs_for_validation(
@@ -117,6 +118,9 @@ def validate_campaign(
     cancel_callback: Callable[[], bool] | None = None,
 ) -> dict:
     manifest = Path(campaign_manifest)
+    design_ok, design_message = verify_campaign_plan_design(manifest)
+    if not design_ok:
+        raise ValueError(design_message)
     payload = json.loads(manifest.read_text(encoding="utf-8"))
     experiment_ids = [
         task.get("experiment_id")

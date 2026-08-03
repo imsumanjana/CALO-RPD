@@ -14,7 +14,7 @@ def main() -> int:
     parser.add_argument(
         "--case", default="case30", choices=["case30", "case57", "case118", "case300"]
     )
-    parser.add_argument("--device", default="auto", help="auto, cuda, cuda:0, xpu, xpu:0, or cpu")
+    parser.add_argument("--device", default="auto", help="auto, cuda, cuda:0, or cpu")
     parser.add_argument("--candidates", type=int, default=8)
     parser.add_argument("--batch-size", type=int, default=64)
     parser.add_argument("--seed", type=int, default=2026)

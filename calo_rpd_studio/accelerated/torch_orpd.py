@@ -13,22 +13,19 @@ from calo_rpd_studio.orpd.objectives import ObjectiveKind
 from calo_rpd_studio.orpd.problem import Evaluation, ORPDProblem, ORPDProblemConfig
 from calo_rpd_studio.orpd.formulation_fingerprint import scientific_problem_fingerprint
 from calo_rpd_studio.power_system.case_model import (
-    BUS_I,
     BUS_TYPE,
     GEN_BUS,
     GEN_STATUS,
-    PMAX,
-    PMIN,
     PQ,
-    QMAX,
-    QMIN,
     RATE_A,
     BR_STATUS,
     VMAX,
     VMIN,
 )
 from calo_rpd_studio.robustness.robust_objectives import (
-    RobustAggregation, aggregate_constraint_violation, normalize_scenario_weights,
+    RobustAggregation,
+    aggregate_constraint_violation,
+    normalize_scenario_weights,
 )
 from calo_rpd_studio.robustness.cvar import weighted_cvar_torch
 from calo_rpd_studio.robustness.scenario import Scenario
@@ -45,6 +42,7 @@ from .torch_power_flow import (
 from .torch_decoder import TorchVariableDecoder
 from .throughput_engine import GLOBAL_LEDGER, timed_stage
 from .runtime_context import get_cross_run_broker
+from .vram_residency import CudaCapacityExhausted
 
 
 @dataclass(frozen=True, slots=True)
@@ -83,6 +81,11 @@ class AcceleratedORPDProblem:
         dtype_name: str = "float64",
         batch_size: int = 64,
         device_resident: bool = True,
+        cuda_vram_budget_fraction: float = 0.80,
+        cuda_oom_retry_count: int = 4,
+        cuda_minimum_microbatch: int = 1,
+        cuda_resident_hot_loop: bool = True,
+        cuda_cpu_fallback_enabled: bool = True,
     ):
         self.case = case.clone()
         self.config = config or ORPDProblemConfig()
@@ -98,6 +101,11 @@ class AcceleratedORPDProblem:
         self.dtype = torch_dtype(dtype_name)
         self.batch_size = max(1, int(batch_size))
         self.device_resident_enabled = bool(device_resident)
+        self.cuda_vram_budget_fraction = float(cuda_vram_budget_fraction)
+        self.cuda_oom_retry_count = max(0, int(cuda_oom_retry_count))
+        self.cuda_minimum_microbatch = max(1, int(cuda_minimum_microbatch))
+        self.cuda_resident_hot_loop = bool(cuda_resident_hot_loop)
+        self.cuda_cpu_fallback_enabled = bool(cuda_cpu_fallback_enabled)
         self.tensor_decoder = TorchVariableDecoder(self.decoder, self.device, self.dtype)
         pf = self.config.power_flow
         self._broker = get_cross_run_broker()
@@ -294,6 +302,7 @@ class AcceleratedORPDProblem:
             # through NumPy directly, then execute the sparse CPU reference formulation.
             try:
                 import torch
+
                 if isinstance(population, torch.Tensor):
                     candidates = population.detach().to("cpu", dtype=torch.float64).numpy()
                 else:
@@ -314,7 +323,37 @@ class AcceleratedORPDProblem:
                 results.append(evaluation)
             return results
         if self._device_resident_evaluator is not None:
-            return self._device_resident_evaluator.evaluate_tensor(population).to_evaluations()
+            try:
+                return self._device_resident_evaluator.evaluate_tensor(population).to_evaluations()
+            except CudaCapacityExhausted as exc:
+                if not self.cuda_cpu_fallback_enabled:
+                    raise
+                try:
+                    import torch
+
+                    if isinstance(population, torch.Tensor):
+                        candidates = population.detach().to("cpu", dtype=torch.float64).numpy()
+                    else:
+                        candidates = np.asarray(population, dtype=float)
+                except (ImportError, TypeError, ValueError, RuntimeError):
+                    candidates = np.asarray(population, dtype=float)
+                if candidates.ndim == 1:
+                    candidates = candidates[None, :]
+                results = []
+                for candidate in np.clip(candidates, 0.0, 1.0):
+                    evaluation = self.reference.evaluate(candidate)
+                    evaluation.metadata = {
+                        **dict(evaluation.metadata or {}),
+                        "scientific_backend": "cpu_reference_after_cuda_capacity_exhaustion",
+                        "requested_accelerator": str(self.device),
+                        "compute_fallback": "cpu_reference_full_request_restart",
+                        "cuda_capacity_exhaustion": dict(exc.metadata),
+                        "runtime_timing_comparable_to_cuda_only": False,
+                    }
+                    results.append(evaluation)
+                self._device_resident_evaluator.vram_governor.stats.cpu_fallbacks += 1
+                self._device_resident_evaluator.vram_governor.stats.execution_state = "cpu_fallback"
+                return results
         try:
             import torch
 
@@ -348,9 +387,7 @@ class AcceleratedORPDProblem:
         with timed_stage("scenario_prepare", total_network_solves, GLOBAL_LEDGER):
             for scenario in self.scenarios:
                 for index, case in enumerate(controlled_cases):
-                    flat_records.append(
-                        (scenario, index, scenario.apply(case, copy_base=False))
-                    )
+                    flat_records.append((scenario, index, scenario.apply(case, copy_base=False)))
 
         flat_results = []
         with timed_stage("batched_ac_power_flow", total_network_solves, GLOBAL_LEDGER):
@@ -366,7 +403,9 @@ class AcceleratedORPDProblem:
                 )
 
         with timed_stage("objective_constraint_aggregation", total_network_solves, GLOBAL_LEDGER):
-            for (scenario, index, formulation_case), pf in zip(flat_records, flat_results, strict=True):
+            for (scenario, index, formulation_case), pf in zip(
+                flat_records, flat_results, strict=True
+            ):
                 value, obj_components = self._objective(pf, formulation_case)
                 violation, con_components = self._constraints(pf)
                 converged_all[index] = converged_all[index] and bool(pf.converged)
@@ -394,7 +433,9 @@ class AcceleratedORPDProblem:
                     violations[index], weights_np, self.config.robust
                 )
                 feasible = bool(
-                    converged_all[index] and np.isfinite(robust_value) and violation <= float(self.config.constraint_tolerances.feasibility_total)
+                    converged_all[index]
+                    and np.isfinite(robust_value)
+                    and violation <= float(self.config.constraint_tolerances.feasibility_total)
                 )
                 components = {
                     key: float(np.sum(weights_np * np.asarray(series, dtype=float)))
@@ -550,7 +591,9 @@ def parity_check(
         angle_error = 0.0
         convergence_mismatch = 0
         bus_type_mismatch = 0
-        scenario_count_mismatch = int(len(cpu_state.get("scenarios", [])) != len(gpu_state.get("scenarios", [])))
+        scenario_count_mismatch = int(
+            len(cpu_state.get("scenarios", [])) != len(gpu_state.get("scenarios", []))
+        )
         state_error = ""
         if not scenario_count_mismatch:
             try:
@@ -562,7 +605,9 @@ def parity_check(
                     )
                     cpu_types = np.asarray(cpu_scenario.get("bus_types", []), dtype=int)
                     gpu_types = np.asarray(gpu_scenario.get("bus_types", []), dtype=int)
-                    if cpu_types.shape != gpu_types.shape or not np.array_equal(cpu_types, gpu_types):
+                    if cpu_types.shape != gpu_types.shape or not np.array_equal(
+                        cpu_types, gpu_types
+                    ):
                         bus_type_mismatch += 1
                     cpu_vm = np.asarray(cpu_scenario["vm_pu"], dtype=float)
                     gpu_vm = np.asarray(gpu_scenario["vm_pu"], dtype=float)
@@ -587,8 +632,12 @@ def parity_check(
         max_violation_error = max(max_violation_error, violation_error)
         max_voltage_error = max(max_voltage_error, voltage_error)
         max_angle_error = max(max_angle_error, angle_error)
-        max_constraint_component_error = max(max_constraint_component_error, constraint_component_error)
-        max_objective_component_error = max(max_objective_component_error, objective_component_error)
+        max_constraint_component_error = max(
+            max_constraint_component_error, constraint_component_error
+        )
+        max_objective_component_error = max(
+            max_objective_component_error, objective_component_error
+        )
         feasibility_mismatches += int(feasibility_mismatch)
         convergence_mismatches += int(convergence_mismatch)
         bus_type_mismatches += int(bus_type_mismatch)
@@ -636,4 +685,3 @@ def parity_check(
         bus_type_mismatches=bus_type_mismatches,
         scenario_count_mismatches=scenario_count_mismatches,
     )
-

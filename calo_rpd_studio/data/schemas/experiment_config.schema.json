@@ -1,6 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "CALO-RPD Studio Experiment Configuration",
+  "description": "Current scientist configuration. Legacy execution-tuning and XPU fields are accepted only by the compatibility loader and are never emitted into a new configuration.",
   "type": "object",
   "required": [
     "case_name",
@@ -14,105 +15,454 @@
     "scenarios"
   ],
   "properties": {
+    "name": {
+      "type": "string",
+      "default": "CALO-RPD comparative experiment"
+    },
     "case_name": {
       "type": "string"
     },
+    "study_strength": {
+      "type": "string",
+      "default": "custom"
+    },
+    "study_case_plan": {
+      "type": "array",
+      "default": [
+        "case30"
+      ],
+      "items": {
+        "type": "string",
+        "default": "case30"
+      }
+    },
+    "study_standardized_effect": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "study_target_power": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "study_family_alpha": {
+      "type": "number",
+      "default": 0.05
+    },
+    "study_failure_allowance": {
+      "type": "number",
+      "default": 0.1
+    },
+    "study_run_planning_method": {
+      "type": "string",
+      "default": "custom"
+    },
     "algorithms": {
       "type": "array",
-      "minItems": 1,
+      "default": [
+        "CALO",
+        "TLBO",
+        "PSO"
+      ],
       "items": {
-        "type": "string"
-      }
+        "type": "string",
+        "default": "CALO"
+      },
+      "minItems": 1
     },
     "runs": {
       "type": "integer",
+      "default": 30,
       "minimum": 1
     },
     "master_seed": {
       "type": "integer",
+      "default": 2026,
       "minimum": 0
     },
     "population_size": {
       "type": "integer",
+      "default": 50,
       "minimum": 2
+    },
+    "max_iterations": {
+      "type": "integer",
+      "default": 1000
+    },
+    "budget": {
+      "type": "object",
+      "properties": {
+        "policy": {
+          "type": "string",
+          "default": "equal_evaluations"
+        },
+        "max_evaluations": {
+          "type": "integer",
+          "default": 5000
+        },
+        "wall_clock_seconds": {
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "default": {
+        "policy": "equal_evaluations",
+        "max_evaluations": 5000,
+        "wall_clock_seconds": null
+      }
+    },
+    "objective": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "default": "active_power_loss"
+        },
+        "weight_loss": {
+          "type": "number",
+          "default": 1.0
+        },
+        "weight_voltage_deviation": {
+          "type": "number",
+          "default": 0.0
+        },
+        "weight_l_index": {
+          "type": "number",
+          "default": 0.0
+        },
+        "loss_scale": {
+          "type": "number",
+          "default": 1.0
+        },
+        "voltage_deviation_scale": {
+          "type": "number",
+          "default": 1.0
+        },
+        "l_index_scale": {
+          "type": "number",
+          "default": 1.0
+        }
+      },
+      "additionalProperties": false,
+      "default": {
+        "kind": "active_power_loss",
+        "weight_loss": 1.0,
+        "weight_voltage_deviation": 0.0,
+        "weight_l_index": 0.0,
+        "loss_scale": 1.0,
+        "voltage_deviation_scale": 1.0,
+        "l_index_scale": 1.0
+      }
+    },
+    "variables": {
+      "type": "object",
+      "properties": {
+        "generator_voltages": {
+          "type": "boolean",
+          "default": true
+        },
+        "transformer_taps": {
+          "type": "boolean",
+          "default": true
+        },
+        "shunt_compensation": {
+          "type": "boolean",
+          "default": true
+        },
+        "discrete_transformer_taps": {
+          "type": "boolean",
+          "default": true
+        },
+        "discrete_shunts": {
+          "type": "boolean",
+          "default": true
+        },
+        "transformer_minimum": {
+          "type": "number",
+          "default": 0.9
+        },
+        "transformer_maximum": {
+          "type": "number",
+          "default": 1.1
+        },
+        "transformer_step": {
+          "type": "number",
+          "default": 0.0125
+        },
+        "shunt_controls": {
+          "type": "array",
+          "default": [],
+          "items": {}
+        },
+        "formulation_profile": {
+          "type": "string",
+          "default": "ieee-orpd-controls-v3.4.0"
+        }
+      },
+      "additionalProperties": false,
+      "default": {
+        "generator_voltages": true,
+        "transformer_taps": true,
+        "shunt_compensation": true,
+        "discrete_transformer_taps": true,
+        "discrete_shunts": true,
+        "transformer_minimum": 0.9,
+        "transformer_maximum": 1.1,
+        "transformer_step": 0.0125,
+        "shunt_controls": [],
+        "formulation_profile": "ieee-orpd-controls-v3.4.0"
+      }
+    },
+    "robust_objective": {
+      "type": "object",
+      "properties": {
+        "aggregation": {
+          "type": "string",
+          "default": "expected"
+        },
+        "risk_lambda": {
+          "type": "number",
+          "default": 1.0
+        },
+        "cvar_alpha": {
+          "type": "number",
+          "default": 0.95
+        },
+        "constraint_aggregation": {
+          "type": "string",
+          "default": "all_scenario_max"
+        }
+      },
+      "additionalProperties": false,
+      "default": {
+        "aggregation": "expected",
+        "risk_lambda": 1.0,
+        "cvar_alpha": 0.95,
+        "constraint_aggregation": "all_scenario_max"
+      }
+    },
+    "power_flow": {
+      "type": "object",
+      "properties": {
+        "tolerance": {
+          "type": "number",
+          "default": 1e-08
+        },
+        "max_iterations": {
+          "type": "integer",
+          "default": 30
+        },
+        "enforce_q_limits": {
+          "type": "boolean",
+          "default": true
+        },
+        "max_q_limit_rounds": {
+          "type": "integer",
+          "default": 10
+        },
+        "q_limit_tolerance_mvar": {
+          "type": "number",
+          "default": 1e-06
+        }
+      },
+      "additionalProperties": false,
+      "default": {
+        "tolerance": 1e-08,
+        "max_iterations": 30,
+        "enforce_q_limits": true,
+        "max_q_limit_rounds": 10,
+        "q_limit_tolerance_mvar": 1e-06
+      }
+    },
+    "constraint_tolerances": {
+      "type": "object",
+      "properties": {
+        "voltage_pu": {
+          "type": "number",
+          "default": 1e-07
+        },
+        "generator_p_mw": {
+          "type": "number",
+          "default": 1e-06
+        },
+        "generator_q_mvar": {
+          "type": "number",
+          "default": 1e-06
+        },
+        "branch_loading_percent": {
+          "type": "number",
+          "default": 1e-06
+        },
+        "branch_angle_deg": {
+          "type": "number",
+          "default": 1e-06
+        },
+        "feasibility_total": {
+          "type": "number",
+          "default": 1e-12
+        },
+        "schema_version": {
+          "type": "string",
+          "default": "calo_rpd_constraint_tolerance_v5.9"
+        }
+      },
+      "additionalProperties": false,
+      "default": {
+        "voltage_pu": 1e-07,
+        "generator_p_mw": 1e-06,
+        "generator_q_mvar": 1e-06,
+        "branch_loading_percent": 1e-06,
+        "branch_angle_deg": 1e-06,
+        "feasibility_total": 1e-12,
+        "schema_version": "calo_rpd_constraint_tolerance_v5.9"
+      }
+    },
+    "scenarios": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "default": "deterministic"
+        },
+        "count": {
+          "type": "integer",
+          "default": 20
+        },
+        "active_load_std": {
+          "type": "number",
+          "default": 0.05
+        },
+        "reactive_load_std": {
+          "type": "number",
+          "default": 0.05
+        },
+        "branch_outages": {
+          "type": "array",
+          "default": [],
+          "items": {}
+        },
+        "generator_outages": {
+          "type": "array",
+          "default": [],
+          "items": {}
+        },
+        "renewable_bus": {
+          "type": "integer",
+          "default": 0
+        },
+        "renewable_rated_mw": {
+          "type": "number",
+          "default": 0.0
+        },
+        "renewable_mean_capacity_factor": {
+          "type": "number",
+          "default": 0.5
+        },
+        "renewable_std_capacity_factor": {
+          "type": "number",
+          "default": 0.15
+        }
+      },
+      "additionalProperties": false,
+      "default": {
+        "mode": "deterministic",
+        "count": 20,
+        "active_load_std": 0.05,
+        "reactive_load_std": 0.05,
+        "branch_outages": [],
+        "generator_outages": [],
+        "renewable_bus": 0,
+        "renewable_rated_mw": 0.0,
+        "renewable_mean_capacity_factor": 0.5,
+        "renewable_std_capacity_factor": 0.15
+      }
+    },
+    "algorithm_parameters": {
+      "type": "object",
+      "default": {}
+    },
+    "output_directory": {
+      "type": "string",
+      "default": "results_data"
     },
     "parallel_workers": {
       "type": "integer",
+      "default": 1,
       "minimum": 1
     },
     "execution_backend": {
       "type": "string",
       "enum": [
-        "cuda_priority",
-        "cuda_only",
-        "throughput_auto",
-        "weighted_split",
-        "adaptive_hybrid",
-        "gpu_preferred",
+        "cuda_preferred",
         "cpu_only"
-      ]
+      ],
+      "default": "cuda_preferred"
     },
-    "gpu_utilization_target": {
-      "type": "integer",
-      "minimum": 10,
-      "maximum": 100
+    "scientific_backend": {
+      "type": "string",
+      "default": "torch_fp64"
     },
-    "cpu_utilization_target": {
-      "type": "integer",
-      "minimum": 10,
-      "maximum": 100
-    },
-    "gpu_memory_limit": {
-      "type": "integer",
-      "minimum": 20,
-      "maximum": 100
-    },
-    "gpu_parallel_jobs": {
-      "type": "integer",
-      "minimum": 1,
-      "maximum": 16
-    },
-    "xpu_utilization_target": {
-      "type": "integer",
-      "minimum": 10,
-      "maximum": 100
-    },
-    "xpu_memory_limit": {
-      "type": "integer",
-      "minimum": 20,
-      "maximum": 100
-    },
-    "xpu_parallel_jobs": {
-      "type": "integer",
-      "minimum": 1,
-      "maximum": 16
-    },
-    "system_memory_limit": {
-      "type": "integer",
-      "minimum": 20,
-      "maximum": 100
-    },
-    "cuda_task_share": {
-      "type": "integer",
-      "minimum": 0,
-      "maximum": 100,
-      "default": 80
-    },
-    "xpu_task_share": {
-      "type": "integer",
-      "minimum": 0,
-      "maximum": 100,
-      "default": 10
-    },
-    "cpu_task_share": {
-      "type": "integer",
-      "minimum": 0,
-      "maximum": 100,
-      "default": 10
-    },
-    "strict_device_shares": {
+    "device_resident_execution": {
       "type": "boolean",
       "default": true
+    },
+    "cuda_vram_budget_fraction": {
+      "type": "number",
+      "const": 0.8,
+      "default": 0.8,
+      "description": "Fixed ceiling: 80% of VRAM free at the task admission boundary."
+    },
+    "cuda_oom_retry_count": {
+      "type": "integer",
+      "default": 4,
+      "minimum": 0
+    },
+    "cuda_minimum_microbatch": {
+      "type": "integer",
+      "default": 1,
+      "minimum": 1
+    },
+    "cuda_resident_hot_loop": {
+      "type": "boolean",
+      "default": true
+    },
+    "cuda_cpu_fallback_enabled": {
+      "type": "boolean",
+      "default": true
+    },
+    "tensor_batch_size": {
+      "type": "integer",
+      "default": 64
+    },
+    "require_backend_parity": {
+      "type": "boolean",
+      "default": true
+    },
+    "parity_objective_tolerance": {
+      "type": "number",
+      "default": 1e-05
+    },
+    "parity_violation_tolerance": {
+      "type": "number",
+      "default": 1e-06
+    },
+    "parity_voltage_tolerance": {
+      "type": "number",
+      "default": 1e-05
+    },
+    "parity_angle_tolerance_deg": {
+      "type": "number",
+      "default": 0.0001
+    },
+    "runtime_compute_device": {
+      "type": "string",
+      "default": "cpu"
     },
     "throughput_engine_enabled": {
       "type": "boolean",
@@ -128,13 +478,13 @@
     },
     "cross_run_batch_window_ms": {
       "type": "number",
-      "exclusiveMinimum": 0,
-      "default": 4.0
+      "default": 4.0,
+      "exclusiveMinimum": 0
     },
     "max_cross_run_batch": {
       "type": "integer",
-      "minimum": 1,
-      "default": 4096
+      "default": 4096,
+      "minimum": 1
     },
     "automatic_batch_calibration": {
       "type": "boolean",
@@ -142,45 +492,220 @@
     },
     "calibration_batch_sizes": {
       "type": "array",
-      "minItems": 1,
-      "items": {
-        "type": "integer",
-        "minimum": 1
-      },
       "default": [
         16,
         32,
         64,
         128,
         256
-      ]
+      ],
+      "items": {
+        "type": "integer",
+        "default": 16
+      }
     },
     "calibration_repetitions": {
       "type": "integer",
-      "minimum": 1,
-      "default": 1
+      "default": 1,
+      "minimum": 1
     },
     "throughput_profile_path": {
       "type": "string",
-      "default": "results_data/throughput_profile_v31.json"
+      "default": "results_data/throughput_profile_v34.json"
+    },
+    "compile_stable_kernels": {
+      "type": "boolean",
+      "default": false
     },
     "telemetry_iteration_interval": {
       "type": "integer",
-      "minimum": 1,
-      "default": 10
+      "default": 10,
+      "minimum": 1
     },
     "buffered_trace_writes": {
       "type": "boolean",
       "default": true
     },
-    "device_resident_execution": {
+    "portfolio": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "default": "overall_experiment"
+        },
+        "evidence_profile": {
+          "type": "string",
+          "default": "journal"
+        },
+        "article_preset": {
+          "type": "string",
+          "default": "none"
+        },
+        "requested_outputs": {
+          "type": "array",
+          "default": [
+            "median_convergence",
+            "convergence_uncertainty_band",
+            "objective_boxplot",
+            "objective_violin",
+            "feasible_run_probability",
+            "evaluations_to_feasibility",
+            "descriptive_statistics",
+            "wilcoxon_holm",
+            "effect_sizes",
+            "friedman_ranking",
+            "critical_difference",
+            "best_validated_voltage_profile",
+            "best_validated_branch_heatmap"
+          ],
+          "items": {
+            "type": "string",
+            "default": "median_convergence"
+          }
+        },
+        "custom_runs": {
+          "type": "integer",
+          "default": 30
+        },
+        "require_independent_validation": {
+          "type": "boolean",
+          "default": true
+        },
+        "reuse_compatible_results": {
+          "type": "boolean",
+          "default": true
+        },
+        "enable_resume": {
+          "type": "boolean",
+          "default": true
+        },
+        "checkpoint_interval_evaluations": {
+          "type": "integer",
+          "default": 500
+        },
+        "storage_profile": {
+          "type": "string",
+          "default": "repeated_statistics"
+        },
+        "auto_validate": {
+          "type": "boolean",
+          "default": false
+        },
+        "auto_export": {
+          "type": "boolean",
+          "default": false
+        },
+        "name": {
+          "type": "string",
+          "default": "Overall experiment portfolio"
+        }
+      },
+      "additionalProperties": false,
+      "default": {
+        "kind": "overall_experiment",
+        "evidence_profile": "journal",
+        "article_preset": "none",
+        "requested_outputs": [
+          "median_convergence",
+          "convergence_uncertainty_band",
+          "objective_boxplot",
+          "objective_violin",
+          "feasible_run_probability",
+          "evaluations_to_feasibility",
+          "descriptive_statistics",
+          "wilcoxon_holm",
+          "effect_sizes",
+          "friedman_ranking",
+          "critical_difference",
+          "best_validated_voltage_profile",
+          "best_validated_branch_heatmap"
+        ],
+        "custom_runs": 30,
+        "require_independent_validation": true,
+        "reuse_compatible_results": true,
+        "enable_resume": true,
+        "checkpoint_interval_evaluations": 500,
+        "storage_profile": "repeated_statistics",
+        "auto_validate": false,
+        "auto_export": false,
+        "name": "Overall experiment portfolio"
+      }
+    },
+    "portfolio_id": {
+      "type": "string",
+      "default": ""
+    },
+    "resume_enabled": {
       "type": "boolean",
       "default": true
     },
-    "cuda_priority_work_stealing": {
+    "resume_campaign_id": {
+      "type": "string",
+      "default": ""
+    },
+    "checkpoint_interval_evaluations": {
+      "type": "integer",
+      "default": 500,
+      "minimum": 1
+    },
+    "safe_pause": {
       "type": "boolean",
       "default": true
+    },
+    "reuse_compatible_results": {
+      "type": "boolean",
+      "default": true
+    },
+    "extension_experiment_id": {
+      "type": "string",
+      "default": ""
+    },
+    "experiment_revision_id": {
+      "type": "string",
+      "default": ""
+    },
+    "extension_mode": {
+      "type": "string",
+      "default": ""
+    },
+    "extension_publication_eligible": {
+      "type": "boolean",
+      "default": true
+    },
+    "extension_run_indices": {
+      "type": "array",
+      "default": [],
+      "items": {}
+    },
+    "extension_algorithm_names": {
+      "type": "array",
+      "default": [],
+      "items": {}
+    },
+    "extension_execution_strategy": {
+      "type": "string",
+      "default": "exact_continue"
+    },
+    "extension_source_horizon": {
+      "type": "integer",
+      "default": 0
+    },
+    "require_exact_run_checkpoint_for_horizon_extension": {
+      "type": "boolean",
+      "default": true
+    },
+    "run_checkpoint_root": {
+      "type": "string",
+      "default": ""
+    },
+    "extension_checkpoint_paths": {
+      "type": "object",
+      "default": {}
+    },
+    "extension_existing_run_ids": {
+      "type": "object",
+      "default": {}
     }
   },
-  "additionalProperties": true
+  "additionalProperties": false
 }

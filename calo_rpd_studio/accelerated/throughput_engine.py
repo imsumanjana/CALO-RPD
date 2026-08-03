@@ -32,6 +32,7 @@ import numpy as np
 
 _LOG = logging.getLogger(__name__)
 
+
 @dataclass(slots=True)
 class StageTiming:
     calls: int = 0
@@ -243,7 +244,9 @@ class CrossRunBatchBroker:
                 )
                 return f"{scientific}|{representation}"
         except (ImportError, TypeError, ValueError, RuntimeError, AttributeError) as exc:
-            _LOG.debug("Torch batch-signature inspection unavailable; using NumPy signature: %s", exc)
+            _LOG.debug(
+                "Torch batch-signature inspection unavailable; using NumPy signature: %s", exc
+            )
         array = np.asarray(candidates)
         width = int(array.shape[1]) if array.ndim == 2 else -1
         return f"{scientific}|numpy:{array.dtype.str}:{width}"
@@ -483,10 +486,12 @@ def calibrate_evaluator(
 
                     if device.startswith("cuda"):
                         torch.cuda.synchronize(device)
-                    elif device.startswith("xpu") and hasattr(torch, "xpu"):
-                        torch.xpu.synchronize(device)
                 except (ImportError, RuntimeError, AttributeError, TypeError, ValueError) as exc:
-                    _LOG.warning("Accelerator synchronization failed during calibration on %s: %s", device, exc)
+                    _LOG.warning(
+                        "Accelerator synchronization failed during calibration on %s: %s",
+                        device,
+                        exc,
+                    )
             seconds = max(time.perf_counter() - started, 1e-12)
             record = DeviceCalibration(
                 device=device,

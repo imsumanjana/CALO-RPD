@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from pathlib import Path
 from types import SimpleNamespace
-import json
 import math
 
 import numpy as np
@@ -16,7 +15,10 @@ from calo_rpd_studio.orpd.problem import Evaluation
 from calo_rpd_studio.orpd.variable_decoder import ORPDVariableConfig, ORPDVariableDecoder
 from calo_rpd_studio.power_system.voltage_stability import kessel_glavitsch_l_index
 from calo_rpd_studio.power_system.newton_raphson import _dense_jacobian, MAX_DENSE_FALLBACK_BUSES
-from calo_rpd_studio.accelerated.torch_power_flow import build_dense_admittance, MAX_DENSE_TORCH_BUSES
+from calo_rpd_studio.accelerated.torch_power_flow import (
+    build_dense_admittance,
+    MAX_DENSE_TORCH_BUSES,
+)
 from calo_rpd_studio.statistics.friedman import friedman_test
 from calo_rpd_studio.portfolio.exporter import PortfolioExporter
 
@@ -119,7 +121,6 @@ def test_h16_h17_h18_h20_silent_broad_handlers_are_hardened():
     assert "except Exception" not in scheduler
     assert "except Exception" not in torch_orpd
     assert "CUDA runtime enumeration failed" in scheduler
-    assert "XPU sidecar telemetry failed" in scheduler
     # Remaining broad throughput catches are fail-forward request/error boundaries, not suppression.
     assert "propagate the same scientific failure to every requester" in throughput
     assert "request.error = exc" in throughput
@@ -192,7 +193,7 @@ def test_m48_m52_m54_gui_robustness_paths_are_explicit():
     assert "validation_resumed" in resume and "portfolio_export_resumed" in resume
     assert "validation_resumed.connect" in main and "portfolio_export_resumed.connect" in main
     assert "def select_run" in results and "return False" in results
-    assert "raise KeyError" not in results[results.index("def select_run"):]
+    assert "raise KeyError" not in results[results.index("def select_run") :]
 
 
 def test_m57_lazy_governor_uses_current_allocation_limit_profile():
@@ -210,7 +211,11 @@ def test_l19_corrupt_portfolio_manifest_has_actionable_error(tmp_path):
 
 def test_l23_stopping_experiment_does_not_zero_verified_results():
     text = _source("calo_rpd_studio/app/workflow_manager.py")
-    segment = text[text.index("def mark_experiment_stopped"): text.index("def ", text.index("def mark_experiment_stopped") + 4)]
+    segment = text[
+        text.index("def mark_experiment_stopped") : text.index(
+            "def ", text.index("def mark_experiment_stopped") + 4
+        )
+    ]
     assert "verified_results=0" not in segment
     assert "max(0, int(self.verified_results))" in segment
 
@@ -220,7 +225,11 @@ def test_v64_n04_real_development_reuses_validated_config_and_case_templates():
     assert "development_case_cache" in text
     assert "ExperimentConfig.load(config_path)" in text
     # Load is outside the per-episode loop in _collect_rollout_chunk.
-    segment = text[text.index("def _collect_rollout_chunk"): text.index("def ", text.index("def _collect_rollout_chunk") + 4)]
+    segment = text[
+        text.index("def _collect_rollout_chunk") : text.index(
+            "def ", text.index("def _collect_rollout_chunk") + 4
+        )
+    ]
     assert segment.count("ExperimentConfig.load(config_path)") == 1
 
 

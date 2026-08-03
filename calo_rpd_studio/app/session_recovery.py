@@ -26,7 +26,9 @@ def _utc_now() -> str:
 
 
 def _canonical_bytes(payload: dict[str, Any]) -> bytes:
-    return json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+    return json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode(
+        "utf-8"
+    )
 
 
 def _atomic_json(path: Path, payload: dict[str, Any]) -> None:

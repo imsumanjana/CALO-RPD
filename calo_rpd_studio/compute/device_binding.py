@@ -1,9 +1,8 @@
-"""Canonical runtime-device binding and execution attestation.
+"""Canonical CUDA/CPU runtime-device binding and execution attestation.
 
-All experiment execution paths (primary process, persistent CUDA worker, persistent XPU sidecar,
-and one-shot XPU worker) must bind the same scientific evaluator, optimizer kernels, and CALO
-policy inference settings to the same runtime identifier.  This module is the single authority for
-that binding so a job labelled ``xpu:0`` or ``cuda:0`` cannot silently retain a CPU evaluator.
+All experiment execution paths must bind the scientific evaluator, optimizer kernels, and CALO
+policy inference settings to the same runtime identifier. This module is the single authority for
+that binding so a job labelled ``cuda:0`` cannot silently retain a CPU evaluator.
 """
 
 from __future__ import annotations
@@ -17,7 +16,7 @@ from calo_rpd_studio.continuation.runtime_binding import bind_exact_run_checkpoi
 def bind_config_to_device(config, compute_device: str, item=None):
     """Return a deep-copied config fully bound to ``compute_device``.
 
-    Runtime IDs are PyTorch IDs (``cuda:N``, ``xpu:N``, ``cpu``), not Windows Task Manager GPU
+    Runtime IDs are PyTorch IDs (``cuda:N`` or ``cpu``), not Windows Task Manager GPU
     numbers.  The binding is intentionally applied to every configured algorithm plus the canonical
     CALO/TLBO entries used by continuation/ablation paths.
     """
@@ -77,14 +76,6 @@ def runtime_device_attestation(requested_device: str) -> dict[str, Any]:
             if not torch.cuda.is_available() or index >= int(torch.cuda.device_count()):
                 raise RuntimeError(f"Requested CUDA runtime {requested} is not available")
             name = str(torch.cuda.get_device_name(index))
-        elif requested.startswith("xpu:"):
-            index = int(requested.split(":", 1)[1])
-            if not (hasattr(torch, "xpu") and torch.xpu.is_available()):
-                raise RuntimeError(f"Requested XPU runtime {requested} is not available")
-            if index >= int(torch.xpu.device_count()):
-                raise RuntimeError(f"Requested XPU runtime {requested} is outside the device count")
-            props = torch.xpu.get_device_properties(index)
-            name = str(getattr(props, "name", requested))
         else:
             raise ValueError(f"Unsupported runtime device identifier: {requested}")
         device = torch.device(requested)
@@ -94,8 +85,6 @@ def runtime_device_attestation(requested_device: str) -> dict[str, Any]:
             raise RuntimeError(f"Device tensor probe returned unexpected value {value!r}")
         if requested.startswith("cuda:"):
             torch.cuda.synchronize(device)
-        elif requested.startswith("xpu:"):
-            torch.xpu.synchronize(device)
         attestation.update(
             {
                 "resolved_device": str(device),
@@ -116,7 +105,9 @@ def result_device_attestation(config, problem, result) -> dict[str, Any]:
     runtime = runtime_device_attestation(requested)
     evaluator_device = str(getattr(problem, "device", "cpu"))
     evaluator_context = getattr(problem, "device_context", None)
-    evaluator_name = str(getattr(evaluator_context, "name", "CPU" if evaluator_device == "cpu" else ""))
+    evaluator_name = str(
+        getattr(evaluator_context, "name", "CPU" if evaluator_device == "cpu" else "")
+    )
     metadata = dict(getattr(result, "metadata", {}) or {})
     optimizer_device = str(metadata.get("optimizer_device", ""))
     if not optimizer_device:

@@ -241,7 +241,6 @@ def test_experiment_manager_uses_guided_scrollable_order_without_compression(qtb
         panel.budget,
         panel.wall,
         panel.maxit,
-        panel.workers,
         panel.seed,
     ):
         assert widget.minimumHeight() >= 32
@@ -315,7 +314,7 @@ def test_live_calo_diagnostic_modes_receive_constraint_and_operator_series(qtbot
     assert panel.operator_success_series
 
 
-def test_experiment_manager_exposes_accelerator_first_scheduler_controls(qtbot, tmp_path):
+def test_experiment_manager_exposes_only_scientist_compute_modes(qtbot, tmp_path):
     from calo_rpd_studio.app.experiment_manager import ExperimentManager
     from calo_rpd_studio.app.state_manager import AppState
     from calo_rpd_studio.gui.panels.experiment_manager_panel import ExperimentManagerPanel
@@ -323,27 +322,20 @@ def test_experiment_manager_exposes_accelerator_first_scheduler_controls(qtbot, 
     state = AppState(tmp_path / "hybrid-scheduler.sqlite")
     panel = ExperimentManagerPanel(state, ExperimentManager(state))
     qtbot.addWidget(panel)
-    assert panel.execution_backend.findData("throughput_auto") >= 0
-    assert panel.execution_backend.findData("weighted_split") >= 0
-    assert panel.execution_backend.findData("adaptive_hybrid") >= 0
+    assert panel.execution_backend.count() == 2
+    assert panel.execution_backend.findData("cuda_preferred") >= 0
     assert panel.execution_backend.findData("cpu_only") >= 0
-    assert panel.gpu_target.value() == 70
-    assert panel.xpu_target.value() == 70
-    assert panel.cpu_target.value() == 50
-    assert panel.system_memory_limit.value() == 85
-    assert panel.gpu_jobs.minimum() == 1
-    assert panel.xpu_jobs.minimum() == 1
-    assert (panel.cuda_share.value(), panel.xpu_share.value(), panel.cpu_share.value()) == (
-        100,
-        0,
-        0,
-    )
-    assert panel.auto_batch_calibration.isChecked() is True
-    assert panel.persistent_workers.isChecked() is True
-    assert panel.cross_run_batching.isChecked() is True
+    visible_mode_text = " ".join(
+        panel.execution_backend.itemText(index) for index in range(panel.execution_backend.count())
+    ).lower()
+    assert "percentage" not in visible_mode_text
+    assert "%" not in visible_mode_text
+    assert "backend" not in visible_mode_text
+    assert not hasattr(panel, "cuda_share")
+    assert not hasattr(panel, "cpu_share")
 
 
-def test_policy_training_exposes_weighted_cuda_xpu_cpu_actor_controls(qtbot, tmp_path):
+def test_policy_training_hides_device_split_and_validation_only_modes(qtbot, tmp_path):
     from calo_rpd_studio.app.experiment_manager import ExperimentManager
     from calo_rpd_studio.app.state_manager import AppState
     from calo_rpd_studio.gui.panels.calo_intelligence_panel import CALOIntelligencePanel
@@ -354,14 +346,15 @@ def test_policy_training_exposes_weighted_cuda_xpu_cpu_actor_controls(qtbot, tmp
     assert panel.rollout_mode.currentData() == "weighted"
     assert (
         panel.cuda_rollout_share.value(),
-        panel.xpu_rollout_share.value(),
         panel.cpu_rollout_share.value(),
-    ) == (100, 0, 0)
-    assert "Shares refer to rollout episodes/transitions" in panel.accelerator_status.text()
+    ) == (100, 0)
+    assert "80%" in panel.accelerator_status.text()
+    assert "microbatch" not in panel.accelerator_status.text().lower()
+    assert "routing" not in panel.accelerator_status.text().lower()
+    assert panel.cuda_rollout_share.parentWidget().isHidden()
+    assert panel.no_ai_mode.isHidden()
+    assert panel.allow_unqualified.isHidden()
     assert panel.auto_tuned_training.isChecked() is False
-    assert panel.persistent_training_actors.isChecked() is True
-    assert panel.accelerated_training_orpd.isChecked() is True
-    assert panel.cross_episode_training_batch.isChecked() is True
 
 
 def test_live_optimization_auto_fits_visible_data_by_default(qtbot, tmp_path):

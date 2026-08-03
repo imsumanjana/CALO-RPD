@@ -11,6 +11,10 @@ from pathlib import Path
 from calo_rpd_studio.algorithms.registry import primary_algorithm_names
 from calo_rpd_studio.experiments.evaluation_budget import BudgetPolicy
 from calo_rpd_studio.experiments.experiment_config import ExperimentConfig
+from calo_rpd_studio.experiments.study_strength import (
+    StudyStrength,
+    recommend_paired_runs,
+)
 from calo_rpd_studio.orpd.variable_decoder import ORPDVariableDecoder
 from calo_rpd_studio.portfolio.models import EvidenceProfile, PortfolioKind
 from calo_rpd_studio.power_system.case_loader import CaseLoader
@@ -30,13 +34,27 @@ class BenchmarkCampaignConfig:
         "renewable_cvar",
         "branch_worst_case",
     )
-    runs: int = 30
+    runs: int = field(
+        default_factory=lambda: (
+            recommend_paired_runs(
+                StudyStrength.STRONG,
+                planned_comparisons=max(1, len(primary_algorithm_names()) - 1),
+            ).runs
+        )
+    )
+    standardized_effect: float = 0.50
+    target_power: float = 0.95
+    family_alpha: float = 0.05
+    failure_allowance: float = 0.10
+    run_planning_method: str = "normal_approximation_holm"
+    power_evidence_sha256: str = ""
+    require_protected_test: bool = True
     max_evaluations: int = 5000
     population_size: int = 50
     master_seed: int = 2026
     output_directory: str = "benchmark_v541"
     parallel_workers: int = 1
-    execution_backend: str = "weighted_split"
+    execution_backend: str = "cuda_preferred"
     freeze_manifest: str = field(
         default_factory=lambda: str(
             Path(__file__).resolve().parents[1] / "data" / "frozen" / FREEZE_MANIFEST
@@ -46,17 +64,65 @@ class BenchmarkCampaignConfig:
 
     def validate(self, suite: BenchmarkSuite | None = None, *, verify_freeze: bool = True) -> None:
         suite = suite or standard_benchmark_suite()
-        if not 30 <= int(self.runs) <= 50:
-            raise ValueError("Final benchmark campaigns require 30–50 independent runs per task.")
+        algorithms = tuple(str(name) for name in self.algorithms)
+        if len(algorithms) < 2 or "CALO" not in algorithms:
+            raise ValueError("A confirmatory campaign requires CALO and at least one comparator.")
+        if len(set(algorithms)) != len(algorithms):
+            raise ValueError("Benchmark algorithms must be unique.")
+        registered = set(primary_algorithm_names())
+        unknown_algorithms = set(algorithms) - registered
+        if unknown_algorithms:
+            raise ValueError(
+                "Unregistered benchmark algorithms: " + ", ".join(sorted(unknown_algorithms))
+            )
+        planning_method = str(self.run_planning_method).strip().lower()
+        if planning_method == "normal_approximation_holm":
+            recommendation = recommend_paired_runs(
+                StudyStrength.STRONG,
+                standardized_effect=float(self.standardized_effect),
+                target_power=float(self.target_power),
+                family_alpha=float(self.family_alpha),
+                failure_allowance=float(self.failure_allowance),
+                planned_comparisons=len(algorithms) - 1,
+            )
+            if int(self.runs) < int(recommendation.runs):
+                raise ValueError(
+                    f"The preregistered power approximation requires at least "
+                    f"{recommendation.runs} initiated paired runs for "
+                    f"{len(algorithms) - 1} planned comparisons; requested {self.runs}."
+                )
+        elif planning_method == "pilot_simulation":
+            digest = str(self.power_evidence_sha256).strip().lower()
+            if len(digest) != 64 or any(
+                character not in "0123456789abcdef" for character in digest
+            ):
+                raise ValueError(
+                    "pilot_simulation run planning requires a 64-character power-evidence SHA-256."
+                )
+            if int(self.runs) < 2:
+                raise ValueError(
+                    "A paired confirmatory campaign requires at least two initiated runs."
+                )
+        else:
+            raise ValueError(
+                "run_planning_method must be normal_approximation_holm or pilot_simulation."
+            )
         if self.max_evaluations <= 0:
             raise ValueError("max_evaluations must be positive")
-        if tuple(self.algorithms) != tuple(primary_algorithm_names()):
-            raise ValueError(
-                f"The frozen v{VERSION} benchmark campaign must include exactly the 20 primary algorithms."
-            )
+        if self.population_size < 4:
+            raise ValueError("population_size must be at least 4")
+        if self.parallel_workers < 1:
+            raise ValueError("parallel_workers must be at least 1")
         unknown_cases = set(self.cases) - set(suite.cases)
         if unknown_cases:
             raise ValueError(f"Unsupported benchmark cases: {sorted(unknown_cases)}")
+        if self.require_protected_test and not any(
+            suite.evidence_role(case_name) == "test" for case_name in self.cases
+        ):
+            raise ValueError(
+                "A confirmatory campaign requires at least one protected test system. "
+                "Use require_protected_test=False only for an explicitly labeled validation replay."
+            )
         known_studies = {study.key for study in suite.studies}
         unknown_studies = set(self.study_keys) - known_studies
         if unknown_studies:
@@ -74,6 +140,7 @@ class BenchmarkTask:
     case_name: str
     study_key: str
     study_label: str
+    evidence_role: str
     config: ExperimentConfig
 
     @property
@@ -106,8 +173,8 @@ def build_campaign(
             config.case_name = case_name
             config.algorithms = list(campaign.algorithms)
             config.runs = int(campaign.runs)
-            # Final campaign repetitions are explicit evidence requirements.  Synchronize the
-            # embedded portfolio so validation can never reduce or inflate 30–50 requested runs.
+            # Final campaign repetitions are explicit evidence requirements. Synchronize the
+            # embedded portfolio so validation cannot reduce or inflate the powered run plan.
             config.portfolio.kind = PortfolioKind.OVERALL_EXPERIMENT
             config.portfolio.evidence_profile = EvidenceProfile.CUSTOM
             config.portfolio.custom_runs = int(campaign.runs)
@@ -124,7 +191,17 @@ def build_campaign(
             study.configure(config)
             config.validate()
             task_id = f"{case_name}__{study_key}"
-            tasks.append(BenchmarkTask(index, task_id, case_name, study_key, study.label, config))
+            tasks.append(
+                BenchmarkTask(
+                    index,
+                    task_id,
+                    case_name,
+                    study_key,
+                    study.label,
+                    suite.evidence_role(case_name),
+                    config,
+                )
+            )
             index += 1
     return tasks
 
@@ -135,17 +212,28 @@ def write_campaign_plan(
     destination = Path(destination)
     destination.parent.mkdir(parents=True, exist_ok=True)
     payload = {
-        "schema_version": 1,
+        "schema_version": 2,
         "campaign": {
             "name": campaign.name,
             "cases": list(campaign.cases),
             "study_keys": list(campaign.study_keys),
             "runs": campaign.runs,
+            "run_design": {
+                "method": campaign.run_planning_method,
+                "standardized_effect": campaign.standardized_effect,
+                "target_power": campaign.target_power,
+                "family_alpha": campaign.family_alpha,
+                "planned_comparisons": max(1, len(campaign.algorithms) - 1),
+                "failure_allowance": campaign.failure_allowance,
+                "power_evidence_sha256": campaign.power_evidence_sha256 or None,
+                "initiated_runs_per_algorithm_task": campaign.runs,
+            },
             "max_evaluations": campaign.max_evaluations,
             "population_size": campaign.population_size,
             "master_seed": campaign.master_seed,
             "algorithms": list(campaign.algorithms),
             "freeze_manifest": campaign.freeze_manifest,
+            "require_protected_test": campaign.require_protected_test,
         },
         "tasks": [
             {
@@ -154,6 +242,7 @@ def write_campaign_plan(
                 "case_name": task.case_name,
                 "study_key": task.study_key,
                 "study_label": task.study_label,
+                "evidence_role": task.evidence_role,
                 "planned_jobs": task.planned_jobs,
                 "formulation_manifest": ORPDVariableDecoder(
                     CaseLoader.load(task.case_name), task.config.variables
@@ -166,5 +255,46 @@ def write_campaign_plan(
             for task in tasks
         ],
     }
+    payload["design_sha256"] = campaign_plan_design_sha256(payload)
     destination.write_text(json.dumps(payload, indent=2), encoding="utf-8")
     return destination
+
+
+def campaign_plan_design_sha256(payload: dict) -> str:
+    """Hash immutable campaign design while excluding run-time task state."""
+
+    immutable_tasks = []
+    for task in list(payload.get("tasks", []) or []):
+        immutable_tasks.append(
+            {
+                key: value
+                for key, value in dict(task).items()
+                if key not in {"experiment_id", "status"}
+            }
+        )
+    immutable = {
+        "schema_version": int(payload.get("schema_version", 0) or 0),
+        "campaign": dict(payload.get("campaign", {}) or {}),
+        "tasks": immutable_tasks,
+    }
+    encoded = json.dumps(
+        immutable,
+        sort_keys=True,
+        separators=(",", ":"),
+        allow_nan=False,
+    ).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
+
+
+def verify_campaign_plan_design(source: str | Path) -> tuple[bool, str]:
+    """Verify that immutable campaign design was not changed after planning."""
+
+    path = Path(source)
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    expected = str(payload.get("design_sha256", "") or "")
+    actual = campaign_plan_design_sha256(payload)
+    if not expected:
+        return False, "Campaign plan has no immutable design SHA-256."
+    if expected != actual:
+        return False, "Campaign design changed after its plan was frozen."
+    return True, "Campaign design SHA-256 verified."

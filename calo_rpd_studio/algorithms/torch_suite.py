@@ -1,4 +1,4 @@
-"""Torch-native canonical implementations of the nineteen baseline optimizers.
+"""Torch-native canonical implementations of the primary baseline optimizers.
 
 The mathematical operators remain recognizable canonical baseline operators.  Scientific strength
 comes from the common double-precision AC evaluator, exact mixed-variable decoder, Deb
@@ -15,9 +15,10 @@ import time
 import numpy as np
 
 from calo_rpd_studio.accelerated.device import reflect_unit_interval, resolve_device
-from calo_rpd_studio.orpd.feasibility_rules import better
+from calo_rpd_studio.orpd.feasibility_rules import better, sort_key
 
 from .base_optimizer import BaseOptimizer
+from .lshade import LSHADEOptimizer, constrained_improvement, positive_round
 
 
 class TorchCanonicalOptimizer(BaseOptimizer):
@@ -126,6 +127,7 @@ class TorchCanonicalOptimizer(BaseOptimizer):
             "PSO": self._run_pso,
             "CLPSO": self._run_clpso,
             "MTLA-DE": self._run_mtla_de,
+            "L-SHADE": self._run_lshade,
             "QODE": self._run_qode,
             "DA": self._run_dragonfly,
             "SA": self._run_sa,
@@ -300,6 +302,152 @@ class TorchCanonicalOptimizer(BaseOptimizer):
                     evaluations[i] = ev
             self.record({"kernel_device": str(self.device)})
         return self.finalize(pop.detach().cpu().numpy(), metadata=self._metadata(), started=started)
+
+    def _run_lshade(self):
+        """Run corrected L-SHADE while retaining the population and archive on the device."""
+
+        import torch
+
+        started = time.perf_counter()
+        requested_size = max(4, int(self.config.population_size))
+        pop = self._population(requested_size)
+        evaluations = self._eval_pop(pop)
+        pop = pop[: len(evaluations)]
+        if not evaluations:
+            raise RuntimeError("L-SHADE could not evaluate its initial population")
+
+        initial_size = len(pop)
+        minimum_size = 4
+        memory_size = max(1, int(self.config.parameters.get("memory_size", 5)))
+        p_best_rate = float(self.config.parameters.get("p_best_rate", 0.11))
+        archive_rate = max(0.0, float(self.config.parameters.get("archive_rate", 1.4)))
+        if not 0.0 < p_best_rate <= 1.0:
+            raise ValueError("L-SHADE p_best_rate must lie in (0, 1]")
+        memory_f = np.full(memory_size, 0.5, dtype=float)
+        memory_cr = np.full(memory_size, 0.5, dtype=float)
+        memory_position = 0
+        archive: list = []
+        population_history = [initial_size]
+        source_repair_candidates = 0
+        source_repair_coordinates = 0
+        source_repair_total = 0
+
+        while self.iteration < self.config.max_iterations and self.can_evaluate() and len(pop) >= 4:
+            self.iteration += 1
+            size, dimension = pop.shape
+            order = self.order(evaluations)
+            p_count = min(size, max(2, positive_round(size * p_best_rate)))
+            union = pop if not archive else torch.cat((pop, torch.stack(archive)), dim=0)
+            trials = torch.empty_like(pop)
+            sampled_f = np.empty(size, dtype=float)
+            sampled_cr = np.empty(size, dtype=float)
+
+            for target in range(size):
+                memory_index = int(self.rng.integers(memory_size))
+                mean_cr = float(memory_cr[memory_index])
+                cr = (
+                    0.0
+                    if mean_cr < 0.0
+                    else float(np.clip(self.rng.normal(mean_cr, 0.1), 0.0, 1.0))
+                )
+                scale = LSHADEOptimizer._sample_scaling_factor(self, float(memory_f[memory_index]))
+                pbest = int(order[int(self.rng.integers(p_count))])
+                r1 = int(self.rng.choice([index for index in range(size) if index != target]))
+                while True:
+                    r2 = int(self.rng.integers(len(union)))
+                    if r2 != target and r2 != r1:
+                        break
+                mutant = (
+                    pop[target] + scale * (pop[pbest] - pop[target]) + scale * (pop[r1] - union[r2])
+                )
+                mask = self._rand((dimension,)) < cr
+                mask[int(self.rng.integers(dimension))] = True
+                raw_trial = torch.where(mask, mutant, pop[target])
+                outside = (raw_trial < 0.0) | (raw_trial > 1.0)
+                source_repair_candidates += int(bool(torch.any(outside).item()))
+                source_repair_coordinates += int(torch.count_nonzero(outside).item())
+                source_repair_total += int(dimension)
+                raw_trial = torch.where(raw_trial < 0.0, pop[target] / 2.0, raw_trial)
+                trials[target] = torch.where(raw_trial > 1.0, (1.0 + pop[target]) / 2.0, raw_trial)
+                sampled_f[target] = scale
+                sampled_cr[target] = cr
+
+            trial_evaluations = self._eval_pop(trials)
+            successful_f: list[float] = []
+            successful_cr: list[float] = []
+            improvements: list[float] = []
+            archive_capacity = positive_round(len(pop) * archive_rate)
+            for index, child_evaluation in enumerate(trial_evaluations):
+                parent_evaluation = evaluations[index]
+                improvement = constrained_improvement(parent_evaluation, child_evaluation)
+                if improvement > 0.0:
+                    parent = pop[index].clone()
+                    if archive_capacity > 1:
+                        if len(archive) < archive_capacity:
+                            archive.append(parent)
+                        else:
+                            archive[int(self.rng.integers(archive_capacity))] = parent
+                    successful_f.append(float(sampled_f[index]))
+                    successful_cr.append(float(sampled_cr[index]))
+                    improvements.append(improvement)
+                if improvement > 0.0 or sort_key(child_evaluation) == sort_key(parent_evaluation):
+                    pop[index] = trials[index]
+                    evaluations[index] = child_evaluation
+
+            memory_position = LSHADEOptimizer._update_memory(
+                memory_f,
+                memory_cr,
+                memory_position,
+                successful_f,
+                successful_cr,
+                improvements,
+            )
+            planned_size = positive_round(
+                (minimum_size - initial_size)
+                * self.evaluations
+                / max(int(self.config.max_evaluations), 1)
+                + initial_size
+            )
+            planned_size = max(minimum_size, planned_size)
+            if len(pop) > planned_size:
+                retained = self.order(evaluations)[:planned_size]
+                pop = pop[retained]
+                evaluations = [evaluations[index] for index in retained]
+            next_archive_capacity = positive_round(len(pop) * archive_rate)
+            while len(archive) > next_archive_capacity:
+                archive.pop(int(self.rng.integers(len(archive))))
+            population_history.append(len(pop))
+            self.record(
+                {
+                    "kernel_device": str(self.device),
+                    "population_size": len(pop),
+                    "successful_parameters": len(successful_f),
+                }
+            )
+
+        metadata = self._metadata()
+        metadata.update(
+            {
+                "source_algorithm": "L-SHADE 1.0.1 corrected reference",
+                "source_doi": "10.1109/CEC.2014.6900380",
+                "mutation": "current-to-pbest/1/bin",
+                "boundary_strategy": "parent_midpoint_unit_box",
+                "boundary_repair_policy": "parent_midpoint_to_unit_box_relative_to_target",
+                "source_boundary_repair_candidate_count": source_repair_candidates,
+                "source_boundary_repair_coordinate_count": source_repair_coordinates,
+                "source_boundary_repair_coordinate_rate": float(source_repair_coordinates)
+                / max(source_repair_total, 1),
+                "constraint_adapter": "Deb feasibility-first selection; feasible objective or infeasible violation improvement weights",
+                "memory_size": memory_size,
+                "p_best_rate": p_best_rate,
+                "archive_rate": archive_rate,
+                "minimum_population_size": minimum_size,
+                "population_size_history": population_history,
+                "memory_f_final": memory_f.tolist(),
+                "memory_cr_final": memory_cr.tolist(),
+            }
+        )
+        return self.finalize(pop.detach().cpu().numpy(), metadata=metadata, started=started)
 
     def _run_qode(self):
         started = time.perf_counter()

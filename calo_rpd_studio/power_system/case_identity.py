@@ -22,7 +22,15 @@ def canonical_protected_holdout_checksums() -> dict[str, str]:
     for name in PROTECTED_HOLDOUT_BUS_COUNTS:
         try:
             checksums[name] = CaseLoader.load(name).checksum().lower()
-        except (OSError, RuntimeError, ValueError, TypeError, KeyError, AttributeError, UnicodeError):
+        except (
+            OSError,
+            RuntimeError,
+            ValueError,
+            TypeError,
+            KeyError,
+            AttributeError,
+            UnicodeError,
+        ):
             # The runtime may be dependency-light. Callers fail closed by bus count for the
             # corresponding unresolved canonical benchmark instead of trusting a filename.
             continue
@@ -54,4 +62,6 @@ def protected_holdout_identity(source: str | Path) -> str:
 
 
 def protected_holdout_matches(sources) -> tuple[str, ...]:
-    return tuple(sorted({identity for item in sources if (identity := protected_holdout_identity(item))}))
+    return tuple(
+        sorted({identity for item in sources if (identity := protected_holdout_identity(item))})
+    )

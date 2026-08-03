@@ -4,7 +4,7 @@ import pytest
 
 PyQt6 = pytest.importorskip("PyQt6")
 
-from calo_rpd_studio.app.workspaces import WORKSPACE_KEYS
+from calo_rpd_studio.app.workspaces import WORKSPACE_KEYS  # noqa: E402
 
 
 def test_v620_canonical_policy_first_workspace_order():

@@ -22,7 +22,11 @@ def test_v620_release_identity_is_consistent():
     project = tomllib.loads((root / "pyproject.toml").read_text(encoding="utf-8"))["project"]
     metadata = json.loads((root / "RELEASE_METADATA.json").read_text(encoding="utf-8"))
     assert project["version"] == VERSION == metadata["version"] == "6.2.0"
-    assert RELEASE_NAME == metadata["release_name"] == "Adaptive Compute Protection, Recovery and Scientific Qualification"
+    assert (
+        RELEASE_NAME
+        == metadata["release_name"]
+        == "Adaptive Compute Protection, Recovery and Scientific Qualification"
+    )
     assert FREEZE_ID == "calo_v620_software_release"
     assert FREEZE_MANIFEST == "calo_v620_freeze.json"
 

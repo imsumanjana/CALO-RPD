@@ -52,10 +52,16 @@ def build_ybus(case: PowerSystemCase) -> AdmittanceMatrices:
         yft = -y / np.conj(a)
         ytf = -y / a
         ytt = y + b
-        yf_rows.extend((k, k)); yf_cols.extend((f, t)); yf_vals.extend((yff, yft))
-        yt_rows.extend((k, k)); yt_cols.extend((f, t)); yt_vals.extend((ytf, ytt))
+        yf_rows.extend((k, k))
+        yf_cols.extend((f, t))
+        yf_vals.extend((yff, yft))
+        yt_rows.extend((k, k))
+        yt_cols.extend((f, t))
+        yt_vals.extend((ytf, ytt))
         for r, c, v in ((f, f, yff), (f, t, yft), (t, f, ytf), (t, t, ytt)):
-            rows.append(r); cols.append(c); vals.append(v)
+            rows.append(r)
+            cols.append(c)
+            vals.append(v)
     ybus = csr_matrix((vals, (rows, cols)), shape=(n, n), dtype=complex)
     sh = (case.bus[:, GS] + 1j * case.bus[:, BS]) / case.base_mva
     ybus = ybus + csr_matrix((sh, (np.arange(n), np.arange(n))), shape=(n, n))

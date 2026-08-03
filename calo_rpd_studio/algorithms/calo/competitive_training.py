@@ -27,7 +27,7 @@ import shutil
 import tempfile
 import time
 import uuid
-from typing import Any, Iterable
+from typing import Iterable
 
 import numpy as np
 import torch
@@ -336,20 +336,49 @@ def compare_champion_metrics(candidate: dict, incumbent: dict | None) -> Champio
     """
 
     if not _eligible(candidate):
-        return ChampionDecision(False, 0, 1, 0, 0, 1, "candidate failed validity/feasibility eligibility gates", "INVALID")
+        return ChampionDecision(
+            False,
+            0,
+            1,
+            0,
+            0,
+            1,
+            "candidate failed validity/feasibility eligibility gates",
+            "INVALID",
+        )
     if incumbent is None or not _eligible(incumbent):
         return ChampionDecision(True, 1, 0, 0, 1, 0, "first eligible champion", "SUPERIOR")
     if not _bundle_compatible(candidate, incumbent):
-        return ChampionDecision(False, 0, 0, 1, 0, 0, "validation bundle changed; incumbent/candidate must be re-evaluated together", "INVALID")
+        return ChampionDecision(
+            False,
+            0,
+            0,
+            1,
+            0,
+            0,
+            "validation bundle changed; incumbent/candidate must be re-evaluated together",
+            "INVALID",
+        )
 
     cand_feas = _metric_value(candidate, "feasible_episode_rate")
     base_feas = _metric_value(incumbent, "feasible_episode_rate")
     if cand_feas + 0.02 < base_feas:
-        return ChampionDecision(False, 0, 1, 0, 0, 1, "candidate materially reduces feasible-episode probability", "INFERIOR")
+        return ChampionDecision(
+            False,
+            0,
+            1,
+            0,
+            0,
+            1,
+            "candidate materially reduces feasible-episode probability",
+            "INFERIOR",
+        )
 
     wins = losses = ties = critical_wins = critical_losses = 0
     for key, direction in _QUALITY_METRIC_DIRECTIONS.items():
-        result = _compare_one(_metric_value(candidate, key), _metric_value(incumbent, key), direction)
+        result = _compare_one(
+            _metric_value(candidate, key), _metric_value(incumbent, key), direction
+        )
         if result > 0:
             wins += 1
             if key in _CRITICAL_METRICS:
@@ -365,7 +394,16 @@ def compare_champion_metrics(candidate: dict, incumbent: dict | None) -> Champio
     base_obj = _metric_value(incumbent, "median_final_feasible_objective")
     if math.isfinite(cand_obj) and math.isfinite(base_obj):
         if cand_obj > base_obj + 0.01 * max(abs(base_obj), 1.0):
-            return ChampionDecision(False, wins, losses, ties, critical_wins, critical_losses, "candidate worsens median final feasible objective by more than 1%", "INFERIOR")
+            return ChampionDecision(
+                False,
+                wins,
+                losses,
+                ties,
+                critical_wins,
+                critical_losses,
+                "candidate worsens median final feasible objective by more than 1%",
+                "INFERIOR",
+            )
 
     # Predeclared scientific lexicographic hierarchy. Correlated metrics remain reported as evidence
     # but do not get independent majority votes that can overwhelm feasibility/objective quality.
@@ -378,12 +416,41 @@ def compare_champion_metrics(candidate: dict, incumbent: dict | None) -> Champio
         ("median_validation_return", "max"),
     )
     for key, direction in hierarchy:
-        result = _compare_one(_metric_value(candidate, key), _metric_value(incumbent, key), direction)
+        result = _compare_one(
+            _metric_value(candidate, key), _metric_value(incumbent, key), direction
+        )
         if result > 0:
-            return ChampionDecision(True, wins, losses, ties, critical_wins, critical_losses, f"candidate is superior on predeclared hierarchy at {key}", "SUPERIOR")
+            return ChampionDecision(
+                True,
+                wins,
+                losses,
+                ties,
+                critical_wins,
+                critical_losses,
+                f"candidate is superior on predeclared hierarchy at {key}",
+                "SUPERIOR",
+            )
         if result < 0:
-            return ChampionDecision(False, wins, losses, ties, critical_wins, critical_losses, f"candidate is inferior on predeclared hierarchy at {key}", "INFERIOR")
-    return ChampionDecision(False, wins, losses, ties, critical_wins, critical_losses, "candidate is scientifically equivalent within comparator tolerances", "EQUIVALENT")
+            return ChampionDecision(
+                False,
+                wins,
+                losses,
+                ties,
+                critical_wins,
+                critical_losses,
+                f"candidate is inferior on predeclared hierarchy at {key}",
+                "INFERIOR",
+            )
+    return ChampionDecision(
+        False,
+        wins,
+        losses,
+        ties,
+        critical_wins,
+        critical_losses,
+        "candidate is scientifically equivalent within comparator tolerances",
+        "EQUIVALENT",
+    )
 
 
 def _deterministic_action(network, state: np.ndarray, device: torch.device):
@@ -417,17 +484,26 @@ def validation_bundle_fingerprint(config) -> str:
         "episodes_per_stage": int(getattr(config, "champion_validation_episodes", 5) or 5),
         "horizon": int(getattr(config, "champion_validation_horizon", 12) or 12),
         "population_size": int(getattr(config, "population_size", 20) or 20),
-        "minimum_feasible_rate": float(0.80 if getattr(config, "champion_min_feasible_rate", None) is None else getattr(config, "champion_min_feasible_rate")),
-        "development_cases": _development_case_identity(getattr(config, "development_cases", ()) or ()),
+        "minimum_feasible_rate": float(
+            0.80
+            if getattr(config, "champion_min_feasible_rate", None) is None
+            else getattr(config, "champion_min_feasible_rate")
+        ),
+        "development_cases": _development_case_identity(
+            getattr(config, "development_cases", ()) or ()
+        ),
         "development_experiment_config": _development_case_identity(
             [getattr(config, "development_experiment_config_path", "")]
-            if str(getattr(config, "development_experiment_config_path", "") or "").strip() else []
+            if str(getattr(config, "development_experiment_config_path", "") or "").strip()
+            else []
         ),
         "state_schema": POLICY_STATE_SCHEMA,
         "action_schema": POLICY_ACTION_SCHEMA,
         "training_environment": TRAINING_ENVIRONMENT_VERSION,
     }
-    encoded = json.dumps(payload, sort_keys=True, separators=(",", ":"), allow_nan=False).encode("utf-8")
+    encoded = json.dumps(payload, sort_keys=True, separators=(",", ":"), allow_nan=False).encode(
+        "utf-8"
+    )
     return hashlib.sha256(encoded).hexdigest()
 
 
@@ -440,7 +516,9 @@ def _exact_development_problem(config, source: str, scenario_seed: int):
 
     config_path = str(getattr(config, "development_experiment_config_path", "") or "").strip()
     if not config_path:
-        raise ValueError("A development_experiment_config_path is required for deployable Base evidence")
+        raise ValueError(
+            "A development_experiment_config_path is required for deployable Base evidence"
+        )
     experiment = ExperimentConfig.load(config_path)
     experiment.case_name = str(source)
     experiment.validate_policy_development()
@@ -456,7 +534,9 @@ def _exact_development_problem(config, source: str, scenario_seed: int):
     return ORPDProblem(case, problem_config, scenarios)
 
 
-def _run_policy_episode(network, env, horizon: int, device, inference_accumulator: list[float]) -> dict:
+def _run_policy_episode(
+    network, env, horizon: int, device, inference_accumulator: list[float]
+) -> dict:
     episode_return = 0.0
     first_feasible = horizon + 1
     any_feasible = False
@@ -473,7 +553,11 @@ def _run_policy_episode(network, env, horizon: int, device, inference_accumulato
             any_feasible = True
             if first_feasible == horizon + 1:
                 first_feasible = step + 1
-        quality = float(objective) if math.isfinite(float(objective)) else 1.0e9 + 1.0e6 * max(float(violation), 0.0)
+        quality = (
+            float(objective)
+            if math.isfinite(float(objective))
+            else 1.0e9 + 1.0e6 * max(float(violation), 0.0)
+        )
         quality_curve.append(quality)
     violation, objective, feasible_ratio = env._diagnostics(env.evaluations)
     final_best_feasible = bool(feasible_ratio > 0.0 and math.isfinite(float(objective)))
@@ -500,9 +584,19 @@ def evaluate_policy_multimetric(network, config, *, validation_seed: int | None 
     """
     from .training import SyntheticCALOEnvironment
 
-    base_seed = int(validation_seed if validation_seed is not None else getattr(config, "champion_validation_seed", 918273))
+    base_seed = int(
+        validation_seed
+        if validation_seed is not None
+        else getattr(config, "champion_validation_seed", 918273)
+    )
     episodes_per_stage = max(1, int(getattr(config, "champion_validation_episodes", 5) or 5))
-    horizon = max(2, min(int(getattr(config, "horizon", 28)), int(getattr(config, "champion_validation_horizon", 12) or 12)))
+    horizon = max(
+        2,
+        min(
+            int(getattr(config, "horizon", 28)),
+            int(getattr(config, "champion_validation_horizon", 12) or 12),
+        ),
+    )
     device = next(network.parameters()).device
     was_training = bool(network.training)
     network.eval()
@@ -518,7 +612,9 @@ def evaluate_policy_multimetric(network, config, *, validation_seed: int | None 
         for stage in (0, 1, 2, 3):
             for rep in range(episodes_per_stage):
                 seed = base_seed + stage * 100_003 + rep * 10_007
-                env = SyntheticCALOEnvironment(np.random.default_rng(seed), stage, int(config.population_size))
+                env = SyntheticCALOEnvironment(
+                    np.random.default_rng(seed), stage, int(config.population_size)
+                )
                 synthetic_rows.append(_run_policy_episode(network, env, horizon, device, inference))
 
         # Deployable Scientific Base bundle: fixed real ORPD cases under the exact declared formulation.
@@ -532,13 +628,21 @@ def evaluate_policy_multimetric(network, config, *, validation_seed: int | None 
                     # from dominating a pooled median across heterogeneous systems.
                     center = np.full(problem.dimension, 0.5, dtype=float)
                     reference = problem.evaluate(center)
-                    reference_scale = max(abs(float(reference.value)), 1e-12) if math.isfinite(float(reference.value)) else 1.0
-                    env = SyntheticCALOEnvironment(np.random.default_rng(seed), 4, int(config.population_size), problem=problem)
+                    reference_scale = (
+                        max(abs(float(reference.value)), 1e-12)
+                        if math.isfinite(float(reference.value))
+                        else 1.0
+                    )
+                    env = SyntheticCALOEnvironment(
+                        np.random.default_rng(seed), 4, int(config.population_size), problem=problem
+                    )
                     row = _run_policy_episode(network, env, horizon, device, inference)
                     row["case"] = case_name
                     row["reference_scale"] = float(reference_scale)
                     row["normalized_objective"] = (
-                        float(row["objective"]) / reference_scale if row["final_best_feasible"] else float("inf")
+                        float(row["objective"]) / reference_scale
+                        if row["final_best_feasible"]
+                        else float("inf")
                     )
                     real_rows.append(row)
                     real_case_rows.setdefault(case_name, []).append(row)
@@ -552,20 +656,33 @@ def evaluate_policy_multimetric(network, config, *, validation_seed: int | None 
         first = [float(r["first_feasible"]) for r in rows]
         aucs = [float(r["auc"]) for r in rows]
         key = "normalized_objective" if normalized else "objective"
-        objectives = np.asarray([float(r[key]) for r in rows if math.isfinite(float(r.get(key, float("inf"))))], dtype=float)
+        objectives = np.asarray(
+            [float(r[key]) for r in rows if math.isfinite(float(r.get(key, float("inf"))))],
+            dtype=float,
+        )
         return {
             "episodes": len(rows),
             "valid": bool(rows) and all(math.isfinite(v) for v in returns),
-            "any_feasible_found_rate": float(np.mean([bool(r["any_feasible"]) for r in rows])) if rows else 0.0,
-            "final_best_feasible_rate": float(np.mean([bool(r["final_best_feasible"]) for r in rows])) if rows else 0.0,
+            "any_feasible_found_rate": float(np.mean([bool(r["any_feasible"]) for r in rows]))
+            if rows
+            else 0.0,
+            "final_best_feasible_rate": float(
+                np.mean([bool(r["final_best_feasible"]) for r in rows])
+            )
+            if rows
+            else 0.0,
             "mean_final_feasible_ratio": float(np.mean(final_ratios)) if rows else 0.0,
             "median_objective": float(np.median(objectives)) if len(objectives) else 1.0e12,
             "mean_objective": float(np.mean(objectives)) if len(objectives) else 1.0e12,
             "best_objective": float(np.min(objectives)) if len(objectives) else 1.0e12,
             "worst_objective": float(np.max(objectives)) if len(objectives) else 1.0e12,
-            "objective_iqr": float(np.percentile(objectives, 75) - np.percentile(objectives, 25)) if len(objectives) >= 2 else 0.0,
+            "objective_iqr": float(np.percentile(objectives, 75) - np.percentile(objectives, 25))
+            if len(objectives) >= 2
+            else 0.0,
             "median_constraint_violation": float(np.median(violations)) if rows else 1.0e12,
-            "median_steps_to_first_feasibility": float(np.median(first)) if rows else float(horizon + 1),
+            "median_steps_to_first_feasibility": float(np.median(first))
+            if rows
+            else float(horizon + 1),
             "convergence_auc": float(np.mean(aucs)) if rows else 1.0e12,
             "mean_validation_return": float(np.mean(returns)) if rows else -1.0e12,
             "median_validation_return": float(np.median(returns)) if rows else -1.0e12,
@@ -574,11 +691,17 @@ def evaluate_policy_multimetric(network, config, *, validation_seed: int | None 
 
     synthetic = summarize(synthetic_rows, normalized=False)
     real = summarize(real_rows, normalized=True) if real_rows else {}
-    minimum_rate = float(0.80 if getattr(config, "champion_min_feasible_rate", None) is None else getattr(config, "champion_min_feasible_rate"))
-    screening_eligible = bool(synthetic.get("valid")) and float(synthetic.get("final_best_feasible_rate", 0.0)) >= minimum_rate
+    minimum_rate = float(
+        0.80
+        if getattr(config, "champion_min_feasible_rate", None) is None
+        else getattr(config, "champion_min_feasible_rate")
+    )
+    screening_eligible = (
+        bool(synthetic.get("valid"))
+        and float(synthetic.get("final_best_feasible_rate", 0.0)) >= minimum_rate
+    )
     per_case = {
-        name: summarize(rows, normalized=True)
-        for name, rows in sorted(real_case_rows.items())
+        name: summarize(rows, normalized=True) for name, rows in sorted(real_case_rows.items())
     }
     all_cases_meet_feasibility = bool(per_case) and all(
         float(row.get("final_best_feasible_rate", 0.0)) >= minimum_rate for row in per_case.values()
@@ -601,7 +724,8 @@ def evaluate_policy_multimetric(network, config, *, validation_seed: int | None 
         "comparator_schema_version": _COMPARATOR_SCHEMA,
         "validation_bundle_fingerprint": validation_bundle_fingerprint(config),
         "validation_seed": base_seed,
-        "validation_episodes": int(synthetic.get("episodes", 0)) + int(real.get("episodes", 0) if real else 0),
+        "validation_episodes": int(synthetic.get("episodes", 0))
+        + int(real.get("episodes", 0) if real else 0),
         "feasible_episode_rate": float(primary.get("final_best_feasible_rate", 0.0)),
         "any_feasible_found_rate": float(primary.get("any_feasible_found_rate", 0.0)),
         "final_best_feasible_rate": float(primary.get("final_best_feasible_rate", 0.0)),
@@ -612,7 +736,9 @@ def evaluate_policy_multimetric(network, config, *, validation_seed: int | None 
         "worst_final_feasible_objective": float(primary.get("worst_objective", 1.0e12)),
         "convergence_auc": float(primary.get("convergence_auc", 1.0e12)),
         "median_constraint_violation": float(primary.get("median_constraint_violation", 1.0e12)),
-        "median_steps_to_first_feasibility": float(primary.get("median_steps_to_first_feasibility", horizon + 1)),
+        "median_steps_to_first_feasibility": float(
+            primary.get("median_steps_to_first_feasibility", horizon + 1)
+        ),
         "mean_validation_return": float(primary.get("mean_validation_return", -1.0e12)),
         "median_validation_return": float(primary.get("median_validation_return", -1.0e12)),
         "worst_validation_return": float(primary.get("worst_validation_return", -1.0e12)),
@@ -641,16 +767,27 @@ def _rank_key(metrics: dict, *, source_priority: int = 1, stable_id: str = "") -
 
 
 class BranchChampionTracker:
-    def __init__(self, *, base_payload: dict | None = None, base_metrics: dict | None = None, decision_limit: int = 200):
+    def __init__(
+        self,
+        *,
+        base_payload: dict | None = None,
+        base_metrics: dict | None = None,
+        decision_limit: int = 200,
+    ):
         self.state_dict: dict[str, torch.Tensor] | None = None
         self.metrics: dict | None = None
         self.epoch = 0
         self.source = "none"
         self.decisions: deque[dict] = deque(maxlen=max(10, int(decision_limit)))
         if base_payload is not None and base_metrics is not None and _eligible(base_metrics):
-            self.state_dict = {k: v.detach().cpu().clone() for k, v in dict(base_payload.get("model_state_dict", base_payload)).items()}
+            self.state_dict = {
+                k: v.detach().cpu().clone()
+                for k, v in dict(base_payload.get("model_state_dict", base_payload)).items()
+            }
             self.metrics = dict(base_metrics)
-            self.epoch = int(dict(base_payload.get("metadata", {}) or {}).get("cumulative_epoch", 0) or 0)
+            self.epoch = int(
+                dict(base_payload.get("metadata", {}) or {}).get("cumulative_epoch", 0) or 0
+            )
             self.source = "base_threshold"
 
     def restore_from_extra(self, extra: dict) -> None:
@@ -661,7 +798,9 @@ class BranchChampionTracker:
             # Never compare stale validation evidence to a different bundle.
             if self.metrics is not None and not _bundle_compatible(metrics, self.metrics):
                 return
-            candidate = {k: v.detach().cpu().clone() for k, v in state.items() if torch.is_tensor(v)}
+            candidate = {
+                k: v.detach().cpu().clone() for k, v in state.items() if torch.is_tensor(v)
+            }
             decision = compare_champion_metrics(metrics, self.metrics)
             if decision.superior or self.metrics is None:
                 self.state_dict = candidate
@@ -671,7 +810,14 @@ class BranchChampionTracker:
 
     def consider(self, network, metrics: dict, epoch: int, *, source: str) -> ChampionDecision:
         decision = compare_champion_metrics(metrics, self.metrics)
-        self.decisions.append({"epoch": int(epoch), "source": str(source), "decision": asdict(decision), "metrics": dict(metrics)})
+        self.decisions.append(
+            {
+                "epoch": int(epoch),
+                "source": str(source),
+                "decision": asdict(decision),
+                "metrics": dict(metrics),
+            }
+        )
         if decision.superior:
             self.state_dict = {k: v.detach().cpu().clone() for k, v in network.state_dict().items()}
             self.metrics = dict(metrics)
@@ -759,7 +905,9 @@ def _network_from_payload(payload: dict, config):
     from .policy_network import CALOPolicyNetwork
 
     arch = dict(payload.get("architecture", {}) or {})
-    network = CALOPolicyNetwork(POLICY_STATE_DIM, int(arch.get("hidden_dim", getattr(config, "hidden_dim", 96))))
+    network = CALOPolicyNetwork(
+        POLICY_STATE_DIM, int(arch.get("hidden_dim", getattr(config, "hidden_dim", 96)))
+    )
     network.load_state_dict(payload.get("model_state_dict", payload))
     return network
 
@@ -814,7 +962,9 @@ def _branch_worker_main(
     config.parallel_runs = 1
     config.checkpoint_each_epoch = False
     config.resume_checkpoint = str(branch_payload.get("resume_path", "") or "")
-    config.initial_policy_checkpoint = str(branch_payload.get("initial_policy_checkpoint", "") or "")
+    config.initial_policy_checkpoint = str(
+        branch_payload.get("initial_policy_checkpoint", "") or ""
+    )
     config.ppo_device = str(branch_payload.get("assigned_device", config.ppo_device))
     config.lease_target_epoch = max(0, int(branch_payload.get("lease_target_epoch", 0) or 0))
     branch_cpu_budget = max(1, int(branch_payload.get("cpu_worker_budget", 1) or 1))
@@ -846,22 +996,18 @@ def _branch_worker_main(
     except (RuntimeError, AttributeError):
         _LOG.debug("Could not apply per-branch PyTorch host thread cap", exc_info=True)
 
-    # v6.1 beta4 uses explicit device capabilities. A direct XPU may own a full branch. A sidecar
-    # XPU is an auxiliary actor/evaluator only and may be leased to at most one simultaneous slot.
-    # No branch may silently instantiate a sibling branch's accelerator.
+    # Protected resource binding prevents a branch from silently instantiating a sibling branch's
+    # accelerator or creating an unplanned CPU rollout path.
     if bool(getattr(config, "heterogeneous_rollouts", False)):
         from calo_rpd_studio.compute.training_resources import protected_rollout_shares
 
         config.strict_resource_binding = True
         effective = protected_rollout_shares(
             cuda_share=int(getattr(config, "cuda_rollout_share", 0) or 0),
-            xpu_share=int(getattr(config, "xpu_rollout_share", 0) or 0),
             cpu_share=int(getattr(config, "cpu_rollout_share", 0) or 0),
             primary_device=str(config.ppo_device),
-            auxiliary_xpu_runtime=str(branch_payload.get("auxiliary_xpu_runtime", "") or ""),
         )
         config.cuda_rollout_share = int(effective["cuda"])
-        config.xpu_rollout_share = int(effective["xpu"])
         config.cpu_rollout_share = int(effective["cpu"])
     output_path = Path(branch_payload["working_output"])
     scratch = RollingSafeStore(Path(scratch_root), branch_id)
@@ -880,8 +1026,12 @@ def _branch_worker_main(
         branch_initial_epoch = int(resume_payload.get("next_epoch", 0) or 0)
         tracker.restore_from_extra(dict(resume_payload.get("extra", {}) or {}))
 
-    validation_interval = max(1, int(getattr(config, "champion_validation_interval_epochs", 10) or 10))
-    safe_interval = 10  # v5.9 fixed rolling cadence; the starting exact state is also a valid safe point.
+    validation_interval = max(
+        1, int(getattr(config, "champion_validation_interval_epochs", 10) or 10)
+    )
+    safe_interval = (
+        10  # v5.9 fixed rolling cadence; the starting exact state is also a valid safe point.
+    )
     max_lead = max(safe_interval, int(getattr(config, "max_branch_lead_epochs", 30) or 30))
     screening_best_by_stage: dict[int, float] = {}
     session_target_raw = int(branch_payload.get("scientific_session_target_epoch", 0) or 0)
@@ -906,7 +1056,11 @@ def _branch_worker_main(
         current_epochs[index] = completed_epoch
         touch()
         stage = int(state.get("stage", 0))
-        returns = [float(value) for value in state.get("episode_returns", []) if math.isfinite(float(value))]
+        returns = [
+            float(value)
+            for value in state.get("episode_returns", [])
+            if math.isfinite(float(value))
+        ]
         screen_value = float(np.mean(returns)) if returns else -1.0e12
         previous_screen = screening_best_by_stage.get(stage, -math.inf)
         screen_promising = screen_value > previous_screen + 1e-12
@@ -916,7 +1070,14 @@ def _branch_worker_main(
             # Exact process-lease continuation begins from a state already durably persisted at the
             # prior lease boundary. Avoid rewriting the same checkpoint and rerunning an identical
             # champion bundle merely because the process was rotated by the scheduler.
-            status_queue.put({"type": "resumed", "branch_id": branch_id, "lease_id": lease_id, "epoch": completed_epoch})
+            status_queue.put(
+                {
+                    "type": "resumed",
+                    "branch_id": branch_id,
+                    "lease_id": lease_id,
+                    "epoch": completed_epoch,
+                }
+            )
             return
         # Persist the exact safe state before any potentially expensive champion evaluation.  This
         # ordering is essential for immediate Safe Stop: cancellation must never wait for a full
@@ -932,13 +1093,24 @@ def _branch_worker_main(
                 rng=state["rng"],
                 historical_pretraining=state["historical_pretraining"],
                 config=config,
-                extra={**extra_provider(), "temporary_safe_snapshot": True, "curriculum_encoding": "zero_based_0_4"},
+                extra={
+                    **extra_provider(),
+                    "temporary_safe_snapshot": True,
+                    "curriculum_encoding": "zero_based_0_4",
+                },
             )
             last_safe_epochs[index] = completed_epoch
             committed = int(global_safe_epoch.value)
             if committed >= 0:
                 scratch.cleanup_before(committed)
-            status_queue.put({"type": "safe", "branch_id": branch_id, "lease_id": lease_id, "epoch": completed_epoch})
+            status_queue.put(
+                {
+                    "type": "safe",
+                    "branch_id": branch_id,
+                    "lease_id": lease_id,
+                    "epoch": completed_epoch,
+                }
+            )
             while (
                 all(int(last_safe_epochs[pos]) >= 0 for pos in range(len(last_safe_epochs)))
                 and completed_epoch - int(global_safe_epoch.value) > max_lead
@@ -948,7 +1120,17 @@ def _branch_worker_main(
                 time.sleep(0.05)
 
         if bool(cancel_event.value):
-            status_queue.put({"type": "screen", "branch_id": branch_id, "lease_id": lease_id, "epoch": completed_epoch, "screening_mean_episode_return": screen_value, "deep_validation": False, "cancelled_before_validation": True})
+            status_queue.put(
+                {
+                    "type": "screen",
+                    "branch_id": branch_id,
+                    "lease_id": lease_id,
+                    "epoch": completed_epoch,
+                    "screening_mean_episode_return": screen_value,
+                    "deep_validation": False,
+                    "cancelled_before_validation": True,
+                }
+            )
             return
 
         deep_due = (
@@ -961,23 +1143,61 @@ def _branch_worker_main(
             metrics = evaluate_policy_multimetric(state["network"], config)
             metrics["screening_mean_episode_return"] = screen_value
             metrics["deep_validation_trigger"] = (
-                "initial" if completed_epoch == branch_initial_epoch
-                else "session_terminal" if session_target is not None and completed_epoch >= session_target
-                else "screen_improvement" if screen_promising
+                "initial"
+                if completed_epoch == branch_initial_epoch
+                else "session_terminal"
+                if session_target is not None and completed_epoch >= session_target
+                else "screen_improvement"
+                if screen_promising
                 else "periodic"
             )
-            decision = tracker.consider(state["network"], metrics, completed_epoch, source=f"{branch_id}@{completed_epoch}")
-            status_queue.put({"type": "champion", "branch_id": branch_id, "lease_id": lease_id, "epoch": completed_epoch, "promoted": bool(decision.superior), "verdict": decision.verdict, "reason": decision.reason, "metrics": metrics})
+            decision = tracker.consider(
+                state["network"], metrics, completed_epoch, source=f"{branch_id}@{completed_epoch}"
+            )
+            status_queue.put(
+                {
+                    "type": "champion",
+                    "branch_id": branch_id,
+                    "lease_id": lease_id,
+                    "epoch": completed_epoch,
+                    "promoted": bool(decision.superior),
+                    "verdict": decision.verdict,
+                    "reason": decision.reason,
+                    "metrics": metrics,
+                }
+            )
         else:
-            status_queue.put({"type": "screen", "branch_id": branch_id, "lease_id": lease_id, "epoch": completed_epoch, "screening_mean_episode_return": screen_value, "deep_validation": False})
+            status_queue.put(
+                {
+                    "type": "screen",
+                    "branch_id": branch_id,
+                    "lease_id": lease_id,
+                    "epoch": completed_epoch,
+                    "screening_mean_episode_return": screen_value,
+                    "deep_validation": False,
+                }
+            )
 
     def cancelled() -> bool:
         return bool(bool(cancel_event.value))
 
     try:
         touch()
-        status_queue.put({"type": "started", "branch_id": branch_id, "lease_id": lease_id, "seed": int(config.seed), "assigned_device": str(config.ppo_device), "cpu_worker_budget": branch_cpu_budget, "auxiliary_xpu_runtime": str(branch_payload.get("auxiliary_xpu_runtime", "") or "")})
-        trainer = train_policy_heterogeneous if bool(getattr(config, "heterogeneous_rollouts", False)) else train_policy
+        status_queue.put(
+            {
+                "type": "started",
+                "branch_id": branch_id,
+                "lease_id": lease_id,
+                "seed": int(config.seed),
+                "assigned_device": str(config.ppo_device),
+                "cpu_worker_budget": branch_cpu_budget,
+            }
+        )
+        trainer = (
+            train_policy_heterogeneous
+            if bool(getattr(config, "heterogeneous_rollouts", False))
+            else train_policy
+        )
         trainer(
             config,
             output_path,
@@ -990,13 +1210,35 @@ def _branch_worker_main(
             protection_callback=lambda: int(protection_level.value),
         )
         touch()
-        status_queue.put({"type": "completed", "branch_id": branch_id, "lease_id": lease_id, "epoch": int(current_epochs[index]), "terminal_resume": str(Path(config.resume_checkpoint))})
+        status_queue.put(
+            {
+                "type": "completed",
+                "branch_id": branch_id,
+                "lease_id": lease_id,
+                "epoch": int(current_epochs[index]),
+                "terminal_resume": str(Path(config.resume_checkpoint)),
+            }
+        )
     except TrainingCancelled:
         touch()
-        status_queue.put({"type": "cancelled", "branch_id": branch_id, "lease_id": lease_id, "epoch": int(current_epochs[index])})
+        status_queue.put(
+            {
+                "type": "cancelled",
+                "branch_id": branch_id,
+                "lease_id": lease_id,
+                "epoch": int(current_epochs[index]),
+            }
+        )
     except BaseException as exc:
         touch()
-        status_queue.put({"type": "fatal", "branch_id": branch_id, "lease_id": lease_id, "error": f"{type(exc).__name__}: {exc}"})
+        status_queue.put(
+            {
+                "type": "fatal",
+                "branch_id": branch_id,
+                "lease_id": lease_id,
+                "error": f"{type(exc).__name__}: {exc}",
+            }
+        )
         raise
 
 
@@ -1012,7 +1254,10 @@ def load_branch_manifest(output_path: str | Path) -> dict:
 
 
 def _atomic_json(path: Path, payload: dict) -> None:
-    durable_write_bytes(path, (json.dumps(payload, indent=2, allow_nan=False, sort_keys=True) + "\n").encode("utf-8"))
+    durable_write_bytes(
+        path,
+        (json.dumps(payload, indent=2, allow_nan=False, sort_keys=True) + "\n").encode("utf-8"),
+    )
 
 
 def _recovery_directory(output_path: Path) -> Path:
@@ -1046,7 +1291,9 @@ def discard_recovery_session(output_path: str | Path, session_id: str) -> None:
         # Every competitive scratch root is created as <scratch-base>/<session_id>. Refuse any
         # malformed recovery record that could otherwise broaden deletion beyond one session.
         if scratch.name != str(session_id):
-            raise ValueError("Recovery scratch path does not match the requested session; discard refused")
+            raise ValueError(
+                "Recovery scratch path does not match the requested session; discard refused"
+            )
         if scratch.exists():
             shutil.rmtree(scratch, ignore_errors=False)
     payload["status"] = "DISCARDED"
@@ -1054,7 +1301,9 @@ def discard_recovery_session(output_path: str | Path, session_id: str) -> None:
     index.unlink(missing_ok=True)
 
 
-def _policy_payload_from_champion(champion: dict, config, *, branch_id: str, seed: int, session: dict) -> dict:
+def _policy_payload_from_champion(
+    champion: dict, config, *, branch_id: str, seed: int, session: dict
+) -> dict:
     state = champion.get("model_state_dict") or {}
     metrics = dict(champion.get("metrics", {}) or {})
     epoch = int(champion.get("epoch", 0) or 0)
@@ -1071,7 +1320,9 @@ def _policy_payload_from_champion(champion: dict, config, *, branch_id: str, see
             "cumulative_epoch": epoch,
             "champion_epoch": epoch,
             "champion_metrics": metrics,
-            "champion_validation_bundle_fingerprint": metrics.get("validation_bundle_fingerprint", ""),
+            "champion_validation_bundle_fingerprint": metrics.get(
+                "validation_bundle_fingerprint", ""
+            ),
             "champion_comparator_schema": _COMPARATOR_SCHEMA,
             "base_source_branch": branch_id,
             "parallel_branches": int(session.get("branch_count", 1)),
@@ -1100,7 +1351,10 @@ def _save_immutable_base(output_path: Path, payload: dict) -> tuple[Path, str]:
     """
     artifact_dir = output_path.parent / f"{output_path.stem}_artifacts"
     artifact_dir.mkdir(parents=True, exist_ok=True)
-    artifact_path = artifact_dir / f"base_{int(payload['metadata'].get('champion_epoch', 0)):012d}_{uuid.uuid4().hex[:10]}.pt"
+    artifact_path = (
+        artifact_dir
+        / f"base_{int(payload['metadata'].get('champion_epoch', 0)):012d}_{uuid.uuid4().hex[:10]}.pt"
+    )
     payload = {**payload, "metadata": dict(payload.get("metadata", {}))}
     payload["metadata"]["immutable_artifact_path"] = str(artifact_path.resolve())
     payload["metadata"]["immutable_terminal_checkpoint"] = str(artifact_path.resolve())
@@ -1121,7 +1375,9 @@ def _candidate_from_resume(path: Path) -> dict | None:
     return champion
 
 
-def _commit_branch_generation(branch_dir: Path, session_id: str, sources: list[tuple[dict, Path]], common_epoch: int) -> list[dict]:
+def _commit_branch_generation(
+    branch_dir: Path, session_id: str, sources: list[tuple[dict, Path]], common_epoch: int
+) -> list[dict]:
     generations = branch_dir / "generations"
     generations.mkdir(parents=True, exist_ok=True)
     staging = generations / f".{session_id}.staging"
@@ -1139,12 +1395,16 @@ def _commit_branch_generation(branch_dir: Path, session_id: str, sources: list[t
             verified = load_trusted_resume(target, map_location="cpu")
             actual_epoch = int(verified.get("next_epoch", 0) or 0)
             if actual_epoch != int(common_epoch):
-                raise RuntimeError(f"Branch {branch_id} generation epoch mismatch: expected {common_epoch}, got {actual_epoch}")
+                raise RuntimeError(
+                    f"Branch {branch_id} generation epoch mismatch: expected {common_epoch}, got {actual_epoch}"
+                )
             # Stream-copy bounded telemetry segments; never read a potentially large telemetry file
             # into RAM during generation finalization. Legacy single-file telemetry is accepted only
             # for migration/compatibility.
             resume_source = Path(str(payload.get("resume_path", "")))
-            telemetry_sources = sorted(resume_source.parent.glob(resume_source.name + ".telemetry.*.jsonl"))
+            telemetry_sources = sorted(
+                resume_source.parent.glob(resume_source.name + ".telemetry.*.jsonl")
+            )
             legacy_telemetry = Path(str(resume_source) + ".telemetry.jsonl")
             if legacy_telemetry.is_file():
                 telemetry_sources.append(legacy_telemetry)
@@ -1156,22 +1416,30 @@ def _commit_branch_generation(branch_dir: Path, session_id: str, sources: list[t
                     dst.flush()
                     os.fsync(dst.fileno())
                 telemetry_paths.append(str((final_dir / telemetry_target.name).resolve()))
-            rows.append({
-                "branch_id": branch_id,
-                "seed": int(payload["seed"]),
-                "strategy": str(payload["strategy"]),
-                "resume_path": str((final_dir / target.name).resolve()),
-                "resume_epoch": actual_epoch,
-                "telemetry_path": telemetry_paths[0] if telemetry_paths else "",
-                "telemetry_paths": telemetry_paths,
-                "assigned_device": str(payload.get("assigned_device", "")),
-                "resource_slot": int(payload.get("resource_slot", 0) or 0),
-                "cpu_worker_budget": int(payload.get("cpu_worker_budget", 1) or 1),
-                "auxiliary_xpu_runtime": str(payload.get("auxiliary_xpu_runtime", "") or ""),
-                "auxiliary_xpu_name": str(payload.get("auxiliary_xpu_name", "") or ""),
-                "status": "safe_stopped" if payload.get("session_cancelled") else "completed",
-            })
-        _atomic_json(staging / "generation.json", {"schema_version": 1, "session_id": session_id, "common_resume_epoch": int(common_epoch), "branches": rows})
+            rows.append(
+                {
+                    "branch_id": branch_id,
+                    "seed": int(payload["seed"]),
+                    "strategy": str(payload["strategy"]),
+                    "resume_path": str((final_dir / target.name).resolve()),
+                    "resume_epoch": actual_epoch,
+                    "telemetry_path": telemetry_paths[0] if telemetry_paths else "",
+                    "telemetry_paths": telemetry_paths,
+                    "assigned_device": str(payload.get("assigned_device", "")),
+                    "resource_slot": int(payload.get("resource_slot", 0) or 0),
+                    "cpu_worker_budget": int(payload.get("cpu_worker_budget", 1) or 1),
+                    "status": "safe_stopped" if payload.get("session_cancelled") else "completed",
+                }
+            )
+        _atomic_json(
+            staging / "generation.json",
+            {
+                "schema_version": 1,
+                "session_id": session_id,
+                "common_resume_epoch": int(common_epoch),
+                "branches": rows,
+            },
+        )
         os.replace(staging, final_dir)
         # Directory fsync is best effort through a tiny durable marker in the parent.
         marker = generations / f".{session_id}.committed"
@@ -1183,7 +1451,12 @@ def _commit_branch_generation(branch_dir: Path, session_id: str, sources: list[t
         raise
 
 
-def _drain_queue(status_queue, recent_messages: deque, fatal_messages: list[str], terminal_by_branch: dict[str, dict]) -> None:
+def _drain_queue(
+    status_queue,
+    recent_messages: deque,
+    fatal_messages: list[str],
+    terminal_by_branch: dict[str, dict],
+) -> None:
     while True:
         try:
             message = status_queue.get_nowait()
@@ -1198,12 +1471,24 @@ def _drain_queue(status_queue, recent_messages: deque, fatal_messages: list[str]
             terminal_by_branch[branch] = message
 
 
-def _common_evaluate_candidates(previous_payload: dict | None, finalized: list[dict], config) -> tuple[list[dict], list[dict]]:
+def _common_evaluate_candidates(
+    previous_payload: dict | None, finalized: list[dict], config
+) -> tuple[list[dict], list[dict]]:
     candidates: list[dict] = []
     evidence: list[dict] = []
     if previous_payload is not None:
         metrics = _evaluate_payload(previous_payload, config)
-        candidates.append({"candidate_id": "previous_base", "source_priority": 0, "payload": previous_payload, "metrics": metrics, "branch_id": "", "seed": 0, "champion": None})
+        candidates.append(
+            {
+                "candidate_id": "previous_base",
+                "source_priority": 0,
+                "payload": previous_payload,
+                "metrics": metrics,
+                "branch_id": "",
+                "seed": 0,
+                "champion": None,
+            }
+        )
         evidence.append({"candidate_id": "previous_base", "metrics": metrics})
 
     for row in finalized:
@@ -1232,8 +1517,20 @@ def _common_evaluate_candidates(previous_payload: dict | None, finalized: list[d
         champion["metrics"] = metrics
         champion["epoch"] = epoch
         champion["source"] = source
-        candidates.append({"candidate_id": str(row["branch_id"]), "source_priority": 1, "payload": payload, "metrics": metrics, "branch_id": str(row["branch_id"]), "seed": int(row["seed"]), "champion": champion})
-        evidence.append({"candidate_id": str(row["branch_id"]), "metrics": metrics, "source": source})
+        candidates.append(
+            {
+                "candidate_id": str(row["branch_id"]),
+                "source_priority": 1,
+                "payload": payload,
+                "metrics": metrics,
+                "branch_id": str(row["branch_id"]),
+                "seed": int(row["seed"]),
+                "champion": champion,
+            }
+        )
+        evidence.append(
+            {"candidate_id": str(row["branch_id"]), "metrics": metrics, "source": source}
+        )
     return candidates, evidence
 
 
@@ -1255,7 +1552,9 @@ def recover_competitive_session(output_path: str | Path, session_id: str) -> dic
     # roll the repository backwards or mix branch/Base lineage.
     manifest_path = _manifest_path(output)
     expected_prior_sha = str(recovery.get("prior_manifest_sha256", "") or "")
-    current_prior_sha = hashlib.sha256(manifest_path.read_bytes()).hexdigest() if manifest_path.is_file() else ""
+    current_prior_sha = (
+        hashlib.sha256(manifest_path.read_bytes()).hexdigest() if manifest_path.is_file() else ""
+    )
     if current_prior_sha != expected_prior_sha:
         raise RuntimeError(
             "Stale competitive recovery refused: the authoritative branch manifest changed "
@@ -1279,7 +1578,9 @@ def recover_competitive_session(output_path: str | Path, session_id: str) -> dic
     for payload in payloads:
         source = RollingSafeStore(Path(recovery["scratch_root"]), payload["branch_id"]).path(common)
         if not source.is_file():
-            raise RuntimeError(f"Missing recovery safe snapshot for {payload['branch_id']} at epoch {common}")
+            raise RuntimeError(
+                f"Missing recovery safe snapshot for {payload['branch_id']} at epoch {common}"
+            )
         load_trusted_resume(source, map_location="cpu")
         sources.append((payload, source))
     branch_dir = output.parent / f"{output.stem}_branches"
@@ -1290,32 +1591,44 @@ def recover_competitive_session(output_path: str | Path, session_id: str) -> dic
     # retained byte-for-byte in the manifest.  A first-ever interrupted session is still recoverable
     # as an exact branch generation with an explicitly empty Base, ready for Exact Resume or a later
     # normal finalization/qualification cycle.
-    manifest = dict(prior) if prior else {
-        "schema_version": _MANIFEST_SCHEMA,
-        "policy_lineage_id": str(recovery.get("policy_lineage_id", "")),
-        "policy_lineage_name": str(recovery.get("policy_lineage_name", "")),
-        "logical_base_alias": str(output),
-        "base_artifact_path": "",
-        "provisional_artifact_path": "",
-        "base_sha256": "",
-        "base_source": "none_recovered_exact_state_only",
-        "base_source_branch": "",
-        "base_metrics": {},
-        "validation_bundle_fingerprint": "",
-        "champion_comparator_schema": _COMPARATOR_SCHEMA,
-        "base_candidate_ranking": [],
-        "common_candidate_evidence": [],
-        "previous_training_mode": str(recovery.get("training_mode", "")),
-        "previous_session_epochs": 0,
-        "seed_plan": [],
-    }
-    manifest.update({
-        "schema_version": _MANIFEST_SCHEMA,
-        "generation_id": generation_id,
-        "common_resume_epoch": common,
-        "branches": rows,
-        "session": {"session_id": session_id, "status": "RECOVERED_SAFE_STATE", "recovered": True, "common_resume_epoch": common, "base_retained": bool(prior)},
-    })
+    manifest = (
+        dict(prior)
+        if prior
+        else {
+            "schema_version": _MANIFEST_SCHEMA,
+            "policy_lineage_id": str(recovery.get("policy_lineage_id", "")),
+            "policy_lineage_name": str(recovery.get("policy_lineage_name", "")),
+            "logical_base_alias": str(output),
+            "base_artifact_path": "",
+            "provisional_artifact_path": "",
+            "base_sha256": "",
+            "base_source": "none_recovered_exact_state_only",
+            "base_source_branch": "",
+            "base_metrics": {},
+            "validation_bundle_fingerprint": "",
+            "champion_comparator_schema": _COMPARATOR_SCHEMA,
+            "base_candidate_ranking": [],
+            "common_candidate_evidence": [],
+            "previous_training_mode": str(recovery.get("training_mode", "")),
+            "previous_session_epochs": 0,
+            "seed_plan": [],
+        }
+    )
+    manifest.update(
+        {
+            "schema_version": _MANIFEST_SCHEMA,
+            "generation_id": generation_id,
+            "common_resume_epoch": common,
+            "branches": rows,
+            "session": {
+                "session_id": session_id,
+                "status": "RECOVERED_SAFE_STATE",
+                "recovered": True,
+                "common_resume_epoch": common,
+                "base_retained": bool(prior),
+            },
+        }
+    )
     _atomic_json(_manifest_path(output), manifest)
     recovery["status"] = "RECOVERED"
     recovery["recovered_generation_id"] = generation_id
@@ -1345,7 +1658,14 @@ def train_policy_competitive(
 
     prior_manifest = load_branch_manifest(output_path)
     if start_mode == "exact_resume" and prior_manifest.get("branches"):
-        seed_plan = [BranchSeed(str(row.get("branch_id")), int(row.get("seed", 0)), str(row.get("strategy", "restored"))) for row in prior_manifest["branches"]]
+        seed_plan = [
+            BranchSeed(
+                str(row.get("branch_id")),
+                int(row.get("seed", 0)),
+                str(row.get("strategy", "restored")),
+            )
+            for row in prior_manifest["branches"]
+        ]
     if start_mode == "exact_resume" and not prior_manifest:
         raise ValueError("Exact multi-branch resume requires an existing .branches.json manifest")
     config.parallel_runs = len(seed_plan)
@@ -1357,7 +1677,10 @@ def train_policy_competitive(
         try:
             payload = load_checkpoint(output_path, map_location="cpu")
             metadata = dict(payload.get("metadata", {}) or {})
-            if bool(metadata.get("base_eligible", True)) and metadata.get("checkpoint_role") != "competitive_provisional_candidate":
+            if (
+                bool(metadata.get("base_eligible", True))
+                and metadata.get("checkpoint_role") != "competitive_provisional_candidate"
+            ):
                 base_checkpoint = str(metadata.get("immutable_artifact_path", "") or output_path)
         except Exception:
             _LOG.warning("Could not inspect existing Base checkpoint", exc_info=True)
@@ -1370,7 +1693,10 @@ def train_policy_competitive(
         base_metrics_current = _evaluate_payload(previous_payload, config)
 
     session_id = uuid.uuid4().hex
-    scratch_base = Path(str(getattr(config, "training_scratch_dir", "") or "").strip() or (Path(tempfile.gettempdir()) / "CALO-RPD" / "policy_training"))
+    scratch_base = Path(
+        str(getattr(config, "training_scratch_dir", "") or "").strip()
+        or (Path(tempfile.gettempdir()) / "CALO-RPD" / "policy_training")
+    )
     scratch_root = scratch_base / session_id
     scratch_root.mkdir(parents=True, exist_ok=True)
     branch_dir = output_path.parent / f"{output_path.stem}_branches"
@@ -1393,7 +1719,7 @@ def train_policy_competitive(
     # compute/thermal governor continuously controls staged branch admission and protective stop.
     from calo_rpd_studio.compute.topology import ComputeTopologyService, SafeResourceBudgetEngine
     from calo_rpd_studio.compute.training_resources import build_training_resource_plan
-    from calo_rpd_studio.compute.governor import AdaptiveComputeGovernor, GovernorConfig, ProtectionState
+    from calo_rpd_studio.compute.governor import AdaptiveComputeGovernor, GovernorConfig
     from calo_rpd_studio.compute.provenance import ComputeProvenanceRecorder
 
     topology_service = ComputeTopologyService()
@@ -1407,9 +1733,15 @@ def train_policy_competitive(
         monitor=topology_service.monitor,
         config=GovernorConfig(
             allocation_limit_fraction=float(live_profile.allocation_limit_fraction),
-            staged_startup_delay_seconds=max(0.0, float(getattr(config, "staged_startup_delay_seconds", 2.0) or 2.0)),
-            sample_interval_seconds=max(0.1, float(getattr(config, "governor_sample_interval_seconds", 1.0) or 1.0)),
-            amber_pause_seconds=max(0.0, float(getattr(config, "governor_amber_pause_seconds", 0.25) or 0.25)),
+            staged_startup_delay_seconds=max(
+                0.0, float(getattr(config, "staged_startup_delay_seconds", 2.0) or 2.0)
+            ),
+            sample_interval_seconds=max(
+                0.1, float(getattr(config, "governor_sample_interval_seconds", 1.0) or 1.0)
+            ),
+            amber_pause_seconds=max(
+                0.0, float(getattr(config, "governor_amber_pause_seconds", 0.25) or 0.25)
+            ),
         ),
     )
     concurrency = int(resource_plan.simultaneous_branches)
@@ -1438,7 +1770,9 @@ def train_policy_competitive(
             current_epochs[index] = start_epoch
             last_safe_epochs[index] = start_epoch
             # Materialize the starting exact state as a valid safe point before child launch.
-            _copy_trusted_resume(staged_resume, RollingSafeStore(scratch_root, spec.branch_id).path(start_epoch))
+            _copy_trusted_resume(
+                staged_resume, RollingSafeStore(scratch_root, spec.branch_id).path(start_epoch)
+            )
         else:
             start_epoch = 0
         slot_index = index % concurrency
@@ -1448,30 +1782,40 @@ def train_policy_competitive(
             if str(getattr(config, "training_mode", "cumulative")) != "indefinite"
             else 0
         )
-        branch_payloads.append({
-            "index": index,
-            "branch_id": spec.branch_id,
-            "seed": int(prior.get("seed", spec.seed) if start_mode == "exact_resume" else spec.seed),
-            "strategy": str(prior.get("strategy", spec.strategy) if start_mode == "exact_resume" else spec.strategy),
-            "start_mode": start_mode,
-            "resume_path": str(staged_resume),
-            "working_output": str(scratch_root / spec.branch_id / "working.pt"),
-            "initial_policy_checkpoint": base_checkpoint if start_mode == "base_guided_fork" else "",
-            "base_model_checkpoint": base_checkpoint,
-            "base_metrics": dict(base_metrics_current or {}),
-            "assigned_device": slot.primary_device,
-            "resource_slot": slot_index,
-            "cpu_worker_budget": int(slot.cpu_worker_budget),
-            "auxiliary_xpu_runtime": str(slot.auxiliary_xpu_runtime or ""),
-            "auxiliary_xpu_name": str(slot.auxiliary_xpu_name or ""),
-            "start_epoch": start_epoch,
-            "scientific_session_target_epoch": int(scientific_target),
-        })
+        branch_payloads.append(
+            {
+                "index": index,
+                "branch_id": spec.branch_id,
+                "seed": int(
+                    prior.get("seed", spec.seed) if start_mode == "exact_resume" else spec.seed
+                ),
+                "strategy": str(
+                    prior.get("strategy", spec.strategy)
+                    if start_mode == "exact_resume"
+                    else spec.strategy
+                ),
+                "start_mode": start_mode,
+                "resume_path": str(staged_resume),
+                "working_output": str(scratch_root / spec.branch_id / "working.pt"),
+                "initial_policy_checkpoint": base_checkpoint
+                if start_mode == "base_guided_fork"
+                else "",
+                "base_model_checkpoint": base_checkpoint,
+                "base_metrics": dict(base_metrics_current or {}),
+                "assigned_device": slot.primary_device,
+                "resource_slot": slot_index,
+                "cpu_worker_budget": int(slot.cpu_worker_budget),
+                "start_epoch": start_epoch,
+                "scientific_session_target_epoch": int(scientific_target),
+            }
+        )
 
     if start_mode == "exact_resume" and len(branch_payloads) > 1:
         starts = {int(current_epochs[i]) for i in range(len(branch_payloads))}
         if len(starts) != 1:
-            raise ValueError("Exact competitive resume requires all branches to start from one common saved epoch")
+            raise ValueError(
+                "Exact competitive resume requires all branches to start from one common saved epoch"
+            )
         global_safe_epoch.value = min(starts)
 
     recovery_payload = {
@@ -1486,11 +1830,19 @@ def train_policy_competitive(
         "policy_lineage_name": str(getattr(config, "policy_lineage_name", "")),
         "created_unix": time.time(),
         "latest_common_safe_epoch": int(global_safe_epoch.value),
-        "branches": [{k: v for k, v in row.items() if k not in {"base_metrics"}} for row in branch_payloads],
-        "prior_manifest_sha256": hashlib.sha256(_manifest_path(output_path).read_bytes()).hexdigest() if _manifest_path(output_path).is_file() else "",
+        "branches": [
+            {k: v for k, v in row.items() if k not in {"base_metrics"}} for row in branch_payloads
+        ],
+        "prior_manifest_sha256": hashlib.sha256(
+            _manifest_path(output_path).read_bytes()
+        ).hexdigest()
+        if _manifest_path(output_path).is_file()
+        else "",
         "prior_generation_id": str(prior_manifest.get("generation_id", "") or ""),
         "prior_common_resume_epoch": int(prior_manifest.get("common_resume_epoch", 0) or 0),
-        "prior_validation_bundle_fingerprint": str(prior_manifest.get("validation_bundle_fingerprint", "") or ""),
+        "prior_validation_bundle_fingerprint": str(
+            prior_manifest.get("validation_bundle_fingerprint", "") or ""
+        ),
     }
     _atomic_json(recovery_index, recovery_payload)
 
@@ -1509,15 +1861,18 @@ def train_policy_competitive(
     protection_level.value = int(governor_decision.throttle_level)
     provenance.append("GOVERNOR_SAMPLE", governor_decision.to_dict())
     last_governor_poll = time.monotonic()
-    last_governor_state = governor_decision.state
     protection_stop = False
     protection_reason = ""
     admission_wait_started = time.monotonic()
-    startup_admission_timeout = max(1.0, float(getattr(config, "governor_startup_admission_timeout_seconds", 30.0) or 30.0))
+    startup_admission_timeout = max(
+        1.0, float(getattr(config, "governor_startup_admission_timeout_seconds", 30.0) or 30.0)
+    )
 
     # v6.2 RC1 protected queue scheduler with staged admission.
     config_dict = _config_payload(config)
-    recent_messages: deque[dict] = deque(maxlen=max(100, int(getattr(config, "coordinator_message_limit", 2000) or 2000)))
+    recent_messages: deque[dict] = deque(
+        maxlen=max(100, int(getattr(config, "coordinator_message_limit", 2000) or 2000))
+    )
     terminal_by_branch: dict[str, dict] = {}
     fatal_messages: list[str] = []
     cancelled = False
@@ -1555,28 +1910,32 @@ def train_policy_competitive(
             common_safe_epoch=int(global_safe_epoch.value),
             training_mode=str(getattr(config, "training_mode", "cumulative")),
         )
-        session_state_callback({
-            "session_id": session_id,
-            "total_branches": len(branch_payloads),
-            "simultaneous_limit": concurrency,
-            "active_branches": len(active),
-            "queued_branches": len(queued),
-            "completed_branches": len(finished),
-            "active_branch_ids": [branch_payloads[index]["branch_id"] for index in sorted(active)],
-            "queued_branch_ids": [branch_payloads[index]["branch_id"] for index in queued],
-            "epochs": [int(current_epochs[index]) for index in range(len(branch_payloads))],
-            "branch_progress": progress_payload["branches"],
-            "overall_percent": int(progress_percent),
-            "progress_detail": progress_detail,
-            "completed_branch_epochs": int(progress_payload["completed_branch_epochs"]),
-            "total_branch_epochs": int(progress_payload["total_branch_epochs"]),
-            "common_safe_epoch": int(global_safe_epoch.value),
-            "resource_plan": resource_plan.to_dict(),
-            "cancel_requested": bool(cancel_event.value),
-            "governor": governor_decision.to_dict(),
-            "protection_provenance_path": str(provenance_path),
-            "protection_stop": bool(protection_stop),
-        })
+        session_state_callback(
+            {
+                "session_id": session_id,
+                "total_branches": len(branch_payloads),
+                "simultaneous_limit": concurrency,
+                "active_branches": len(active),
+                "queued_branches": len(queued),
+                "completed_branches": len(finished),
+                "active_branch_ids": [
+                    branch_payloads[index]["branch_id"] for index in sorted(active)
+                ],
+                "queued_branch_ids": [branch_payloads[index]["branch_id"] for index in queued],
+                "epochs": [int(current_epochs[index]) for index in range(len(branch_payloads))],
+                "branch_progress": progress_payload["branches"],
+                "overall_percent": int(progress_percent),
+                "progress_detail": progress_detail,
+                "completed_branch_epochs": int(progress_payload["completed_branch_epochs"]),
+                "total_branch_epochs": int(progress_payload["total_branch_epochs"]),
+                "common_safe_epoch": int(global_safe_epoch.value),
+                "resource_plan": resource_plan.to_dict(),
+                "cancel_requested": bool(cancel_event.value),
+                "governor": governor_decision.to_dict(),
+                "protection_provenance_path": str(provenance_path),
+                "protection_stop": bool(protection_stop),
+            }
+        )
 
     def launch_branch(index: int) -> bool:
         payload = branch_payloads[index]
@@ -1591,7 +1950,7 @@ def train_policy_competitive(
             lease_target = 0
         elif target > 0:
             # Fixed/cumulative sessions run each admitted branch to its declared session target in
-            # one process lease. This avoids repeated CUDA/XPU context creation and startup power
+            # one process lease. This avoids repeated CUDA context creation and startup power
             # spikes. Queued branches start when a protected slot becomes free.
             lease_target = target
         else:
@@ -1609,7 +1968,18 @@ def train_policy_competitive(
             lease_payload["initial_policy_checkpoint"] = ""
         process = ctx.Process(
             target=_branch_worker_main,
-            args=(config_dict, lease_payload, str(scratch_root), cancel_event, protection_level, current_epochs, last_safe_epochs, global_safe_epoch, last_progress, status_queue),
+            args=(
+                config_dict,
+                lease_payload,
+                str(scratch_root),
+                cancel_event,
+                protection_level,
+                current_epochs,
+                last_safe_epochs,
+                global_safe_epoch,
+                last_progress,
+                status_queue,
+            ),
             name=f"CALO-Policy-{payload['branch_id']}-L{lease_counter[index]:06d}",
         )
         process.start()
@@ -1664,7 +2034,7 @@ def train_policy_competitive(
             if not launch_branch(index):
                 pending.append(index)
                 continue
-            # One launch per staging interval prevents simultaneous CUDA/XPU/CPU context/process
+            # One launch per staging interval prevents simultaneous CUDA/CPU context/process
             # startup spikes. Cancellation-time exact-state initialization is also serialized.
             break
 
@@ -1681,7 +2051,9 @@ def train_policy_competitive(
                 slice_failures.append(f"{branch_id}/{lease_id}: exitcode {process.exitcode}")
         elif str(terminal.get("lease_id", "")) != lease_id:
             if branch_id not in forced_terminated:
-                slice_failures.append(f"{branch_id}/{lease_id}: missing terminal coordinator message")
+                slice_failures.append(
+                    f"{branch_id}/{lease_id}: missing terminal coordinator message"
+                )
         process_exitcode = process.exitcode
         try:
             process.close()
@@ -1737,10 +2109,11 @@ def train_policy_competitive(
                             "active_branches": len(active),
                         },
                     )
-                last_governor_state = governor_decision.state
                 if governor_decision.request_safe_stop and not bool(cancel_event.value):
                     protection_stop = True
-                    protection_reason = "; ".join(governor_decision.reasons) or "RED compute protection state"
+                    protection_reason = (
+                        "; ".join(governor_decision.reasons) or "RED compute protection state"
+                    )
                     cancelled = True
                     cancel_started = now
                     setattr(cancel_event, "value", 1)
@@ -1762,8 +2135,12 @@ def train_policy_competitive(
                     )
                     if progress_callback:
                         progress_percent, progress_detail, _ = competitive_progress_snapshot(
-                            branch_payloads, current_epochs, active_indices=active.keys(), finished_indices=finished,
-                            concurrency=concurrency, common_safe_epoch=int(global_safe_epoch.value),
+                            branch_payloads,
+                            current_epochs,
+                            active_indices=active.keys(),
+                            finished_indices=finished,
+                            concurrency=concurrency,
+                            common_safe_epoch=int(global_safe_epoch.value),
                             training_mode=str(getattr(config, "training_mode", "cumulative")),
                         )
                         progress_callback(
@@ -1809,13 +2186,18 @@ def train_policy_competitive(
                 pending = deque(index for index in pending if index not in started_once)
                 if progress_callback:
                     progress_percent, progress_detail, _ = competitive_progress_snapshot(
-                        branch_payloads, current_epochs, active_indices=active.keys(), finished_indices=finished,
-                        concurrency=concurrency, common_safe_epoch=int(global_safe_epoch.value),
+                        branch_payloads,
+                        current_epochs,
+                        active_indices=active.keys(),
+                        finished_indices=finished,
+                        concurrency=concurrency,
+                        common_safe_epoch=int(global_safe_epoch.value),
                         training_mode=str(getattr(config, "training_mode", "cumulative")),
                     )
                     progress_callback(
                         progress_percent,
-                        "Safe Stop requested · preserving one coherent exact checkpoint · " + progress_detail,
+                        "Safe Stop requested · preserving one coherent exact checkpoint · "
+                        + progress_detail,
                     )
 
             if slice_failures:
@@ -1830,7 +2212,9 @@ def train_policy_competitive(
             if bool(cancel_event.value) and cancel_started is not None:
                 now = time.monotonic()
                 for index, process in list(active.items()):
-                    grace_origin = max(float(cancel_started), float(active_started_at.get(index, cancel_started)))
+                    grace_origin = max(
+                        float(cancel_started), float(active_started_at.get(index, cancel_started))
+                    )
                     if process.is_alive() and now - grace_origin >= cancel_grace:
                         branch_id = str(branch_payloads[index]["branch_id"])
                         process.terminate()
@@ -1847,13 +2231,23 @@ def train_policy_competitive(
             elif cancelled:
                 fill_available_slots()
                 # Safe Stop completes only when every scientific branch has an exact safe point.
-                if not active and all(int(last_safe_epochs[i]) >= 0 for i in range(len(branch_payloads))):
+                if not active and all(
+                    int(last_safe_epochs[i]) >= 0 for i in range(len(branch_payloads))
+                ):
                     break
-                if not active and not pending and not all(int(last_safe_epochs[i]) >= 0 for i in range(len(branch_payloads))):
+                if (
+                    not active
+                    and not pending
+                    and not all(int(last_safe_epochs[i]) >= 0 for i in range(len(branch_payloads)))
+                ):
                     break
             else:
                 fill_available_slots()
-                if str(getattr(config, "training_mode", "cumulative")) != "indefinite" and len(finished) == len(branch_payloads) and not active:
+                if (
+                    str(getattr(config, "training_mode", "cumulative")) != "indefinite"
+                    and len(finished) == len(branch_payloads)
+                    and not active
+                ):
                     break
 
             if progress_callback:
@@ -1876,7 +2270,9 @@ def train_policy_competitive(
             recovery_payload["fatal_messages"] = list(dict.fromkeys(fatal_messages))
             recovery_payload["latest_common_safe_epoch"] = int(global_safe_epoch.value)
             _atomic_json(recovery_index, recovery_payload)
-            raise RuntimeError("Competitive policy branch failure: " + "; ".join(dict.fromkeys(fatal_messages)))
+            raise RuntimeError(
+                "Competitive policy branch failure: " + "; ".join(dict.fromkeys(fatal_messages))
+            )
 
         if cancelled:
             safe_epochs = [int(last_safe_epochs[i]) for i in range(len(branch_payloads))]
@@ -1893,13 +2289,15 @@ def train_policy_competitive(
                         for i, epoch in enumerate(safe_epochs)
                         if epoch < 0
                     ]
-                    recovery_payload.update({
-                        "status": "PROTECTION_STOP_ROLLBACK_SAFE",
-                        "protection_reason": protection_reason,
-                        "started_branch_safe_epochs": safe_epochs,
-                        "never_started_branch_ids": never_started,
-                        "authoritative_generation_unchanged": True,
-                    })
+                    recovery_payload.update(
+                        {
+                            "status": "PROTECTION_STOP_ROLLBACK_SAFE",
+                            "protection_reason": protection_reason,
+                            "started_branch_safe_epochs": safe_epochs,
+                            "never_started_branch_ids": never_started,
+                            "authoritative_generation_unchanged": True,
+                        }
+                    )
                     _atomic_json(recovery_index, recovery_payload)
                     provenance.append(
                         "PROTECTION_STOP_ROLLBACK_SAFE",
@@ -1912,16 +2310,27 @@ def train_policy_competitive(
                     )
                     return CompetitiveTrainingResult(
                         output_path=str(output_path),
-                        history=list(recent_messages) + [{
-                            "type": "session_status",
-                            "status": TrainingSessionStatus.SAFE_STOPPED_PROTECTION.value,
-                            "reason": protection_reason,
-                            "authoritative_generation_unchanged": True,
-                        }],
+                        history=list(recent_messages)
+                        + [
+                            {
+                                "type": "session_status",
+                                "status": TrainingSessionStatus.SAFE_STOPPED_PROTECTION.value,
+                                "reason": protection_reason,
+                                "authoritative_generation_unchanged": True,
+                            }
+                        ],
                         status=TrainingSessionStatus.SAFE_STOPPED_PROTECTION,
                         common_resume_epoch=int(common_safe),
-                        manifest_path=(str(_manifest_path(output_path)) if _manifest_path(output_path).is_file() else ""),
-                        selected_artifact_path=(str(base_checkpoint) if base_checkpoint and Path(base_checkpoint).is_file() else ""),
+                        manifest_path=(
+                            str(_manifest_path(output_path))
+                            if _manifest_path(output_path).is_file()
+                            else ""
+                        ),
+                        selected_artifact_path=(
+                            str(base_checkpoint)
+                            if base_checkpoint and Path(base_checkpoint).is_file()
+                            else ""
+                        ),
                         degraded_branches=tuple(never_started),
                     )
                 recovery_payload["status"] = "FAILED_SAFE_STOP_NO_COMMON_CHECKPOINT"
@@ -1937,7 +2346,9 @@ def train_policy_competitive(
                 if not source.is_file():
                     recovery_payload["status"] = "FAILED_SAFE_STOP"
                     _atomic_json(recovery_index, recovery_payload)
-                    raise RuntimeError(f"Branch {payload['branch_id']} has no common safe snapshot at epoch {common_epoch}")
+                    raise RuntimeError(
+                        f"Branch {payload['branch_id']} has no common safe snapshot at epoch {common_epoch}"
+                    )
                 payload["session_cancelled"] = True
                 sources.append((payload, source))
         else:
@@ -1946,13 +2357,17 @@ def train_policy_competitive(
                 recovery_payload["status"] = "FAILED_MIXED_TERMINAL_EPOCHS"
                 recovery_payload["terminal_epochs"] = epochs
                 _atomic_json(recovery_index, recovery_payload)
-                raise RuntimeError(f"Competitive session ended at mixed branch epochs; transaction refused: {epochs}")
+                raise RuntimeError(
+                    f"Competitive session ended at mixed branch epochs; transaction refused: {epochs}"
+                )
             common_epoch = epochs[0]
             sources = []
             for payload in branch_payloads:
                 source = Path(payload["resume_path"])
                 if not source.is_file():
-                    raise RuntimeError(f"Branch {payload['branch_id']} has no staged terminal exact state: {source}")
+                    raise RuntimeError(
+                        f"Branch {payload['branch_id']} has no staged terminal exact state: {source}"
+                    )
                 sources.append((payload, source))
 
         generation_id = session_id
@@ -1973,7 +2388,9 @@ def train_policy_competitive(
             "requested_branches": len(branch_payloads),
             "started_branches": len(started_once),
             "successful_branches": len(finalized),
-            "failed_branches": (len(set(forced_terminated)) + len(set(fatal_messages))) if cancelled else 0,
+            "failed_branches": (len(set(forced_terminated)) + len(set(fatal_messages)))
+            if cancelled
+            else 0,
             "branch_count": len(finalized),
             "seed_plan": [asdict(item) for item in seed_plan],
             "resource_assignments": {
@@ -1981,8 +2398,6 @@ def train_policy_competitive(
                     "primary_device": payload.get("assigned_device", ""),
                     "resource_slot": int(payload.get("resource_slot", 0) or 0),
                     "cpu_worker_budget": int(payload.get("cpu_worker_budget", 1) or 1),
-                    "auxiliary_xpu_runtime": payload.get("auxiliary_xpu_runtime", ""),
-                    "auxiliary_xpu_name": payload.get("auxiliary_xpu_name", ""),
                 }
                 for payload in branch_payloads
             },
@@ -1991,9 +2406,13 @@ def train_policy_competitive(
             "queued_branch_scheduler": True,
             "branch_queue_quantum_epochs": int(quantum),
             "safe_global_cpu_workers": int(global_cpu_budget),
-            "cpu_worker_budgets_by_slot": {str(slot.slot_index): int(slot.cpu_worker_budget) for slot in resource_plan.slots},
+            "cpu_worker_budgets_by_slot": {
+                str(slot.slot_index): int(slot.cpu_worker_budget) for slot in resource_plan.slots
+            },
             "compute_resource_plan": resource_plan.to_dict(),
-            "compute_profile_fingerprint": str(getattr(config, "compute_profile_fingerprint", "") or ""),
+            "compute_profile_fingerprint": str(
+                getattr(config, "compute_profile_fingerprint", "") or ""
+            ),
             "compute_protection": {
                 "final_state": governor_decision.state.value,
                 "protection_stop": bool(protection_stop),
@@ -2012,20 +2431,44 @@ def train_policy_competitive(
             "safe_stop_semantics": "latest validated common exact checkpoint; rolling snapshots every 10 epochs plus the exact session start state",
         }
 
-        candidates, common_evidence = _common_evaluate_candidates(previous_payload, finalized, config)
+        candidates, common_evidence = _common_evaluate_candidates(
+            previous_payload, finalized, config
+        )
         eligible_candidates = [item for item in candidates if _deployable_eligible(item["metrics"])]
         winner = (
-            min(eligible_candidates, key=lambda item: _rank_key(item["metrics"], source_priority=item["source_priority"], stable_id=item["candidate_id"]))
+            min(
+                eligible_candidates,
+                key=lambda item: _rank_key(
+                    item["metrics"],
+                    source_priority=item["source_priority"],
+                    stable_id=item["candidate_id"],
+                ),
+            )
             if eligible_candidates
             else None
         )
         # A session without exact real-ORPD development evidence may evolve Training Champions and
         # exact branch state, but it cannot replace a previously committed deployable Base.
         if winner is None and previous_payload is not None:
-            winner = next((item for item in candidates if item["candidate_id"] == "previous_base"), None)
+            winner = next(
+                (item for item in candidates if item["candidate_id"] == "previous_base"), None
+            )
 
         ranking = sorted(
-            ({"candidate_id": item["candidate_id"], "metrics": item["metrics"], "rank_key": list(_rank_key(item["metrics"], source_priority=item["source_priority"], stable_id=item["candidate_id"]))} for item in candidates),
+            (
+                {
+                    "candidate_id": item["candidate_id"],
+                    "metrics": item["metrics"],
+                    "rank_key": list(
+                        _rank_key(
+                            item["metrics"],
+                            source_priority=item["source_priority"],
+                            stable_id=item["candidate_id"],
+                        )
+                    ),
+                }
+                for item in candidates
+            ),
             key=lambda row: tuple(row["rank_key"]),
         )
 
@@ -2033,14 +2476,35 @@ def train_policy_competitive(
         if winner is None:
             # Transactional exact state is still committed. The best available terminal candidate is
             # saved only as an explicitly provisional artifact and is never labeled/promoted as Base.
-            provisional = min(candidates, key=lambda item: _rank_key(item["metrics"], source_priority=item["source_priority"], stable_id=item["candidate_id"])) if candidates else None
+            provisional = (
+                min(
+                    candidates,
+                    key=lambda item: _rank_key(
+                        item["metrics"],
+                        source_priority=item["source_priority"],
+                        stable_id=item["candidate_id"],
+                    ),
+                )
+                if candidates
+                else None
+            )
             if provisional is not None and provisional.get("champion") is not None:
                 champion = provisional["champion"]
                 champion["metrics"] = provisional["metrics"]
-                provisional_payload = _policy_payload_from_champion(champion, config, branch_id=provisional["branch_id"], seed=int(provisional["seed"]), session=session_meta)
-                provisional_payload["metadata"]["checkpoint_role"] = "competitive_provisional_candidate"
+                provisional_payload = _policy_payload_from_champion(
+                    champion,
+                    config,
+                    branch_id=provisional["branch_id"],
+                    seed=int(provisional["seed"]),
+                    session=session_meta,
+                )
+                provisional_payload["metadata"]["checkpoint_role"] = (
+                    "competitive_provisional_candidate"
+                )
                 provisional_payload["metadata"]["base_eligible"] = False
-                provisional_payload["metadata"]["base_selection_protocol"] = "v5.9 training-champion only; no exact real-ORPD deployable Base evidence"
+                provisional_payload["metadata"]["base_selection_protocol"] = (
+                    "v5.9 training-champion only; no exact real-ORPD deployable Base evidence"
+                )
                 provisional_payload["metadata"]["base_candidate_ranking"] = ranking
                 artifact, sha = _save_immutable_base(output_path, provisional_payload)
                 provisional_artifact = str(artifact)
@@ -2061,9 +2525,17 @@ def train_policy_competitive(
         else:
             champion = winner["champion"]
             champion["metrics"] = winner["metrics"]
-            best_payload = _policy_payload_from_champion(champion, config, branch_id=winner["branch_id"], seed=int(winner["seed"]), session=session_meta)
+            best_payload = _policy_payload_from_champion(
+                champion,
+                config,
+                branch_id=winner["branch_id"],
+                seed=int(winner["seed"]),
+                session=session_meta,
+            )
             best_payload["metadata"]["base_eligible"] = True
-            best_payload["metadata"]["base_selection_protocol"] = "v5.9 exact-real-ORPD common-bundle order-independent normalized scientific ranking"
+            best_payload["metadata"]["base_selection_protocol"] = (
+                "v5.9 exact-real-ORPD common-bundle order-independent normalized scientific ranking"
+            )
             best_payload["metadata"]["base_candidate_ranking"] = ranking
             best_payload["metadata"]["branch_manifest"] = str(_manifest_path(output_path))
             artifact, sha = _save_immutable_base(output_path, best_payload)
@@ -2125,9 +2597,15 @@ def train_policy_competitive(
                 durable_write_bytes(alias, Path(row["resume_path"]).read_bytes())
                 sidecar = Path(row["resume_path"] + ".sha256")
                 if sidecar.is_file():
-                    durable_write_bytes(alias.with_suffix(alias.suffix + ".sha256"), sidecar.read_bytes())
+                    durable_write_bytes(
+                        alias.with_suffix(alias.suffix + ".sha256"), sidecar.read_bytes()
+                    )
             except OSError:
-                _LOG.warning("Could not refresh non-authoritative branch convenience alias for %s", row["branch_id"], exc_info=True)
+                _LOG.warning(
+                    "Could not refresh non-authoritative branch convenience alias for %s",
+                    row["branch_id"],
+                    exc_info=True,
+                )
 
         recovery_payload["status"] = "COMMITTED"
         recovery_payload["generation_id"] = generation_id
@@ -2156,10 +2634,30 @@ def train_policy_competitive(
         )
         if progress_callback:
             label = "safe-stopped" if cancelled else "complete"
-            artifact_label = Path(artifact).name if winner is not None else (Path(provisional_artifact).name if provisional_artifact else "no eligible Base")
-            progress_callback(100 if not cancelled else 0, f"Competitive training {label} · {artifact_label} · {len(finalized)} branches · exact resume epoch {common_epoch}")
-        history = list(recent_messages) + [{"type": "base_selection", **manifest}, {"type": "session_status", "status": status.value, "common_resume_epoch": int(common_epoch)}]
-        selected_artifact = str(artifact) if winner is not None and Path(artifact).is_file() else str(provisional_artifact or "")
+            artifact_label = (
+                Path(artifact).name
+                if winner is not None
+                else (
+                    Path(provisional_artifact).name if provisional_artifact else "no eligible Base"
+                )
+            )
+            progress_callback(
+                100 if not cancelled else 0,
+                f"Competitive training {label} · {artifact_label} · {len(finalized)} branches · exact resume epoch {common_epoch}",
+            )
+        history = list(recent_messages) + [
+            {"type": "base_selection", **manifest},
+            {
+                "type": "session_status",
+                "status": status.value,
+                "common_resume_epoch": int(common_epoch),
+            },
+        ]
+        selected_artifact = (
+            str(artifact)
+            if winner is not None and Path(artifact).is_file()
+            else str(provisional_artifact or "")
+        )
         return CompetitiveTrainingResult(
             output_path=str(output_path),
             history=history,

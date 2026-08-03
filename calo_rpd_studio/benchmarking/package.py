@@ -1,4 +1,4 @@
-"""Transactions-level campaign evidence package builder."""
+"""Comprehensive scientific campaign evidence package builder."""
 
 from __future__ import annotations
 
@@ -13,12 +13,13 @@ import zipfile
 import pandas as pd
 
 from .evidence import build_campaign_evidence
+from .campaign import verify_campaign_plan_design
 from .freeze import verify_freeze_manifest
 from calo_rpd_studio.visualization.publication_evidence import generate_campaign_figures
 from calo_rpd_studio.visualization.font_preflight import font_resolution_manifest
 
 
-class TransactionsPackageBuilder:
+class ScientificEvidencePackageBuilder:
     def __init__(self, database):
         self.database = database
 
@@ -30,6 +31,9 @@ class TransactionsPackageBuilder:
         freeze_manifest: str | Path,
     ) -> Path:
         campaign_manifest = Path(campaign_manifest)
+        design_ok, design_message = verify_campaign_plan_design(campaign_manifest)
+        if not design_ok:
+            raise ValueError(design_message)
         payload = json.loads(campaign_manifest.read_text(encoding="utf-8"))
         tasks = payload.get("tasks", [])
         incomplete = [
@@ -39,7 +43,8 @@ class TransactionsPackageBuilder:
         ]
         if incomplete:
             raise ValueError(
-                "A final Transactions research package requires every planned benchmark task to complete without recorded job failures. Incomplete tasks: "
+                "A comprehensive scientific evidence package requires every planned benchmark "
+                "task to complete without recorded job failures. Incomplete tasks: "
                 + ", ".join(incomplete)
             )
         task_experiments = {task["task_id"]: task["experiment_id"] for task in tasks}
@@ -70,7 +75,8 @@ class TransactionsPackageBuilder:
         )
         if total_runs <= 0 or total_verified != total_runs:
             raise ValueError(
-                f"Article-ready export requires every stored run to be independently verified; found {total_verified}/{total_runs} verified runs."
+                f"Confirmatory export requires every stored run to be independently verified; "
+                f"found {total_verified}/{total_runs} verified runs."
             )
         evidence = build_campaign_evidence(self.database, task_experiments, verified_only=True)
         (reports / "campaign_evidence_verified_only.json").write_text(
@@ -93,7 +99,7 @@ class TransactionsPackageBuilder:
                     "warning": (
                         "All campaign runs are independently verified."
                         if total_runs > 0 and total_verified == total_runs
-                        else "Publication-level claims should not be finalized until all intended benchmark runs are independently verified."
+                        else "Confirmatory claims must not be finalized until all intended benchmark runs are independently verified."
                     ),
                 },
                 indent=2,
@@ -115,7 +121,7 @@ class TransactionsPackageBuilder:
                 shutil.copy2(source, destination)
 
         article_lines = [
-            f"# CALO-RPD v{VERSION} — Article-ready evidence summary",
+            f"# CALO-RPD v{VERSION} — Confirmatory evidence summary",
             "",
             "## Evidence basis",
             f"- Completed campaign tasks: {len(task_experiments)}",
@@ -134,7 +140,7 @@ class TransactionsPackageBuilder:
                 "",
             ]
         )
-        (reports / "article_ready_evidence_summary.md").write_text(
+        (reports / "confirmatory_evidence_summary.md").write_text(
             "\n".join(article_lines), encoding="utf-8"
         )
 
@@ -243,9 +249,13 @@ class TransactionsPackageBuilder:
 
         generate_campaign_figures(self.database, task_experiments, figures)
 
-        archive = root / "CALO_RPD_Transactions_Research_Package.zip"
+        archive = root / "CALO_RPD_Scientific_Evidence_Package.zip"
         with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED) as bundle:
             for path in root.rglob("*"):
                 if path.is_file() and path != archive:
                     bundle.write(path, path.relative_to(root))
         return archive
+
+
+# Backward-compatible import name for historical scripts; new UI and commands use the neutral name.
+TransactionsPackageBuilder = ScientificEvidencePackageBuilder

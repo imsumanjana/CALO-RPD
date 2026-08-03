@@ -1,4 +1,5 @@
 """Average algorithm ranks across complete finite benchmark tasks."""
+
 import numpy as np
 from scipy.stats import rankdata
 

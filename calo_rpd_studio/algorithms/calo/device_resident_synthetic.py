@@ -3,7 +3,7 @@
 v6.4 Stage B keeps the stochastic CALO controller and scientific transition semantics on the
 trusted reference path, while moving the synthetic curriculum objective/constraint population
 kernel to persistent PyTorch tensors on the admitted accelerator. Multiple simultaneous episode
-requests are cross-episode microbatched by :class:`SyntheticCrossEpisodeBatchBroker` so CUDA/XPU
+requests are cross-episode microbatched by :class:`SyntheticCrossEpisodeBatchBroker` so CUDA
 receives materially larger FP64 batches instead of one tiny population at a time.
 
 The first population request for every generated curriculum problem is checked against the NumPy
@@ -127,8 +127,19 @@ class DeviceResidentCurriculumProblem:
         self.narrowness = float(reference.narrowness)
         digest = hashlib.sha256()
         digest.update(str(self.device).encode("utf-8"))
-        digest.update(np.asarray([self.stage, self.dimension, self.narrowness], dtype=np.float64).tobytes())
-        for tensor in (shift, rotation, centres, normals, dimension_mask, discrete_mask, level_values, level_mask):
+        digest.update(
+            np.asarray([self.stage, self.dimension, self.narrowness], dtype=np.float64).tobytes()
+        )
+        for tensor in (
+            shift,
+            rotation,
+            centres,
+            normals,
+            dimension_mask,
+            discrete_mask,
+            level_values,
+            level_mask,
+        ):
             digest.update(np.ascontiguousarray(tensor).tobytes())
         self.static_fingerprint = digest.hexdigest()
 
@@ -245,9 +256,15 @@ def _stack_problem_static(problems: Sequence[DeviceResidentCurriculumProblem]):
         torch.stack([problem.discrete_mask for problem in problems], dim=0),
         torch.stack([problem.level_values for problem in problems], dim=0),
         torch.stack([problem.level_mask for problem in problems], dim=0),
-        torch.as_tensor([float(problem.dimension) for problem in problems], dtype=torch.float64, device=device),
-        torch.as_tensor([float(problem.narrowness) for problem in problems], dtype=torch.float64, device=device),
-        torch.as_tensor([int(problem.stage) for problem in problems], dtype=torch.long, device=device),
+        torch.as_tensor(
+            [float(problem.dimension) for problem in problems], dtype=torch.float64, device=device
+        ),
+        torch.as_tensor(
+            [float(problem.narrowness) for problem in problems], dtype=torch.float64, device=device
+        ),
+        torch.as_tensor(
+            [int(problem.stage) for problem in problems], dtype=torch.long, device=device
+        ),
     )
     with _STATIC_STACK_CACHE_LOCK:
         _STATIC_STACK_CACHE[key] = cached
@@ -315,9 +332,7 @@ def evaluate_device_resident_curriculum_batch(
     normal = normals.index_select(0, req)
     projections = torch.sum((x.unsqueeze(1) - centre) * normal, dim=2)
     narrowness = problem_narrowness.index_select(0, req)
-    limits = torch.stack(
-        [narrowness, narrowness * 0.8, narrowness * 1.2, narrowness * 0.9], dim=1
-    )
+    limits = torch.stack([narrowness, narrowness * 0.8, narrowness * 1.2, narrowness * 0.9], dim=1)
     raw = torch.relu(torch.abs(projections) - limits)
 
     stages = problem_stages.index_select(0, req)
@@ -334,7 +349,9 @@ def evaluate_device_resident_curriculum_batch(
     lattice = torch.relu(nearest - 0.035)
     lattice = torch.where(discrete, lattice, torch.zeros_like(lattice))
     lattice_penalty = torch.sum(lattice * mask, dim=1) / torch.clamp(dimensions, min=1.0)
-    raw[:, 1] = raw[:, 1] + torch.where(stages >= 2, lattice_penalty, torch.zeros_like(lattice_penalty))
+    raw[:, 1] = raw[:, 1] + torch.where(
+        stages >= 2, lattice_penalty, torch.zeros_like(lattice_penalty)
+    )
 
     violation = torch.sum(raw, dim=1)
     feasible = violation <= 1e-12
@@ -458,7 +475,9 @@ class SyntheticCrossEpisodeBatchBroker:
         )
         with self._state_lock:
             if self._fatal_error is not None:
-                raise RuntimeError("Synthetic cross-episode batch broker has failed") from self._fatal_error
+                raise RuntimeError(
+                    "Synthetic cross-episode batch broker has failed"
+                ) from self._fatal_error
             if self._closed or not self._thread.is_alive():
                 raise RuntimeError("Synthetic cross-episode batch broker is closed")
             self._pending[id(request)] = request
@@ -578,4 +597,3 @@ class SyntheticCrossEpisodeBatchBroker:
     def __exit__(self, exc_type, exc, tb):
         self.close()
         return False
-

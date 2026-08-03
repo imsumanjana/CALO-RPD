@@ -13,7 +13,7 @@ class TorchVariableDecoder:
     Network-case mutation remains lightweight Python orchestration, but all continuous scaling,
     discrete lattice indexing, and bounds enforcement are performed as tensor operations.  The
     action definitions are inherited from the single reference ``ORPDVariableDecoder`` so CPU,
-    CUDA, and XPU cannot silently use different device grids.
+    CUDA and CPU cannot silently use different device grids.
     """
 
     def __init__(self, reference_decoder, device, dtype):

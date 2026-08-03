@@ -12,44 +12,35 @@ from calo_rpd_studio.algorithms.calo.heterogeneous_training import (
 from calo_rpd_studio.algorithms.calo.policy_network import CALOPolicyNetwork
 
 
-def test_weighted_plan_uses_6_4_2_for_twelve_episodes():
+def test_weighted_plan_uses_9_3_for_twelve_episodes():
     plan = plan_training_lanes(
         12,
-        cuda_share=50,
-        xpu_share=30,
-        cpu_share=20,
+        cuda_share=75,
+        cpu_share=25,
         cuda_available=True,
-        xpu_available=True,
-        xpu_sidecar_available=False,
     )
-    assert plan.episode_counts == {"cuda": 6, "xpu": 4, "cpu": 2}
+    assert plan.episode_counts == {"cuda": 9, "cpu": 3}
     assert plan.total_episodes == 12
-    assert plan.xpu_runtime == "primary"
 
 
-def test_unavailable_accelerators_are_redistributed_to_cpu():
+def test_unavailable_cuda_is_redistributed_to_cpu():
     plan = plan_training_lanes(
         10,
-        cuda_share=50,
-        xpu_share=30,
+        cuda_share=80,
         cpu_share=20,
         cuda_available=False,
-        xpu_available=False,
-        xpu_sidecar_available=False,
     )
-    assert plan.episode_counts == {"cuda": 0, "xpu": 0, "cpu": 10}
-    assert len(plan.warnings) == 2
+    assert plan.episode_counts == {"cuda": 0, "cpu": 10}
+    assert len(plan.warnings) == 1
 
 
 def test_rollout_shares_must_total_one_hundred():
     with pytest.raises(ValueError, match="exactly 100"):
         plan_training_lanes(
             10,
-            cuda_share=50,
-            xpu_share=20,
+            cuda_share=60,
             cpu_share=20,
             cuda_available=True,
-            xpu_available=True,
         )
 
 

@@ -34,8 +34,6 @@ from calo_rpd_studio.ai.model_io import (
 )
 from torch import nn
 
-_LOG = logging.getLogger(__name__)
-
 from .archives import ConstraintBoundaryArchive, FeasibleEliteArchive
 from .cognitive_state import (
     STATE_DIM,
@@ -75,6 +73,8 @@ from .policy_schema import (
 )
 from .policy_network import CALOPolicyNetwork
 from .success_memory import SuccessMemory
+
+_LOG = logging.getLogger(__name__)
 
 
 @dataclass(slots=True)
@@ -116,7 +116,9 @@ class TrainingConfig:
     # ``additional`` remains accepted only as a backward-compatible synonym for old saved configs.
     training_mode: str = "cumulative"  # cumulative | additional(legacy synonym) | indefinite
     checkpoint_interval_epochs: int = 1
-    qualification_interval_epochs: int = 0  # v5.9: retired; formal qualification applies only to saved Base artifacts
+    qualification_interval_epochs: int = (
+        0  # v5.9: retired; formal qualification applies only to saved Base artifacts
+    )
     policy_lineage_id: str = ""
     policy_lineage_name: str = ""
     policy_phase_index: int = 1
@@ -526,7 +528,9 @@ class SyntheticCALOEnvironment:
         forced_recovery: set[int] = set()
         if severe and old_diversity < 0.06:
             fraction = float(np.clip(adaptive["recovery_fraction"], 0.05, 0.45))
-            count = max(1, min(self.population_size - 1, int(round(self.population_size * fraction))))
+            count = max(
+                1, min(self.population_size - 1, int(round(self.population_size * fraction)))
+            )
             worst_first = sorted(
                 range(self.population_size),
                 key=lambda i: epsilon_sort_key(self.evaluations[i], epsilon),
@@ -537,7 +541,9 @@ class SyntheticCALOEnvironment:
         variables = getattr(getattr(self.problem, "decoder", None), "variables", None) or getattr(
             self.problem, "variables", []
         )
-        hierarchy = self.hpem.hierarchy() if len(self.hpem) else np.zeros((4, self.problem.dimension))
+        hierarchy = (
+            self.hpem.hierarchy() if len(self.hpem) else np.zeros((4, self.problem.dimension))
+        )
         offspring = np.empty_like(self.population)
         assigned_memory = np.zeros(self.population_size, dtype=np.int8)
         assigned_groups = np.zeros(self.population_size, dtype=np.int8)
@@ -603,25 +609,48 @@ class SyntheticCALOEnvironment:
                 r1 = r2 = x
             feasible_teacher = self.feasible_archive.sample(self.rng, best)
             boundary_teacher = self.boundary_archive.sample(self.rng, best)
-            memory_teacher = self.hpem.summary(int(assigned_memory[index]), feasible_teacher) if len(self.hpem) else feasible_teacher
+            memory_teacher = (
+                self.hpem.summary(int(assigned_memory[index]), feasible_teacher)
+                if len(self.hpem)
+                else feasible_teacher
+            )
             group_mask = self.group_intelligence.mask(group, self.problem.dimension)
 
             if executed_operator == 0:
-                teacher = memory_teacher if learned_lanes[index] and len(self.hpem) else (feasible_teacher if len(self.feasible_archive) else boundary_teacher)
+                teacher = (
+                    memory_teacher
+                    if learned_lanes[index] and len(self.hpem)
+                    else (feasible_teacher if len(self.feasible_archive) else boundary_teacher)
+                )
                 candidate = feasible_elite_learning(
                     x, teacher, r1, r2, self.rng, adaptive["attraction"], adaptive["differential"]
                 )
             elif executed_operator == 1:
                 candidate = constraint_boundary_differential(
-                    x, boundary_teacher, r1, r2, self.rng, adaptive["attraction"], adaptive["differential"]
+                    x,
+                    boundary_teacher,
+                    r1,
+                    r2,
+                    self.rng,
+                    adaptive["attraction"],
+                    adaptive["differential"],
                 )
             elif executed_operator == 2:
                 if learned_lanes[index] and len(self.hpem):
                     teacher = memory_teacher
                 else:
-                    teacher = feasible_teacher if local_regime >= 2 and len(self.feasible_archive) else boundary_teacher
+                    teacher = (
+                        feasible_teacher
+                        if local_regime >= 2 and len(self.feasible_archive)
+                        else boundary_teacher
+                    )
                 candidate = cognitive_teacher_learning(
-                    x, teacher, mean, self.rng, adaptive["attraction"], 0.35 * adaptive["exploration_sigma"]
+                    x,
+                    teacher,
+                    mean,
+                    self.rng,
+                    adaptive["attraction"],
+                    0.35 * adaptive["exploration_sigma"],
                 )
             elif executed_operator == 3:
                 direction = self.memory.sample_direction(
@@ -633,7 +662,12 @@ class SyntheticCALOEnvironment:
                     group=group,
                 )
                 candidate = success_distribution_memory(
-                    x, self.personal_best[index], direction, self.rng, 0.55, adaptive["memory_weight"]
+                    x,
+                    self.personal_best[index],
+                    direction,
+                    self.rng,
+                    0.55,
+                    adaptive["memory_weight"],
                 )
                 if learned_lanes[index] and len(self.hpem):
                     candidate = np.clip(
@@ -650,7 +684,15 @@ class SyntheticCALOEnvironment:
                     2 if local_regime == 3 else 1,
                 )
             else:
-                reference = boundary_teacher if local_regime <= 1 else (self.hpem.summary(3, feasible_teacher) if len(self.hpem) else feasible_teacher)
+                reference = (
+                    boundary_teacher
+                    if local_regime <= 1
+                    else (
+                        self.hpem.summary(3, feasible_teacher)
+                        if len(self.hpem)
+                        else feasible_teacher
+                    )
+                )
                 candidate = diversity_recovery(
                     reference, self.population, self.rng, max(adaptive["exploration_sigma"], 0.05)
                 )
@@ -680,7 +722,8 @@ class SyntheticCALOEnvironment:
             successful[index] = ok
             if parent_ev.feasible and child_ev.feasible and np.isfinite(parent_ev.value):
                 objective_gains[index] = max(
-                    (float(parent_ev.value) - float(child_ev.value)) / max(abs(float(parent_ev.value)), 1.0),
+                    (float(parent_ev.value) - float(child_ev.value))
+                    / max(abs(float(parent_ev.value)), 1.0),
                     0.0,
                 )
             pv = float(parent_ev.violation)
@@ -778,7 +821,9 @@ class SyntheticCALOEnvironment:
             "executed_operators": assigned_operators.astype(int).tolist(),
             "precision_mask": precision_mask.astype(bool).tolist(),
             "forced_recovery_indices": sorted(int(i) for i in forced_recovery),
-            "operator_policy_active_fraction": float(np.mean(raw_operator_executed)) if self.population_size else 0.0,
+            "operator_policy_active_fraction": float(np.mean(raw_operator_executed))
+            if self.population_size
+            else 0.0,
             "reward_components": {
                 "objective_improvement": reward_components.objective_improvement,
                 "constraint_improvement": reward_components.constraint_improvement,
@@ -805,10 +850,14 @@ def _curriculum_stage(
     """
     if milestones is not None:
         if len(milestones) != 4:
-            raise ValueError("curriculum_stage_milestones must contain exactly four increasing epochs")
+            raise ValueError(
+                "curriculum_stage_milestones must contain exactly four increasing epochs"
+            )
         values = tuple(int(v) for v in milestones)
         if values[0] < 0 or any(b <= a for a, b in zip(values, values[1:])):
-            raise ValueError("curriculum_stage_milestones must be non-negative and strictly increasing")
+            raise ValueError(
+                "curriculum_stage_milestones must be non-negative and strictly increasing"
+            )
         m0, m1, m2, m3 = values
         if epoch < m0:
             return 0
@@ -864,28 +913,10 @@ def available_training_devices() -> dict[str, str | bool]:
     """Describe accelerator availability without allocating large training tensors."""
     cuda = bool(torch.cuda.is_available())
     cuda_name = torch.cuda.get_device_name(0) if cuda else ""
-    xpu = bool(hasattr(torch, "xpu") and torch.xpu.is_available())
-    xpu_name = ""
-    if xpu:
-        try:
-            xpu_name = str(torch.xpu.get_device_properties(0).name)
-        except Exception:
-            _LOG.debug("Could not query Intel XPU properties; using generic device name", exc_info=True)
-            xpu_name = "Intel XPU"
-    try:
-        from calo_rpd_studio.compute.resource_scheduler import configured_xpu_interpreter
-
-        xpu_sidecar = bool(configured_xpu_interpreter())
-    except Exception:
-        _LOG.debug("Could not probe configured XPU sidecar interpreter", exc_info=True)
-        xpu_sidecar = False
-    recommended = "cuda" if cuda else ("xpu" if xpu else ("xpu_sidecar" if xpu_sidecar else "cpu"))
+    recommended = "cuda" if cuda else "cpu"
     return {
         "cuda_available": cuda,
         "cuda_name": cuda_name,
-        "xpu_available": xpu,
-        "xpu_name": xpu_name,
-        "xpu_sidecar_available": xpu_sidecar,
         "recommended_device": recommended,
     }
 
@@ -895,10 +926,10 @@ def recommended_worker_distribution(
     *,
     device_info: dict[str, str | bool] | None = None,
 ) -> dict[str, int]:
-    """Return a recommended CUDA/XPU/CPU worker split for the given total worker count.
+    """Return a recommended CUDA/CPU worker split for the given total worker count.
 
     The heuristic assigns workers proportional to relative device throughput:
-    CUDA (10x) > XPU (4x) > CPU (1x).  When only a subset of accelerators is
+    CUDA (10x) > CPU (1x). When CUDA is unavailable the pool is
     available the pool is redistributed across the remaining devices.
     """
     total_workers = int(total_workers)
@@ -907,20 +938,15 @@ def recommended_worker_distribution(
     if device_info is None:
         device_info = available_training_devices()
     cuda = bool(device_info.get("cuda_available", False))
-    # Treat the verified secondary XPU runtime as a real scheduling capability even when the
-    # primary PyTorch build has no direct torch.xpu backend.
-    xpu = bool(device_info.get("xpu_available", False) or device_info.get("xpu_sidecar_available", False))
     weights: dict[str, float] = {}
     if cuda:
         weights["cuda"] = 10.0
-    if xpu:
-        weights["xpu"] = 4.0
     weights["cpu"] = 1.0
     total_weight = sum(weights.values()) or 1.0
     raw: dict[str, float] = {k: (v / total_weight) * total_workers for k, v in weights.items()}
     result: dict[str, int] = {}
     assigned = 0
-    for lane in ("cuda", "xpu", "cpu"):
+    for lane in ("cuda", "cpu"):
         if lane in raw:
             count = max(0, round(raw[lane]))
             result[lane] = count
@@ -928,7 +954,7 @@ def recommended_worker_distribution(
     # Adjust rounding drift onto the fastest available lane
     diff = total_workers - assigned
     if diff != 0:
-        for lane in ("cuda", "xpu", "cpu"):
+        for lane in ("cuda", "cpu"):
             if lane in result:
                 result[lane] += diff
                 break
@@ -937,11 +963,8 @@ def recommended_worker_distribution(
 
 def _resolve_training_device(requested: str) -> torch.device:
     choice = str(requested or "auto").strip().lower()
-    xpu_available = bool(hasattr(torch, "xpu") and torch.xpu.is_available())
     if choice == "auto":
-        return torch.device(
-            "cuda:0" if torch.cuda.is_available() else ("xpu:0" if xpu_available else "cpu")
-        )
+        return torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     if choice.startswith("cuda"):
         if not torch.cuda.is_available():
             raise RuntimeError(
@@ -949,19 +972,8 @@ def _resolve_training_device(requested: str) -> torch.device:
                 "Install a CUDA-enabled PyTorch build or select CPU/Auto."
             )
         return torch.device(choice if ":" in choice else "cuda:0")
-    if choice.startswith("xpu"):
-        if not xpu_available:
-            raise RuntimeError(
-                "Intel XPU training was requested, but this PyTorch runtime cannot access an XPU device. "
-                "Use the verified secondary XPU runtime option or select CPU/Auto."
-            )
-        return torch.device(choice if ":" in choice else "xpu:0")
     if choice == "cpu":
         return torch.device("cpu")
-    if choice == "xpu_sidecar":
-        raise RuntimeError(
-            "The secondary XPU runtime must be launched through train_policy_in_xpu_sidecar()."
-        )
     raise ValueError(f"Unsupported CALO training device: {requested}")
 
 
@@ -1029,9 +1041,12 @@ def _collect_rollout_chunk(payload):
             from calo_rpd_studio.orpd.problem import ORPDProblem
             from calo_rpd_studio.power_system.case_loader import CaseLoader
 
-            source = str(config.development_cases[
-                (epoch * config.episodes_per_epoch + int(episode)) % len(config.development_cases)
-            ])
+            source = str(
+                config.development_cases[
+                    (epoch * config.episodes_per_epoch + int(episode))
+                    % len(config.development_cases)
+                ]
+            )
             assert development_experiment is not None and development_problem_config is not None
             development_experiment.case_name = source
             development_experiment.validate_policy_development()
@@ -1194,7 +1209,9 @@ def _historical_pretrain(
                 operator = int(transition.get("operator", -1))
                 exact_native = state.shape == (POLICY_STATE_DIM,)
                 if state.shape == (STATE_DIM,):
-                    state = np.concatenate((state, np.zeros(POLICY_STATE_DIM - STATE_DIM, dtype=float)))
+                    state = np.concatenate(
+                        (state, np.zeros(POLICY_STATE_DIM - STATE_DIM, dtype=float))
+                    )
             if state.shape != (POLICY_STATE_DIM,) or parameter.shape != (6,):
                 continue
             if not (0 <= regime < 4 and 0 <= operator < 6):
@@ -1212,7 +1229,9 @@ def _historical_pretrain(
                     "parameter": np.clip(parameter, 1e-5, 1 - 1e-5),
                     "reward": float(transition.get("reward", 0.0)),
                     "return": float(return_value),
-                    "parameter_supervision": bool(exact_native and transition.get("parameter_supervision", True)),
+                    "parameter_supervision": bool(
+                        exact_native and transition.get("parameter_supervision", True)
+                    ),
                     "quality_weight": quality,
                     "exact_native_supervision": exact_native,
                 }
@@ -1301,8 +1320,6 @@ def training_resume_path(config: TrainingConfig, output_path) -> Path:
     return Path(output_path).with_suffix(".resume.pt")
 
 
-
-
 def _append_training_telemetry(
     resume_path: Path,
     record: dict,
@@ -1374,7 +1391,11 @@ def _append_training_telemetry(
         except OSError:
             pass
     except (OSError, TypeError, ValueError):
-        _LOG.warning("Could not append non-critical policy-training telemetry for %s", resume_path, exc_info=True)
+        _LOG.warning(
+            "Could not append non-critical policy-training telemetry for %s",
+            resume_path,
+            exc_info=True,
+        )
 
 
 def _optimizer_to_device(optimizer, device) -> None:
@@ -1485,7 +1506,9 @@ def save_training_resume(
         "next_epoch": int(next_epoch),
         "model_state_dict": _cpu_state_dict(network),
         "optimizer_state_dict": optimizer.state_dict(),
-        "history": list(history)[-max(1, int(getattr(config, "resume_history_limit", 256) or 256)):],
+        "history": list(history)[
+            -max(1, int(getattr(config, "resume_history_limit", 256) or 256)) :
+        ],
         "historical_pretraining": dict(historical_pretraining or {}),
         "python_random_state": random.getstate(),
         "numpy_global_state": np.random.get_state(),
@@ -1496,13 +1519,6 @@ def save_training_resume(
         },
         "torch_rng_state": torch.random.get_rng_state(),
         "cuda_rng_state_all": torch.cuda.get_rng_state_all() if torch.cuda.is_available() else [],
-        "xpu_rng_state_all": (
-            torch.xpu.get_rng_state_all()
-            if hasattr(torch, "xpu")
-            and torch.xpu.is_available()
-            and hasattr(torch.xpu, "get_rng_state_all")
-            else []
-        ),
         "training_config": asdict(config),
         "extra": dict(extra or {}),
     }
@@ -1512,12 +1528,22 @@ def save_training_resume(
 
 
 def load_training_resume(
-    path: Path, network, optimizer, device, rng, current_config: TrainingConfig | None = None,
+    path: Path,
+    network,
+    optimizer,
+    device,
+    rng,
+    current_config: TrainingConfig | None = None,
     rng_streams: dict[str, np.random.Generator] | None = None,
 ) -> tuple[int, list, dict, dict]:
     payload = load_trusted_resume(path, map_location=device)
     resume_format = str(payload.get("format", ""))
-    if resume_format not in {"calo_policy_training_resume_v58", "calo_policy_training_resume_v56", "calo_policy_training_resume_v5", "calo_policy_training_resume_v41"}:
+    if resume_format not in {
+        "calo_policy_training_resume_v58",
+        "calo_policy_training_resume_v56",
+        "calo_policy_training_resume_v5",
+        "calo_policy_training_resume_v41",
+    }:
         if resume_format == "calo_policy_training_resume_v32":
             raise ValueError(
                 "This resume checkpoint belongs to the legacy 24-feature CALO policy architecture and "
@@ -1547,13 +1573,6 @@ def load_training_resume(
     torch.random.set_rng_state(payload["torch_rng_state"])
     if torch.cuda.is_available() and payload.get("cuda_rng_state_all"):
         torch.cuda.set_rng_state_all(payload["cuda_rng_state_all"])
-    if (
-        hasattr(torch, "xpu")
-        and torch.xpu.is_available()
-        and payload.get("xpu_rng_state_all")
-        and hasattr(torch.xpu, "set_rng_state_all")
-    ):
-        torch.xpu.set_rng_state_all(payload["xpu_rng_state_all"])
     extra = dict(payload.get("extra", {}))
     extra.setdefault("_resume_format", resume_format)
     extra.setdefault("_curriculum_encoding", str(payload.get("curriculum_encoding", "")))
@@ -1635,7 +1654,7 @@ def _deployable_policy_payload(
                 "rollout_workers": int(rollout_workers),
                 "ppo_device": str(device),
                 "architecture": (
-                    "same-policy synchronous persistent CUDA/XPU/CPU actor lanes with one centralized PPO learner"
+                    "same-policy synchronous persistent CUDA/CPU actor lanes with one centralized PPO learner"
                     if bool(getattr(config, "heterogeneous_rollouts", False))
                     else "parallel rollout collection with one centralized PPO learner"
                 ),
@@ -1678,8 +1697,13 @@ def save_deployable_policy_snapshot(
         f"policy_e{int(cumulative_epoch):012d}_{int(time.time_ns()):x}.pt"
     )
     payload = _deployable_policy_payload(
-        network, config, history, historical_pretraining, cumulative_epoch,
-        device=str(device), rollout_workers=int(rollout_workers),
+        network,
+        config,
+        history,
+        historical_pretraining,
+        cumulative_epoch,
+        device=str(device),
+        rollout_workers=int(rollout_workers),
     )
     payload["metadata"]["immutable_artifact_path"] = str(artifact_path.resolve())
     payload["metadata"]["immutable_terminal_checkpoint"] = str(artifact_path.resolve())
@@ -1701,13 +1725,16 @@ def _write_policy_alias(output_path, artifact_path: Path) -> None:
         temporary = Path(handle.name)
     try:
         import shutil
+
         shutil.copy2(artifact_path, temporary)
         temporary.replace(output_path)
     finally:
         temporary.unlink(missing_ok=True)
 
 
-def _apply_protection_control(config: TrainingConfig, protection_callback, progress_callback=None) -> None:
+def _apply_protection_control(
+    config: TrainingConfig, protection_callback, progress_callback=None
+) -> None:
     """Apply v6.2 governor throttling between scientific training units.
 
     Level 1 (AMBER) introduces a small duty-cycle pause without changing RNG or optimization
@@ -1721,11 +1748,15 @@ def _apply_protection_control(config: TrainingConfig, protection_callback, progr
     except Exception:
         level = 0
     if level >= 2:
-        raise TrainingCancelled("CALO policy training stopped by the compute/thermal protection governor.")
+        raise TrainingCancelled(
+            "CALO policy training stopped by the compute/thermal protection governor."
+        )
     if level == 1:
         pause = max(0.0, float(getattr(config, "governor_amber_pause_seconds", 0.25) or 0.25))
         if progress_callback:
-            progress_callback(0, "Compute protection AMBER · pausing briefly before the next training unit")
+            progress_callback(
+                0, "Compute protection AMBER · pausing briefly before the next training unit"
+            )
         if pause > 0:
             time.sleep(pause)
 
@@ -1791,7 +1822,12 @@ def _train_policy_impl(
     resume_extra = {}
     if resume_path.is_file():
         start_epoch, history, historical_pretraining, resume_extra = load_training_resume(
-            resume_path, network, optimizer, device, rng, current_config=config,
+            resume_path,
+            network,
+            optimizer,
+            device,
+            rng,
+            current_config=config,
             rng_streams=rng_streams,
         )
         if progress_callback:
@@ -1837,23 +1873,27 @@ def _train_policy_impl(
         extra.update(updates)
         return extra
 
-    def _notify_epoch(completed_epoch: int, stage_value: int, episode_returns_value=None, epoch_losses_value=None):
+    def _notify_epoch(
+        completed_epoch: int, stage_value: int, episode_returns_value=None, epoch_losses_value=None
+    ):
         if epoch_observer is None:
             return
-        epoch_observer({
-            "epoch": int(completed_epoch),
-            "stage": int(stage_value),
-            "network": network,
-            "optimizer": optimizer,
-            "rng": rng,
-            "history": history,
-            "historical_pretraining": historical_pretraining,
-            "config": config,
-            "device": device,
-            "rollout_workers": workers,
-            "episode_returns": list(episode_returns_value or []),
-            "epoch_losses": list(epoch_losses_value or []),
-        })
+        epoch_observer(
+            {
+                "epoch": int(completed_epoch),
+                "stage": int(stage_value),
+                "network": network,
+                "optimizer": optimizer,
+                "rng": rng,
+                "history": history,
+                "historical_pretraining": historical_pretraining,
+                "config": config,
+                "device": device,
+                "rollout_workers": workers,
+                "episode_returns": list(episode_returns_value or []),
+                "epoch_losses": list(epoch_losses_value or []),
+            }
+        )
 
     _notify_epoch(start_epoch, stage_floor, [], [])
     while target_epoch is None or epoch < target_epoch:
@@ -1863,9 +1903,7 @@ def _train_policy_impl(
             if isinstance(cancel, (int, float)) and not isinstance(cancel, bool) and cancel > epoch:
                 target_epoch = int(cancel)
                 if progress_callback:
-                    progress_callback(
-                        0, f"Rounding to epoch {target_epoch} before stop..."
-                    )
+                    progress_callback(0, f"Rounding to epoch {target_epoch} before stop...")
             else:
                 if suppress_cancel_persistence:
                     raise TrainingCancelled(
@@ -1884,8 +1922,14 @@ def _train_policy_impl(
                     extra=_current_resume_extra(safe_stop=True),
                 )
                 terminal = save_deployable_policy_snapshot(
-                    output_path, network, config, history, historical_pretraining, epoch,
-                    device=str(device), rollout_workers=workers,
+                    output_path,
+                    network,
+                    config,
+                    history,
+                    historical_pretraining,
+                    epoch,
+                    device=str(device),
+                    rollout_workers=workers,
                 )
                 _write_policy_alias(output_path, terminal)
                 raise TrainingCancelled(
@@ -1894,7 +1938,10 @@ def _train_policy_impl(
         proposed_stage = _curriculum_stage(
             epoch,
             None,
-            bool(config.development_cases and str(config.development_experiment_config_path or "").strip()),
+            bool(
+                config.development_cases
+                and str(config.development_experiment_config_path or "").strip()
+            ),
             milestones=tuple(config.curriculum_stage_milestones),
         )
         stage = max(stage_floor, proposed_stage)
@@ -1925,13 +1972,26 @@ def _train_policy_impl(
             if suppress_cancel_persistence:
                 raise
             save_training_resume(
-                resume_path, network=network, optimizer=optimizer, next_epoch=epoch, history=history,
-                rng=rng, rng_streams=rng_streams, historical_pretraining=historical_pretraining, config=config,
+                resume_path,
+                network=network,
+                optimizer=optimizer,
+                next_epoch=epoch,
+                history=history,
+                rng=rng,
+                rng_streams=rng_streams,
+                historical_pretraining=historical_pretraining,
+                config=config,
                 extra=_current_resume_extra(safe_stop=True),
             )
             terminal = save_deployable_policy_snapshot(
-                output_path, network, config, history, historical_pretraining, epoch,
-                device=str(device), rollout_workers=workers,
+                output_path,
+                network,
+                config,
+                history,
+                historical_pretraining,
+                epoch,
+                device=str(device),
+                rollout_workers=workers,
             )
             _write_policy_alias(output_path, terminal)
             raise
@@ -2075,7 +2135,7 @@ def _train_policy_impl(
     metadata = {
         "algorithm": "CALO",
         "calo_core": "v5.0",
-            "policy_training_architecture": "v5.9",
+        "policy_training_architecture": "v5.9",
         "training_method": "PPO",
         "training_config": asdict(config),
         "training_seed": config.seed,
@@ -2089,9 +2149,6 @@ def _train_policy_impl(
             "ppo_device": str(device),
             "cuda_available": bool(device_info["cuda_available"]),
             "cuda_name": str(device_info["cuda_name"]),
-            "xpu_available": bool(device_info["xpu_available"]),
-            "xpu_name": str(device_info["xpu_name"]),
-            "xpu_sidecar_available": bool(device_info["xpu_sidecar_available"]),
             "architecture": "parallel CPU rollout collection plus centralized PPO update on the selected accelerator",
         },
         "curriculum": [
@@ -2151,7 +2208,10 @@ def train_policy(
     caller_cuda = torch.cuda.get_rng_state_all() if torch.cuda.is_available() else []
     try:
         return _train_policy_impl(
-            config, output_path, progress_callback, cancel_callback,
+            config,
+            output_path,
+            progress_callback,
+            cancel_callback,
             epoch_observer=epoch_observer,
             resume_extra_provider=resume_extra_provider,
             cancel_during_rollout=cancel_during_rollout,
@@ -2164,7 +2224,6 @@ def train_policy(
         torch.random.set_rng_state(caller_torch)
         if torch.cuda.is_available() and caller_cuda:
             torch.cuda.set_rng_state_all(caller_cuda)
-
 
 
 def train_policy_parallel(

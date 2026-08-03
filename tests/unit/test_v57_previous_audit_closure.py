@@ -1,12 +1,9 @@
 from __future__ import annotations
 
 from dataclasses import FrozenInstanceError
-import json
-from pathlib import Path
 
 import numpy as np
 import pytest
-import torch
 
 from calo_rpd_studio.ai.model_io import (
     checkpoint_sha256,
@@ -16,7 +13,10 @@ from calo_rpd_studio.ai.model_io import (
     write_trusted_resume_hash,
 )
 from calo_rpd_studio.algorithms.calo.optimizer import CALOOptimizer
-from calo_rpd_studio.algorithms.calo.policy_qualification import PolicyQualificationConfig, _convergence_auc
+from calo_rpd_studio.algorithms.calo.policy_qualification import (
+    PolicyQualificationConfig,
+    _convergence_auc,
+)
 from calo_rpd_studio.experiments.experiment_config import ExperimentConfig
 from calo_rpd_studio.orpd.constraints import generator_limit_violation
 from calo_rpd_studio.power_system.case_model import PowerSystemCase
@@ -58,7 +58,9 @@ def test_callable_compatibility_fingerprint_includes_closure_values_and_code():
         def transform(case):
             case.bus[:, 2] *= scale
             return case
+
         return transform
+
     a = CALOOptimizer._compatibility_jsonable(make_transform(0.95))
     b = CALOOptimizer._compatibility_jsonable(make_transform(1.05))
     assert a != b
@@ -77,7 +79,8 @@ def test_generator_limits_are_enforced_per_unit_not_aggregated_by_bus():
     second[PMIN], second[PMAX], second[PG] = 0.0, 100.0, 0.0
     second[QMIN], second[QMAX], second[QG] = -100.0, 100.0, 0.0
     case = PowerSystemCase(
-        "two_gen", 100.0,
+        "two_gen",
+        100.0,
         bus=np.zeros((1, 13), dtype=float),
         gen=np.vstack([first, second]),
         branch=np.zeros((0, 13), dtype=float),
@@ -108,6 +111,7 @@ def test_policy_qualification_defaults_are_formal_not_screening_and_auc_penalize
             "convergence_evaluations": [100, 200, 500, 1000],
             "best_feasible_objective_history": [float("inf")] * 4,
         }
+
     assert np.isinf(_convergence_auc(Result()))
 
 

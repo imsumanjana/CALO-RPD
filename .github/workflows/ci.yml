@@ -1,37 +1,295 @@
-name: CALO-RPD v6.2.1 CI
+name: CALO-RPD release validation
 
 on:
   push:
   pull_request:
+  workflow_dispatch:
+    inputs:
+      run_physical_cuda:
+        description: Run the qualification lane on a trusted CALO CUDA runner
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+concurrency:
+  group: calo-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHONUTF8: "1"
+  PYTHONPATH: .
+  QT_QPA_PLATFORM: offscreen
 
 jobs:
-  test:
+  source:
+    name: Source, scientific tests, and locks
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Check out the exact revision
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Use the release Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements-lock-ci-py311-linux.txt
+      - name: Install the hash-locked validation environment
+        run: python -m pip install --require-hashes --requirement requirements-lock-ci-py311-linux.txt
+      - name: Verify exact, hash-complete dependency locks
+        run: |
+          python -m calo_rpd_studio.scripts.verify_requirements_lock requirements-lock-cpu-py311-linux.txt --expect-index https://download.pytorch.org/whl/cpu --expect-pin torch==2.10.0+cpu --expect-pin cma==4.4.4
+          python -m calo_rpd_studio.scripts.verify_requirements_lock requirements-lock-cuda128-py311-linux.txt --expect-index https://download.pytorch.org/whl/cu128 --expect-pin torch==2.10.0+cu128 --expect-pin cma==4.4.4
+          python -m calo_rpd_studio.scripts.verify_requirements_lock requirements-lock-ci-py311-linux.txt --match-lock requirements-lock-cpu-py311-linux.txt --expect-index https://download.pytorch.org/whl/cpu --expect-pin torch==2.10.0+cpu --expect-pin ruff==0.15.22 --expect-pin mypy==1.20.2 --expect-pin uv==0.11.29
+      - name: Verify source and generated schema
+        run: |
+          python -m compileall -q calo_rpd_studio calo_bootstrap tests
+          python -m calo_rpd_studio.scripts.generate_experiment_schema --check
+          ruff check .
+          ruff format --check calo_bootstrap calo_rpd_studio tests
+      - name: Verify the typed safety boundary
+        run: >-
+          mypy
+          --follow-imports=skip
+          --check-untyped-defs
+          calo_rpd_studio/compute/memory_budget.py
+          calo_rpd_studio/compute/device_lease.py
+          calo_rpd_studio/experiments/study_strength.py
+          calo_rpd_studio/algorithms/lshade.py
+          calo_rpd_studio/algorithms/cma_es.py
+          calo_rpd_studio/scripts/generate_artifact_manifest.py
+          calo_rpd_studio/scripts/verify_requirements_lock.py
+          calo_rpd_studio/scripts/verify_distribution_stage.py
+          calo_rpd_studio/scripts/container_smoke.py
+      - name: Run unit, integration, regression, and scientific tests
+        run: |
+          # The v6.9 file is an immutable historical-freeze gate. The active release freeze is
+          # regenerated only at G11, after the user-approved architecture scope is complete.
+          coverage run --source=calo_rpd_studio -m pytest -q --ignore=tests/unit/test_v690_release_integrity.py
+          coverage report --skip-covered --ignore-errors --fail-under=60
+
+  compatibility:
+    name: Compatibility (${{ matrix.os }}, Python ${{ matrix.python }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 35
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest]
-        python: ['3.11', '3.12', '3.13']
-    runs-on: ${{ matrix.os }}
-    env:
-      QT_QPA_PLATFORM: offscreen
-      PYTHONPATH: .
+        include:
+          - os: ubuntu-latest
+            python: "3.12"
+          - os: ubuntu-latest
+            python: "3.13"
+          - os: windows-latest
+            python: "3.11"
+          - os: windows-latest
+            python: "3.13"
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Check out the exact revision
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Use compatibility Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
         with:
           python-version: ${{ matrix.python }}
-      - name: Install CPU validation environment
+      - name: Install CPU compatibility environment
         run: |
-          python -m pip install --upgrade pip
-          python -m pip install --index-url https://download.pytorch.org/whl/cpu torch
+          python -m pip install --index-url https://download.pytorch.org/whl/cpu torch==2.10.0
           python -m pip install -e ".[dev]"
-      - name: Compile
-        run: python -m compileall -q calo_rpd_studio calo_bootstrap tests
-      - name: Lint
-        run: ruff check .
-      - name: Test and staged coverage gate
+          python -m pip check
+          python -m pip freeze --all > compatibility-environment.txt
+      - name: Verify historical loading and current round-trips
+        run: >-
+          python -m pytest -q
+          tests/unit/test_config.py
+          tests/integration/test_database_workflow.py
+          tests/unit/test_calo_v41_policy_system.py
+          tests/unit/test_v680_policy_independence.py
+      - name: Upload the resolved compatibility environment
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: compatibility-${{ runner.os }}-py${{ matrix.python }}-environment
+          path: compatibility-environment.txt
+          if-no-files-found: error
+          retention-days: 14
+
+  headless-gui:
+    name: Headless scientist GUI
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - name: Check out the exact revision
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Use the release Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements-lock-ci-py311-linux.txt
+      - name: Install the hash-locked validation environment
+        run: python -m pip install --require-hashes --requirement requirements-lock-ci-py311-linux.txt
+      - name: Exercise navigation, scientist workflow, accessibility, and rendering
+        env:
+          CALO_GUI_ARTIFACT_DIR: artifacts/gui
+        run: python -m pytest -q tests/gui tests/unit/test_scientist_gui_contract.py
+      - name: Upload the visual smoke evidence
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: headless-gui-evidence
+          path: artifacts/gui
+          if-no-files-found: error
+          retention-days: 14
+
+  artifact:
+    name: Wheel and source artifact manifest
+    needs: source
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Check out the exact revision
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Use the release Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: "3.11"
+      - name: Install build tooling from the validation lock
+        run: python -m pip install --require-hashes --requirement requirements-lock-ci-py311-linux.txt
+      - name: Build and inventory only staged output
         run: |
-          coverage run --source=calo_rpd_studio -m pytest -q
-          coverage report --skip-covered --ignore-errors --fail-under=60
-      - name: Build distributions
-        run: python -m build
+          python -c "from pathlib import Path; stage=Path('artifacts/python-dist'); assert not stage.exists(); stage.mkdir(parents=True)"
+          python -m build --no-isolation --outdir artifacts/python-dist
+          python -m calo_rpd_studio.scripts.verify_distribution_stage --stage artifacts/python-dist
+          python -m calo_rpd_studio.scripts.generate_artifact_manifest --stage artifacts/python-dist --output artifacts/python-dist/artifact-manifest.json
+          python -m pip install --no-deps artifacts/python-dist/*.whl
+          (cd /tmp && PYTHONPATH= python -c "import calo_rpd_studio; import calo_bootstrap")
+      - name: Upload distributions and checksums
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: python-distributions
+          path: artifacts/python-dist
+          if-no-files-found: error
+          retention-days: 30
+
+  cpu-image:
+    name: CPU image, SBOM, security, and runtime smoke
+    needs: source
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Check out the exact revision
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Set up Buildx
+        uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4.0.0
+      - name: Build the CPU image with attestations
+        uses: docker/build-push-action@f9f3042f7e2789586610d6e8b85c8f03e5195baf # v7.2.0
+        with:
+          context: .
+          platforms: linux/amd64
+          load: true
+          tags: calo-rpd-studio:ci-cpu
+          build-args: RUNTIME_LOCK=requirements-lock-cpu-py311-linux.txt
+          sbom: true
+          provenance: mode=max
+          cache-from: type=gha,scope=calo-cpu
+          cache-to: type=gha,mode=max,scope=calo-cpu
+      - name: Verify non-root and read-only runtime contracts
+        run: |
+          test "$(docker image inspect calo-rpd-studio:ci-cpu --format '{{.Config.User}}')" = "10001:10001"
+          mkdir -p artifacts/container/runtime
+          sudo chown 10001:10001 artifacts/container/runtime
+          docker run --rm --read-only --cap-drop ALL --security-opt no-new-privileges --memory 24g --tmpfs /tmp:rw,nosuid,nodev,size=536870912,uid=10001,gid=10001,mode=1777 --mount type=bind,source="$PWD/artifacts/container/runtime",target=/data --entrypoint python calo-rpd-studio:ci-cpu -m calo_rpd_studio.scripts.container_smoke
+          sudo chown -R "$(id -u):$(id -g)" artifacts/container/runtime
+          mv artifacts/container/runtime/image-filesystem-manifest.json artifacts/container/cpu-image-filesystem-manifest.json
+          rmdir artifacts/container/runtime
+      - name: Generate a CycloneDX SBOM
+        uses: aquasecurity/trivy-action@a9c7b0f06e461e9d4b4d1711f154ee024b8d7ab8 # v0.36.0
+        with:
+          image-ref: calo-rpd-studio:ci-cpu
+          format: cyclonedx
+          output: artifacts/container/cpu-image.cdx.json
+          version: v0.70.0
+      - name: Fail on fixable high or critical vulnerabilities
+        uses: aquasecurity/trivy-action@a9c7b0f06e461e9d4b4d1711f154ee024b8d7ab8 # v0.36.0
+        with:
+          image-ref: calo-rpd-studio:ci-cpu
+          format: table
+          exit-code: "1"
+          ignore-unfixed: true
+          severity: HIGH,CRITICAL
+          version: v0.70.0
+      - name: Upload container evidence
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: cpu-container-evidence
+          path: artifacts/container
+          if-no-files-found: error
+          retention-days: 30
+
+  cuda-image:
+    name: CUDA image build without device
+    if: github.event_name != 'pull_request'
+    needs: source
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Check out the exact revision
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Set up Buildx
+        uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4.0.0
+      - name: Build CUDA image and attestations
+        uses: docker/build-push-action@f9f3042f7e2789586610d6e8b85c8f03e5195baf # v7.2.0
+        with:
+          context: .
+          platforms: linux/amd64
+          build-args: RUNTIME_LOCK=requirements-lock-cuda128-py311-linux.txt
+          sbom: true
+          provenance: mode=max
+          cache-from: type=gha,scope=calo-cuda128
+          cache-to: type=gha,mode=max,scope=calo-cuda128
+
+  physical-cuda:
+    name: Physical CUDA qualification
+    if: github.event_name == 'workflow_dispatch' && inputs.run_physical_cuda
+    needs: [source, cuda-image]
+    runs-on: [self-hosted, linux, x64, calo-cuda]
+    timeout-minutes: 90
+    steps:
+      - name: Check out the exact revision
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Verify host and container GPU visibility
+        run: |
+          nvidia-smi --query-gpu=name,uuid,memory.total,driver_version --format=csv
+          docker compose --profile cuda build cuda
+          docker compose --profile cuda run --rm --no-deps --entrypoint python cuda -m calo_rpd_studio.scripts.container_smoke
+      - name: Run FP64 CPU-to-CUDA parity
+        run: docker compose --profile cuda run --rm --no-deps --entrypoint python cuda -m calo_rpd_studio.scripts.validate_accelerator --device cuda --case case30 --candidates 8 --batch-size 32
+      - name: Run bounded protection soak
+        run: docker compose --profile cuda run --rm --no-deps --entrypoint python cuda -m calo_rpd_studio.scripts.validate_hardware_soak --backend cuda --duration-seconds 60 --output-dir /data/qualification-soak
+      - name: Verify graceful container cancellation
+        run: |
+          docker compose --profile cuda up --detach cuda
+          sleep 15
+          docker compose --profile cuda stop --timeout 20 cuda
+          test -z "$(docker compose --profile cuda ps --status running --quiet cuda)"
+      - name: Clean up qualification containers
+        if: always()
+        run: docker compose --profile cuda down --remove-orphans

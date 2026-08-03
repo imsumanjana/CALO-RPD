@@ -40,7 +40,9 @@ def evaluate_governing_policy(registry) -> GoverningPolicyStatus:
             "Policy records exist, but no qualified compatible policy is active.",
         )
     if active.archived:
-        return GoverningPolicyStatus(False, "archived", "The active policy record is archived.", active.id, active.name)
+        return GoverningPolicyStatus(
+            False, "archived", "The active policy record is archived.", active.id, active.name
+        )
     if not active.usable:
         return GoverningPolicyStatus(
             False,

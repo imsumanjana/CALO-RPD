@@ -68,7 +68,9 @@ def _problem_identity(config: dict, result: dict) -> dict:
         "power_flow": dict(config.get("power_flow") or {}),
         "constraint_tolerances": dict(config.get("constraint_tolerances") or {}),
         "scenarios": dict(config.get("scenarios") or {}),
-        "scientific_problem_fingerprint": str(metadata.get("scientific_problem_fingerprint", "") or ""),
+        "scientific_problem_fingerprint": str(
+            metadata.get("scientific_problem_fingerprint", "") or ""
+        ),
     }
 
 
@@ -91,7 +93,9 @@ def _problem_key(identity: dict) -> str:
         "constraint_tolerances": identity.get("constraint_tolerances") or {},
         "scenarios": identity.get("scenarios") or {},
     }
-    encoded = json.dumps(payload, sort_keys=True, separators=(",", ":"), default=str).encode("utf-8")
+    encoded = json.dumps(payload, sort_keys=True, separators=(",", ":"), default=str).encode(
+        "utf-8"
+    )
     return "legacy-formulation=" + hashlib.sha256(encoded).hexdigest()
 
 
@@ -165,8 +169,12 @@ def _reconstruct_legacy_calo_trajectory(result: dict) -> list[dict]:
     expected_state_dim = 18 + n_operators
     output: list[dict] = []
     for index in range(count):
-        best_violation = _clean_float((diagnostics.get("best_total_violation") or [1e12] * count)[index], 1e12)
-        mean_violation = _clean_float((diagnostics.get("mean_total_violation") or [1e12] * count)[index], 1e12)
+        best_violation = _clean_float(
+            (diagnostics.get("best_total_violation") or [1e12] * count)[index], 1e12
+        )
+        mean_violation = _clean_float(
+            (diagnostics.get("mean_total_violation") or [1e12] * count)[index], 1e12
+        )
         feasible_ratio = float((diagnostics.get("feasible_ratio") or [0.0] * count)[index])
         epsilon_ratio = float((diagnostics.get("epsilon_feasible_ratio") or [0.0] * count)[index])
         diversity = float((diagnostics.get("population_diversity") or [0.0] * count)[index])
@@ -281,7 +289,12 @@ class HistoricalExperienceRepository:
         return dict(self.payload.get("parameter_priors") or {})
 
     def compatible_solutions(
-        self, *, case_checksum: str, case_name: str, dimension: int, scientific_problem_fingerprint: str = ""
+        self,
+        *,
+        case_checksum: str,
+        case_name: str,
+        dimension: int,
+        scientific_problem_fingerprint: str = "",
     ) -> list[dict]:
         output = []
         expected_fp = str(scientific_problem_fingerprint or "")
@@ -301,7 +314,14 @@ class HistoricalExperienceRepository:
             output.append(item)
         return output
 
-    def calo_parameter_prior(self, *, case_checksum: str, case_name: str, dimension: int, scientific_problem_fingerprint: str = "") -> dict:
+    def calo_parameter_prior(
+        self,
+        *,
+        case_checksum: str,
+        case_name: str,
+        dimension: int,
+        scientific_problem_fingerprint: str = "",
+    ) -> dict:
         candidates = []
         expected_fp = str(scientific_problem_fingerprint or "")
         for key, item in self.parameter_priors.items():

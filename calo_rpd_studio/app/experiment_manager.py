@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import logging
 
-from concurrent.futures import FIRST_COMPLETED, ProcessPoolExecutor, ThreadPoolExecutor, wait
+from concurrent.futures import FIRST_COMPLETED, ProcessPoolExecutor, wait
 from copy import deepcopy
 from dataclasses import asdict
 import multiprocessing as mp
@@ -19,7 +19,11 @@ import uuid
 
 from PyQt6.QtCore import QObject, QThread, pyqtSignal
 
-from calo_rpd_studio.compute.governor import AdaptiveComputeGovernor, GovernorConfig, ProtectionState
+from calo_rpd_studio.compute.governor import (
+    AdaptiveComputeGovernor,
+    GovernorConfig,
+    ProtectionState,
+)
 from calo_rpd_studio.compute.provenance import ComputeProvenanceRecorder
 from calo_rpd_studio.compute.resource_scheduler import (
     ResourceMonitor,
@@ -33,9 +37,7 @@ from calo_rpd_studio.compute.resource_scheduler import (
     weighted_worker_slots,
     throughput_worker_slots,
 )
-from calo_rpd_studio.compute.xpu_sidecar import execute_xpu_job
 from calo_rpd_studio.compute.persistent_accelerator_worker import PersistentAcceleratorPool
-from calo_rpd_studio.compute.persistent_accelerator_sidecar import PersistentSidecarPool
 from calo_rpd_studio.accelerated.throughput_engine import DeviceCalibration, ThroughputProfile
 from calo_rpd_studio.experiments.calo_ablation import run_ablation
 from calo_rpd_studio.experiments.execution_plan import (
@@ -59,6 +61,7 @@ from calo_rpd_studio.compute.device_binding import bind_config_to_device
 
 _LOG = logging.getLogger(__name__)
 
+
 def _configure_child_numeric_threads() -> None:
     """Avoid BLAS/PyTorch oversubscription when many optimizer processes run together."""
 
@@ -76,7 +79,7 @@ def _configure_child_numeric_threads() -> None:
 
 
 def _config_for_item_device(config, mode: str, item: PlannedItem, compute_device: str):
-    # Single authoritative binding shared with persistent CUDA and XPU sidecar workers.
+    # Single authoritative binding shared with persistent CUDA workers.
     return bind_config_to_device(config, compute_device, item)
 
 
@@ -234,9 +237,15 @@ class ExperimentWorker(QThread):
         self._compute_governor = AdaptiveComputeGovernor(
             profile,
             monitor=ResourceMonitor(),
-            config=GovernorConfig(allocation_limit_fraction=float(profile.allocation_limit_fraction)),
+            config=GovernorConfig(
+                allocation_limit_fraction=float(profile.allocation_limit_fraction)
+            ),
         )
-        path = Path("results_data") / "compute_provenance" / f"experiment_{self._experiment_governor_session_id}.jsonl"
+        path = (
+            Path("results_data")
+            / "compute_provenance"
+            / f"experiment_{self._experiment_governor_session_id}.jsonl"
+        )
         self._compute_provenance = ComputeProvenanceRecorder(
             path,
             session_id=self._experiment_governor_session_id,
@@ -374,11 +383,7 @@ class ExperimentWorker(QThread):
     def _persist_completed(self, experiment_id: str, store: ResultStore, item, completed) -> None:
         attestation = dict(completed.result.metadata.get("device_attestation", {}) or {})
         completed.result.metadata["device_routing_audit"] = {
-            "requested_task_shares_percent": {
-                "cuda": int(getattr(self.config, "cuda_task_share", 0)),
-                "xpu": int(getattr(self.config, "xpu_task_share", 0)),
-                "cpu": int(getattr(self.config, "cpu_task_share", 0)),
-            },
+            "routing_policy": "automatic_cuda_first_available_memory_v1",
             "planned_device": str(
                 completed.result.metadata.get("compute_device_assignment", "")
                 or attestation.get("planned_device", "")
@@ -388,8 +393,8 @@ class ExperimentWorker(QThread):
             "actual_policy_device": str(attestation.get("actual_policy_device", "")),
             "binding_consistent": bool(attestation.get("binding_consistent", False)),
             "semantics": (
-                "Configured percentages control job/lane routing; this record stores the actual runtime "
-                "devices attested for this completed run rather than inferring execution from GUI labels."
+                "Compatible work targets CUDA first under frozen 80%-of-currently-available memory "
+                "admission; this record stores attested runtime devices rather than GUI inference."
             ),
         }
         path = store.save_arrays(completed.result)
@@ -545,8 +550,7 @@ class ExperimentWorker(QThread):
     def _run_sequential(self, experiment_id: str, store: ResultStore, plan, seeds) -> bool:
         """Run one job at a time on the highest-priority compatible device.
 
-        Sequential execution still respects the accelerator priority order.  A verified secondary
-        XPU runtime is used only when CUDA is unavailable for that job.
+        Sequential execution still respects CUDA-first accelerator priority.
         """
         total_items = max(1, len(plan))
         fractions = {item.job_index: 0.0 for item in plan}
@@ -595,70 +599,35 @@ class ExperimentWorker(QThread):
                 )
 
             try:
-                if (
-                    selected_device is not None
-                    and selected_device.backend == "xpu"
-                    and selected_device.runtime == "sidecar"
-                ):
-                    outcome, _returned_item, payload = execute_xpu_job(
-                        self.config,
-                        self.mode,
-                        item,
+                local_config = _config_for_item_device(self.config, self.mode, item, compute_device)
+                if self.mode == COMPARISON_MODE:
+                    completed = run_single(
+                        local_config,
+                        item.label,
+                        item.run_index,
                         seeds[item.run_index],
-                        _ProgressRelay(emit_progress),
-                        _CancelRelay(self._cancelled),
-                        compute_device,
+                        emit_progress,
+                        self._cancelled,
                     )
-                    if outcome == "completed":
-                        completed = payload
-                        if self._cancelled() and int(completed.result.evaluations) < int(
-                            self.config.budget.max_evaluations
-                        ):
-                            self._persist_interrupted(item, completed)
-                            phase = "run_interrupted"
-                        else:
-                            self._persist_completed(experiment_id, store, item, completed)
-                            phase = "run_completed"
-                    elif outcome == "interrupted":
-                        self._persist_interrupted(item, payload)
-                        phase = "run_interrupted"
-                    else:
-                        self._persist_failure(experiment_id, item, payload)
-                        phase = "run_failed"
                 else:
-                    local_config = _config_for_item_device(
-                        self.config, self.mode, item, compute_device
+                    completed = run_ablation(
+                        local_config,
+                        item.ablation_spec,
+                        item.run_index,
+                        seeds[item.run_index],
+                        emit_progress,
+                        self._cancelled,
                     )
-                    if self.mode == COMPARISON_MODE:
-                        completed = run_single(
-                            local_config,
-                            item.label,
-                            item.run_index,
-                            seeds[item.run_index],
-                            emit_progress,
-                            self._cancelled,
-                        )
-                    else:
-                        completed = run_ablation(
-                            local_config,
-                            item.ablation_spec,
-                            item.run_index,
-                            seeds[item.run_index],
-                            emit_progress,
-                            self._cancelled,
-                        )
-                    completed.result.metadata["compute_device_assignment"] = str(compute_device)
-                    completed.result.metadata["execution_backend"] = str(
-                        local_config.execution_backend
-                    )
-                    if self._cancelled() and int(completed.result.evaluations) < int(
-                        local_config.budget.max_evaluations
-                    ):
-                        self._persist_interrupted(item, completed)
-                        phase = "run_interrupted"
-                    else:
-                        self._persist_completed(experiment_id, store, item, completed)
-                        phase = "run_completed"
+                completed.result.metadata["compute_device_assignment"] = str(compute_device)
+                completed.result.metadata["execution_backend"] = str(local_config.execution_backend)
+                if self._cancelled() and int(completed.result.evaluations) < int(
+                    local_config.budget.max_evaluations
+                ):
+                    self._persist_interrupted(item, completed)
+                    phase = "run_interrupted"
+                else:
+                    self._persist_completed(experiment_id, store, item, completed)
+                    phase = "run_completed"
             except Exception as exc:
                 failure = failed_run_from_exception(
                     item.label,
@@ -701,13 +670,7 @@ class ExperimentWorker(QThread):
         return messages
 
     def _run_parallel_weighted(self, experiment_id: str, store: ResultStore, plan, seeds) -> bool:
-        """Run a deterministic weighted CUDA/XPU/CPU lane plan.
-
-        Under the v3 PyTorch FP64 backend, the requested shares are applied to the complete
-        optimizer plan because all primary algorithms use accelerator-compatible evaluator and
-        optimizer kernels. Device thresholds remain safety gates, but they do not dynamically
-        rewrite the precomputed lane assignment. The legacy CPU-reference backend remains CPU-only.
-        """
+        """Run an automatic CUDA-first lane plan with availability-based memory admission."""
 
         total_items = max(1, len(plan))
         requested_workers = max(1, int(self.config.parallel_workers))
@@ -720,18 +683,13 @@ class ExperimentWorker(QThread):
             plan,
             self.mode,
             cuda_available=bool(initial_snapshot.by_backend("cuda")),
-            xpu_available=bool(initial_snapshot.by_backend("xpu")),
-            cuda_share=int(self.config.cuda_task_share),
-            xpu_share=int(self.config.xpu_task_share),
-            cpu_share=int(self.config.cpu_task_share),
         )
         slots = weighted_worker_slots(max_workers, allocation)
-        slots["cuda"] = min(slots["cuda"], max(1, int(self.config.gpu_parallel_jobs)))
-        slots["xpu"] = min(slots["xpu"], max(1, int(self.config.xpu_parallel_jobs)))
+        slots["cuda"] = min(slots["cuda"], 1)
 
         queues = {
             lane: [item for item in plan if lane_by_job.get(int(item.job_index), "cpu") == lane]
-            for lane in ("cuda", "xpu", "cpu")
+            for lane in ("cuda", "cpu")
         }
         self.progress.emit(
             {
@@ -762,41 +720,26 @@ class ExperimentWorker(QThread):
             cancel_event = manager.Event()
             progress_queue = manager.Queue()
             self._process_cancel_event = cancel_event
-            xpu_executor = ThreadPoolExecutor(
-                max_workers=max(1, int(self.config.xpu_parallel_jobs))
-            )
             try:
                 with ProcessPoolExecutor(max_workers=max_workers, mp_context=context) as executor:
                     pending: dict = {}
-                    active_lane = {"cuda": 0, "xpu": 0, "cpu": 0}
+                    active_lane = {"cuda": 0, "cpu": 0}
                     active_by_device: dict[str, int] = {}
 
                     def submit_item(
                         item: PlannedItem, lane: str, device_id: str, runtime: str = "primary"
                     ) -> None:
                         self._mark_task_started(item)
-                        if lane == "xpu" and runtime == "sidecar":
-                            future = xpu_executor.submit(
-                                execute_xpu_job,
-                                self.config,
-                                self.mode,
-                                item,
-                                seeds[item.run_index],
-                                progress_queue,
-                                cancel_event,
-                                device_id,
-                            )
-                        else:
-                            future = executor.submit(
-                                _execute_process_job,
-                                self.config,
-                                self.mode,
-                                item,
-                                seeds[item.run_index],
-                                progress_queue,
-                                cancel_event,
-                                device_id,
-                            )
+                        future = executor.submit(
+                            _execute_process_job,
+                            self.config,
+                            self.mode,
+                            item,
+                            seeds[item.run_index],
+                            progress_queue,
+                            cancel_event,
+                            device_id,
+                        )
                         pending[future] = (item, lane, device_id)
                         self._governor_note_launch(job_index=item.job_index, device=device_id)
                         active_lane[lane] += 1
@@ -822,20 +765,10 @@ class ExperimentWorker(QThread):
                         devices = list(snapshot.by_backend(lane))
                         devices.sort(key=lambda device: active_by_device.get(device.device_id, 0))
                         for device in devices:
-                            if lane == "cuda":
-                                target = self.config.gpu_utilization_target
-                                memory_limit = self.config.gpu_memory_limit
-                                max_jobs = self.config.gpu_parallel_jobs
-                            else:
-                                target = self.config.xpu_utilization_target
-                                memory_limit = self.config.xpu_memory_limit
-                                max_jobs = self.config.xpu_parallel_jobs
                             if accelerator_admission_allowed(
                                 device,
-                                target,
-                                memory_limit,
                                 active_by_device.get(device.device_id, 0),
-                                max_jobs,
+                                1,
                             ):
                                 return device
                         return None
@@ -844,8 +777,8 @@ class ExperimentWorker(QThread):
                         admitted_any = False
                         if not self._governor_allows_admission(active_jobs=len(pending)):
                             return False
-                        # CUDA and XPU lanes are considered first on every admission cycle.
-                        for lane in ("cuda", "xpu", "cpu"):
+                        # CUDA is considered before CPU on every admission cycle.
+                        for lane in ("cuda", "cpu"):
                             while (
                                 queues[lane]
                                 and len(pending) < max_workers
@@ -859,9 +792,8 @@ class ExperimentWorker(QThread):
                                 if lane == "cpu":
                                     if not cpu_admission_allowed(
                                         snapshot,
-                                        self.config.cpu_utilization_target,
                                         active_lane["cpu"],
-                                        self.config.system_memory_limit,
+                                        max(1, slots.get("cpu", 1)),
                                     ):
                                         break
                                     item = queues[lane].pop(0)
@@ -971,7 +903,6 @@ class ExperimentWorker(QThread):
                             )
             finally:
                 cancel_event.set()
-                xpu_executor.shutdown(wait=True, cancel_futures=True)
                 self._process_cancel_event = None
 
         return not self._cancelled() and not self._pause_requested()
@@ -1008,24 +939,12 @@ class ExperimentWorker(QThread):
             try:
                 backend = str(self.config.execution_backend).lower()
                 cuda_device = next(iter(snapshot.by_backend("cuda")), None)
-                if backend == "cuda_only" and cuda_device is None:
-                    raise RuntimeError(
-                        "CUDA-only execution was requested, but no verified NVIDIA CUDA runtime is available."
-                    )
 
-                # GPU-maximum mode creates only one numerical lane: CUDA when available,
-                # otherwise XPU, otherwise CPU. The host remains responsible for GUI,
+                # CUDA-preferred mode creates only one numerical lane: CUDA when available,
+                # otherwise CPU. The host remains responsible for GUI,
                 # orchestration, persistence, and independent validation only.
-                gpu_max_lane = (
-                    "cuda"
-                    if cuda_device is not None
-                    else (
-                        "xpu" if next(iter(snapshot.by_backend("xpu")), None) is not None else "cpu"
-                    )
-                )
-                if backend not in {"cuda_only", "gpu_preferred"} or (
-                    backend == "gpu_preferred" and gpu_max_lane == "cpu"
-                ):
+                gpu_max_lane = "cuda" if cuda_device is not None else "cpu"
+                if gpu_max_lane == "cpu":
                     pools["cpu"] = PersistentAcceleratorPool(
                         "cpu",
                         slots=max(1, int(self.config.parallel_workers)),
@@ -1037,12 +956,10 @@ class ExperimentWorker(QThread):
                         context=context,
                     )
 
-                if cuda_device is not None and (
-                    backend != "gpu_preferred" or gpu_max_lane == "cuda"
-                ):
+                if cuda_device is not None and gpu_max_lane == "cuda":
                     pools["cuda"] = PersistentAcceleratorPool(
                         cuda_device.device_id,
-                        slots=max(1, int(self.config.gpu_parallel_jobs)),
+                        slots=1,
                         progress_queue=progress_queue,
                         cancel_event=cancel_event,
                         batch_window_ms=float(self.config.cross_run_batch_window_ms),
@@ -1051,40 +968,8 @@ class ExperimentWorker(QThread):
                         context=context,
                     )
 
-                xpu_device = next(iter(snapshot.by_backend("xpu")), None)
-                if (
-                    xpu_device is not None
-                    and backend != "cuda_only"
-                    and (backend != "gpu_preferred" or gpu_max_lane == "xpu")
-                ):
-                    if xpu_device.runtime == "sidecar":
-                        from calo_rpd_studio.compute.resource_scheduler import configured_xpu_interpreter
-
-                        interpreter = configured_xpu_interpreter()
-                        if interpreter:
-                            pools["xpu"] = PersistentSidecarPool(
-                                interpreter,
-                                xpu_device.device_id,
-                                slots=max(1, int(self.config.xpu_parallel_jobs)),
-                                progress_queue=progress_queue,
-                                batch_window_ms=float(self.config.cross_run_batch_window_ms),
-                                max_cross_run_batch=int(self.config.max_cross_run_batch),
-                                cross_run_batching=bool(self.config.cross_run_batching),
-                            )
-                    else:
-                        pools["xpu"] = PersistentAcceleratorPool(
-                            xpu_device.device_id,
-                            slots=max(1, int(self.config.xpu_parallel_jobs)),
-                            progress_queue=progress_queue,
-                            cancel_event=cancel_event,
-                            batch_window_ms=float(self.config.cross_run_batch_window_ms),
-                            max_cross_run_batch=int(self.config.max_cross_run_batch),
-                            cross_run_batching=bool(self.config.cross_run_batching),
-                            context=context,
-                        )
-
                 # Automatic microbatch calibration is performed inside each persistent runtime, so
-                # CUDA/XPU contexts and invariant tensors remain warm for the campaign itself.
+                # CUDA contexts and invariant tensors remain warm for the campaign itself.
                 calibration_records: dict[str, DeviceCalibration] = {}
                 batch_sizes = tuple(int(value) for value in self.config.calibration_batch_sizes)
                 calibration_pending = set()
@@ -1185,27 +1070,11 @@ class ExperimentWorker(QThread):
                     for lane, record in calibration_records.items()
                 }
                 backend = str(self.config.execution_backend).lower()
-                if backend in {"cuda_priority", "cuda_only", "gpu_preferred"}:
-                    if backend == "gpu_preferred":
-                        effective_shares = {
-                            "cuda": (100, 0, 0),
-                            "xpu": (0, 100, 0),
-                            "cpu": (0, 0, 100),
-                        }[gpu_max_lane]
-                    else:
-                        effective_shares = (
-                            int(self.config.cuda_task_share),
-                            int(self.config.xpu_task_share),
-                            int(self.config.cpu_task_share),
-                        )
+                if backend == "cuda_preferred":
                     lane_by_job, allocation = build_weighted_lane_plan(
                         plan,
                         self.mode,
-                        cuda_available="cuda" in pools,
-                        xpu_available="xpu" in pools,
-                        cuda_share=effective_shares[0],
-                        xpu_share=effective_shares[1],
-                        cpu_share=effective_shares[2],
+                        cuda_available=gpu_max_lane == "cuda" and "cuda" in pools,
                     )
                 else:
                     lane_by_job, allocation = build_throughput_lane_plan(
@@ -1213,28 +1082,21 @@ class ExperimentWorker(QThread):
                         self.mode,
                         lane_throughputs=lane_throughputs,
                         cuda_available="cuda" in pools,
-                        xpu_available="xpu" in pools,
                     )
                 slots = (
                     weighted_worker_slots(max(1, int(self.config.parallel_workers)), allocation)
-                    if backend in {"cuda_priority", "cuda_only", "gpu_preferred"}
+                    if backend == "cuda_preferred"
                     else throughput_worker_slots(
                         max(1, int(self.config.parallel_workers)), allocation
                     )
                 )
                 if "cuda" in pools:
-                    slots["cuda"] = min(
-                        slots["cuda"], int(self.config.gpu_parallel_jobs), pools["cuda"].slots
-                    )
-                if "xpu" in pools:
-                    slots["xpu"] = min(
-                        slots["xpu"], int(self.config.xpu_parallel_jobs), pools["xpu"].slots
-                    )
+                    slots["cuda"] = min(slots["cuda"], 1, pools["cuda"].slots)
                 if "cpu" in pools:
                     slots["cpu"] = min(slots["cpu"], pools["cpu"].slots)
                 else:
                     slots["cpu"] = 0
-                for lane in ("cuda", "xpu", "cpu"):
+                for lane in ("cuda", "cpu"):
                     jobs_for_lane = sum(1 for value in lane_by_job.values() if value == lane)
                     if jobs_for_lane > 0 and slots.get(lane, 0) == 0 and lane in pools:
                         slots[lane] = 1
@@ -1243,7 +1105,7 @@ class ExperimentWorker(QThread):
                     lane: [
                         item for item in plan if lane_by_job.get(int(item.job_index), "cpu") == lane
                     ]
-                    for lane in ("cuda", "xpu", "cpu")
+                    for lane in ("cuda", "cpu")
                 }
                 self.progress.emit(
                     {
@@ -1255,7 +1117,7 @@ class ExperimentWorker(QThread):
                         "active_items": 0,
                         "allocation_effective": allocation.effective_text,
                         "measured_throughput": getattr(
-                            allocation, "throughput_text", "fixed CUDA/XPU/CPU share"
+                            allocation, "throughput_text", "fixed CUDA/CPU share"
                         ),
                         "lane_slots": dict(slots),
                         "calibrated_batch_sizes": {
@@ -1264,7 +1126,7 @@ class ExperimentWorker(QThread):
                     }
                 )
 
-                active_by_lane = {lane: 0 for lane in ("cuda", "xpu", "cpu")}
+                active_by_lane = {lane: 0 for lane in ("cuda", "cpu")}
                 item_by_job_id = {}
 
                 def active_total() -> int:
@@ -1274,22 +1136,7 @@ class ExperimentWorker(QThread):
                     admitted = False
                     if not self._governor_allows_admission(active_jobs=active_total()):
                         return False
-                    current_snapshot = monitor.sample()
-                    # CUDA-priority work stealing is limited to unstarted jobs. It preserves each
-                    # run's seed and numerical protocol while preventing a fast NVIDIA lane from
-                    # waiting behind slower XPU/CPU queues.
-                    if (
-                        str(self.config.execution_backend).lower() == "cuda_priority"
-                        and bool(getattr(self.config, "cuda_priority_work_stealing", True))
-                        and "cuda" in pools
-                        and active_by_lane["cuda"] < slots.get("cuda", 0)
-                    ):
-                        while active_by_lane["cuda"] + len(queues["cuda"]) < slots.get("cuda", 0):
-                            donor = "xpu" if queues["xpu"] else ("cpu" if queues["cpu"] else None)
-                            if donor is None:
-                                break
-                            queues["cuda"].append(queues[donor].pop(0))
-                    for lane in ("cuda", "xpu", "cpu"):
+                    for lane in ("cuda", "cpu"):
                         pool = pools.get(lane)
                         if pool is None:
                             continue
@@ -1302,49 +1149,15 @@ class ExperimentWorker(QThread):
                         ):
                             if admitted and self._ensure_compute_governor() is not None:
                                 break
-                            if lane == "cpu":
-                                if (
-                                    not cpu_admission_allowed(
-                                        current_snapshot,
-                                        self.config.cpu_utilization_target,
-                                        active_by_lane["cpu"],
-                                        self.config.system_memory_limit,
-                                    )
-                                    and active_total() > 0
-                                ):
-                                    break
-                            else:
-                                device = next(iter(current_snapshot.by_backend(lane)), None)
-                                if device is not None:
-                                    target = (
-                                        self.config.gpu_utilization_target
-                                        if lane == "cuda"
-                                        else self.config.xpu_utilization_target
-                                    )
-                                    memory_limit = (
-                                        self.config.gpu_memory_limit
-                                        if lane == "cuda"
-                                        else self.config.xpu_memory_limit
-                                    )
-                                    cap = (
-                                        self.config.gpu_parallel_jobs
-                                        if lane == "cuda"
-                                        else self.config.xpu_parallel_jobs
-                                    )
-                                    if (
-                                        not accelerator_admission_allowed(
-                                            device, target, memory_limit, active_by_lane[lane], cap
-                                        )
-                                        and active_total() > 0
-                                    ):
-                                        break
                             item = queues[lane].pop(0)
                             job_id = f"job-{item.job_index}"
                             local = deepcopy(self.config)
                             local.tensor_batch_size = int(calibration_records[lane].batch_size)
                             self._mark_task_started(item)
                             pool.submit(job_id, local, self.mode, item, seeds[item.run_index])
-                            self._governor_note_launch(job_index=item.job_index, device=getattr(pool, "device", lane))
+                            self._governor_note_launch(
+                                job_index=item.job_index, device=getattr(pool, "device", lane)
+                            )
                             active_by_lane[lane] += 1
                             item_by_job_id[job_id] = (item, lane)
                             admitted = True
@@ -1368,7 +1181,6 @@ class ExperimentWorker(QThread):
                                     ),
                                 }
                             )
-                        current_snapshot = monitor.sample()
                     return admitted
 
                 submit_available()
@@ -1417,11 +1229,7 @@ class ExperimentWorker(QThread):
                                         "device_resident_execution": bool(
                                             getattr(self.config, "device_resident_execution", True)
                                         ),
-                                        "cuda_priority_work_stealing": bool(
-                                            getattr(
-                                                self.config, "cuda_priority_work_stealing", True
-                                            )
-                                        ),
+                                        "device_routing_policy": "automatic_cuda_first_available_memory_v1",
                                         "throughput_lane": expected_lane,
                                         "throughput_calibration": asdict(
                                             calibration_records[expected_lane]
@@ -1506,7 +1314,9 @@ class ExperimentWorker(QThread):
                     try:
                         pool.close()
                     except (OSError, RuntimeError, ValueError) as exc:
-                        _LOG.warning("Accelerator pool close failed during shutdown: %s", exc, exc_info=True)
+                        _LOG.warning(
+                            "Accelerator pool close failed during shutdown: %s", exc, exc_info=True
+                        )
                 self._process_cancel_event = None
 
         return not self._cancelled() and not self._pause_requested()
@@ -1514,21 +1324,15 @@ class ExperimentWorker(QThread):
     def _run_parallel(self, experiment_id: str, store: ResultStore, plan, seeds) -> bool:
         """Run independent jobs with accelerator-first heterogeneous admission control.
 
-        Accelerator-capable CALO jobs are considered in strict priority order: CUDA, then Intel
-        XPU, then CPU.  CPU-only baselines are admitted only after all compatible accelerator lanes
-        have been considered for the current scheduling cycle.  Utilization and memory thresholds
-        are soft admission limits; running jobs are never migrated between devices.
+        Accelerator-capable CALO jobs are considered in strict priority order: CUDA, then CPU.
+        CPU-only baselines are admitted only after compatible accelerator lanes have been
+        considered for the current scheduling cycle. Memory admission uses 80% of bytes available
+        at the boundary; running jobs are never migrated between devices.
         """
 
         backend = str(self.config.execution_backend).lower()
-        if backend in {"throughput_auto", "cuda_priority", "cuda_only", "gpu_preferred"}:
-            if bool(self.config.throughput_engine_enabled) and bool(
-                self.config.persistent_accelerator_workers
-            ):
-                return self._run_parallel_throughput(experiment_id, store, plan, seeds)
-            return self._run_parallel_weighted(experiment_id, store, plan, seeds)
-        if backend == "weighted_split":
-            return self._run_parallel_weighted(experiment_id, store, plan, seeds)
+        if backend == "cuda_preferred":
+            return self._run_parallel_throughput(experiment_id, store, plan, seeds)
 
         total_items = max(1, len(plan))
         requested_workers = max(1, int(self.config.parallel_workers))
@@ -1552,9 +1356,6 @@ class ExperimentWorker(QThread):
             cancel_event = manager.Event()
             progress_queue = manager.Queue()
             self._process_cancel_event = cancel_event
-            xpu_executor = ThreadPoolExecutor(
-                max_workers=max(1, int(self.config.xpu_parallel_jobs))
-            )
             try:
                 with ProcessPoolExecutor(max_workers=max_workers, mp_context=context) as executor:
                     pending: dict = {}
@@ -1566,28 +1367,16 @@ class ExperimentWorker(QThread):
                     ) -> None:
                         self._mark_task_started(item)
                         nonlocal active_cpu_jobs
-                        if device.startswith("xpu") and runtime == "sidecar":
-                            future = xpu_executor.submit(
-                                execute_xpu_job,
-                                self.config,
-                                self.mode,
-                                item,
-                                seeds[item.run_index],
-                                progress_queue,
-                                cancel_event,
-                                device,
-                            )
-                        else:
-                            future = executor.submit(
-                                _execute_process_job,
-                                self.config,
-                                self.mode,
-                                item,
-                                seeds[item.run_index],
-                                progress_queue,
-                                cancel_event,
-                                device,
-                            )
+                        future = executor.submit(
+                            _execute_process_job,
+                            self.config,
+                            self.mode,
+                            item,
+                            seeds[item.run_index],
+                            progress_queue,
+                            cancel_event,
+                            device,
+                        )
                         pending[future] = (item, device)
                         self._governor_note_launch(job_index=item.job_index, device=device)
                         if device == "cpu":
@@ -1615,21 +1404,8 @@ class ExperimentWorker(QThread):
                                 return queued.pop(index)
                         return None
 
-                    def device_limits(device):
-                        if device.backend == "cuda":
-                            return (
-                                self.config.gpu_utilization_target,
-                                self.config.gpu_memory_limit,
-                                self.config.gpu_parallel_jobs,
-                            )
-                        return (
-                            self.config.xpu_utilization_target,
-                            self.config.xpu_memory_limit,
-                            self.config.xpu_parallel_jobs,
-                        )
-
                     def admit_jobs() -> bool:
-                        """Admit jobs while respecting CUDA -> XPU -> CPU priority."""
+                        """Admit jobs while respecting CUDA -> CPU priority."""
                         admitted_any = False
                         if not self._governor_allows_admission(active_jobs=len(pending)):
                             return False
@@ -1644,17 +1420,14 @@ class ExperimentWorker(QThread):
                             snapshot = monitor.sample()
                             admitted = False
 
-                            # 1) Saturate compatible CUDA lanes first, then XPU lanes.  This selection
+                            # 1) Saturate compatible CUDA lanes first. This selection
                             # happens before any new CPU job is considered in this scheduling cycle.
                             if accelerators_enabled:
                                 for device in prioritized_accelerators(snapshot):
-                                    target, memory_limit, max_jobs = device_limits(device)
                                     if not accelerator_admission_allowed(
                                         device,
-                                        target,
-                                        memory_limit,
                                         active_by_device.get(device.device_id, 0),
-                                        max_jobs,
+                                        1,
                                     ):
                                         continue
                                     item = pop_first(
@@ -1673,9 +1446,8 @@ class ExperimentWorker(QThread):
                             # Host RAM is a safety limit, not a compute tier.
                             if cpu_admission_allowed(
                                 snapshot,
-                                self.config.cpu_utilization_target,
                                 active_cpu_jobs,
-                                self.config.system_memory_limit,
+                                max_workers,
                             ):
                                 item = pop_first(
                                     lambda candidate: not item_uses_calo_ai(self.mode, candidate)
@@ -1794,7 +1566,6 @@ class ExperimentWorker(QThread):
                             )
             finally:
                 cancel_event.set()
-                xpu_executor.shutdown(wait=True, cancel_futures=True)
                 self._process_cancel_event = None
 
         return not self._cancelled() and not self._pause_requested()
@@ -1887,18 +1658,18 @@ class ExperimentWorker(QThread):
                 if not bool(calo_parameters.get("strict_policy_binding", False)):
                     raise ValueError(
                         "CALO policy-assisted execution is fail-closed and requires an explicitly "
-                        "activated immutable policy binding. Reapply CALO Intelligence before starting the experiment."
+                        "activated immutable policy binding. Reactivate the intended governing policy before starting the experiment."
                     )
                 if not policy_id or not policy_checkpoint:
                     raise ValueError(
                         "CALO policy binding is incomplete. Train or import a compatible policy, "
-                        "qualify/activate it, then reapply CALO Intelligence before starting the experiment."
+                        "qualify and activate it before starting the experiment."
                     )
                 policy = self.state.policy_registry.get(policy_id)
                 if not is_extension and not policy.active:
                     raise ValueError(
                         "New policy-assisted CALO experiments must use the explicitly active policy. "
-                        "Activate the intended policy in CALO Intelligence and reapply the configuration."
+                        "Activate the intended policy in CALO Intelligence."
                     )
                 if not is_extension and not policy.runtime_compatible:
                     raise ValueError(
@@ -2203,7 +1974,7 @@ class ExperimentWorker(QThread):
 
             if len(plan) > 1 and (
                 int(self.config.parallel_workers) > 1
-                or str(self.config.execution_backend).lower() == "throughput_auto"
+                or str(self.config.execution_backend).lower() == "cuda_preferred"
             ):
                 finished = self._run_parallel(self.experiment_id, store, plan, seeds)
             else:
@@ -2378,26 +2149,10 @@ class ExperimentManager(QObject):
                 if int(config.parallel_workers) > 1
                 else "single CPU worker"
             )
-        elif str(config.execution_backend) == "throughput_auto":
+        elif str(config.execution_backend) == "cuda_preferred":
             backend = (
-                f"v3.4 persistent batched-throughput engine with automatic microbatch calibration "
-                f"and up to {config.parallel_workers} concurrent runs"
-            )
-        elif str(config.execution_backend) in {"gpu_preferred", "cuda_priority", "cuda_only"}:
-            if str(config.execution_backend) == "gpu_preferred":
-                backend = (
-                    "v3.4 GPU-maximum resident scheduler: 100% CUDA numerical work when CUDA is available; "
-                    f"persistent workers and up to {config.parallel_workers} concurrent runs"
-                )
-            else:
-                backend = (
-                    f"v3.4 device-resident CUDA-priority scheduler ({config.cuda_task_share}/{config.xpu_task_share}/{config.cpu_task_share}) "
-                    f"with persistent workers and up to {config.parallel_workers} concurrent runs"
-                )
-        elif str(config.execution_backend) == "weighted_split":
-            backend = (
-                f"weighted CUDA/XPU/CPU scheduler ({config.cuda_task_share}/{config.xpu_task_share}/{config.cpu_task_share}) "
-                f"with up to {config.parallel_workers} concurrent jobs"
+                "accelerated execution when NVIDIA CUDA is available, with automatic "
+                f"memory admission and up to {config.parallel_workers} concurrent runs"
             )
         else:
             backend = (

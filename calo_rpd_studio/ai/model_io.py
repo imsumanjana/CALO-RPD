@@ -6,7 +6,6 @@ import hashlib
 import hmac
 import json
 import os
-import io
 import tempfile
 import zipfile
 from pathlib import Path
@@ -102,7 +101,6 @@ def durable_write_bytes(path: str | Path, data: bytes) -> None:
             pass
 
 
-
 def durable_torch_save(payload: Any, path: str | Path) -> None:
     """Durably save a trusted-local torch payload before any trust sidecar is emitted."""
     target = Path(path)
@@ -121,6 +119,7 @@ def durable_torch_save(payload: Any, path: str | Path) -> None:
         except OSError:
             pass
 
+
 def _load_or_create_local_trust_key() -> bytes:
     _TRUST_DIR.mkdir(parents=True, exist_ok=True)
     if _TRUST_KEY.is_file():
@@ -138,7 +137,9 @@ def _load_or_create_local_trust_key() -> bytes:
 
 
 def _resume_signature(digest: str) -> str:
-    return hmac.new(_load_or_create_local_trust_key(), digest.encode("ascii"), hashlib.sha256).hexdigest()
+    return hmac.new(
+        _load_or_create_local_trust_key(), digest.encode("ascii"), hashlib.sha256
+    ).hexdigest()
 
 
 def write_trusted_resume_hash(path) -> str:
@@ -168,8 +169,12 @@ def durable_trusted_torch_save(payload: Any, path: str | Path) -> str:
     """
     target = Path(path).expanduser().resolve()
     target.parent.mkdir(parents=True, exist_ok=True)
-    payload_temp = target.with_name(f".{target.name}.{os.getpid()}.{secrets.token_hex(4)}.payload.tmp")
-    envelope_temp = target.with_name(f".{target.name}.{os.getpid()}.{secrets.token_hex(4)}.envelope.tmp")
+    payload_temp = target.with_name(
+        f".{target.name}.{os.getpid()}.{secrets.token_hex(4)}.payload.tmp"
+    )
+    envelope_temp = target.with_name(
+        f".{target.name}.{os.getpid()}.{secrets.token_hex(4)}.envelope.tmp"
+    )
     try:
         with payload_temp.open("wb") as handle:
             torch.save(payload, handle)
@@ -185,7 +190,9 @@ def durable_trusted_torch_save(payload: Any, path: str | Path) -> str:
         }
         with envelope_temp.open("wb") as raw:
             raw.write(_TRUSTED_ENVELOPE_MAGIC)
-            with zipfile.ZipFile(raw, mode="w", compression=zipfile.ZIP_STORED, allowZip64=True) as archive:
+            with zipfile.ZipFile(
+                raw, mode="w", compression=zipfile.ZIP_STORED, allowZip64=True
+            ) as archive:
                 archive.write(payload_temp, arcname="checkpoint.pt")
                 archive.writestr("trust.json", json.dumps(trust, sort_keys=True, indent=2) + "\n")
             raw.flush()
@@ -317,7 +324,11 @@ def migrate_legacy_local_resume(
     verify_checkpoint_hash(source, expected)
     # nosec B614 -- explicit user trust + verified legacy digest; migration is the sole compatibility boundary.
     payload = torch.load(source, map_location=map_location, weights_only=False)
-    if not isinstance(payload, dict) or "model_state_dict" not in payload or "optimizer_state_dict" not in payload:
+    if (
+        not isinstance(payload, dict)
+        or "model_state_dict" not in payload
+        or "optimizer_state_dict" not in payload
+    ):
         raise ValueError("Legacy file is not a recognized CALO exact-training resume payload")
     destination = (
         Path(target).expanduser().resolve()

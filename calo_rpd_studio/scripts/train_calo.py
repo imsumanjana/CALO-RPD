@@ -8,7 +8,6 @@ from pathlib import Path
 from calo_rpd_studio.algorithms.calo.heterogeneous_training import HeterogeneousTrainingConfig
 from calo_rpd_studio.algorithms.calo.training import (
     TrainingConfig,
-    available_training_devices,
     train_policy_parallel,
 )
 
@@ -20,15 +19,36 @@ def main() -> int:
             "constrained mixed-variable curriculum."
         )
     )
-    parser.add_argument("--epochs", type=int, default=24, help="Epochs in this cumulative session; ignored in infinite mode.")
+    parser.add_argument(
+        "--epochs",
+        type=int,
+        default=24,
+        help="Epochs in this cumulative session; ignored in infinite mode.",
+    )
     parser.add_argument("--mode", choices=["cumulative", "infinite"], default="cumulative")
-    parser.add_argument("--start-mode", choices=["new", "exact_resume", "base_guided_fork"], default="new")
-    parser.add_argument("--base-model", default="", help="Deployable base policy used by Base-Guided Fork branches.")
-    parser.add_argument("--parallel-same", type=int, default=1, help="Branches using the base seed unchanged.")
-    parser.add_argument("--parallel-incremental", type=int, default=0, help="Branches using seed+1, seed+2, ...")
-    parser.add_argument("--parallel-decremental", type=int, default=0, help="Branches using seed-1, seed-2, ...")
-    parser.add_argument("--parallel-custom-seeds", default="", help="Comma-separated explicit branch seeds.")
-    parser.add_argument("--scratch-dir", default="", help="Fast local scratch directory for rolling temporary exact-state snapshots.")
+    parser.add_argument(
+        "--start-mode", choices=["new", "exact_resume", "base_guided_fork"], default="new"
+    )
+    parser.add_argument(
+        "--base-model", default="", help="Deployable base policy used by Base-Guided Fork branches."
+    )
+    parser.add_argument(
+        "--parallel-same", type=int, default=1, help="Branches using the base seed unchanged."
+    )
+    parser.add_argument(
+        "--parallel-incremental", type=int, default=0, help="Branches using seed+1, seed+2, ..."
+    )
+    parser.add_argument(
+        "--parallel-decremental", type=int, default=0, help="Branches using seed-1, seed-2, ..."
+    )
+    parser.add_argument(
+        "--parallel-custom-seeds", default="", help="Comma-separated explicit branch seeds."
+    )
+    parser.add_argument(
+        "--scratch-dir",
+        default="",
+        help="Fast local scratch directory for rolling temporary exact-state snapshots.",
+    )
     parser.add_argument("--episodes", type=int, default=12)
     parser.add_argument("--horizon", type=int, default=28)
     parser.add_argument("--seed", type=int, default=2026)
@@ -40,20 +60,18 @@ def main() -> int:
     )
     parser.add_argument(
         "--device",
-        choices=["auto", "cpu", "cuda", "xpu", "xpu_sidecar"],
+        choices=["auto", "cpu", "cuda"],
         default="auto",
         help=(
-            "Central PPO learner device. Weighted mode requires a device in the primary runtime; "
-            "the secondary XPU runtime remains available as an actor lane."
+            "Central PPO learner device. Automatic mode selects CUDA when available, otherwise CPU."
         ),
     )
     parser.add_argument(
         "--legacy-cpu-rollouts",
         action="store_true",
-        help="Disable weighted CUDA/XPU/CPU actors and use the legacy all-CPU rollout collector.",
+        help="Disable weighted CUDA/CPU actors and use the legacy all-CPU rollout collector.",
     )
     parser.add_argument("--cuda-share", type=int, default=100)
-    parser.add_argument("--xpu-share", type=int, default=0)
     parser.add_argument("--cpu-share", type=int, default=0)
     parser.add_argument(
         "--development-case",
@@ -107,14 +125,7 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    device_info = available_training_devices()
     selected_device = args.device
-    if (
-        args.legacy_cpu_rollouts
-        and selected_device == "auto"
-        and device_info["recommended_device"] == "xpu_sidecar"
-    ):
-        selected_device = "xpu_sidecar"
 
     common = dict(
         epochs=args.epochs,
@@ -133,7 +144,9 @@ def main() -> int:
         parallel_same_seed_branches=max(0, int(args.parallel_same)),
         parallel_incremental_branches=max(0, int(args.parallel_incremental)),
         parallel_decremental_branches=max(0, int(args.parallel_decremental)),
-        parallel_custom_seeds=tuple(int(item.strip()) for item in str(args.parallel_custom_seeds).split(",") if item.strip()),
+        parallel_custom_seeds=tuple(
+            int(item.strip()) for item in str(args.parallel_custom_seeds).split(",") if item.strip()
+        ),
         parallel_start_mode=str(args.start_mode),
         base_model_checkpoint=str(args.base_model),
         training_scratch_dir=str(args.scratch_dir),
@@ -159,26 +172,18 @@ def main() -> int:
             **common,
             heterogeneous_rollouts=True,
             cuda_rollout_share=int(args.cuda_share),
-            xpu_rollout_share=int(args.xpu_share),
             cpu_rollout_share=int(args.cpu_share),
         )
         path, history = train_policy_parallel(config, args.output, parallel_runs=branch_count)
         print(f"Saved CALO v6.4 Stage-B competitive base policy: {Path(path).resolve()}")
-        print(f"Parallel branches: {branch_count}; mode: {args.mode}; start mode: {args.start_mode}")
+        print(
+            f"Parallel branches: {branch_count}; mode: {args.mode}; start mode: {args.start_mode}"
+        )
         print(f"Final coordinator record: {history[-1] if history else {}}")
         print("Formal Policy Qualification remains separate from branch-champion/base selection.")
         return 0
 
     config = TrainingConfig(**common)
-    if selected_device == "xpu_sidecar":
-        if branch_count > 1:
-            parser.error("The secondary XPU sidecar supports one branch per training job; use auto/direct XPU/CUDA/CPU for competitive multi-branch training.")
-        from calo_rpd_studio.compute.xpu_sidecar import train_policy_in_xpu_sidecar
-
-        path = train_policy_in_xpu_sidecar(config, args.output)
-        print(f"Saved CALO policy through secondary Intel XPU runtime: {Path(path).resolve()}")
-        return 0
-
     path, history = train_policy_parallel(config, args.output, parallel_runs=branch_count)
     print(f"Saved CALO v6.4 Stage-B competitive base policy: {Path(path).resolve()}")
     print(f"Parallel branches: {branch_count}; mode: {args.mode}; start mode: {args.start_mode}")

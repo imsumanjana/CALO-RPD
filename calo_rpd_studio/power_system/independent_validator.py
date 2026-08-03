@@ -17,8 +17,6 @@ from dataclasses import dataclass
 import logging
 
 import numpy as np
-
-_LOG = logging.getLogger(__name__)
 from pypower.idx_brch import PF, PT
 
 from .ac_power_flow import PowerFlowOptions
@@ -35,6 +33,8 @@ from .case_model import (
     VA,
     VM,
 )
+
+_LOG = logging.getLogger(__name__)
 
 
 @dataclass(slots=True)
@@ -213,7 +213,9 @@ def validate_against_pypower(
             case, options=power_flow_options
         )
     except Exception as exc:  # third-party cross-check must never terminate the GUI
-        _LOG.exception("Independent PYPOWER cross-validation failed; returning explicit failed-validation evidence")
+        _LOG.exception(
+            "Independent PYPOWER cross-validation failed; returning explicit failed-validation evidence"
+        )
         return CrossValidationResult(
             True,
             False,

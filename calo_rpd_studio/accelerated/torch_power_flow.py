@@ -42,14 +42,14 @@ from calo_rpd_studio.power_system.case_model import (
     VG,
     VM,
 )
-ZERO_IMPEDANCE_TOLERANCE = 1e-12
-MAX_DENSE_TORCH_BUSES = 1200
-
 from calo_rpd_studio.power_system.pv_pq_switching import (
     aggregate_q_limits,
     distribute_reactive_power,
     online_generators_at_bus,
 )
+
+ZERO_IMPEDANCE_TOLERANCE = 1e-12
+MAX_DENSE_TORCH_BUSES = 1200
 
 
 @dataclass(slots=True)
@@ -262,7 +262,9 @@ def solve_newton_raphson_torch(
             vm_trial = vm.clone()
             va_trial[pvpq] += damping * dx[: pvpq.numel()]
             vm_trial[pq_t] += damping * dx[pvpq.numel() :]
-            if bool(torch.any(vm_trial[pq_t] <= 0)) or not bool(torch.all(torch.isfinite(vm_trial))):
+            if bool(torch.any(vm_trial[pq_t] <= 0)) or not bool(
+                torch.all(torch.isfinite(vm_trial))
+            ):
                 damping *= 0.5
                 continue
             trial = torch.polar(vm_trial, va_trial)
@@ -490,6 +492,7 @@ def solve_newton_raphson_batch_torch(
     max_iterations=30,
     collect_history=True,
     minimum_damping=1.0 / 32.0,
+    host_early_exit=True,
 ):
     """Batched dense Newton-Raphson with per-candidate CPU-parity backtracking.
 
@@ -512,6 +515,19 @@ def solve_newton_raphson_batch_torch(
     max_mismatch = torch.full((batch,), float("inf"), dtype=dtype, device=device)
     histories: list[list[float]] = [[] for _ in range(batch)]
 
+    # v6.9 supports a fixed-iteration, fully masked CUDA hot loop.  With host_early_exit=False
+    # no CUDA scalar is read by Python between Newton iterations or damping trials.  Converged and
+    # failed rows remain resident and are neutralized with masks/identity systems.
+    jacobian_size = int(pvpq.numel() + pq_t.numel())
+    identity = (
+        torch.eye(jacobian_size, dtype=dtype, device=device).unsqueeze(0).expand(batch, -1, -1)
+    )
+    damping_values: list[float] = []
+    damping_value = 1.0
+    while damping_value >= float(minimum_damping) - 1e-15:
+        damping_values.append(float(damping_value))
+        damping_value *= 0.5
+
     for iteration in range(max_iterations + 1):
         current = torch.bmm(ybus, v.unsqueeze(-1)).squeeze(-1)
         calc = v * torch.conj(current)
@@ -533,7 +549,9 @@ def solve_newton_raphson_batch_torch(
         converged = converged | newly_converged
         max_mismatch = torch.where((~failed) & (~converged), norms, max_mismatch)
         active = (~failed) & (~converged)
-        if not bool(torch.any(active)) or iteration == max_iterations:
+        if iteration == max_iterations:
+            break
+        if bool(host_early_exit) and not bool(torch.any(active)):
             break
 
         vm = torch.abs(v)
@@ -561,72 +579,65 @@ def solve_newton_raphson_batch_torch(
         bottom = torch.cat((m[:, pq_t][:, :, pvpq], ell[:, pq_t][:, :, pq_t]), dim=2)
         jacobian = torch.cat((top, bottom), dim=1)
 
-        # Solve only still-active candidates. Converged/failed rows no longer consume linear-solver
-        # FLOPs through synthetic identity Jacobians. Results are scattered back to full-batch order.
-        active_rows = torch.where(active)[0]
-        dx = torch.zeros_like(f)
-        info = torch.zeros(batch, dtype=torch.int32, device=device)
-        if active_rows.numel():
-            jacobian_active = jacobian.index_select(0, active_rows)
-            rhs_active = f.index_select(0, active_rows)
-            try:
-                solved, active_info = torch.linalg.solve_ex(
-                    jacobian_active, rhs_active.unsqueeze(-1), check_errors=False
-                )
-                dx[active_rows] = solved.squeeze(-1)
-                info[active_rows] = active_info.to(info.dtype)
-            except RuntimeError:
-                for row in active_rows.detach().cpu().tolist():
-                    try:
-                        dx[row] = torch.linalg.solve(jacobian[row], f[row])
-                    except RuntimeError:
-                        info[row] = 1
+        # v6.6 historical compact solve used: active_rows = torch.where(active)[0]
+        # and jacobian_active = jacobian.index_select(0, active_rows)
+        # with rhs_active = f.index_select(0, active_rows).
+        # v6.9 intentionally replaces that dynamic-row/host-visible path with a fixed-shape mask.
+        # Inactive rows receive an identity system and zero RHS.  This keeps the linear solve one
+        # stable, fixed-shape GPU launch and avoids dynamic active-row extraction/CPU inspection.
+        solve_jacobian = torch.where(active[:, None, None], jacobian, identity)
+        solve_rhs = torch.where(active[:, None], f, torch.zeros_like(f))
+        try:
+            solved, info = torch.linalg.solve_ex(
+                solve_jacobian, solve_rhs.unsqueeze(-1), check_errors=False
+            )
+            dx = solved.squeeze(-1)
+        except RuntimeError:
+            # A backend-level solve failure is not repaired by transferring row indices to CPU.
+            # Mark active rows failed and preserve the CUDA-only execution contract.
+            dx = torch.zeros_like(f)
+            info = torch.where(
+                active,
+                torch.ones(batch, dtype=torch.int32, device=device),
+                torch.zeros(batch, dtype=torch.int32, device=device),
+            )
+        info = info.to(torch.int32)
         bad = active & ((info != 0) | (~torch.all(torch.isfinite(dx), dim=1)))
         failed = failed | bad
         searching = active & (~bad)
         best_norm = torch.full((batch,), float("inf"), dtype=dtype, device=device)
         best_voltage = v.clone()
 
-        damping = 1.0
-        while damping >= float(minimum_damping) - 1e-15 and bool(torch.any(searching)):
-            rows = torch.where(searching)[0]
-            va_trial = va[rows].clone()
-            vm_trial = vm[rows].clone()
-            va_trial[:, pvpq] += damping * dx[rows, : pvpq.numel()]
-            vm_trial[:, pq_t] += damping * dx[rows, pvpq.numel() :]
+        for damping in damping_values:
+            va_trial = va.clone()
+            vm_trial = vm.clone()
+            va_trial[:, pvpq] += damping * dx[:, : pvpq.numel()]
+            vm_trial[:, pq_t] += damping * dx[:, pvpq.numel() :]
             valid_vm = torch.all(torch.isfinite(vm_trial), dim=1)
             if pq_t.numel():
                 valid_vm = valid_vm & torch.all(vm_trial[:, pq_t] > 0.0, dim=1)
             trial = torch.polar(vm_trial, va_trial)
-            trial_current = torch.bmm(ybus[rows], trial.unsqueeze(-1)).squeeze(-1)
+            trial_current = torch.bmm(ybus, trial.unsqueeze(-1)).squeeze(-1)
             trial_calc = trial * torch.conj(trial_current)
-            trial_mismatch = sbus[rows] - trial_calc
-            trial_f = torch.cat(
-                (trial_mismatch[:, pvpq].real, trial_mismatch[:, pq_t].imag), dim=1
-            )
+            trial_mismatch = sbus - trial_calc
+            trial_f = torch.cat((trial_mismatch[:, pvpq].real, trial_mismatch[:, pq_t].imag), dim=1)
             trial_norms = (
                 torch.max(torch.abs(trial_f), dim=1).values
                 if trial_f.shape[1]
-                else torch.zeros(len(rows), dtype=dtype, device=device)
+                else torch.zeros(batch, dtype=dtype, device=device)
             )
-            finite = valid_vm & torch.isfinite(trial_norms)
-            better = finite & (trial_norms < best_norm[rows])
-            if bool(torch.any(better)):
-                better_rows = rows[better]
-                best_norm[better_rows] = trial_norms[better]
-                best_voltage[better_rows] = trial[better]
-            improved = finite & (trial_norms < norms[rows])
-            if bool(torch.any(improved)):
-                accepted_rows = rows[improved]
-                v[accepted_rows] = trial[improved]
-                searching[accepted_rows] = False
-            damping *= 0.5
+            finite = searching & valid_vm & torch.isfinite(trial_norms)
+            better = finite & (trial_norms < best_norm)
+            best_norm = torch.where(better, trial_norms, best_norm)
+            best_voltage = torch.where(better[:, None], trial, best_voltage)
+            improved = finite & (trial_norms < norms)
+            v = torch.where(improved[:, None], trial, v)
+            searching = searching & (~improved)
 
         # CPU reference accepts the best finite damped trial even if no trial strictly improves.
         remaining = active & (~bad) & searching
         finite_best = remaining & torch.isfinite(best_norm)
-        if bool(torch.any(finite_best)):
-            v[finite_best] = best_voltage[finite_best]
+        v = torch.where(finite_best[:, None], best_voltage, v)
         no_valid_trial = remaining & (~torch.isfinite(best_norm))
         failed = failed | no_valid_trial
 

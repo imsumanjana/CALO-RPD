@@ -48,9 +48,12 @@ class PublicationExporter:
         self._check_cancel(cancel_callback)
         horizons = self.database.list_experiment_horizons(experiment_id)
         if not horizons:
-            raise ValueError("Publication export requires completed run evidence at a declared FE horizon")
+            raise ValueError(
+                "Publication export requires completed run evidence at a declared FE horizon"
+            )
         revisions = [
-            row for row in self.database.list_experiment_revisions(experiment_id)
+            row
+            for row in self.database.list_experiment_revisions(experiment_id)
             if bool(row.get("publication_eligible")) and str(row.get("status")) == "completed"
         ]
         horizon = int(revisions[-1]["evaluation_target"]) if revisions else int(horizons[-1])
@@ -61,7 +64,8 @@ class PublicationExporter:
                 f"({horizon_status.get('available_count', 0)}/{horizon_status.get('expected_count', 0)})."
             )
         rows = [
-            row for row in horizon_status.get("rows", [])
+            row
+            for row in horizon_status.get("rows", [])
             if str(row.get("validation_status", "unverified")) == "verified"
         ]
         expected_count = int(horizon_status.get("expected_count", 0))
@@ -145,8 +149,12 @@ class PublicationExporter:
 
         self._check_cancel(cancel_callback)
         experiment = self.database.get_experiment(experiment_id)
-        algorithms = sorted(frame["algorithm"].astype(str).unique().tolist()) if not frame.empty else []
-        feasible_algorithms = set(feasible["algorithm"].astype(str).tolist()) if not feasible.empty else set()
+        algorithms = (
+            sorted(frame["algorithm"].astype(str).unique().tolist()) if not frame.empty else []
+        )
+        feasible_algorithms = (
+            set(feasible["algorithm"].astype(str).tolist()) if not feasible.empty else set()
+        )
         publication_ready = bool(
             horizon_status.get("complete")
             and len(frame) == expected_count

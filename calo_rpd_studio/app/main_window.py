@@ -6,8 +6,6 @@ import logging
 
 from calo_rpd_studio.version import VERSION
 
-_LOG = logging.getLogger(__name__)
-
 from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtGui import QAction, QKeySequence
 from PyQt6.QtWidgets import (
@@ -60,6 +58,8 @@ from .workspaces import (
     workspace_key_for_index,
 )
 
+_LOG = logging.getLogger(__name__)
+
 
 class MainWindow(QMainWindow):
     def __init__(self, state, experiment_manager, settings_manager, parent=None) -> None:
@@ -103,7 +103,14 @@ class MainWindow(QMainWindow):
         self.restorer = ExperimentWorkspaceRestorer(self.state, self.workflow, self.pages_by_key)
         self.session_recovery = SessionRecoveryJournal()
         self._previous_unclean_session = self.session_recovery.previous_unclean()
-        self.session_recovery.begin(workspace_ui={"workspace_schema_version": WORKSPACE_SCHEMA_VERSION, "workspace_layout_id": WORKSPACE_LAYOUT_ID, "workspace_key": "dashboard", "workspace_index": 0})
+        self.session_recovery.begin(
+            workspace_ui={
+                "workspace_schema_version": WORKSPACE_SCHEMA_VERSION,
+                "workspace_layout_id": WORKSPACE_LAYOUT_ID,
+                "workspace_key": "dashboard",
+                "workspace_index": 0,
+            }
+        )
 
         self.guide = WorkflowGuide()
         self.guide.next_clicked.connect(self._go_to_recommended_step)
@@ -137,26 +144,48 @@ class MainWindow(QMainWindow):
 
     def _connect_workflow(self) -> None:
         self.state.case_changed.connect(lambda _: self.workflow.invalidate_from("power_system"))
-        self.pages_by_key["power_system"].stage_completed.connect(lambda: self.workflow.mark_completed("power_system"))
-        self.pages_by_key["orpd"].stage_completed.connect(lambda: self.workflow.mark_completed("orpd"))
-        self.pages_by_key["algorithms"].stage_completed.connect(lambda: self.workflow.mark_completed("algorithms"))
-        self.pages_by_key["portfolio"].stage_completed.connect(lambda: self.workflow.mark_completed("portfolio"))
+        self.pages_by_key["power_system"].stage_completed.connect(
+            lambda: self.workflow.mark_completed("power_system")
+        )
+        self.pages_by_key["orpd"].stage_completed.connect(
+            lambda: self.workflow.mark_completed("orpd")
+        )
+        self.pages_by_key["algorithms"].stage_completed.connect(
+            lambda: self.workflow.mark_completed("algorithms")
+        )
+        self.pages_by_key["portfolio"].stage_completed.connect(
+            lambda: self.workflow.mark_completed("portfolio")
+        )
         self.pages_by_key["calo_intelligence"].stage_completed.connect(self._governing_policy_event)
-        self.pages_by_key["scenarios"].stage_completed.connect(lambda: self.workflow.mark_completed("scenarios"))
-        self.pages_by_key["calo_intelligence"].experiment_manager_requested.connect(lambda: self._set_workspace("experiment"))
+        self.pages_by_key["scenarios"].stage_completed.connect(
+            lambda: self.workflow.mark_completed("scenarios")
+        )
+        self.pages_by_key["calo_intelligence"].experiment_manager_requested.connect(
+            lambda: self._set_workspace("experiment")
+        )
         self.experiment_manager.started.connect(lambda _: self.workflow.mark_experiment_started())
-        self.experiment_manager.completed.connect(lambda _: self.workflow.mark_experiment_completed())
+        self.experiment_manager.completed.connect(
+            lambda _: self.workflow.mark_experiment_completed()
+        )
         self.experiment_manager.cancelled.connect(lambda _: self.workflow.mark_experiment_stopped())
         self.experiment_manager.failed.connect(lambda _: self.workflow.mark_experiment_stopped())
         self.experiment_manager.completed.connect(lambda _: self._finish_deferred_close())
         self.experiment_manager.cancelled.connect(lambda _: self._finish_deferred_close())
         self.experiment_manager.failed.connect(lambda _: self._finish_deferred_close())
-        self.pages_by_key["statistics"].analysis_completed.connect(self.workflow.mark_statistics_completed)
+        self.pages_by_key["statistics"].analysis_completed.connect(
+            self.workflow.mark_statistics_completed
+        )
         self.pages_by_key["results"].review_completed.connect(self.workflow.mark_results_reviewed)
-        self.pages_by_key["results"].validation_requested.connect(self._open_reviewed_run_for_validation)
-        self.pages_by_key["results"].experiment_restore_requested.connect(self.restore_experiment_workspace)
+        self.pages_by_key["results"].validation_requested.connect(
+            self._open_reviewed_run_for_validation
+        )
+        self.pages_by_key["results"].experiment_restore_requested.connect(
+            self.restore_experiment_workspace
+        )
         self.pages_by_key["resume_center"].workspace_requested.connect(self._set_workspace)
-        self.pages_by_key["resume_center"].experiment_restore_requested.connect(self.restore_experiment_workspace)
+        self.pages_by_key["resume_center"].experiment_restore_requested.connect(
+            self.restore_experiment_workspace
+        )
         self.pages_by_key["resume_center"].policy_training_resumed.connect(
             lambda task_id: self.pages_by_key["calo_intelligence"].resume_task_by_id(task_id)
         )
@@ -167,7 +196,9 @@ class MainWindow(QMainWindow):
             lambda task_id: self.pages_by_key["publication"].resume_task_by_id(task_id)
         )
         self.state.runs_changed.connect(self._refresh_verified_count)
-        self.state.policy_state_changed.connect(lambda _status: self.workflow.notify_governing_policy_changed())
+        self.state.policy_state_changed.connect(
+            lambda _status: self.workflow.notify_governing_policy_changed()
+        )
         self.state.compute_profile_changed.connect(lambda _profile: self._refresh_workflow())
         self.state.policy_training_changed.connect(self._on_policy_training_changed)
         self.workflow.changed.connect(self._refresh_workflow)
@@ -184,7 +215,9 @@ class MainWindow(QMainWindow):
                 dashboard.refresh_compute()
         except Exception as exc:
             _LOG.exception("Initial compute-topology scan failed")
-            self.state.task_status.fail(f"System readiness scan failed: {type(exc).__name__}: {exc}")
+            self.state.task_status.fail(
+                f"System readiness scan failed: {type(exc).__name__}: {exc}"
+            )
         finally:
             self.state.notify_policy_state_changed()
 
@@ -208,7 +241,11 @@ class MainWindow(QMainWindow):
 
     def _on_task_status_changed(self, snapshot: dict) -> None:
         self.global_status.apply_snapshot(snapshot)
-        if not snapshot.get("busy") and snapshot.get("state") in {"Completed", "Failed", "Cancelled"}:
+        if not snapshot.get("busy") and snapshot.get("state") in {
+            "Completed",
+            "Failed",
+            "Cancelled",
+        }:
             QTimer.singleShot(4500, self.state.task_status.reset_ready)
 
     def _on_policy_training_changed(self, active: bool, detail: str) -> None:
@@ -232,7 +269,11 @@ class MainWindow(QMainWindow):
 
     def _refresh_verified_count(self) -> None:
         experiment_id = self.state.current_experiment_id or None
-        count = len(self.state.database.list_runs(experiment_id, verified_only=True)) if experiment_id else 0
+        count = (
+            len(self.state.database.list_runs(experiment_id, verified_only=True))
+            if experiment_id
+            else 0
+        )
         self.workflow.set_verified_results(count)
 
     def _refresh_workflow(self) -> None:
@@ -273,7 +314,10 @@ class MainWindow(QMainWindow):
     def _set_workspace(self, workspace: str | int) -> None:
         self._persist_workspace_state()
         key = self._workspace_key(workspace)
-        if bool(getattr(self.state, "policy_training_active", False)) and key not in {"dashboard", "calo_intelligence"}:
+        if bool(getattr(self.state, "policy_training_active", False)) and key not in {
+            "dashboard",
+            "calo_intelligence",
+        }:
             QMessageBox.information(
                 self,
                 "Training Exclusive Lock",
@@ -301,7 +345,8 @@ class MainWindow(QMainWindow):
                 answer = QMessageBox.question(
                     self,
                     "Recover previous application session",
-                    message + f"\n\nRestore experiment {experiment_id!r} using the saved scientific workspace?",
+                    message
+                    + f"\n\nRestore experiment {experiment_id!r} using the saved scientific workspace?",
                     QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
                     QMessageBox.StandardButton.Yes,
                 )
@@ -357,15 +402,21 @@ class MainWindow(QMainWindow):
                         "workspace_index": int(self.stack.currentIndex()),
                     },
                     experiment_id=experiment_id,
-                    policy_training_active=bool(getattr(self.state, "policy_training_active", False)),
+                    policy_training_active=bool(
+                        getattr(self.state, "policy_training_active", False)
+                    ),
                     governing_policy_sha256=str(getattr(status, "policy_sha256", "") or ""),
-                    compute_profile_fingerprint=str(getattr(profile, "topology_fingerprint", "") or ""),
+                    compute_profile_fingerprint=str(
+                        getattr(profile, "topology_fingerprint", "") or ""
+                    ),
                 )
             except Exception:
                 _LOG.exception("Failed to update application-session recovery journal")
         except Exception as exc:
             _LOG.exception("Failed to persist workspace state for experiment %s", experiment_id)
-            self.state.task_status.fail(f"Workspace-state persistence failed: {type(exc).__name__}: {exc}")
+            self.state.task_status.fail(
+                f"Workspace-state persistence failed: {type(exc).__name__}: {exc}"
+            )
 
     def restore_experiment_workspace(self, experiment_id: str) -> None:
         try:
@@ -383,7 +434,11 @@ class MainWindow(QMainWindow):
             if migration.warning:
                 self.state.task_status.start(f"Workspace migration: {migration.warning}")
             if not self.workflow.is_workspace_enabled(target_key):
-                target_key = "live_optimization" if self.workflow.is_workspace_enabled("live_optimization") else "experiment"
+                target_key = (
+                    "live_optimization"
+                    if self.workflow.is_workspace_enabled("live_optimization")
+                    else "experiment"
+                )
             self._set_workspace(target_key)
             self.state.task_status.finish(
                 f"Restored experiment workspace · {restored['runs']} stored run(s) · {restored['campaign_status']}"

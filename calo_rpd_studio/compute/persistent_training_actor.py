@@ -1,4 +1,4 @@
-"""Persistent policy-rollout actor clients for CUDA and isolated Intel-XPU runtimes."""
+"""Persistent policy-rollout actor clients for CUDA runtimes."""
 
 from __future__ import annotations
 
@@ -17,6 +17,7 @@ _MAX_FRAME_BYTES = 512 * 1024 * 1024
 
 
 _LOG = logging.getLogger(__name__)
+
 
 def write_frame(stream: BinaryIO, payload: Any, lock: threading.Lock | None = None) -> None:
     data = pickle.dumps(payload, protocol=pickle.HIGHEST_PROTOCOL)

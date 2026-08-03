@@ -13,7 +13,9 @@ from typing import Any
 
 
 def _canonical(payload: dict) -> bytes:
-    return json.dumps(payload, sort_keys=True, separators=(",", ":"), allow_nan=False).encode("utf-8")
+    return json.dumps(payload, sort_keys=True, separators=(",", ":"), allow_nan=False).encode(
+        "utf-8"
+    )
 
 
 @dataclass(frozen=True, slots=True)
@@ -57,7 +59,9 @@ class ComputeProvenanceRecorder:
 
     def _restore_tail(self) -> None:
         try:
-            lines = [line for line in self.path.read_text(encoding="utf-8").splitlines() if line.strip()]
+            lines = [
+                line for line in self.path.read_text(encoding="utf-8").splitlines() if line.strip()
+            ]
             if not lines:
                 return
             last = json.loads(lines[-1])

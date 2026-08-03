@@ -54,6 +54,7 @@ from calo_rpd_studio.results.database import ResultDatabase
 
 _LOG = logging.getLogger(__name__)
 
+
 class ScientificAuditWorker(QThread):
     """Run parity, fairness, and reuse checks away from the Qt GUI thread."""
 
@@ -76,8 +77,6 @@ class ScientificAuditWorker(QThread):
 
             if torch.cuda.is_available():
                 return "cuda:0"
-            if hasattr(torch, "xpu") and torch.xpu.is_available():
-                return "xpu:0"
         except Exception:
             _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
         return "cpu"
@@ -119,7 +118,9 @@ class ScientificAuditWorker(QThread):
                         try:
                             torch_module.set_num_threads(previous_threads)
                         except Exception:
-                            _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
+                            _LOG.debug(
+                                "Suppressed non-fatal cleanup/probe exception", exc_info=True
+                            )
                 if bool(self.config.require_backend_parity) and not bool(parity.get("passed")):
                     raise RuntimeError("CPU/accelerator numerical parity gate did not pass")
             if self.parity_only:
@@ -244,20 +245,11 @@ class ExperimentManagerPanel(WorkspacePage):
             "Maximum number of independent optimizer processes admitted at the same time."
         )
         self.execution_backend = QComboBox()
-        self.execution_backend.addItem(
-            "GPU maximum resident — 100% CUDA when available (recommended)", "gpu_preferred"
-        )
-        self.execution_backend.addItem("CUDA-only resident — require 100% CUDA", "cuda_only")
-        self.execution_backend.addItem(
-            "CUDA-resident priority — 80% CUDA / 10% XPU / 10% CPU", "cuda_priority"
-        )
-        self.execution_backend.addItem("Auto-tuned Batched Throughput Engine", "throughput_auto")
-        self.execution_backend.addItem("Custom weighted split", "weighted_split")
-        self.execution_backend.addItem("Adaptive hybrid CPU + GPU", "adaptive_hybrid")
+        self.execution_backend.addItem("Accelerated when available (recommended)", "cuda_preferred")
         self.execution_backend.addItem("CPU only", "cpu_only")
         self.scientific_backend = QComboBox()
         self.scientific_backend.addItem(
-            "PyTorch FP64 batched AC Newton-Raphson (CPU/CUDA/XPU)", "torch_fp64"
+            "PyTorch FP64 batched AC Newton-Raphson (CPU/CUDA)", "torch_fp64"
         )
         self.scientific_backend.addItem("Trusted legacy CPU reference", "cpu_reference")
         self.tensor_batch_size = QSpinBox()
@@ -306,47 +298,32 @@ class ExperimentManagerPanel(WorkspacePage):
         )
         self.device_resident_execution.setChecked(True)
         self.device_resident_execution.setToolTip(
-            "v3.4 minimizes host/device round trips. One packed population result is materialized on the host for common provenance, GUI and persistence; final independent validation remains CPU-reference based."
+            "CUDA mode keeps active eligible numerical tensors on the device. Only compact progress and final packed results are materialized for the interface, provenance, and persistence."
         )
-        self.cuda_priority_work_stealing = QCheckBox(
-            "Allow idle CUDA capacity to take unstarted XPU/CPU work"
+        self.cuda_vram_budget = QSpinBox()
+        self.cuda_vram_budget.setRange(10, 95)
+        self.cuda_vram_budget.setValue(80)
+        self.cuda_vram_budget.setSuffix(" %")
+        self.cuda_vram_budget.setToolTip(
+            "Hard per-process CUDA VRAM ceiling. The default 80% leaves driver/runtime headroom while the complete active numerical data plane remains device resident."
         )
-        self.cuda_priority_work_stealing.setChecked(True)
+        self.cuda_oom_retries = QSpinBox()
+        self.cuda_oom_retries.setRange(0, 12)
+        self.cuda_oom_retries.setValue(4)
+        self.cuda_oom_retries.setToolTip(
+            "On CUDA OOM, halve only the active microbatch and retry on CUDA. CALO-RPD does not silently fall back to CPU."
+        )
+        self.cuda_resident_hot_loop = QCheckBox(
+            "Use fixed-shape masked CUDA Newton/backtracking without CPU early-exit checks"
+        )
+        self.cuda_resident_hot_loop.setChecked(True)
+        self.cuda_resident_hot_loop.setToolTip(
+            "Prevents CPU scalar reads inside the Newton/backtracking hot loop. Converged rows are masked on CUDA; this may perform extra GPU FLOPs but avoids host interruptions."
+        )
         self.parity_gate = QCheckBox(
             "Require CPU/accelerator numerical parity before final benchmark"
         )
         self.parity_gate.setChecked(True)
-        self.gpu_target = QSpinBox()
-        self.gpu_target.setRange(10, 100)
-        self.gpu_target.setSuffix(" %")
-        self.cpu_target = QSpinBox()
-        self.cpu_target.setRange(10, 100)
-        self.cpu_target.setSuffix(" %")
-        self.gpu_memory_limit = QSpinBox()
-        self.gpu_memory_limit.setRange(20, 100)
-        self.gpu_memory_limit.setSuffix(" %")
-        self.gpu_jobs = QSpinBox()
-        self.gpu_jobs.setRange(1, 16)
-        self.xpu_target = QSpinBox()
-        self.xpu_target.setRange(10, 100)
-        self.xpu_target.setSuffix(" %")
-        self.xpu_memory_limit = QSpinBox()
-        self.xpu_memory_limit.setRange(20, 100)
-        self.xpu_memory_limit.setSuffix(" %")
-        self.xpu_jobs = QSpinBox()
-        self.xpu_jobs.setRange(1, 16)
-        self.system_memory_limit = QSpinBox()
-        self.system_memory_limit.setRange(20, 100)
-        self.system_memory_limit.setSuffix(" %")
-        self.cuda_share = QSpinBox()
-        self.cuda_share.setRange(0, 100)
-        self.cuda_share.setSuffix(" %")
-        self.xpu_share = QSpinBox()
-        self.xpu_share.setRange(0, 100)
-        self.xpu_share.setSuffix(" %")
-        self.cpu_share = QSpinBox()
-        self.cpu_share.setRange(0, 100)
-        self.cpu_share.setSuffix(" %")
         self.seed = QSpinBox()
         self.seed.setRange(0, 2_147_483_647)
         self.output = QLineEdit()
@@ -370,6 +347,9 @@ class ExperimentManagerPanel(WorkspacePage):
         self.device_inventory.setWordWrap(True)
         self.device_inventory.setObjectName("InfoText")
 
+        # The normal scientist workspace exposes scientific decisions only.  Runtime tuning
+        # widgets remain internal implementation details; users do not manage allocator thresholds,
+        # batches, worker topology, or implementation-specific evaluator switches.
         fields = [
             ("Independent runs", self.runs),
             ("Population size", self.population),
@@ -377,34 +357,8 @@ class ExperimentManagerPanel(WorkspacePage):
             ("Objective evaluations", self.budget),
             ("Wall-clock budget", self.wall),
             ("Iteration safety limit", self.maxit),
-            ("Parallel workers", self.workers),
             ("Master seed", self.seed),
-            ("Compute scheduler", self.execution_backend),
-            ("Scientific evaluator", self.scientific_backend),
-            ("Manual/fallback batch size", self.tensor_batch_size),
-            ("Auto batch calibration", self.auto_batch_calibration),
-            ("Persistent device workers", self.persistent_workers),
-            ("Cross-run batching", self.cross_run_batching),
-            ("Batch collection window", self.batch_window),
-            ("Maximum cross-run batch", self.max_cross_batch),
-            ("Calibration repetitions", self.calibration_repetitions),
-            ("Telemetry interval", self.telemetry_interval),
-            ("Buffered trace writes", self.buffered_traces),
-            ("Stable-kernel compilation", self.compile_kernels),
-            ("Device-resident execution", self.device_resident_execution),
-            ("CUDA-priority work stealing", self.cuda_priority_work_stealing),
-            ("Backend parity gate", self.parity_gate),
-            ("NVIDIA CUDA target", self.gpu_target),
-            ("CUDA VRAM limit", self.gpu_memory_limit),
-            ("Max CUDA jobs", self.gpu_jobs),
-            ("Intel XPU target", self.xpu_target),
-            ("XPU memory limit", self.xpu_memory_limit),
-            ("Max XPU jobs", self.xpu_jobs),
-            ("CPU utilization target", self.cpu_target),
-            ("System RAM safety limit", self.system_memory_limit),
-            ("CUDA task share", self.cuda_share),
-            ("XPU task share", self.xpu_share),
-            ("CPU task share", self.cpu_share),
+            ("Compute mode", self.execution_backend),
         ]
         for index, (label, widget) in enumerate(fields):
             widget.setMinimumHeight(32)
@@ -416,22 +370,14 @@ class ExperimentManagerPanel(WorkspacePage):
             grid.addWidget(widget, row, pair_column + 1)
         self.output.setMinimumHeight(32)
         choose.setMinimumHeight(32)
-        use_recommended = QPushButton(f"Use recommended ({self.recommended_workers})")
-        use_recommended.setMinimumHeight(32)
-        use_recommended.setToolTip(
-            "Set a conservative CPU-process count based on available physical cores."
-        )
-        use_recommended.clicked.connect(lambda: self.workers.setValue(self.recommended_workers))
         base_row = (len(fields) + 1) // 2
-        grid.addWidget(QLabel("CPU execution"), base_row, 0)
-        grid.addWidget(use_recommended, base_row, 1)
-        grid.addWidget(QLabel("Result array directory"), base_row + 1, 0)
-        grid.addWidget(output_widget, base_row + 1, 1, 1, 3)
-        grid.addWidget(QLabel("Primary algorithms"), base_row + 2, 0)
-        grid.addWidget(self.selected, base_row + 2, 1, 1, 3)
-        grid.addWidget(self.plan_summary, base_row + 3, 0, 1, 4)
-        grid.addWidget(self.device_inventory, base_row + 4, 0, 1, 4)
-        grid.addWidget(self.execution_note, base_row + 5, 0, 1, 4)
+        grid.addWidget(QLabel("Result directory"), base_row, 0)
+        grid.addWidget(output_widget, base_row, 1, 1, 3)
+        grid.addWidget(QLabel("Primary algorithms"), base_row + 1, 0)
+        grid.addWidget(self.selected, base_row + 1, 1, 1, 3)
+        grid.addWidget(self.plan_summary, base_row + 2, 0, 1, 4)
+        grid.addWidget(self.device_inventory, base_row + 3, 0, 1, 4)
+        grid.addWidget(self.execution_note, base_row + 4, 0, 1, 4)
         grid.setColumnMinimumWidth(0, 130)
         grid.setColumnMinimumWidth(2, 150)
         grid.setColumnStretch(1, 1)
@@ -449,7 +395,7 @@ class ExperimentManagerPanel(WorkspacePage):
         self.audit_button.setObjectName("PrimaryButton")
         self.audit_button.setMinimumHeight(36)
         self.audit_button.clicked.connect(self.run_fairness_audit)
-        self.parity_button = QPushButton("Run CPU/accelerator parity audit")
+        self.parity_button = QPushButton("Run numerical agreement check")
         self.parity_button.setMinimumHeight(36)
         self.parity_button.clicked.connect(self.run_backend_parity_audit)
         self.audit_state = QLabel("Required before execution")
@@ -650,23 +596,14 @@ class ExperimentManagerPanel(WorkspacePage):
             self.workers,
             self.seed,
             self.execution_backend,
-            self.gpu_target,
-            self.cpu_target,
-            self.gpu_memory_limit,
-            self.gpu_jobs,
-            self.xpu_target,
-            self.xpu_memory_limit,
-            self.xpu_jobs,
-            self.system_memory_limit,
-            self.cuda_share,
-            self.xpu_share,
-            self.cpu_share,
             self.scientific_backend,
             self.tensor_batch_size,
             self.batch_window,
             self.max_cross_batch,
             self.calibration_repetitions,
             self.telemetry_interval,
+            self.cuda_vram_budget,
+            self.cuda_oom_retries,
         ):
             if hasattr(widget, "valueChanged"):
                 widget.valueChanged.connect(self._invalidate_fairness)
@@ -682,7 +619,7 @@ class ExperimentManagerPanel(WorkspacePage):
             self.buffered_traces,
             self.compile_kernels,
             self.device_resident_execution,
-            self.cuda_priority_work_stealing,
+            self.cuda_resident_hot_loop,
         ):
             checkbox.stateChanged.connect(self._invalidate_fairness)
             checkbox.stateChanged.connect(self._update_plan_summary)
@@ -705,30 +642,21 @@ class ExperimentManagerPanel(WorkspacePage):
     def _refresh_resource_status(self) -> None:
         try:
             snapshot = self.resource_monitor.sample()
-            parts = [f"CPU {snapshot.cpu_percent:.0f}% · RAM {snapshot.system_memory_percent:.0f}%"]
-            for device in snapshot.devices:
-                util = (
-                    f"{device.utilization_percent:.0f}% compute"
-                    if device.utilization_percent is not None
-                    else "compute utilization unavailable"
+            cuda_devices = tuple(snapshot.devices)
+            if cuda_devices:
+                names = ", ".join(str(device.name) for device in cuda_devices)
+                self.device_inventory.setText(
+                    f"Acceleration available: {names}. Each admitted task may use at most 80% "
+                    "of VRAM that is free when it starts; overflow is staged in available system "
+                    "memory or moved to CPU computation under the recorded fallback policy."
                 )
-                runtime = (
-                    "secondary XPU runtime" if device.runtime == "sidecar" else "primary runtime"
+            else:
+                self.device_inventory.setText(
+                    "No verified NVIDIA accelerator is available. Experiments will use system "
+                    "memory and CPU computation with the same 80%-of-currently-available admission rule."
                 )
-                parts.append(
-                    f"{device.device_id} — {device.name}: {util}, memory {device.memory_percent:.0f}% ({runtime})"
-                )
-            if not snapshot.devices:
-                parts.append(
-                    "No CUDA/XPU accelerator is currently available to a verified PyTorch runtime"
-                )
-            self.device_inventory.setText(
-                "Detected compute priority: NVIDIA CUDA → Intel XPU → CPU. "
-                + " | ".join(parts)
-                + ". PyTorch backend IDs do not necessarily match Windows Task Manager GPU numbers."
-            )
         except Exception as exc:
-            self.device_inventory.setText(f"Compute resource sampling failed: {exc}")
+            self.device_inventory.setText(f"Compute availability could not be checked: {exc}")
 
     def _update_plan_summary(self, *_args) -> None:
         runs = int(self.runs.value())
@@ -742,66 +670,21 @@ class ExperimentManagerPanel(WorkspacePage):
             f"CALO ablation study: {len(labels_for_mode(self.state.config, ABLATION_MODE))} fixed variants × {runs} runs = {ablation_jobs} jobs. "
             f"Run count is controlled by Portfolio Manager; this page configures how the required jobs execute."
         )
-        current_backend = str(self.execution_backend.currentData() or "")
-        if current_backend == "throughput_auto":
-            summary_text += (
-                " The evaluator calibration will benchmark candidate-scenario throughput only (not CALO control overhead) on each verified CUDA/XPU/CPU lane, "
-                "select a stable microbatch, and allocate jobs in proportion to measured evaluations per second."
-            )
-        if current_backend in {"weighted_split", "cuda_priority", "cuda_only", "gpu_preferred"}:
-            try:
-                temp = deepcopy(self.state.config)
-                temp.runs = runs
-                snapshot = self.resource_monitor.sample()
-                _lanes, allocation = build_weighted_lane_plan(
-                    build_execution_plan(temp, COMPARISON_MODE),
-                    COMPARISON_MODE,
-                    cuda_available=bool(snapshot.by_backend("cuda")),
-                    xpu_available=bool(snapshot.by_backend("xpu")),
-                    cuda_share=self.cuda_share.value(),
-                    xpu_share=self.xpu_share.value(),
-                    cpu_share=self.cpu_share.value(),
-                )
-                summary_text += (
-                    f" Current attainable primary allocation: {allocation.effective_text}; "
-                    f"{allocation.accelerator_eligible_jobs}/{allocation.total_jobs} jobs are accelerator-compatible under the v3 torch FP64 backend."
-                )
-            except Exception:
-                _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
         self.plan_summary.setText(summary_text)
-        workers = int(self.workers.value())
-        backend = str(self.execution_backend.currentData() or "adaptive_hybrid")
+        backend = str(self.execution_backend.currentData() or "cuda_preferred")
         if backend == "cpu_only":
-            scheduler_text = "CPU-only scheduling is selected."
-        elif backend == "throughput_auto":
             scheduler_text = (
-                "The Batched Throughput Engine keeps one long-lived process per device and calibrates evaluator-only candidate-scenario throughput; per-run optimizer-control overhead is recorded separately, "
-                "selects the fastest stable microbatch, combines compatible population requests across runs, and allocates whole jobs by measured capacity."
-            )
-        elif backend in {"weighted_split", "cuda_priority", "cuda_only", "gpu_preferred"}:
-            share_total = self.cuda_share.value() + self.xpu_share.value() + self.cpu_share.value()
-            scheduler_text = (
-                f"Device-resident admission assigns numerical jobs as CUDA {self.cuda_share.value()}%, "
-                f"XPU {self.xpu_share.value()}%, and CPU {self.cpu_share.value()}% (current total {share_total}%). "
-                "Each persistent lane keeps optimizer state and the FP64 evaluator on-device; jobs are never migrated after starting."
+                "CPU-only mode keeps the working set in currently available system memory."
             )
         else:
             scheduler_text = (
-                f"Accelerator-first admission uses NVIDIA CUDA first below {self.gpu_target.value()}% compute and "
-                f"{self.gpu_memory_limit.value()}% VRAM, then Intel XPU below {self.xpu_target.value()}% compute when telemetry is available "
-                f"and {self.xpu_memory_limit.value()}% device memory, then CPU below {self.cpu_target.value()}% while system RAM stays below "
-                f"{self.system_memory_limit.value()}%. Running jobs are never migrated mid-run."
+                "Accelerated mode keeps eligible numerical work in NVIDIA VRAM when it fits, "
+                "then uses bounded system-memory staging or the recorded CPU fallback."
             )
-        timing_note = (
-            " Use one worker and CPU-only mode for strict publication-quality runtime comparisons."
-            if workers > 1 or backend != "cpu_only"
-            else " Single-worker CPU mode is appropriate for strict runtime comparisons."
-        )
         self.execution_note.setText(
             scheduler_text
-            + " Under the v3.4 torch FP64 backend, all primary algorithms use tensor-native population kernels or the CALO policy path plus device-resident mixed-variable decoding, batched AC power flow, constraints, robust aggregation, ranking and L-index evaluation. "
-            + "CPU is limited to mandatory orchestration, sparse telemetry, packed result materialization, persistence, checkpointing and independent reference validation. When XPU utilization telemetry is unavailable, the XPU memory threshold and explicit job cap are used instead of inventing a utilization value."
-            + timing_note
+            + " Memory admission is automatic and capped at 80% of what is free when a task starts. "
+            + "The run record preserves the actual compute path, fallback events, memory peaks, and timing."
         )
         self._refresh_resource_status()
 
@@ -829,7 +712,8 @@ class ExperimentManagerPanel(WorkspacePage):
         self.wall.setValue(config.budget.wall_clock_seconds or 60)
         self.maxit.setValue(config.max_iterations)
         self.workers.setValue(config.parallel_workers)
-        backend_index = self.execution_backend.findData(config.execution_backend)
+        visible_backend = "cpu_only" if config.execution_backend == "cpu_only" else "cuda_preferred"
+        backend_index = self.execution_backend.findData(visible_backend)
         self.execution_backend.setCurrentIndex(max(backend_index, 0))
         scientific_index = self.scientific_backend.findData(
             getattr(config, "scientific_backend", "torch_fp64")
@@ -850,22 +734,15 @@ class ExperimentManagerPanel(WorkspacePage):
         self.buffered_traces.setChecked(bool(getattr(config, "buffered_trace_writes", True)))
         self.compile_kernels.setChecked(bool(getattr(config, "compile_stable_kernels", False)))
         self.parity_gate.setChecked(bool(getattr(config, "require_backend_parity", True)))
-        self.gpu_target.setValue(config.gpu_utilization_target)
-        self.cpu_target.setValue(config.cpu_utilization_target)
-        self.gpu_memory_limit.setValue(config.gpu_memory_limit)
-        self.gpu_jobs.setValue(config.gpu_parallel_jobs)
-        self.xpu_target.setValue(config.xpu_utilization_target)
-        self.xpu_memory_limit.setValue(config.xpu_memory_limit)
-        self.xpu_jobs.setValue(config.xpu_parallel_jobs)
-        self.system_memory_limit.setValue(config.system_memory_limit)
-        self.cuda_share.setValue(getattr(config, "cuda_task_share", 100))
-        self.xpu_share.setValue(getattr(config, "xpu_task_share", 0))
-        self.cpu_share.setValue(getattr(config, "cpu_task_share", 0))
         self.device_resident_execution.setChecked(
             bool(getattr(config, "device_resident_execution", True))
         )
-        self.cuda_priority_work_stealing.setChecked(
-            bool(getattr(config, "cuda_priority_work_stealing", True))
+        self.cuda_vram_budget.setValue(
+            int(round(100.0 * float(getattr(config, "cuda_vram_budget_fraction", 0.80))))
+        )
+        self.cuda_oom_retries.setValue(int(getattr(config, "cuda_oom_retry_count", 4)))
+        self.cuda_resident_hot_loop.setChecked(
+            bool(getattr(config, "cuda_resident_hot_loop", True))
         )
         self.seed.setValue(config.master_seed)
         self.output.setText(config.output_directory)
@@ -878,19 +755,8 @@ class ExperimentManagerPanel(WorkspacePage):
         self.budget.setEnabled(policy is not BudgetPolicy.EQUAL_WALL_CLOCK)
         self.wall.setEnabled(policy is BudgetPolicy.EQUAL_WALL_CLOCK)
         self.maxit.setEnabled(policy is BudgetPolicy.ALGORITHM_NATIVE)
-        backend = str(self.execution_backend.currentData() or "")
-        if backend == "cuda_priority":
-            self.cuda_share.setValue(80)
-            self.xpu_share.setValue(10)
-            self.cpu_share.setValue(10)
-        elif backend in {"cuda_only", "gpu_preferred"}:
-            self.cuda_share.setValue(100)
-            self.xpu_share.setValue(0)
-            self.cpu_share.setValue(0)
-        weighted = backend == "weighted_split"
-        throughput = backend in {"throughput_auto", "cuda_priority", "cuda_only", "gpu_preferred"}
-        for widget in (self.cuda_share, self.xpu_share, self.cpu_share):
-            widget.setEnabled(weighted)
+        backend = str(self.execution_backend.currentData() or "cuda_preferred")
+        throughput = backend != "cpu_only"
         for widget in (
             self.auto_batch_calibration,
             self.persistent_workers,
@@ -907,7 +773,10 @@ class ExperimentManagerPanel(WorkspacePage):
             )
         torch_backend = str(self.scientific_backend.currentData()) == "torch_fp64"
         self.device_resident_execution.setEnabled(torch_backend)
-        self.cuda_priority_work_stealing.setEnabled(backend == "cuda_priority" and torch_backend)
+        resident_cuda = torch_backend and self.device_resident_execution.isChecked()
+        self.cuda_vram_budget.setEnabled(resident_cuda)
+        self.cuda_oom_retries.setEnabled(resident_cuda)
+        self.cuda_resident_hot_loop.setEnabled(resident_cuda)
         self.tensor_batch_size.setEnabled(
             not throughput or not self.auto_batch_calibration.isChecked()
         )
@@ -922,9 +791,9 @@ class ExperimentManagerPanel(WorkspacePage):
             self.wall.value() if config.budget.policy is BudgetPolicy.EQUAL_WALL_CLOCK else None
         )
         config.max_iterations = self.maxit.value()
-        config.parallel_workers = self.workers.value()
+        config.parallel_workers = self.recommended_workers
         config.execution_backend = str(self.execution_backend.currentData())
-        config.scientific_backend = str(self.scientific_backend.currentData())
+        config.scientific_backend = "torch_fp64"
         config.tensor_batch_size = self.tensor_batch_size.value()
         config.automatic_batch_calibration = self.auto_batch_calibration.isChecked()
         config.persistent_accelerator_workers = self.persistent_workers.isChecked()
@@ -936,19 +805,10 @@ class ExperimentManagerPanel(WorkspacePage):
         config.buffered_trace_writes = self.buffered_traces.isChecked()
         config.compile_stable_kernels = self.compile_kernels.isChecked()
         config.device_resident_execution = self.device_resident_execution.isChecked()
-        config.cuda_priority_work_stealing = self.cuda_priority_work_stealing.isChecked()
-        config.require_backend_parity = self.parity_gate.isChecked()
-        config.gpu_utilization_target = self.gpu_target.value()
-        config.cpu_utilization_target = self.cpu_target.value()
-        config.gpu_memory_limit = self.gpu_memory_limit.value()
-        config.gpu_parallel_jobs = self.gpu_jobs.value()
-        config.xpu_utilization_target = self.xpu_target.value()
-        config.xpu_memory_limit = self.xpu_memory_limit.value()
-        config.xpu_parallel_jobs = self.xpu_jobs.value()
-        config.system_memory_limit = self.system_memory_limit.value()
-        config.cuda_task_share = self.cuda_share.value()
-        config.xpu_task_share = self.xpu_share.value()
-        config.cpu_task_share = self.cpu_share.value()
+        config.cuda_vram_budget_fraction = 0.80
+        config.cuda_oom_retry_count = self.cuda_oom_retries.value()
+        config.cuda_resident_hot_loop = self.cuda_resident_hot_loop.isChecked()
+        config.require_backend_parity = True
         config.master_seed = self.seed.value()
         config.output_directory = self.output.text().strip() or "results_data"
         config.validate()
@@ -974,11 +834,11 @@ class ExperimentManagerPanel(WorkspacePage):
     @staticmethod
     def _format_parity(report: dict | None) -> str:
         if not report:
-            return "No backend parity report was produced."
+            return "No numerical agreement report was produced."
         tolerances = dict(report.get("tolerances", {}))
         status = "PASS" if report.get("passed") else "FAIL"
         return (
-            f"{status}: CPU/accelerator scientific parity audit.\n"
+            f"{status}: CPU/accelerator numerical agreement check.\n"
             f"Device: {report.get('device')} — {report.get('device_name')}\n"
             f"Case: {report.get('case')} · scenarios: {report.get('scenario_count')} · candidates: {report.get('candidate_count')}\n"
             f"Maximum objective error: {report.get('max_objective_error'):.6g} (tol {tolerances.get('objective', float('nan')):.3g})\n"
@@ -1008,7 +868,7 @@ class ExperimentManagerPanel(WorkspacePage):
             else "Running parity, fairness, portfolio, and reusable-result checks in a background worker…"
         )
         self.state.task_status.begin(
-            "Auditing backend parity" if parity_only else "Auditing experiment fairness",
+            "Checking numerical agreement" if parity_only else "Auditing experiment fairness",
             detail="Scientific checks are executing outside the GUI thread",
         )
         self.audit_worker = ScientificAuditWorker(
@@ -1053,14 +913,14 @@ class ExperimentManagerPanel(WorkspacePage):
         if payload.get("parity_only"):
             self.audit.setPlainText(self._format_parity(parity))
             self.audit_state.setText(
-                "Backend parity passed — run fairness audit"
+                "Numerical agreement passed — run fairness audit"
                 if self.backend_parity_passed
-                else "Backend parity failed"
+                else "Numerical agreement failed"
             )
             if self.backend_parity_passed:
-                self.state.task_status.finish("Backend parity audit passed")
+                self.state.task_status.finish("Numerical agreement check passed")
             else:
-                self.state.task_status.fail("Backend parity audit failed")
+                self.state.task_status.fail("Numerical agreement check failed")
             return
 
         report = payload["fairness"]
@@ -1077,13 +937,15 @@ class ExperimentManagerPanel(WorkspacePage):
             f"REQUIRED STORED EVIDENCE: {', '.join(portfolio_plan.required_fields)}.",
             f"CALO ABLATION PLAN: {len(labels_for_mode(self.state.config, ABLATION_MODE))} fixed variants × {self.state.config.runs} runs = {planned_item_count(self.state.config, ABLATION_MODE)} jobs.",
         ]
-        if self.state.config.execution_backend in {"gpu_preferred", "cuda_only"}:
+        if self.state.config.execution_backend == "cuda_preferred":
             lines.append(
-                "GPU-MAXIMUM PLAN: 100% of optimizer, decoder, batched AC power-flow, constraints, robust aggregation, ranking, and CALO policy inference stay on CUDA when available; XPU then CPU are fallback lanes only for GPU-preferred mode."
+                "ACCELERATED COMPUTE PLAN: eligible active numerical data stays in NVIDIA VRAM "
+                "when it fits within 80% of memory free at admission. Bounded system-memory "
+                "staging or recorded CPU fallback is used only when required."
             )
         if parity:
             lines.append(
-                "BACKEND PARITY: "
+                "NUMERICAL AGREEMENT: "
                 + ("PASS" if self.backend_parity_passed else "FAIL")
                 + f" · max objective error {parity.get('max_objective_error', float('nan')):.3g}"
                 + f" · max violation error {parity.get('max_violation_error', float('nan')):.3g}"
@@ -1118,28 +980,19 @@ class ExperimentManagerPanel(WorkspacePage):
                 "CPU"
                 if self.state.config.execution_backend == "cpu_only"
                 else (
-                    "Auto-calibrated"
-                    if self.state.config.execution_backend == "throughput_auto"
+                    "Automatic"
+                    if self.state.config.execution_backend == "cuda_preferred"
                     else "Dynamic"
                 )
             )
             for item in plan
         }
-        if self.state.config.execution_backend in {
-            "weighted_split",
-            "cuda_priority",
-            "cuda_only",
-            "gpu_preferred",
-        }:
+        if self.state.config.execution_backend == "cuda_preferred":
             snapshot = self.resource_monitor.sample()
             weighted, _summary = build_weighted_lane_plan(
                 plan,
                 mode,
                 cuda_available=bool(snapshot.by_backend("cuda")),
-                xpu_available=bool(snapshot.by_backend("xpu")),
-                cuda_share=self.state.config.cuda_task_share,
-                xpu_share=self.state.config.xpu_task_share,
-                cpu_share=self.state.config.cpu_task_share,
             )
             lane_by_job = {job: lane.upper() for job, lane in weighted.items()}
         self.queue.setRowCount(len(plan))
@@ -1204,7 +1057,7 @@ class ExperimentManagerPanel(WorkspacePage):
         answer = QMessageBox.question(
             self,
             "Run CALO ablation study",
-            f"This is not the 20-algorithm comparison. It runs {len(labels_for_mode(self.state.config, ABLATION_MODE))} fixed CALO/TLBO ablation variants and intentionally ignores the primary algorithm checkbox selection. Continue?",
+            f"This is a CALO component study, not the selected-algorithm comparison. It runs {len(labels_for_mode(self.state.config, ABLATION_MODE))} fixed CALO/TLBO variants and does not use the algorithm selections. Continue?",
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
             QMessageBox.StandardButton.No,
         )
@@ -1381,10 +1234,13 @@ class ExperimentManagerPanel(WorkspacePage):
 
     def on_started(self, experiment_id: str) -> None:
         self._set_running(True)
-        workers = self.state.config.parallel_workers
-        backend = self.state.config.execution_backend.replace("_", " ")
+        compute_mode = (
+            "CPU-only compute"
+            if self.state.config.execution_backend == "cpu_only"
+            else "accelerated compute with automatic fallback"
+        )
         self.status.setText(
-            f"Experiment {experiment_id} is running with {backend} scheduling and up to {workers} concurrent job{'s' if workers != 1 else ''}. "
+            f"Experiment {experiment_id} is running with {compute_mode}. "
             f"Planned jobs: {self.expected_runs}."
         )
 

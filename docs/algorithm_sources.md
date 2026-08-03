@@ -1,6 +1,6 @@
 # Algorithm Formulations and Sources
 
-The primary benchmark registry contains twenty algorithms. All implementations use the same bounded
+The primary benchmark registry is enumerated at runtime. All implementations use the same bounded
 normalized search space and the same ORPD evaluator. The source code identifies the software
 formulation actually executed; parameter values are stored with every run.
 
@@ -10,7 +10,9 @@ formulation actually executed; parameter values are stored with every run.
 | TLBO | Teaching-Learning-Based Optimization | Rao, Savsani, and Vakharia, *Computer-Aided Design*, 2011 |
 | PSO | Particle Swarm Optimization | Kennedy and Eberhart, IEEE ICNN, 1995 |
 | CLPSO | Comprehensive Learning PSO | Liang et al., *IEEE Transactions on Evolutionary Computation*, 2006 |
+| CMA-ES | Active Covariance Matrix Adaptation Evolution Strategy | Hansen, Akimoto, and Baudis, maintained [official pycma implementation](https://github.com/CMA-ES/pycma), [Zenodo DOI 10.5281/zenodo.2559635](https://doi.org/10.5281/zenodo.2559635) |
 | MTLA-DE | Modified teaching-learning + DE/rand/1/bin | Explicit hybrid formulation in `algorithms/mtla_de.py`; report this exact software formulation |
+| L-SHADE | Success-history adaptive DE with linear population-size reduction | Tanabe and Fukunaga, IEEE CEC 2014, [DOI 10.1109/CEC.2014.6900380](https://doi.org/10.1109/CEC.2014.6900380); corrected L-SHADE 1.0.1 mechanics from the [authors' source release](https://ryojitanabe.github.io/publication) |
 | QODE | Quasi-Oppositional Differential Evolution | Quasi-oppositional initialization with DE/rand/1/bin |
 | DA | Dragonfly Algorithm | Mirjalili, *Neural Computing and Applications*, 2016 |
 | SA | Simulated Annealing | Metropolis acceptance with bounded continuous Gaussian neighborhood |
@@ -33,6 +35,23 @@ For literature variants that have multiple published parameterizations, the exec
 saved run parameters define the precise formulation used by CALO-RPD Studio. The software does not
 claim binary identity with third-party executables. Any manuscript comparison should cite the original
 method and disclose the exact configuration exported with the run.
+
+L-SHADE uses the corrected reference defaults for historical memory (`H=5`), p-best rate (`0.11`),
+and archive rate (`1.4`). Common-budget studies deliberately supply the campaign population size rather
+than the reference executable's `18D` initial-size convention so function-evaluation fairness remains
+explicit. For constrained ORPD tasks, selection is the shared Deb feasibility-first rule. Successful
+parameter weights use objective decrease between feasible solutions, violation decrease between
+infeasible solutions, and a positive transition weight when feasibility is first attained. This
+constraint adapter is a disclosed study wrapper; it is not claimed to be part of unconstrained L-SHADE.
+
+CMA-ES delegates ask/tell covariance adaptation to pinned `cma` 4.4.4 with active covariance enabled,
+smooth bound transformation on the normalized unit box, and an explicit per-run random generator. It
+is comparison based, so the constrained wrapper passes dense ranks from the common Deb ordering rather
+than inventing a scale-dependent penalty coefficient. Exact ties receive the same rank. Mixed tap/shunt
+variables are latent continuous coordinates decoded by the common mixed-variable decoder; results must
+therefore be described as this declared encoding, not as a native integer CMA-ES formulation. The small
+covariance controller stays in CPU RAM while the common population evaluator may execute on CUDA. That
+residency difference is stored with every run and CUDA-native optimizer-kernel speed is not claimed.
 
 ## v3 accelerator implementation rule
 

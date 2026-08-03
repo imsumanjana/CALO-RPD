@@ -1,6 +1,6 @@
 """Persistent per-device workers for the v3.4 batched throughput engine.
 
-One process owns one CUDA/XPU context for the complete campaign.  Multiple independent optimizer
+One process owns one CUDA context for the complete campaign. Multiple independent optimizer
 runs execute as threads inside that process and submit compatible population requests to one
 ``CrossRunBatchBroker``.  This removes per-run accelerator initialization and enables real
 cross-run candidate batching without changing optimizer equations or evaluation budgets.
@@ -33,6 +33,7 @@ from calo_rpd_studio.experiments.experiment_runner import (
 
 
 _LOG = logging.getLogger(__name__)
+
 
 def configure_item_device(config, compute_device: str, item=None):
     return bind_config_to_device(config, compute_device, item)
@@ -142,11 +143,7 @@ def _worker_main(
                     "device_resident_execution": bool(
                         getattr(config, "device_resident_execution", True)
                     ),
-                    "planned_device_share": {
-                        "cuda": int(getattr(config, "cuda_task_share", 80)),
-                        "xpu": int(getattr(config, "xpu_task_share", 10)),
-                        "cpu": int(getattr(config, "cpu_task_share", 10)),
-                    },
+                    "device_routing_policy": "automatic_cuda_first_available_memory_v1",
                     "cross_run_batching": bool(effective_cross_run_batching),
                     "cross_run_batch_window_ms": float(batch_window_ms),
                     "max_cross_run_batch": int(max_cross_run_batch),

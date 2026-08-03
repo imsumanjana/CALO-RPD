@@ -132,7 +132,9 @@ def migrate_legacy_workspace_index(index: int, *, source_schema: int | None = No
         raise KeyError(f"Unknown legacy v5.9 workspace index: {value}") from exc
 
 
-def migrate_workspace_ui(ui: dict | None, *, fallback_key: str = "dashboard") -> tuple[dict, WorkspaceMigrationReport]:
+def migrate_workspace_ui(
+    ui: dict | None, *, fallback_key: str = "dashboard"
+) -> tuple[dict, WorkspaceMigrationReport]:
     """Migrate any supported historical UI payload to the v6.2 schema-3 keyed contract.
 
     Invalid/unknown identities fail *conservatively* to Dashboard instead of unlocking a later

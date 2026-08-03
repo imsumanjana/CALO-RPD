@@ -14,6 +14,7 @@ from calo_rpd_studio.app.workspaces import migrate_workspace_ui
 
 _LOG = logging.getLogger(__name__)
 
+
 class WorkspaceRestoreError(RuntimeError):
     """Structured restoration failure with an explicit stage and experiment identity."""
 
@@ -28,7 +29,6 @@ class WorkspaceRestoreError(RuntimeError):
             "stage": self.stage,
             "error": str(self),
         }
-
 
 
 class ExperimentWorkspaceRestorer:
@@ -63,7 +63,9 @@ class ExperimentWorkspaceRestorer:
         pool = completed or revisions
         return max(pool, key=lambda r: int(r.get("revision_number", 0)))
 
-    def _config_for_revision(self, experiment_id: str, row: dict, revision: dict | None) -> tuple[ExperimentConfig, str]:
+    def _config_for_revision(
+        self, experiment_id: str, row: dict, revision: dict | None
+    ) -> tuple[ExperimentConfig, str]:
         target_id = str((revision or {}).get("id", "") or "")
         candidates: list[tuple[int, dict]] = []
         for campaign in self.state.database.list_campaigns(False):
@@ -72,7 +74,10 @@ class ExperimentWorkspaceRestorer:
             try:
                 payload = json.loads(str(campaign.get("config_json", "") or "{}"))
             except (TypeError, ValueError, json.JSONDecodeError):
-                _LOG.warning("Ignoring campaign with invalid config JSON during restore: %s", campaign.get("id"))
+                _LOG.warning(
+                    "Ignoring campaign with invalid config JSON during restore: %s",
+                    campaign.get("id"),
+                )
                 continue
             revision_id = str(payload.get("experiment_revision_id", "") or "")
             if target_id and revision_id != target_id:
@@ -95,7 +100,9 @@ class ExperimentWorkspaceRestorer:
             config = ExperimentConfig.from_dict(base_payload)
         except (TypeError, ValueError, json.JSONDecodeError) as exc:
             raise WorkspaceRestoreError(
-                str(experiment_id), "configuration", f"saved experiment configuration is corrupt: {exc}"
+                str(experiment_id),
+                "configuration",
+                f"saved experiment configuration is corrupt: {exc}",
             ) from exc
         # Never silently claim a different revision. If the latest revision has no matching campaign
         # configuration, restore the immutable original definition and surface that fact.
@@ -124,13 +131,17 @@ class ExperimentWorkspaceRestorer:
         if binding_row is not None:
             binding = dict(binding_row.get("binding") or {})
             policy_binding_status = "recorded"
-            checkpoint = str(binding.get("policy_checkpoint", binding_row.get("checkpoint_path", "")) or "")
+            checkpoint = str(
+                binding.get("policy_checkpoint", binding_row.get("checkpoint_path", "")) or ""
+            )
             expected_sha = str(binding.get("policy_sha256", binding_row.get("sha256", "")) or "")
             if checkpoint and expected_sha:
                 try:
                     inspected = self.state.policy_registry.inspect_checkpoint(checkpoint)
                     policy_binding_status = (
-                        "verified" if inspected["sha256"].lower() == expected_sha.lower() else "checksum_mismatch"
+                        "verified"
+                        if inspected["sha256"].lower() == expected_sha.lower()
+                        else "checksum_mismatch"
                     )
                     if policy_binding_status == "checksum_mismatch":
                         policy_binding_error = (
@@ -140,7 +151,9 @@ class ExperimentWorkspaceRestorer:
                 except Exception as exc:
                     policy_binding_status = "artifact_unavailable"
                     policy_binding_error = f"{type(exc).__name__}: {exc}; checkpoint={checkpoint}; expected_sha256={expected_sha}"
-                    _LOG.error("Policy binding inspection failed during restore: %s", policy_binding_error)
+                    _LOG.error(
+                        "Policy binding inspection failed during restore: %s", policy_binding_error
+                    )
 
         try:
             case = CaseLoader.load(config.case_name)
@@ -157,7 +170,9 @@ class ExperimentWorkspaceRestorer:
             power_flow = run_ac_power_flow(case, config.power_flow)
         except (ValueError, RuntimeError, np.linalg.LinAlgError) as exc:
             raise WorkspaceRestoreError(
-                str(experiment_id), "power_flow", f"saved power-flow state could not be reconstructed: {exc}"
+                str(experiment_id),
+                "power_flow",
+                f"saved power-flow state could not be reconstructed: {exc}",
             ) from exc
         if not bool(power_flow.converged):
             raise WorkspaceRestoreError(
@@ -175,12 +190,16 @@ class ExperimentWorkspaceRestorer:
                 loader(config)
             refresher = getattr(page, "refresh", None)
             if callable(refresher) and page in {
-                self._page("scenarios"), self._page("portfolio"), self._page("experiment")
+                self._page("scenarios"),
+                self._page("portfolio"),
+                self._page("experiment"),
             }:
                 refresher()
 
         power_page = self._page("power_system")
-        restore_case = getattr(power_page, "restore_case_state", None) if power_page is not None else None
+        restore_case = (
+            getattr(power_page, "restore_case_state", None) if power_page is not None else None
+        )
         if callable(restore_case):
             restore_case(case, power_flow)
 

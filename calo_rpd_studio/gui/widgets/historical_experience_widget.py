@@ -263,7 +263,7 @@ class HistoricalExperienceWidget(QGroupBox):
                 row_index, 7, QTableWidgetItem(str(self._transition_count(experiment_id)))
             )
         self.summary.setPlainText(
-            "Existing experiments are excluded from learning by default. Mark development data as TRAIN, "
+            "Existing experiments are excluded from learning by default. Mark eligible policy-training data as TRAIN, "
             "enable learning eligibility, save classifications, then build the repository."
         )
 
@@ -350,7 +350,7 @@ class HistoricalExperienceWidget(QGroupBox):
             "summary": repository.summary,
             "selection_policy": repository.payload.get("selection_policy", {}),
             "note": (
-                "Older CALO runs without v1.3 policy_trajectory records remain useful for cross-algorithm "
+                "Older CALO runs without native policy trajectories remain useful for cross-algorithm "
                 "solution knowledge and parameter priors, but cannot be used for direct policy imitation."
             ),
         }

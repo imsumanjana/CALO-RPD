@@ -95,7 +95,9 @@ def _jacobian(ybus, voltage, pvpq, pq):
         j12 = dS_dVm[pvpq, :][:, pq].real.tocsr()
         j21 = dS_dVa[pq, :][:, pvpq].imag.tocsr()
         j22 = dS_dVm[pq, :][:, pq].imag.tocsr()
-        return vstack([hstack([j11, j12], format="csr"), hstack([j21, j22], format="csr")], format="csr")
+        return vstack(
+            [hstack([j11, j12], format="csr"), hstack([j21, j22], format="csr")], format="csr"
+        )
     except (ImportError, RuntimeError, ValueError, TypeError, AttributeError) as exc:
         _LOG.warning(
             "Sparse Jacobian construction unavailable/failed (%s); considering bounded dense fallback",
@@ -116,7 +118,10 @@ def _solve_linear(jacobian, rhs):
         if np.all(np.isfinite(dx)):
             return dx
     except (ImportError, RuntimeError, ValueError, TypeError):
-        _LOG.debug("Sparse linear solve unavailable/failed; using deterministic dense fallback", exc_info=True)
+        _LOG.debug(
+            "Sparse linear solve unavailable/failed; using deterministic dense fallback",
+            exc_info=True,
+        )
     dense = jacobian.toarray() if hasattr(jacobian, "toarray") else np.asarray(jacobian)
     return np.linalg.solve(dense, rhs)
 
@@ -183,4 +188,6 @@ def solve_newton_raphson(
 
     final = _mismatch(ybus, sbus, voltage, pvpq, pq)
     max_mismatch = float(np.max(np.abs(final))) if final.size else 0.0
-    return NewtonResult(False, voltage, min(int(max_iterations), len(history) - 1), max_mismatch, history)
+    return NewtonResult(
+        False, voltage, min(int(max_iterations), len(history) - 1), max_mismatch, history
+    )

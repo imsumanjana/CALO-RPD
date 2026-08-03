@@ -33,7 +33,7 @@ def _torch():
 
 
 def resolve_device(requested: str = "auto", *, require_accelerator: bool = False) -> DeviceContext:
-    """Resolve ``auto``/CUDA/XPU/CPU to a verified PyTorch device.
+    """Resolve ``auto``/CUDA/CPU to a verified PyTorch device.
 
     The returned identifier follows PyTorch numbering and does not necessarily match Windows Task
     Manager adapter numbers.  Double precision is mandatory for the ORPD scientific evaluator.
@@ -43,12 +43,9 @@ def resolve_device(requested: str = "auto", *, require_accelerator: bool = False
     requested = str(requested or "auto").lower().strip()
     if requested in {"gpu", "nvidia"}:
         requested = "cuda:0"
-    if requested in {"intel", "intel_gpu"}:
-        requested = "xpu:0"
-
     candidates: list[str]
     if requested == "auto":
-        candidates = ["cuda:0", "xpu:0", "cpu"]
+        candidates = ["cuda:0", "cpu"]
     else:
         candidates = [requested]
 
@@ -65,26 +62,6 @@ def resolve_device(requested: str = "auto", *, require_accelerator: bool = False
                 f"cuda:{index}",
                 "cuda",
                 str(torch.cuda.get_device_name(index)),
-                accelerator_available=True,
-            )
-        if candidate.startswith("xpu"):
-            xpu = getattr(torch, "xpu", None)
-            available = bool(xpu is not None and xpu.is_available())
-            if not available:
-                continue
-            index = int(candidate.split(":", 1)[1]) if ":" in candidate else 0
-            count = int(xpu.device_count()) if hasattr(xpu, "device_count") else 1
-            if index >= count:
-                continue
-            try:
-                name = str(xpu.get_device_name(index))
-            except Exception:
-                name = f"Intel XPU {index}"
-            return DeviceContext(
-                requested,
-                f"xpu:{index}",
-                "xpu",
-                name,
                 accelerator_available=True,
             )
         if candidate == "cpu":

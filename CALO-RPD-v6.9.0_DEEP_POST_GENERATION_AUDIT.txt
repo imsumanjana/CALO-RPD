@@ -1,0 +1,54 @@
+CALO-RPD v6.9.0 DEEP POST-GENERATION AUDIT
+============================================================
+
+AUDIT SCOPE
+-----------
+The audit reviewed the v6.9 VRAM governor, device-resident ORPD evaluator, batched Newton solver,
+PPO learner update loop, ExperimentConfig/schema, GUI controls, release evidence and preservation of
+v6.5-v6.8 closures.
+
+CONFIRMED CLOSURES
+------------------
+1. CUDA process memory is capped at an 80%-default fraction rather than attempting unsafe 100% VRAM allocation.
+2. CUDA population requests begin as complete device batches and back off only after genuine OOM.
+3. OOM recovery remains on CUDA and never silently changes the scientific backend to CPU.
+4. Completed microbatch outputs are concatenated on the device.
+5. The public result contract performs one packed host materialization after a completed population request.
+6. The resident Newton/backtracking path uses fixed-shape masked systems and no per-iteration host convergence read.
+7. Static active zero/near-zero impedance validation occurs before device execution.
+8. PPO loss tensors are transferred once per epoch, not once per minibatch.
+9. PPO OOM recovery halves the active minibatch and retries on CUDA.
+10. VRAM budget, peak memory, microbatch and OOM evidence are attached to runtime metadata.
+
+SCIENTIFIC PRESERVATION
+-----------------------
+- FP64 ORPD equations, objective definitions, robust aggregation, constraint normalization and CPU-reference parity contract are unchanged.
+- v6.9 changes execution residency, batching and synchronization behavior only.
+- Final publication state reconstruction remains an independent CPU-reference operation.
+
+DECLARED LIMITATIONS
+--------------------
+- The full desktop application cannot and should not execute in VRAM. GUI, Python control flow, persistence, logging and file I/O remain host-side.
+- Torch canonical/CALO control decisions at population boundaries still use the Python control plane; the expensive ORPD numerical data plane remains device-resident.
+- Fixed-iteration masking may execute additional GPU work after some rows converge; target-hardware profiling is required to determine the best setting for each case size.
+- Physical CUDA/XPU performance, thermal stability and 80%-ceiling behavior were not measurable in the CPU-only build runtime.
+- PYPOWER-dependent publication-case validation was unavailable in the build runtime.
+
+VALIDATION EVIDENCE
+-------------------
+- Focused v6.9 residency tests: 7 passed.
+- Device-resident/audit regression selection: 53 passed.
+- Training/Stage-B/hardware regression selection: 47 passed.
+- Configuration round-trip tests: 4 passed.
+- Release-integrity gate: 5 passed.
+- Scientific/software freeze: 150/150 files verified.
+- Final package manifest: 484 packaged files.
+
+The regression selections overlap and are not summed as a unique total.
+
+AUDIT CONCLUSION
+----------------
+The v6.9 implementation truthfully realizes the requested architecture for the CUDA-compatible numerical
+data plane: an 80%-default VRAM ceiling, device-resident active work, bounded CUDA-only OOM recovery,
+and removal of CPU scalar reads from the resident Newton/PPO hot paths. No unsupported claim is made
+that non-CUDA desktop services run in VRAM or that target-machine speedup has already been measured.

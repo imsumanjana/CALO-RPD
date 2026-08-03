@@ -107,7 +107,9 @@ def validate_case(case) -> CaseValidationReport:
     if np.any(~np.isfinite(generator_status)):
         errors.append("Generator status values must be finite.")
     elif np.any(~np.isin(generator_status, (0, 1))):
-        warnings.append("Non-binary generator status values are interpreted by sign (>0 online, <=0 offline).")
+        warnings.append(
+            "Non-binary generator status values are interpreted by sign (>0 online, <=0 offline)."
+        )
     for bus in case.gen[:, GEN_BUS].astype(int):
         if bus not in known:
             errors.append(f"Generator references unknown bus {bus}.")
@@ -116,7 +118,9 @@ def validate_case(case) -> CaseValidationReport:
     if np.any(~np.isfinite(branch_status)):
         errors.append("Branch status values must be finite.")
     elif np.any(~np.isin(branch_status, (0, 1))):
-        warnings.append("Non-binary branch status values are interpreted by sign (>0 online, <=0 offline).")
+        warnings.append(
+            "Non-binary branch status values are interpreted by sign (>0 online, <=0 offline)."
+        )
     for row in case.branch:
         from_bus, to_bus = int(row[F_BUS]), int(row[T_BUS])
         if from_bus not in known or to_bus not in known:

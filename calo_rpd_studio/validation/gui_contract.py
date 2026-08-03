@@ -26,7 +26,9 @@ def validate_gui_contract(repo_root: str | Path) -> dict:
 
     expected_prefix = ("dashboard", "calo_intelligence", "power_system")
     if tuple(WORKSPACE_KEYS[:3]) != expected_prefix:
-        errors.append(f"Canonical workspace prefix is {WORKSPACE_KEYS[:3]!r}, expected {expected_prefix!r}")
+        errors.append(
+            f"Canonical workspace prefix is {WORKSPACE_KEYS[:3]!r}, expected {expected_prefix!r}"
+        )
     if WORKSPACE_SCHEMA_VERSION < 3:
         errors.append("Workspace schema version is older than v6.2 schema 3")
     if '"workspace_schema_version": WORKSPACE_SCHEMA_VERSION' not in main_text:
@@ -42,10 +44,21 @@ def validate_gui_contract(repo_root: str | Path) -> dict:
     tree = ast.parse(main_text)
     for node in ast.walk(tree):
         if isinstance(node, ast.Subscript) and isinstance(node.value, ast.Attribute):
-            if node.value.attr == "pages" and isinstance(node.slice, ast.Constant) and isinstance(node.slice.value, int):
-                errors.append(f"Hard-coded numeric pages[{node.slice.value}] reference remains in MainWindow")
+            if (
+                node.value.attr == "pages"
+                and isinstance(node.slice, ast.Constant)
+                and isinstance(node.slice.value, int)
+            ):
+                errors.append(
+                    f"Hard-coded numeric pages[{node.slice.value}] reference remains in MainWindow"
+                )
 
-    return {"ok": not errors, "errors": errors, "warnings": warnings, "workspace_count": len(WORKSPACE_KEYS)}
+    return {
+        "ok": not errors,
+        "errors": errors,
+        "warnings": warnings,
+        "workspace_count": len(WORKSPACE_KEYS),
+    }
 
 
 __all__ = ["validate_gui_contract"]

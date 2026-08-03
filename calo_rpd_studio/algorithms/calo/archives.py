@@ -52,7 +52,8 @@ class FeasibleEliteArchive:
         if not self.entries:
             return np.repeat(fallback[None, :], count, axis=0)
         ranks = np.arange(1, len(self.entries) + 1, dtype=float)
-        weights = (1.0 / ranks); weights /= weights.sum()
+        weights = 1.0 / ranks
+        weights /= weights.sum()
         indices = rng.choice(len(self.entries), size=count, p=weights)
         bank = np.asarray([entry.vector for entry in self.entries], dtype=float)
         return bank[np.asarray(indices, dtype=int)].copy()

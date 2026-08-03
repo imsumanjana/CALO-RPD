@@ -43,8 +43,8 @@ class PrerequisiteWizard:
         ttk.Label(
             outer,
             text=(
-                "This first-launch wizard checks the scientific Python environment, detects NVIDIA and Intel "
-                "graphics hardware, provisions CUDA and Intel XPU compute runtimes when supported, and verifies "
+                "This first-launch wizard checks the scientific Python environment, detects NVIDIA "
+                "graphics hardware, provisions CUDA when supported, and verifies "
                 "real accelerator computations before the main application starts."
             ),
             wraplength=850,
@@ -173,26 +173,12 @@ class PrerequisiteWizard:
             values=("READY" if report.nvidia.detected else "INFO", nvidia_detail),
         )
 
-        intel_detail = (
-            f"Intel graphics: {report.intel.name}"
-            if report.intel.detected
-            else f"Intel graphics: not detected ({report.intel.error or 'not available'})"
-        )
-        self.tree.insert(
-            "",
-            "end",
-            values=("READY" if report.intel.detected else "INFO", intel_detail),
-        )
-
         primary_cuda_ready = bool(report.torch.cuda_available and report.torch.gpu_test_passed)
-        primary_xpu_ready = bool(report.torch.xpu_available and report.torch.xpu_test_passed)
         torch_status = bool(report.torch.installed)
         torch_detail = (
             f"Primary PyTorch {report.torch.version or 'not installed'} · "
             f"CUDA {'READY' if primary_cuda_ready else 'inactive'}"
-            f"{f' ({report.torch.device_name})' if report.torch.device_name else ''} · "
-            f"XPU {'READY' if primary_xpu_ready else 'inactive'}"
-            f"{f' ({report.torch.xpu_device_name})' if report.torch.xpu_device_name else ''}"
+            f"{f' ({report.torch.device_name})' if report.torch.device_name else ''}"
         )
         self.tree.insert(
             "",
@@ -200,29 +186,12 @@ class PrerequisiteWizard:
             values=(self._mark(torch_status, warning=not torch_status), torch_detail),
         )
 
-        if report.intel.detected:
-            sidecar_ready = bool(
-                report.xpu_sidecar.xpu_available and report.xpu_sidecar.gpu_test_passed
-            )
-            sidecar_detail = (
-                f"Secondary Intel XPU runtime: "
-                f"{'READY' if sidecar_ready else 'not verified'} · "
-                f"PyTorch {report.xpu_sidecar.torch_version or '—'} · "
-                f"device {report.xpu_sidecar.device_name or '—'}"
-            )
-            if report.xpu_sidecar.error and not sidecar_ready:
-                sidecar_detail += f" · {report.xpu_sidecar.error}"
-            self.tree.insert(
-                "",
-                "end",
-                values=(self._mark(sidecar_ready, warning=True), sidecar_detail),
-            )
-
         self.summary.configure(
             text=(
-                f"{report.message} Recommended backend: {report.recommended_backend}. "
-                "Scheduler priority: NVIDIA CUDA → Intel XPU → CPU. "
-                "Backend device IDs may differ from Windows Task Manager GPU numbers."
+                f"{report.message} Recommended compute mode: "
+                f"{'NVIDIA acceleration' if report.recommended_backend.startswith('cuda') else 'CPU only'}. "
+                "Scheduler priority: NVIDIA CUDA → CPU. "
+                "Displayed device identifiers may differ from Windows Task Manager GPU numbers."
             )
         )
         if report.mandatory_ready:
@@ -371,11 +340,11 @@ class PrerequisiteWizard:
             messagebox.showwarning("Prerequisite setup", "Verify the environment before starting.")
             return
         accepted_cpu_fallback = False
-        accelerator_detected = bool(self.report.nvidia.detected or self.report.intel.detected)
+        accelerator_detected = bool(self.report.nvidia.detected)
         if accelerator_detected and not self.report.gpu_ready:
             accepted_cpu_fallback = messagebox.askyesno(
                 "Start with CPU fallback?",
-                "GPU hardware was detected, but no CUDA/XPU runtime passed a real computation test. "
+                "NVIDIA hardware was detected, but CUDA did not pass a real computation test. "
                 "Start CALO-RPD Studio with CPU fallback and remember this choice for this environment?",
             )
             if not accepted_cpu_fallback:

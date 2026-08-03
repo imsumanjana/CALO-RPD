@@ -2,12 +2,14 @@
 
 from __future__ import annotations
 
+from copy import deepcopy
 import logging
-
-_LOG = logging.getLogger(__name__)
 
 from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtWidgets import (
+    QComboBox,
+    QDoubleSpinBox,
+    QFormLayout,
     QGridLayout,
     QHBoxLayout,
     QLabel,
@@ -25,7 +27,17 @@ from PyQt6.QtWidgets import (
 
 from calo_rpd_studio.gui.widgets.section_card import MetricCard, SectionCard
 from calo_rpd_studio.gui.widgets.workspace_page import WorkspacePage
+from calo_rpd_studio.experiments.study_strength import (
+    StudyStrength,
+    apply_study_strength,
+    study_strength_plan,
+    summarize_study_protocol_change,
+)
+from calo_rpd_studio.power_system.case_loader import CaseLoader
+from calo_rpd_studio.power_system.case_validation import validate_case
 from calo_rpd_studio.power_system.network_metrics import summarize_case
+
+_LOG = logging.getLogger(__name__)
 
 
 def _bytes_text(value: int) -> str:
@@ -56,7 +68,7 @@ class DashboardPanel(WorkspacePage):
     def __init__(self, state, parent=None) -> None:
         super().__init__(
             "Dashboard",
-            "System readiness, CPU/XPU/GPU runtime mapping, Safe-80 compute protection, governing-policy status, and current scientific context.",
+            "System readiness, protected compute selection, governing-policy status, and current scientific context.",
             parent,
         )
         self.state = state
@@ -66,7 +78,9 @@ class DashboardPanel(WorkspacePage):
         # the application window is shorter than the preferred dashboard height.
         self.dashboard_body = QWidget()
         self.dashboard_body.setObjectName("DashboardScrollableBody")
-        self.dashboard_body.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
+        self.dashboard_body.setSizePolicy(
+            QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred
+        )
         self.dashboard_body_layout = QVBoxLayout(self.dashboard_body)
         self.dashboard_body_layout.setContentsMargins(0, 0, 0, 0)
         self.dashboard_body_layout.setSpacing(16)
@@ -83,12 +97,28 @@ class DashboardPanel(WorkspacePage):
         metrics = QGridLayout()
         metrics.setHorizontalSpacing(12)
         metrics.setVerticalSpacing(12)
-        self.system_metric = MetricCard("System protection", "Scanning", "Safe-80 compute envelope")
-        self.branch_metric = MetricCard("Safe parallel branches", "—", "Calculated from protected hardware capacity")
-        self.policy_metric = MetricCard("CALO governing intelligence", "Not ready", "Qualified active policy required")
-        self.verified_metric = MetricCard("Verified results", "0", "Independent validation required for export")
-        self.training_metric = MetricCard("Policy training queue", "Idle", "Total branches and Safe-80 concurrency are separate")
-        metric_cards = (self.system_metric, self.branch_metric, self.policy_metric, self.verified_metric, self.training_metric)
+        self.system_metric = MetricCard(
+            "System protection", "Scanning", "Automatic memory protection"
+        )
+        self.branch_metric = MetricCard(
+            "Simultaneous tasks", "—", "Calculated from protected hardware capacity"
+        )
+        self.policy_metric = MetricCard(
+            "CALO governing intelligence", "Not ready", "Qualified active policy required"
+        )
+        self.verified_metric = MetricCard(
+            "Verified results", "0", "Independent validation required for export"
+        )
+        self.training_metric = MetricCard(
+            "Policy training queue", "Idle", "Requested branches are queued when necessary"
+        )
+        metric_cards = (
+            self.system_metric,
+            self.branch_metric,
+            self.policy_metric,
+            self.verified_metric,
+            self.training_metric,
+        )
         for index, card in enumerate(metric_cards):
             card.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
             row, column = divmod(index, 3)
@@ -99,30 +129,91 @@ class DashboardPanel(WorkspacePage):
 
         self.dashboard_tabs = QTabWidget()
         self.dashboard_tabs.setObjectName("DashboardTabs")
-        self.dashboard_tabs.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        self.dashboard_tabs.setSizePolicy(
+            QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding
+        )
         self.dashboard_tabs.setMinimumHeight(500)
 
+        study_setup = SectionCard(
+            "Guided study setup",
+            "Choose an evidence strength and reference case once. Applying the protocol updates the case, algorithms, paired runs, evaluation budget, scenarios, required outputs, validation, storage, resume, and export prerequisites throughout the workspace.",
+        )
+        study_form = QFormLayout()
+        self.study_strength = QComboBox()
+        self.study_strength.addItem(
+            "Strong — comprehensive confirmatory", StudyStrength.STRONG.value
+        )
+        self.study_strength.addItem("Good — rigorous robust", StudyStrength.GOOD.value)
+        self.study_strength.addItem("Moderate — comparative", StudyStrength.MODERATE.value)
+        self.study_strength.addItem("Low — screening", StudyStrength.LOW.value)
+        self.study_strength.setCurrentIndex(1)
+        self.study_case = QComboBox()
+        self.study_case.addItems(CaseLoader.available_cases())
+        case_index = self.study_case.findText(str(self.state.config.case_name))
+        if case_index >= 0:
+            self.study_case.setCurrentIndex(case_index)
+        initial_plan = study_strength_plan(str(self.study_strength.currentData()))
+        self.study_effect = QDoubleSpinBox()
+        self.study_effect.setDecimals(2)
+        self.study_effect.setRange(0.10, 3.00)
+        self.study_effect.setSingleStep(0.05)
+        self.study_effect.setValue(float(initial_plan.default_standardized_effect or 0.50))
+        self.study_effect.setToolTip(
+            "Smallest scientifically meaningful paired difference divided by the pilot standard "
+            "deviation of paired differences. Replace the default with preregistered pilot evidence."
+        )
+        self.study_power = QDoubleSpinBox()
+        self.study_power.setDecimals(2)
+        self.study_power.setRange(0.50, 0.99)
+        self.study_power.setSingleStep(0.05)
+        self.study_power.setValue(float(initial_plan.default_power or 0.80))
+        self.study_power.setToolTip(
+            "Probability targeted for detecting the declared smallest meaningful paired effect."
+        )
+        self.apply_study_button = QPushButton("Apply study protocol throughout")
+        self.apply_study_button.setObjectName("PrimaryButton")
+        self.study_guidance = QLabel()
+        self.study_guidance.setWordWrap(True)
+        self.study_guidance.setObjectName("InfoText")
+        study_form.addRow("Evidence strength", self.study_strength)
+        study_form.addRow("Primary reference case", self.study_case)
+        study_form.addRow("Smallest standardized paired effect", self.study_effect)
+        study_form.addRow("Target detection power", self.study_power)
+        study_form.addRow("", self.apply_study_button)
+        study_setup.layout_root.addLayout(study_form)
+        study_setup.layout_root.addWidget(self.study_guidance)
+        self.study_strength.currentIndexChanged.connect(self._study_strength_changed)
+        self.study_case.currentIndexChanged.connect(self._refresh_study_guidance)
+        self.study_effect.valueChanged.connect(self._refresh_study_guidance)
+        self.study_power.valueChanged.connect(self._refresh_study_guidance)
+        self.apply_study_button.clicked.connect(self._apply_study_protocol)
+        self._study_strength_changed()
+
+        study_tab = QWidget()
+        study_tab_layout = QVBoxLayout(study_tab)
+        study_tab_layout.setContentsMargins(10, 10, 10, 10)
+        study_tab_layout.addWidget(study_setup)
+        study_tab_layout.addStretch(1)
+        self.dashboard_tabs.addTab(_scrollable_tab(study_tab), "Study Setup")
+
         readiness = SectionCard(
-            "System Readiness & Compute Protection",
-            "CALO-RPD maps physical CPU/XPU/GPU resources to runtime identifiers before scientific work. The default Safe-80 profile reserves 20% operating headroom and calculates the hard simultaneous-branch ceiling used by the protected queue scheduler.",
+            "System Readiness",
+            "The application checks available compute and memory before scientific work. It "
+            "keeps operating headroom and queues work that cannot be admitted safely.",
         )
         status_grid = QGridLayout()
         status_grid.setHorizontalSpacing(22)
         status_grid.setVerticalSpacing(8)
         self.compute_labels: dict[str, QLabel] = {}
         fields = (
-            "Protection profile",
-            "System status",
-            "CPU topology",
-            "Safe CPU worker budget",
-            "System RAM",
-            "Safe RAM ceiling",
-            "Accelerator branch slots",
-            "Maximum safe simultaneous branches",
-            "Live protection state",
-            "CPU live load / temperature",
-            "Protection action",
-            "Last protection reason",
+            "Protection status",
+            "Processor",
+            "Available system memory",
+            "NVIDIA acceleration",
+            "Available accelerator memory",
+            "Simultaneous task limit",
+            "Current action",
+            "Protection note",
         )
         for index, name in enumerate(fields):
             row = index % 4
@@ -143,7 +234,8 @@ class DashboardPanel(WorkspacePage):
         self.refresh_system_button = QPushButton("Refresh system map")
         self.refresh_system_button.clicked.connect(self._request_compute_refresh)
         self.compute_note = QLabel(
-            "OS GPU numbering and PyTorch runtime numbering are separate. The table below explicitly links the detected physical/OS adapter to CALO runtime IDs such as cuda:0 or xpu:0."
+            "Available memory is sampled again whenever work starts. A task may use at most "
+            "80% of memory that is free at that admission boundary."
         )
         self.compute_note.setWordWrap(True)
         self.compute_note.setObjectName("HelpText")
@@ -153,7 +245,18 @@ class DashboardPanel(WorkspacePage):
 
         self.device_table = QTableWidget(0, 10)
         self.device_table.setHorizontalHeaderLabels(
-            ["OS / physical adapter", "CALO runtime", "Backend", "Device", "Memory", "Temperature", "Power", "Validated roles", "Capability status", "Telemetry"]
+            [
+                "Hardware",
+                "Availability",
+                "Compute choice",
+                "Name",
+                "Available memory",
+                "Temperature",
+                "Power",
+                "Supported work",
+                "Status",
+                "Measurement source",
+            ]
         )
         self.device_table.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
         self.device_table.setSelectionMode(QTableWidget.SelectionMode.NoSelection)
@@ -177,24 +280,23 @@ class DashboardPanel(WorkspacePage):
         self.dashboard_tabs.addTab(_scrollable_tab(readiness_tab), "System Readiness")
 
         training_queue = SectionCard(
-            "Protected Policy Training Queue",
-            "v6.2 separates scientific branch diversity from simultaneous execution. Dashboard Safe-80 sets the hard concurrency ceiling; excess branches remain queued and rotate through exact-resume leases without silent CPU spillover.",
+            "Policy Training Queue",
+            "The requested scientific branches are preserved. Work that cannot run safely at "
+            "the same time waits in the queue and resumes from a recoverable checkpoint.",
         )
         queue_grid = QGridLayout()
         queue_grid.setHorizontalSpacing(22)
         queue_grid.setVerticalSpacing(8)
         self.training_labels: dict[str, QLabel] = {}
         queue_fields = (
-            "Training status",
-            "Total scientific branches",
-            "Safe simultaneous limit",
-            "Active branches",
-            "Queued branches",
-            "Completed branches",
-            "Scientific epoch progress",
-            "Exact safe checkpoint",
-            "Global CPU worker budget",
-            "Resource assignment",
+            "Policy training status",
+            "Scientific branches",
+            "Active now",
+            "Waiting",
+            "Completed",
+            "Epoch progress",
+            "Recoverable checkpoint",
+            "Compute assignment",
         )
         for index, name in enumerate(queue_fields):
             row = index % 5
@@ -285,6 +387,81 @@ class DashboardPanel(WorkspacePage):
         self._protection_timer.timeout.connect(self._sample_live_protection)
         self._protection_timer.start()
 
+    def _refresh_study_guidance(self) -> None:
+        plan = study_strength_plan(str(self.study_strength.currentData()))
+        screening = plan.strength is StudyStrength.LOW
+        self.study_guidance.setText(
+            plan.guidance(
+                self.study_case.currentText(),
+                standardized_effect=None if screening else self.study_effect.value(),
+                target_power=None if screening else self.study_power.value(),
+            )
+        )
+
+    def _study_strength_changed(self) -> None:
+        plan = study_strength_plan(str(self.study_strength.currentData()))
+        screening = plan.strength is StudyStrength.LOW
+        self.study_effect.setEnabled(not screening)
+        self.study_power.setEnabled(not screening)
+        if not screening:
+            self.study_effect.blockSignals(True)
+            self.study_power.blockSignals(True)
+            self.study_effect.setValue(float(plan.default_standardized_effect))
+            self.study_power.setValue(float(plan.default_power))
+            self.study_effect.blockSignals(False)
+            self.study_power.blockSignals(False)
+        self._refresh_study_guidance()
+
+    def _apply_study_protocol(self) -> None:
+        if bool(getattr(self.state, "policy_training_active", False)):
+            QMessageBox.information(
+                self,
+                "Policy training active",
+                "Request Safe Stop before changing the experiment protocol.",
+            )
+            return
+        case_name = self.study_case.currentText()
+        try:
+            current = self.state.config
+            candidate = deepcopy(current)
+            plan = apply_study_strength(
+                candidate,
+                str(self.study_strength.currentData()),
+                case_name=case_name,
+                standardized_effect=(
+                    None
+                    if str(self.study_strength.currentData()) == StudyStrength.LOW.value
+                    else self.study_effect.value()
+                ),
+                target_power=(
+                    None
+                    if str(self.study_strength.currentData()) == StudyStrength.LOW.value
+                    else self.study_power.value()
+                ),
+            )
+            case = CaseLoader.load(case_name)
+            report = validate_case(case)
+            if not report.valid:
+                raise ValueError("\n".join(report.errors))
+            candidate.validate()
+            changes = summarize_study_protocol_change(current, candidate)
+            self.state.config = candidate
+            self.state.set_case(case)
+            self.state.update_config()
+            self.state.task_status.finish(
+                f"{plan.label} applied throughout; continue with base power-flow validation"
+            )
+            self._refresh_study_guidance()
+            QMessageBox.information(
+                self,
+                "Study protocol applied",
+                f"{plan.label} is now applied to {case_name}. The case is loaded; Power System "
+                "still requires the base power flow and independent cross-check before execution."
+                + ("\n\nApplied throughout:\n• " + "\n• ".join(changes) if changes else ""),
+            )
+        except Exception as exc:
+            QMessageBox.critical(self, "Study setup", str(exc))
+
     def _sample_live_protection(self) -> None:
         if getattr(self.state, "compute_protection_profile", None) is None:
             return
@@ -299,38 +476,45 @@ class DashboardPanel(WorkspacePage):
     def refresh_governor(self) -> None:
         decision = getattr(self.state, "compute_governor_decision", None)
         if decision is None:
-            for name in ("Live protection state", "CPU live load / temperature", "Protection action", "Last protection reason"):
+            for name in ("Protection status", "Current action", "Protection note"):
                 if name in self.compute_labels:
                     self.compute_labels[name].setText("—")
             return
-        state_text = str(getattr(getattr(decision, "state", None), "value", getattr(decision, "state", "UNKNOWN")))
-        snapshot = dict(getattr(decision, "snapshot", {}) or {})
-        cpu = float(snapshot.get("cpu_percent", 0.0) or 0.0)
-        temp = snapshot.get("cpu_temperature_c")
-        temp_text = "temperature unavailable" if temp is None else f"{float(temp):.1f} °C"
-        self.compute_labels["Live protection state"].setText(state_text)
-        self.compute_labels["CPU live load / temperature"].setText(f"{cpu:.1f}% · {temp_text}")
+        state_text = str(
+            getattr(
+                getattr(decision, "state", None), "value", getattr(decision, "state", "UNKNOWN")
+            )
+        )
+        self.compute_labels["Protection status"].setText(state_text.replace("_", " ").title())
         if bool(getattr(decision, "request_safe_stop", False)):
-            action = "RED · exact Safe Stop required"
+            action = "Stop safely and preserve a recoverable checkpoint"
         elif bool(getattr(decision, "allow_new_admission", False)):
-            action = "GREEN · staged admission allowed"
+            action = "New work may start"
         else:
-            action = "AMBER · no new admission / active workload throttled"
-        self.compute_labels["Protection action"].setText(action)
+            action = "New work is waiting; active work is protected"
+        self.compute_labels["Current action"].setText(action)
         reasons = tuple(getattr(decision, "reasons", ()) or ())
-        self.compute_labels["Last protection reason"].setText("; ".join(reasons) if reasons else "No protection threshold currently exceeded")
+        self.compute_labels["Protection note"].setText(
+            "; ".join(reasons) if reasons else "System headroom is available"
+        )
 
     def _request_compute_refresh(self) -> None:
         self.refresh_system_button.setEnabled(False)
-        self.system_metric.set_metric("Scanning", "Mapping CPU/XPU/GPU resources")
+        self.system_metric.set_metric("Scanning", "Mapping CPU/CUDA resources")
         try:
             self.state.refresh_compute_profile()
-            self.state.task_status.finish("System compute map and Safe-80 protection profile refreshed")
+            self.state.task_status.finish("System readiness and memory protection refreshed")
         except Exception as exc:
-            QMessageBox.critical(self, "System readiness scan failed", f"{type(exc).__name__}: {exc}")
-            self.state.task_status.fail(f"System readiness scan failed: {type(exc).__name__}: {exc}")
+            QMessageBox.critical(
+                self, "System readiness scan failed", f"{type(exc).__name__}: {exc}"
+            )
+            self.state.task_status.fail(
+                f"System readiness scan failed: {type(exc).__name__}: {exc}"
+            )
         finally:
-            self.refresh_system_button.setEnabled(not bool(getattr(self.state, "policy_training_active", False)))
+            self.refresh_system_button.setEnabled(
+                not bool(getattr(self.state, "policy_training_active", False))
+            )
 
     def refresh_compute(self) -> None:
         topology = getattr(self.state, "compute_topology", None)
@@ -341,67 +525,86 @@ class DashboardPanel(WorkspacePage):
             self.device_table.setRowCount(0)
             return
 
-        self.system_metric.set_metric(profile.status, f"{profile.profile_name} · {profile.reserve_percent}% reserve")
+        self.system_metric.set_metric(profile.status, "Protected automatic resource selection")
         self.branch_metric.set_metric(
             str(profile.safe_parallel_branches),
             "Safe simultaneous ceiling; excess scientific branches remain queued",
         )
-        self.compute_labels["Protection profile"].setText(
-            f"{profile.profile_name} · {profile.reserve_percent}% reserved"
+        self.compute_labels["Protection status"].setText(profile.status)
+        self.compute_labels["Processor"].setText(topology.cpu_name)
+        free_system_memory = max(
+            0,
+            int(topology.ram_total_bytes * (1.0 - topology.ram_used_percent / 100.0)),
         )
-        self.compute_labels["System status"].setText(profile.status)
-        self.compute_labels["CPU topology"].setText(
-            f"{topology.cpu_name} · {topology.physical_cores} physical / {topology.logical_threads} logical"
+        self.compute_labels["Available system memory"].setText(
+            f"Approximately {_bytes_text(free_system_memory)} now"
         )
-        self.compute_labels["Safe CPU worker budget"].setText(
-            f"{profile.safe_cpu_worker_budget} global worker-equivalents (shared across active work)"
+        cuda_devices = [device for device in topology.devices if device.backend == "cuda"]
+        self.compute_labels["NVIDIA acceleration"].setText(
+            "Available" if cuda_devices else "Not available; CPU mode remains usable"
         )
-        self.compute_labels["System RAM"].setText(
-            f"{_bytes_text(topology.ram_total_bytes)} · {topology.ram_used_percent:.1f}% currently used"
+        free_accelerator_memory = sum(
+            max(
+                0,
+                int(device.memory_total_bytes * (1.0 - device.memory_used_percent / 100.0)),
+            )
+            for device in cuda_devices
         )
-        self.compute_labels["Safe RAM ceiling"].setText(_bytes_text(profile.safe_ram_ceiling_bytes))
-        self.compute_labels["Accelerator branch slots"].setText(str(profile.accelerator_branch_slots))
-        self.compute_labels["Maximum safe simultaneous branches"].setText(
-            str(profile.safe_parallel_branches)
+        self.compute_labels["Available accelerator memory"].setText(
+            f"Approximately {_bytes_text(free_accelerator_memory)} now"
+            if cuda_devices
+            else "Not available"
         )
+        self.compute_labels["Simultaneous task limit"].setText(str(profile.safe_parallel_branches))
         reason_text = " ".join(profile.reasons)
         self.compute_note.setText(
-            "OS GPU numbering and PyTorch runtime numbering are separate. "
-            "The mapping below is authoritative for CALO scheduling. "
-            + (f"Protection note: {reason_text}" if reason_text else "Safe-80 resource headroom is available.")
+            "Memory availability is sampled again at task admission and each task is capped at "
+            "80% of what is free at that moment. "
+            + (
+                f"Protection note: {reason_text}"
+                if reason_text
+                else "Protected resource headroom is available."
+            )
         )
 
         self.device_table.setRowCount(len(topology.devices) + 1)
-        cpu_roles = "Host orchestration / protected CPU fallback"
+        cpu_roles = "CPU-only experiments; protected fallback; independent validation"
         decision = getattr(self.state, "compute_governor_decision", None)
-        live_snapshot = dict(getattr(decision, "snapshot", {}) or {}) if decision is not None else {}
+        live_snapshot = (
+            dict(getattr(decision, "snapshot", {}) or {}) if decision is not None else {}
+        )
         cpu_temp = live_snapshot.get("cpu_temperature_c")
         cpu_values = [
-            "CPU",
-            "cpu",
-            "CPU",
+            "System processor",
+            "Available",
+            "CPU only",
             topology.cpu_name,
-            _bytes_text(topology.ram_total_bytes),
+            (
+                f"~{_bytes_text(int(topology.ram_total_bytes * (1.0 - topology.ram_used_percent / 100.0)))} "
+                f"of {_bytes_text(topology.ram_total_bytes)}"
+            ),
             ("unavailable" if cpu_temp is None else f"{float(cpu_temp):.1f} °C"),
             "—",
             cpu_roles,
-            "Safe-80 protected host runtime",
-            "psutil host telemetry",
+            "Ready",
+            "System monitor",
         ]
         for column, value in enumerate(cpu_values):
             self.device_table.setItem(0, column, QTableWidgetItem(str(value)))
         for row, device in enumerate(topology.devices, start=1):
             roles = []
-            if device.ppo_learner:
-                roles.append("PPO")
-            if device.policy_actor:
-                roles.append("Actor")
+            if device.ppo_learner or device.policy_actor:
+                roles.append("Policy training")
             if device.orpd_evaluator:
-                roles.append("ORPD")
+                roles.append("Power-system experiments")
             if device.full_training_branch:
-                roles.append("Full branch")
+                roles.append("Complete training branch")
             live_device = next(
-                (row for row in list(live_snapshot.get("devices", []) or []) if str(row.get("device_id", "")) == device.runtime_id),
+                (
+                    row
+                    for row in list(live_snapshot.get("devices", []) or [])
+                    if str(row.get("device_id", "")) == device.runtime_id
+                ),
                 {},
             )
             device_temp = live_device.get("temperature_c")
@@ -409,17 +612,27 @@ class DashboardPanel(WorkspacePage):
             power_limit = live_device.get("power_limit_w")
             power_text = "unavailable"
             if power_w is not None:
-                power_text = f"{float(power_w):.1f} W" + (f" / {float(power_limit):.1f} W" if power_limit is not None else "")
+                power_text = f"{float(power_w):.1f} W" + (
+                    f" / {float(power_limit):.1f} W" if power_limit is not None else ""
+                )
             values = [
                 device.os_label,
-                device.runtime_id,
-                f"{device.backend.upper()} / {device.runtime}",
+                "Available" if device.capability_status == "validated" else "Detected",
+                "NVIDIA acceleration",
                 device.name,
-                (_bytes_text(device.memory_total_bytes) if device.memory_total_bytes else f"{device.memory_used_percent:.1f}% used"),
+                (
+                    f"~{_bytes_text(int(device.memory_total_bytes * (1.0 - device.memory_used_percent / 100.0)))} "
+                    f"of {_bytes_text(device.memory_total_bytes)}"
+                    if device.memory_total_bytes
+                    else "unavailable"
+                ),
                 ("unavailable" if device_temp is None else f"{float(device_temp):.1f} °C"),
                 power_text,
-                ", ".join(roles) or "Detected only",
-                (device.capability_status + (f" — {device.capability_detail}" if device.capability_detail else "")),
+                ", ".join(roles) or "Availability check only",
+                (
+                    device.capability_status
+                    + (f" — {device.capability_detail}" if device.capability_detail else "")
+                ),
                 device.telemetry or "Runtime capability probe",
             ]
             for column, value in enumerate(values):
@@ -441,7 +654,7 @@ class DashboardPanel(WorkspacePage):
             self.training_metric.set_metric("Idle", "No policy-training queue is active")
             for label in self.training_labels.values():
                 label.setText("—")
-            self.training_labels["Training status"].setText("IDLE")
+            self.training_labels["Policy training status"].setText("IDLE")
             return
         total = int(plan.get("total_branches", 0) or 0)
         simultaneous = int(plan.get("simultaneous_limit", 0) or 0)
@@ -454,43 +667,50 @@ class DashboardPanel(WorkspacePage):
         assignments = []
         for slot in slots:
             primary = str(slot.get("primary_device", "") or "")
-            aux = str(slot.get("auxiliary_xpu_runtime", "") or "")
             text = f"slot {slot.get('slot_index', '?')}: {primary}"
-            if aux:
-                text += f" + XPU {aux} actor/evaluator"
             assignments.append(text)
         self.training_metric.set_metric(
             "ACTIVE" if active_lock else status,
             f"{active} active · {queued} queued · {completed}/{total} completed",
         )
-        self.training_labels["Training status"].setText(status or ("RUNNING" if active_lock else "IDLE"))
-        self.training_labels["Total scientific branches"].setText(str(total))
-        self.training_labels["Safe simultaneous limit"].setText(str(simultaneous))
-        self.training_labels["Active branches"].setText(str(active))
-        self.training_labels["Queued branches"].setText(str(queued))
-        self.training_labels["Completed branches"].setText(str(completed))
+        self.training_labels["Policy training status"].setText(
+            status or ("RUNNING" if active_lock else "IDLE")
+        )
+        self.training_labels["Scientific branches"].setText(
+            f"{total} requested; up to {simultaneous} at the same time"
+        )
+        self.training_labels["Active now"].setText(str(active))
+        self.training_labels["Waiting"].setText(str(queued))
+        self.training_labels["Completed"].setText(str(completed))
         overall_raw = plan.get("overall_percent", -1)
         overall = int(overall_raw) if overall_raw is not None else -1
         completed_branch_epochs = int(plan.get("completed_branch_epochs", 0) or 0)
         total_branch_epochs = int(plan.get("total_branch_epochs", 0) or 0)
         if overall >= 0 and total_branch_epochs > 0:
-            epoch_progress = f"{overall}% · {completed_branch_epochs}/{total_branch_epochs} branch-epochs"
+            epoch_progress = (
+                f"{overall}% · {completed_branch_epochs}/{total_branch_epochs} branch-epochs"
+            )
         elif active_lock:
             branch_rows = list(plan.get("branch_progress", []) or [])
-            epoch_progress = " · ".join(
-                f"{row.get('branch_id')} e{int(row.get('current_epoch', 0) or 0)}" for row in branch_rows[:6]
-            ) or "Indefinite / initializing"
+            epoch_progress = (
+                " · ".join(
+                    f"{row.get('branch_id')} e{int(row.get('current_epoch', 0) or 0)}"
+                    for row in branch_rows[:6]
+                )
+                or "Indefinite / initializing"
+            )
         else:
             epoch_progress = "—"
-        self.training_labels["Scientific epoch progress"].setText(epoch_progress)
+        self.training_labels["Epoch progress"].setText(epoch_progress)
         safe_epoch = plan.get("common_safe_epoch", None)
-        self.training_labels["Exact safe checkpoint"].setText(
-            f"Last common exact epoch {int(safe_epoch)}" if safe_epoch is not None and int(safe_epoch) >= 0 else "Not yet materialized"
+        self.training_labels["Recoverable checkpoint"].setText(
+            f"Last common exact epoch {int(safe_epoch)}"
+            if safe_epoch is not None and int(safe_epoch) >= 0
+            else "Not yet materialized"
         )
-        self.training_labels["Global CPU worker budget"].setText(
-            str(plan.get("global_cpu_worker_budget", resource_plan.get("global_cpu_worker_budget", "—")))
+        self.training_labels["Compute assignment"].setText(
+            " · ".join(assignments) if assignments else "Planning / initialization"
         )
-        self.training_labels["Resource assignment"].setText(" · ".join(assignments) if assignments else "Planning / initialization")
 
     def refresh_policy(self) -> None:
         status = self.state.governing_policy_status()
@@ -514,7 +734,14 @@ class DashboardPanel(WorkspacePage):
             self.labels["Transformers"].setText(str(metrics["transformers"]))
             self.labels["Shunt buses"].setText(str(metrics["shunt_buses"]))
         else:
-            for name in ("Power-system case", "Buses", "Generators", "Branches", "Transformers", "Shunt buses"):
+            for name in (
+                "Power-system case",
+                "Buses",
+                "Generators",
+                "Branches",
+                "Transformers",
+                "Shunt buses",
+            ):
                 self.labels[name].setText("—")
 
         objective = self.state.config.objective.kind.value

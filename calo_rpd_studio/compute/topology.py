@@ -1,4 +1,4 @@
-"""Authoritative CPU/XPU/GPU topology and safe-resource profiling for v6.2 protected scheduling."""
+"""Authoritative CPU/CUDA topology and safe-resource profiling for protected scheduling."""
 
 from __future__ import annotations
 
@@ -163,7 +163,9 @@ class ComputeTopologyService:
             )
             if result.returncode == 0 and result.stdout.strip():
                 payload = json.loads(result.stdout.strip())
-                rows.extend([payload] if isinstance(payload, dict) else [dict(row) for row in payload])
+                rows.extend(
+                    [payload] if isinstance(payload, dict) else [dict(row) for row in payload]
+                )
 
             # Some hybrid-graphics laptops expose the Intel device only through the PnP display
             # class. Add those physical adapters using stable InstanceId hardware tags, then dedupe.
@@ -181,7 +183,9 @@ class ComputeTopologyService:
             )
             if pnp_result.returncode == 0 and pnp_result.stdout.strip():
                 payload = json.loads(pnp_result.stdout.strip())
-                pnp_rows = [payload] if isinstance(payload, dict) else [dict(row) for row in payload]
+                pnp_rows = (
+                    [payload] if isinstance(payload, dict) else [dict(row) for row in payload]
+                )
                 known_pnp = {str(row.get("PNPDeviceID", "") or "").upper() for row in rows}
                 known_names = {_normalise_name(str(row.get("Name", "") or "")) for row in rows}
                 for item in pnp_rows:
@@ -208,7 +212,12 @@ class ComputeTopologyService:
 
     @staticmethod
     def _match_adapter(
-        name: str, adapters: Iterable[dict], used: set[int], *, vendor_id: str = "", product_id: str = ""
+        name: str,
+        adapters: Iterable[dict],
+        used: set[int],
+        *,
+        vendor_id: str = "",
+        product_id: str = "",
     ) -> tuple[str, int]:
         target = _normalise_name(name)
         best_index = -1
@@ -247,9 +256,6 @@ class ComputeTopologyService:
             if device_id.startswith("cuda") and torch.cuda.is_available():
                 index = int(device_id.split(":", 1)[1])
                 return int(torch.cuda.get_device_properties(index).total_memory)
-            if device_id.startswith("xpu") and hasattr(torch, "xpu") and torch.xpu.is_available():
-                index = int(device_id.split(":", 1)[1])
-                return int(getattr(torch.xpu.get_device_properties(index), "total_memory", 0) or 0)
         except (ImportError, RuntimeError, ValueError, AttributeError, OSError):
             return 0
         return 0
@@ -268,8 +274,6 @@ class ComputeTopologyService:
                 return False, f"FP64 smoke produced unexpected result {value!r}"
             if device_id.startswith("cuda") and torch.cuda.is_available():
                 torch.cuda.synchronize(device)
-            elif device_id.startswith("xpu") and hasattr(torch, "xpu") and torch.xpu.is_available():
-                torch.xpu.synchronize(device)
             return True, "FP64 tensor/matmul smoke passed"
         except (ImportError, RuntimeError, ValueError, AttributeError, OSError) as exc:
             return False, f"FP64 runtime smoke failed: {type(exc).__name__}: {exc}"
@@ -295,23 +299,9 @@ class ComputeTopologyService:
                 physical_id = f"runtime:{snapshot.runtime}:{snapshot.device_id}"
             direct = snapshot.runtime == "primary"
             cuda = snapshot.backend == "cuda"
-            xpu = snapshot.backend == "xpu"
-            if direct and (cuda or xpu):
+            if direct and cuda:
                 fp64_ok, capability_detail = self._fp64_runtime_smoke(snapshot.device_id)
                 capability_status = "FP64 scientific branch validated" if fp64_ok else "restricted"
-            elif xpu and snapshot.runtime == "sidecar":
-                # The sidecar probe performs an explicit FP64 tensor/matmul test because the ORPD
-                # scientific evaluator is double precision. Full independent PPO-branch training
-                # remains conservatively restricted until its separate learner contract is certified.
-                fp64_ok = bool(snapshot.fp64_test_passed)
-                capability_status = (
-                    "sidecar FP64 actor/evaluator validated" if fp64_ok else "sidecar restricted"
-                )
-                capability_detail = (
-                    "XPU sidecar FP64 tensor/matmul smoke passed; full independent PPO branch not certified"
-                    if fp64_ok
-                    else "XPU sidecar did not pass the required FP64 scientific smoke"
-                )
             else:
                 fp64_ok = False
                 capability_status = "detected"
@@ -324,14 +314,17 @@ class ComputeTopologyService:
                     backend=snapshot.backend,
                     runtime=snapshot.runtime,
                     name=snapshot.name,
-                    memory_total_bytes=int(snapshot.memory_total_bytes or self._runtime_memory_total(snapshot.device_id)),
+                    memory_total_bytes=int(
+                        snapshot.memory_total_bytes
+                        or self._runtime_memory_total(snapshot.device_id)
+                    ),
                     memory_used_percent=float(snapshot.memory_percent),
                     utilization_percent=snapshot.utilization_percent,
                     telemetry=snapshot.telemetry,
-                    ppo_learner=bool((cuda or xpu) and direct),
-                    policy_actor=bool(cuda or xpu),
-                    orpd_evaluator=bool((cuda and fp64_ok) or (xpu and fp64_ok)),
-                    full_training_branch=bool(direct and (cuda or xpu) and fp64_ok),
+                    ppo_learner=bool(cuda and direct),
+                    policy_actor=bool(cuda),
+                    orpd_evaluator=bool(cuda and fp64_ok),
+                    full_training_branch=bool(direct and cuda and fp64_ok),
                     capability_status=capability_status,
                     capability_detail=capability_detail,
                     hardware_uuid=snapshot.hardware_uuid,
@@ -343,47 +336,6 @@ class ComputeTopologyService:
                 )
             )
 
-        # Do not make a physically present Intel GPU disappear merely because the isolated XPU
-        # runtime is missing or temporarily unhealthy.  Keep it visible as a non-schedulable
-        # detected-only adapter so System Readiness can explain exactly what needs repair.
-        for index, row in enumerate(adapters):
-            if index in used_adapters:
-                continue
-            name = str(row.get("Name", "") or "").strip()
-            lowered = name.lower()
-            if "intel" not in lowered or not any(
-                token in lowered for token in ("graphics", "iris", "uhd", "arc", "gpu")
-            ):
-                continue
-            pnp = str(row.get("PNPDeviceID", "") or f"os-gpu:{index}")
-            vendor_match = re.search(r"VEN_([0-9A-Fa-f]{4})", pnp)
-            product_match = re.search(r"DEV_([0-9A-Fa-f]{4})", pnp)
-            devices.append(
-                ComputeDevice(
-                    physical_id=pnp,
-                    os_label=f"Windows adapter — {name}",
-                    runtime_id="",
-                    backend="xpu",
-                    runtime="unavailable",
-                    name=name,
-                    memory_total_bytes=0,
-                    memory_used_percent=0.0,
-                    utilization_percent=None,
-                    telemetry="Physical adapter detection only",
-                    ppo_learner=False,
-                    policy_actor=False,
-                    orpd_evaluator=False,
-                    full_training_branch=False,
-                    capability_status="XPU hardware detected — runtime unavailable",
-                    capability_detail=(
-                        "Run bootstrap repair to provision/verify the isolated Intel XPU runtime; "
-                        "this adapter is not schedulable until xpu:0 passes the scientific probe."
-                    ),
-                    vendor_id=(vendor_match.group(1) if vendor_match else "8086"),
-                    product_id=(product_match.group(1) if product_match else ""),
-                    driver_version=str(row.get("DriverVersion", "") or ""),
-                )
-            )
         memory = psutil.virtual_memory()
         physical = int(psutil.cpu_count(logical=False) or 1)
         logical = int(psutil.cpu_count(logical=True) or physical)
@@ -440,7 +392,9 @@ class SafeResourceBudgetEngine:
             raise ValueError("allocation_limit_fraction must be finite and between 0.50 and 0.90")
         self.limit = limit
         self.estimated_branch_ram_bytes = max(512 * 1024**2, int(estimated_branch_ram_bytes))
-        self.estimated_branch_accelerator_bytes = max(256 * 1024**2, int(estimated_branch_accelerator_bytes))
+        self.estimated_branch_accelerator_bytes = max(
+            256 * 1024**2, int(estimated_branch_accelerator_bytes)
+        )
         self.minimum_cpu_workers_per_branch = max(1, int(minimum_cpu_workers_per_branch))
 
     def calculate(self, topology: ComputeTopologySnapshot) -> ComputeProtectionProfile:
@@ -449,9 +403,12 @@ class SafeResourceBudgetEngine:
         # Explicitly retain at least one logical thread for OS/UI/driver work on very small systems.
         if topology.logical_threads > 1:
             safe_workers = min(safe_workers, topology.logical_threads - 1)
-        safe_ram_ceiling = int(topology.ram_total_bytes * self.limit)
         used_ram = int(topology.ram_total_bytes * topology.ram_used_percent / 100.0)
-        allocatable_ram = max(0, safe_ram_ceiling - used_ram)
+        available_ram = max(0, int(topology.ram_total_bytes) - used_ram)
+        # The admission allowance is a frozen fraction of RAM available now, not a percentage of
+        # physical capacity minus current use. It is a ceiling for new protected allocations.
+        safe_ram_ceiling = int(available_ram * self.limit)
+        allocatable_ram = safe_ram_ceiling
         ram_capacity = int(allocatable_ram // self.estimated_branch_ram_bytes)
         cpu_capacity = int(safe_workers // self.minimum_cpu_workers_per_branch)
 
@@ -462,16 +419,16 @@ class SafeResourceBudgetEngine:
                 continue
             full_branch_devices += 1
             used_percent = float(device.memory_used_percent)
-            if used_percent >= self.limit * 100.0:
+            if used_percent >= 100.0:
                 continue
-            # Safe-80 rule: at most one independent branch per validated accelerator in v6.2.  When
-            # total device memory is measurable, also require the estimated branch working set to
-            # fit below the Safe-80 memory ceiling rather than using percentage alone.
+            # At most one independent branch per validated accelerator. When total memory is
+            # measurable, admit it only when the estimated working set fits in the declared
+            # fraction of memory that is currently free.
             if int(device.memory_total_bytes) > 0:
                 total = int(device.memory_total_bytes)
-                safe_ceiling = int(total * self.limit)
                 used = int(total * used_percent / 100.0)
-                headroom = max(0, safe_ceiling - used)
+                available = max(0, total - used)
+                headroom = int(available * self.limit)
                 if headroom < self.estimated_branch_accelerator_bytes:
                     continue
             accelerator_slots += 1
@@ -479,22 +436,30 @@ class SafeResourceBudgetEngine:
         # Do not automatically spill to CPU merely because a detected accelerator is currently full
         # or above the Safe-80 memory envelope. CPU fallback is permitted only on a genuinely CPU-only
         # topology (or when the user explicitly selects CPU later in the training UI).
-        compute_slots = accelerator_slots if full_branch_devices > 0 else (1 if cpu_capacity >= 1 else 0)
+        compute_slots = (
+            accelerator_slots if full_branch_devices > 0 else (1 if cpu_capacity >= 1 else 0)
+        )
         safe_parallel = min(compute_slots, cpu_capacity, ram_capacity) if compute_slots else 0
         reasons: list[str] = []
         if topology.ram_used_percent >= self.limit * 100.0:
             reasons.append(
-                f"System RAM is already {topology.ram_used_percent:.1f}% used, above the Safe-{int(self.limit*100)} allocation envelope."
+                f"System RAM is already {topology.ram_used_percent:.1f}% used, above the Safe-{int(self.limit * 100)} allocation envelope."
             )
         if cpu_capacity < 1:
             reasons.append("Insufficient reserved CPU support capacity for a training branch.")
         if ram_capacity < 1:
-            reasons.append("Insufficient RAM headroom inside the Safe-80 envelope for a training branch.")
+            reasons.append(
+                "Insufficient RAM headroom inside the Safe-80 envelope for a training branch."
+            )
         if accelerator_slots == 0:
             if full_branch_devices > 0:
-                reasons.append("Validated accelerator hardware exists, but no device has sufficient Safe-80 admission headroom; automatic CPU spillover is blocked.")
+                reasons.append(
+                    "Validated accelerator hardware exists, but no device has sufficient Safe-80 admission headroom; automatic CPU spillover is blocked."
+                )
             else:
-                reasons.append("No validated full-branch accelerator is available; protected auto mode permits conservative CPU-only scheduling.")
+                reasons.append(
+                    "No validated full-branch accelerator is available; protected auto mode permits conservative CPU-only scheduling."
+                )
         ready = safe_parallel >= 1
         status = "READY" if ready else "PROTECTED / NOT READY FOR TRAINING"
         payload = {

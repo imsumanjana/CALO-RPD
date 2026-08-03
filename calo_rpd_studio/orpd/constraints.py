@@ -98,9 +98,7 @@ def generator_limit_violation(
         )
     )
     pv = np.sum(
-        _normalized_below(
-            g[:, PG], g[:, PMIN], pspan, absolute_tolerance=tolerances.generator_p_mw
-        )
+        _normalized_below(g[:, PG], g[:, PMIN], pspan, absolute_tolerance=tolerances.generator_p_mw)
         + _normalized_above(
             g[:, PG], g[:, PMAX], pspan, absolute_tolerance=tolerances.generator_p_mw
         )
@@ -174,7 +172,9 @@ def evaluate_constraints(pf, tolerances: ConstraintToleranceConfig | None = None
     tolerances = tolerances or ConstraintToleranceConfig()
     tolerances.validate()
     if not pf.converged:
-        return ConstraintViolation(float("inf"), {"power_flow": float("inf")}, tolerances.feasibility_total)
+        return ConstraintViolation(
+            float("inf"), {"power_flow": float("inf")}, tolerances.feasibility_total
+        )
     case = pf.case
     v = pf.vm_pu
     lo = case.bus[:, VMIN]

@@ -50,7 +50,7 @@ class PortfolioManagerPanel(ScrollablePage):
         layout.addWidget(
             PageHeader(
                 "Portfolio Manager",
-                "Choose the evidence portfolio before execution. The planner derives the minimum paired runs, stored fields, validation, statistics, and export tasks required for the selected article outputs.",
+                "Choose the evidence portfolio before execution. The planner derives the minimum paired runs, stored fields, validation, statistics, and export tasks required for the selected scientific outputs.",
             )
         )
 
@@ -62,29 +62,25 @@ class PortfolioManagerPanel(ScrollablePage):
             "Overall repeated experiment portfolio", PortfolioKind.OVERALL_EXPERIMENT.value
         )
         self.profile = QComboBox()
-        self.profile.addItem("Diagnostic — 1 run", EvidenceProfile.DIAGNOSTIC.value)
-        self.profile.addItem("Exploratory — 10 runs", EvidenceProfile.EXPLORATORY.value)
-        self.profile.addItem("Journal — 30 runs", EvidenceProfile.JOURNAL.value)
-        self.profile.addItem("Transactions — 50 runs", EvidenceProfile.TRANSACTIONS.value)
-        self.profile.addItem("Custom", EvidenceProfile.CUSTOM.value)
+        self.profile.addItem("Diagnostic minimum", EvidenceProfile.DIAGNOSTIC.value)
+        self.profile.addItem("Exploratory minimum", EvidenceProfile.EXPLORATORY.value)
+        self.profile.addItem("Rigorous minimum", EvidenceProfile.JOURNAL.value)
+        self.profile.addItem("Comprehensive minimum", EvidenceProfile.TRANSACTIONS.value)
+        self.profile.addItem("Powered/custom run plan", EvidenceProfile.CUSTOM.value)
         self.custom_runs = QSpinBox()
         self.custom_runs.setRange(1, 1000)
         self.custom_runs.setValue(30)
         self.preset = QComboBox()
-        self.preset.addItem("No article preset", ArticlePreset.NONE.value)
-        self.preset.addItem("Article 1 — TLBO/MTLBO", ArticlePreset.TLBO_MTLBO.value)
+        self.preset.addItem("No output preset", ArticlePreset.NONE.value)
+        self.preset.addItem("TLBO/MTLBO comparison", ArticlePreset.TLBO_MTLBO.value)
+        self.preset.addItem("CALO deterministic study", ArticlePreset.CALO_DETERMINISTIC.value)
+        self.preset.addItem("CALO robust study", ArticlePreset.CALO_ROBUST.value)
         self.preset.addItem(
-            "Article 2 — CALO deterministic", ArticlePreset.CALO_DETERMINISTIC.value
-        )
-        self.preset.addItem("Article 3 — CALO robust", ArticlePreset.CALO_ROBUST.value)
-        self.preset.addItem(
-            "Article 4 — experience/accelerator", ArticlePreset.CALO_TRANSFER_ACCELERATOR.value
+            "Experience and accelerator study", ArticlePreset.CALO_TRANSFER_ACCELERATOR.value
         )
         self.storage = QComboBox()
         self.storage.addItem("Minimal diagnostic", StorageProfile.MINIMAL.value)
-        self.storage.addItem(
-            "Full single-run article diagnostics", StorageProfile.FULL_SINGLE_RUN.value
-        )
+        self.storage.addItem("Full single-run diagnostics", StorageProfile.FULL_SINGLE_RUN.value)
         self.storage.addItem(
             "Repeated-run statistical evidence", StorageProfile.REPEATED_STATISTICS.value
         )
@@ -92,7 +88,7 @@ class PortfolioManagerPanel(ScrollablePage):
         form.addRow("Portfolio type", self.kind)
         form.addRow("Evidence strength", self.profile)
         form.addRow("Custom repeated runs", self.custom_runs)
-        form.addRow("Article preset", self.preset)
+        form.addRow("Output preset", self.preset)
         form.addRow("Storage profile", self.storage)
         layout.addWidget(definition)
 

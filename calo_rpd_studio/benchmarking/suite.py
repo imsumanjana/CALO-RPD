@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from typing import Callable
 
 from calo_rpd_studio.experiments.experiment_config import ExperimentConfig
+from calo_rpd_studio.power_system.case_identity import PROTECTED_HOLDOUT_BUS_COUNTS
 from calo_rpd_studio.power_system.case_loader import CaseLoader
 from calo_rpd_studio.robustness.robust_objectives import RobustAggregation
 
@@ -22,12 +23,23 @@ class BenchmarkStudy:
 class BenchmarkSuite:
     cases: tuple[str, ...]
     studies: tuple[BenchmarkStudy, ...]
+    case_roles: tuple[tuple[str, str], ...] = ()
 
     def study(self, key: str) -> BenchmarkStudy:
         for item in self.studies:
             if item.key == key:
                 return item
         raise KeyError(key)
+
+    def evidence_role(self, case_name: str) -> str:
+        roles = dict(self.case_roles)
+        default_role = "test" if case_name in PROTECTED_HOLDOUT_BUS_COUNTS else "validation"
+        role = str(roles.get(case_name, default_role))
+        if role not in {"validation", "test"}:
+            raise ValueError(f"Unsupported benchmark evidence role for {case_name}: {role}")
+        if case_name in PROTECTED_HOLDOUT_BUS_COUNTS and role != "test":
+            raise ValueError(f"Protected holdout {case_name} cannot be labeled {role}.")
+        return role
 
 
 def _deterministic(config: ExperimentConfig) -> None:
@@ -144,5 +156,11 @@ def standard_benchmark_suite() -> BenchmarkSuite:
                 "Selected generator outages aggregated by worst-case objective.",
                 _generator_worst_case,
             ),
+        ),
+        case_roles=(
+            ("case30", "validation"),
+            ("case57", "validation"),
+            ("case118", "test"),
+            ("case300", "test"),
         ),
     )

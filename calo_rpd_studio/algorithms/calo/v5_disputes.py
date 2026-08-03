@@ -74,7 +74,7 @@ DISPUTES: tuple[Dispute, ...] = (
         "DEFERRED",
         "Critical performance",
         "CALO does not yet use the same fully Torch-native optimizer-control path as Torch baseline optimizers.",
-        "The scientific evaluator is accelerator-native, but a complete CUDA/XPU CALO-control rewrite remains deferred until seeded scientific parity can be proven.",
+        "The scientific evaluator is accelerator-native, but a complete CUDA CALO-control rewrite remains deferred until seeded scientific parity can be proven.",
     ),
     Dispute(
         "P09",

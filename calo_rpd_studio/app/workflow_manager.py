@@ -200,7 +200,9 @@ class WorkflowManager(QObject):
             "statistics_completed": bool(self.statistics_completed),
             "results_reviewed": bool(self.results_reviewed),
             "verified_results": int(self.verified_results),
-            "governing_policy_sha": str(self.governing_policy_status().policy_sha256 or "") if self.governing_policy_ready() else "",
+            "governing_policy_sha": str(self.governing_policy_status().policy_sha256 or "")
+            if self.governing_policy_ready()
+            else "",
         }
 
     def restore(
@@ -215,15 +217,21 @@ class WorkflowManager(QObject):
         data = dict(payload or {})
         valid = {step.key for step in SETUP_STEPS}
         if data:
-            restored = {self._normalise_completed_key(str(key)) for key in data.get("completed", [])}
+            restored = {
+                self._normalise_completed_key(str(key)) for key in data.get("completed", [])
+            }
             self.completed = {key for key in restored if key in valid}
             self.experiment_started = bool(data.get("experiment_started", infer_experiment))
             self.experiment_completed = bool(data.get("experiment_completed", experiment_completed))
             self.statistics_completed = bool(data.get("statistics_completed", False))
             self.results_reviewed = bool(data.get("results_reviewed", False))
-            self.verified_results = max(int(data.get("verified_results", verified_results)), int(verified_results))
+            self.verified_results = max(
+                int(data.get("verified_results", verified_results)), int(verified_results)
+            )
         else:
-            restored = {self._normalise_completed_key(str(key)) for key in (inferred_completed or set())}
+            restored = {
+                self._normalise_completed_key(str(key)) for key in (inferred_completed or set())
+            }
             self.completed = {key for key in restored if key in valid}
             self.experiment_started = bool(infer_experiment)
             self.experiment_completed = bool(experiment_completed)
@@ -257,7 +265,10 @@ class WorkflowManager(QObject):
         """Return visual state/reason for a stable workspace key."""
         key = str(key)
         descriptors = {step.key: step for step in SETUP_STEPS}
-        if bool(getattr(self.state, "policy_training_active", False)) and key not in {"dashboard", "calo_intelligence"}:
+        if bool(getattr(self.state, "policy_training_active", False)) and key not in {
+            "dashboard",
+            "calo_intelligence",
+        }:
             return (
                 "locked",
                 "Policy training is running under the Global Training Exclusive Lock. Only Dashboard monitoring and CALO Intelligence status are available until training completes or Safe Stops.",
@@ -267,44 +278,97 @@ class WorkflowManager(QObject):
         if key == "calo_intelligence":
             status = self.governing_policy_status()
             if status.ready:
-                return "completed", f"CALO governing intelligence READY · {status.policy_name} · {status.grade}."
+                return (
+                    "completed",
+                    f"CALO governing intelligence READY · {status.policy_name} · {status.grade}.",
+                )
             return "recommended", status.reason
         if key == "power_system":
             if not self._setup_complete("calo_intelligence"):
-                return "locked", "Activate a qualified, compatible, integrity-verified CALO governing policy first."
-            return (("completed", "Power system validated.") if self._setup_complete("power_system") else ("recommended", descriptors["power_system"].instruction))
+                return (
+                    "locked",
+                    "Activate a qualified, compatible, integrity-verified CALO governing policy first.",
+                )
+            return (
+                ("completed", "Power system validated.")
+                if self._setup_complete("power_system")
+                else ("recommended", descriptors["power_system"].instruction)
+            )
         if key == "orpd":
             if not self._setup_complete("power_system"):
                 return "locked", "Complete Power System validation first."
-            return (("completed", "ORPD formulation applied.") if self._setup_complete("orpd") else ("recommended", descriptors["orpd"].instruction))
+            return (
+                ("completed", "ORPD formulation applied.")
+                if self._setup_complete("orpd")
+                else ("recommended", descriptors["orpd"].instruction)
+            )
         if key == "algorithms":
             if not self._setup_complete("orpd"):
                 return "locked", "Apply the ORPD formulation first."
-            return (("completed", "Algorithm configuration applied.") if self._setup_complete("algorithms") else ("recommended", descriptors["algorithms"].instruction))
+            return (
+                ("completed", "Algorithm configuration applied.")
+                if self._setup_complete("algorithms")
+                else ("recommended", descriptors["algorithms"].instruction)
+            )
         if key == "portfolio":
             if not self._setup_complete("algorithms"):
                 return "locked", "Apply the algorithm selection first."
-            return (("completed", "Evidence portfolio intent planned.") if self._setup_complete("portfolio") else ("recommended", descriptors["portfolio"].instruction))
+            return (
+                ("completed", "Evidence portfolio intent planned.")
+                if self._setup_complete("portfolio")
+                else ("recommended", descriptors["portfolio"].instruction)
+            )
         if key == "scenarios":
             if not self._setup_complete("portfolio"):
                 return "locked", "Apply the evidence portfolio plan first."
-            return (("completed", "Scenario configuration applied.") if self._setup_complete("scenarios") else ("recommended", descriptors["scenarios"].instruction))
+            return (
+                ("completed", "Scenario configuration applied.")
+                if self._setup_complete("scenarios")
+                else ("recommended", descriptors["scenarios"].instruction)
+            )
         if key == "experiment":
             if not self._setup_complete("scenarios"):
                 return "locked", "Apply the final operating/robust scenario configuration first."
-            return (("completed", "The portfolio experiment is complete.") if self.experiment_completed else ("recommended", descriptors["experiment"].instruction))
+            return (
+                ("completed", "The portfolio experiment is complete.")
+                if self.experiment_completed
+                else ("recommended", descriptors["experiment"].instruction)
+            )
         if key == "live_optimization":
-            return ("available", "Live optimization telemetry is available.") if self.experiment_started else ("locked", "Start or resume an experiment first.")
+            return (
+                ("available", "Live optimization telemetry is available.")
+                if self.experiment_started
+                else ("locked", "Start or resume an experiment first.")
+            )
         if key == "statistics":
             if not self.experiment_completed:
                 return "locked", "Complete the numerical portfolio tasks first."
-            return (("completed", "Statistical analysis completed for the selected experiment.") if self.statistics_completed else ("recommended", "Compute only the statistics requested by the applied portfolio."))
+            return (
+                ("completed", "Statistical analysis completed for the selected experiment.")
+                if self.statistics_completed
+                else (
+                    "recommended",
+                    "Compute only the statistics requested by the applied portfolio.",
+                )
+            )
         if key == "results":
-            return ("available", "Stored numerical evidence is available for inspection.") if self.experiment_completed else ("locked", "Complete the experiment before exploring results.")
+            return (
+                ("available", "Stored numerical evidence is available for inspection.")
+                if self.experiment_completed
+                else ("locked", "Complete the experiment before exploring results.")
+            )
         if key == "validation":
-            return ("available", "Independent validation and fairness audit are available.") if self.experiment_completed else ("locked", "Complete the experiment before independent validation.")
+            return (
+                ("available", "Independent validation and fairness audit are available.")
+                if self.experiment_completed
+                else ("locked", "Complete the experiment before independent validation.")
+            )
         if key == "publication":
-            return ("available", "Publication export is available subject to strict evidence gates.") if self.experiment_completed else ("locked", "Complete the experiment before publication export.")
+            return (
+                ("available", "Publication export is available subject to strict evidence gates.")
+                if self.experiment_completed
+                else ("locked", "Complete the experiment before publication export.")
+            )
         return "available", "Available."
 
     def workspace_state(self, workspace: str | int) -> tuple[str, str]:
@@ -329,17 +393,57 @@ class WorkflowManager(QObject):
                 continue
             if not self._setup_complete(descriptor.key):
                 return descriptor
-        if self.experiment_completed and not self.statistics_completed and self.state.config.portfolio.kind.value != "single_run":
-            return WorkflowDescriptor("statistics", "statistics", "Analyze requested repeated-run evidence", "Compute only the statistical outputs selected in Portfolio Manager.")
+        if (
+            self.experiment_completed
+            and not self.statistics_completed
+            and self.state.config.portfolio.kind.value != "single_run"
+        ):
+            return WorkflowDescriptor(
+                "statistics",
+                "statistics",
+                "Analyze requested repeated-run evidence",
+                "Compute only the statistical outputs selected in Portfolio Manager.",
+            )
         if self.experiment_completed and not self.results_reviewed:
-            return WorkflowDescriptor("results", "results", "Review portfolio results", "Inspect objective values, feasibility, controls, and stored evidence, then confirm the review.")
-        if self.experiment_completed and self.verified_results <= 0 and self.state.config.portfolio.require_independent_validation:
-            return WorkflowDescriptor("validation", "validation", "Validate portfolio results", "Bulk-validate all required, not-yet-verified runs. Progress is resumable.")
+            return WorkflowDescriptor(
+                "results",
+                "results",
+                "Review portfolio results",
+                "Inspect objective values, feasibility, controls, and stored evidence, then confirm the review.",
+            )
+        if (
+            self.experiment_completed
+            and self.verified_results <= 0
+            and self.state.config.portfolio.require_independent_validation
+        ):
+            return WorkflowDescriptor(
+                "validation",
+                "validation",
+                "Validate portfolio results",
+                "Bulk-validate all required, not-yet-verified runs. Progress is resumable.",
+            )
         if self.experiment_completed:
-            return WorkflowDescriptor("publication", "publication", "Generate the portfolio package", "Generate only the selected figures, tables, captions, and reproducibility records; incomplete exports are resumable.")
+            return WorkflowDescriptor(
+                "publication",
+                "publication",
+                "Generate the portfolio package",
+                "Generate only the selected figures, tables, captions, and reproducibility records; incomplete exports are resumable.",
+            )
         return None
 
     def progress(self) -> tuple[int, int]:
-        required = ["calo_intelligence", "power_system", "orpd", "algorithms", "portfolio", "scenarios", "experiment"]
-        completed = sum(1 for key in required if (self.experiment_completed if key == "experiment" else self._setup_complete(key)))
+        required = [
+            "calo_intelligence",
+            "power_system",
+            "orpd",
+            "algorithms",
+            "portfolio",
+            "scenarios",
+            "experiment",
+        ]
+        completed = sum(
+            1
+            for key in required
+            if (self.experiment_completed if key == "experiment" else self._setup_complete(key))
+        )
         return completed, len(required)

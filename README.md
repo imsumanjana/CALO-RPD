@@ -1,16 +1,28 @@
-# CALO-RPD Studio v6.8.0
+# CALO-RPD Studio v6.9.0
 
-**CALO-RPD Studio 6.8.0 — Independent CALO Intelligence & XPU Recovery** decouples CALO Intelligence policy-development/qualification workflows from Comparison/Portfolio tab constraints and hardens mixed NVIDIA+Intel XPU detection, repair, rediscovery, and readiness reporting. It preserves the v6.5-v6.7 scientific, audit, and hardware-binding closures.
+**CALO-RPD Studio 6.9.0 — VRAM-Resident CUDA Data Plane** introduces an adaptive 80%-default CUDA VRAM ceiling while keeping the complete active CUDA-eligible ORPD and PPO numerical data plane resident on the accelerator. CPU remains the asynchronous control/persistence plane; it is removed from the Newton/backtracking hot loop and from per-minibatch PPO loss reads.
 
-## v6.8 independence and XPU recovery
+## v6.9 VRAM-resident execution
 
-- CALO Intelligence uses scientific-only policy-development validation; a valid one-run training formulation is no longer blocked by publication portfolio minimum-run rules.
-- Other tabs no longer silently rehydrate CALO Intelligence controls through global `config_changed` events; applying a policy to an experiment remains explicit.
-- Policy qualification uses CALO Intelligence's own scientific template and local seed rather than mutable Experiment Manager/Comparison Study state.
-- Bootstrap repairs CUDA and XPU readiness per detected hardware family, so a healthy CUDA backend cannot hide a missing Intel XPU runtime.
-- XPU sidecar discovery live-probes the recorded/canonical interpreter and can recover stale bootstrap state without requiring a restart after repair.
-- Windows Intel detection adds PnP Display/`VEN_8086` hardware-tag fallback for hybrid-graphics laptops.
-- A physical Intel GPU with no verified XPU runtime remains visible in System Readiness as detected-but-unavailable and is never scheduled until `xpu:0` passes the scientific probe.
+- Adds a process-local `VramResidencyGovernor` with an 80% default CUDA VRAM ceiling (configurable from 10% to 95%).
+- Starts each CUDA population request as one device-resident batch and halves only the active microbatch after a genuine CUDA OOM. It retries on CUDA and never silently falls back to CPU.
+- Keeps decoded controls, scenarios, admittance matrices, Newton states, Jacobians, branch flows, objectives, constraints, feasibility masks and completed microbatch outputs on the assigned device.
+- Replaces device-resident Newton active-row host inspection with fixed-shape masked identity systems and fixed damping trials when **CPU-free CUDA hot loop** is enabled.
+- Performs one packed host materialization only after a completed population request for the stable GUI/database/result contract.
+- Keeps PPO model, optimizer, rollout tensors and active minibatches on the learner device under the same 80%-default ceiling. PPO losses are transferred once per epoch rather than once per minibatch.
+- On PPO CUDA OOM, reduces the current minibatch and retries on CUDA; it does not change the learner to CPU.
+- Records VRAM budget, peak allocated/reserved memory, microbatch sizes, OOM retries and CPU-fallback count in run/training provenance.
+
+### Important boundary
+
+The PyQt6 GUI, Python control plane, logging, SQLite, checkpoint files and final CPU-reference validation remain host responsibilities. v6.9 guarantees device residency for the active CUDA-compatible numerical data plane, not for non-CUDA desktop/application services. Physical speedup and sustained RTX 4060 utilization must be measured on the target laptop.
+
+Build-time validation: **7 focused v6.9 tests**, **53 device-resident/audit regression tests**, **47 training/Stage-B/hardware regression tests**, **4 configuration tests**, **5 release-integrity tests**, and **150/150 frozen files verified**. The regression selections overlap.
+
+## Prior release: v6.8 independence and XPU recovery
+
+- CALO Intelligence remains independent from Comparison/Portfolio validation and cross-tab rehydration.
+- Mixed NVIDIA+Intel hardware is repaired per accelerator and Intel XPU hardware remains visible when its runtime is unavailable.
 
 ## Prior release: v6.7 hardware-runtime closure
 

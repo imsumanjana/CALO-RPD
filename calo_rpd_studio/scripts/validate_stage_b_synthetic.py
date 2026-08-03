@@ -1,6 +1,6 @@
 """Validate v6.4 Stage-B synthetic curriculum parity and microbatch throughput.
 
-This is a target-machine qualification utility. It does not mark a CUDA/XPU device scientifically
+This is a target-machine qualification utility. It does not mark a CUDA device scientifically
 qualified merely because it is visible; every generated task is checked against the NumPy reference
 before throughput is reported.
 """
@@ -29,8 +29,6 @@ def _resolve_device(requested: str) -> str:
         return requested
     if torch.cuda.is_available():
         return "cuda:0"
-    if hasattr(torch, "xpu") and torch.xpu.is_available():
-        return "xpu:0"
     return "cpu"
 
 
@@ -102,7 +100,7 @@ def main() -> int:
         "schema": "calo-stage-b-synthetic-validation-v1",
         "device": device,
         "device_type": torch.device(device).type,
-        "physical_accelerator": torch.device(device).type in {"cuda", "xpu"},
+        "physical_accelerator": torch.device(device).type == "cuda",
         "episodes": episodes,
         "population_size": population_size,
         "repetitions": repetitions,
@@ -117,7 +115,7 @@ def main() -> int:
         "broker": metrics,
         "qualification_note": (
             "Physical accelerator Stage-B qualification requires this command to run on the intended "
-            "CUDA/XPU device under the target software stack. CPU execution validates logic only."
+            "CUDA device under the target software stack. CPU execution validates logic only."
         ),
     }
     Path(args.output).write_text(json.dumps(payload, indent=2, sort_keys=True), encoding="utf-8")

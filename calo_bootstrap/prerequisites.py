@@ -25,7 +25,7 @@ try:
 
     APP_VERSION = distribution_version("calo-rpd-studio")
 except Exception:
-    APP_VERSION = "6.8.0"
+    APP_VERSION = "6.9.0"
 STATE_DIR = Path.home() / ".calo_rpd_studio"
 STATE_FILE = STATE_DIR / "environment_state.json"
 CORE_REQUIREMENTS_FILE = "requirements-core.txt"
@@ -66,8 +66,6 @@ CUDA_CHANNELS: tuple[tuple[float, str], ...] = (
     (11.8, "cu118"),
 )
 PYTORCH_INDEX_ROOT = "https://download.pytorch.org/whl"
-XPU_INDEX_URL = f"{PYTORCH_INDEX_ROOT}/xpu"
-XPU_RUNTIME_DIR = STATE_DIR / "xpu_runtime"
 COMPUTE_REQUIREMENTS: tuple[str, ...] = (
     "numpy>=1.26,<2.4",
     "scipy>=1.12,<2",
@@ -88,24 +86,6 @@ class NvidiaInfo:
 
 
 @dataclass(slots=True)
-class IntelGpuInfo:
-    detected: bool = False
-    name: str = ""
-    error: str = ""
-
-
-@dataclass(slots=True)
-class XpuSidecarInfo:
-    installed: bool = False
-    interpreter: str = ""
-    xpu_available: bool = False
-    device_name: str = ""
-    gpu_test_passed: bool = False
-    torch_version: str = ""
-    error: str = ""
-
-
-@dataclass(slots=True)
 class TorchInfo:
     installed: bool = False
     version: str = ""
@@ -113,9 +93,6 @@ class TorchInfo:
     cuda_runtime: str = ""
     device_name: str = ""
     gpu_test_passed: bool = False
-    xpu_available: bool = False
-    xpu_device_name: str = ""
-    xpu_test_passed: bool = False
     error: str = ""
 
 
@@ -128,9 +105,7 @@ class EnvironmentReport:
     core_packages: dict[str, str]
     missing_core_packages: list[str]
     nvidia: NvidiaInfo
-    intel: IntelGpuInfo
     torch: TorchInfo
-    xpu_sidecar: XpuSidecarInfo
     mandatory_ready: bool
     gpu_ready: bool
     recommended_backend: str
@@ -208,61 +183,6 @@ def detect_nvidia() -> NvidiaInfo:
     return NvidiaInfo(True, name, driver, cuda, "")
 
 
-def detect_intel_gpu() -> IntelGpuInfo:
-    """Best-effort display-adapter detection without third-party packages."""
-    try:
-        if os.name == "nt":
-            powershell = shutil.which("powershell") or shutil.which("pwsh")
-            if not powershell:
-                return IntelGpuInfo(error="PowerShell was not found")
-            script = (
-                "Get-CimInstance Win32_VideoController | "
-                "Select-Object -ExpandProperty Name | ConvertTo-Json -Compress"
-            )
-            result = _run([powershell, "-NoProfile", "-Command", script], timeout=20)
-            if result.returncode != 0 or not result.stdout.strip():
-                return IntelGpuInfo(
-                    error=(result.stderr or result.stdout or "GPU query failed").strip()
-                )
-            payload = json.loads(result.stdout.strip())
-            names = [payload] if isinstance(payload, str) else list(payload or [])
-            intel = [str(name) for name in names if "intel" in str(name).lower()]
-            if intel:
-                return IntelGpuInfo(True, intel[0], "")
-
-            # Hybrid-laptop firmware/driver modes can hide the Intel adapter from
-            # Win32_VideoController while the PnP display device (VEN_8086) is still present.
-            # Use the stable hardware vendor tag as the fallback identity instead of relying only
-            # on a friendly display name.
-            pnp_script = (
-                "Get-PnpDevice -Class Display | "
-                "Select-Object FriendlyName,InstanceId,Status | ConvertTo-Json -Compress"
-            )
-            pnp_result = _run([powershell, "-NoProfile", "-Command", pnp_script], timeout=20)
-            if pnp_result.returncode == 0 and pnp_result.stdout.strip():
-                pnp_payload = json.loads(pnp_result.stdout.strip())
-                rows = [pnp_payload] if isinstance(pnp_payload, dict) else list(pnp_payload or [])
-                for row in rows:
-                    name = str(row.get("FriendlyName", "") or "")
-                    instance = str(row.get("InstanceId", "") or "")
-                    if "intel" in name.lower() or "VEN_8086" in instance.upper():
-                        return IntelGpuInfo(True, name or instance or "Intel GPU", "")
-            return IntelGpuInfo(error="No Intel display adapter detected")
-
-        lspci = shutil.which("lspci")
-        if lspci:
-            result = _run([lspci], timeout=20)
-            for line in result.stdout.splitlines():
-                lowered = line.lower()
-                if "intel" in lowered and any(
-                    token in lowered for token in ("vga", "display", "3d controller")
-                ):
-                    return IntelGpuInfo(True, line.strip(), "")
-        return IntelGpuInfo(error="No Intel GPU detected")
-    except Exception as exc:
-        return IntelGpuInfo(error=f"{type(exc).__name__}: {exc}")
-
-
 def detect_torch() -> TorchInfo:
     script = r"""
 import json
@@ -275,9 +195,6 @@ try:
         "cuda_runtime": str(torch.version.cuda or ""),
         "device_name": "",
         "gpu_test_passed": False,
-        "xpu_available": bool(hasattr(torch, "xpu") and torch.xpu.is_available()),
-        "xpu_device_name": "",
-        "xpu_test_passed": False,
         "error": "",
     }
     if data["cuda_available"]:
@@ -286,20 +203,10 @@ try:
         y = x @ x
         torch.cuda.synchronize()
         data["gpu_test_passed"] = bool(y.is_cuda and torch.isfinite(y).all().item())
-    if data["xpu_available"]:
-        try:
-            data["xpu_device_name"] = str(torch.xpu.get_device_properties(0).name)
-        except Exception:
-            data["xpu_device_name"] = "Intel XPU"
-        x = torch.randn((128, 128), device="xpu:0")
-        y = x @ x
-        torch.xpu.synchronize()
-        data["xpu_test_passed"] = bool(torch.isfinite(y).all().item())
     print(json.dumps(data))
 except Exception as exc:
     print(json.dumps({"installed": False, "version": "", "cuda_available": False,
                       "cuda_runtime": "", "device_name": "", "gpu_test_passed": False,
-                      "xpu_available": False, "xpu_device_name": "", "xpu_test_passed": False,
                       "error": f"{type(exc).__name__}: {exc}"}))
 """
     result = _run([sys.executable, "-c", script], timeout=90)
@@ -309,40 +216,6 @@ except Exception as exc:
     except Exception:
         return TorchInfo(
             error=(result.stderr or result.stdout or "Unable to inspect PyTorch").strip()
-        )
-
-
-def _xpu_runtime_python(runtime_dir: Path = XPU_RUNTIME_DIR) -> Path:
-    return runtime_dir / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
-
-
-def detect_xpu_sidecar(runtime_dir: Path = XPU_RUNTIME_DIR) -> XpuSidecarInfo:
-    interpreter = _xpu_runtime_python(runtime_dir)
-    if not interpreter.exists():
-        return XpuSidecarInfo(error="Secondary Intel XPU runtime is not installed")
-    result = _run(
-        [str(interpreter), "-m", "calo_rpd_studio.compute.xpu_worker", "--probe"],
-        timeout=90,
-        cwd=project_root(),
-    )
-    try:
-        payload = json.loads(result.stdout.strip().splitlines()[-1])
-        devices = payload.get("devices", [])
-        name = str(devices[0].get("name", "Intel XPU")) if devices else ""
-        return XpuSidecarInfo(
-            installed=True,
-            interpreter=str(interpreter),
-            xpu_available=bool(payload.get("xpu_available")),
-            device_name=name,
-            gpu_test_passed=bool(payload.get("gpu_test_passed")),
-            torch_version=str(payload.get("torch_version", "")),
-            error=str(payload.get("error", "")),
-        )
-    except Exception:
-        return XpuSidecarInfo(
-            installed=True,
-            interpreter=str(interpreter),
-            error=(result.stderr or result.stdout or "Unable to inspect XPU runtime").strip(),
         )
 
 
@@ -357,20 +230,14 @@ def scan_environment() -> EnvironmentReport:
             missing.append(label)
 
     nvidia = detect_nvidia()
-    intel = detect_intel_gpu()
     torch = detect_torch()
-    xpu_sidecar = detect_xpu_sidecar()
 
     cuda_ready = bool(torch.cuda_available and torch.gpu_test_passed)
-    direct_xpu_ready = bool(torch.xpu_available and torch.xpu_test_passed)
-    sidecar_xpu_ready = bool(xpu_sidecar.xpu_available and xpu_sidecar.gpu_test_passed)
-    gpu_ready = bool(cuda_ready or direct_xpu_ready or sidecar_xpu_ready)
+    gpu_ready = bool(cuda_ready)
     mandatory_ready = bool(python_ok and not missing and torch.installed)
 
     if cuda_ready:
         recommended_backend = "cuda:0"
-    elif direct_xpu_ready or sidecar_xpu_ready:
-        recommended_backend = "xpu:0"
     else:
         recommended_backend = "cpu"
 
@@ -385,14 +252,7 @@ def scan_environment() -> EnvironmentReport:
             if cuda_ready
             else "NVIDIA hardware was detected, but CUDA-enabled PyTorch has not passed verification."
         )
-    if intel.detected:
-        if direct_xpu_ready:
-            notes.append("Intel XPU is ready in the primary PyTorch runtime.")
-        elif sidecar_xpu_ready:
-            notes.append("Intel XPU is ready in the isolated secondary runtime.")
-        else:
-            notes.append("Intel graphics was detected, but no verified XPU runtime is available.")
-    if not nvidia.detected and not intel.detected:
+    if not nvidia.detected:
         notes.append("No supported GPU accelerator was detected; CPU execution is available.")
 
     return EnvironmentReport(
@@ -403,9 +263,7 @@ def scan_environment() -> EnvironmentReport:
         core_packages=versions,
         missing_core_packages=missing,
         nvidia=nvidia,
-        intel=intel,
         torch=torch,
-        xpu_sidecar=xpu_sidecar,
         mandatory_ready=mandatory_ready,
         gpu_ready=gpu_ready,
         recommended_backend=recommended_backend,
@@ -629,107 +487,6 @@ def _phase_progress(
     return progress
 
 
-def install_xpu_sidecar(
-    callback: Callable[[str], None] | None = None,
-    progress_callback: Callable[[InstallProgress], None] | None = None,
-    progress_template: InstallProgress | None = None,
-    runtime_dir: Path = XPU_RUNTIME_DIR,
-) -> XpuSidecarInfo:
-    """Provision an isolated Intel-XPU PyTorch runtime without replacing primary CUDA PyTorch.
-
-    The secondary interpreter is intentionally independent.  This allows a dual-GPU Windows host
-    to keep the NVIDIA CUDA wheel in the main environment while Intel-compatible CALO jobs are
-    launched through an XPU wheel in the sidecar process.
-    """
-    root = project_root()
-    interpreter = _xpu_runtime_python(runtime_dir)
-    if not interpreter.exists():
-        runtime_dir.parent.mkdir(parents=True, exist_ok=True)
-        _emit(callback, f"Creating isolated Intel XPU runtime at {runtime_dir} ...")
-        result = _stream_command(
-            [sys.executable, "-m", "venv", str(runtime_dir)],
-            callback,
-            root,
-            progress_callback=progress_callback,
-            progress_template=progress_template,
-        )
-        if result != 0 or not interpreter.exists():
-            return XpuSidecarInfo(error="Unable to create the secondary Intel XPU environment.")
-
-    _emit(callback, "Updating pip in the secondary Intel XPU runtime...")
-    if (
-        _pip_for(
-            interpreter,
-            ["install", "--upgrade", "pip", "setuptools", "wheel"],
-            callback,
-            root,
-            progress_callback=progress_callback,
-            progress_template=progress_template,
-        )
-        != 0
-    ):
-        return XpuSidecarInfo(
-            installed=False, interpreter=str(interpreter), error="Unable to update XPU runtime pip."
-        )
-
-    _emit(callback, "Installing compute dependencies in the secondary Intel XPU runtime...")
-    if (
-        _pip_for(
-            interpreter,
-            ["install", *COMPUTE_REQUIREMENTS],
-            callback,
-            root,
-            progress_callback=progress_callback,
-            progress_template=progress_template,
-        )
-        != 0
-    ):
-        return XpuSidecarInfo(
-            installed=False,
-            interpreter=str(interpreter),
-            error="XPU compute dependency installation failed.",
-        )
-
-    _emit(callback, "Installing the official Intel XPU PyTorch build in the secondary runtime...")
-    if (
-        _pip_for(
-            interpreter,
-            ["install", "--upgrade", "torch>=2.5,<3", "--index-url", XPU_INDEX_URL],
-            callback,
-            root,
-            progress_callback=progress_callback,
-            progress_template=progress_template,
-        )
-        != 0
-    ):
-        return XpuSidecarInfo(
-            installed=False,
-            interpreter=str(interpreter),
-            error="Intel XPU PyTorch installation failed.",
-        )
-
-    if (root / "pyproject.toml").exists():
-        _emit(callback, "Linking CALO-RPD Studio into the secondary XPU runtime...")
-        if (
-            _pip_for(
-                interpreter,
-                ["install", "-e", ".", "--no-deps"],
-                callback,
-                root,
-                progress_callback=progress_callback,
-                progress_template=progress_template,
-            )
-            != 0
-        ):
-            return XpuSidecarInfo(
-                installed=False,
-                interpreter=str(interpreter),
-                error="Unable to install CALO-RPD Studio in the XPU runtime.",
-            )
-
-    return detect_xpu_sidecar(runtime_dir)
-
-
 def install_or_repair(
     callback: Callable[[str], None] | None = None,
     prefer_gpu: bool = True,
@@ -784,17 +541,14 @@ def install_or_repair(
         "Detect accelerators",
         3,
         35.0,
-        "Detecting NVIDIA CUDA and Intel XPU-capable hardware...",
+        "Detecting NVIDIA CUDA-capable hardware...",
     )
     nvidia = detect_nvidia()
-    intel = detect_intel_gpu()
     current_torch = detect_torch()
 
     desired_primary = "cpu"
     if prefer_gpu and nvidia.detected:
         desired_primary = "cuda"
-    elif prefer_gpu and intel.detected:
-        desired_primary = "xpu"
 
     compatible_primary = bool(
         current_torch.installed
@@ -804,11 +558,6 @@ def install_or_repair(
                 and current_torch.cuda_available
                 and current_torch.gpu_test_passed
             )
-            or (
-                desired_primary == "xpu"
-                and current_torch.xpu_available
-                and current_torch.xpu_test_passed
-            )
             or desired_primary == "cpu"
         )
     )
@@ -817,29 +566,27 @@ def install_or_repair(
         if current_torch.installed:
             _emit(
                 callback,
-                "Removing the incompatible primary PyTorch build before backend selection...",
+                "Preparing the compatible PyTorch installation for the selected compute mode...",
             )
             _pip(["uninstall", "-y", "torch"], callback, root)
 
         installed = False
         if desired_primary == "cuda":
             channels = candidate_torch_channels(nvidia)
-        elif desired_primary == "xpu":
-            channels = ["xpu", "cpu"]
         else:
             channels = ["cpu"]
 
         for attempt, channel in enumerate(channels, start=1):
-            index_url = XPU_INDEX_URL if channel == "xpu" else f"{PYTORCH_INDEX_ROOT}/{channel}"
+            index_url = f"{PYTORCH_INDEX_ROOT}/{channel}"
             attempt_base = 40.0 + min(20.0, (attempt - 1) * 4.0)
             phase = _phase_progress(
                 progress_callback,
                 f"Primary PyTorch ({channel})",
                 4,
                 attempt_base,
-                f"Installing and verifying primary PyTorch backend {channel}...",
+                f"Installing and verifying PyTorch compute support ({channel})...",
             )
-            _emit(callback, f"Trying official primary PyTorch backend: {channel}")
+            _emit(callback, f"Trying official PyTorch compute package: {channel}")
             code = _pip(
                 ["install", "--upgrade", "torch>=2.5,<3", "--index-url", index_url],
                 callback,
@@ -853,66 +600,29 @@ def install_or_repair(
             passed = bool(
                 (channel == "cpu" and info.installed)
                 or (channel.startswith("cu") and info.cuda_available and info.gpu_test_passed)
-                or (channel == "xpu" and info.xpu_available and info.xpu_test_passed)
             )
             if passed:
                 installed = True
                 break
             _emit(
                 callback,
-                f"PyTorch channel {channel} installed but did not pass the requested backend test.",
+                f"PyTorch channel {channel} installed but did not pass the requested compute test.",
             )
             _pip(["uninstall", "-y", "torch"], callback, root)
         if not installed:
             raise RuntimeError(
-                "Primary PyTorch installation failed for all compatible accelerator/CPU backends."
+                "PyTorch installation failed for all compatible accelerator and CPU modes."
             )
     else:
-        _emit(callback, "Existing primary PyTorch backend is already compatible; keeping it.")
+        _emit(callback, "The existing PyTorch installation is compatible; keeping it.")
         _phase_progress(
             progress_callback,
             "Primary PyTorch",
             4,
             60.0,
-            "Existing primary PyTorch backend is compatible; no replacement is required.",
+            "The existing PyTorch installation is compatible; no replacement is required.",
             indeterminate=False,
         )
-
-    # On mixed NVIDIA + Intel systems, preserve CUDA in the primary environment and provision a
-    # separate XPU wheel in an isolated interpreter.  This makes both accelerators available to the
-    # scheduler without one hardware-specific PyTorch wheel replacing the other.
-    phase = _phase_progress(
-        progress_callback,
-        "Intel XPU runtime",
-        5,
-        65.0,
-        "Checking whether a secondary Intel XPU runtime is required...",
-    )
-    primary_after = detect_torch()
-    if (
-        prefer_gpu
-        and intel.detected
-        and not (primary_after.xpu_available and primary_after.xpu_test_passed)
-    ):
-        _emit(
-            callback,
-            "Intel graphics detected. Provisioning or repairing the isolated XPU runtime...",
-        )
-        sidecar = install_xpu_sidecar(
-            callback=callback,
-            progress_callback=progress_callback,
-            progress_template=phase,
-        )
-        if sidecar.xpu_available and sidecar.gpu_test_passed:
-            _emit(callback, f"Intel XPU sidecar verified: {sidecar.device_name or 'Intel XPU'}")
-        else:
-            _emit(
-                callback,
-                "WARNING: Intel XPU runtime could not be verified. CUDA/CPU execution remains available. "
-                + (sidecar.error or ""),
-            )
-    else:
-        _emit(callback, "No secondary Intel XPU runtime is required.")
 
     phase = _phase_progress(
         progress_callback,
@@ -941,7 +651,7 @@ def install_or_repair(
         "Verify environment",
         7,
         97.0,
-        "Verifying CUDA, XPU, CPU, package dependencies, and real accelerator computations...",
+        "Verifying CUDA, CPU, package dependencies, and real accelerator computations...",
     )
     report = scan_environment()
     if not report.mandatory_ready:
@@ -953,7 +663,9 @@ def install_or_repair(
         "Complete",
         7,
         100.0,
-        f"Installation complete. Recommended backend: {report.recommended_backend}.",
+        "Installation complete. Recommended compute mode: "
+        + ("NVIDIA acceleration" if report.recommended_backend.startswith("cuda") else "CPU only")
+        + ".",
         indeterminate=False,
     )
     return report

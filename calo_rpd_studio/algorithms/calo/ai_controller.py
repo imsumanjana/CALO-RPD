@@ -44,6 +44,7 @@ _POLICY_BROKER_CACHE: "OrderedDict[_POLICY_CACHE_KEY, _PolicyInferenceBroker]" =
 
 _LOG = logging.getLogger(__name__)
 
+
 class PolicyInferenceError(RuntimeError):
     """Base error for fail-closed CALO policy inference."""
 
@@ -142,7 +143,9 @@ class _PolicyInferenceBroker:
         with self._state_lock:
             fatal_error = self._fatal_error
             if fatal_error is not None:
-                raise PolicyInferenceError("CALO policy-inference broker has failed") from fatal_error
+                raise PolicyInferenceError(
+                    "CALO policy-inference broker has failed"
+                ) from fatal_error
             if self._lifecycle != "running" or self.closed.is_set() or not self.thread.is_alive():
                 raise PolicyInferenceError("CALO policy-inference broker is not running")
             self._pending[id(request)] = request
@@ -323,20 +326,15 @@ class AIController:
         self.rng = np.random.default_rng(seed)
         self.deterministic = bool(deterministic)
         requested = str(device or "auto").lower()
-        xpu_available = bool(hasattr(torch, "xpu") and torch.xpu.is_available())
         if requested == "auto":
             # CALO's current cognitive/control plane is NumPy/CPU resident. Sending this tiny policy
-            # network to CUDA/XPU forces a synchronization + device-to-host copy every decision and
+            # network to CUDA forces a synchronization + device-to-host copy every decision and
             # is slower/more fragile than CPU inference in the single-run path. Heavy ORPD evaluation
-            # remains accelerator-resident. Explicit cuda/xpu remains available for controlled/batched studies.
+            # remains accelerator-resident. Explicit CUDA remains available for controlled studies.
             requested = "cpu"
         if requested.startswith("cuda") and not torch.cuda.is_available():
             raise RuntimeError(
                 "CUDA policy inference was requested, but this PyTorch installation cannot access a CUDA GPU."
-            )
-        if requested.startswith("xpu") and not xpu_available:
-            raise RuntimeError(
-                "Intel XPU policy inference was requested, but this PyTorch runtime cannot access an XPU device."
             )
         self.device = torch.device(requested)
         self.metadata: dict = {}
@@ -459,7 +457,9 @@ class AIController:
         learned_regime = np.asarray(learned_regime, dtype=float)
         learned_regime = learned_regime / max(float(learned_regime.sum()), 1e-12)
         operator_probabilities = np.asarray(operator_probabilities, dtype=float)
-        operator_probabilities = operator_probabilities / max(float(operator_probabilities.sum()), 1e-12)
+        operator_probabilities = operator_probabilities / max(
+            float(operator_probabilities.sum()), 1e-12
+        )
 
         # v5.9 native policy semantics: the network owns one raw global regime/operator/parameter
         # action. CALO's per-learner lane/memory/group/precision/recovery interventions are explicit
@@ -469,7 +469,9 @@ class AIController:
             regime_probabilities = learned_regime
         else:
             prior = (
-                rule_based_regime_prior(state) if hasattr(state, "feasible_ratio") else np.full(4, 0.25)
+                rule_based_regime_prior(state)
+                if hasattr(state, "feasible_ratio")
+                else np.full(4, 0.25)
             )
             regime_probabilities = 0.35 * learned_regime + 0.65 * prior
             regime_probabilities /= regime_probabilities.sum()

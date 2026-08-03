@@ -114,10 +114,10 @@ def test_h15_near_zero_comparator_does_not_explode_relative_qualification_eviden
 def test_h21_h22_checkpoint_mutations_are_single_transaction_operations():
     delete_source = inspect.getsource(ResultDatabase.delete_policy_checkpoint)
     update_source = inspect.getsource(ResultDatabase.update_policy_checkpoint_qualification)
-    assert 'BEGIN IMMEDIATE' in delete_source
-    assert 'get_policy_checkpoint(' not in delete_source
-    assert 'BEGIN IMMEDIATE' in update_source
-    assert 'get_policy_checkpoint(' not in update_source
+    assert "BEGIN IMMEDIATE" in delete_source
+    assert "get_policy_checkpoint(" not in delete_source
+    assert "BEGIN IMMEDIATE" in update_source
+    assert "get_policy_checkpoint(" not in update_source
 
 
 def test_h22_concurrent_metadata_updates_are_not_lost(tmp_path):
@@ -157,7 +157,11 @@ def test_h28_comparison_applies_gui_before_fairness_gate_and_plan_build():
         / "panels"
         / "experiment_manager_panel.py"
     ).read_text(encoding="utf-8")
-    section = source[source.index("    def start_comparison"):source.index("    def start_calo", source.index("    def start_comparison"))]
+    section = source[
+        source.index("    def start_comparison") : source.index(
+            "    def start_calo", source.index("    def start_comparison")
+        )
+    ]
     assert section.index("self.apply()") < section.index("if not self.fairness_passed")
     assert section.index("self.apply()") < section.index("labels_for_mode")
 
@@ -172,7 +176,9 @@ def test_h30_results_explorer_guards_json_and_null_run_id_fallback():
     ).read_text(encoding="utf-8")
     assert "def _safe_json_object" in source
     assert 'row.get("run_id") or row["id"]' in source
-    refresh_section = source[source.index("    def refresh("):source.index("    def show_selected")]
+    refresh_section = source[
+        source.index("    def refresh(") : source.index("    def show_selected")
+    ]
     assert "_safe_json_object" in refresh_section
     assert 'json.loads(row["result_json"])' not in refresh_section
 
@@ -194,9 +200,7 @@ def test_m18_policy_broker_close_releases_inflight_waiter_immediately():
                 torch.zeros((batch,)),
             )
 
-    broker = _PolicyInferenceBroker(
-        StallingPolicy(), torch.device("cpu"), request_timeout_s=5.0
-    )
+    broker = _PolicyInferenceBroker(StallingPolicy(), torch.device("cpu"), request_timeout_s=5.0)
     with ThreadPoolExecutor(max_workers=2) as pool:
         future = pool.submit(broker.infer, np.zeros(32, dtype=np.float32))
         assert entered.wait(timeout=1.0)

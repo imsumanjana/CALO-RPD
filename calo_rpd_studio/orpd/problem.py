@@ -8,7 +8,10 @@ from calo_rpd_studio.power_system.ac_power_flow import PowerFlowOptions, run_ac_
 from calo_rpd_studio.power_system.case_model import *
 from calo_rpd_studio.power_system.voltage_stability import kessel_glavitsch_l_index
 from calo_rpd_studio.robustness.robust_objectives import (
-    RobustObjectiveConfig, aggregate_robust, aggregate_constraint_violation, normalize_scenario_weights,
+    RobustObjectiveConfig,
+    aggregate_robust,
+    aggregate_constraint_violation,
+    normalize_scenario_weights,
 )
 from calo_rpd_studio.robustness.scenario import Scenario
 from .constraints import ConstraintToleranceConfig, evaluate_constraints
@@ -22,7 +25,9 @@ class ORPDProblemConfig:
     variables: ORPDVariableConfig = field(default_factory=ORPDVariableConfig)
     robust: RobustObjectiveConfig = field(default_factory=RobustObjectiveConfig)
     power_flow: PowerFlowOptions = field(default_factory=PowerFlowOptions)
-    constraint_tolerances: ConstraintToleranceConfig = field(default_factory=ConstraintToleranceConfig)
+    constraint_tolerances: ConstraintToleranceConfig = field(
+        default_factory=ConstraintToleranceConfig
+    )
 
     def __post_init__(self) -> None:
         self.objective.validate()
@@ -88,7 +93,9 @@ class ORPDProblem:
         finite = np.asarray(values, float)
         robust = aggregate_robust(values, w, self.config.robust)
         violation = aggregate_constraint_violation(violations, w, self.config.robust)
-        feasible = violation <= float(self.config.constraint_tolerances.feasibility_total) and np.isfinite(robust)
+        feasible = violation <= float(
+            self.config.constraint_tolerances.feasibility_total
+        ) and np.isfinite(robust)
         components = {k: float(np.sum(w * np.asarray(v))) for k, v in comp_acc.items()}
         components["scenario_objective_mean"] = (
             float(np.sum(w * finite)) if np.all(np.isfinite(finite)) else float("inf")
@@ -108,7 +115,13 @@ class ORPDProblem:
             "scenario_constraint_components": scenario_constraint_components,
         }
         return Evaluation(
-            robust, feasible, violation, components, physical, scenario_values, metadata,
+            robust,
+            feasible,
+            violation,
+            components,
+            physical,
+            scenario_values,
+            metadata,
             float(self.config.constraint_tolerances.feasibility_total),
         )
 
@@ -140,7 +153,11 @@ class ORPDProblem:
                 "constraint_components": dict(con.components),
                 "total_constraint_violation": float(con.total),
                 "total_loss_mw": float(pf.total_loss_mw),
-                "l_index_max": float(kessel_glavitsch_l_index(pf.case, pf.voltage, partition_case=formulation_case).maximum)
+                "l_index_max": float(
+                    kessel_glavitsch_l_index(
+                        pf.case, pf.voltage, partition_case=formulation_case
+                    ).maximum
+                )
                 if pf.converged
                 else float("inf"),
             }

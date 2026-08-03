@@ -3,8 +3,6 @@
 from __future__ import annotations
 
 from dataclasses import asdict
-import hashlib
-import json
 import numpy as np
 
 from calo_rpd_studio.experiments.experiment_runner import build_scenarios
@@ -15,7 +13,9 @@ from calo_rpd_studio.power_system.case_loader import CaseLoader
 from .torch_orpd import AcceleratedORPDProblem, parity_check
 
 
-def _parity_candidate_battery(reference: ORPDProblem, *, seed: int, random_candidates: int) -> np.ndarray:
+def _parity_candidate_battery(
+    reference: ORPDProblem, *, seed: int, random_candidates: int
+) -> np.ndarray:
     """Return deterministic bounds/center/corner probes plus seeded random samples.
 
     This is intentionally stronger than a handful of ordinary random points.  Mixed-variable
@@ -35,8 +35,10 @@ def _parity_candidate_battery(reference: ORPDProblem, *, seed: int, random_candi
         alternating_b = 1.0 - alternating_a
         probes.extend([alternating_a, alternating_b])
         for index in range(min(n, 4)):
-            low = np.full(n, 0.5); low[index] = 0.0
-            high = np.full(n, 0.5); high[index] = 1.0
+            low = np.full(n, 0.5)
+            low[index] = 0.0
+            high = np.full(n, 0.5)
+            high[index] = 1.0
             probes.extend([low, high])
     rng = np.random.default_rng(int(seed))
     for _ in range(max(1, int(random_candidates))):
@@ -47,7 +49,8 @@ def _parity_candidate_battery(reference: ORPDProblem, *, seed: int, random_candi
     for row in probes:
         key = np.ascontiguousarray(row, dtype=np.float64).tobytes()
         if key not in seen:
-            seen.add(key); unique.append(row)
+            seen.add(key)
+            unique.append(row)
     return np.asarray(unique, dtype=float)
 
 

@@ -1,10 +1,10 @@
-"""Frozen CALO benchmarking and Transactions-level evidence tooling."""
+"""Frozen CALO benchmarking and comprehensive scientific evidence tooling."""
 
 from .freeze import FreezeVerification, create_freeze_manifest, verify_freeze_manifest
 from .suite import BenchmarkSuite, BenchmarkStudy, standard_benchmark_suite
 from .campaign import BenchmarkCampaignConfig, BenchmarkTask, build_campaign
 from .evidence import CampaignEvidence, build_campaign_evidence
-from .package import TransactionsPackageBuilder
+from .package import ScientificEvidencePackageBuilder, TransactionsPackageBuilder
 
 __all__ = [
     "FreezeVerification",
@@ -19,4 +19,5 @@ __all__ = [
     "CampaignEvidence",
     "build_campaign_evidence",
     "TransactionsPackageBuilder",
+    "ScientificEvidencePackageBuilder",
 ]

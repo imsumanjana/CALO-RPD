@@ -27,6 +27,7 @@ PACKAGES = (
 
 _LOG = logging.getLogger(__name__)
 
+
 def _git_commit() -> str:
     try:
         return subprocess.check_output(
@@ -44,21 +45,6 @@ def _torch_accelerator() -> dict:
         import torch
 
         cuda_available = bool(torch.cuda.is_available())
-        xpu_available = bool(hasattr(torch, "xpu") and torch.xpu.is_available())
-        xpu_names = []
-        if xpu_available:
-            for index in range(int(torch.xpu.device_count())):
-                try:
-                    xpu_names.append(str(torch.xpu.get_device_properties(index).name))
-                except Exception:
-                    xpu_names.append(f"Intel XPU {index}")
-        sidecar_interpreter = ""
-        try:
-            from calo_rpd_studio.compute.resource_scheduler import configured_xpu_interpreter
-
-            sidecar_interpreter = configured_xpu_interpreter()
-        except Exception:
-            _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
         return {
             "cuda_available": cuda_available,
             "torch_cuda_runtime": str(torch.version.cuda or ""),
@@ -69,27 +55,20 @@ def _torch_accelerator() -> dict:
             if cuda_available
             else [],
             "cuda_device_count": int(torch.cuda.device_count()) if cuda_available else 0,
-            "xpu_available_primary": xpu_available,
-            "xpu_device_names_primary": xpu_names,
-            "xpu_device_count_primary": int(torch.xpu.device_count()) if xpu_available else 0,
-            "xpu_sidecar_interpreter": sidecar_interpreter,
-            "xpu_sidecar_configured": bool(sidecar_interpreter),
             # Backward-compatible aliases retained for existing result consumers.
             "gpu_name": str(torch.cuda.get_device_name(0)) if cuda_available else "",
             "gpu_count": int(torch.cuda.device_count()) if cuda_available else 0,
         }
     except Exception as exc:
-        _LOG.warning("Accelerator provenance probe failed; recording explicit unavailable/error provenance", exc_info=True)
+        _LOG.warning(
+            "Accelerator provenance probe failed; recording explicit unavailable/error provenance",
+            exc_info=True,
+        )
         return {
             "cuda_available": False,
             "torch_cuda_runtime": "",
             "cuda_device_names": [],
             "cuda_device_count": 0,
-            "xpu_available_primary": False,
-            "xpu_device_names_primary": [],
-            "xpu_device_count_primary": 0,
-            "xpu_sidecar_interpreter": "",
-            "xpu_sidecar_configured": False,
             "gpu_name": "",
             "gpu_count": 0,
             "accelerator_error": f"{type(exc).__name__}: {exc}",

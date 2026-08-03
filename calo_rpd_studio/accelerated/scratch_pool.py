@@ -1,6 +1,6 @@
 """Small reusable NumPy scratch-buffer pool used by CALO v4 host orchestration.
 
-The scientific evaluator may keep its own CUDA/XPU workspaces; this pool avoids
+The scientific evaluator may keep its own CUDA workspaces; this pool avoids
 repeated host allocation of candidate/direction buffers in the CALO control loop.
 """
 

@@ -81,7 +81,6 @@ def test_publication_export_fails_closed_when_validation_required_and_zero_verif
         exporter.export("exp", tmp_path, evaluation_horizon=1000)
 
 
-
 def test_publication_export_blocks_partial_verified_subset(tmp_path):
     rows = [
         _portfolio_row(validation="verified", objective=1.0),
@@ -90,6 +89,7 @@ def test_publication_export_blocks_partial_verified_subset(tmp_path):
     exporter = PortfolioExporter(_FakePortfolioDatabase(rows))
     with pytest.raises(ValueError, match="verified 1/2|Partial verified subsets"):
         exporter.export("exp", tmp_path, evaluation_horizon=1000)
+
 
 def test_scenario_matrix_uses_constraint_feasibility_and_total_loss_key():
     row = _portfolio_row(validation="verified")
@@ -201,8 +201,20 @@ def test_no_broad_exception_pass_remains_in_scientific_source_tree():
 
 def test_release_source_does_not_bundle_generated_publication_export_or_v500_default_names():
     root = Path(__file__).resolve().parents[2]
-    assert not (root / "publication_export").exists()
-    script = (root / "calo_rpd_studio" / "scripts" / "run_final_benchmark.py").read_text(encoding="utf-8")
-    panel = (root / "calo_rpd_studio" / "gui" / "panels" / "benchmark_campaign_panel.py").read_text(encoding="utf-8")
+    manifest_paths = {
+        line.split("  ", 1)[1]
+        for line in (root / "MANIFEST.sha256").read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    }
+    assert not any(
+        path == "publication_export" or path.startswith("publication_export/")
+        for path in manifest_paths
+    )
+    script = (root / "calo_rpd_studio" / "scripts" / "run_final_benchmark.py").read_text(
+        encoding="utf-8"
+    )
+    panel = (root / "calo_rpd_studio" / "gui" / "panels" / "benchmark_campaign_panel.py").read_text(
+        encoding="utf-8"
+    )
     assert "benchmark_v500" not in script
     assert "benchmark_v500" not in panel

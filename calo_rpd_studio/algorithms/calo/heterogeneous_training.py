@@ -8,20 +8,19 @@ user explicitly validates and re-freezes a newly trained checkpoint.
 Each PPO epoch follows a synchronous actor--learner protocol:
 
 1. snapshot one policy version on the CPU;
-2. allocate complete rollout episodes to CUDA, Intel XPU, and CPU actor lanes;
+2. allocate complete rollout episodes to CUDA and CPU actor lanes;
 3. collect all lanes in parallel using the same policy snapshot;
 4. reject any stale/mismatched actor payload;
 5. combine the fresh trajectories into one on-policy buffer;
 6. update the policy on one primary learner device;
 7. broadcast the updated snapshot at the next epoch.
 
-The requested 80% CUDA, 10% XPU, and 10% CPU split is retained as a deterministic fallback.
 Version 3.3 can first time complete discarded calibration episodes on each verified lane and then
-allocate fresh on-policy episodes by measured transitions per second.  CUDA/XPU actor interpreters,
+allocate fresh on-policy episodes by measured transitions per second. CUDA actor processes,
 policy modules and ORPD tensors remain resident for the full training session. Compatible ORPD
 population requests from simultaneous episodes are combined by the same FP64 cross-run batching
 engine used during comparative evaluation. v6.4 Stage B additionally keeps generated synthetic
-curriculum objective/constraint tensors resident on CUDA/XPU and cross-episode microbatches their
+curriculum objective/constraint tensors resident on CUDA and cross-episode microbatches their
 population evaluation after a fail-closed NumPy-reference parity check. Stochastic CALO controller,
 archive and memory semantics remain the trusted trajectory authority, so Task Manager percentages
 still need not equal the requested episode allocation exactly.
@@ -90,6 +89,8 @@ from .training import (
     training_resume_path,
 )
 
+from calo_rpd_studio.accelerated.vram_residency import VramResidencyGovernor, VramResidencyPolicy
+
 
 ROLLOUT_KEYS = (
     "state",
@@ -101,10 +102,11 @@ ROLLOUT_KEYS = (
     "reward",
     "done",
 )
-LANE_ORDER = ("cuda", "xpu", "cpu")
+LANE_ORDER = ("cuda", "cpu")
 
 
 _LOG = logging.getLogger(__name__)
+
 
 @dataclass(slots=True)
 class HeterogeneousTrainingConfig(TrainingConfig):
@@ -112,7 +114,6 @@ class HeterogeneousTrainingConfig(TrainingConfig):
 
     heterogeneous_rollouts: bool = True
     cuda_rollout_share: int = 100
-    xpu_rollout_share: int = 0
     cpu_rollout_share: int = 0
     actor_batch_size: int = 0
     throughput_adaptive_rollouts: bool = False
@@ -123,6 +124,11 @@ class HeterogeneousTrainingConfig(TrainingConfig):
     training_batch_window_ms: float = 4.0
     training_max_cross_batch: int = 2048
     training_tensor_batch_size: int = 64
+    # v6.9 CUDA learner residency: all active model/minibatch/optimizer tensors remain inside
+    # an 80%-default per-process VRAM ceiling. OOM reduces the PPO minibatch and retries on CUDA.
+    cuda_vram_budget_fraction: float = 0.80
+    cuda_oom_retry_count: int = 4
+    cuda_minimum_minibatch: int = 8
     # v6.4 Stage B: persistent accelerator-resident synthetic curriculum evaluation.
     device_resident_synthetic_rollouts: bool = True
     synthetic_cross_episode_batching: bool = True
@@ -132,7 +138,7 @@ class HeterogeneousTrainingConfig(TrainingConfig):
     require_synthetic_startup_parity: bool = True
     synthetic_parity_recheck_interval: int = 16
     # v6.1 competitive scheduling freezes admitted lane capabilities. When true, an unavailable
-    # accelerator lane is a fail-closed resource fault, never an implicit CPU/XPU redistribution.
+    # accelerator lane is a fail-closed resource fault, never an implicit CPU redistribution.
     strict_resource_binding: bool = False
 
 
@@ -143,7 +149,6 @@ class TrainingLanePlan:
     episode_counts: dict[str, int]
     effective_shares: dict[str, float]
     devices: dict[str, str]
-    xpu_runtime: str
     warnings: tuple[str, ...]
 
     @property
@@ -155,21 +160,19 @@ class TrainingLanePlan:
         effective = self.effective_shares
         return (
             f"CUDA {counts['cuda']} ({effective['cuda']:.1f}%) · "
-            f"XPU {counts['xpu']} ({effective['xpu']:.1f}%) · "
             f"CPU {counts['cpu']} ({effective['cpu']:.1f}%)"
         )
 
 
-def _validate_shares(cuda_share: int, xpu_share: int, cpu_share: int) -> dict[str, int]:
+def _validate_shares(cuda_share: int, cpu_share: int) -> dict[str, int]:
     shares = {
         "cuda": int(cuda_share),
-        "xpu": int(xpu_share),
         "cpu": int(cpu_share),
     }
     if any(value < 0 or value > 100 for value in shares.values()):
-        raise ValueError("CUDA, XPU, and CPU rollout shares must each be between 0 and 100.")
+        raise ValueError("CUDA and CPU rollout shares must each be between 0 and 100.")
     if sum(shares.values()) != 100:
-        raise ValueError("CUDA, XPU, and CPU rollout shares must total exactly 100%.")
+        raise ValueError("CUDA and CPU rollout shares must total exactly 100%.")
     return shares
 
 
@@ -197,11 +200,8 @@ def plan_training_lanes(
     episodes_per_epoch: int,
     *,
     cuda_share: int = 100,
-    xpu_share: int = 0,
     cpu_share: int = 0,
     cuda_available: bool | None = None,
-    xpu_available: bool | None = None,
-    xpu_sidecar_available: bool | None = None,
     strict_unavailable: bool = False,
 ) -> TrainingLanePlan:
     """Create a deterministic per-epoch actor allocation.
@@ -211,40 +211,30 @@ def plan_training_lanes(
     is always available. Explicit non-default shares use the largest-remainder method.
     """
 
-    requested = _validate_shares(cuda_share, xpu_share, cpu_share)
+    requested = _validate_shares(cuda_share, cpu_share)
     info = available_training_devices()
     cuda_ok = bool(info["cuda_available"] if cuda_available is None else cuda_available)
-    direct_xpu = bool(info["xpu_available"] if xpu_available is None else xpu_available)
-    sidecar_xpu = bool(
-        info["xpu_sidecar_available"] if xpu_sidecar_available is None else xpu_sidecar_available
-    )
-    xpu_ok = direct_xpu or sidecar_xpu
-    available = {"cuda": cuda_ok, "xpu": xpu_ok, "cpu": True}
+    available = {"cuda": cuda_ok, "cpu": True}
 
     if strict_unavailable:
-        missing = [name.upper() for name in ("cuda", "xpu") if requested[name] > 0 and not available[name]]
+        missing = ["CUDA"] if requested["cuda"] > 0 and not cuda_ok else []
         if missing:
             raise RuntimeError(
                 "Protected training resource binding failed: requested accelerator lane(s) became "
-                "unavailable after admission: " + ", ".join(missing) + ". CPU redistribution is disabled."
+                "unavailable after admission: "
+                + ", ".join(missing)
+                + ". CPU redistribution is disabled."
             )
 
     usable_weights = {name: requested[name] if available[name] else 0 for name in LANE_ORDER}
     warnings: list[str] = []
-    gpu_maximum_request = requested == {"cuda": 100, "xpu": 0, "cpu": 0}
+    gpu_maximum_request = requested == {"cuda": 100, "cpu": 0}
     if gpu_maximum_request and not cuda_ok:
-        if xpu_ok:
-            usable_weights = {"cuda": 0, "xpu": 100, "cpu": 0}
-            warnings.append("CUDA is unavailable; GPU-maximum training fell back to Intel XPU.")
-        else:
-            usable_weights = {"cuda": 0, "xpu": 0, "cpu": 100}
-            warnings.append("CUDA and Intel XPU are unavailable; training fell back to CPU actors.")
+        usable_weights = {"cuda": 0, "cpu": 100}
+        warnings.append("CUDA is unavailable; training fell back to CPU actors.")
     else:
-        for name in ("cuda", "xpu"):
-            if requested[name] and not available[name]:
-                warnings.append(
-                    f"Requested {name.upper()} share is unavailable and will be redistributed."
-                )
+        if requested["cuda"] and not cuda_ok:
+            warnings.append("Requested CUDA share is unavailable and will be redistributed.")
         if not any(usable_weights.values()):
             usable_weights["cpu"] = 100
             warnings.append("All requested accelerator lanes are unavailable; using CPU actors.")
@@ -252,10 +242,8 @@ def plan_training_lanes(
     counts = _largest_remainder_allocation(int(episodes_per_epoch), usable_weights)
     total = max(1, int(episodes_per_epoch))
     effective = {name: 100.0 * counts[name] / total for name in LANE_ORDER}
-    xpu_runtime = "primary" if direct_xpu else ("sidecar" if sidecar_xpu else "unavailable")
     devices = {
         "cuda": "cuda:0" if cuda_ok else "unavailable",
-        "xpu": "xpu:0" if xpu_ok else "unavailable",
         "cpu": "cpu",
     }
     return TrainingLanePlan(
@@ -264,7 +252,6 @@ def plan_training_lanes(
         episode_counts=counts,
         effective_shares=effective,
         devices=devices,
-        xpu_runtime=xpu_runtime,
         warnings=tuple(warnings),
     )
 
@@ -305,7 +292,6 @@ def plan_training_lanes_from_throughput(
         episode_counts={lane: int(counts.get(lane, 0)) for lane in LANE_ORDER},
         effective_shares=effective,
         devices=dict(base_plan.devices),
-        xpu_runtime=base_plan.xpu_runtime,
         warnings=tuple(warnings),
     )
 
@@ -391,7 +377,7 @@ def _environment_for_episode(
         reference_problem = CurriculumProblem(rng, stage)
         device_type = torch.device(compute_device).type
         use_device_resident = bool(
-            config.device_resident_synthetic_rollouts and device_type in {"cuda", "xpu"}
+            config.device_resident_synthetic_rollouts and device_type == "cuda"
         )
         problem = reference_problem
         if use_device_resident:
@@ -415,7 +401,7 @@ def _environment_for_episode(
 
 
 def _sample_actions(regime_logits, operator_logits, alpha, beta):
-    """Sample actions on the actor device, with a CPU fallback for unsupported XPU kernels."""
+    """Sample actions on the actor device, with a CPU compatibility fallback."""
     try:
         regime_dist = torch.distributions.Categorical(logits=regime_logits)
         operator_dist = torch.distributions.Categorical(logits=operator_logits)
@@ -499,13 +485,13 @@ def _persistent_actor_broker(config: HeterogeneousTrainingConfig, device_name: s
     return broker
 
 
-
-
 def _persistent_synthetic_broker(config: HeterogeneousTrainingConfig, device_name: str):
-    if not bool(config.device_resident_synthetic_rollouts and config.synthetic_cross_episode_batching):
+    if not bool(
+        config.device_resident_synthetic_rollouts and config.synthetic_cross_episode_batching
+    ):
         return None
     device_type = torch.device(device_name).type
-    if device_type not in {"cuda", "xpu"}:
+    if device_type != "cuda":
         return None
     from .device_resident_synthetic import SyntheticCrossEpisodeBatchBroker
 
@@ -529,7 +515,7 @@ def collect_actor_lane_payload(payload: dict[str, Any]) -> dict[str, Any]:
     """Collect one complete actor lane using batched policy inference.
 
     This function is module-level and pickle-safe so it can run in a Windows ``spawn`` process or
-    in the isolated Intel-XPU Python environment.
+    in a Windows ``spawn`` worker.
     """
 
     config = HeterogeneousTrainingConfig(**payload["config"])
@@ -639,11 +625,6 @@ def collect_actor_lane_payload(payload: dict[str, Any]) -> dict[str, Any]:
 
     if device.type == "cuda":
         torch.cuda.synchronize(device)
-    elif device.type == "xpu" and hasattr(torch, "xpu"):
-        try:
-            torch.xpu.synchronize(device)
-        except Exception:
-            _LOG.debug("Suppressed non-fatal cleanup/probe exception", exc_info=True)
 
     return {
         "lane": lane,
@@ -658,19 +639,31 @@ def collect_actor_lane_payload(payload: dict[str, Any]) -> dict[str, Any]:
             for episode in sorted(episode_rollouts)
         ],
         "stage_b_synthetic": (
-            (lambda after, before: {
-                "device": str(after.get("device", device_name)),
-                "batch_count": int(after.get("batch_count", 0)) - int(before.get("batch_count", 0)),
-                "candidate_count": int(after.get("candidate_count", 0)) - int(before.get("candidate_count", 0)),
-                "request_count": int(after.get("request_count", 0)) - int(before.get("request_count", 0)),
-                "max_batch_candidates": int(after.get("max_batch_candidates", 0)),
-                "mean_candidates_per_batch": (
-                    float(
-                        (int(after.get("candidate_count", 0)) - int(before.get("candidate_count", 0)))
-                        / max(int(after.get("batch_count", 0)) - int(before.get("batch_count", 0)), 1)
-                    )
-                ),
-            })(dict(synthetic_broker.metrics()), synthetic_before)
+            (
+                lambda after, before: {
+                    "device": str(after.get("device", device_name)),
+                    "batch_count": int(after.get("batch_count", 0))
+                    - int(before.get("batch_count", 0)),
+                    "candidate_count": int(after.get("candidate_count", 0))
+                    - int(before.get("candidate_count", 0)),
+                    "request_count": int(after.get("request_count", 0))
+                    - int(before.get("request_count", 0)),
+                    "max_batch_candidates": int(after.get("max_batch_candidates", 0)),
+                    "mean_candidates_per_batch": (
+                        float(
+                            (
+                                int(after.get("candidate_count", 0))
+                                - int(before.get("candidate_count", 0))
+                            )
+                            / max(
+                                int(after.get("batch_count", 0))
+                                - int(before.get("batch_count", 0)),
+                                1,
+                            )
+                        )
+                    ),
+                }
+            )(dict(synthetic_broker.metrics()), synthetic_before)
             if synthetic_broker is not None
             else {
                 "device": device_name,
@@ -777,18 +770,6 @@ def _collect_accelerator_subprocess(
         return torch.load(output_path, map_location="cpu", weights_only=False)
 
 
-def _xpu_interpreter_for_plan(plan: TrainingLanePlan) -> str:
-    if plan.xpu_runtime == "primary":
-        return sys.executable
-    if plan.xpu_runtime == "sidecar":
-        from calo_rpd_studio.compute.resource_scheduler import configured_xpu_interpreter
-
-        interpreter = configured_xpu_interpreter()
-        if interpreter:
-            return interpreter
-    raise RuntimeError("No verified Intel XPU interpreter is available for the XPU actor lane.")
-
-
 def _flatten_actor_results(
     results: list[dict[str, Any]],
     *,
@@ -849,11 +830,10 @@ def collect_weighted_epoch_rollouts(
     actor_clients: dict[str, PersistentTrainingActorClient] | None = None,
     cpu_executor=None,
 ):
-    """Collect one synchronous weighted epoch from CUDA, XPU, and CPU actors in parallel."""
+    """Collect one synchronous weighted epoch from CUDA and CPU actors in parallel."""
     plan = plan_override or plan_training_lanes(
         config.episodes_per_epoch,
         cuda_share=config.cuda_rollout_share,
-        xpu_share=config.xpu_rollout_share,
         cpu_share=config.cpu_rollout_share,
         strict_unavailable=bool(getattr(config, "strict_resource_binding", False)),
     )
@@ -895,28 +875,6 @@ def collect_weighted_epoch_rollouts(
                         cancel_callback=cancel_callback,
                     )
                 ] = "cuda"
-        if lane_episodes["xpu"]:
-            payload = {
-                "config": asdict(config),
-                "network_state": network_state,
-                "epoch": epoch,
-                "stage": stage,
-                "episode_indices": lane_episodes["xpu"],
-                "device": "xpu:0",
-                "lane": "xpu",
-                "policy_snapshot_sha256": snapshot,
-            }
-            if "xpu" in actor_clients:
-                futures[executor.submit(actor_clients["xpu"].request, payload, None)] = "xpu"
-            else:
-                futures[
-                    executor.submit(
-                        _collect_accelerator_subprocess,
-                        _xpu_interpreter_for_plan(plan),
-                        payload,
-                        cancel_callback=cancel_callback,
-                    )
-                ] = "xpu"
         if lane_episodes["cpu"]:
             futures[
                 executor.submit(
@@ -977,7 +935,6 @@ def calibrate_training_actor_throughput(
     base_plan = plan_training_lanes(
         max(1, int(config.actor_calibration_episodes)),
         cuda_share=config.cuda_rollout_share,
-        xpu_share=config.xpu_rollout_share,
         cpu_share=config.cpu_rollout_share,
         strict_unavailable=bool(getattr(config, "strict_resource_binding", False)),
     )
@@ -1016,10 +973,7 @@ def calibrate_training_actor_throughput(
                 )
                 episodes = sum(len(item.get("episodes", [])) for item in results)
             else:
-                result = _collect_accelerator_subprocess(
-                    _xpu_interpreter_for_plan(base_plan) if lane == "xpu" else sys.executable,
-                    payload,
-                )
+                result = _collect_accelerator_subprocess(sys.executable, payload)
                 episodes = len(result.get("episodes", []))
             seconds = max(time.perf_counter() - started, 1e-12)
             throughputs[lane] = float(episodes * config.horizon / seconds)
@@ -1077,15 +1031,8 @@ def _train_policy_heterogeneous_impl(
 
     _validate_shares(
         config.cuda_rollout_share,
-        config.xpu_rollout_share,
         config.cpu_rollout_share,
     )
-    if str(config.ppo_device).lower() == "xpu_sidecar":
-        raise ValueError(
-            "Weighted multi-device training requires the PPO learner in the primary runtime. "
-            "Select Automatic, CUDA, direct XPU, or CPU. The secondary XPU runtime "
-            "remains available as an actor lane."
-        )
 
     random.seed(config.seed)
     np.random.seed(config.seed)
@@ -1094,6 +1041,15 @@ def _train_policy_heterogeneous_impl(
         torch.cuda.manual_seed_all(config.seed)
     rng = np.random.default_rng(config.seed)
     learner_device = _resolve_training_device(config.ppo_device)
+    learner_vram_governor = VramResidencyGovernor(
+        learner_device,
+        VramResidencyPolicy(
+            budget_fraction=float(getattr(config, "cuda_vram_budget_fraction", 0.80)),
+            oom_retry_count=int(getattr(config, "cuda_oom_retry_count", 4)),
+            minimum_microbatch=max(1, int(getattr(config, "cuda_minimum_minibatch", 8))),
+            retain_outputs_on_device=True,
+        ),
+    )
 
     if int(config.rollout_workers) <= 0:
         config.rollout_workers = recommended_rollout_workers(config.episodes_per_epoch)
@@ -1150,14 +1106,17 @@ def _train_policy_heterogeneous_impl(
     completed_units = start_epoch * config.episodes_per_epoch
 
     # v3.4 keeps one actor interpreter/process alive per device for the complete training
-    # session.  CUDA/XPU contexts, policy modules, ORPD tensors and cross-episode batch
+    # session. CUDA contexts, policy modules, ORPD tensors and cross-episode batch
     # brokers are therefore reused instead of being reconstructed every epoch.
+    explicit_cpu_mode = str(config.ppo_device).strip().lower() == "cpu"
     base_plan = plan_training_lanes(
         config.episodes_per_epoch,
-        cuda_share=config.cuda_rollout_share,
-        xpu_share=config.xpu_rollout_share,
-        cpu_share=config.cpu_rollout_share,
-        strict_unavailable=bool(getattr(config, "strict_resource_binding", False)),
+        cuda_share=0 if explicit_cpu_mode else config.cuda_rollout_share,
+        cpu_share=100 if explicit_cpu_mode else config.cpu_rollout_share,
+        cuda_available=False if explicit_cpu_mode else None,
+        strict_unavailable=(
+            False if explicit_cpu_mode else bool(getattr(config, "strict_resource_binding", False))
+        ),
     )
     actor_clients: dict[str, PersistentTrainingActorClient] = {}
     cpu_executor = None
@@ -1180,23 +1139,27 @@ def _train_policy_heterogeneous_impl(
         extra.update(updates)
         return extra
 
-    def _notify_epoch(completed_epoch: int, stage_value: int, episode_returns_value=None, epoch_losses_value=None):
+    def _notify_epoch(
+        completed_epoch: int, stage_value: int, episode_returns_value=None, epoch_losses_value=None
+    ):
         if epoch_observer is None:
             return
-        epoch_observer({
-            "epoch": int(completed_epoch),
-            "stage": int(stage_value),
-            "network": network,
-            "optimizer": optimizer,
-            "rng": rng,
-            "history": history,
-            "historical_pretraining": historical_pretraining,
-            "config": config,
-            "device": learner_device,
-            "rollout_workers": int(config.rollout_workers),
-            "episode_returns": list(episode_returns_value or []),
-            "epoch_losses": list(epoch_losses_value or []),
-        })
+        epoch_observer(
+            {
+                "epoch": int(completed_epoch),
+                "stage": int(stage_value),
+                "network": network,
+                "optimizer": optimizer,
+                "rng": rng,
+                "history": history,
+                "historical_pretraining": historical_pretraining,
+                "config": config,
+                "device": learner_device,
+                "rollout_workers": int(config.rollout_workers),
+                "episode_returns": list(episode_returns_value or []),
+                "epoch_losses": list(epoch_losses_value or []),
+            }
+        )
 
     _notify_epoch(start_epoch, stage_floor, [], [])
     try:
@@ -1210,15 +1173,6 @@ def _train_policy_heterogeneous_impl(
                     base_plan.devices["cuda"],
                     "cuda",
                 )
-            if (
-                base_plan.available_lanes.get("xpu", False)
-                and base_plan.episode_counts.get("xpu", 0) > 0
-            ):
-                actor_clients["xpu"] = PersistentTrainingActorClient(
-                    _xpu_interpreter_for_plan(base_plan),
-                    base_plan.devices["xpu"],
-                    "xpu",
-                )
             if base_plan.episode_counts.get("cpu", 0) > 0:
                 context = mp.get_context("spawn")
                 cpu_executor = ProcessPoolExecutor(
@@ -1230,7 +1184,7 @@ def _train_policy_heterogeneous_impl(
             if progress_callback:
                 progress_callback(
                     0,
-                    "Calibrating persistent CUDA/XPU/CPU policy actors; probe trajectories are discarded",
+                    "Calibrating persistent CUDA/CPU policy actors; probe trajectories are discarded",
                 )
             measured_actor_throughput = calibrate_training_actor_throughput(
                 config,
@@ -1245,25 +1199,39 @@ def _train_policy_heterogeneous_impl(
             _apply_protection_control(config, protection_callback, progress_callback)
             cancel = cancel_callback() if cancel_callback else False
             if cancel:
-                if isinstance(cancel, (int, float)) and not isinstance(cancel, bool) and cancel > epoch:
+                if (
+                    isinstance(cancel, (int, float))
+                    and not isinstance(cancel, bool)
+                    and cancel > epoch
+                ):
                     target_epoch = int(cancel)
                     if progress_callback:
-                        progress_callback(
-                            0, f"Rounding to epoch {target_epoch} before stop..."
-                        )
+                        progress_callback(0, f"Rounding to epoch {target_epoch} before stop...")
                 else:
                     if suppress_cancel_persistence:
                         raise TrainingCancelled(
                             f"CALO policy training stop requested after completed epoch {epoch}."
                         )
                     save_training_resume(
-                        resume_path, network=network, optimizer=optimizer, next_epoch=epoch,
-                        history=history, rng=rng, historical_pretraining=historical_pretraining,
-                        config=config, extra=_current_resume_extra(safe_stop=True),
+                        resume_path,
+                        network=network,
+                        optimizer=optimizer,
+                        next_epoch=epoch,
+                        history=history,
+                        rng=rng,
+                        historical_pretraining=historical_pretraining,
+                        config=config,
+                        extra=_current_resume_extra(safe_stop=True),
                     )
                     terminal = save_deployable_policy_snapshot(
-                        output_path, network, config, history, historical_pretraining, epoch,
-                        device=str(learner_device), rollout_workers=int(config.rollout_workers),
+                        output_path,
+                        network,
+                        config,
+                        history,
+                        historical_pretraining,
+                        epoch,
+                        device=str(learner_device),
+                        rollout_workers=int(config.rollout_workers),
                     )
                     _write_policy_alias(output_path, terminal)
                     raise TrainingCancelled(
@@ -1314,13 +1282,25 @@ def _train_policy_heterogeneous_impl(
                 if suppress_cancel_persistence:
                     raise
                 save_training_resume(
-                    resume_path, network=network, optimizer=optimizer, next_epoch=epoch,
-                    history=history, rng=rng, historical_pretraining=historical_pretraining,
-                    config=config, extra=_current_resume_extra(safe_stop=True),
+                    resume_path,
+                    network=network,
+                    optimizer=optimizer,
+                    next_epoch=epoch,
+                    history=history,
+                    rng=rng,
+                    historical_pretraining=historical_pretraining,
+                    config=config,
+                    extra=_current_resume_extra(safe_stop=True),
                 )
                 terminal = save_deployable_policy_snapshot(
-                    output_path, network, config, history, historical_pretraining, epoch,
-                    device=str(learner_device), rollout_workers=int(config.rollout_workers),
+                    output_path,
+                    network,
+                    config,
+                    history,
+                    historical_pretraining,
+                    epoch,
+                    device=str(learner_device),
+                    rollout_workers=int(config.rollout_workers),
                 )
                 _write_policy_alias(output_path, terminal)
                 raise
@@ -1378,50 +1358,91 @@ def _train_policy_heterogeneous_impl(
             advantages_t = torch.as_tensor(advantages, dtype=torch.float32, device=learner_device)
             returns_t = torch.as_tensor(returns, dtype=torch.float32, device=learner_device)
 
-            epoch_losses: list[float] = []
+            # Keep PPO updates resident on the learner device. The shuffled index vector is copied
+            # once per PPO epoch; loss scalars are transferred once after the whole epoch instead of
+            # synchronising CUDA after every minibatch. CUDA OOM reduces only the active minibatch.
+            epoch_loss_tensors = []
             indices = np.arange(len(states))
             network.train()
+            effective_minibatch = max(1, int(config.minibatch_size))
+            minimum_minibatch = max(1, int(getattr(config, "cuda_minimum_minibatch", 8)))
             for _ in range(config.ppo_epochs):
                 rng.shuffle(indices)
-                for start in range(0, len(indices), config.minibatch_size):
-                    batch = indices[start : start + config.minibatch_size]
-                    batch_t = torch.as_tensor(batch, dtype=torch.long, device=learner_device)
-                    regime_logits, operator_logits, alpha, beta, values = network(states[batch_t])
-                    regime_dist = torch.distributions.Categorical(logits=regime_logits)
-                    operator_dist = torch.distributions.Categorical(logits=operator_logits)
-                    parameter_dist = _parameter_action_distribution(alpha, beta)
-                    new_logp = (
-                        regime_dist.log_prob(regimes[batch_t])
-                        + operator_dist.log_prob(operators[batch_t])
-                        + parameter_dist.log_prob(parameters[batch_t].clamp(1e-5, 1 - 1e-5)).sum(-1)
-                    )
-                    ratio = torch.exp(new_logp - old_logp[batch_t])
-                    unclipped = ratio * advantages_t[batch_t]
-                    clipped = (
-                        torch.clamp(
-                            ratio,
-                            1.0 - config.clip_ratio,
-                            1.0 + config.clip_ratio,
-                        )
-                        * advantages_t[batch_t]
-                    )
-                    policy_loss = -torch.min(unclipped, clipped).mean()
-                    value_loss = 0.5 * ((values - returns_t[batch_t]) ** 2).mean()
-                    entropy = (
-                        regime_dist.entropy().mean()
-                        + operator_dist.entropy().mean()
-                        + parameter_dist.entropy().sum(-1).mean()
-                    )
-                    loss = (
-                        policy_loss
-                        + config.value_weight * value_loss
-                        - config.entropy_weight * entropy
-                    )
-                    optimizer.zero_grad(set_to_none=True)
-                    loss.backward()
-                    nn.utils.clip_grad_norm_(network.parameters(), 1.0)
-                    optimizer.step()
-                    epoch_losses.append(float(loss.detach().cpu().item()))
+                permutation = torch.as_tensor(
+                    indices.copy(), dtype=torch.long, device=learner_device
+                )
+                start = 0
+                while start < len(indices):
+                    current_size = min(effective_minibatch, len(indices) - start)
+                    retry_count = 0
+                    while True:
+                        batch_t = permutation[start : start + current_size]
+                        try:
+                            regime_logits, operator_logits, alpha, beta, values = network(
+                                states[batch_t]
+                            )
+                            regime_dist = torch.distributions.Categorical(logits=regime_logits)
+                            operator_dist = torch.distributions.Categorical(logits=operator_logits)
+                            parameter_dist = _parameter_action_distribution(alpha, beta)
+                            new_logp = (
+                                regime_dist.log_prob(regimes[batch_t])
+                                + operator_dist.log_prob(operators[batch_t])
+                                + parameter_dist.log_prob(
+                                    parameters[batch_t].clamp(1e-5, 1 - 1e-5)
+                                ).sum(-1)
+                            )
+                            ratio = torch.exp(new_logp - old_logp[batch_t])
+                            unclipped = ratio * advantages_t[batch_t]
+                            clipped = (
+                                torch.clamp(
+                                    ratio,
+                                    1.0 - config.clip_ratio,
+                                    1.0 + config.clip_ratio,
+                                )
+                                * advantages_t[batch_t]
+                            )
+                            policy_loss = -torch.min(unclipped, clipped).mean()
+                            value_loss = 0.5 * ((values - returns_t[batch_t]) ** 2).mean()
+                            entropy = (
+                                regime_dist.entropy().mean()
+                                + operator_dist.entropy().mean()
+                                + parameter_dist.entropy().sum(-1).mean()
+                            )
+                            loss = (
+                                policy_loss
+                                + config.value_weight * value_loss
+                                - config.entropy_weight * entropy
+                            )
+                            optimizer.zero_grad(set_to_none=True)
+                            loss.backward()
+                            nn.utils.clip_grad_norm_(network.parameters(), 1.0)
+                            optimizer.step()
+                            epoch_loss_tensors.append(loss.detach())
+                            start += current_size
+                            effective_minibatch = min(effective_minibatch, current_size)
+                            break
+                        except BaseException as exc:
+                            if not learner_vram_governor.is_cuda_oom(exc):
+                                raise
+                            optimizer.zero_grad(set_to_none=True)
+                            retry_count += 1
+                            if (
+                                retry_count > int(getattr(config, "cuda_oom_retry_count", 4))
+                                or current_size <= minimum_minibatch
+                            ):
+                                raise RuntimeError(
+                                    "CUDA PPO learner exhausted the configured 80%-default VRAM budget; "
+                                    "training remained on CUDA and did not fall back to CPU."
+                                ) from exc
+                            current_size = max(minimum_minibatch, current_size // 2)
+                            effective_minibatch = current_size
+                            if learner_vram_governor.enabled:
+                                torch.cuda.empty_cache()
+            epoch_losses = (
+                torch.stack(epoch_loss_tensors).detach().to("cpu").tolist()
+                if epoch_loss_tensors
+                else []
+            )
             network.eval()
             history.append(
                 {
@@ -1431,6 +1452,8 @@ def _train_policy_heterogeneous_impl(
                     "mean_episode_return": float(np.mean(episode_returns)),
                     "transitions": len(rollout["state"]),
                     "ppo_learner_device": str(learner_device),
+                    "ppo_vram_residency": learner_vram_governor.stats.to_dict(),
+                    "effective_ppo_minibatch": int(effective_minibatch),
                     "policy_snapshot_sha256": snapshot,
                     "requested_rollout_shares": plan.requested_shares,
                     "effective_rollout_shares": plan.effective_shares,
@@ -1532,7 +1555,7 @@ def _train_policy_heterogeneous_impl(
         "training_environment_version": TRAINING_ENVIRONMENT_VERSION,
         "execution": {
             "architecture": (
-                "same-policy synchronous persistent CUDA/XPU/CPU actor lanes with v6.4 device-resident "
+                "same-policy synchronous persistent CUDA/CPU actor lanes with device-resident "
                 "synthetic curriculum microbatching, exact-formulation ORPD batching, measured-throughput "
                 "allocation, and one centralized PPO learner update"
             ),
@@ -1542,10 +1565,6 @@ def _train_policy_heterogeneous_impl(
             "episodes_per_epoch_by_lane": final_plan.episode_counts,
             "cuda_available": bool(device_info["cuda_available"]),
             "cuda_name": str(device_info["cuda_name"]),
-            "xpu_available": bool(device_info["xpu_available"]),
-            "xpu_name": str(device_info["xpu_name"]),
-            "xpu_sidecar_available": bool(device_info["xpu_sidecar_available"]),
-            "xpu_actor_runtime": final_plan.xpu_runtime,
             "cpu_rollout_workers": int(config.rollout_workers),
             "persistent_actor_workers": bool(config.persistent_actor_workers),
             "throughput_adaptive_rollouts": bool(config.throughput_adaptive_rollouts),
@@ -1568,7 +1587,7 @@ def _train_policy_heterogeneous_impl(
             ),
             "hardware_scope_note": (
                 "Auto-tuned shares are based on measured complete actor transitions per second, not Task Manager "
-                "utilization percentages. On admitted CUDA/XPU actors, v6.4 keeps synthetic curriculum task tensors "
+                "utilization percentages. On admitted CUDA actors, synthetic curriculum task tensors "
                 "resident and cross-episode microbatches FP64 population objective/constraint evaluation after a "
                 "fail-closed NumPy-reference parity gate. The stochastic CALO controller/archive/memory transition "
                 "semantics remain the trusted reference authority. Explicit ORPD development rollouts use the exact "
@@ -1606,6 +1625,7 @@ def _train_policy_heterogeneous_impl(
             pass
     return str(output_path), history
 
+
 def train_policy_heterogeneous(
     config: HeterogeneousTrainingConfig,
     output_path,
@@ -1625,7 +1645,10 @@ def train_policy_heterogeneous(
     caller_cuda = torch.cuda.get_rng_state_all() if torch.cuda.is_available() else []
     try:
         return _train_policy_heterogeneous_impl(
-            config, output_path, progress_callback, cancel_callback,
+            config,
+            output_path,
+            progress_callback,
+            cancel_callback,
             epoch_observer=epoch_observer,
             resume_extra_provider=resume_extra_provider,
             cancel_during_rollout=cancel_during_rollout,
@@ -1638,4 +1661,3 @@ def train_policy_heterogeneous(
         torch.random.set_rng_state(caller_torch)
         if torch.cuda.is_available() and caller_cuda:
             torch.cuda.set_rng_state_all(caller_cuda)
-

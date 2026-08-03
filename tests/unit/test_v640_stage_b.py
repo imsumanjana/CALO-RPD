@@ -136,7 +136,7 @@ def test_heterogeneous_real_orpd_environment_uses_declared_experiment_formulatio
     assert environment.problem.config.power_flow.tolerance == pytest.approx(2.5e-7)
 
 
-def test_stage_b_gui_exposes_real_development_suite_and_no_hardcoded_empty_cases():
+def test_gui_exposes_real_policy_training_suite_and_no_hardcoded_empty_cases():
     source = (
         Path(__file__).resolve().parents[2]
         / "calo_rpd_studio"
@@ -145,7 +145,7 @@ def test_stage_b_gui_exposes_real_development_suite_and_no_hardcoded_empty_cases
         / "calo_intelligence_panel.py"
     ).read_text(encoding="utf-8")
     assert "device_resident_synthetic" in source
-    assert "Development cases" in source
+    assert "Policy-training cases" in source
     assert "development_experiment_config_path=development_config_path" in source
     assert "development_cases=()," not in source
 
@@ -180,8 +180,14 @@ def test_stage_b_multi_transition_trajectory_matches_reference_on_torch_cpu():
         reward_b = env_b.step(regime, operator, params, 12)
         assert reward_a == pytest.approx(reward_b, rel=1e-10, abs=1e-10)
         assert env_a.population == pytest.approx(env_b.population, rel=1e-10, abs=1e-10)
-        assert env_a.last_step_trace["executed_operators"] == env_b.last_step_trace["executed_operators"]
-        assert env_a.last_step_trace["forced_recovery_indices"] == env_b.last_step_trace["forced_recovery_indices"]
+        assert (
+            env_a.last_step_trace["executed_operators"]
+            == env_b.last_step_trace["executed_operators"]
+        )
+        assert (
+            env_a.last_step_trace["forced_recovery_indices"]
+            == env_b.last_step_trace["forced_recovery_indices"]
+        )
 
 
 def test_stage_b_host_controller_thread_pool_is_capped_by_protected_rollout_budget():

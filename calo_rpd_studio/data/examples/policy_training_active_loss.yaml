@@ -1,4 +1,4 @@
-name: CALO policy development active-loss formulation
+name: CALO policy training active-loss formulation
 case_name: case30
 algorithms: [CALO]
 runs: 1
@@ -43,10 +43,9 @@ scenarios:
   renewable_mean_capacity_factor: 0.5
   renewable_std_capacity_factor: 0.15
 algorithm_parameters: {}
-output_directory: results_data/policy_development
+output_directory: results_data/policy_training
 parallel_workers: 1
-execution_backend: gpu_preferred
+execution_backend: cuda_preferred
 scientific_backend: torch_fp64
 device_resident_execution: true
 require_backend_parity: true
-strict_device_shares: true

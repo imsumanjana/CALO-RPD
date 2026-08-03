@@ -1,4 +1,4 @@
-"""Frozen v2 benchmark campaign and Transactions evidence workspace."""
+"""Frozen benchmark campaign and comprehensive evidence workspace."""
 
 from __future__ import annotations
 
@@ -29,10 +29,11 @@ from calo_rpd_studio.algorithms.registry import primary_algorithm_names
 from calo_rpd_studio.benchmarking.campaign import (
     BenchmarkCampaignConfig,
     build_campaign,
+    verify_campaign_plan_design,
     write_campaign_plan,
 )
 from calo_rpd_studio.benchmarking.freeze import verify_freeze_manifest
-from calo_rpd_studio.benchmarking.package import TransactionsPackageBuilder
+from calo_rpd_studio.benchmarking.package import ScientificEvidencePackageBuilder
 from calo_rpd_studio.benchmarking.validation import validate_campaign
 from calo_rpd_studio.benchmarking.suite import standard_benchmark_suite
 from calo_rpd_studio.gui.widgets.section_card import SectionCard
@@ -41,12 +42,13 @@ from calo_rpd_studio.version import FREEZE_MANIFEST
 
 
 class BenchmarkCampaignPanel(WorkspacePage):
-    """Configure and execute the final frozen 20-algorithm benchmark campaign."""
+    """Configure and execute a frozen, power-aware benchmark campaign."""
 
     def __init__(self, state, experiment_manager, parent=None) -> None:
         super().__init__(
             "Benchmark & Evidence",
-            "Freeze CALO, execute the full 20-algorithm final TEST campaign, and generate Transactions-level statistical and reproducibility evidence.",
+            "Verify the CALO software freeze, execute a preregistered held-out campaign, and "
+            "generate comprehensive statistical and reproducibility evidence.",
             parent,
         )
         self.state = state
@@ -60,7 +62,7 @@ class BenchmarkCampaignPanel(WorkspacePage):
 
         freeze_card = SectionCard(
             "A. Frozen CALO gate",
-            "Final TEST execution is blocked unless the release software freeze matches the CALO equations, operators, state, archives, PPO architecture, training semantics, hyperparameters, decoder, and feasibility rules. The experiment policy is separately bound by explicit artifact SHA-256; no default policy is implied by the software freeze.",
+            "Held-out execution is blocked unless the software freeze matches the CALO equations, operators, state, archives, policy architecture, training semantics, hyperparameters, decoder, and feasibility rules. The governing policy is separately bound by explicit artifact SHA-256.",
         )
         freeze_row = QHBoxLayout()
         self.freeze_path = QLineEdit(
@@ -78,7 +80,8 @@ class BenchmarkCampaignPanel(WorkspacePage):
 
         design_card = SectionCard(
             "B. Final benchmark design",
-            "The final campaign always uses all 20 primary algorithms, equal objective-function evaluation budgets, shared run seeds within each task, and 30–50 independent runs.",
+            "The campaign uses the frozen registered comparator set, equal objective-function "
+            "evaluation budgets, paired run seeds, and a multiplicity-aware powered run plan.",
         )
         grid = QGridLayout()
         self.case_checks: dict[str, QCheckBox] = {}
@@ -112,8 +115,13 @@ class BenchmarkCampaignPanel(WorkspacePage):
         numeric_box = QGroupBox("Campaign controls")
         numeric = QGridLayout(numeric_box)
         self.runs = QSpinBox()
-        self.runs.setRange(30, 50)
-        self.runs.setValue(30)
+        recommended_runs = int(BenchmarkCampaignConfig().runs)
+        self.runs.setRange(2, 10_000)
+        self.runs.setValue(recommended_runs)
+        self.runs.setToolTip(
+            "Default powered approximation for the current CALO-versus-comparator family. "
+            "Replace it only with a preregistered pilot/simulation design."
+        )
         self.evaluations = QSpinBox()
         self.evaluations.setRange(100, 10_000_000)
         self.evaluations.setValue(5000)
@@ -145,7 +153,7 @@ class BenchmarkCampaignPanel(WorkspacePage):
         buttons = QHBoxLayout()
         self.plan_button = QPushButton("Build frozen campaign plan")
         self.plan_button.clicked.connect(self.build_plan)
-        self.start_button = QPushButton("Start full 20-algorithm TEST campaign")
+        self.start_button = QPushButton("Start frozen held-out campaign")
         self.start_button.setObjectName("PrimaryButton")
         self.start_button.setEnabled(False)
         self.start_button.clicked.connect(self.start_campaign)
@@ -161,18 +169,19 @@ class BenchmarkCampaignPanel(WorkspacePage):
 
         queue_card = SectionCard(
             "C. Campaign task queue",
-            "Each row is a complete 20-algorithm repeated-run experiment. Final TEST experiments are automatically locked out of historical learning.",
+            "Each row is a complete repeated-run comparison. Held-out experiments are "
+            "automatically locked out of historical learning.",
         )
-        self.table = QTableWidget(0, 7)
+        self.table = QTableWidget(0, 8)
         self.table.setHorizontalHeaderLabels(
-            ["#", "Task", "Case", "Study", "Jobs", "Status", "Experiment ID"]
+            ["#", "Task", "Case", "Evidence role", "Study", "Jobs", "Status", "Experiment ID"]
         )
         self.table.setMinimumHeight(260)
         queue_card.layout_root.addWidget(self.table)
         self.layout_root.addWidget(queue_card)
 
         package_card = SectionCard(
-            "D. Transactions-level research package",
+            "D. Comprehensive scientific evidence package",
             "Generate verified tables, advanced publication figures, global nonparametric statistics, evidence-based interpretation, raw run records, experiment configurations, validation status, frozen CALO manifest, and a reproducibility archive.",
         )
         package_row = QHBoxLayout()
@@ -181,7 +190,7 @@ class BenchmarkCampaignPanel(WorkspacePage):
         browse.clicked.connect(self.choose_manifest)
         validate_button = QPushButton("Validate completed campaign")
         validate_button.clicked.connect(self.validate_completed_campaign)
-        build_package = QPushButton("Generate Transactions research package")
+        build_package = QPushButton("Generate scientific evidence package")
         build_package.setObjectName("PrimaryButton")
         build_package.clicked.connect(self.generate_package)
         package_row.addWidget(self.package_manifest, 1)
@@ -250,6 +259,7 @@ class BenchmarkCampaignPanel(WorkspacePage):
                     task.task_index + 1,
                     task.task_id,
                     task.case_name,
+                    "Protected test" if task.evidence_role == "test" else "Validation replay",
                     task.study_label,
                     task.planned_jobs,
                     "Planned",
@@ -275,13 +285,22 @@ class BenchmarkCampaignPanel(WorkspacePage):
             QMessageBox.critical(
                 self,
                 "Frozen CALO verification failed",
-                "The final TEST campaign cannot start until the frozen CALO manifest verifies successfully.",
+                "The confirmatory campaign cannot start until the frozen CALO manifest verifies successfully.",
             )
+            return
+        if self._manifest_path is None:
+            QMessageBox.critical(self, "Campaign plan", "Build the campaign plan before starting.")
+            return
+        design_ok, design_message = verify_campaign_plan_design(self._manifest_path)
+        if not design_ok:
+            QMessageBox.critical(self, "Campaign design verification failed", design_message)
             return
         answer = QMessageBox.question(
             self,
-            "Start final TEST campaign",
-            "This starts the frozen final benchmark. All created experiments will be classified and locked as TEST and will be ineligible for historical learning. Continue?",
+            "Start frozen confirmatory campaign",
+            "This starts the frozen benchmark. Development-used systems are labeled validation "
+            "replays; unseen systems are labeled protected tests. All are locked out of historical "
+            "learning. Continue?",
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
             QMessageBox.StandardButton.No,
         )
@@ -297,23 +316,39 @@ class BenchmarkCampaignPanel(WorkspacePage):
     def _start_next_task(self) -> None:
         if not self._campaign_active:
             return
+        freeze = verify_freeze_manifest(self.freeze_path.text().strip())
+        design_ok, design_message = (
+            verify_campaign_plan_design(self._manifest_path)
+            if self._manifest_path is not None
+            else (False, "Campaign plan is unavailable.")
+        )
+        if not freeze.passed or not design_ok:
+            self._campaign_active = False
+            self.cancel_button.setEnabled(False)
+            self.plan_button.setEnabled(True)
+            self.start_button.setEnabled(True)
+            message = freeze.message if not freeze.passed else design_message
+            self.log.append("Campaign stopped before the next task: " + message)
+            QMessageBox.critical(self, "Frozen campaign verification failed", message)
+            return
         self._task_cursor += 1
         if self._task_cursor >= len(self._tasks):
             self._campaign_active = False
             self.cancel_button.setEnabled(False)
             self.plan_button.setEnabled(True)
             self.log.append(
-                "Final benchmark campaign completed. Generate the Transactions research package after independent validation is complete."
+                "Frozen validation/test campaign completed. Generate the scientific evidence "
+                "package after independent validation is complete."
             )
             return
         task = self._tasks[self._task_cursor]
-        self.table.setItem(self._task_cursor, 5, QTableWidgetItem("Starting"))
+        self.table.setItem(self._task_cursor, 6, QTableWidgetItem("Starting"))
         self.state.config = deepcopy(task.config)
         self.state.update_config()
         started = self.experiment_manager.start_comparison(task.config)
         if not started:
             self._campaign_active = False
-            self.table.setItem(self._task_cursor, 5, QTableWidgetItem("Blocked"))
+            self.table.setItem(self._task_cursor, 6, QTableWidgetItem("Blocked"))
             self.cancel_button.setEnabled(False)
             self.plan_button.setEnabled(True)
 
@@ -334,14 +369,16 @@ class BenchmarkCampaignPanel(WorkspacePage):
         if not self._campaign_active or self._task_cursor < 0:
             return
         self._current_experiment_id = experiment_id
+        evidence_role = self._tasks[self._task_cursor].evidence_role
         self.state.database.set_experiment_learning_role(
             experiment_id,
-            "test",
+            evidence_role,
             eligible=False,
             locked=True,
         )
-        self.table.setItem(self._task_cursor, 5, QTableWidgetItem("Running · TEST locked"))
-        self.table.setItem(self._task_cursor, 6, QTableWidgetItem(experiment_id))
+        role_label = "TEST" if evidence_role == "test" else "VALIDATION"
+        self.table.setItem(self._task_cursor, 6, QTableWidgetItem(f"Running · {role_label} locked"))
+        self.table.setItem(self._task_cursor, 7, QTableWidgetItem(experiment_id))
         self._update_manifest_task(experiment_id=experiment_id, status="running")
 
     def _on_experiment_completed(self, experiment_id: str) -> None:
@@ -350,7 +387,7 @@ class BenchmarkCampaignPanel(WorkspacePage):
         failures = self.state.database.list_failures(experiment_id)
         status = "completed" if not failures else "completed_with_failures"
         label = "Completed" if not failures else f"Completed with {len(failures)} failure(s)"
-        self.table.setItem(self._task_cursor, 5, QTableWidgetItem(label))
+        self.table.setItem(self._task_cursor, 6, QTableWidgetItem(label))
         self._update_manifest_task(experiment_id=experiment_id, status=status)
         self.log.append(
             f"Completed task {self._tasks[self._task_cursor].task_id} · {experiment_id} · {label}"
@@ -361,7 +398,7 @@ class BenchmarkCampaignPanel(WorkspacePage):
         if not self._campaign_active or experiment_id != self._current_experiment_id:
             return
         self._campaign_active = False
-        self.table.setItem(self._task_cursor, 5, QTableWidgetItem("Cancelled"))
+        self.table.setItem(self._task_cursor, 6, QTableWidgetItem("Cancelled"))
         self._update_manifest_task(experiment_id=experiment_id, status="cancelled")
         self.cancel_button.setEnabled(False)
         self.plan_button.setEnabled(True)
@@ -372,7 +409,7 @@ class BenchmarkCampaignPanel(WorkspacePage):
             return
         self._campaign_active = False
         if self._task_cursor >= 0:
-            self.table.setItem(self._task_cursor, 5, QTableWidgetItem("Failed"))
+            self.table.setItem(self._task_cursor, 6, QTableWidgetItem("Failed"))
             self._update_manifest_task(status="failed")
         self.cancel_button.setEnabled(False)
         self.plan_button.setEnabled(True)
@@ -423,21 +460,21 @@ class BenchmarkCampaignPanel(WorkspacePage):
     def generate_package(self) -> None:
         task = self.state.task_status
         if not task.begin(
-            "Generating Transactions research package",
+            "Generating scientific evidence package",
             detail="Collecting completed benchmark evidence",
         ):
             return
         QApplication.processEvents()
         try:
             manifest = Path(self.package_manifest.text().strip())
-            output = manifest.parent / "transactions_research_package"
-            archive = TransactionsPackageBuilder(self.state.database).build(
+            output = manifest.parent / "scientific_evidence_package"
+            archive = ScientificEvidencePackageBuilder(self.state.database).build(
                 campaign_manifest=manifest,
                 output_directory=output,
                 freeze_manifest=self.freeze_path.text().strip(),
             )
-            self.log.append(f"Transactions research package created: {archive.resolve()}")
-            task.finish("Transactions research package generated")
+            self.log.append(f"Scientific evidence package created: {archive.resolve()}")
+            task.finish("Scientific evidence package generated")
         except Exception as exc:
             task.fail(str(exc))
             QMessageBox.critical(self, "Evidence package failed", str(exc))

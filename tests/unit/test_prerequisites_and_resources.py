@@ -41,6 +41,7 @@ def test_gpu_capability_classification_covers_comparison_and_ablation():
 
 
 def _snapshot(cuda_utilization=40.0, ram=30.0):
+    gib = 1024**3
     cuda = DeviceSnapshot(
         device_id="cuda:0",
         backend="cuda",
@@ -49,46 +50,82 @@ def _snapshot(cuda_utilization=40.0, ram=30.0):
         available=True,
         utilization_percent=cuda_utilization,
         memory_percent=30.0,
+        memory_total_bytes=8 * gib,
+        memory_available_bytes=5 * gib,
     )
-    return ResourceSnapshot(cpu_percent=20.0, devices=(cuda,), system_memory_percent=ram)
+    return ResourceSnapshot(
+        cpu_percent=20.0,
+        devices=(cuda,),
+        system_memory_percent=ram,
+        system_memory_total_bytes=32 * gib,
+        system_memory_available_bytes=int(32 * gib * (100.0 - ram) / 100.0),
+    )
 
 
-def test_resource_admission_thresholds_are_soft_and_bounded():
+def test_resource_admission_ignores_utilization_and_respects_job_caps():
     low = _snapshot(40.0)
     high_gpu = _snapshot(75.0)
     cuda_device = low.by_backend("cuda")[0]
     cuda_device_high = high_gpu.by_backend("cuda")[0]
-    assert accelerator_admission_allowed(cuda_device, 70, 85, 0, 1)
-    assert not accelerator_admission_allowed(cuda_device_high, 70, 85, 0, 1)
-    assert not accelerator_admission_allowed(cuda_device, 70, 85, 1, 1)
-    assert cpu_admission_allowed(low, 50, 0)
+    assert accelerator_admission_allowed(cuda_device, 0, 1)
+    assert accelerator_admission_allowed(cuda_device_high, 0, 1)
+    assert not accelerator_admission_allowed(cuda_device, 1, 1)
+    assert cpu_admission_allowed(low, 0, 1)
 
 
-def test_accelerator_priority_is_cuda_then_xpu():
-    xpu = DeviceSnapshot("xpu:0", "xpu", 0, "Intel GPU", True, None, 20.0)
+def test_accelerator_priority_contains_only_cuda_devices():
+    unsupported = DeviceSnapshot("other:0", "other", 0, "Unsupported GPU", True, None, 20.0)
     cuda = DeviceSnapshot("cuda:0", "cuda", 0, "NVIDIA GPU", True, 30.0, 25.0)
-    snapshot = ResourceSnapshot(10.0, devices=(xpu, cuda), system_memory_percent=20.0)
-    assert [device.device_id for device in prioritized_accelerators(snapshot)] == [
+    snapshot = ResourceSnapshot(10.0, devices=(unsupported, cuda), system_memory_percent=20.0)
+    assert [device.device_id for device in prioritized_accelerators(snapshot)] == ["cuda:0"]
+
+
+def test_accelerator_without_utilization_uses_memory_and_job_cap_for_admission():
+    gib = 1024**3
+    cuda = DeviceSnapshot(
         "cuda:0",
-        "xpu:0",
-    ]
+        "cuda",
+        0,
+        "NVIDIA GPU",
+        True,
+        None,
+        30.0,
+        memory_total_bytes=8 * gib,
+        memory_available_bytes=5 * gib,
+    )
+    assert accelerator_admission_allowed(cuda, active_jobs=0, max_jobs=2)
+    assert not accelerator_admission_allowed(cuda, active_jobs=2, max_jobs=2)
+    full_memory = DeviceSnapshot(
+        "cuda:0",
+        "cuda",
+        0,
+        "NVIDIA GPU",
+        True,
+        None,
+        100.0,
+        memory_total_bytes=8 * gib,
+        memory_available_bytes=0,
+    )
+    assert not accelerator_admission_allowed(full_memory, active_jobs=0, max_jobs=2)
 
 
-def test_xpu_without_utilization_uses_memory_and_job_cap_for_admission():
-    xpu = DeviceSnapshot("xpu:0", "xpu", 0, "Intel GPU", True, None, 30.0)
-    assert accelerator_admission_allowed(xpu, 70, 85, active_jobs=0, max_jobs=2)
-    assert not accelerator_admission_allowed(xpu, 70, 85, active_jobs=2, max_jobs=2)
-    full_memory = DeviceSnapshot("xpu:0", "xpu", 0, "Intel GPU", True, None, 90.0)
-    assert not accelerator_admission_allowed(full_memory, 70, 85, active_jobs=0, max_jobs=2)
-
-
-def test_cpu_admission_respects_utilization_and_system_memory_safety_limits():
-    low_memory = ResourceSnapshot(20.0, system_memory_percent=40.0)
-    high_memory = ResourceSnapshot(20.0, system_memory_percent=90.0)
-    high_cpu = ResourceSnapshot(75.0, system_memory_percent=40.0)
-    assert cpu_admission_allowed(low_memory, 50, 0, memory_limit_percent=85)
-    assert not cpu_admission_allowed(high_memory, 50, 0, memory_limit_percent=85)
-    assert not cpu_admission_allowed(high_cpu, 50, 0, memory_limit_percent=85)
+def test_cpu_admission_uses_available_ram_not_cpu_utilization():
+    gib = 1024**3
+    available = ResourceSnapshot(
+        99.0,
+        system_memory_percent=90.0,
+        system_memory_total_bytes=32 * gib,
+        system_memory_available_bytes=2 * gib,
+    )
+    exhausted = ResourceSnapshot(
+        0.0,
+        system_memory_percent=0.0,
+        system_memory_total_bytes=32 * gib,
+        system_memory_available_bytes=0,
+    )
+    assert cpu_admission_allowed(available, active_cpu_jobs=0, max_jobs=2)
+    assert not cpu_admission_allowed(available, active_cpu_jobs=2, max_jobs=2)
+    assert not cpu_admission_allowed(exhausted, active_cpu_jobs=0, max_jobs=2)
 
 
 def test_pip_raw_progress_parser_and_download_item_extraction():
@@ -104,7 +141,7 @@ def test_pip_raw_progress_parser_and_download_item_extraction():
     )
 
 
-def test_weighted_lane_plan_splits_accelerator_eligible_jobs_50_30_20():
+def test_automatic_lane_plan_routes_all_compatible_jobs_to_cuda():
     from calo_rpd_studio.compute.resource_scheduler import build_weighted_lane_plan
 
     plan = [PlannedItem(i, i, "CALO", None) for i in range(10)]
@@ -112,14 +149,9 @@ def test_weighted_lane_plan_splits_accelerator_eligible_jobs_50_30_20():
         plan,
         "comparison",
         cuda_available=True,
-        xpu_available=True,
-        cuda_share=50,
-        xpu_share=30,
-        cpu_share=20,
     )
-    assert sum(lane == "cuda" for lane in lanes.values()) == 5
-    assert sum(lane == "xpu" for lane in lanes.values()) == 3
-    assert sum(lane == "cpu" for lane in lanes.values()) == 2
+    assert sum(lane == "cuda" for lane in lanes.values()) == 10
+    assert sum(lane == "cpu" for lane in lanes.values()) == 0
     assert summary.accelerator_eligible_jobs == 10
     assert summary.cpu_only_jobs == 0
 
@@ -137,17 +169,13 @@ def test_weighted_lane_plan_routes_every_v3_algorithm_to_accelerator_lanes():
         plan,
         "comparison",
         cuda_available=True,
-        xpu_available=True,
-        cuda_share=50,
-        xpu_share=30,
-        cpu_share=20,
     )
     assert summary.accelerator_eligible_jobs == 4
     assert summary.cpu_only_jobs == 0
-    assert all(lane in {"cuda", "xpu", "cpu"} for lane in lanes.values())
+    assert set(lanes.values()) == {"cuda"}
 
 
-def test_weighted_lane_plan_assigns_all_jobs_to_cuda_when_requested():
+def test_automatic_lane_plan_assigns_large_campaign_to_cuda():
     from calo_rpd_studio.compute.resource_scheduler import build_weighted_lane_plan
 
     plan = [
@@ -160,31 +188,21 @@ def test_weighted_lane_plan_assigns_all_jobs_to_cuda_when_requested():
         plan,
         "comparison",
         cuda_available=True,
-        xpu_available=True,
-        cuda_share=100,
-        xpu_share=0,
-        cpu_share=0,
     )
     assert len(plan) == 400
     assert summary.cuda_jobs == 400
-    assert summary.xpu_jobs == 0
     assert summary.total_cpu_jobs == 0
     assert set(lanes.values()) == {"cuda"}
 
 
-def test_weighted_lane_plan_redistributes_when_xpu_is_unavailable():
+def test_weighted_lane_plan_redistributes_when_cuda_is_unavailable():
     from calo_rpd_studio.compute.resource_scheduler import build_weighted_lane_plan
 
     plan = [PlannedItem(i, i, "CALO", None) for i in range(10)]
     lanes, summary = build_weighted_lane_plan(
         plan,
         "comparison",
-        cuda_available=True,
-        xpu_available=False,
-        cuda_share=50,
-        xpu_share=30,
-        cpu_share=20,
+        cuda_available=False,
     )
-    assert summary.xpu_jobs == 0
-    assert sum(lane == "cuda" for lane in lanes.values()) == 7
-    assert sum(lane == "cpu" for lane in lanes.values()) == 3
+    assert sum(lane == "cuda" for lane in lanes.values()) == 0
+    assert sum(lane == "cpu" for lane in lanes.values()) == 10

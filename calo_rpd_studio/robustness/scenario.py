@@ -28,8 +28,10 @@ class Scenario:
     def apply(self, case, *, copy_base: bool = True):
         source = case
         transformed = (
-            source.clone() if copy_base else source
-        ) if self.transform is None else self.transform(source.clone())
+            (source.clone() if copy_base else source)
+            if self.transform is None
+            else self.transform(source.clone())
+        )
         if transformed is None:
             raise ValueError(f"Scenario {self.name!r} transform returned None")
         required = ("base_mva", "bus", "gen", "branch", "clone")
@@ -39,7 +41,9 @@ class Scenario:
             )
         if not math.isfinite(float(transformed.base_mva)) or float(transformed.base_mva) <= 0.0:
             raise ValueError(f"Scenario {self.name!r} produced invalid baseMVA")
-        if not math.isclose(float(transformed.base_mva), float(source.base_mva), rel_tol=0.0, abs_tol=0.0):
+        if not math.isclose(
+            float(transformed.base_mva), float(source.base_mva), rel_tol=0.0, abs_tol=0.0
+        ):
             raise ValueError(
                 f"Scenario {self.name!r} changed baseMVA; scenario transforms must preserve the scientific base"
             )
@@ -54,9 +58,13 @@ class Scenario:
                 raise ValueError(f"Scenario {self.name!r} produced non-finite {label} data")
         # Row identity/topology must remain stable so one normalized ORPD variable manifest applies
         # to every scenario. Contingencies change status, not bus/gen/branch row identity.
-        if not np.array_equal(transformed.bus[:, BUS_I].astype(int), source.bus[:, BUS_I].astype(int)):
+        if not np.array_equal(
+            transformed.bus[:, BUS_I].astype(int), source.bus[:, BUS_I].astype(int)
+        ):
             raise ValueError(f"Scenario {self.name!r} changed bus identities/order")
-        if not np.array_equal(transformed.gen[:, GEN_BUS].astype(int), source.gen[:, GEN_BUS].astype(int)):
+        if not np.array_equal(
+            transformed.gen[:, GEN_BUS].astype(int), source.gen[:, GEN_BUS].astype(int)
+        ):
             raise ValueError(f"Scenario {self.name!r} changed generator-to-bus row identity")
         if not np.array_equal(
             transformed.branch[:, [F_BUS, T_BUS]].astype(int),

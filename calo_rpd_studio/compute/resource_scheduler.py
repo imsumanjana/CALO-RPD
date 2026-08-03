@@ -1,11 +1,11 @@
-"""Heterogeneous compute discovery and soft admission control.
+"""CUDA/CPU compute discovery and soft admission control.
 
 CALO-RPD Studio treats independent optimizer runs as schedulable jobs.  A job is assigned to a
 compute device before it starts and is never migrated mid-run.  Accelerator-compatible optimizer jobs are admitted in priority order:
 
-    NVIDIA CUDA -> Intel XPU -> CPU
+    NVIDIA CUDA -> CPU
 
-The CUDA/XPU labels are PyTorch backend identifiers and do not have to match Windows Task Manager's
+CUDA labels are PyTorch backend identifiers and do not have to match Windows Task Manager's
 ``GPU 0``/``GPU 1`` numbering.  For example, a Windows adapter displayed as ``GPU 1`` can still be
 ``cuda:0`` because CUDA numbers only NVIDIA devices visible to the PyTorch runtime.
 """
@@ -15,15 +15,15 @@ from __future__ import annotations
 import logging
 
 from dataclasses import dataclass
-import json
 import os
-from pathlib import Path
 import shutil
 import subprocess
 import time
 import threading
 
 import psutil
+
+from calo_rpd_studio.compute.memory_budget import calculate_available_memory_admission
 
 
 _LOG = logging.getLogger(__name__)
@@ -59,6 +59,7 @@ class DeviceSnapshot:
     power_limit_w: float | None = None
     throttle_reason: str = ""
     memory_total_bytes: int = 0
+    memory_available_bytes: int = 0
     hardware_uuid: str = ""
     pci_bus_id: str = ""
     vendor_id: str = ""
@@ -79,6 +80,8 @@ class ResourceSnapshot:
     cpu_percent: float
     devices: tuple[DeviceSnapshot, ...] = ()
     system_memory_percent: float = 0.0
+    system_memory_total_bytes: int = 0
+    system_memory_available_bytes: int = 0
     cpu_temperature_c: float | None = None
     sampled_at_monotonic: float = 0.0
 
@@ -117,16 +120,13 @@ class ResourceSnapshot:
 
 
 class ResourceMonitor:
-    """Discover CUDA/XPU resources and cache moderately expensive telemetry probes."""
+    """Discover CUDA resources and cache moderately expensive telemetry probes."""
 
-    def __init__(self, xpu_interpreter: str | None = None) -> None:
+    def __init__(self) -> None:
         psutil.cpu_percent(interval=None)
         self._nvidia_smi = shutil.which("nvidia-smi")
         self._cuda_cache: tuple[DeviceSnapshot, ...] = ()
         self._cuda_cache_time = 0.0
-        self._xpu_cache: tuple[DeviceSnapshot, ...] = ()
-        self._xpu_cache_time = 0.0
-        self._xpu_interpreter = xpu_interpreter or configured_xpu_interpreter()
 
     @staticmethod
     def torch_cuda_available() -> bool:
@@ -136,19 +136,6 @@ class ResourceMonitor:
             return bool(torch.cuda.is_available())
         except (ImportError, RuntimeError, AttributeError, OSError):
             return False
-
-    @staticmethod
-    def torch_xpu_available() -> bool:
-        try:
-            import torch
-
-            return bool(hasattr(torch, "xpu") and torch.xpu.is_available())
-        except (ImportError, RuntimeError, AttributeError, OSError):
-            return False
-
-    @property
-    def xpu_interpreter(self) -> str:
-        return str(self._xpu_interpreter or "")
 
     def _sample_cuda(self) -> tuple[DeviceSnapshot, ...]:
         now = time.monotonic()
@@ -172,13 +159,21 @@ class ResourceMonitor:
                     properties = torch.cuda.get_device_properties(index)
                     name = str(torch.cuda.get_device_name(index))
                     total_memory = int(getattr(properties, "total_memory", 0) or 0)
+                    free_bytes = 0
                     hardware_uuid = str(getattr(properties, "uuid", "") or "")
                     pci_bus_id = str(getattr(properties, "pci_bus_id", "") or "")
                     utilization: float | None = None
                     telemetry_parts = ["PyTorch CUDA"]
                     try:
                         utilization = float(torch.cuda.utilization(index))
-                    except (ImportError, AttributeError, RuntimeError, OSError, TypeError, ValueError) as exc:
+                    except (
+                        ImportError,
+                        AttributeError,
+                        RuntimeError,
+                        OSError,
+                        TypeError,
+                        ValueError,
+                    ) as exc:
                         _warn_once(
                             f"cuda-util:{type(exc).__name__}:{exc}",
                             "CUDA utilization telemetry unavailable; CUDA compute remains enabled: %s",
@@ -188,7 +183,14 @@ class ResourceMonitor:
                         free_bytes, total_bytes = torch.cuda.mem_get_info(index)
                         total_memory = int(total_bytes or total_memory)
                         memory_percent = 100.0 * (total_bytes - free_bytes) / max(total_bytes, 1)
-                    except (ImportError, AttributeError, RuntimeError, OSError, TypeError, ValueError) as exc:
+                    except (
+                        ImportError,
+                        AttributeError,
+                        RuntimeError,
+                        OSError,
+                        TypeError,
+                        ValueError,
+                    ) as exc:
                         _warn_once(
                             f"cuda-mem:{type(exc).__name__}:{exc}",
                             "CUDA memory telemetry unavailable; CUDA compute remains enabled: %s",
@@ -207,6 +209,7 @@ class ResourceMonitor:
                             telemetry=" + ".join(telemetry_parts),
                             runtime="primary",
                             memory_total_bytes=total_memory,
+                            memory_available_bytes=int(free_bytes),
                             hardware_uuid=hardware_uuid,
                             pci_bus_id=pci_bus_id,
                             vendor_id="10DE",
@@ -236,28 +239,56 @@ class ResourceMonitor:
                     "uuid,pci.bus_id,pci.device_id,index,name,utilization.gpu,memory.used,memory.total,"
                     "temperature.gpu,power.draw,power.limit,driver_version",
                     (
-                        "uuid", "pci_bus_id", "pci_device_id", "index", "name", "utilization", "memory_used",
-                        "memory_total", "temperature", "power", "power_limit", "driver_version",
+                        "uuid",
+                        "pci_bus_id",
+                        "pci_device_id",
+                        "index",
+                        "name",
+                        "utilization",
+                        "memory_used",
+                        "memory_total",
+                        "temperature",
+                        "power",
+                        "power_limit",
+                        "driver_version",
                     ),
                 ),
                 (
                     "uuid,pci.bus_id,pci.device_id,index,name,utilization.gpu,memory.used,memory.total,temperature.gpu",
                     (
-                        "uuid", "pci_bus_id", "pci_device_id", "index", "name", "utilization", "memory_used",
-                        "memory_total", "temperature",
+                        "uuid",
+                        "pci_bus_id",
+                        "pci_device_id",
+                        "index",
+                        "name",
+                        "utilization",
+                        "memory_used",
+                        "memory_total",
+                        "temperature",
                     ),
                 ),
                 (
                     "uuid,pci.bus_id,pci.device_id,index,name,utilization.gpu,memory.used,memory.total",
                     (
-                        "uuid", "pci_bus_id", "pci_device_id", "index", "name", "utilization", "memory_used",
+                        "uuid",
+                        "pci_bus_id",
+                        "pci_device_id",
+                        "index",
+                        "name",
+                        "utilization",
+                        "memory_used",
                         "memory_total",
                     ),
                 ),
                 (
                     "uuid,pci.bus_id,index,name,utilization.gpu,memory.used,memory.total",
                     (
-                        "uuid", "pci_bus_id", "index", "name", "utilization", "memory_used",
+                        "uuid",
+                        "pci_bus_id",
+                        "index",
+                        "name",
+                        "utilization",
+                        "memory_used",
                         "memory_total",
                     ),
                 ),
@@ -285,7 +316,9 @@ class ResourceMonitor:
                         if not line.strip():
                             continue
                         parts = [part.strip() for part in line.split(",")]
-                        candidate.append({key: parts[i] if i < len(parts) else "" for i, key in enumerate(keys)})
+                        candidate.append(
+                            {key: parts[i] if i < len(parts) else "" for i, key in enumerate(keys)}
+                        )
                     if candidate:
                         rows = candidate
                         break
@@ -306,12 +339,17 @@ class ResourceMonitor:
                     return None
 
             def _norm_pci(value: str) -> str:
-                return str(value or "").strip().lower().replace("00000000:", "").replace("0000:", "")
+                return (
+                    str(value or "").strip().lower().replace("00000000:", "").replace("0000:", "")
+                )
 
             def _row_for(snapshot: DeviceSnapshot) -> dict[str, str] | None:
                 if snapshot.hardware_uuid:
                     for row in rows:
-                        if row.get("uuid", "").strip().lower() == snapshot.hardware_uuid.strip().lower():
+                        if (
+                            row.get("uuid", "").strip().lower()
+                            == snapshot.hardware_uuid.strip().lower()
+                        ):
                             return row
                 if snapshot.pci_bus_id:
                     target = _norm_pci(snapshot.pci_bus_id)
@@ -319,7 +357,8 @@ class ResourceMonitor:
                         if _norm_pci(row.get("pci_bus_id", "")) == target:
                             return row
                 name_matches = [
-                    row for row in rows
+                    row
+                    for row in rows
                     if snapshot.name.lower() in row.get("name", "").lower()
                     or row.get("name", "").lower() in snapshot.name.lower()
                 ]
@@ -346,10 +385,12 @@ class ResourceMonitor:
                 total_mib = _optional_float(row.get("memory_total"))
                 memory_percent = snapshot.memory_percent
                 total_bytes = snapshot.memory_total_bytes
+                available_bytes = snapshot.memory_available_bytes
                 if total_mib is not None and total_mib > 0:
                     total_bytes = int(total_mib * 1024**2)
                     if used is not None:
                         memory_percent = 100.0 * used / total_mib
+                        available_bytes = max(0, int((total_mib - used) * 1024**2))
                 utilization = _optional_float(row.get("utilization"))
                 updated.append(
                     DeviceSnapshot(
@@ -358,7 +399,9 @@ class ResourceMonitor:
                         index=snapshot.index,
                         name=snapshot.name,
                         available=True,
-                        utilization_percent=utilization if utilization is not None else snapshot.utilization_percent,
+                        utilization_percent=utilization
+                        if utilization is not None
+                        else snapshot.utilization_percent,
                         memory_percent=float(memory_percent),
                         telemetry="nvidia-smi + PyTorch CUDA",
                         runtime=snapshot.runtime,
@@ -366,11 +409,15 @@ class ResourceMonitor:
                         power_w=_optional_float(row.get("power")),
                         power_limit_w=_optional_float(row.get("power_limit")),
                         memory_total_bytes=total_bytes,
+                        memory_available_bytes=available_bytes,
                         hardware_uuid=str(row.get("uuid", "") or snapshot.hardware_uuid),
                         pci_bus_id=str(row.get("pci_bus_id", "") or snapshot.pci_bus_id),
                         vendor_id=snapshot.vendor_id,
-                        product_id=_nvidia_product_id(row.get("pci_device_id", "")) or snapshot.product_id,
-                        driver_version=str(row.get("driver_version", "") or snapshot.driver_version),
+                        product_id=_nvidia_product_id(row.get("pci_device_id", ""))
+                        or snapshot.product_id,
+                        driver_version=str(
+                            row.get("driver_version", "") or snapshot.driver_version
+                        ),
                         runtime_version=snapshot.runtime_version,
                     )
                 )
@@ -379,156 +426,6 @@ class ResourceMonitor:
         self._cuda_cache = tuple(snapshots)
         self._cuda_cache_time = now
         return self._cuda_cache
-
-    @staticmethod
-    def _direct_xpu_snapshots() -> tuple[DeviceSnapshot, ...]:
-        try:
-            import torch
-
-            if not (hasattr(torch, "xpu") and torch.xpu.is_available()):
-                return ()
-            snapshots: list[DeviceSnapshot] = []
-            count = int(torch.xpu.device_count())
-            for index in range(count):
-                properties = torch.xpu.get_device_properties(index)
-                name = str(getattr(properties, "name", f"Intel XPU {index}"))
-                total = int(getattr(properties, "total_memory", 0) or 0)
-                memory_percent = 0.0
-                try:
-                    free_bytes, total_bytes = torch.xpu.memory.mem_get_info(index)
-                    memory_percent = 100.0 * (total_bytes - free_bytes) / max(total_bytes, 1)
-                except (AttributeError, RuntimeError, TypeError, ValueError) as exc:
-                    _LOG.warning("XPU free-memory telemetry unavailable for xpu:%s: %s", index, exc)
-                    try:
-                        allocated = int(torch.xpu.memory.memory_allocated(index))
-                        memory_percent = 100.0 * allocated / max(total, 1) if total else 0.0
-                    except (AttributeError, RuntimeError, TypeError, ValueError) as fallback_exc:
-                        _LOG.warning(
-                            "XPU allocated-memory fallback unavailable for xpu:%s: %s",
-                            index,
-                            fallback_exc,
-                        )
-                utilization: float | None = None
-                # PyTorch's stable XPU API does not guarantee a utilization-percentage function.
-                # Use it opportunistically if a future/runtime-specific build provides one.
-                try:
-                    utilization_fn = getattr(torch.xpu, "utilization", None)
-                    if callable(utilization_fn):
-                        utilization = float(utilization_fn(index))
-                except (AttributeError, RuntimeError, TypeError, ValueError) as exc:
-                    _LOG.warning("XPU utilization telemetry unavailable for xpu:%s: %s", index, exc)
-                    utilization = None
-                snapshots.append(
-                    DeviceSnapshot(
-                        device_id=f"xpu:{index}",
-                        backend="xpu",
-                        index=index,
-                        name=name,
-                        available=True,
-                        utilization_percent=utilization,
-                        memory_percent=float(memory_percent),
-                        telemetry="PyTorch XPU"
-                        if utilization is not None
-                        else "XPU memory + job-cap admission",
-                        runtime="primary",
-                        memory_total_bytes=total,
-                        hardware_uuid=str(getattr(properties, "uuid", "") or ""),
-                        pci_bus_id=str(getattr(properties, "pci_bus_id", "") or ""),
-                        vendor_id=str(getattr(properties, "vendor_id", "") or "8086"),
-                        product_id=str(getattr(properties, "device_id", "") or getattr(properties, "product_id", "") or ""),
-                        driver_version=str(getattr(properties, "driver_version", "") or ""),
-                        runtime_version=str(getattr(properties, "runtime_version", "") or ""),
-                    )
-                )
-            return tuple(snapshots)
-        except (ImportError, RuntimeError, AttributeError, OSError, TypeError, ValueError) as exc:
-            _LOG.warning(
-                "Primary XPU runtime enumeration failed; sidecar discovery may still succeed: %s",
-                exc,
-                exc_info=True,
-            )
-            return ()
-
-    def _sidecar_xpu_snapshots(self) -> tuple[DeviceSnapshot, ...]:
-        interpreter = self._xpu_interpreter
-        if not interpreter or not Path(interpreter).exists():
-            # The sidecar may have been repaired after this ResourceMonitor was constructed.
-            # Re-discover it live rather than requiring an application restart.
-            interpreter = configured_xpu_interpreter(force_refresh=True)
-            self._xpu_interpreter = interpreter
-        if not interpreter or not Path(interpreter).exists():
-            return ()
-        try:
-            result = subprocess.run(
-                [interpreter, "-m", "calo_rpd_studio.compute.xpu_worker", "--telemetry"],
-                capture_output=True,
-                text=True,
-                timeout=15,
-                check=False,
-                creationflags=(
-                    getattr(subprocess, "CREATE_NO_WINDOW", 0) if os.name == "nt" else 0
-                ),
-            )
-            payload = json.loads(result.stdout.strip().splitlines()[-1])
-            if not payload.get("available"):
-                return ()
-            devices = []
-            for item in payload.get("devices", []):
-                devices.append(
-                    DeviceSnapshot(
-                        device_id=str(item.get("device_id", "xpu:0")),
-                        backend="xpu",
-                        index=int(item.get("index", 0)),
-                        name=str(item.get("name", "Intel XPU")),
-                        available=True,
-                        utilization_percent=(
-                            float(item["utilization_percent"])
-                            if item.get("utilization_percent") is not None
-                            else None
-                        ),
-                        memory_percent=float(item.get("memory_percent", 0.0)),
-                        telemetry=str(item.get("telemetry", "XPU sidecar")),
-                        runtime="sidecar",
-                        memory_total_bytes=int(item.get("memory_total_bytes", 0) or 0),
-                        hardware_uuid=str(item.get("hardware_uuid", "") or ""),
-                        pci_bus_id=str(item.get("pci_bus_id", "") or ""),
-                        vendor_id=str(item.get("vendor_id", "") or "8086"),
-                        product_id=str(item.get("product_id", "") or ""),
-                        driver_version=str(item.get("driver_version", "") or ""),
-                        runtime_version=str(item.get("runtime_version", "") or ""),
-                        fp64_test_passed=(
-                            bool(item.get("fp64_test_passed"))
-                            if item.get("fp64_test_passed") is not None
-                            else None
-                        ),
-                    )
-                )
-            return tuple(devices)
-        except (
-            OSError,
-            subprocess.SubprocessError,
-            json.JSONDecodeError,
-            IndexError,
-            KeyError,
-            TypeError,
-            ValueError,
-        ) as exc:
-            _LOG.warning("XPU sidecar telemetry failed: %s", exc, exc_info=True)
-            return ()
-
-    def _sample_xpu(self) -> tuple[DeviceSnapshot, ...]:
-        now = time.monotonic()
-        # Direct XPU telemetry is inexpensive. A sidecar sample starts a secondary interpreter and
-        # imports its hardware-specific PyTorch build, so cache those samples longer and use the
-        # explicit active-job cap for responsive admission between telemetry refreshes.
-        direct_available = self.torch_xpu_available()
-        cache_seconds = 1.0 if direct_available else 10.0
-        if now - self._xpu_cache_time < cache_seconds:
-            return self._xpu_cache
-        direct = self._direct_xpu_snapshots() if direct_available else ()
-        self._xpu_cache = direct or self._sidecar_xpu_snapshots()
-        self._xpu_cache_time = now
-        return self._xpu_cache
 
     @staticmethod
     def _cpu_temperature_c() -> float | None:
@@ -557,7 +454,9 @@ class ResourceMonitor:
                         continue
                     label = f"{group_name} {getattr(entry, 'label', '')}".lower()
                     fallback.append(temperature)
-                    if any(token in label for token in ("package", "cpu", "tctl", "tdie", "coretemp")):
+                    if any(
+                        token in label for token in ("package", "cpu", "tctl", "tdie", "coretemp")
+                    ):
                         preferred.append(temperature)
             values = preferred or fallback
             return max(values) if values else None
@@ -567,110 +466,17 @@ class ResourceMonitor:
     def sample(self) -> ResourceSnapshot:
         now = time.monotonic()
         cpu = float(psutil.cpu_percent(interval=None))
-        ram = float(psutil.virtual_memory().percent)
-        # Priority order is encoded by tuple order: all CUDA devices first, then XPU devices.
-        devices = (*self._sample_cuda(), *self._sample_xpu())
+        memory = psutil.virtual_memory()
+        devices = self._sample_cuda()
         return ResourceSnapshot(
             cpu_percent=cpu,
             devices=tuple(devices),
-            system_memory_percent=ram,
+            system_memory_percent=float(memory.percent),
+            system_memory_total_bytes=int(memory.total),
+            system_memory_available_bytes=int(memory.available),
             cpu_temperature_c=self._cpu_temperature_c(),
             sampled_at_monotonic=now,
         )
-
-
-_XPU_INTERPRETER_CACHE: tuple[str, float] = ("", 0.0)
-_XPU_INTERPRETER_CACHE_SECONDS = 30.0
-
-
-def _xpu_interpreter_candidates() -> tuple[Path, ...]:
-    """Return candidate isolated-XPU interpreters without trusting stale bootstrap metadata.
-
-    A CUDA-ready mixed NVIDIA/Intel machine can legitimately skip the prerequisite wizard on a
-    later launch.  Therefore XPU discovery must not depend solely on a previously serialized
-    ``xpu_available`` flag.  The canonical sidecar path and an explicit environment override are
-    always considered and then verified by a live probe.
-    """
-    candidates: list[Path] = []
-    override = str(os.environ.get("CALO_XPU_PYTHON", "") or "").strip()
-    if override:
-        candidates.append(Path(override).expanduser())
-    try:
-        from calo_bootstrap.prerequisites import STATE_FILE, XPU_RUNTIME_DIR
-
-        if STATE_FILE.exists():
-            try:
-                payload = json.loads(STATE_FILE.read_text(encoding="utf-8"))
-                sidecar = dict(dict(payload.get("report", {})).get("xpu_sidecar", {}))
-                recorded = str(sidecar.get("interpreter", "") or "").strip()
-                if recorded:
-                    candidates.append(Path(recorded).expanduser())
-            except (OSError, json.JSONDecodeError, TypeError, ValueError, KeyError) as exc:
-                _warn_once("xpu-state-read", "Unable to read XPU bootstrap state: %s", exc)
-        candidates.append(
-            Path(XPU_RUNTIME_DIR)
-            / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
-        )
-    except (ImportError, AttributeError):
-        runtime_dir = Path.home() / ".calo_rpd_studio" / "xpu_runtime"
-        candidates.append(runtime_dir / ("Scripts/python.exe" if os.name == "nt" else "bin/python"))
-
-    unique: list[Path] = []
-    seen: set[str] = set()
-    for candidate in candidates:
-        key = str(candidate)
-        if key and key not in seen:
-            seen.add(key)
-            unique.append(candidate)
-    return tuple(unique)
-
-
-def _probe_xpu_interpreter(interpreter: Path) -> bool:
-    if not interpreter.is_file():
-        return False
-    try:
-        result = subprocess.run(
-            [str(interpreter), "-m", "calo_rpd_studio.compute.xpu_worker", "--probe"],
-            capture_output=True,
-            text=True,
-            timeout=20,
-            check=False,
-            creationflags=(getattr(subprocess, "CREATE_NO_WINDOW", 0) if os.name == "nt" else 0),
-        )
-        if result.returncode != 0 or not result.stdout.strip():
-            return False
-        payload = json.loads(result.stdout.strip().splitlines()[-1])
-        return bool(
-            payload.get("available")
-            and payload.get("xpu_available")
-            and payload.get("gpu_test_passed")
-        )
-    except (OSError, subprocess.SubprocessError, json.JSONDecodeError, IndexError, TypeError, ValueError):
-        return False
-
-
-def configured_xpu_interpreter(*, force_refresh: bool = False) -> str:
-    """Return a live-verified secondary Intel-XPU interpreter.
-
-    v6.8 intentionally self-heals stale or missing environment-state metadata: a working sidecar
-    at the canonical path is rediscovered even when an older bootstrap report forgot or rejected it.
-    """
-    global _XPU_INTERPRETER_CACHE
-    now = time.monotonic()
-    cached, sampled_at = _XPU_INTERPRETER_CACHE
-    if (
-        not force_refresh
-        and sampled_at > 0.0
-        and now - sampled_at < _XPU_INTERPRETER_CACHE_SECONDS
-    ):
-        return cached
-    for candidate in _xpu_interpreter_candidates():
-        if _probe_xpu_interpreter(candidate):
-            resolved = str(candidate.resolve())
-            _XPU_INTERPRETER_CACHE = (resolved, now)
-            return resolved
-    _XPU_INTERPRETER_CACHE = ("", now)
-    return ""
 
 
 def item_uses_calo_ai(mode: str, item) -> bool:
@@ -678,7 +484,7 @@ def item_uses_calo_ai(mode: str, item) -> bool:
 
     The historical function name is retained for API compatibility.  In v3 every primary
     algorithm and every ablation item can use the common torch FP64 power-flow/evaluator backend;
-    the nineteen baselines additionally have torch-native canonical population kernels.  CALO uses
+    the registered baselines additionally have torch-native canonical population kernels. CALO uses
     the same accelerator evaluator plus its neural-policy inference path.
     """
     if mode == "comparison":
@@ -689,95 +495,80 @@ def item_uses_calo_ai(mode: str, item) -> bool:
 
 
 def backend_allows_accelerators(execution_backend: str) -> bool:
-    return str(execution_backend).lower() in {
-        "cuda_priority",
-        "cuda_only",
-        "throughput_auto",
-        "weighted_split",
-        "adaptive_hybrid",
-        "gpu_preferred",
-    }
+    return str(execution_backend).lower() == "cuda_preferred"
 
 
 def cpu_admission_allowed(
     snapshot: ResourceSnapshot,
-    target_percent: float,
     active_cpu_jobs: int,
-    memory_limit_percent: float = 85.0,
+    max_jobs: int,
 ) -> bool:
-    """Soft CPU admission gate with process-count and host-memory safety limits."""
-    if snapshot.system_memory_percent >= float(memory_limit_percent):
+    """Admit CPU work from a frozen 80%-of-currently-available RAM envelope.
+
+    CPU utilization is intentionally irrelevant. CPU execution is bounded by the explicit worker
+    count while RAM admission is calculated from bytes available at this sampling boundary.
+    """
+    if active_cpu_jobs >= max(1, int(max_jobs)):
         return False
-    if snapshot.cpu_percent >= float(target_percent):
+    if snapshot.system_memory_total_bytes <= 0:
         return False
-    if active_cpu_jobs <= 0:
-        return True
-    physical = psutil.cpu_count(logical=False) or psutil.cpu_count(logical=True) or 1
-    target_jobs = max(1, int(round(physical * float(target_percent) / 100.0)))
-    return active_cpu_jobs < target_jobs
+    admission = calculate_available_memory_admission(
+        total_bytes=int(snapshot.system_memory_total_bytes),
+        available_bytes=int(snapshot.system_memory_available_bytes),
+        requested_fraction=0.80,
+    )
+    return admission.additional_allowance_bytes > 0
 
 
 def accelerator_admission_allowed(
     device: DeviceSnapshot,
-    target_percent: float,
-    memory_limit_percent: float,
     active_jobs: int,
     max_jobs: int,
 ) -> bool:
-    """Return whether another independent job may be assigned to an accelerator.
-
-    CUDA normally exposes real utilization telemetry.  Stable XPU runtimes may expose memory but no
-    utilization percentage.  In that case the explicit per-device concurrency cap is the utilization
-    proxy; this is reported transparently in the GUI instead of inventing a false utilization value.
-    """
+    """Admit CUDA work from a frozen 80%-of-currently-free VRAM envelope."""
     if not device.available:
         return False
     if active_jobs >= max(1, int(max_jobs)):
         return False
-    if device.memory_percent >= float(memory_limit_percent):
+    if device.memory_total_bytes <= 0:
         return False
-    if device.utilization_percent is not None and device.utilization_percent >= float(
-        target_percent
-    ):
-        return False
-    return True
+    admission = calculate_available_memory_admission(
+        total_bytes=int(device.memory_total_bytes),
+        available_bytes=int(device.memory_available_bytes),
+        requested_fraction=0.80,
+    )
+    return admission.additional_allowance_bytes > 0
 
 
 def prioritized_accelerators(snapshot: ResourceSnapshot) -> tuple[DeviceSnapshot, ...]:
     """Return accelerators in the default scientific execution priority order."""
-    return (*snapshot.by_backend("cuda"), *snapshot.by_backend("xpu"))
+    return snapshot.by_backend("cuda")
 
 
 @dataclass(frozen=True, slots=True)
 class WeightedAllocationSummary:
-    """Static backend-share plan for one experiment.
+    """Automatic CUDA-first lane plan for one experiment.
 
-    Shares are applied to the complete v3 optimizer plan when the PyTorch FP64 scientific backend
-    is selected. The CPU-only count remains in the schema for legacy/reference-backend reporting;
-    under the v3 accelerator backend all twenty primary algorithms are accelerator-compatible.
+    The historical class name is retained for import compatibility. There are no user-selected
+    device shares: every compatible job targets CUDA when available, otherwise CPU.
     """
 
     total_jobs: int
     accelerator_eligible_jobs: int
     cpu_only_jobs: int
     cuda_jobs: int
-    xpu_jobs: int
     cpu_eligible_jobs: int
     total_cpu_jobs: int
-    cuda_share: int
-    xpu_share: int
-    cpu_share: int
     cuda_available: bool
-    xpu_available: bool
 
     @property
     def requested_text(self) -> str:
-        return f"CUDA {self.cuda_share}% · XPU {self.xpu_share}% · CPU {self.cpu_share}%"
+        return "Automatic CUDA-first; CPU only when required by mode or fallback policy"
 
     @property
     def effective_text(self) -> str:
         return (
-            f"CUDA {self.cuda_jobs} · XPU {self.xpu_jobs} · CPU {self.total_cpu_jobs} "
+            f"CUDA {self.cuda_jobs} · CPU {self.total_cpu_jobs} "
             f"({self.cpu_only_jobs} CPU-only + {self.cpu_eligible_jobs} compatible fallback)"
         )
 
@@ -809,18 +600,8 @@ def build_weighted_lane_plan(
     mode: str,
     *,
     cuda_available: bool,
-    xpu_available: bool,
-    cuda_share: int = 80,
-    xpu_share: int = 10,
-    cpu_share: int = 10,
 ) -> tuple[dict[int, str], WeightedAllocationSummary]:
-    """Pre-assign experiment jobs to CUDA/XPU/CPU lanes.
-
-    With the v3 PyTorch FP64 scientific backend, all twenty primary optimizers and every CALO
-    ablation variant are eligible for CUDA/XPU assignment. If an accelerator is unavailable, its
-    requested share is redistributed over the remaining available lanes rather than silently
-    assigning an unusable backend. The legacy CPU-reference backend remains CPU-only by design.
-    """
+    """Pre-assign every compatible job to CUDA when available, otherwise CPU."""
     items = list(plan)
     # The v3.4 torch FP64 pipeline provides tensor-native optimizer kernels and a common
     # device-resident ORPD evaluator for every primary algorithm and CALO ablation variant.
@@ -828,42 +609,12 @@ def build_weighted_lane_plan(
     eligible = list(items)
     cpu_only = []
 
-    lanes: list[tuple[str, int]] = []
-    if cuda_available:
-        lanes.append(("cuda", int(cuda_share)))
-    if xpu_available:
-        lanes.append(("xpu", int(xpu_share)))
-    lanes.append(("cpu", int(cpu_share)))
-    counts = _largest_remainder_counts(len(eligible), lanes)
-
     assignments: dict[int, str] = {int(item.job_index): "cpu" for item in cpu_only}
-    # Interleave lanes deterministically so device choice is not confounded with contiguous seed
-    # ranges (for example, all early repeated runs on CUDA and all late runs on CPU).
-    remaining = {lane: counts.get(lane, 0) for lane in ("cuda", "xpu", "cpu")}
-    assigned = {lane: 0 for lane in remaining}
-    lane_sequence: list[str] = []
-    eligible_total = max(1, len(eligible))
-    for position in range(len(eligible)):
-        candidates = [lane for lane, value in remaining.items() if value > 0]
-        if not candidates:
-            lane_sequence.append("cpu")
-            continue
-        lane = max(
-            candidates,
-            key=lambda name: (
-                (position + 1) * counts.get(name, 0) / eligible_total - assigned[name],
-                counts.get(name, 0),
-                name == "cuda",
-            ),
-        )
-        lane_sequence.append(lane)
-        remaining[lane] -= 1
-        assigned[lane] += 1
-    for item, lane in zip(eligible, lane_sequence, strict=False):
+    lane = "cuda" if cuda_available else "cpu"
+    for item in eligible:
         assignments[int(item.job_index)] = lane
 
     cuda_jobs = sum(1 for lane in assignments.values() if lane == "cuda")
-    xpu_jobs = sum(1 for lane in assignments.values() if lane == "xpu")
     cpu_eligible_jobs = sum(
         1 for item in eligible if assignments.get(int(item.job_index), "cpu") == "cpu"
     )
@@ -872,14 +623,9 @@ def build_weighted_lane_plan(
         accelerator_eligible_jobs=len(eligible),
         cpu_only_jobs=len(cpu_only),
         cuda_jobs=cuda_jobs,
-        xpu_jobs=xpu_jobs,
         cpu_eligible_jobs=cpu_eligible_jobs,
         total_cpu_jobs=len(cpu_only) + cpu_eligible_jobs,
-        cuda_share=int(cuda_share),
-        xpu_share=int(xpu_share),
-        cpu_share=int(cpu_share),
         cuda_available=bool(cuda_available),
-        xpu_available=bool(xpu_available),
     )
     return assignments, summary
 
@@ -891,13 +637,12 @@ def weighted_worker_slots(
     """Create concurrent lane caps while keeping at least one slot for each non-empty lane."""
     total_workers = max(1, int(total_workers))
     nonempty = [
-        ("cuda", summary.cuda_share, summary.cuda_jobs),
-        ("xpu", summary.xpu_share, summary.xpu_jobs),
-        ("cpu", summary.cpu_share, summary.total_cpu_jobs),
+        ("cuda", summary.cuda_jobs, summary.cuda_jobs),
+        ("cpu", summary.total_cpu_jobs, summary.total_cpu_jobs),
     ]
     active = [(name, weight) for name, weight, jobs in nonempty if jobs > 0]
     if not active:
-        return {"cuda": 0, "xpu": 0, "cpu": total_workers}
+        return {"cuda": 0, "cpu": total_workers}
     counts = _largest_remainder_counts(total_workers, active)
     if total_workers >= len(active):
         for name, _ in active:
@@ -911,7 +656,7 @@ def weighted_worker_slots(
             if reducible is None:
                 break
             counts[reducible] -= 1
-    return {"cuda": counts.get("cuda", 0), "xpu": counts.get("xpu", 0), "cpu": counts.get("cpu", 0)}
+    return {"cuda": counts.get("cuda", 0), "cpu": counts.get("cpu", 0)}
 
 
 @dataclass(frozen=True, slots=True)
@@ -920,14 +665,13 @@ class ThroughputAllocationSummary:
 
     total_jobs: int
     cuda_jobs: int
-    xpu_jobs: int
     cpu_jobs: int
     lane_throughputs: dict[str, float]
     source: str = "automatic calibration"
 
     @property
     def effective_text(self) -> str:
-        return f"CUDA {self.cuda_jobs} · XPU {self.xpu_jobs} · CPU {self.cpu_jobs}"
+        return f"CUDA {self.cuda_jobs} · CPU {self.cpu_jobs}"
 
     @property
     def throughput_text(self) -> str:
@@ -936,7 +680,6 @@ class ThroughputAllocationSummary:
                 f"{lane.upper()} {value:,.1f} eval/s"
                 for lane, value in (
                     ("cuda", self.lane_throughputs.get("cuda", 0.0)),
-                    ("xpu", self.lane_throughputs.get("xpu", 0.0)),
                     ("cpu", self.lane_throughputs.get("cpu", 0.0)),
                 )
                 if value > 0
@@ -951,7 +694,6 @@ def build_throughput_lane_plan(
     *,
     lane_throughputs: dict[str, float],
     cuda_available: bool,
-    xpu_available: bool,
 ) -> tuple[dict[int, str], ThroughputAllocationSummary]:
     """Allocate all v3.4 jobs in proportion to measured candidate-evaluation throughput.
 
@@ -961,19 +703,18 @@ def build_throughput_lane_plan(
     from calo_rpd_studio.accelerated.throughput_engine import measured_throughput_allocation
 
     items = list(plan)
-    enabled = {"cuda": bool(cuda_available), "xpu": bool(xpu_available), "cpu": True}
+    enabled = {"cuda": bool(cuda_available), "cpu": True}
     throughputs = {
         "cuda": max(0.0, float(lane_throughputs.get("cuda", 0.0))),
-        "xpu": max(0.0, float(lane_throughputs.get("xpu", 0.0))),
         "cpu": max(0.0, float(lane_throughputs.get("cpu", 0.0))),
     }
     counts = measured_throughput_allocation(len(items), throughputs, enabled=enabled)
     remaining = dict(counts)
-    assigned = {lane: 0 for lane in ("cuda", "xpu", "cpu")}
+    assigned = {lane: 0 for lane in ("cuda", "cpu")}
     assignments: dict[int, str] = {}
     total = max(1, len(items))
     for position, item in enumerate(items):
-        candidates = [lane for lane in ("cuda", "xpu", "cpu") if remaining.get(lane, 0) > 0]
+        candidates = [lane for lane in ("cuda", "cpu") if remaining.get(lane, 0) > 0]
         if not candidates:
             lane = "cpu"
         else:
@@ -992,7 +733,6 @@ def build_throughput_lane_plan(
     summary = ThroughputAllocationSummary(
         total_jobs=len(items),
         cuda_jobs=sum(1 for value in assignments.values() if value == "cuda"),
-        xpu_jobs=sum(1 for value in assignments.values() if value == "xpu"),
         cpu_jobs=sum(1 for value in assignments.values() if value == "cpu"),
         lane_throughputs=throughputs,
     )
@@ -1007,7 +747,6 @@ def throughput_worker_slots(
 
     active_jobs = {
         "cuda": summary.cuda_jobs,
-        "xpu": summary.xpu_jobs,
         "cpu": summary.cpu_jobs,
     }
     weights = {
@@ -1028,4 +767,4 @@ def throughput_worker_slots(
             if lane is None:
                 break
             counts[lane] -= 1
-    return {lane: int(counts.get(lane, 0)) for lane in ("cuda", "xpu", "cpu")}
+    return {lane: int(counts.get(lane, 0)) for lane in ("cuda", "cpu")}

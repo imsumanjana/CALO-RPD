@@ -1,4 +1,4 @@
-"""Standalone and persistent CUDA/XPU rollout actor for CALO policy training."""
+"""Standalone and persistent CUDA rollout actor for CALO policy training."""
 
 from __future__ import annotations
 

@@ -26,9 +26,17 @@ from calo_rpd_studio.results.database import ResultDatabase
 from calo_rpd_studio.results.publication_export import PublicationExporter
 
 
-@pytest.mark.parametrize("runs", [30, 31, 35, 50])
+@pytest.mark.parametrize(
+    "runs",
+    [BenchmarkCampaignConfig().runs, BenchmarkCampaignConfig().runs + 3],
+)
 def test_campaign_preserves_requested_run_count_exactly(runs):
-    campaign = BenchmarkCampaignConfig(cases=("case30",), study_keys=("deterministic",), runs=runs)
+    campaign = BenchmarkCampaignConfig(
+        cases=("case30",),
+        study_keys=("deterministic",),
+        runs=runs,
+        require_protected_test=False,
+    )
     task = build_campaign(campaign, base_config=ExperimentConfig(), verify_freeze=False)[0]
     assert task.config.runs == runs
     assert task.config.portfolio.custom_runs == runs
@@ -36,12 +44,15 @@ def test_campaign_preserves_requested_run_count_exactly(runs):
 
 
 def test_campaign_plan_persists_exact_formulation_manifest(tmp_path):
-    pytest.importorskip("pypower", reason="PYPOWER is required for bundled IEEE formulation manifests")
-    campaign = BenchmarkCampaignConfig(cases=("case118",), study_keys=("deterministic",), runs=30)
+    pytest.importorskip(
+        "pypower", reason="PYPOWER is required for bundled IEEE formulation manifests"
+    )
+    campaign = BenchmarkCampaignConfig(cases=("case118",), study_keys=("deterministic",))
     tasks = build_campaign(campaign, verify_freeze=False)
     path = write_campaign_plan(campaign, tasks, tmp_path / "campaign.json")
     payload = json.loads(path.read_text(encoding="utf-8"))
     manifest = payload["tasks"][0]["formulation_manifest"]
+    assert payload["tasks"][0]["evidence_role"] == "test"
     assert manifest["case_name"] == "case118"
     assert manifest["dimension"] == 75
     assert {row["bus_number"] for row in manifest["fixed_shunts"]} >= {5, 37}
@@ -68,18 +79,35 @@ def _insert_verified_run(db, experiment_id, *, run_id, objective, feasible, viol
     with db.connect() as con:
         con.execute(
             "INSERT INTO runs(id,experiment_id,algorithm,run_index,seed_json,result_json,arrays_path,validation_status) VALUES(?,?,?,?,?,?,?,?)",
-            (run_id, experiment_id, "CALO", int(run_index), "{}", json.dumps(result), "", "verified"),
+            (
+                run_id,
+                experiment_id,
+                "CALO",
+                int(run_index),
+                "{}",
+                json.dumps(result),
+                "",
+                "verified",
+            ),
         )
 
 
 def test_publication_export_excludes_infeasible_objective_from_statistics(tmp_path):
     db = ResultDatabase(tmp_path / "results.sqlite")
-    experiment_id = db.create_experiment(ExperimentConfig(algorithms=["CALO"], runs=2), collect_provenance())
+    experiment_id = db.create_experiment(
+        ExperimentConfig(algorithms=["CALO"], runs=2), collect_provenance()
+    )
     _insert_verified_run(
         db, experiment_id, run_id=str(uuid.uuid4()), objective=1.0, feasible=True, violation=0.0
     )
     _insert_verified_run(
-        db, experiment_id, run_id=str(uuid.uuid4()), objective=-999.0, feasible=False, violation=0.2, run_index=1
+        db,
+        experiment_id,
+        run_id=str(uuid.uuid4()),
+        objective=-999.0,
+        feasible=False,
+        violation=0.2,
+        run_index=1,
     )
     output = PublicationExporter(db).export(experiment_id, tmp_path / "publication")
     stats = pd.read_csv(output / "descriptive_statistics_verified_feasible.csv")
@@ -90,19 +118,16 @@ def test_publication_export_excludes_infeasible_objective_from_statistics(tmp_pa
     assert metadata["objective_statistics_basis"].startswith("independently verified AND feasible")
 
 
-def test_gpu_maximum_training_defaults_and_accelerator_fallback_order():
+def test_gpu_maximum_training_defaults_and_cuda_to_cpu_fallback_order():
     config = HeterogeneousTrainingConfig()
     assert (
         config.cuda_rollout_share,
-        config.xpu_rollout_share,
         config.cpu_rollout_share,
-    ) == (100, 0, 0)
-    cuda_plan = plan_training_lanes(12, cuda_available=True, xpu_available=True)
-    assert cuda_plan.episode_counts == {"cuda": 12, "xpu": 0, "cpu": 0}
-    xpu_plan = plan_training_lanes(12, cuda_available=False, xpu_available=True)
-    assert xpu_plan.episode_counts == {"cuda": 0, "xpu": 12, "cpu": 0}
-    cpu_plan = plan_training_lanes(12, cuda_available=False, xpu_available=False)
-    assert cpu_plan.episode_counts == {"cuda": 0, "xpu": 0, "cpu": 12}
+    ) == (100, 0)
+    cuda_plan = plan_training_lanes(12, cuda_available=True)
+    assert cuda_plan.episode_counts == {"cuda": 12, "cpu": 0}
+    cpu_plan = plan_training_lanes(12, cuda_available=False)
+    assert cpu_plan.episode_counts == {"cuda": 0, "cpu": 12}
 
 
 class SphereProblem:

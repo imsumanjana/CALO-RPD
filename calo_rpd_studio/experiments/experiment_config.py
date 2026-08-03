@@ -14,11 +14,54 @@ from calo_rpd_studio.orpd.objectives import ObjectiveConfig, ObjectiveKind
 from calo_rpd_studio.orpd.constraints import ConstraintToleranceConfig
 from calo_rpd_studio.orpd.variable_decoder import ORPDVariableConfig, ShuntControlDefinition
 from calo_rpd_studio.robustness.robust_objectives import (
-    RobustAggregation, RobustObjectiveConfig, ConstraintAggregation,
+    RobustAggregation,
+    RobustObjectiveConfig,
+    ConstraintAggregation,
 )
 from calo_rpd_studio.power_system.ac_power_flow import PowerFlowOptions
 from .evaluation_budget import BudgetPolicy, EvaluationBudget
 from calo_rpd_studio.portfolio.models import PortfolioConfig
+
+
+CURRENT_EXECUTION_BACKENDS = frozenset({"cuda_preferred", "cpu_only"})
+LEGACY_CUDA_EXECUTION_BACKENDS = frozenset(
+    {
+        "cuda_priority",
+        "cuda_only",
+        "throughput_auto",
+        "weighted_split",
+        "adaptive_hybrid",
+        "gpu_preferred",
+    }
+)
+LEGACY_EXECUTION_TUNING_FIELDS = frozenset(
+    {
+        "gpu_utilization_target",
+        "cpu_utilization_target",
+        "gpu_memory_limit",
+        "gpu_parallel_jobs",
+        "system_memory_limit",
+        "cuda_task_share",
+        "cpu_task_share",
+        "strict_device_shares",
+        "cuda_priority_work_stealing",
+    }
+)
+
+
+def migrate_execution_backend(value: object) -> str:
+    """Return the current execution mode while keeping historical XPU plans view-only.
+
+    Legacy CUDA and hybrid scheduling labels described implementation strategies rather than a
+    scientific choice. They now migrate to one automatic CUDA-first mode. An XPU plan is not
+    silently reinterpreted because that would falsify its historical execution intent; it remains
+    readable and :meth:`ExperimentConfig.validate` rejects it until a current mode is selected.
+    """
+
+    backend = str(value or "cuda_preferred").strip().lower()
+    if backend in LEGACY_CUDA_EXECUTION_BACKENDS:
+        return "cuda_preferred"
+    return backend
 
 
 def _reject_unknown_keys(payload: dict, allowed: set[str], context: str) -> None:
@@ -32,7 +75,6 @@ def _reject_unknown_keys(payload: dict, allowed: set[str], context: str) -> None
 
 def _field_names(cls) -> set[str]:
     return {item.name for item in fields(cls)}
-
 
 
 @dataclass(slots=True)
@@ -68,13 +110,23 @@ class RobustScenarioSettings:
             if not math.isfinite(float(value)) or float(value) < 0:
                 raise ValueError(f"{label} must be finite and non-negative")
         if self.mode == "renewable_uncertainty":
-            if int(self.renewable_bus) <= 0 or not math.isfinite(float(self.renewable_rated_mw)) or float(self.renewable_rated_mw) <= 0:
+            if (
+                int(self.renewable_bus) <= 0
+                or not math.isfinite(float(self.renewable_rated_mw))
+                or float(self.renewable_rated_mw) <= 0
+            ):
                 raise ValueError(
                     "Renewable uncertainty requires a positive bus number and rated MW"
                 )
-            if not math.isfinite(float(self.renewable_mean_capacity_factor)) or not 0.0 <= float(self.renewable_mean_capacity_factor) <= 1.0:
+            if (
+                not math.isfinite(float(self.renewable_mean_capacity_factor))
+                or not 0.0 <= float(self.renewable_mean_capacity_factor) <= 1.0
+            ):
                 raise ValueError("Renewable mean capacity factor must be between 0 and 1")
-            if not math.isfinite(float(self.renewable_std_capacity_factor)) or float(self.renewable_std_capacity_factor) < 0:
+            if (
+                not math.isfinite(float(self.renewable_std_capacity_factor))
+                or float(self.renewable_std_capacity_factor) < 0
+            ):
                 raise ValueError(
                     "Renewable capacity-factor standard deviation must be non-negative"
                 )
@@ -92,6 +144,13 @@ class RobustScenarioSettings:
 class ExperimentConfig:
     name: str = "CALO-RPD comparative experiment"
     case_name: str = "case30"
+    study_strength: str = "custom"
+    study_case_plan: list[str] = field(default_factory=lambda: ["case30"])
+    study_standardized_effect: float | None = None
+    study_target_power: float | None = None
+    study_family_alpha: float = 0.05
+    study_failure_allowance: float = 0.10
+    study_run_planning_method: str = "custom"
     algorithms: list[str] = field(default_factory=lambda: ["CALO", "TLBO", "PSO"])
     # The default portfolio is JOURNAL evidence, whose explicit minimum is 30 runs.
     # Keep the default intrinsically valid rather than relying on validate() to mutate it.
@@ -104,27 +163,23 @@ class ExperimentConfig:
     variables: ORPDVariableConfig = field(default_factory=ORPDVariableConfig)
     robust_objective: RobustObjectiveConfig = field(default_factory=RobustObjectiveConfig)
     power_flow: PowerFlowOptions = field(default_factory=PowerFlowOptions)
-    constraint_tolerances: ConstraintToleranceConfig = field(default_factory=ConstraintToleranceConfig)
+    constraint_tolerances: ConstraintToleranceConfig = field(
+        default_factory=ConstraintToleranceConfig
+    )
     scenarios: RobustScenarioSettings = field(default_factory=RobustScenarioSettings)
     algorithm_parameters: dict[str, dict] = field(default_factory=dict)
     output_directory: str = "results_data"
     parallel_workers: int = 1
-    execution_backend: str = "gpu_preferred"
-    gpu_utilization_target: int = 70
-    cpu_utilization_target: int = 50
-    gpu_memory_limit: int = 85
-    gpu_parallel_jobs: int = 4
-    xpu_utilization_target: int = 70
-    xpu_memory_limit: int = 85
-    xpu_parallel_jobs: int = 2
-    system_memory_limit: int = 85
-    cuda_task_share: int = 100
-    xpu_task_share: int = 0
-    cpu_task_share: int = 0
-    strict_device_shares: bool = True
+    execution_backend: str = "cuda_preferred"
     scientific_backend: str = "torch_fp64"
     device_resident_execution: bool = True
-    cuda_priority_work_stealing: bool = True
+    # v6.9: cap the CUDA process at 80% of physical VRAM while keeping all active
+    # CUDA-eligible numerical state resident inside that budget.
+    cuda_vram_budget_fraction: float = 0.80
+    cuda_oom_retry_count: int = 4
+    cuda_minimum_microbatch: int = 1
+    cuda_resident_hot_loop: bool = True
+    cuda_cpu_fallback_enabled: bool = True
     tensor_batch_size: int = 64
     require_backend_parity: bool = True
     parity_objective_tolerance: float = 1e-5
@@ -197,8 +252,32 @@ class ExperimentConfig:
 
         if self.runs <= 0:
             raise ValueError("runs must be positive")
-        if self.population_size <= 0:
-            raise ValueError("population_size must be positive")
+        if self.study_strength not in {"custom", "low", "moderate", "good", "strong"}:
+            raise ValueError("study_strength must be custom, low, moderate, good, or strong")
+        if not self.study_case_plan or any(not str(name).strip() for name in self.study_case_plan):
+            raise ValueError("study_case_plan must contain at least one non-empty case name")
+        if self.study_standardized_effect is not None and not (
+            math.isfinite(float(self.study_standardized_effect))
+            and 0.0 < float(self.study_standardized_effect) <= 3.0
+        ):
+            raise ValueError("study_standardized_effect must lie in (0, 3] when provided")
+        if self.study_target_power is not None and not (
+            math.isfinite(float(self.study_target_power))
+            and 0.50 <= float(self.study_target_power) < 1.0
+        ):
+            raise ValueError("study_target_power must lie in [0.50, 1) when provided")
+        if not 0.0 < float(self.study_family_alpha) < 1.0:
+            raise ValueError("study_family_alpha must lie in (0, 1)")
+        if not 0.0 <= float(self.study_failure_allowance) < 0.50:
+            raise ValueError("study_failure_allowance must lie in [0, 0.50)")
+        if self.study_run_planning_method not in {
+            "custom",
+            "screening_floor",
+            "paired_normal_holm_approximation",
+        }:
+            raise ValueError("Unsupported study_run_planning_method")
+        if self.population_size < 2:
+            raise ValueError("population_size must be at least 2")
         if not self.algorithms:
             raise ValueError("At least one algorithm must be selected")
         unknown = [name for name in self.algorithms if name not in SPECS]
@@ -206,23 +285,32 @@ class ExperimentConfig:
             raise ValueError(f"Unknown primary algorithms: {unknown}")
         if self.parallel_workers <= 0:
             raise ValueError("parallel_workers must be positive")
-        if self.execution_backend not in {
-            "cuda_priority",
-            "cuda_only",
-            "throughput_auto",
-            "weighted_split",
-            "adaptive_hybrid",
-            "cpu_only",
-            "gpu_preferred",
-        }:
-            raise ValueError("Unsupported execution backend")
+        if "xpu" in str(self.execution_backend).lower():
+            raise ValueError(
+                "This historical XPU execution plan is view-only. Select Accelerated when "
+                "available or CPU only before starting a new experiment."
+            )
+        if self.execution_backend not in CURRENT_EXECUTION_BACKENDS:
+            raise ValueError(
+                "execution_backend must be cuda_preferred or cpu_only; legacy scheduler modes "
+                "must be loaded through ExperimentConfig.from_dict for migration"
+            )
         if self.scientific_backend not in {"torch_fp64", "cpu_reference"}:
             raise ValueError("scientific_backend must be torch_fp64 or cpu_reference")
         if self.scientific_backend == "cpu_reference" and self.execution_backend != "cpu_only":
             raise ValueError("The cpu_reference scientific backend requires CPU-only scheduling")
         if int(self.tensor_batch_size) <= 0:
             raise ValueError("tensor_batch_size must be positive")
-        if not math.isfinite(float(self.cross_run_batch_window_ms)) or float(self.cross_run_batch_window_ms) <= 0:
+        if not math.isclose(float(self.cuda_vram_budget_fraction), 0.80, abs_tol=1e-12):
+            raise ValueError("cuda_vram_budget_fraction is fixed at 0.80 of currently free VRAM")
+        if int(self.cuda_oom_retry_count) < 0:
+            raise ValueError("cuda_oom_retry_count must be non-negative")
+        if int(self.cuda_minimum_microbatch) <= 0:
+            raise ValueError("cuda_minimum_microbatch must be positive")
+        if (
+            not math.isfinite(float(self.cross_run_batch_window_ms))
+            or float(self.cross_run_batch_window_ms) <= 0
+        ):
             raise ValueError("cross_run_batch_window_ms must be finite and positive")
         if int(self.max_cross_run_batch) <= 0:
             raise ValueError("max_cross_run_batch must be positive")
@@ -267,31 +355,6 @@ class ExperimentConfig:
                 f"runs={self.runs} is below the portfolio-required minimum of {required_runs}. "
                 "Apply explicit portfolio normalization before execution."
             )
-        if not 10 <= int(self.gpu_utilization_target) <= 100:
-            raise ValueError("gpu_utilization_target must be between 10 and 100")
-        if not 10 <= int(self.cpu_utilization_target) <= 100:
-            raise ValueError("cpu_utilization_target must be between 10 and 100")
-        if not 20 <= int(self.gpu_memory_limit) <= 100:
-            raise ValueError("gpu_memory_limit must be between 20 and 100")
-        if int(self.gpu_parallel_jobs) <= 0:
-            raise ValueError("gpu_parallel_jobs must be positive")
-        if not 10 <= int(self.xpu_utilization_target) <= 100:
-            raise ValueError("xpu_utilization_target must be between 10 and 100")
-        if not 20 <= int(self.xpu_memory_limit) <= 100:
-            raise ValueError("xpu_memory_limit must be between 20 and 100")
-        if int(self.xpu_parallel_jobs) <= 0:
-            raise ValueError("xpu_parallel_jobs must be positive")
-        if not 20 <= int(self.system_memory_limit) <= 100:
-            raise ValueError("system_memory_limit must be between 20 and 100")
-        shares = (int(self.cuda_task_share), int(self.xpu_task_share), int(self.cpu_task_share))
-        if any(value < 0 or value > 100 for value in shares):
-            raise ValueError("Device task shares must each be between 0 and 100")
-        if sum(shares) != 100:
-            raise ValueError("CUDA, XPU, and CPU task shares must sum to 100")
-        if self.execution_backend == "cuda_priority" and shares != (80, 10, 10):
-            raise ValueError("cuda_priority requires the fixed 80/10/10 CUDA/XPU/CPU share")
-        if self.execution_backend in {"cuda_only", "gpu_preferred"} and shares != (100, 0, 0):
-            raise ValueError(f"{self.execution_backend} requires the fixed 100/0/0 preferred share")
         self.budget.validate()
         if (
             self.budget.policy is BudgetPolicy.EQUAL_EVALUATIONS
@@ -322,7 +385,10 @@ class ExperimentConfig:
                 return [convert(item) for item in value]
             return value
 
-        return convert(asdict(self))
+        payload = convert(asdict(self))
+        for field_name in LEGACY_EXECUTION_TUNING_FIELDS:
+            payload.pop(field_name, None)
+        return payload
 
     def save(self, path) -> Path:
         destination = Path(path)
@@ -335,13 +401,18 @@ class ExperimentConfig:
         return destination
 
     @classmethod
-    def from_dict(
-        cls, data: dict, *, allow_unknown_fields: bool = False
-    ) -> "ExperimentConfig":
+    def from_dict(cls, data: dict, *, allow_unknown_fields: bool = False) -> "ExperimentConfig":
         if not isinstance(data, dict):
             raise TypeError("Experiment configuration must be a mapping/object")
         if not allow_unknown_fields:
-            _reject_unknown_keys(data, _field_names(cls), "experiment")
+            # Historical scheduler knobs remain accepted only at this migration boundary. They are
+            # deliberately discarded below: current execution is automatic CUDA-first routing
+            # with availability-based memory admission, never percentage/share based scheduling.
+            _reject_unknown_keys(
+                data,
+                _field_names(cls) | set(LEGACY_EXECUTION_TUNING_FIELDS),
+                "experiment",
+            )
         objective_data = dict(data.get("objective", {}) or {})
         if not allow_unknown_fields:
             _reject_unknown_keys(objective_data, _field_names(ObjectiveConfig), "objective")
@@ -363,7 +434,8 @@ class ExperimentConfig:
                 if not isinstance(item, dict):
                     raise TypeError(f"variables.shunt_controls[{index}] must be an object")
                 _reject_unknown_keys(
-                    item, _field_names(ShuntControlDefinition),
+                    item,
+                    _field_names(ShuntControlDefinition),
                     f"variables.shunt_controls[{index}]",
                 )
         shunts = tuple(ShuntControlDefinition(**item) for item in shunt_items)
@@ -381,7 +453,9 @@ class ExperimentConfig:
         )
         robust_data = dict(data.get("robust_objective", {}) or {})
         if not allow_unknown_fields:
-            _reject_unknown_keys(robust_data, _field_names(RobustObjectiveConfig), "robust_objective")
+            _reject_unknown_keys(
+                robust_data, _field_names(RobustObjectiveConfig), "robust_objective"
+            )
         robust = RobustObjectiveConfig(
             aggregation=RobustAggregation(
                 robust_data.get("aggregation", RobustAggregation.EXPECTED.value)
@@ -416,7 +490,9 @@ class ExperimentConfig:
             branch_loading_percent=float(tolerance_data.get("branch_loading_percent", 1e-6)),
             branch_angle_deg=float(tolerance_data.get("branch_angle_deg", 1e-6)),
             feasibility_total=float(tolerance_data.get("feasibility_total", 1e-12)),
-            schema_version=str(tolerance_data.get("schema_version", "calo_rpd_constraint_tolerance_v5.9")),
+            schema_version=str(
+                tolerance_data.get("schema_version", "calo_rpd_constraint_tolerance_v5.9")
+            ),
         )
         budget_data = dict(data.get("budget", {}) or {})
         if not allow_unknown_fields:
@@ -424,20 +500,36 @@ class ExperimentConfig:
         budget = EvaluationBudget(
             BudgetPolicy(budget_data.get("policy", BudgetPolicy.EQUAL_EVALUATIONS.value)),
             int(budget_data.get("max_evaluations", 5000)),
-            float(budget_data["wall_clock_seconds"]) if "wall_clock_seconds" in budget_data and budget_data["wall_clock_seconds"] is not None else None,
+            float(budget_data["wall_clock_seconds"])
+            if "wall_clock_seconds" in budget_data and budget_data["wall_clock_seconds"] is not None
+            else None,
         )
         scenario_data = dict(data.get("scenarios", {}) or {})
         portfolio_data = dict(data.get("portfolio", {}) or {})
         if not allow_unknown_fields:
             _reject_unknown_keys(scenario_data, _field_names(RobustScenarioSettings), "scenarios")
             _reject_unknown_keys(portfolio_data, _field_names(PortfolioConfig), "portfolio")
-        execution_backend = str(data.get("execution_backend", "gpu_preferred"))
-        preset_shares = (
-            (100, 0, 0) if execution_backend in {"cuda_only", "gpu_preferred"} else (80, 10, 10)
+        execution_backend = migrate_execution_backend(
+            data.get("execution_backend", "cuda_preferred")
         )
         return cls(
             name=data.get("name", "CALO-RPD comparative experiment"),
             case_name=data.get("case_name", "case30"),
+            study_strength=str(data.get("study_strength", "custom")),
+            study_case_plan=list(data.get("study_case_plan", [data.get("case_name", "case30")])),
+            study_standardized_effect=(
+                float(data["study_standardized_effect"])
+                if data.get("study_standardized_effect") is not None
+                else None
+            ),
+            study_target_power=(
+                float(data["study_target_power"])
+                if data.get("study_target_power") is not None
+                else None
+            ),
+            study_family_alpha=float(data.get("study_family_alpha", 0.05)),
+            study_failure_allowance=float(data.get("study_failure_allowance", 0.10)),
+            study_run_planning_method=str(data.get("study_run_planning_method", "custom")),
             algorithms=list(data.get("algorithms", ["CALO", "TLBO", "PSO"])),
             runs=int(data.get("runs", 30)),
             master_seed=int(data.get("master_seed", 2026)),
@@ -454,21 +546,13 @@ class ExperimentConfig:
             output_directory=data.get("output_directory", "results_data"),
             parallel_workers=int(data.get("parallel_workers", 1)),
             execution_backend=execution_backend,
-            gpu_utilization_target=int(data.get("gpu_utilization_target", 70)),
-            cpu_utilization_target=int(data.get("cpu_utilization_target", 50)),
-            gpu_memory_limit=int(data.get("gpu_memory_limit", 85)),
-            gpu_parallel_jobs=int(data.get("gpu_parallel_jobs", 4)),
-            xpu_utilization_target=int(data.get("xpu_utilization_target", 70)),
-            xpu_memory_limit=int(data.get("xpu_memory_limit", 85)),
-            xpu_parallel_jobs=int(data.get("xpu_parallel_jobs", 2)),
-            system_memory_limit=int(data.get("system_memory_limit", 85)),
-            cuda_task_share=int(data.get("cuda_task_share", preset_shares[0])),
-            xpu_task_share=int(data.get("xpu_task_share", preset_shares[1])),
-            cpu_task_share=int(data.get("cpu_task_share", preset_shares[2])),
-            strict_device_shares=bool(data.get("strict_device_shares", True)),
             scientific_backend=str(data.get("scientific_backend", "torch_fp64")),
             device_resident_execution=bool(data.get("device_resident_execution", True)),
-            cuda_priority_work_stealing=bool(data.get("cuda_priority_work_stealing", True)),
+            cuda_vram_budget_fraction=0.80,
+            cuda_oom_retry_count=int(data.get("cuda_oom_retry_count", 4)),
+            cuda_minimum_microbatch=int(data.get("cuda_minimum_microbatch", 1)),
+            cuda_resident_hot_loop=bool(data.get("cuda_resident_hot_loop", True)),
+            cuda_cpu_fallback_enabled=bool(data.get("cuda_cpu_fallback_enabled", True)),
             tensor_batch_size=int(data.get("tensor_batch_size", 64)),
             require_backend_parity=bool(data.get("require_backend_parity", True)),
             parity_objective_tolerance=float(data.get("parity_objective_tolerance", 1e-5)),

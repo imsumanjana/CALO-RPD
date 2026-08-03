@@ -3,7 +3,6 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-import pytest
 
 from calo_rpd_studio.algorithms.calo.competitive_training import (
     build_branch_seed_plan,
@@ -100,7 +99,10 @@ def test_competitive_training_creates_separate_branch_resume_states_and_one_base
     output = tmp_path / "base.pt"
     path, history = train_policy_parallel(_tiny_config(), output, parallel_runs=2)
     manifest = json.loads(Path(path).with_suffix(".branches.json").read_text(encoding="utf-8"))
-    assert manifest["session"]["method"] == "competitive independent PPO branches with protected queued scheduling and exact-resume indefinite rotation; no parameter averaging"
+    assert (
+        manifest["session"]["method"]
+        == "competitive independent PPO branches with protected queued scheduling and exact-resume indefinite rotation; no parameter averaging"
+    )
     assert manifest["session"]["queued_branch_scheduler"] is True
     assert len(manifest["branches"]) == 2
     # v5.9 separates synthetic Training Champion screening from deployable scientific Base
@@ -148,7 +150,9 @@ def test_exact_competitive_resume_restores_same_branches_and_advances_epoch(tmp_
 def test_base_guided_fork_starts_fresh_branches_without_mutating_parent(tmp_path):
     parent = tmp_path / "parent.pt"
     train_policy_parallel(
-        _tiny_config(parallel_runs=1, parallel_same_seed_branches=1, parallel_incremental_branches=0),
+        _tiny_config(
+            parallel_runs=1, parallel_same_seed_branches=1, parallel_incremental_branches=0
+        ),
         parent,
         parallel_runs=1,
     )
@@ -204,18 +208,30 @@ def test_safe_stop_commits_exact_branch_resume_states_and_cleans_scratch(tmp_pat
 def test_legacy_curriculum_encoding_conversion_is_schema_driven():
     from calo_rpd_studio.algorithms.calo.training import _stage_floor_from_history
 
-    assert _stage_floor_from_history(
-        [{"curriculum_stage": 1}], {"_resume_format": "calo_policy_training_resume_v41"}
-    ) == 0
-    assert _stage_floor_from_history(
-        [{"curriculum_stage": 4}], {"_resume_format": "calo_policy_training_resume_v41"}
-    ) == 3
-    assert _stage_floor_from_history(
-        [{"curriculum_stage": 5}], {"_resume_format": "calo_policy_training_resume_v41"}
-    ) == 4
-    assert _stage_floor_from_history(
-        [{"curriculum_stage": 1}], {"_resume_format": "calo_policy_training_resume_v56"}
-    ) == 1
+    assert (
+        _stage_floor_from_history(
+            [{"curriculum_stage": 1}], {"_resume_format": "calo_policy_training_resume_v41"}
+        )
+        == 0
+    )
+    assert (
+        _stage_floor_from_history(
+            [{"curriculum_stage": 4}], {"_resume_format": "calo_policy_training_resume_v41"}
+        )
+        == 3
+    )
+    assert (
+        _stage_floor_from_history(
+            [{"curriculum_stage": 5}], {"_resume_format": "calo_policy_training_resume_v41"}
+        )
+        == 4
+    )
+    assert (
+        _stage_floor_from_history(
+            [{"curriculum_stage": 1}], {"_resume_format": "calo_policy_training_resume_v56"}
+        )
+        == 1
+    )
 
 
 def test_standalone_training_restores_caller_global_rng_state(tmp_path):

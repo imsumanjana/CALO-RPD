@@ -6,8 +6,16 @@ import json
 from pathlib import Path
 import tomllib
 
+import pytest
+
 from calo_rpd_studio.benchmarking.freeze import verify_freeze_manifest
 from calo_rpd_studio.version import FREEZE_ID, FREEZE_MANIFEST, RELEASE_NAME, VERSION
+
+
+pytestmark = pytest.mark.skipif(
+    VERSION != "6.7.0",
+    reason="historical v6.7 release gate runs only against a v6.7 release checkout",
+)
 
 
 def _root() -> Path:
@@ -19,7 +27,9 @@ def test_v670_release_identity_is_consistent():
     project = tomllib.loads((root / "pyproject.toml").read_text(encoding="utf-8"))["project"]
     metadata = json.loads((root / "RELEASE_METADATA.json").read_text(encoding="utf-8"))
     assert project["version"] == VERSION == metadata["version"] == "6.7.0"
-    assert RELEASE_NAME == metadata["release_name"] == "Hardware Runtime Binding & Telemetry Integrity"
+    assert (
+        RELEASE_NAME == metadata["release_name"] == "Hardware Runtime Binding & Telemetry Integrity"
+    )
     assert FREEZE_ID == "calo_v670_software_release"
     assert FREEZE_MANIFEST == "calo_v670_freeze.json"
 

@@ -4,7 +4,11 @@ from types import SimpleNamespace
 import sys
 
 from calo_rpd_studio.compute.device_binding import bind_config_to_device, runtime_device_attestation
-from calo_rpd_studio.compute.resource_scheduler import DeviceSnapshot, ResourceMonitor, ResourceSnapshot
+from calo_rpd_studio.compute.resource_scheduler import (
+    DeviceSnapshot,
+    ResourceMonitor,
+    ResourceSnapshot,
+)
 from calo_rpd_studio.compute.topology import ComputeTopologyService
 from calo_rpd_studio.experiments.experiment_config import ExperimentConfig
 
@@ -50,7 +54,7 @@ def _fake_cuda_torch(*, uuids=("GPU-A",), names=("NVIDIA A",), utilization_error
 def test_missing_nvml_telemetry_never_removes_cuda_device(monkeypatch):
     fake = _fake_cuda_torch(utilization_error=ModuleNotFoundError("pynvml missing"))
     monkeypatch.setitem(sys.modules, "torch", fake)
-    monitor = ResourceMonitor(xpu_interpreter="")
+    monitor = ResourceMonitor()
     monitor._nvidia_smi = None
 
     snapshots = monitor._sample_cuda()
@@ -79,7 +83,7 @@ def test_nvidia_smi_rows_are_mapped_by_uuid_not_row_index(monkeypatch):
     import calo_rpd_studio.compute.resource_scheduler as rs
 
     monkeypatch.setattr(rs.subprocess, "run", fake_run)
-    monitor = ResourceMonitor(xpu_interpreter="")
+    monitor = ResourceMonitor()
     monitor._nvidia_smi = "nvidia-smi"
 
     snapshots = monitor._sample_cuda()
@@ -93,33 +97,33 @@ def test_nvidia_smi_rows_are_mapped_by_uuid_not_row_index(monkeypatch):
 def test_canonical_device_binding_sets_evaluator_optimizer_and_policy_devices():
     config = ExperimentConfig(algorithms=["CALO", "PSO"])
     config.scientific_backend = "torch_fp64"
-    local = bind_config_to_device(config, "xpu:0")
+    local = bind_config_to_device(config, "cuda:0")
 
-    assert local.runtime_compute_device == "xpu:0"
-    assert local.algorithm_parameters["CALO"]["execution_device"] == "xpu:0"
-    assert local.algorithm_parameters["CALO"]["inference_device"] == "xpu:0"
+    assert local.runtime_compute_device == "cuda:0"
+    assert local.algorithm_parameters["CALO"]["execution_device"] == "cuda:0"
+    assert local.algorithm_parameters["CALO"]["inference_device"] == "cuda:0"
     assert local.algorithm_parameters["CALO"]["optimizer_backend"] == "torch"
-    assert local.algorithm_parameters["PSO"]["execution_device"] == "xpu:0"
+    assert local.algorithm_parameters["PSO"]["execution_device"] == "cuda:0"
     assert local.algorithm_parameters["PSO"]["optimizer_backend"] == "torch"
 
 
-def test_sidecar_memory_and_fp64_capability_are_taken_from_sidecar_snapshot(monkeypatch):
+def test_cuda_memory_and_fp64_capability_are_taken_from_runtime_snapshot(monkeypatch):
     class Monitor:
         def sample(self):
             return ResourceSnapshot(
                 cpu_percent=10.0,
                 devices=(
                     DeviceSnapshot(
-                        "xpu:0",
-                        "xpu",
+                        "cuda:0",
+                        "cuda",
                         0,
-                        "Intel Arc Test",
+                        "NVIDIA Test",
                         True,
                         5.0,
                         10.0,
-                        runtime="sidecar",
+                        runtime="primary",
                         memory_total_bytes=16 * 1024**3,
-                        vendor_id="8086",
+                        vendor_id="10DE",
                         product_id="1234",
                         fp64_test_passed=True,
                     ),
@@ -130,12 +134,12 @@ def test_sidecar_memory_and_fp64_capability_are_taken_from_sidecar_snapshot(monk
     topology = ComputeTopologyService(Monitor()).scan()
     device = topology.devices[0]
 
-    assert device.runtime_id == "xpu:0"
+    assert device.runtime_id == "cuda:0"
     assert device.memory_total_bytes == 16 * 1024**3
     assert device.orpd_evaluator is True
-    assert device.full_training_branch is False
+    assert device.full_training_branch is True
     assert "FP64" in device.capability_status
-    assert device.vendor_id == "8086"
+    assert device.vendor_id == "10DE"
 
 
 def test_cpu_runtime_attestation_is_explicit_and_truthful():

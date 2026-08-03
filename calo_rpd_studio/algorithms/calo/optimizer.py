@@ -55,7 +55,12 @@ from .learning_operators import (
 )
 from .operator_credit import blend_probabilities
 from .precision_engine import CognitivePrecisionEngine
-from .policy_schema import PolicyRuntimeContext, variable_group_concentration, build_policy_vector, POLICY_STATE_DIM
+from .policy_schema import (
+    PolicyRuntimeContext,
+    variable_group_concentration,
+    build_policy_vector,
+    POLICY_STATE_DIM,
+)
 from .reward import calculate_reward
 from .success_memory import SuccessMemory
 from .tensor_state import CALOTensorState
@@ -357,7 +362,9 @@ class CALOOptimizer(BaseOptimizer):
             return {
                 "callable_kind": "bound_method",
                 "function": CALOOptimizer._compatibility_jsonable(value.__func__),
-                "owner_type": f"{type(owner).__module__}.{type(owner).__qualname__}" if owner is not None else "",
+                "owner_type": f"{type(owner).__module__}.{type(owner).__qualname__}"
+                if owner is not None
+                else "",
                 "owner_state": owner_state,
             }
         if callable(value):
@@ -387,7 +394,9 @@ class CALOOptimizer(BaseOptimizer):
                 return {
                     "callable_kind": "callable_object",
                     "class": f"{type(value).__module__}.{type(value).__qualname__}",
-                    "call_impl": CALOOptimizer._compatibility_jsonable(call_impl) if call_impl is not None else None,
+                    "call_impl": CALOOptimizer._compatibility_jsonable(call_impl)
+                    if call_impl is not None
+                    else None,
                     "state": state,
                 }
             code_identity = None
@@ -399,7 +408,9 @@ class CALOOptimizer(BaseOptimizer):
                     "co_varnames": list(code.co_varnames),
                     "co_freevars": list(code.co_freevars),
                 }
-                encoded_code = json.dumps(code_payload, sort_keys=True, separators=(",", ":"), allow_nan=False).encode("utf-8")
+                encoded_code = json.dumps(
+                    code_payload, sort_keys=True, separators=(",", ":"), allow_nan=False
+                ).encode("utf-8")
                 code_identity = hashlib.sha256(encoded_code).hexdigest()
             return {
                 "callable_kind": "function" if code is not None else "builtin",
@@ -990,7 +1001,9 @@ class CALOOptimizer(BaseOptimizer):
                     and (
                         environment_deterministic
                         and index < int(round(population_size * precision_fraction))
-                        or (not environment_deterministic and self.rng.random() < precision_fraction)
+                        or (
+                            not environment_deterministic and self.rng.random() < precision_fraction
+                        )
                     )
                 )
                 if should_precision and len(hpem):
@@ -1275,15 +1288,23 @@ class CALOOptimizer(BaseOptimizer):
                     "regime": int(decision.regime) if decision is not None else int(global_regime),
                     "operator": int(decision.operator) if decision is not None else -1,
                     "regime_probabilities": (
-                        decision.regime_probabilities.tolist() if decision is not None else regime_probabilities.tolist()
+                        decision.regime_probabilities.tolist()
+                        if decision is not None
+                        else regime_probabilities.tolist()
                     ),
                     "operator_probabilities": (
-                        decision.operator_probabilities.tolist() if decision is not None else ai_operator_probabilities.tolist()
+                        decision.operator_probabilities.tolist()
+                        if decision is not None
+                        else ai_operator_probabilities.tolist()
                     ),
                     "parameter": (
-                        decision.raw_parameter_action.tolist() if decision is not None else derived_parameter_action.tolist()
+                        decision.raw_parameter_action.tolist()
+                        if decision is not None
+                        else derived_parameter_action.tolist()
                     ),
-                    "value_estimate": float(decision.value_estimate) if decision is not None else None,
+                    "value_estimate": float(decision.value_estimate)
+                    if decision is not None
+                    else None,
                 }
                 policy_trajectory.append(
                     {
@@ -1299,7 +1320,9 @@ class CALOOptimizer(BaseOptimizer):
                             "variable_groups": assigned_groups.astype(int).tolist(),
                             "precision_mask": precision_mask.astype(bool).tolist(),
                             "forced_recovery_indices": sorted(int(i) for i in forced_recovery),
-                            "final_parameters": {name: float(adaptive[name]) for name in PARAMETER_NAMES},
+                            "final_parameters": {
+                                name: float(adaptive[name]) for name in PARAMETER_NAMES
+                            },
                         },
                         # Legacy aliases remain for repository readers, but exact v5.9 pretraining
                         # uses policy_state/raw_policy above rather than these composite summaries.
@@ -1473,14 +1496,20 @@ class CALOOptimizer(BaseOptimizer):
             "scratch_pool_bytes": int(scratch.allocated_bytes),
             "exact_cache_hits": int(cache.cache_hits) if use_evaluation_cache else 0,
             "exact_cache_hit_rate": float(cache.hit_rate) if use_evaluation_cache else 0.0,
-            "exact_cache_persistent_enabled_final": bool(cache.persistent_enabled) if use_evaluation_cache else False,
-            "exact_cache_adaptation_requests": int(cache.minimum_requests_before_adaptation) if use_evaluation_cache else 0,
+            "exact_cache_persistent_enabled_final": bool(cache.persistent_enabled)
+            if use_evaluation_cache
+            else False,
+            "exact_cache_adaptation_requests": int(cache.minimum_requests_before_adaptation)
+            if use_evaluation_cache
+            else 0,
             "exact_cache_persistent_enabled": bool(cache.persistent_enabled)
             if use_evaluation_cache
             else False,
             "runtime_profile": {
                 "wall_seconds": float(max(time.perf_counter() - started, 1e-12)),
-                "end_to_end_requested_fe_per_second": float(self.evaluations / max(time.perf_counter() - started, 1e-12)),
+                "end_to_end_requested_fe_per_second": float(
+                    self.evaluations / max(time.perf_counter() - started, 1e-12)
+                ),
                 "metric_definition": "full_CALO_control_plus_evaluator_wall_clock",
                 "policy_inference_seconds": float(policy_inference_seconds),
                 "candidate_generation_seconds": float(candidate_generation_seconds),

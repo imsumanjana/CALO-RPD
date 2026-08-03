@@ -1,43 +1,63 @@
 {
   "name": "CALO-RPD Studio",
-  "version": "6.8.0",
-  "release_name": "Independent CALO Intelligence & XPU Recovery",
-  "release_date": "2026-07-24",
-  "scope": "Decouples CALO Intelligence policy development/qualification from other tabs and repairs mixed NVIDIA+Intel XPU discovery/provisioning/readiness behavior.",
-  "implementation_report": "CALO-RPD-v6.8.0_IMPLEMENTATION_REPORT.md",
-  "post_generation_audit": "CALO-RPD-v6.8.0_DEEP_POST_GENERATION_AUDIT.txt",
-  "findings_closure": "FINDINGS_CLOSURE_v6.8.0.csv",
-  "scientific_claim": "Research-validation software baseline. v6.8 changes workflow validation and hardware discovery/repair plumbing; it does not change the frozen CALO mathematical operators/objectives or claim unmeasured Intel-XPU throughput.",
+  "version": "6.9.0",
+  "release_name": "VRAM-Resident CUDA Data Plane",
+  "release_date": "2026-07-25",
+  "scope": "Adds an 80%-default CUDA VRAM ceiling and keeps the active CUDA-compatible ORPD/PPO numerical data plane device resident with CUDA-only adaptive OOM microbatch recovery.",
+  "implementation_report": "CALO-RPD-v6.9.0_IMPLEMENTATION_REPORT.md",
+  "post_generation_audit": "CALO-RPD-v6.9.0_DEEP_POST_GENERATION_AUDIT.txt",
+  "findings_closure": "FINDINGS_CLOSURE_v6.9.0.csv",
+  "scientific_claim": "Research-validation software baseline. v6.9 changes execution residency, memory governance and synchronization behavior; it does not change the frozen CALO/ORPD mathematics or claim unmeasured target-hardware speedup.",
   "v650_must_resolve_closure_preserved": true,
   "v660_remaining_audit_closure_preserved": true,
   "v670_hardware_runtime_closure_preserved": true,
-  "v680_independence_xpu_closure": {
-    "runtime_findings_total": 7,
-    "resolved": 7,
-    "calo_intelligence_scientific_validation_independent": true,
-    "cross_tab_auto_rehydration_removed": true,
-    "policy_qualification_uses_intelligence_template": true,
-    "per_accelerator_backend_repair": true,
-    "xpu_sidecar_live_rediscovery": true,
-    "intel_pnp_hardware_tag_detection": true,
-    "detected_only_xpu_readiness_visibility": true
+  "v680_independence_xpu_closure_preserved": true,
+  "v690_vram_residency_closure": {
+    "runtime_findings_total": 8,
+    "resolved": 8,
+    "cuda_process_vram_ceiling_default": 0.8,
+    "cuda_eligible_data_plane_device_resident": true,
+    "cuda_oom_microbatch_retry_no_cpu_fallback": true,
+    "fixed_shape_masked_newton_hot_loop": true,
+    "completed_population_single_host_materialization": true,
+    "ppo_epoch_loss_single_host_materialization": true,
+    "ppo_cuda_minibatch_oom_backoff": true,
+    "vram_residency_attestation": true
   },
   "validation": {
     "compileall": "PASS",
-    "focused_v680_independence_xpu": "5 passed",
-    "combined_relevant_regression_selection": "36 passed",
+    "focused_v690_vram_residency": "7 passed",
+    "device_resident_and_audit_regression_selection": "53 passed",
+    "training_stage_b_hardware_regression_selection": "47 passed",
+    "physical_cuda": "NOT AVAILABLE IN BUILD RUNTIME",
     "physical_intel_xpu": "NOT AVAILABLE IN BUILD RUNTIME",
-    "target_machine_xpu_qualification": "PENDING",
-    "note": "The 36-test selection includes focused v6.8 tests, v6.8 release-integrity tests, and overlapping relevant v6.7 hardware/prerequisite/heterogeneous/configuration regressions."
+    "pypower_publication_cases": "NOT AVAILABLE IN BUILD RUNTIME",
+    "target_machine_rtx4060_qualification": "PENDING",
+    "note": "The 53-test and 47-test selections overlap and are not summed as a unique total.",
+    "config_roundtrip_validation": "4 passed",
+    "v690_release_integrity": "5 passed"
   },
   "freeze": {
-    "id": "calo_v680_software_release",
-    "manifest": "calo_rpd_studio/data/frozen/calo_v680_freeze.json",
+    "id": "calo_v690_software_release",
+    "manifest": "calo_rpd_studio/data/frozen/calo_v690_freeze.json",
     "status": "VERIFIED",
-    "checked_files": 149,
+    "checked_files": 150,
     "missing_files": 0,
     "changed_files": 0,
-    "manifest_sha256": "50e49cea2279b43a66eae3c96d1e9071571807f00b25bd9ef0fbcda6155c93d5",
-    "file_sha256": "3fd87cfb2f20f7c80f44923c1787a8a40c1ae03e0585a3c9ab8e2346649cb22f"
+    "manifest_sha256": "e2a229d7799dea3f356a871eccf3cce3607759a470dd283e7814640815258a87",
+    "file_sha256": "876f33013a44b252742a0abc020c3cc213805c40bc7fbf5a6909e203ab870fb6"
+  },
+  "package_manifest": {
+    "file": "MANIFEST.sha256",
+    "status": "VERIFIED",
+    "expected_packaged_files": 484,
+    "excludes": [
+      "MANIFEST.sha256",
+      "__pycache__",
+      ".pytest_cache",
+      ".git",
+      "*.pyc",
+      "*.pyo"
+    ]
   }
 }

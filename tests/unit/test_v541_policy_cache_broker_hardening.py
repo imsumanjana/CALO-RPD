@@ -82,9 +82,7 @@ def test_policy_broker_times_out_instead_of_waiting_forever():
                 torch.zeros((batch,), device=device),
             )
 
-    broker = _PolicyInferenceBroker(
-        StallingPolicy(), torch.device("cpu"), request_timeout_s=0.1
-    )
+    broker = _PolicyInferenceBroker(StallingPolicy(), torch.device("cpu"), request_timeout_s=0.1)
     started = time.monotonic()
     try:
         with pytest.raises(PolicyInferenceTimeout, match="fail-closed"):

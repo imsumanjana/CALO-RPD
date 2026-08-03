@@ -1,4 +1,4 @@
-"""Run the current v6.5.0 frozen 20-algorithm benchmark campaign from the command line."""
+"""Run a frozen, power-aware CALO benchmark campaign from the command line."""
 
 from __future__ import annotations
 
@@ -9,10 +9,11 @@ from pathlib import Path
 from calo_rpd_studio.benchmarking.campaign import (
     BenchmarkCampaignConfig,
     build_campaign,
+    verify_campaign_plan_design,
     write_campaign_plan,
 )
 from calo_rpd_studio.benchmarking.freeze import verify_freeze_manifest
-from calo_rpd_studio.benchmarking.package import TransactionsPackageBuilder
+from calo_rpd_studio.benchmarking.package import ScientificEvidencePackageBuilder
 from calo_rpd_studio.benchmarking.validation import validate_campaign
 from calo_rpd_studio.experiments.experiment_config import ExperimentConfig
 from calo_rpd_studio.experiments.experiment_runner import run_sequential_resilient
@@ -24,11 +25,21 @@ from calo_rpd_studio.results.result_store import ResultStore
 
 def parser() -> argparse.ArgumentParser:
     command = argparse.ArgumentParser(
-        description="Run the frozen CALO-RPD v6.5.0 benchmark campaign."
+        description="Run a frozen CALO-RPD confirmatory benchmark campaign."
     )
     command.add_argument("--database", default="calo_rpd_results.sqlite")
     command.add_argument("--output", default="benchmark_v650")
-    command.add_argument("--runs", type=int, default=30)
+    command.add_argument("--runs", type=int, default=BenchmarkCampaignConfig().runs)
+    command.add_argument("--standardized-effect", type=float, default=0.50)
+    command.add_argument("--target-power", type=float, default=0.95)
+    command.add_argument("--family-alpha", type=float, default=0.05)
+    command.add_argument("--failure-allowance", type=float, default=0.10)
+    command.add_argument(
+        "--run-planning-method",
+        choices=("normal_approximation_holm", "pilot_simulation"),
+        default="normal_approximation_holm",
+    )
+    command.add_argument("--power-evidence-sha256", default="")
     command.add_argument("--budget", type=int, default=5000)
     command.add_argument("--population", type=int, default=50)
     command.add_argument("--seed", type=int, default=2026)
@@ -57,6 +68,12 @@ def main() -> int:
         cases=tuple(item.strip() for item in args.cases.split(",") if item.strip()),
         study_keys=tuple(item.strip() for item in args.studies.split(",") if item.strip()),
         runs=args.runs,
+        standardized_effect=args.standardized_effect,
+        target_power=args.target_power,
+        family_alpha=args.family_alpha,
+        failure_allowance=args.failure_allowance,
+        run_planning_method=args.run_planning_method,
+        power_evidence_sha256=args.power_evidence_sha256,
         max_evaluations=args.budget,
         population_size=args.population,
         master_seed=args.seed,
@@ -81,8 +98,16 @@ def main() -> int:
         verification = verify_freeze_manifest(campaign.freeze_manifest)
         if not verification.passed:
             raise SystemExit(verification.message)
+        design_ok, design_message = verify_campaign_plan_design(manifest)
+        if not design_ok:
+            raise SystemExit(design_message)
         experiment_id = database.create_experiment(task.config, collect_provenance())
-        database.set_experiment_learning_role(experiment_id, "test", eligible=False, locked=True)
+        database.set_experiment_learning_role(
+            experiment_id,
+            task.evidence_role,
+            eligible=False,
+            locked=True,
+        )
         _update_manifest(manifest, task.task_index, experiment_id, "running")
         print(
             f"[{task.task_index + 1}/{len(tasks)}] {task.task_id} · {task.planned_jobs} optimizer jobs"
@@ -106,9 +131,9 @@ def main() -> int:
         summary = validate_campaign(database, manifest, only_unverified=True)
         print("Validation:", summary)
     if args.package:
-        archive = TransactionsPackageBuilder(database).build(
+        archive = ScientificEvidencePackageBuilder(database).build(
             campaign_manifest=manifest,
-            output_directory=output / "transactions_research_package",
+            output_directory=output / "scientific_evidence_package",
             freeze_manifest=campaign.freeze_manifest,
         )
         print("Research package:", archive.resolve())
