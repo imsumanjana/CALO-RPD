@@ -82,6 +82,10 @@ def test_container_context_excludes_generated_policies_and_user_build_notes():
     assert "Docker_Build.txt" in patterns
     assert "publication_export" in patterns
     assert "results_data" in patterns
+    assert "**/__pycache__/" in patterns
+    assert "**/*.pyc" in patterns
+    assert "**/*.pyo" in patterns
+    assert "**/AGENTS.md" in patterns
 
 
 def test_vnc_server_is_reachable_only_from_the_container_loopback():
