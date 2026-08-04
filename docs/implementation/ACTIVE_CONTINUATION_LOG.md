@@ -625,3 +625,33 @@ Append timestamped entries below this line after each material action, validatio
   complete case30/case57 manual-lane qualification, GPU-utilization proof, an overall-application
   95% claim or evidence for 100,000 evaluations/1,000 epochs in minutes. The immediate development
   requirement is implemented and smoke-verified; broader release testing remains open without tuning.
+
+### 2026-08-04 — current-commit case30/case57 CUDA hot-path qualification
+
+- Audited `IMPLEMENTATION_GATES.md`, `REQUIREMENT_TRACEABILITY.md` and the release handoff against
+  clean commit `c1cf911a5a14eb25df916d77c4dd6f1ba8994388`. The next legal non-tuning boundary was
+  development-case physical CUDA evidence; protected cases and a new scientific candidate remain
+  closed. Executed the exact manual-lane residency windows on the observed RTX 4060 with PyTorch
+  `2.13.0+cu130`/CUDA 13.0.
+- Case30 ORPD passed ten measured batches of 100 candidates after two warm-ups: 1,000 measured
+  evaluations, all inspected output tensors on `cuda:0`, full-request residency admitted, zero
+  declared CPU↔CUDA inner-loop transfers/fallbacks, peak allocation/reservation
+  28,027,392/35,651,584 bytes, and 29.309986 s CUDA event time over 29.310196 s wall time
+  (99.999283%). Evidence SHA-256:
+  `517039bc326585fa4555e339291fc49cb745359a3345618ccbccf49fcf78d462`.
+- Case57 ORPD passed the same 1,000-evaluation window with peak allocation/reservation
+  79,052,288/121,634,816 bytes and 47.867195 s CUDA event time over 47.867493 s wall time
+  (99.999377%). Evidence SHA-256:
+  `c50c18fa4fc0cb946032ef310d326286c2e611d23afd5068883de3bd68284dc2`.
+- Case30 and case57 independent policy validators each passed three measured ten-epoch updates after
+  one warm-up update (30 measured epochs per case). Both retained CUDA model/optimizer allocation,
+  finite packed metrics, no per-epoch host metric transfer, no fallback and no export/registration/
+  qualification/activation. Case30 recorded 0.737026/0.737100 s CUDA/wall (99.989917%), peak
+  allocation 18,602,496 bytes; case57 recorded 0.768172/0.768263 s (99.988173%), peak allocation
+  19,051,008 bytes. Evidence SHA-256 values are
+  `0b13b15849fb086da3be4119d045c135bb0ef6c68e6aa1bff7a31bbc9b467c02` and
+  `b4c75efa5cce21925a2afe217305e1fe57ff5fcd4695f1ba408324ae8e0d5758`.
+- Retained paths are under `artifacts/cuda-hot-path-c1cf911/`. This closes the new source-bound
+  case30/case57 hot-path placement/timing development gate only. It does not prove GPU utilization,
+  whole-application CUDA share, CPU/CUDA scientific parity for commit `c1cf911`, requested extreme
+  throughput, final-container/CI qualification, or scientific benefit.
