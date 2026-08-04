@@ -30,10 +30,10 @@ Status vocabulary:
 
 | Requirement | Status | Authoritative evidence | Remaining proof |
 |---|---|---|---|
-| Reproducible CPU and NVIDIA CUDA images with immutable dependencies | Implemented / external proof pending | Digest-pinned `Dockerfile`, dated Debian snapshot, separate hash-complete CPU/CUDA locks, static container tests | Actual BuildKit image digests and provenance |
-| Non-root, read-only, capability-dropped runtime with persistent data volume | Implemented / external proof pending | `compose.yaml`, `containers/`, `scripts/container_smoke.py`, container contract tests | Docker runtime smoke |
+| Reproducible CPU and NVIDIA CUDA images with immutable dependencies | Hardened / runtime proof pending | Digest-pinned `Dockerfile`, dated Debian snapshot, separate hash-complete CPU/CUDA locks, strict context exclusions, immutable full-commit/clean build declaration, OCI metadata, `pip check`, source-identity and container tests; BuildKit static check warning-free | Build exact-commit images and retain digests, provenance and metadata; build declaration is not a signature |
+| Non-root, read-only, capability-dropped runtime with persistent data volume | Hardened / runtime proof pending | `compose.yaml`, `containers/`, `scripts/container_smoke.py`, container contract tests; VNC is loopback-only and device leases use shared `/data/device-leases` | Docker runtime smoke plus actual independent-container lease exclusion/release |
 | CPU image must work without NVIDIA hardware; CUDA image must see exactly the selected GPU | Implemented / external proof pending | Compose profiles, compute-mode smoke contract, manually gated physical-CUDA CI lane | CPU container run and trusted RTX 4060 runner result |
-| SBOM and vulnerability evidence | Implemented / external proof pending | CycloneDX/BuildKit/Trivy workflow lanes with immutable action SHAs | Uploaded SBOM and scanner report for final digests |
+| SBOM and vulnerability evidence | Implemented / external proof pending | BuildKit plus pinned Trivy lanes retain CPU/CUDA CycloneDX, complete JSON vulnerability reports, build metadata/digests/image inspection, and separate fixable high/critical gates | Execute locally/CI and bind retained reports to final digests |
 | Lenovo LOQ WSL2/WSLg/GPU qualification | Pending external environment | `docs/CONTAINER_RUNBOOK.md` qualification procedure | Execute and retain target-laptop report |
 
 ## Scientist workflow and experiment protocol

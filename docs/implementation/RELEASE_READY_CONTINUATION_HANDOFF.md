@@ -589,7 +589,9 @@ expected to be stale on this development branch. Do not “fix” them early.
   no protection stop, verified 3,602-event hash chain, 46–60 °C, 12.18–26.0 W, and `24.33879127740349`
   Wh of scoped GPU-board-energy integration. CPU temperature, GPU power limit, whole-system energy,
   container execution, performance and policy benefit remain outside this evidence.
-- No successful Docker CPU/CUDA runtime build on this workstation yet.
+- Container context privacy, immutable build-declared source identity, live-Git precedence,
+  shared-volume device leases, loopback-only VNC, and CPU/CUDA CI evidence retention are implemented
+  and locally contract-tested; no successful source-bound CPU/CUDA runtime build exists yet.
 - No WSL2/WSLg target-laptop report yet.
 - No GitHub Actions run artifacts from the new workflow yet.
 - A fresh five-member TSH-CALO ensemble exists, but it is unqualified, inactive and not benefit

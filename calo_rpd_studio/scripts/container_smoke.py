@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import json
 import os
 from pathlib import Path
@@ -10,6 +11,7 @@ import tempfile
 import torch
 
 from calo_rpd_studio.experiments.experiment_config import ExperimentConfig
+from calo_rpd_studio.compute.source_identity import resolve_source_identity
 from calo_rpd_studio.results.database import DATABASE_SCHEMA_VERSION, ResultDatabase
 from calo_rpd_studio.scripts.generate_artifact_manifest import write_manifest
 
@@ -31,6 +33,9 @@ def _assert_root_filesystem_is_read_only() -> None:
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--require-durable-source", action="store_true")
+    args = parser.parse_args()
     if os.name != "posix":
         raise RuntimeError("Container smoke qualification requires a Linux container.")
     get_effective_uid = getattr(os, "geteuid", None)
@@ -40,6 +45,7 @@ def main() -> int:
     if effective_uid == 0:
         raise RuntimeError("Container process is running as root.")
     _assert_root_filesystem_is_read_only()
+    source_identity = resolve_source_identity(require_durable=args.require_durable_source)
 
     mode = os.environ.get("CALO_COMPUTE_MODE", "cpu").strip().lower()
     if mode not in {"cpu", "cuda"}:
@@ -76,6 +82,7 @@ def main() -> int:
         "cuda_available": cuda_ready,
         "database_schema_version": DATABASE_SCHEMA_VERSION,
         "image_manifest": str(manifest_path),
+        "source_identity": source_identity.to_dict(),
     }
     print(json.dumps(report, sort_keys=True))
     return 0

@@ -87,7 +87,17 @@ def main() -> int:
     _start("Xvfb", display, "-screen", "0", "1600x1000x24", "-nolisten", "tcp")
     time.sleep(0.5)
     _start("openbox", "--sm-disable")
-    _start("x11vnc", "-display", display, "-forever", "-shared", "-nopw", "-rfbport", "5900")
+    _start(
+        "x11vnc",
+        "-display",
+        display,
+        "-forever",
+        "-shared",
+        "-nopw",
+        "-localhost",
+        "-rfbport",
+        "5900",
+    )
     _start(
         "websockify",
         "--web=/usr/share/novnc",

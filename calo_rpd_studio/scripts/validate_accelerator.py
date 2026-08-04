@@ -8,13 +8,13 @@ import json
 import math
 import platform
 from pathlib import Path
-import subprocess
 import sys
 
 from calo_rpd_studio.accelerated.device import resolve_device
 from calo_rpd_studio.accelerated.parity_audit import run_configuration_parity_audit
 from calo_rpd_studio.ai.model_io import durable_write_bytes
 from calo_rpd_studio.compute.memory_budget import calculate_available_memory_admission
+from calo_rpd_studio.compute.source_identity import resolve_source_identity
 from calo_rpd_studio.experiments.experiment_config import ExperimentConfig
 
 
@@ -23,23 +23,10 @@ def _utc_now() -> str:
 
 
 def _git_source_identity() -> tuple[str, bool]:
-    commit = subprocess.run(
-        ["git", "rev-parse", "HEAD"],
-        check=True,
-        capture_output=True,
-        text=True,
-        timeout=10,
-    ).stdout.strip()
-    tracked = subprocess.run(
-        ["git", "status", "--porcelain", "--untracked-files=no"],
-        check=True,
-        capture_output=True,
-        text=True,
-        timeout=10,
-    ).stdout.strip()
-    if len(commit) != 40:
-        raise RuntimeError("Git did not return a full source commit")
-    return commit.lower(), bool(tracked)
+    """Compatibility wrapper for callers that have not migrated to SourceIdentity."""
+
+    identity = resolve_source_identity()
+    return identity.source_commit, not identity.tracked_source_clean
 
 
 def _runtime_snapshot(device: str) -> dict:
@@ -136,12 +123,14 @@ def main() -> int:
     config.tensor_batch_size = args.batch_size
     started_at = _utc_now()
     source_commit = ""
+    source_identity_kind = "unavailable"
     if args.output:
         if not args.run_id.strip():
             raise ValueError("--run-id is required when --output is used")
-        source_commit, tracked_dirty = _git_source_identity()
-        if tracked_dirty:
-            raise RuntimeError("Durable accelerator evidence requires a clean tracked source tree")
+        source_identity = resolve_source_identity(require_durable=True)
+        source_commit = source_identity.source_commit
+        source_identity_kind = source_identity.source_identity_kind
+        tracked_dirty = not source_identity.tracked_source_clean
     else:
         tracked_dirty = False
     import torch
@@ -193,6 +182,7 @@ def main() -> int:
             "completed_at": _utc_now(),
             "source_commit": source_commit,
             "tracked_source_clean": not tracked_dirty,
+            "source_identity_kind": source_identity_kind,
             "parameters": {
                 "case": args.case,
                 "requested_device": args.device,

@@ -187,6 +187,8 @@ jobs:
     needs: source
     runs-on: ubuntu-latest
     timeout-minutes: 60
+    env:
+      CALO_CPU_IMAGE: calo-rpd-studio:ci-cpu-${{ github.sha }}
     steps:
       - name: Check out the exact revision
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -195,37 +197,56 @@ jobs:
       - name: Set up Buildx
         uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4.0.0
       - name: Build the CPU image with attestations
+        id: build_cpu
         uses: docker/build-push-action@f9f3042f7e2789586610d6e8b85c8f03e5195baf # v7.2.0
         with:
           context: .
           platforms: linux/amd64
           load: true
-          tags: calo-rpd-studio:ci-cpu
-          build-args: RUNTIME_LOCK=requirements-lock-cpu-py311-linux.txt
+          tags: ${{ env.CALO_CPU_IMAGE }}
+          build-args: |
+            RUNTIME_LOCK=requirements-lock-cpu-py311-linux.txt
+            SOURCE_COMMIT=${{ github.sha }}
+            SOURCE_TRACKED_CLEAN=true
           sbom: true
           provenance: mode=max
           cache-from: type=gha,scope=calo-cpu
           cache-to: type=gha,mode=max,scope=calo-cpu
       - name: Verify non-root and read-only runtime contracts
         run: |
-          test "$(docker image inspect calo-rpd-studio:ci-cpu --format '{{.Config.User}}')" = "10001:10001"
+          test "$(docker image inspect "$CALO_CPU_IMAGE" --format '{{.Config.User}}')" = "10001:10001"
           mkdir -p artifacts/container/runtime
           sudo chown 10001:10001 artifacts/container/runtime
-          docker run --rm --read-only --cap-drop ALL --security-opt no-new-privileges --memory 24g --tmpfs /tmp:rw,nosuid,nodev,size=536870912,uid=10001,gid=10001,mode=1777 --mount type=bind,source="$PWD/artifacts/container/runtime",target=/data --entrypoint python calo-rpd-studio:ci-cpu -m calo_rpd_studio.scripts.container_smoke
+          docker run --rm --read-only --cap-drop ALL --security-opt no-new-privileges --memory 24g --tmpfs /tmp:rw,nosuid,nodev,size=536870912,uid=10001,gid=10001,mode=1777 --mount type=bind,source="$PWD/artifacts/container/runtime",target=/data --entrypoint python "$CALO_CPU_IMAGE" -m calo_rpd_studio.scripts.container_smoke --require-durable-source
           sudo chown -R "$(id -u):$(id -g)" artifacts/container/runtime
           mv artifacts/container/runtime/image-filesystem-manifest.json artifacts/container/cpu-image-filesystem-manifest.json
           rmdir artifacts/container/runtime
+      - name: Retain build and image metadata
+        env:
+          BUILD_METADATA: ${{ steps.build_cpu.outputs.metadata }}
+          BUILD_DIGEST: ${{ steps.build_cpu.outputs.digest }}
+        run: |
+          printf '%s\n' "$BUILD_METADATA" > artifacts/container/cpu-build-metadata.json
+          printf '%s\n' "$BUILD_DIGEST" > artifacts/container/cpu-build-digest.txt
+          docker image inspect "$CALO_CPU_IMAGE" > artifacts/container/cpu-image-inspect.json
       - name: Generate a CycloneDX SBOM
         uses: aquasecurity/trivy-action@a9c7b0f06e461e9d4b4d1711f154ee024b8d7ab8 # v0.36.0
         with:
-          image-ref: calo-rpd-studio:ci-cpu
+          image-ref: ${{ env.CALO_CPU_IMAGE }}
           format: cyclonedx
           output: artifacts/container/cpu-image.cdx.json
+          version: v0.70.0
+      - name: Retain the complete vulnerability report
+        uses: aquasecurity/trivy-action@a9c7b0f06e461e9d4b4d1711f154ee024b8d7ab8 # v0.36.0
+        with:
+          image-ref: ${{ env.CALO_CPU_IMAGE }}
+          format: json
+          output: artifacts/container/cpu-vulnerabilities.json
           version: v0.70.0
       - name: Fail on fixable high or critical vulnerabilities
         uses: aquasecurity/trivy-action@a9c7b0f06e461e9d4b4d1711f154ee024b8d7ab8 # v0.36.0
         with:
-          image-ref: calo-rpd-studio:ci-cpu
+          image-ref: ${{ env.CALO_CPU_IMAGE }}
           format: table
           exit-code: "1"
           ignore-unfixed: true
@@ -241,11 +262,13 @@ jobs:
           retention-days: 30
 
   cuda-image:
-    name: CUDA image build without device
+    name: CUDA image, SBOM, and security build without device
     if: github.event_name != 'pull_request'
     needs: source
     runs-on: ubuntu-latest
     timeout-minutes: 90
+    env:
+      CALO_CUDA_IMAGE: calo-rpd-studio:ci-cuda-${{ github.sha }}
     steps:
       - name: Check out the exact revision
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -254,22 +277,74 @@ jobs:
       - name: Set up Buildx
         uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4.0.0
       - name: Build CUDA image and attestations
+        id: build_cuda
         uses: docker/build-push-action@f9f3042f7e2789586610d6e8b85c8f03e5195baf # v7.2.0
         with:
           context: .
           platforms: linux/amd64
-          build-args: RUNTIME_LOCK=requirements-lock-cuda128-py311-linux.txt
+          load: true
+          tags: ${{ env.CALO_CUDA_IMAGE }}
+          build-args: |
+            RUNTIME_LOCK=requirements-lock-cuda128-py311-linux.txt
+            SOURCE_COMMIT=${{ github.sha }}
+            SOURCE_TRACKED_CLEAN=true
           sbom: true
           provenance: mode=max
           cache-from: type=gha,scope=calo-cuda128
           cache-to: type=gha,mode=max,scope=calo-cuda128
+      - name: Retain CUDA build and image metadata
+        env:
+          BUILD_METADATA: ${{ steps.build_cuda.outputs.metadata }}
+          BUILD_DIGEST: ${{ steps.build_cuda.outputs.digest }}
+        run: |
+          mkdir -p artifacts/container
+          printf '%s\n' "$BUILD_METADATA" > artifacts/container/cuda-build-metadata.json
+          printf '%s\n' "$BUILD_DIGEST" > artifacts/container/cuda-build-digest.txt
+          docker image inspect "$CALO_CUDA_IMAGE" > artifacts/container/cuda-image-inspect.json
+      - name: Generate CUDA CycloneDX SBOM
+        uses: aquasecurity/trivy-action@a9c7b0f06e461e9d4b4d1711f154ee024b8d7ab8 # v0.36.0
+        with:
+          image-ref: ${{ env.CALO_CUDA_IMAGE }}
+          format: cyclonedx
+          output: artifacts/container/cuda-image.cdx.json
+          version: v0.70.0
+      - name: Retain the complete CUDA vulnerability report
+        uses: aquasecurity/trivy-action@a9c7b0f06e461e9d4b4d1711f154ee024b8d7ab8 # v0.36.0
+        with:
+          image-ref: ${{ env.CALO_CUDA_IMAGE }}
+          format: json
+          output: artifacts/container/cuda-vulnerabilities.json
+          version: v0.70.0
+      - name: Fail on fixable CUDA high or critical vulnerabilities
+        uses: aquasecurity/trivy-action@a9c7b0f06e461e9d4b4d1711f154ee024b8d7ab8 # v0.36.0
+        with:
+          image-ref: ${{ env.CALO_CUDA_IMAGE }}
+          format: table
+          exit-code: "1"
+          ignore-unfixed: true
+          severity: HIGH,CRITICAL
+          version: v0.70.0
+      - name: Upload CUDA image evidence
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: cuda-container-evidence
+          path: artifacts/container
+          if-no-files-found: error
+          retention-days: 30
 
   physical-cuda:
     name: Physical CUDA qualification
     if: github.event_name == 'workflow_dispatch' && inputs.run_physical_cuda
     needs: [source, cuda-image]
     runs-on: [self-hosted, linux, x64, calo-cuda]
-    timeout-minutes: 90
+    timeout-minutes: 180
+    env:
+      CALO_CUDA_IMAGE: calo-rpd-studio:physical-cuda-${{ github.sha }}
+      CALO_SOURCE_COMMIT: ${{ github.sha }}
+      CALO_SOURCE_TRACKED_CLEAN: "true"
+      CALO_RUNTIME_VOLUME: calo-rpd-physical-${{ github.run_id }}-${{ github.run_attempt }}
+      COMPOSE_PROJECT_NAME: calo-rpd-physical-${{ github.run_id }}-${{ github.run_attempt }}
     steps:
       - name: Check out the exact revision
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -277,13 +352,24 @@ jobs:
           persist-credentials: false
       - name: Verify host and container GPU visibility
         run: |
-          nvidia-smi --query-gpu=name,uuid,memory.total,driver_version --format=csv
+          mkdir -p artifacts/physical-cuda
+          nvidia-smi --query-gpu=name,uuid,memory.total,driver_version --format=csv | tee artifacts/physical-cuda/nvidia-smi.csv
+          docker version > artifacts/physical-cuda/docker-version.txt
+          docker compose version > artifacts/physical-cuda/compose-version.txt
+          docker buildx version > artifacts/physical-cuda/buildx-version.txt
           docker compose --profile cuda build cuda
-          docker compose --profile cuda run --rm --no-deps --entrypoint python cuda -m calo_rpd_studio.scripts.container_smoke
-      - name: Run FP64 CPU-to-CUDA parity
-        run: docker compose --profile cuda run --rm --no-deps --entrypoint python cuda -m calo_rpd_studio.scripts.validate_accelerator --device cuda --case case30 --candidates 8 --batch-size 32
-      - name: Run bounded protection soak
-        run: docker compose --profile cuda run --rm --no-deps --entrypoint python cuda -m calo_rpd_studio.scripts.validate_hardware_soak --backend cuda --duration-seconds 60 --output-dir /data/qualification-soak
+          docker image inspect "$CALO_CUDA_IMAGE" > artifacts/physical-cuda/cuda-image-inspect.json
+          docker compose --profile cuda run --rm --no-deps --entrypoint python cuda -m calo_rpd_studio.scripts.container_smoke --require-durable-source | tee artifacts/physical-cuda/container-smoke.json
+      - name: Prepare writable retained evidence directory
+        run: sudo chown -R 10001:10001 artifacts/physical-cuda
+      - name: Run durable FP64 CPU-to-CUDA parity
+        run: |
+          docker compose --profile cuda run --rm --no-deps --volume "$PWD/artifacts/physical-cuda:/evidence" --entrypoint python cuda -m calo_rpd_studio.scripts.validate_accelerator --device cuda --case case30 --candidates 12 --batch-size 32 --seed 20260804 --run-id "ci-${GITHUB_RUN_ID}-case30" --output /evidence/case30-parity.json --require-physical-cuda
+          docker compose --profile cuda run --rm --no-deps --volume "$PWD/artifacts/physical-cuda:/evidence" --entrypoint python cuda -m calo_rpd_studio.scripts.validate_accelerator --device cuda --case case57 --candidates 12 --batch-size 32 --seed 20260804 --run-id "ci-${GITHUB_RUN_ID}-case57" --output /evidence/case57-parity.json --require-physical-cuda
+      - name: Run durable bounded resource recovery
+        run: docker compose --profile cuda run --rm --no-deps --volume "$PWD/artifacts/physical-cuda:/evidence" --entrypoint python cuda -m calo_rpd_studio.scripts.validate_resource_recovery --device cuda:0 --case case30 --candidates 8 --batch-size 8 --seed 20260804 --run-id "ci-${GITHUB_RUN_ID}-resource" --output /evidence/resource-recovery.json --require-physical-cuda
+      - name: Run one-hour protected physical CUDA soak
+        run: docker compose --profile cuda run --rm --no-deps --volume "$PWD/artifacts/physical-cuda:/evidence" --entrypoint python cuda -m calo_rpd_studio.scripts.validate_hardware_soak --backend cuda --duration-seconds 3600 --minimum-physical-qualification-seconds 3600 --output-dir /evidence/soak --run-id "ci-${GITHUB_RUN_ID}-soak" --require-physical-cuda
       - name: Verify graceful container cancellation
         run: |
           docker compose --profile cuda up --detach cuda
@@ -292,4 +378,12 @@ jobs:
           test -z "$(docker compose --profile cuda ps --status running --quiet cuda)"
       - name: Clean up qualification containers
         if: always()
-        run: docker compose --profile cuda down --remove-orphans
+        run: docker compose --profile cuda down --volumes --remove-orphans
+      - name: Upload physical CUDA evidence
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: physical-cuda-evidence
+          path: artifacts/physical-cuda
+          if-no-files-found: error
+          retention-days: 30

@@ -18,6 +18,14 @@ def test_image_drops_root_before_runtime_entrypoint():
     assert "--require-hashes" in dockerfile
     assert "${RUNTIME_LOCK}" in dockerfile
     assert "COPY containers/debian.sources" in dockerfile
+    assert (
+        "COPY requirements-lock-cpu-py311-linux.txt requirements-lock-cuda128-py311-linux.txt pyproject.toml README.md LICENSE ./"
+        in dockerfile
+    )
+    assert "SOURCE_COMMIT=unavailable" in dockerfile
+    assert "SOURCE_TRACKED_CLEAN=false" in dockerfile
+    assert "calo_rpd_studio.compute.source_identity" in dockerfile
+    assert "python -m pip check" in dockerfile
     debian_sources = (ROOT / "containers/debian.sources").read_text(encoding="utf-8")
     assert debian_sources.count("20260728T000000Z") == 2
     assert "deb.debian.org" not in debian_sources
@@ -33,6 +41,16 @@ def test_compose_profiles_are_local_only_read_only_and_non_privileged():
     assert common["security_opt"] == ["no-new-privileges:true"]
     assert common["mem_limit"] == "${CALO_HOST_MEMORY_LIMIT:-24g}"
     assert any(item.startswith("/tmp:rw,nosuid,nodev") for item in common["tmpfs"])
+    for service_name in ("cpu", "cuda"):
+        service = compose["services"][service_name]
+        assert service["environment"]["CALO_DEVICE_LEASE_DIR"] == "/data/device-leases"
+        assert service["build"]["args"]["SOURCE_COMMIT"] == "${CALO_SOURCE_COMMIT:-unavailable}"
+        assert service["build"]["args"]["SOURCE_TRACKED_CLEAN"] == (
+            "${CALO_SOURCE_TRACKED_CLEAN:-false}"
+        )
+    assert compose["volumes"]["calo-runtime"]["name"] == (
+        "${CALO_RUNTIME_VOLUME:-calo-rpd-studio-runtime}"
+    )
 
 
 def test_cuda_profile_requests_one_explicit_nvidia_device():
@@ -48,6 +66,27 @@ def test_cuda_profile_requests_one_explicit_nvidia_device():
     ]
     assert cuda["environment"]["NVIDIA_VISIBLE_DEVICES"] == "${CALO_GPU_DEVICE:-0}"
     assert cuda["build"]["args"]["RUNTIME_LOCK"] == ("requirements-lock-cuda128-py311-linux.txt")
+
+
+def test_container_context_excludes_generated_policies_and_user_build_notes():
+    patterns = {
+        line.strip()
+        for line in (ROOT / ".dockerignore").read_text(encoding="utf-8").splitlines()
+        if line.strip() and not line.lstrip().startswith("#")
+    }
+    assert "*.pt" in patterns
+    assert "*.pt.sha256" in patterns
+    assert "*_lineage" in patterns
+    assert "calo_rpd_studio/data/trained_models/*" in patterns
+    assert "!calo_rpd_studio/data/trained_models/__init__.py" in patterns
+    assert "Docker_Build.txt" in patterns
+    assert "publication_export" in patterns
+    assert "results_data" in patterns
+
+
+def test_vnc_server_is_reachable_only_from_the_container_loopback():
+    entrypoint = (ROOT / "containers" / "entrypoint.py").read_text(encoding="utf-8")
+    assert '"-localhost"' in entrypoint
 
 
 def test_cpu_and_cuda_runtime_locks_are_hash_complete_and_backend_specific():

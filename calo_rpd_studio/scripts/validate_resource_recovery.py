@@ -20,10 +20,10 @@ from calo_rpd_studio.accelerated.vram_residency import (
 )
 from calo_rpd_studio.compute.device_lease import DeviceLeaseUnavailable, ExclusiveDeviceLease
 from calo_rpd_studio.compute.memory_budget import calculate_available_memory_admission
+from calo_rpd_studio.compute.source_identity import resolve_source_identity
 from calo_rpd_studio.experiments.experiment_config import ExperimentConfig
 from calo_rpd_studio.experiments.experiment_runner import build_problem
 from calo_rpd_studio.scripts.validate_accelerator import (
-    _git_source_identity,
     _runtime_snapshot,
     _utc_now,
     _write_new_evidence,
@@ -337,9 +337,9 @@ def main() -> int:
         raise FileExistsError(f"Refusing to overwrite accelerator evidence: {destination}")
     if int(args.candidates) < 1 or int(args.batch_size) < 1:
         raise ValueError("candidates and batch size must be positive")
-    source_commit, tracked_dirty = _git_source_identity()
-    if tracked_dirty:
-        raise RuntimeError("Durable resource evidence requires a clean tracked source tree")
+    source_identity = resolve_source_identity(require_durable=True)
+    source_commit = source_identity.source_commit
+    tracked_dirty = not source_identity.tracked_source_clean
     selected = str(
         resolve_device(args.device, require_accelerator=args.require_physical_cuda).resolved
     )
@@ -357,6 +357,7 @@ def main() -> int:
         "started_at": started_at,
         "source_commit": source_commit,
         "tracked_source_clean": not tracked_dirty,
+        "source_identity_kind": source_identity.source_identity_kind,
         "parameters": {
             "device": str(args.device),
             "case": str(args.case),

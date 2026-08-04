@@ -11,10 +11,12 @@ distribution protected by SHA-256 and installation forced through `--require-has
 
 Both profiles expose the full Qt application through noVNC at <http://localhost:6080/vnc.html> and
 use the same named `calo-rpd-studio-runtime` volume for databases, policies, checkpoints, results,
-and exports.
+exports, and cross-container CUDA device leases. Set `CALO_RUNTIME_VOLUME` to an isolated name for
+a qualification run; every container that can address the same GPU must use that same volume.
 
 The browser port binds to `127.0.0.1` by default and is not exposed to the local network. The
-application runs as unprivileged UID/GID 10001, drops Linux capabilities, prevents privilege
+underlying VNC server also listens only on the container loopback interface. The application runs
+as unprivileged UID/GID 10001, drops Linux capabilities, prevents privilege
 escalation, and uses a read-only root filesystem with a bounded temporary filesystem. The `/data`
 volume is the only persistent writable location.
 
@@ -106,16 +108,26 @@ docker volume inspect calo-rpd-studio-runtime
 
 The locks are source-controlled inputs, not proof that an image built successfully. On a release host
 with Buildx and Docker Compose installed, build each profile with BuildKit provenance and SBOM enabled,
-record the resulting immutable image digest, and retain the attestations:
+record the resulting immutable image digest, and retain the attestations. First require a clean
+tracked checkout and pass its full commit into the immutable in-image source declaration:
 
 ```text
-docker buildx build --platform linux/amd64 --build-arg RUNTIME_LOCK=requirements-lock-cpu-py311-linux.txt --provenance=mode=max --sbom=true --tag calo-rpd-studio:cpu --load .
-docker buildx build --platform linux/amd64 --build-arg RUNTIME_LOCK=requirements-lock-cuda128-py311-linux.txt --provenance=mode=max --sbom=true --tag calo-rpd-studio:cuda --load .
+$commit = git rev-parse HEAD
+if (git status --porcelain --untracked-files=no) { throw "Tracked source is dirty" }
+docker buildx build --platform linux/amd64 --build-arg RUNTIME_LOCK=requirements-lock-cpu-py311-linux.txt --build-arg SOURCE_COMMIT=$commit --build-arg SOURCE_TRACKED_CLEAN=true --provenance=mode=max --sbom=true --tag "calo-rpd-studio:cpu-$($commit.Substring(0,12))" --load .
+docker buildx build --platform linux/amd64 --build-arg RUNTIME_LOCK=requirements-lock-cuda128-py311-linux.txt --build-arg SOURCE_COMMIT=$commit --build-arg SOURCE_TRACKED_CLEAN=true --provenance=mode=max --sbom=true --tag "calo-rpd-studio:cuda-$($commit.Substring(0,12))" --load .
 ```
 
+The image contains `/opt/calo/.calo-source-identity.json`. Runtime evidence resolves a live Git
+worktree first and only uses this declaration when Git is unavailable, so a clean image declaration
+cannot bypass a dirty mounted checkout. Durable validators reject unavailable commits and dirty
+tracked identities. The declaration is operator-supplied build metadata corroborated by retained
+BuildKit provenance; it is not a signature.
+
 Run an image vulnerability scanner against both immutable digests and retain the scanner name,
-database timestamp, policy and complete report. This workstation currently has no running Docker
-daemon or Compose/Buildx plugin, so those artifacts cannot be honestly generated here.
+database timestamp, policy and complete report. Docker Desktop, Compose and Buildx are now available
+on the target workstation; successful source-bound builds and runtime reports remain required before
+the images are qualified.
 
 ## Continuous validation
 

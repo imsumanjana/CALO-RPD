@@ -3,6 +3,12 @@ ARG PYTHON_IMAGE=python:3.11-slim-bookworm@sha256:28255a3ace7eb4c48bc1b57b90af29
 FROM ${PYTHON_IMAGE} AS runtime
 
 ARG RUNTIME_LOCK=requirements-lock-cpu-py311-linux.txt
+ARG SOURCE_COMMIT=unavailable
+ARG SOURCE_TRACKED_CLEAN=false
+
+LABEL org.opencontainers.image.title="CALO-RPD Studio" \
+      org.opencontainers.image.licenses="MIT" \
+      org.opencontainers.image.revision="${SOURCE_COMMIT}"
 
 ENV DEBIAN_FRONTEND=noninteractive \
     PYTHONDONTWRITEBYTECODE=1 \
@@ -43,14 +49,19 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /opt/calo
-COPY requirements-lock-cpu-py311-linux.txt requirements-lock-cuda128-py311-linux.txt pyproject.toml README.md ./
+COPY requirements-lock-cpu-py311-linux.txt requirements-lock-cuda128-py311-linux.txt pyproject.toml README.md LICENSE ./
 RUN python -m pip install --require-hashes --requirement "${RUNTIME_LOCK}"
 
 COPY calo_bootstrap ./calo_bootstrap
 COPY calo_rpd_studio ./calo_rpd_studio
 COPY bootstrap.py ./bootstrap.py
 COPY containers/entrypoint.py /usr/local/bin/calo-container-entrypoint.py
-RUN groupadd --gid 10001 calo \
+RUN python -m calo_rpd_studio.compute.source_identity \
+        --output /opt/calo/.calo-source-identity.json \
+        --source-commit "${SOURCE_COMMIT}" \
+        --tracked-source-clean "${SOURCE_TRACKED_CLEAN}" \
+    && python -m pip check \
+    && groupadd --gid 10001 calo \
     && useradd --uid 10001 --gid 10001 --home-dir /data/home/calo --no-create-home --shell /usr/sbin/nologin calo \
     && mkdir -p /data/home/calo/.config \
     && chown -R 10001:10001 /data

@@ -8,7 +8,7 @@ from pathlib import Path
 
 from calo_rpd_studio.accelerated.device import resolve_device
 from calo_rpd_studio.compute.soak import HardwareSoakRunner, SoakConfig
-from calo_rpd_studio.scripts.validate_accelerator import _git_source_identity
+from calo_rpd_studio.compute.source_identity import resolve_source_identity
 
 
 def main() -> int:
@@ -23,6 +23,7 @@ def main() -> int:
     parser.add_argument("--require-physical-cuda", action="store_true")
     args = parser.parse_args()
     source_commit = ""
+    source_identity_kind = "unavailable"
     tracked_source_clean = False
     if args.run_id or args.require_physical_cuda:
         if not args.run_id.strip():
@@ -30,12 +31,10 @@ def main() -> int:
         output_dir = Path(args.output_dir)
         if output_dir.exists():
             raise FileExistsError(f"Refusing to reuse hardware-soak output directory: {output_dir}")
-        source_commit, tracked_dirty = _git_source_identity()
-        if tracked_dirty:
-            raise RuntimeError(
-                "Durable hardware-soak evidence requires a clean tracked source tree"
-            )
-        tracked_source_clean = not tracked_dirty
+        source_identity = resolve_source_identity(require_durable=True)
+        source_commit = source_identity.source_commit
+        source_identity_kind = source_identity.source_identity_kind
+        tracked_source_clean = source_identity.tracked_source_clean
     if args.require_physical_cuda:
         if float(args.minimum_physical_qualification_seconds) < 3600.0:
             raise ValueError("Physical soak qualification minimum cannot be below 3600 seconds")
@@ -53,6 +52,7 @@ def main() -> int:
         output_dir=args.output_dir,
         run_id=args.run_id,
         source_commit=source_commit,
+        source_identity_kind=source_identity_kind,
         tracked_source_clean=tracked_source_clean,
         require_physical_cuda=args.require_physical_cuda,
     ).run()

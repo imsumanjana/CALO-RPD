@@ -49,6 +49,7 @@ class SoakConfig:
 class SoakResult:
     run_id: str
     source_commit: str
+    source_identity_kind: str
     tracked_source_clean: bool
     started_at: str
     completed_at: str
@@ -201,6 +202,7 @@ class HardwareSoakRunner:
         output_dir: str | Path = "results_data/hardware_soak",
         run_id: str = "",
         source_commit: str = "",
+        source_identity_kind: str = "unavailable",
         tracked_source_clean: bool = False,
         require_physical_cuda: bool = False,
     ) -> None:
@@ -213,6 +215,7 @@ class HardwareSoakRunner:
                 "soak run ID may contain only letters, digits, dot, underscore, and dash"
             )
         self.source_commit = str(source_commit).strip().lower()
+        self.source_identity_kind = str(source_identity_kind).strip() or "unavailable"
         self.tracked_source_clean = bool(tracked_source_clean)
         self.require_physical_cuda = bool(require_physical_cuda)
 
@@ -241,6 +244,7 @@ class HardwareSoakRunner:
             metadata={
                 "run_id": self.run_id,
                 "source_commit": self.source_commit,
+                "source_identity_kind": self.source_identity_kind,
                 "tracked_source_clean": self.tracked_source_clean,
                 "config": asdict(self.config),
                 "topology": topology.to_dict(),
@@ -331,6 +335,7 @@ class HardwareSoakRunner:
         result = SoakResult(
             run_id=self.run_id,
             source_commit=self.source_commit,
+            source_identity_kind=self.source_identity_kind,
             tracked_source_clean=self.tracked_source_clean,
             started_at=started_at,
             completed_at=_utc(),
