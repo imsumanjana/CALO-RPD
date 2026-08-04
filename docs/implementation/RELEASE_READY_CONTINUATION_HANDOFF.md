@@ -460,6 +460,31 @@ correctly emitted no receipt and performed no registration or activation. Candid
 unqualified and inactive, is not eligible for formal qualification under this frozen design, and
 protected cases remain unopened. Do not weaken the criteria or reinterpret this screen as benefit.
 
+Commits `ae7b304` and `e77431e` close the remaining repository-owned G9 evidence-development gaps;
+they do not close the evidence gate. `calo-rpd-ablate-tsh` now executes a frozen development-only
+matrix over frozen CALO, canonical refactor, graph-only, hierarchy-only, graph+hierarchy,
++uncertainty, +bandit and full approved A–E. It retains every paired equal-FE cell, independent
+validation, falsification rows, anytime outcomes and globally Holm-controlled incremental decisions,
+then emits checksum-bound A–E files with no lifecycle authority. Formal qualification now rejects a
+bare accepted Boolean and requires exact source/policy/case/design/seed/analysis/authority bindings.
+Production feature validation is unchanged and experimental F cannot enter these A–E files.
+
+`calo-rpd-tsh-device-equivalence` now provides the separate physical candidate gate. On the same
+immutable ensemble and development state it forbids fallback, requires exact CPU/CUDA deterministic
+actions and masks, bounded numerical agreement for probabilities/parameters/uncertainty/value/OOD,
+and verifies that the CUDA copy increased dedicated-VRAM allocation with every model parameter on
+CUDA. Its focused tests pass, but no fresh counted-v4 candidate has executed it. The historical v2/
+v3-ABI candidate remains ineligible.
+
+Current legal execution order, without tuning:
+
+1. Commit/freeze one new counted-v4 development plan with A–E enabled and F disabled.
+2. Train its fresh independent ensemble under the exact plan; do not adapt from intermediate results.
+3. Run candidate-bound physical CPU/CUDA equivalence on that exact artifact.
+4. Run the frozen A–E development matrix and retain failed as well as accepted component evidence.
+5. Run the already-frozen screening/formal eligibility path only if its prerequisites pass.
+6. Keep case118/case300 closed until the complete design/source/policy/container freeze.
+
 Required order after approval:
 
 1. Extract the canonical transition kernel with **zero behavior change**.
@@ -494,8 +519,8 @@ Mandatory ablation set:
 6. uncertainty shield;
 7. contextual bandit residual;
 8. physics repair;
-9. population schedule; and
-10. full approved TSH-CALO.
+9. population schedule as a separately experimental F study, never as formal A–E evidence; and
+10. full approved A–E TSH-CALO.
 
 Remove any component whose incremental evidence does not support its claimed benefit.
 

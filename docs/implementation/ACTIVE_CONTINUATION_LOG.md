@@ -808,3 +808,22 @@ Append timestamped entries below this line after each material action, validatio
   adjacent inference tests pass `11` cases in `5.42s`. No physical candidate equivalence run was
   attempted because no fresh counted-v4 A–E candidate has yet been frozen; the historical negative
   candidate must not be reinterpreted.
+- Committed this validator boundary as `e77431e` (`feat(validation): add TSH device equivalence
+  gate`).
+
+### 2026-08-04 — release-ledger reconciliation after immediate development
+
+- Updated `IMPLEMENTATION_GATES.md`, `REQUIREMENT_TRACEABILITY.md` and
+  `RELEASE_READY_CONTINUATION_HANDOFF.md` to the same boundary. They now record the latest 638-pass
+  complete active source gate, current-source physical evaluator/recovery/hot-path evidence, and
+  commits `ae7b304`/`e77431e` as implemented harnesses rather than executed scientific evidence.
+- G9 remains in progress. Immediate non-tuning repository development is complete through counted-v4
+  training, qualification, A–E paired evidence production and candidate device equivalence. What is
+  pending is execution: freeze a new A–E/F-off counted-v4 plan, train one fresh ensemble, run its
+  physical equivalence and frozen A–E matrix, then apply the unchanged qualification criteria.
+- The ledgers continue to reject the historical v2/v3-ABI candidate, threshold changes, post-hoc
+  reinterpretation, protected-case opening, fabricated hardware evidence and premature release/
+  benefit claims. F remains a separately experimental study and cannot enter formal A–E evidence.
+- Kept the short-test policy explicit: focused tests after development changes; one complete active
+  suite at the next source/release gate. No extra long regression or scientific campaign was run for
+  this documentation-only reconciliation.
