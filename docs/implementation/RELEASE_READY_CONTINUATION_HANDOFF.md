@@ -582,7 +582,9 @@ expected to be stale on this development branch. Do not “fix” them early.
 
 - Bounded physical FP64 CPU/CUDA evaluator parity is now retained for development case30/case57 on
   clean commit `63f56ad`, but it is not TSH-policy, pressure, soak, container, or performance proof.
-- No physical RTX 4060 CUDA pressure, thermal, energy, or multi-process lease attestation yet.
+- Bounded physical RTX 4060 VRAM pressure/recovery, host staging, controlled fallback/recovery, and
+  multi-process lease evidence is retained at clean commit `d6a950c`; no one-hour thermal/power/GPU-
+  board-energy soak qualification or whole-system energy measurement exists yet.
 - No successful Docker CPU/CUDA runtime build on this workstation yet.
 - No WSL2/WSLg target-laptop report yet.
 - No GitHub Actions run artifacts from the new workflow yet.

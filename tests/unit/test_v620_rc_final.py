@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import pytest
+
 from calo_rpd_studio.app.session_recovery import SessionRecoveryJournal
 from calo_rpd_studio.app.workspaces import (
     WORKSPACE_SCHEMA_VERSION,
@@ -18,7 +20,7 @@ from calo_rpd_studio.compute.scientific_equivalence import (
     BranchScientificIdentity,
     scheduling_equivalent,
 )
-from calo_rpd_studio.compute.soak import HardwareSoakRunner, SoakConfig
+from calo_rpd_studio.compute.soak import HardwareSoakRunner, SoakConfig, _summarize_telemetry
 from calo_rpd_studio.compute.topology import ComputeProtectionProfile
 from calo_rpd_studio.validation.gui_contract import validate_gui_contract
 
@@ -162,6 +164,64 @@ def test_short_cpu_soak_is_protocol_validation_not_false_physical_qualification(
     assert result.exercised_backend == "cpu"
     assert not result.physical_qualified
     assert Path(result.provenance_path).is_file()
+    assert result.provenance_verification["ok"]
+    assert result.claim_scope == "no physical hardware-soak qualification claim"
+
+
+def test_soak_telemetry_summary_reports_only_observed_sensors():
+    summary = _summarize_telemetry(
+        [
+            {
+                "snapshot": {
+                    "sampled_at_monotonic": 10.0,
+                    "cpu_temperature_c": None,
+                    "devices": [
+                        {
+                            "device_id": "cuda:0",
+                            "backend": "cuda",
+                            "name": "GPU",
+                            "telemetry": "test",
+                            "temperature_c": 50.0,
+                            "power_w": 20.0,
+                            "power_limit_w": None,
+                            "utilization_percent": 40.0,
+                            "memory_percent": 10.0,
+                        }
+                    ],
+                }
+            },
+            {
+                "snapshot": {
+                    "sampled_at_monotonic": 12.0,
+                    "cpu_temperature_c": None,
+                    "devices": [
+                        {
+                            "device_id": "cuda:0",
+                            "backend": "cuda",
+                            "name": "GPU",
+                            "telemetry": "test",
+                            "temperature_c": 54.0,
+                            "power_w": 24.0,
+                            "power_limit_w": None,
+                            "utilization_percent": 50.0,
+                            "memory_percent": 12.0,
+                        }
+                    ],
+                }
+            },
+        ]
+    )
+    gpu = summary["devices"]["cuda:0"]
+    assert summary["cpu_temperature_c"]["available_samples"] == 0
+    assert gpu["temperature_c"] == {
+        "available_samples": 2,
+        "minimum": 50.0,
+        "maximum": 54.0,
+        "mean": 52.0,
+    }
+    assert gpu["power_limit_w"]["available_samples"] == 0
+    assert gpu["gpu_board_energy_estimate_joules"] == pytest.approx(44.0)
+    assert gpu["gpu_board_energy_estimate_wh"] == pytest.approx(44.0 / 3600.0)
 
 
 def test_dependency_light_gui_contract():
