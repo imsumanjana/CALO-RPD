@@ -40,7 +40,7 @@ Status vocabulary:
 
 | Requirement | Status | Authoritative evidence | Remaining proof |
 |---|---|---|---|
-| Normal GUI contains no venue promise or engineering/development language | Locally and Linux-container rendered | Rendered-widget contract across five normal workspaces; 33-test offscreen GUI suite; corrected Linux image pre/post-restart Dashboard render SHA `28108327353d3a491f8d92daf3f081d3e8bfb8b8a0d53bd9540d1a2484025187` | First packaged Linux lane and browser interaction |
+| Normal GUI contains no venue promise or engineering/development language | Locally, Linux-container and extracted-wheel rendered | Rendered-widget contract across five normal workspaces; corrected Linux image pre/post-restart render; clean `383e5bc` wheel imported outside the checkout and rendered 16-workspace Dashboard shell at 1440x900 with zero forbidden visible terms, evidence SHA `12e7ca4e5fb921b4c58d9d7434c87fb58fe8c77b3e3dbd6eca4717b674052181` and PNG SHA `adc340f602011436ded5f321a55e5cb3855a8a0e1e50fe613032c1089789ca1f` | Execute the configured packaged lane in GitHub Actions and complete browser interaction |
 | Evidence-strength/custom protocol recommends outputs and power-aware repeated runs | Locally verified | `experiments/study_strength.py`, Dashboard protocol UI, study-strength tests | Scientist acceptance review |
 | Apply protocol once and propagate atomically without partial mutation | Locally verified | Deep-copy validation, before/after diff, shared state replacement, rollback tests | None |
 | Experiment protocol must not alter independent policy-training configuration | Locally verified | Separate configuration/lifecycle paths and policy-independence tests | None |
@@ -68,12 +68,12 @@ Status vocabulary:
 
 ## Current verification checkpoint
 
-- Active development suite after mathematical-reference implementation, excluding the deliberately
-  stale v6.9 release-integrity file: **629 passed, 63 skipped**. The preceding complete-tree checkpoint
+- Active development suite after installed-wheel GUI validation, excluding the deliberately stale
+  v6.9 release-integrity file: **632 passed, 63 skipped**. The preceding complete-tree checkpoint
   after Change F reported **502 passed, 63 skipped, 2 failed**;
   both failures are the expected stale release freeze/root manifest and are not regenerated during
   G9 development.
-- Repository Ruff lint and format: **pass across 418 files**.
+- Repository Ruff lint and format: **pass across 420 files**.
 - Generated experiment schema: **current**.
 - Focused automatic scheduling/configuration/GUI set: **54 passed**.
 - Focused database/history/learning/resume/continuation set: **29 passed**.

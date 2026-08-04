@@ -383,3 +383,47 @@ Append timestamped entries below this line after each material action, validatio
   profile gap if review material exists; otherwise continue non-tuning release engineering with
   packaged Linux/CI and final-candidate reproducibility gates while keeping G9/G10 scientific
   campaign execution blocked on the absent fresh qualified candidate and design freeze.
+
+### 2026-08-04 — installed-wheel Linux GUI lane implemented and exercised
+
+- Found that the prior `headless-gui` job rendered from the checkout, so it could not prove the
+  built wheel contained a runnable GUI. Committed `383e5bc`
+  (`ci(gui): validate the installed wheel on Linux`). The wheel now contains
+  `validate_packaged_gui.py`; the artifact job installs the built wheel, changes to `/tmp`, clears
+  checkout `PYTHONPATH`, rejects package imports below `$GITHUB_WORKSPACE`, renders the Dashboard,
+  retains evidence and only then generates the artifact manifest. The distribution verifier now
+  requires the mathematical-reference module/CLI and packaged-GUI validator in both wheel and sdist.
+- The validator checks the installed distribution/version and package path, Qt/Python/platform
+  identity, initial Dashboard, all 16 non-empty sidebar labels, window dimensions, screenshot bytes,
+  and the normal-view forbidden-language contract. It writes screenshot/report new-file-only and
+  records `source_checkout_imported=false` only when a caller supplied and passed the forbidden-root
+  check. Focused packaged/distribution/CI contracts: `11 passed`; combined GUI/package/CI set:
+  `44 passed`. Complete active suite: `632 passed, 63 skipped` in 130.17 seconds; Ruff passes and all
+  420 Python files are formatted.
+- From clean commit `383e5bc`, built fresh development stage `python-dist-383e5bc`. Strict stage
+  verification passed with one 349-member wheel and one 401-member sdist. Wheel SHA-256 is
+  `27b94fecbf7ecdba85837c9c790d3d0d99a25f4bc07c62e2da73dc32f4e93479`; sdist SHA-256 is
+  `274bcbc078ad41da638264f6bce68268352104c566ce1dd4cf7d8379ddf69d20`.
+- Extracted that exact wheel into `/tmp/wheel` inside hardened, network-disabled, read-only Linux
+  runtime image `calo-rpd-studio:cpu-31a4713`, UID/GID 10001 with all capabilities dropped and
+  no-new-privileges. The validator imported `/tmp/wheel/calo_rpd_studio/__init__.py`, not image source
+  `/opt/calo`, and rendered the real 1440x900 Dashboard. Evidence reports CPython 3.11.15, Linux
+  WSL2/glibc 2.36, Qt 6.9.0, PyQt 6.9.1, offscreen platform, 16 workspaces, zero forbidden visible
+  terms, and clean session shutdown. PNG size is 199,957 bytes with SHA
+  `adc340f602011436ded5f321a55e5cb3855a8a0e1e50fe613032c1089789ca1f`; report SHA is
+  `12e7ca4e5fb921b4c58d9d7434c87fb58fe8c77b3e3dbd6eca4717b674052181`.
+- The first nested-shell invocation failed before application execution due Windows/Linux quoting;
+  its empty attempt directory is not evidence. The fresh `rerun1` above is accepted. A supplemental
+  direct Python check initially resolved `/opt/calo` because the image working directory contributes
+  `sys.path[0]`; it was rejected, diagnosed and rerun with Docker working directory `/tmp`. The
+  corrected wheel-only check loaded all three PGLib assets with exact physical checksums and exposed
+  the packaged mathematical-reference CLI. No result from the shadowed import is used.
+- Copied the accepted GUI evidence into the development distribution stage and generated a six-file
+  manifest covering wheel, sdist, GUI JSON/PNG, SQLite and clean-session journal. Manifest SHA-256 is
+  `8c47c03b42c63a09d747e922803a1b0ca812399dea320a1f19df45377deb1e4a`.
+  The retained extraction volume is `calo-rpd-packaged-wheel-383e5bc`.
+- This closes the local installed-wheel Linux GUI development gap only. It is not a final release
+  artifact, was not installed on an independent clean machine, and does not replace actual GitHub
+  Actions, interactive browser, final-candidate image/SBOM/attestation, G9 qualification, reviewed
+  external ORPD profiles or protected G10 campaign evidence. Next safe action: audit and execute
+  remaining CI/reproducibility gates that do not require tuning or protected-case opening.

@@ -608,7 +608,13 @@ expected to be stale on this development branch. Do not “fix” them early.
   execution. Browser retry, CI rerun on the eventual final candidate and clean-machine reproduction
   remain open.
 - No WSL2/WSLg target-laptop report yet.
-- No GitHub Actions run artifacts from the new workflow yet.
+- Clean `383e5bc` adds and locally exercises the installed-wheel Linux GUI boundary. Fresh wheel
+  SHA is `27b94fecbf7ecdba85837c9c790d3d0d99a25f4bc07c62e2da73dc32f4e93479`, sdist SHA is
+  `274bcbc078ad41da638264f6bce68268352104c566ce1dd4cf7d8379ddf69d20`, and the six-file staged
+  manifest SHA is `8c47c03b42c63a09d747e922803a1b0ca812399dea320a1f19df45377deb1e4a`.
+  The Linux wheel-only Dashboard render passed with PNG SHA
+  `adc340f602011436ded5f321a55e5cb3855a8a0e1e50fe613032c1089789ca1f`. No GitHub Actions run
+  artifacts from the updated workflow exist yet.
 - A fresh five-member TSH-CALO ensemble exists, but it is unqualified, inactive and not benefit
   evidence.
 - No approved-architecture ablation campaign yet.
