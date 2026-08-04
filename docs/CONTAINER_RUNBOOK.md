@@ -124,6 +124,10 @@ cannot bypass a dirty mounted checkout. Durable validators reject unavailable co
 tracked identities. The declaration is operator-supplied build metadata corroborated by retained
 BuildKit provenance; it is not a signature.
 
+`pip check` runs after the complete hash-locked graph is installed. The image then removes the
+runtime-unneeded `pip`, `setuptools`, and `wheel` build tools, reducing package-management attack
+surface and preventing vendored build-tool vulnerabilities from shipping in the runtime layer.
+
 Run an image vulnerability scanner against both immutable digests and retain the scanner name,
 database timestamp, policy and complete report. Docker Desktop, Compose and Buildx are now available
 on the target workstation; successful source-bound builds and runtime reports remain required before

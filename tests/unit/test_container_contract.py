@@ -26,6 +26,8 @@ def test_image_drops_root_before_runtime_entrypoint():
     assert "SOURCE_TRACKED_CLEAN=false" in dockerfile
     assert "calo_rpd_studio.compute.source_identity" in dockerfile
     assert "python -m pip check" in dockerfile
+    assert "python -m pip uninstall --yes setuptools wheel" in dockerfile
+    assert "python -m pip uninstall --yes pip" in dockerfile
     debian_sources = (ROOT / "containers/debian.sources").read_text(encoding="utf-8")
     assert debian_sources.count("20260728T000000Z") == 2
     assert "deb.debian.org" not in debian_sources

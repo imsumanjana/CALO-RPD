@@ -61,6 +61,8 @@ RUN python -m calo_rpd_studio.compute.source_identity \
         --source-commit "${SOURCE_COMMIT}" \
         --tracked-source-clean "${SOURCE_TRACKED_CLEAN}" \
     && python -m pip check \
+    && python -m pip uninstall --yes setuptools wheel \
+    && python -m pip uninstall --yes pip \
     && groupadd --gid 10001 calo \
     && useradd --uid 10001 --gid 10001 --home-dir /data/home/calo --no-create-home --shell /usr/sbin/nologin calo \
     && mkdir -p /data/home/calo/.config \
