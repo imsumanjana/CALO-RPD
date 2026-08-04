@@ -700,3 +700,19 @@ Append timestamped entries below this line after each material action, validatio
 - Repeated `mypy --follow-imports=skip --check-untyped-defs` over the exact 15 CI modules: success,
   no issues. Focused Ruff passes, and the affected L-SHADE, mathematical-reference, packaged-GUI,
   CUDA-residency and independent-training regression set passed `32` tests in `12.41s`.
+
+### 2026-08-04 — exact source-stage and complete active-tree regression
+
+- On committed source `05cd1b8`, all three hash-complete requirement-lock verifiers passed: CPU
+  PyTorch 2.10.0+cpu, CUDA 12.8 PyTorch 2.10.0+cu128, and the matched CI lock with pinned Ruff
+  0.15.22, mypy 1.20.2 and uv 0.11.29. `compileall`, generated experiment-schema check and
+  repository Ruff lint passed.
+- Ruff's complete format gate identified seven previously changed files; applied only its mechanical
+  formatting and repeated the repository check successfully across `422` Python files. No intended
+  behavior or scientific value changed.
+- Executed the complete active test tree once with checkout source coverage, excluding only
+  `tests/unit/test_v690_release_integrity.py` exactly as documented because that historical freeze is
+  regenerated only at final G11. Result: `638 passed, 63 skipped` in `148.81s`; coverage was `68%`
+  over 35,252 statements, passing the configured 60% threshold. This supersedes the prior 632-pass
+  development checkpoint for local regression evidence. It does not replace Linux/CI/container,
+  final-freeze, protected-case or scientific-campaign evidence.
