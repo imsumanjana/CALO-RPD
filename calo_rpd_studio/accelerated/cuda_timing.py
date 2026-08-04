@@ -89,9 +89,14 @@ def measure_cuda_window(
     target_device = torch.device(device)
     if target_device.type != "cuda" or not bool(torch.cuda.is_available()):
         raise RuntimeError("CUDA window timing requires an available physical CUDA device")
+    device_index = (
+        int(target_device.index)
+        if target_device.index is not None
+        else int(torch.cuda.current_device())
+    )
     start_event = torch.cuda.Event(enable_timing=True)
     end_event = torch.cuda.Event(enable_timing=True)
-    torch.cuda.synchronize(target_device)
+    torch.cuda.synchronize(device_index)
     wall_started = float(clock())
     start_event.record()
     result = operation()

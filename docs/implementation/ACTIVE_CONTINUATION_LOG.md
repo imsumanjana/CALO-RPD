@@ -597,3 +597,8 @@ Append timestamped entries below this line after each material action, validatio
   runtime canonicalized the selected device as `cuda:0` while the validator compared it with the
   alias `cuda`. This is a validator device-identity defect, not parity, timing, VRAM or fallback
   evidence. The target is corrected to explicit `cuda:0`; the same short smoke must be repeated.
+- After committing that identity correction as `d352eba`, the repeated invocation reached CUDA
+  memory-stat initialization but PyTorch `2.13.0+cu130` rejected a `torch.device('cuda:0')` argument
+  for `reset_peak_memory_stats`, requiring numeric index `0`. No numerical workload ran and no timing
+  result exists. The shared timing primitive plus both validators now use numeric indices for CUDA
+  runtime synchronization/memory/name APIs while retaining `cuda:0` for tensor placement.

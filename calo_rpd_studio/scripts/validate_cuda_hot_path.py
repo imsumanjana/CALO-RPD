@@ -72,7 +72,8 @@ def main() -> int:
         raise RuntimeError("Physical CUDA is required for CUDA hot-path qualification")
     started_at = _utc_now()
     target = torch.device("cuda:0")
-    torch.cuda.reset_peak_memory_stats(target)
+    target_index = 0
+    torch.cuda.reset_peak_memory_stats(target_index)
     config, problem = _build_cuda_problem(args.case, args.seed, args.batch_size)
     if str(problem.device) != str(target):
         raise RuntimeError(f"CUDA problem resolved to unexpected device {problem.device!r}")
@@ -88,7 +89,7 @@ def main() -> int:
     with torch.no_grad():
         for _ in range(int(args.warmup_batches)):
             last_batch = problem.evaluate_population_tensor(population)
-        torch.cuda.synchronize(target)
+        torch.cuda.synchronize(target_index)
 
         def _run_window():
             result = None
@@ -150,9 +151,9 @@ def main() -> int:
             "torch": str(torch.__version__),
             "torch_cuda_runtime": str(torch.version.cuda or ""),
             "device": str(target),
-            "device_name": str(torch.cuda.get_device_name(target)),
-            "peak_allocated_bytes": int(torch.cuda.max_memory_allocated(target)),
-            "peak_reserved_bytes": int(torch.cuda.max_memory_reserved(target)),
+            "device_name": str(torch.cuda.get_device_name(target_index)),
+            "peak_allocated_bytes": int(torch.cuda.max_memory_allocated(target_index)),
+            "peak_reserved_bytes": int(torch.cuda.max_memory_reserved(target_index)),
         },
         "timing": timing.to_dict(),
         "residency_checks": {

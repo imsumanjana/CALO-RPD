@@ -141,8 +141,13 @@ def main() -> int:
         batch = _build_rollout(trainer, state)
         for _ in range(int(args.warmup_updates)):
             trainer.update(batch)
-        torch.cuda.synchronize(trainer.device)
-        torch.cuda.reset_peak_memory_stats(trainer.device)
+        device_index = (
+            int(trainer.device.index)
+            if trainer.device.index is not None
+            else int(torch.cuda.current_device())
+        )
+        torch.cuda.synchronize(device_index)
+        torch.cuda.reset_peak_memory_stats(device_index)
 
         def _run_updates():
             metrics = None
@@ -162,8 +167,8 @@ def main() -> int:
         model_on_cuda = all(
             parameter.device.type == "cuda" for parameter in trainer.network.parameters()
         )
-        allocated = int(torch.cuda.memory_allocated(trainer.device))
-        peak_allocated = int(torch.cuda.max_memory_allocated(trainer.device))
+        allocated = int(torch.cuda.memory_allocated(device_index))
+        peak_allocated = int(torch.cuda.max_memory_allocated(device_index))
         process_ceiling = int(admission["process_ceiling_bytes"])
         dedicated_vram_verified = bool(
             model_on_cuda
@@ -206,7 +211,7 @@ def main() -> int:
                 "torch": str(torch.__version__),
                 "torch_cuda_runtime": str(torch.version.cuda or ""),
                 "device": str(trainer.device),
-                "device_name": str(torch.cuda.get_device_name(trainer.device)),
+                "device_name": str(torch.cuda.get_device_name(device_index)),
                 "allocated_bytes": allocated,
                 "peak_allocated_bytes": peak_allocated,
                 "process_ceiling_bytes": process_ceiling,
