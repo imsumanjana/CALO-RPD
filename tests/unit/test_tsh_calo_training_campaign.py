@@ -154,7 +154,7 @@ def test_failed_campaign_retains_accounting_and_cannot_retry(tmp_path, toy_case)
     def failing_factory(_identity):
         problem = ORPDProblem(toy_case)
 
-        def failed_evaluator(_values):
+        def failed_evaluator(_values, **_kwargs):
             raise RuntimeError("synthetic campaign evaluator failure")
 
         problem.evaluate_with_context = failed_evaluator

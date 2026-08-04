@@ -226,8 +226,6 @@ class TSHCALOTrainingCampaignPlan:
             raise ValueError("TSH-CALO campaign CPU-fallback control must be Boolean")
         self.resource_envelope.validate()
         self.feature_flags.validate()
-        if self.feature_flags.physics_repair:
-            raise ValueError("Change E cannot be enabled without counted training Jacobian context")
         if (
             self.feature_flags.population_schedule
             or self.feature_flags.allow_experimental_components

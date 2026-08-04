@@ -33,6 +33,12 @@ from .tensor_state import CALOTensorState
 from .transition_kernel import evaluate_candidates
 from .tsh_calo_inference import TSHCALOInferenceController
 from .tsh_calo_policy import GroupActionMask
+from .tsh_calo_physics_repair import (
+    PhysicsRepairConfig,
+    PhysicsRepairOperator,
+    physics_repair_context_from_counted_evaluation,
+    physics_repair_context_is_usable,
+)
 from .tsh_calo_runtime_context import build_runtime_topology_policy_context
 from .tsh_calo_schema import (
     N_OPERATORS,
@@ -141,7 +147,12 @@ class TSHCALOOptimizer(BaseOptimizer):
             if not self.can_evaluate():
                 break
             clipped = self._repair_to_bounds(row)
-            evaluation, context = evaluator(clipped)
+            evaluation, context = evaluator(
+                clipped,
+                retain_control_linearization=bool(
+                    getattr(self, "_retain_control_linearization", False)
+                ),
+            )
             evaluations.append(self._register_evaluation(clipped, evaluation))
             contexts.append(context)
         return evaluations, contexts
@@ -255,6 +266,7 @@ class TSHCALOOptimizer(BaseOptimizer):
             raise ValueError(
                 "Experimental Change F is not admitted by the fixed-population production path"
             )
+        self._retain_control_linearization = bool(features.physics_repair)
 
         calibration = _ood_calibration(parameters)
         controller = self._build_inference_controller(parameters, calibration)
@@ -314,6 +326,12 @@ class TSHCALOOptimizer(BaseOptimizer):
         evaluation_contexts: list[object]
         trajectory: list[dict] = []
         scenario_solver_calls = 0
+        physics_repair_operator = PhysicsRepairOperator(
+            PhysicsRepairConfig(enabled=features.physics_repair)
+        )
+        physics_repair_available_generations = 0
+        physics_repair_proposal_count = 0
+        physics_repair_linear_algebra_seconds = 0.0
         previous_best_violation = float("inf")
         previous_best_objective = float("inf")
         constraint_stagnation = 0
@@ -493,11 +511,27 @@ class TSHCALOOptimizer(BaseOptimizer):
                 ],
                 dtype=np.int8,
             )
+            physics_contexts = tuple(
+                physics_repair_context_from_counted_evaluation(context)
+                for context in evaluation_contexts
+            )
+            physics_repair_available = bool(
+                features.physics_repair
+                and all(
+                    physics_repair_context_is_usable(
+                        context,
+                        maximum_condition_number=physics_repair_operator.config.maximum_condition_number,
+                    )
+                    for context in physics_contexts
+                )
+            )
+            if physics_repair_available:
+                physics_repair_available_generations += 1
             action_mask = GroupActionMask.from_control_groups(
                 groups.variable_groups,
                 mixed_variable_enabled=True,
                 diversity_recovery_enabled=True,
-                physics_repair_enabled=False,
+                physics_repair_enabled=physics_repair_available,
             )
             decision = controller.decide(
                 runtime_context.policy_state,
@@ -558,6 +592,28 @@ class TSHCALOOptimizer(BaseOptimizer):
                 forced_recovery=forced_recovery,
                 consensus=consensus,
                 environment_deterministic=False,
+                physics_repair_operator=(
+                    physics_repair_operator if physics_repair_available else None
+                ),
+                physics_contexts=physics_contexts,
+            )
+            repair_traces = [
+                {
+                    "status": proposal.status.value,
+                    "source_evaluation_id": proposal.source_evaluation_id,
+                    "condition_number": proposal.condition_number,
+                    "step_norm": proposal.step_norm,
+                    "linear_algebra_seconds": proposal.linear_algebra_seconds,
+                    "hidden_solver_calls": proposal.hidden_solver_calls,
+                    "evaluator_calls_before_trusted_batch": proposal.evaluator_calls,
+                    "declares_feasibility": proposal.declares_feasibility,
+                }
+                for proposal in candidate_batch.physics_repair_proposals
+                if proposal is not None
+            ]
+            physics_repair_proposal_count += len(repair_traces)
+            physics_repair_linear_algebra_seconds += sum(
+                float(item["linear_algebra_seconds"]) for item in repair_traces
             )
             offspring = candidate_batch.candidates.offspring
             offspring_evaluations: list[object] = []
@@ -660,6 +716,8 @@ class TSHCALOOptimizer(BaseOptimizer):
                     .tolist(),
                     "shield_action_mask": decision.shield_trace.action_mask.detach().cpu().tolist(),
                     "shield_interventions": list(decision.shield_trace.intervention_reasons),
+                    "physics_repair_available": physics_repair_available,
+                    "physics_repair_proposals": repair_traces,
                     "ood_score": float(decision.shield_trace.ood_score),
                     "ood_attenuation": float(decision.shield_trace.ood_attenuation),
                     "value_estimate": float(decision.value_estimate),
@@ -709,9 +767,25 @@ class TSHCALOOptimizer(BaseOptimizer):
             "scenario_power_flow_calls": int(scenario_solver_calls),
             "runtime_trajectory": trajectory,
             "physics_repair_runtime": (
-                "masked: counted AC Jacobian/sensitivity unavailable"
-                if features.physics_repair
-                else "disabled by immutable policy feature flags"
+                {
+                    "status": (
+                        "enabled_counted_proposal_only"
+                        if features.physics_repair
+                        else "disabled_by_immutable_policy_feature_flags"
+                    ),
+                    "available_generations": physics_repair_available_generations,
+                    "proposal_count": physics_repair_proposal_count,
+                    "linear_algebra_seconds": physics_repair_linear_algebra_seconds,
+                    "hidden_solver_calls": 0,
+                    "feasibility_authority": False,
+                    "trusted_evaluations_remain_in_candidate_fe_budget": True,
+                    "masking": (
+                        "dynamic fail-closed mask unless every learner has a finite, conditioned, "
+                        "nonzero counted constraint/sensitivity context"
+                        if features.physics_repair
+                        else "immutable feature disabled"
+                    ),
+                }
             ),
             "population_schedule_runtime": "disabled",
             "fallback_semantics": "block or require explicit CALO-v5.9 relaunch",

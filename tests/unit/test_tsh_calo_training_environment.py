@@ -9,6 +9,7 @@ from pathlib import Path
 import numpy as np
 import pytest
 
+from calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair import PhysicsRepairContext
 from calo_rpd_studio.algorithms.calo.tsh_calo_schema import TSHCALOFeatureFlags
 from calo_rpd_studio.algorithms.calo.tsh_calo_training import (
     IndependentTSHCALORolloutCollector,
@@ -80,7 +81,7 @@ def test_counted_environment_collects_only_canonical_transitions(toy_case):
     assert observation.candidate_evaluations == 4
     assert observation.scenario_power_flow_calls == 4
     assert not np.asarray(observation.action_mask.allowed, dtype=bool)[:, 6].any()
-    assert observation.physics_repair_status.startswith("masked")
+    assert observation.physics_repair_status == "disabled_by_immutable_training_feature_flags"
     with pytest.raises(RuntimeError, match="one hash-bound episode"):
         environment.reset()
     assert environment.candidate_evaluations == 4
@@ -101,6 +102,49 @@ def test_counted_environment_collects_only_canonical_transitions(toy_case):
     assert collector.rewards == [step.transition.reward.total]
     assert environment.scientific_provenance()["lifecycle_authority"] == "none"
     assert environment.scientific_provenance()["accounting_complete"] is True
+
+
+def test_counted_change_e_training_action_is_proposal_only_and_fe_counted(toy_case, monkeypatch):
+    problem = ORPDProblem(toy_case)
+    training = _training_config(feature_flags=TSHCALOFeatureFlags(physics_repair=True))
+    trainer = IndependentTSHCALOTrainer(training)
+    environment = IndependentTSHCALOTrainingEnvironment(problem, training, _environment_config())
+    dimension = problem.dimension
+    monkeypatch.setattr(
+        "calo_rpd_studio.algorithms.calo.tsh_calo_training_environment.physics_repair_context_from_counted_evaluation",
+        lambda _context: PhysicsRepairContext(
+            converged=True,
+            available_from_counted_evaluation=True,
+            source_evaluation_id="counted-training-fixture",
+            ac_jacobian=np.eye(dimension),
+            control_sensitivity=np.eye(dimension),
+            constraint_residual=np.linspace(0.1, 0.2, dimension),
+            condition_number=1.0,
+        ),
+    )
+
+    observation = environment.reset()
+    assert observation.physics_repair_status == "available_counted_proposal_only"
+    assert np.asarray(observation.action_mask.allowed, dtype=bool)[:, 6].any()
+    sampled = _sample(trainer, observation)
+    action = replace(
+        sampled,
+        group_operators=np.where(
+            np.asarray(observation.action_mask.available_groups, dtype=bool), 6, -1
+        ),
+        learner_operators=np.full(_environment_config().population_size, 6, dtype=np.int64),
+    )
+
+    step = environment.step(action)
+
+    assert step.candidate_evaluations == 8
+    assert step.scenario_power_flow_calls == 8
+    assert np.asarray(step.executed_operators == 6).all()
+    provenance = environment.scientific_provenance()["physics_repair"]
+    assert provenance["status"] == "enabled_counted_proposal_only"
+    assert provenance["proposal_count"] == 4
+    assert provenance["hidden_solver_calls"] == 0
+    assert provenance["feasibility_authority"] is False
 
 
 def test_environment_exhausts_exact_batch_budget_and_collector_builds_rollout(toy_case):
@@ -202,10 +246,10 @@ def test_experimental_population_schedule_is_rejected_before_any_solve(toy_case)
     calls = 0
     original = problem.evaluate_with_context
 
-    def counted(values):
+    def counted(values, **kwargs):
         nonlocal calls
         calls += 1
-        return original(values)
+        return original(values, **kwargs)
 
     problem.evaluate_with_context = counted
     training = _training_config(
@@ -233,7 +277,7 @@ def test_experimental_population_schedule_is_rejected_before_any_solve(toy_case)
 def test_solver_failure_is_retained_and_poisoned_environment_cannot_reset(toy_case):
     problem = ORPDProblem(toy_case)
 
-    def failed_evaluator(_values):
+    def failed_evaluator(_values, **_kwargs):
         raise RuntimeError("synthetic counted evaluator failure")
 
     problem.evaluate_with_context = failed_evaluator

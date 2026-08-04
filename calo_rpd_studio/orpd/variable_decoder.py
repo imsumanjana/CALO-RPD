@@ -38,6 +38,15 @@ FORMULATION_PROFILE_VERSION = "ieee-orpd-controls-v3.4.0"
 
 
 @dataclass(frozen=True, slots=True)
+class RelaxedControlDerivative:
+    """Declared normalized-to-physical slope for proposal-only local sensitivity."""
+
+    kind: str
+    target: int
+    normalized_scale: float
+
+
+@dataclass(frozen=True, slots=True)
 class ShuntControlDefinition:
     """Declared controllable shunt in MVAr at 1 p.u.
 
@@ -276,6 +285,14 @@ class ORPDVariableDecoder:
     @property
     def dimension(self) -> int:
         return len(self.variables)
+
+    def relaxed_control_derivatives(self) -> tuple[RelaxedControlDerivative, ...]:
+        """Expose a version-stable relaxed slope; final candidates still snap to their lattice."""
+
+        return tuple(
+            RelaxedControlDerivative(str(kind), int(target), float(upper) - float(lower))
+            for kind, target, lower, upper, _lattice in self._actions
+        )
 
     def _decode_into(self, output, normalized):
         z = np.asarray(normalized, dtype=float)

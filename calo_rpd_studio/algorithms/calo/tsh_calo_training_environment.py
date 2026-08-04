@@ -39,6 +39,12 @@ from .success_memory import SuccessMemory
 from .tensor_state import CALOTensorState
 from .transition_kernel import TransitionResult, evaluate_candidates
 from .tsh_calo_policy import GroupActionMask
+from .tsh_calo_physics_repair import (
+    PhysicsRepairConfig,
+    PhysicsRepairOperator,
+    physics_repair_context_from_counted_evaluation,
+    physics_repair_context_is_usable,
+)
 from .tsh_calo_runtime_context import build_runtime_topology_policy_context
 from .tsh_calo_schema import N_OPERATORS, TSH_CALO_TRAINING_ENVIRONMENT
 from .tsh_calo_training import TSHCALOTrainingAction, TSHCALOTrainingConfig
@@ -193,8 +199,9 @@ class TSHCALOTrainingObservation:
             raise ValueError("TSH-CALO observation evaluation counts cannot be negative")
         if self.scenario_power_flow_calls < 0 or not self.reference_scenario:
             raise ValueError("TSH-CALO observation counted context is invalid")
-        if bool(np.asarray(self.action_mask.allowed, dtype=bool)[:, 6].any()):
-            raise ValueError("Uncounted physics repair cannot be exposed by this environment")
+        physics_exposed = bool(np.asarray(self.action_mask.allowed, dtype=bool)[:, 6].any())
+        if physics_exposed and self.physics_repair_status != "available_counted_proposal_only":
+            raise ValueError("Physics repair cannot be exposed without a counted usable context")
 
 
 @dataclass(frozen=True, slots=True)
@@ -219,12 +226,13 @@ class _PreparedGeneration:
     precision_fraction: float
     forced_recovery: set[int]
     consensus: float
+    physics_contexts: tuple[object | None, ...]
 
 
 class IndependentTSHCALOTrainingEnvironment:
     """A counted ORPD rollout environment with no policy lifecycle authority."""
 
-    CHECKPOINT_SCHEMA = "tsh-calo-independent-environment-v1"
+    CHECKPOINT_SCHEMA = "tsh-calo-independent-environment-v2-counted-physics"
 
     def __init__(
         self,
@@ -278,6 +286,9 @@ class IndependentTSHCALOTrainingEnvironment:
         self.accounting_complete = True
         self.candidate_evaluations = 0
         self.scenario_power_flow_calls = 0
+        self.physics_repair_available_generations = 0
+        self.physics_repair_proposal_count = 0
+        self.physics_repair_linear_algebra_seconds = 0.0
         self.iteration = 0
         self.state: CALOTensorState | None = None
         self.evaluation_contexts: list[object] = []
@@ -289,6 +300,9 @@ class IndependentTSHCALOTrainingEnvironment:
         cfg = self.config
         variables = list(getattr(getattr(self.problem, "decoder", None), "variables", None) or [])
         self.variables = variables
+        self.physics_repair_operator = PhysicsRepairOperator(
+            PhysicsRepairConfig(enabled=self.training_config.feature_flags.physics_repair)
+        )
         self.feasible_archive = FeasibleEliteArchive(cfg.feasible_archive_capacity)
         self.boundary_archive = ConstraintBoundaryArchive(cfg.boundary_archive_capacity)
         self.hpem = HierarchicalPrefixEliteMemory(self.problem.dimension, variables=variables)
@@ -336,7 +350,12 @@ class IndependentTSHCALOTrainingEnvironment:
         for row in np.asarray(population, dtype=float):
             self.candidate_evaluations += 1
             try:
-                evaluation, context = self.problem.evaluate_with_context(np.clip(row, 0.0, 1.0))
+                evaluation, context = self.problem.evaluate_with_context(
+                    np.clip(row, 0.0, 1.0),
+                    retain_control_linearization=bool(
+                        self.training_config.feature_flags.physics_repair
+                    ),
+                )
             except Exception:
                 self.failed = True
                 self.accounting_complete = False
@@ -363,6 +382,9 @@ class IndependentTSHCALOTrainingEnvironment:
         self.accounting_complete = True
         self.candidate_evaluations = 0
         self.scenario_power_flow_calls = 0
+        self.physics_repair_available_generations = 0
+        self.physics_repair_proposal_count = 0
+        self.physics_repair_linear_algebra_seconds = 0.0
         self.iteration = 0
         self.state = None
         self.evaluation_contexts = []
@@ -545,13 +567,27 @@ class IndependentTSHCALOTrainingEnvironment:
             ],
             dtype=np.int8,
         )
+        physics_contexts = tuple(
+            physics_repair_context_from_counted_evaluation(context)
+            for context in self.evaluation_contexts
+        )
+        physics_repair_available = bool(
+            self.training_config.feature_flags.physics_repair
+            and all(
+                physics_repair_context_is_usable(
+                    context,
+                    maximum_condition_number=self.physics_repair_operator.config.maximum_condition_number,
+                )
+                for context in physics_contexts
+            )
+        )
+        if physics_repair_available:
+            self.physics_repair_available_generations += 1
         action_mask = GroupActionMask.from_control_groups(
             self.groups.variable_groups,
             mixed_variable_enabled=True,
             diversity_recovery_enabled=True,
-            # Change E is honest-but-unavailable here: retained PF results do not expose a
-            # counted Jacobian/sensitivity, so operator 6 must remain masked.
-            physics_repair_enabled=False,
+            physics_repair_enabled=physics_repair_available,
         )
         forced_recovery: set[int] = set()
         if severe_stagnation and diversity < cfg.recovery_diversity_threshold:
@@ -577,7 +613,15 @@ class IndependentTSHCALOTrainingEnvironment:
             cfg.max_evaluations - self.candidate_evaluations,
             self.scenario_power_flow_calls,
             runtime_context.reference_scenario,
-            "masked: counted AC Jacobian/sensitivity unavailable",
+            (
+                "available_counted_proposal_only"
+                if physics_repair_available
+                else (
+                    "masked_counted_context_unavailable"
+                    if self.training_config.feature_flags.physics_repair
+                    else "disabled_by_immutable_training_feature_flags"
+                )
+            ),
         )
         observation.validate(cfg.population_size)
         self._prepared = _PreparedGeneration(
@@ -591,6 +635,7 @@ class IndependentTSHCALOTrainingEnvironment:
             precision_fraction,
             forced_recovery,
             consensus,
+            physics_contexts,
         )
         self._pending_digest = self._observation_digest(observation)
         return observation
@@ -652,6 +697,19 @@ class IndependentTSHCALOTrainingEnvironment:
             forced_recovery=prepared.forced_recovery,
             consensus=prepared.consensus,
             environment_deterministic=self.config.environment_deterministic,
+            physics_repair_operator=(
+                self.physics_repair_operator
+                if prepared.observation.physics_repair_status == "available_counted_proposal_only"
+                else None
+            ),
+            physics_contexts=prepared.physics_contexts,
+        )
+        repair_traces = [
+            proposal for proposal in batch.physics_repair_proposals if proposal is not None
+        ]
+        self.physics_repair_proposal_count += len(repair_traces)
+        self.physics_repair_linear_algebra_seconds += sum(
+            float(proposal.linear_algebra_seconds) for proposal in repair_traces
         )
         offspring_contexts: list[object] = []
 
@@ -747,7 +805,18 @@ class IndependentTSHCALOTrainingEnvironment:
             "accounting_complete": self.accounting_complete,
             "trusted_orpd_evaluator_computation": "cpu",
             "policy_member_execution": "raw hierarchical action; production shield not invoked",
-            "physics_repair": "masked: counted AC Jacobian/sensitivity unavailable",
+            "physics_repair": {
+                "status": (
+                    "enabled_counted_proposal_only"
+                    if self.training_config.feature_flags.physics_repair
+                    else "disabled_by_immutable_training_feature_flags"
+                ),
+                "available_generations": self.physics_repair_available_generations,
+                "proposal_count": self.physics_repair_proposal_count,
+                "linear_algebra_seconds": self.physics_repair_linear_algebra_seconds,
+                "hidden_solver_calls": 0,
+                "feasibility_authority": False,
+            },
             "population_schedule": "disabled",
             "lifecycle_authority": "none",
         }
@@ -760,6 +829,9 @@ class IndependentTSHCALOTrainingEnvironment:
             "rng_state": self.rng.bit_generator.state,
             "candidate_evaluations": self.candidate_evaluations,
             "scenario_power_flow_calls": self.scenario_power_flow_calls,
+            "physics_repair_available_generations": self.physics_repair_available_generations,
+            "physics_repair_proposal_count": self.physics_repair_proposal_count,
+            "physics_repair_linear_algebra_seconds": self.physics_repair_linear_algebra_seconds,
             "iteration": self.iteration,
             "state": self.state,
             "evaluation_contexts": self.evaluation_contexts,
@@ -822,6 +894,15 @@ class IndependentTSHCALOTrainingEnvironment:
         environment.rng.bit_generator.state = runtime["rng_state"]
         environment.candidate_evaluations = int(runtime["candidate_evaluations"])
         environment.scenario_power_flow_calls = int(runtime["scenario_power_flow_calls"])
+        environment.physics_repair_available_generations = int(
+            runtime.get("physics_repair_available_generations", 0)
+        )
+        environment.physics_repair_proposal_count = int(
+            runtime.get("physics_repair_proposal_count", 0)
+        )
+        environment.physics_repair_linear_algebra_seconds = float(
+            runtime.get("physics_repair_linear_algebra_seconds", 0.0)
+        )
         environment.iteration = int(runtime.get("iteration", 0))
         environment.state = runtime["state"]
         environment.evaluation_contexts = list(runtime["evaluation_contexts"])

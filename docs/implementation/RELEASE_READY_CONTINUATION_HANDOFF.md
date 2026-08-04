@@ -295,12 +295,12 @@ and checkpoints population, contexts, archives, memories, bandit, optimizer RNG 
 exact stochastic resume. Policy/device/OOD/mixture/action/intervention/fallback provenance is retained.
 A rejected policy blocks at preflight or requires an explicit relaunch under the `CALO-v5.9`
 identity; it is never silently executed or reported as TSH-CALO. Experimental F is rejected by this
-fixed-population production path before evaluation. Because the current power-flow result does not
-retain a counted Jacobian/sensitivity, E is runtime-masked rather than synthesized. Eight dedicated
-optimizer cases, a 66-test optimizer/registry/campaign focus and the 540-pass active tree pass.
-This evidence used synthetic test ensembles and CPU inference. Fresh independent training, formal
-qualification plus immutable calibration binding, physical CUDA/CPU parity, E linearization support,
-component ablations and protected tests remain pending.
+fixed-population production path before evaluation. Runtime v1.1 now requests final counted Newton
+linearization only for an immutable E-enabled policy, exposes the operator only when every learner has
+a finite, conditioned, nonzero control/constraint context, and records proposal cost without adding an
+uncounted solve or feasibility authority. Default and topology-only paths retain no derivatives.
+Historical v1.0 candidate evidence is not reinterpreted. Fresh v1.1 training, formal qualification,
+physical CUDA/CPU parity, component ablations and protected tests remain pending.
 
 TSH activation and binding now require an immutable qualification receipt rather than trusting a
 generic database status. The receipt binds the exact policy SHA, qualification run/protocol/source,
@@ -325,17 +325,16 @@ environment design; rejects a loaded protected case by content identity; evaluat
 through `ORPDProblem.evaluate_with_context`; reports candidate FE and per-scenario solver calls; builds
 topology state from the selected already-counted context; and executes raw single-member hierarchical
 actions through `generate_tsh_offspring` and the canonical `complete_tsh_transition`. It has no
-experiment, registry, qualification, activation, GUI or production-inference authority. E remains
-masked because the counted result has no retained Jacobian/sensitivity, and F is rejected before any
-solve. Pending observations and all environment state/RNG/components resume exactly under unchanged
-design and problem hashes. Eight dedicated environment tests and a 29-test environment/training/
-transition/context focus pass; the active tree excluding only the deliberately stale v6.9 release-
-integrity file is 555 passed with 63 skips. Repository Ruff lint/format passes across 395 Python files
-and the generated schema is current. This is mechanics evidence only: fresh ensemble-member
+experiment, registry, qualification, activation, GUI or production-inference authority. Training ABI
+v4 admits E only from the same explicit counted linearization boundary, dynamically masks it otherwise,
+and keeps every proposal's trusted evaluation inside the ordinary FE batch; F is rejected before any
+solve. Pending observations, derivative contexts, counters and all environment state/RNG/components
+resume under unchanged design/problem hashes. This is mechanics evidence only: fresh ensemble-member
 training, qualification, ablations and any benefit claim remain pending.
 
-Independent trainer Safe-80 admission is now locally complete under training-environment ABI
-`tsh-calo-training-v3-counted-safe80-receipts`. Every training design declares and hashes maximum rollout,
+Independent trainer Safe-80 admission is now locally complete under current training-environment ABI
+`tsh-calo-training-v4-counted-physics-safe80-receipts`. Historical v3 artifacts remain immutable and are
+not silently migrated. Every new training design declares and hashes maximum rollout,
 population, node, directed-edge, control and scenario counts. A deterministic versioned estimator
 accounts for parameters/buffers, gradients and Adam moments, retained rollout state, autograd
 activations, fragmentation safety and an explicit runtime floor. The trainer checks every state and

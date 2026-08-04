@@ -185,7 +185,7 @@ def test_failed_session_cannot_checkpoint_or_issue_a_receipt(toy_case):
     config = TSHCALOTrainingSessionConfig(session_id="failed-session-001")
     session = _session(toy_case, training, environment, config)
 
-    def failed_evaluator(_values):
+    def failed_evaluator(_values, **_kwargs):
         raise RuntimeError("synthetic counted evaluator failure")
 
     session.environment.problem.evaluate_with_context = failed_evaluator

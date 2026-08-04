@@ -13,6 +13,8 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair import (
     PhysicsRepairOperator,
     PhysicsRepairStatus,
     evaluate_physics_repair_proposal,
+    physics_repair_context_from_counted_evaluation,
+    physics_repair_context_is_usable,
 )
 from calo_rpd_studio.algorithms.calo.tsh_calo_policy import GroupActionMask
 from calo_rpd_studio.algorithms.calo.tsh_calo_schema import (
@@ -20,6 +22,9 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_schema import (
     N_OPERATORS,
 )
 from calo_rpd_studio.orpd.decision_variables import DecisionVariable, VariableKind
+from calo_rpd_studio.orpd.mixed_variable_handler import decode_discrete
+from calo_rpd_studio.orpd.problem import ORPDProblem
+from calo_rpd_studio.power_system.case_loader import CaseLoader
 
 
 def _variables():
@@ -41,6 +46,60 @@ def _context(**changes) -> PhysicsRepairContext:
     )
     values.update(changes)
     return PhysicsRepairContext(**values)
+
+
+def test_counted_orpd_linearization_adapts_without_an_evaluator_call(toy_case):
+    problem = ORPDProblem(toy_case)
+    _evaluation, counted = problem.evaluate_with_context(
+        np.full(problem.dimension, 0.5), retain_control_linearization=True
+    )
+
+    context = physics_repair_context_from_counted_evaluation(counted)
+
+    assert context is not None
+    assert context.converged is True
+    assert context.available_from_counted_evaluation is True
+    assert len(context.source_evaluation_id) == 64
+    assert context.control_sensitivity.shape[1] == problem.dimension
+    assert "run_ac_power_flow" not in inspect.getsource(
+        physics_repair_context_from_counted_evaluation
+    )
+
+
+def test_context_exposure_requires_residual_sensitivity_and_conditioning():
+    assert physics_repair_context_is_usable(_context(), maximum_condition_number=1e10)
+    assert not physics_repair_context_is_usable(
+        _context(constraint_residual=np.zeros(2)), maximum_condition_number=1e10
+    )
+    assert not physics_repair_context_is_usable(
+        _context(control_sensitivity=np.zeros((2, 2))), maximum_condition_number=1e10
+    )
+    assert not physics_repair_context_is_usable(
+        _context(condition_number=1e12), maximum_condition_number=1e10
+    )
+
+
+def test_real_case30_counted_context_proposes_inside_trust_and_lattice():
+    problem = ORPDProblem(CaseLoader.load("case30"))
+    current = np.full(problem.dimension, 0.5)
+    evaluation, counted = problem.evaluate_with_context(
+        current,
+        retain_control_linearization=True,
+    )
+    context = physics_repair_context_from_counted_evaluation(counted)
+    operator = PhysicsRepairOperator(PhysicsRepairConfig(enabled=True, trust_radius=0.08))
+
+    assert evaluation.violation > 0.0
+    assert physics_repair_context_is_usable(context, maximum_condition_number=1e10)
+    proposal = operator.propose(current, context, problem.decoder.variables)
+
+    assert proposal.status is PhysicsRepairStatus.PROPOSED
+    assert proposal.step_norm <= 0.08 + 1e-12
+    assert proposal.hidden_solver_calls == proposal.evaluator_calls == 0
+    assert proposal.declares_feasibility is False
+    for index, variable in enumerate(problem.decoder.variables):
+        if variable.values:
+            assert decode_discrete(proposal.candidate[index], variable.values) in variable.values
 
 
 def test_physics_repair_and_seventh_operator_are_disabled_by_default():

@@ -90,19 +90,71 @@ def _dense_or_sparse_solve(matrix, rhs: np.ndarray) -> np.ndarray:
     return np.asarray(np.linalg.solve(np.asarray(matrix, dtype=float), rhs), dtype=float)
 
 
+def _normalized_lattice(variable: object) -> np.ndarray:
+    values = tuple(getattr(variable, "values", ()) or ())
+    if not values:
+        return np.asarray([], dtype=float)
+    lower = float(variable.lower)
+    upper = float(variable.upper)
+    if not np.isfinite(lower) or not np.isfinite(upper) or upper <= lower:
+        raise ValueError("Discrete repair variable has invalid declared bounds")
+    return np.clip((np.asarray(values, dtype=float) - lower) / (upper - lower), 0.0, 1.0)
+
+
 def _snap_declared_lattice(candidate: np.ndarray, variables: Sequence[object]) -> np.ndarray:
     snapped = np.asarray(candidate, dtype=float).copy()
     for index, variable in enumerate(variables):
-        values = tuple(getattr(variable, "values", ()) or ())
-        if not values:
+        normalized = _normalized_lattice(variable)
+        if not normalized.size:
             continue
-        lower = float(variable.lower)
-        upper = float(variable.upper)
-        if not np.isfinite(lower) or not np.isfinite(upper) or upper <= lower:
-            raise ValueError("Discrete repair variable has invalid declared bounds")
-        normalized = np.clip((np.asarray(values, dtype=float) - lower) / (upper - lower), 0.0, 1.0)
         snapped[index] = float(normalized[np.argmin(np.abs(normalized - snapped[index]))])
     return snapped
+
+
+def _trust_bounded_lattice_candidate(
+    current: np.ndarray,
+    proposed: np.ndarray,
+    control_direction: np.ndarray,
+    variables: Sequence[object],
+    trust_radius: float,
+) -> np.ndarray:
+    """Admit whole lattice moves first, then spend the remaining norm on continuous controls."""
+
+    snapped = _snap_declared_lattice(proposed, variables)
+    candidate = np.asarray(current, dtype=float).copy()
+    discrete: list[int] = []
+    continuous: list[int] = []
+    for index, variable in enumerate(variables):
+        lattice = _normalized_lattice(variable)
+        if not lattice.size:
+            continuous.append(index)
+            continue
+        if abs(float(snapped[index]) - float(current[index])) > 1e-15:
+            discrete.append(index)
+
+    used_squared = 0.0
+    ranked = sorted(
+        discrete,
+        key=lambda index: (
+            -abs(float(control_direction[index]))
+            / max(abs(float(snapped[index] - current[index])), 1e-15),
+            index,
+        ),
+    )
+    for index in ranked:
+        delta = float(snapped[index] - current[index])
+        cost = delta * delta
+        if used_squared + cost <= trust_radius * trust_radius + 1e-15:
+            candidate[index] = snapped[index]
+            used_squared += cost
+
+    remaining = float(np.sqrt(max(trust_radius * trust_radius - used_squared, 0.0)))
+    if continuous and remaining > 0.0:
+        desired = np.asarray(proposed[continuous] - current[continuous], dtype=float)
+        norm = float(np.linalg.norm(desired))
+        if norm > 0.0:
+            candidate[continuous] = current[continuous] + desired * min(1.0, remaining / norm)
+    return np.clip(candidate, 0.0, 1.0)
 
 
 class PhysicsRepairOperator:
@@ -172,8 +224,22 @@ class PhysicsRepairOperator:
             if norm <= 1e-15:
                 return _masked(context, "physics repair produced a zero control direction")
             bounded_direction = control_direction * min(1.0, float(self.config.trust_radius) / norm)
-            candidate = np.clip(current + bounded_direction, 0.0, 1.0)
-            candidate = _snap_declared_lattice(candidate, variables)
+            proposed = np.clip(current + bounded_direction, 0.0, 1.0)
+            candidate = _trust_bounded_lattice_candidate(
+                current,
+                proposed,
+                control_direction,
+                variables,
+                float(self.config.trust_radius),
+            )
+            step_norm = float(np.linalg.norm(candidate - current))
+            if step_norm <= 1e-15:
+                return _masked(
+                    context,
+                    "physics repair has no lattice-valid move inside the trust radius",
+                )
+            if step_norm > float(self.config.trust_radius) + 1e-12:
+                raise FloatingPointError("lattice-valid repair escaped its trust radius")
             elapsed = time.perf_counter() - started
             return PhysicsRepairProposal(
                 PhysicsRepairStatus.PROPOSED,
@@ -181,7 +247,7 @@ class PhysicsRepairOperator:
                 "bounded Jacobian-informed proposal; trusted evaluation required",
                 str(context.source_evaluation_id),
                 condition,
-                float(np.linalg.norm(candidate - current)),
+                step_norm,
                 float(elapsed),
             )
         except (np.linalg.LinAlgError, ValueError, FloatingPointError, TypeError) as exc:
@@ -195,6 +261,62 @@ class PhysicsRepairOperator:
                 0.0,
                 float(elapsed),
             )
+
+
+def physics_repair_context_from_counted_evaluation(
+    evaluation_context,
+) -> PhysicsRepairContext | None:
+    """Adapt the selected ephemeral ORPD linearization without a solver or evaluator call."""
+
+    try:
+        selected = evaluation_context.primary_converged_scenario()
+        linearization = selected.control_linearization
+    except (AttributeError, ValueError):
+        return None
+    if linearization is None or linearization.condition_number is None:
+        return None
+    return PhysicsRepairContext(
+        converged=bool(getattr(selected.power_flow, "converged", False)),
+        available_from_counted_evaluation=True,
+        source_evaluation_id=str(linearization.source_evaluation_id),
+        ac_jacobian=linearization.jacobian,
+        control_sensitivity=np.asarray(linearization.control_sensitivity, dtype=float),
+        constraint_residual=np.asarray(linearization.constraint_residual, dtype=float),
+        condition_number=float(linearization.condition_number),
+    )
+
+
+def physics_repair_context_is_usable(
+    context: PhysicsRepairContext | None,
+    *,
+    maximum_condition_number: float,
+) -> bool:
+    """Conservatively gate operator exposure before the policy can select Change E."""
+
+    if (
+        context is None
+        or not context.converged
+        or not context.available_from_counted_evaluation
+        or not context.source_evaluation_id
+        or context.ac_jacobian is None
+        or context.control_sensitivity is None
+        or context.constraint_residual is None
+        or context.condition_number is None
+    ):
+        return False
+    sensitivity = np.asarray(context.control_sensitivity, dtype=float)
+    residual = np.asarray(context.constraint_residual, dtype=float)
+    return bool(
+        np.isfinite(float(context.condition_number))
+        and float(context.condition_number) <= float(maximum_condition_number)
+        and sensitivity.ndim == 2
+        and residual.ndim == 1
+        and sensitivity.shape[0] == residual.size
+        and np.all(np.isfinite(sensitivity))
+        and np.all(np.isfinite(residual))
+        and float(np.linalg.norm(sensitivity)) > 1e-15
+        and float(np.linalg.norm(residual)) > 1e-15
+    )
 
 
 def evaluate_physics_repair_proposal(

@@ -55,6 +55,7 @@ class PowerFlowResult:
     branch: BranchFlowResult | None
     warnings: list[str] = field(default_factory=list)
     reactive_allocation_convention: str = REACTIVE_ALLOCATION_CONVENTION
+    linearization: object | None = None
 
     @property
     def total_loss_mw(self):
@@ -108,7 +109,12 @@ def _update_outputs(case, pg, qg):
             case.gen[gens[0], PG] = float(pg[i] - fixed)
 
 
-def run_ac_power_flow(input_case, options: PowerFlowOptions | None = None):
+def run_ac_power_flow(
+    input_case,
+    options: PowerFlowOptions | None = None,
+    *,
+    retain_linearization: bool = False,
+):
     options = options or PowerFlowOptions()
     options.validate()
     case = input_case.clone()
@@ -120,7 +126,15 @@ def run_ac_power_flow(input_case, options: PowerFlowOptions | None = None):
     for qround in range(options.max_q_limit_rounds + 1):
         ref, pv, pq = _types(case)
         nr = solve_newton_raphson(
-            adm.ybus, _sbus(case), v, ref, pv, pq, options.tolerance, options.max_iterations
+            adm.ybus,
+            _sbus(case),
+            v,
+            ref,
+            pv,
+            pq,
+            options.tolerance,
+            options.max_iterations,
+            retain_linearization=retain_linearization,
         )
         total_it += nr.iterations
         history.extend(nr.mismatch_history)
@@ -155,6 +169,7 @@ def run_ac_power_flow(input_case, options: PowerFlowOptions | None = None):
                 history,
                 br,
                 warnings,
+                linearization=nr.linearization,
             )
         violations = []
         for bi in pv:
@@ -180,6 +195,7 @@ def run_ac_power_flow(input_case, options: PowerFlowOptions | None = None):
                 history,
                 br,
                 warnings,
+                linearization=nr.linearization,
             )
         if qround >= options.max_q_limit_rounds:
             warnings.append("Reactive-power limit switching reached the configured round limit.")

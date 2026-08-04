@@ -21,6 +21,7 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_optimizer import (
     TSHCALOOptimizer,
     TSHCALOPolicyRejected,
 )
+from calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair import PhysicsRepairContext
 from calo_rpd_studio.algorithms.calo.tsh_calo_policy import TSHCALOPolicyNetwork
 from calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact import (
     IndependentTrainingProvenance,
@@ -35,7 +36,10 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_qualification import (
     build_tsh_calo_qualification_receipt,
     qualification_config,
 )
-from calo_rpd_studio.algorithms.calo.tsh_calo_schema import TSH_CALO_ALGORITHM_ID
+from calo_rpd_studio.algorithms.calo.tsh_calo_schema import (
+    TSH_CALO_ALGORITHM_ID,
+    TSHCALOFeatureFlags,
+)
 from calo_rpd_studio.algorithms.calo.tsh_calo_shield import (
     OODCalibration,
     topology_ood_signature,
@@ -105,7 +109,12 @@ def _episode_receipts(run_id: str, design: str) -> tuple[dict, ...]:
     )
 
 
-def _member(path: Path, seed: int) -> Path:
+def _member(
+    path: Path,
+    seed: int,
+    *,
+    feature_flags: TSHCALOFeatureFlags | None = None,
+) -> Path:
     torch.manual_seed(seed)
     run_id = f"independent-{seed}"
     design = _sha("design")
@@ -118,12 +127,26 @@ def _member(path: Path, seed: int) -> Path:
         training_device_provenance=_device_provenance(),
         training_episode_receipts=_episode_receipts(run_id, design),
     )
-    save_tsh_calo_candidate(path, TSHCALOPolicyNetwork(hidden_dim=16), provenance)
+    save_tsh_calo_candidate(
+        path,
+        TSHCALOPolicyNetwork(hidden_dim=16),
+        provenance,
+        feature_flags=feature_flags,
+    )
     return path
 
 
-def _parameters(tmp_path: Path, problem: ORPDProblem, *, deterministic: bool) -> dict:
-    members = [_member(tmp_path / f"member-{seed}.pt", seed) for seed in (17, 23)]
+def _parameters(
+    tmp_path: Path,
+    problem: ORPDProblem,
+    *,
+    deterministic: bool,
+    feature_flags: TSHCALOFeatureFlags | None = None,
+) -> dict:
+    members = [
+        _member(tmp_path / f"member-{seed}.pt", seed, feature_flags=feature_flags)
+        for seed in (17, 23)
+    ]
     ensemble = assemble_tsh_calo_ensemble_candidate(
         tmp_path / "ensemble.pt",
         [(path, inspect_tsh_calo_candidate(path).sha256) for path in members],
@@ -199,7 +222,16 @@ def test_qualified_activated_ensemble_drives_counted_end_to_end_run(tmp_path, to
     assert result.metadata["scenario_power_flow_calls"] == 8
     assert result.metadata["device_admission"]["computation_device"] == "cpu"
     assert result.metadata["computation_semantics"]["trusted_orpd_evaluator"] == "cpu"
-    assert result.metadata["physics_repair_runtime"].startswith("disabled")
+    assert result.metadata["physics_repair_runtime"] == {
+        "status": "disabled_by_immutable_policy_feature_flags",
+        "available_generations": 0,
+        "proposal_count": 0,
+        "linear_algebra_seconds": 0.0,
+        "hidden_solver_calls": 0,
+        "feasibility_authority": False,
+        "trusted_evaluations_remain_in_candidate_fe_budget": True,
+        "masking": "immutable feature disabled",
+    }
     assert len(result.metadata["runtime_trajectory"]) == 1
     generation = result.metadata["runtime_trajectory"][0]
     assert len(generation["executed_operators"]) == 4
@@ -207,6 +239,46 @@ def test_qualified_activated_ensemble_drives_counted_end_to_end_run(tmp_path, to
     assert len(generation["shield_mixture_weights"]) == 4
     assert len(generation["shield_action_mask"]) == 4
     assert generation["policy_sha256"] == parameters["policy_sha256"]
+
+
+def test_counted_physics_context_exposes_change_e_without_hidden_fe(
+    tmp_path, toy_case, monkeypatch
+):
+    problem = ORPDProblem(toy_case)
+    flags = TSHCALOFeatureFlags(physics_repair=True)
+    parameters = _parameters(
+        tmp_path,
+        problem,
+        deterministic=True,
+        feature_flags=flags,
+    )
+    dimension = problem.dimension
+
+    monkeypatch.setattr(
+        "calo_rpd_studio.algorithms.calo.tsh_calo_optimizer.physics_repair_context_from_counted_evaluation",
+        lambda _context: PhysicsRepairContext(
+            converged=True,
+            available_from_counted_evaluation=True,
+            source_evaluation_id="counted-fixture",
+            ac_jacobian=np.eye(dimension),
+            control_sensitivity=np.eye(dimension),
+            constraint_residual=np.linspace(0.1, 0.2, dimension),
+            condition_number=1.0,
+        ),
+    )
+
+    result, optimizer = _run(problem, parameters, evaluations=8)
+
+    assert result.evaluations == optimizer.evaluations == 8
+    assert result.metadata["scenario_power_flow_calls"] == 8
+    runtime = result.metadata["physics_repair_runtime"]
+    assert runtime["status"] == "enabled_counted_proposal_only"
+    assert runtime["available_generations"] == 1
+    assert runtime["hidden_solver_calls"] == 0
+    assert runtime["feasibility_authority"] is False
+    generation = result.metadata["runtime_trajectory"][0]
+    assert generation["physics_repair_available"] is True
+    assert any(bool(row[6]) for row in generation["shield_action_mask"])
 
 
 def test_registry_exposes_distinct_tsh_algorithm_without_redefining_calo(toy_case):

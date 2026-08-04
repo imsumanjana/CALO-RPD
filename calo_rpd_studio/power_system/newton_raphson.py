@@ -26,6 +26,19 @@ class NewtonResult:
     iterations: int
     max_mismatch: float
     mismatch_history: list[float]
+    linearization: NewtonLinearization | None = None
+
+
+@dataclass(slots=True)
+class NewtonLinearization:
+    """Ephemeral final-state derivatives from one already-counted Newton solve."""
+
+    jacobian: object
+    dS_dVa: object
+    dS_dVm: object
+    pvpq: np.ndarray
+    pq: np.ndarray
+    mismatch: np.ndarray
 
 
 def _mismatch(ybus, sbus, voltage, pvpq, pq):
@@ -71,10 +84,31 @@ def _dense_jacobian(ybus, voltage, pvpq, pq):
     )
 
 
-def _jacobian(ybus, voltage, pvpq, pq):
-    """Build MATPOWER-style dS/dVa,dS/dVm blocks without dense Ybus/Jacobian construction."""
+def _dense_power_derivatives(ybus, voltage):
+    nbus = int(np.asarray(voltage).size)
+    if nbus > MAX_DENSE_FALLBACK_BUSES:
+        raise RuntimeError(
+            "Dense Newton-derivative fallback is disabled for large systems "
+            f"({nbus} buses > {MAX_DENSE_FALLBACK_BUSES})."
+        )
+    y = ybus.toarray() if hasattr(ybus, "toarray") else np.asarray(ybus)
+    voltage = np.asarray(voltage, dtype=complex)
+    ibus = y @ voltage
+    vm = np.abs(voltage)
+    vnorm = voltage / np.maximum(vm, 1e-15)
+    diag_v = np.diag(voltage)
+    diag_i = np.diag(ibus)
+    diag_vnorm = np.diag(vnorm)
+    dS_dVm = diag_v @ np.conj(y @ diag_vnorm) + np.conj(diag_i) @ diag_vnorm
+    dS_dVa = 1j * diag_v @ np.conj(diag_i - y @ diag_v)
+    return dS_dVa, dS_dVm
+
+
+def _power_derivatives(ybus, voltage):
+    """Return full MATPOWER-style complex voltage derivatives."""
+
     try:
-        from scipy.sparse import csr_matrix, diags, hstack, vstack
+        from scipy.sparse import csr_matrix, diags
 
         y = csr_matrix(ybus)
         voltage = np.asarray(voltage, dtype=complex)
@@ -89,22 +123,73 @@ def _jacobian(ybus, voltage, pvpq, pq):
         dS_dVm = diag_v @ (y @ diag_vnorm).conjugate() + diag_i.conjugate() @ diag_vnorm
         dS_dVa = 1j * diag_v @ (diag_i - y @ diag_v).conjugate()
 
-        pvpq = np.asarray(pvpq, dtype=int)
-        pq = np.asarray(pq, dtype=int)
-        j11 = dS_dVa[pvpq, :][:, pvpq].real.tocsr()
-        j12 = dS_dVm[pvpq, :][:, pq].real.tocsr()
-        j21 = dS_dVa[pq, :][:, pvpq].imag.tocsr()
-        j22 = dS_dVm[pq, :][:, pq].imag.tocsr()
-        return vstack(
-            [hstack([j11, j12], format="csr"), hstack([j21, j22], format="csr")], format="csr"
-        )
+        return dS_dVa.tocsr(), dS_dVm.tocsr()
     except (ImportError, RuntimeError, ValueError, TypeError, AttributeError) as exc:
         _LOG.warning(
-            "Sparse Jacobian construction unavailable/failed (%s); considering bounded dense fallback",
+            "Sparse power derivatives unavailable/failed (%s); considering bounded dense fallback",
+            type(exc).__name__,
+            exc_info=True,
+        )
+        return _dense_power_derivatives(ybus, voltage)
+
+
+def _jacobian_from_derivatives(dS_dVa, dS_dVm, pvpq, pq):
+    pvpq = np.asarray(pvpq, dtype=int)
+    pq = np.asarray(pq, dtype=int)
+    try:
+        from scipy.sparse import hstack, issparse, vstack
+
+        if issparse(dS_dVa) and issparse(dS_dVm):
+            j11 = dS_dVa[pvpq, :][:, pvpq].real.tocsr()
+            j12 = dS_dVm[pvpq, :][:, pq].real.tocsr()
+            j21 = dS_dVa[pq, :][:, pvpq].imag.tocsr()
+            j22 = dS_dVm[pq, :][:, pq].imag.tocsr()
+            return vstack(
+                [hstack([j11, j12], format="csr"), hstack([j21, j22], format="csr")],
+                format="csr",
+            )
+    except (ImportError, TypeError, ValueError, AttributeError):
+        pass
+    dS_dVa = np.asarray(dS_dVa)
+    dS_dVm = np.asarray(dS_dVm)
+    return np.block(
+        [
+            [dS_dVa[np.ix_(pvpq, pvpq)].real, dS_dVm[np.ix_(pvpq, pq)].real],
+            [dS_dVa[np.ix_(pq, pvpq)].imag, dS_dVm[np.ix_(pq, pq)].imag],
+        ]
+    )
+
+
+def _jacobian(ybus, voltage, pvpq, pq):
+    """Build MATPOWER-style dS/dVa,dS/dVm blocks without dense Ybus construction."""
+
+    try:
+        derivatives = _power_derivatives(ybus, voltage)
+        return _jacobian_from_derivatives(*derivatives, pvpq, pq)
+    except (ImportError, RuntimeError, ValueError, TypeError, AttributeError) as exc:
+        _LOG.warning(
+            "Power-derivative Jacobian construction failed (%s); considering legacy dense fallback",
             type(exc).__name__,
             exc_info=True,
         )
         return _dense_jacobian(ybus, voltage, pvpq, pq)
+
+
+def build_newton_linearization(ybus, sbus, voltage, pv, pq) -> NewtonLinearization:
+    """Retain derivatives at the converged state without another power-flow solve."""
+
+    pvpq = np.r_[pv, pq].astype(int)
+    pq = np.asarray(pq, dtype=int)
+    dS_dVa, dS_dVm = _power_derivatives(ybus, voltage)
+    jacobian = _jacobian_from_derivatives(dS_dVa, dS_dVm, pvpq, pq)
+    return NewtonLinearization(
+        jacobian=jacobian,
+        dS_dVa=dS_dVa,
+        dS_dVm=dS_dVm,
+        pvpq=pvpq.copy(),
+        pq=pq.copy(),
+        mismatch=_mismatch(ybus, sbus, voltage, pvpq, pq),
+    )
 
 
 def _solve_linear(jacobian, rhs):
@@ -137,6 +222,7 @@ def solve_newton_raphson(
     max_iterations=30,
     *,
     minimum_damping=1.0 / 32.0,
+    retain_linearization: bool = False,
 ):
     pvpq = np.r_[pv, pq].astype(int)
     pq = np.asarray(pq, dtype=int)
@@ -148,7 +234,16 @@ def solve_newton_raphson(
         norm = float(np.max(np.abs(f))) if f.size else 0.0
         history.append(norm)
         if norm <= float(tolerance):
-            return NewtonResult(True, voltage, iteration, norm, history)
+            linearization = None
+            if retain_linearization:
+                try:
+                    linearization = build_newton_linearization(ybus, sbus, voltage, pv, pq)
+                except (ImportError, RuntimeError, ValueError, TypeError, AttributeError):
+                    _LOG.warning(
+                        "Converged Newton state could not retain a linearization; optional consumers must mask",
+                        exc_info=True,
+                    )
+            return NewtonResult(True, voltage, iteration, norm, history, linearization)
         if iteration >= int(max_iterations):
             break
         try:
