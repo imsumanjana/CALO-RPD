@@ -526,8 +526,9 @@ protected test opening.
 
 ### G4/G6 physical and packaged qualification — execute, do not simulate
 
-This workstation previously exposed a Docker client but no running daemon and no Compose/Buildx
-plugin, so container attestations have not been generated. On the Lenovo LOQ target:
+Docker Desktop, Compose and Buildx are now available on this Lenovo LOQ workstation. No source-bound
+release image or attestation has been generated yet; first close the build-context privacy,
+immutable source-identity and shared cross-container lease gaps, then execute the target procedure:
 
 1. Install/enable Docker Desktop WSL2, WSLg, NVIDIA Windows driver support, Compose and Buildx.
 2. Run the CPU profile without NVIDIA access.
@@ -583,8 +584,11 @@ expected to be stale on this development branch. Do not “fix” them early.
 - Bounded physical FP64 CPU/CUDA evaluator parity is now retained for development case30/case57 on
   clean commit `63f56ad`, but it is not TSH-policy, pressure, soak, container, or performance proof.
 - Bounded physical RTX 4060 VRAM pressure/recovery, host staging, controlled fallback/recovery, and
-  multi-process lease evidence is retained at clean commit `d6a950c`; no one-hour thermal/power/GPU-
-  board-energy soak qualification or whole-system energy measurement exists yet.
+  multi-process lease evidence is retained at clean commit `d6a950c`.
+- A one-hour physical RTX 4060 host soak is retained at clean commit `67bd18e`: 3,600 GREEN samples,
+  no protection stop, verified 3,602-event hash chain, 46–60 °C, 12.18–26.0 W, and `24.33879127740349`
+  Wh of scoped GPU-board-energy integration. CPU temperature, GPU power limit, whole-system energy,
+  container execution, performance and policy benefit remain outside this evidence.
 - No successful Docker CPU/CUDA runtime build on this workstation yet.
 - No WSL2/WSLg target-laptop report yet.
 - No GitHub Actions run artifacts from the new workflow yet.
