@@ -171,9 +171,10 @@ jobs:
           python -c "from pathlib import Path; stage=Path('artifacts/python-dist'); assert not stage.exists(); stage.mkdir(parents=True)"
           python -m build --no-isolation --outdir artifacts/python-dist
           python -m calo_rpd_studio.scripts.verify_distribution_stage --stage artifacts/python-dist
-          python -m calo_rpd_studio.scripts.generate_artifact_manifest --stage artifacts/python-dist --output artifacts/python-dist/artifact-manifest.json
           python -m pip install --no-deps artifacts/python-dist/*.whl
           (cd /tmp && PYTHONPATH= python -c "import calo_rpd_studio; import calo_bootstrap")
+          (cd /tmp && PYTHONPATH= QT_QPA_PLATFORM=offscreen python -m calo_rpd_studio.scripts.validate_packaged_gui --output "$GITHUB_WORKSPACE/artifacts/python-dist/packaged-gui" --forbid-import-root "$GITHUB_WORKSPACE")
+          python -m calo_rpd_studio.scripts.generate_artifact_manifest --stage artifacts/python-dist --output artifacts/python-dist/artifact-manifest.json
       - name: Upload distributions and checksums
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:

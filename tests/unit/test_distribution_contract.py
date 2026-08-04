@@ -18,3 +18,15 @@ def test_generated_policy_artifacts_are_excluded_from_wheel_and_sdist():
     manifest = (ROOT / "MANIFEST.in").read_text(encoding="utf-8")
     assert "recursive-exclude calo_rpd_studio/data/trained_models *" in manifest
     assert "include calo_rpd_studio/data/trained_models/__init__.py" in manifest
+
+
+def test_distribution_verifier_requires_release_critical_reference_and_gui_commands():
+    verifier = (ROOT / "calo_rpd_studio" / "scripts" / "verify_distribution_stage.py").read_text(
+        encoding="utf-8"
+    )
+    for required in (
+        "calo_rpd_studio/orpd/mathematical_reference.py",
+        "calo_rpd_studio/scripts/run_mathematical_reference.py",
+        "calo_rpd_studio/scripts/validate_packaged_gui.py",
+    ):
+        assert required in verifier

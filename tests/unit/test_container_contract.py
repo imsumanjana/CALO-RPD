@@ -156,6 +156,9 @@ def test_ci_lock_and_workflow_are_reproducible_and_supply_chain_pinned():
     assert "sbom: true" in workflow_text
     assert "provenance: mode=max" in workflow_text
     assert "inputs.run_physical_cuda" in workflow_text
+    assert "validate_packaged_gui" in workflow_text
+    assert '--forbid-import-root "$GITHUB_WORKSPACE"' in workflow_text
+    assert "(cd /tmp && PYTHONPATH= QT_QPA_PLATFORM=offscreen" in workflow_text
     compatibility = workflow["jobs"]["compatibility"]
     compatibility_text = yaml.safe_dump(compatibility, sort_keys=True)
     assert "python -m pip check" in compatibility_text

@@ -13,8 +13,11 @@ import zipfile
 _REQUIRED_SOURCE_FILES = {
     "calo_rpd_studio/algorithms/cma_es.py",
     "calo_rpd_studio/algorithms/lshade.py",
+    "calo_rpd_studio/orpd/mathematical_reference.py",
     "calo_rpd_studio/scripts/container_smoke.py",
     "calo_rpd_studio/scripts/generate_artifact_manifest.py",
+    "calo_rpd_studio/scripts/run_mathematical_reference.py",
+    "calo_rpd_studio/scripts/validate_packaged_gui.py",
     "calo_rpd_studio/scripts/verify_distribution_stage.py",
     "calo_rpd_studio/scripts/verify_requirements_lock.py",
 }
