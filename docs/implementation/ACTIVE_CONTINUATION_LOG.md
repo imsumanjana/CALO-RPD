@@ -782,3 +782,29 @@ Append timestamped entries below this line after each material action, validatio
   topology, qualification, inference and optimizer tests pass `33` cases in `10.95s`; the new
   campaign/inference/CLI typed boundary passes mypy with no issues. No real ablation was run and no
   component or policy-benefit claim was made.
+- Committed this development boundary as `ae7b304` (`feat(tsh): add frozen component evidence
+  campaign`). The only unrelated worktree item remains the user's untouched untracked
+  `Docker_Build.txt`.
+
+### 2026-08-04 — candidate-bound CPU/CUDA equivalence development completed
+
+- Added the `calo-rpd-tsh-device-equivalence` validator for one exact immutable unqualified
+  ensemble. It requires a clean durable source identity and physical CUDA, uses only case30/case57
+  development states, fits a checksum-bound development-only OOD calibration, and evaluates the
+  candidate through the existing non-serializable qualification capability. It cannot register,
+  qualify, activate, export or deploy a policy.
+- The validator loads the same candidate separately on CPU and CUDA with fallback forbidden, uses
+  the same deterministic seed, state, action mask, learner groups/contexts, fresh identical bandit
+  state and safety envelope, and requires exact regime, learner operators, action masks and
+  intervention reasons. Group parameters, operator probabilities, uncertainty, mixture weights,
+  value and OOD values must be finite, shape-identical and within frozen `rtol=1e-5`/`atol=1e-6`
+  defaults.
+- A CUDA pass additionally requires selected NVIDIA computation, a positive dedicated-VRAM
+  allocation increase while loading the ensemble, peak allocation at least the live allocation and
+  every ensemble parameter resident on CUDA. Evidence retains the candidate/source/design/
+  calibration identities, both controller provenance records, per-case maximum absolute
+  differences, runtime/device identity and explicit protected/lifecycle boundaries.
+- Short verification only: Ruff format/lint, compilation and mypy pass; the device-equivalence and
+  adjacent inference tests pass `11` cases in `5.42s`. No physical candidate equivalence run was
+  attempted because no fresh counted-v4 A–E candidate has yet been frozen; the historical negative
+  candidate must not be reinterpreted.
