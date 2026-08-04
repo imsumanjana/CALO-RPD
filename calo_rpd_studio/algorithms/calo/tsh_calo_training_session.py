@@ -70,7 +70,7 @@ class TSHCALOTrainingSessionResult:
 class IndependentTSHCALOTrainingSession:
     """Advance one immutable development-case episode and issue one counted receipt."""
 
-    SCHEMA_VERSION = "tsh-calo-independent-training-session-v1"
+    SCHEMA_VERSION = "tsh-calo-independent-training-session-v2-batched-device-context"
 
     def __init__(
         self,
@@ -129,6 +129,7 @@ class IndependentTSHCALOTrainingSession:
 
     def _complete(self) -> TSHCALOTrainingEpisodeReceipt:
         provenance = self.environment.scientific_provenance()
+        counted_orpd = dict(provenance["counted_orpd_execution"])
         updates = self.trainer.update_steps - self.starting_update_steps
         receipt = build_tsh_calo_training_episode_receipt(
             session_id=self.config.session_id,
@@ -150,6 +151,20 @@ class IndependentTSHCALOTrainingSession:
             canonical_reward_sha256=canonical_reward_sequence_sha256(self.canonical_rewards),
             accounting_complete=bool(provenance["accounting_complete"]),
             terminal=self.environment.terminal,
+            counted_orpd_evaluator_computation=str(
+                provenance["trusted_orpd_evaluator_computation"]
+            ),
+            counted_orpd_selected_device=str(counted_orpd["selected_device"]),
+            counted_orpd_batch_context_api=bool(counted_orpd["batch_context_api"]),
+            counted_orpd_target_evaluations_per_host_boundary=int(
+                counted_orpd["target_evaluations_per_host_boundary"]
+            ),
+            counted_orpd_cpu_cuda_inner_loop_transfers=int(
+                counted_orpd["cpu_cuda_inner_loop_transfers"] or 0
+            ),
+            counted_orpd_context_power_flow_reruns=int(
+                counted_orpd["context_power_flow_reruns"] or 0
+            ),
         )
         self.trainer.record_training_episode_receipt(receipt.to_dict())
         self.receipt = receipt

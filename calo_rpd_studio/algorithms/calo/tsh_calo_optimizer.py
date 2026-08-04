@@ -146,12 +146,37 @@ class TSHCALOOptimizer(BaseOptimizer):
         if not callable(evaluator):
             raise TypeError("TSH-CALO requires the counted ORPD evaluate_with_context API")
         rows = np.asarray(population, dtype=float)
+        remaining = max(0, int(self.config.max_evaluations) - int(self.evaluations))
+        if remaining <= 0 or self.cancelled():
+            return [], []
+        clipped_rows = np.asarray(
+            [self._repair_to_bounds(row) for row in rows[:remaining]], dtype=float
+        )
+        batch_evaluator = getattr(self.problem, "evaluate_population_with_context", None)
+        if callable(batch_evaluator):
+            records = list(
+                batch_evaluator(
+                    clipped_rows,
+                    retain_control_linearization=bool(
+                        getattr(self, "_retain_control_linearization", False)
+                    ),
+                )
+            )
+            if len(records) != len(clipped_rows):
+                raise RuntimeError(
+                    "Counted ORPD batch-context evaluator returned an incomplete population"
+                )
+            evaluations = [
+                self._register_evaluation(clipped, record[0])
+                for clipped, record in zip(clipped_rows, records, strict=True)
+            ]
+            return evaluations, [record[1] for record in records]
+
         evaluations: list[object] = []
         contexts: list[object] = []
-        for row in rows:
+        for clipped in clipped_rows:
             if not self.can_evaluate():
                 break
-            clipped = self._repair_to_bounds(row)
             evaluation, context = evaluator(
                 clipped,
                 retain_control_linearization=bool(

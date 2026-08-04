@@ -232,7 +232,7 @@ class _PreparedGeneration:
 class IndependentTSHCALOTrainingEnvironment:
     """A counted ORPD rollout environment with no policy lifecycle authority."""
 
-    CHECKPOINT_SCHEMA = "tsh-calo-independent-environment-v2-counted-physics"
+    CHECKPOINT_SCHEMA = "tsh-calo-independent-environment-v3-batched-device-context"
 
     def __init__(
         self,
@@ -345,13 +345,41 @@ class IndependentTSHCALOTrainingEnvironment:
             )
 
     def _evaluate_population(self, population) -> tuple[list[object], list[object]]:
+        rows = np.clip(np.asarray(population, dtype=float), 0.0, 1.0)
+        batch_evaluator = getattr(self.problem, "evaluate_population_with_context", None)
+        if callable(batch_evaluator):
+            self.candidate_evaluations += int(len(rows))
+            try:
+                records = list(
+                    batch_evaluator(
+                        rows,
+                        retain_control_linearization=bool(
+                            self.training_config.feature_flags.physics_repair
+                        ),
+                    )
+                )
+                if len(records) != len(rows):
+                    raise RuntimeError(
+                        "Counted ORPD batch-context evaluator returned an incomplete population"
+                    )
+                batch_evaluations = [record[0] for record in records]
+                batch_contexts = [record[1] for record in records]
+                self.scenario_power_flow_calls += sum(
+                    len(context.scenarios) for context in batch_contexts
+                )
+                return batch_evaluations, batch_contexts
+            except Exception:
+                self.failed = True
+                self.accounting_complete = False
+                raise
+
         evaluations: list[object] = []
         contexts: list[object] = []
-        for row in np.asarray(population, dtype=float):
+        for row in rows:
             self.candidate_evaluations += 1
             try:
                 evaluation, context = self.problem.evaluate_with_context(
-                    np.clip(row, 0.0, 1.0),
+                    row,
                     retain_control_linearization=bool(
                         self.training_config.feature_flags.physics_repair
                     ),
@@ -791,6 +819,10 @@ class IndependentTSHCALOTrainingEnvironment:
         )
 
     def scientific_provenance(self) -> dict:
+        evaluator_device = str(getattr(self.problem, "device", "cpu"))
+        batch_context_available = callable(
+            getattr(self.problem, "evaluate_population_with_context", None)
+        )
         return {
             "schema_version": self.CHECKPOINT_SCHEMA,
             "training_environment_version": TSH_CALO_TRAINING_ENVIRONMENT,
@@ -803,7 +835,18 @@ class IndependentTSHCALOTrainingEnvironment:
             "candidate_evaluations": self.candidate_evaluations,
             "scenario_power_flow_calls": self.scenario_power_flow_calls,
             "accounting_complete": self.accounting_complete,
-            "trusted_orpd_evaluator_computation": "cpu",
+            "trusted_orpd_evaluator_computation": (
+                "nvidia_gpu" if evaluator_device.startswith("cuda") else "cpu"
+            ),
+            "counted_orpd_execution": {
+                "selected_device": evaluator_device,
+                "batch_context_api": batch_context_available,
+                "target_evaluations_per_host_boundary": (100 if batch_context_available else 1),
+                "cpu_cuda_inner_loop_transfers": 0 if batch_context_available else None,
+                "context_power_flow_reruns": 0 if batch_context_available else None,
+                "greater_than_95_percent_cuda_claim": False,
+                "claim_status": "requires_physical_candidate-bound_timing_evidence",
+            },
             "policy_member_execution": "raw hierarchical action; production shield not invoked",
             "physics_repair": {
                 "status": (

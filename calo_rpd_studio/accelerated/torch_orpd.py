@@ -10,13 +10,20 @@ from typing import Any, Iterable
 import numpy as np
 
 from calo_rpd_studio.orpd.objectives import ObjectiveKind
-from calo_rpd_studio.orpd.problem import Evaluation, ORPDProblem, ORPDProblemConfig
+from calo_rpd_studio.orpd.problem import (
+    Evaluation,
+    ORPDEvaluationContext,
+    ORPDProblem,
+    ORPDProblemConfig,
+    ScenarioEvaluationContext,
+)
 from calo_rpd_studio.orpd.formulation_fingerprint import scientific_problem_fingerprint
 from calo_rpd_studio.power_system.case_model import (
     BUS_TYPE,
     GEN_BUS,
     GEN_STATUS,
     PQ,
+    PV,
     RATE_A,
     BR_STATUS,
     VMAX,
@@ -30,6 +37,10 @@ from calo_rpd_studio.robustness.robust_objectives import (
 from calo_rpd_studio.robustness.cvar import weighted_cvar_torch
 from calo_rpd_studio.robustness.scenario import Scenario
 from calo_rpd_studio.orpd.constraints import branch_angle_limit_violation, generator_limit_violation
+from calo_rpd_studio.power_system.ac_power_flow import PowerFlowResult, _sbus, _update_outputs
+from calo_rpd_studio.power_system.branch_flows import BranchFlowResult
+from calo_rpd_studio.power_system.newton_raphson import build_newton_linearization
+from calo_rpd_studio.power_system.ybus import build_ybus
 
 from .device import resolve_device, torch_dtype
 from .torch_power_flow import (
@@ -111,7 +122,7 @@ class AcceleratedORPDProblem:
         self.tensor_decoder = TorchVariableDecoder(self.decoder, self.device, self.dtype)
         pf = self.config.power_flow
         self._broker = get_cross_run_broker()
-        self._batch_signature_cache = None
+        self._batch_signature_cache: str | None = None
         self._large_case_reference_fallback = bool(self.case.n_bus > MAX_DENSE_TORCH_BUSES)
         self.power_flow_options = TorchPowerFlowOptions(
             tolerance=float(pf.tolerance),
@@ -136,7 +147,7 @@ class AcceleratedORPDProblem:
 
     @property
     def dimension(self) -> int:
-        return self.decoder.dimension
+        return int(self.decoder.dimension)
 
     def _objective(self, pf, formulation_case=None):
         import torch
@@ -278,6 +289,149 @@ class AcceleratedORPDProblem:
     def evaluate(self, normalized):
         return self.evaluate_population([normalized])[0]
 
+    def evaluate_with_context(
+        self,
+        normalized,
+        *,
+        retain_control_linearization: bool = False,
+    ) -> tuple[Evaluation, ORPDEvaluationContext]:
+        """Evaluate one row through the same counted batch-context boundary."""
+
+        records = self.evaluate_population_with_context(
+            [normalized],
+            retain_control_linearization=retain_control_linearization,
+        )
+        if len(records) != 1:
+            raise RuntimeError("Single-row accelerated context evaluation returned another count")
+        return records[0]
+
+    def _contexts_from_device_arrays(
+        self,
+        evaluations: list[Evaluation],
+        arrays: dict[str, np.ndarray],
+        *,
+        retain_control_linearization: bool,
+    ) -> list[tuple[Evaluation, ORPDEvaluationContext]]:
+        normalized_values = np.asarray(arrays["normalized_values"], dtype=float)
+        results: list[tuple[Evaluation, ORPDEvaluationContext]] = []
+        for row, evaluation in enumerate(evaluations):
+            normalized = normalized_values[row]
+            controlled, _physical = self.decoder.decode(normalized)
+            retained: list[ScenarioEvaluationContext] = []
+            for scenario_index, scenario in enumerate(self.scenarios):
+                formulation_case = scenario.apply(controlled)
+                final_types = np.asarray(arrays["final_bus_types"][row, scenario_index], dtype=int)
+                formulation_case.bus[:, BUS_TYPE] = final_types
+                voltage = np.asarray(arrays["voltage"][row, scenario_index], dtype=complex)
+                converged = bool(arrays["converged"][row, scenario_index])
+                branch = None
+                if converged:
+                    pg = np.asarray(arrays["actual_pg_mw"][row, scenario_index], dtype=float)
+                    qg = np.asarray(arrays["actual_qg_mvar"][row, scenario_index], dtype=float)
+                    _update_outputs(formulation_case, pg, qg)
+                    s_from = np.asarray(arrays["s_from_mva"][row, scenario_index], dtype=complex)
+                    s_to = np.asarray(arrays["s_to_mva"][row, scenario_index], dtype=complex)
+                    branch = BranchFlowResult(
+                        s_from,
+                        s_to,
+                        np.asarray(arrays["loading_percent"][row, scenario_index], dtype=float),
+                        float(np.sum((s_from + s_to).real)),
+                    )
+                mismatch = float(arrays["max_mismatch"][row, scenario_index])
+                power_flow = PowerFlowResult(
+                    converged=converged,
+                    case=formulation_case,
+                    voltage=voltage,
+                    vm_pu=np.abs(voltage),
+                    va_deg=np.rad2deg(np.angle(voltage)),
+                    iterations=int(arrays["iterations"][row, scenario_index]),
+                    q_limit_rounds=int(arrays["q_limit_rounds"][row, scenario_index]),
+                    max_mismatch=mismatch,
+                    mismatch_history=[mismatch],
+                    branch=branch,
+                    warnings=[],
+                )
+                control_linearization = None
+                if retain_control_linearization and converged:
+                    admittance = build_ybus(formulation_case)
+                    types = formulation_case.bus[:, BUS_TYPE].astype(int)
+                    pv = np.where(types == PV)[0]
+                    pq = np.where(types == PQ)[0]
+                    power_flow.linearization = build_newton_linearization(
+                        admittance.ybus,
+                        _sbus(formulation_case),
+                        voltage,
+                        pv,
+                        pq,
+                    )
+                    control_linearization = self.reference._build_control_linearization(
+                        normalized,
+                        scenario,
+                        power_flow,
+                    )
+                retained.append(
+                    ScenarioEvaluationContext(
+                        str(scenario.name),
+                        float(scenario.weight),
+                        power_flow,
+                        control_linearization,
+                    )
+                )
+            evaluation.metadata = {
+                **dict(evaluation.metadata or {}),
+                "counted_context_backend": "device_resident_batch_outer_boundary",
+                "context_power_flow_reruns": 0,
+                "context_host_materializations_per_population": 1,
+            }
+            results.append((evaluation, ORPDEvaluationContext(normalized.copy(), tuple(retained))))
+        return results
+
+    def evaluate_population_with_context(
+        self,
+        population: Iterable,
+        *,
+        retain_control_linearization: bool = False,
+    ) -> list[tuple[Evaluation, ORPDEvaluationContext]]:
+        """Evaluate a complete population on-device and retain contexts at one outer boundary."""
+
+        if self._large_case_reference_fallback or self._device_resident_evaluator is None:
+            if str(self.device).startswith("cuda") and not self.cuda_cpu_fallback_enabled:
+                raise RuntimeError(
+                    "CUDA counted-context evaluation has no device-resident implementation and "
+                    "CPU fallback is forbidden"
+                )
+            candidates = np.asarray(population, dtype=float)
+            if candidates.ndim == 1:
+                candidates = candidates[None, :]
+            return [
+                self.reference.evaluate_with_context(
+                    np.clip(candidate, 0.0, 1.0),
+                    retain_control_linearization=retain_control_linearization,
+                )
+                for candidate in candidates
+            ]
+        try:
+            batch = self._device_resident_evaluator.evaluate_tensor(population)
+            evaluations, arrays = batch.to_evaluations_and_context_arrays()
+        except CudaCapacityExhausted:
+            if not self.cuda_cpu_fallback_enabled:
+                raise
+            candidates = np.asarray(population, dtype=float)
+            if candidates.ndim == 1:
+                candidates = candidates[None, :]
+            return [
+                self.reference.evaluate_with_context(
+                    np.clip(candidate, 0.0, 1.0),
+                    retain_control_linearization=retain_control_linearization,
+                )
+                for candidate in candidates
+            ]
+        return self._contexts_from_device_arrays(
+            evaluations,
+            arrays,
+            retain_control_linearization=retain_control_linearization,
+        )
+
     def evaluate_population_tensor(self, population):
         """Return one device-resident population result without host materialisation."""
         if self._large_case_reference_fallback:
@@ -313,7 +467,7 @@ class AcceleratedORPDProblem:
                 candidates = np.asarray(population, dtype=float)
             if candidates.ndim == 1:
                 candidates = candidates[None, :]
-            results = []
+            fallback_results = []
             for candidate in np.clip(candidates, 0.0, 1.0):
                 evaluation = self.reference.evaluate(candidate)
                 evaluation.metadata = {
@@ -322,8 +476,8 @@ class AcceleratedORPDProblem:
                     "requested_accelerator": str(self.device),
                     "dense_torch_bus_limit": int(MAX_DENSE_TORCH_BUSES),
                 }
-                results.append(evaluation)
-            return results
+                fallback_results.append(evaluation)
+            return fallback_results
         if self._device_resident_evaluator is not None:
             try:
                 return self._device_resident_evaluator.evaluate_tensor(population).to_evaluations()
@@ -341,7 +495,7 @@ class AcceleratedORPDProblem:
                     candidates = np.asarray(population, dtype=float)
                 if candidates.ndim == 1:
                     candidates = candidates[None, :]
-                results = []
+                capacity_fallback_results = []
                 for candidate in np.clip(candidates, 0.0, 1.0):
                     evaluation = self.reference.evaluate(candidate)
                     evaluation.metadata = {
@@ -352,10 +506,10 @@ class AcceleratedORPDProblem:
                         "cuda_capacity_exhaustion": dict(exc.metadata),
                         "runtime_timing_comparable_to_cuda_only": False,
                     }
-                    results.append(evaluation)
+                    capacity_fallback_results.append(evaluation)
                 self._device_resident_evaluator.vram_governor.stats.cpu_fallbacks += 1
                 self._device_resident_evaluator.vram_governor.stats.execution_state = "cpu_fallback"
-                return results
+                return capacity_fallback_results
         try:
             import torch
 
@@ -371,13 +525,13 @@ class AcceleratedORPDProblem:
         with timed_stage("mixed_variable_decode", len(candidates), GLOBAL_LEDGER):
             controlled_cases, physical_controls = self.tensor_decoder.decode_batch(candidates)
         count = len(candidates)
-        values = [[] for _ in range(count)]
-        violations = [[] for _ in range(count)]
-        weights = [[] for _ in range(count)]
-        scenario_values = [[] for _ in range(count)]
-        objective_components = [dict() for _ in range(count)]
-        constraint_components = [dict() for _ in range(count)]
-        scenario_constraint_components = [[] for _ in range(count)]
+        values: list[list[float]] = [[] for _ in range(count)]
+        violations: list[list[float]] = [[] for _ in range(count)]
+        weights: list[list[float]] = [[] for _ in range(count)]
+        scenario_values: list[list[float]] = [[] for _ in range(count)]
+        objective_components: list[dict[str, list[float]]] = [dict() for _ in range(count)]
+        constraint_components: list[dict[str, list[float]]] = [dict() for _ in range(count)]
+        scenario_constraint_components: list[list[dict[str, float]]] = [[] for _ in range(count)]
         converged_all = [True] * count
 
         # v6.6: flatten candidate × scenario work into one compatible stream before chunking.

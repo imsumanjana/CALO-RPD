@@ -829,3 +829,73 @@ Append timestamped entries below this line after each material action, validatio
   this documentation-only reconciliation.
 - Committed the synchronized ledgers as `d78d5f2` (`docs(gates): reconcile immediate G9
   development`).
+
+### 2026-08-04 — counted training CUDA-path audit exposed a blocking development gap
+
+- Audited the historical counted-v2 campaign and the current training call chain before freezing or
+  launching a fresh counted-v4 candidate. Although policy training can select CUDA, the training
+  environment currently calls `ORPDProblem.evaluate_with_context` once per candidate. The default
+  campaign factory constructs the CPU reference problem, so every counted power-system evaluation,
+  topology context and retained control-linearization request still traverses a Python/CPU loop.
+- Consequently, the old campaign demonstrates policy-model CUDA residency only; it is not evidence
+  that more than 95% of the eligible end-to-end training workload ran on the GPU. No fresh campaign
+  was launched and no CUDA-utilization, throughput, qualification or release claim was made.
+- The immediate development repair is now a hard prerequisite: retain the completed tensor power-
+  flow state for a whole population on CUDA, materialize counted evaluation contexts only at the
+  outer batch boundary, add an accelerated batch `evaluate_population_with_context` API with exact
+  FE/scenario accounting and no hidden CPU power-flow solve, route CUDA campaign sessions through
+  that API, and prove bounded CPU/CUDA evaluation/context parity. Focused tests will be used while
+  implementing it; the complete active suite remains reserved for the next source-gate boundary.
+
+### 2026-08-04 — batch device-resident counted-context development completed
+
+- Extended the device-resident ORPD population result to retain final complex voltages, convergence
+  and Newton diagnostics, final PV/PQ bus types, actual generation and branch complex flows/loading
+  on the selected tensor device. Evaluation records and all retained context arrays now use one
+  packed population-level host materialization after the CUDA work completes; microbatch
+  concatenation remains on-device and no candidate-level CPU↔CUDA transfer loop was introduced.
+- Added `AcceleratedORPDProblem.evaluate_population_with_context`. It reconstructs the ephemeral
+  public `PowerFlowResult`/topology contexts from the already-counted tensor state and never invokes
+  another CPU power-flow solve. Optional Change-E derivatives are derived from that final counted
+  state at the outer boundary; this retains exact FE/scenario accounting and proposal-only physics-
+  repair semantics. The production TSH optimizer and independent training environment now submit a
+  complete bounded population through this API instead of calling one scalar evaluator per row.
+- The default campaign now constructs an accelerated ORPD problem on the trainer's admitted CUDA
+  device, requests a population boundary of at least 100 evaluations, and carries the frozen CPU-
+  fallback choice through to the evaluator. Explicit CPU campaigns and injected test/reference
+  factories remain supported. Exact-resume compatibility was advanced to campaign v2/status v2,
+  training environment v5, environment checkpoint v3 and session v2 so historical CPU-loop
+  campaigns cannot silently resume under the changed execution ABI.
+- Advanced the signed episode receipt to v2. Every fresh candidate now binds the counted ORPD
+  computation class and selected device, whether the batch-context API was used, the target host
+  boundary, inner CPU-CUDA transfer count and hidden context power-flow rerun count. CUDA receipts
+  fail validation unless they declare a CUDA device, batched contexts, zero inner-loop transfers
+  and zero hidden power-flow reruns. This is structural provenance, not a substitute for physical
+  utilization/timing evidence.
+- Short development verification passed Ruff/compile checks and `76` focused accelerator, VRAM,
+  counted-environment, session/campaign, lifecycle, inference, optimizer and qualification tests in
+  `24.52s`. A bounded context parity test checks evaluation, voltage, bus-type, branch-flow,
+  Jacobian and control-sensitivity equivalence and forbids a reference-evaluator rerun. The isolated
+  two-module accelerator typed boundary is clean. No full suite or scientific campaign was run.
+- No greater-than-95% end-to-end CUDA claim is made yet. The computational power-flow population is
+  now structurally CUDA-resident, but context-object reconstruction and optional Change-E outer-
+  boundary linear algebra still touch the CPU. The next gate is physical NVIDIA case30/case57
+  candidate-bound VRAM/timing evidence; if eligible CUDA share is not greater than 95%, those
+  measured remaining boundary costs must be ported before any fresh training campaign starts.
+
+### 2026-08-04 — release ledgers reconciled to the batch-context boundary
+
+- Synchronized `IMPLEMENTATION_GATES.md`, `REQUIREMENT_TRACEABILITY.md` and
+  `RELEASE_READY_CONTINUATION_HANDOFF.md` to training environment v5/campaign v2/session v2/receipt
+  v2 and the completed population-level counted-context implementation. Removed the stale direction
+  to start a fresh counted-v4 campaign immediately.
+- The documented next legal order is now explicit: first bind the current source to physical NVIDIA
+  dedicated-VRAM/timing evidence and require greater than 95% eligible CUDA work with zero inner
+  transfer loop; port any measured remainder if it fails; only then freeze and execute the fresh
+  A–E/F-off plan, candidate equivalence, frozen A–E matrix and eligibility gates. Protected cases
+  remain closed and no tuning, benefit, qualification or release claim was introduced.
+- This was a documentation reconciliation after the `76`-test focused development gate; no second
+  regression suite or scientific campaign was run. The locally created `.codex-pytest-temp`
+  directory could not be removed because the managed approval service rejected the cleanup after
+  reaching its usage limit; it is untracked generated test state and must not be committed. The
+  user's unrelated untracked `Docker_Build.txt` remains untouched.

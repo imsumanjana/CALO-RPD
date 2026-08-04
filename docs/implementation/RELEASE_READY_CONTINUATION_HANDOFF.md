@@ -324,7 +324,10 @@ development-case identity, loaded case checksum, formulation fingerprint, traini
 environment design; rejects a loaded protected case by content identity; evaluates only full batches
 through `ORPDProblem.evaluate_with_context`; reports candidate FE and per-scenario solver calls; builds
 topology state from the selected already-counted context; and executes raw single-member hierarchical
-actions through `generate_tsh_offspring` and the canonical `complete_tsh_transition`. It has no
+actions through `generate_tsh_offspring` and the canonical `complete_tsh_transition`. The v5 CUDA
+path submits a whole counted population to the device-resident tensor evaluator, retains final
+voltage/diagnostic/type/generation/branch state in VRAM, and reconstructs contexts only after one
+packed outer-boundary materialization with no hidden CPU power-flow rerun. It has no
 experiment, registry, qualification, activation, GUI or production-inference authority. Training ABI
 v4 admits E only from the same explicit counted linearization boundary, dynamically masks it otherwise,
 and keeps every proposal's trusted evaluation inside the ordinary FE batch; F is rejected before any
@@ -333,7 +336,7 @@ resume under unchanged design/problem hashes. This is mechanics evidence only: f
 training, qualification, ablations and any benefit claim remain pending.
 
 Independent trainer Safe-80 admission is now locally complete under current training-environment ABI
-`tsh-calo-training-v4-counted-physics-safe80-receipts`. Historical v3 artifacts remain immutable and are
+`tsh-calo-training-v5-batched-device-context-safe80`. Historical v3/v4 artifacts remain immutable and are
 not silently migrated. Every new training design declares and hashes maximum rollout,
 population, node, directed-edge, control and scenario counts. A deterministic versioned estimator
 accounts for parameters/buffers, gradients and Adam moments, retained rollout state, autograd
@@ -344,7 +347,9 @@ the estimate fits within 80% of currently available RAM. CUDA training holds cro
 single-owner leases and applies the admitted allocator ceiling; lease contention blocks instead of
 spilling to CPU. Exact resume requires the same admitted computation device. Candidate provenance
 records the estimate, live admission, selected compute device, fallback reason and the truthful fact
-that the NVIDIA GPU or CPU computes while memory stores data. Mutated Safe-80 or computation records
+that the NVIDIA GPU or CPU computes while memory stores data. Episode receipt v2 additionally binds
+the counted ORPD device, batch-context use, target host boundary, inner transfer count and hidden
+context-solve count. Mutated Safe-80 or computation records
 are rejected, and earlier v1/v2 training-environment artifacts are non-native rather than silently
 migrated. Seven dedicated resource tests and a 49-test resource/training/environment/lifecycle/
 inference/optimizer focus pass. The active tree excluding only the deliberately stale v6.9 release-
@@ -476,14 +481,25 @@ and verifies that the CUDA copy increased dedicated-VRAM allocation with every m
 CUDA. Its focused tests pass, but no fresh counted-v4 candidate has executed it. The historical v2/
 v3-ABI candidate remains ineligible.
 
+Immediate CUDA-path development is also complete: production TSH evaluation and independent
+training now use `AcceleratedORPDProblem.evaluate_population_with_context` for one bounded
+population, not one CPU evaluator call per candidate. Seventy-six focused tests pass in 24.52
+seconds, including evaluation, voltage, bus-type, branch-flow, Jacobian and sensitivity parity plus
+a forbidden-reference-rerun guard. This is structural development evidence only. No greater-than-
+95% end-to-end CUDA claim is accepted until target-device timing and dedicated-VRAM evidence binds
+the current source and exact plan; fresh training remains paused until then.
+
 Current legal execution order, without tuning:
 
-1. Commit/freeze one new counted-v4 development plan with A–E enabled and F disabled.
-2. Train its fresh independent ensemble under the exact plan; do not adapt from intermediate results.
-3. Run candidate-bound physical CPU/CUDA equivalence on that exact artifact.
-4. Run the frozen A–E development matrix and retain failed as well as accepted component evidence.
-5. Run the already-frozen screening/formal eligibility path only if its prerequisites pass.
-6. Keep case118/case300 closed until the complete design/source/policy/container freeze.
+1. Prove on the target NVIDIA device that the current counted-training path exceeds 95% eligible
+   CUDA work, uses dedicated VRAM and performs no CPU-CUDA inner loop; port any measured remainder
+   that prevents the gate from passing.
+2. Commit/freeze one new v5/campaign-v2 development plan with A–E enabled and F disabled.
+3. Train its fresh independent ensemble under the exact plan; do not adapt from intermediate results.
+4. Run candidate-bound physical CPU/CUDA equivalence on that exact artifact.
+5. Run the frozen A–E development matrix and retain failed as well as accepted component evidence.
+6. Run the already-frozen screening/formal eligibility path only if its prerequisites pass.
+7. Keep case118/case300 closed until the complete design/source/policy/container freeze.
 
 Required order after approval:
 

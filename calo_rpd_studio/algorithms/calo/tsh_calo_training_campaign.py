@@ -13,7 +13,12 @@ import json
 from pathlib import Path
 from typing import Callable
 
-from calo_rpd_studio.ai.model_io import checkpoint_sha256, durable_write_bytes
+from calo_rpd_studio.accelerated.torch_orpd import AcceleratedORPDProblem
+from calo_rpd_studio.ai.model_io import (
+    checkpoint_sha256,
+    durable_write_bytes,
+    load_trusted_resume,
+)
 from calo_rpd_studio.orpd.problem import ORPDProblem
 from calo_rpd_studio.power_system.case_identity import protected_holdout_matches
 from calo_rpd_studio.power_system.case_loader import CaseLoader
@@ -40,9 +45,11 @@ from .tsh_calo_training_session import (
 CUDA_DURABLE_EVALUATION_WINDOW = 100
 
 
-TSH_CALO_TRAINING_CAMPAIGN_SCHEMA = "tsh-calo-independent-training-campaign-v1"
+TSH_CALO_TRAINING_CAMPAIGN_SCHEMA = (
+    "tsh-calo-independent-training-campaign-v2-batched-device-context"
+)
 TSH_CALO_TRAINING_SEED_MANIFEST_SCHEMA = "tsh-calo-training-seed-manifest-v1"
-TSH_CALO_TRAINING_CAMPAIGN_STATUS_SCHEMA = "tsh-calo-training-campaign-status-v1"
+TSH_CALO_TRAINING_CAMPAIGN_STATUS_SCHEMA = "tsh-calo-training-campaign-status-v2"
 
 
 def _canonical_sha256(payload: dict) -> str:
@@ -367,19 +374,40 @@ class IndependentTSHCALOTrainingCampaign:
         plan: TSHCALOTrainingCampaignPlan,
         output_directory: str | Path,
         *,
-        problem_factory: Callable[[str], ORPDProblem] | None = None,
+        problem_factory: Callable[[str], object] | None = None,
         transition_callback: Callable[[dict], None] | None = None,
     ) -> None:
         plan.validate()
         self.plan = plan
         self.output_directory = Path(output_directory).expanduser().resolve()
-        self.problem_factory = problem_factory or (
-            lambda identity: ORPDProblem(CaseLoader.load(identity))
-        )
+        self.problem_factory = problem_factory
         self.transition_callback = transition_callback
         self._active_session: IndependentTSHCALOTrainingSession | None = None
         self._last_failure_provenance: dict | None = None
         self._last_failure_resumable = False
+
+    def _build_problem(self, case_identity: str, *, device_hint: str | None = None):
+        if self.problem_factory is not None:
+            problem = self.problem_factory(case_identity)
+        else:
+            selected = str(device_hint or self.plan.requested_device).strip().lower()
+            case = CaseLoader.load(case_identity)
+            if selected == "cpu":
+                problem = ORPDProblem(case)
+            else:
+                problem = AcceleratedORPDProblem(
+                    case,
+                    device=selected,
+                    batch_size=max(CUDA_DURABLE_EVALUATION_WINDOW, self.plan.population_size),
+                    device_resident=True,
+                    cuda_resident_hot_loop=True,
+                    cuda_cpu_fallback_enabled=self.plan.allow_cpu_fallback,
+                )
+        if not callable(getattr(problem, "evaluate_with_context", None)):
+            raise TypeError("TSH-CALO campaign problem must provide counted evaluate_with_context")
+        if int(getattr(problem, "dimension", 0)) < 1:
+            raise TypeError("TSH-CALO campaign problem must expose a positive dimension")
+        return problem
 
     @property
     def _plan_path(self) -> Path:
@@ -466,9 +494,7 @@ class IndependentTSHCALOTrainingCampaign:
         training: TSHCALOTrainingConfig,
         episode: TSHCALOTrainingEpisodePlan,
     ) -> IndependentTSHCALOTrainingSession:
-        problem = self.problem_factory(episode.case_identity)
-        if not isinstance(problem, ORPDProblem):
-            raise TypeError("TSH-CALO campaign problem factory must return ORPDProblem")
+        problem = self._build_problem(episode.case_identity, device_hint=str(trainer.device))
         environment_config = self.plan.environment_config(training, episode)
         environment = IndependentTSHCALOTrainingEnvironment(
             problem,
@@ -504,9 +530,14 @@ class IndependentTSHCALOTrainingCampaign:
         if checkpoint_sha256(checkpoint_path) != str(checkpoint.get("sha256", "")):
             raise ValueError("TSH-CALO campaign checkpoint SHA-256 differs from its status record")
         episode = episodes[checkpoint_episode]
-        problem = self.problem_factory(episode.case_identity)
-        if not isinstance(problem, ORPDProblem):
-            raise TypeError("TSH-CALO campaign problem factory must return ORPDProblem")
+        resume_payload = load_trusted_resume(checkpoint_path, map_location="cpu")
+        selected_device = str(
+            dict(resume_payload.get("trainer", {}) or {})
+            .get("training_device_provenance", {})
+            .get("memory_admission", {})
+            .get("selected_device", self.plan.requested_device)
+        )
+        problem = self._build_problem(episode.case_identity, device_hint=selected_device)
         session = IndependentTSHCALOTrainingSession.load_resume(
             checkpoint_path,
             problem=problem,

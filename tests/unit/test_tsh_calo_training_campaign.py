@@ -331,6 +331,40 @@ def test_campaign_rejects_leakage_reused_seeds_and_lifecycle_authority():
         assert forbidden not in source
 
 
+def test_default_cuda_campaign_builds_no_fallback_accelerated_problem(
+    tmp_path, toy_case, monkeypatch
+):
+    plan = replace(_plan(), requested_device="cuda", allow_cpu_fallback=False)
+    captured = {}
+
+    class FakeAcceleratedProblem:
+        dimension = 3
+
+        def __init__(self, case, **kwargs):
+            captured["case"] = case
+            captured.update(kwargs)
+
+        def evaluate_with_context(self, _row, **_kwargs):
+            raise AssertionError("construction test must not evaluate")
+
+        def evaluate_population_with_context(self, _rows, **_kwargs):
+            raise AssertionError("construction test must not evaluate")
+
+    monkeypatch.setattr(campaign_module.CaseLoader, "load", lambda _identity: toy_case)
+    monkeypatch.setattr(campaign_module, "AcceleratedORPDProblem", FakeAcceleratedProblem)
+    campaign = IndependentTSHCALOTrainingCampaign(plan, tmp_path / "cuda-campaign")
+
+    problem = campaign._build_problem("toy-development", device_hint="cuda:0")
+
+    assert isinstance(problem, FakeAcceleratedProblem)
+    assert captured["case"] is toy_case
+    assert captured["device"] == "cuda:0"
+    assert captured["batch_size"] == CUDA_DURABLE_EVALUATION_WINDOW
+    assert captured["device_resident"] is True
+    assert captured["cuda_resident_hot_loop"] is True
+    assert captured["cuda_cpu_fallback_enabled"] is False
+
+
 def test_explicit_training_command_requires_frozen_clean_source(tmp_path, monkeypatch):
     plan = _plan()
     plan_path = tmp_path / "plan.json"

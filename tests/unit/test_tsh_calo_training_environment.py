@@ -9,6 +9,7 @@ from pathlib import Path
 import numpy as np
 import pytest
 
+from calo_rpd_studio.accelerated.torch_orpd import AcceleratedORPDProblem
 from calo_rpd_studio.algorithms.calo.tsh_calo_physics_repair import PhysicsRepairContext
 from calo_rpd_studio.algorithms.calo.tsh_calo_schema import TSHCALOFeatureFlags
 from calo_rpd_studio.algorithms.calo.tsh_calo_training import (
@@ -102,6 +103,39 @@ def test_counted_environment_collects_only_canonical_transitions(toy_case):
     assert collector.rewards == [step.transition.reward.total]
     assert environment.scientific_provenance()["lifecycle_authority"] == "none"
     assert environment.scientific_provenance()["accounting_complete"] is True
+
+
+def test_counted_environment_submits_one_accelerated_population_batch(toy_case, monkeypatch):
+    problem = AcceleratedORPDProblem(
+        toy_case,
+        device="cpu",
+        batch_size=8,
+        device_resident=True,
+        cuda_cpu_fallback_enabled=False,
+    )
+    training = _training_config()
+    environment = IndependentTSHCALOTrainingEnvironment(problem, training, _environment_config())
+    original_batch = problem.evaluate_population_with_context
+    batch_sizes: list[int] = []
+
+    def counted_batch(population, **kwargs):
+        batch_sizes.append(len(population))
+        return original_batch(population, **kwargs)
+
+    def forbidden_scalar(*_args, **_kwargs):
+        raise AssertionError("training environment used a scalar CPU-CUDA evaluation loop")
+
+    monkeypatch.setattr(problem, "evaluate_population_with_context", counted_batch)
+    monkeypatch.setattr(problem, "evaluate_with_context", forbidden_scalar)
+    observation = environment.reset()
+
+    assert batch_sizes == [4]
+    assert observation.candidate_evaluations == 4
+    assert observation.scenario_power_flow_calls == 4
+    assert all(
+        evaluation.metadata["context_host_materializations_per_population"] == 1
+        for evaluation in environment.state.evaluations
+    )
 
 
 def test_counted_change_e_training_action_is_proposal_only_and_fe_counted(toy_case, monkeypatch):

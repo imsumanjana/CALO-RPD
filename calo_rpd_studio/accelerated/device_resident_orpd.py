@@ -102,6 +102,17 @@ class DeviceResidentBatch:
     scenario_constraint_components: Any
     variable_names: tuple[str, ...]
     metadata: dict[str, Any]
+    voltage: Any | None = None
+    converged: Any | None = None
+    iterations: Any | None = None
+    max_mismatch: Any | None = None
+    q_limit_rounds: Any | None = None
+    final_bus_types: Any | None = None
+    s_from_mva: Any | None = None
+    s_to_mva: Any | None = None
+    loading_percent: Any | None = None
+    actual_pg_mw: Any | None = None
+    actual_qg_mvar: Any | None = None
 
     @property
     def count(self) -> int:
@@ -130,6 +141,15 @@ class DeviceResidentBatch:
         metadata["device_microbatch_count"] = len(batches)
         if residency_metadata:
             metadata["vram_residency"] = dict(residency_metadata)
+
+        def concatenate_optional(name: str):
+            values = [getattr(batch, name) for batch in batches]
+            if all(value is None for value in values):
+                return None
+            if any(value is None for value in values):
+                raise ValueError(f"Cannot concatenate partially retained context tensor {name}")
+            return torch.cat(values, dim=0)
+
         return cls(
             objective=torch.cat([batch.objective for batch in batches], dim=0),
             violation=torch.cat([batch.violation for batch in batches], dim=0),
@@ -150,6 +170,17 @@ class DeviceResidentBatch:
             ),
             variable_names=variable_names,
             metadata=metadata,
+            voltage=concatenate_optional("voltage"),
+            converged=concatenate_optional("converged"),
+            iterations=concatenate_optional("iterations"),
+            max_mismatch=concatenate_optional("max_mismatch"),
+            q_limit_rounds=concatenate_optional("q_limit_rounds"),
+            final_bus_types=concatenate_optional("final_bus_types"),
+            s_from_mva=concatenate_optional("s_from_mva"),
+            s_to_mva=concatenate_optional("s_to_mva"),
+            loading_percent=concatenate_optional("loading_percent"),
+            actual_pg_mw=concatenate_optional("actual_pg_mw"),
+            actual_qg_mvar=concatenate_optional("actual_qg_mvar"),
         )
 
     def compact_host_summary(self) -> dict[str, np.ndarray]:
@@ -158,34 +189,79 @@ class DeviceResidentBatch:
         packed = torch.stack(
             (self.objective, self.violation, self.feasible.to(self.objective.dtype)), dim=1
         )
-        host = np.asarray(packed.detach().to("cpu"), dtype=float)
+        host: np.ndarray = np.asarray(packed.detach().to("cpu"), dtype=float)
         return {
             "objective": host[:, 0],
             "violation": host[:, 1],
             "feasible": host[:, 2] > 0.5,
         }
 
-    def to_evaluations(self) -> list[Evaluation]:
-        """Materialise the complete population with one packed host transfer."""
+    def _materialize(
+        self, *, include_context: bool
+    ) -> tuple[list[Evaluation], dict[str, np.ndarray] | None]:
+        """Materialise public evaluations and optional retained solver state in one transfer."""
         torch = _torch()
         objective_columns = [self.objective_components[name] for name in OBJECTIVE_COMPONENT_NAMES]
         constraint_columns = [
             self.constraint_components[name] for name in CONSTRAINT_COMPONENT_NAMES
         ]
-        packed = torch.cat(
-            (
-                self.objective[:, None],
-                self.violation[:, None],
-                self.feasible.to(self.objective.dtype)[:, None],
-                self.normalized_values,
-                self.decoded_values,
-                self.scenario_values,
-                torch.stack(objective_columns, dim=1),
-                torch.stack(constraint_columns, dim=1),
-                self.scenario_constraint_components.reshape(self.count, -1),
-            ),
-            dim=1,
+        columns = [
+            self.objective[:, None],
+            self.violation[:, None],
+            self.feasible.to(self.objective.dtype)[:, None],
+            self.normalized_values,
+            self.decoded_values,
+            self.scenario_values,
+            torch.stack(objective_columns, dim=1),
+            torch.stack(constraint_columns, dim=1),
+            self.scenario_constraint_components.reshape(self.count, -1),
+        ]
+        context_tensors = (
+            self.voltage,
+            self.converged,
+            self.iterations,
+            self.max_mismatch,
+            self.q_limit_rounds,
+            self.final_bus_types,
+            self.s_from_mva,
+            self.s_to_mva,
+            self.loading_percent,
+            self.actual_pg_mw,
+            self.actual_qg_mvar,
         )
+        if include_context:
+            if any(value is None for value in context_tensors):
+                raise RuntimeError("Device-resident ORPD context tensors were not retained")
+            assert self.voltage is not None
+            assert self.converged is not None
+            assert self.iterations is not None
+            assert self.max_mismatch is not None
+            assert self.q_limit_rounds is not None
+            assert self.final_bus_types is not None
+            assert self.s_from_mva is not None
+            assert self.s_to_mva is not None
+            assert self.loading_percent is not None
+            assert self.actual_pg_mw is not None
+            assert self.actual_qg_mvar is not None
+            columns.extend(
+                (
+                    self.voltage.real.reshape(self.count, -1),
+                    self.voltage.imag.reshape(self.count, -1),
+                    self.converged.to(self.objective.dtype).reshape(self.count, -1),
+                    self.iterations.to(self.objective.dtype).reshape(self.count, -1),
+                    self.max_mismatch.reshape(self.count, -1),
+                    self.q_limit_rounds.to(self.objective.dtype).reshape(self.count, -1),
+                    self.final_bus_types.to(self.objective.dtype).reshape(self.count, -1),
+                    self.s_from_mva.real.reshape(self.count, -1),
+                    self.s_from_mva.imag.reshape(self.count, -1),
+                    self.s_to_mva.real.reshape(self.count, -1),
+                    self.s_to_mva.imag.reshape(self.count, -1),
+                    self.loading_percent.reshape(self.count, -1),
+                    self.actual_pg_mw.reshape(self.count, -1),
+                    self.actual_qg_mvar.reshape(self.count, -1),
+                )
+            )
+        packed = torch.cat(columns, dim=1)
         host = np.asarray(packed.detach().to("cpu"), dtype=float)
         n_normalized = int(self.normalized_values.shape[1])
         n_controls = int(self.decoded_values.shape[1])
@@ -201,9 +277,11 @@ class DeviceResidentBatch:
         cursor += len(OBJECTIVE_COMPONENT_NAMES)
         constraint_matrix = host[:, cursor : cursor + len(CONSTRAINT_COMPONENT_NAMES)]
         cursor += len(CONSTRAINT_COMPONENT_NAMES)
-        scenario_constraints = host[:, cursor:].reshape(
+        scenario_constraint_count = n_scenarios * len(CONSTRAINT_COMPONENT_NAMES)
+        scenario_constraints = host[:, cursor : cursor + scenario_constraint_count].reshape(
             self.count, n_scenarios, len(CONSTRAINT_COMPONENT_NAMES)
         )
+        cursor += scenario_constraint_count
 
         out: list[Evaluation] = []
         for row in range(self.count):
@@ -246,7 +324,72 @@ class DeviceResidentBatch:
                     float(metadata.get("feasibility_tolerance", 1e-12)),
                 )
             )
-        return out
+        if not include_context:
+            return out, None
+
+        assert self.voltage is not None
+        assert self.final_bus_types is not None
+        assert self.s_from_mva is not None
+        n_bus = int(self.voltage.shape[2])
+        n_branch = int(self.s_from_mva.shape[2])
+
+        def take(width: int) -> np.ndarray:
+            nonlocal cursor
+            value: np.ndarray = host[:, cursor : cursor + width]
+            cursor += width
+            return value
+
+        scenario_bus_width = n_scenarios * n_bus
+        scenario_branch_width = n_scenarios * n_branch
+        voltage_real = take(scenario_bus_width).reshape(self.count, n_scenarios, n_bus)
+        voltage_imag = take(scenario_bus_width).reshape(self.count, n_scenarios, n_bus)
+        converged = take(n_scenarios).reshape(self.count, n_scenarios) > 0.5
+        iterations: np.ndarray = take(n_scenarios).reshape(self.count, n_scenarios).astype(np.int64)
+        max_mismatch = take(n_scenarios).reshape(self.count, n_scenarios)
+        q_limit_rounds: np.ndarray = (
+            take(n_scenarios).reshape(self.count, n_scenarios).astype(np.int64)
+        )
+        final_bus_types: np.ndarray = (
+            take(scenario_bus_width).reshape(self.count, n_scenarios, n_bus).astype(np.int64)
+        )
+        s_from_real = take(scenario_branch_width).reshape(self.count, n_scenarios, n_branch)
+        s_from_imag = take(scenario_branch_width).reshape(self.count, n_scenarios, n_branch)
+        s_to_real = take(scenario_branch_width).reshape(self.count, n_scenarios, n_branch)
+        s_to_imag = take(scenario_branch_width).reshape(self.count, n_scenarios, n_branch)
+        loading_percent = take(scenario_branch_width).reshape(self.count, n_scenarios, n_branch)
+        actual_pg_mw = take(scenario_bus_width).reshape(self.count, n_scenarios, n_bus)
+        actual_qg_mvar = take(scenario_bus_width).reshape(self.count, n_scenarios, n_bus)
+        if cursor != host.shape[1]:
+            raise RuntimeError("Packed device-resident ORPD context layout is inconsistent")
+        return out, {
+            "normalized_values": normalized.copy(),
+            "voltage": voltage_real + 1j * voltage_imag,
+            "converged": converged,
+            "iterations": iterations,
+            "max_mismatch": max_mismatch,
+            "q_limit_rounds": q_limit_rounds,
+            "final_bus_types": final_bus_types,
+            "s_from_mva": s_from_real + 1j * s_from_imag,
+            "s_to_mva": s_to_real + 1j * s_to_imag,
+            "loading_percent": loading_percent,
+            "actual_pg_mw": actual_pg_mw,
+            "actual_qg_mvar": actual_qg_mvar,
+        }
+
+    def to_evaluations(self) -> list[Evaluation]:
+        """Materialise the complete population with one packed host transfer."""
+
+        evaluations, _context = self._materialize(include_context=False)
+        return evaluations
+
+    def to_evaluations_and_context_arrays(
+        self,
+    ) -> tuple[list[Evaluation], dict[str, np.ndarray]]:
+        """Materialise evaluations plus counted solver state in one final packed transfer."""
+
+        evaluations, context = self._materialize(include_context=True)
+        assert context is not None
+        return evaluations, context
 
 
 class DeviceResidentORPDEvaluator:
@@ -740,11 +883,11 @@ class DeviceResidentORPDEvaluator:
             ybus, yff, yft, ytf, ytt = self._admittance(tap, bs)
             sbus = self._specified_power(batch)
             v0 = self._initial_voltage(vm)
-            converged, failed, voltage, iterations, mismatch, q_rounds, _final_types = (
+            converged, failed, voltage, iterations, mismatch, q_rounds, final_types = (
                 self._solve_power_flow(ybus, sbus, v0, batch)
             )
             pg, qg = self._required_generation(voltage, ybus, batch)
-            _s_from, _s_to, loading, loss = self._branch_outputs(voltage, yff, yft, ytf, ytt, batch)
+            s_from, s_to, loading, loss = self._branch_outputs(voltage, yff, yft, ytf, ytt, batch)
             l_index = self._l_index(voltage, ybus, batch)
 
             vm_final = torch.abs(voltage)
@@ -980,6 +1123,17 @@ class DeviceResidentORPDEvaluator:
                 scenario_constraints,
                 self.variable_names,
                 metadata,
+                voltage.reshape(batch, self.scenario_count, self.n_bus),
+                finite_mask.reshape(batch, self.scenario_count),
+                iterations.reshape(batch, self.scenario_count),
+                mismatch.reshape(batch, self.scenario_count),
+                q_rounds.reshape(batch, self.scenario_count),
+                final_types.reshape(batch, self.scenario_count, self.n_bus),
+                s_from.reshape(batch, self.scenario_count, self.n_branch),
+                s_to.reshape(batch, self.scenario_count, self.n_branch),
+                loading.reshape(batch, self.scenario_count, self.n_branch),
+                pg.reshape(batch, self.scenario_count, self.n_bus),
+                qg.reshape(batch, self.scenario_count, self.n_bus),
             )
 
     def evaluate_tensor(self, normalized) -> DeviceResidentBatch:
@@ -1037,7 +1191,7 @@ class DeviceResidentORPDEvaluator:
             if self.vram_governor.enabled
             else int(getattr(self.problem, "batch_size", int(population.shape[0])))
         )
-        batch = self.vram_governor.run_microbatched(
+        batch: DeviceResidentBatch = self.vram_governor.run_microbatched(
             population,
             evaluate_active_chunk,
             DeviceResidentBatch.concatenate,
