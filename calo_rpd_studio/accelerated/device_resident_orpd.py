@@ -273,6 +273,28 @@ class DeviceResidentORPDEvaluator:
         self.vram_governor = VramResidencyGovernor(self.device, self.vram_policy)
         self._prepare_host_arrays()
         self._prepare_device_tensors()
+        self._release_redundant_cuda_host_arrays()
+
+    def _release_redundant_cuda_host_arrays(self) -> None:
+        """Drop construction-only NumPy duplicates after their CUDA copies exist.
+
+        The canonical case and scenario definitions remain owned by ``problem``.  These arrays are
+        only an intermediate representation used by ``_prepare_device_tensors``; retaining them on
+        a CUDA evaluator needlessly charges the same static numerical data to both RAM and VRAM.
+        """
+
+        if self.device.type != "cuda":
+            return
+        for name in (
+            "scenario_cases",
+            "base_mva_np",
+            "fidx_np",
+            "tidx_np",
+            "bus_np",
+            "gen_np",
+            "branch_np",
+        ):
+            self.__dict__.pop(name, None)
 
     def _prepare_host_arrays(self) -> None:
         cases = [scenario.apply(self.case) for scenario in self.scenarios]
@@ -961,11 +983,13 @@ class DeviceResidentORPDEvaluator:
             )
 
     def evaluate_tensor(self, normalized) -> DeviceResidentBatch:
-        """Evaluate with availability-based VRAM admission and host-staged OOM backoff.
+        """Evaluate with availability-based VRAM admission and explicit staging fallback.
 
-        Input candidates may remain in host memory and are transferred in active microbatches,
-        analogous to explicit model/tensor offload. Numerical work and completed microbatch outputs
-        remain on CUDA; the public result is materialized only after the request completes.
+        A complete host-origin request is moved to CUDA first.  The process allocator ceiling is
+        already frozen from 80% of globally free VRAM at admission.  If that input allocation
+        cannot fit, the population remains in host memory and only active microbatches are staged.
+        Numerical work and completed microbatch outputs remain on CUDA in either mode; the public
+        result is materialized only after the request completes.
         """
         torch = _torch()
         if isinstance(normalized, torch.Tensor):
@@ -974,6 +998,22 @@ class DeviceResidentORPDEvaluator:
             population = torch.as_tensor(np.asarray(normalized, dtype=float), dtype=self.dtype)
         if population.ndim == 1:
             population = population.unsqueeze(0)
+        started_on_host = population.device.type == "cpu" and self.device.type == "cuda"
+        full_request_residency_attempted = bool(started_on_host and self.vram_governor.enabled)
+        full_request_residency_admitted = population.device.type == "cuda"
+        host_staging_reason = ""
+        if full_request_residency_attempted:
+            try:
+                population = population.to(device=self.device, dtype=self.dtype)
+                full_request_residency_admitted = True
+            except BaseException as exc:
+                if not self.vram_governor.is_cuda_oom(exc):
+                    raise
+                host_staging_reason = "full_request_input_cuda_allocation_exhausted"
+                try:
+                    torch.cuda.empty_cache()
+                except (RuntimeError, ValueError):
+                    pass
         host_staged = population.device.type == "cpu" and self.device.type == "cuda"
         if host_staged and hasattr(population, "pin_memory"):
             try:
@@ -989,16 +1029,33 @@ class DeviceResidentORPDEvaluator:
             )
             return self._evaluate_tensor_once(active)
 
-        # CUDA first attempts the complete request and then reduces only the transferred active
-        # chunk. The host population remains bounded host-side staging rather than occupying VRAM.
+        # CUDA first attempts the complete request and then reduces only the active chunk after a
+        # typed OOM. Host staging is retained only when the initial full-request upload itself
+        # cannot fit the frozen Safe-80 allowance.
         preferred = (
             int(population.shape[0])
             if self.vram_governor.enabled
             else int(getattr(self.problem, "batch_size", int(population.shape[0])))
         )
-        return self.vram_governor.run_microbatched(
+        batch = self.vram_governor.run_microbatched(
             population,
             evaluate_active_chunk,
             DeviceResidentBatch.concatenate,
             preferred_microbatch=preferred,
         )
+        residency = dict(batch.metadata.get("vram_residency", {}))
+        residency.update(
+            {
+                "full_request_residency_attempted": full_request_residency_attempted,
+                "full_request_residency_admitted": full_request_residency_admitted,
+                "host_staging_reason": host_staging_reason,
+                "input_population_device_during_compute": str(population.device),
+                "target_evaluations_per_host_boundary": 100,
+                "cpu_cuda_inner_loop_transfers": 0,
+                "host_sync_policy": (
+                    "one initial upload and one packed final materialization per population request"
+                ),
+            }
+        )
+        batch.metadata["vram_residency"] = residency
+        return batch

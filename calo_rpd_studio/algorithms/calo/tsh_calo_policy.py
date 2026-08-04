@@ -8,7 +8,11 @@ import torch
 from torch import nn
 
 from .policy_schema import POLICY_STATE_DIM
-from .topology_context import TopologyAwarePolicyState, TopologyContextEncoder
+from .topology_context import (
+    PreparedTopologyGraphState,
+    TopologyAwarePolicyState,
+    TopologyContextEncoder,
+)
 from .tsh_calo_schema import (
     N_BOUNDED_PARAMETERS,
     N_CONTROL_GROUPS,
@@ -117,6 +121,14 @@ class TSHCALOPolicyOutput:
             raise ValueError("TSH-CALO beta parameters must remain greater than one")
 
 
+@dataclass(frozen=True, slots=True)
+class PreparedTopologyAwarePolicyState:
+    """One policy state uploaded once and reused across a complete PPO update block."""
+
+    aggregate_features: torch.Tensor
+    topology: PreparedTopologyGraphState
+
+
 @dataclass(slots=True)
 class HierarchicalPolicyAction:
     schema_version: str
@@ -159,14 +171,19 @@ def masked_group_operator_probabilities(
     mask.validate()
     if logits.shape != (N_CONTROL_GROUPS, N_OPERATORS):
         raise ValueError("Group operator logits do not match the TSH-CALO action ABI")
-    mask = mask.to(logits.device)
-    probabilities = torch.zeros_like(logits)
-    for group in range(N_CONTROL_GROUPS):
-        if not bool(mask.available_groups[group]):
-            continue
-        group_logits = logits[group].masked_fill(~mask.allowed[group], -torch.inf)
-        probabilities[group] = torch.softmax(group_logits, dim=-1)
-    return probabilities
+    device_mask = mask.to(logits.device)
+    masked_logits = logits.masked_fill(~device_mask.allowed, -torch.inf)
+    # Unavailable rows contain no legal action and would otherwise softmax to NaN. Give them one
+    # temporary finite sentinel, then zero the complete row after the single vectorized softmax.
+    safe_logits = torch.where(
+        device_mask.available_groups[:, None],
+        masked_logits,
+        torch.zeros_like(masked_logits),
+    )
+    probabilities = torch.softmax(safe_logits, dim=-1)
+    return torch.where(
+        device_mask.available_groups[:, None], probabilities, torch.zeros_like(probabilities)
+    )
 
 
 def hierarchical_action(
@@ -193,6 +210,8 @@ def hierarchical_action(
         group_operators = torch.full(
             (N_CONTROL_GROUPS,), -1, dtype=torch.long, device=output.regime_logits.device
         )
+        # Preserve the frozen group-by-group RNG consumption order for exact replay. There are only
+        # three control groups; changing this to one matrix multinomial would alter trajectories.
         for group in range(N_CONTROL_GROUPS):
             if bool(device_mask.available_groups[group]):
                 group_operators[group] = torch.multinomial(
@@ -224,10 +243,12 @@ def assign_group_conditioned_learner_operators(
     *,
     deterministic: bool,
     generator: torch.Generator | None = None,
+    action_is_validated: bool = False,
 ) -> torch.Tensor:
     """Independently sample each learner from its physical control-group distribution."""
 
-    action.validate()
+    if not action_is_validated:
+        action.validate()
     groups = torch.as_tensor(
         learner_groups, dtype=torch.long, device=action.group_operator_probabilities.device
     )
@@ -238,13 +259,29 @@ def assign_group_conditioned_learner_operators(
     )
     if contexts.shape != groups.shape:
         raise ValueError("learner_contexts must align exactly with learner_groups")
-    if groups.numel() and (int(groups.min()) < 0 or int(groups.max()) >= N_CONTROL_GROUPS):
-        raise ValueError("learner_groups contains an unknown control group")
-    if contexts.numel() and (int(contexts.min()) < 0 or int(contexts.max()) >= N_LEARNER_CONTEXTS):
-        raise ValueError("learner_contexts contains an unknown learner context")
+    if groups.numel():
+        valid_groups = torch.all((groups >= 0) & (groups < N_CONTROL_GROUPS))
+        valid_contexts = torch.all((contexts >= 0) & (contexts < N_LEARNER_CONTEXTS))
+        if groups.device.type == "cuda":
+            torch._assert_async(valid_groups, "learner_groups contains an unknown control group")
+            torch._assert_async(
+                valid_contexts, "learner_contexts contains an unknown learner context"
+            )
+        else:
+            if not bool(valid_groups):
+                raise ValueError("learner_groups contains an unknown control group")
+            if not bool(valid_contexts):
+                raise ValueError("learner_contexts contains an unknown learner context")
     available = action.action_mask.available_groups.to(groups.device)
-    if groups.numel() and bool((~available[groups]).any()):
-        raise ValueError("A learner cannot be assigned to an unavailable control group")
+    if groups.numel():
+        valid_availability = torch.all(available[groups])
+        if groups.device.type == "cuda":
+            torch._assert_async(
+                valid_availability,
+                "A learner cannot be assigned to an unavailable control group",
+            )
+        elif not bool(valid_availability):
+            raise ValueError("A learner cannot be assigned to an unavailable control group")
     group_probabilities = action.group_operator_probabilities[groups]
     combined_logits = (
         torch.log(group_probabilities.clamp_min(1e-12)) + action.context_operator_logits[contexts]
@@ -279,14 +316,23 @@ class TSHCALOPolicyNetwork(nn.Module):
         self.group_beta_head = nn.Linear(hidden_dim, N_BOUNDED_PARAMETERS)
         self.value_head = nn.Linear(hidden_dim, 1)
 
-    def forward(self, state: TopologyAwarePolicyState) -> TSHCALOPolicyOutput:
+    def prepare_state(self, state: TopologyAwarePolicyState) -> PreparedTopologyAwarePolicyState:
+        """Validate and transfer a state once before repeated CUDA policy epochs."""
+
         state.validate()
         parameter = next(self.parameters())
-        aggregate = torch.as_tensor(
-            state.aggregate_features, device=parameter.device, dtype=parameter.dtype
+        return PreparedTopologyAwarePolicyState(
+            aggregate_features=torch.as_tensor(
+                state.aggregate_features, device=parameter.device, dtype=parameter.dtype
+            ),
+            topology=self.topology_encoder.prepare(state.topology),
         )
-        aggregate_embedding = self.aggregate_encoder(aggregate)
-        topology = self.topology_encoder(state.topology)
+
+    def forward_prepared(self, state: PreparedTopologyAwarePolicyState) -> TSHCALOPolicyOutput:
+        """Run the policy without a repeated host conversion or Python validation boundary."""
+
+        aggregate_embedding = self.aggregate_encoder(state.aggregate_features)
+        topology = self.topology_encoder.forward_prepared(state.topology)
         shared = self.global_fusion(
             torch.cat([aggregate_embedding, topology.graph_embedding], dim=-1)
         )
@@ -305,5 +351,9 @@ class TSHCALOPolicyNetwork(nn.Module):
             group_beta=beta,
             value=self.value_head(shared).squeeze(-1),
         )
+        return output
+
+    def forward(self, state: TopologyAwarePolicyState) -> TSHCALOPolicyOutput:
+        output = self.forward_prepared(self.prepare_state(state))
         output.validate()
         return output

@@ -37,6 +37,9 @@ from .tsh_calo_training_session import (
 )
 
 
+CUDA_DURABLE_EVALUATION_WINDOW = 100
+
+
 TSH_CALO_TRAINING_CAMPAIGN_SCHEMA = "tsh-calo-independent-training-campaign-v1"
 TSH_CALO_TRAINING_SEED_MANIFEST_SCHEMA = "tsh-calo-training-seed-manifest-v1"
 TSH_CALO_TRAINING_CAMPAIGN_STATUS_SCHEMA = "tsh-calo-training-campaign-status-v1"
@@ -413,6 +416,7 @@ class IndependentTSHCALOTrainingCampaign:
             "current_member_index": 0,
             "current_episode_index": 0,
             "session_checkpoint": None,
+            "uncommitted_cuda_window": None,
             "member_candidates": [],
             "failure": None,
         }
@@ -436,6 +440,22 @@ class IndependentTSHCALOTrainingCampaign:
             raise RuntimeError("TSH-CALO campaign is already complete")
         if status.get("state") not in {"running", "interrupted"}:
             raise ValueError("TSH-CALO campaign status is not resumable")
+        if status.get("uncommitted_cuda_window") is not None:
+            status["state"] = "failed"
+            status["failure"] = {
+                "type": "UncommittedCudaWindow",
+                "message": (
+                    "The process stopped inside a grouped CUDA evaluation window; exact resume "
+                    "under the same campaign identity is forbidden."
+                ),
+                "category": "non_resumable_training_or_integrity_failure",
+                "resumable": False,
+                "window": dict(status["uncommitted_cuda_window"]),
+            }
+            self._write_status(status)
+            raise RuntimeError(
+                "TSH-CALO campaign stopped inside an uncommitted CUDA evaluation window"
+            )
         status["state"] = "running"
         self._write_status(status)
         return self._execute(status)
@@ -514,8 +534,25 @@ class IndependentTSHCALOTrainingCampaign:
                 tuple(session.update_metrics),
                 tuple(session.canonical_rewards),
             )
+        # Persist only after a bounded group of counted transitions instead of serializing the
+        # complete CUDA learner/environment state after every step. The window is derived from the
+        # declared population so it targets about 100 candidate evaluations without changing any
+        # transition, PPO, reward, or FE-accounting semantics. An exception inside an uncommitted
+        # window fails the campaign identity; partial work is never silently resumed.
+        evaluations_per_transition = max(1, int(session.environment.config.population_size))
+        transitions_per_window = max(
+            1, CUDA_DURABLE_EVALUATION_WINDOW // evaluations_per_transition
+        )
         while True:
-            result = session.advance(max_transitions=1)
+            status["uncommitted_cuda_window"] = {
+                "member_index": int(member_index),
+                "episode_index": int(episode_index),
+                "starting_transition_count": int(session.transition_count),
+                "maximum_transitions": int(transitions_per_window),
+                "target_candidate_evaluations": int(CUDA_DURABLE_EVALUATION_WINDOW),
+            }
+            self._write_status(status)
+            result = session.advance(max_transitions=transitions_per_window)
             checkpoint_path = self._checkpoint_path(member_index)
             checkpoint_sha256 = session.save_resume(checkpoint_path)
             status["session_checkpoint"] = {
@@ -525,6 +562,7 @@ class IndependentTSHCALOTrainingCampaign:
                 "episode_index": episode_index,
                 "transition_count": session.transition_count,
             }
+            status["uncommitted_cuda_window"] = None
             self._write_status(status)
             if self.transition_callback is not None:
                 self.transition_callback(dict(status))

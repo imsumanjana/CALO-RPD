@@ -167,6 +167,19 @@ class TopologyEncoding:
     control_embeddings: torch.Tensor
 
 
+@dataclass(frozen=True, slots=True)
+class PreparedTopologyGraphState:
+    """Validated topology tensors retained on one execution device across policy epochs."""
+
+    node_features: torch.Tensor
+    edge_index: torch.Tensor
+    edge_features: torch.Tensor
+    control_features: torch.Tensor
+    control_bus_index: torch.Tensor
+    control_groups: torch.Tensor
+    scenario_features: torch.Tensor
+
+
 def _aggregate_generators(case) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     index = case.bus_index_map()
     pg = np.zeros(case.n_bus, dtype=float)
@@ -370,19 +383,36 @@ class TopologyContextEncoder(nn.Module):
             return values.new_zeros(values.shape[1])
         return values.mean(dim=0)
 
-    def forward(self, state: TopologyGraphState) -> TopologyEncoding:
+    def prepare(self, state: TopologyGraphState) -> PreparedTopologyGraphState:
+        """Validate once and upload one graph once for a resident multi-epoch update."""
+
         state.validate()
         device = next(self.parameters()).device
         dtype = next(self.parameters()).dtype
-        node_features = torch.as_tensor(state.node_features, device=device, dtype=dtype)
-        edge_index = torch.as_tensor(state.edge_index, device=device, dtype=torch.long)
-        edge_features = torch.as_tensor(state.edge_features, device=device, dtype=dtype)
-        control_features = torch.as_tensor(state.control_features, device=device, dtype=dtype)
-        control_bus_index = torch.as_tensor(
-            state.control_bus_index, device=device, dtype=torch.long
+        return PreparedTopologyGraphState(
+            node_features=torch.as_tensor(state.node_features, device=device, dtype=dtype),
+            edge_index=torch.as_tensor(state.edge_index, device=device, dtype=torch.long),
+            edge_features=torch.as_tensor(state.edge_features, device=device, dtype=dtype),
+            control_features=torch.as_tensor(state.control_features, device=device, dtype=dtype),
+            control_bus_index=torch.as_tensor(
+                state.control_bus_index, device=device, dtype=torch.long
+            ),
+            control_groups=torch.as_tensor(state.control_groups, device=device, dtype=torch.long),
+            scenario_features=torch.as_tensor(state.scenario_features, device=device, dtype=dtype),
         )
-        control_groups = torch.as_tensor(state.control_groups, device=device, dtype=torch.long)
-        scenario_features = torch.as_tensor(state.scenario_features, device=device, dtype=dtype)
+
+    def forward_prepared(self, state: PreparedTopologyGraphState) -> TopologyEncoding:
+        """Encode an already resident graph without another host conversion or validation sync."""
+
+        node_features = state.node_features
+        edge_index = state.edge_index
+        edge_features = state.edge_features
+        control_features = state.control_features
+        control_bus_index = state.control_bus_index
+        control_groups = state.control_groups
+        scenario_features = state.scenario_features
+        device = node_features.device
+        dtype = node_features.dtype
 
         nodes = self.node_encoder(node_features)
         edges = self.edge_encoder(edge_features)
@@ -420,3 +450,6 @@ class TopologyContextEncoder(nn.Module):
             )
             groups = groups / counts.clamp_min(1.0).unsqueeze(-1)
         return TopologyEncoding(graph_embedding, groups, nodes, controls)
+
+    def forward(self, state: TopologyGraphState) -> TopologyEncoding:
+        return self.forward_prepared(self.prepare(state))

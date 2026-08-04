@@ -32,6 +32,7 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_schema import (
     TSH_CALO_STATE_SCHEMA,
     TSHCALOFeatureFlags,
 )
+from calo_rpd_studio.algorithms.calo.tsh_calo_policy import TSHCALOPolicyNetwork
 from calo_rpd_studio.orpd.variable_decoder import ORPDVariableConfig, ORPDVariableDecoder
 from calo_rpd_studio.power_system.ac_power_flow import run_ac_power_flow
 
@@ -143,6 +144,41 @@ def test_topology_encoder_is_deterministic_and_sensitive_to_declared_topology(to
 
     torch.testing.assert_close(first, second, rtol=0.0, atol=0.0)
     assert not torch.allclose(first, altered, rtol=1e-10, atol=1e-10)
+
+
+def test_prepared_policy_state_is_numerically_identical_without_reupload(toy_case):
+    decoder = ORPDVariableDecoder(toy_case, ORPDVariableConfig())
+    result = run_ac_power_flow(toy_case)
+    topology = build_topology_graph_state(
+        toy_case,
+        decoder,
+        np.full(decoder.dimension, 0.5),
+        result,
+        [ScenarioDescriptor(1.0, 0.0, 0.0, 0.0, 1.0, 0.0)],
+    )
+    state = TopologyAwarePolicyState(np.linspace(0.0, 1.0, 32), topology)
+    torch.manual_seed(443)
+    network = TSHCALOPolicyNetwork(hidden_dim=16, graph_steps=1).double().eval()
+
+    direct = network(state)
+    prepared_state = network.prepare_state(state)
+    prepared = network.forward_prepared(prepared_state)
+
+    assert prepared_state.aggregate_features.device == next(network.parameters()).device
+    for name in (
+        "regime_logits",
+        "group_operator_logits",
+        "context_operator_logits",
+        "group_alpha",
+        "group_beta",
+        "value",
+    ):
+        torch.testing.assert_close(
+            getattr(direct, name),
+            getattr(prepared, name),
+            rtol=0.0,
+            atol=0.0,
+        )
 
 
 def test_topology_state_rejects_nonfinite_features_and_unknown_bus_indices():

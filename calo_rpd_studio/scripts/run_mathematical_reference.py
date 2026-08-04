@@ -7,9 +7,10 @@ import hashlib
 import json
 import os
 from pathlib import Path
+from typing import Any, cast
 
 import numpy as np
-import yaml
+import yaml  # type: ignore[import-untyped]
 
 from calo_rpd_studio.compute.source_identity import resolve_source_identity
 from calo_rpd_studio.experiments.experiment_config import ExperimentConfig
@@ -32,15 +33,15 @@ def _sha256(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
-def _read_mapping(path: Path) -> tuple[dict, str]:
+def _read_mapping(path: Path) -> tuple[dict[str, Any], str]:
     raw = path.read_bytes()
     if path.suffix.lower() in {".yaml", ".yml"}:
-        payload = yaml.safe_load(raw.decode("utf-8"))
+        payload: object = yaml.safe_load(raw.decode("utf-8"))
     else:
         payload = json.loads(raw.decode("utf-8"))
     if not isinstance(payload, dict):
         raise TypeError("Reference configuration must contain one JSON/YAML object")
-    return payload, _sha256(raw)
+    return cast(dict[str, Any], payload), _sha256(raw)
 
 
 def load_reference_problem(

@@ -383,9 +383,9 @@ class CALOIntelligencePanel(ScrollablePage):
         )
         self.training_tensor_batch = QSpinBox()
         self.training_tensor_batch.setRange(1, 65536)
-        self.training_tensor_batch.setValue(64)
+        self.training_tensor_batch.setValue(100)
         self.training_tensor_batch.setToolTip(
-            "Candidate microbatch used by the FP64 ORPD evaluator inside policy-training actors."
+            "Target CUDA-resident candidate window used by the FP64 ORPD evaluator inside policy-training actors; capacity faults reduce only the active CUDA microbatch."
         )
         self.training_cross_batch = QSpinBox()
         self.training_cross_batch.setRange(16, 262144)

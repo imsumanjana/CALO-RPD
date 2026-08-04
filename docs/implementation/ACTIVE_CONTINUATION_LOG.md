@@ -427,3 +427,162 @@ Append timestamped entries below this line after each material action, validatio
   Actions, interactive browser, final-candidate image/SBOM/attestation, G9 qualification, reviewed
   external ORPD profiles or protected G10 campaign evidence. Next safe action: audit and execute
   remaining CI/reproducibility gates that do not require tuning or protected-case opening.
+
+### 2026-08-04 — CUDA-residency priority inserted before remaining release work
+
+- Expanded the pinned mypy 1.20.2 safety boundary from nine to twelve release-critical modules by
+  adding the mathematical-reference implementation/CLI and installed-wheel GUI validator. The
+  first exact check found an unchecked `Any` return and an untyped PyYAML boundary; both were
+  corrected without changing solver semantics. The repeated twelve-file check passed, and the
+  focused regression set passed `20` tests before the user subsequently prohibited further tests
+  for the CUDA-residency milestone. The full coverage attempt was interrupted and is not evidence.
+- The user inserted a new engineering priority: eliminate recurring CPU↔CUDA traffic in the
+  scientific hot paths, process power-system work in CUDA-resident windows centred on 100 function
+  evaluations, retain policy-update work on CUDA across ten-epoch reporting windows, and target
+  more than 95% CUDA share of steady-state accelerator-eligible numerical work. Startup, UI,
+  SQLite, filesystem I/O, orchestration and final serialization remain CPU responsibilities and
+  are excluded from that metric; no 100%-of-application CUDA claim is permitted.
+- A live idle sample found no residual Python/pytest/coverage process and `nvidia-smi` reported the
+  RTX 4060 Laptop GPU at 0 MiB application use and 0% compute/memory utilization. This is an idle
+  observation only, not workload evidence and not proof of fallback.
+- Audit found that the CUDA AC evaluator already uses a fixed-shape masked Newton loop with no
+  per-iteration host early exit or history materialization, and the heterogeneous PPO learner keeps
+  minibatches, losses and optimizer tensors on its selected CUDA device through each update block.
+  Remaining recurring boundaries include host-origin population staging, construction-only NumPy
+  duplicates, conversion of completed CUDA evaluation batches into Python `Evaluation` objects for
+  optimizer decisions, rollout/environment coordination and per-epoch policy snapshot distribution.
+- Began the non-tuning residency repair in `device_resident_orpd.py`: construction-only NumPy case
+  arrays are discarded after CUDA tensor preparation, and a complete host-origin candidate request
+  is now uploaded once and retained on CUDA when it fits the immutable 80%-of-currently-free-VRAM
+  process ceiling. A typed CUDA OOM at that initial upload retains explicit host staging and the
+  existing CUDA microbatch policy rather than silently entering a CPU scientific inner loop.
+- Per explicit instruction, do not execute tests or benchmarks during this CUDA implementation
+  milestone. Consequently the `>95%` threshold must remain an unmeasured acceptance target, not a
+  result or release claim. Complete the residency/cadence code and static traceability first, report
+  that implementation boundary to the user, and only resume profiling/tests and the broader release
+  goal after the user permits the next phase.
+- Completed the source-level power-system residency change. CUDA evaluators now discard seven
+  construction-only NumPy duplicates after their device tensors exist, attempt one complete
+  population upload, retain that population and every scientific output tensor on CUDA through the
+  request, and perform one packed final population materialization. Explicit OOM staging remains a
+  separately labelled capacity path under the immutable Safe-80 ceiling. Runtime residency metadata
+  records a target of 100 evaluations per host boundary and zero CPU↔CUDA inner-loop transfers.
+- Changed new experiment/training execution defaults from 64 to 100 candidates and changed automatic
+  CUDA calibration candidates to `100/200/400`; the schema and both GUI surfaces are synchronized.
+  This is an execution batching change, not an optimizer population-size or scientific-budget
+  change. Historical immutable policy artifacts that record 64 remain unchanged.
+- Completed the independent TSH-CALO PPO data-residency change. Each validated topology state and
+  action is uploaded once before the PPO block and reused for every configured PPO epoch. Group
+  masking/log-probability work is CUDA tensor work without availability scalar reads; stochastic
+  group sampling deliberately retains its original three-group RNG call order. PPO loss and gradient
+  metrics remain on CUDA and cross to CPU once as one packed vector after the complete configured
+  PPO epoch block. Thus a ten-epoch configured block has one metrics transfer, not ten.
+- Collapsed the policy/environment action boundary from separate group-operator, parameter,
+  learner-operator, mask, log-probability and value transfers into one packed CUDA→CPU transfer.
+  The regime scalar remains the required action-delivery boundary, and CPU-side action validation
+  happens only after that boundary. Bootstrap values, environment transitions, UI/database work and
+  durable checkpoint/export remain legitimate CPU responsibilities; they are not relabelled CUDA.
+- Changed the independent training campaign from one full durable checkpoint per transition to a
+  grouped durability window targeting 100 counted candidate evaluations. A status marker is written
+  before the window; only a completed window receives an exact resume checkpoint. If a process stops
+  inside the window, resume marks the campaign failed and refuses the identity, preventing partial
+  uncommitted evaluations from being silently replayed as exact evidence.
+- Strengthened `validate_accelerator` to schema v2. A CUDA parity result now fails qualification
+  unless PyTorch peak allocation rises above its pre-workload baseline, allocator accounting is
+  consistent, and additional allocation/reservation stay within the admission allowance. The record
+  explicitly states that dedicated-VRAM evidence does not claim zero host-RAM use.
+- No tests, imports, compilation, profiler, CUDA workload or benchmark were executed after these
+  CUDA changes, per user instruction. `git diff --check` is clean and was used only as a source-text
+  consistency inspection. Therefore source implementation is complete for this milestone, while
+  runtime correctness, exact replay/parity, the `>95%` steady-state CUDA numerical-time threshold,
+  and the requested 100,000-evaluation/1,000-epoch throughput remain unverified and cannot yet be
+  release claims. Do not commit or resume the broader release goal until the user authorizes the
+  verification phase. User-owned untracked `Docker_Build.txt` remains untouched.
+
+### 2026-08-04 — immediate development, step 1: bounded CUDA timing evidence
+
+- Added a reusable, fail-closed CUDA event/wall-clock measurement boundary in
+  `accelerated/cuda_timing.py`. It synchronizes only before and after the complete measured window,
+  retains the raw share and rejects non-positive or materially contradictory samples. The frozen
+  engineering targets are 95% accelerator-eligible numerical time, 100 power-system evaluations
+  per host boundary and ten policy epochs per reporting boundary.
+- Added the development-case-only `calo-rpd-cuda-hot-path` validator. It refuses protected cases,
+  requires physical CUDA and a durable clean source identity, creates one FP64 population directly
+  in VRAM, performs warm-up outside the measurement, then measures repeated device-resident ORPD
+  batches without intermediate host materialization. Qualification additionally requires every
+  result tensor to remain on CUDA, full-request VRAM admission, zero declared CPU↔CUDA inner-loop
+  transfers, zero CPU fallbacks and the 100-evaluation boundary contract.
+- Evidence output is new-file-only strict JSON and explicitly excludes startup, UI, database,
+  filesystem I/O, orchestration and final serialization from the numerical-share metric. This is a
+  timing/placement harness, not scientific parity, tuning, throughput superiority or release
+  evidence. No result is claimed until it is run on a clean committed source with physical CUDA.
+
+### 2026-08-04 — immediate development, step 2: focused invariant coverage
+
+- Added small deterministic invariants for the timing decision boundary, including acceptance at
+  or above 95%, rejection immediately below it and rejection of materially contradictory CUDA-event
+  and wall-clock samples. The same test locks the 100-evaluation/ten-policy-epoch constants and the
+  synchronized experiment, training and generated-schema batching defaults.
+- Extended accelerator evidence coverage so dedicated-VRAM proof requires an observed incremental
+  PyTorch CUDA allocation, consistent allocator peaks and both allocation and reservation within the
+  admission allowance; zero incremental allocation and over-allowance peaks remain rejected.
+- Added exact prepared-policy equivalence coverage: a validated topology-aware policy state and its
+  one-time prepared tensor representation must produce bit-identical CPU outputs. The existing PPO
+  update test remains the focused execution check for prepared states/actions and packed metrics.
+- Added a direct campaign-integrity invariant proving that a persisted non-null grouped CUDA-window
+  marker makes the campaign identity non-resumable and records a failed status. This complements the
+  existing safe post-checkpoint interruption/resume test; it does not weaken exact replay rules.
+- No test has been executed yet in this step. The next action is limited to Ruff, the affected mypy
+  target and the five focused unit modules; the full suite remains deferred to a later release gate.
+
+### 2026-08-04 — immediate development, step 3: qualification-lane integration
+
+- Registered `calo-rpd-cuda-hot-path` as an installed console entry point and added both the timing
+  primitive and validator to the CI typed-module boundary. The manual self-hosted physical-CUDA lane
+  now runs separate case30 and case57 100-candidate, ten-batch measurements after CPU/CUDA parity and
+  retains their new-file-only JSON evidence with the other physical qualification artifacts.
+- The hot-path commands do not run in ordinary CPU CI and do not open case118/case300 or any protected
+  qualification cases. They fail the manual lane when the measured share, tensor placement, residency,
+  transfer, fallback or 100-evaluation boundary contract is not directly satisfied.
+
+### 2026-08-04 — immediate development, step 4: ten-epoch policy timing boundary
+
+- Added the separate development-only `calo-rpd-cuda-policy-hot-path` command. It constructs a
+  topology-aware rollout from case30 or case57 setup state, admits an independent trainer with CPU
+  fallback disabled, warms up outside measurement and times complete ten-epoch PPO update blocks.
+  Qualification requires CUDA-resident model parameters, nonzero allocation within the admitted
+  process ceiling, finite packed metrics, the declared one-transfer-per-ten-epoch provenance and at
+  least 95% bounded CUDA event-time share.
+- The command records that it does not export, register, qualify or activate the resulting diagnostic
+  policy state. Both development cases are wired into the manual physical-CUDA lane alongside ORPD
+  timing; protected cases remain closed. Setup power flow, rollout construction and durable JSON are
+  outside the timed learner window and remain truthfully CPU work.
+
+### 2026-08-04 — immediate development verification checkpoint
+
+- Focused Ruff lint passes. Ruff formatting initially identified five changed source files and one
+  contract test; those files were mechanically formatted and the repeated focused formatting check
+  passes. `git diff --check` passes.
+- The first focused pytest invocation reached `26 passed` and `11` setup errors caused solely by the
+  sandbox-denied default Windows pytest temp directory; it had no assertion failures. Repeating the
+  identical six-module set with an explicit workspace-local temporary base passed `37` tests in
+  `7.98s`. After policy-lane integration, both validator `--help` imports succeeded and the affected
+  contract/residency/trainer subset passed `19` tests in `4.40s`; temporary test data was removed.
+- A local mypy rerun is not claimed: neither available existing Python environment contains mypy,
+  and no dependency was installed or changed. The CI typed-module list now includes the two timing
+  validators and timing primitive, so the pinned CI environment remains the required type gate.
+- These short checks establish source-level regression confidence only. No physical CUDA workload was
+  run in this checkpoint, so the 95% target, dedicated-VRAM execution of the new validators and the
+  requested 100,000-evaluation/1,000-epoch throughput remain pending direct evidence. User-owned
+  untracked `Docker_Build.txt` remains untouched.
+- A post-verification source audit confirmed the seven discarded NumPy arrays are referenced only
+  during CUDA evaluator construction. It also found that the prepared PPO probability path should
+  neutralize unavailable group rows before softmax, rather than only zeroing them afterward; this was
+  repaired to exclude latent NaN gradients without changing available-group equations or RNG order.
+  Focused independent-training and hierarchical-policy regression then passed `18` tests in `5.28s`.
+- Immediate development checkpoint is ready to commit as one source milestone: CUDA populations and
+  PPO state/action data remain resident across their bounded numerical windows, campaign durability
+  is grouped without silent partial replay, both numerical paths have fail-closed physical timing
+  validators, and the manual qualification lane retains their evidence. The broader release goal is
+  not complete; physical timing/VRAM execution, pinned CI typing, full regression, packaging and final
+  release gates remain separate evidence work.

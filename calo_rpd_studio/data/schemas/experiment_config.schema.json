@@ -466,7 +466,7 @@
     },
     "tensor_batch_size": {
       "type": "integer",
-      "default": 64
+      "default": 100
     },
     "require_backend_parity": {
       "type": "boolean",
@@ -521,15 +521,13 @@
     "calibration_batch_sizes": {
       "type": "array",
       "default": [
-        16,
-        32,
-        64,
-        128,
-        256
+        100,
+        200,
+        400
       ],
       "items": {
         "type": "integer",
-        "default": 16
+        "default": 100
       }
     },
     "calibration_repetitions": {

@@ -10,6 +10,7 @@ import pytest
 import torch
 
 from calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign import (
+    CUDA_DURABLE_EVALUATION_WINDOW,
     IndependentTSHCALOTrainingCampaign,
     TSHCALOTrainingCampaignPlan,
     TSHCALOTrainingEpisodePlan,
@@ -208,6 +209,41 @@ def test_campaign_resume_rejects_checkpoint_status_mismatch(tmp_path, toy_case):
         ).resume()
     failed = json.loads(status_path.read_text(encoding="utf-8"))
     assert failed["state"] == "failed"
+
+
+def test_campaign_refuses_resume_inside_uncommitted_cuda_window(tmp_path, toy_case):
+    plan = _plan()
+    output = tmp_path / "uncommitted-window"
+    output.mkdir()
+    campaign_module._write_json(output / "training_plan.json", plan.to_dict())
+    campaign = IndependentTSHCALOTrainingCampaign(
+        plan,
+        output,
+        problem_factory=_factory(toy_case),
+    )
+    campaign._write_status(
+        {
+            "state": "interrupted",
+            "current_member_index": 0,
+            "current_episode_index": 0,
+            "session_checkpoint": None,
+            "uncommitted_cuda_window": {
+                "member_index": 0,
+                "episode_index": 0,
+                "starting_transition_count": 0,
+                "maximum_transitions": 25,
+                "target_candidate_evaluations": CUDA_DURABLE_EVALUATION_WINDOW,
+            },
+            "member_candidates": [],
+            "failure": None,
+        }
+    )
+
+    with pytest.raises(RuntimeError, match="uncommitted CUDA evaluation window"):
+        campaign.resume()
+    failed = json.loads((output / "training_status.json").read_text(encoding="utf-8"))
+    assert failed["state"] == "failed"
+    assert failed["failure"]["resumable"] is False
 
 
 def test_campaign_can_resume_safe_infrastructure_write_interruption(

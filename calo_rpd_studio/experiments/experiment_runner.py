@@ -156,7 +156,7 @@ def build_problem(config, scenario_seed):
             scenarios,
             device=str(getattr(config, "runtime_compute_device", "cpu")),
             dtype_name="float64",
-            batch_size=int(getattr(config, "tensor_batch_size", 64)),
+            batch_size=int(getattr(config, "tensor_batch_size", 100)),
             device_resident=bool(getattr(config, "device_resident_execution", True)),
             cuda_vram_budget_fraction=float(getattr(config, "cuda_vram_budget_fraction", 0.80)),
             cuda_oom_retry_count=int(getattr(config, "cuda_oom_retry_count", 4)),

@@ -159,6 +159,20 @@ def test_ci_lock_and_workflow_are_reproducible_and_supply_chain_pinned():
     assert "validate_packaged_gui" in workflow_text
     assert '--forbid-import-root "$GITHUB_WORKSPACE"' in workflow_text
     assert "(cd /tmp && PYTHONPATH= QT_QPA_PLATFORM=offscreen" in workflow_text
+    for typed_release_module in (
+        "calo_rpd_studio/orpd/mathematical_reference.py",
+        "calo_rpd_studio/scripts/run_mathematical_reference.py",
+        "calo_rpd_studio/scripts/validate_packaged_gui.py",
+        "calo_rpd_studio/accelerated/cuda_timing.py",
+        "calo_rpd_studio/scripts/validate_cuda_hot_path.py",
+        "calo_rpd_studio/scripts/validate_cuda_policy_hot_path.py",
+    ):
+        assert typed_release_module in workflow_text
+    assert "Qualify CUDA-resident numerical-time share" in workflow_text
+    assert "validate_cuda_hot_path --case case30 --batch-size 100" in workflow_text
+    assert "validate_cuda_hot_path --case case57 --batch-size 100" in workflow_text
+    assert "validate_cuda_policy_hot_path --case case30 --updates 3" in workflow_text
+    assert "validate_cuda_policy_hot_path --case case57 --updates 3" in workflow_text
     compatibility = workflow["jobs"]["compatibility"]
     compatibility_text = yaml.safe_dump(compatibility, sort_keys=True)
     assert "python -m pip check" in compatibility_text

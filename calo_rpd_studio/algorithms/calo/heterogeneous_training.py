@@ -123,7 +123,7 @@ class HeterogeneousTrainingConfig(TrainingConfig):
     training_cross_episode_batching: bool = True
     training_batch_window_ms: float = 4.0
     training_max_cross_batch: int = 2048
-    training_tensor_batch_size: int = 64
+    training_tensor_batch_size: int = 100
     # v6.9 CUDA learner residency: all active model/minibatch/optimizer tensors remain inside
     # an 80%-default per-process VRAM ceiling. OOM reduces the PPO minibatch and retries on CUDA.
     cuda_vram_budget_fraction: float = 0.80

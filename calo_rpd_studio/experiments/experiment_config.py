@@ -180,7 +180,10 @@ class ExperimentConfig:
     cuda_minimum_microbatch: int = 1
     cuda_resident_hot_loop: bool = True
     cuda_cpu_fallback_enabled: bool = True
-    tensor_batch_size: int = 64
+    # CUDA evaluation windows target at least 100 candidates before the one packed result transfer.
+    # Scientific dependencies may still force a smaller final/iteration batch; OOM recovery only
+    # reduces the active CUDA microbatch and records that exception explicitly.
+    tensor_batch_size: int = 100
     require_backend_parity: bool = True
     parity_objective_tolerance: float = 1e-5
     parity_violation_tolerance: float = 1e-6
@@ -193,7 +196,7 @@ class ExperimentConfig:
     cross_run_batch_window_ms: float = 4.0
     max_cross_run_batch: int = 4096
     automatic_batch_calibration: bool = True
-    calibration_batch_sizes: list[int] = field(default_factory=lambda: [16, 32, 64, 128, 256])
+    calibration_batch_sizes: list[int] = field(default_factory=lambda: [100, 200, 400])
     calibration_repetitions: int = 1
     throughput_profile_path: str = "results_data/throughput_profile_v34.json"
     compile_stable_kernels: bool = False
@@ -565,7 +568,7 @@ class ExperimentConfig:
             cuda_minimum_microbatch=int(data.get("cuda_minimum_microbatch", 1)),
             cuda_resident_hot_loop=bool(data.get("cuda_resident_hot_loop", True)),
             cuda_cpu_fallback_enabled=bool(data.get("cuda_cpu_fallback_enabled", True)),
-            tensor_batch_size=int(data.get("tensor_batch_size", 64)),
+            tensor_batch_size=int(data.get("tensor_batch_size", 100)),
             require_backend_parity=bool(data.get("require_backend_parity", True)),
             parity_objective_tolerance=float(data.get("parity_objective_tolerance", 1e-5)),
             parity_violation_tolerance=float(data.get("parity_violation_tolerance", 1e-6)),
@@ -579,7 +582,7 @@ class ExperimentConfig:
             max_cross_run_batch=int(data.get("max_cross_run_batch", 4096)),
             automatic_batch_calibration=bool(data.get("automatic_batch_calibration", True)),
             calibration_batch_sizes=[
-                int(value) for value in data.get("calibration_batch_sizes", [16, 32, 64, 128, 256])
+                int(value) for value in data.get("calibration_batch_sizes", [100, 200, 400])
             ],
             calibration_repetitions=int(data.get("calibration_repetitions", 1)),
             throughput_profile_path=str(

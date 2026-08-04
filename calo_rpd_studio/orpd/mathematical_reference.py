@@ -14,7 +14,7 @@ import importlib.metadata
 import itertools
 import json
 import math
-from typing import Any
+from typing import Any, cast
 
 import numpy as np
 
@@ -142,7 +142,9 @@ class MathematicalReferenceReport:
     warning: str
 
     def to_dict(self) -> dict[str, Any]:
-        return _json_safe(asdict(self))
+        payload = _json_safe(asdict(self))
+        # ``asdict`` is a mapping and ``_json_safe`` preserves mapping shape.
+        return cast(dict[str, Any], payload)
 
     def sha256(self) -> str:
         encoded = json.dumps(

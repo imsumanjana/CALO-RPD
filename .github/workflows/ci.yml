@@ -66,6 +66,12 @@ jobs:
           calo_rpd_studio/scripts/verify_requirements_lock.py
           calo_rpd_studio/scripts/verify_distribution_stage.py
           calo_rpd_studio/scripts/container_smoke.py
+          calo_rpd_studio/orpd/mathematical_reference.py
+          calo_rpd_studio/scripts/run_mathematical_reference.py
+          calo_rpd_studio/scripts/validate_packaged_gui.py
+          calo_rpd_studio/accelerated/cuda_timing.py
+          calo_rpd_studio/scripts/validate_cuda_hot_path.py
+          calo_rpd_studio/scripts/validate_cuda_policy_hot_path.py
       - name: Run unit, integration, regression, and scientific tests
         run: |
           # The v6.9 file is an immutable historical-freeze gate. The active release freeze is
@@ -367,6 +373,12 @@ jobs:
         run: |
           docker compose --profile cuda run --rm --no-deps --volume "$PWD/artifacts/physical-cuda:/evidence" --entrypoint python cuda -m calo_rpd_studio.scripts.validate_accelerator --device cuda --case case30 --candidates 12 --batch-size 32 --seed 20260804 --run-id "ci-${GITHUB_RUN_ID}-case30" --output /evidence/case30-parity.json --require-physical-cuda
           docker compose --profile cuda run --rm --no-deps --volume "$PWD/artifacts/physical-cuda:/evidence" --entrypoint python cuda -m calo_rpd_studio.scripts.validate_accelerator --device cuda --case case57 --candidates 12 --batch-size 32 --seed 20260804 --run-id "ci-${GITHUB_RUN_ID}-case57" --output /evidence/case57-parity.json --require-physical-cuda
+      - name: Qualify CUDA-resident numerical-time share
+        run: |
+          docker compose --profile cuda run --rm --no-deps --volume "$PWD/artifacts/physical-cuda:/evidence" --entrypoint python cuda -m calo_rpd_studio.scripts.validate_cuda_hot_path --case case30 --batch-size 100 --batches 10 --warmup-batches 2 --seed 20260804 --run-id "ci-${GITHUB_RUN_ID}-case30-hot-path" --output /evidence/case30-hot-path.json
+          docker compose --profile cuda run --rm --no-deps --volume "$PWD/artifacts/physical-cuda:/evidence" --entrypoint python cuda -m calo_rpd_studio.scripts.validate_cuda_hot_path --case case57 --batch-size 100 --batches 10 --warmup-batches 2 --seed 20260804 --run-id "ci-${GITHUB_RUN_ID}-case57-hot-path" --output /evidence/case57-hot-path.json
+          docker compose --profile cuda run --rm --no-deps --volume "$PWD/artifacts/physical-cuda:/evidence" --entrypoint python cuda -m calo_rpd_studio.scripts.validate_cuda_policy_hot_path --case case30 --updates 3 --warmup-updates 1 --seed 20260804 --run-id "ci-${GITHUB_RUN_ID}-case30-policy-hot-path" --output /evidence/case30-policy-hot-path.json
+          docker compose --profile cuda run --rm --no-deps --volume "$PWD/artifacts/physical-cuda:/evidence" --entrypoint python cuda -m calo_rpd_studio.scripts.validate_cuda_policy_hot_path --case case57 --updates 3 --warmup-updates 1 --seed 20260804 --run-id "ci-${GITHUB_RUN_ID}-case57-policy-hot-path" --output /evidence/case57-policy-hot-path.json
       - name: Run durable bounded resource recovery
         run: docker compose --profile cuda run --rm --no-deps --volume "$PWD/artifacts/physical-cuda:/evidence" --entrypoint python cuda -m calo_rpd_studio.scripts.validate_resource_recovery --device cuda:0 --case case30 --candidates 8 --batch-size 8 --seed 20260804 --run-id "ci-${GITHUB_RUN_ID}-resource" --output /evidence/resource-recovery.json --require-physical-cuda
       - name: Run one-hour protected physical CUDA soak

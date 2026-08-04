@@ -21,10 +21,10 @@ from calo_rpd_studio.power_system.case_identity import protected_holdout_matches
 from .topology_context import TopologyAwarePolicyState
 from .tsh_calo_policy import (
     GroupActionMask,
+    PreparedTopologyAwarePolicyState,
     TSHCALOPolicyNetwork,
     assign_group_conditioned_learner_operators,
     hierarchical_action,
-    masked_group_operator_probabilities,
 )
 from .tsh_calo_policy_artifact import (
     IndependentTrainingProvenance,
@@ -162,6 +162,20 @@ class TSHCALOTrainingAction:
                 raise ValueError("TSH-CALO learner operator is invalid")
             if np.any(~available[learner_groups]) or np.any(~allowed[learner_groups, operators]):
                 raise ValueError("TSH-CALO learner action violates its declared mask")
+
+
+@dataclass(frozen=True, slots=True)
+class _PreparedTSHCALOTrainingAction:
+    """Validated action tensors retained on the learner device across PPO epochs."""
+
+    regime: torch.Tensor
+    group_operators: torch.Tensor
+    group_parameters: torch.Tensor
+    learner_groups: torch.Tensor
+    learner_contexts: torch.Tensor
+    learner_operators: torch.Tensor
+    allowed: torch.Tensor
+    available_groups: torch.Tensor
 
 
 @dataclass(frozen=True, slots=True)
@@ -427,6 +441,12 @@ class IndependentTSHCALOTrainer:
                 if self.device.type == "cuda"
                 else "CPU computes; system RAM is admitted storage"
             ),
+            "ppo_host_synchronization": (
+                "one packed metrics transfer after the complete configured PPO epoch block"
+                if self.device.type == "cuda"
+                else "not_applicable_cpu_execution"
+            ),
+            "per_ppo_epoch_cpu_metric_transfer": False,
         }
 
     def estimate_value(self, state: TopologyAwarePolicyState, *, population_size: int) -> float:
@@ -462,59 +482,93 @@ class IndependentTSHCALOTrainer:
         self.training_episode_receipts.append(receipt.to_dict())
 
     def _log_probability_entropy_value(
-        self, state: TopologyAwarePolicyState, action: TSHCALOTrainingAction
+        self,
+        state: TopologyAwarePolicyState | PreparedTopologyAwarePolicyState,
+        action: TSHCALOTrainingAction | _PreparedTSHCALOTrainingAction,
     ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
-        action.validate()
-        output = self.network(state)
-        mask = action.action_mask.to(self.device)
+        if isinstance(state, PreparedTopologyAwarePolicyState):
+            output = self.network.forward_prepared(state)
+        else:
+            output = self.network(state)
+        if isinstance(action, _PreparedTSHCALOTrainingAction):
+            prepared_action = action
+        else:
+            prepared_action = self._prepare_action(action)
+        allowed = prepared_action.allowed
+        available = prepared_action.available_groups
         regime_distribution = torch.distributions.Categorical(logits=output.regime_logits)
-        log_probability = regime_distribution.log_prob(
-            torch.tensor(action.regime, dtype=torch.long, device=self.device)
-        )
+        log_probability = regime_distribution.log_prob(prepared_action.regime)
         entropy = regime_distribution.entropy()
-        group_probabilities = masked_group_operator_probabilities(
-            output.group_operator_logits, mask
+        masked_group_logits = output.group_operator_logits.masked_fill(~allowed, -torch.inf)
+        safe_group_logits = torch.where(
+            available[:, None], masked_group_logits, torch.zeros_like(masked_group_logits)
         )
-        available = mask.available_groups
-        group_operators = torch.as_tensor(
-            action.group_operators, dtype=torch.long, device=self.device
+        group_probabilities = torch.where(
+            available[:, None],
+            torch.softmax(safe_group_logits, dim=-1),
+            torch.zeros_like(masked_group_logits),
         )
-        for group in torch.nonzero(available, as_tuple=False).flatten().tolist():
-            distribution = torch.distributions.Categorical(probs=group_probabilities[group])
-            log_probability = log_probability + distribution.log_prob(group_operators[group])
-            entropy = entropy + distribution.entropy()
-        beta_distribution = torch.distributions.Beta(output.group_alpha, output.group_beta)
-        parameters = torch.as_tensor(
-            action.group_parameters, dtype=output.group_alpha.dtype, device=self.device
-        ).clamp(1e-6, 1.0 - 1e-6)
-        if bool(available.any()):
-            log_probability = (
-                log_probability + beta_distribution.log_prob(parameters)[available].sum()
+        group_operators = prepared_action.group_operators
+        safe_group_operators = group_operators.clamp_min(0)
+        fallback = torch.zeros_like(group_probabilities)
+        fallback[:, 0] = 1.0
+        safe_probabilities = torch.where(available[:, None], group_probabilities, fallback)
+        # Preserve the original fixed group addition order while removing Python reads of CUDA
+        # availability flags. This keeps floating-point/replay semantics and avoids host syncs.
+        for group in range(N_CONTROL_GROUPS):
+            distribution = torch.distributions.Categorical(probs=safe_probabilities[group])
+            active = available[group].to(dtype=output.regime_logits.dtype)
+            log_probability = log_probability + active * distribution.log_prob(
+                safe_group_operators[group]
             )
-            entropy = entropy + beta_distribution.entropy()[available].sum()
-        learner_groups = torch.as_tensor(
-            action.learner_groups, dtype=torch.long, device=self.device
+            entropy = entropy + active * distribution.entropy()
+        beta_distribution = torch.distributions.Beta(output.group_alpha, output.group_beta)
+        parameters = prepared_action.group_parameters.to(dtype=output.group_alpha.dtype).clamp(
+            1e-6, 1.0 - 1e-6
         )
-        learner_contexts = torch.as_tensor(
-            action.learner_contexts, dtype=torch.long, device=self.device
-        )
-        learner_operators = torch.as_tensor(
-            action.learner_operators, dtype=torch.long, device=self.device
-        )
+        log_probability = log_probability + beta_distribution.log_prob(parameters)[available].sum()
+        entropy = entropy + beta_distribution.entropy()[available].sum()
+        learner_groups = prepared_action.learner_groups
+        learner_contexts = prepared_action.learner_contexts
+        learner_operators = prepared_action.learner_operators
         if learner_groups.numel():
             combined_logits = (
                 torch.log(group_probabilities[learner_groups].clamp_min(1e-12))
                 + output.context_operator_logits[learner_contexts]
             )
-            allowed = mask.allowed[learner_groups]
+            learner_allowed = allowed[learner_groups]
             learner_distribution = torch.distributions.Categorical(
-                logits=combined_logits.masked_fill(~allowed, -torch.inf)
+                logits=combined_logits.masked_fill(~learner_allowed, -torch.inf)
             )
             log_probability = (
                 log_probability + learner_distribution.log_prob(learner_operators).sum()
             )
             entropy = entropy + learner_distribution.entropy().sum()
         return log_probability, entropy, output.value
+
+    def _prepare_action(self, action: TSHCALOTrainingAction) -> _PreparedTSHCALOTrainingAction:
+        action.validate()
+        mask = action.action_mask.to(self.device)
+        return _PreparedTSHCALOTrainingAction(
+            regime=torch.as_tensor(action.regime, dtype=torch.long, device=self.device),
+            group_operators=torch.as_tensor(
+                action.group_operators, dtype=torch.long, device=self.device
+            ),
+            group_parameters=torch.as_tensor(
+                action.group_parameters, dtype=torch.float32, device=self.device
+            ),
+            learner_groups=torch.as_tensor(
+                action.learner_groups, dtype=torch.long, device=self.device
+            ),
+            learner_contexts=torch.as_tensor(
+                action.learner_contexts, dtype=torch.long, device=self.device
+            ),
+            learner_operators=torch.as_tensor(
+                action.learner_operators, dtype=torch.long, device=self.device
+            ),
+            allowed=mask.allowed,
+            available_groups=mask.available_groups,
+        )
 
     @torch.no_grad()
     def sample_action(
@@ -543,21 +597,76 @@ class IndependentTSHCALOTrainer:
             torch.as_tensor(learner_contexts, dtype=torch.long, device=self.device),
             deterministic=deterministic,
             generator=None if deterministic else self.torch_generator,
+            action_is_validated=True,
         )
+        prepared_action = _PreparedTSHCALOTrainingAction(
+            regime=torch.as_tensor(hierarchical.regime, dtype=torch.long, device=self.device),
+            group_operators=hierarchical.group_operators,
+            group_parameters=hierarchical.group_parameters,
+            learner_groups=torch.as_tensor(learner_groups, dtype=torch.long, device=self.device),
+            learner_contexts=torch.as_tensor(
+                learner_contexts, dtype=torch.long, device=self.device
+            ),
+            learner_operators=operators,
+            allowed=hierarchical.action_mask.allowed,
+            available_groups=hierarchical.action_mask.available_groups,
+        )
+        log_probability, _entropy, value = self._log_probability_entropy_value(
+            state, prepared_action
+        )
+        packed = (
+            torch.cat(
+                (
+                    hierarchical.group_operators.reshape(-1).to(torch.float64),
+                    hierarchical.group_parameters.reshape(-1).to(torch.float64),
+                    operators.reshape(-1).to(torch.float64),
+                    hierarchical.action_mask.allowed.reshape(-1).to(torch.float64),
+                    hierarchical.action_mask.available_groups.reshape(-1).to(torch.float64),
+                    log_probability.reshape(1).to(torch.float64),
+                    value.reshape(1).to(torch.float64),
+                )
+            )
+            .detach()
+            .to("cpu")
+            .numpy()
+        )
+        cursor = 0
+        group_operator_count = N_CONTROL_GROUPS
+        group_operators = packed[cursor : cursor + group_operator_count].astype(np.int64)
+        cursor += group_operator_count
+        group_parameter_count = N_CONTROL_GROUPS * N_BOUNDED_PARAMETERS
+        group_parameters = packed[cursor : cursor + group_parameter_count].reshape(
+            N_CONTROL_GROUPS, N_BOUNDED_PARAMETERS
+        )
+        cursor += group_parameter_count
+        learner_operator_count = int(operators.numel())
+        learner_operators = packed[cursor : cursor + learner_operator_count].astype(np.int64)
+        cursor += learner_operator_count
+        allowed_count = N_CONTROL_GROUPS * int(hierarchical.action_mask.allowed.shape[1])
+        allowed = (
+            packed[cursor : cursor + allowed_count]
+            .reshape(N_CONTROL_GROUPS, int(hierarchical.action_mask.allowed.shape[1]))
+            .astype(bool)
+        )
+        cursor += allowed_count
+        available = packed[cursor : cursor + N_CONTROL_GROUPS].astype(bool)
+        cursor += N_CONTROL_GROUPS
+        log_probability_value = float(packed[cursor])
+        value_scalar = float(packed[cursor + 1])
         action = TSHCALOTrainingAction(
             regime=hierarchical.regime,
-            group_operators=hierarchical.group_operators.detach().cpu().numpy(),
-            group_parameters=hierarchical.group_parameters.detach().cpu().numpy(),
+            group_operators=group_operators,
+            group_parameters=group_parameters,
             learner_groups=np.asarray(learner_groups, dtype=int),
             learner_contexts=np.asarray(learner_contexts, dtype=int),
-            learner_operators=operators.detach().cpu().numpy(),
+            learner_operators=learner_operators,
             action_mask=GroupActionMask(
-                hierarchical.action_mask.allowed.detach().cpu(),
-                hierarchical.action_mask.available_groups.detach().cpu(),
+                torch.from_numpy(allowed),
+                torch.from_numpy(available),
             ),
         )
-        log_probability, _entropy, value = self._log_probability_entropy_value(state, action)
-        return action, float(log_probability.item()), float(value.item())
+        action.validate()
+        return action, log_probability_value, value_scalar
 
     def update(self, batch: TSHCALORolloutBatch) -> dict[str, float]:
         self._assert_open()
@@ -568,6 +677,8 @@ class IndependentTSHCALOTrainer:
             self.config.resource_envelope.validate_state(
                 state, population_size=len(action.learner_groups)
             )
+        prepared_states = tuple(self.network.prepare_state(state) for state in batch.states)
+        prepared_actions = tuple(self._prepare_action(action) for action in batch.actions)
         old_log_probabilities = torch.as_tensor(
             batch.old_log_probabilities, dtype=torch.float32, device=self.device
         )
@@ -577,12 +688,12 @@ class IndependentTSHCALOTrainer:
             advantages = (advantages - advantages.mean()) / advantages.std(
                 unbiased=False
             ).clamp_min(1e-8)
-        metrics: dict[str, float] = {}
+        final_metric_tensors: tuple[torch.Tensor, ...] | None = None
         self.network.train()
         for _ in range(self.config.ppo_epochs):
             evaluated = [
                 self._log_probability_entropy_value(state, action)
-                for state, action in zip(batch.states, batch.actions)
+                for state, action in zip(prepared_states, prepared_actions)
             ]
             log_probabilities = torch.stack([item[0] for item in evaluated])
             entropies = torch.stack([item[1] for item in evaluated])
@@ -601,7 +712,12 @@ class IndependentTSHCALOTrainer:
                 + self.config.value_weight * value_loss
                 - self.config.entropy_weight * entropy
             )
-            if not bool(torch.isfinite(loss)):
+            finite_loss = torch.isfinite(loss)
+            if self.device.type == "cuda":
+                # Enqueue the validation on the device. It raises when the CUDA stream reaches the
+                # assertion, without forcing a Python scalar read after every PPO epoch.
+                torch._assert_async(finite_loss, "TSH-CALO PPO update produced a non-finite loss")
+            elif not bool(finite_loss):
                 raise RuntimeError("TSH-CALO PPO update produced a non-finite loss")
             self.optimizer.zero_grad(set_to_none=True)
             loss.backward()
@@ -609,13 +725,23 @@ class IndependentTSHCALOTrainer:
                 self.network.parameters(), self.config.gradient_norm
             )
             self.optimizer.step()
-            metrics = {
-                "loss": float(loss.detach().cpu()),
-                "policy_loss": float(policy_loss.detach().cpu()),
-                "value_loss": float(value_loss.detach().cpu()),
-                "entropy": float(entropy.detach().cpu()),
-                "gradient_norm": float(torch.as_tensor(gradient_norm).detach().cpu()),
-            }
+            final_metric_tensors = (
+                loss.detach(),
+                policy_loss.detach(),
+                value_loss.detach(),
+                entropy.detach(),
+                torch.as_tensor(gradient_norm).detach(),
+            )
+        if final_metric_tensors is None:
+            raise RuntimeError("TSH-CALO PPO update completed without an epoch")
+        metric_values = torch.stack(final_metric_tensors).to(device="cpu", dtype=torch.float64)
+        metrics = dict(
+            zip(
+                ("loss", "policy_loss", "value_loss", "entropy", "gradient_norm"),
+                (float(value) for value in metric_values.tolist()),
+                strict=True,
+            )
+        )
         self.update_steps += 1
         self.network.eval()
         return metrics

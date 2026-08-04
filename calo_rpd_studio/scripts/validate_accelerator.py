@@ -87,6 +87,49 @@ def _json_safe(value):
     return value
 
 
+def _cuda_peak_residency_evidence(
+    before_cuda: dict, *, peak_allocated_bytes: int, peak_reserved_bytes: int
+) -> dict:
+    """Build the fail-closed dedicated-VRAM proof for one accelerator workload."""
+
+    baseline_allocated = int(before_cuda["process_allocated_bytes"])
+    baseline_reserved = int(before_cuda["process_reserved_bytes"])
+    allowance = int(before_cuda["admission"]["additional_allowance_bytes"])
+    peak_allocated = int(peak_allocated_bytes)
+    peak_reserved = int(peak_reserved_bytes)
+    additional_allocated = max(0, peak_allocated - baseline_allocated)
+    additional_reserved = max(0, peak_reserved - baseline_reserved)
+    allocation_observed = additional_allocated > 0
+    allocation_within_admission = additional_allocated <= allowance
+    reservation_within_admission = additional_reserved <= allowance
+    allocator_consistent = peak_reserved >= peak_allocated >= baseline_allocated
+    verified = bool(
+        allocation_observed
+        and allocation_within_admission
+        and reservation_within_admission
+        and allocator_consistent
+    )
+    return {
+        "peak_allocated_bytes": peak_allocated,
+        "peak_reserved_bytes": peak_reserved,
+        "baseline_allocated_bytes": baseline_allocated,
+        "baseline_reserved_bytes": baseline_reserved,
+        "additional_allocated_bytes": additional_allocated,
+        "additional_reserved_bytes": additional_reserved,
+        "admission_allowance_bytes": allowance,
+        "workload_attributable_cuda_allocation_observed": allocation_observed,
+        "additional_allocated_within_admission": allocation_within_admission,
+        "additional_reserved_within_admission": reservation_within_admission,
+        "cuda_allocator_accounting_consistent": allocator_consistent,
+        "dedicated_vram_execution_verified": verified,
+        "host_ram_zero_use_claimed": False,
+        "claim_boundary": (
+            "PyTorch CUDA allocator evidence proves workload tensors occupied dedicated VRAM; "
+            "CPU orchestration and bounded host memory remain outside the scientific CUDA kernel path"
+        ),
+    }
+
+
 def _write_new_evidence(path: str | Path, payload: dict) -> Path:
     destination = Path(path)
     if destination.exists():
@@ -147,36 +190,32 @@ def main() -> int:
             f"Device changed across the parity boundary: {resolved_before!r} -> {resolved!r}"
         )
     physical_cuda = resolved.startswith("cuda") and bool(torch.cuda.is_available())
+    cuda_peak = None
+    if physical_cuda:
+        target = torch.device(resolved)
+        torch.cuda.synchronize(target)
+        cuda_peak = _cuda_peak_residency_evidence(
+            runtime_before["cuda"],
+            peak_allocated_bytes=int(torch.cuda.max_memory_allocated(target)),
+            peak_reserved_bytes=int(torch.cuda.max_memory_reserved(target)),
+        )
+    dedicated_vram_verified = bool(cuda_peak and cuda_peak.get("dedicated_vram_execution_verified"))
     qualification_passed = bool(report.get("passed")) and (
-        physical_cuda or not args.require_physical_cuda
+        (physical_cuda and dedicated_vram_verified)
+        if physical_cuda or args.require_physical_cuda
+        else True
     )
     report["physical_cuda_exercised"] = physical_cuda
     report["physical_cuda_required"] = bool(args.require_physical_cuda)
+    report["dedicated_vram_execution_verified"] = dedicated_vram_verified
     report["qualification_passed"] = qualification_passed
     if args.output:
         runtime_after = _runtime_snapshot(resolved)
         runtime = {"before": runtime_before, "after": runtime_after}
-        if physical_cuda:
-            target = torch.device(resolved)
-            peak_allocated = int(torch.cuda.max_memory_allocated(target))
-            peak_reserved = int(torch.cuda.max_memory_reserved(target))
-            before_cuda = runtime_before["cuda"]
-            allowance = int(before_cuda["admission"]["additional_allowance_bytes"])
-            additional_allocated = max(
-                0, peak_allocated - int(before_cuda["process_allocated_bytes"])
-            )
-            additional_reserved = max(0, peak_reserved - int(before_cuda["process_reserved_bytes"]))
-            runtime["cuda_peak"] = {
-                "peak_allocated_bytes": peak_allocated,
-                "peak_reserved_bytes": peak_reserved,
-                "additional_allocated_bytes": additional_allocated,
-                "additional_reserved_bytes": additional_reserved,
-                "admission_allowance_bytes": allowance,
-                "additional_allocated_within_admission": additional_allocated <= allowance,
-                "additional_reserved_within_admission": additional_reserved <= allowance,
-            }
+        if cuda_peak is not None:
+            runtime["cuda_peak"] = cuda_peak
         evidence = {
-            "schema_version": "calo-rpd-physical-accelerator-parity-v1",
+            "schema_version": "calo-rpd-physical-accelerator-parity-v2",
             "run_id": args.run_id.strip(),
             "started_at": started_at,
             "completed_at": _utc_now(),
@@ -196,8 +235,9 @@ def main() -> int:
             "qualification_passed": qualification_passed,
             "protected_cases_opened": False,
             "claim_scope": (
-                "physical FP64 CPU/CUDA parity for this development case, candidate battery, "
-                "source commit, device, and software stack only"
+                "physical FP64 CPU/CUDA parity with workload-attributable dedicated-VRAM "
+                "allocation for this development case, candidate battery, source commit, "
+                "device, and software stack only"
                 if qualification_passed and physical_cuda
                 else "no physical CPU/CUDA parity claim"
             ),

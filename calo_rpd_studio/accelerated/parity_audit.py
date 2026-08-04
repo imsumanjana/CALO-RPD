@@ -80,7 +80,7 @@ def run_configuration_parity_audit(config, *, device: str = "auto", candidates: 
         scenarios,
         device=device,
         dtype_name="float64",
-        batch_size=int(getattr(config, "tensor_batch_size", 64)),
+        batch_size=int(getattr(config, "tensor_batch_size", 100)),
     )
     sample = _parity_candidate_battery(
         reference, seed=int(config.master_seed) + 4711, random_candidates=max(1, int(candidates))

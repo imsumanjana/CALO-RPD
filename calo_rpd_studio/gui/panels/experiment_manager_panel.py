@@ -719,7 +719,7 @@ class ExperimentManagerPanel(WorkspacePage):
             getattr(config, "scientific_backend", "torch_fp64")
         )
         self.scientific_backend.setCurrentIndex(max(scientific_index, 0))
-        self.tensor_batch_size.setValue(int(getattr(config, "tensor_batch_size", 64)))
+        self.tensor_batch_size.setValue(int(getattr(config, "tensor_batch_size", 100)))
         self.auto_batch_calibration.setChecked(
             bool(getattr(config, "automatic_batch_calibration", True))
         )
