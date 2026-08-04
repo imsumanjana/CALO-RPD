@@ -827,3 +827,5 @@ Append timestamped entries below this line after each material action, validatio
 - Kept the short-test policy explicit: focused tests after development changes; one complete active
   suite at the next source/release gate. No extra long regression or scientific campaign was run for
   this documentation-only reconciliation.
+- Committed the synchronized ledgers as `d78d5f2` (`docs(gates): reconcile immediate G9
+  development`).
