@@ -677,3 +677,12 @@ Append timestamped entries below this line after each material action, validatio
 - Focused resource/evidence/VRAM regression after this repair passed `24` tests in `2.86s`; focused
   Ruff lint passes and the touched files are formatted. The failed resource record remains retained,
   and the repaired probe must be repeated from a clean committed source before this gate can close.
+- Committed the repaired probe as `74268e343a50103e20b04160f61d055c05733648` and repeated the exact
+  bounded physical resource run. Qualification passed: observed/recovered 256 MiB pressure and
+  Safe-80 admission contraction, exactly one injected initial-upload OOM followed by explicit
+  host-staged CUDA execution with the declared reason and no CPU inner loop, controlled `5→2`
+  microbatch backoff, controlled whole-request CPU restart plus subsequent CUDA recovery, and
+  cross-process lease refusal then acquisition after release. Evidence SHA-256 is
+  `73bb1f1bf6905f221b7993a2ec5d1bde50ccb6a074e22337a759234f5c64f13a` at
+  `artifacts/physical-parity-74268e3/resource-recovery.json`. Controlled faults remain explicitly
+  outside any natural-hardware-OOM claim.
