@@ -525,9 +525,12 @@ protected test opening.
 
 ### G4/G6 physical and packaged qualification — execute, do not simulate
 
-Docker Desktop, Compose and Buildx are now available on this Lenovo LOQ workstation. No source-bound
-release image or attestation has been generated yet; first close the build-context privacy,
-immutable source-identity and shared cross-container lease gaps, then execute the target procedure:
+Docker Desktop, Compose and Buildx are available on this Lenovo LOQ workstation. Exact clean
+source-bound CPU/CUDA development images, attestations, SBOM/vulnerability reports, cross-container
+lease evidence, parity/resource probes and a continuous physical CUDA soak are retained. Clean
+commit `31a4713` also has a corrected Linux CPU GUI runtime proof with live-Qt health, xcb rendering,
+restart/persistence and bounded cancellation. These are development qualifications, not the final
+release images. Repeat the procedure for the immutable final candidate and trusted CI:
 
 1. Install/enable Docker Desktop WSL2, WSLg, NVIDIA Windows driver support, Compose and Buildx.
 2. Run the CPU profile without NVIDIA access.
@@ -594,9 +597,15 @@ expected to be stale on this development branch. Do not “fix” them early.
   containerized case30/case57 parity plus resource recovery, and an independently audited continuous
   one-hour exact-image CUDA soak. The first GUI attempt was rejected because Qt xcb lacked
   `libxcb-shape.so.0` while the noVNC-only health probe briefly reported healthy in a restart loop.
-  The dependency/build probe and live-app/all-child health contract are corrected in source but need
-  rebuilt browser/restart/persistence/cancellation proof. CI rerun on the eventual final candidate
-  and clean-machine reproduction remain open.
+  Clean correction commit `31a4713` produced image
+  `sha256:f241c14c69d7896833e5805090d495f4ea14299de585cfb238ea13527b0deb5b`;
+  build-time xcb closure, direct QApplication, live-app/all-child health, 1600x1000 Dashboard
+  rendering, exact volume persistence across restart, new application process and bounded exit
+  143/no-OOM cancellation passed. Render SHA-256 is
+  `28108327353d3a491f8d92daf3f081d3e8bfb8b8a0d53bd9540d1a2484025187`.
+  Browser interaction is not claimed because the desktop browser-control kernel failed before
+  execution. Browser retry, CI rerun on the eventual final candidate and clean-machine reproduction
+  remain open.
 - No WSL2/WSLg target-laptop report yet.
 - No GitHub Actions run artifacts from the new workflow yet.
 - A fresh five-member TSH-CALO ensemble exists, but it is unqualified, inactive and not benefit

@@ -298,3 +298,39 @@ Append timestamped entries below this line after each material action, validatio
 - Next action: commit the GUI dependency/health correction, rebuild an exact clean CPU image, rerun
   direct QApplication plus in-app browser GUI interaction, persistence, restart and graceful
   cancellation. Do not accept or reuse the rejected `cpu-1f02a94` GUI attempt.
+
+### 2026-08-04 — corrected source-bound Linux GUI runtime accepted
+
+- Committed the fail-closed Qt dependency/health correction as `31a4713`
+  (`fix(container): require live Qt application health`). From that clean tracked commit, built
+  `calo-rpd-studio:cpu-31a4713` as image/config identity
+  `sha256:f241c14c69d7896833e5805090d495f4ea14299de585cfb238ea13527b0deb5b`.
+  Build-time `ctypes.CDLL` loading of PyQt6's `platforms/libqxcb.so` passed after installing
+  `libxcb-shape0`; `pip check` also passed before runtime packaging tools were removed. The embedded
+  source declaration is the full commit `31a47136d2a6f497ec6da6107a9623d243b67654` with
+  `tracked_source_clean=true`.
+- Started the exact image in isolated Compose project `calo-rpd-gui-31a4713` on loopback port 16080
+  with retained named volume `calo-rpd-gui-31a4713-runtime`. Health reached GREEN only with both the
+  noVNC endpoint and live `/tmp/calo-app.pid`; restart count remained zero. Independent
+  `QApplication` construction reported platform `xcb`. Direct Qt screen capture showed the real
+  1600x1000 CALO-RPD Dashboard with system protection READY, policy correctly NOT READY and gated
+  downstream workflow.
+- Retained persistence marker SHA-256
+  `8ddd6fb1d67b6840d1b9a9887f2c0a522ad1de4696760d872a2461eedf7ea6c3` before and after an explicit
+  container restart. The supervised application returned on PID 40 after PID 39, with a distinct
+  process start tick, healthy state, zero automatic restart count and no OOM. Stable pre/post-restart
+  renders are byte-identical at SHA-256
+  `28108327353d3a491f8d92daf3f081d3e8bfb8b8a0d53bd9540d1a2484025187`; the 192,662-byte PNGs are
+  retained under `artifacts/container-validation/g4-31a4713-20260804/cpu-gui/`.
+- The desktop Browser integration could not initialize: its browser-control kernel failed with a
+  missing-path bootstrap error before even a minimal call executed. This is recorded as a tooling
+  limitation; no browser interaction claim is made. Direct X11/Qt rendering, live-process health,
+  local noVNC endpoint health, restart, volume persistence and bounded cancellation remain valid
+  independent observations.
+- Compose stop with a 20-second bound completed. Final container state was exited, exit code 143,
+  `OOMKilled=false`, restart count zero; the evidence volume and stopped container remain retained.
+  The earlier rejected `cpu-1f02a94` GUI attempt remains rejected and is not reused.
+- Next non-tuning development action: implement disclosed mathematical reference-solver adapters
+  that distinguish continuous-relaxation bounds from feasible mixed-variable ORPD solutions. G4/G6
+  still require browser interaction when tooling is available and full immutable final-candidate/CI
+  repetition; this clean GUI runtime is development qualification, not a release image.
