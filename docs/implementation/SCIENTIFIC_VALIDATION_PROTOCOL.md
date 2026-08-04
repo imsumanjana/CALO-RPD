@@ -116,6 +116,13 @@ The confirmatory comparator set must favor quality over a large count of weak me
 These methods need not receive an artificial black-box FE equivalence. Report their solver calls,
 derivatives, termination status and optimality criteria transparently.
 
+The implemented development boundary provides pinned SciPy SLSQP as a local nonconvex continuous-
+relaxation reference and a ceiling-bounded exhaustive adapter for genuinely all-discrete finite
+lattices. SLSQP output is never labeled a bound; projection is separately evaluated on the original
+lattice and is an incumbent only if feasible. Exhaustive exactness is scoped only to the complete
+declared finite lattice. The source-bound CLI hashes the frozen task/start inputs, refuses protected
+holdouts, runs independent PYPOWER checks and writes new-file-only evidence.
+
 ### Tier 2 — strong stochastic references
 
 - a source-faithful success-history differential-evolution method such as SHADE/L-SHADE;

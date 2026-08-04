@@ -334,3 +334,52 @@ Append timestamped entries below this line after each material action, validatio
   that distinguish continuous-relaxation bounds from feasible mixed-variable ORPD solutions. G4/G6
   still require browser interaction when tooling is available and full immutable final-candidate/CI
   repetition; this clean GUI runtime is development qualification, not a release image.
+
+### 2026-08-04 — disclosed mathematical-reference boundary implemented
+
+- Committed `07f9476` (`feat(scientific): add mathematical reference adapters`). The new
+  `calo-rpd-math-reference` path is outside the stochastic optimizer registry and never receives an
+  artificial equal-FE budget. It requires clean full source identity, a hashed frozen
+  ExperimentConfig and, for SLSQP, a hashed explicit start vector; it refuses protected case118/300,
+  runs independent PYPOWER checks by default and writes new-file-only JSON evidence.
+- The SciPy adapter clones the exact task while removing only tap/shunt snapping, records installed
+  backend/version, numerical derivative mode, settings, termination, iterations, backend calls,
+  distinct common-evaluator calls/cache hits and independent-validation requests. It always labels
+  the result a local nonconvex continuous-relaxation point, with
+  `certified_lower_bound=null`, `optimality_gap=null` and `gap_claim_permitted=false`. The same
+  normalized point is separately decoded and evaluated on the original lattice and is called an
+  incumbent only when feasible. Complex-step is rejected because the real common evaluator cannot
+  preserve its imaginary perturbation.
+- The exhaustive adapter accepts only genuinely all-discrete declared lattices, rejects continuous
+  controls and candidate counts above an explicit ceiling, evaluates every Cartesian point with the
+  common feasibility-first rule, and scopes any exactness only to that complete finite lattice. A
+  no-feasible-point result is retained as a screen, not promoted to a physical infeasibility proof.
+- Focused success/rejection/boundary/fallback/independent-validation suite: `11 passed`; combined
+  ORPD/PGLib/config/IEEE/distribution regression set: `37 passed`. Complete active tree excluding only
+  the deliberately stale v6.9 release-integrity file: `629 passed, 63 skipped` in 127.65 seconds.
+  Repository Ruff passes and all 418 Python files are formatted.
+- Clean-source case30 SLSQP development probe used commit
+  `07f9476dae41eba27074ef82bc3309fa5b70088d`, task fingerprint
+  `d94f33c8e5e7c00489f2811a2ab5a8df64cfe2db766278bb84024ba0da32a646`, relaxation fingerprint
+  `eb1e70045a91aa252c07fe96e118bb1960fa4b2e5c8601fa62c4e4ea865f3f18`, config SHA
+  `c05f2a5a96cd3fe22dc47c44e7981c5a43b58e23d7559df862d688507e9218ea` and start SHA
+  `431ac5bd061eac7ceefce93a8b62d16aa9912ee680cc066097167b11acdc0496`. The deliberately bounded
+  three-iteration run stopped at status 9/iteration limit after 63 distinct common solver
+  evaluations, four derivative evaluations and three explicit validation evaluations. Relaxed and
+  mixed points remained infeasible (violations `0.05900671777581266` and `0.0590648537434835`);
+  the mixed controls were lattice-valid and both AC states passed independent PYPOWER comparison.
+  Report SHA is `8be27e3bb467a78d524930422bafa372729c3527782e06803c949f04449763dc`;
+  envelope-file SHA is `7d765109841d9ddec0d28860e2f94c160655ead7356ba485085bf073b75a7018`.
+- A separate development-only case30 one-shunt task exhausted all six declared 0–5 MVAr points.
+  It found no feasible evaluator point; best feasibility-first screen value used `Qsh@10=0.0`,
+  objective `2.4438031297412985`, violation `0.08832537034242222`, and passed the independent
+  PYPOWER state comparison. No exact optimum scope, lower bound or gap was emitted. Task SHA is
+  `32b6f870172ac8a75d039fc8da453909edcf45a5ebb730de8ddf18f8cac3fe98`, report SHA is
+  `abff7f42274c5f9ad347a2d1af67bf8a585c478de7655438cd503aac13ae4ee5`, and envelope-file SHA is
+  `71ced2f2212f9db7c052e8cff4b7fb0c71f0d7aaf6504a111b52f223ea35ad72`.
+- These probes validate implementation and honest negative-result handling only. No solver
+  superiority, feasible case30 optimum, certified lower bound, imported PGLib ORPD result or
+  protected-case evidence is claimed. Next action: close the independently reviewed external ORPD
+  profile gap if review material exists; otherwise continue non-tuning release engineering with
+  packaged Linux/CI and final-candidate reproducibility gates while keeping G9/G10 scientific
+  campaign execution blocked on the absent fresh qualified candidate and design freeze.

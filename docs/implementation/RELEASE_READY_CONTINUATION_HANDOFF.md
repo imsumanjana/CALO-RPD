@@ -503,11 +503,12 @@ Remove any component whose incremental evidence does not support its claimed ben
 
 The harness is not the evidence. Execute and retain a frozen campaign after G9:
 
-1. Add a safe, checksummed import path and reviewed ORPD control profiles for independently sourced
-   PGLib-OPF typical/API/SAD cases. Do not silently equate AC-OPF case loading with an ORPD
-   formulation.
-2. Add disclosed deterministic/nonlinear mathematical reference solvers where mixed-variable
-   semantics permit; separate continuous relaxation bounds from feasible ORPD solutions.
+1. The safe checksummed PGLib-OPF typical/API/SAD import path and strict profile boundary are
+   implemented. Populate only independently human-reviewed checksum-bound ORPD control profiles;
+   never equate AC-OPF case loading with an ORPD formulation.
+2. Disclosed SciPy SLSQP continuous-relaxation and exhaustive all-discrete reference adapters are
+   implemented. Execute the frozen multistart/reference campaign and add certified bounds only where
+   a separate mathematically valid certification exists.
 3. Freeze training, validation, and protected test identities cryptographically.
 4. Freeze source, policy, hyperparameters, statistical plan, containers, and analysis scripts before
    opening protected tests.
@@ -615,7 +616,11 @@ expected to be stale on this development branch. Do not “fix” them early.
   exact code-rooted manifest/source hashes with retained CC-BY-4.0 attribution and package smoke
   evidence. They are deliberately not represented as an ORPD corpus: no human-reviewed external
   voltage/tap/shunt profile has been populated, and the runtime refuses to infer one.
-- No deterministic mathematical-solver comparison package yet.
+- The mathematical-reference package and clean-source evidence CLI are implemented at `07f9476`.
+  Bounded case30 development probes retained an SLSQP iteration-limit/infeasible projection and a
+  six-point exhaustive no-feasible-point screen with independent PYPOWER agreement. These validate
+  the interface and claim discipline only; no frozen multistart comparison, certified lower bound,
+  feasible case30 reference optimum or protected-case result exists yet.
 - No opened protected final-test campaign yet.
 - No final image digests, SBOMs, vulnerability reports, release freeze, or clean-machine
   reproduction yet.

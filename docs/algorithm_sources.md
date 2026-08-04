@@ -53,6 +53,23 @@ therefore be described as this declared encoding, not as a native integer CMA-ES
 covariance controller stays in CPU RAM while the common population evaluator may execute on CUDA. That
 residency difference is stored with every run and CUDA-native optimizer-kernel speed is not claimed.
 
+## Mathematical reference adapters
+
+`orpd/mathematical_reference.py` exposes two separately classified reference paths. SciPy SLSQP is
+used only for a deterministic local solve of the continuous tap/shunt relaxation. The report pins
+the installed SciPy version, finite-difference scheme, start-vector hash, settings, termination,
+iterations, backend calls, common-evaluator calls and independent PYPOWER checks. Because AC ORPD is
+nonconvex, this result is explicitly not a certified lower bound or global optimum. Its normalized
+point is separately decoded and re-evaluated on the original mixed-variable lattice; it is called an
+incumbent only when that original evaluation is feasible.
+
+The exhaustive adapter accepts only formulations whose every declared control is discrete and whose
+complete Cartesian lattice fits an explicit candidate ceiling. It rejects continuous controls and
+oversized lattices. Exactness, when a feasible winner exists, is limited to the complete declared
+finite lattice under the common deterministic evaluator; it is never extended to a continuous or
+differently controlled ORPD task. Both paths are outside the stochastic algorithm registry and do
+not receive an artificial equal-FE budget.
+
 ## v3 accelerator implementation rule
 
 The v3 PyTorch suite translates the declared canonical population operators to FP64 tensor kernels.

@@ -62,18 +62,18 @@ Status vocabulary:
 | Reuse already-counted power-flow state for topology/physics context | Locally verified through topology and opt-in Change E paths | `ORPDProblem.evaluate_with_context`; default topology-only path retains no derivatives; explicit E path retains ephemeral final Jacobian/control/constraint context; base/weighted selection; optimizer/training construction; exact FE/scenario accounting; no serialized solver objects or hidden PF calls; case30 analytic sensitivity matched finite differences below `1.6e-8` max absolute error | Target CPU/CUDA execution and incremental-value/cost evidence remain required |
 | Correct paired statistics, effect estimates, CIs, multiplicity control, power and anytime metrics | Locally verified at harness level | `statistics/`, campaign design, `SCIENTIFIC_VALIDATION_PROTOCOL.md`, statistical tests | Execute final frozen campaign |
 | Modern strong stochastic baselines | Locally verified at implementation level | Source-traceable L-SHADE 1.0.1 and pinned pycma 4.4.4 CMA-ES with deterministic snapshots | External benchmark execution |
-| Deterministic/mathematical reference solutions and broader licensed case corpus | Partial | Protocol plus pinned official PGLib-OPF v23.07 case14 typical/API/SAD validation assets; retained CC-BY-4.0 license/attribution; code-rooted manifest SHA-256 and asset SHA-256; non-executing restricted parser; exact source/physical provenance | Add and verify disclosed deterministic/nonlinear solver adapters; populate independently human-reviewed checksum-bound ORPD profiles before using imported AC cases as ORPD formulations |
+| Deterministic/mathematical reference solutions and broader licensed case corpus | Implementation partial; development adapters physically exercised | Protocol and pinned official PGLib-OPF v23.07 validation assets; exact license/source provenance and restricted parser. Clean `07f9476` adds SciPy SLSQP local continuous-relaxation plus exhaustive all-discrete adapters, separate original-lattice validation, exact call/termination/derivative disclosure, no-bound/no-gap fail-closed semantics, protected-case refusal, independent PYPOWER checks and immutable evidence CLI. Real case30 development reports SHA `8be27e3bb467a78d524930422bafa372729c3527782e06803c949f04449763dc` and `abff7f42274c5f9ad347a2d1af67bf8a585c478de7655438cd503aac13ae4ee5` retain negative/infeasible outcomes without overclaim | Execute frozen multistart/reference comparisons; add separately certified bounds where mathematically valid; populate independently human-reviewed checksum-bound ORPD profiles before using imported AC cases as ORPD formulations |
 | PGLib/stress/OOD and cryptographically protected holdouts | Partial | Frozen case-role protocol and protected identities; three non-protected PGLib case14 groups now checksum-load from source and built wheel; protected import and ORPD conversion each fail closed without explicit test-only authorization | Complete reviewed ORPD profiles and execute the still-unopened protected final tests only after the full design freeze |
 | Publish complete code, policy, formulation, image, seeds, raw failures, validation and claim scope | Harness partial | Artifact verifier, package exclusions, manifests, policy/config hashes, CI uploads | Final qualified policy, opened results, image attestations, release freeze |
 
 ## Current verification checkpoint
 
-- Active development suite after qualification-campaign implementation, excluding the deliberately
-  stale v6.9 release-integrity file: **582 passed, 63 skipped**. The preceding complete-tree checkpoint
+- Active development suite after mathematical-reference implementation, excluding the deliberately
+  stale v6.9 release-integrity file: **629 passed, 63 skipped**. The preceding complete-tree checkpoint
   after Change F reported **502 passed, 63 skipped, 2 failed**;
   both failures are the expected stale release freeze/root manifest and are not regenerated during
   G9 development.
-- Repository Ruff lint and format: **pass across 406 files**.
+- Repository Ruff lint and format: **pass across 418 files**.
 - Generated experiment schema: **current**.
 - Focused automatic scheduling/configuration/GUI set: **54 passed**.
 - Focused database/history/learning/resume/continuation set: **29 passed**.
