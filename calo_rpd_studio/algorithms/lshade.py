@@ -14,11 +14,12 @@ import time
 import numpy as np
 
 from calo_rpd_studio.orpd.feasibility_rules import better, sort_key
+from calo_rpd_studio.orpd.problem import Evaluation
 
 from .base_optimizer import BaseOptimizer
 
 
-def constrained_improvement(parent, child) -> float:
+def constrained_improvement(parent: Evaluation, child: Evaluation) -> float:
     """Positive improvement magnitude consistent with feasibility-first selection."""
 
     if not better(child, parent):
@@ -33,7 +34,8 @@ def constrained_improvement(parent, child) -> float:
             magnitude = float(parent.value) - float(child.value)
     else:
         magnitude = max(float(parent.violation), 1.0)
-    return float(max(float(magnitude), np.finfo(float).eps))
+    epsilon: float = np.finfo(np.float64).eps.item()
+    return max(float(magnitude), epsilon)
 
 
 def parent_midpoint_repair(candidate, parent):
@@ -165,8 +167,8 @@ class LSHADEOptimizer(BaseOptimizer):
         archive_rate = max(0.0, float(self.config.parameters.get("archive_rate", 1.4)))
         if not 0.0 < p_best_rate <= 1.0:
             raise ValueError("L-SHADE p_best_rate must lie in (0, 1]")
-        memory_f = np.full(memory_size, 0.5, dtype=float)
-        memory_cr = np.full(memory_size, 0.5, dtype=float)
+        memory_f: np.ndarray = np.full(memory_size, 0.5, dtype=float)
+        memory_cr: np.ndarray = np.full(memory_size, 0.5, dtype=float)
         memory_position = 0
         archive: list[np.ndarray] = []
         population_history = [initial_size]

@@ -72,7 +72,7 @@ def _build_policy_state(case_name: str) -> TopologyAwarePolicyState:
 
 def _build_rollout(trainer: IndependentTSHCALOTrainer, state: TopologyAwarePolicyState):
     groups = np.asarray(state.topology.control_groups, dtype=int)
-    contexts = np.arange(len(groups), dtype=int) % 4
+    contexts: np.ndarray = np.arange(len(groups), dtype=int) % 4
     mask = GroupActionMask.from_control_groups(groups)
     first, first_logp, first_value = trainer.sample_action(
         state, mask, groups, contexts, deterministic=True

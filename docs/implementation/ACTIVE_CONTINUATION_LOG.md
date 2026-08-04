@@ -686,3 +686,17 @@ Append timestamped entries below this line after each material action, validatio
   `73bb1f1bf6905f221b7993a2ec5d1bde50ccb6a074e22337a759234f5c64f13a` at
   `artifacts/physical-parity-74268e3/resource-recovery.json`. Controlled faults remain explicitly
   outside any natural-hardware-OOM claim.
+
+### 2026-08-04 — pinned typed boundary restored
+
+- Installed repository-pinned mypy `1.20.2` plus its runtime dependencies into the ignored local
+  `.venv`; no project dependency lock or declared runtime dependency changed. The exact CI 15-module
+  command initially found seven issues: a PyQt static-method stub mismatch, one missing policy-array
+  annotation, one NumPy return inferred as `Any`, and three L-SHADE typing gaps.
+- Applied typing-only repairs: a narrowly scoped `QTest.qWait` stub ignore preserving the already
+  validated runtime call, explicit NumPy array/result annotations, `Evaluation` parameter types for
+  the existing constrained-improvement adapter, and typed L-SHADE memories/epsilon. Operator
+  equations, RNG order, scientific fingerprints, thresholds and runtime choices are unchanged.
+- Repeated `mypy --follow-imports=skip --check-untyped-defs` over the exact 15 CI modules: success,
+  no issues. Focused Ruff passes, and the affected L-SHADE, mathematical-reference, packaged-GUI,
+  CUDA-residency and independent-training regression set passed `32` tests in `12.41s`.

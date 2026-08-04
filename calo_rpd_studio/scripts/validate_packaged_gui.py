@@ -120,7 +120,9 @@ def validate_packaged_gui(
         window = MainWindow(state, ExperimentManager(state), SettingsManager())
         window.resize(1440, 900)
         window.show()
-        QTest.qWait(300)
+        # PyQt exposes qWait as a static method at runtime; its current stub incorrectly models an
+        # instance receiver. Keep the validated runtime call and scope the ignore to that stub bug.
+        QTest.qWait(300)  # type: ignore[call-arg, arg-type]
         application.processEvents()
 
         if window.windowTitle() != "CALO-RPD Studio":

@@ -201,7 +201,8 @@ def _validate_start(problem: ORPDProblem, initial: np.ndarray | list[float]) -> 
         raise ValueError("Deterministic start must contain only finite values")
     if np.any((candidate < 0.0) | (candidate > 1.0)):
         raise ValueError("Deterministic start must lie in normalized [0,1] bounds")
-    return candidate.astype(np.float64, copy=True)
+    result: np.ndarray = candidate.astype(np.float64, copy=True)
+    return result
 
 
 def _lattice_valid(problem: ORPDProblem, evaluation: Evaluation) -> bool:
