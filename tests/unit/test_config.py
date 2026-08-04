@@ -127,3 +127,18 @@ def test_schema_matches_loader_unknown_field_and_throughput_defaults():
     assert set(ExperimentConfig().to_dict()) <= set(schema["properties"])
     with pytest.raises(ValueError, match="Unknown experiment configuration field"):
         ExperimentConfig.from_dict({"unexpected_scientific_field": 1})
+
+
+def test_schema_declares_reviewed_external_control_identifiers_as_optional_arrays():
+    from calo_rpd_studio.scripts.generate_experiment_schema import build_schema
+
+    variable_properties = build_schema()["properties"]["variables"]["properties"]
+    for field in ("generator_voltage_buses", "transformer_branch_indices"):
+        assert variable_properties[field]["type"] == ["array", "null"]
+        assert variable_properties[field]["items"] == {"type": "integer", "minimum": 0}
+        assert variable_properties[field]["uniqueItems"] is True
+
+    with pytest.raises(TypeError, match="integer bus numbers"):
+        ExperimentConfig.from_dict({"variables": {"generator_voltage_buses": [2.5]}})
+    with pytest.raises(TypeError, match="integer indices"):
+        ExperimentConfig.from_dict({"variables": {"transformer_branch_indices": [True]}})

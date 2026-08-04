@@ -203,6 +203,32 @@
         "formulation_profile": {
           "type": "string",
           "default": "ieee-orpd-controls-v3.4.0"
+        },
+        "generator_voltage_buses": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "uniqueItems": true,
+          "default": null,
+          "description": "Explicit independently reviewed controls; null preserves the bundled IEEE profile and an empty array explicitly declares no controls of this kind."
+        },
+        "transformer_branch_indices": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "uniqueItems": true,
+          "default": null,
+          "description": "Explicit independently reviewed controls; null preserves the bundled IEEE profile and an empty array explicitly declares no controls of this kind."
         }
       },
       "additionalProperties": false,
@@ -216,7 +242,9 @@
         "transformer_maximum": 1.1,
         "transformer_step": 0.0125,
         "shunt_controls": [],
-        "formulation_profile": "ieee-orpd-controls-v3.4.0"
+        "formulation_profile": "ieee-orpd-controls-v3.4.0",
+        "generator_voltage_buses": null,
+        "transformer_branch_indices": null
       }
     },
     "robust_objective": {

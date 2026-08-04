@@ -75,6 +75,20 @@ def build_schema() -> dict[str, Any]:
     properties["calibration_repetitions"].update(minimum=1)
     properties["telemetry_iteration_interval"].update(minimum=1)
     properties["checkpoint_interval_evaluations"].update(minimum=1)
+    for reviewed_control_field in (
+        "generator_voltage_buses",
+        "transformer_branch_indices",
+    ):
+        properties["variables"]["properties"][reviewed_control_field] = {
+            "type": ["array", "null"],
+            "items": {"type": "integer", "minimum": 0},
+            "uniqueItems": True,
+            "default": None,
+            "description": (
+                "Explicit independently reviewed controls; null preserves the bundled IEEE "
+                "profile and an empty array explicitly declares no controls of this kind."
+            ),
+        }
 
     return {
         "$schema": "https://json-schema.org/draft/2020-12/schema",

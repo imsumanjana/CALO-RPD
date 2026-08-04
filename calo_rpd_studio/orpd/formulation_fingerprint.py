@@ -136,6 +136,7 @@ def scientific_problem_payload(problem) -> dict:
     case = getattr(problem, "case", None)
     checksum_fn = getattr(case, "checksum", None)
     case_checksum = str(checksum_fn()) if callable(checksum_fn) else ""
+    case_source_provenance = getattr(case, "source_provenance", None)
     generic_identity = None
     if not case_checksum:
         generic_identity = {
@@ -143,18 +144,32 @@ def scientific_problem_payload(problem) -> dict:
             "lower_bounds": canonical_scientific_value(getattr(problem, "lower_bounds", None)),
             "upper_bounds": canonical_scientific_value(getattr(problem, "upper_bounds", None)),
         }
-    return canonical_scientific_value(
-        {
-            "schema_version": "calo-rpd-formulation-v5.9",
-            "case_checksum": case_checksum,
-            "generic_problem_identity": generic_identity,
-            "dimension": int(problem.dimension),
-            "formulation_manifest": manifest,
-            "problem_config": getattr(problem, "config", None),
-            "scenarios": scenarios,
-            "repair_schema": "normalized-clip-once-v5.9",
-        }
-    )
+    problem_config = getattr(problem, "config", None)
+    if is_dataclass(problem_config):
+        problem_config = asdict(problem_config)
+        variables = problem_config.get("variables")
+        if isinstance(variables, dict):
+            for optional_external_key in (
+                "generator_voltage_buses",
+                "transformer_branch_indices",
+            ):
+                if variables.get(optional_external_key) is None:
+                    variables.pop(optional_external_key, None)
+    payload = {
+        "schema_version": "calo-rpd-formulation-v5.9",
+        "case_checksum": case_checksum,
+        "generic_problem_identity": generic_identity,
+        "dimension": int(problem.dimension),
+        "formulation_manifest": manifest,
+        "problem_config": problem_config,
+        "scenarios": scenarios,
+        "repair_schema": "normalized-clip-once-v5.9",
+    }
+    # Preserve frozen bundled-case fingerprints while binding independently sourced
+    # cases to their exact source/license/role identity.
+    if case_source_provenance is not None:
+        payload["case_source_provenance"] = case_source_provenance
+    return canonical_scientific_value(payload)
 
 
 def scientific_problem_fingerprint(problem) -> str:

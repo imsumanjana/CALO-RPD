@@ -440,16 +440,28 @@ class ExperimentConfig:
                 )
         shunts = tuple(ShuntControlDefinition(**item) for item in shunt_items)
         variables = ORPDVariableConfig(
-            bool(variable_data.get("generator_voltages", True)),
-            bool(variable_data.get("transformer_taps", True)),
-            bool(variable_data.get("shunt_compensation", True)),
-            bool(variable_data.get("discrete_transformer_taps", True)),
-            bool(variable_data.get("discrete_shunts", True)),
-            float(variable_data.get("transformer_minimum", 0.9)),
-            float(variable_data.get("transformer_maximum", 1.1)),
-            float(variable_data.get("transformer_step", 0.0125)),
-            shunts,
-            str(variable_data.get("formulation_profile", "ieee-orpd-controls-v3.4.0")),
+            generator_voltages=bool(variable_data.get("generator_voltages", True)),
+            transformer_taps=bool(variable_data.get("transformer_taps", True)),
+            shunt_compensation=bool(variable_data.get("shunt_compensation", True)),
+            discrete_transformer_taps=bool(variable_data.get("discrete_transformer_taps", True)),
+            discrete_shunts=bool(variable_data.get("discrete_shunts", True)),
+            transformer_minimum=float(variable_data.get("transformer_minimum", 0.9)),
+            transformer_maximum=float(variable_data.get("transformer_maximum", 1.1)),
+            transformer_step=float(variable_data.get("transformer_step", 0.0125)),
+            shunt_controls=shunts,
+            formulation_profile=str(
+                variable_data.get("formulation_profile", "ieee-orpd-controls-v3.4.0")
+            ),
+            generator_voltage_buses=(
+                None
+                if variable_data.get("generator_voltage_buses") is None
+                else tuple(variable_data["generator_voltage_buses"])
+            ),
+            transformer_branch_indices=(
+                None
+                if variable_data.get("transformer_branch_indices") is None
+                else tuple(variable_data["transformer_branch_indices"])
+            ),
         )
         robust_data = dict(data.get("robust_objective", {}) or {})
         if not allow_unknown_fields:

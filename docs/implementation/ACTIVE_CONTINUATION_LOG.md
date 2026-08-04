@@ -212,3 +212,50 @@ Append timestamped entries below this line after each material action, validatio
 - Fixed a prerelease trust-region defect found by a real development-case probe: snapping several discrete controls after the continuous bound could exceed the final norm radius. Whole lattice moves are now admitted only while they fit the radius; continuous controls receive only the remaining norm budget. The real case30 counted context produces a lattice-valid proposal within `0.08`, with zero hidden solver/evaluator calls and no feasibility claim.
 - Versioned the changed candidate contracts as runtime `tsh-calo-v1.1.0-counted-physics-candidate`, training environment `tsh-calo-training-v4-counted-physics-safe80-receipts`, and environment checkpoint `tsh-calo-independent-environment-v2-counted-physics`. Earlier candidate v2 evidence remains immutable historical negative evidence and is not reinterpreted under the new ABI.
 - Direct evidence: 18 counted-linearization/repair tests, 46 combined runtime/training/campaign/session tests, and the complete TSH-CALO plus counted-ORPD unit family `136 passed, 481 deselected`. Case30 analytic control sensitivity matched central power-flow finite differences across every relaxed control with maximum absolute error below `1.6e-8`. The complete active tree excluding only the deliberately stale v6.9 release-integrity file passes `608 passed, 63 skipped` in 125.20 seconds. Repository Ruff lint passes and all 411 Python files are formatted.
+
+### 2026-08-04 — safe PGLib source boundary and non-protected validation corpus implemented
+
+- Implemented a fail-closed PGLib import boundary that reads local bytes only, verifies a strict
+  source-manifest SHA-256 and exact asset SHA-256, accepts only the official repository, pinned
+  `vYY.MM` release plus 40-hex commit, declared typical/API/SAD path and role, retained
+  CC-BY-4.0 attribution, and parses a restricted literal MATPOWER v2 grammar without `eval`, MATLAB,
+  Python import, network access, or executable expressions. The known numeric `mpc.areas` field is
+  accepted but explicitly recorded as unused; arbitrary fields remain rejected.
+- Retained unmodified official PGLib-OPF v23.07 case14 typical/API/SAD validation assets from tag
+  commit `dc6be4b2f85ca0e776952ec22cbd4c22396ea5a3`. Asset SHA-256 values are respectively
+  `bd5c568621de65e4b0922317010868bc7fa94173807faa10ea8fdbbe77c28106`,
+  `6e007be95df3f7171d0c9494c8cc3db1aca1a3a0f2073c3ffbfa43e7b0cd49a2`, and
+  `f79873ebac589619c45540e7b1020c1be1eae13f19b47af0925042c6a01f8f0a`. The exact upstream
+  license SHA-256 is `95b1cd9fee1676221d74f7c0cbba622d98ac098e9b317b3848113ef4356ab4fd`.
+- All three real assets passed structural/physical case validation as 14-bus, five-generator,
+  20-branch cases. Their distinct physical checksums are typical
+  `14488f24f83576bfb80179434f27ae036ccec4e3ba69000cb3ec45ed8d3376d2`, API
+  `d845a7205808a982edac7cccae71b768872bdc5b76ad212e3bc116af45a1c421`, and SAD
+  `e2e92121499920b0048c920d9db7c2375e2014d7b5f96c7e0f04f43c0d56e62e`.
+- AC-OPF import does not create an ORPD formulation. Added a separate strict, checksum-loaded,
+  `review_status=reviewed` profile contract that binds explicit generator-voltage bus numbers,
+  transformer branch indices and shunt definitions to the exact source asset and physical case.
+  Invalid/dead controls fail closed. Both protected source import and protected ORPD conversion
+  require explicit test-only authorization. No profile is trained, inferred, auto-reviewed or
+  fabricated; actual external profiles still require independent human/domain review.
+- Preserved bundled IEEE semantics: case provenance is absent from legacy serialization and
+  fingerprints when not applicable. Independent comparison against an archived pre-change HEAD
+  produced identical default scientific fingerprints for case30
+  (`d94f33c8e5e7c00489f2811a2ab5a8df64cfe2db766278bb84024ba0da32a646`) and case57
+  (`532db81bf01aeaa4064903ecd01526ea550ddd2ac67dbe4ae18055cd8ebecb67`).
+- Focused import/config/scientific/ORPD regression set: `35 passed`; focused Ruff and generated-
+  schema checks pass. A fresh development wheel/sdist build included eight PGLib data/license/
+  manifest entries; loading all three cases from extracted wheel contents reproduced the exact
+  physical checksums. Dirty-tree packaging-smoke hashes are wheel
+  `71fda5b7bb595482b60e95d74397331a8f86dbb89425cbe31eb7e5e08af84fef` and sdist
+  `47083a089d8ca48d796c4f310e6da82c1f9b97236cc8085a71f4fbce081a413d`; they are development
+  evidence only and are not release artifacts.
+- The complete active tree excluding only the deliberately stale v6.9 release-integrity file
+  passes `615 passed, 63 skipped` in 125.63 seconds. Repository Ruff lint passes, all 414 Python
+  files are formatted, the generated experiment schema is current, and `git diff --check` passes.
+- The continuous exact-CUDA-image soak remained GREEN with no safe-stop while this independent CPU
+  development proceeded. It remains pending until the complete continuous hour and independent
+  chain/timestamp/result audit close; no qualification conclusion is recorded early.
+- Next action after committing this non-tuning G10 boundary: implement disclosed mathematical
+  reference-solver adapters and their separation of continuous-relaxation bounds from feasible
+  mixed-variable ORPD solutions while the isolated container soak completes.

@@ -8,6 +8,7 @@ from pathlib import Path
 
 from .case_model import PowerSystemCase
 from .case_validation import validate_case
+from .pglib_import import available_bundled_pglib_cases, load_bundled_pglib_case
 
 
 class CaseLoader:
@@ -47,3 +48,13 @@ class CaseLoader:
     @classmethod
     def available_cases(cls):
         return tuple(cls.STANDARD)
+
+    @classmethod
+    def load_pglib(cls, name: str) -> PowerSystemCase:
+        """Load a bundled PGLib AC case without implying any ORPD controls."""
+
+        return load_bundled_pglib_case(name)
+
+    @classmethod
+    def available_pglib_cases(cls) -> tuple[str, ...]:
+        return available_bundled_pglib_cases()

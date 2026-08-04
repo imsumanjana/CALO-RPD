@@ -599,7 +599,10 @@ expected to be stale on this development branch. Do not “fix” them early.
 - A fresh five-member TSH-CALO ensemble exists, but it is unqualified, inactive and not benefit
   evidence.
 - No approved-architecture ablation campaign yet.
-- No imported/reviewed PGLib typical/API/SAD ORPD corpus yet.
+- Official PGLib-OPF v23.07 case14 typical/API/SAD AC-OPF validation assets are now imported through
+  exact code-rooted manifest/source hashes with retained CC-BY-4.0 attribution and package smoke
+  evidence. They are deliberately not represented as an ORPD corpus: no human-reviewed external
+  voltage/tap/shunt profile has been populated, and the runtime refuses to infer one.
 - No deterministic mathematical-solver comparison package yet.
 - No opened protected final-test campaign yet.
 - No final image digests, SBOMs, vulnerability reports, release freeze, or clean-machine

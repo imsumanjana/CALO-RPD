@@ -9,6 +9,7 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass
 from typing import Literal
 import math
+from numbers import Integral
 import threading
 
 import numpy as np
@@ -86,9 +87,31 @@ class ORPDVariableConfig:
     transformer_step: float = 0.0125
     shunt_controls: tuple[ShuntControlDefinition, ...] = ()
     formulation_profile: str = FORMULATION_PROFILE_VERSION
+    generator_voltage_buses: tuple[int, ...] | None = None
+    transformer_branch_indices: tuple[int, ...] | None = None
 
     def __post_init__(self) -> None:
         self.shunt_controls = tuple(self.shunt_controls or ())
+        if self.generator_voltage_buses is not None and any(
+            not isinstance(bus, Integral) or isinstance(bus, bool)
+            for bus in self.generator_voltage_buses
+        ):
+            raise TypeError("generator_voltage_buses must contain only integer bus numbers")
+        if self.transformer_branch_indices is not None and any(
+            not isinstance(index, Integral) or isinstance(index, bool)
+            for index in self.transformer_branch_indices
+        ):
+            raise TypeError("transformer_branch_indices must contain only integer indices")
+        self.generator_voltage_buses = (
+            None
+            if self.generator_voltage_buses is None
+            else tuple(int(bus) for bus in self.generator_voltage_buses)
+        )
+        self.transformer_branch_indices = (
+            None
+            if self.transformer_branch_indices is None
+            else tuple(int(index) for index in self.transformer_branch_indices)
+        )
         self.validate()
 
     def validate(self) -> None:
@@ -103,6 +126,16 @@ class ORPDVariableConfig:
             raise ValueError("Transformer tap step must be finite and strictly positive")
         if not str(self.formulation_profile).strip():
             raise ValueError("ORPD formulation_profile must be non-empty")
+        if self.generator_voltage_buses is not None:
+            if len(set(self.generator_voltage_buses)) != len(self.generator_voltage_buses):
+                raise ValueError("generator_voltage_buses must not contain duplicates")
+            if any(bus < 0 for bus in self.generator_voltage_buses):
+                raise ValueError("generator_voltage_buses must use non-negative bus numbers")
+        if self.transformer_branch_indices is not None:
+            if len(set(self.transformer_branch_indices)) != len(self.transformer_branch_indices):
+                raise ValueError("transformer_branch_indices must not contain duplicates")
+            if any(index < 0 for index in self.transformer_branch_indices):
+                raise ValueError("transformer_branch_indices must use non-negative indices")
         seen: set[int] = set()
         for control in self.shunt_controls:
             if not isinstance(control, ShuntControlDefinition):
@@ -187,9 +220,16 @@ class ORPDVariableDecoder:
 
         if config.generator_voltages:
             online = np.where(case.gen[:, GEN_STATUS] > 0)[0]
+            declared_voltage_buses = (
+                None
+                if config.generator_voltage_buses is None
+                else set(config.generator_voltage_buses)
+            )
             seen: set[int] = set()
             for generator_index in online:
                 bus = int(case.gen[generator_index, GEN_BUS])
+                if declared_voltage_buses is not None and bus not in declared_voltage_buses:
+                    continue
                 if bus in seen:
                     continue
                 bus_index = index[bus]
@@ -207,9 +247,29 @@ class ORPDVariableDecoder:
                 self._vg_generators_by_bus[bus] = np.where(
                     (case.gen[:, GEN_STATUS] > 0) & (case.gen[:, GEN_BUS].astype(int) == bus)
                 )[0]
+            if declared_voltage_buses is not None and seen != declared_voltage_buses:
+                invalid = sorted(declared_voltage_buses.difference(seen))
+                raise ValueError(
+                    "Declared generator voltage controls are not online REF/PV generator buses: "
+                    f"{invalid}"
+                )
 
         if config.transformer_taps:
-            taps = np.where((case.branch[:, BR_STATUS] > 0) & (case.branch[:, TAP] != 0))[0]
+            eligible_taps = np.where((case.branch[:, BR_STATUS] > 0) & (case.branch[:, TAP] != 0))[
+                0
+            ]
+            if config.transformer_branch_indices is None:
+                taps = eligible_taps
+            else:
+                eligible = set(int(index) for index in eligible_taps)
+                declared = set(config.transformer_branch_indices)
+                invalid = sorted(declared.difference(eligible))
+                if invalid:
+                    raise ValueError(
+                        "Declared transformer tap controls are not active nonzero-tap branches: "
+                        f"{invalid}"
+                    )
+                taps = np.asarray(config.transformer_branch_indices, dtype=int)
             lattice = stepped_values(
                 config.transformer_minimum,
                 config.transformer_maximum,

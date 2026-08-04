@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 from dataclasses import dataclass
+import copy
 import hashlib
+from typing import Any
 import numpy as np
 
 # bus columns
@@ -58,6 +60,7 @@ class PowerSystemCase:
     gen: np.ndarray
     branch: np.ndarray
     gencost: np.ndarray | None = None
+    source_provenance: dict[str, Any] | None = None
 
     def __post_init__(self):
         self.bus = np.asarray(self.bus, dtype=float)
@@ -65,6 +68,8 @@ class PowerSystemCase:
         self.branch = np.asarray(self.branch, dtype=float)
         if self.gencost is not None:
             self.gencost = np.asarray(self.gencost, dtype=float)
+        if self.source_provenance is not None:
+            self.source_provenance = copy.deepcopy(dict(self.source_provenance))
 
     @property
     def n_bus(self):
@@ -86,6 +91,7 @@ class PowerSystemCase:
             self.gen.copy(),
             self.branch.copy(),
             None if self.gencost is None else self.gencost.copy(),
+            copy.deepcopy(self.source_provenance),
         )
 
     def bus_index_map(self):
@@ -99,7 +105,7 @@ class PowerSystemCase:
         return h.hexdigest()
 
     def to_dict(self):
-        return {
+        payload = {
             "name": self.name,
             "baseMVA": self.base_mva,
             "bus": self.bus.tolist(),
@@ -107,6 +113,9 @@ class PowerSystemCase:
             "branch": self.branch.tolist(),
             "gencost": None if self.gencost is None else self.gencost.tolist(),
         }
+        if self.source_provenance is not None:
+            payload["source_provenance"] = copy.deepcopy(self.source_provenance)
+        return payload
 
     @classmethod
     def from_dict(cls, data, name=None):
@@ -117,4 +126,5 @@ class PowerSystemCase:
             np.asarray(data["gen"]),
             np.asarray(data["branch"]),
             None if data.get("gencost") is None else np.asarray(data["gencost"]),
+            copy.deepcopy(data.get("source_provenance")),
         )
