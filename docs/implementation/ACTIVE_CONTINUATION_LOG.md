@@ -602,3 +602,8 @@ Append timestamped entries below this line after each material action, validatio
   for `reset_peak_memory_stats`, requiring numeric index `0`. No numerical workload ran and no timing
   result exists. The shared timing primitive plus both validators now use numeric indices for CUDA
   runtime synchronization/memory/name APIs while retaining `cuda:0` for tensor placement.
+- Committed the index normalization as `18c019b`. The next repeat showed the remaining condition:
+  this PyTorch build rejects allocator-stat reset before its first CUDA context initialization,
+  regardless of device argument form. A one-scalar diagnostic allocation then proved the default,
+  integer, string and `torch.device` forms all work after initialization. No ORPD workload ran. Peak
+  reset is moved after construction of the resident CUDA problem tensors, before warm-up/measurement.

@@ -73,10 +73,12 @@ def main() -> int:
     started_at = _utc_now()
     target = torch.device("cuda:0")
     target_index = 0
-    torch.cuda.reset_peak_memory_stats(target_index)
     config, problem = _build_cuda_problem(args.case, args.seed, args.batch_size)
     if str(problem.device) != str(target):
         raise RuntimeError(f"CUDA problem resolved to unexpected device {problem.device!r}")
+    # Problem construction creates the CUDA context and resident scientific tensors. Some PyTorch
+    # builds reject allocator-stat operations before that first context initialization.
+    torch.cuda.reset_peak_memory_stats(target_index)
     generator = torch.Generator(device=target).manual_seed(int(args.seed))
     population = torch.rand(
         (int(args.batch_size), int(problem.dimension)),
