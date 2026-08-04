@@ -118,6 +118,11 @@ class TSHCALOOptimizer(BaseOptimizer):
     supports_exact_resume = True
     CHECKPOINT_SCHEMA = "tsh-calo-exact-runtime-v1"
 
+    def _physics_repair_enabled(self, features: TSHCALOFeatureFlags) -> bool:
+        """Return the production feature choice; ablation subclasses may only remove E."""
+
+        return bool(features.physics_repair)
+
     def _build_inference_controller(
         self, parameters: dict, calibration: OODCalibration
     ) -> TSHCALOInferenceController:
@@ -266,7 +271,12 @@ class TSHCALOOptimizer(BaseOptimizer):
             raise ValueError(
                 "Experimental Change F is not admitted by the fixed-population production path"
             )
-        self._retain_control_linearization = bool(features.physics_repair)
+        physics_repair_enabled = self._physics_repair_enabled(features)
+        if physics_repair_enabled and not features.physics_repair:
+            raise ValueError(
+                "TSH-CALO ablation cannot add physics repair absent from the candidate"
+            )
+        self._retain_control_linearization = physics_repair_enabled
 
         calibration = _ood_calibration(parameters)
         controller = self._build_inference_controller(parameters, calibration)
@@ -327,7 +337,7 @@ class TSHCALOOptimizer(BaseOptimizer):
         trajectory: list[dict] = []
         scenario_solver_calls = 0
         physics_repair_operator = PhysicsRepairOperator(
-            PhysicsRepairConfig(enabled=features.physics_repair)
+            PhysicsRepairConfig(enabled=physics_repair_enabled)
         )
         physics_repair_available_generations = 0
         physics_repair_proposal_count = 0
@@ -516,7 +526,7 @@ class TSHCALOOptimizer(BaseOptimizer):
                 for context in evaluation_contexts
             )
             physics_repair_available = bool(
-                features.physics_repair
+                physics_repair_enabled
                 and all(
                     physics_repair_context_is_usable(
                         context,
@@ -770,7 +780,7 @@ class TSHCALOOptimizer(BaseOptimizer):
                 {
                     "status": (
                         "enabled_counted_proposal_only"
-                        if features.physics_repair
+                        if physics_repair_enabled
                         else "disabled_by_immutable_policy_feature_flags"
                     ),
                     "available_generations": physics_repair_available_generations,
@@ -782,7 +792,7 @@ class TSHCALOOptimizer(BaseOptimizer):
                     "masking": (
                         "dynamic fail-closed mask unless every learner has a finite, conditioned, "
                         "nonzero counted constraint/sensitivity context"
-                        if features.physics_repair
+                        if physics_repair_enabled
                         else "immutable feature disabled"
                     ),
                 }

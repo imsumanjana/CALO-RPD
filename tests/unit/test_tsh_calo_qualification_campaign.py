@@ -18,9 +18,11 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact import (
 )
 from calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign import (
     QualificationCampaignLeaseUnavailable,
+    TSH_CALO_COMPONENT_EVIDENCE_SCHEMA,
     TSHCALOQualificationCampaign,
     TSHCALOQualificationPlan,
     _ExclusiveQualificationCampaignLease,
+    _verify_component_evidence,
 )
 from calo_rpd_studio.algorithms.calo.tsh_calo_training_receipt import (
     build_tsh_calo_training_episode_receipt,
@@ -161,6 +163,33 @@ def test_formal_plan_requires_all_A_through_E_evidence(tmp_path):
 
     with pytest.raises(ValueError, match="direct accepted evidence for A-E"):
         plan.validate()
+
+
+def test_formal_component_evidence_requires_frozen_direct_analysis(tmp_path):
+    path, sha256 = _ensemble(tmp_path)
+    references = {}
+    for component in "ABCDE":
+        evidence_path = tmp_path / f"component-{component}.json"
+        evidence_path.write_text(
+            json.dumps(
+                {
+                    "schema_version": TSH_CALO_COMPONENT_EVIDENCE_SCHEMA,
+                    "component": component,
+                    "accepted": True,
+                    "source_policy_sha256": sha256,
+                    "development_cases": ["case30"],
+                }
+            ),
+            encoding="utf-8",
+        )
+        references[component] = {
+            "path": str(evidence_path),
+            "sha256": hashlib.sha256(evidence_path.read_bytes()).hexdigest(),
+        }
+    plan = _plan(path, sha256, mode="formal", runs=30, component_evidence=references)
+
+    with pytest.raises(ValueError, match="another source"):
+        _verify_component_evidence(plan)
 
 
 def test_qualification_plan_rejects_protected_cases_and_experimental_F(tmp_path):

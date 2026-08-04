@@ -731,8 +731,28 @@ def _verify_component_evidence(plan: TSHCALOQualificationPlan) -> dict[str, dict
             raise ValueError(f"TSH-CALO Change {component} has not earned inclusion")
         if str(payload.get("source_policy_sha256", "")).lower() != plan.candidate_sha256:
             raise ValueError(f"TSH-CALO Change {component} evidence belongs to another policy")
+        if str(payload.get("source_commit", "")).lower() != plan.source_commit.lower():
+            raise ValueError(f"TSH-CALO Change {component} evidence belongs to another source")
         if protected_holdout_matches(payload.get("development_cases", [])):
             raise ValueError(f"TSH-CALO Change {component} evidence leaked a protected holdout")
+        if set(payload.get("development_cases", [])) != set(plan.development_cases):
+            raise ValueError(f"TSH-CALO Change {component} evidence used another case design")
+        if bool(payload.get("protected_cases_opened", True)):
+            raise ValueError(f"TSH-CALO Change {component} evidence opened protected cases")
+        for label in (
+            "component_ablation_plan_sha256",
+            "scientific_design_sha256",
+            "seed_manifest_sha256",
+        ):
+            if not _is_sha256(str(payload.get(label, ""))):
+                raise ValueError(f"TSH-CALO Change {component} evidence lacks a frozen {label}")
+        if not list(payload.get("analysis", [])):
+            raise ValueError(f"TSH-CALO Change {component} evidence lacks direct analysis")
+        if (
+            payload.get("authority_boundary")
+            != "component_ablation_only_no_qualification_or_lifecycle"
+        ):
+            raise ValueError(f"TSH-CALO Change {component} evidence authority is incompatible")
         verified[component] = {"path": str(path), "sha256": physical, "accepted": True}
     return verified
 

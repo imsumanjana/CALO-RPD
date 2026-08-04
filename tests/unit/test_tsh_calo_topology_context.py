@@ -163,6 +163,21 @@ def test_prepared_policy_state_is_numerically_identical_without_reupload(toy_cas
     direct = network(state)
     prepared_state = network.prepare_state(state)
     prepared = network.forward_prepared(prepared_state)
+    explicit_full = network.forward_prepared_components(
+        prepared_state,
+        graph_context=True,
+        hierarchical_actions=True,
+    )
+    graph_only = network.forward_prepared_components(
+        prepared_state,
+        graph_context=True,
+        hierarchical_actions=False,
+    )
+    hierarchy_only = network.forward_prepared_components(
+        prepared_state,
+        graph_context=False,
+        hierarchical_actions=True,
+    )
 
     assert prepared_state.aggregate_features.device == next(network.parameters()).device
     for name in (
@@ -179,6 +194,25 @@ def test_prepared_policy_state_is_numerically_identical_without_reupload(toy_cas
             rtol=0.0,
             atol=0.0,
         )
+        torch.testing.assert_close(
+            getattr(prepared, name),
+            getattr(explicit_full, name),
+            rtol=0.0,
+            atol=0.0,
+        )
+    torch.testing.assert_close(
+        graph_only.group_operator_logits,
+        graph_only.group_operator_logits[:1].expand_as(graph_only.group_operator_logits),
+        rtol=0.0,
+        atol=0.0,
+    )
+    torch.testing.assert_close(
+        hierarchy_only.group_operator_logits,
+        hierarchy_only.group_operator_logits[:1].expand_as(hierarchy_only.group_operator_logits),
+        rtol=0.0,
+        atol=0.0,
+    )
+    assert not torch.equal(explicit_full.group_operator_logits, graph_only.group_operator_logits)
 
 
 def test_topology_state_rejects_nonfinite_features_and_unknown_bus_indices():

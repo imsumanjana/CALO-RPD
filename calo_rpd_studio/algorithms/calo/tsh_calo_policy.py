@@ -328,16 +328,35 @@ class TSHCALOPolicyNetwork(nn.Module):
             topology=self.topology_encoder.prepare(state.topology),
         )
 
-    def forward_prepared(self, state: PreparedTopologyAwarePolicyState) -> TSHCALOPolicyOutput:
-        """Run the policy without a repeated host conversion or Python validation boundary."""
+    def forward_prepared_components(
+        self,
+        state: PreparedTopologyAwarePolicyState,
+        *,
+        graph_context: bool,
+        hierarchical_actions: bool,
+    ) -> TSHCALOPolicyOutput:
+        """Run one explicit development-ablation profile on an already prepared state.
+
+        Production and ordinary qualification always pass both components as enabled.  The
+        alternative paths are consumed only through the non-serializable component-ablation
+        authority; they never alter an immutable candidate artifact or production binding.
+        """
 
         aggregate_embedding = self.aggregate_encoder(state.aggregate_features)
         topology = self.topology_encoder.forward_prepared(state.topology)
-        shared = self.global_fusion(
-            torch.cat([aggregate_embedding, topology.graph_embedding], dim=-1)
+        graph_embedding = (
+            topology.graph_embedding
+            if graph_context
+            else torch.zeros_like(topology.graph_embedding)
+        )
+        shared = self.global_fusion(torch.cat([aggregate_embedding, graph_embedding], dim=-1))
+        group_embeddings = (
+            topology.group_embeddings
+            if graph_context and hierarchical_actions
+            else torch.zeros_like(topology.group_embeddings)
         )
         group_context = self.group_fusion(
-            torch.cat([shared.expand(N_CONTROL_GROUPS, -1), topology.group_embeddings], dim=-1)
+            torch.cat([shared.expand(N_CONTROL_GROUPS, -1), group_embeddings], dim=-1)
         )
         alpha = torch.nn.functional.softplus(self.group_alpha_head(group_context)) + 1.1
         beta = torch.nn.functional.softplus(self.group_beta_head(group_context)) + 1.1
@@ -352,6 +371,15 @@ class TSHCALOPolicyNetwork(nn.Module):
             value=self.value_head(shared).squeeze(-1),
         )
         return output
+
+    def forward_prepared(self, state: PreparedTopologyAwarePolicyState) -> TSHCALOPolicyOutput:
+        """Run the production policy without repeated host conversion or validation."""
+
+        return self.forward_prepared_components(
+            state,
+            graph_context=True,
+            hierarchical_actions=True,
+        )
 
     def forward(self, state: TopologyAwarePolicyState) -> TSHCALOPolicyOutput:
         output = self.forward_prepared(self.prepare_state(state))

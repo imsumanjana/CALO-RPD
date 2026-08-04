@@ -12,8 +12,8 @@ import torch
 from calo_rpd_studio.compute.memory_budget import calculate_available_memory_admission
 from calo_rpd_studio.power_system.case_identity import protected_holdout_matches
 
-from .tsh_calo_policy import GroupActionMask, hierarchical_action
-from .tsh_calo_policy_artifact import load_tsh_calo_ensemble
+from .tsh_calo_policy import GroupActionMask, TSHCALOPolicyNetwork, hierarchical_action
+from .tsh_calo_policy_artifact import TSHCALOCandidateArtifact, load_tsh_calo_ensemble
 from .tsh_calo_qualification import (
     TSH_CALO_QUALIFICATION_RECEIPT_KEY,
     load_tsh_calo_qualification_receipt,
@@ -27,9 +27,11 @@ from .tsh_calo_schema import (
     TSHCALOFeatureFlags,
 )
 from .tsh_calo_shield import (
+    EnsembleDisagreement,
     OODCalibration,
     PolicyFallbackDecision,
     SafetyEnvelope,
+    ShieldConfig,
     ShieldTrace,
     SlidingWindowContextualBandit,
     UncertaintySafetyShield,
@@ -80,6 +82,67 @@ class QualificationCandidateAuthority:
             raise ValueError(
                 "TSH-CALO qualification authority requires development-only case identities"
             )
+
+
+@dataclass(frozen=True, slots=True)
+class TSHCALOComponentAblationProfile:
+    """A fixed A–E removal profile that cannot arrive through serialized runtime config."""
+
+    identity: str
+    graph_context: bool
+    hierarchical_actions: bool
+    uncertainty_shield: bool
+    contextual_bandit_residual: bool
+    physics_repair: bool
+
+    def validate(self) -> None:
+        allowed = {
+            "graph_context_only",
+            "hierarchical_actions_only",
+            "graph_plus_hierarchy",
+            "uncertainty_shield",
+            "contextual_bandit_residual",
+            "full_approved_A_E",
+        }
+        if self.identity not in allowed:
+            raise ValueError("Unknown TSH-CALO component-ablation profile")
+        if self.contextual_bandit_residual and not self.uncertainty_shield:
+            raise ValueError("TSH-CALO bandit ablation requires the preceding uncertainty shield")
+        if self.physics_repair and not (
+            self.graph_context
+            and self.hierarchical_actions
+            and self.uncertainty_shield
+            and self.contextual_bandit_residual
+        ):
+            raise ValueError("TSH-CALO physics ablation requires the complete approved A–D path")
+
+
+@dataclass(frozen=True, slots=True)
+class ComponentAblationAuthority:
+    """Non-serializable authority for development-only component removal evidence."""
+
+    campaign_id: str
+    execution_plan_sha256: str
+    source_policy_sha256: str
+    source_commit: str
+    development_cases: tuple[str, ...]
+    ood_calibration_sha256: str
+    profile: TSHCALOComponentAblationProfile
+
+    def validate(self) -> None:
+        if not self.campaign_id.strip() or not self.source_commit.strip():
+            raise ValueError("TSH-CALO ablation authority requires campaign/source identities")
+        for label, digest in (
+            ("plan", self.execution_plan_sha256),
+            ("policy", self.source_policy_sha256),
+            ("OOD calibration", self.ood_calibration_sha256),
+        ):
+            value = str(digest).strip().lower()
+            if len(value) != 64 or any(character not in "0123456789abcdef" for character in value):
+                raise ValueError(f"TSH-CALO ablation authority {label} SHA-256 is invalid")
+        if not self.development_cases or protected_holdout_matches(self.development_cases):
+            raise ValueError("TSH-CALO ablation authority requires development-only identities")
+        self.profile.validate()
 
 
 @dataclass(slots=True)
@@ -175,16 +238,23 @@ class TSHCALOInferenceController:
         allow_cpu_fallback: bool = True,
         baseline_fallback_permitted: bool = False,
         _qualification_authority: QualificationCandidateAuthority | None = None,
+        _component_ablation_authority: ComponentAblationAuthority | None = None,
     ) -> None:
         self.binding = dict(binding or {})
         self.deterministic = bool(deterministic)
         self.baseline_fallback_permitted = bool(baseline_fallback_permitted)
         self.ood_calibration = ood_calibration
         self.expected_ood_calibration_sha256 = str(expected_ood_calibration_sha256).lower()
-        self.networks = []
-        self.artifact = None
+        self.networks: list[TSHCALOPolicyNetwork] = []
+        self.artifact: TSHCALOCandidateArtifact | None = None
         self.admission: InferenceMemoryAdmission | None = None
         self.qualification_authority = _qualification_authority
+        self.component_ablation_authority = _component_ablation_authority
+        if (
+            self.qualification_authority is not None
+            and self.component_ablation_authority is not None
+        ):
+            raise ValueError("TSH-CALO inference accepts only one non-production authority")
         self.rejection_reason = ""
         self.device = torch.device("cpu")
         self.generator = torch.Generator(device="cpu").manual_seed(int(seed))
@@ -208,7 +278,7 @@ class TSHCALOInferenceController:
         for key, value in expected.items():
             if str(binding.get(key, "")) != value:
                 raise ValueError(f"TSH-CALO policy binding {key} is incompatible")
-        authority = self.qualification_authority
+        authority = self.qualification_authority or self.component_ablation_authority
         if authority is None:
             if str(binding.get("policy_qualification_status", "")) != "qualified":
                 raise ValueError("TSH-CALO runtime requires a qualified policy")
@@ -221,7 +291,7 @@ class TSHCALOInferenceController:
             if bool(binding.get("policy_active_at_binding", False)):
                 raise ValueError("Qualification authority cannot consume an active policy")
             if str(binding.get("policy_sha256", "")).lower() != authority.source_policy_sha256:
-                raise ValueError("Qualification authority belongs to another policy")
+                raise ValueError("Candidate-evaluation authority belongs to another policy")
         if (
             str(binding.get("policy_artifact_kind", "")) != "ensemble_policy"
             or int(binding.get("policy_ensemble_size", 0)) < 2
@@ -253,7 +323,7 @@ class TSHCALOInferenceController:
                     "TSH-CALO bound calibration differs from its qualification receipt"
                 )
         elif authority.ood_calibration_sha256 != calibration_sha:
-            raise ValueError("Qualification authority identifies another OOD calibration")
+            raise ValueError("Candidate-evaluation authority identifies another OOD calibration")
         checkpoint = str(binding.get("policy_checkpoint", "") or "")
         expected_sha = str(binding.get("policy_sha256", "") or "").lower()
         self.admission = admit_inference_device(
@@ -288,6 +358,8 @@ class TSHCALOInferenceController:
             self.networks, self.artifact = load_tsh_calo_ensemble(
                 checkpoint, expected_sha256=expected_sha, device=self.device
             )
+        if self.artifact is None:
+            raise RuntimeError("TSH-CALO ensemble loader returned no artifact metadata")
         if self.artifact.ensemble_size != int(binding["policy_ensemble_size"]):
             raise ValueError("TSH-CALO bound ensemble size does not match the immutable artifact")
         if self.artifact.feature_flags != asdict(flags):
@@ -327,18 +399,47 @@ class TSHCALOInferenceController:
         try:
             state.validate()
             with torch.inference_mode():
-                ensemble = aggregate_policy_ensemble([network(state) for network in self.networks])
-                signature = topology_ood_signature(state)
-                ood_score, attenuation = self.ood_calibration.score_and_attenuation(signature)
+                authority = self.component_ablation_authority
+                profile = authority.profile if authority is not None else None
+                outputs = [
+                    network.forward_prepared_components(
+                        network.prepare_state(state),
+                        graph_context=profile.graph_context if profile is not None else True,
+                        hierarchical_actions=(
+                            profile.hierarchical_actions if profile is not None else True
+                        ),
+                    )
+                    for network in self.networks
+                ]
+                ensemble = aggregate_policy_ensemble(outputs)
+                if profile is not None and not profile.uncertainty_shield:
+                    ood_score, attenuation = 0.0, 1.0
+                    disagreement = EnsembleDisagreement(
+                        0.0,
+                        torch.zeros_like(ensemble.disagreement.groups),
+                        torch.zeros_like(ensemble.disagreement.contexts),
+                    )
+                else:
+                    signature = topology_ood_signature(state)
+                    ood_score, attenuation = self.ood_calibration.score_and_attenuation(signature)
+                    disagreement = ensemble.disagreement
                 action = hierarchical_action(
                     ensemble.mean_output,
                     action_mask,
                     deterministic=self.deterministic,
                     generator=None if self.deterministic else self.generator,
                 )
-                shield = UncertaintySafetyShield().resolve(
+                shield_config = None
+                if profile is not None and not profile.contextual_bandit_residual:
+                    shield_config = ShieldConfig(
+                        neural_weight=0.75,
+                        rule_weight=0.20,
+                        bandit_weight=0.0,
+                        exploration_weight=0.05,
+                    )
+                shield = UncertaintySafetyShield(shield_config).resolve(
                     action=action,
-                    disagreement=ensemble.disagreement,
+                    disagreement=disagreement,
                     ood_score=ood_score,
                     ood_attenuation=attenuation,
                     learner_groups=torch.as_tensor(
@@ -394,4 +495,11 @@ class TSHCALOInferenceController:
             provenance["qualification_plan_sha256"] = (
                 self.qualification_authority.qualification_plan_sha256
             )
+        elif self.component_ablation_authority is not None:
+            provenance["authority_boundary"] = "development_component_ablation_only"
+            provenance["ablation_campaign_id"] = self.component_ablation_authority.campaign_id
+            provenance["ablation_execution_plan_sha256"] = (
+                self.component_ablation_authority.execution_plan_sha256
+            )
+            provenance["ablation_profile"] = self.component_ablation_authority.profile.identity
         return provenance

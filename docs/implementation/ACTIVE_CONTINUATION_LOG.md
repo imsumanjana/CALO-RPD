@@ -716,3 +716,69 @@ Append timestamped entries below this line after each material action, validatio
   over 35,252 statements, passing the configured 60% threshold. This supersedes the prior 632-pass
   development checkpoint for local regression evidence. It does not replace Linux/CI/container,
   final-freeze, protected-case or scientific-campaign evidence.
+
+### 2026-08-04 — post-regression G9/G10 development audit
+
+- Verified that the worktree is clean apart from the user's untouched untracked
+  `Docker_Build.txt`. The persistent release-readiness goal remains active; no release, publication,
+  registration or protected-case authority has been inferred.
+- Re-read the current gate, traceability and handoff boundaries. Local source development and the
+  shortened active regression gate are green. The next substantive boundary is G9: the historical
+  v2/v3-ABI policy candidate failed its frozen development screen and cannot be reused or
+  reinterpreted under counted runtime v1.1/training v4.
+- Located the existing v4 training, qualification and component-evidence implementation, including
+  `tsh_calo_training_campaign.py`, `tsh_calo_qualification_campaign.py`, the explicit train/qualify
+  CLIs and their focused test families. The immediate task is therefore a narrow completeness audit
+  of the frozen-plan and A–E paired-ablation contracts before any fresh development-only candidate
+  is launched. Protected cases remain closed and algorithm tuning remains prohibited.
+- Test policy for this phase: run only touched-module lint/type checks and focused unit/invariant
+  tests after each change; rerun the full active suite only at a release-gate boundary. This shortens
+  development feedback without weakening any final acceptance criterion.
+
+### 2026-08-04 — G9 component-evidence completeness finding
+
+- Completed the narrow source audit of the counted-v4 training and qualification boundaries. The
+  training campaign already freezes source, curriculum, seeds, hyperparameters, resource routing and
+  A–F flags; the qualification campaign already retains paired equal-FE cells, independent solution
+  validation, anytime endpoints, deterministic intervals, Holm correction and non-promotion
+  semantics.
+- Found one immediate development gap: formal qualification accepts checksum-bound A–E component
+  evidence references, but the repository contains no producer for the declared
+  `tsh-calo-component-ablation-evidence-v1` schema. Its verifier currently checks only schema,
+  component, acceptance, policy identity and protected-case exclusion. Therefore a fresh candidate
+  cannot lawfully earn the evidence prerequisite using repository-owned code.
+- The existing production feature validator correctly refuses disabling graph, hierarchy,
+  uncertainty or bandit components, and the fixed production optimizer correctly refuses
+  experimental F. Those safeguards will remain unchanged. The repair will add a separate
+  non-serializable, development-only ablation capability and frozen paired campaign; it must have no
+  registry, activation, protected-case or production-experiment authority. A–E will be attributable;
+  F remains separately experimental, disabled and ineligible for formal production qualification.
+
+### 2026-08-04 — repository-owned A–E component-evidence development completed
+
+- Added `tsh_calo_component_ablation.py` and the explicit `calo-rpd-ablate-tsh` command. A frozen
+  plan now binds exact source/candidate/cases, at least 30 paired runs per development case, seeds,
+  FE/population budget, calibration, anytime checkpoints, statistical/practical thresholds and
+  execution route. Start requires a new directory; resume requires the identical plan and retained
+  cell identity.
+- The matrix executes frozen CALO, the canonical-refactor identity, graph-only, hierarchy-only,
+  graph+hierarchy, +uncertainty, +bandit and the full approved A–E candidate under paired seeds and
+  equal exact FE. It reuses independent PYPOWER validation and retained feasibility-first/anytime
+  records. Change A requires exact seeded record parity; B/C/D/E require their frozen incremental
+  comparisons to pass feasibility non-inferiority, paired-feasible coverage, practical improvement,
+  win rate, rank-biserial effect, global Holm control and anytime non-regression. Standalone B/C
+  comparisons remain explicit falsification records.
+- Component removal is available only through a non-serializable development capability. Ordinary
+  production/qualification still require the immutable candidate's full approved flags; the
+  production optimizer still rejects F. The A–E preflight requires an ensemble trained with E,
+  rejects F/experimental authority, and emits no training, qualification, receipt, registry,
+  activation or deployment action.
+- Strengthened formal qualification verification: accepted component evidence must now match the
+  exact candidate and source, exact development-case design, protected-cases-closed declaration,
+  frozen plan/scientific/seed hashes, direct non-empty analysis and the component-ablation-only
+  authority boundary. A minimal accepted Boolean is no longer sufficient.
+- Preserved the full production network path bit-for-bit while adding explicit graph/hierarchy
+  removal forward paths. Focused Ruff formatting/lint and compilation pass. New/touched ablation,
+  topology, qualification, inference and optimizer tests pass `33` cases in `10.95s`; the new
+  campaign/inference/CLI typed boundary passes mypy with no issues. No real ablation was run and no
+  component or policy-benefit claim was made.
