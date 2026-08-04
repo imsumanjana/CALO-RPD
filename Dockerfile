@@ -39,6 +39,7 @@ RUN apt-get update \
         libxcb-image0 \
         libxcb-keysyms1 \
         libxcb-render-util0 \
+        libxcb-shape0 \
         libxcb-xinerama0 \
         libxkbcommon-x11-0 \
         novnc \
@@ -61,6 +62,7 @@ RUN python -m calo_rpd_studio.compute.source_identity \
         --source-commit "${SOURCE_COMMIT}" \
         --tracked-source-clean "${SOURCE_TRACKED_CLEAN}" \
     && python -m pip check \
+    && python -c "import ctypes; from pathlib import Path; from PyQt6.QtCore import QLibraryInfo; plugin = Path(QLibraryInfo.path(QLibraryInfo.LibraryPath.PluginsPath)) / 'platforms' / 'libqxcb.so'; ctypes.CDLL(str(plugin)); print(f'Qt xcb dependency closure verified: {plugin}')" \
     && python -m pip uninstall --yes setuptools wheel \
     && python -m pip uninstall --yes pip \
     && groupadd --gid 10001 calo \
@@ -72,7 +74,7 @@ VOLUME ["/data"]
 EXPOSE 6080
 
 HEALTHCHECK --interval=15s --timeout=5s --start-period=45s --retries=5 \
-    CMD python -c "import os,urllib.request; urllib.request.urlopen('http://127.0.0.1:'+os.environ.get('CALO_CONTAINER_PORT','6080')+'/vnc.html', timeout=3)" || exit 1
+    CMD python -c "import os,pathlib,urllib.request; pid=int(pathlib.Path(os.environ.get('CALO_APP_PID_FILE','/tmp/calo-app.pid')).read_text(encoding='ascii')); os.kill(pid,0); urllib.request.urlopen('http://127.0.0.1:'+os.environ.get('CALO_CONTAINER_PORT','6080')+'/vnc.html', timeout=3)" || exit 1
 
 USER 10001:10001
 ENTRYPOINT ["python", "/usr/local/bin/calo-container-entrypoint.py"]

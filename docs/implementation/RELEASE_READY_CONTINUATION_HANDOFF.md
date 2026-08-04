@@ -591,9 +591,12 @@ expected to be stale on this development branch. Do not “fix” them early.
 - Exact clean commit `1f02a94` has retained source-bound CPU/CUDA OCI attestations, loaded runtime
   smoke, zero-forbidden-file manifests, CycloneDX/full local Trivy reports with zero fixable
   HIGH/CRITICAL findings, one-device RTX 4060 visibility, cross-container lease exclusion/release,
-  and containerized case30/case57 parity plus resource recovery. The exact-image one-hour soak is
-  running; noVNC GUI/restart, CI rerun on the eventual final candidate, and clean-machine
-  reproduction remain open.
+  containerized case30/case57 parity plus resource recovery, and an independently audited continuous
+  one-hour exact-image CUDA soak. The first GUI attempt was rejected because Qt xcb lacked
+  `libxcb-shape.so.0` while the noVNC-only health probe briefly reported healthy in a restart loop.
+  The dependency/build probe and live-app/all-child health contract are corrected in source but need
+  rebuilt browser/restart/persistence/cancellation proof. CI rerun on the eventual final candidate
+  and clean-machine reproduction remain open.
 - No WSL2/WSLg target-laptop report yet.
 - No GitHub Actions run artifacts from the new workflow yet.
 - A fresh five-member TSH-CALO ensemble exists, but it is unqualified, inactive and not benefit

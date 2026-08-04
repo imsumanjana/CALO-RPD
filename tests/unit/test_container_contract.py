@@ -26,6 +26,8 @@ def test_image_drops_root_before_runtime_entrypoint():
     assert "SOURCE_TRACKED_CLEAN=false" in dockerfile
     assert "calo_rpd_studio.compute.source_identity" in dockerfile
     assert "python -m pip check" in dockerfile
+    assert "libxcb-shape0" in dockerfile
+    assert "ctypes.CDLL(str(plugin))" in dockerfile
     assert "python -m pip uninstall --yes setuptools wheel" in dockerfile
     assert "python -m pip uninstall --yes pip" in dockerfile
     debian_sources = (ROOT / "containers/debian.sources").read_text(encoding="utf-8")
@@ -93,6 +95,10 @@ def test_container_context_excludes_generated_policies_and_user_build_notes():
 def test_vnc_server_is_reachable_only_from_the_container_loopback():
     entrypoint = (ROOT / "containers" / "entrypoint.py").read_text(encoding="utf-8")
     assert '"-localhost"' in entrypoint
+    assert "_supervise_children" in entrypoint
+    assert "CALO_APP_PID_FILE" in entrypoint
+    dockerfile = (ROOT / "Dockerfile").read_text(encoding="utf-8")
+    assert "os.kill(pid,0)" in dockerfile
 
 
 def test_cpu_and_cuda_runtime_locks_are_hash_complete_and_backend_specific():

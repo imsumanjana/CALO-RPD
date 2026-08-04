@@ -37,6 +37,39 @@ def _start(*command: str) -> subprocess.Popen:
     return process
 
 
+def _first_exited() -> subprocess.Popen | None:
+    return next((process for process in _CHILDREN if process.poll() is not None), None)
+
+
+def _supervise_children(
+    app: subprocess.Popen,
+    pid_file: Path,
+    *,
+    readiness_seconds: float = 3.0,
+    poll_seconds: float = 0.1,
+) -> int:
+    """Publish readiness only while every desktop process and the Qt app remain alive."""
+
+    pid_file.unlink(missing_ok=True)
+    deadline = time.monotonic() + float(readiness_seconds)
+    while time.monotonic() < deadline:
+        exited = _first_exited()
+        if exited is not None:
+            code = int(exited.returncode or 0)
+            return code if exited is app and code != 0 else max(code, 1)
+        time.sleep(float(poll_seconds))
+    pid_file.write_text(f"{int(app.pid)}\n", encoding="ascii")
+    try:
+        while True:
+            exited = _first_exited()
+            if exited is not None:
+                code = int(exited.returncode or 0)
+                return code if exited is app else max(code, 1)
+            time.sleep(float(poll_seconds))
+    finally:
+        pid_file.unlink(missing_ok=True)
+
+
 def _verify_compute_mode() -> None:
     import torch
 
@@ -105,9 +138,12 @@ def main() -> int:
         "127.0.0.1:5900",
     )
     app = _start(sys.executable, "-m", "calo_rpd_studio.app.application")
-    return_code = app.wait()
-    _terminate_children()
-    return int(return_code)
+    pid_file = Path(os.environ.get("CALO_APP_PID_FILE", "/tmp/calo-app.pid"))
+    try:
+        return _supervise_children(app, pid_file)
+    finally:
+        pid_file.unlink(missing_ok=True)
+        _terminate_children()
 
 
 if __name__ == "__main__":

@@ -259,3 +259,42 @@ Append timestamped entries below this line after each material action, validatio
 - Next action after committing this non-tuning G10 boundary: implement disclosed mathematical
   reference-solver adapters and their separation of continuous-relaxation bounds from feasible
   mixed-variable ORPD solutions while the isolated container soak completes.
+
+### 2026-08-04 — continuous exact-image soak accepted; first GUI image rejected
+
+- Committed the safe PGLib boundary and non-protected corpus as `39ad382`
+  (`feat(scientific): add verified PGLib import boundary`). The tracked tree then returned clean;
+  only user-owned `Docker_Build.txt` remained untracked and untouched.
+- Exact CUDA image `calo-rpd-studio:cuda-1f02a94` config digest
+  `sha256:be9a836c66709ffb8fadd4c24450df572c2d5999e43e9038713eabaa34dc0db0`
+  completed the continuous rerun with container exit 0, `3600.000632077` seconds, 3,600 GREEN
+  governor samples, zero non-GREEN states, zero safe-stop requests and no protection stop. The
+  result is `physical_qualified=true` for this exact source/image/device/duration scope only.
+- Independent audit reproduced all 3,602 contiguous events (one start, 3,600 samples, one terminal),
+  one session identity and tail hash
+  `e00f680688ba366cf823a2d1984d20be27028e48583059d656e00ea4682cf815`.
+  Maximum UTC and monotonic inter-sample gaps were `1.105776` and `1.0012514019999799` seconds;
+  the earlier suspend gap did not recur. Result SHA-256 is
+  `aab8b13c7e01a27260e7ca0934ac472e0e845103c0c07356d9468f031bb391b5`; JSONL SHA-256 is
+  `eb3d5d6a3e03c259ea02b7c4e832a7acfbb74258bbc8f5bba9613ac6c5eca15c`.
+- Observed scoped telemetry: RTX 4060 temperature 46–59 °C, board power 10.72–25.22 W, utilization
+  0–55%, and 3,600 available samples for each. Trapezoidal board-power integration covered
+  `3599.376110686` seconds and yielded `23.769249787905427` Wh. CPU temperature, GPU power limit,
+  CPU/display/PSU/battery and whole-system energy remain outside the evidence. The temporary
+  keep-awake process was command-line identity checked and stopped after verification.
+- Started isolated CPU image `calo-rpd-studio:cpu-1f02a94` on localhost port 16080 with its own
+  retained volume. The GUI gate rejected it before browser acceptance: the Qt application exited
+  because `libxcb-shape.so.0` was missing. Direct `ldd` and `QT_DEBUG_PLUGINS=1` QApplication probes
+  reproduced that exact missing library; `libxcb-cursor0` itself was installed. Compose restart
+  count reached one while the old web-page-only health probe reported healthy during the restart
+  window. The rejected container was stopped with timeout 20 and retained rather than treated as
+  GUI/restart evidence.
+- Corrected source adds Debian `libxcb-shape0`, a build-time `ctypes.CDLL` load of PyQt6
+  `libqxcb.so` to verify the complete shared-library closure, and a health probe that requires both
+  the noVNC endpoint and a live Qt PID. The launcher now publishes readiness only after every
+  desktop child remains stable and exits fail-closed if Xvfb, Openbox, x11vnc, websockify or the Qt
+  app exits. Focused contract/supervision tests: `10 passed`; Ruff, both Compose profiles and
+  `docker buildx build --check` pass with no warnings.
+- Next action: commit the GUI dependency/health correction, rebuild an exact clean CPU image, rerun
+  direct QApplication plus in-app browser GUI interaction, persistence, restart and graceful
+  cancellation. Do not accept or reuse the rejected `cpu-1f02a94` GUI attempt.
