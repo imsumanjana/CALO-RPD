@@ -607,3 +607,21 @@ Append timestamped entries below this line after each material action, validatio
   regardless of device argument form. A one-scalar diagnostic allocation then proved the default,
   integer, string and `torch.device` forms all work after initialization. No ORPD workload ran. Peak
   reset is moved after construction of the resident CUDA problem tensors, before warm-up/measurement.
+- Committed the initialization-order fix as `b88d9f3`. The short physical case30 ORPD smoke then
+  qualified one 100-evaluation device-resident window: all inspected result tensors were on `cuda:0`,
+  full-request residency was admitted, declared CPU↔CUDA inner-loop transfers and CPU fallbacks were
+  both zero, peak PyTorch CUDA allocation/reservation were 27,984,896/35,651,584 bytes, and bounded
+  CUDA event time was 2.946866 s of 2.947119 s wall time (99.9914%). Retained JSON is
+  `artifacts/cuda-hot-path-b88d9f3/case30-smoke.json`, SHA-256
+  `54c56a5553b1b0ec1f171337866af28e5508302627ec1a8324832d85ec263d75`.
+- The matching short physical TSH-CALO smoke qualified one measured ten-epoch PPO update after one
+  warm-up update. Model/optimizer work remained admitted on `cuda:0`, packed metrics were finite,
+  allocated/peak allocated VRAM were 18,059,264/18,602,496 bytes within the 5,953,395,097-byte
+  process ceiling, the per-epoch host metric-transfer flag was false, and bounded CUDA event time was
+  0.238431 s of 0.238479 s wall time (99.9799%). No policy was exported, registered, qualified or
+  activated. Retained JSON is `artifacts/cuda-hot-path-b88d9f3/case30-policy-smoke.json`, SHA-256
+  `a4bad813823e4553f9ee38feb59fd8e9bd810db15c627759d21100541d47cea4`.
+- These are source-bound development smokes for case30 on the observed RTX 4060/PyTorch stack, not
+  complete case30/case57 manual-lane qualification, GPU-utilization proof, an overall-application
+  95% claim or evidence for 100,000 evaluations/1,000 epochs in minutes. The immediate development
+  requirement is implemented and smoke-verified; broader release testing remains open without tuning.
