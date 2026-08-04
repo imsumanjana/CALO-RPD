@@ -580,6 +580,8 @@ expected to be stale on this development branch. Do not “fix” them early.
 
 ## 6. Known incomplete evidence — do not overclaim
 
+- Bounded physical FP64 CPU/CUDA evaluator parity is now retained for development case30/case57 on
+  clean commit `63f56ad`, but it is not TSH-policy, pressure, soak, container, or performance proof.
 - No physical RTX 4060 CUDA pressure, thermal, energy, or multi-process lease attestation yet.
 - No successful Docker CPU/CUDA runtime build on this workstation yet.
 - No WSL2/WSLg target-laptop report yet.
