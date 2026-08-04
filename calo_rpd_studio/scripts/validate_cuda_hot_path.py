@@ -71,7 +71,7 @@ def main() -> int:
     if not torch.cuda.is_available():
         raise RuntimeError("Physical CUDA is required for CUDA hot-path qualification")
     started_at = _utc_now()
-    target = torch.device("cuda")
+    target = torch.device("cuda:0")
     torch.cuda.reset_peak_memory_stats(target)
     config, problem = _build_cuda_problem(args.case, args.seed, args.batch_size)
     if str(problem.device) != str(target):

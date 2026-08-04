@@ -586,3 +586,14 @@ Append timestamped entries below this line after each material action, validatio
   validators, and the manual qualification lane retains their evidence. The broader release goal is
   not complete; physical timing/VRAM execution, pinned CI typing, full regression, packaging and final
   release gates remain separate evidence work.
+
+### 2026-08-04 — post-commit short physical-CUDA smoke
+
+- Committed the immediate source milestone as `f1a90fb`. Tracked source was clean afterward and the
+  user-owned untracked `Docker_Build.txt` remained excluded. The RTX 4060 Laptop GPU was visible with
+  8,188 MiB total, 7,957 MiB free and no application allocation at the pre-smoke sample; installed
+  PyTorch reported `2.13.0+cu130`, CUDA runtime 13.0 and CUDA availability true.
+- The first one-window case30 ORPD validator invocation stopped before workload execution because the
+  runtime canonicalized the selected device as `cuda:0` while the validator compared it with the
+  alias `cuda`. This is a validator device-identity defect, not parity, timing, VRAM or fallback
+  evidence. The target is corrected to explicit `cuda:0`; the same short smoke must be repeated.
