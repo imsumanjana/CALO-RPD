@@ -655,3 +655,25 @@ Append timestamped entries below this line after each material action, validatio
   case30/case57 hot-path placement/timing development gate only. It does not prove GPU utilization,
   whole-application CUDA share, CPU/CUDA scientific parity for commit `c1cf911`, requested extreme
   throughput, final-container/CI qualification, or scientific benefit.
+
+### 2026-08-04 — exact-source parity and resource-recovery follow-up
+
+- At clean commit `5b50095054f312de8e1aec8548c6fde6cd27c453`, case30 and case57 each passed
+  the 27-candidate physical FP64 CPU/CUDA parity battery with dedicated-VRAM allocation proof, zero
+  feasibility/convergence/bus-type/scenario-count mismatches and unchanged scientific fingerprints.
+  Evidence SHA-256 values are `424b8de56ce3cdb9b52c4bee4a38583fcf40a72c2a86ad5cb5144465eee81881`
+  and `8708f691929e3931b838fc5c80b313895cac012435ebb83b438684245b1d67ff`.
+- The subsequent bounded resource-recovery run correctly failed qualification. Pressure/recovery,
+  controlled microbatch backoff, controlled CPU restart plus CUDA recovery and cross-process lease
+  exclusion/release all passed. Its host-staging probe failed because it still assumed an ordinary
+  small host-origin request must remain staged; the new residency contract correctly uploaded and
+  admitted that full request instead. Failed evidence is retained at SHA-256
+  `6ff947381c48c648d1bf6017f5ea0679f721655a3673b3b31aac01f40a2d5b02` and is not a gate pass.
+- Repair preserves both requirements: ordinary fitting requests remain fully resident, while a new
+  narrow evaluator upload seam lets the validation harness inject a typed CUDA OOM on the initial
+  full-request upload only. The staged-host probe now requires that injection, explicit attempted-but-
+  not-admitted metadata, the declared staging reason, CUDA outputs, zero CPU inner-loop participation
+  and no microbatch OOM retry. The injection is labelled and is not natural-hardware-OOM evidence.
+- Focused resource/evidence/VRAM regression after this repair passed `24` tests in `2.86s`; focused
+  Ruff lint passes and the touched files are formatted. The failed resource record remains retained,
+  and the repaired probe must be repeated from a clean committed source before this gate can close.

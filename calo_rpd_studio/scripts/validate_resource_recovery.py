@@ -136,22 +136,44 @@ def _close_problem(problem) -> None:
 def _staged_host_probe(
     device: str, *, case_name: str, seed: int, candidates: int, batch_size: int
 ) -> dict:
+    import torch
+
     problem = _build_cuda_problem(case_name, device, seed, batch_size)
+    evaluator = getattr(problem, "_device_resident_evaluator", None)
     try:
-        if getattr(problem, "_device_resident_evaluator", None) is None:
+        if evaluator is None:
             raise RuntimeError("Development case did not select the device-resident CUDA evaluator")
+        original_upload = evaluator._move_full_request_to_device
+        upload_attempts = 0
+
+        def controlled_initial_upload_oom(population):
+            nonlocal upload_attempts
+            upload_attempts += 1
+            if upload_attempts == 1:
+                raise torch.OutOfMemoryError("controlled G2 initial-upload validation fault")
+            return original_upload(population)
+
+        evaluator._move_full_request_to_device = controlled_initial_upload_oom
         population = np.random.default_rng(int(seed)).random((int(candidates), problem.dimension))
         batch = problem.evaluate_population_tensor(population)
         residency = dict(batch.metadata.get("vram_residency", {}))
         passed = (
-            str(batch.objective.device).startswith("cuda")
+            upload_attempts == 1
+            and str(batch.objective.device).startswith("cuda")
             and residency.get("execution_state") == "cuda_staged_host"
             and residency.get("input_staged_from_host") is True
+            and residency.get("full_request_residency_attempted") is True
+            and residency.get("full_request_residency_admitted") is False
+            and residency.get("host_staging_reason")
+            == "full_request_input_cuda_allocation_exhausted"
             and residency.get("cpu_inner_loop_participation") is False
             and int(residency.get("request_oom_retries", -1)) == 0
             and int(batch.count) == int(candidates)
         )
         return {
+            "fault_injection": "typed CUDA OOM on the initial full-request upload only",
+            "natural_hardware_oom_claimed": False,
+            "initial_upload_attempts": int(upload_attempts),
             "case": str(case_name),
             "candidate_count": int(batch.count),
             "output_device": str(batch.objective.device),
@@ -159,6 +181,8 @@ def _staged_host_probe(
             "passed": bool(passed),
         }
     finally:
+        if evaluator is not None and "original_upload" in locals():
+            evaluator._move_full_request_to_device = original_upload
         _close_problem(problem)
 
 

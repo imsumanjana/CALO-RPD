@@ -1004,7 +1004,7 @@ class DeviceResidentORPDEvaluator:
         host_staging_reason = ""
         if full_request_residency_attempted:
             try:
-                population = population.to(device=self.device, dtype=self.dtype)
+                population = self._move_full_request_to_device(population)
                 full_request_residency_admitted = True
             except BaseException as exc:
                 if not self.vram_governor.is_cuda_oom(exc):
@@ -1059,3 +1059,8 @@ class DeviceResidentORPDEvaluator:
         )
         batch.metadata["vram_residency"] = residency
         return batch
+
+    def _move_full_request_to_device(self, population):
+        """Upload one complete request; kept as a narrow controlled-fault validation seam."""
+
+        return population.to(device=self.device, dtype=self.dtype)

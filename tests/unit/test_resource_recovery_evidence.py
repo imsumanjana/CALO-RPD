@@ -1,7 +1,12 @@
 from __future__ import annotations
 
-import pytest
+from types import SimpleNamespace
 
+import numpy as np
+import pytest
+import torch
+
+import calo_rpd_studio.scripts.validate_resource_recovery as recovery_module
 from calo_rpd_studio.scripts.validate_resource_recovery import (
     _MIB,
     _bounded_pressure_bytes,
@@ -37,3 +42,52 @@ def test_recovery_tolerance_is_explicit_and_never_negative():
     assert not _recovery_within_tolerance(before, before - 65 * _MIB, 64)
     with pytest.raises(ValueError, match="cannot be negative"):
         _recovery_within_tolerance(before, before, -1)
+
+
+def test_staged_host_probe_injects_only_the_initial_upload_oom(monkeypatch):
+    class FakeEvaluator:
+        vram_governor = None
+
+        @staticmethod
+        def _move_full_request_to_device(population):
+            return population
+
+    class FakeProblem:
+        dimension = 3
+
+        def __init__(self):
+            self._device_resident_evaluator = FakeEvaluator()
+
+        def evaluate_population_tensor(self, population):
+            with pytest.raises(torch.OutOfMemoryError, match="initial-upload"):
+                self._device_resident_evaluator._move_full_request_to_device(population)
+            return SimpleNamespace(
+                objective=SimpleNamespace(device="cuda:0"),
+                count=len(population),
+                metadata={
+                    "vram_residency": {
+                        "execution_state": "cuda_staged_host",
+                        "input_staged_from_host": True,
+                        "full_request_residency_attempted": True,
+                        "full_request_residency_admitted": False,
+                        "host_staging_reason": "full_request_input_cuda_allocation_exhausted",
+                        "cpu_inner_loop_participation": False,
+                        "request_oom_retries": 0,
+                    }
+                },
+            )
+
+    monkeypatch.setattr(
+        recovery_module,
+        "_build_cuda_problem",
+        lambda *_args, **_kwargs: FakeProblem(),
+    )
+
+    result = recovery_module._staged_host_probe(
+        "cuda:0", case_name="case30", seed=17, candidates=8, batch_size=8
+    )
+
+    assert result["passed"] is True
+    assert result["initial_upload_attempts"] == 1
+    assert result["natural_hardware_oom_claimed"] is False
+    assert np.asarray(result["residency"]["input_staged_from_host"]).item() is True
