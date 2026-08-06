@@ -107,8 +107,8 @@ def test_h15_near_zero_comparator_does_not_explode_relative_qualification_eviden
     candidate = [{"case": "tiny", "run_index": i, "objective": 1e-9} for i in range(4)]
     comparator = [{"case": "tiny", "run_index": i, "objective": 0.0} for i in range(4)]
     evidence = _paired_evidence(candidate, comparator)
-    assert evidence["median_relative_difference"] == pytest.approx(1e-9)
-    assert max(abs(v) for v in evidence["paired_relative_differences"]) < 1e-6
+    assert evidence["median_relative_improvement"] == pytest.approx(-1.0)
+    assert max(abs(v) for v in evidence["paired_relative_improvements"]) <= 1.0
 
 
 def test_h21_h22_checkpoint_mutations_are_single_transaction_operations():

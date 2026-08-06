@@ -1,23 +1,25 @@
-"""Guarded paired Wilcoxon signed-rank testing."""
+"""Guarded exact-pair Wilcoxon signed-rank testing."""
 
 import numpy as np
-from scipy.stats import wilcoxon as _wilcoxon
+
+from .paired import PairIntegrityError, wilcoxon_signed_rank_evidence
 
 
 def wilcoxon_signed_rank(a, b):
     a = np.asarray(a, float).ravel()
     b = np.asarray(b, float).ravel()
-    n = min(a.size, b.size)
-    a, b = a[:n], b[:n]
-    mask = np.isfinite(a) & np.isfinite(b)
-    a, b = a[mask], b[mask]
-    if a.size < 2:
-        return {"statistic": float("nan"), "p_value": float("nan"), "n_pairs": int(a.size)}
-    if np.allclose(a, b, rtol=0, atol=0):
-        return {"statistic": 0.0, "p_value": 1.0, "n_pairs": int(a.size)}
-    result = _wilcoxon(a, b, zero_method="wilcox", alternative="two-sided")
+    if a.size != b.size:
+        raise PairIntegrityError(
+            f"Paired Wilcoxon inputs must have equal lengths; received {a.size} and {b.size}"
+        )
+    if a.size and (not np.all(np.isfinite(a)) or not np.all(np.isfinite(b))):
+        raise PairIntegrityError("Paired Wilcoxon inputs must contain only finite paired values")
+    evidence = wilcoxon_signed_rank_evidence(a - b, alternative="two-sided")
+    statistic = evidence["statistic"]
+    p_value = evidence["p_value"]
     return {
-        "statistic": float(result.statistic),
-        "p_value": float(result.pvalue),
+        "statistic": float(statistic) if statistic is not None else float("nan"),
+        "p_value": float(p_value) if p_value is not None else float("nan"),
         "n_pairs": int(a.size),
+        "method": evidence,
     }

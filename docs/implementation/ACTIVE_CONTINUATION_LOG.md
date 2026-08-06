@@ -899,3 +899,109 @@ Append timestamped entries below this line after each material action, validatio
   directory could not be removed because the managed approval service rejected the cleanup after
   reaching its usage limit; it is untracked generated test state and must not be committed. The
   user's unrelated untracked `Docker_Build.txt` remains untouched.
+
+### 2026-08-06 — v12.0 Phase 1 coding completed; validation explicitly deferred
+
+- Created the active v12 development identity `12.0.0.dev1` / `12.0.0-dev.1` across runtime,
+  package metadata, CLI `--version`, GUI labels, README, container labels and CI. Added
+  `ACTIVE_DEVELOPMENT_STATUS.json` and `STATUS_RECORD_INDEX.json`; RC/final/freeze/qualification and
+  protected-case flags remain false. Historical v6.9 records were not rewritten.
+- Implemented `calo-paired-analysis-v2-exact-keyed-signed-rank`: exact preregistered keyed pairs fail
+  on duplicates/missing/extra ambiguity; exploratory incompleteness is explicitly nonqualifying;
+  positive means candidate improvement; matched-pairs rank-biserial uses signed rank mass with
+  average ties; and formal Wilcoxon evidence records SciPy/version/alternative/zero method without
+  changing test families on failure.
+- Migrated both policy qualification engines to the shared v12 analysis definition and new campaign
+  plan/evidence schemas. Separated time-to-first-feasible from versioned post-feasibility AUC. No
+  optimizer, diversity-pressure, policy architecture, training transition or protected-case
+  behavior changed.
+- Added an additive historical statistical correction record. The retained v3 screen is untouched;
+  its effect is legacy/unverifiable without complete immutable tracked raw pair values. The negative
+  result cannot reverse because the retained case57 interval crossed zero and Holm-adjusted
+  `p=0.052734375` failed the frozen mandatory threshold. Requalification is required for any future
+  promotion.
+- Freeze verification now emits invalid/missing/changed/extra categories together in human and
+  machine-readable output. The v6.9 release-integrity test is scoped to a v6.9 checkout.
+- Added `tests/unit/test_v120_phase1_contracts.py` and updated affected historical compatibility
+  expectations. At the user's instruction, **no tests were executed** and no Python, policy
+  training, policy evaluation, qualification, ablation, benchmark, campaign or protected-case
+  command was invoked. Prior pass counts do not validate this v12 working tree.
+- Saved exact later validation/evidence-capture instructions in the local-only, Git-ignored
+  `validation/Validate-Phase1.ps1` harness. It writes detailed hashed evidence under
+  `validation/logs/`. Phase 1 coding is complete; its exit gate remains validation-pending until
+  those outputs are returned for review. Do not begin Phase 2 or any policy workflow without a new
+  instruction.
+- Repository ownership correction: `Docker_Build.txt` is tracked. Untracked
+  `.codex-pytest-temp/` and generated `calo_policy_candidate` branch/artifact state remain user/runtime
+  files and must not be staged, packaged or modified.
+
+### 2026-08-06 — local-only Phase 1 manual validation harness prepared
+
+- At the user's direction, added the repository-local `validation/Validate-Phase1.ps1` manual
+  harness and excluded the entire `/validation/` tree in `.gitignore`. The script itself, every
+  command log, evidence JSON, summary, transcript and SHA-256 manifest are therefore local-only and
+  must never be staged or committed.
+- Replaced the earlier untracked documentation command log with the executable local harness and
+  updated all Phase 1 handoff references. Future phases use the same convention: a phase-specific
+  local validation script plus detailed ignored logs returned manually for review.
+- The Phase 1 harness records Python/Git/source identity, complete working-tree inventory, ignore
+  enforcement, diff integrity, CLI/GUI/package/container version consistency, broad-exception
+  governance, compilation, generated-schema consistency, Ruff diagnostics/format, Phase 1 contract
+  tests, affected compatibility tests and historical-v6.9 test scoping. It contains no training,
+  policy evaluation, qualification, ablation, benchmark or protected-case entry point.
+- The harness writes a complete run under `validation/logs/phase1-YYYYMMDD-HHMMSS/`, including
+  per-command exit codes/output, a source SHA-256 manifest, JSON and Markdown summaries, a transcript
+  and a SHA-256 manifest of the validation evidence. Return that complete directory for review.
+- The harness was **not executed**. Only the PowerShell parser and Git ignore/static source checks
+  were used while preparing it; PowerShell parsing passed, both the script and example logs resolve
+  through `.gitignore`, and the ignored validation tree is absent from `git status`.
+
+### 2026-08-06 — Phase 1 validation-log findings corrected; fresh manual rerun prepared
+
+- Reviewed the complete `validation/logs/phase1-20260806-222429` run. Its evidence hashes all
+  verified. It reported 12/16 commands passed: active v12 identity, exception classification,
+  compilation, generated schema, 12 Phase 1 contracts, five affected regressions and five expected
+  historical-v6.9 skips passed. No policy training/evaluation, campaign, benchmark or protected case
+  ran.
+- Classified three failures as harness/environment defects: Windows PowerShell promoted native
+  stderr warnings to terminating `RemoteException` for Git status/diff; root-wide Ruff encountered
+  the inaccessible `.codex-pytest-temp` runtime directory; and mixed `Set-Content`/`Tee-Object`
+  encodings produced NUL-interleaved command logs. Ruff format was the one confirmed source failure:
+  12 files required formatting.
+- Corrected the validator to capture native stdout/stderr under nonterminating handling, restore the
+  caller's error policy, use the native process exit code as pass/fail authority, and append all
+  retained output consistently as UTF-8. Git warnings remain visible without creating false
+  failures. Ruff diagnostics now scan only `calo_bootstrap`, `calo_rpd_studio` and `tests`.
+- Added Git exclusions for `.codex-pytest-temp/` and the three generated
+  `calo_policy_candidate` branch/artifact paths. The validation tree, runtime test state and generated
+  candidate state are absent from `git status` and remain prohibited from source/release content.
+- Applied Ruff's mechanical formatter to the exact 12 files identified by the log; it reported
+  `12 files reformatted`. This was a formatting correction, not a test or scientific execution.
+- Prepared the next local run. The revised PowerShell harness parses successfully, every local-only
+  path resolves through `.gitignore`, complete Git status now reads without the prior permission
+  warning, and `git diff --check` returns success while retaining non-failing LF/CRLF notices.
+- The revised Phase 1 validator was **not run**. The next action is for the user to execute
+  `validation/Validate-Phase1.ps1` manually and return the new complete
+  `validation/logs/phase1-YYYYMMDD-HHMMSS/` directory for review.
+
+### 2026-08-06 - Phase 1 functional validation passed; source-identity closure corrected
+
+- Reviewed the complete `validation/logs/phase1-20260806-224036` rerun without executing any
+  validator or test command. All 21 listed evidence artifacts matched the retained SHA-256 manifest,
+  and all 29 files in the source manifest still matched the current workspace at review time.
+- The rerun reported 16/16 commands passed: active v12 identity, Git integrity, broad-exception
+  classification, compilation, generated schema, Ruff diagnostics and formatting, 12 Phase 1
+  contracts, five affected regressions and five expected historical-v6.9 skips. It recorded no
+  policy training/evaluation, qualification campaign, benchmark or protected-case execution.
+- The functional Phase 1 checks passed, but final evidence acceptance remained conditional because
+  the captured Git inventory contained 32 changed/untracked source files while the explicit source
+  manifest contained 29. The omitted files were `calo_rpd_studio/app/main_window.py`,
+  `calo_rpd_studio/gui/navigation/sidebar.py` and
+  `calo_rpd_studio/gui/panels/application_settings_panel.py`. The manifest also identified the
+  validator only by path, without binding its exact content.
+- Corrected the local-only validator source manifest to include all three GUI files. Upgraded the
+  manifest to `calo-phase1-source-manifest-v2` and added the validator script size, SHA-256,
+  declared source-path count and missing-source-path count. No application semantics changed.
+- The corrected validator was **not run**. The next action is one final user-executed Phase 1 rerun;
+  return the new complete ignored evidence directory for hash, source-coverage and exit-gate review
+  before Phase 2 source changes begin.

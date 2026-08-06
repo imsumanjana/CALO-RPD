@@ -169,11 +169,11 @@ def test_noninferiority_uses_one_sided_holm_adjusted_evidence():
     paired = {
         "no_ai": {
             "wilcoxon_p_two_sided": 1.0,
-            "paired_relative_differences": [-0.03] * 12,
+            "paired_relative_improvements": [0.03] * 12,
         },
         "reference": {
             "wilcoxon_p_two_sided": 1.0,
-            "paired_relative_differences": [-0.02] * 12,
+            "paired_relative_improvements": [0.02] * 12,
         },
     }
     out = _apply_holm(paired, non_inferiority_margin=0.01)
@@ -385,13 +385,19 @@ def test_formal_qualification_requires_each_case_to_pass_paired_gate():
     }
     favorable = {
         "n_pairs": 30,
-        "median_difference": -0.1,
+        "median_difference": 0.1,
         "win_rate": 0.8,
         "rank_biserial": 0.6,
         "holm_p": 0.01,
         "holm_noninferiority_p": 0.01,
     }
-    bad_case = dict(favorable, median_difference=0.02, win_rate=0.4, rank_biserial=-0.2, holm_p=0.5)
+    bad_case = dict(
+        favorable,
+        median_difference=-0.02,
+        win_rate=0.4,
+        rank_biserial=-0.2,
+        holm_p=0.5,
+    )
     aggregate = {"vs_no_ai": favorable}
     case_paired = {"vs_no_ai::case30": favorable, "vs_no_ai::case57": bad_case}
     passed, _grade_name, _score, reasons = _grade(

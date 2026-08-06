@@ -12,6 +12,7 @@ from copy import deepcopy
 from dataclasses import asdict, dataclass, field
 import hashlib
 import json
+import math
 from pathlib import Path
 from typing import Any, cast
 
@@ -23,6 +24,11 @@ from calo_rpd_studio.algorithms.registry import SPECS, create_optimizer
 from calo_rpd_studio.experiments.experiment_runner import build_problem
 from calo_rpd_studio.experiments.seed_manager import RunSeeds, SeedManager
 from calo_rpd_studio.power_system.case_identity import protected_holdout_matches
+from calo_rpd_studio.statistics.paired import (
+    DEFAULT_OBJECTIVE_SCALE_FLOOR,
+    PAIRED_ANALYSIS_SCHEMA_VERSION,
+    RELATIVE_IMPROVEMENT_VERSION,
+)
 from calo_rpd_studio.statistics.posthoc import holm_correction
 
 from .tsh_calo_inference import (
@@ -45,8 +51,8 @@ from .tsh_calo_schema import TSH_CALO_ALGORITHM_ID, TSHCALOFeatureFlags
 from .tsh_calo_shield import OODCalibration, ood_calibration_sha256
 
 
-TSH_CALO_COMPONENT_ABLATION_PLAN_SCHEMA = "tsh-calo-component-ablation-plan-v1"
-TSH_CALO_COMPONENT_ABLATION_CAMPAIGN_SCHEMA = "tsh-calo-component-ablation-campaign-v1"
+TSH_CALO_COMPONENT_ABLATION_PLAN_SCHEMA = "tsh-calo-component-ablation-plan-v2-exact-pairs"
+TSH_CALO_COMPONENT_ABLATION_CAMPAIGN_SCHEMA = "tsh-calo-component-ablation-campaign-v2-exact-pairs"
 _COMPONENTS = ("A", "B", "C", "D", "E")
 
 
@@ -115,6 +121,7 @@ class TSHCALOComponentAblationPlan:
     master_seed: int
     population_size: int
     max_evaluations: int
+    source_tracked_clean: bool = False
     calibration_samples_per_case: int = 8
     calibration_population_size: int = 40
     calibration_quantile: float = 0.95
@@ -124,6 +131,9 @@ class TSHCALOComponentAblationPlan:
     anytime_fractions: tuple[float, ...] = (0.25, 0.50, 0.75, 1.00)
     bootstrap_resamples: int = 10_000
     criteria: ComponentAcceptanceCriteria = field(default_factory=ComponentAcceptanceCriteria)
+    analysis_schema_version: str = PAIRED_ANALYSIS_SCHEMA_VERSION
+    relative_improvement_version: str = RELATIVE_IMPROVEMENT_VERSION
+    objective_scale_floor: float = DEFAULT_OBJECTIVE_SCALE_FLOOR
     schema_version: str = TSH_CALO_COMPONENT_ABLATION_PLAN_SCHEMA
 
     @property
@@ -135,11 +145,22 @@ class TSHCALOComponentAblationPlan:
     def validate(self) -> None:
         if self.schema_version != TSH_CALO_COMPONENT_ABLATION_PLAN_SCHEMA:
             raise ValueError("TSH-CALO component-ablation plan schema is incompatible")
+        if self.analysis_schema_version != PAIRED_ANALYSIS_SCHEMA_VERSION:
+            raise ValueError("TSH-CALO component-ablation analysis schema is incompatible")
+        if self.relative_improvement_version != RELATIVE_IMPROVEMENT_VERSION:
+            raise ValueError("TSH-CALO component-ablation improvement schema is incompatible")
+        if (
+            not math.isfinite(float(self.objective_scale_floor))
+            or self.objective_scale_floor <= 0.0
+        ):
+            raise ValueError("TSH-CALO component-ablation objective scale floor is invalid")
         if not self.campaign_id.strip():
             raise ValueError("TSH-CALO component ablation requires a campaign ID")
         commit = str(self.source_commit).strip().lower()
         if len(commit) != 40 or any(character not in "0123456789abcdef" for character in commit):
             raise ValueError("TSH-CALO component ablation requires an exact source commit")
+        if not isinstance(self.source_tracked_clean, bool):
+            raise ValueError("TSH-CALO component-ablation source clean state must be Boolean")
         if not _is_sha256(self.candidate_sha256):
             raise ValueError("TSH-CALO component ablation candidate SHA-256 is invalid")
         if not self.development_cases or len(set(self.development_cases)) != len(
@@ -699,12 +720,19 @@ class TSHCALOComponentAblationCampaign:
                     self.plan, component, analyses[component], failures
                 )
                 component_analysis = analyses[component]
+            if not self.plan.source_tracked_clean:
+                accepted = False
+                reasons.append("component evidence requires a clean tracked source identity")
             evidence = {
                 "schema_version": TSH_CALO_COMPONENT_EVIDENCE_SCHEMA,
+                "analysis_schema_version": PAIRED_ANALYSIS_SCHEMA_VERSION,
+                "relative_improvement_version": RELATIVE_IMPROVEMENT_VERSION,
+                "objective_scale_floor": float(self.plan.objective_scale_floor),
                 "component": component,
                 "accepted": bool(accepted),
                 "source_policy_sha256": artifact.sha256,
                 "source_commit": self.plan.source_commit,
+                "source_tracked_clean": self.plan.source_tracked_clean,
                 "campaign_id": self.plan.campaign_id,
                 "component_ablation_plan_sha256": plan_hash,
                 "scientific_design_sha256": self.plan.scientific_design_sha256(),
@@ -729,8 +757,12 @@ class TSHCALOComponentAblationCampaign:
             }
         campaign = {
             "schema_version": TSH_CALO_COMPONENT_ABLATION_CAMPAIGN_SCHEMA,
+            "analysis_schema_version": PAIRED_ANALYSIS_SCHEMA_VERSION,
+            "relative_improvement_version": RELATIVE_IMPROVEMENT_VERSION,
+            "objective_scale_floor": float(self.plan.objective_scale_floor),
             "campaign_id": self.plan.campaign_id,
             "source_commit": self.plan.source_commit,
+            "source_tracked_clean": self.plan.source_tracked_clean,
             "source_policy_sha256": artifact.sha256,
             "execution_plan_sha256": plan_hash,
             "scientific_design_sha256": self.plan.scientific_design_sha256(),

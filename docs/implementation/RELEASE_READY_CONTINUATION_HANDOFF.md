@@ -713,5 +713,29 @@ The repository is release-ready only when all of the following are simultaneousl
 - manifests, freeze, metadata, SBOMs and image digests all bind to the same immutable candidate; and
 - public claims are restricted to the exact tested ORPD problem distribution and budgets.
 
+## 10. v12 Phase 1 coding handoff — 2026-08-06
+
+- The active development identity is `12.0.0.dev1` with human label `12.0.0-dev.1`. It is not an RC
+  or final release. Active status explicitly leaves final freeze, release qualification and
+  protected-case evidence open.
+- Historical v6.9 metadata, citation, status records and freeze remain unchanged and are indexed as
+  historical-only. They do not qualify v12.
+- Both qualification paths now require exact preregistered keys, share one positive-is-better
+  relative-improvement definition and one signed-rank-mass effect, record the declared SciPy
+  Wilcoxon method/version, and fail without switching test families. Old campaign plans/evidence do
+  not silently resume under the v12 analysis ABI.
+- Convergence evidence now separates time to first feasibility from post-feasibility incumbent AUC.
+  Diversity-pressure behavior was not changed and remains approval-gated Class B scope.
+- The retained v3 candidate remains immutable, unqualified and inactive. Its corrected effect is
+  legacy/unverifiable from tracked immutable raw pair values, while the negative decision remains
+  fixed because its interval crossed zero and Holm-adjusted `p=0.052734375` failed the threshold.
+- Phase 1 tests were written but not executed. No Python test command, policy training, policy
+  evaluation, campaign, benchmark or protected-case workflow ran. The exact safe validation and
+  evidence-capture commands are in the local-only, Git-ignored
+  `validation/Validate-Phase1.ps1` harness.
+- The next action is user-run Phase 1 validation and return of the retained logs. Do not begin Phase
+  2, policy training/evaluation, release-candidate versioning, or release production from this
+  handoff without a new instruction and the appropriate gate authority.
+
 Until then, describe the branch as a modernization candidate with implemented harnesses and pending
 scientific/hardware qualification—not as a final release.

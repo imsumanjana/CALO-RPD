@@ -1,0 +1,29 @@
+{
+  "schema_version": "calo-historical-statistical-correction-v1",
+  "created_for_active_version": "12.0.0.dev1",
+  "analysis_schema_version": "calo-paired-analysis-v2-exact-keyed-signed-rank",
+  "relative_improvement_version": "calo-relative-improvement-v2-symmetric-max-scale",
+  "records": [
+    {
+      "historical_record": "retained TSH-CALO v3 candidate_unqualified screening",
+      "historical_record_mutated": false,
+      "corrected_effect_recomputable_from_tracked_evidence": false,
+      "corrected_effect_status": "legacy_unverifiable_missing_complete_immutable_raw_pair_values",
+      "known_case57_evidence": {
+        "paired_runs": 10,
+        "median_relative_objective_improvement": 0.011492392668353543,
+        "bootstrap_ci95": [
+          -0.0019638316095621712,
+          0.01484160649928978
+        ],
+        "holm_adjusted_p": 0.052734375,
+        "historical_effect_value": 0.4,
+        "historical_effect_definition": "sign imbalance; superseded for v12 formal evidence"
+      },
+      "decision_after_correction_review": "negative_decision_preserved",
+      "decision_reason": "The retained confidence interval crosses zero and Holm-adjusted p exceeds 0.05. A corrected effect cannot convert failed mandatory gates into qualification.",
+      "promotion_or_activation_authority": false,
+      "requalification_required_for_future_promotion": true
+    }
+  ]
+}

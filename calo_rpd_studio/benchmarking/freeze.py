@@ -178,8 +178,24 @@ class FreezeVerification:
     checked_files: int
     missing_files: tuple[str, ...]
     changed_files: tuple[str, ...]
+    extra_files: tuple[str, ...]
+    manifest_valid: bool
     manifest_sha256: str
     message: str
+
+    def to_dict(self) -> dict[str, object]:
+        """Return all diagnostic categories for machine-readable release tooling."""
+        return {
+            "passed": self.passed,
+            "manifest_path": self.manifest_path,
+            "checked_files": self.checked_files,
+            "manifest_valid": self.manifest_valid,
+            "missing_files": list(self.missing_files),
+            "changed_files": list(self.changed_files),
+            "extra_files": list(self.extra_files),
+            "manifest_sha256": self.manifest_sha256,
+            "message": self.message,
+        }
 
 
 def _sha256(path: Path) -> str:
@@ -460,17 +476,58 @@ def verify_freeze_manifest(
     manifest = Path(manifest_path)
     if not manifest.is_file():
         return FreezeVerification(
-            False, str(manifest), 0, (), (), "", "Freeze manifest does not exist."
+            False,
+            str(manifest),
+            0,
+            (),
+            (),
+            (),
+            False,
+            "",
+            "Freeze verification failed: manifest invalid=yes; missing=0; changed=0; extra=0. "
+            "The freeze manifest does not exist.",
         )
-    payload = json.loads(manifest.read_text(encoding="utf-8"))
+    try:
+        payload = json.loads(manifest.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        return FreezeVerification(
+            False,
+            str(manifest),
+            0,
+            (),
+            (),
+            (),
+            False,
+            "",
+            "Freeze verification failed: manifest invalid=yes; missing=0; changed=0; extra=0. "
+            f"The freeze manifest is unreadable: {type(exc).__name__}.",
+        )
+    if not isinstance(payload, dict) or not isinstance(payload.get("files"), dict):
+        return FreezeVerification(
+            False,
+            str(manifest),
+            0,
+            (),
+            (),
+            (),
+            False,
+            "",
+            "Freeze verification failed: manifest invalid=yes; missing=0; changed=0; extra=0. "
+            "The freeze manifest payload or files index is invalid.",
+        )
     expected_manifest_hash = str(payload.get("manifest_sha256", ""))
     actual_manifest_hash = _canonical_json_hash(payload)
     root = Path(project_root) if project_root is not None else project_root_from_module()
     root = root.resolve()
     missing: list[str] = []
     changed: list[str] = []
+    extra: list[str] = []
     files = payload.get("files", {})
     for relative, meta in files.items():
+        relative_path = Path(str(relative))
+        if relative_path.is_absolute() or ".." in relative_path.parts:
+            extra.append(str(relative))
+            continue
         path = root / relative
         if not path.is_file():
             missing.append(relative)
@@ -478,21 +535,23 @@ def verify_freeze_manifest(
         if _sha256(path) != str(meta.get("sha256", "")):
             changed.append(relative)
     manifest_valid = bool(expected_manifest_hash) and expected_manifest_hash == actual_manifest_hash
-    passed = manifest_valid and not missing and not changed
-    if not manifest_valid:
-        message = "Freeze manifest integrity check failed."
-    elif missing:
-        message = f"Freeze verification failed: {len(missing)} frozen file(s) are missing."
-    elif changed:
-        message = f"Freeze verification failed: {len(changed)} frozen file(s) changed."
-    else:
+    passed = manifest_valid and not missing and not changed and not extra
+    if passed:
         message = f"Frozen CALO verified across {len(files)} files."
+    else:
+        message = (
+            "Freeze verification failed: "
+            f"manifest invalid={'no' if manifest_valid else 'yes'}; "
+            f"missing={len(missing)}; changed={len(changed)}; extra={len(extra)}."
+        )
     return FreezeVerification(
         passed,
         str(manifest),
         len(files),
         tuple(missing),
         tuple(changed),
+        tuple(extra),
+        manifest_valid,
         actual_manifest_hash,
         message,
     )

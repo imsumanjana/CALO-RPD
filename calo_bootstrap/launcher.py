@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import sys
 
+from calo_rpd_studio.version import DISPLAY_VERSION, VERSION
+
 from .prerequisites import (
     cpu_fallback_is_accepted,
     first_launch_or_version_changed,
@@ -36,6 +38,9 @@ def ensure_prerequisites(force_wizard: bool = False) -> bool:
 
 
 def main() -> int:
+    if "--version" in sys.argv or "-V" in sys.argv:
+        print(f"CALO-RPD Studio {DISPLAY_VERSION} ({VERSION})")
+        return 0
     force_wizard = "--setup" in sys.argv or "--repair" in sys.argv
     sys.argv = [arg for arg in sys.argv if arg not in {"--setup", "--repair"}]
     if not ensure_prerequisites(force_wizard=force_wizard):

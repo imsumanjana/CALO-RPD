@@ -48,6 +48,8 @@ jobs:
           python -m calo_rpd_studio.scripts.verify_requirements_lock requirements-lock-ci-py311-linux.txt --match-lock requirements-lock-cpu-py311-linux.txt --expect-index https://download.pytorch.org/whl/cpu --expect-pin torch==2.10.0+cpu --expect-pin ruff==0.15.22 --expect-pin mypy==1.20.2 --expect-pin uv==0.11.29
       - name: Verify source and generated schema
         run: |
+          python -m calo_rpd_studio.scripts.verify_active_version
+          python -m calo_rpd_studio.scripts.audit_broad_exceptions --output artifacts/broad-exceptions.json
           python -m compileall -q calo_rpd_studio calo_bootstrap tests
           python -m calo_rpd_studio.scripts.generate_experiment_schema --check
           ruff check .

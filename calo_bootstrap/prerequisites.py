@@ -25,7 +25,7 @@ try:
 
     APP_VERSION = distribution_version("calo-rpd-studio")
 except Exception:
-    APP_VERSION = "6.9.0"
+    from calo_rpd_studio.version import VERSION as APP_VERSION
 STATE_DIR = Path.home() / ".calo_rpd_studio"
 STATE_FILE = STATE_DIR / "environment_state.json"
 CORE_REQUIREMENTS_FILE = "requirements-core.txt"

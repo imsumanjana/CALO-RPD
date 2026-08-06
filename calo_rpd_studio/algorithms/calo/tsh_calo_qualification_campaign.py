@@ -19,7 +19,6 @@ import threading
 from typing import Any
 
 import numpy as np
-from scipy.stats import wilcoxon
 
 from calo_rpd_studio.ai.model_io import checkpoint_sha256, durable_write_bytes
 from calo_rpd_studio.algorithms.base_optimizer import OptimizerConfig
@@ -30,6 +29,16 @@ from calo_rpd_studio.experiments.seed_manager import RunSeeds, SeedManager
 from calo_rpd_studio.orpd.formulation_fingerprint import scientific_problem_fingerprint
 from calo_rpd_studio.power_system.ac_power_flow import run_ac_power_flow
 from calo_rpd_studio.power_system.case_identity import protected_holdout_matches
+from calo_rpd_studio.statistics.paired import (
+    DEFAULT_OBJECTIVE_SCALE_FLOOR,
+    PAIRED_ANALYSIS_SCHEMA_VERSION,
+    RELATIVE_IMPROVEMENT_VERSION,
+    exact_keyed_pairs,
+    matched_pairs_rank_biserial,
+    pair_manifest,
+    relative_objective_improvement,
+    wilcoxon_signed_rank_evidence,
+)
 from calo_rpd_studio.statistics.posthoc import holm_correction
 
 from .tsh_calo_inference import (
@@ -52,9 +61,9 @@ from .tsh_calo_training_environment import (
 from .tsh_calo_training_resources import TSHCALOTrainingResourceEnvelope
 
 
-TSH_CALO_QUALIFICATION_PLAN_SCHEMA = "tsh-calo-qualification-plan-v1"
-TSH_CALO_QUALIFICATION_EVIDENCE_SCHEMA = "tsh-calo-qualification-evidence-v1"
-TSH_CALO_COMPONENT_EVIDENCE_SCHEMA = "tsh-calo-component-ablation-evidence-v1"
+TSH_CALO_QUALIFICATION_PLAN_SCHEMA = "tsh-calo-qualification-plan-v2-exact-pairs"
+TSH_CALO_QUALIFICATION_EVIDENCE_SCHEMA = "tsh-calo-qualification-evidence-v2-exact-pairs"
+TSH_CALO_COMPONENT_EVIDENCE_SCHEMA = "tsh-calo-component-ablation-evidence-v2-exact-pairs"
 _REQUIRED_COMPONENTS = ("A", "B", "C", "D", "E")
 
 
@@ -184,6 +193,7 @@ class TSHCALOQualificationPlan:
     master_seed: int
     population_size: int
     max_evaluations: int
+    source_tracked_clean: bool = False
     mode: str = "screening"  # screening | formal
     calibration_samples_per_case: int = 8
     calibration_population_size: int = 40
@@ -202,16 +212,30 @@ class TSHCALOQualificationPlan:
     anytime_fractions: tuple[float, ...] = (0.25, 0.50, 0.75, 1.00)
     bootstrap_resamples: int = 10_000
     component_evidence: dict[str, dict] = field(default_factory=dict)
+    analysis_schema_version: str = PAIRED_ANALYSIS_SCHEMA_VERSION
+    relative_improvement_version: str = RELATIVE_IMPROVEMENT_VERSION
+    objective_scale_floor: float = DEFAULT_OBJECTIVE_SCALE_FLOOR
     schema_version: str = TSH_CALO_QUALIFICATION_PLAN_SCHEMA
 
     def validate(self) -> None:
         if self.schema_version != TSH_CALO_QUALIFICATION_PLAN_SCHEMA:
             raise ValueError("TSH-CALO qualification plan schema is incompatible")
+        if self.analysis_schema_version != PAIRED_ANALYSIS_SCHEMA_VERSION:
+            raise ValueError("TSH-CALO paired-analysis schema is incompatible")
+        if self.relative_improvement_version != RELATIVE_IMPROVEMENT_VERSION:
+            raise ValueError("TSH-CALO relative-improvement schema is incompatible")
+        if (
+            not math.isfinite(float(self.objective_scale_floor))
+            or self.objective_scale_floor <= 0.0
+        ):
+            raise ValueError("TSH-CALO objective scale floor must be finite and positive")
         if not self.qualification_run_id.strip():
             raise ValueError("TSH-CALO qualification requires a run ID")
         commit = str(self.source_commit).strip().lower()
         if len(commit) != 40 or any(character not in "0123456789abcdef" for character in commit):
             raise ValueError("TSH-CALO qualification requires an exact source commit")
+        if not isinstance(self.source_tracked_clean, bool):
+            raise ValueError("TSH-CALO qualification source clean state must be Boolean")
         if not _is_sha256(self.candidate_sha256):
             raise ValueError("TSH-CALO qualification candidate SHA-256 is invalid")
         if not self.development_cases or len(set(self.development_cases)) != len(
@@ -614,19 +638,14 @@ def _case_evidence(
     *,
     analysis_seed: int,
 ) -> dict:
-    candidate = sorted(
+    pairs = exact_keyed_pairs(
         [item for item in records if item["case"] == case_name and item["label"] == "candidate"],
-        key=lambda item: item["run_index"],
-    )
-    baseline = sorted(
         [item for item in records if item["case"] == case_name and item["label"] == "baseline"],
-        key=lambda item: item["run_index"],
+        key_fields=("case", "run_index"),
+        expected_keys=((case_name, run_index) for run_index in range(plan.runs)),
     )
-    candidate_by_run = {int(item["run_index"]): item for item in candidate}
-    baseline_by_run = {int(item["run_index"]): item for item in baseline}
-    common_runs = sorted(set(candidate_by_run) & set(baseline_by_run))
-    candidate = [candidate_by_run[index] for index in common_runs]
-    baseline = [baseline_by_run[index] for index in common_runs]
+    candidate = [pair.candidate for pair in pairs]
+    baseline = [pair.comparator for pair in pairs]
     candidate_feasible = np.asarray([item["feasible"] for item in candidate], dtype=float)
     baseline_feasible = np.asarray([item["feasible"] for item in baseline], dtype=float)
     feasible_interval = _proportion_difference_interval(
@@ -640,23 +659,22 @@ def _case_evidence(
         if cand["feasible"] and base["feasible"]:
             cand_value = float(cand["objective"])
             base_value = float(base["objective"])
-            scale = max(abs(cand_value), abs(base_value), 1e-12)
-            paired_objectives.append((base_value - cand_value) / scale)
+            paired_objectives.append(
+                relative_objective_improvement(
+                    cand_value,
+                    base_value,
+                    scale_floor=float(plan.objective_scale_floor),
+                )
+            )
     improvements = np.asarray(paired_objectives, dtype=float)
     objective_ci = _paired_bootstrap_interval(
         improvements,
         seed=analysis_seed + 1,
         resamples=plan.bootstrap_resamples,
     )
-    nonzero = improvements[np.abs(improvements) > 1e-15]
-    pvalue = float("nan")
-    if len(nonzero) >= 2:
-        pvalue = float(wilcoxon(nonzero, alternative="greater", zero_method="wilcox").pvalue)
-    rank_biserial = (
-        float((np.sum(nonzero > 0.0) - np.sum(nonzero < 0.0)) / len(nonzero))
-        if len(nonzero)
-        else 0.0
-    )
+    statistical_test = wilcoxon_signed_rank_evidence(improvements, alternative="greater")
+    pvalue = statistical_test["p_value"]
+    rank_biserial = matched_pairs_rank_biserial(improvements)
     anytime: dict[str, dict] = {}
     for fraction in plan.anytime_fractions:
         key = str(fraction)
@@ -669,7 +687,11 @@ def _case_evidence(
             if cand["feasible"] and base["feasible"]:
                 cvalue, bvalue = float(cand["objective"]), float(base["objective"])
                 objective_improvements.append(
-                    (bvalue - cvalue) / max(abs(cvalue), abs(bvalue), 1e-12)
+                    relative_objective_improvement(
+                        cvalue,
+                        bvalue,
+                        scale_floor=float(plan.objective_scale_floor),
+                    )
                 )
         anytime[key] = {
             "candidate_feasible_probability": _mean_or_none(cand_feasible),
@@ -681,8 +703,12 @@ def _case_evidence(
             "paired_feasible_objective_count": len(objective_improvements),
         }
     return {
+        "analysis_schema_version": PAIRED_ANALYSIS_SCHEMA_VERSION,
+        "relative_improvement_version": RELATIVE_IMPROVEMENT_VERSION,
+        "objective_scale_floor": float(plan.objective_scale_floor),
         "case": case_name,
         "n_pairs": len(candidate),
+        "pair_manifest": pair_manifest(pairs, ("case", "run_index")),
         "candidate_feasible_probability": _mean_or_none(candidate_feasible),
         "baseline_feasible_probability": _mean_or_none(baseline_feasible),
         "feasible_probability_difference": _mean_or_none(candidate_feasible - baseline_feasible),
@@ -697,7 +723,8 @@ def _case_evidence(
         "relative_objective_improvement_ci95": [_finite_or_none(value) for value in objective_ci],
         "objective_win_rate": float(np.mean(improvements > 0.0)) if len(improvements) else 0.0,
         "paired_rank_biserial": rank_biserial,
-        "wilcoxon_p_one_sided": _finite_or_none(pvalue),
+        "wilcoxon_p_one_sided": _finite_or_none(pvalue) if pvalue is not None else None,
+        "statistical_test": statistical_test,
         "holm_p": None,
         "all_candidate_independently_validated": bool(candidate)
         and all(item["independent_validation"]["passed"] for item in candidate),
@@ -733,6 +760,16 @@ def _verify_component_evidence(plan: TSHCALOQualificationPlan) -> dict[str, dict
             raise ValueError(f"TSH-CALO Change {component} evidence belongs to another policy")
         if str(payload.get("source_commit", "")).lower() != plan.source_commit.lower():
             raise ValueError(f"TSH-CALO Change {component} evidence belongs to another source")
+        if payload.get("source_tracked_clean") is not True or not plan.source_tracked_clean:
+            raise ValueError(f"TSH-CALO Change {component} evidence source is not clean")
+        if payload.get("analysis_schema_version") != PAIRED_ANALYSIS_SCHEMA_VERSION:
+            raise ValueError(f"TSH-CALO Change {component} paired analysis is incompatible")
+        if payload.get("relative_improvement_version") != RELATIVE_IMPROVEMENT_VERSION:
+            raise ValueError(f"TSH-CALO Change {component} improvement definition is incompatible")
+        if float(payload.get("objective_scale_floor", float("nan"))) != float(
+            plan.objective_scale_floor
+        ):
+            raise ValueError(f"TSH-CALO Change {component} objective scale is incompatible")
         if protected_holdout_matches(payload.get("development_cases", [])):
             raise ValueError(f"TSH-CALO Change {component} evidence leaked a protected holdout")
         if set(payload.get("development_cases", [])) != set(plan.development_cases):
@@ -761,6 +798,8 @@ def _grade(plan: TSHCALOQualificationPlan, cases: list[dict], failures: list[dic
     reasons: list[str] = []
     if plan.mode != "formal":
         reasons.append("screening campaigns cannot qualify or emit a receipt")
+    if plan.mode == "formal" and not plan.source_tracked_clean:
+        reasons.append("formal qualification requires a clean tracked source identity")
     if failures:
         reasons.append("one or more initiated paired runs failed and were retained")
     for item in cases:
@@ -1004,8 +1043,12 @@ class TSHCALOQualificationCampaign:
         decision = _grade(self.plan, cases, failures)
         evidence = {
             "schema_version": TSH_CALO_QUALIFICATION_EVIDENCE_SCHEMA,
+            "analysis_schema_version": PAIRED_ANALYSIS_SCHEMA_VERSION,
+            "relative_improvement_version": RELATIVE_IMPROVEMENT_VERSION,
+            "objective_scale_floor": float(self.plan.objective_scale_floor),
             "qualification_run_id": self.plan.qualification_run_id,
             "source_commit": self.plan.source_commit,
+            "source_tracked_clean": self.plan.source_tracked_clean,
             "source_policy_sha256": artifact.sha256,
             "qualification_plan_sha256": plan_hash,
             "scientific_design_sha256": self.plan.scientific_design_sha256(),

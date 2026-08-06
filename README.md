@@ -1,4 +1,11 @@
-# CALO-RPD Studio v6.9.0
+# CALO-RPD Studio v12.0.0-dev.1
+
+**Active status: development only.** This tree starts the v12 modernization line. It is not a
+release candidate or final release, its v12 final freeze and qualification gates remain open, and
+historical v6.9 evidence does not qualify v12. Policy training, policy qualification,
+protected-case evaluation, and release production are separate gated workflows.
+
+## Historical release: v6.9.0
 
 **CALO-RPD Studio 6.9.0 — VRAM-Resident CUDA Data Plane** introduces an adaptive 80%-default CUDA VRAM ceiling while keeping the complete active CUDA-eligible ORPD and PPO numerical data plane resident on the accelerator. CPU remains the asynchronous control/persistence plane; it is removed from the Newton/backtracking hot loop and from per-minibatch PPO loss reads.
 

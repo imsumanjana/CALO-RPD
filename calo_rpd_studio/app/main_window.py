@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import logging
 
-from calo_rpd_studio.version import VERSION
+from calo_rpd_studio.version import DISPLAY_VERSION
 
 from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtGui import QAction, QKeySequence
@@ -513,7 +513,7 @@ class MainWindow(QMainWindow):
         QMessageBox.information(
             self,
             "About CALO-RPD Studio",
-            f"CALO-RPD Studio {VERSION}\n"
+            f"CALO-RPD Studio {DISPLAY_VERSION}\n"
             "Cognitive Adaptive Learning Optimizer for Robust Reactive Power Dispatch\n\n"
             "Policy-first guided scientific optimization with Safe-80 compute protection, reproducible benchmarking, validation, statistics, and publication export.",
         )

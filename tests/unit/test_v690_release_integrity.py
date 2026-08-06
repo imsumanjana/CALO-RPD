@@ -6,8 +6,16 @@ import json
 from pathlib import Path, PurePosixPath
 import tomllib
 
+import pytest
+
 from calo_rpd_studio.benchmarking.freeze import verify_freeze_manifest
 from calo_rpd_studio.version import FREEZE_ID, FREEZE_MANIFEST, RELEASE_NAME, VERSION
+
+
+pytestmark = pytest.mark.skipif(
+    VERSION != "6.9.0",
+    reason="historical v6.9 release gate runs only against a v6.9 release checkout",
+)
 
 
 def _root() -> Path:

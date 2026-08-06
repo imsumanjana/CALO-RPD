@@ -5,6 +5,7 @@ __pycache__/
 venv/
 .env
 .pytest_cache/
+/.codex-pytest-temp/
 .coverage
 .coverage.*
 htmlcov/
@@ -13,6 +14,7 @@ htmlcov/
 build/
 dist/
 artifacts/
+/validation/
 *.sqlite
 results_data/
 .DS_Store
@@ -29,3 +31,8 @@ publication_export/
 
 # Temporary atomic policy/checkpoint files
 calo_rpd_studio/data/trained_models/*.tmp
+
+# Local generated policy-candidate state — never source or release content
+/calo_rpd_studio/data/trained_models/calo_policy_candidate.branches.json
+/calo_rpd_studio/data/trained_models/calo_policy_candidate_artifacts/
+/calo_rpd_studio/data/trained_models/calo_policy_candidate_branches/

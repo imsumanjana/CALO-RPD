@@ -17,12 +17,24 @@ import numpy as np
 
 from calo_rpd_studio.experiments.seed_manager import SeedManager
 from calo_rpd_studio.experiments.experiment_runner import run_single, build_problem
+from calo_rpd_studio.compute.source_identity import resolve_source_identity
 from calo_rpd_studio.power_system.ac_power_flow import run_ac_power_flow
+from calo_rpd_studio.statistics.paired import (
+    DEFAULT_OBJECTIVE_SCALE_FLOOR,
+    PAIRED_ANALYSIS_SCHEMA_VERSION,
+    RELATIVE_IMPROVEMENT_VERSION,
+    exact_keyed_pairs,
+    matched_pairs_rank_biserial,
+    pair_manifest,
+    relative_objective_improvement,
+    wilcoxon_signed_rank_evidence,
+)
 from calo_rpd_studio.statistics.posthoc import holm_correction
 
 _trapezoid = getattr(np, "trapezoid", getattr(np, "trapz", None))
 
 HOLDOUT_CASES = {"case118", "case300"}
+CONVERGENCE_METRIC_VERSION = "calo-convergence-v2-time-to-feasible-plus-post-feasible-auc"
 
 
 @dataclass(slots=True)
@@ -42,6 +54,7 @@ class PolicyQualificationConfig:
     minimum_win_rate: float = 0.50
     minimum_rank_biserial: float = 0.0
     non_inferiority_margin: float = 0.01
+    objective_scale_floor: float = DEFAULT_OBJECTIVE_SCALE_FLOOR
 
     def validate(self) -> None:
         if not self.cases:
@@ -52,7 +65,8 @@ class PolicyQualificationConfig:
             raise ValueError("Qualification FE budget and population must be positive")
         if int(self.max_evaluations) % int(self.population_size) != 0:
             raise ValueError(
-                "Policy qualification FE budget must be divisible by population size for exact FE parity"
+                "Policy qualification FE budget must be divisible by population size for exact "
+                "FE parity"
             )
         if int(self.minimum_promotion_runs) < 5:
             raise ValueError("minimum_promotion_runs must be at least 5")
@@ -82,6 +96,11 @@ class PolicyQualificationConfig:
             or float(self.non_inferiority_margin) < 0.0
         ):
             raise ValueError("non_inferiority_margin must be finite and non-negative")
+        if (
+            not math.isfinite(float(self.objective_scale_floor))
+            or float(self.objective_scale_floor) <= 0.0
+        ):
+            raise ValueError("objective_scale_floor must be finite and positive")
         leaked = HOLDOUT_CASES & {str(name).lower() for name in self.cases}
         if leaked and not self.allow_holdout_cases:
             raise ValueError(
@@ -96,39 +115,39 @@ def _finite_objective(result) -> float:
 
 
 def _convergence_auc(result) -> float:
-    """Feasibility-first AUC over the full FE horizon, including pre-feasible delay.
+    """Return the post-feasibility incumbent-objective AUC.
 
-    Only ``best_feasible_objective_history`` is used.  Pre-feasible points receive a deterministic
-    penalty derived from the observed feasible scale; raw infeasible objective values are never
-    integrated.  A run that never becomes feasible has infinite AUC.
+    Time to first feasibility is reported separately by :func:`_eval_to_feasible`.  Separating the
+    two quantities avoids a run-dependent synthetic penalty and keeps objective AUC values
+    comparable without folding feasibility delay into an arbitrary objective scale.
     """
     md = dict(getattr(result, "metadata", {}) or {})
     xs = np.asarray(md.get("convergence_evaluations", []), dtype=float)
     ys = np.asarray(md.get("best_feasible_objective_history", []), dtype=float)
-    n = min(xs.size, ys.size)
-    if n == 0:
+    if xs.size == 0 or xs.size != ys.size:
         return float("inf")
-    xs, ys = xs[:n], ys[:n]
-    mask_x = np.isfinite(xs)
-    xs, ys = xs[mask_x], ys[mask_x]
-    if xs.size == 0:
+    if not np.all(np.isfinite(xs)) or np.any(np.diff(xs) < 0.0):
         return float("inf")
-    order = np.argsort(xs)
-    xs, ys = xs[order], ys[order]
-    finite = ys[np.isfinite(ys)]
-    if finite.size == 0:
+    feasible_indices = np.flatnonzero(np.isfinite(ys))
+    if feasible_indices.size == 0:
         return float("inf")
-    scale = max(float(np.max(np.abs(finite))), 1.0)
-    penalty = float(np.max(finite) + 0.10 * scale)
-    filled = np.where(np.isfinite(ys), ys, penalty)
+    start = int(feasible_indices[0])
+    xs = xs[start:]
+    ys = ys[start:].copy()
+    incumbent = float(ys[0])
+    for index in range(ys.size):
+        if math.isfinite(float(ys[index])):
+            incumbent = float(ys[index])
+        else:
+            ys[index] = incumbent
     horizon = max(float(getattr(result, "evaluations", 0) or 0), float(xs[-1]), 1.0)
-    if xs[0] > 0.0:
-        xs = np.r_[0.0, xs]
-        filled = np.r_[penalty, filled]
+    if xs.size == 1 or horizon <= float(xs[0]):
+        return float(ys[0])
     if xs[-1] < horizon:
         xs = np.r_[xs, horizon]
-        filled = np.r_[filled, filled[-1]]
-    return float(_trapezoid(filled, xs) / horizon)
+        ys = np.r_[ys, ys[-1]]
+    duration = max(float(horizon - xs[0]), 1.0)
+    return float(_trapezoid(ys, xs) / duration)
 
 
 def _eval_to_feasible(result) -> float:
@@ -178,69 +197,82 @@ def _case_summaries(records: list[dict]) -> dict[str, dict]:
 
 
 def _stable_relative_difference(candidate: float, comparator: float) -> float:
-    """Symmetric, near-zero-safe paired objective difference.
-
-    The previous comparator-only denominator could turn harmless numerical differences around a
-    zero objective into enormous ratios.  The symmetric scale preserves ordinary relative
-    interpretation for objectives above one unit and falls back to an absolute one-unit scale
-    around zero, preventing a near-zero comparator from dominating qualification evidence.
-    """
-    a = float(candidate)
-    b = float(comparator)
-    return (a - b) / max(abs(a), abs(b), 1.0)
+    """Compatibility alias for the v12 positive-is-better relative improvement."""
+    return relative_objective_improvement(candidate, comparator)
 
 
-def _paired_evidence(candidate_rows: list[dict], comparator_rows: list[dict]) -> dict:
-    comp_map = {(row["case"], int(row["run_index"])): row for row in comparator_rows}
-    pairs = []
-    for row in candidate_rows:
-        other = comp_map.get((row["case"], int(row["run_index"])))
-        if other is None:
-            continue
-        a, b = float(row["objective"]), float(other["objective"])
-        if math.isfinite(a) and math.isfinite(b):
-            pairs.append((a, b))
-    if not pairs:
+def _paired_evidence(
+    candidate_rows: list[dict],
+    comparator_rows: list[dict],
+    *,
+    objective_scale_floor: float = DEFAULT_OBJECTIVE_SCALE_FLOOR,
+) -> dict:
+    keyed = exact_keyed_pairs(
+        candidate_rows,
+        comparator_rows,
+        key_fields=("case", "run_index"),
+    )
+    finite_pairs = []
+    for pair in keyed:
+        candidate = float(pair.candidate["objective"])
+        comparator = float(pair.comparator["objective"])
+        if math.isfinite(candidate) and math.isfinite(comparator):
+            finite_pairs.append((pair.key, candidate, comparator))
+    if not finite_pairs:
+        statistical_test = wilcoxon_signed_rank_evidence((), alternative="two-sided")
         return {
+            "analysis_schema_version": PAIRED_ANALYSIS_SCHEMA_VERSION,
+            "relative_improvement_version": RELATIVE_IMPROVEMENT_VERSION,
+            "objective_scale_floor": float(objective_scale_floor),
+            "expected_pairs": int(len(keyed)),
             "n_pairs": 0,
-            "median_difference": float("nan"),
+            "median_improvement": float("nan"),
+            "median_difference": float("nan"),  # compatibility alias; positive is favorable in v12
             "win_rate": float("nan"),
             "wilcoxon_p_two_sided": float("nan"),
             "holm_p": float("nan"),
             "noninferiority_p_one_sided": float("nan"),
             "holm_noninferiority_p": float("nan"),
             "rank_biserial": float("nan"),
+            "paired_relative_improvements": [],
+            "paired_relative_differences": [],
+            "statistical_test": statistical_test,
+            "pair_manifest": pair_manifest(keyed, ("case", "run_index")),
         }
-    a = np.asarray([p[0] for p in pairs], float)
-    b = np.asarray([p[1] for p in pairs], float)
-    # Symmetric near-zero-safe relative differences avoid comparator-denominator explosions.
-    d = np.asarray([_stable_relative_difference(x, y) for x, y in zip(a, b)], dtype=float)
-    nonzero = d[np.abs(d) > 1e-15]
-    pvalue = float("nan")
-    noninferiority_p = float("nan")
-    if len(nonzero) >= 2:
-        try:
-            from scipy.stats import wilcoxon
-
-            pvalue = float(wilcoxon(nonzero, alternative="two-sided", zero_method="wilcox").pvalue)
-        except Exception:
-            import math as _math
-
-            k = min(int(np.sum(nonzero < 0)), int(np.sum(nonzero > 0)))
-            n = len(nonzero)
-            tail = sum(_math.comb(n, i) for i in range(k + 1)) / (2**n)
-            pvalue = float(min(1.0, 2.0 * tail))
+    improvements = np.asarray(
+        [
+            relative_objective_improvement(
+                candidate,
+                comparator,
+                scale_floor=float(objective_scale_floor),
+            )
+            for _, candidate, comparator in finite_pairs
+        ],
+        dtype=float,
+    )
+    statistical_test = wilcoxon_signed_rank_evidence(improvements, alternative="two-sided")
+    pvalue = statistical_test["p_value"]
+    median = float(np.median(improvements))
     return {
-        "n_pairs": int(len(pairs)),
-        "median_difference": float(np.median(d)),
-        "median_relative_difference": float(np.median(d)),
-        "win_rate": float(np.mean(d < 0.0)),
-        "wilcoxon_p_two_sided": pvalue,
+        "analysis_schema_version": PAIRED_ANALYSIS_SCHEMA_VERSION,
+        "relative_improvement_version": RELATIVE_IMPROVEMENT_VERSION,
+        "objective_scale_floor": float(objective_scale_floor),
+        "expected_pairs": int(len(keyed)),
+        "n_pairs": int(len(finite_pairs)),
+        "median_improvement": median,
+        "median_difference": median,  # compatibility alias; positive is favorable in v12
+        "median_relative_improvement": median,
+        "median_relative_difference": median,
+        "win_rate": float(np.mean(improvements > 0.0)),
+        "wilcoxon_p_two_sided": float(pvalue) if pvalue is not None else float("nan"),
         "holm_p": float("nan"),
-        "noninferiority_p_one_sided": noninferiority_p,
+        "noninferiority_p_one_sided": float("nan"),
         "holm_noninferiority_p": float("nan"),
-        "paired_relative_differences": d.tolist(),
-        "rank_biserial": float((np.sum(nonzero < 0) - np.sum(nonzero > 0)) / max(len(nonzero), 1)),
+        "paired_relative_improvements": improvements.tolist(),
+        "paired_relative_differences": improvements.tolist(),
+        "rank_biserial": matched_pairs_rank_biserial(improvements),
+        "statistical_test": statistical_test,
+        "pair_manifest": pair_manifest(keyed, ("case", "run_index")),
     }
 
 
@@ -252,24 +284,14 @@ def _apply_holm(paired: dict, *, non_inferiority_margin: float = 0.0) -> dict:
         if math.isfinite(p):
             keys.append(key)
             pvalues.append(p)
-        differences = np.asarray(item.get("paired_relative_differences") or [], dtype=float)
-        shifted = differences[np.isfinite(differences)] - float(non_inferiority_margin)
-        shifted = shifted[np.abs(shifted) > 1e-15]
+        improvements = np.asarray(item.get("paired_relative_improvements") or [], dtype=float)
+        shifted = improvements[np.isfinite(improvements)] + float(non_inferiority_margin)
         ni_p = float("nan")
-        if len(shifted) >= 2:
-            try:
-                from scipy.stats import wilcoxon
-
-                # H0: degradation is at/above the declared margin; H1: paired degradation is below it.
-                ni_p = float(wilcoxon(shifted, alternative="less", zero_method="wilcox").pvalue)
-            except Exception:
-                import math as _math
-
-                # Conservative one-sided sign-test fallback for negative shifted differences.
-                successes = int(np.sum(shifted < 0.0))
-                n = int(len(shifted))
-                ni_p = float(sum(_math.comb(n, i) for i in range(successes, n + 1)) / (2**n))
+        ni_test = wilcoxon_signed_rank_evidence(shifted, alternative="greater")
+        if ni_test["p_value"] is not None:
+            ni_p = float(ni_test["p_value"])
         item["noninferiority_p_one_sided"] = ni_p
+        item["noninferiority_statistical_test"] = ni_test
         if math.isfinite(ni_p):
             ni_keys.append(key)
             ni_pvalues.append(ni_p)
@@ -286,7 +308,8 @@ def _grade(candidate, reference, no_ai, config, paired, case_summaries, case_pai
     reasons: list[str] = []
     if int(config.runs) < int(config.minimum_promotion_runs):
         reasons.append(
-            f"formal promotion requires at least {config.minimum_promotion_runs} paired runs per case; this run is screening-only"
+            "formal promotion requires at least "
+            f"{config.minimum_promotion_runs} paired runs per case; this run is screening-only"
         )
     feasible = float(candidate["feasible_probability"])
     if feasible < float(config.minimum_feasible_probability):
@@ -326,14 +349,20 @@ def _grade(candidate, reference, no_ai, config, paired, case_summaries, case_pai
             tolerance = abs(comp_med) * float(config.objective_regression_tolerance)
             if cand_med > comp_med + tolerance:
                 reasons.append(f"{case}: candidate materially regresses versus {label}")
-            relative_case_improvements.append(-_stable_relative_difference(cand_med, comp_med))
+            relative_case_improvements.append(
+                relative_objective_improvement(
+                    cand_med,
+                    comp_med,
+                    scale_floor=float(config.objective_scale_floor),
+                )
+            )
 
     evidence_source = case_paired if case_paired else paired
     evidence_rows = [item for item in evidence_source.values()]
     favorable = bool(evidence_rows) and all(
         int(item.get("n_pairs", 0)) >= int(config.minimum_promotion_runs)
         and math.isfinite(float(item.get("median_difference", float("nan"))))
-        and float(item["median_difference"]) <= 0.0
+        and float(item["median_difference"]) >= 0.0
         and float(item.get("win_rate", 0.0)) >= float(config.minimum_win_rate)
         and float(item.get("rank_biserial", -1.0)) >= float(config.minimum_rank_biserial)
         and math.isfinite(float(item.get("holm_p", float("nan"))))
@@ -352,7 +381,7 @@ def _grade(candidate, reference, no_ai, config, paired, case_summaries, case_pai
         noninferior = bool(evidence_rows) and all(
             int(item.get("n_pairs", 0)) >= int(config.minimum_promotion_runs)
             and math.isfinite(float(item.get("median_difference", float("nan"))))
-            and float(item["median_difference"]) <= float(config.non_inferiority_margin)
+            and float(item["median_difference"]) >= -float(config.non_inferiority_margin)
             and math.isfinite(float(item.get("holm_noninferiority_p", float("nan"))))
             and float(item["holm_noninferiority_p"]) <= float(config.statistical_alpha)
             for item in evidence_rows
@@ -360,21 +389,24 @@ def _grade(candidate, reference, no_ai, config, paired, case_summaries, case_pai
         if not noninferior:
             reasons.append(
                 "formal non-inferiority qualification requires the paired relative margin plus a "
-                "one-sided Wilcoxon/sign-test criterion with Holm-adjusted significance"
+                "one-sided Wilcoxon signed-rank criterion with Holm-adjusted significance"
             )
     passed = not reasons
     if not passed:
         return False, "U", 0.0, reasons
 
     median_rel = float(np.median(relative_case_improvements)) if relative_case_improvements else 0.0
-    cand_auc = float(candidate.get("median_auc", float("inf")))
-    comparator_aucs = [float(no_ai.get("median_auc", float("inf")))]
-    if reference is not None:
-        comparator_aucs.append(float(reference.get("median_auc", float("inf"))))
-    finite_aucs = [v for v in comparator_aucs if math.isfinite(v)]
-    auc_nonregression = (not finite_aucs and math.isfinite(cand_auc)) or (
-        bool(finite_aucs) and math.isfinite(cand_auc) and cand_auc <= min(finite_aucs) * 1.01
-    )
+    auc_nonregression = True
+    for case, cand_case in cand_cases.items():
+        cand_auc = float(cand_case.get("median_auc", float("inf")))
+        for label in comparator_labels:
+            comp_auc = float(
+                case_summaries.get(label, {}).get(case, {}).get("median_auc", float("inf"))
+            )
+            if math.isfinite(comp_auc):
+                scale = max(abs(comp_auc), float(config.objective_scale_floor))
+                if not math.isfinite(cand_auc) or cand_auc > comp_auc + 0.01 * scale:
+                    auc_nonregression = False
     if median_rel > 0.01 and feasible >= 0.99 and favorable and auc_nonregression:
         grade = "A+"
     elif median_rel >= -0.002 and feasible >= 0.99:
@@ -439,6 +471,7 @@ class PolicyQualifier:
     ) -> dict:
         qconfig = config or PolicyQualificationConfig()
         qconfig.validate()
+        source_identity = resolve_source_identity()
         candidate = self.registry.get(candidate_policy_id)
         reference = self.registry.get(reference_policy_id) if reference_policy_id else None
         candidate_inspection = self.registry.inspect_checkpoint(candidate.checkpoint_path)
@@ -532,9 +565,19 @@ class PolicyQualifier:
         # gated case-by-case.  This prevents a strong/easy case from statistically masking a weak
         # case even after objective-scale normalization. Holm correction is applied across every
         # required comparator x case hypothesis in the formal gate.
-        paired = {"vs_no_ai": _paired_evidence(records["candidate"], records["no_ai"])}
+        paired = {
+            "vs_no_ai": _paired_evidence(
+                records["candidate"],
+                records["no_ai"],
+                objective_scale_floor=float(qconfig.objective_scale_floor),
+            )
+        }
         if "reference" in records:
-            paired["vs_reference"] = _paired_evidence(records["candidate"], records["reference"])
+            paired["vs_reference"] = _paired_evidence(
+                records["candidate"],
+                records["reference"],
+                objective_scale_floor=float(qconfig.objective_scale_floor),
+            )
         paired = _apply_holm(paired, non_inferiority_margin=float(qconfig.non_inferiority_margin))
         case_paired = {}
         for case_name in qconfig.cases:
@@ -542,13 +585,19 @@ class PolicyQualifier:
                 row for row in records["candidate"] if str(row["case"]) == str(case_name)
             ]
             no_ai_case = [row for row in records["no_ai"] if str(row["case"]) == str(case_name)]
-            case_paired[f"vs_no_ai::{case_name}"] = _paired_evidence(candidate_case, no_ai_case)
+            case_paired[f"vs_no_ai::{case_name}"] = _paired_evidence(
+                candidate_case,
+                no_ai_case,
+                objective_scale_floor=float(qconfig.objective_scale_floor),
+            )
             if "reference" in records:
                 reference_case = [
                     row for row in records["reference"] if str(row["case"]) == str(case_name)
                 ]
                 case_paired[f"vs_reference::{case_name}"] = _paired_evidence(
-                    candidate_case, reference_case
+                    candidate_case,
+                    reference_case,
+                    objective_scale_floor=float(qconfig.objective_scale_floor),
                 )
         case_paired = _apply_holm(
             case_paired, non_inferiority_margin=float(qconfig.non_inferiority_margin)
@@ -562,6 +611,12 @@ class PolicyQualifier:
             case_summaries,
             case_paired,
         )
+        if passed and not source_identity.durable_evidence_eligible:
+            passed, grade, score = False, "U", 0.0
+            reasons.append(
+                "formal promotion requires a full clean source identity; this evidence is "
+                "development-only"
+            )
         schema = candidate_inspection["schema"]
         return {
             "qualification_id": str(uuid.uuid4()),
@@ -582,5 +637,14 @@ class PolicyQualifier:
             "grade": grade,
             "score": score,
             "reasons": reasons,
-            "qualification_basis": "case-wise paired feasible objective evidence with Holm correction across comparator-by-case hypotheses + feasibility-first AUC + configured independent AC-PF cross-validation + predeclared superiority/non-inferiority promotion gate",
+            "analysis_schema_version": PAIRED_ANALYSIS_SCHEMA_VERSION,
+            "relative_improvement_version": RELATIVE_IMPROVEMENT_VERSION,
+            "convergence_metric_version": CONVERGENCE_METRIC_VERSION,
+            "source_identity": source_identity.to_dict(),
+            "qualification_basis": (
+                "case-wise exact-keyed paired feasible-objective evidence with rank-based effect "
+                "sizes and Holm correction across comparator-by-case hypotheses + separate "
+                "time-to-feasibility and post-feasibility AUC + configured independent AC-PF "
+                "cross-validation + predeclared superiority/non-inferiority promotion gate"
+            ),
         }

@@ -5,9 +5,11 @@ FROM ${PYTHON_IMAGE} AS runtime
 ARG RUNTIME_LOCK=requirements-lock-cpu-py311-linux.txt
 ARG SOURCE_COMMIT=unavailable
 ARG SOURCE_TRACKED_CLEAN=false
+ARG APP_VERSION=12.0.0.dev1
 
 LABEL org.opencontainers.image.title="CALO-RPD Studio" \
       org.opencontainers.image.licenses="MIT" \
+      org.opencontainers.image.version="${APP_VERSION}" \
       org.opencontainers.image.revision="${SOURCE_COMMIT}"
 
 ENV DEBIAN_FRONTEND=noninteractive \
