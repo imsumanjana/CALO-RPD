@@ -12,6 +12,56 @@ from calo_rpd_studio.orpd.feasibility_rules import better, sort_key
 from .result import OptimizerResult
 
 
+class EvaluationBatchInvariantError(RuntimeError):
+    """A batch evaluator violated exact candidate cardinality or identity ordering."""
+
+    def __init__(self, reason: str, *, submitted: int, returned: int) -> None:
+        self.reason = str(reason)
+        self.submitted = int(submitted)
+        self.returned = int(returned)
+        super().__init__(
+            f"Batch evaluation invariant failed ({self.reason}): "
+            f"submitted={self.submitted}, returned={self.returned}"
+        )
+
+
+def validate_batch_evaluations(population, evaluations):
+    """Validate a complete ordered batch before any function evaluation is registered."""
+
+    candidates = np.asarray(population, dtype=float)
+    if candidates.ndim == 1:
+        candidates = candidates[None, :]
+    items = list(evaluations)
+    submitted = int(candidates.shape[0])
+    returned = len(items)
+    if returned != submitted:
+        reason = "empty_result" if returned == 0 and submitted > 0 else "cardinality_mismatch"
+        raise EvaluationBatchInvariantError(reason, submitted=submitted, returned=returned)
+
+    identities = []
+    for item in items:
+        metadata = dict(getattr(item, "metadata", {}) or {})
+        if "normalized_decision_vector" in metadata:
+            identities.append(metadata["normalized_decision_vector"])
+        else:
+            identities.append(None)
+    present = [identity is not None for identity in identities]
+    if any(present) and not all(present):
+        raise EvaluationBatchInvariantError(
+            "incomplete_candidate_identity", submitted=submitted, returned=returned
+        )
+    if all(present) and submitted:
+        for index, (candidate, identity) in enumerate(zip(candidates, identities, strict=True)):
+            observed = np.asarray(identity, dtype=float)
+            if observed.shape != candidate.shape or not np.array_equal(observed, candidate):
+                raise EvaluationBatchInvariantError(
+                    f"candidate_identity_mismatch_at_{index}",
+                    submitted=submitted,
+                    returned=returned,
+                )
+    return items
+
+
 @dataclass(slots=True)
 class OptimizerConfig:
     population_size: int = 50
@@ -120,8 +170,11 @@ class BaseOptimizer:
         population = np.asarray([self._repair_to_bounds(x) for x in raw_population], dtype=float)
         batch_evaluator = getattr(self.problem, "evaluate_population", None)
         if callable(batch_evaluator):
-            evaluations = list(batch_evaluator(population))
-            return [self._register_evaluation(x, ev) for x, ev in zip(population, evaluations)]
+            evaluations = validate_batch_evaluations(population, batch_evaluator(population))
+            return [
+                self._register_evaluation(x, ev)
+                for x, ev in zip(population, evaluations, strict=True)
+            ]
         out = []
         # ``population`` has already passed through the single common repair authority above.
         # Do not call ``evaluate()`` here because that would repair/count the same coordinates twice.

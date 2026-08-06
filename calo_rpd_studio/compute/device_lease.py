@@ -8,12 +8,14 @@ physical device.  Multiple components inside that owner share a reference-counte
 from __future__ import annotations
 
 from dataclasses import dataclass
+import hashlib
 import logging
 import os
 from pathlib import Path
 import tempfile
 import threading
-from typing import BinaryIO
+import time
+from typing import BinaryIO, Callable
 
 
 _LOG = logging.getLogger(__name__)
@@ -23,6 +25,10 @@ class DeviceLeaseUnavailable(RuntimeError):
     """Raised when another process owns the requested physical device."""
 
 
+class DeviceLeaseCancelled(DeviceLeaseUnavailable):
+    """Raised when a queued lease request is cancelled before admission."""
+
+
 @dataclass(slots=True)
 class _ProcessLease:
     stream: BinaryIO
@@ -30,13 +36,37 @@ class _ProcessLease:
 
 
 class ExclusiveDeviceLease:
-    """Hold an OS-released, non-blocking exclusive lease for one device identifier."""
+    """Hold an OS-released exclusive lease, optionally waiting in a cancellable queue."""
 
     _lock = threading.RLock()
     _process_leases: dict[str, _ProcessLease] = {}
 
-    def __init__(self, device_id: str, *, root: str | Path | None = None) -> None:
-        canonical = str(device_id).strip().lower().replace(":", "-")
+    def __init__(
+        self,
+        device_id: str,
+        *,
+        physical_device_id: str = "",
+        host_scope: str = "",
+        container_scope: str = "",
+        root: str | Path | None = None,
+        wait: bool = False,
+        timeout_seconds: float | None = None,
+        cancel_callback: Callable[[], bool] | None = None,
+        poll_interval_seconds: float = 0.10,
+    ) -> None:
+        self.device_id = str(device_id)
+        self.physical_device_id = str(physical_device_id or device_id).strip().lower()
+        self.host_scope = str(host_scope or os.environ.get("CALO_DEVICE_HOST_SCOPE", "local-host"))
+        self.container_scope = str(
+            container_scope or os.environ.get("CALO_DEVICE_CONTAINER_SCOPE", "host-process")
+        )
+        raw_identity = f"{self.host_scope.strip().lower()}|{self.physical_device_id}"
+        digest = hashlib.sha256(raw_identity.encode("utf-8")).hexdigest()[:24]
+        label = self.physical_device_id.replace(":", "-")[-48:]
+        canonical = f"{label}-{digest}"
+        canonical = "".join(
+            ch if ch in "abcdefghijklmnopqrstuvwxyz0123456789-_" else "-" for ch in canonical
+        )
         if not canonical or any(
             ch not in "abcdefghijklmnopqrstuvwxyz0123456789-_" for ch in canonical
         ):
@@ -52,7 +82,6 @@ class ExclusiveDeviceLease:
             )
         )
         lease_root.mkdir(parents=True, exist_ok=True)
-        self.device_id = str(device_id)
         self.key = str((lease_root / f"{canonical}.lock").resolve())
         self._closed = False
         with self._lock:
@@ -60,12 +89,32 @@ class ExclusiveDeviceLease:
             if existing is not None:
                 existing.references += 1
                 return
-            stream = open(self.key, "a+b")  # noqa: SIM115 - held for lease lifetime
-            try:
-                self._lock_stream(stream)
-            except BaseException:
-                stream.close()
-                raise
+            deadline = (
+                None
+                if timeout_seconds is None
+                else time.monotonic() + max(0.0, float(timeout_seconds))
+            )
+            while True:
+                stream = open(self.key, "a+b")  # noqa: SIM115 - held for lease lifetime
+                try:
+                    self._lock_stream(stream)
+                    break
+                except DeviceLeaseUnavailable:
+                    stream.close()
+                    if not wait:
+                        raise
+                    if cancel_callback is not None and cancel_callback():
+                        raise DeviceLeaseCancelled(
+                            "CUDA device lease wait was cancelled before admission"
+                        )
+                    if deadline is not None and time.monotonic() >= deadline:
+                        raise DeviceLeaseUnavailable(
+                            "CUDA device remained leased until the configured queue timeout"
+                        )
+                    time.sleep(max(0.01, float(poll_interval_seconds)))
+                except BaseException:
+                    stream.close()
+                    raise
             self._process_leases[self.key] = _ProcessLease(stream=stream, references=1)
 
     @staticmethod

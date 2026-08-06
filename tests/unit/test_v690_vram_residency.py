@@ -63,7 +63,7 @@ def test_v690_direct_non_80_percent_configuration_is_rejected():
 
 
 def test_v690_vram_policy_rejects_unsafe_hard_100_percent():
-    with pytest.raises(ValueError, match="between 0.10 and 0.95"):
+    with pytest.raises(ValueError, match="no greater than 0.80"):
         VramResidencyPolicy(budget_fraction=1.0).validate()
 
 

@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://calo-rpd.local/schemas/partial_run_failure_v2.schema.json",
+  "title": "CALO-RPD Partial Run Failure v2",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "failure_kind",
+    "evaluation_count",
+    "last_incumbent",
+    "last_numerical_state",
+    "cause_type",
+    "cause_message"
+  ],
+  "properties": {
+    "schema_version": {"const": "calo-partial-run-failure-v2"},
+    "failure_kind": {
+      "enum": [
+        "pre_first_evaluation",
+        "partial_failure",
+        "invariant_failure",
+        "lease_contention",
+        "capacity_exhaustion",
+        "cancellation"
+      ]
+    },
+    "evaluation_count": {"type": "integer", "minimum": 0},
+    "iteration": {"type": "integer", "minimum": 0},
+    "last_incumbent": {"type": "object"},
+    "last_convergence_state": {"type": "object"},
+    "last_numerical_state": {"type": "object"},
+    "runtime_device": {"type": "string"},
+    "runtime_resolution": {"type": "object"},
+    "fallback_policy": {"type": "string"},
+    "fallback_reason": {"type": "string"},
+    "checkpoint_reference": {"type": "string"},
+    "cause_type": {"type": "string", "minLength": 1},
+    "cause_message": {"type": "string"}
+  },
+  "additionalProperties": false
+}

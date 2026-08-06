@@ -1005,3 +1005,109 @@ Append timestamped entries below this line after each material action, validatio
 - The corrected validator was **not run**. The next action is one final user-executed Phase 1 rerun;
   return the new complete ignored evidence directory for hash, source-coverage and exit-gate review
   before Phase 2 source changes begin.
+
+### 2026-08-06 - Phase 1 validation accepted; Phase 2 coding handoff prepared
+
+- Accepted the user-executed `validation/logs/phase1-20260806-230256` evidence after checking its
+  retained summary and hashes: 16/16 commands passed, the source manifest covered 32/32 declared
+  paths, and the validator content was hash-bound. The log states that no policy training,
+  policy evaluation, qualification, benchmark, campaign, or protected-case workflow executed.
+- Implemented the versioned `calo-runtime-execution-contract-v2` resolver shared by direct,
+  sequential, parallel, GUI, ordinary CLI, benchmark, and final-campaign entry points. Scientist
+  modes remain `cuda_preferred` and `cpu_only`; `execution_purpose=formal` makes CUDA mandatory and
+  fallback forbidden, while exploratory fallback is one explicit full-request CPU restart.
+- Separated requested mode/device, physical UUID-or-PCI identity, logical CUDA index, runtime
+  device, fallback policy/reason, actual evaluator device, host/container lease scope, and
+  CUDA-only claim eligibility. Final campaigns now require formal CUDA and disable CPU fallback.
+- Bound CUDA ownership to physical UUID with normalized PCI fallback, retained logical indices
+  separately, added queued lease wait/cancel/timeout semantics, froze scheduler routing to the
+  pre-resolved device, preserved Safe-80 admission, and separated per-request from governor-lifetime
+  VRAM telemetry.
+- Added central batch cardinality and candidate-identity validation before any FE registration.
+  Short, long, empty-mismatched, partially identified, reordered, or duplicated results fail with a
+  typed invariant error while the FE count remains unchanged.
+- Added `calo-partial-run-failure-v2` envelopes preserving exact FE count, iteration, incumbent,
+  feasibility/violation state, convergence state, numerical metadata, runtime/fallback resolution,
+  and checkpoint reference. Existing database transactions retain the envelope and count together.
+- The dense-case and capacity paths now obey the same fallback flag across ordinary and
+  counted-context APIs, record actual CPU execution, and exclude fallback results from CUDA-only
+  timing, energy, parity, utilization, and equivalence strata.
+- Topology records now name `torch_fp64_tensor_matmul_smoke_v1` as the direct CUDA FP64 authority.
+  Active status exposes only CUDA-preferred/CPU-only execution and leaves XPU nonexecutable;
+  historical XPU evidence remains immutable/view-only.
+- Added versioned runtime-resolution and partial-failure JSON schemas plus
+  `tests/unit/test_v120_phase2_contracts.py`. No test, policy training/evaluation, qualification,
+  benchmark, campaign, protected case, or scientific evidence workflow was run by Codex.
+- Prepared `validation/Validate-Phase2.ps1`. It is local-only under the already ignored
+  `/validation/` tree, records every command and source SHA-256, dynamically includes all current
+  changed/untracked source paths, and contains only identity, compile, schema, lint/format, Phase 2
+  contract, and affected regression checks.
+- Phase 2 coding is complete but its exit gate is **validation-pending**. The next legal action is
+  for the user to run `validation/Validate-Phase2.ps1` and return the complete new
+  `validation/logs/phase2-YYYYMMDD-HHMMSS/` directory. Do not begin Phase 3 or make a release claim
+  until that evidence is reviewed and corrections, if any, are closed.
+- Coding-time tooling record: two schema-generator attempts with the system/bundled Python failed
+  before generation because `yaml` was unavailable, and the repository venv launcher was initially
+  sandbox-blocked. The authoritative generator and derived schema were synchronized in source for
+  the manual `--check` gate. The repository Ruff executable was later used only as a mechanical
+  formatter on the Phase 2 Python paths (19 reformatted/4 unchanged, then 7/2 and 6/2 on the two
+  final scoped passes, followed by 1/1 on the final two-file cleanup); no Ruff validation check or
+  test was run by Codex.
+- Static handoff-only checks passed: the Phase 2 PowerShell script parses, both script/log paths are
+  ignored by Git, the active/status/schema JSON documents parse, and `git diff --check` succeeds
+  with only expected LF-to-CRLF notices. These checks do not close the manual validation gate.
+
+### 2026-08-07 - Phase 2 first validation reviewed; two corrections applied
+
+- Reviewed the complete retained `validation/logs/phase2-20260807-001858` evidence without running
+  the validator or any test. The run passed 13/15 commands: 23/23 dedicated Phase 2 contracts passed,
+  and the affected runtime regression set reported 43 passed/1 failed.
+- Evidence integrity was intact: all 20 retained artifact hashes matched, the v2 source manifest
+  covered 33/33 declared paths with current hashes matching at review time, and the validator size
+  and SHA-256 matched its manifest. The run recorded no policy training/evaluation, qualification,
+  benchmark, campaign, or protected-case execution.
+- The schema failure was text-only: `runtime_compute_device` preceded the two generated assigned-
+  device properties even though the authoritative generator emits physical, logical, then compute.
+  Reordered those three JSON property blocks without changing names, types, defaults, or semantics.
+- The sole runtime-regression failure was a stale historical assertion expecting the old
+  `between 0.10 and 0.95` message. The Phase 2 implementation correctly rejects 100% VRAM against
+  the Safe80 ceiling, so the regression now expects `no greater than 0.80`; runtime policy code was
+  not weakened or changed.
+- Active status and its source assertions now truthfully bind the failed run as corrections-applied,
+  rerun-pending. Codex performed no test, schema-generator check, policy workflow, benchmark,
+  campaign, protected-case operation, or scientific evaluation while applying the corrections.
+- Phase 2 remains open. The next action is a full user-run `validation/Validate-Phase2.ps1`; return
+  the complete new `validation/logs/phase2-YYYYMMDD-HHMMSS/` directory for review before Phase 3.
+
+### 2026-08-07 - User-directed phase execution protocol strengthened
+
+- Added a repository-wide rule that every numbered development phase must receive a new concrete
+  goal through the goal service before the agent announces or begins phase source development.
+- Restricted phase work to coding: production source, test source, schemas, documentation, and
+  validation harness creation. The agent must not execute any manual-capable test or validation
+  command unless the user later names and explicitly authorizes that command.
+- Required every phase coding pass to end with a detailed PowerShell validator under the ignored
+  `validation/` tree. The user runs it and returns the complete timestamped logs; the agent reviews
+  those logs read-only, applies evidence-backed corrections, and prepares an unexecuted rerun.
+- Validators and logs remain prohibited from Git and release artifacts. Focused reads and minimal
+  command output are now an explicit token-conservation requirement.
+- This entry changes workflow governance only; it does not start Phase 3. Therefore no new phase
+  goal was created, and no test or validation command was executed for this documentation update.
+
+### 2026-08-07 - Phase 2 second validation reviewed; formatting corrected
+
+- Reviewed `validation/logs/phase2-20260807-003024` read-only. It passed 14/15 commands: generated
+  schema, Ruff diagnostics, 23/23 Phase 2 contracts, and 44/44 affected regressions all passed.
+- Verified all 20 retained artifact hashes, exact 34/34 captured-path manifest coverage, validator
+  size/hash identity, zero missing manifest paths, 163 classified broad handlers, zero parse
+  failures, and zero scientific-priority broad handlers. No prohibited workflow was recorded.
+- The only failure was Ruff format reporting `tests/unit/test_v690_vram_residency.py`. Focused byte
+  inspection showed 316 CRLF endings and three bare LF endings introduced around the corrected
+  assertion. Normalized the file to its established CRLF style without executing Ruff or tests.
+- Four governance documents had legitimately changed after the run while implementing the user's
+  new phase workflow, so the old evidence could not bind the final current source even without the
+  formatting failure. Active status and source assertions now bind the second failed run as
+  formatting-corrected/rerun-pending.
+- No validator, test, lint, formatter, compile, schema, benchmark, policy, campaign, qualification,
+  or protected-case command was executed. The user must rerun `validation/Validate-Phase2.ps1` and
+  return the complete new timestamped log directory before Phase 2 or transition to Phase 3 passes.

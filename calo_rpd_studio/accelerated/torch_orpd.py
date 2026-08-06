@@ -99,6 +99,11 @@ class AcceleratedORPDProblem:
         cuda_minimum_microbatch: int = 1,
         cuda_resident_hot_loop: bool = True,
         cuda_cpu_fallback_enabled: bool = True,
+        runtime_physical_device: str = "",
+        lease_host_scope: str = "",
+        lease_container_scope: str = "",
+        runtime_fallback_policy: str = "unresolved",
+        lease_cancel_callback=None,
     ):
         self.case = case.clone()
         self.config = config or ORPDProblemConfig()
@@ -119,6 +124,20 @@ class AcceleratedORPDProblem:
         self.cuda_minimum_microbatch = max(1, int(cuda_minimum_microbatch))
         self.cuda_resident_hot_loop = bool(cuda_resident_hot_loop)
         self.cuda_cpu_fallback_enabled = bool(cuda_cpu_fallback_enabled)
+        self.runtime_physical_device = str(runtime_physical_device or "")
+        self.lease_host_scope = str(lease_host_scope or "")
+        self.lease_container_scope = str(lease_container_scope or "")
+        self.runtime_fallback_policy = str(runtime_fallback_policy or "unresolved")
+        self.lease_cancel_callback = lease_cancel_callback
+        self._execution_provenance = {
+            "actual_computation_device": self.device,
+            "fallback_used": False,
+            "fallback_reason": "",
+            "fallback_count": 0,
+            "cuda_only_claims_eligible": bool(
+                str(self.device).startswith("cuda") and self.runtime_fallback_policy == "forbidden"
+            ),
+        }
         self.tensor_decoder = TorchVariableDecoder(self.decoder, self.device, self.dtype)
         pf = self.config.power_flow
         self._broker = get_cross_run_broker()
@@ -148,6 +167,22 @@ class AcceleratedORPDProblem:
     @property
     def dimension(self) -> int:
         return int(self.decoder.dimension)
+
+    def execution_provenance(self) -> dict:
+        """Return the request-level actual-device/fallback record for result attestation."""
+
+        return dict(self._execution_provenance)
+
+    def _record_cpu_fallback(self, reason: str) -> None:
+        self._execution_provenance.update(
+            {
+                "actual_computation_device": "cpu",
+                "fallback_used": True,
+                "fallback_reason": str(reason),
+                "fallback_count": int(self._execution_provenance["fallback_count"]) + 1,
+                "cuda_only_claims_eligible": False,
+            }
+        )
 
     def _objective(self, pf, formulation_case=None):
         import torch
@@ -403,29 +438,59 @@ class AcceleratedORPDProblem:
             candidates = np.asarray(population, dtype=float)
             if candidates.ndim == 1:
                 candidates = candidates[None, :]
-            return [
+            output = [
                 self.reference.evaluate_with_context(
                     np.clip(candidate, 0.0, 1.0),
                     retain_control_linearization=retain_control_linearization,
                 )
                 for candidate in candidates
             ]
+            if str(self.device).startswith("cuda"):
+                self._record_cpu_fallback("dense_or_device_resident_context_unavailable")
+                for evaluation, _context in output:
+                    evaluation.metadata = {
+                        **dict(evaluation.metadata or {}),
+                        "scientific_backend": "cpu_reference_full_request_restart",
+                        "requested_accelerator": str(self.device),
+                        "compute_fallback": "cpu_reference_full_request_restart",
+                        "fallback_reason": "dense_or_device_resident_context_unavailable",
+                        "fallback_policy": self.runtime_fallback_policy,
+                        "actual_computation_device": "cpu",
+                        "runtime_timing_comparable_to_cuda_only": False,
+                        "cuda_only_claims_eligible": False,
+                    }
+            return output
         try:
             batch = self._device_resident_evaluator.evaluate_tensor(population)
             evaluations, arrays = batch.to_evaluations_and_context_arrays()
-        except CudaCapacityExhausted:
+        except CudaCapacityExhausted as exc:
             if not self.cuda_cpu_fallback_enabled:
                 raise
+            self._record_cpu_fallback("cuda_capacity_exhausted")
             candidates = np.asarray(population, dtype=float)
             if candidates.ndim == 1:
                 candidates = candidates[None, :]
-            return [
+            output = [
                 self.reference.evaluate_with_context(
                     np.clip(candidate, 0.0, 1.0),
                     retain_control_linearization=retain_control_linearization,
                 )
                 for candidate in candidates
             ]
+            for evaluation, _context in output:
+                evaluation.metadata = {
+                    **dict(evaluation.metadata or {}),
+                    "scientific_backend": "cpu_reference_after_cuda_capacity_exhaustion",
+                    "requested_accelerator": str(self.device),
+                    "compute_fallback": "cpu_reference_full_request_restart",
+                    "fallback_reason": "cuda_capacity_exhausted",
+                    "fallback_policy": self.runtime_fallback_policy,
+                    "cuda_capacity_exhaustion": dict(exc.metadata),
+                    "actual_computation_device": "cpu",
+                    "runtime_timing_comparable_to_cuda_only": False,
+                    "cuda_only_claims_eligible": False,
+                }
+            return output
         return self._contexts_from_device_arrays(
             evaluations,
             arrays,
@@ -433,11 +498,13 @@ class AcceleratedORPDProblem:
         )
 
     def evaluate_population_tensor(self, population):
-        """Return one device-resident population result without host materialisation."""
+        """Return a device result, or the declared full-request CPU restart for a dense case."""
         if self._large_case_reference_fallback:
+            if self.cuda_cpu_fallback_enabled:
+                return self._evaluate_population_direct(population)
             raise RuntimeError(
                 "Device-resident dense Torch evaluation is intentionally disabled for this large case; "
-                "use evaluate_population() to invoke the sparse CPU-reference fallback."
+                "CPU fallback is forbidden by the execution contract."
             )
         if self._device_resident_evaluator is None:
             raise RuntimeError("Device-resident evaluation is disabled for this problem")
@@ -453,6 +520,11 @@ class AcceleratedORPDProblem:
 
     def _evaluate_population_direct(self, population: Iterable):
         if self._large_case_reference_fallback:
+            if str(self.device).startswith("cuda") and not self.cuda_cpu_fallback_enabled:
+                raise RuntimeError(
+                    "CUDA dense evaluation is unavailable above the supported bus limit and "
+                    "CPU fallback is forbidden"
+                )
             # The large-case path deliberately avoids dense Torch O(n^2) admittance/Jacobian
             # allocations. Accept tensor populations without trying to coerce a CUDA tensor
             # through NumPy directly, then execute the sparse CPU reference formulation.
@@ -467,6 +539,8 @@ class AcceleratedORPDProblem:
                 candidates = np.asarray(population, dtype=float)
             if candidates.ndim == 1:
                 candidates = candidates[None, :]
+            if str(self.device).startswith("cuda"):
+                self._record_cpu_fallback("dense_torch_bus_limit")
             fallback_results = []
             for candidate in np.clip(candidates, 0.0, 1.0):
                 evaluation = self.reference.evaluate(candidate)
@@ -475,6 +549,18 @@ class AcceleratedORPDProblem:
                     "scientific_backend": "cpu_reference_sparse_large_case_fallback",
                     "requested_accelerator": str(self.device),
                     "dense_torch_bus_limit": int(MAX_DENSE_TORCH_BUSES),
+                    "compute_fallback": (
+                        "cpu_reference_full_request_restart"
+                        if str(self.device).startswith("cuda")
+                        else ""
+                    ),
+                    "fallback_reason": (
+                        "dense_torch_bus_limit" if str(self.device).startswith("cuda") else ""
+                    ),
+                    "fallback_policy": self.runtime_fallback_policy,
+                    "actual_computation_device": "cpu",
+                    "runtime_timing_comparable_to_cuda_only": False,
+                    "cuda_only_claims_eligible": False,
                 }
                 fallback_results.append(evaluation)
             return fallback_results
@@ -484,6 +570,7 @@ class AcceleratedORPDProblem:
             except CudaCapacityExhausted as exc:
                 if not self.cuda_cpu_fallback_enabled:
                     raise
+                self._record_cpu_fallback("cuda_capacity_exhausted")
                 try:
                     import torch
 
@@ -503,12 +590,17 @@ class AcceleratedORPDProblem:
                         "scientific_backend": "cpu_reference_after_cuda_capacity_exhaustion",
                         "requested_accelerator": str(self.device),
                         "compute_fallback": "cpu_reference_full_request_restart",
+                        "fallback_reason": "cuda_capacity_exhausted",
+                        "fallback_policy": self.runtime_fallback_policy,
                         "cuda_capacity_exhaustion": dict(exc.metadata),
+                        "actual_computation_device": "cpu",
                         "runtime_timing_comparable_to_cuda_only": False,
+                        "cuda_only_claims_eligible": False,
                     }
                     capacity_fallback_results.append(evaluation)
-                self._device_resident_evaluator.vram_governor.stats.cpu_fallbacks += 1
-                self._device_resident_evaluator.vram_governor.stats.execution_state = "cpu_fallback"
+                self._device_resident_evaluator.vram_governor.note_cpu_fallback(
+                    "cuda_capacity_exhausted"
+                )
                 return capacity_fallback_results
         try:
             import torch
@@ -623,6 +715,7 @@ class AcceleratedORPDProblem:
                     "cross_run_batching": self._broker is not None,
                     "q_limit_switching": bool(self.power_flow_options.enforce_q_limits),
                     "candidate_specific_q_limit_fallback": True,
+                    "normalized_decision_vector": candidates[index].astype(float).tolist(),
                 }
                 results.append(
                     Evaluation(

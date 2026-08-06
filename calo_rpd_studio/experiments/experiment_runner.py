@@ -3,6 +3,7 @@
 from __future__ import annotations
 from dataclasses import dataclass, field, replace
 import hashlib, json, time, traceback
+import numpy as np
 from calo_rpd_studio.algorithms.base_optimizer import OptimizerConfig
 from calo_rpd_studio.algorithms.registry import SPECS, create_optimizer
 from calo_rpd_studio.algorithms.result import OptimizerResult
@@ -11,6 +12,7 @@ from calo_rpd_studio.orpd.formulation_fingerprint import scientific_problem_fing
 from calo_rpd_studio.accelerated.torch_orpd import AcceleratedORPDProblem
 from calo_rpd_studio.power_system.case_loader import CaseLoader
 from calo_rpd_studio.compute.device_binding import result_device_attestation
+from calo_rpd_studio.compute.device_binding import resolve_config_for_entrypoint
 from calo_rpd_studio.power_system.case_validation import validate_case
 from calo_rpd_studio.robustness.scenario import Scenario
 from calo_rpd_studio.robustness.scenario_generator import (
@@ -47,14 +49,135 @@ class FailedRun:
     numerical_state: dict = field(default_factory=dict)
 
 
+class RunExecutionFailure(RuntimeError):
+    """An optimizer failure carrying the last exact counted scientific state."""
+
+    def __init__(self, cause: BaseException, numerical_state: dict) -> None:
+        super().__init__(str(cause))
+        self.cause = cause
+        self.numerical_state = dict(numerical_state)
+
+
+def _failure_kind(exc: BaseException, evaluation_count: int) -> str:
+    name = type(exc).__name__
+    if name == "DeviceLeaseCancelled":
+        return "cancellation"
+    if name == "DeviceLeaseUnavailable":
+        return "lease_contention"
+    if name == "CudaCapacityExhausted":
+        return "capacity_exhaustion"
+    if name == "EvaluationBatchInvariantError":
+        return "invariant_failure"
+    if "cancel" in name.lower():
+        return "cancellation"
+    return "pre_first_evaluation" if int(evaluation_count) == 0 else "partial_failure"
+
+
+def _finite_failure_value(value) -> float | None:
+    if value is None:
+        return None
+    numeric = float(value)
+    return numeric if np.isfinite(numeric) else None
+
+
+def _json_failure_value(value):
+    """Convert numerical exception state to strict, atomically persistable JSON values."""
+
+    if value is None or isinstance(value, (str, bool, int)):
+        return value
+    if isinstance(value, np.bool_):
+        return bool(value)
+    if isinstance(value, dict):
+        return {str(key): _json_failure_value(item) for key, item in value.items()}
+    if isinstance(value, (list, tuple, np.ndarray)):
+        return [_json_failure_value(item) for item in value]
+    if isinstance(value, (float, np.floating, np.integer)):
+        return _finite_failure_value(value)
+    return str(value)
+
+
+def _optimizer_failure_state(optimizer, config, exc: BaseException) -> dict:
+    evaluation_count = int(getattr(optimizer, "evaluations", 0))
+    best = getattr(optimizer, "best_evaluation", None)
+    vector = getattr(optimizer, "best_vector", None)
+    parameters = dict(getattr(getattr(optimizer, "config", None), "parameters", {}) or {})
+    last_numerical_state = _json_failure_value(dict(getattr(exc, "metadata", {}) or {}))
+    resolution = _json_failure_value(dict(getattr(config, "runtime_device_resolution", {}) or {}))
+    return {
+        "schema_version": "calo-partial-run-failure-v2",
+        "failure_kind": _failure_kind(exc, evaluation_count),
+        "evaluation_count": evaluation_count,
+        "iteration": int(getattr(optimizer, "iteration", 0)),
+        "last_incumbent": {
+            "normalized_vector": None
+            if vector is None
+            else [
+                _finite_failure_value(value)
+                for value in np.asarray(vector, dtype=float).reshape(-1)
+            ],
+            "objective": None if best is None else _finite_failure_value(best.value),
+            "violation": None if best is None else _finite_failure_value(best.violation),
+            "feasible": None if best is None else bool(best.feasible),
+            "constraint_components": {}
+            if best is None
+            else _json_failure_value(
+                dict((getattr(best, "metadata", {}) or {}).get("constraint_components", {}) or {})
+            ),
+        },
+        "last_convergence_state": {
+            "evaluation": (
+                int(optimizer.evaluation_history[-1])
+                if getattr(optimizer, "evaluation_history", None)
+                else evaluation_count
+            ),
+            "best_feasible_objective": (
+                _finite_failure_value(optimizer.best_feasible_objective_history[-1])
+                if getattr(optimizer, "best_feasible_objective_history", None)
+                else None
+            ),
+            "best_constraint_violation": (
+                _finite_failure_value(optimizer.best_constraint_violation_history[-1])
+                if getattr(optimizer, "best_constraint_violation_history", None)
+                else None
+            ),
+        },
+        "last_numerical_state": last_numerical_state,
+        "runtime_device": str(getattr(config, "runtime_compute_device", "cpu")),
+        "runtime_resolution": resolution,
+        "fallback_policy": str(getattr(config, "runtime_fallback_policy", "unresolved")),
+        "fallback_reason": str(getattr(config, "runtime_fallback_reason", "")),
+        "checkpoint_reference": str(
+            parameters.get("run_checkpoint_path") or parameters.get("resume_run_checkpoint") or ""
+        ),
+        "cause_type": type(exc).__name__,
+        "cause_message": str(exc),
+    }
+
+
 def failed_run_from_exception(algorithm, run_index, seeds, exc):
+    if isinstance(exc, RunExecutionFailure):
+        cause = exc.cause
+        state = dict(exc.numerical_state)
+    else:
+        cause = exc
+        state = {
+            "schema_version": "calo-partial-run-failure-v2",
+            "failure_kind": _failure_kind(exc, 0),
+            "evaluation_count": 0,
+            "last_incumbent": {},
+            "last_numerical_state": _json_failure_value(dict(getattr(exc, "metadata", {}) or {})),
+            "cause_type": type(exc).__name__,
+            "cause_message": str(exc),
+        }
     return FailedRun(
         algorithm,
         run_index,
         seeds,
-        type(exc).__name__,
-        str(exc),
-        "".join(traceback.format_exception(type(exc), exc, exc.__traceback__)),
+        type(cause).__name__,
+        str(cause),
+        "".join(traceback.format_exception(type(cause), cause, cause.__traceback__)),
+        int(state.get("evaluation_count", 0)),
+        state,
     )
 
 
@@ -139,7 +262,8 @@ def build_scenarios(config, seed, case=None):
     return normalized
 
 
-def build_problem(config, scenario_seed):
+def build_problem(config, scenario_seed, cancel_callback=None):
+    config = resolve_config_for_entrypoint(config)
     case = CaseLoader.load(config.case_name)
     problem_config = ORPDProblemConfig(
         objective=config.objective,
@@ -150,6 +274,7 @@ def build_problem(config, scenario_seed):
     )
     scenarios = build_scenarios(config, scenario_seed, case)
     if str(getattr(config, "scientific_backend", "cpu_reference")) == "torch_fp64":
+        resolution = dict(getattr(config, "runtime_device_resolution", {}) or {})
         return AcceleratedORPDProblem(
             case,
             problem_config,
@@ -163,12 +288,23 @@ def build_problem(config, scenario_seed):
             cuda_minimum_microbatch=int(getattr(config, "cuda_minimum_microbatch", 1)),
             cuda_resident_hot_loop=bool(getattr(config, "cuda_resident_hot_loop", True)),
             cuda_cpu_fallback_enabled=bool(getattr(config, "cuda_cpu_fallback_enabled", True)),
+            runtime_physical_device=str(
+                getattr(config, "runtime_assigned_physical_device", "") or ""
+            ),
+            lease_host_scope=str(resolution.get("lease_host_scope", "") or ""),
+            lease_container_scope=str(resolution.get("lease_container_scope", "") or ""),
+            runtime_fallback_policy=str(getattr(config, "runtime_fallback_policy", "unresolved")),
+            lease_cancel_callback=cancel_callback,
         )
     return ORPDProblem(case, problem_config, scenarios)
 
 
 def run_single(config, algorithm, run_index, seeds, progress_callback=None, cancel_callback=None):
-    problem = build_problem(config, seeds.scenario_seed)
+    config = resolve_config_for_entrypoint(config)
+    try:
+        problem = build_problem(config, seeds.scenario_seed, cancel_callback)
+    except Exception as exc:
+        raise RunExecutionFailure(exc, _optimizer_failure_state(None, config, exc)) from exc
     defaults = dict(SPECS[algorithm].default_parameters)
     defaults.update(config.algorithm_parameters.get(algorithm, {}))
     defaults.setdefault("execution_device", str(getattr(config, "runtime_compute_device", "cpu")))
@@ -200,47 +336,54 @@ def run_single(config, algorithm, run_index, seeds, progress_callback=None, canc
             and time.perf_counter() - started >= config.budget.wall_clock_seconds
         )
 
-    opt = create_optimizer(
-        algorithm,
-        problem,
-        OptimizerConfig(config.population_size, max_evaluations, max_iterations, defaults),
-        seeds.algorithm_seed,
-        progress_callback,
-        cancel,
-    )
-    result = opt.run()
-    result.metadata["device_attestation"] = result_device_attestation(config, problem, result)
-    # Every algorithm result carries the exact same scientific formulation identity so historical
-    # transfer cannot silently cross objectives, controls, PF settings, tolerances or scenarios.
-    result.metadata["scientific_problem_fingerprint"] = scientific_problem_fingerprint(problem)
-    decoder = getattr(problem, "decoder", None)
-    if decoder is not None and hasattr(decoder, "formulation_manifest"):
-        result.metadata["formulation_manifest"] = decoder.formulation_manifest()
-    scenarios = list(getattr(problem, "scenarios", ()))
-    scenario_payload = {
-        "schema_version": 1,
-        "mode": str(config.scenarios.mode),
-        "count": len(scenarios),
-        "names": [str(item.name) for item in scenarios],
-        "weights": [float(item.weight) for item in scenarios],
-        "seed": int(seeds.scenario_seed),
-        "base_case_checksum": str(problem.case.checksum()),
-        "transformed_case_checksums": [
-            str(item.apply(problem.case).checksum()) for item in scenarios
-        ],
-    }
-    encoded = json.dumps(
-        scenario_payload, sort_keys=True, separators=(",", ":"), allow_nan=False
-    ).encode("utf-8")
-    scenario_payload["manifest_sha256"] = hashlib.sha256(encoded).hexdigest()
-    result.metadata["scenario_manifest"] = scenario_payload
-    if (
-        policy is BudgetPolicy.EQUAL_WALL_CLOCK
-        and not (cancel_callback and cancel_callback())
-        and config.budget.wall_clock_seconds
-        and time.perf_counter() - started >= config.budget.wall_clock_seconds
-    ):
-        result.termination_reason = "wall_clock_budget"
+    try:
+        opt = create_optimizer(
+            algorithm,
+            problem,
+            OptimizerConfig(config.population_size, max_evaluations, max_iterations, defaults),
+            seeds.algorithm_seed,
+            progress_callback,
+            cancel,
+        )
+    except Exception as exc:
+        raise RunExecutionFailure(exc, _optimizer_failure_state(None, config, exc)) from exc
+    try:
+        result = opt.run()
+        result.metadata["device_attestation"] = result_device_attestation(config, problem, result)
+        # Every algorithm result carries the exact same scientific formulation identity so
+        # historical transfer cannot silently cross objectives, controls, PF settings, tolerances
+        # or scenarios.
+        result.metadata["scientific_problem_fingerprint"] = scientific_problem_fingerprint(problem)
+        decoder = getattr(problem, "decoder", None)
+        if decoder is not None and hasattr(decoder, "formulation_manifest"):
+            result.metadata["formulation_manifest"] = decoder.formulation_manifest()
+        scenarios = list(getattr(problem, "scenarios", ()))
+        scenario_payload = {
+            "schema_version": 1,
+            "mode": str(config.scenarios.mode),
+            "count": len(scenarios),
+            "names": [str(item.name) for item in scenarios],
+            "weights": [float(item.weight) for item in scenarios],
+            "seed": int(seeds.scenario_seed),
+            "base_case_checksum": str(problem.case.checksum()),
+            "transformed_case_checksums": [
+                str(item.apply(problem.case).checksum()) for item in scenarios
+            ],
+        }
+        encoded = json.dumps(
+            scenario_payload, sort_keys=True, separators=(",", ":"), allow_nan=False
+        ).encode("utf-8")
+        scenario_payload["manifest_sha256"] = hashlib.sha256(encoded).hexdigest()
+        result.metadata["scenario_manifest"] = scenario_payload
+        if (
+            policy is BudgetPolicy.EQUAL_WALL_CLOCK
+            and not (cancel_callback and cancel_callback())
+            and config.budget.wall_clock_seconds
+            and time.perf_counter() - started >= config.budget.wall_clock_seconds
+        ):
+            result.termination_reason = "wall_clock_budget"
+    except Exception as exc:
+        raise RunExecutionFailure(exc, _optimizer_failure_state(opt, config, exc)) from exc
     return CompletedRun(algorithm, run_index, seeds, result)
 
 
@@ -248,12 +391,14 @@ def run_sequential(config, progress_callback=None, cancel_callback=None):
     """Run sequentially; returns (completed_runs, failed_runs) matching the resilient variants."""
     done, failed = run_sequential_resilient(config, progress_callback, cancel_callback)
     if failed:
-        raise failed[0].exception
+        first = failed[0]
+        raise RuntimeError(f"{first.failure_type}: {first.message}\n{first.traceback_text}")
     return done, failed
 
 
 def run_sequential_resilient(config, progress_callback=None, cancel_callback=None):
     config.validate()
+    config = resolve_config_for_entrypoint(config)
     seeds = SeedManager(config.master_seed).generate(config.runs)
     done = []
     failed = []

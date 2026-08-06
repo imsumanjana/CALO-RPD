@@ -55,6 +55,8 @@ class BenchmarkCampaignConfig:
     output_directory: str = "benchmark_v541"
     parallel_workers: int = 1
     execution_backend: str = "cuda_preferred"
+    execution_purpose: str = "formal"
+    requested_compute_device: str = "auto"
     freeze_manifest: str = field(
         default_factory=lambda: str(
             Path(__file__).resolve().parents[1] / "data" / "frozen" / FREEZE_MANIFEST
@@ -113,6 +115,10 @@ class BenchmarkCampaignConfig:
             raise ValueError("population_size must be at least 4")
         if self.parallel_workers < 1:
             raise ValueError("parallel_workers must be at least 1")
+        if self.execution_backend != "cuda_preferred" or self.execution_purpose != "formal":
+            raise ValueError(
+                "A confirmatory benchmark campaign requires formal CUDA-preferred execution."
+            )
         unknown_cases = set(self.cases) - set(suite.cases)
         if unknown_cases:
             raise ValueError(f"Unsupported benchmark cases: {sorted(unknown_cases)}")
@@ -185,6 +191,9 @@ def build_campaign(
             config.max_iterations = max(int(config.max_iterations), int(campaign.max_evaluations))
             config.parallel_workers = int(campaign.parallel_workers)
             config.execution_backend = str(campaign.execution_backend)
+            config.execution_purpose = str(campaign.execution_purpose)
+            config.requested_compute_device = str(campaign.requested_compute_device)
+            config.cuda_cpu_fallback_enabled = False
             config.output_directory = str(
                 Path(campaign.output_directory) / "raw_arrays" / case_name / study_key
             )

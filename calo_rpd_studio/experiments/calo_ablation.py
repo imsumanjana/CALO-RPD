@@ -9,7 +9,17 @@ from dataclasses import dataclass
 from calo_rpd_studio.algorithms.base_optimizer import OptimizerConfig
 from calo_rpd_studio.algorithms.legacy_mtlbo import LegacyMTLBOOptimizer
 from .evaluation_budget import BudgetPolicy
-from .experiment_runner import CompletedRun, build_problem, run_single
+from .experiment_runner import (
+    CompletedRun,
+    RunExecutionFailure,
+    _optimizer_failure_state,
+    build_problem,
+    run_single,
+)
+from calo_rpd_studio.compute.device_binding import (
+    resolve_config_for_entrypoint,
+    result_device_attestation,
+)
 
 
 @dataclass(frozen=True, slots=True)
@@ -57,7 +67,7 @@ def run_ablation(config, spec, run_index, seeds, progress_callback=None, cancel_
         completed.result.algorithm = spec.label
         completed.algorithm = spec.label
         return completed
-    problem = build_problem(config, seeds.scenario_seed)
+    config = resolve_config_for_entrypoint(config)
     started = time.perf_counter()
     policy = config.budget.policy
     if policy is BudgetPolicy.EQUAL_WALL_CLOCK:
@@ -76,13 +86,26 @@ def run_ablation(config, spec, run_index, seeds, progress_callback=None, cancel_
             and time.perf_counter() - started >= config.budget.wall_clock_seconds
         )
 
-    optimizer = LegacyMTLBOOptimizer(
-        problem,
-        OptimizerConfig(config.population_size, max_eval, max_iter, {}),
-        seeds.algorithm_seed,
-        progress_callback,
-        _cancel,
-    )
-    result = optimizer.run()
-    result.algorithm = spec.label
+    try:
+        problem = build_problem(config, seeds.scenario_seed, _cancel)
+    except Exception as exc:
+        raise RunExecutionFailure(exc, _optimizer_failure_state(None, config, exc)) from exc
+
+    try:
+        optimizer = LegacyMTLBOOptimizer(
+            problem,
+            OptimizerConfig(config.population_size, max_eval, max_iter, {}),
+            seeds.algorithm_seed,
+            progress_callback,
+            _cancel,
+        )
+    except Exception as exc:
+        raise RunExecutionFailure(exc, _optimizer_failure_state(None, config, exc)) from exc
+    try:
+        result = optimizer.run()
+        result.metadata["optimizer_device"] = "cpu_legacy_optimizer"
+        result.metadata["device_attestation"] = result_device_attestation(config, problem, result)
+        result.algorithm = spec.label
+    except Exception as exc:
+        raise RunExecutionFailure(exc, _optimizer_failure_state(optimizer, config, exc)) from exc
     return CompletedRun(spec.label, run_index, seeds, result)

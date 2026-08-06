@@ -49,8 +49,8 @@ class VramResidencyPolicy:
     retain_outputs_on_device: bool = True
 
     def validate(self) -> None:
-        if not 0.10 <= float(self.budget_fraction) <= 0.95:
-            raise ValueError("CUDA VRAM budget fraction must lie between 0.10 and 0.95")
+        if not 0.10 <= float(self.budget_fraction) <= 0.80:
+            raise ValueError("CUDA VRAM budget fraction must be positive and no greater than 0.80")
         if int(self.oom_retry_count) < 0:
             raise ValueError("CUDA OOM retry count must be non-negative")
         if int(self.minimum_microbatch) <= 0:
@@ -78,6 +78,16 @@ class VramResidencyStats:
     staged_host_requests: int = 0
     execution_state: str = "not_started"
     last_fallback_reason: str = ""
+    physical_device_id: str = ""
+    lease_host_scope: str = ""
+    lease_container_scope: str = ""
+    request_count: int = 0
+    last_request_candidates: int = 0
+    last_request_oom_retries: int = 0
+    last_request_microbatches: int = 0
+    last_request_smallest_microbatch: int = 0
+    last_request_largest_microbatch: int = 0
+    last_request_execution_state: str = "not_started"
 
     def to_dict(self) -> dict[str, Any]:
         payload = asdict(self)
@@ -88,6 +98,25 @@ class VramResidencyStats:
             "additional allowance is frozen at admission_fraction * globally_free_vram_at_admission"
         )
         payload["oom_policy"] = "reduce_cuda_microbatch_then_raise_typed_capacity_exhaustion"
+        payload["request_statistics"] = {
+            "request_count": int(self.request_count),
+            "candidates": int(self.last_request_candidates),
+            "oom_retries": int(self.last_request_oom_retries),
+            "microbatches": int(self.last_request_microbatches),
+            "smallest_microbatch": int(self.last_request_smallest_microbatch),
+            "largest_microbatch": int(self.last_request_largest_microbatch),
+            "execution_state": str(self.last_request_execution_state),
+        }
+        payload["governor_lifetime_statistics"] = {
+            "oom_retries": int(self.oom_retries),
+            "microbatches": int(self.microbatches),
+            "smallest_microbatch": int(self.smallest_microbatch),
+            "largest_microbatch": int(self.largest_microbatch),
+            "cpu_fallbacks": int(self.cpu_fallbacks),
+            "staged_host_requests": int(self.staged_host_requests),
+            "peak_allocated_bytes": int(self.peak_allocated_bytes),
+            "peak_reserved_bytes": int(self.peak_reserved_bytes),
+        }
         return payload
 
 
@@ -97,7 +126,17 @@ class VramResidencyGovernor:
     _fraction_lock = threading.Lock()
     _configured_fractions: dict[str, float] = {}
 
-    def __init__(self, device: Any, policy: VramResidencyPolicy | None = None) -> None:
+    def __init__(
+        self,
+        device: Any,
+        policy: VramResidencyPolicy | None = None,
+        *,
+        physical_device_id: str = "",
+        lease_host_scope: str = "",
+        lease_container_scope: str = "",
+        lease_wait_timeout_seconds: float | None = None,
+        lease_cancel_callback: Callable[[], bool] | None = None,
+    ) -> None:
         self.policy = policy or VramResidencyPolicy()
         self.policy.validate()
         self.device = device
@@ -105,10 +144,18 @@ class VramResidencyGovernor:
         self._torch = None
         self._enabled = False
         self._device_lease = None
+        self.physical_device_id = str(physical_device_id or "")
+        self.lease_host_scope = str(lease_host_scope or "")
+        self.lease_container_scope = str(lease_container_scope or "")
+        self.lease_wait_timeout_seconds = lease_wait_timeout_seconds
+        self.lease_cancel_callback = lease_cancel_callback
         self.stats = VramResidencyStats(
             device=self.device_text,
             enabled=False,
             budget_fraction=float(self.policy.budget_fraction),
+            physical_device_id=self.physical_device_id,
+            lease_host_scope=self.lease_host_scope,
+            lease_container_scope=self.lease_container_scope,
         )
         self._configure()
 
@@ -130,7 +177,15 @@ class VramResidencyGovernor:
             return
         index = torch.cuda.current_device() if device.index is None else int(device.index)
         canonical = f"cuda:{index}"
-        self._device_lease = ExclusiveDeviceLease(canonical)
+        self._device_lease = ExclusiveDeviceLease(
+            canonical,
+            physical_device_id=self.physical_device_id or canonical,
+            host_scope=self.lease_host_scope,
+            container_scope=self.lease_container_scope,
+            wait=True,
+            timeout_seconds=self.lease_wait_timeout_seconds,
+            cancel_callback=self.lease_cancel_callback,
+        )
         requested_fraction = float(self.policy.budget_fraction)
         free_bytes, total_bytes = torch.cuda.mem_get_info(index)
         try:
@@ -194,6 +249,14 @@ class VramResidencyGovernor:
         except (RuntimeError, ValueError):
             pass
 
+    def note_cpu_fallback(self, reason: str) -> None:
+        """Record one explicit full-request CPU restart without mixing request/lifetime counts."""
+
+        self.stats.cpu_fallbacks += 1
+        self.stats.execution_state = "cpu_fallback"
+        self.stats.last_fallback_reason = str(reason)
+        self.stats.last_request_execution_state = "cpu_fallback"
+
     def _update_memory_stats(self) -> None:
         if not self._enabled:
             return
@@ -238,7 +301,18 @@ class VramResidencyGovernor:
             raise ValueError("Population must contain at least one candidate")
         if not self._enabled:
             self.stats.execution_state = "cpu_direct"
+            self.stats.request_count += 1
+            self.stats.last_request_candidates = total
+            self.stats.last_request_execution_state = "cpu_direct"
             return evaluate_once(population)
+
+        self.stats.request_count += 1
+        self.stats.last_request_candidates = total
+        self.stats.last_request_oom_retries = 0
+        self.stats.last_request_microbatches = 0
+        self.stats.last_request_smallest_microbatch = 0
+        self.stats.last_request_largest_microbatch = 0
+        self.stats.last_request_execution_state = "running"
 
         initial = (
             total if preferred_microbatch is None else min(total, max(1, int(preferred_microbatch)))
@@ -247,6 +321,7 @@ class VramResidencyGovernor:
         chunk_size = initial
         offset = 0
         outputs: list[Any] = []
+        completed_sizes: list[int] = []
         retries_for_request = 0
         started_from_host = str(getattr(population, "device", "cpu")).split(":", 1)[0] == "cpu"
         if started_from_host:
@@ -261,6 +336,7 @@ class VramResidencyGovernor:
                 try:
                     result = evaluate_once(population[offset : offset + local_size])
                     outputs.append(result)
+                    completed_sizes.append(local_size)
                     self.stats.microbatches += 1
                     self.stats.smallest_microbatch = (
                         local_size
@@ -283,6 +359,13 @@ class VramResidencyGovernor:
                         self._update_memory_stats()
                         self.stats.execution_state = "cuda_capacity_exhausted"
                         self.stats.last_fallback_reason = "minimum_cuda_microbatch_exhausted"
+                        self.stats.last_request_oom_retries = retries_for_request
+                        self.stats.last_request_microbatches = len(outputs)
+                        self.stats.last_request_smallest_microbatch = min(
+                            completed_sizes, default=0
+                        )
+                        self.stats.last_request_largest_microbatch = max(completed_sizes, default=0)
+                        self.stats.last_request_execution_state = "cuda_capacity_exhausted"
                         metadata = self.stats.to_dict()
                         metadata.update(
                             {
@@ -313,6 +396,11 @@ class VramResidencyGovernor:
             if started_from_host
             else "cuda_microbatched"
         )
+        self.stats.last_request_oom_retries = retries_for_request
+        self.stats.last_request_microbatches = len(outputs)
+        self.stats.last_request_smallest_microbatch = min(completed_sizes, default=0)
+        self.stats.last_request_largest_microbatch = max(completed_sizes, default=0)
+        self.stats.last_request_execution_state = self.stats.execution_state
         metadata = self.stats.to_dict()
         metadata.update(
             {

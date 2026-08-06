@@ -1,8 +1,10 @@
 # CALO-RPD v12.0 onward release update and fix plan
 
-**Plan status:** Phase 1 coding is implemented at `12.0.0.dev1`; user-run validation evidence is
-pending. This is not a release declaration, scientific qualification, policy approval, or authority
-to open protected cases.
+**Plan status:** Phase 1 validation is accepted. Phase 2 coding is implemented at `12.0.0.dev1`.
+The corrected user-run Phase 2 validation (`phase2-20260807-003024`) passed 14/15 commands and
+failed only because one corrected Python file had mixed line endings. That mechanical formatting
+correction is applied and a complete source-bound manual rerun is pending. This is not a release
+declaration, scientific qualification, policy approval, or authority to open protected cases.
 
 **Prepared:** 2026-08-06 (Asia/Calcutta)
 
@@ -63,6 +65,35 @@ does not replace:
 The five phases must be completed in order. Work may be prepared in parallel only when it cannot
 change an earlier phase's contract or invalidate its evidence. A later phase cannot be declared
 complete while an earlier exit gate remains open.
+
+### Mandatory phase execution protocol
+
+The following operating sequence applies to Phase 3 onward and to any correction or maintenance
+phase added to this plan:
+
+1. Before announcing or starting phase development, create a phase-specific goal through the goal
+   service. The goal must name the phase and its concrete coding deliverables. Do not reuse an
+   unrelated or already completed goal as authority for the new phase.
+2. Perform coding development only: implement production source, test source, schemas, migration
+   code, documentation, and the phase validation harness. Writing test code is required where the
+   change needs it; executing that code is reserved for the user.
+3. Do not execute any test or validation task that can be performed manually by the user. This
+   includes phase validators, pytest/tox/coverage, compilation, generated-schema checks, Ruff,
+   mypy, package/build smoke checks, GUI/browser checks, Docker validation, benchmarks, campaigns,
+   policy training/evaluation, qualification, and protected-case workflows. An exception requires
+   a later explicit user instruction naming the command or check to execute.
+4. At the end of the coding pass, create or update one detailed PowerShell validation script under
+   the Git-ignored `validation/` directory. The validator must run all checks required for that
+   phase, retain command outputs, record relevant source and validator SHA-256 identities, and write
+   a newly timestamped detailed log directory. Neither the validator nor its logs may enter Git,
+   manifests, packages, containers, or release artifacts.
+5. Provide the exact manual command and expected log-directory pattern. The user executes the
+   validator and returns the complete log directory. The agent then reviews only the returned
+   evidence, applies focused coding corrections, updates the validator if needed, and requests a
+   fresh manual rerun without running it.
+6. Keep tool calls, file reads, and output focused on the current phase and returned failures. Avoid
+   redundant test execution, repeated repository scans, or large evidence dumps so token usage stays
+   low. No phase exit gate closes until the user's manual evidence has been reviewed and accepted.
 
 ## 2. Current audited baseline
 
@@ -239,13 +270,11 @@ CLI/container labels use one `12.0.0.devN` identity; v6.9 is historical-only; af
 promotion decisions are requalified or explicitly invalidated; and no new candidate has been
 trained under an analysis definition known to be wrong.
 
-**Phase 1 coding handoff (2026-08-06):** All required production/source changes and mandatory test
-implementations are present. No test, policy training, policy evaluation, campaign, benchmark, or
-protected-case workflow was executed, per user instruction. Therefore the coding scope is complete,
-but the Phase 1 exit gate remains **validation pending** until the local-only, Git-ignored
-`validation/Validate-Phase1.ps1` script passes and its complete `validation/logs/phase1-*` run
-directory is returned against one exact source identity. Diversity-pressure normalization was
-explicitly left unchanged; any future
+**Phase 1 accepted handoff (2026-08-06):** All required production/source changes and mandatory test
+implementations are present. The user-executed `phase1-20260806-230256` evidence passed 16/16
+commands with complete source/validator hashes and states that no policy training, policy
+evaluation, campaign, benchmark, or protected-case workflow executed. Phase 1 is accepted.
+Diversity-pressure normalization was explicitly left unchanged; any future
 change remains Class B and requires separate approval and evidence. The historical case57 effect
 cannot be recomputed from complete immutable raw pair values in tracked source, so the additive
 correction record marks that effect legacy/unverifiable; its negative decision remains unchanged
@@ -265,63 +294,67 @@ preserve exact computation accounting, and retain enough state to explain every 
 
 #### 2.1 Define execution modes truthfully
 
-- [ ] Define **formal CUDA-only** mode: CUDA is required, CPU fallback is forbidden, and capacity
+- [x] Define **formal CUDA-only** mode: CUDA is required, CPU fallback is forbidden, and capacity
   exhaustion fails the run with retained partial state.
-- [ ] Define **exploratory CUDA-preferred** mode: a full-request CPU restart may be allowed only when
+- [x] Define **exploratory CUDA-preferred** mode: a full-request CPU restart may be allowed only when
   explicitly configured and visibly recorded.
-- [ ] Keep **CPU-only** mode concrete and force `runtime_compute_device="cpu"`.
-- [ ] Apply the same fallback contract to `evaluate_population`,
+- [x] Keep **CPU-only** mode concrete and force `runtime_compute_device="cpu"`.
+- [x] Apply the same fallback contract to `evaluate_population`,
   `evaluate_population_with_context`, tensor APIs, training, GUI, CLI, and final campaigns.
-- [ ] Make the over-dense-case fallback respect the declared mode rather than bypassing it.
-- [ ] Exclude any fallback run from CUDA-only timing, energy, parity, utilization, or equivalence
+- [x] Make the over-dense-case fallback respect the declared mode rather than bypassing it.
+- [x] Exclude any fallback run from CUDA-only timing, energy, parity, utilization, or equivalence
   claims.
-- [ ] Align comments, schemas, GUI terms, reports, and active metadata with the implemented modes.
+- [x] Align comments, schemas, GUI terms, reports, and active metadata with the implemented modes.
 
 #### 2.2 Resolve devices before every run
 
-- [ ] Introduce one mandatory pre-run device-resolution service for GUI, ordinary CLI, parallel
+- [x] Introduce one mandatory pre-run device-resolution service for GUI, ordinary CLI, parallel
   CLI, benchmark CLI, and final-campaign tasks.
-- [ ] Resolve CUDA-preferred to a concrete `cuda:N` or record an explicit CPU degradation reason.
-- [ ] Reject unresolved formal-campaign combinations.
-- [ ] Add CLI compute-mode/device options without exposing allocator internals to ordinary users.
-- [ ] Persist requested mode, assigned physical device, runtime device, fallback policy, and actual
+- [x] Resolve CUDA-preferred to a concrete `cuda:N` or record an explicit CPU degradation reason.
+- [x] Reject unresolved formal-campaign combinations.
+- [x] Add CLI compute-mode/device options without exposing allocator internals to ordinary users.
+- [x] Persist requested mode, assigned physical device, runtime device, fallback policy, and actual
   computation device separately.
 
 #### 2.3 Harden memory and device ownership
 
-- [ ] Use stable physical GPU UUID as the lease identity, with normalized PCI bus ID as a controlled
+- [x] Use stable physical GPU UUID as the lease identity, with normalized PCI bus ID as a controlled
   fallback; retain the logical CUDA index separately.
-- [ ] Include host/container scope so independent GPUs do not collide and one physical GPU cannot be
+- [x] Include host/container scope so independent GPUs do not collide and one physical GPU cannot be
   double-booked under reordered visibility.
-- [ ] Route parallel CUDA jobs through a device-aware queue; ordinary lease contention must wait or
+- [x] Route parallel CUDA jobs through a device-aware queue; ordinary lease contention must wait or
   cancel cleanly rather than become an optimizer failure.
-- [ ] Preserve the current Safe-80 admission ceiling based on free/available memory.
-- [ ] Choose and document one truthful 0.80 contract. If experiment-level configuration remains
+- [x] Preserve the current Safe-80 admission ceiling based on free/available memory.
+- [x] Choose and document one truthful 0.80 contract. If experiment-level configuration remains
   fixed at 0.80, do not advertise a configurable 0.10-0.95 experiment setting.
-- [ ] Separate request statistics from governor-lifetime statistics.
-- [ ] Document or safely isolate the process-lifetime conservative allocator fraction.
+- [x] Separate request statistics from governor-lifetime statistics.
+- [x] Document or safely isolate the process-lifetime conservative allocator fraction.
 
 #### 2.4 Enforce exact evaluation and failure state
 
-- [ ] Require one evaluation for every submitted batch candidate before registering any FE.
-- [ ] Reject short, long, empty-mismatched, or identity-reordered batch results with a typed invariant
+- [x] Require one evaluation for every submitted batch candidate before registering any FE.
+- [x] Reject short, long, empty-mismatched, or identity-reordered batch results with a typed invariant
   error.
-- [ ] Preserve evaluation count, last incumbent, feasibility/violation state, last numerical state,
+- [x] Preserve evaluation count, last incumbent, feasibility/violation state, last numerical state,
   runtime device/fallback state, and checkpoint reference in every partial failure envelope.
-- [ ] Distinguish failure before the first FE, failure after partial work, cancellation, capacity
+- [x] Distinguish failure before the first FE, failure after partial work, cancellation, capacity
   exhaustion, lease contention, and invariant failure.
-- [ ] Persist failure envelopes atomically and preserve exact-resume boundaries.
+- [x] Persist failure envelopes atomically and preserve exact-resume boundaries.
 
 #### 2.5 Harden topology and status compatibility
 
-- [ ] Choose one authority for FP64 capability and retain its provenance.
-- [ ] Make CPU-only PyTorch, unavailable drivers, stale snapshots, and synthetic snapshots fail
+- [x] Choose one authority for FP64 capability and retain its provenance.
+- [x] Make CPU-only PyTorch, unavailable drivers, stale snapshots, and synthetic snapshots fail
   closed rather than crash discovery.
-- [ ] Keep historical XPU records readable only through explicitly legacy/view-only schemas.
-- [ ] Remove active XPU capability/equivalence language from current status records.
-- [ ] Generate current status from executed gates rather than trusted static strings.
+- [x] Keep historical XPU records readable only through explicitly legacy/view-only schemas.
+- [x] Remove active XPU capability/equivalence language from current status records.
+- [x] Generate current status from executed gates rather than trusted static strings.
 
 ### Mandatory tests
+
+The source tests and local-only Phase 2 validation harness are prepared. Every item below remains
+unchecked until the user executes `validation/Validate-Phase2.ps1` and the returned hashed evidence
+is reviewed.
 
 - [ ] Inject `CudaCapacityExhausted`: formal mode fails; exploratory mode performs one explicit full
   CPU restart; provenance and claim eligibility differ.
@@ -341,6 +374,12 @@ Phase 2 is complete only when every entry point binds the same concrete runtime 
 CUDA-only runs cannot fall back, exploratory fallback is explicit, exact FE/cardinality invariants
 are central, physical device leases and queues are correct, partial failures are retained, and
 current status records describe CUDA/CPU-only reality.
+
+**Current gate state:** coding complete. The second manual run, `phase2-20260807-003024`, confirmed
+the schema correction, 23/23 Phase 2 contracts, and 44/44 affected regressions; only Ruff formatting
+failed for one mixed-line-ending test file. The line endings are corrected, but the Phase 2 exit gate
+remains pending until a complete fresh manual validator run passes against the current source and
+its retained evidence is reviewed. No later-phase or release-readiness claim is made.
 
 ---
 
@@ -673,10 +712,9 @@ failed attempts and rejected evidence; do not silently delete, overwrite, or rei
 
 ## 7. Immediate next action
 
-Begin Phase 1 only. First create focused failing tests for the v12 identity-consistency contract,
-matched-pairs rank-biserial counterexample, unequal/missing/duplicate pair rejection, and
-qualification-definition consistency. Then establish `12.0.0.dev1` consistently in the active
-development identity without altering historical v6.9 records. Present the exact scientific/
-promotion-semantics corrections for approval before changing production qualification behavior.
-Do not start new policy training, open protected cases, regenerate release artifacts, or implement
-Phase 4 execution while Phase 1 remains open.
+Rerun the Git-ignored `validation/Validate-Phase2.ps1` manually after the formatting correction for
+`phase2-20260807-003024`, and return the complete new
+`validation/logs/phase2-YYYYMMDD-HHMMSS/` directory. Review every command, source/validator hash,
+runtime-contract check, and affected regression before accepting the Phase 2 exit gate. Do not
+begin Phase 3, start policy training/evaluation, open protected cases, regenerate release artifacts,
+or implement Phase 4 execution while Phase 2 validation remains open.

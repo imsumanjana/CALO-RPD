@@ -60,6 +60,16 @@ def verify_active_version(root: Path = PROJECT_ROOT) -> dict:
         status.get("policy_training_authorized_by_status") is False
         and status.get("policy_evaluation_authorized_by_status") is False
     )
+    checks["active_status_runtime_contract"] = (
+        status.get("phase") == 2
+        and status.get("supported_execution_modes") == ["cuda-preferred", "cpu-only"]
+        and status.get("supported_execution_purposes") == ["exploratory", "formal"]
+        and status.get("intel_xpu_executable") is False
+        and status.get("safe_memory_admission_fraction") == 0.8
+        and status.get("phase_1_validation", "").startswith("accepted_")
+        and status.get("phase_2_validation")
+        == "failed_phase2-20260807-003024_formatting_corrected_rerun_pending"
+    )
 
     index = _load_json(root / "STATUS_RECORD_INDEX.json")
     checks["status_index_points_to_active_record"] = (

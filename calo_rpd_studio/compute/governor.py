@@ -164,7 +164,6 @@ class AdaptiveComputeGovernor:
 
     def _classify_raw(self, snapshot: ResourceSnapshot) -> tuple[ProtectionState, list[str]]:
         cfg = self.config
-        amber_limit = 100.0 * float(cfg.allocation_limit_fraction)
         red_limit = 100.0 * float(cfg.red_resource_fraction)
         amber: list[str] = []
         red: list[str] = []
@@ -173,18 +172,10 @@ class AdaptiveComputeGovernor:
             red.append(
                 f"CPU utilization {snapshot.cpu_percent:.1f}% >= red protection {red_limit:.0f}%"
             )
-        elif snapshot.cpu_percent >= amber_limit:
-            amber.append(
-                f"CPU utilization {snapshot.cpu_percent:.1f}% >= Safe-{amber_limit:.0f}% envelope"
-            )
 
         if snapshot.system_memory_percent >= red_limit:
             red.append(
                 f"System RAM utilization {snapshot.system_memory_percent:.1f}% >= red protection {red_limit:.0f}%"
-            )
-        elif snapshot.system_memory_percent >= amber_limit:
-            amber.append(
-                f"System RAM utilization {snapshot.system_memory_percent:.1f}% >= Safe-{amber_limit:.0f}% envelope"
             )
 
         if snapshot.cpu_temperature_c is not None:
@@ -205,10 +196,6 @@ class AdaptiveComputeGovernor:
             if float(device.memory_percent) >= red_limit:
                 red.append(
                     f"{label} memory {device.memory_percent:.1f}% >= red protection {red_limit:.0f}%"
-                )
-            elif float(device.memory_percent) >= amber_limit:
-                amber.append(
-                    f"{label} memory {device.memory_percent:.1f}% >= Safe-{amber_limit:.0f}% envelope"
                 )
             if device.temperature_c is not None:
                 temp = float(device.temperature_c)

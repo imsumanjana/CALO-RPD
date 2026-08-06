@@ -57,6 +57,7 @@ class ComputeDevice:
     full_training_branch: bool
     capability_status: str = "validated"
     capability_detail: str = ""
+    fp64_capability_authority: str = "none"
     hardware_uuid: str = ""
     pci_bus_id: str = ""
     vendor_id: str = ""
@@ -302,10 +303,12 @@ class ComputeTopologyService:
             if direct and cuda:
                 fp64_ok, capability_detail = self._fp64_runtime_smoke(snapshot.device_id)
                 capability_status = "FP64 scientific branch validated" if fp64_ok else "restricted"
+                fp64_authority = "torch_fp64_tensor_matmul_smoke_v1"
             else:
                 fp64_ok = False
                 capability_status = "detected"
                 capability_detail = "No accelerator scientific capability probe"
+                fp64_authority = "none"
             devices.append(
                 ComputeDevice(
                     physical_id=physical_id,
@@ -327,6 +330,7 @@ class ComputeTopologyService:
                     full_training_branch=bool(direct and cuda and fp64_ok),
                     capability_status=capability_status,
                     capability_detail=capability_detail,
+                    fp64_capability_authority=fp64_authority,
                     hardware_uuid=snapshot.hardware_uuid,
                     pci_bus_id=snapshot.pci_bus_id,
                     vendor_id=snapshot.vendor_id,
@@ -357,6 +361,7 @@ class ComputeTopologyService:
                     "product_id": d.product_id,
                     "full_training_branch": d.full_training_branch,
                     "capability_status": d.capability_status,
+                    "fp64_capability_authority": d.fp64_capability_authority,
                 }
                 for d in devices
             ],
@@ -388,8 +393,10 @@ class SafeResourceBudgetEngine:
         minimum_cpu_workers_per_branch: int = MINIMUM_CPU_WORKER_EQUIVALENTS_PER_BRANCH,
     ) -> None:
         limit = float(allocation_limit_fraction)
-        if not math.isfinite(limit) or not 0.50 <= limit <= 0.90:
-            raise ValueError("allocation_limit_fraction must be finite and between 0.50 and 0.90")
+        if not math.isfinite(limit) or not 0.10 <= limit <= 0.80:
+            raise ValueError(
+                "allocation_limit_fraction must be finite, positive, and no greater than 0.80"
+            )
         self.limit = limit
         self.estimated_branch_ram_bytes = max(512 * 1024**2, int(estimated_branch_ram_bytes))
         self.estimated_branch_accelerator_bytes = max(

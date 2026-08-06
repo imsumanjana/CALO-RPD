@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://calo-rpd.local/schemas/runtime_execution_resolution_v2.schema.json",
+  "title": "CALO-RPD Runtime Execution Resolution v2",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "requested_mode",
+    "execution_purpose",
+    "requested_device",
+    "assigned_physical_device",
+    "physical_identity_authority",
+    "assigned_logical_device",
+    "runtime_compute_device",
+    "fallback_policy",
+    "fallback_permitted",
+    "fallback_reason",
+    "actual_computation_device",
+    "lease_host_scope",
+    "lease_container_scope",
+    "safe_memory_fraction",
+    "cuda_only_claims_eligible",
+    "fallback_stratification_required"
+  ],
+  "properties": {
+    "schema_version": {"const": "calo-runtime-execution-contract-v2"},
+    "requested_mode": {"enum": ["cuda_preferred", "cpu_only"]},
+    "execution_purpose": {"enum": ["exploratory", "formal"]},
+    "requested_device": {"type": "string"},
+    "assigned_physical_device": {"type": "string", "minLength": 1},
+    "physical_identity_authority": {
+      "enum": ["hardware_uuid", "normalized_pci_bus_id", "host_scope"]
+    },
+    "assigned_logical_device": {"type": "string"},
+    "runtime_compute_device": {"type": "string"},
+    "fallback_policy": {
+      "enum": ["forbidden", "full_request_cpu_restart", "not_applicable"]
+    },
+    "fallback_permitted": {"type": "boolean"},
+    "fallback_reason": {"type": "string"},
+    "actual_computation_device": {"type": "string"},
+    "device_name": {"type": "string"},
+    "lease_host_scope": {"type": "string", "minLength": 1},
+    "lease_container_scope": {"type": "string", "minLength": 1},
+    "safe_memory_fraction": {"const": 0.8},
+    "cuda_only_claims_eligible": {"type": "boolean"},
+    "fallback_stratification_required": {"type": "boolean"},
+    "claim_eligibility": {
+      "type": "object",
+      "additionalProperties": {"type": "boolean"}
+    }
+  },
+  "additionalProperties": false
+}

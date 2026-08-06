@@ -56,7 +56,10 @@ from calo_rpd_studio.continuation.experiment_evolution import (
     ExperimentEvolutionService,
     ExtensionProtocol,
 )
-from calo_rpd_studio.compute.device_binding import bind_config_to_device
+from calo_rpd_studio.compute.device_binding import (
+    bind_config_to_device,
+    resolve_config_for_entrypoint,
+)
 
 
 _LOG = logging.getLogger(__name__)
@@ -221,6 +224,16 @@ class ExperimentWorker(QThread):
 
     def _pause_requested(self) -> bool:
         return self._pause_event.is_set()
+
+    def _resolved_cuda_devices(self, snapshot):
+        """Return only the CUDA device frozen by the mandatory pre-run resolution."""
+
+        resolved = str(getattr(self.config, "runtime_compute_device", "cpu"))
+        if not resolved.startswith("cuda:"):
+            return ()
+        return tuple(
+            device for device in prioritized_accelerators(snapshot) if device.device_id == resolved
+        )
 
     def _ensure_compute_governor(self):
         """Create the experiment-wide adaptive governor from the Dashboard Safe-80 profile."""
@@ -581,7 +594,7 @@ class ExperimentWorker(QThread):
             if backend_allows_accelerators(self.config.execution_backend) and item_uses_calo_ai(
                 self.mode, item
             ):
-                accelerators = prioritized_accelerators(snapshot)
+                accelerators = self._resolved_cuda_devices(snapshot)
                 if accelerators:
                     selected_device = accelerators[0]
                     compute_device = selected_device.device_id
@@ -682,7 +695,7 @@ class ExperimentWorker(QThread):
         lane_by_job, allocation = build_weighted_lane_plan(
             plan,
             self.mode,
-            cuda_available=bool(initial_snapshot.by_backend("cuda")),
+            cuda_available=bool(self._resolved_cuda_devices(initial_snapshot)),
         )
         slots = weighted_worker_slots(max_workers, allocation)
         slots["cuda"] = min(slots["cuda"], 1)
@@ -762,7 +775,11 @@ class ExperimentWorker(QThread):
                         )
 
                     def select_device(snapshot, lane: str):
-                        devices = list(snapshot.by_backend(lane))
+                        devices = list(
+                            self._resolved_cuda_devices(snapshot)
+                            if lane == "cuda"
+                            else snapshot.by_backend(lane)
+                        )
                         devices.sort(key=lambda device: active_by_device.get(device.device_id, 0))
                         for device in devices:
                             if accelerator_admission_allowed(
@@ -938,7 +955,7 @@ class ExperimentWorker(QThread):
             pools = {}
             try:
                 backend = str(self.config.execution_backend).lower()
-                cuda_device = next(iter(snapshot.by_backend("cuda")), None)
+                cuda_device = next(iter(self._resolved_cuda_devices(snapshot)), None)
 
                 # CUDA-preferred mode creates only one numerical lane: CUDA when available,
                 # otherwise CPU. The host remains responsible for GUI,
@@ -1423,7 +1440,7 @@ class ExperimentWorker(QThread):
                             # 1) Saturate compatible CUDA lanes first. This selection
                             # happens before any new CPU job is considered in this scheduling cycle.
                             if accelerators_enabled:
-                                for device in prioritized_accelerators(snapshot):
+                                for device in self._resolved_cuda_devices(snapshot):
                                     if not accelerator_admission_allowed(
                                         device,
                                         active_by_device.get(device.device_id, 0),
@@ -1944,6 +1961,9 @@ class ExperimentWorker(QThread):
     def run(self) -> None:
         try:
             self.config.validate()
+            # Resolve before any campaign/task/database rows are created. Formal requests therefore
+            # fail closed with no partial campaign state when concrete CUDA cannot be identified.
+            self.config = resolve_config_for_entrypoint(self.config)
             from calo_rpd_studio.portfolio.planner import PortfolioPlanner
 
             portfolio_plan = PortfolioPlanner.plan(self.config, self.config.portfolio)

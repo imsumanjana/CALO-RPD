@@ -3,6 +3,7 @@
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from .seed_manager import SeedManager
 from .experiment_runner import run_single, failed_run_from_exception
+from calo_rpd_studio.compute.device_binding import resolve_config_for_entrypoint
 
 
 def _worker(args):
@@ -12,6 +13,7 @@ def _worker(args):
 
 def run_parallel_resilient(config):
     config.validate()
+    config = resolve_config_for_entrypoint(config)
     seeds = SeedManager(config.master_seed).generate(config.runs)
     jobs = [(config, a, ri, seeds[ri]) for ri in range(config.runs) for a in config.algorithms]
     done = []

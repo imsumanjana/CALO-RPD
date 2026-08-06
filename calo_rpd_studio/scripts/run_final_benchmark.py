@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+from dataclasses import replace
 import json
 from pathlib import Path
 
@@ -15,6 +16,7 @@ from calo_rpd_studio.benchmarking.campaign import (
 from calo_rpd_studio.benchmarking.freeze import verify_freeze_manifest
 from calo_rpd_studio.benchmarking.package import ScientificEvidencePackageBuilder
 from calo_rpd_studio.benchmarking.validation import validate_campaign
+from calo_rpd_studio.compute.device_binding import resolve_config_for_entrypoint
 from calo_rpd_studio.experiments.experiment_config import ExperimentConfig
 from calo_rpd_studio.experiments.experiment_runner import run_sequential_resilient
 from calo_rpd_studio.experiments.parallel_runner import run_parallel_resilient
@@ -44,6 +46,11 @@ def parser() -> argparse.ArgumentParser:
     command.add_argument("--population", type=int, default=50)
     command.add_argument("--seed", type=int, default=2026)
     command.add_argument("--workers", type=int, default=1)
+    command.add_argument(
+        "--device",
+        default="auto",
+        help="Concrete formal CUDA target: auto, cuda, or cuda:N (CPU is rejected).",
+    )
     command.add_argument("--cases", default="case30,case57,case118,case300")
     command.add_argument(
         "--studies",
@@ -79,6 +86,7 @@ def main() -> int:
         master_seed=args.seed,
         output_directory=args.output,
         parallel_workers=args.workers,
+        requested_compute_device=args.device,
     )
     if args.freeze_manifest:
         campaign.freeze_manifest = args.freeze_manifest
@@ -87,6 +95,9 @@ def main() -> int:
         raise SystemExit(verification.message)
 
     tasks = build_campaign(campaign, base_config=ExperimentConfig())
+    # Resolve every formal task before creating an output directory, manifest, experiment row, or
+    # task row. An unavailable/unidentified CUDA target therefore leaves no partial campaign state.
+    tasks = [replace(task, config=resolve_config_for_entrypoint(task.config)) for task in tasks]
     output = Path(args.output)
     output.mkdir(parents=True, exist_ok=True)
     manifest = write_campaign_plan(campaign, tasks, output / "campaign_manifest.json")

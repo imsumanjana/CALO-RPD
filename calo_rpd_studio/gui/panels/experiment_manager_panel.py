@@ -247,6 +247,13 @@ class ExperimentManagerPanel(WorkspacePage):
         self.execution_backend = QComboBox()
         self.execution_backend.addItem("Accelerated when available (recommended)", "cuda_preferred")
         self.execution_backend.addItem("CPU only", "cpu_only")
+        self.execution_purpose = QComboBox()
+        self.execution_purpose.addItem("Exploratory (recorded CPU restart allowed)", "exploratory")
+        self.execution_purpose.addItem("Formal evidence (CUDA required; no fallback)", "formal")
+        self.execution_purpose.setToolTip(
+            "Formal evidence fails before creating run records unless an identified NVIDIA CUDA "
+            "device is available. Exploratory work may make one fully recorded CPU restart."
+        )
         self.scientific_backend = QComboBox()
         self.scientific_backend.addItem(
             "PyTorch FP64 batched AC Newton-Raphson (CPU/CUDA)", "torch_fp64"
@@ -359,6 +366,7 @@ class ExperimentManagerPanel(WorkspacePage):
             ("Iteration safety limit", self.maxit),
             ("Master seed", self.seed),
             ("Compute mode", self.execution_backend),
+            ("Study purpose", self.execution_purpose),
         ]
         for index, (label, widget) in enumerate(fields):
             widget.setMinimumHeight(32)
@@ -584,6 +592,7 @@ class ExperimentManagerPanel(WorkspacePage):
         manager.busy.connect(self.on_busy)
         self.policy.currentIndexChanged.connect(self._controls)
         self.execution_backend.currentIndexChanged.connect(self._controls)
+        self.execution_purpose.currentIndexChanged.connect(self._controls)
         self.scientific_backend.currentIndexChanged.connect(self._controls)
         self.auto_batch_calibration.stateChanged.connect(self._controls)
         for widget in (
@@ -596,6 +605,7 @@ class ExperimentManagerPanel(WorkspacePage):
             self.workers,
             self.seed,
             self.execution_backend,
+            self.execution_purpose,
             self.scientific_backend,
             self.tensor_batch_size,
             self.batch_window,
@@ -715,6 +725,10 @@ class ExperimentManagerPanel(WorkspacePage):
         visible_backend = "cpu_only" if config.execution_backend == "cpu_only" else "cuda_preferred"
         backend_index = self.execution_backend.findData(visible_backend)
         self.execution_backend.setCurrentIndex(max(backend_index, 0))
+        purpose_index = self.execution_purpose.findData(
+            str(getattr(config, "execution_purpose", "exploratory"))
+        )
+        self.execution_purpose.setCurrentIndex(max(purpose_index, 0))
         scientific_index = self.scientific_backend.findData(
             getattr(config, "scientific_backend", "torch_fp64")
         )
@@ -793,6 +807,9 @@ class ExperimentManagerPanel(WorkspacePage):
         config.max_iterations = self.maxit.value()
         config.parallel_workers = self.recommended_workers
         config.execution_backend = str(self.execution_backend.currentData())
+        config.execution_purpose = str(self.execution_purpose.currentData())
+        config.requested_compute_device = "auto"
+        config.cuda_cpu_fallback_enabled = config.execution_purpose != "formal"
         config.scientific_backend = "torch_fp64"
         config.tensor_batch_size = self.tensor_batch_size.value()
         config.automatic_batch_calibration = self.auto_batch_calibration.isChecked()

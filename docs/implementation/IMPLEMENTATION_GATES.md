@@ -19,6 +19,21 @@ physical/external and scientific-campaign proof.
 - The requested audit Markdown is an analysis artifact, not proof that any implementation gate has
   passed.
 
+## User-directed phase execution protocol
+
+- Create a concrete phase-specific goal through the goal service before stating or starting each
+  numbered development phase. No phase source work begins before the goal exists.
+- Development turns are coding-only. The agent may write production code, test code, schemas,
+  documentation, and validation automation, but must not execute manual-capable tests or validation
+  unless the user later authorizes a specific named command.
+- At the end of each phase coding pass, prepare or update a detailed PowerShell validator inside the
+  Git-ignored `validation/` tree. The script must capture a new timestamped log directory, command
+  outcomes, relevant source hashes, and its own identity. The agent does not run it.
+- The user runs the validator and returns its complete log directory. The agent reviews that evidence
+  read-only, makes only evidence-backed corrections, and prepares the next manual rerun when needed.
+- Validators and their logs never enter Git, manifests, packages, container contexts, or release
+  artifacts. Keep commands and evidence reads narrowly scoped to reduce token use.
+
 ## Change classes
 
 ### Class A — behavior-preserving engineering
@@ -330,6 +345,34 @@ Latest verification evidence:
 - no executable XPU match remains outside the explicit historical view-only compatibility reader;
 - physical host CUDA parity/resource/recovery/thermal/power/GPU-board-energy evidence: **retained**;
   Docker image, container repetition, whole-system energy and WSL2/GUI evidence remain open.
+
+## v12 Phase 2 runtime-contract gate - 2026-08-06
+
+| Gate item | Source state | Evidence state |
+|---|---|---|
+| Pre-run resolution across GUI, direct, parallel, benchmark, and final campaign paths | Implemented | User validation pending |
+| Formal CUDA-required/no-fallback and exploratory explicit full-request CPU restart | Implemented | User validation pending |
+| Requested/physical/logical/runtime/actual device provenance and CUDA-claim exclusion | Implemented | User validation pending |
+| UUID-first physical lease, normalized PCI fallback, host scope, and queued contention | Implemented | User validation pending |
+| Safe-80 admission and request-versus-lifetime VRAM telemetry | Implemented | User validation pending |
+| Exact batch cardinality/identity before FE registration | Implemented | User validation pending |
+| Versioned partial-failure envelope with exact FE and checkpoint boundary | Implemented | User validation pending |
+| FP64 authority, CPU-only topology, active CUDA/CPU status, XPU view-only boundary | Implemented | User validation pending |
+
+The source suite and ignored `validation/Validate-Phase2.ps1` harness exist, but Codex did not run
+them. This table records implementation presence only. Phase 2 does not pass until the user's hashed
+manual validation run is reviewed; no policy or scientific-evidence command is part of that harness.
+
+The first retained manual run, `phase2-20260807-001858`, passed 13/15 commands. Its 23 dedicated
+Phase 2 contracts passed; the two failures were generated-schema property order and one stale
+pre-Safe80 error-message assertion in the affected regression set. Both source corrections are
+applied. The gate remains open pending a complete fresh manual rerun and evidence review.
+
+The corrected run, `phase2-20260807-003024`, passed 14/15 commands: generated schema, Ruff
+diagnostics, 23/23 Phase 2 contracts, and 44/44 affected regressions all passed. Ruff format alone
+reported mixed line endings in `tests/unit/test_v690_vram_residency.py`. The file is normalized to
+its established CRLF style without executing Ruff or tests. A new complete source-bound manual run
+is still required; the gate remains open.
 
 ## Invariants
 

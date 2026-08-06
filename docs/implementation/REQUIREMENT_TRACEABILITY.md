@@ -66,6 +66,33 @@ Status vocabulary:
 | PGLib/stress/OOD and cryptographically protected holdouts | Partial | Frozen case-role protocol and protected identities; three non-protected PGLib case14 groups now checksum-load from source and built wheel; protected import and ORPD conversion each fail closed without explicit test-only authorization | Complete reviewed ORPD profiles and execute the still-unopened protected final tests only after the full design freeze |
 | Publish complete code, policy, formulation, image, seeds, raw failures, validation and claim scope | Harness partial | Artifact verifier, package exclusions, manifests, policy/config hashes, CI uploads | Final qualified policy, opened results, image attestations, release freeze |
 
+## v12 Phase 2 runtime traceability - 2026-08-06
+
+| Requirement | Implementation evidence | Validation state | Remaining proof |
+|---|---|---|---|
+| Truthful formal/exploratory/CPU execution semantics | `compute/execution_contract.py`; config schema; GUI and CLI bindings | Source tests prepared; not run by Codex | User-run Phase 2 validator |
+| Mandatory concrete pre-run device resolution | `compute/device_binding.py`; experiment runner; parallel runner; GUI worker; benchmark CLIs | Source tests prepared; not run by Codex | User-run Phase 2 validator and later physical CUDA evidence |
+| Stable physical ownership and queueing | UUID/PCI identity; scoped `ExclusiveDeviceLease`; frozen resolved scheduler route | Source tests prepared; not run by Codex | User-run Phase 2 validator; later multi-process physical-device exercise |
+| Safe-80 and unambiguous VRAM telemetry | Availability-based admission; fixed 0.80 schemas; request/lifetime telemetry blocks | Source tests prepared; not run by Codex | User-run Phase 2 validator; later physical pressure evidence |
+| Exact FE/cardinality/identity accounting | Central `validate_batch_evaluations`; strict registration; normalized candidate identity | Source tests prepared; not run by Codex | User-run Phase 2 validator |
+| Partial-failure provenance and persistence | `calo-partial-run-failure-v2`; atomic existing failure transaction | Source tests prepared; not run by Codex | User-run Phase 2 validator and later injected integration evidence |
+| Current topology/status truth and XPU boundary | FP64 smoke authority; active Phase 2 status verifier; XPU execution rejection | Source tests prepared; not run by Codex | User-run Phase 2 validator |
+
+Phase 1 evidence `phase1-20260806-230256` is accepted. Phase 2 remains validation-pending and does
+not qualify any policy, protected case, hardware-performance claim, release candidate, or release.
+
+First Phase 2 evidence `phase2-20260807-001858` retained 13/15 passing commands, including 23/23
+dedicated Phase 2 contracts, complete 33/33 source-manifest coverage, 20/20 retained artifact hash
+matches, and no prohibited workflow execution. Generated-schema property order and one stale
+pre-Safe80 error-message expectation failed. Both source-only corrections are applied; a new full
+manual validator run is required before any row above may be accepted as validated.
+
+Second evidence `phase2-20260807-003024` retained 14/15 passing commands, 23/23 Phase 2 contracts,
+44/44 affected regressions, schema consistency, Ruff diagnostics, and 20/20 artifact hash matches.
+Its 34 source-manifest paths exactly covered the 34 captured changed paths. Ruff format alone found
+mixed line endings in the corrected VRAM regression file. That formatting is corrected; a fresh
+manual run must bind the updated status and governance documents before Phase 2 can be accepted.
+
 ## Current verification checkpoint
 
 - Active identity is now `12.0.0.dev1` / `12.0.0-dev.1`, stage `development`. Phase 1 source and

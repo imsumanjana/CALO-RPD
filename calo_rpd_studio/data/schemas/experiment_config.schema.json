@@ -432,6 +432,19 @@
       ],
       "default": "cuda_preferred"
     },
+    "execution_purpose": {
+      "type": "string",
+      "enum": [
+        "exploratory",
+        "formal"
+      ],
+      "default": "exploratory"
+    },
+    "requested_compute_device": {
+      "type": "string",
+      "pattern": "^(auto|cpu|cuda|cuda:[0-9]+)$",
+      "default": "auto"
+    },
     "scientific_backend": {
       "type": "string",
       "default": "torch_fp64"
@@ -488,9 +501,29 @@
       "type": "number",
       "default": 0.0001
     },
+    "runtime_assigned_physical_device": {
+      "type": "string",
+      "default": ""
+    },
+    "runtime_assigned_logical_device": {
+      "type": "string",
+      "default": "cpu"
+    },
     "runtime_compute_device": {
       "type": "string",
       "default": "cpu"
+    },
+    "runtime_fallback_policy": {
+      "type": "string",
+      "default": "unresolved"
+    },
+    "runtime_fallback_reason": {
+      "type": "string",
+      "default": ""
+    },
+    "runtime_device_resolution": {
+      "type": "object",
+      "default": {}
     },
     "throughput_engine_enabled": {
       "type": "boolean",

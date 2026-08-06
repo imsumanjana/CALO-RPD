@@ -529,6 +529,7 @@ class ORPDProblem:
             "scenario_count": len(self.scenarios),
             "constraint_components": constraint_components,
             "scenario_constraint_components": scenario_constraint_components,
+            "normalized_decision_vector": z.astype(float).tolist(),
         }
         evaluation = Evaluation(
             robust,

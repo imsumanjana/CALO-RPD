@@ -3,6 +3,7 @@
 from __future__ import annotations
 import argparse
 from pathlib import Path
+from calo_rpd_studio.compute.device_binding import resolve_config_for_entrypoint
 from calo_rpd_studio.experiments.experiment_config import ExperimentConfig
 from calo_rpd_studio.experiments.experiment_runner import run_sequential_resilient
 from calo_rpd_studio.experiments.parallel_runner import run_parallel_resilient
@@ -21,6 +22,29 @@ def parser():
     p.add_argument("--population", type=int, default=50)
     p.add_argument("--seed", type=int, default=2026)
     p.add_argument("--workers", type=int, default=1)
+    p.add_argument(
+        "--compute-mode",
+        choices=("cuda_preferred", "cpu_only"),
+        default=None,
+        help="Scientist-facing compute mode (defaults to the saved configuration).",
+    )
+    p.add_argument(
+        "--execution-purpose",
+        choices=("exploratory", "formal"),
+        default=None,
+        help="Formal requires identified CUDA and forbids CPU fallback.",
+    )
+    p.add_argument(
+        "--device",
+        default=None,
+        help="auto, cpu, cuda, or a concrete cuda:N runtime identifier.",
+    )
+    p.add_argument(
+        "--allow-cpu-fallback",
+        action=argparse.BooleanOptionalAction,
+        default=None,
+        help="Permit one explicit full-request CPU restart for exploratory CUDA-preferred work.",
+    )
     p.add_argument("--database", default="calo_rpd_results.sqlite")
     p.add_argument("--output", default="results_data")
     return p
@@ -41,7 +65,16 @@ def main():
             parallel_workers=a.workers,
         )
         config.budget.max_evaluations = a.budget
+    if a.compute_mode is not None:
+        config.execution_backend = a.compute_mode
+    if a.execution_purpose is not None:
+        config.execution_purpose = a.execution_purpose
+    if a.device is not None:
+        config.requested_compute_device = a.device
+    if a.allow_cpu_fallback is not None:
+        config.cuda_cpu_fallback_enabled = bool(a.allow_cpu_fallback)
     config.validate()
+    config = resolve_config_for_entrypoint(config)
     db = ResultDatabase(a.database)
     eid = db.create_experiment(config, collect_provenance())
     store = ResultStore(config.output_directory)

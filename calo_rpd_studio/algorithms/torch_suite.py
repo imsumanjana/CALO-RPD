@@ -17,7 +17,7 @@ import numpy as np
 from calo_rpd_studio.accelerated.device import reflect_unit_interval, resolve_device
 from calo_rpd_studio.orpd.feasibility_rules import better, sort_key
 
-from .base_optimizer import BaseOptimizer
+from .base_optimizer import BaseOptimizer, validate_batch_evaluations
 from .lshade import LSHADEOptimizer, constrained_improvement, positive_round
 
 
@@ -90,7 +90,10 @@ class TorchCanonicalOptimizer(BaseOptimizer):
             return []
         population = self._bounded(population[:remaining])
         if bool(getattr(self.problem, "device_resident_enabled", False)):
-            evaluations = list(self.problem.evaluate_population(population))
+            evaluations = validate_batch_evaluations(
+                population.detach().to("cpu").numpy(),
+                self.problem.evaluate_population(population),
+            )
             # The evaluator's single packed host transfer already carries the normalized vectors,
             # so no second population CUDA->CPU copy is needed for incumbent/provenance tracking.
             registered = []

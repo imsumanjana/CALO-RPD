@@ -413,7 +413,14 @@ class DeviceResidentORPDEvaluator:
             minimum_microbatch=int(getattr(problem, "cuda_minimum_microbatch", 1)),
             retain_outputs_on_device=True,
         )
-        self.vram_governor = VramResidencyGovernor(self.device, self.vram_policy)
+        self.vram_governor = VramResidencyGovernor(
+            self.device,
+            self.vram_policy,
+            physical_device_id=str(getattr(problem, "runtime_physical_device", "") or ""),
+            lease_host_scope=str(getattr(problem, "lease_host_scope", "") or ""),
+            lease_container_scope=str(getattr(problem, "lease_container_scope", "") or ""),
+            lease_cancel_callback=getattr(problem, "lease_cancel_callback", None),
+        )
         self._prepare_host_arrays()
         self._prepare_device_tensors()
         self._release_redundant_cuda_host_arrays()

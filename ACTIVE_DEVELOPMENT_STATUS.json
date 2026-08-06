@@ -5,8 +5,8 @@
   "display_version": "12.0.0-dev.1",
   "release_line": "12.0",
   "stage": "development",
-  "phase": 1,
-  "source_baseline_commit": "6c3a4647bb7a70bf57616e714f8e747f8b26c0ab",
+  "phase": 2,
+  "source_baseline_commit": "30e64500090567164ab3f536952c47ad8d45b31e",
   "source_identity_requirement": "Every retained evidence record must include the full Git commit and tracked clean or dirty state.",
   "release_candidate": false,
   "final_release": false,
@@ -19,9 +19,20 @@
     "cuda-preferred",
     "cpu-only"
   ],
+  "supported_execution_purposes": [
+    "exploratory",
+    "formal"
+  ],
+  "formal_execution_contract": "identified NVIDIA CUDA required; CPU fallback forbidden",
+  "exploratory_fallback_contract": "explicit full-request CPU restart with separate provenance and claim strata",
+  "safe_memory_admission_fraction": 0.8,
   "intel_xpu_executable": false,
   "policy_training_authorized_by_status": false,
   "policy_evaluation_authorized_by_status": false,
   "policy_activation_requires_separate_qualification": true,
-  "phase_1_validation": "not_executed_user_reserved"
+  "phase_1_validation": "accepted_phase1-20260806-230256_16_of_16_passed",
+  "phase_1_validation_policy_workflows_executed": false,
+  "phase_2_coding": "implemented_validation_pending",
+  "phase_2_validation": "failed_phase2-20260807-003024_formatting_corrected_rerun_pending",
+  "status_authority": "executed validation gate ledger plus current source-state ledger; unexecuted gates remain explicitly pending"
 }

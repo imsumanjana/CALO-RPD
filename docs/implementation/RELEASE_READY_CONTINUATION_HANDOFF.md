@@ -39,6 +39,23 @@ git log -1 --oneline --decorate
 The commit containing this file is the authoritative continuation point. Do not assume the old
 starting baseline is the current implementation state.
 
+### Required workflow for every remaining phase
+
+Before announcing or starting development for a numbered phase, create a phase-specific goal using
+the goal service. Then perform coding only. Source tests and validation automation may be written,
+but the agent must not execute tests, validators, compilation/schema/lint/type checks, builds,
+GUI/Docker smoke checks, benchmarks, campaigns, policy workflows, qualification, or protected cases
+when the user can run them manually. Only a later explicit instruction naming a particular command
+overrides this execution boundary.
+
+End each phase coding pass by preparing a detailed PowerShell validator under the Git-ignored
+`validation/` directory. The validator must produce a newly timestamped log tree with command
+results and source/validator hashes. Neither the validator nor its logs may be added to Git or any
+release artifact. Give the user its exact command, wait for the complete returned log directory,
+then review the evidence read-only and make focused corrections. Keep repository scans and output
+minimal to reduce token consumption. A phase is not validated merely because its code or validator
+exists.
+
 ## 2. Mandatory scientific approval boundary
 
 The user approved strengthening CALO in principle, but the exact architecture scope has not yet
@@ -736,6 +753,65 @@ The repository is release-ready only when all of the following are simultaneousl
 - The next action is user-run Phase 1 validation and return of the retained logs. Do not begin Phase
   2, policy training/evaluation, release-candidate versioning, or release production from this
   handoff without a new instruction and the appropriate gate authority.
+
+## 11. v12 Phase 2 coding handoff - 2026-08-06
+
+- Phase 1 manual evidence `phase1-20260806-230256` is accepted: 16/16 commands passed with complete
+  source and validator hashing and no policy/scientific campaign execution.
+- Phase 2 introduces one runtime-resolution record separating requested mode/device, physical
+  UUID-or-PCI identity, logical CUDA index, runtime device, fallback policy/reason, actual compute
+  device, lease scopes, Safe-80 admission, and CUDA-only claim eligibility.
+- Formal work is `cuda_preferred` plus `execution_purpose=formal`: identified NVIDIA CUDA is
+  required and CPU fallback is forbidden. Exploratory work may make only an explicit, fully
+  provenance-labelled full-request CPU restart. CPU-only is concrete `cpu`. Final campaigns are
+  formal and cannot opt down to CPU.
+- CUDA physical-device leases are UUID-first, PCI-controlled fallback, host-scoped, queued, and
+  separate from logical indices. Scheduler jobs remain bound to the device frozen before campaign
+  rows are created.
+- Batch cardinality and candidate identity are checked before FE registration. Partial failures
+  retain exact count, incumbent, constraints, convergence/numerical state, runtime/fallback state,
+  and checkpoint reference under a versioned schema.
+- Dense/capacity fallback paths now report actual CPU computation and cannot contribute to
+  CUDA-only timing, energy, parity, utilization, or equivalence claims. Active status keeps Intel
+  XPU nonexecutable; historical records remain readable only as legacy evidence.
+- Codex did not run tests, training, policy evaluation, qualification, benchmark, campaign, or
+  protected cases. The next action is strictly manual validation:
+
+  ```powershell
+  Set-Location 'C:\Users\User\Downloads\calo-rpd-studio-v1.0.0\calo-rpd-studio'
+  powershell -NoProfile -ExecutionPolicy Bypass -File .\validation\Validate-Phase2.ps1
+  ```
+
+- Return the complete new `validation/logs/phase2-YYYYMMDD-HHMMSS/` directory. Phase 2 and the
+  transition to Phase 3 remain blocked on review of that evidence and correction of any failures.
+
+### Phase 2 first-run correction checkpoint - 2026-08-07
+
+- Reviewed `validation/logs/phase2-20260807-001858`: 13/15 commands passed, all 23 dedicated Phase 2
+  contracts passed, and the affected runtime regressions reported 43 passed/1 failed.
+- Retained evidence integrity passed independently: 20/20 artifact hashes and 33/33 declared source
+  hashes matched, the validator identity matched, and no policy training/evaluation, qualification,
+  benchmark, campaign, or protected-case workflow was recorded.
+- Corrected the two failures without changing runtime semantics: reordered three generated-schema
+  properties to match the authoritative generator and updated the historical VRAM regression to
+  expect the Phase 2 Safe80 rejection message (`no greater than 0.80`).
+- Updated active development status to bind the failed run and state that corrections are applied
+  with a rerun pending. Codex did not execute tests or the validator while making these corrections.
+- The next legal action remains the same manual command above. Return the complete newly timestamped
+  Phase 2 log directory; do not begin Phase 3 until its evidence is reviewed and the gate closes.
+
+### Phase 2 second-run formatting correction - 2026-08-07
+
+- Reviewed `phase2-20260807-003024`: 14/15 commands passed. The corrected schema passed, all 23
+  Phase 2 contracts passed, and all 44 affected regressions passed.
+- All 20 retained artifact hashes matched; the 34-path manifest exactly covered the 34 captured
+  changed paths; validator size/hash matched; and no policy, qualification, benchmark, campaign,
+  or protected-case workflow executed.
+- The sole failure was Ruff format detecting mixed line endings in
+  `tests/unit/test_v690_vram_residency.py`. Normalized that file to its established CRLF style as a
+  mechanical source correction. No Ruff command, test, validator, or other validation was run.
+- Active status now binds this failed run as formatting-corrected/rerun-pending. Return a complete
+  fresh Phase 2 manual-validation directory before closing the gate or starting Phase 3.
 
 Until then, describe the branch as a modernization candidate with implemented harnesses and pending
 scientific/hardware qualification—not as a final release.

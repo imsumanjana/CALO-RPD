@@ -435,7 +435,7 @@ class ResultDatabase:
                     failure.message,
                     failure.traceback_text,
                     failure.evaluation_count,
-                    json.dumps(failure.numerical_state, allow_nan=True),
+                    json.dumps(failure.numerical_state, allow_nan=False),
                 ),
             )
         return failure_id

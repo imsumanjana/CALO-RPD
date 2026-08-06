@@ -62,6 +62,16 @@ def build_schema() -> dict[str, Any]:
         "enum": ["cuda_preferred", "cpu_only"],
         "default": "cuda_preferred",
     }
+    properties["execution_purpose"] = {
+        "type": "string",
+        "enum": ["exploratory", "formal"],
+        "default": "exploratory",
+    }
+    properties["requested_compute_device"] = {
+        "type": "string",
+        "pattern": r"^(auto|cpu|cuda|cuda:[0-9]+)$",
+        "default": "auto",
+    }
     properties["cuda_vram_budget_fraction"] = {
         "type": "number",
         "const": 0.8,

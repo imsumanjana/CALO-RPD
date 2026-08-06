@@ -171,6 +171,10 @@ class ExperimentConfig:
     output_directory: str = "results_data"
     parallel_workers: int = 1
     execution_backend: str = "cuda_preferred"
+    # The two scientist-facing modes remain cuda_preferred and cpu_only. Formal execution is a
+    # strict purpose layered over cuda_preferred and therefore cannot silently fall back.
+    execution_purpose: str = "exploratory"
+    requested_compute_device: str = "auto"
     scientific_backend: str = "torch_fp64"
     device_resident_execution: bool = True
     # v6.9: cap the CUDA process at 80% of physical VRAM while keeping all active
@@ -189,7 +193,17 @@ class ExperimentConfig:
     parity_violation_tolerance: float = 1e-6
     parity_voltage_tolerance: float = 1e-5
     parity_angle_tolerance_deg: float = 1e-4
+    # Runtime fields are populated by the mandatory pre-run resolver and retained separately from
+    # the user's requested mode/device.
+    runtime_assigned_physical_device: str = ""
+    runtime_assigned_logical_device: str = "cpu"
     runtime_compute_device: str = "cpu"
+    runtime_fallback_policy: str = "unresolved"
+    runtime_fallback_reason: str = ""
+    runtime_device_resolution: dict = field(default_factory=dict)
+    # Process-local validity marker. It is deliberately excluded from serialized configuration so
+    # a saved runtime assignment can never be trusted as a fresh pre-run resolution.
+    runtime_resolution_process_id: int = 0
     throughput_engine_enabled: bool = True
     persistent_accelerator_workers: bool = True
     cross_run_batching: bool = True
@@ -298,6 +312,21 @@ class ExperimentConfig:
                 "execution_backend must be cuda_preferred or cpu_only; legacy scheduler modes "
                 "must be loaded through ExperimentConfig.from_dict for migration"
             )
+        if str(self.execution_purpose) not in {"exploratory", "formal"}:
+            raise ValueError("execution_purpose must be exploratory or formal")
+        requested_device = str(self.requested_compute_device).strip().lower()
+        if "xpu" in requested_device:
+            raise ValueError("Intel XPU execution is historical/view-only")
+        if requested_device not in {"auto", "cpu", "cuda"} and not (
+            requested_device.startswith("cuda:") and requested_device.split(":", 1)[1].isdigit()
+        ):
+            raise ValueError(
+                "requested_compute_device must be auto, cpu, cuda, or a concrete cuda:N"
+            )
+        if self.execution_backend == "cpu_only" and requested_device not in {"auto", "cpu"}:
+            raise ValueError("CPU-only mode cannot request a CUDA runtime")
+        if str(self.execution_purpose) == "formal" and self.execution_backend != "cuda_preferred":
+            raise ValueError("Formal execution requires cuda_preferred mode")
         if self.scientific_backend not in {"torch_fp64", "cpu_reference"}:
             raise ValueError("scientific_backend must be torch_fp64 or cpu_reference")
         if self.scientific_backend == "cpu_reference" and self.execution_backend != "cpu_only":
@@ -389,6 +418,7 @@ class ExperimentConfig:
             return value
 
         payload = convert(asdict(self))
+        payload.pop("runtime_resolution_process_id", None)
         for field_name in LEGACY_EXECUTION_TUNING_FIELDS:
             payload.pop(field_name, None)
         return payload
@@ -413,7 +443,8 @@ class ExperimentConfig:
             # with availability-based memory admission, never percentage/share based scheduling.
             _reject_unknown_keys(
                 data,
-                _field_names(cls) | set(LEGACY_EXECUTION_TUNING_FIELDS),
+                (_field_names(cls) - {"runtime_resolution_process_id"})
+                | set(LEGACY_EXECUTION_TUNING_FIELDS),
                 "experiment",
             )
         objective_data = dict(data.get("objective", {}) or {})
@@ -561,6 +592,8 @@ class ExperimentConfig:
             output_directory=data.get("output_directory", "results_data"),
             parallel_workers=int(data.get("parallel_workers", 1)),
             execution_backend=execution_backend,
+            execution_purpose=str(data.get("execution_purpose", "exploratory")),
+            requested_compute_device=str(data.get("requested_compute_device", "auto")),
             scientific_backend=str(data.get("scientific_backend", "torch_fp64")),
             device_resident_execution=bool(data.get("device_resident_execution", True)),
             cuda_vram_budget_fraction=0.80,
@@ -574,7 +607,12 @@ class ExperimentConfig:
             parity_violation_tolerance=float(data.get("parity_violation_tolerance", 1e-6)),
             parity_voltage_tolerance=float(data.get("parity_voltage_tolerance", 1e-5)),
             parity_angle_tolerance_deg=float(data.get("parity_angle_tolerance_deg", 1e-4)),
+            runtime_assigned_physical_device=str(data.get("runtime_assigned_physical_device", "")),
+            runtime_assigned_logical_device=str(data.get("runtime_assigned_logical_device", "cpu")),
             runtime_compute_device=str(data.get("runtime_compute_device", "cpu")),
+            runtime_fallback_policy=str(data.get("runtime_fallback_policy", "unresolved")),
+            runtime_fallback_reason=str(data.get("runtime_fallback_reason", "")),
+            runtime_device_resolution=dict(data.get("runtime_device_resolution", {}) or {}),
             throughput_engine_enabled=bool(data.get("throughput_engine_enabled", True)),
             persistent_accelerator_workers=bool(data.get("persistent_accelerator_workers", True)),
             cross_run_batching=bool(data.get("cross_run_batching", True)),

@@ -8,9 +8,27 @@ that binding so a job labelled ``cuda:0`` cannot silently retain a CPU evaluator
 from __future__ import annotations
 
 from copy import deepcopy
+import os
 from typing import Any
 
 from calo_rpd_studio.continuation.runtime_binding import bind_exact_run_checkpoint
+from calo_rpd_studio.compute.execution_contract import (
+    execution_claim_eligibility,
+    resolve_execution,
+)
+
+
+def _apply_resolution(local, resolution) -> None:
+    payload = resolution.to_dict()
+    payload["claim_eligibility"] = execution_claim_eligibility(resolution)
+    local.runtime_assigned_physical_device = resolution.assigned_physical_device
+    local.runtime_assigned_logical_device = resolution.assigned_logical_device
+    local.runtime_compute_device = resolution.runtime_compute_device
+    local.runtime_fallback_policy = resolution.fallback_policy
+    local.runtime_fallback_reason = resolution.fallback_reason
+    local.runtime_device_resolution = payload
+    local.runtime_resolution_process_id = os.getpid()
+    local.cuda_cpu_fallback_enabled = bool(resolution.fallback_permitted)
 
 
 def bind_config_to_device(config, compute_device: str, item=None):
@@ -21,9 +39,10 @@ def bind_config_to_device(config, compute_device: str, item=None):
     CALO/TLBO entries used by continuation/ablation paths.
     """
 
-    device = str(compute_device or "cpu")
     local = deepcopy(config)
-    local.runtime_compute_device = device
+    resolution = resolve_execution(local, assigned_device=str(compute_device or ""))
+    _apply_resolution(local, resolution)
+    device = resolution.runtime_compute_device
     parameters = dict(local.algorithm_parameters)
     names = set(getattr(local, "algorithms", ()) or ())
     names.update(parameters)
@@ -31,6 +50,8 @@ def bind_config_to_device(config, compute_device: str, item=None):
     for name in sorted(names):
         values = dict(parameters.get(name, {}))
         values["execution_device"] = device
+        values["runtime_fallback_policy"] = resolution.fallback_policy
+        values["runtime_physical_device"] = resolution.assigned_physical_device
         if str(getattr(local, "scientific_backend", "cpu_reference")) == "torch_fp64":
             values["optimizer_backend"] = "torch"
         if name == "CALO":
@@ -39,6 +60,32 @@ def bind_config_to_device(config, compute_device: str, item=None):
         parameters[name] = values
     local.algorithm_parameters = parameters
     return bind_exact_run_checkpoint(local, item)
+
+
+def resolve_config_for_entrypoint(config, *, monitor=None):
+    """Return a copied configuration resolved before a CLI or direct runner starts."""
+
+    local = deepcopy(config)
+    if int(getattr(local, "runtime_resolution_process_id", 0)) == os.getpid() and dict(
+        getattr(local, "runtime_device_resolution", {}) or {}
+    ):
+        return local
+    resolution = resolve_execution(local, monitor=monitor)
+    _apply_resolution(local, resolution)
+    parameters = dict(local.algorithm_parameters)
+    for name in sorted(set(local.algorithms) | set(parameters) | {"CALO", "TLBO"}):
+        values = dict(parameters.get(name, {}))
+        values["execution_device"] = resolution.runtime_compute_device
+        values["runtime_fallback_policy"] = resolution.fallback_policy
+        values["runtime_physical_device"] = resolution.assigned_physical_device
+        if str(getattr(local, "scientific_backend", "cpu_reference")) == "torch_fp64":
+            values["optimizer_backend"] = "torch"
+        if name == "CALO":
+            values["inference_device"] = resolution.runtime_compute_device
+            values["policy_control_plane"] = "bound_to_assigned_runtime_v12"
+        parameters[name] = values
+    local.algorithm_parameters = parameters
+    return local
 
 
 def runtime_device_attestation(requested_device: str) -> dict[str, Any]:
@@ -104,6 +151,14 @@ def result_device_attestation(config, problem, result) -> dict[str, Any]:
     requested = str(getattr(config, "runtime_compute_device", "cpu"))
     runtime = runtime_device_attestation(requested)
     evaluator_device = str(getattr(problem, "device", "cpu"))
+    execution_provenance = (
+        dict(problem.execution_provenance())
+        if callable(getattr(problem, "execution_provenance", None))
+        else {}
+    )
+    actual_evaluator_device = str(
+        execution_provenance.get("actual_computation_device", evaluator_device)
+    )
     evaluator_context = getattr(problem, "device_context", None)
     evaluator_name = str(
         getattr(evaluator_context, "name", "CPU" if evaluator_device == "cpu" else "")
@@ -121,21 +176,42 @@ def result_device_attestation(config, problem, result) -> dict[str, Any]:
         else:
             optimizer_device = requested
     policy_device = str(metadata.get("policy_inference_device", ""))
+    resolution = dict(getattr(config, "runtime_device_resolution", {}) or {})
     return {
+        "execution_contract_schema": resolution.get("schema_version", "unresolved"),
+        "requested_mode": str(getattr(config, "execution_backend", "")),
+        "execution_purpose": str(getattr(config, "execution_purpose", "exploratory")),
+        "requested_device": str(getattr(config, "requested_compute_device", "auto")),
+        "assigned_physical_device": str(getattr(config, "runtime_assigned_physical_device", "")),
+        "assigned_logical_device": str(
+            getattr(config, "runtime_assigned_logical_device", requested)
+        ),
         "planned_device": requested,
         "runtime_probe": runtime,
-        "actual_evaluator_device": evaluator_device,
+        "actual_evaluator_device": actual_evaluator_device,
         "actual_evaluator_device_name": evaluator_name,
         "actual_optimizer_device": optimizer_device,
         "actual_policy_device": policy_device,
+        "fallback_policy": str(getattr(config, "runtime_fallback_policy", "unresolved")),
+        "fallback_reason": str(getattr(config, "runtime_fallback_reason", "")),
+        "runtime_fallback": execution_provenance,
+        "claim_eligibility": dict(resolution.get("claim_eligibility", {}) or {}),
         "binding_consistent": bool(
             runtime.get("tensor_probe_passed")
-            and evaluator_device == requested
+            and (
+                actual_evaluator_device == requested
+                or bool(execution_provenance.get("fallback_used", False))
+            )
             and (optimizer_device in {requested, "cpu_control_plane", "cpu_legacy_optimizer"})
             and (not policy_device or policy_device == requested)
         ),
-        "attestation_schema": 1,
+        "attestation_schema": 2,
     }
 
 
-__all__ = ["bind_config_to_device", "runtime_device_attestation", "result_device_attestation"]
+__all__ = [
+    "bind_config_to_device",
+    "resolve_config_for_entrypoint",
+    "runtime_device_attestation",
+    "result_device_attestation",
+]

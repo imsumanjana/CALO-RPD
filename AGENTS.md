@@ -17,6 +17,24 @@ These instructions apply to the entire repository unless a deeper `AGENTS.md` na
 
 ## Workflow
 - Follow `docs/implementation/IMPLEMENTATION_GATES.md` in order and keep the handoff and traceability ledger current.
+- Before stating or starting any numbered development phase, create a new phase-specific goal with
+  the goal service. Do not begin source implementation until that goal exists. If another goal is
+  unfinished, resolve it according to the goal-service rules before starting the new phase.
+- Phase work is coding-only unless the user explicitly authorizes named execution commands in a
+  later message. Implement required production code, test source, schemas, documentation, and
+  validation harnesses, but do not execute tests or validation that the user can run manually.
+- Do not run phase validators, pytest/tox/coverage, compile checks, schema checks, lint/format checks,
+  type checks, package/build smoke tests, GUI/browser smoke tests, Docker validation, benchmarks,
+  campaigns, policy training/evaluation, qualification, or protected-case workflows as part of
+  phase development. Give the user the exact manual command instead.
+- End every phase-development pass by creating or updating a detailed PowerShell validator under
+  the Git-ignored `validation/` directory. It must exercise the checks required for that phase,
+  create a newly timestamped detailed log directory, record command results and relevant source/
+  validator hashes, and remain absent from Git source, manifests, distributions, and release
+  artifacts. Do not run the validator; ask the user to run it and return the complete log directory.
+- Review user-returned validation logs read-only, make evidence-backed coding corrections, update the
+  same ignored validator when necessary, and request a fresh manual rerun. Minimize tool calls and
+  output to reduce token usage; avoid redundant scans or repeated evidence dumps.
 - Before semantic CALO changes, prove canonical-refactor parity against the frozen baseline.
 - Add unit, invariant, parity, ablation, falsification, leakage, fallback, and regression tests proportional to each change.
 - Keep protected cases out of training, tuning, reward design, and checkpoint selection.
