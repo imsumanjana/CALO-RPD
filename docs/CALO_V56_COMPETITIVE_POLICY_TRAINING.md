@@ -1,5 +1,13 @@
 # CALO-RPD v5.6 Competitive Multi-Branch Policy Training
 
+> **Historical v5.6 record only.** This document is not a current v12 or Phase 4 instruction.
+> Phase 4 performs development completion without policy training, evaluation, qualification,
+> activation, registration, or deletion. Old policies are non-final and excluded from candidate
+> selection and initialization. Any future policy-assisted route begins only after the development
+> freeze, separately authorized cleanup, and empty-store verification, and trains a completely new
+> A-E/F-off policy. Intel XPU and the historical branch/base-policy workflow described below are not
+> executable current modes.
+
 ## Scientific model
 
 CALO v5.6 treats each parallel PPO branch as an independent learning trajectory. Branch network

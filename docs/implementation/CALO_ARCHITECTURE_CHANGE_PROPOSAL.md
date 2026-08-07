@@ -6,6 +6,15 @@ authorized only behind an independent flag, disabled by default, and may be reta
 preregistered ablation and falsification evidence passes. This record does not itself claim that any
 component has been implemented or scientifically validated.
 
+**Current scheduling addendum (2026-08-07):** the A-E/F decision remains unchanged, but Phase 4 is
+development completion only and ends at a development freeze. It does not run policy training,
+evaluation, qualification, protected campaigns, registration, activation, or deletion. Existing
+policies are development-only, unqualified, inactive, non-final, and excluded from final-candidate
+selection and initialization. Their exact inventory and deletion require separate post-freeze user
+authorization. Any later policy-assisted route starts from an empty store and trains a completely
+new A-E/F-off candidate; a policy-free Phase 5 route is also valid. This addendum changes scheduling,
+not the approved scientific semantics or the historical implementation evidence below.
+
 **Implementation ledger:** Change A was subsequently extracted and passed the repository's seeded
 runtime/training, frozen optimizer snapshot/exact-budget, continuation, kernel-invariant and complete
 active-tree regression gates. Change B then added a distinct TSH-CALO ABI plus strict topology state

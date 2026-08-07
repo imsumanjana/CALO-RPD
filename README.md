@@ -5,6 +5,18 @@ release candidate or final release, its v12 final freeze and qualification gates
 historical v6.9 evidence does not qualify v12. Policy training, policy qualification,
 protected-case evaluation, and release production are separate gated workflows.
 
+Phase 4 completes the remaining production code, empty-policy behavior, integration surfaces,
+documentation, and development-freeze evidence only. Every existing policy is development-only,
+unqualified, inactive, non-final, and excluded from final-candidate selection and initialization.
+Phase 4 does not train, evaluate, qualify, activate, register, or delete policies. After the
+development freeze, old policies may be removed only through a separately authorized,
+inventory-first operation. Any later policy-assisted route must train an entirely new A-E/F-off
+policy from a clean policy store and qualify it independently; a policy-free Phase 5 route also
+remains valid.
+
+See [`docs/DOCUMENTATION_STATUS.md`](docs/DOCUMENTATION_STATUS.md) before using older release,
+training, audit, or validation documents as instructions.
+
 ## Historical release: v6.9.0
 
 **CALO-RPD Studio 6.9.0 — VRAM-Resident CUDA Data Plane** introduces an adaptive 80%-default CUDA VRAM ceiling while keeping the complete active CUDA-eligible ORPD and PPO numerical data plane resident on the accelerator. CPU remains the asynchronous control/persistence plane; it is removed from the Newton/backtracking hot loop and from per-minibatch PPO loss reads.
@@ -178,6 +190,10 @@ The v6.3 corrections remain:
 - queued branches do not silently spill to CPU.
 
 ## Protected compute architecture inherited from v6.0–v6.3
+
+The bullets in this subsection describe the v6 lineage. They are retained as release history and do
+not override the v12 Phase 4 empty-policy, CUDA-preferred/CPU-only, or development-freeze boundary
+stated at the top of this file.
 
 - Dashboard-first CPU/XPU/GPU mapping.
 - Safe-80 protected resource envelope.

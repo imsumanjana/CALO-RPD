@@ -8,10 +8,17 @@ Corrected Windows run `121530` is now accepted at 10/10; Linux xcb evidence rema
 not a release declaration,
 scientific qualification, policy approval, or authority to open protected cases.
 
+**Policy-development boundary:** All existing policies are development-only, unqualified, inactive,
+non-final, and excluded from release. Phase 4 performs coding and development validation only. It
+does not train, evaluate, qualify, register, activate, or delete a policy. Old-policy deletion and
+completely new A-E/F-off policy training occur only after the Phase 4 development freeze through
+separately authorized user-controlled actions.
+
 **Prepared:** 2026-08-06 (Asia/Calcutta)
 
 **Target release line:** CALO-RPD v12.0 onward. Phase 1 establishes the v12.0 development identity;
-Phase 4 may produce v12.0 release candidates; only Phase 5 may produce the final v12.0.0 release.
+Phase 4 produces a validated development freeze only; Phase 5 may produce v12.0 release candidates
+and, after every final gate passes, the final v12.0.0 release.
 Until the Phase 1 identity change is implemented and verified, use `post-v6.9 development` rather
 than claiming that the active tree is either the immutable v6.9.0 release or an already qualified
 v12 release.
@@ -24,7 +31,7 @@ metadata, documentation, evidence, distributions, containers, and Git tags:
 | Lifecycle stage | Python/PEP 440 version | Human-facing label | Permitted phase |
 |---|---|---|---|
 | Development | `12.0.0.devN` | `CALO-RPD v12.0.0-dev.N` | Phase 1 onward |
-| Release candidate | `12.0.0rcN` | `CALO-RPD v12.0.0-rc.N` | Phase 4 after its prerequisites pass |
+| Release candidate | `12.0.0rcN` | `CALO-RPD v12.0.0-rc.N` | Phase 5 after the post-development policy-scope decision |
 | Final release | `12.0.0` | `CALO-RPD v12.0.0` | Phase 5 only |
 | Compatible fixes after release | `12.0.Z` | `CALO-RPD v12.0.Z` | A later approved maintenance plan |
 | New compatible feature line | `12.Y.0` | `CALO-RPD v12.Y.0` | A later approved feature plan |
@@ -187,8 +194,8 @@ executed.
 - [x] Add a version-consistency verifier covering `pyproject.toml`, runtime version constants,
   package metadata, README, active status, CLI `--version`, GUI About, evidence headers, and
   container labels.
-- [x] Reserve `12.0.0rcN` for candidates that reach the Phase 4 release-candidate boundary; normal
-  Phase 1-3 development must not identify itself as an RC.
+- [x] Reserve `12.0.0rcN` for Phase 5 release candidates created only after the Phase 4 development
+  freeze and post-development policy-scope decision; Phase 1-4 development is not an RC.
 - [x] Reserve final `12.0.0` for Phase 5 after every final release acceptance criterion passes.
 - [x] Preserve all v6.9 freezes, reports, and manifests as immutable historical artifacts.
 - [x] Add an active-development status record that explicitly says the final freeze and release
@@ -537,108 +544,153 @@ infer a human screen-reader or scientist study.
 
 ---
 
-## Phase 4 — Fresh candidate, component evidence, and protected scientific qualification
+## Phase 4 — Production development completion, empty-policy hardening, and development freeze
 
 ### Goal
 
-After Phases 1-3 stabilize the contracts, produce one fresh A-E/F-off candidate and execute the
-frozen development, qualification, and protected scientific evidence in the legally permitted
-order.
+After Phases 1-3 stabilize the contracts, complete and harden the production implementation without
+training, evaluating, qualifying, registering, activating, or deleting any policy. Treat every old
+policy as development-only, unqualified, inactive, non-final, and excluded from release. End Phase 4
+with a source-bound development freeze that is ready for a separately controlled empty-policy
+cleanup and new-policy training process.
 
 ### Required work
 
-#### 4.1 Pre-candidate physical training gate
+#### 4.1 Complete the approved scientific and runtime implementation
 
-- [ ] Bind the exact clean source to the target NVIDIA device and environment.
-- [ ] Demonstrate dedicated VRAM allocation, batched counted contexts, zero CPU-CUDA inner-loop
-  transfers, zero hidden context solves, and greater-than-95% eligible CUDA event-time share under
-  the already declared gate.
-- [ ] If the physical gate fails, port the measured eligible remainder without changing scientific
-  semantics, then repeat it.
-- [ ] Do not infer whole-application utilization, throughput, benefit, energy, or thermal claims from
-  scoped event-time evidence.
+- [ ] Finish the approved A-E implementation against one canonical runtime/training transition
+  authority; keep F independently feature-gated, experimental, and disabled by default.
+- [ ] Preserve deterministic behavior, exact FE/scenario accounting, mixed-variable validity,
+  fail-closed nonconvergence, immutable resume identity, and protected-case isolation.
+- [ ] Complete whole-population counted-context batching, selected-device retention, and outer-boundary
+  materialization without hidden power-flow/context reruns or candidate-level CPU-CUDA loops.
+- [ ] Complete explicit CUDA-preferred and CPU-only execution behavior. Formal execution requires an
+  identified NVIDIA device and forbids fallback; exploratory fallback is a separately identified
+  full-request CPU restart.
+- [ ] Keep admission at no more than 80% of currently free VRAM or currently available RAM. Intel XPU
+  remains non-executable.
+- [ ] Implement every remaining unit, invariant, parity, failure, resume, fallback, leakage, and
+  regression contract required to prove the final development semantics without a trained policy.
 
-#### 4.2 Freeze and train one fresh candidate
+#### 4.2 Make the empty-policy state a supported first-class workflow
 
-- [ ] Freeze one new non-tuning training plan under the corrected source and analysis versions.
-- [ ] Enable approved A-E; keep F disabled and excluded from formal A-E evidence.
-- [ ] Bind exact source, code identity, cases, curriculum, seeds, hyperparameters, FE/scenario
-  budgets, runtime mode, dependency environment, and container identity.
-- [ ] Keep development and protected identities separate; do not use protected cases for training,
-  tuning, reward design, checkpoint selection, or calibration.
-- [ ] Train independently; retain interruptions, failures, exact resume, receipts, and raw artifacts.
-- [ ] Emit an immutable unqualified candidate only. Do not register or activate it.
+- [ ] Start the GUI and CLI safely when no policy artifacts, registrations, or active-policy records
+  exist.
+- [ ] Keep policy-dependent formal experiments visibly locked until one future policy is independently
+  qualified, registered, explicitly activated, immutable, checksum-valid, and ABI-compatible.
+- [ ] Keep non-policy configuration, result inspection, diagnostics, import/training preparation, and
+  lifecycle administration usable without silently fabricating or selecting a policy.
+- [ ] Reject missing, corrupt, incompatible, unqualified, inactive, or stale policy references with
+  an explicit explanation and deterministic safe fallback where the workflow legally permits it.
+- [ ] Preserve strict separation between training, qualification, registration, activation, and
+  experiment snapshot binding; none may trigger another automatically.
+- [ ] Ensure deleting or removing an old artifact cannot leave a dangling active registration or
+  cause an old policy to be regenerated, downloaded, selected, or reinterpreted.
 
-#### 4.3 Candidate-bound development gates
+#### 4.3 Complete production, container, package, and CI hardening
 
-- [ ] Run physical CPU/CUDA candidate equivalence with fallback forbidden.
-- [ ] Run the frozen A-E component matrix with paired equal-FE cells and independent validation.
-- [ ] Retain failed components and falsification outcomes as well as accepted evidence.
-- [ ] Remove or keep disabled any component that does not support its claimed incremental value.
-- [ ] Run the corrected development screening without changing thresholds after results are seen.
-- [ ] Proceed to formal eligibility only if every frozen prerequisite passes.
-- [ ] Never let screening issue a receipt or any campaign register/activate a policy.
+- [ ] Complete deterministic clean-install, migration, rollback, configuration, result, interruption,
+  cancellation, recovery, and corrupted-artifact behavior.
+- [ ] Complete wheel/sdist staging rules, installed-distribution entry points, package-data boundaries,
+  and checkout-independent execution without generating final release manifests early.
+- [ ] Complete CPU and NVIDIA CUDA container definitions with locked dependencies, non-root runtime,
+  read-only root, dropped capabilities, bounded temporary storage, persistent data, health, restart,
+  cancellation, and shared physical-device leases.
+- [ ] Complete trusted CI definitions for supported Python/OS lanes, packaged GUI rendering,
+  container/distribution checks, and self-hosted physical CUDA evidence where required.
+- [ ] Prepare noninteractive, source-bound manual validators for physical NVIDIA batching/VRAM,
+  CPU/CUDA evaluator parity, containers, packages, clean-machine behavior, and empty-policy startup.
+- [ ] Do not run policy training/evaluation, protected campaigns, scientific qualification, release
+  freezes, or public-claim generation as part of Phase 4 development or its validator.
 
-#### 4.4 Complete the scientific campaign
+#### 4.4 Prepare controlled old-policy removal without deleting anything
 
-- [ ] Populate only independently reviewed, checksum-bound ORPD profiles for external cases.
-- [ ] Execute disclosed mathematical-reference multistart/exhaustive comparisons and report negative
-  or infeasible results honestly.
-- [ ] Freeze training, validation, and protected identities cryptographically.
-- [ ] Freeze source, policy, analysis, containers, seeds, budgets, scenarios, and statistical plan
-  before opening protected cases.
-- [ ] Execute the runtime-enumerated comparator campaign under paired equal-FE conditions.
-- [ ] Report feasibility probability and violation distributions before objective comparisons.
-- [ ] Report paired effects, intervals, multiplicity-controlled tests, anytime outcomes, failures,
-  solver calls, wall time, RAM/VRAM, transfers, thermal, power, and scoped energy separately.
-- [ ] Do not pool CPU fallback and CUDA-only results or heterogeneous timing strata.
-- [ ] Independently validate retained final solutions and preserve raw arrays/failures.
-- [ ] Limit every claim to the tested cases, formulation, objectives, scenarios, budgets, devices, and
-  execution modes.
+- [ ] Implement a read-only inventory of old policy files, members, checkpoints, lineages, receipts,
+  registrations, active references, database rows, package inclusions, and exact SHA-256 identities.
+- [ ] Implement a dry-run removal plan that resolves every target, refuses paths outside the
+  designated policy store, and reports dependent database/application references.
+- [ ] Implement transactional deactivation/reference cleanup and a separate explicitly authorized
+  deletion action with an immutable deletion receipt. The deletion action is not executed in Phase 4.
+- [ ] Prove through source/package/container manifests that old policies and generated training data
+  cannot enter wheels, sdists, images, release archives, or default runtime state.
+- [ ] Use synthetic temporary fixtures for compatibility and removal tests; do not depend on an old
+  policy as the final scientific baseline, training initializer, or release artifact.
+- [ ] Preserve historical negative-evidence records without preserving an executable or activatable
+  policy artifact in the final release scope.
 
-#### 4.5 Candidate decision
+#### 4.5 Close development and create the source-bound development freeze
 
-- [ ] If any prerequisite or frozen criterion fails, retain the candidate as negative/unqualified
-  evidence and return to a new versioned plan; do not weaken thresholds or reinterpret results.
-- [ ] If all qualification criteria pass, issue a checksum-bound qualification receipt through the
-  independent lifecycle authority.
-- [ ] Registration and activation remain separate, explicit, audited human actions.
+- [ ] Close every Phase 1-4 development, runtime, GUI, empty-policy, physical-device, container,
+  package, migration, provenance, and traceability row with direct evidence or an explicit blocker.
+- [ ] Bind the exact source commit, dirty/clean state, schemas, dependencies, environment, supported
+  devices, container declarations, and validator identities.
+- [ ] Demonstrate that the development freeze contains no qualified/active/final policy and makes no
+  policy-benefit, scientific-superiority, protected-case, or final-release claim.
+- [ ] Freeze the application development interfaces required for later new-policy training:
+  A-E/F-off configuration, policy ABI, training environment, evaluator, decoder/repair behavior,
+  accounting, curriculum schema, receipt schema, and qualification authority boundaries.
+- [ ] Do not promote to `12.0.0rcN`, regenerate final release manifests, or call the tree release-ready
+  during Phase 4.
 
 ### Mandatory evidence
 
-- [ ] Exact candidate/source/container/dependency identities.
-- [ ] Physical device-equivalence report.
-- [ ] A-E component evidence and falsification rows.
-- [ ] Corrected statistical-analysis version and exact pair manifest.
-- [ ] Independent validation records for every retained final solution.
-- [ ] Complete failures, cancellations, fallback exclusions, and resource provenance.
-- [ ] Protected-campaign opening record and immutable raw evidence.
-- [ ] Qualification or negative decision with prohibited-claim boundary.
+- [ ] Exact source, schema, dependency, environment, package, container, and validator identities.
+- [ ] Development-only CPU/CUDA evaluator parity and physical batching/VRAM evidence, with claim scope.
+- [ ] Empty-policy GUI, CLI, database, migration, restart, and locked-workflow evidence.
+- [ ] Unit, invariant, fallback, leakage, resume, failure, package, container, and clean-machine evidence.
+- [ ] Old-policy inventory and dry-run removal report with no deletion performed.
+- [ ] Proof that distributions, images, manifests, and default runtime state exclude old/generated policies.
+- [ ] Explicit records that policy training/evaluation, qualification, protected cases, registration,
+  activation, and release publication were not executed.
+- [ ] Development-freeze decision with remaining external proof and prohibited-claim boundaries.
 
 ### Phase 4 exit gate
 
-Phase 4 is complete only when the exact candidate has passed all required development and protected
-gates under the corrected contracts, or has been retained as a final negative result with no release
-claim. Phase 5 can proceed only with a scientifically qualified candidate or an explicitly approved
-release scope that excludes policy-benefit claims and any unqualified policy artifact.
+Phase 4 is complete when the application implementation is source-bound, development-complete, and
+validated across its required engineering boundaries; empty-policy operation is safe; old policies
+are inventoried and excluded from release artifacts; controlled deletion is prepared but not
+executed; and no policy training/evaluation or qualification has occurred. Phase 4 produces a
+development freeze, not a trained policy, release candidate, or release.
+
+### Post-Phase 4 controlled policy transition — outside coding development
+
+After Phase 4 closes, and only under separate explicit user actions:
+
+1. review the exact old-policy inventory and dry-run removal plan;
+2. explicitly authorize deletion of the resolved old-policy targets and retain the deletion receipt;
+3. verify that the frozen application starts and behaves safely with an empty policy store;
+4. freeze a new A-E/F-off training and qualification plan against the Phase 4 development freeze;
+5. train a completely new policy without using old policy weights, activation state, qualification,
+   or evidence as the final candidate;
+6. independently evaluate and qualify that exact new policy without automatic registration or
+   activation; and
+7. choose the Phase 5 scope: include only the newly qualified checksum-bound policy, or approve a
+   policy-free release with no policy-benefit claim.
+
+Phase 5 cannot start until that post-development policy-scope decision is recorded. Training,
+evaluation, qualification, protected-case execution, deletion, registration, and activation are not
+performed by the Phase 4 coding agent or Phase 4 validator.
 
 ---
 
-## Phase 5 — Immutable candidate reproduction, packaging, and final release
+## Phase 5 — Clean release-scope reproduction, packaging, and final release
 
 ### Goal
 
-Produce one reproducible, clean, internally consistent release in which source, distributions,
-containers, evidence, metadata, manifests, documentation, and public claims bind to the same
-immutable commit.
+Produce one reproducible, clean, internally consistent release in which source, optional newly
+qualified policy, distributions, containers, evidence, metadata, manifests, documentation, and
+public claims bind to the recorded immutable identities and approved policy scope.
 
 ### Required work
 
-#### 5.1 Freeze the candidate
+#### 5.1 Freeze the release source and policy scope
 
-- [ ] Start from a clean clone of the exact approved candidate commit.
+- [ ] Start from a clean clone of the exact approved Phase 4 development-freeze commit.
+- [ ] Bind the recorded post-development decision to exactly one scope: a newly trained and qualified
+  policy with its own checksum, or a policy-free release with no policy-benefit claim.
 - [ ] Confirm no generated policies, checkpoints, lineages, result databases, logs, screenshots,
-  credentials, user data, caches, or publication exports are tracked or packaged.
+  credentials, user data, caches, publication exports, or old policy artifacts are tracked or
+  packaged. An explicitly included new qualified policy must use a separate immutable manifest.
 - [ ] Run the complete requirement audit and close every traceability row with direct evidence.
 - [ ] Promote the final accepted RC identity to `12.0.0` only after all Phase 5 prerequisites pass,
   and confirm v12.0.0 is consistent in code, package metadata, documentation, status, and artifacts.
@@ -646,7 +698,7 @@ immutable commit.
 #### 5.2 Build distributions
 
 - [ ] Create a previously absent staging directory.
-- [ ] Build exactly one wheel and one sdist from the clean candidate.
+- [ ] Build exactly one wheel and one sdist from the clean release source.
 - [ ] Install and test each distribution outside the checkout with checkout `PYTHONPATH` removed.
 - [ ] Verify all required CLI and GUI entry points from the installed wheel.
 - [ ] Generate separate immutable manifests for the source tree, wheel, and sdist.
@@ -659,19 +711,22 @@ immutable commit.
 - [ ] Run CPU without NVIDIA access and CUDA with exactly the selected GPU.
 - [ ] Verify non-root UID/GID, read-only root, dropped capabilities, no-new-privileges, bounded temp,
   persistent data, health, restart, cancellation, and shared physical-device leases.
-- [ ] Repeat final-candidate parity, memory pressure, staging, controlled fallback, recovery,
-  cancellation, soak, thermal, power, and scoped energy gates without extrapolation.
+- [ ] Repeat final-source parity, memory pressure, staging, controlled fallback, recovery,
+  cancellation, soak, thermal, power, and scoped energy gates without extrapolation. Run
+  policy-specific gates only when the approved scope includes the newly qualified policy.
 - [ ] Complete the supported WSL2/WSLg and target-laptop qualification record.
 
 #### 5.4 Run final CI and clean-machine reproduction
 
 - [ ] Run unit, invariant, parity, migration, GUI, accessibility, integration, regression,
-  scientific, container, distribution, and release-integrity suites for the exact candidate.
+  scientific, container, distribution, and release-integrity suites applicable to the exact approved
+  source and policy scope.
 - [ ] Run the compatibility Python/OS matrix.
 - [ ] Run trusted self-hosted physical CUDA jobs where required.
 - [ ] Retain installed-wheel GUI renders and interactive browser/client proof.
 - [ ] Reproduce wheel, sdist, CPU image, and CUDA image behavior on clean target systems.
-- [ ] Require all final artifact uploads and reports to include the exact candidate identity.
+- [ ] Require all final artifact uploads and reports to include the exact source identity and, when
+  applicable, the separate new-policy identity.
 
 #### 5.5 Generate final records and release
 
@@ -696,17 +751,21 @@ The release is ready only when all statements below are simultaneously true:
 - [ ] Statistical definitions, pairing, improvement orientation, AUC, and fallback method provenance
   are correct and versioned.
 - [ ] Exact FE/batch accounting and partial-failure provenance pass.
-- [ ] GUI, CLI, and final campaigns bind identical execution semantics.
+- [ ] GUI and CLI bind identical execution semantics; when policy/scientific campaigns are included
+  in the approved scope, those campaigns bind the same semantics.
 - [ ] Formal CUDA evidence contains no CPU fallback.
-- [ ] Every policy used by an experiment is qualified, active, immutable, checksum-valid, and
-  compatible, or deterministic baseline fallback is explicit.
-- [ ] F is disabled by default and excluded from A-E production qualification.
-- [ ] Protected evidence is frozen, independently validated, and leakage-free.
+- [ ] No old policy artifact is present. Every included policy is newly trained after the development
+  freeze, qualified, immutable, checksum-valid, compatible, and separately manifested; every use by
+  an experiment additionally requires explicit activation. Otherwise the approved release is
+  policy-free and makes no policy-benefit claim.
+- [ ] F is disabled by default and excluded from any new A-E production qualification.
+- [ ] Protected evidence is frozen, independently validated, and leakage-free when the approved
+  release scope includes scientific policy claims; otherwise exclusion is explicitly proven.
 - [ ] The modern GUI passes accessibility, terminology, responsive-layout, font/glyph, and packaged
   interaction gates.
 - [ ] Wheel, sdist, CPU image, and CUDA image contain no generated policy or user data.
 - [ ] Source, artifact manifests, image digests, SBOMs, metadata, documentation, and CI all bind to
-  one immutable candidate.
+  one immutable source identity plus, only when included, one separate qualified policy checksum.
 - [ ] Public claims are no broader than the exact retained evidence.
 
 ### Phase 5 exit gate
@@ -722,11 +781,11 @@ v12.0.0 final or release-ready.
 
 | Phase | Primary outcome | Blocks |
 |---|---|---|
-| 1. Identity and scientific correctness | Truthful `12.0.0.devN` identity and corrected, versioned qualification analysis | Fresh candidate training and formal evidence |
+| 1. Identity and scientific correctness | Truthful `12.0.0.devN` identity and corrected, versioned qualification analysis | Accurate later development and evidence |
 | 2. Runtime and provenance hardening | Concrete device binding, explicit fallback, exact FE/cardinality, physical leases, partial failures | Trustworthy hardware and campaign execution |
 | 3. Modern scientist GUI | Grouped navigation, modern Dashboard, compact inputs, progressive disclosure, accessibility | Final GUI/package qualification |
-| 4. Candidate and scientific evidence | Fresh A-E/F-off candidate, equivalence, ablations, protected campaign, independent decision | Release production |
-| 5. Immutable release | Clean distributions/images, final CI, manifests, SBOMs, metadata, documentation, authorization | Public release |
+| 4. Development completion and freeze | Final A-E/F-off-capable code, empty-policy safety, production hardening, old-policy removal preparation, validated development freeze | Post-development deletion and new-policy decision |
+| 5. Immutable release | Clean policy-free or newly-qualified-policy scope, distributions/images, final CI, manifests, SBOMs, metadata, documentation, authorization | Public release |
 
 ## 6. Required record updates after each phase
 

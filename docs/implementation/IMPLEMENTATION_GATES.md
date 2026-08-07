@@ -106,6 +106,28 @@ development branch and must not be regenerated before the final staged release a
 | G10 | Partially complete; mathematical-reference and A–E campaign implementations retained | Statistical corrections, honest claim boundaries, power-aware planning and a frozen-design preregistration protocol exist in `SCIENTIFIC_VALIDATION_PROTOCOL.md`. The runtime-enumerated 22-method campaign defaults to 98 initiated paired runs for 21 CALO-versus-comparator tests at effect 0.50, 95% power, Holm family control and 10% failures; pilot/simulation designs require an evidence SHA. case30/57 are validation replays, case118/300 are protected tests. Source-traceable L-SHADE 1.0.1, pinned pycma 4.4.4, official PGLib-OPF v23.07 validation assets and disclosed mathematical-reference adapters retain provenance, independent checks and protected-case refusal. The latest complete active suite is `638 passed, 63 skipped`; the new A–E campaign harness is not scientific evidence by itself. Human-reviewed external ORPD profiles, full multistart/reference execution, fresh-candidate accepted ablations, protected campaign execution and final qualification remain pending. |
 | G11 | Harness implemented; final candidate blocked on G9/G10 and CI | A fresh dedicated distribution stage must be absent before each build, preventing obsolete artifacts from entering the wheel/sdist manifest. Generated policy checkpoints, lineages and training metadata are excluded. The verifier now requires the mathematical-reference and packaged-GUI commands in both distributions. Clean `383e5bc` produced a verified 349-member wheel and 401-member sdist; the extracted wheel passed Linux GUI, PGLib and reference-CLI checks and a six-file manifest. The CPU smoke image generates its filesystem manifest from `/opt/calo`; CI is configured to upload staged distributions/rendering and CycloneDX SBOM. This is development packaging evidence, not the final candidate. Final CI execution, exact final image attestations/digests, clean-machine reproduction, requirement closure and release freeze still follow G9/G10. |
 
+### Current Phase 4 policy-development boundary — 2026-08-07
+
+The user has superseded the forward execution order implied by the G9-G11 remaining-proof text.
+Those rows continue to describe scientific capabilities and evidence that would eventually be
+required for a policy-bearing release, but candidate creation is no longer part of Phase 4.
+
+- Phase 4 is coding and development validation only: finish A-E/F-off-capable production source,
+  empty-policy behavior, runtime/CUDA/container/package/CI hardening, old-policy inventory and safe
+  deletion tooling, and a source-bound development freeze.
+- Every old policy is development-only, unqualified, inactive, non-final, and excluded from release.
+  It is not modified, trained, evaluated, qualified, registered, activated, or deleted in Phase 4.
+- Physical NVIDIA batching/VRAM and CPU/CUDA evaluator evidence may be collected as development
+  infrastructure evidence without creating or evaluating a trained candidate.
+- After Phase 4, deletion requires a separately reviewed exact inventory and explicit authorization.
+  Only after empty-policy verification may the user freeze a new A-E/F-off plan and train a completely
+  new policy against the development freeze.
+- G9/G10 candidate, ablation, screening, qualification, and protected-campaign execution is deferred
+  to that separately authorized post-development process. Phase 5 receives either one newly qualified
+  checksum-bound policy or an explicitly approved policy-free scope.
+- Phase 4 cannot start while the Phase 3 Linux xcb gate remains open, and its development goal must be
+  created before any Phase 4 source implementation begins.
+
 ### v12 Phase 1 correction — 2026-08-06
 
 - G10's earlier “locally verified” statistical wording is reopened for v12. Shared exact-keyed
@@ -446,6 +468,15 @@ Both Portfolio tree checks consume the complete 1054px viewport with zero
 unused/overflow width and no clipped column. This closes the Windows correction goal. Phase 3 and
 Phase 4 remain blocked only on the separate Linux xcb directory; Windows does not infer Linux or
 human acceptance.
+
+## Documentation and instruction alignment - 2026-08-07
+
+All 60 live `AGENTS.md` files have been audited under the root policy. Scoped instructions that can
+affect policy lifecycle, GUI, tests, containers, reports, data, training, CI, or implementation
+documentation now state the Phase 4 development-only boundary directly; copied `AGENTS.md` files in
+retained build/baseline artifacts were not modified. `docs/DOCUMENTATION_STATUS.md` identifies live
+instructions and classifies versioned/datestamped records as historical evidence. This documentation
+alignment does not start or pass Phase 4 and was not accompanied by any validation execution.
 
 ## Invariants
 

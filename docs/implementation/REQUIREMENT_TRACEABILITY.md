@@ -163,7 +163,10 @@ work is complete; the remaining Phase 3 proof is the separate Linux xcb director
   improvement was not significant after Holm correction (`p=0.052734375`) and its 95% interval
   crossed zero. No receipt, registration, activation, qualification, or policy-benefit claim exists.
 
-## Next legal implementation step
+## Historical candidate route - superseded on 2026-08-07
+
+The following route was the recorded next step before the development-first scheduling decision. It
+is preserved as immutable decision history and is no longer the current next action.
 
 The exact decision was recorded on 2026-08-03:
 
@@ -182,3 +185,25 @@ exceeds 95% CUDA work with dedicated VRAM and no inner transfer loop. Only after
 freeze a new non-tuning v5/campaign-v2 A–E/F-off plan and train one fresh candidate. On that exact
 candidate, execute physical device equivalence, the frozen A–E matrix and screening/formal eligibility
 without adapting thresholds or opening protected cases. Change F remains excluded and disabled.
+
+## Current development-first policy boundary - 2026-08-07
+
+The preceding candidate-related rows retain the scientific evidence requirements and immutable
+negative history, but their execution timing is superseded by the user's development-first decision:
+
+- Phase 4 completes and validates production source with no policy training/evaluation or candidate
+  qualification. It must support a safe empty policy store and exclude old/generated policies from
+  packages, containers, manifests, and release state.
+- Old policies are development-only, unqualified, inactive, non-final, and barred from reuse as the
+  final candidate, training initialization, qualification evidence, or release artifact.
+- Phase 4 prepares a checksum-bound inventory and dry-run removal mechanism but performs no deletion.
+- After the Phase 4 development freeze, explicit user authorization is required to delete old
+  policies. Empty-policy behavior is then verified before a new A-E/F-off plan is frozen.
+- Training, candidate equivalence, A-E component evidence, screening, qualification, and protected
+  scientific campaigns apply only to a completely new post-development policy and remain outside the
+  Phase 4 coding goal and validator.
+- Phase 5 may package only that newly qualified policy, under a separate checksum identity, or an
+  explicitly approved policy-free scope with no policy-benefit claim.
+- `docs/DOCUMENTATION_STATUS.md` is the current routing index. Versioned reports, dated audits,
+  prior release validation, and copied build/baseline Markdown remain historical records and cannot
+  override this boundary or qualify current v12 source.

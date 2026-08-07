@@ -14,32 +14,31 @@ Select any subset of the registered primary methods. Method settings are saved w
 
 ## 4. CALO Intelligence
 
-Inspect the active CALO Core v2 policy checksum and metadata. A legacy CALO policy checkpoint is rejected because the v1.2.0 policy architecture has a different constraint-aware state and hierarchical output structure.
+During the v12 development line, CALO Intelligence is a policy-lifecycle and readiness surface. The
+supported default is an empty policy store with explicit safe fallback. Existing policy files, if
+present, are development-only, unqualified, inactive, non-final, and must not be used as final
+candidates or as initial weights for a later policy.
 
-The page exposes reproducible PPO training controls for:
+Phase 4 is development completion only. The page may expose configuration and lifecycle metadata
+needed to complete and inspect the implementation, but Phase 4 does not run policy training,
+evaluation, qualification, registration, activation, or protected-case campaigns. Policy-dependent
+actions must remain visibly unavailable when no separately qualified and explicitly activated policy
+exists. Non-policy CALO development and baseline workflows must remain usable through the declared
+safe fallback.
 
-- epochs;
-- episodes per epoch;
-- episode horizon;
-- seed;
-- learning rate;
-- discount factor;
-- GAE lambda;
-- PPO clip ratio;
-- PPO update epochs;
-- minibatch size;
-- training population size;
-- PPO learner device;
-- weighted heterogeneous or legacy rollout mode;
-- CUDA, Intel XPU, and CPU rollout-transition shares;
-- CPU actor-worker count;
-- optional comma-separated ORPD development case paths for the final curriculum stage.
+Executable compute modes are **CUDA-preferred** and **CPU-only**. CUDA admission is bounded by at
+most 80% of currently free VRAM, while CPU admission is bounded by at most 80% of currently available
+RAM. Intel XPU may appear only as historical or diagnostic metadata; it is not an executable mode.
 
-The default weighted plan requests 50% CUDA, 30% XPU, and 20% CPU episodes. With 12 episodes this becomes 6, 4, and 2 episodes respectively. The GUI reports the effective allocation when a device is unavailable. All lanes receive one synchronized policy snapshot, and PPO updates only after all current-policy trajectories arrive.
+After the Phase 4 development freeze, removal of old policies is a separate, explicitly authorized
+inventory-first operation. Only after the policy store is verified empty may a completely new
+A-E/F-off policy be trained. That new artifact remains an unqualified candidate until it passes the
+separate qualification, registration, activation, and immutable experiment-binding gates. F remains
+experimental, independently feature-flagged, and disabled by default. A policy-free Phase 5 route is
+also valid.
 
-The training environment uses the same Core v2 operator and selection modules used at runtime. Development cases are recorded in checkpoint metadata and should remain separate from final publication benchmark systems. Weighted training saves a candidate checkpoint under a new filename; validate and re-freeze it before final TEST use.
-
-The CALO ablation study is separate from the primary benchmark and currently contains nine fixed variants.
+The CALO ablation study remains separate from the primary benchmark. Its scientific execution is not
+part of Phase 4 development.
 
 ## 5. Robust Scenarios
 

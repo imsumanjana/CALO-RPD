@@ -6,3 +6,7 @@
 - One canonical transition authority must govern runtime and training.
 - Count every evaluator/repair call; preserve exact resume and deterministic intervention replay.
 - Each retained component must pass preregistered paired-seed ablation and falsification criteria.
+- Phase 4 completes A-E/F-off-capable source and development contracts only; do not create, train,
+  evaluate, or qualify a candidate during the phase.
+- Old policies are not final baselines or initializers. Candidate/component scientific evidence is
+  deferred to a completely new policy trained after the development freeze.

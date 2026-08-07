@@ -907,8 +907,9 @@ scientific/hardware qualification—not as a final release.
 - Codex did not execute a test, compile, Ruff command, render, validator, GUI interaction, policy or
   scientific workflow, benchmark, qualification, campaign, or protected case. The user must run
   and return both new evidence directories. Automated evidence does not infer human acceptance.
-- Phase 4 remains blocked until both directories pass review. Its fresh candidate/protected
-  scientific work also remains outside the current no-training/no-evaluation authority.
+- Phase 4 remains blocked until both directories pass review. At this historical checkpoint its
+  design still contained fresh-candidate/protected work; section 19 supersedes that forward plan
+  with coding-only development completion and a separate post-development policy transition.
 
 ## 15. Phase 3 remaining-gate failure corrected; validation made noninteractive - 2026-08-07
 
@@ -1008,3 +1009,44 @@ scientific/hardware qualification—not as a final release.
   not infer Linux rendering or human acceptance.
 - Codex did not rerun tests or validation after recording acceptance. The next user-executed Linux
   xcb lane must bind the post-evidence ledger identities with current source.
+
+## 19. Phase 4 redesigned as policy-free development completion - 2026-08-07
+
+- The user directed that no old policy is final and that all old policies will be deleted after
+  development before a completely new policy is trained. Old policies are therefore development-only,
+  unqualified, inactive, non-final, and excluded from release; they are not reused as weights,
+  qualification evidence, activation state, or a final baseline.
+- The Phase 4 design now ends at a validated development freeze. It covers final A-E/F-off-capable
+  code, canonical semantics/accounting, empty-policy GUI/CLI/database behavior, CUDA/runtime,
+  containers, packages, CI, clean-machine behavior, old-policy inventory, and safe dry-run removal
+  tooling. It executes no policy training/evaluation, qualification, protected campaign, deletion,
+  registration, activation, or release operation.
+- Post-Phase 4 actions are separately authorized and user-controlled: approve the exact deletion
+  inventory, delete old policies with a receipt, verify empty-policy behavior, freeze a new training
+  plan against the completed source, train and qualify a completely new policy, and select either a
+  newly-qualified-policy or policy-free Phase 5 release scope.
+- Phase 5 now owns both RC and final identities and must contain no old policy. Any included new policy
+  has a separate immutable checksum/manifest; otherwise the release is explicitly policy-free and
+  makes no policy-benefit claim.
+- This decision supersedes the forward scheduling in older handoff sections that placed fresh
+  candidate training inside the next phase. Those sections remain historical evidence of the earlier
+  plan. Phase 3 Linux xcb evidence remains the only prerequisite before a Phase 4 goal may be created.
+
+## 20. Live instruction and Markdown alignment - 2026-08-07
+
+- All 60 live `AGENTS.md` files were read and checked against the new Phase 4 boundary. Relevant
+  scoped files were updated; the 60 copies retained inside baseline and wheel-smoke artifacts were
+  deliberately preserved as historical evidence.
+- The 252-file Markdown inventory, including the new status index, was reviewed by role.
+  Current-facing guidance was synchronized;
+  dated audits, versioned reports, patch notes, release validation, and artifact copies were not
+  rewritten as current proof.
+- `docs/DOCUMENTATION_STATUS.md` is now the routing index. It points continuations to the active log,
+  gates, v12 five-phase plan, handoff, and traceability ledger before older documents.
+- Current README, user, architecture, reproducibility, container, portfolio, methodology, throughput,
+  scientific-protocol, and proposal text now state that Phase 4 is development-only, empty-policy is
+  supported, XPU is non-executable, old policies cannot be reused, and policy deletion/new training
+  are separately authorized post-freeze actions.
+- No test, validator, lint, formatting, compilation, schema, GUI, browser, Docker, package, policy,
+  scientific, protected-case, or release command was executed. Phase 4 has not started and no Phase
+  4 goal exists.

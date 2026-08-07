@@ -5,6 +5,12 @@ The repository provides two mutually exclusive runtime profiles built from the s
 - `cpu`: CPU PyTorch only. CUDA is hidden and startup fails if it is unexpectedly visible.
 - `cuda`: NVIDIA CUDA PyTorch. Startup fails unless the assigned GPU is available to PyTorch.
 
+**Phase 4 boundary:** container development and manual validation must prove clean empty-policy
+startup and must not package, download, generate, train, evaluate, qualify, register, activate, or
+delete any policy. Existing policy artifacts are non-final and excluded from images and release
+state. A future newly qualified policy, if Phase 5 includes one, requires a separate immutable
+manifest and is not part of the Phase 4 image contract.
+
 The Linux/amd64 Python 3.11 slim-bookworm base is pinned by OCI manifest digest. Runtime dependency
 graphs are separately resolved for CPU and CUDA 12.8 against Python 3.11/manylinux 2.28, with every
 distribution protected by SHA-256 and installation forced through `--require-hashes`.

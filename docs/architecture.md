@@ -1,5 +1,11 @@
 # CALO-RPD Studio Architecture
 
+**v12 development boundary:** this document describes implemented package and data-flow structure;
+the presence of policy-training or policy-runtime components is not authority to execute them during
+Phase 4. Phase 4 supports empty-policy operation and performs no policy training, evaluation,
+qualification, registration, activation, protected campaign, or deletion. Executable compute modes
+are CUDA-preferred and CPU-only. See `DOCUMENTATION_STATUS.md` for document precedence.
+
 CALO-RPD Studio separates the user interface, physical network model, ORPD formulation, optimization algorithms, CALO intelligence, robust scenarios, experiment execution, statistics, persistence, validation, visualization, and reporting.
 
 The dependency direction is intentionally one-way:

@@ -40,22 +40,25 @@ CALO Core v2 additionally records diagnostic histories, regime history, operator
 
 ## CALO policy
 
-The packaged CALO Core v2 checkpoint has adjacent JSON metadata containing:
+The v12 development line does not package or designate a final CALO policy. An empty policy store is
+a valid and required safe state. Existing policy files, if still present before the separately
+authorized post-freeze cleanup, are development-only, unqualified, inactive, non-final, and excluded
+from final-candidate selection, initialization, release evidence, and policy-assisted experiments.
 
-- training seed;
-- complete training configuration;
-- policy architecture dimensions;
-- curriculum stages;
-- training history;
-- explicit statement that final publication benchmark cases were not silently used for training.
+Phase 4 records and verifies empty-policy behavior but does not train, evaluate, qualify, register,
+activate, or delete a policy. After the development freeze, an exact inventory and explicitly
+authorized cleanup must precede empty-store verification. If the later release path uses a policy,
+it must be a completely new A-E/F-off artifact trained without old-policy weights. Its adjacent
+metadata must record the training seed and configuration, policy schemas and architecture,
+curriculum, training history, protected-asset exclusions, and artifact SHA-256. Qualification,
+registration, activation, and immutable experiment binding remain distinct gates. A policy-free
+release-validation path is also permitted.
 
-The checkpoint SHA-256 hash is stored in CALO result metadata. Final benchmark studies should freeze the selected checkpoint before execution. Changing the checkpoint creates a different experiment configuration.
+## Future policy-training reproducibility contract
 
-Legacy/incompatible CALO policy checkpoints may remain visible for provenance, but they cannot become the active runtime policy. Policy-assisted execution requires a current compatible policy schema, explicit activation, and immutable experiment SHA-256 binding.
-
-## PPO training reproducibility
-
-The policy trainer records all fields of `TrainingConfig`, including:
+This section defines the required record for a future, separately authorized post-development
+training workflow; it is not a Phase 4 execution instruction. The trainer must record all fields of
+`TrainingConfig`, including:
 
 - epochs and episodes;
 - horizon;
@@ -70,11 +73,19 @@ The policy trainer records all fields of `TrainingConfig`, including:
 - hidden dimension;
 - training population size.
 
-The Python, NumPy, and PyTorch random seeds are set from the declared training seed. The training environment records the current versioned policy state/action/training schemas. Candidate policies must still pass real-runtime qualification before scientific promotion.
+The Python, NumPy, and PyTorch random seeds are set from the declared training seed. The training
+environment records the current versioned policy state, action, training, reward, and transition
+schemas. It must also prove that the new run did not load or initialize from an old policy.
 
-In weighted heterogeneous mode, each PPO epoch records the requested CUDA/XPU/CPU shares, the effective integer episode allocation, the actor devices, and the policy-snapshot SHA-256 used by every lane. All actor trajectories must match the current snapshot before entering the PPO buffer. The update begins only after the synchronous CUDA, XPU, and CPU actors have completed. Configured shares refer to rollout episodes/transitions rather than measured hardware utilization.
+Executable modes are CUDA-preferred and CPU-only; Intel XPU is not executable. CUDA and CPU
+admission records must use no more than 80% of currently free VRAM or currently available RAM,
+respectively, and must distinguish requested allocation from measured utilization. Actor
+trajectories must bind to the exact current policy snapshot before entering an update buffer.
 
-Training produces candidate checkpoints without overwriting any registered policy artifact. CALO-RPD does not fabricate or silently choose a default neural policy; a candidate must be registered, qualified as required, explicitly activated, and immutably bound to an experiment before policy-assisted TEST execution.
+Training produces a new, unqualified candidate without overwriting or silently selecting a
+registered artifact. The candidate must pass the separately authorized real-runtime qualification,
+registration, explicit activation, and immutable experiment-binding gates before any
+policy-assisted TEST execution. F remains independently flagged and disabled by default.
 
 ## Raw data
 

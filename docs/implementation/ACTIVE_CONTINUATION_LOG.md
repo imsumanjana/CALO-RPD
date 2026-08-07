@@ -1292,3 +1292,64 @@ Append timestamped entries below this line after each material action, validatio
   performance, protected-case, release-candidate, or final-release claims.
 - No test or validation command was rerun after the post-evidence acceptance-ledger update. The next
   user-run Linux xcb lane will bind those ledger-only identity changes together with current source.
+
+### 2026-08-07 - Phase 4 redesigned around development completion; policies deferred
+
+- Recorded the user's controlling boundary: no old policy will be treated as final, reused as the
+  final candidate, trained, evaluated, qualified, registered, activated, or packaged. Old policies
+  remain development-only/unqualified/inactive until a separately authorized post-development
+  deletion action.
+- Replaced the training/qualification-oriented Phase 4 design with coding-only production completion:
+  final A-E/F-off-capable semantics, empty-policy operation, runtime/CUDA/container/package/CI
+  hardening, old-policy inventory and dry-run deletion tooling, and a source-bound development freeze.
+- Phase 4 explicitly prohibits policy training/evaluation, candidate creation, qualification,
+  protected campaigns, policy deletion, registration, activation, release-manifest generation, and
+  release claims. Its validator must be noninteractive, Git-ignored, and limited to development proof.
+- Added a separately controlled post-Phase 4 transition: review and authorize exact old-policy
+  deletion, verify an empty policy store, freeze a new A-E/F-off plan against the completed source,
+  train and independently qualify a completely new policy, then choose a newly-qualified-policy or
+  policy-free Phase 5 scope.
+- Updated Phase 5 to package no old policies and to bind one immutable source identity plus, only when
+  included, a separate newly qualified policy checksum. Phase 4 now produces no RC; Phase 5 owns RC
+  and final-release identities.
+- This was a design-only documentation/status update. Phase 4 did not start, no Phase 4 goal was
+  created, no policy file was deleted, and no test, validator, training, evaluation, qualification,
+  protected case, benchmark, container, packaging, or release command was executed.
+
+### 2026-08-07 - Repository instruction and Markdown alignment completed
+
+- Audited all 60 live `AGENTS.md` files and separated them from 60 copied instruction files under
+  retained baseline/wheel-smoke artifacts. The copied files remain immutable evidence; root and
+  relevant live scoped instructions now consistently enforce Phase 4 development-only work,
+  empty-policy fixtures, non-executable XPU, no old-policy reuse/deletion, and the separately
+  authorized post-freeze transition.
+- Reviewed the repository's 252 Markdown files by current/historical role, including the new status
+  index added by this alignment pass. Dated audits, versioned
+  implementation reports, patch notes, release validation, and built/baseline copies remain
+  historical evidence rather than being rewritten as current claims.
+- Added `docs/DOCUMENTATION_STATUS.md` as the routing and precedence index. Updated current-facing
+  README, user guide, architecture, methodology, reproducibility, container, portfolio, throughput,
+  scientific-protocol, and architecture-proposal documents. Ambiguous v5/v5.6/v6.9 operational
+  records now carry historical-status or current-scheduling notices.
+- Reclassified the old candidate-training paragraph in requirement traceability as a superseded
+  historical route. Current next work remains: obtain the separate Phase 3 Linux xcb evidence, then
+  create a Phase 4 goal before any Phase 4 source development.
+- This was instruction/documentation maintenance only. Phase 4 did not start; no goal was created;
+  no policy was changed or deleted; and no test, validator, lint, format, compile, schema, GUI,
+  container, packaging, training, evaluation, qualification, campaign, benchmark, protected-case,
+  or release command was executed.
+
+### 2026-08-07 - Separate Phase 4 and Phase 5 new-chat prompts prepared
+
+- Added `PHASE_4_NEW_CHAT_PROMPT.md` with a fail-closed Phase 3 prerequisite check, mandatory
+  phase-specific goal creation, the complete development/empty-policy/old-policy-removal-preparation
+  scope, coding-only restrictions, four-ledger updates, and a noninteractive ignored validator
+  handoff that Codex must not execute.
+- Added `PHASE_5_NEW_CHAT_PROMPT.md` with a strict Phase 4 and post-freeze transition start gate. It
+  cannot silently perform old-policy deletion, new-policy training/qualification, or the release
+  policy-scope decision; it accepts only an already recorded policy-free or exact newly-qualified-
+  policy scope.
+- The Phase 5 prompt separates release-engineering implementation from user-executed validation and
+  requires explicit authorization before tag, push, publication, or release.
+- Prompt drafting did not start either phase, create a phase goal, modify/delete a policy, or run a
+  test, validator, build, container, policy, scientific, protected-case, or release command.

@@ -1,5 +1,11 @@
 # Portfolio planning and resume model
 
+**v12 scheduling note:** the resume levels below describe the persistence contract, not permission
+to execute every workflow. During Phase 4, policy-training resume is disabled and old policies must
+not be resumed or used as initialization. Campaign, validation, and export execution also remain
+subject to the active implementation gates. Any future policy workflow starts with a completely new
+A-E/F-off policy after the development freeze and separately authorized empty-store transition.
+
 ## Planning
 
 Portfolio Manager converts requested evidence into a dependency graph. It checks minimum repeated runs, selected algorithms, benchmark blocks, robust scenarios, CALO diagnostics, accelerator records, independent validation, and required stored fields. The derived plan is authoritative for repeated-run count.
@@ -13,7 +19,9 @@ A run fingerprint includes the physical case/formulation, objective, constraints
 - **Campaign:** continue only unfinished algorithm/run jobs.
 - **Safe pause:** stop new admissions and wait for active jobs to commit.
 - **Emergency stop:** completed jobs remain; interrupted jobs restart from original seeds.
-- **Policy training:** restart from the last completed PPO epoch; partial on-policy rollouts are discarded.
+- **Historical policy training:** a same-lineage resume would restart from the last completed PPO
+  epoch and discard partial on-policy rollouts. This level is not available to old policies in the
+  v12 development/release route.
 - **Validation:** continue the remaining unverified IDs.
 - **Portfolio export:** reuse each completed artifact listed in the atomic manifest.
 

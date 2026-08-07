@@ -1,5 +1,12 @@
 # CALO-RPD v5.0 — Scientific Continuation Rules
 
+> **Historical v5.0 record only.** This document preserves prior scientific-continuation rules; it
+> is not a current v12 or Phase 4 instruction. Phase 4 completes development without policy training,
+> evaluation, qualification, activation, registration, or deletion. Old policies are non-final and
+> must not be resumed, promoted, or used to initialize the future release candidate. Any later
+> policy-assisted route starts from an explicitly verified empty store and trains a completely new
+> A-E/F-off policy; the policy-free Phase 5 route remains valid.
+
 ## Policy training
 
 1. An **exact resume** means the full saved training state is restored: model, optimizer, curriculum/history, RNG states and compatible scientific hyperparameters.

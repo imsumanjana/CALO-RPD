@@ -1,5 +1,11 @@
 # Batched Throughput Engine
 
+> **Historical v3.1 architecture record.** The CUDA/XPU/CPU policy-training allocation described
+> below is not current v12 Phase 4 guidance. Intel XPU is non-executable, and Phase 4 performs no
+> policy training or evaluation. Current executable modes are CUDA-preferred and CPU-only under the
+> 80%-of-currently-free/available admission ceilings. The comparative batching principles remain
+> design history unless a current implementation gate explicitly cites them.
+
 CALO-RPD Studio v3.1 accelerates comparative evaluation and CALO policy training without changing the scientific formulation.
 
 ## Comparative evaluation

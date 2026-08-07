@@ -1,5 +1,12 @@
 # CALO Methodology — Core v2
 
+> **Methodology record, not a Phase 4 policy instruction.** Core v2 and historical heterogeneous
+> training descriptions below are retained to document scientific semantics and prior behavior.
+> During v12 Phase 4, old policies are non-final and excluded; no training, evaluation,
+> qualification, activation, registration, protected campaign, or deletion is executed. Intel XPU
+> is non-executable. Any later policy-assisted path trains a completely new A-E/F-off policy only
+> after the development freeze, authorized cleanup, and empty-store verification.
+
 ## 1. Purpose
 
 The **Cognitive Adaptive Learning Optimizer (CALO)** is a search-state-aware optimization architecture for constrained, mixed-variable problems such as optimal reactive power dispatch. CALO Core v2 was designed to prevent the failure mode in which a population decreases aggregate constraint violation, collapses around one low-violation point, and then remains infeasible for the rest of the evaluation budget.

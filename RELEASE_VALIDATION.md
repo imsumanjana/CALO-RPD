@@ -1,5 +1,10 @@
 # CALO-RPD v6.9.0 Release Validation
 
+> **Immutable historical v6.9 validation record.** These results do not validate the v12 source,
+> Phase 4, a current policy, or current release readiness. Intel XPU references below report the old
+> v6.9 scope and do not make XPU executable in v12. Do not rerun or reinterpret this file as the
+> current validation plan.
+
 ## Status
 
 - Python compileall: **PASS**
