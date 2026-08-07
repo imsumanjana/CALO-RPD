@@ -5,7 +5,7 @@ from __future__ import annotations
 from copy import deepcopy
 import logging
 
-from PyQt6.QtCore import Qt, QTimer
+from PyQt6.QtCore import Qt, QTimer, pyqtSignal
 from PyQt6.QtWidgets import (
     QComboBox,
     QDoubleSpinBox,
@@ -26,6 +26,7 @@ from PyQt6.QtWidgets import (
 )
 
 from calo_rpd_studio.gui.widgets.section_card import MetricCard, SectionCard
+from calo_rpd_studio.gui.widgets.disclosure import DisclosurePanel
 from calo_rpd_studio.gui.widgets.workspace_page import WorkspacePage
 from calo_rpd_studio.experiments.study_strength import (
     StudyStrength,
@@ -49,22 +50,9 @@ def _bytes_text(value: int) -> str:
     return f"{amount:.1f} TiB"
 
 
-def _scrollable_tab(content: QWidget) -> QScrollArea:
-    """Wrap one dashboard tab in its own width-safe vertical scroll area."""
-    scroll = QScrollArea()
-    scroll.setObjectName("DashboardTabScroll")
-    scroll.setWidgetResizable(True)
-    scroll.setFrameShape(QScrollArea.Shape.NoFrame)
-    scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-    scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
-    scroll.setFocusPolicy(Qt.FocusPolicy.NoFocus)
-    content.setObjectName("DashboardTabContent")
-    content.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
-    scroll.setWidget(content)
-    return scroll
-
-
 class DashboardPanel(WorkspacePage):
+    workspace_requested = pyqtSignal(str)
+
     def __init__(self, state, parent=None) -> None:
         super().__init__(
             "Dashboard",
@@ -94,30 +82,49 @@ class DashboardPanel(WorkspacePage):
         self.dashboard_scroll.setWidget(self.dashboard_body)
         self.layout_root.addWidget(self.dashboard_scroll, 1)
 
-        metrics = QGridLayout()
-        metrics.setHorizontalSpacing(12)
-        metrics.setVerticalSpacing(12)
-        self.system_metric = MetricCard(
-            "System protection", "Scanning", "Automatic memory protection"
+        self.next_action_card = SectionCard(
+            "Next required action",
+            "The next legal scientific step is derived from the shared workflow state.",
         )
+        next_action_row = QHBoxLayout()
+        self.next_action_status = QLabel("Reviewing current study readiness")
+        self.next_action_status.setObjectName("NextActionStatus")
+        self.next_action_status.setWordWrap(True)
+        self.next_action_status.setAccessibleName("Next required scientific action")
+        self.next_action_button = QPushButton("Open next step")
+        self.next_action_button.setObjectName("PrimaryButton")
+        self.next_action_button.setAccessibleName("Open the next required scientific step")
+        self._next_workspace_key = "calo_intelligence"
+        self.next_action_button.clicked.connect(
+            lambda: self.workspace_requested.emit(self._next_workspace_key)
+        )
+        next_action_row.addWidget(self.next_action_status, 1)
+        next_action_row.addWidget(self.next_action_button)
+        self.next_action_card.layout_root.addLayout(next_action_row)
+        self.dashboard_body_layout.addWidget(self.next_action_card)
+
+        metrics = QGridLayout()
+        metrics.setHorizontalSpacing(16)
+        metrics.setVerticalSpacing(16)
+        self.data_metric = MetricCard("Data", "Needs review", "Select and validate a case")
+        self.system_metric = MetricCard("Compute", "Scanning", "Automatic memory protection")
         self.branch_metric = MetricCard(
             "Simultaneous tasks", "—", "Calculated from protected hardware capacity"
         )
-        self.policy_metric = MetricCard(
-            "CALO governing intelligence", "Not ready", "Qualified active policy required"
-        )
+        self.policy_metric = MetricCard("Policy", "Not ready", "Qualified active policy required")
         self.verified_metric = MetricCard(
-            "Verified results", "0", "Independent validation required for export"
+            "Validation", "0 verified", "Independent validation required for export"
         )
+        self.storage_metric = MetricCard("Storage", "Checking", "Local evidence availability")
         self.training_metric = MetricCard(
             "Policy training queue", "Idle", "Requested branches are queued when necessary"
         )
         metric_cards = (
+            self.data_metric,
             self.system_metric,
-            self.branch_metric,
             self.policy_metric,
             self.verified_metric,
-            self.training_metric,
+            self.storage_metric,
         )
         for index, card in enumerate(metric_cards):
             card.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
@@ -126,6 +133,12 @@ class DashboardPanel(WorkspacePage):
         for column in range(3):
             metrics.setColumnStretch(column, 1)
         self.dashboard_body_layout.addLayout(metrics)
+        activity_metrics = QHBoxLayout()
+        self.branch_metric.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        self.training_metric.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        activity_metrics.addWidget(self.branch_metric, 1)
+        activity_metrics.addWidget(self.training_metric, 1)
+        self.dashboard_body_layout.addLayout(activity_metrics)
 
         self.dashboard_tabs = QTabWidget()
         self.dashboard_tabs.setObjectName("DashboardTabs")
@@ -194,7 +207,10 @@ class DashboardPanel(WorkspacePage):
         study_tab_layout.setContentsMargins(10, 10, 10, 10)
         study_tab_layout.addWidget(study_setup)
         study_tab_layout.addStretch(1)
-        self.dashboard_tabs.addTab(_scrollable_tab(study_tab), "Study Setup")
+        # Compatibility controls remain instantiated for historical saved-state restoration and
+        # atomic protocol application tests, but the long form is no longer presented on the
+        # Dashboard. Study construction now lives in Experiment Manager's seven-step workflow.
+        self.legacy_study_setup = study_tab
 
         readiness = SectionCard(
             "System Readiness",
@@ -277,7 +293,7 @@ class DashboardPanel(WorkspacePage):
         readiness_tab_layout.setSpacing(0)
         readiness_tab_layout.addWidget(readiness)
         readiness_tab_layout.addStretch(1)
-        self.dashboard_tabs.addTab(_scrollable_tab(readiness_tab), "System Readiness")
+        self.dashboard_tabs.addTab(readiness_tab, "System Readiness")
 
         training_queue = SectionCard(
             "Policy Training Queue",
@@ -319,7 +335,7 @@ class DashboardPanel(WorkspacePage):
         training_tab_layout.setSpacing(0)
         training_tab_layout.addWidget(training_queue)
         training_tab_layout.addStretch(1)
-        self.dashboard_tabs.addTab(_scrollable_tab(training_tab), "Training Queue")
+        self.training_detail_content = training_tab
 
         context = SectionCard(
             "Scientific context",
@@ -365,9 +381,44 @@ class DashboardPanel(WorkspacePage):
         context_tab_layout.setSpacing(0)
         context_tab_layout.addWidget(context)
         context_tab_layout.addStretch(1)
-        self.dashboard_tabs.addTab(_scrollable_tab(context_tab), "Scientific Context")
+        self.dashboard_tabs.addTab(context_tab, "Scientific Context")
 
         self.dashboard_body_layout.addWidget(self.dashboard_tabs, 1)
+        self.activity_drawer = DisclosurePanel(
+            "View training and run activity details",
+            "Compact status remains above; expand this drawer for queued branches and recoverable progress.",
+            self.training_detail_content,
+        )
+        self.dashboard_body_layout.addWidget(self.activity_drawer)
+
+        recent = SectionCard(
+            "Recent work and evidence",
+            "A compact view of completed work, resumable items, failures requiring review, and retained validation.",
+        )
+        recent_grid = QGridLayout()
+        self.recent_labels: dict[str, QLabel] = {}
+        for index, name in enumerate(
+            (
+                "Active study",
+                "Recent experiments",
+                "Resumable work",
+                "Failures needing review",
+                "Evidence status",
+            )
+        ):
+            key = QLabel(name)
+            key.setObjectName("MetricLabel")
+            value = QLabel("—")
+            value.setObjectName("ContextValue")
+            value.setWordWrap(True)
+            self.recent_labels[name] = value
+            row, column = divmod(index, 2)
+            recent_grid.addWidget(key, row * 2, column)
+            recent_grid.addWidget(value, row * 2 + 1, column)
+        recent_grid.setColumnStretch(0, 1)
+        recent_grid.setColumnStretch(1, 1)
+        recent.layout_root.addLayout(recent_grid)
+        self.dashboard_body_layout.addWidget(recent)
 
         state.case_changed.connect(lambda _: self.refresh())
         state.config_changed.connect(lambda _: self.refresh())
@@ -386,6 +437,55 @@ class DashboardPanel(WorkspacePage):
         self._protection_timer.setInterval(2000)
         self._protection_timer.timeout.connect(self._sample_live_protection)
         self._protection_timer.start()
+
+    def set_next_action(
+        self,
+        title: str,
+        detail: str,
+        workspace_key: str,
+        enabled: bool,
+    ) -> None:
+        self._next_workspace_key = str(workspace_key)
+        self.next_action_status.setText(f"{title} — {detail}")
+        self.next_action_button.setText(f"Open {title}")
+        self.next_action_button.setEnabled(bool(enabled))
+        self.next_action_button.setToolTip(detail)
+        self.next_action_button.setAccessibleDescription(detail)
+
+    def refresh_recent_work(self) -> None:
+        current = str(getattr(self.state, "current_experiment_id", "") or "")
+        self.recent_labels["Active study"].setText(current or "No experiment selected")
+        try:
+            summary = self.state.database.history_storage_summary()
+            experiments = int(summary.get("experiments", 0) or 0)
+            runs = int(summary.get("runs", 0) or 0)
+            validations = int(summary.get("validations", 0) or 0)
+            failures = int(summary.get("failures", 0) or 0)
+            self.recent_labels["Recent experiments"].setText(
+                f"{experiments} retained study record(s) · {runs} completed run(s)"
+            )
+            self.recent_labels["Evidence status"].setText(
+                f"{validations} independent validation record(s)"
+            )
+            self.recent_labels["Failures needing review"].setText(
+                f"{failures} retained failure record(s)"
+            )
+            self.storage_metric.set_metric(
+                "Ready",
+                f"{experiments} study record(s) retained locally",
+            )
+        except Exception:
+            self.recent_labels["Recent experiments"].setText("History summary unavailable")
+            self.recent_labels["Evidence status"].setText("Evidence summary unavailable")
+            self.recent_labels["Failures needing review"].setText("Failure summary unavailable")
+            self.storage_metric.set_metric("Needs review", "Local history summary unavailable")
+        try:
+            unfinished = tuple(self.state.resume_service.unfinished())
+            self.recent_labels["Resumable work"].setText(
+                f"{len(unfinished)} item(s) available in Resume Center"
+            )
+        except Exception:
+            self.recent_labels["Resumable work"].setText("Resume summary unavailable")
 
     def _refresh_study_guidance(self) -> None:
         plan = study_strength_plan(str(self.study_strength.currentData()))
@@ -724,8 +824,10 @@ class DashboardPanel(WorkspacePage):
             self.labels["Governing policy"].setText(status.reason)
 
     def refresh(self) -> None:
+        self.refresh_recent_work()
         case = self.state.current_case
         if case:
+            self.data_metric.set_metric("Ready", case.name)
             metrics = summarize_case(case)
             self.labels["Power-system case"].setText(case.name)
             self.labels["Buses"].setText(str(metrics["buses"]))
@@ -734,6 +836,7 @@ class DashboardPanel(WorkspacePage):
             self.labels["Transformers"].setText(str(metrics["transformers"]))
             self.labels["Shunt buses"].setText(str(metrics["shunt_buses"]))
         else:
+            self.data_metric.set_metric("Needs review", "Select and validate a case")
             for name in (
                 "Power-system case",
                 "Buses",

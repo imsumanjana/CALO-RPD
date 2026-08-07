@@ -1111,3 +1111,122 @@ Append timestamped entries below this line after each material action, validatio
 - No validator, test, lint, formatter, compile, schema, benchmark, policy, campaign, qualification,
   or protected-case command was executed. The user must rerun `validation/Validate-Phase2.ps1` and
   return the complete new timestamped log directory before Phase 2 or transition to Phase 3 passes.
+
+### 2026-08-07 - Phase 2 accepted; Phase 3 scientist-GUI coding completed
+
+- Accepted the user-run `validation/logs/phase2-20260807-003828` evidence read-only: 15/15 commands,
+  23/23 Phase 2 contracts, and 44/44 affected regressions passed. All 20 retained artifacts, all 35
+  current source paths, and validator identity matched; no prohibited workflow was recorded.
+- Created the required goal before any Phase 3 source development. Its concrete scope is modern
+  scientist GUI coding, ledgers/traceability, and an unexecuted ignored manual validator.
+- Preserved all sixteen stable workspace keys and legacy migration behavior while implementing five
+  collapsible presentation groups: Home, Model, Study, Evidence, and System. Added persisted compact
+  navigation, persisted group state, SVG icons, Ctrl+K search, textual state badges, hidden locked
+  children, and accessible blocked-step explanations.
+- Reorganized the Dashboard around the next legal action, five readiness categories, active study
+  context, retained/recent/resumable/failure/evidence summaries, and progressive activity details.
+  The long protocol form is no longer visible on the Dashboard; compatibility methods remain atomic.
+- Added a single-scroll seven-step Study Setup in Experiment Manager, routing case, formulation,
+  algorithm, and scenario decisions to their authoritative panels and retaining existing budget,
+  audit, and launch controls without duplicating state. Advanced continuation and queue details are
+  collapsed by default.
+- Added a reusable compact-input/accessibility policy: ordinary text/select/scalar limits of
+  480/420/240px, a 900px Study Setup column, compact/comfortable 40/44px targets, form label buddies,
+  accessible names/descriptions, explicit long-text expansion, and structured integer chips.
+- Added named light/dark semantic tokens, consistent focus treatment, tabular scientific numerals,
+  8px-based spacing, and text labels so status is not communicated by color alone.
+- Added `validate_phase3_gui_render.py` and Phase 3 test source for grouping, migration, compactness,
+  accessibility, Dashboard separation, seven-step setup, semantic themes, glyph availability,
+  clipping, scale, and presentation-layer preservation of the accepted Phase 2 runtime contract.
+- Prepared ignored `validation/Validate-Phase3.ps1`. It dynamically hashes all changed/untracked
+  source, binds its own identity, records detailed command logs, and requests local light/dark
+  1280x720, 1440x900, 1920x1080, and 200%-scale renders. It explicitly records that Linux rendering
+  and scientist acceptance are separate pending evidence.
+- Codex did not run the validator, tests, renders, Ruff, compilation, schema, type checks, package
+  smoke tests, GUI/browser interaction, Docker, benchmarks, campaigns, policy workflows,
+  qualification, or protected cases. Phase 3 coding is complete; manual validation remains pending.
+
+### 2026-08-07 - Phase 3 first validation reviewed and corrections applied
+
+- Reviewed user-run `validation/logs/phase3-20260807-045558` read-only. It completed 18 commands:
+  11 passed and 7 failed. Compilation, Ruff diagnostics, active v12 identity, Git integrity/ignore
+  rules, and all 35 Phase 2 presentation regressions passed. The two GUI test groups totaled 60
+  passes and two formatting-sensitive assertion failures.
+- All four requested Windows offscreen renders failed safely. Qt could not discover a font in the
+  PyQt runtime; screenshots visibly contained tofu for ordinary Latin text. Each report recorded
+  zero compact-input violations, zero oversized editable long-text violations, and zero Unicode
+  replacement characters, but 1,344-1,380 missing-glyph instances and 4-7 clipping candidates.
+- Verified the 30-file source manifest against current source with zero mismatches and zero missing
+  paths. Of 47 retained evidence hashes, 34 readable durable artifacts matched; 13 pytest-temp
+  artifacts were inaccessible after the run, exposing a durability defect rather than an accepted
+  hash result. No policy, qualification, benchmark, campaign, or protected-case workflow ran.
+- Corrected the two brittle tests to use behavioral/AST contracts. Applied Ruff formatting as a
+  mechanical source rewrite to the twelve reported files; this was formatting, not a check.
+- Added license-safe runtime font resolution: native fonts are retained when usable; otherwise Qt
+  explicitly registers an existing Windows, Linux, or macOS system font. Font family, source,
+  registration, and validation-sample support are now retained in GUI evidence. No font file was
+  copied or redistributed.
+- Removed unsupported `font-variant-numeric` QSS, strengthened packaged-GUI font rejection, and
+  changed render failures to report separate glyph, replacement, clipping, compact-input, and
+  long-editor counts.
+- Upgraded the ignored validator source manifest to v2 with exact commit, dirty flag, Git-status
+  line count/hash, validator hash, and source-manifest hash in the final summary. Ephemeral
+  `pytest-temp` contents are explicitly excluded from durable evidence hashes.
+- Active status binds the failed run and records corrections as revalidation-pending. Codex did not
+  execute Ruff checks, pytest, compilation, rendering, the validator, policy workflows, benchmarks,
+  campaigns, qualification, or protected cases while correcting it.
+- Next action: manually rerun `validation/Validate-Phase3.ps1` and return the complete new
+  `validation/logs/phase3-YYYYMMDD-HHMMSS/` directory. Do not overwrite or reinterpret the failed
+  run. Linux rendering, keyboard interaction, and scientist acceptance remain separate open proof.
+
+### 2026-08-07 - Phase 3 Windows evidence accepted; remaining blockers corrected in tooling
+
+- Accepted `validation/logs/phase3-20260807-052047` read-only: all 18 commands passed, including
+  62 Phase 3/GUI tests, 35 Phase 2 regressions, current identity/compile/Ruff gates, and four
+  readable Windows light/dark/high-DPI render cells with zero glyph, replacement, clipping,
+  compact-input, or long-editor failures.
+- The run retained commit `00b8ee07a6d59c0d805d0c043c91ae5ea73d45d0`, dirty state, a 31-line
+  Git status and its hash, 34/34 durable evidence hashes, and 32/32 current source hashes. It
+  recorded no policy training/evaluation, qualification, benchmark, campaign, or protected case.
+- Updated active status and its exact source contracts so the accepted Windows run is no longer
+  misreported as pending. The failed `phase3-20260807-045558` record remains immutable history.
+- Added a tracked non-scientific all-workspace keyboard/accessibility evidence collector and enabled
+  explicit Linux xcb selection in the existing render CLI. The collector exercises presentation
+  controls only and records that it neither executes nor qualifies scientific or policy work.
+- Prepared ignored Windows and Linux remaining-gate validators plus detailed instructions. The
+  Windows lane combines current source checks with mandatory human keyboard, screen-reader, and
+  scientist attestations. The Linux lane uses xcb under Xvfb for light/dark dashboard and all-sixteen
+  workspace evidence. Both bind current source identity and retain detailed logs/hashes.
+- No test, validator, compiler, Ruff command, GUI interaction, render, policy/scientific workflow,
+  benchmark, qualification, campaign, or protected case was executed by Codex.
+- Next action: the user runs both commands documented in
+  `validation/PHASE3_REMAINING_VALIDATION.md` and returns both complete timestamped directories.
+  Phase 3 and Phase 4 remain blocked until both pass evidence review.
+
+### 2026-08-07 - Remaining Phase 3 clipping corrected; reviewer prompts removed
+
+- Reviewed `phase3-remaining-windows-20260807-092741` without rerunning it. The source-bound run
+  failed at 5/8 automated commands: three files required Ruff formatting and Results Explorer plus
+  Application Settings failed clipping in both light and dark/200% all-workspace cells.
+- Verified 45/45 durable hashes, 32/32 current source hashes, exact validator and Git-status hashes,
+  and no policy/scientific evaluation, benchmark, qualification, campaign, or protected case. The
+  supplemental Phase 2 rerun reported only the same formatting failure and does not reopen Phase 2.
+- Reorganized Results filters into a four-column labeled grid with a separate action row, preventing
+  the 193px `Open experiment workspace` action from shrinking to 113px. Replaced the Settings
+  database form row with a dedicated accessible, copyable, read-only full-width path field.
+- Made clipping records self-describing with displayed text, accessible name, tooltip, and actual/
+  preferred dimensions. Added source and focused behavior contracts for both responsive layouts.
+- Replaced the ignored Windows validator with a fully noninteractive v2 lane. It collects no
+  reviewer name, role, screen-reader declaration, PASS/FAIL selection, or evidence note. Objective
+  keyboard, semantic accessibility, contrast, clipping, glyph, input, scroll, terminology and render
+  checks are the only acceptance basis; human screen-reader/scientist acceptance is not inferred.
+- Updated repository instructions to prohibit interactive reviewer answers in future phase
+  validators. Preserved the failed run and its `screen_reader=NA` answers as invalid historical
+  evidence rather than carrying them forward.
+- Used Ruff format only as a mechanical rewrite: two files were formatted before it exposed an
+  invalid hyphenated test identifier; that identifier was corrected and the remaining file was
+  formatted. A final two-file GUI-test formatting pass changed nothing. No lint/format check or test
+  was executed.
+- No validator, test, compile, Ruff check, GUI render/interaction, policy/scientific workflow,
+  benchmark, qualification, campaign, or protected case was executed by Codex. Run the corrected
+  ignored Windows validator and return its complete timestamped directory before Linux xcb closure.

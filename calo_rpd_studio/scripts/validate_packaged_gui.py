@@ -30,6 +30,19 @@ _FORBIDDEN_VISIBLE_TEXT = (
 )
 
 
+class _TransientSettings:
+    """In-memory preferences keep a validation render isolated from desktop settings."""
+
+    def __init__(self) -> None:
+        self.values: dict[str, object] = {}
+
+    def value(self, key: str, default=None):
+        return self.values.get(key, default)
+
+    def set_value(self, key: str, value: object) -> None:
+        self.values[key] = value
+
+
 def _sha256(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as stream:
@@ -104,8 +117,8 @@ def validate_packaged_gui(
 
     from calo_rpd_studio.app.experiment_manager import ExperimentManager
     from calo_rpd_studio.app.main_window import MainWindow
-    from calo_rpd_studio.app.settings_manager import SettingsManager
     from calo_rpd_studio.app.state_manager import AppState
+    from calo_rpd_studio.gui.themes.runtime_fonts import ensure_application_font
 
     runtime = output / "runtime"
     runtime.mkdir(exist_ok=True)
@@ -113,11 +126,18 @@ def validate_packaged_gui(
     os.environ["XDG_CONFIG_HOME"] = str(runtime / "config")
     previous_cwd = Path.cwd()
     application = QApplication.instance() or QApplication([])
+    font_record = ensure_application_font(application)
+    if not font_record.supports_validation_sample:
+        raise RuntimeError("Packaged GUI could not resolve a font for ordinary scientific text")
     window = None
     try:
         os.chdir(runtime)
         state = AppState(runtime / "packaged-gui.sqlite")
-        window = MainWindow(state, ExperimentManager(state), SettingsManager())
+        settings = _TransientSettings()
+        settings.set_value("navigation/compact", False)
+        for group in ("Home", "Model", "Study", "Evidence", "System"):
+            settings.set_value(f"navigation/group/{group}", True)
+        window = MainWindow(state, ExperimentManager(state), settings)
         window.resize(1440, 900)
         window.show()
         # PyQt exposes qWait as a static method at runtime; its current stub incorrectly models an
@@ -161,6 +181,7 @@ def validate_packaged_gui(
             "qt_platform": str(application.platformName()),
             "qt_version": QT_VERSION_STR,
             "pyqt_version": PYQT_VERSION_STR,
+            "application_font": font_record.as_dict(),
             "window_title": window.windowTitle(),
             "workspace_count": len(window.pages_by_key),
             "initial_workspace": "dashboard",

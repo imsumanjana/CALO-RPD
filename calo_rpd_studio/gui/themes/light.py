@@ -448,7 +448,6 @@ LIGHT_STYLESHEET += r"""
 }
 #GlobalTaskElapsed {
     color: #64748b;
-    font-variant-numeric: tabular-nums;
 }
 #GlobalTaskProgress {
     min-height: 10px;
@@ -464,6 +463,92 @@ LIGHT_STYLESHEET += r"""
 """
 LIGHT_STYLESHEET += r"""
 #GlobalTaskState[taskState="cancelled"] { color: #7c5c16; }
+"""
+
+# Phase 3 semantic workspace, navigation, disclosure, and density tokens.
+LIGHT_STYLESHEET += r"""
+#WorkspaceSearch {
+    background: #f8fafc;
+    border-color: #dce4ef;
+    min-height: 28px;
+}
+#NavigationCompactButton, #NavigationGroupHeader, #DisclosureToggle {
+    color: #475569;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    padding: 6px 7px;
+    font-weight: 700;
+    text-align: left;
+}
+#NavigationCompactButton:hover, #NavigationGroupHeader:hover, #DisclosureToggle:hover {
+    color: #0f172a;
+    background: #f1f5f9;
+    border-color: #e2e8f0;
+}
+#NavigationGroupHeader {
+    color: #64748b;
+    font-size: 8.5pt;
+}
+#BlockedWorkspaceSummary {
+    color: #7c5c16;
+    background: #fffbeb;
+    border: 1px solid #fde7a7;
+    border-radius: 8px;
+    padding: 7px 9px;
+    font-size: 8.5pt;
+}
+#DisclosurePanel, #StudySetupWorkflow, #StudyLinkedStep {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+}
+#DisclosureSummary, #StudyStepProgress {
+    color: #64748b;
+}
+#StudySetupTitle {
+    color: #0f172a;
+    font-size: 16pt;
+    font-weight: 750;
+}
+#StudyStepButton {
+    color: #64748b;
+    background: #f8fafc;
+    border-color: #e2e8f0;
+    min-height: 36px;
+    padding: 6px 8px;
+}
+#StudyStepButton:checked {
+    color: #1d4ed8;
+    background: #eaf1ff;
+    border-color: #bfd3ff;
+}
+#NextActionStatus {
+    color: #1e3a8a;
+    font-size: 11pt;
+    font-weight: 700;
+}
+#InputChip {
+    color: #1d4ed8;
+    background: #eaf1ff;
+    border: 1px solid #cfe0ff;
+    border-radius: 8px;
+    padding: 2px 7px;
+    font-size: 8.5pt;
+}
+QPushButton:focus, QToolButton:focus, QLineEdit:focus, QComboBox:focus,
+QSpinBox:focus, QDoubleSpinBox:focus, QTextEdit:focus, QPlainTextEdit:focus,
+QTableView:focus, QTabBar::tab:focus {
+    border: 2px solid #2563eb;
+}
+#WorkspaceStack[interfaceDensity="compact"] QPushButton,
+#WorkspaceStack[interfaceDensity="compact"] QLineEdit,
+#WorkspaceStack[interfaceDensity="compact"] QComboBox,
+#WorkspaceStack[interfaceDensity="compact"] QSpinBox,
+#WorkspaceStack[interfaceDensity="compact"] QDoubleSpinBox {
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
 """
 
 # Compact plot editing tools and focused popup editors.

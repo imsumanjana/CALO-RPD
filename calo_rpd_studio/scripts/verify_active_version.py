@@ -61,14 +61,33 @@ def verify_active_version(root: Path = PROJECT_ROOT) -> dict:
         and status.get("policy_evaluation_authorized_by_status") is False
     )
     checks["active_status_runtime_contract"] = (
-        status.get("phase") == 2
+        status.get("phase") == 3
         and status.get("supported_execution_modes") == ["cuda-preferred", "cpu-only"]
         and status.get("supported_execution_purposes") == ["exploratory", "formal"]
         and status.get("intel_xpu_executable") is False
         and status.get("safe_memory_admission_fraction") == 0.8
         and status.get("phase_1_validation", "").startswith("accepted_")
-        and status.get("phase_2_validation")
-        == "failed_phase2-20260807-003024_formatting_corrected_rerun_pending"
+        and status.get("phase_2_validation") == "accepted_phase2-20260807-003828_15_of_15_passed"
+        and status.get("phase_3_coding") == "implemented_remaining_gate_corrections_rerun_pending"
+        and status.get("phase_3_initial_validation")
+        == "failed_phase3-20260807-045558_11_of_18_passed"
+        and status.get("phase_3_validation")
+        == "windows_local_baseline_accepted_automated_remaining_gate_pending"
+        and status.get("phase_3_corrections") == "implemented"
+        and status.get("phase_3_revalidation") == "accepted_phase3-20260807-052047_18_of_18_passed"
+        and status.get("phase_3_revalidation_policy_workflows_executed") is False
+        and status.get("phase_3_remaining_windows_validation")
+        == "failed_phase3-remaining-windows-20260807-092741_5_of_8_automated_passed"
+        and status.get("phase_3_remaining_windows_validation_policy_workflows_executed") is False
+        and status.get("phase_3_remaining_windows_corrections")
+        == "implemented_rerun_not_executed_user_reserved"
+        and status.get("phase_3_linux_rendering") == "not_executed_user_reserved"
+        and status.get("phase_3_keyboard_accessibility_acceptance")
+        == "automated_rerun_not_executed_user_reserved"
+        and status.get("phase_3_human_reviewer_input") == "disabled_by_user_instruction"
+        and status.get("phase_3_scientist_acceptance") == "not_inferred_automated_evidence_only"
+        and status.get("phase_3_overall_gate")
+        == "open_automated_windows_and_linux_evidence_pending"
     )
 
     index = _load_json(root / "STATUS_RECORD_INDEX.json")

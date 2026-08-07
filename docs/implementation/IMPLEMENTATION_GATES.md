@@ -350,14 +350,14 @@ Latest verification evidence:
 
 | Gate item | Source state | Evidence state |
 |---|---|---|
-| Pre-run resolution across GUI, direct, parallel, benchmark, and final campaign paths | Implemented | User validation pending |
-| Formal CUDA-required/no-fallback and exploratory explicit full-request CPU restart | Implemented | User validation pending |
-| Requested/physical/logical/runtime/actual device provenance and CUDA-claim exclusion | Implemented | User validation pending |
-| UUID-first physical lease, normalized PCI fallback, host scope, and queued contention | Implemented | User validation pending |
-| Safe-80 admission and request-versus-lifetime VRAM telemetry | Implemented | User validation pending |
-| Exact batch cardinality/identity before FE registration | Implemented | User validation pending |
-| Versioned partial-failure envelope with exact FE and checkpoint boundary | Implemented | User validation pending |
-| FP64 authority, CPU-only topology, active CUDA/CPU status, XPU view-only boundary | Implemented | User validation pending |
+| Pre-run resolution across GUI, direct, parallel, benchmark, and final campaign paths | Implemented | Accepted in `phase2-20260807-003828` |
+| Formal CUDA-required/no-fallback and exploratory explicit full-request CPU restart | Implemented | Accepted in `phase2-20260807-003828` |
+| Requested/physical/logical/runtime/actual device provenance and CUDA-claim exclusion | Implemented | Accepted in `phase2-20260807-003828` |
+| UUID-first physical lease, normalized PCI fallback, host scope, and queued contention | Implemented | Accepted in `phase2-20260807-003828` |
+| Safe-80 admission and request-versus-lifetime VRAM telemetry | Implemented | Accepted in `phase2-20260807-003828` |
+| Exact batch cardinality/identity before FE registration | Implemented | Accepted in `phase2-20260807-003828` |
+| Versioned partial-failure envelope with exact FE and checkpoint boundary | Implemented | Accepted in `phase2-20260807-003828` |
+| FP64 authority, CPU-only topology, active CUDA/CPU status, XPU view-only boundary | Implemented | Accepted in `phase2-20260807-003828` |
 
 The source suite and ignored `validation/Validate-Phase2.ps1` harness exist, but Codex did not run
 them. This table records implementation presence only. Phase 2 does not pass until the user's hashed
@@ -373,6 +373,51 @@ diagnostics, 23/23 Phase 2 contracts, and 44/44 affected regressions all passed.
 reported mixed line endings in `tests/unit/test_v690_vram_residency.py`. The file is normalized to
 its established CRLF style without executing Ruff or tests. A new complete source-bound manual run
 is still required; the gate remains open.
+
+Final Phase 2 evidence `phase2-20260807-003828` passed 15/15 commands. All 20 retained evidence
+hashes, all 35 source hashes, and validator identity matched at review; 23/23 Phase 2 contracts and
+44/44 affected regressions passed with no prohibited workflow. The Phase 2 runtime-contract gate is
+accepted.
+
+## v12 Phase 3 scientist-GUI gate - 2026-08-07
+
+| Gate item | Source state | Evidence state |
+|---|---|---|
+| Five grouped/collapsible navigation sections with stable keyed restoration | Implemented; first-run corrections applied | Windows-local contracts accepted; cross-platform interaction evidence pending |
+| Persisted compact/expanded rail, SVG icons, search, state badges, blocked explanations | Implemented; first-run corrections applied | Noninteractive keyboard/search/persistence collector prepared; rerun pending |
+| Next-action Dashboard with five readiness categories and recent/resumable/failure evidence | Implemented; formatting-independent contract applied | Windows render accepted; Linux and corrected all-workspace automation pending |
+| Seven-step Study Setup separated from the Dashboard | Implemented | Programmatic keyboard interaction rerun pending |
+| Bounded 240-480px controls, 900px study column, structured integer chips, expandable text | Results and Settings responsive corrections implemented | Corrected all-workspace clipping rerun pending |
+| Progressive disclosure for activity, continuation, queue, and advanced details | Implemented | Programmatic keyboard interaction rerun pending |
+| Named semantic light/dark tokens, 8px spacing, 40/44px density modes, focus visibility | Implemented; unsupported QSS removed | Windows light/dark/high-DPI accepted; token-contrast and Linux xcb evidence pending |
+| Accessibility names, form buddies, keyboard search/step navigation, non-color state text | Implemented | Noninteractive semantic/keyboard audit prepared; user execution pending |
+| Render/glyph/clipping evidence generator and ignored Phase 3 validator | Deterministic system-font registration and durable v2 manifests implemented | Windows run `phase3-20260807-052047` accepted; Linux xcb lane pending |
+
+Phase 3 run `phase3-20260807-045558` passed 11/18 commands and remains failed evidence. Its 60/62
+tests included two brittle source-text failures; all four render cells were unreadable because the
+offscreen Qt runtime had no discoverable font. Source corrections now register an existing OS font
+without redistributing it, remove unsupported QSS, make tests formatting-independent, improve
+failure counts, add commit/dirty hashes to manifests, and exclude ephemeral pytest temp artifacts.
+Only the Ruff formatter was used as a mechanical source rewrite; Codex did not execute tests,
+checks, compilation, renders, or validation at that correction checkpoint.
+The corrective Windows rerun `phase3-20260807-052047` is accepted: 18/18 commands passed, with 62
+Phase 3/GUI tests, 35 Phase 2 presentation regressions, Ruff/compile/version gates, and all four
+light/dark/high-DPI render cells passing. The run retained source commit
+`00b8ee07a6d59c0d805d0c043c91ae5ea73d45d0`, dirty state, status hash, 34/34 durable hashes and
+32/32 current source hashes. It recorded no policy, evaluation, qualification, benchmark, campaign,
+or protected-case workflow. The prior failed run remains immutable history.
+
+Run `phase3-remaining-windows-20260807-092741` then failed 3/8 gates: three files required Ruff
+formatting, Results Explorer clipped `Open experiment workspace`, and Application Settings clipped
+the result-database label/path in both light and dark/200% cells. The retained record was intact:
+45/45 durable hashes, 32/32 current source hashes, exact validator identity, and no prohibited
+workflow. The layouts, evidence detail, and formatting are corrected in source.
+
+At the user's direction, the replacement Windows validator is fully noninteractive and cannot use
+reviewer answers. It measures keyboard behavior, accessibility semantics, contrast, glyphs,
+clipping, responsive input widths, scroll structure, terminology, and screenshots, while explicitly
+not inferring a human screen-reader or scientist study. Linux light/dark xcb evidence and a clean
+corrected Windows automated rerun remain mandatory proof, so Phase 3 and Phase 4 remain blocked.
 
 ## Invariants
 

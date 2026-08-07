@@ -3,14 +3,11 @@ import pytest
 
 pytest.importorskip("PyQt6")
 
-from PyQt6.QtWidgets import QApplication
-
 from calo_rpd_studio.app.state_manager import AppState
 from calo_rpd_studio.gui.panels.results_explorer_panel import ResultsExplorerPanel
 
 
-def test_results_explorer_selects_full_row_and_emits_validation_request(tmp_path):
-    QApplication.instance() or QApplication([])
+def test_results_explorer_selects_full_row_and_emits_validation_request(tmp_path, qapp):
     state = AppState(tmp_path / "results.sqlite")
     exp_id = state.database.create_experiment(state.config, {})
     # Minimal direct record insertion through database connection for GUI selection behavior.
@@ -31,6 +28,8 @@ def test_results_explorer_selects_full_row_and_emits_validation_request(tmp_path
             (run_id, exp_id, "CALO", 0, json.dumps({"algorithm_seed": 1}), json.dumps(payload), ""),
         )
     panel = ResultsExplorerPanel(state)
+    assert panel.restore_workspace_button.text() == "Open experiment workspace"
+    assert panel.restore_workspace_button.toolTip()
     panel.refresh_experiments()
     assert panel.table.currentRow() == 0
     assert panel.review_button.isEnabled()
@@ -41,3 +40,4 @@ def test_results_explorer_selects_full_row_and_emits_validation_request(tmp_path
     )
     panel._confirm_review()
     assert captured == [(exp_id, run_id)]
+    panel.close()

@@ -8,7 +8,6 @@ from PyQt6.QtWidgets import (
     QDoubleSpinBox,
     QFormLayout,
     QGroupBox,
-    QLineEdit,
     QMessageBox,
     QPushButton,
     QSpinBox,
@@ -17,6 +16,7 @@ from PyQt6.QtWidgets import (
 )
 
 from calo_rpd_studio.gui.widgets.page_header import PageHeader
+from calo_rpd_studio.gui.widgets.chip_editor import IntegerChipEditor
 from calo_rpd_studio.gui.widgets.scrollable_page import ScrollablePage
 from calo_rpd_studio.robustness.robust_objectives import RobustAggregation
 
@@ -54,10 +54,8 @@ class RobustScenariosPanel(ScrollablePage):
         self.count.setRange(1, 100000)
         self.pstd = self._spin(0, 1, 0.05)
         self.qstd = self._spin(0, 1, 0.05)
-        self.branch = QLineEdit()
-        self.branch.setPlaceholderText("Zero-based branch indices, comma separated")
-        self.gen = QLineEdit()
-        self.gen.setPlaceholderText("Zero-based generator indices, comma separated")
+        self.branch = IntegerChipEditor("Zero-based branch indices")
+        self.gen = IntegerChipEditor("Zero-based generator indices")
         self.renew_bus = QSpinBox()
         self.renew_bus.setRange(0, 100000)
         self.renew_mw = self._spin(0, 1e9, 0)

@@ -32,9 +32,14 @@ These instructions apply to the entire repository unless a deeper `AGENTS.md` na
   create a newly timestamped detailed log directory, record command results and relevant source/
   validator hashes, and remain absent from Git source, manifests, distributions, and release
   artifacts. Do not run the validator; ask the user to run it and return the complete log directory.
+- Phase validators must be noninteractive. Do not request or gate on reviewer names, roles,
+  PASS/FAIL answers, free-form attestations, screen-reader declarations, or other `Read-Host` input.
+  Use reproducible automated checks and retained artifacts only. Record explicitly when human
+  screen-reader, usability, or scientist acceptance is not inferred by automation.
 - Review user-returned validation logs read-only, make evidence-backed coding corrections, update the
-  same ignored validator when necessary, and request a fresh manual rerun. Minimize tool calls and
-  output to reduce token usage; avoid redundant scans or repeated evidence dumps.
+  same ignored validator when necessary, and request a fresh user-executed noninteractive rerun.
+  Minimize tool calls and output to reduce token usage; avoid redundant scans or repeated evidence
+  dumps.
 - Before semantic CALO changes, prove canonical-refactor parity against the frozen baseline.
 - Add unit, invariant, parity, ablation, falsification, leakage, fallback, and regression tests proportional to each change.
 - Keep protected cases out of training, tuning, reward design, and checkpoint selection.

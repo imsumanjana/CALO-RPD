@@ -7,6 +7,8 @@ from PyQt6.QtWidgets import QApplication
 
 from .dark import DARK_STYLESHEET
 from .light import LIGHT_STYLESHEET
+from .runtime_fonts import ensure_application_font
+from .tokens import DARK_TOKENS, LIGHT_TOKENS
 
 
 def _set_palette_color(palette: QPalette, role: QPalette.ColorRole, value: str) -> None:
@@ -18,9 +20,9 @@ def _set_palette_color(palette: QPalette, role: QPalette.ColorRole, value: str) 
 def _light_palette() -> QPalette:
     p = QPalette()
     values = {
-        QPalette.ColorRole.Window: "#f5f7fb",
-        QPalette.ColorRole.WindowText: "#172033",
-        QPalette.ColorRole.Base: "#ffffff",
+        QPalette.ColorRole.Window: LIGHT_TOKENS["background"],
+        QPalette.ColorRole.WindowText: LIGHT_TOKENS["text"],
+        QPalette.ColorRole.Base: LIGHT_TOKENS["surface"],
         QPalette.ColorRole.AlternateBase: "#f1f4f9",
         QPalette.ColorRole.ToolTipBase: "#ffffff",
         QPalette.ColorRole.ToolTipText: "#172033",
@@ -28,7 +30,7 @@ def _light_palette() -> QPalette:
         QPalette.ColorRole.Button: "#eef2f8",
         QPalette.ColorRole.ButtonText: "#172033",
         QPalette.ColorRole.BrightText: "#ffffff",
-        QPalette.ColorRole.Highlight: "#3157d5",
+        QPalette.ColorRole.Highlight: LIGHT_TOKENS["accent"],
         QPalette.ColorRole.HighlightedText: "#ffffff",
         QPalette.ColorRole.Link: "#3157d5",
         QPalette.ColorRole.LinkVisited: "#6b4fd3",
@@ -45,9 +47,9 @@ def _light_palette() -> QPalette:
 def _dark_palette() -> QPalette:
     p = QPalette()
     values = {
-        QPalette.ColorRole.Window: "#111722",
-        QPalette.ColorRole.WindowText: "#e6eaf2",
-        QPalette.ColorRole.Base: "#121925",
+        QPalette.ColorRole.Window: DARK_TOKENS["background"],
+        QPalette.ColorRole.WindowText: DARK_TOKENS["text"],
+        QPalette.ColorRole.Base: DARK_TOKENS["surface"],
         QPalette.ColorRole.AlternateBase: "#18202d",
         QPalette.ColorRole.ToolTipBase: "#202a39",
         QPalette.ColorRole.ToolTipText: "#f2f4f7",
@@ -55,7 +57,7 @@ def _dark_palette() -> QPalette:
         QPalette.ColorRole.Button: "#222c3c",
         QPalette.ColorRole.ButtonText: "#e6eaf2",
         QPalette.ColorRole.BrightText: "#ffffff",
-        QPalette.ColorRole.Highlight: "#4d6ee8",
+        QPalette.ColorRole.Highlight: DARK_TOKENS["accent"],
         QPalette.ColorRole.HighlightedText: "#ffffff",
         QPalette.ColorRole.Link: "#8aa2ff",
         QPalette.ColorRole.LinkVisited: "#b49cff",
@@ -77,6 +79,7 @@ def apply_theme(app: QApplication, name: str) -> str:
     """
     normalized = "dark" if str(name).strip().lower() == "dark" else "light"
     app.setStyle("Fusion")
+    ensure_application_font(app)
     if normalized == "dark":
         app.setPalette(_dark_palette())
         app.setStyleSheet(DARK_STYLESHEET)

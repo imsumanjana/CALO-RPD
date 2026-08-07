@@ -8,6 +8,7 @@ from PyQt6.QtCore import pyqtSignal
 from PyQt6.QtWidgets import (
     QAbstractItemView,
     QComboBox,
+    QGridLayout,
     QGroupBox,
     QHBoxLayout,
     QHeaderView,
@@ -52,7 +53,9 @@ class ResultsExplorerPanel(WorkspacePage):
         self._selected_experiment_id = ""
         self._selected_run_id = ""
 
-        filters = QHBoxLayout()
+        filters = QGridLayout()
+        filters.setHorizontalSpacing(12)
+        filters.setVerticalSpacing(6)
         self.experiment = QComboBox()
         self.evidence_horizon = QComboBox()
         self.evidence_horizon.setToolTip(
@@ -67,22 +70,33 @@ class ResultsExplorerPanel(WorkspacePage):
         refresh.clicked.connect(self.refresh)
         manage_history = QPushButton("Manage history")
         manage_history.clicked.connect(self._manage_history)
-        restore_workspace = QPushButton("Open experiment workspace")
-        restore_workspace.setToolTip(
+        self.restore_workspace_button = QPushButton("Open experiment workspace")
+        self.restore_workspace_button.setObjectName("OpenExperimentWorkspaceButton")
+        self.restore_workspace_button.setToolTip(
             "Restore this experiment's saved parameters, CALO intelligence, workflow access, and stored plots."
         )
-        restore_workspace.clicked.connect(self._restore_selected_experiment)
-        filters.addWidget(QLabel("Experiment"))
-        filters.addWidget(self.experiment, 1)
-        filters.addWidget(QLabel("Evidence horizon"))
-        filters.addWidget(self.evidence_horizon)
-        filters.addWidget(QLabel("Algorithm"))
-        filters.addWidget(self.algorithm)
-        filters.addWidget(QLabel("Validation"))
-        filters.addWidget(self.validation)
-        filters.addWidget(refresh)
-        filters.addWidget(restore_workspace)
-        filters.addWidget(manage_history)
+        self.restore_workspace_button.clicked.connect(self._restore_selected_experiment)
+
+        filter_controls = (
+            ("Experiment", self.experiment),
+            ("Evidence horizon", self.evidence_horizon),
+            ("Algorithm", self.algorithm),
+            ("Validation", self.validation),
+        )
+        for column, (text, control) in enumerate(filter_controls):
+            label = QLabel(text)
+            label.setBuddy(control)
+            filters.addWidget(label, 0, column)
+            filters.addWidget(control, 1, column)
+            filters.setColumnStretch(column, 1)
+
+        actions = QHBoxLayout()
+        actions.setSpacing(10)
+        actions.addStretch(1)
+        actions.addWidget(refresh)
+        actions.addWidget(self.restore_workspace_button)
+        actions.addWidget(manage_history)
+        filters.addLayout(actions, 2, 0, 1, len(filter_controls))
         self.layout_root.addLayout(filters)
 
         self.table = QTableWidget(0, 11)

@@ -813,5 +813,132 @@ The repository is release-ready only when all of the following are simultaneousl
 - Active status now binds this failed run as formatting-corrected/rerun-pending. Return a complete
   fresh Phase 2 manual-validation directory before closing the gate or starting Phase 3.
 
+## 12. Phase 2 accepted; v12 Phase 3 GUI coding handoff - 2026-08-07
+
+- Accepted `phase2-20260807-003828`: 15/15 commands passed, including 23/23 Phase 2 contracts,
+  44/44 affected regressions, schema, Ruff diagnostics/format, compilation, and active identity.
+  All 20 retained evidence hashes, 35/35 current source hashes, and validator identity matched; no
+  policy, qualification, benchmark, campaign, or protected-case workflow executed.
+- Created and confirmed the required Phase 3 goal before beginning GUI source development.
+- Preserved all sixteen stable workspace keys and historical migration indexes while presenting
+  them as Home, Model, Study, Evidence, and System groups in the required scientist-facing order.
+- Added persisted compact/expanded navigation, persisted group collapse state, inline SVG icons,
+  Ctrl+K workspace search, visible text status badges, hidden locked children, and an accessible
+  blocked-workspace explanation.
+- Rebuilt the Dashboard hierarchy around one Next required action, Data/Policy/Compute/Validation/
+  Storage readiness, active context, recent experiments, resumable work, failures, evidence status,
+  and a compact activity summary with a details drawer. The historical atomic protocol controls
+  remain available for migration compatibility but are no longer displayed on the Dashboard.
+- Organized Experiment Manager into seven steps: case, formulation, algorithms, budget/runs,
+  scenarios, validation/outputs, and review/launch. It routes to authoritative shared panels rather
+  than copying scientific state. Continuation and queue details use progressive disclosure.
+- Added application-wide bounded input widths, 40/44px compact/comfortable targets, form-label
+  buddies, accessible names, compact long-text editors with explicit expansion, integer chips for
+  structured outage lists, and named light/dark semantic tokens on an 8px spacing system.
+- Added a Phase 3 render-evidence CLI covering theme, size, scale, glyph availability, replacement
+  characters, clipping, compact inputs, screenshot hashes, and isolated in-memory settings.
+- Added Phase 3 source/unit contracts and updated affected Dashboard and Phase 2 status regressions.
+  Codex did not execute any test, validator, render, formatter, linter, compile, or schema command.
+- Prepared the Git-ignored `validation/Validate-Phase3.ps1` harness. It captures complete source and
+  validator hashes, tests the relevant GUI/runtime boundaries, and renders 1280x720, 1440x900,
+  1920x1080, light/dark, and a 200% scale cell. The agent did not run it.
+- Phase 3 source coding is complete but validation remains open. Run the manual command below and
+  return the complete new `validation/logs/phase3-YYYYMMDD-HHMMSS/` directory. Linux rendering and
+  scientist acceptance remain separately required before the Phase 3 exit gate closes.
+
+  ```powershell
+  Set-Location 'C:\Users\User\Downloads\calo-rpd-studio-v1.0.0\calo-rpd-studio'
+  powershell -NoProfile -ExecutionPolicy Bypass -File .\validation\Validate-Phase3.ps1
+  ```
+
 Until then, describe the branch as a modernization candidate with implemented harnesses and pending
 scientific/hardware qualification—not as a final release.
+
+## 13. Phase 3 first-run correction handoff - 2026-08-07
+
+- Preserve `phase3-20260807-045558` as failed evidence: 11/18 commands passed. The run had 60/62
+  tests pass, while all four Windows render cells failed with visibly unreadable tofu text because
+  the PyQt offscreen platform could not discover a font.
+- Corrections are implemented: twelve files mechanically formatted; brittle density and Dashboard
+  assertions replaced; unsupported Qt CSS removed; deterministic existing-system-font registration
+  and font provenance added; packaged/render glyph handling strengthened; failure counts clarified.
+- The ignored validator now writes a v2 source manifest with commit, dirty state, Git-status hash,
+  validator identity, and summary-bound source-manifest hash. Inaccessible `pytest-temp` contents
+  are excluded from the durable evidence hash ledger.
+- No application test, Ruff check, compile, render, validator, policy workflow, benchmark,
+  qualification, campaign, or protected case was executed by Codex for these corrections. Ruff
+  format was used only as the required mechanical source rewrite.
+- Rerun manually and return the complete new directory:
+
+  ```powershell
+  Set-Location 'C:\Users\User\Downloads\calo-rpd-studio-v1.0.0\calo-rpd-studio'
+  powershell -NoProfile -ExecutionPolicy Bypass -File .\validation\Validate-Phase3.ps1
+  ```
+
+- A Windows pass will not close Linux rendering, keyboard-only workflow review, or scientist
+  acceptance. Phase 4 and release claims remain blocked while the Phase 3 gate is open.
+
+## 14. Phase 3 Windows evidence accepted; remaining external gates encoded - 2026-08-07
+
+- Accepted the user-run `phase3-20260807-052047` evidence read-only. It passed 18/18 commands:
+  active identity, Git integrity, compilation, Ruff diagnostics/format, 11 Phase 3 contracts,
+  16 GUI regressions, 35 Phase 2 presentation regressions, and four Windows light/dark/high-DPI
+  render cells. The combined test count was 62 Phase 3/GUI passes plus 35 Phase 2 regressions.
+- Verified the retained boundary reported by that run: source commit
+  `00b8ee07a6d59c0d805d0c043c91ae5ea73d45d0`, dirty state, 31 Git-status lines with a bound status
+  hash, 34/34 durable hashes, 32/32 current source hashes, and no ephemeral pytest artifacts in the
+  durable hash set. No policy training/evaluation, qualification, benchmark, campaign, or protected
+  case was executed.
+- Reconciled `ACTIVE_DEVELOPMENT_STATUS.json` and the active-version/source contracts to identify
+  `phase3-20260807-052047` as accepted Windows-local evidence while preserving
+  `phase3-20260807-045558` as immutable failed history. The Phase 3 overall gate remains open.
+- Added `validate_phase3_workspace_accessibility.py`. It directly audits all sixteen presentation
+  surfaces in light/dark-capable Qt processes and retains screenshots, glyph/replacement/clipping,
+  compact-input, long-editor, nested-scroll, accessible-name, form-buddy, ordinary-terminology,
+  token-contrast, Ctrl+K, navigation persistence, Study Setup, and disclosure evidence. Direct stack
+  access is explicitly presentation-only and does not claim workflow completion or scientific
+  reachability.
+- Extended the existing render collector with an explicit `--qt-platform xcb` lane so Linux desktop
+  evidence can run under Xvfb instead of being silently forced to the offscreen plugin.
+- Prepared three local-only ignored files: `validation/Validate-Phase3-Remaining.ps1` for current
+  Windows source checks and mandatory human keyboard/screen-reader/scientist attestations,
+  `validation/Validate-Phase3-Remaining-Linux.sh` for Linux xcb light/dark and all-workspace evidence,
+  and `validation/PHASE3_REMAINING_VALIDATION.md` for exact commands and claim boundaries.
+- Codex did not execute a test, compile, Ruff command, render, validator, GUI interaction, policy or
+  scientific workflow, benchmark, qualification, campaign, or protected case. The user must run
+  and return both new evidence directories. Automated evidence does not infer human acceptance.
+- Phase 4 remains blocked until both directories pass review. Its fresh candidate/protected
+  scientific work also remains outside the current no-training/no-evaluation authority.
+
+## 15. Phase 3 remaining-gate failure corrected; validation made noninteractive - 2026-08-07
+
+- Reviewed `phase3-remaining-windows-20260807-092741` read-only. It passed 5/8 automated commands;
+  active identity, compilation, Ruff diagnostics and 12 Phase 3 contracts passed. Ruff format found
+  three files, and both light and dark/200% all-workspace cells failed exactly two workspaces.
+- Verified the failed evidence boundary: 45/45 durable hashes, 32/32 current source hashes, exact
+  validator/current Git-status identity, commit
+  `00b8ee07a6d59c0d805d0c043c91ae5ea73d45d0`, and no prohibited workflow. The separate supplemental
+  Phase 2 rerun passed 14/15 and independently reported only the same three formatting targets; its
+  20/20 durable and 56/56 source hashes matched and it does not invalidate accepted Phase 2.
+- Retained screenshots proved real clipping. Results Explorer placed four labels, four selectors and
+  three actions in one horizontal row, reducing `Open experiment workspace` from a 193px preferred
+  width to 113px. Replaced it with a four-column labeled responsive grid and separate action row.
+- Application Settings allowed the long result-database path to compress its form label to 43px and
+  truncate the path. Replaced that row with a dedicated labeled, copyable, read-only, full-width path
+  field; ordinary controls remain compact.
+- Clipping evidence now records text, accessible name, tooltip, actual width/height and preferred
+  width/height so future failures are diagnosable directly from JSON.
+- Removed every interactive reviewer prompt from the ignored Windows validator. Its v2 lane now
+  uses only source identity, formatting, focused behavior contracts, programmatic keyboard actions,
+  accessibility semantics, contrast, all-workspace light/dark/high-DPI audits and retained hashes.
+  It records that reviewer input is not collected and human screen-reader/scientist acceptance is
+  not inferred.
+- Added the noninteractive-only validator rule to repository instructions. The prior 10/10 manual
+  answers, including `screen_reader=NA`, do not constitute evidence and are not carried forward.
+- Applied Ruff format only as a mechanical source rewrite. The first pass reformatted two files and
+  exposed an invalid hyphen in a new test function name; after correcting that identifier, the next
+  pass reformatted the remaining file. A final two-file GUI-test pass changed nothing. No Ruff
+  diagnostic or format-check gate ran.
+- Codex did not execute tests, validators, compilation, lint checks, renders, GUI interactions,
+  policy/scientific workflows, benchmarks, qualification, campaigns, or protected cases. The next
+  action is the user-executed corrected Windows rerun followed by the separate Linux xcb lane.

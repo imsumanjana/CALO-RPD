@@ -34,6 +34,7 @@ def test_packaged_gui_validator_renders_and_retains_self_describing_evidence(tmp
     assert report["initial_workspace"] == "dashboard"
     assert report["workspace_count"] == 16
     assert report["visible_forbidden_hits"] == []
+    assert report["application_font"]["supports_validation_sample"] is True
     assert report["screenshot_width"] >= 1120
     assert report["screenshot_height"] >= 720
     assert screenshot.stat().st_size > 10_000

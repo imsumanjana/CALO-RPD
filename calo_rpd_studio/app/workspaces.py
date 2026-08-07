@@ -19,6 +19,9 @@ class WorkspaceSpec:
     key: str
     title: str
     description: str = ""
+    group: str = "Model"
+    icon: str = "workspace"
+    keywords: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True, slots=True)
@@ -42,28 +45,62 @@ class WorkspaceMigrationReport:
 
 
 WORKSPACE_SPECS: tuple[WorkspaceSpec, ...] = (
-    WorkspaceSpec("dashboard", "Dashboard"),
-    WorkspaceSpec("calo_intelligence", "CALO Intelligence"),
-    WorkspaceSpec("power_system", "Power System"),
-    WorkspaceSpec("orpd", "ORPD Formulation"),
-    WorkspaceSpec("algorithms", "Algorithms"),
-    WorkspaceSpec("portfolio", "Portfolio Manager"),
-    WorkspaceSpec("scenarios", "Robust Scenarios"),
-    WorkspaceSpec("experiment", "Experiment Manager"),
-    WorkspaceSpec("live_optimization", "Live Optimization"),
-    WorkspaceSpec("statistics", "Statistical Analysis"),
-    WorkspaceSpec("results", "Results Explorer"),
-    WorkspaceSpec("validation", "Validation & Audit"),
-    WorkspaceSpec("publication", "Publication Export"),
-    WorkspaceSpec("resume_center", "Resume Center"),
-    WorkspaceSpec("settings", "Application Settings"),
-    WorkspaceSpec("benchmark", "Benchmark & Evidence"),
+    WorkspaceSpec("dashboard", "Overview", group="Home", icon="home", keywords=("dashboard",)),
+    WorkspaceSpec(
+        "calo_intelligence",
+        "CALO Intelligence",
+        group="Model",
+        icon="policy",
+        keywords=("policy", "learning"),
+    ),
+    WorkspaceSpec("power_system", "Power System", group="Model", icon="network"),
+    WorkspaceSpec("orpd", "ORPD Formulation", group="Model", icon="formulation"),
+    WorkspaceSpec("algorithms", "Algorithms", group="Model", icon="algorithm"),
+    WorkspaceSpec("portfolio", "Portfolio", group="Study", icon="portfolio"),
+    WorkspaceSpec("scenarios", "Robust Scenarios", group="Model", icon="scenario"),
+    WorkspaceSpec(
+        "experiment",
+        "Experiment Manager",
+        group="Study",
+        icon="study",
+        keywords=("study setup", "launch"),
+    ),
+    WorkspaceSpec("live_optimization", "Live Optimization", group="Study", icon="activity"),
+    WorkspaceSpec("statistics", "Statistical Analysis", group="Evidence", icon="statistics"),
+    WorkspaceSpec("results", "Results", group="Evidence", icon="results"),
+    WorkspaceSpec("validation", "Validation", group="Evidence", icon="validation"),
+    WorkspaceSpec("publication", "Publication", group="Evidence", icon="publication"),
+    WorkspaceSpec("resume_center", "Resume Center", group="Home", icon="resume"),
+    WorkspaceSpec("settings", "Application Settings", group="System", icon="settings"),
+    WorkspaceSpec("benchmark", "Benchmark", group="Evidence", icon="benchmark"),
 )
+
+WORKSPACE_GROUP_ORDER = ("Home", "Model", "Study", "Evidence", "System")
+WORKSPACE_GROUP_KEYS = {
+    "Home": ("dashboard", "resume_center"),
+    "Model": ("calo_intelligence", "power_system", "orpd", "algorithms", "scenarios"),
+    "Study": ("portfolio", "experiment", "live_optimization"),
+    "Evidence": ("results", "statistics", "validation", "benchmark", "publication"),
+    "System": ("settings",),
+}
 
 WORKSPACE_KEYS = tuple(spec.key for spec in WORKSPACE_SPECS)
 WORKSPACE_INDEX = {key: index for index, key in enumerate(WORKSPACE_KEYS)}
 WORKSPACE_TITLE = {spec.key: spec.title for spec in WORKSPACE_SPECS}
 WORKSPACES = [(spec.title, spec.description) for spec in WORKSPACE_SPECS]
+
+
+def grouped_workspace_specs() -> tuple[tuple[str, tuple[tuple[int, WorkspaceSpec], ...]], ...]:
+    """Return presentation groups without changing authoritative workspace indexes."""
+    groups: list[tuple[str, tuple[tuple[int, WorkspaceSpec], ...]]] = []
+    for group in WORKSPACE_GROUP_ORDER:
+        members = tuple(
+            (WORKSPACE_INDEX[key], WORKSPACE_SPECS[WORKSPACE_INDEX[key]])
+            for key in WORKSPACE_GROUP_KEYS[group]
+        )
+        groups.append((group, members))
+    return tuple(groups)
+
 
 # v5.9 positional layout. Used ONLY when restoring legacy persisted workspace_index values.
 LEGACY_V59_INDEX_TO_KEY = {

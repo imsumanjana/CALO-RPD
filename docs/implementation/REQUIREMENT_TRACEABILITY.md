@@ -70,16 +70,18 @@ Status vocabulary:
 
 | Requirement | Implementation evidence | Validation state | Remaining proof |
 |---|---|---|---|
-| Truthful formal/exploratory/CPU execution semantics | `compute/execution_contract.py`; config schema; GUI and CLI bindings | Source tests prepared; not run by Codex | User-run Phase 2 validator |
-| Mandatory concrete pre-run device resolution | `compute/device_binding.py`; experiment runner; parallel runner; GUI worker; benchmark CLIs | Source tests prepared; not run by Codex | User-run Phase 2 validator and later physical CUDA evidence |
-| Stable physical ownership and queueing | UUID/PCI identity; scoped `ExclusiveDeviceLease`; frozen resolved scheduler route | Source tests prepared; not run by Codex | User-run Phase 2 validator; later multi-process physical-device exercise |
-| Safe-80 and unambiguous VRAM telemetry | Availability-based admission; fixed 0.80 schemas; request/lifetime telemetry blocks | Source tests prepared; not run by Codex | User-run Phase 2 validator; later physical pressure evidence |
-| Exact FE/cardinality/identity accounting | Central `validate_batch_evaluations`; strict registration; normalized candidate identity | Source tests prepared; not run by Codex | User-run Phase 2 validator |
-| Partial-failure provenance and persistence | `calo-partial-run-failure-v2`; atomic existing failure transaction | Source tests prepared; not run by Codex | User-run Phase 2 validator and later injected integration evidence |
-| Current topology/status truth and XPU boundary | FP64 smoke authority; active Phase 2 status verifier; XPU execution rejection | Source tests prepared; not run by Codex | User-run Phase 2 validator |
+| Truthful formal/exploratory/CPU execution semantics | `compute/execution_contract.py`; config schema; GUI and CLI bindings | Accepted in `phase2-20260807-003828` | Later physical CUDA evidence where separately required |
+| Mandatory concrete pre-run device resolution | `compute/device_binding.py`; experiment runner; parallel runner; GUI worker; benchmark CLIs | Accepted in `phase2-20260807-003828` | Later physical CUDA evidence |
+| Stable physical ownership and queueing | UUID/PCI identity; scoped `ExclusiveDeviceLease`; frozen resolved scheduler route | Accepted in `phase2-20260807-003828` | Later multi-process physical-device exercise |
+| Safe-80 and unambiguous VRAM telemetry | Availability-based admission; fixed 0.80 schemas; request/lifetime telemetry blocks | Accepted in `phase2-20260807-003828` | Later physical pressure evidence |
+| Exact FE/cardinality/identity accounting | Central `validate_batch_evaluations`; strict registration; normalized candidate identity | Accepted in `phase2-20260807-003828` | Retain under later regressions |
+| Partial-failure provenance and persistence | `calo-partial-run-failure-v2`; atomic existing failure transaction | Accepted in `phase2-20260807-003828` | Later injected integration evidence |
+| Current topology/status truth and XPU boundary | FP64 smoke authority; active status verifier; XPU execution rejection | Accepted in `phase2-20260807-003828` | Retain under later regressions |
 
-Phase 1 evidence `phase1-20260806-230256` is accepted. Phase 2 remains validation-pending and does
-not qualify any policy, protected case, hardware-performance claim, release candidate, or release.
+At this implementation checkpoint, Phase 1 evidence `phase1-20260806-230256` was accepted and Phase
+2 was validation-pending. The later final Phase 2 evidence below supersedes that pending state. No
+such development evidence qualifies any policy, protected case, hardware-performance claim,
+release candidate, or release.
 
 First Phase 2 evidence `phase2-20260807-001858` retained 13/15 passing commands, including 23/23
 dedicated Phase 2 contracts, complete 33/33 source-manifest coverage, 20/20 retained artifact hash
@@ -92,6 +94,30 @@ Second evidence `phase2-20260807-003024` retained 14/15 passing commands, 23/23 
 Its 34 source-manifest paths exactly covered the 34 captured changed paths. Ruff format alone found
 mixed line endings in the corrected VRAM regression file. That formatting is corrected; a fresh
 manual run must bind the updated status and governance documents before Phase 2 can be accepted.
+
+Final evidence `phase2-20260807-003828` closed that requirement: 15/15 commands, 23/23 Phase 2
+contracts, 44/44 regressions, 20/20 retained artifact hashes, 35/35 current source hashes, exact
+validator identity, and no prohibited workflows. Phase 2 is accepted.
+
+## v12 Phase 3 GUI traceability - 2026-08-07
+
+| Requirement | Implementation evidence | Validation state | Remaining proof |
+|---|---|---|---|
+| Stable grouped information architecture | `app/workspaces.py`; `gui/navigation/sidebar.py`; inline SVG registry | Windows-local corrected contracts accepted in `phase3-20260807-052047` | Corrected noninteractive all-workspace rerun and Linux interaction evidence |
+| Dashboard decision hierarchy | next-action/readiness/recent-work/activity disclosure in `dashboard_panel.py` | Windows light/dark/high-DPI renders accepted | Linux xcb and corrected all-workspace automation |
+| Seven-step Study Setup | `StudySetupWorkflow`; existing authoritative panels routed without state duplication | Source implemented; not run by Codex | Keyboard and workflow-lock interaction evidence |
+| Compact structured inputs | application-wide density policy; integer chips; 240-480px limits; responsive Results grid; dedicated copyable database-path field | Remaining-gate run found two real clipping defects; source corrected | Corrected Windows and Linux all-workspace automation |
+| Accessible semantic visual system | named tokens, light/dark QSS, focus borders, text badges, accessible names/buddies | Windows high-DPI renders accepted; noninteractive contrast/name/buddy/keyboard collector implemented | Corrected Windows and Linux automated evidence |
+| Render and glyph evidence | isolated render CLI; deterministic existing-OS-font registration; font provenance; separate glyph/clipping/input counts | Four corrected Windows cells accepted with zero glyph/replacement/clipping/input/editor failures | Linux light/dark xcb matrix |
+| Durable local evidence identity | ignored validator; v2 source manifest with commit/dirty/status hashes; stable evidence hash set | Failed remaining run verified 45/45 durable and 32/32 current source hashes | Source-bound corrected Windows and Linux directories |
+
+Phase 3 Windows-local baseline evidence is accepted. `phase3-20260807-045558` remains immutable
+failed history, `phase3-20260807-052047` is the accepted baseline rerun, and
+`phase3-remaining-windows-20260807-092741` is preserved as failed remaining-gate evidence. The
+overall exit gate remains open for corrected noninteractive Windows and Linux xcb evidence. Manual
+reviewer answers are excluded by user instruction, and automated evidence does not claim a human
+screen-reader or scientist study. No GUI result qualifies policy, protected-case, performance,
+scientific-superiority, release-candidate, or release claims.
 
 ## Current verification checkpoint
 

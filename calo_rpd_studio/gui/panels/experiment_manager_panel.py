@@ -48,6 +48,8 @@ from calo_rpd_studio.experiments.execution_plan import (
 )
 from calo_rpd_studio.experiments.fairness_validator import validate_fairness
 from calo_rpd_studio.gui.widgets.section_card import SectionCard
+from calo_rpd_studio.gui.widgets.disclosure import DisclosurePanel
+from calo_rpd_studio.gui.widgets.study_setup import StudySetupWorkflow, linked_step_page
 from calo_rpd_studio.gui.widgets.workspace_page import WorkspacePage
 from calo_rpd_studio.results.database import ResultDatabase
 
@@ -163,6 +165,8 @@ class ScientificAuditWorker(QThread):
 
 class ExperimentManagerPanel(WorkspacePage):
     """Guided experiment workflow with a scrollable body for compact screens."""
+
+    workspace_requested = pyqtSignal(str)
 
     def __init__(self, state, manager, parent=None) -> None:
         super().__init__(
@@ -582,6 +586,8 @@ class ExperimentManagerPanel(WorkspacePage):
         self.body_layout.addWidget(self.queue_card)
         self.body_layout.addStretch(1)
 
+        self._organize_study_setup()
+
         manager.started.connect(self.on_started)
         manager.progress.connect(self.on_progress)
         manager.run_completed.connect(self.on_run_completed)
@@ -641,6 +647,83 @@ class ExperimentManagerPanel(WorkspacePage):
         self.resource_timer.timeout.connect(self._refresh_resource_status)
         self.resource_timer.start()
         self._set_running(manager.running)
+
+    def _organize_study_setup(self) -> None:
+        """Move existing authoritative controls into the seven-step Phase 3 presentation."""
+        case_page = linked_step_page(
+            "Choose and validate the case",
+            "Select the power-system case and complete its base power-flow checks in the authoritative Power System workspace.",
+            "Open Power System",
+            lambda: self.workspace_requested.emit("power_system"),
+        )
+        formulation_page = linked_step_page(
+            "Confirm the ORPD formulation",
+            "Review controls, limits, objective terms, constraints, and formulation provenance before configuring runs.",
+            "Open ORPD Formulation",
+            lambda: self.workspace_requested.emit("orpd"),
+        )
+        algorithms_page = linked_step_page(
+            "Select primary algorithms",
+            "Choose the comparison set in one place. Algorithms and governing policy remain shared application state.",
+            "Open Algorithms",
+            lambda: self.workspace_requested.emit("algorithms"),
+        )
+        scenarios_page = linked_step_page(
+            "Choose robust scenarios",
+            "Configure the declared robustness scenario family before auditing and launching the study.",
+            "Open Robust Scenarios",
+            lambda: self.workspace_requested.emit("scenarios"),
+        )
+        self.study_setup_workflow = StudySetupWorkflow(
+            (
+                ("Case", "Choose and validate the power-system case.", case_page),
+                (
+                    "Formulation",
+                    "Confirm objective, controls, limits, and constraints.",
+                    formulation_page,
+                ),
+                (
+                    "Algorithms",
+                    "Select the primary comparison algorithms.",
+                    algorithms_page,
+                ),
+                (
+                    "Budget + runs",
+                    "Set paired runs, budgets, seed, compute mode, and result location.",
+                    self.setup_card,
+                ),
+                (
+                    "Scenarios",
+                    "Choose the declared robustness scenario family.",
+                    scenarios_page,
+                ),
+                (
+                    "Validate + outputs",
+                    "Audit comparison fairness and numerical agreement before execution.",
+                    self.fairness_card,
+                ),
+                (
+                    "Review + launch",
+                    "Review the frozen setup and start the permitted study.",
+                    self.execution_card,
+                ),
+            )
+        )
+        self.body_layout.insertWidget(0, self.study_setup_workflow)
+
+        self.evolution_drawer = DisclosurePanel(
+            "Advanced: experiment continuation",
+            "Expand only when extending an existing evidence horizon or independent-run target.",
+            self.evolution_card,
+        )
+        self.queue_drawer = DisclosurePanel(
+            "View run queue details",
+            "Expand to inspect the exact algorithm/run jobs and their current states.",
+            self.queue_card,
+        )
+        insert_at = max(1, self.body_layout.count() - 1)
+        self.body_layout.insertWidget(insert_at, self.evolution_drawer)
+        self.body_layout.insertWidget(insert_at + 1, self.queue_drawer)
 
     @staticmethod
     def _recommended_worker_count() -> int:

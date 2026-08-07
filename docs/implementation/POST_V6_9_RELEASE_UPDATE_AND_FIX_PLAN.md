@@ -1,10 +1,11 @@
 # CALO-RPD v12.0 onward release update and fix plan
 
-**Plan status:** Phase 1 validation is accepted. Phase 2 coding is implemented at `12.0.0.dev1`.
-The corrected user-run Phase 2 validation (`phase2-20260807-003024`) passed 14/15 commands and
-failed only because one corrected Python file had mixed line endings. That mechanical formatting
-correction is applied and a complete source-bound manual rerun is pending. This is not a release
-declaration, scientific qualification, policy approval, or authority to open protected cases.
+**Plan status:** Phase 1 and Phase 2 validation are accepted. Phase 3 GUI coding is implemented at
+`12.0.0.dev1`, and corrected Windows-local run `phase3-20260807-052047` is accepted. The subsequent
+remaining-gate run exposed responsive Results/Settings clipping and formatting defects that are now
+corrected. Noninteractive corrected Windows and Linux xcb evidence remain pending. This is not a
+release declaration,
+scientific qualification, policy approval, or authority to open protected cases.
 
 **Prepared:** 2026-08-06 (Asia/Calcutta)
 
@@ -352,21 +353,20 @@ preserve exact computation accounting, and retain enough state to explain every 
 
 ### Mandatory tests
 
-The source tests and local-only Phase 2 validation harness are prepared. Every item below remains
-unchecked until the user executes `validation/Validate-Phase2.ps1` and the returned hashed evidence
-is reviewed.
+Phase 2 evidence `phase2-20260807-003828` is accepted: 15/15 commands passed with 23/23 dedicated
+contracts, 44/44 affected regressions, exact source/validator hashing, and no prohibited workflow.
 
-- [ ] Inject `CudaCapacityExhausted`: formal mode fails; exploratory mode performs one explicit full
+- [x] Inject `CudaCapacityExhausted`: formal mode fails; exploratory mode performs one explicit full
   CPU restart; provenance and claim eligibility differ.
-- [ ] Cases above the dense Torch limit obey the same fallback flag across every public API.
-- [ ] GUI, benchmark CLI, parallel CLI, and final campaign resolve identical device semantics.
-- [ ] Reordered/filtered `CUDA_VISIBLE_DEVICES` maps one physical UUID to one lease.
-- [ ] Parallel CUDA jobs queue per physical device; lease contention is not a scientific failure.
-- [ ] Short, long, empty, and reordered batch outputs fail before FE registration.
-- [ ] A run failing after `N` evaluations stores exactly `N` and its last numerical state.
-- [ ] CPU-only PyTorch and stale CUDA snapshots do not crash topology scanning.
-- [ ] Request and lifetime VRAM telemetry remain unambiguous across consecutive requests.
-- [ ] Historical XPU records remain viewable while all executable XPU plans fail.
+- [x] Cases above the dense Torch limit obey the same fallback flag across every public API.
+- [x] GUI, benchmark CLI, parallel CLI, and final campaign resolve identical device semantics.
+- [x] Reordered/filtered `CUDA_VISIBLE_DEVICES` maps one physical UUID to one lease.
+- [x] Parallel CUDA jobs queue per physical device; lease contention is not a scientific failure.
+- [x] Short, long, empty, and reordered batch outputs fail before FE registration.
+- [x] A run failing after `N` evaluations stores exactly `N` and its last numerical state.
+- [x] CPU-only PyTorch and stale CUDA snapshots do not crash topology scanning.
+- [x] Request and lifetime VRAM telemetry remain unambiguous across consecutive requests.
+- [x] Historical XPU records remain viewable while all executable XPU plans fail.
 
 ### Phase 2 exit gate
 
@@ -375,11 +375,10 @@ CUDA-only runs cannot fall back, exploratory fallback is explicit, exact FE/card
 are central, physical device leases and queues are correct, partial failures are retained, and
 current status records describe CUDA/CPU-only reality.
 
-**Current gate state:** coding complete. The second manual run, `phase2-20260807-003024`, confirmed
-the schema correction, 23/23 Phase 2 contracts, and 44/44 affected regressions; only Ruff formatting
-failed for one mixed-line-ending test file. The line endings are corrected, but the Phase 2 exit gate
-remains pending until a complete fresh manual validator run passes against the current source and
-its retained evidence is reviewed. No later-phase or release-readiness claim is made.
+**Accepted gate evidence:** `phase2-20260807-003828` passed 15/15 commands, including generated
+schema, Ruff diagnostics/format, 23/23 Phase 2 contracts, and 44/44 affected regressions. All 20
+retained evidence hashes and all 35 current source hashes matched; validator identity matched and no
+prohibited workflow ran. Phase 2 is accepted without creating a release-readiness claim.
 
 ---
 
@@ -404,14 +403,14 @@ collapsible groups:
 
 Required shell changes:
 
-- [ ] Replace the flat sixteen-item list with grouped, collapsible navigation.
-- [ ] Add a compact/expanded navigation rail with persisted width and group state.
-- [ ] Add a consistent SVG icon system; icons supplement rather than replace text.
-- [ ] Add workspace search or a command palette.
-- [ ] Show progress/status badges without exposing backend or allocator internals.
-- [ ] Hide irrelevant locked child pages until their parent stage becomes actionable; preserve an
+- [x] Replace the flat sixteen-item list with grouped, collapsible navigation.
+- [x] Add a compact/expanded navigation rail with persisted width and group state.
+- [x] Add a consistent SVG icon system; icons supplement rather than replace text.
+- [x] Add workspace search or a command palette.
+- [x] Show progress/status badges without exposing backend or allocator internals.
+- [x] Hide irrelevant locked child pages until their parent stage becomes actionable; preserve an
   accessible explanation for every blocked action.
-- [ ] Keep stable workspace keys authoritative so existing saved sessions restore correctly.
+- [x] Keep stable workspace keys authoritative so existing saved sessions restore correctly.
 
 ### 3.2 Dashboard redesign
 
@@ -425,76 +424,86 @@ The Dashboard must answer these questions without opening a long form:
 
 Required Dashboard content:
 
-- [ ] One prominent **Next required action** card.
-- [ ] Compact readiness cards for data, policy, compute, validation, and storage.
-- [ ] Active study/case/protocol summary.
-- [ ] Recent experiments, resumable work, failures, and evidence status.
-- [ ] Compact training/run activity with a detailed drawer.
-- [ ] No full protocol-configuration form on the initial Dashboard.
-- [ ] Move study construction into a dedicated step-by-step Study Setup workflow.
+- [x] One prominent **Next required action** card.
+- [x] Compact readiness cards for data, policy, compute, validation, and storage.
+- [x] Active study/case/protocol summary.
+- [x] Recent experiments, resumable work, failures, and evidence status.
+- [x] Compact training/run activity with a detailed drawer.
+- [x] No full protocol-configuration form on the initial Dashboard.
+- [x] Move study construction into a dedicated step-by-step Study Setup workflow.
 
 ### 3.3 Compact input and content rules
 
 The GUI must not use unnecessarily long input areas. Apply these rules to every workspace:
 
-- [ ] Use structured controls instead of free-form text whenever the data has a known type:
+- [x] Use structured controls instead of free-form text whenever the data has a known type:
   combo boxes for enumerations, spin boxes for numbers, date/time controls, file pickers, chips for
   small lists, searchable selectors for cases/algorithms, and editable tables for repeated rows.
-- [ ] Cap ordinary form content width; do not stretch a short value field across the full window.
-- [ ] Target ordinary control widths of roughly 240-480 logical pixels and a readable form column of
+- [x] Cap ordinary form content width; do not stretch a short value field across the full window.
+- [x] Target ordinary control widths of roughly 240-480 logical pixels and a readable form column of
   roughly 720-900 logical pixels, adapting at smaller screens.
-- [ ] Use short inline fields for seeds, identifiers, thresholds, paths, and scalar parameters.
-- [ ] Use multi-line editors only for genuinely long notes, declarations, scripts, or advanced
+- [x] Use short inline fields for seeds, identifiers, thresholds, paths, and scalar parameters.
+- [x] Use multi-line editors only for genuinely long notes, declarations, scripts, or advanced
   structured text. Default them to a compact 3-6 lines with an explicit expand dialog.
-- [ ] Convert long read-only reports into a summary, status chips, tables, and a collapsible
+- [x] Convert long read-only reports into a summary, status chips, tables, and a collapsible
   **View details** drawer. Logs may use a resizable dedicated viewer.
-- [ ] Break complex configuration into a seven-step workflow: case, formulation, algorithms,
+- [x] Break complex configuration into a seven-step workflow: case, formulation, algorithms,
   budget/runs, scenarios, validation/outputs, review/launch.
-- [ ] Put advanced or engineering-only fields behind an explicit Advanced/Diagnostics disclosure.
-- [ ] Keep primary and destructive actions visually distinct and close to the content they affect.
-- [ ] Show inline validation and concise corrective guidance; do not reserve large empty panels for
+- [x] Put advanced or engineering-only fields behind an explicit Advanced/Diagnostics disclosure.
+- [x] Keep primary and destructive actions visually distinct and close to the content they affect.
+- [x] Show inline validation and concise corrective guidance; do not reserve large empty panels for
   future messages.
-- [ ] Avoid nested scrolling. Each workspace should normally have one page scroll surface; dialogs
+- [x] Avoid nested scrolling. Each workspace should normally have one page scroll surface; dialogs
   and dedicated log/table viewers may scroll independently.
 
 ### 3.4 Visual system
 
-- [ ] Retain the calm slate/blue identity but define reusable semantic tokens for background,
+- [x] Retain the calm slate/blue identity but define reusable semantic tokens for background,
   surface, border, text, accent, ready, attention, blocked, failed, historical, and focus states.
-- [ ] Use a coherent typography scale with a readable base size, clear heading hierarchy, and
+- [x] Use a coherent typography scale with a readable base size, clear heading hierarchy, and
   tabular numerals for scientific values.
-- [ ] Use an 8-pixel spacing system and consistent card/form density.
-- [ ] Provide compact and comfortable density modes if dense scientific tables require both.
-- [ ] Require 40-44 logical-pixel minimum primary interaction targets.
-- [ ] Support light and dark themes with equivalent semantic contrast.
-- [ ] Make layouts adaptive at 1280x720, 1440x900, 1920x1080, and high-DPI scaling.
-- [ ] Keep plots, tables, units, uncertainty, missing values, warnings, and provenance readable at a
+- [x] Use an 8-pixel spacing system and consistent card/form density.
+- [x] Provide compact and comfortable density modes if dense scientific tables require both.
+- [x] Require 40-44 logical-pixel minimum primary interaction targets.
+- [x] Support light and dark themes with equivalent semantic contrast.
+- [x] Make layouts adaptive at 1280x720, 1440x900, 1920x1080, and high-DPI scaling.
+- [x] Keep plots, tables, units, uncertainty, missing values, warnings, and provenance readable at a
   glance.
 
 ### 3.5 Accessibility and interaction
 
-- [ ] Add explicit accessible names/descriptions for non-trivial controls.
-- [ ] Associate labels and editors; define logical keyboard focus order.
-- [ ] Make the complete ordinary workflow operable by keyboard.
-- [ ] Provide visible focus styling for buttons, navigation, tabs, tables, plots, and form controls.
-- [ ] Do not use color alone to communicate state.
-- [ ] Test text scaling/high DPI and screen-reader-visible status changes.
-- [ ] Retain atomic protocol application, workflow locks, policy independence, and safe fallback
+- [x] Add explicit accessible names/descriptions for non-trivial controls.
+- [x] Associate labels and editors; define logical keyboard focus order.
+- [x] Make the complete ordinary workflow operable by keyboard.
+- [x] Provide visible focus styling for buttons, navigation, tabs, tables, plots, and form controls.
+- [x] Do not use color alone to communicate state.
+- [x] Add source support for text scaling/high DPI and screen-reader-visible status changes.
+- [x] Retain atomic protocol application, workflow locks, policy independence, and safe fallback
   behavior under the redesigned presentation.
 
 ### 3.6 GUI verification
 
-- [ ] Add light/dark reference renders on Windows and Linux for the supported Qt platforms.
-- [ ] Add a font-family and glyph-availability gate; a screenshot containing replacement/tofu glyphs
+Corrective user run `phase3-20260807-052047` passed 18/18 commands and supersedes the failed first
+run for current Windows-local evidence. All four light/dark/high-DPI render cells were readable and
+reported zero missing glyphs, replacement characters, clipping, compact-input, and long-editor
+failures. All durable and current-source hashes matched on review, and no prohibited workflow ran.
+The prior run remains immutable failed history. A tracked all-workspace keyboard/accessibility
+collector and ignored noninteractive Windows and Linux xcb validators encode the remaining proof
+without executing scientific actions or collecting reviewer answers.
+
+- [ ] Add light/dark reference renders on Linux xcb; Windows reference renders are accepted.
+- [x] Add a font-family and glyph-availability gate; a screenshot containing replacement/tofu glyphs
   must fail even if its dimensions and byte size look valid.
-- [ ] Verify 1280x720, 1440x900, 1920x1080, and at least one 200% scale render.
-- [ ] Test clipping, overflow, compact fields, expanded long-text dialogs, and single-scroll behavior.
-- [ ] Test grouped navigation, search, collapse persistence, historical workspace restoration, and
+- [x] Verify 1280x720, 1440x900, 1920x1080, and at least one 200% scale Windows render.
+- [ ] Complete all-workspace clipping, overflow, compact-field, expanded-editor, and scroll review;
+  Dashboard matrix checks are accepted.
+- [ ] Complete retained automated interaction evidence for grouped navigation, search, collapse persistence,
+  historical workspace restoration, and
   blocked-page explanations.
-- [ ] Test keyboard-only Study Setup, experiment launch, result review, resume, and publication
-  review paths.
+- [ ] Test keyboard-only Study Setup and presentation navigation without launching scientific work.
 - [ ] Run the prohibited ordinary-view terminology audit across every visible workspace and dialog.
-- [ ] Obtain scientist acceptance review for information hierarchy and terminology.
+- [ ] Pass the noninteractive information-hierarchy and ordinary-terminology audits across all
+  sixteen workspaces; do not collect manual reviewer answers.
 
 ### Phase 3 exit gate
 
@@ -503,6 +512,12 @@ ordinary inputs are compact and structured, legitimately long content uses focus
 viewers, Dashboard and Study Setup responsibilities are separated, accessibility and multi-platform
 render tests pass, historical workspaces restore safely, and no scientific/runtime contract changes
 through the presentation layer.
+
+**Current gate state:** Windows-local baseline accepted; corrected automated rerun pending. Phase 2
+evidence `phase2-20260807-003828` and Phase 3 Windows evidence `phase3-20260807-052047` are accepted.
+Runs `phase3-20260807-045558` and `phase3-remaining-windows-20260807-092741` remain immutable failed
+history. Phase 3 is not yet corrected-Windows-validated, Linux-xcb-rendered, or release-ready.
+Automated evidence does not infer a human screen-reader or scientist study.
 
 ---
 
@@ -712,9 +727,8 @@ failed attempts and rejected evidence; do not silently delete, overwrite, or rei
 
 ## 7. Immediate next action
 
-Rerun the Git-ignored `validation/Validate-Phase2.ps1` manually after the formatting correction for
-`phase2-20260807-003024`, and return the complete new
-`validation/logs/phase2-YYYYMMDD-HHMMSS/` directory. Review every command, source/validator hash,
-runtime-contract check, and affected regression before accepting the Phase 2 exit gate. Do not
-begin Phase 3, start policy training/evaluation, open protected cases, regenerate release artifacts,
-or implement Phase 4 execution while Phase 2 validation remains open.
+Run both ignored noninteractive remaining-gate lanes documented in
+`validation/PHASE3_REMAINING_VALIDATION.md`: the Windows automated keyboard/accessibility collector
+and the Linux xcb light/dark all-workspace validator. Return both complete timestamped directories
+for source/hash and evidence review. Do not begin Phase 4, start policy training/evaluation, open
+protected cases, or regenerate release artifacts while Phase 3 remains open.

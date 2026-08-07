@@ -40,6 +40,7 @@ from calo_rpd_studio.gui.panels.robust_scenarios_panel import RobustScenariosPan
 from calo_rpd_studio.gui.panels.statistical_analysis_panel import StatisticalAnalysisPanel
 from calo_rpd_studio.gui.panels.validation_audit_panel import ValidationAuditPanel
 from calo_rpd_studio.gui.widgets.global_status_bar import GlobalStatusBarWidget
+from calo_rpd_studio.gui.widgets.form_density import apply_compact_input_policy
 from calo_rpd_studio.gui.widgets.scrollable_page import ScrollablePage
 from calo_rpd_studio.gui.widgets.workflow_guide import WorkflowGuide
 
@@ -48,7 +49,7 @@ from .workflow_manager import WorkflowManager
 from .experiment_workspace_restorer import ExperimentWorkspaceRestorer
 from .session_recovery import SessionRecoveryJournal
 from .workspaces import (
-    WORKSPACES,
+    WORKSPACE_SPECS,
     WORKSPACE_KEYS,
     WORKSPACE_TITLE,
     migrate_workspace_ui,
@@ -76,7 +77,7 @@ class MainWindow(QMainWindow):
         self.resize(1500, 920)
         self.setMinimumSize(1120, 720)
 
-        self.sidebar = NavigationSidebar(WORKSPACES)
+        self.sidebar = NavigationSidebar(WORKSPACE_SPECS, settings_manager)
         self.stack = QStackedWidget()
         self.stack.setObjectName("WorkspaceStack")
         self.pages_by_key = {
@@ -100,6 +101,10 @@ class MainWindow(QMainWindow):
         self.pages = [self.pages_by_key[key] for key in WORKSPACE_KEYS]
         for page in self.pages:
             self.stack.addWidget(page)
+        self.interface_density = apply_compact_input_policy(
+            self.stack,
+            str(self.settings_manager.value("interface_density", "comfortable")),
+        )
         self.restorer = ExperimentWorkspaceRestorer(self.state, self.workflow, self.pages_by_key)
         self.session_recovery = SessionRecoveryJournal()
         self._previous_unclean_session = self.session_recovery.previous_unclean()
@@ -163,6 +168,9 @@ class MainWindow(QMainWindow):
         self.pages_by_key["calo_intelligence"].experiment_manager_requested.connect(
             lambda: self._set_workspace("experiment")
         )
+        self.pages_by_key["dashboard"].workspace_requested.connect(self._set_workspace)
+        self.pages_by_key["experiment"].workspace_requested.connect(self._set_workspace)
+        self.pages_by_key["settings"].density_changed.connect(self._apply_interface_density)
         self.experiment_manager.started.connect(lambda _: self.workflow.mark_experiment_started())
         self.experiment_manager.completed.connect(
             lambda _: self.workflow.mark_experiment_completed()
@@ -206,6 +214,9 @@ class MainWindow(QMainWindow):
 
     def _governing_policy_event(self) -> None:
         self.state.notify_policy_state_changed()
+
+    def _apply_interface_density(self, density: str) -> None:
+        self.interface_density = apply_compact_input_policy(self.stack, density)
 
     def _initial_system_scan(self) -> None:
         try:
@@ -290,6 +301,14 @@ class MainWindow(QMainWindow):
                 "Workflow complete",
                 False,
             )
+            dashboard = self.pages_by_key.get("dashboard")
+            if dashboard is not None and hasattr(dashboard, "set_next_action"):
+                dashboard.set_next_action(
+                    "Review retained evidence",
+                    "The configured workflow has no pending required step.",
+                    "results",
+                    True,
+                )
             return
         step_text = (
             "Post-experiment workflow"
@@ -302,6 +321,14 @@ class MainWindow(QMainWindow):
             f"Open {WORKSPACE_TITLE[descriptor.workspace_key]}",
             self.workflow.is_workspace_enabled(descriptor.workspace_key),
         )
+        dashboard = self.pages_by_key.get("dashboard")
+        if dashboard is not None and hasattr(dashboard, "set_next_action"):
+            dashboard.set_next_action(
+                descriptor.title,
+                descriptor.instruction,
+                descriptor.workspace_key,
+                self.workflow.is_workspace_enabled(descriptor.workspace_key),
+            )
 
     def _go_to_recommended_step(self) -> None:
         descriptor = self.workflow.next_descriptor()
@@ -462,11 +489,15 @@ class MainWindow(QMainWindow):
         self.save_config_action = save_action
         save_action.setShortcut(QKeySequence.StandardKey.Save)
         save_action.triggered.connect(self.save_config)
+        search_action = QAction("Find workspace", self)
+        search_action.setShortcut(QKeySequence("Ctrl+K"))
+        search_action.triggered.connect(self.sidebar.focus_search)
         about_action = QAction("About", self)
         about_action.triggered.connect(self.about)
 
         toolbar.addAction(open_action)
         toolbar.addAction(save_action)
+        toolbar.addAction(search_action)
         toolbar.addSeparator()
         spacer = QWidget()
         spacer.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)

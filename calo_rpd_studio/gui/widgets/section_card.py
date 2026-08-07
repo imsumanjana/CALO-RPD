@@ -17,8 +17,8 @@ class SectionCard(QFrame):
         super().__init__(parent)
         self.setObjectName("SectionCard")
         self.layout_root = QVBoxLayout(self)
-        self.layout_root.setContentsMargins(18, 16, 18, 18)
-        self.layout_root.setSpacing(10)
+        self.layout_root.setContentsMargins(16, 16, 16, 16)
+        self.layout_root.setSpacing(8)
 
         if title:
             heading = QLabel(title)
@@ -45,8 +45,8 @@ class MetricCard(QFrame):
         super().__init__(parent)
         self.setObjectName("MetricCard")
         layout = QVBoxLayout(self)
-        layout.setContentsMargins(16, 14, 16, 14)
-        layout.setSpacing(5)
+        layout.setContentsMargins(16, 16, 16, 16)
+        layout.setSpacing(8)
 
         self.label = QLabel(label)
         self.label.setObjectName("MetricLabel")
