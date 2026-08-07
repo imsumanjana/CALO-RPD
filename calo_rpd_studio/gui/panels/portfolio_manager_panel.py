@@ -10,6 +10,7 @@ from PyQt6.QtWidgets import (
     QComboBox,
     QFormLayout,
     QGroupBox,
+    QHeaderView,
     QHBoxLayout,
     QLabel,
     QMessageBox,
@@ -33,6 +34,7 @@ from calo_rpd_studio.portfolio.models import (
 from calo_rpd_studio.portfolio.planner import PortfolioPlanner
 from calo_rpd_studio.gui.widgets.page_header import PageHeader
 from calo_rpd_studio.gui.widgets.scrollable_page import ScrollablePage
+from calo_rpd_studio.gui.widgets.workspace_tabs import WorkspaceTabs
 
 
 class PortfolioManagerPanel(ScrollablePage):
@@ -54,8 +56,14 @@ class PortfolioManagerPanel(ScrollablePage):
             )
         )
 
-        definition = QGroupBox("Portfolio definition")
-        form = QFormLayout(definition)
+        definition = QWidget()
+        definition_layout = QHBoxLayout(definition)
+        definition_layout.setContentsMargins(18, 18, 18, 18)
+        definition_layout.setSpacing(16)
+        study_scope = QGroupBox("Study scope")
+        study_form = QFormLayout(study_scope)
+        output_scope = QGroupBox("Output and storage")
+        output_form = QFormLayout(output_scope)
         self.kind = QComboBox()
         self.kind.addItem("Single-run diagnostic portfolio", PortfolioKind.SINGLE_RUN.value)
         self.kind.addItem(
@@ -85,26 +93,34 @@ class PortfolioManagerPanel(ScrollablePage):
             "Repeated-run statistical evidence", StorageProfile.REPEATED_STATISTICS.value
         )
         self.storage.addItem("Full robust scenario evidence", StorageProfile.ROBUST_FULL.value)
-        form.addRow("Portfolio type", self.kind)
-        form.addRow("Evidence strength", self.profile)
-        form.addRow("Custom repeated runs", self.custom_runs)
-        form.addRow("Output preset", self.preset)
-        form.addRow("Storage profile", self.storage)
-        layout.addWidget(definition)
+        study_form.addRow("Portfolio type", self.kind)
+        study_form.addRow("Evidence strength", self.profile)
+        study_form.addRow("Custom repeated runs", self.custom_runs)
+        output_form.addRow("Output preset", self.preset)
+        output_form.addRow("Storage profile", self.storage)
+        definition_layout.addWidget(study_scope, 1)
+        definition_layout.addWidget(output_scope, 1)
 
-        output_box = QGroupBox("Requested figures, tables, and evidence")
+        output_box = QWidget()
         output_layout = QVBoxLayout(output_box)
+        output_layout.setContentsMargins(18, 18, 18, 18)
         explanation = QLabel(
             "Select only the outputs needed. Unavailable outputs are retained in the plan with an explicit reason rather than causing unnecessary evaluations."
         )
         explanation.setWordWrap(True)
         output_layout.addWidget(explanation)
         self.outputs = QTreeWidget()
+        self.outputs.setObjectName("PortfolioRequestedOutputs")
+        self.outputs.setAccessibleName("Requested figures, tables, and evidence")
         self.outputs.setHeaderLabels(["Generate", "Output", "Minimum evidence"])
         self.outputs.setAlternatingRowColors(True)
-        self.outputs.header().setStretchLastSection(False)
-        self.outputs.header().resizeSection(0, 90)
-        self.outputs.header().resizeSection(1, 420)
+        output_header = self.outputs.header()
+        output_header.setStretchLastSection(False)
+        output_header.setMinimumSectionSize(72)
+        output_header.setSectionResizeMode(0, QHeaderView.ResizeMode.Fixed)
+        output_header.setSectionResizeMode(1, QHeaderView.ResizeMode.Stretch)
+        output_header.setSectionResizeMode(2, QHeaderView.ResizeMode.ResizeToContents)
+        output_header.resizeSection(0, 110)
         for category, requirements in categories().items():
             parent_item = QTreeWidgetItem(["", category, ""])
             parent_item.setFlags(parent_item.flags() & ~Qt.ItemFlag.ItemIsSelectable)
@@ -130,10 +146,11 @@ class PortfolioManagerPanel(ScrollablePage):
         select_row.addWidget(clear)
         select_row.addStretch(1)
         output_layout.addLayout(select_row)
-        layout.addWidget(output_box, 1)
 
-        execution = QGroupBox("Reuse, validation, and resumability")
-        exec_form = QFormLayout(execution)
+        execution = QWidget()
+        execution_layout = QVBoxLayout(execution)
+        execution_layout.setContentsMargins(18, 18, 18, 18)
+        execution_layout.setSpacing(12)
         self.require_validation = QCheckBox(
             "Require independent validation for publication-facing outputs"
         )
@@ -144,13 +161,14 @@ class PortfolioManagerPanel(ScrollablePage):
         self.require_validation.setChecked(True)
         self.reuse.setChecked(True)
         self.resume.setChecked(True)
-        exec_form.addRow("", self.require_validation)
-        exec_form.addRow("", self.reuse)
-        exec_form.addRow("", self.resume)
-        layout.addWidget(execution)
+        execution_layout.addWidget(self.require_validation)
+        execution_layout.addWidget(self.reuse)
+        execution_layout.addWidget(self.resume)
+        execution_layout.addStretch(1)
 
-        plan_box = QGroupBox("Derived minimal experiment plan")
+        plan_box = QWidget()
         plan_layout = QVBoxLayout(plan_box)
+        plan_layout.setContentsMargins(18, 18, 18, 18)
         self.plan_summary = QLabel()
         self.plan_summary.setWordWrap(True)
         self.plan_detail = QLabel()
@@ -168,8 +186,30 @@ class PortfolioManagerPanel(ScrollablePage):
         buttons.addWidget(apply_button)
         buttons.addStretch(1)
         plan_layout.addLayout(buttons)
-        layout.addWidget(plan_box)
-        layout.addStretch(1)
+
+        self.section_tabs = WorkspaceTabs("Portfolio planning sections")
+        self.section_tabs.add_section(
+            "Definition",
+            definition,
+            "Choose the portfolio scope, evidence strength, output preset, and storage profile.",
+        )
+        self.section_tabs.add_section(
+            "Requested outputs",
+            output_box,
+            "Select the figures, tables, and evidence required from the study.",
+        )
+        self.section_tabs.add_section(
+            "Reuse and validation",
+            execution,
+            "Control independent validation, compatible-result reuse, and resumability.",
+        )
+        self.section_tabs.add_section(
+            "Derived plan",
+            plan_box,
+            "Preview and apply the minimum experiment plan implied by the selected outputs.",
+        )
+        self.section_tabs.setMinimumHeight(520)
+        layout.addWidget(self.section_tabs, 1)
 
         for widget in (self.kind, self.profile, self.preset, self.storage):
             widget.currentIndexChanged.connect(self._controls_changed)

@@ -1,10 +1,11 @@
 # CALO-RPD v12.0 onward release update and fix plan
 
 **Plan status:** Phase 1 and Phase 2 validation are accepted. Phase 3 GUI coding is implemented at
-`12.0.0.dev1`, and corrected Windows-local run `phase3-20260807-052047` is accepted. The subsequent
-remaining-gate run exposed responsive Results/Settings clipping and formatting defects that are now
-corrected. Noninteractive corrected Windows and Linux xcb evidence remain pending. This is not a
-release declaration,
+`12.0.0.dev1`; Windows-local run `phase3-20260807-052047` and pre-tabbed automation `112621` are
+accepted for their exact source. Tabbed-source run `120240` failed formatting and exposed a
+Portfolio table-width gap during screenshot review; both are corrected in current source.
+Corrected Windows run `121530` is now accepted at 10/10; Linux xcb evidence remains pending. This is
+not a release declaration,
 scientific qualification, policy approval, or authority to open protected cases.
 
 **Prepared:** 2026-08-06 (Asia/Calcutta)
@@ -453,6 +454,9 @@ The GUI must not use unnecessarily long input areas. Apply these rules to every 
 - [x] Keep primary and destructive actions visually distinct and close to the content they affect.
 - [x] Show inline validation and concise corrective guidance; do not reserve large empty panels for
   future messages.
+- [x] Reclaim wide workspace surfaces with balanced side-by-side groups, and replace long vertical
+  section-card stacks with accessible tabs in ORPD Formulation, Robust Scenarios, Portfolio Manager,
+  Application Settings, and Benchmark & Evidence.
 - [x] Avoid nested scrolling. Each workspace should normally have one page scroll surface; dialogs
   and dedicated log/table viewers may scroll independently.
 
@@ -484,12 +488,20 @@ The GUI must not use unnecessarily long input areas. Apply these rules to every 
 ### 3.6 GUI verification
 
 Corrective user run `phase3-20260807-052047` passed 18/18 commands and supersedes the failed first
-run for current Windows-local evidence. All four light/dark/high-DPI render cells were readable and
-reported zero missing glyphs, replacement characters, clipping, compact-input, and long-editor
-failures. All durable and current-source hashes matched on review, and no prohibited workflow ran.
-The prior run remains immutable failed history. A tracked all-workspace keyboard/accessibility
-collector and ignored noninteractive Windows and Linux xcb validators encode the remaining proof
-without executing scientific actions or collecting reviewer answers.
+run for its Windows-local source. The later noninteractive run
+`phase3-remaining-windows-20260807-112621` passed 10/10, including all sixteen workspaces in light
+and dark/200%, 13 Phase 3 contracts, and both focused regressions. Its 47 durable and 36 source hashes
+matched. Both runs remain valid for their exact manifests, and no prohibited workflow ran.
+
+The subsequent tabbed-layout refinement changes current GUI source, so it is not covered by those
+accepted manifests. Its first run, `phase3-remaining-windows-20260807-120240`, passed 9/10 commands
+and all tab interactions/renders but failed formatting; screenshot review also exposed underused
+width and shortened text in Portfolio Requested outputs. The Portfolio tree and affected formatting
+are corrected, and `phase3-remaining-windows-20260807-121530` passed all 10 Windows commands. The
+tracked v3 all-workspace collector visits every shared section tab, exercises
+keyboard selection, retains screenshots, and now fails on tree unused width, horizontal overflow,
+or header/cell clipping. Ignored noninteractive Windows and Linux xcb validators encode the current
+proof without executing scientific actions or collecting reviewer answers.
 
 - [ ] Add light/dark reference renders on Linux xcb; Windows reference renders are accepted.
 - [x] Add a font-family and glyph-availability gate; a screenshot containing replacement/tofu glyphs
@@ -513,11 +525,15 @@ viewers, Dashboard and Study Setup responsibilities are separated, accessibility
 render tests pass, historical workspaces restore safely, and no scientific/runtime contract changes
 through the presentation layer.
 
-**Current gate state:** Windows-local baseline accepted; corrected automated rerun pending. Phase 2
-evidence `phase2-20260807-003828` and Phase 3 Windows evidence `phase3-20260807-052047` are accepted.
-Runs `phase3-20260807-045558` and `phase3-remaining-windows-20260807-092741` remain immutable failed
-history. Phase 3 is not yet corrected-Windows-validated, Linux-xcb-rendered, or release-ready.
-Automated evidence does not infer a human screen-reader or scientist study.
+**Current gate state:** Windows-local baseline and pre-tabbed automated evidence are accepted. Phase 2
+evidence `phase2-20260807-003828`, Phase 3 Windows baseline `phase3-20260807-052047`, and pre-tabbed
+automation `phase3-remaining-windows-20260807-112621` are accepted for their exact source manifests.
+Runs `phase3-20260807-045558`, `phase3-remaining-windows-20260807-092741`,
+`phase3-remaining-windows-20260807-100054`, `phase3-remaining-windows-20260807-111826`, and
+`phase3-remaining-windows-20260807-120240` remain failed history. Corrected tabbed Windows source is
+accepted by `phase3-remaining-windows-20260807-121530`; it is not yet Linux-xcb-rendered and is not
+release-ready. Automated evidence does not
+infer a human screen-reader or scientist study.
 
 ---
 

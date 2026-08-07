@@ -383,15 +383,15 @@ accepted.
 
 | Gate item | Source state | Evidence state |
 |---|---|---|
-| Five grouped/collapsible navigation sections with stable keyed restoration | Implemented; first-run corrections applied | Windows-local contracts accepted; cross-platform interaction evidence pending |
-| Persisted compact/expanded rail, SVG icons, search, state badges, blocked explanations | Implemented; first-run corrections applied | Noninteractive keyboard/search/persistence collector prepared; rerun pending |
-| Next-action Dashboard with five readiness categories and recent/resumable/failure evidence | Implemented; formatting-independent contract applied | Windows render accepted; Linux and corrected all-workspace automation pending |
-| Seven-step Study Setup separated from the Dashboard | Implemented | Programmatic keyboard interaction rerun pending |
-| Bounded 240-480px controls, 900px study column, structured integer chips, expandable text | Results and Settings responsive corrections implemented | Corrected all-workspace clipping rerun pending |
-| Progressive disclosure for activity, continuation, queue, and advanced details | Implemented | Programmatic keyboard interaction rerun pending |
+| Five grouped/collapsible navigation sections with stable keyed restoration | Implemented; first-run corrections applied | Corrected Windows contracts and interactions accepted; Linux xcb pending |
+| Persisted compact/expanded rail, SVG icons, search, state badges, blocked explanations | Implemented; first-run corrections applied | Windows keyboard/search/persistence automation accepted; Linux xcb pending |
+| Next-action Dashboard with five readiness categories and recent/resumable/failure evidence | Implemented; formatting-independent contract applied | Windows render and all-workspace automation accepted; Linux xcb pending |
+| Seven-step Study Setup separated from the Dashboard | Implemented | Windows programmatic keyboard interaction accepted; Linux xcb pending |
+| Bounded 240-480px controls, structured integer chips, expandable text, horizontal form groups, and tabbed multi-section workspaces | Results/Settings corrections, five-workspace tabs, and Portfolio output-tree width allocation implemented | Corrected Windows v3 all-tab/tree-width evidence accepted; Linux xcb pending |
+| Progressive disclosure for activity, continuation, queue, and advanced details | Implemented | Windows programmatic keyboard interaction accepted; Linux xcb pending |
 | Named semantic light/dark tokens, 8px spacing, 40/44px density modes, focus visibility | Implemented; unsupported QSS removed | Windows light/dark/high-DPI accepted; token-contrast and Linux xcb evidence pending |
-| Accessibility names, form buddies, keyboard search/step navigation, non-color state text | Implemented | Noninteractive semantic/keyboard audit prepared; user execution pending |
-| Render/glyph/clipping evidence generator and ignored Phase 3 validator | Deterministic system-font registration and durable v2 manifests implemented | Windows run `phase3-20260807-052047` accepted; Linux xcb lane pending |
+| Accessibility names, form buddies, keyboard search/step navigation, non-color state text | Implemented | Corrected Windows semantic/keyboard automation accepted; Linux xcb and human acceptance remain separate |
+| Render/glyph/clipping evidence generator and ignored Phase 3 validator | Deterministic system-font registration, per-section-tab captures, tree-column width/clipping audit, and durable v3 evidence implemented | Corrected Windows `121530` accepted; Linux xcb lane pending |
 
 Phase 3 run `phase3-20260807-045558` passed 11/18 commands and remains failed evidence. Its 60/62
 tests included two brittle source-text failures; all four render cells were unreadable because the
@@ -414,10 +414,38 @@ the result-database label/path in both light and dark/200% cells. The retained r
 workflow. The layouts, evidence detail, and formatting are corrected in source.
 
 At the user's direction, the replacement Windows validator is fully noninteractive and cannot use
-reviewer answers. It measures keyboard behavior, accessibility semantics, contrast, glyphs,
-clipping, responsive input widths, scroll structure, terminology, and screenshots, while explicitly
-not inferring a human screen-reader or scientist study. Linux light/dark xcb evidence and a clean
-corrected Windows automated rerun remain mandatory proof, so Phase 3 and Phase 4 remain blocked.
+reviewer answers. Run `phase3-remaining-windows-20260807-112621` passed 10/10 commands, including
+13 Phase 3 contracts, both focused Results/Settings regressions, and light plus dark/200% evidence
+across all sixteen workspaces. Its 47/47 durable hashes and 36/36 current source hashes matched, and
+it executed no prohibited workflow. This accepts the corrected pre-tabbed Windows source while
+preserving the earlier failed runs as history.
+
+The subsequent user-directed refinement replaces vertical section stacks in ORPD Formulation,
+Robust Scenarios, Portfolio Manager, Application Settings, and Benchmark & Evidence with a shared
+accessible `WorkspaceTabs` surface. Related compact controls are arranged in balanced side-by-side
+groups, while genuinely long paths retain dedicated width. The v2 all-workspace collector now visits
+every new section tab by keyboard and retains a screenshot for each tab. These changes postdate the
+accepted `112621` source manifest, so fresh noninteractive Windows and Linux light/dark xcb evidence
+were mandatory. Corrected Windows run `121530` is now accepted; Phase 3 and Phase 4 remain blocked
+pending the Linux directory.
+
+Run `phase3-remaining-windows-20260807-120240` is intact failed evidence for the first tabbed source:
+9/10 commands passed, including 14 contracts, five layout regressions, and both all-tab render cells;
+79/79 evidence hashes and 17/17 source records matched. Ruff formatting rejected five files. Visual
+review additionally found unused width and shortened evidence text in Portfolio Requested outputs,
+which the v2 collector could not detect. Current source corrects the tree resize policy, adds a
+rendered width regression, advances workspace evidence to v3 with fail-closed tree width/text checks,
+and advances the ignored Windows summary to v4. Codex did not execute validation or tests; corrected
+Windows evidence and Linux xcb evidence remain mandatory.
+
+Corrected run `phase3-remaining-windows-20260807-121530` is accepted for its exact source: 10/10
+commands, 15 Phase 3 contracts, six layout regressions, and both light/dark-200% v3 workspace cells
+passed. Validator and Git-status identities matched the returned state at acceptance review; 17/17
+source entries and 79/79 evidence hashes matched. The acceptance ledger now postdates that manifest.
+Both Portfolio tree checks consume the complete 1054px viewport with zero
+unused/overflow width and no clipped column. This closes the Windows correction goal. Phase 3 and
+Phase 4 remain blocked only on the separate Linux xcb directory; Windows does not infer Linux or
+human acceptance.
 
 ## Invariants
 

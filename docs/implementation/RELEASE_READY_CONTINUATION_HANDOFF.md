@@ -942,3 +942,69 @@ scientific/hardware qualification—not as a final release.
 - Codex did not execute tests, validators, compilation, lint checks, renders, GUI interactions,
   policy/scientific workflows, benchmarks, qualification, campaigns, or protected cases. The next
   action is the user-executed corrected Windows rerun followed by the separate Linux xcb lane.
+
+## 16. Phase 3 Windows automation accepted; tabbed workspace refinement implemented - 2026-08-07
+
+- Accepted `phase3-remaining-windows-20260807-112621` read-only for its exact pre-refinement source:
+  all 10 commands passed, the 13 Phase 3 contracts and two focused GUI regressions passed, and all
+  sixteen light plus dark/200% workspace audits passed. The 47/47 durable hashes, 36/36 source
+  hashes, corrected validator identity, and current Git-status hash matched. No policy training or
+  evaluation, scientific evaluation, benchmark, qualification campaign, or protected case ran.
+- Implemented the user's subsequent presentation refinement without changing scientific state or
+  behavior. ORPD Formulation, Robust Scenarios, Portfolio Manager, Application Settings, and
+  Benchmark & Evidence now use a shared accessible `WorkspaceTabs` surface instead of long vertical
+  section stacks. Related compact controls are arranged in side-by-side groups to use wide desktop
+  space, while genuinely long database/manifest paths retain dedicated width.
+- Added rendered contracts for the model-configuration tabs and Application Settings tab labels,
+  plus source contracts covering all five workspaces and the shared tab surface.
+- Upgraded the non-scientific all-workspace evidence schema to v2. It visits every shared section tab,
+  checks keyboard switching and accessible tab/page metadata, and retains a source-bound screenshot
+  for each tab in both Windows and Linux validation lanes.
+- Updated the ignored Windows validator to include the new tab regression module. The existing exact
+  manual command remains authoritative; no reviewer response is requested and no human acceptance is
+  inferred.
+- The accepted `112621` directory predates these edits and remains valid history rather than proof of
+  current source. Codex did not run a validator, pytest, Ruff, compilation, render, GUI interaction,
+  policy/scientific workflow, benchmark, qualification, campaign, or protected case. Run the updated
+  ignored Windows validator and return its complete new directory, then return the Linux xcb lane.
+
+## 17. Phase 3 tabbed-layout evidence failed; Portfolio width and evidence gate corrected - 2026-08-07
+
+- Reviewed `phase3-remaining-windows-20260807-120240` read-only. Its validator and current status
+  identities matched; 79/79 durable evidence hashes and 17/17 source entries matched. The run passed
+  9/10 commands, including 14 Phase 3 contracts, five responsive-layout regressions, and both
+  light/dark all-tab cells. No prohibited workflow ran.
+- The formal failure was Ruff formatting on five files. Separate screenshot review found a genuine
+  acceptance gap: Portfolio Manager's Requested outputs tree used only the left portion of its tab
+  while truncating Minimum evidence text, and the v2 evidence schema did not inspect tree columns.
+- Portfolio Manager now assigns a fixed selection column, stretching Output column, and
+  content-sized Minimum evidence column, with accessible/stable tree identity. A rendered regression
+  covers resize modes, full viewport use, and header fit.
+- Workspace evidence schema v3 now records and fails on tree unused width, horizontal overflow, and
+  retained header/cell clipping. The ignored Windows validator emits summary schema v4 with explicit
+  tree-layout totals and failures. A mechanical formatter was applied to affected files, but no
+  test, validation, format-check, compilation, render, policy/scientific workflow, benchmark,
+  qualification, campaign, or protected case was executed by Codex.
+- Run `powershell -ExecutionPolicy Bypass -File .\validation\Validate-Phase3-Remaining.ps1` and
+  return the complete new timestamped Windows directory. Phase 3 remains open until that evidence
+  passes review and the separate Linux xcb lane is also supplied.
+
+## 18. Corrected Phase 3 Windows evidence accepted; Linux xcb remains - 2026-08-07
+
+- Accepted `phase3-remaining-windows-20260807-121530` for its exact source-bound state. The v4
+  summary passed 10/10 commands: source/whitespace/version/compile/Ruff gates, 15 Phase 3 contracts,
+  six layout regressions, and light plus dark/200% v3 all-workspace evidence.
+- The retained validator SHA-256 and current validator match. Before the post-acceptance ledger
+  update, the retained and current Git-status hashes matched; 17/17 returned source entries and
+  79/79 evidence hashes matched with no missing or mismatched file. The status/contract/ledger edits
+  now intentionally postdate the manifest. The run requested no reviewer input and recorded no
+  prohibited workflow.
+- Each workspace cell passed five tab sets, sixteen tab screenshots, keyboard and contrast gates,
+  with no failed workspace. The Portfolio tree-width record shows a 1054px viewport and header,
+  zero unused/overflow width, and no clipped section. Visual screenshot review confirms the table
+  fills the tab and Minimum evidence is readable in light and dark/200%.
+- The Windows correction goal is closed. Phase 3 overall remains `open_linux_xcb_evidence_pending`:
+  there is no returned `phase3-remaining-linux-*` directory, and the Windows report explicitly does
+  not infer Linux rendering or human acceptance.
+- Codex did not rerun tests or validation after recording acceptance. The next user-executed Linux
+  xcb lane must bind the post-evidence ledger identities with current source.

@@ -7,8 +7,9 @@ from PyQt6.QtWidgets import (
     QCheckBox,
     QComboBox,
     QDoubleSpinBox,
-    QGridLayout,
+    QFormLayout,
     QGroupBox,
+    QHBoxLayout,
     QLabel,
     QPushButton,
     QVBoxLayout,
@@ -17,6 +18,7 @@ from PyQt6.QtWidgets import (
 
 from calo_rpd_studio.gui.widgets.page_header import PageHeader
 from calo_rpd_studio.gui.widgets.scrollable_page import ScrollablePage
+from calo_rpd_studio.gui.widgets.workspace_tabs import WorkspaceTabs
 from calo_rpd_studio.orpd.objectives import ObjectiveKind
 
 
@@ -37,26 +39,28 @@ class ORPDFormulationPanel(ScrollablePage):
             )
         )
 
-        objective = QGroupBox("Objective function")
-        grid = QGridLayout(objective)
         self.kind = QComboBox()
         for kind in ObjectiveKind:
             self.kind.addItem(kind.value, kind)
         self.wloss = self._spin(0, 100, 1)
         self.wvd = self._spin(0, 100, 0)
         self.wli = self._spin(0, 100, 0)
-        grid.addWidget(QLabel("Objective"), 0, 0)
-        grid.addWidget(self.kind, 0, 1)
-        grid.addWidget(QLabel("Loss weight"), 1, 0)
-        grid.addWidget(self.wloss, 1, 1)
-        grid.addWidget(QLabel("Voltage-deviation weight"), 2, 0)
-        grid.addWidget(self.wvd, 2, 1)
-        grid.addWidget(QLabel("L-index weight"), 3, 0)
-        grid.addWidget(self.wli, 3, 1)
-        layout.addWidget(objective)
 
-        variables = QGroupBox("Control variables and mixed-variable decoding")
-        vg = QGridLayout(variables)
+        objective_page = QWidget()
+        objective_layout = QHBoxLayout(objective_page)
+        objective_layout.setContentsMargins(18, 18, 18, 18)
+        objective_layout.setSpacing(16)
+        objective_selection = QGroupBox("Objective selection")
+        objective_form = QFormLayout(objective_selection)
+        objective_form.addRow("Objective", self.kind)
+        objective_form.addRow("Loss weight", self.wloss)
+        objective_weights = QGroupBox("Additional objective weights")
+        weight_form = QFormLayout(objective_weights)
+        weight_form.addRow("Voltage-deviation weight", self.wvd)
+        weight_form.addRow("L-index weight", self.wli)
+        objective_layout.addWidget(objective_selection, 1)
+        objective_layout.addWidget(objective_weights, 1)
+
         self.gen_v = QCheckBox("Generator voltage magnitudes")
         self.taps = QCheckBox("Transformer tap settings")
         self.shunts = QCheckBox("Shunt reactive compensation")
@@ -65,32 +69,63 @@ class ORPDFormulationPanel(ScrollablePage):
         self.tap_min = self._spin(0.5, 1.5, 0.9)
         self.tap_max = self._spin(0.5, 1.5, 1.1)
         self.tap_step = self._spin(0.0001, 0.2, 0.0125)
-        for i, widget in enumerate(
-            [self.gen_v, self.taps, self.shunts, self.discrete_taps, self.discrete_shunts]
-        ):
-            vg.addWidget(widget, i, 0, 1, 2)
-        vg.addWidget(QLabel("Tap minimum"), 5, 0)
-        vg.addWidget(self.tap_min, 5, 1)
-        vg.addWidget(QLabel("Tap maximum"), 6, 0)
-        vg.addWidget(self.tap_max, 6, 1)
-        vg.addWidget(QLabel("Tap step"), 7, 0)
-        vg.addWidget(self.tap_step, 7, 1)
-        layout.addWidget(variables)
 
-        policy = QGroupBox("Constraint treatment")
-        policy_layout = QVBoxLayout(policy)
+        controls_page = QWidget()
+        controls_layout = QHBoxLayout(controls_page)
+        controls_layout.setContentsMargins(18, 18, 18, 18)
+        controls_layout.setSpacing(16)
+        included_controls = QGroupBox("Included controls")
+        included_layout = QVBoxLayout(included_controls)
+        for widget in (
+            self.gen_v,
+            self.taps,
+            self.shunts,
+            self.discrete_taps,
+            self.discrete_shunts,
+        ):
+            included_layout.addWidget(widget)
+        included_layout.addStretch(1)
+        tap_decoding = QGroupBox("Transformer tap decoding")
+        tap_form = QFormLayout(tap_decoding)
+        tap_form.addRow("Tap minimum", self.tap_min)
+        tap_form.addRow("Tap maximum", self.tap_max)
+        tap_form.addRow("Tap step", self.tap_step)
+        controls_layout.addWidget(included_controls, 1)
+        controls_layout.addWidget(tap_decoding, 1)
+
+        policy_page = QWidget()
+        policy_layout = QVBoxLayout(policy_page)
+        policy_layout.setContentsMargins(18, 18, 18, 18)
         text = QLabel(
             "Feasibility-first ranking is applied independently of the objective: feasible candidates dominate infeasible candidates; feasible candidates are ordered by objective; infeasible candidates are ordered by normalized total violation. Voltage, generator P/Q, device, branch thermal, and power-flow convergence checks remain explicit."
         )
         text.setWordWrap(True)
         policy_layout.addWidget(text)
-        layout.addWidget(policy)
+        policy_layout.addStretch(1)
+
+        self.section_tabs = WorkspaceTabs("ORPD formulation sections")
+        self.section_tabs.add_section(
+            "Objective",
+            objective_page,
+            "Choose the objective and its weighting terms.",
+        )
+        self.section_tabs.add_section(
+            "Control variables",
+            controls_page,
+            "Choose physical control variables and transformer tap decoding.",
+        )
+        self.section_tabs.add_section(
+            "Constraint policy",
+            policy_page,
+            "Review the common feasibility-first comparison policy.",
+        )
+        self.section_tabs.setMinimumHeight(360)
+        layout.addWidget(self.section_tabs, 1)
 
         save = QPushButton("Apply ORPD formulation and continue")
         save.setObjectName("PrimaryButton")
         save.clicked.connect(self.apply)
         layout.addWidget(save)
-        layout.addStretch(1)
         state.config_changed.connect(lambda _: self.refresh())
         self.refresh()
 

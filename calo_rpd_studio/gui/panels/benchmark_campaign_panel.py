@@ -23,6 +23,7 @@ from PyQt6.QtWidgets import (
     QTableWidgetItem,
     QTextEdit,
     QVBoxLayout,
+    QWidget,
 )
 
 from calo_rpd_studio.algorithms.registry import primary_algorithm_names
@@ -36,8 +37,8 @@ from calo_rpd_studio.benchmarking.freeze import verify_freeze_manifest
 from calo_rpd_studio.benchmarking.package import ScientificEvidencePackageBuilder
 from calo_rpd_studio.benchmarking.validation import validate_campaign
 from calo_rpd_studio.benchmarking.suite import standard_benchmark_suite
-from calo_rpd_studio.gui.widgets.section_card import SectionCard
 from calo_rpd_studio.gui.widgets.workspace_page import WorkspacePage
+from calo_rpd_studio.gui.widgets.workspace_tabs import WorkspaceTabs
 from calo_rpd_studio.version import FREEZE_MANIFEST
 
 
@@ -60,14 +61,24 @@ class BenchmarkCampaignPanel(WorkspacePage):
         self._manifest_path: Path | None = None
         self._current_experiment_id = ""
 
-        freeze_card = SectionCard(
-            "A. Frozen CALO gate",
-            "Held-out execution is blocked unless the software freeze matches the CALO equations, operators, state, archives, policy architecture, training semantics, hyperparameters, decoder, and feasibility rules. The governing policy is separately bound by explicit artifact SHA-256.",
+        freeze_page = QWidget()
+        freeze_layout = QVBoxLayout(freeze_page)
+        freeze_layout.setContentsMargins(18, 18, 18, 18)
+        freeze_description = QLabel(
+            "Held-out execution is blocked unless the software freeze matches the CALO equations, "
+            "operators, state, archives, policy architecture, training semantics, hyperparameters, "
+            "decoder, and feasibility rules. The governing policy is separately bound by explicit "
+            "artifact SHA-256."
         )
+        freeze_description.setWordWrap(True)
+        freeze_layout.addWidget(freeze_description)
         freeze_row = QHBoxLayout()
         self.freeze_path = QLineEdit(
             str(Path(__file__).resolve().parents[2] / "data" / "frozen" / FREEZE_MANIFEST)
         )
+        self.freeze_path.setProperty("fullWidthInput", True)
+        self.freeze_path.setAccessibleName("Frozen CALO manifest path")
+        self.freeze_path.setToolTip(self.freeze_path.text())
         self.freeze_status = QLabel("Not verified")
         verify = QPushButton("Verify frozen CALO")
         verify.setObjectName("PrimaryButton")
@@ -75,14 +86,18 @@ class BenchmarkCampaignPanel(WorkspacePage):
         freeze_row.addWidget(self.freeze_path, 1)
         freeze_row.addWidget(verify)
         freeze_row.addWidget(self.freeze_status)
-        freeze_card.layout_root.addLayout(freeze_row)
-        self.layout_root.addWidget(freeze_card)
+        freeze_layout.addLayout(freeze_row)
+        freeze_layout.addStretch(1)
 
-        design_card = SectionCard(
-            "B. Final benchmark design",
+        design_page = QWidget()
+        design_layout = QVBoxLayout(design_page)
+        design_layout.setContentsMargins(18, 18, 18, 18)
+        design_description = QLabel(
             "The campaign uses the frozen registered comparator set, equal objective-function "
-            "evaluation budgets, paired run seeds, and a multiplicity-aware powered run plan.",
+            "evaluation budgets, paired run seeds, and a multiplicity-aware powered run plan."
         )
+        design_description.setWordWrap(True)
+        design_layout.addWidget(design_description)
         grid = QGridLayout()
         self.case_checks: dict[str, QCheckBox] = {}
         case_box = QGroupBox("Benchmark systems")
@@ -148,7 +163,10 @@ class BenchmarkCampaignPanel(WorkspacePage):
         numeric.addWidget(QLabel("Output directory"), 5, 0)
         numeric.addWidget(self.output_directory, 5, 1)
         grid.addWidget(numeric_box, 0, 2)
-        design_card.layout_root.addLayout(grid)
+        grid.setColumnStretch(0, 1)
+        grid.setColumnStretch(1, 1)
+        grid.setColumnStretch(2, 2)
+        design_layout.addLayout(grid, 1)
 
         buttons = QHBoxLayout()
         self.plan_button = QPushButton("Build frozen campaign plan")
@@ -164,28 +182,38 @@ class BenchmarkCampaignPanel(WorkspacePage):
         buttons.addWidget(self.start_button)
         buttons.addWidget(self.cancel_button)
         buttons.addStretch(1)
-        design_card.layout_root.addLayout(buttons)
-        self.layout_root.addWidget(design_card)
+        design_layout.addLayout(buttons)
 
-        queue_card = SectionCard(
-            "C. Campaign task queue",
+        queue_page = QWidget()
+        queue_layout = QVBoxLayout(queue_page)
+        queue_layout.setContentsMargins(18, 18, 18, 18)
+        queue_description = QLabel(
             "Each row is a complete repeated-run comparison. Held-out experiments are "
-            "automatically locked out of historical learning.",
+            "automatically locked out of historical learning."
         )
+        queue_description.setWordWrap(True)
+        queue_layout.addWidget(queue_description)
         self.table = QTableWidget(0, 8)
         self.table.setHorizontalHeaderLabels(
             ["#", "Task", "Case", "Evidence role", "Study", "Jobs", "Status", "Experiment ID"]
         )
         self.table.setMinimumHeight(260)
-        queue_card.layout_root.addWidget(self.table)
-        self.layout_root.addWidget(queue_card)
+        queue_layout.addWidget(self.table, 1)
 
-        package_card = SectionCard(
-            "D. Comprehensive scientific evidence package",
-            "Generate verified tables, advanced publication figures, global nonparametric statistics, evidence-based interpretation, raw run records, experiment configurations, validation status, frozen CALO manifest, and a reproducibility archive.",
+        package_page = QWidget()
+        package_layout = QVBoxLayout(package_page)
+        package_layout.setContentsMargins(18, 18, 18, 18)
+        package_description = QLabel(
+            "Generate verified tables, advanced publication figures, global nonparametric "
+            "statistics, evidence-based interpretation, raw run records, experiment "
+            "configurations, validation status, frozen CALO manifest, and a reproducibility archive."
         )
+        package_description.setWordWrap(True)
+        package_layout.addWidget(package_description)
         package_row = QHBoxLayout()
         self.package_manifest = QLineEdit("benchmark_v600a4/campaign_manifest.json")
+        self.package_manifest.setProperty("fullWidthInput", True)
+        self.package_manifest.setAccessibleName("Completed campaign manifest path")
         browse = QPushButton("Load campaign manifest")
         browse.clicked.connect(self.choose_manifest)
         validate_button = QPushButton("Validate completed campaign")
@@ -197,12 +225,34 @@ class BenchmarkCampaignPanel(WorkspacePage):
         package_row.addWidget(browse)
         package_row.addWidget(validate_button)
         package_row.addWidget(build_package)
-        package_card.layout_root.addLayout(package_row)
+        package_layout.addLayout(package_row)
         self.log = QTextEdit()
         self.log.setReadOnly(True)
         self.log.setMinimumHeight(180)
-        package_card.layout_root.addWidget(self.log)
-        self.layout_root.addWidget(package_card)
+        package_layout.addWidget(self.log, 1)
+
+        self.section_tabs = WorkspaceTabs("Benchmark and evidence sections")
+        self.section_tabs.add_section(
+            "Freeze gate",
+            freeze_page,
+            "Verify the frozen CALO manifest before held-out execution.",
+        )
+        self.section_tabs.add_section(
+            "Campaign design",
+            design_page,
+            "Choose benchmark systems, studies, budgets, seeds, and execution controls.",
+        )
+        self.section_tabs.add_section(
+            "Task queue",
+            queue_page,
+            "Monitor complete repeated-run comparison tasks.",
+        )
+        self.section_tabs.add_section(
+            "Evidence package",
+            package_page,
+            "Validate a completed campaign and generate its reproducibility package.",
+        )
+        self.layout_root.addWidget(self.section_tabs, 1)
 
         experiment_manager.started.connect(self._on_experiment_started)
         experiment_manager.completed.connect(self._on_experiment_completed)

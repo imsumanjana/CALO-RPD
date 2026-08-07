@@ -8,6 +8,8 @@ from PyQt6.QtWidgets import (
     QDoubleSpinBox,
     QFormLayout,
     QGroupBox,
+    QHBoxLayout,
+    QLabel,
     QMessageBox,
     QPushButton,
     QSpinBox,
@@ -18,6 +20,7 @@ from PyQt6.QtWidgets import (
 from calo_rpd_studio.gui.widgets.page_header import PageHeader
 from calo_rpd_studio.gui.widgets.chip_editor import IntegerChipEditor
 from calo_rpd_studio.gui.widgets.scrollable_page import ScrollablePage
+from calo_rpd_studio.gui.widgets.workspace_tabs import WorkspaceTabs
 from calo_rpd_studio.robustness.robust_objectives import RobustAggregation
 
 
@@ -46,8 +49,6 @@ class RobustScenariosPanel(ScrollablePage):
             )
         )
 
-        box = QGroupBox("Scenario generator")
-        form = QFormLayout(box)
         self.mode = QComboBox()
         self.mode.addItems(self.MODES)
         self.count = QSpinBox()
@@ -61,35 +62,73 @@ class RobustScenariosPanel(ScrollablePage):
         self.renew_mw = self._spin(0, 1e9, 0)
         self.cf_mean = self._spin(0, 1, 0.5)
         self.cf_std = self._spin(0, 1, 0.15)
-        form.addRow("Mode", self.mode)
-        form.addRow("Scenario count", self.count)
-        form.addRow("Active-load standard deviation", self.pstd)
-        form.addRow("Reactive-load standard deviation", self.qstd)
-        form.addRow("Branch outage indices", self.branch)
-        form.addRow("Generator outage indices", self.gen)
-        form.addRow("Renewable bus number", self.renew_bus)
-        form.addRow("Renewable rated power (MW)", self.renew_mw)
-        form.addRow("Mean capacity factor", self.cf_mean)
-        form.addRow("Capacity-factor standard deviation", self.cf_std)
-        layout.addWidget(box)
 
-        robust = QGroupBox("Robust objective")
-        robust_form = QFormLayout(robust)
+        generator_page = QWidget()
+        generator_layout = QHBoxLayout(generator_page)
+        generator_layout.setContentsMargins(18, 18, 18, 18)
+        generator_layout.setSpacing(16)
+        sampling = QGroupBox("Sampling and load uncertainty")
+        sampling_form = QFormLayout(sampling)
+        sampling_form.addRow("Mode", self.mode)
+        sampling_form.addRow("Scenario count", self.count)
+        sampling_form.addRow("Active-load standard deviation", self.pstd)
+        sampling_form.addRow("Reactive-load standard deviation", self.qstd)
+        contingency = QGroupBox("Contingency and renewable inputs")
+        contingency_form = QFormLayout(contingency)
+        contingency_form.addRow("Branch outage indices", self.branch)
+        contingency_form.addRow("Generator outage indices", self.gen)
+        contingency_form.addRow("Renewable bus number", self.renew_bus)
+        contingency_form.addRow("Renewable rated power (MW)", self.renew_mw)
+        contingency_form.addRow("Mean capacity factor", self.cf_mean)
+        contingency_form.addRow("Capacity-factor standard deviation", self.cf_std)
+        generator_layout.addWidget(sampling, 1)
+        generator_layout.addWidget(contingency, 1)
+
         self.aggregation = QComboBox()
         for item in RobustAggregation:
             self.aggregation.addItem(item.value, item)
         self.risk = self._spin(0, 100, 1)
         self.alpha = self._spin(0.5, 0.9999, 0.95)
+
+        objective_page = QWidget()
+        objective_layout = QHBoxLayout(objective_page)
+        objective_layout.setContentsMargins(18, 18, 18, 18)
+        objective_layout.setSpacing(16)
+        robust = QGroupBox("Aggregation controls")
+        robust_form = QFormLayout(robust)
         robust_form.addRow("Aggregation", self.aggregation)
         robust_form.addRow("Mean-risk coefficient", self.risk)
         robust_form.addRow("CVaR confidence level", self.alpha)
-        layout.addWidget(robust)
+        guidance = QGroupBox("Interpretation")
+        guidance_layout = QVBoxLayout(guidance)
+        guidance_text = QLabel(
+            "Expected aggregation summarizes the scenario mean. Mean-risk adds a dispersion "
+            "penalty, while CVaR focuses on the configured upper-tail confidence level."
+        )
+        guidance_text.setWordWrap(True)
+        guidance_layout.addWidget(guidance_text)
+        guidance_layout.addStretch(1)
+        objective_layout.addWidget(robust, 1)
+        objective_layout.addWidget(guidance, 1)
+
+        self.section_tabs = WorkspaceTabs("Robust scenario sections")
+        self.section_tabs.add_section(
+            "Scenario generator",
+            generator_page,
+            "Configure sampling, uncertainty, contingency, and renewable inputs.",
+        )
+        self.section_tabs.add_section(
+            "Robust objective",
+            objective_page,
+            "Configure and interpret robust objective aggregation.",
+        )
+        self.section_tabs.setMinimumHeight(440)
+        layout.addWidget(self.section_tabs, 1)
 
         apply_button = QPushButton("Apply scenario configuration and continue")
         apply_button.setObjectName("PrimaryButton")
         apply_button.clicked.connect(self.apply)
         layout.addWidget(apply_button)
-        layout.addStretch(1)
         self.state.config_changed.connect(lambda _: self.refresh())
         self.refresh()
 

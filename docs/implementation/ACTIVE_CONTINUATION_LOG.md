@@ -1230,3 +1230,65 @@ Append timestamped entries below this line after each material action, validatio
 - No validator, test, compile, Ruff check, GUI render/interaction, policy/scientific workflow,
   benchmark, qualification, campaign, or protected case was executed by Codex. Run the corrected
   ignored Windows validator and return its complete timestamped directory before Linux xcb closure.
+
+### 2026-08-07 - Phase 3 automated Windows pass accepted; tabbed layout refinement implemented
+
+- Accepted `phase3-remaining-windows-20260807-112621` for its exact source: 10/10 commands passed,
+  including 13 Phase 3 contracts, two focused GUI regressions, and light plus dark/200% evidence for
+  all sixteen workspaces. All 47 durable hashes and 36 current source hashes matched; no prohibited
+  policy, scientific, benchmark, qualification, campaign, or protected-case workflow ran.
+- Recorded the accepted run as pre-refinement evidence after the user requested another layout pass.
+  It remains valid history but cannot prove the subsequently changed GUI source.
+- Added a reusable accessible `WorkspaceTabs` surface and replaced stacked sections in ORPD
+  Formulation, Robust Scenarios, Portfolio Manager, Application Settings, and Benchmark & Evidence.
+  Related compact controls now occupy balanced side-by-side groups; long database and manifest paths
+  remain dedicated full-width values.
+- Added runtime/source contracts for tab titles, accessible metadata, and adoption across all five
+  workspaces. Updated the workspace evidence schema to v2 so every shared tab is keyboard-selected,
+  rendered, hashed, and recorded in light plus dark/200% Windows and Linux xcb lanes.
+- Updated the Git-ignored noninteractive validator and instructions. No tests, validators, Ruff,
+  compilation, renders, GUI interaction, scientific/policy workflows, benchmarks, qualification,
+  campaigns, or protected cases were executed by Codex. Current-source Windows and Linux evidence
+  remain pending.
+
+### 2026-08-07 - Phase 3 tabbed-layout validation reviewed; table-width gate corrected
+
+- Reviewed `phase3-remaining-windows-20260807-120240` read-only. The source-bound noninteractive run
+  passed 9/10 commands: 14 Phase 3 contracts, five responsive-layout regressions, and both light and
+  dark/200% all-tab evidence cells passed. All 79 retained evidence hashes and all 17 source records
+  matched, with no missing or mismatched file and no prohibited workflow.
+- Preserved the run as failed evidence because Ruff formatting rejected five files. Visual review
+  also found that Portfolio Manager's Requested outputs tree retained a large unused right region
+  while its Minimum evidence header and cells were shortened; the v2 collector did not inspect tree
+  column allocation.
+- Corrected the Portfolio tree with a fixed selection column, a stretching Output column, and a
+  content-sized Minimum evidence column. Added stable object/accessibility identity and a rendered
+  GUI regression for the resize policy, viewport use, and header fit.
+- Advanced the all-workspace evidence schema to v3. Each visited tab now audits visible tree widgets
+  for unused width, horizontal overflow, header/cell fit, and retained failure details. Advanced the
+  ignored Windows summary to v4 and included tree-layout counts/failures in each evidence cell.
+- Mechanically formatted only the affected Python implementation/test files; no format-check gate,
+  validator, test, compilation, render, GUI interaction, policy/scientific workflow, benchmark,
+  qualification, campaign, or protected case was executed. A fresh user-run Windows directory is
+  required, followed by the outstanding Linux xcb evidence.
+
+### 2026-08-07 - Phase 3 corrected Windows automation accepted; correction goal closed
+
+- Accepted `phase3-remaining-windows-20260807-121530` read-only for its exact dirty source at commit
+  `bf3a51a970555e44411121e145e6f5a24f41989d`: all 10 commands passed. The run includes 15 Phase 3
+  contracts, six responsive-layout regressions, and light plus dark/200% v3 workspace evidence.
+- Verified the evidence boundary independently: the current validator matches retained SHA-256
+  `e49d3b1d125b0753e8849e5200c48885a038ca73868e40686d69452273f93eec`; current Git-status identity
+  matched the retained status hash before this acceptance-ledger update; all 17 returned source
+  entries and all 79 evidence hashes matched with zero missing or mismatched files. The status,
+  verification contract, test expectation, and ledgers now deliberately postdate that manifest.
+- Both workspace cells passed five tab sets, sixteen section screenshots, keyboard/contrast checks,
+  and the Portfolio tree-width gate. The tree uses all 1054 rendered viewport pixels with zero
+  unused or overflow pixels; all three columns meet their retained content widths in light and
+  dark/200%. Screenshot review confirms the former blank-right-space and text truncation are gone.
+- The Phase 3 Windows correction goal is complete and closed. The overall Phase 3 gate remains open
+  solely for a separate returned Linux xcb evidence directory; Windows evidence does not infer Linux
+  rendering or human screen-reader/scientist acceptance and does not qualify scientific, policy,
+  performance, protected-case, release-candidate, or final-release claims.
+- No test or validation command was rerun after the post-evidence acceptance-ledger update. The next
+  user-run Linux xcb lane will bind those ledger-only identity changes together with current source.

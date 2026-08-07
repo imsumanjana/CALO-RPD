@@ -26,37 +26,45 @@ def _source(relative: str) -> str:
     return (ROOT / relative).read_text(encoding="utf-8")
 
 
-def test_active_status_accepts_windows_baseline_and_reserves_automated_remaining_gate():
+def test_active_status_records_pre_tab_pass_and_current_refinement_gate():
     import json
 
     payload = json.loads((ROOT / "ACTIVE_DEVELOPMENT_STATUS.json").read_text(encoding="utf-8"))
     assert payload["phase"] == 3
     assert payload["phase_2_validation"] == "accepted_phase2-20260807-003828_15_of_15_passed"
-    assert payload["phase_3_coding"] == ("implemented_remaining_gate_corrections_rerun_pending")
+    assert payload["phase_3_coding"] == (
+        "implemented_tabbed_workspace_table_width_correction_validated_windows"
+    )
     assert payload["phase_3_initial_validation"] == (
         "failed_phase3-20260807-045558_11_of_18_passed"
     )
     assert payload["phase_3_validation"] == (
-        "windows_local_baseline_accepted_automated_remaining_gate_pending"
+        "windows_automated_accepted_current_tabbed_layout_linux_pending"
     )
     assert payload["phase_3_failed_validation_policy_workflows_executed"] is False
     assert payload["phase_3_corrections"] == "implemented"
     assert payload["phase_3_revalidation"] == ("accepted_phase3-20260807-052047_18_of_18_passed")
     assert payload["phase_3_revalidation_policy_workflows_executed"] is False
     assert payload["phase_3_remaining_windows_validation"] == (
-        "failed_phase3-remaining-windows-20260807-092741_5_of_8_automated_passed"
+        "accepted_phase3-remaining-windows-20260807-121530_10_of_10_automated_passed"
     )
     assert payload["phase_3_remaining_windows_validation_policy_workflows_executed"] is False
     assert payload["phase_3_remaining_windows_corrections"] == (
-        "implemented_rerun_not_executed_user_reserved"
+        "accepted_phase3-remaining-windows-20260807-121530"
+    )
+    assert payload["phase_3_tabbed_layout_refinement"] == (
+        "windows_automated_accepted_linux_xcb_pending"
+    )
+    assert payload["phase_3_tabbed_layout_refinement_windows_validation"] == (
+        "accepted_phase3-remaining-windows-20260807-121530_10_of_10_passed"
     )
     assert payload["phase_3_linux_rendering"] == "not_executed_user_reserved"
     assert payload["phase_3_keyboard_accessibility_acceptance"] == (
-        "automated_rerun_not_executed_user_reserved"
+        "accepted_windows_20260807_121530"
     )
     assert payload["phase_3_human_reviewer_input"] == "disabled_by_user_instruction"
     assert payload["phase_3_scientist_acceptance"] == ("not_inferred_automated_evidence_only")
-    assert payload["phase_3_overall_gate"] == ("open_automated_windows_and_linux_evidence_pending")
+    assert payload["phase_3_overall_gate"] == "open_linux_xcb_evidence_pending"
 
 
 def test_phase3_grouping_preserves_all_stable_workspace_keys():
@@ -183,13 +191,17 @@ def test_render_evidence_script_gates_glyphs_sizes_themes_and_compact_inputs():
 
 def test_remaining_phase3_evidence_tool_is_non_scientific_and_source_bound():
     source = _source("calo_rpd_studio/scripts/validate_phase3_workspace_accessibility.py")
-    assert 'SCHEMA_VERSION = "calo-phase3-workspace-accessibility-evidence-v1"' in source
+    assert 'SCHEMA_VERSION = "calo-phase3-workspace-accessibility-evidence-v3"' in source
     assert '"scientific_actions_executed": False' in source
     assert '"policy_workflows_executed": False' in source
     assert '"policy_training_executed": False' in source
     assert '"policy_evaluation_executed": False' in source
     assert '"protected_cases_opened": False' in source
     assert '"keyboard_interactions"' in source
+    assert '"section_tab_interactions"' in source
+    assert "_section_tab_interactions(window, application, output)" in source
+    assert '"tree_widget_layout_checks"' in source
+    assert "_tree_widget_layout_checks(" in source
     assert '"contrast_checks"' in source
     assert '"workspace_evidence"' in source
     assert '"qt_platform_matches_request"' in source
@@ -206,7 +218,61 @@ def test_results_and_settings_use_responsive_long_value_layouts():
     settings_source = _source("calo_rpd_studio/gui/panels/application_settings_panel.py")
     assert 'self.database_path.setProperty("fullWidthInput", True)' in settings_source
     assert "self.database_path.setReadOnly(True)" in settings_source
-    assert "information.layout_root.addWidget(self.database_path)" in settings_source
+    assert "self.section_tabs.add_section(" in settings_source
+    assert '"Appearance"' in settings_source
+    assert '"Experiment history"' in settings_source
+    assert '"Application"' in settings_source
+
+
+def test_stack_heavy_workspaces_use_shared_accessible_tabs():
+    tabs_source = _source("calo_rpd_studio/gui/widgets/workspace_tabs.py")
+    assert "class WorkspaceTabs(QTabWidget)" in tabs_source
+    assert 'self.setObjectName("WorkspaceSectionTabs")' in tabs_source
+    assert "self.setTabToolTip(index, description)" in tabs_source
+
+    expected_tabs = {
+        "calo_rpd_studio/gui/panels/orpd_formulation_panel.py": (
+            '"Objective"',
+            '"Control variables"',
+            '"Constraint policy"',
+        ),
+        "calo_rpd_studio/gui/panels/robust_scenarios_panel.py": (
+            '"Scenario generator"',
+            '"Robust objective"',
+        ),
+        "calo_rpd_studio/gui/panels/portfolio_manager_panel.py": (
+            '"Definition"',
+            '"Requested outputs"',
+            '"Reuse and validation"',
+            '"Derived plan"',
+        ),
+        "calo_rpd_studio/gui/panels/application_settings_panel.py": (
+            '"Appearance"',
+            '"Experiment history"',
+            '"Application"',
+        ),
+        "calo_rpd_studio/gui/panels/benchmark_campaign_panel.py": (
+            '"Freeze gate"',
+            '"Campaign design"',
+            '"Task queue"',
+            '"Evidence package"',
+        ),
+    }
+    for relative, titles in expected_tabs.items():
+        source = _source(relative)
+        assert "WorkspaceTabs(" in source
+        assert "add_section(" in source
+        for title in titles:
+            assert title in source
+
+
+def test_portfolio_output_tree_uses_the_full_available_width():
+    source = _source("calo_rpd_studio/gui/panels/portfolio_manager_panel.py")
+    assert 'self.outputs.setObjectName("PortfolioRequestedOutputs")' in source
+    assert "output_header.setSectionResizeMode(1, QHeaderView.ResizeMode.Stretch)" in source
+    assert (
+        "output_header.setSectionResizeMode(2, QHeaderView.ResizeMode.ResizeToContents)" in source
+    )
 
 
 pytestmark = pytest.mark.skipif(

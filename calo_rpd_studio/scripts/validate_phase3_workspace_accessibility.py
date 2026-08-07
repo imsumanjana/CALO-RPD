@@ -11,7 +11,7 @@ import platform
 from typing import Any
 
 
-SCHEMA_VERSION = "calo-phase3-workspace-accessibility-evidence-v1"
+SCHEMA_VERSION = "calo-phase3-workspace-accessibility-evidence-v3"
 _FORBIDDEN_VISIBLE_TEXT = (
     "journal",
     "transactions",
@@ -405,6 +405,176 @@ def _keyboard_interactions(window, application) -> list[dict[str, object]]:
     return results
 
 
+def _tree_widget_layout_checks(
+    root,
+    *,
+    workspace: str,
+    section_title: str,
+) -> list[dict[str, object]]:
+    """Fail closed when a visible tree wastes width or elides retained text."""
+    from PyQt6.QtWidgets import QTreeWidget
+
+    records: list[dict[str, object]] = []
+    for tree_index, tree in enumerate(root.findChildren(QTreeWidget)):
+        header = tree.header()
+        viewport_width = tree.viewport().width()
+        header_width = header.length()
+        unused_width = max(0, viewport_width - header_width)
+        overflow_width = max(0, header_width - viewport_width)
+        width_tolerance = max(24, round(viewport_width * 0.04))
+        header_metrics = header.fontMetrics()
+        sections: list[dict[str, object]] = []
+        clipped_sections: list[int] = []
+
+        for column in range(tree.columnCount()):
+            title = tree.headerItem().text(column)
+            header_required_width = header_metrics.horizontalAdvance(title) + 24
+            item_required_width = max(0, tree.sizeHintForColumn(column))
+            required_width = max(header_required_width, item_required_width)
+            actual_width = header.sectionSize(column)
+            clipped = actual_width < required_width
+            if clipped:
+                clipped_sections.append(column)
+            sections.append(
+                {
+                    "column": column,
+                    "title": title,
+                    "actual_width": actual_width,
+                    "required_width": required_width,
+                    "clipped": clipped,
+                }
+            )
+
+        failures: list[str] = []
+        if viewport_width <= 0:
+            failures.append("tree viewport has no rendered width")
+        if unused_width > width_tolerance:
+            failures.append(
+                f"tree leaves {unused_width}px unused; allowance is {width_tolerance}px"
+            )
+        if overflow_width > width_tolerance:
+            failures.append(
+                f"tree requires {overflow_width}px horizontal overflow; allowance is "
+                f"{width_tolerance}px"
+            )
+        if clipped_sections:
+            failures.append(f"tree text is clipped in columns {clipped_sections}")
+
+        records.append(
+            {
+                "workspace": workspace,
+                "section": section_title,
+                "tree_index": tree_index,
+                "object_name": tree.objectName(),
+                "accessible_name": tree.accessibleName(),
+                "viewport_width": viewport_width,
+                "header_width": header_width,
+                "unused_width": unused_width,
+                "overflow_width": overflow_width,
+                "width_tolerance": width_tolerance,
+                "sections": sections,
+                "failures": failures,
+                "passed": not failures,
+            }
+        )
+    return records
+
+
+def _section_tab_interactions(
+    window,
+    application,
+    output: Path,
+) -> tuple[list[dict[str, object]], list[dict[str, object]]]:
+    """Visit every modern workspace section tab and retain keyboard/render evidence."""
+    from PyQt6.QtCore import Qt
+    from PyQt6.QtTest import QTest
+
+    from calo_rpd_studio.app.workspaces import WORKSPACE_KEYS
+    from calo_rpd_studio.gui.widgets.workspace_tabs import WorkspaceTabs
+
+    records: list[dict[str, object]] = []
+    tree_layout_checks: list[dict[str, object]] = []
+    for workspace_index, key in enumerate(WORKSPACE_KEYS):
+        page = window.pages_by_key[key]
+        for tab_set_index, tabs in enumerate(page.findChildren(WorkspaceTabs)):
+            window.stack.setCurrentWidget(page)
+            original_index = tabs.currentIndex()
+            keyboard_passed = tabs.count() <= 1
+            if tabs.count() > 1:
+                tabs.setCurrentIndex(0)
+                tabs.tabBar().setFocus()
+                QTest.keyClick(tabs.tabBar(), Qt.Key.Key_Right)
+                application.processEvents()
+                keyboard_passed = tabs.currentIndex() == 1
+
+            sections: list[dict[str, object]] = []
+            for section_index in range(tabs.count()):
+                tabs.setCurrentIndex(section_index)
+                application.processEvents()
+                section = tabs.widget(section_index)
+                screenshot = output / (
+                    f"workspace-{workspace_index + 1:02d}-{key}-section-"
+                    f"{tab_set_index + 1:02d}-{section_index + 1:02d}.png"
+                )
+                if screenshot.exists():
+                    raise FileExistsError(f"Refusing to overwrite section screenshot: {screenshot}")
+                pixmap = window.grab()
+                if pixmap.isNull() or not pixmap.save(str(screenshot), "PNG"):
+                    raise RuntimeError(
+                        f"Could not retain section screenshot: {key}/{section_index}"
+                    )
+                if screenshot.stat().st_size < 10_000:
+                    raise RuntimeError(
+                        f"Section screenshot is unexpectedly small: {key}/{section_index}"
+                    )
+                section_tree_layouts = _tree_widget_layout_checks(
+                    section,
+                    workspace=key,
+                    section_title=tabs.tabText(section_index),
+                )
+                tree_layout_checks.extend(section_tree_layouts)
+                sections.append(
+                    {
+                        "index": section_index,
+                        "title": tabs.tabText(section_index),
+                        "tool_tip": tabs.tabToolTip(section_index),
+                        "page_accessible_name": section.accessibleName(),
+                        "page_visible": section.isVisibleTo(page),
+                        "screenshot": screenshot.name,
+                        "screenshot_size_bytes": screenshot.stat().st_size,
+                        "screenshot_sha256": _sha256(screenshot),
+                        "tree_widget_layout_count": len(section_tree_layouts),
+                        "tree_widget_layout_failures": sum(
+                            not item["passed"] for item in section_tree_layouts
+                        ),
+                    }
+                )
+
+            tabs.setCurrentIndex(max(0, original_index))
+            application.processEvents()
+            records.append(
+                {
+                    "workspace": key,
+                    "tab_set_index": tab_set_index,
+                    "accessible_name": tabs.accessibleName(),
+                    "tab_count": tabs.count(),
+                    "keyboard_navigation_passed": keyboard_passed,
+                    "sections": sections,
+                    "passed": bool(tabs.accessibleName())
+                    and keyboard_passed
+                    and bool(sections)
+                    and all(
+                        item["title"]
+                        and item["tool_tip"]
+                        and item["page_accessible_name"]
+                        and item["page_visible"]
+                        for item in sections
+                    ),
+                }
+            )
+    return records, tree_layout_checks
+
+
 def validate_workspace_accessibility(
     output_directory: str | Path,
     *,
@@ -463,6 +633,7 @@ def validate_workspace_accessibility(
         application.processEvents()
 
         keyboard = _keyboard_interactions(window, application)
+        section_tabs, tree_layout_checks = _section_tab_interactions(window, application, output)
         workspaces = []
         for index, key in enumerate(WORKSPACE_KEYS):
             workspaces.append(_workspace_audit(window, key, index, output))
@@ -476,6 +647,7 @@ def validate_workspace_accessibility(
             source_root / "gui" / "widgets" / "form_density.py",
             source_root / "gui" / "widgets" / "study_setup.py",
             source_root / "gui" / "widgets" / "disclosure.py",
+            source_root / "gui" / "widgets" / "workspace_tabs.py",
             source_root / "gui" / "themes" / "tokens.py",
         )
         report = {
@@ -494,6 +666,8 @@ def validate_workspace_accessibility(
             "workspace_count": len(WORKSPACE_KEYS),
             "stable_workspace_keys": list(WORKSPACE_KEYS),
             "keyboard_interactions": keyboard,
+            "section_tab_interactions": section_tabs,
+            "tree_widget_layout_checks": tree_layout_checks,
             "contrast_checks": contrast,
             "workspace_evidence": workspaces,
             "implementation_files_sha256": {
@@ -515,6 +689,8 @@ def validate_workspace_accessibility(
             "human_screen_reader_acceptance_inferred": False,
             "human_scientist_acceptance_inferred": False,
             "passed": all(item["passed"] for item in keyboard)
+            and all(item["passed"] for item in section_tabs)
+            and all(item["passed"] for item in tree_layout_checks)
             and all(item["passed"] for item in contrast)
             and all(item["passed"] for item in workspaces)
             and application.platformName() == qt_platform,
@@ -526,12 +702,20 @@ def validate_workspace_accessibility(
     report_path.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     if not report["passed"]:
         keyboard_failures = sum(not item["passed"] for item in report["keyboard_interactions"])
+        section_tab_failures = sum(
+            not item["passed"] for item in report["section_tab_interactions"]
+        )
+        tree_layout_failures = sum(
+            not item["passed"] for item in report["tree_widget_layout_checks"]
+        )
         contrast_failures = sum(not item["passed"] for item in report["contrast_checks"])
         workspace_failures = sum(not item["passed"] for item in report["workspace_evidence"])
         platform_failures = int(not report["qt_platform_matches_request"])
         raise RuntimeError(
             "Phase 3 workspace/accessibility evidence failed: "
-            f"keyboard={keyboard_failures}, contrast={contrast_failures}, "
+            f"keyboard={keyboard_failures}, section_tabs={section_tab_failures}, "
+            f"tree_layouts={tree_layout_failures}, "
+            f"contrast={contrast_failures}, "
             f"workspaces={workspace_failures}, platform={platform_failures}"
         )
     return report

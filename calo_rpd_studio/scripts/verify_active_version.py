@@ -68,26 +68,30 @@ def verify_active_version(root: Path = PROJECT_ROOT) -> dict:
         and status.get("safe_memory_admission_fraction") == 0.8
         and status.get("phase_1_validation", "").startswith("accepted_")
         and status.get("phase_2_validation") == "accepted_phase2-20260807-003828_15_of_15_passed"
-        and status.get("phase_3_coding") == "implemented_remaining_gate_corrections_rerun_pending"
+        and status.get("phase_3_coding")
+        == "implemented_tabbed_workspace_table_width_correction_validated_windows"
         and status.get("phase_3_initial_validation")
         == "failed_phase3-20260807-045558_11_of_18_passed"
         and status.get("phase_3_validation")
-        == "windows_local_baseline_accepted_automated_remaining_gate_pending"
+        == "windows_automated_accepted_current_tabbed_layout_linux_pending"
         and status.get("phase_3_corrections") == "implemented"
         and status.get("phase_3_revalidation") == "accepted_phase3-20260807-052047_18_of_18_passed"
         and status.get("phase_3_revalidation_policy_workflows_executed") is False
         and status.get("phase_3_remaining_windows_validation")
-        == "failed_phase3-remaining-windows-20260807-092741_5_of_8_automated_passed"
+        == "accepted_phase3-remaining-windows-20260807-121530_10_of_10_automated_passed"
         and status.get("phase_3_remaining_windows_validation_policy_workflows_executed") is False
         and status.get("phase_3_remaining_windows_corrections")
-        == "implemented_rerun_not_executed_user_reserved"
+        == "accepted_phase3-remaining-windows-20260807-121530"
+        and status.get("phase_3_tabbed_layout_refinement")
+        == "windows_automated_accepted_linux_xcb_pending"
+        and status.get("phase_3_tabbed_layout_refinement_windows_validation")
+        == "accepted_phase3-remaining-windows-20260807-121530_10_of_10_passed"
         and status.get("phase_3_linux_rendering") == "not_executed_user_reserved"
         and status.get("phase_3_keyboard_accessibility_acceptance")
-        == "automated_rerun_not_executed_user_reserved"
+        == "accepted_windows_20260807_121530"
         and status.get("phase_3_human_reviewer_input") == "disabled_by_user_instruction"
         and status.get("phase_3_scientist_acceptance") == "not_inferred_automated_evidence_only"
-        and status.get("phase_3_overall_gate")
-        == "open_automated_windows_and_linux_evidence_pending"
+        and status.get("phase_3_overall_gate") == "open_linux_xcb_evidence_pending"
     )
 
     index = _load_json(root / "STATUS_RECORD_INDEX.json")

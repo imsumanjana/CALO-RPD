@@ -103,21 +103,35 @@ validator identity, and no prohibited workflows. Phase 2 is accepted.
 
 | Requirement | Implementation evidence | Validation state | Remaining proof |
 |---|---|---|---|
-| Stable grouped information architecture | `app/workspaces.py`; `gui/navigation/sidebar.py`; inline SVG registry | Windows-local corrected contracts accepted in `phase3-20260807-052047` | Corrected noninteractive all-workspace rerun and Linux interaction evidence |
-| Dashboard decision hierarchy | next-action/readiness/recent-work/activity disclosure in `dashboard_panel.py` | Windows light/dark/high-DPI renders accepted | Linux xcb and corrected all-workspace automation |
-| Seven-step Study Setup | `StudySetupWorkflow`; existing authoritative panels routed without state duplication | Source implemented; not run by Codex | Keyboard and workflow-lock interaction evidence |
-| Compact structured inputs | application-wide density policy; integer chips; 240-480px limits; responsive Results grid; dedicated copyable database-path field | Remaining-gate run found two real clipping defects; source corrected | Corrected Windows and Linux all-workspace automation |
-| Accessible semantic visual system | named tokens, light/dark QSS, focus borders, text badges, accessible names/buddies | Windows high-DPI renders accepted; noninteractive contrast/name/buddy/keyboard collector implemented | Corrected Windows and Linux automated evidence |
+| Stable grouped information architecture | `app/workspaces.py`; `gui/navigation/sidebar.py`; inline SVG registry | Corrected Windows contracts and all-workspace automation accepted | Linux xcb interaction evidence |
+| Dashboard decision hierarchy | next-action/readiness/recent-work/activity disclosure in `dashboard_panel.py` | Windows light/dark/high-DPI and all-workspace evidence accepted | Linux xcb evidence |
+| Seven-step Study Setup | `StudySetupWorkflow`; existing authoritative panels routed without state duplication | Windows programmatic keyboard/workflow interaction accepted | Linux xcb interaction evidence |
+| Compact structured inputs | application-wide density policy; integer chips; 240-480px limits; responsive Results grid; dedicated copyable database-path field | Corrected Windows clipping/input-width automation accepted | Linux xcb all-workspace automation |
+| Horizontal use of wide workspaces | shared `WorkspaceTabs`; side-by-side ORPD, scenario, portfolio, settings, and benchmark groups; stretching Portfolio output tree | Corrected `121530` Windows light/dark-200% tabs and tree-width gate accepted; visual review confirms no right-side waste or evidence truncation | Linux xcb per-tab screenshots and tree-width evidence |
+| Accessible semantic visual system | named tokens, light/dark QSS, focus borders, text badges, accessible names/buddies | Windows high-DPI contrast/name/buddy/keyboard automation accepted | Linux xcb automated evidence |
 | Render and glyph evidence | isolated render CLI; deterministic existing-OS-font registration; font provenance; separate glyph/clipping/input counts | Four corrected Windows cells accepted with zero glyph/replacement/clipping/input/editor failures | Linux light/dark xcb matrix |
-| Durable local evidence identity | ignored validator; v2 source manifest with commit/dirty/status hashes; stable evidence hash set | Failed remaining run verified 45/45 durable and 32/32 current source hashes | Source-bound corrected Windows and Linux directories |
+| Durable local evidence identity | ignored validator; v2 source manifest with commit/dirty/status hashes; v3 workspace evidence and v4 Windows summary | Corrected `121530`: validator/status identities matched at review; 17/17 source entries and 79/79 evidence hashes matched; acceptance ledger postdates manifest | Source-bound Linux directory |
 
-Phase 3 Windows-local baseline evidence is accepted. `phase3-20260807-045558` remains immutable
-failed history, `phase3-20260807-052047` is the accepted baseline rerun, and
-`phase3-remaining-windows-20260807-092741` is preserved as failed remaining-gate evidence. The
-overall exit gate remains open for corrected noninteractive Windows and Linux xcb evidence. Manual
-reviewer answers are excluded by user instruction, and automated evidence does not claim a human
-screen-reader or scientist study. No GUI result qualifies policy, protected-case, performance,
-scientific-superiority, release-candidate, or release claims.
+Phase 3 Windows-local baseline evidence is accepted. `phase3-20260807-045558` and
+`phase3-remaining-windows-20260807-092741` remain immutable failed history;
+`phase3-20260807-052047` is the accepted baseline rerun; and
+`phase3-remaining-windows-20260807-112621` accepted the corrected pre-tabbed source at 10/10. The
+new tabbed-layout source postdates that manifest and therefore required fresh noninteractive
+Windows and Linux xcb evidence. Windows is now accepted in `121530`; Linux remains. Manual reviewer answers are excluded by user instruction,
+and automated evidence does not claim a human screen-reader or scientist study. No GUI result
+qualifies policy, protected-case, performance, scientific-superiority, release-candidate, or release
+claims.
+
+The first tabbed-source run, `phase3-remaining-windows-20260807-120240`, remains failed evidence:
+Ruff formatting failed on five files even though 14 contracts, five layout regressions, and both
+all-tab cells passed. Its screenshots also revealed underused Portfolio Requested outputs width and
+shortened evidence text. Source now fixes the resize policy and the v3 workspace collector makes
+tree unused width, overflow, and header/cell fit an automated gate. Corrected rerun `121530` passes.
+
+Corrected Windows run `phase3-remaining-windows-20260807-121530` supersedes `120240` for current
+Windows source and is accepted at 10/10. Fifteen contracts, six layout regressions, both v3
+workspace cells, all source/evidence hashes, and the Portfolio width records pass. Windows correction
+work is complete; the remaining Phase 3 proof is the separate Linux xcb directory only.
 
 ## Current verification checkpoint
 
