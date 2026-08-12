@@ -38,7 +38,7 @@ def repository_state(root: str | Path = ROOT) -> tuple[str, str]:
             text=True,
         ).stdout.strip()
         tracked_status = subprocess.run(
-            ["git", "status", "--porcelain", "--untracked-files=no"],
+            ["git", "status", "--porcelain", "--untracked-files=all"],
             cwd=directory,
             check=True,
             capture_output=True,
@@ -56,7 +56,7 @@ def validate_repository_for_plan(
     if head.lower() != plan.source_commit.lower():
         raise RuntimeError("TSH-CALO ablation plan source commit does not match the checkout")
     if tracked_status:
-        raise RuntimeError("TSH-CALO component ablation requires a clean tracked working tree")
+        raise RuntimeError("TSH-CALO component ablation requires a clean non-ignored source tree")
 
 
 def _summary(plan: TSHCALOComponentAblationPlan, *, state: str, result=None) -> dict:

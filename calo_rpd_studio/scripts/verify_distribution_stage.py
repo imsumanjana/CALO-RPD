@@ -11,16 +11,38 @@ import zipfile
 
 
 _REQUIRED_SOURCE_FILES = {
+    "calo_rpd_studio/algorithms/calo/policy_retirement.py",
     "calo_rpd_studio/algorithms/cma_es.py",
     "calo_rpd_studio/algorithms/lshade.py",
     "calo_rpd_studio/orpd/mathematical_reference.py",
     "calo_rpd_studio/scripts/container_smoke.py",
+    "calo_rpd_studio/scripts/create_development_freeze_candidate.py",
+    "calo_rpd_studio/scripts/create_release_preparation.py",
+    "calo_rpd_studio/scripts/accept_development_freeze.py",
     "calo_rpd_studio/scripts/generate_artifact_manifest.py",
+    "calo_rpd_studio/scripts/generate_distribution_manifests.py",
+    "calo_rpd_studio/scripts/finalize_release_records.py",
     "calo_rpd_studio/scripts/run_mathematical_reference.py",
+    "calo_rpd_studio/scripts/manage_policy_retirement.py",
+    "calo_rpd_studio/scripts/release_policy_scope.py",
     "calo_rpd_studio/scripts/validate_packaged_gui.py",
     "calo_rpd_studio/scripts/verify_distribution_stage.py",
     "calo_rpd_studio/scripts/verify_requirements_lock.py",
+    "calo_rpd_studio/scripts/verify_release_ci_contract.py",
+    "calo_rpd_studio/validation/__init__.py",
+    "calo_rpd_studio/validation/gui_contract.py",
 }
+
+
+def _contains_local_validation_content(parts: tuple[str, ...]) -> bool:
+    """Distinguish root evidence directories from the application validation package."""
+
+    for index, part in enumerate(parts):
+        if part == "validation_logs":
+            return True
+        if part == "validation" and (index == 0 or parts[index - 1] != "calo_rpd_studio"):
+            return True
+    return False
 
 
 def _validate_member(name: str) -> PurePosixPath:
@@ -29,8 +51,17 @@ def _validate_member(name: str) -> PurePosixPath:
     if path.is_absolute() or ".." in path.parts:
         raise ValueError(f"Unsafe distribution member path: {name!r}")
     lowered = normalized.lower()
-    if "__pycache__" in path.parts or lowered.endswith((".pyc", ".pyo", ".pt", ".pt.sha256")):
+    folded_parts = tuple(part.casefold() for part in path.parts)
+    if _contains_local_validation_content(folded_parts):
+        raise ValueError(f"Local validation content is packaged: {name!r}")
+    if "__pycache__" in folded_parts or lowered.endswith(
+        (".pyc", ".pyo", ".pt", ".pt.sha256", ".pth", ".ckpt", ".onnx", ".safetensors")
+    ):
         raise ValueError(f"Generated runtime artifact is packaged: {name!r}")
+    if lowered.endswith(".branches.json"):
+        raise ValueError(f"Generated training manifest is packaged: {name!r}")
+    if any(part.endswith(("_lineage", "_branches", "_artifacts")) for part in folded_parts):
+        raise ValueError(f"Generated training directory is packaged: {name!r}")
     marker = "calo_rpd_studio/data/trained_models/"
     if marker in lowered and not lowered.endswith(f"{marker}__init__.py"):
         raise ValueError(f"Generated policy/training data is packaged: {name!r}")

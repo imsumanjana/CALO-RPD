@@ -57,15 +57,17 @@ from calo_rpd_studio.gui.widgets.page_header import PageHeader
 from calo_rpd_studio.gui.widgets.scrollable_page import ScrollablePage
 from calo_rpd_studio.gui.widgets.historical_experience_widget import HistoricalExperienceWidget
 from calo_rpd_studio.gui.plotting.scientific_plot import ScientificPlotWidget
-from calo_rpd_studio.algorithms.calo.policy_qualification import (
-    PolicyQualifier,
-    PolicyQualificationConfig,
+from calo_rpd_studio.algorithms.calo.policy_retirement import (
+    PolicyRetirementManager,
+    write_inventory,
+    write_plan,
 )
 from calo_rpd_studio.resume.models import ResumeStatus, ResumeTaskType
 from calo_rpd_studio.compute.training_resources import (
     build_training_resource_plan,
     protected_rollout_shares,
 )
+from calo_rpd_studio.results.database import ResultDatabase
 
 
 _LOG = logging.getLogger(__name__)
@@ -489,7 +491,7 @@ class CALOIntelligencePanel(ScrollablePage):
         self._sync_workers_from_shares()
         self._update_training_plan()
 
-        self.train_button = QPushButton("Start / continue CALO policy lineage")
+        self.train_button = QPushButton("Legacy training unavailable")
         self.train_button.setObjectName("PrimaryButton")
         self.train_button.clicked.connect(self.train_policy)
         self.resume_training_button = QPushButton("Resume exact saved training")
@@ -500,6 +502,19 @@ class CALOIntelligencePanel(ScrollablePage):
         self.discard_recovery_button.clicked.connect(self.discard_interrupted_training_recovery)
         self.training_import_button = QPushButton("Import existing policy")
         self.training_import_button.clicked.connect(self.import_policy)
+        legacy_training_explanation = (
+            "The historical CALO trainer cannot create or resume the completely new TSH-CALO "
+            "ensemble. After the accepted source freeze and empty-store transition, use the "
+            "independent calo-rpd-train-tsh plan/check/start workflow."
+        )
+        for button in (
+            self.train_button,
+            self.resume_training_button,
+            self.recover_training_button,
+            self.discard_recovery_button,
+        ):
+            button.setEnabled(False)
+            button.setToolTip(legacy_training_explanation)
         training_button_row = QWidget()
         training_button_layout = QHBoxLayout(training_button_row)
         training_button_layout.setContentsMargins(0, 0, 0, 0)
@@ -650,21 +665,28 @@ class CALOIntelligencePanel(ScrollablePage):
         self.policy_import_button = QPushButton("Import policy")
         self.policy_activate_button = QPushButton("Set active")
         self.policy_archive_button = QPushButton("Archive")
-        self.policy_delete_button = QPushButton("Delete safely")
-        self.policy_continue_button = QPushButton("Base-guided continue")
-        self.policy_exact_resume_button = QPushButton("Exact resume branches")
-        self.policy_fork_button = QPushButton("Fork lineage")
+        self.policy_delete_button = QPushButton("Export removal plan")
+        self.policy_continue_button = QPushButton("Legacy continuation unavailable")
+        self.policy_exact_resume_button = QPushButton("Legacy resume unavailable")
+        self.policy_fork_button = QPushButton("Legacy fork unavailable")
         self.policy_refresh_button = QPushButton("Refresh")
         self.show_archived_policies = QCheckBox("Show archived")
         self.show_archived_policies.toggled.connect(lambda _checked: self.refresh_policy_library())
         self.policy_import_button.clicked.connect(self.import_policy)
         self.policy_activate_button.clicked.connect(self.activate_selected_policy)
         self.policy_archive_button.clicked.connect(self.archive_selected_policy)
-        self.policy_delete_button.clicked.connect(self.delete_selected_policy)
+        self.policy_delete_button.clicked.connect(self.prepare_policy_removal)
         self.policy_continue_button.clicked.connect(self.continue_selected_policy)
         self.policy_exact_resume_button.clicked.connect(self.exact_resume_selected_policy)
         self.policy_fork_button.clicked.connect(self.fork_selected_policy)
         self.policy_refresh_button.clicked.connect(self.refresh_policy_library)
+        for button in (
+            self.policy_continue_button,
+            self.policy_exact_resume_button,
+            self.policy_fork_button,
+        ):
+            button.setEnabled(False)
+            button.setToolTip(legacy_training_explanation)
         for button in (
             self.policy_import_button,
             self.policy_activate_button,
@@ -723,6 +745,11 @@ class CALOIntelligencePanel(ScrollablePage):
         )
         self.qualify_button.setObjectName("PrimaryButton")
         self.qualify_button.clicked.connect(self.qualify_selected_policy)
+        self.qualify_button.setEnabled(False)
+        self.qualify_button.setToolTip(
+            "Phase 4 does not execute policy qualification. A future new TSH-CALO policy must use "
+            "the independent post-freeze qualification authority."
+        )
         qualification_form.addRow("Reference/frozen policy", self.qualification_reference)
         qualification_form.addRow("Training/qualification cases", self.qualification_cases)
         qualification_form.addRow("Paired runs per case", self.qualification_runs)
@@ -816,8 +843,8 @@ class CALOIntelligencePanel(ScrollablePage):
         self._update_compute_protection()
 
     def refresh_policy_library(self) -> None:
-        bundled = Path(__file__).resolve().parents[2] / "data" / "trained_models"
-        self.state.policy_registry.discover_bundled(bundled)
+        # v12 never auto-discovers checkout/bundled policy files. An empty store is a supported
+        # first-class state, and importing any future policy remains an explicit lifecycle action.
         self._policy_rows = [
             p
             for p in self.state.policy_registry.list(
@@ -874,6 +901,8 @@ class CALOIntelligencePanel(ScrollablePage):
         self.qualification_reference.clear()
         self.qualification_reference.addItem("No separate reference", "")
         for policy in self._policy_rows:
+            if not policy.post_development_eligible:
+                continue
             label = f"{policy.name} · {policy.grade} · {policy.qualification_status}"
             self.qualification_reference.addItem(label, policy.id)
         idx = self.qualification_reference.findData(current_ref)
@@ -892,7 +921,11 @@ class CALOIntelligencePanel(ScrollablePage):
         all_records = self.state.policy_registry.list(include_archived=True)
         usable_records = [p for p in all_records if not p.archived and p.usable]
         active = next(
-            (p for p in usable_records if p.active and p.runtime_compatible),
+            (
+                p
+                for p in usable_records
+                if p.active and p.post_development_eligible and p.compatible_with("TSH-CALO")
+            ),
             None,
         )
         has_registered_policy = bool(all_records)
@@ -900,28 +933,49 @@ class CALOIntelligencePanel(ScrollablePage):
         # Training/import provisioning is always available. With no policy record at all, every
         # other CALO-intelligence block is deliberately disabled so a missing model can never be
         # mistaken for a usable AI controller. Existing archived/incompatible records keep the
-        # Policy Center reachable for inspection/restoration/deletion, but never unlock runtime.
+        # Policy Center remains reachable for inspection/import and removal-plan export, but never
+        # unlocks runtime by the mere presence of an old or incompatible record.
         self.training_group.setEnabled(True)
-        self.policy_center_group.setEnabled(has_registered_policy)
+        for button in (
+            self.train_button,
+            self.resume_training_button,
+            self.recover_training_button,
+            self.discard_recovery_button,
+            self.policy_continue_button,
+            self.policy_exact_resume_button,
+            self.policy_fork_button,
+        ):
+            button.setEnabled(False)
+        self.policy_center_group.setEnabled(True)
         # v6.1: when no policy exists, only Training & Provisioning is enabled. Once any
         # policy record exists, the remaining intelligence blocks become inspectable/configurable;
         # scientific runtime application still fails closed unless a qualified compatible policy is active.
         self.policy_controller_group.setEnabled(has_registered_policy)
-        self.architecture_group.setEnabled(has_registered_policy)
+        self.architecture_group.setEnabled(True)
         self.historical_experience.setEnabled(has_registered_policy)
+        self.policy_delete_button.setEnabled(True)
+        self._policy_selection_changed()
 
         if not has_registered_policy:
             self.policy_gate_status.setText(
-                "NO CALO POLICY AVAILABLE. Policy-assisted CALO is locked. Train a policy or "
-                "import an existing compatible policy first; no random/untrained/default fallback model will be created."
+                "EMPTY POLICY STORE (SUPPORTED). Rule-only CALO and non-policy workflows remain "
+                "available. Policy-assisted TSH-CALO is locked until a completely new A-E/F-off "
+                "policy is trained against the accepted frozen source, independently qualified, "
+                "imported, and explicitly activated. No default policy will be created or selected."
             )
             self.path.clear()
             return
         if active is None:
-            compatible = sum(1 for p in usable_records if p.runtime_compatible)
+            compatible = sum(
+                1
+                for p in usable_records
+                if p.post_development_eligible and p.compatible_with("TSH-CALO")
+            )
             self.policy_gate_status.setText(
-                f"{len(all_records)} policy record(s) registered ({compatible} usable runtime-compatible), "
-                "but no compatible policy is active. Qualify/select the intended policy and click Set active before runtime configuration is enabled."
+                f"{len(all_records)} historical policy record(s) are retained for lifecycle review; "
+                f"{compatible} prove new post-freeze TSH-CALO training. Existing/pre-freeze policies "
+                "cannot govern v12 or initialize the future policy. Export the inventory/removal plan "
+                "for the separately authorized post-freeze cleanup."
             )
             self.path.clear()
             return
@@ -949,9 +1003,28 @@ class CALOIntelligencePanel(ScrollablePage):
     def _policy_selection_changed(self) -> None:
         policy = self._selected_policy()
         if policy is None:
+            for button in (
+                self.policy_activate_button,
+                self.policy_archive_button,
+                self.policy_continue_button,
+                self.policy_exact_resume_button,
+                self.policy_fork_button,
+            ):
+                button.setEnabled(False)
             return
         self.path.setText(policy.checkpoint_path)
         self.policy_archive_button.setText("Restore archived" if policy.archived else "Archive")
+        self.policy_archive_button.setEnabled(True)
+        eligible = bool(policy.post_development_eligible)
+        self.policy_activate_button.setEnabled(eligible)
+        self.policy_continue_button.setEnabled(False)
+        self.policy_exact_resume_button.setEnabled(False)
+        self.policy_fork_button.setEnabled(False)
+        explanation = (
+            "Existing/pre-freeze policies are historical-only and cannot be activated, resumed, "
+            "forked, or used as initialization for the future v12 policy."
+        )
+        self.policy_activate_button.setToolTip("" if eligible else explanation)
         self.inspect_policy()
 
     def _selected_policy_checkpoint_record(self):
@@ -960,6 +1033,16 @@ class CALOIntelligencePanel(ScrollablePage):
             return None, None
         return policy, self.state.database.get_policy_checkpoint_by_sha256(policy.sha256)
 
+    def _legacy_policy_workflow_unavailable(self, title: str) -> None:
+        QMessageBox.warning(
+            self,
+            title,
+            "Historical CALO policy training, continuation, recovery, and lineage forking are "
+            "disabled in v12. After the accepted source freeze and separately authorized empty-store "
+            "transition, use the independent calo-rpd-train-tsh workflow to create a completely "
+            "new policy without old-policy initialization.",
+        )
+
     def continue_selected_policy(self) -> None:
         """Start a same-lineage Base-Guided Fork from the selected deployable policy.
 
@@ -967,6 +1050,8 @@ class CALOIntelligencePanel(ScrollablePage):
         the selected base weights provide the starting knowledge and promotion threshold. Exact
         Resume is launched from a saved resumable training session and restores every branch state.
         """
+        self._legacy_policy_workflow_unavailable("Legacy continuation unavailable")
+        return
         policy, checkpoint = self._selected_policy_checkpoint_record()
         if policy is None:
             return
@@ -1234,6 +1319,8 @@ class CALOIntelligencePanel(ScrollablePage):
 
     def exact_resume_selected_policy(self) -> None:
         """Resume the exact independent branch states behind the selected current Base Model."""
+        self._legacy_policy_workflow_unavailable("Legacy resume unavailable")
+        return
         policy = self._selected_policy()
         if policy is None:
             return
@@ -1318,6 +1405,8 @@ class CALOIntelligencePanel(ScrollablePage):
             QMessageBox.critical(self, "Exact branch resume", str(exc))
 
     def fork_selected_policy(self) -> None:
+        self._legacy_policy_workflow_unavailable("Legacy fork unavailable")
+        return
         policy, checkpoint = self._selected_policy_checkpoint_record()
         if policy is None:
             return
@@ -1392,25 +1481,46 @@ class CALOIntelligencePanel(ScrollablePage):
         except Exception as exc:
             QMessageBox.critical(self, "Policy archive failed", str(exc))
 
-    def delete_selected_policy(self) -> None:
-        policy = self._selected_policy()
-        if policy is None:
-            return
-        answer = QMessageBox.question(
+    def prepare_policy_removal(self) -> None:
+        default_name = str(Path.cwd() / "policy-retirement.inventory.json")
+        selected, _ = QFileDialog.getSaveFileName(
             self,
-            "Delete policy",
-            "Delete the policy library record and checkpoint file only if no experiment references it? "
-            "Referenced policies cannot be deleted and must be archived instead.",
-            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
-            QMessageBox.StandardButton.No,
+            "Export policy-retirement inventory",
+            default_name,
+            "JSON evidence (*.json)",
         )
-        if answer != QMessageBox.StandardButton.Yes:
+        if not selected:
             return
         try:
-            self.state.policy_registry.delete(policy.id, delete_artifact=True)
-            self.refresh_policy_library()
+            store = Path(__file__).resolve().parents[2] / "data" / "trained_models"
+            inventory_database = ResultDatabase(self.state.database.path, read_only=True)
+            manager = PolicyRetirementManager(
+                store,
+                inventory_database,
+                source_root=Path(__file__).resolve().parents[3],
+            )
+            inventory = manager.inventory()
+            inventory_path = write_inventory(selected, inventory)
+            plan_path = inventory_path.with_name(
+                f"{inventory_path.stem.removesuffix('.inventory')}.plan.json"
+            )
+            plan = manager.dry_run(inventory)
+            write_plan(plan_path, plan)
+            QMessageBox.information(
+                self,
+                "Removal plan exported",
+                f"Read-only inventory:\n{inventory_path}\n\nDry-run plan:\n{plan_path}\n\n"
+                "Nothing was deleted, deactivated, registered, activated, or qualified. Actual "
+                "removal is blocked until the post-freeze inventory is reviewed and a separate "
+                "exact authorization is supplied.",
+            )
         except Exception as exc:
-            QMessageBox.critical(self, "Policy deletion blocked", str(exc))
+            QMessageBox.critical(self, "Removal-plan export failed", str(exc))
+
+    def delete_selected_policy(self) -> None:
+        """Backward-compatible GUI action name; v12 exports a dry-run and never deletes here."""
+
+        self.prepare_policy_removal()
 
     def _intelligence_scientific_template(self):
         """Return CALO Intelligence's own scientific template, independent of other tabs."""
@@ -1432,41 +1542,13 @@ class CALOIntelligencePanel(ScrollablePage):
         if policy is None:
             QMessageBox.information(self, "Policy qualification", "Select a policy first.")
             return
-        if self.state.task_status.busy:
-            QMessageBox.information(self, "Task busy", "Wait for the active task to finish first.")
-            return
-        cases = tuple(
-            item.strip() for item in self.qualification_cases.text().split(",") if item.strip()
+        QMessageBox.warning(
+            self,
+            "Policy qualification unavailable",
+            "This historical paired CALO qualification action is disabled for v12. Phase 4 does "
+            "not evaluate or qualify policies; any future completely new TSH-CALO ensemble must "
+            "use the independent post-freeze qualification authority.",
         )
-        config = PolicyQualificationConfig(
-            cases=cases,
-            runs=self.qualification_runs.value(),
-            max_evaluations=self.qualification_budget.value(),
-            population_size=self.qualification_population.value(),
-            master_seed=int(self.seed.value()),
-        )
-        try:
-            config.validate()
-            intelligence_template = self._intelligence_scientific_template()
-        except Exception as exc:
-            QMessageBox.critical(self, "Policy qualification", str(exc))
-            return
-        reference_id = str(self.qualification_reference.currentData() or "")
-        if reference_id == policy.id:
-            reference_id = ""
-        qualifier = PolicyQualifier(intelligence_template, self.state.policy_registry)
-        self.qualification_worker = PolicyQualificationWorker(
-            qualifier, policy.id, reference_id, config
-        )
-        self.qualification_worker.progress.connect(self._qualification_progress)
-        self.qualification_worker.completed.connect(self._qualification_done)
-        self.qualification_worker.failed.connect(self._qualification_failed)
-        self.state.task_status.cancel_requested.connect(self.qualification_worker.cancel)
-        self.state.task_status.begin(
-            "Qualifying CALO policy", detail=policy.name, progress=0, cancellable=True
-        )
-        self.qualify_button.setEnabled(False)
-        self.qualification_worker.start()
 
     def _qualification_progress(self, percent: int, detail: str) -> None:
         self.state.task_status.update(percent, detail)
@@ -1477,7 +1559,7 @@ class CALOIntelligencePanel(ScrollablePage):
             self.state.task_status.cancel_requested.disconnect(self.qualification_worker.cancel)
         except (TypeError, RuntimeError, AttributeError):
             pass
-        self.qualify_button.setEnabled(True)
+        self.qualify_button.setEnabled(False)
         qualification_status = (
             "qualified"
             if result.get("passed") and result.get("native_v59", result.get("native_v41"))
@@ -1578,7 +1660,7 @@ class CALOIntelligencePanel(ScrollablePage):
             self.state.task_status.cancel_requested.disconnect(self.qualification_worker.cancel)
         except (TypeError, RuntimeError, AttributeError):
             pass
-        self.qualify_button.setEnabled(True)
+        self.qualify_button.setEnabled(False)
         self.state.task_status.fail(message)
         self.qualification_status.setText(message)
         QMessageBox.critical(self, "Policy qualification failed", message)
@@ -2262,6 +2344,8 @@ class CALOIntelligencePanel(ScrollablePage):
             )
 
     def train_policy(self) -> None:
+        self._legacy_policy_workflow_unavailable("Legacy training unavailable")
+        return
         try:
             self._validate_safe_training_capacity()
         except Exception as exc:
@@ -2561,8 +2645,8 @@ class CALOIntelligencePanel(ScrollablePage):
             self.state.resume_service.update(
                 task_id, status=ResumeStatus.FAILED, state=state_payload, resumable=True
             )
-            self.train_button.setEnabled(True)
-            self.resume_training_button.setEnabled(True)
+            self.train_button.setEnabled(False)
+            self.resume_training_button.setEnabled(False)
             QMessageBox.critical(
                 self, "Policy training launch failed", f"{type(exc).__name__}: {exc}"
             )
@@ -2596,6 +2680,8 @@ class CALOIntelligencePanel(ScrollablePage):
         return output, sessions[labels.index(choice)]
 
     def recover_interrupted_training(self) -> None:
+        self._legacy_policy_workflow_unavailable("Legacy recovery unavailable")
+        return
         output, session = self._choose_recovery_session()
         if not output or not session:
             return
@@ -2613,6 +2699,8 @@ class CALOIntelligencePanel(ScrollablePage):
         self.refresh_policy_library()
 
     def discard_interrupted_training_recovery(self) -> None:
+        self._legacy_policy_workflow_unavailable("Legacy recovery cleanup unavailable")
+        return
         output, session = self._choose_recovery_session()
         if not output or not session:
             return
@@ -2836,10 +2924,10 @@ class CALOIntelligencePanel(ScrollablePage):
 
     def _training_done(self, path: str) -> None:
         self._disconnect_training_cancel()
-        self.train_button.setEnabled(True)
-        self.resume_training_button.setEnabled(True)
-        self.recover_training_button.setEnabled(True)
-        self.discard_recovery_button.setEnabled(True)
+        self.train_button.setEnabled(False)
+        self.resume_training_button.setEnabled(False)
+        self.recover_training_button.setEnabled(False)
+        self.discard_recovery_button.setEnabled(False)
         if self.training_resume_task_id:
             self.state.resume_service.update(
                 self.training_resume_task_id,
@@ -2955,10 +3043,10 @@ class CALOIntelligencePanel(ScrollablePage):
 
     def _training_cancelled(self, message: str) -> None:
         self._disconnect_training_cancel()
-        self.train_button.setEnabled(True)
-        self.resume_training_button.setEnabled(True)
-        self.recover_training_button.setEnabled(True)
-        self.discard_recovery_button.setEnabled(True)
+        self.train_button.setEnabled(False)
+        self.resume_training_button.setEnabled(False)
+        self.recover_training_button.setEnabled(False)
+        self.discard_recovery_button.setEnabled(False)
         try:
             if self.worker is not None:
                 self._register_training_snapshots(
@@ -2988,10 +3076,10 @@ class CALOIntelligencePanel(ScrollablePage):
 
     def _training_failed(self, message: str) -> None:
         self._disconnect_training_cancel()
-        self.train_button.setEnabled(True)
-        self.resume_training_button.setEnabled(True)
-        self.recover_training_button.setEnabled(True)
-        self.discard_recovery_button.setEnabled(True)
+        self.train_button.setEnabled(False)
+        self.resume_training_button.setEnabled(False)
+        self.recover_training_button.setEnabled(False)
+        self.discard_recovery_button.setEnabled(False)
         if self.training_resume_task_id:
             self.state.resume_service.update(
                 self.training_resume_task_id, status=ResumeStatus.INTERRUPTED, resumable=True

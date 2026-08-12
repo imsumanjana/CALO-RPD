@@ -3,10 +3,53 @@ from __future__ import annotations
 from pathlib import Path
 import re
 
+import pytest
 import yaml
+
+from calo_rpd_studio.scripts.container_smoke import _verify_image_release_scope
 
 
 ROOT = Path(__file__).resolve().parents[2]
+
+
+def test_container_image_manifest_rejects_policy_training_and_validation_artifacts():
+    safe = {
+        "schema": "calo_rpd_staged_artifact_manifest_v1",
+        "artifacts": [
+            {"path": "calo_rpd_studio/__init__.py", "size_bytes": 1, "sha256": "a" * 64},
+            {
+                "path": "calo_rpd_studio/validation/gui_contract.py",
+                "size_bytes": 1,
+                "sha256": "d" * 64,
+            },
+            {
+                "path": "calo_rpd_studio/data/trained_models/__init__.py",
+                "size_bytes": 1,
+                "sha256": "b" * 64,
+            },
+        ],
+    }
+    result = _verify_image_release_scope(safe)
+    assert result["forbidden_artifact_count"] == 0
+    assert result["policy_store_marker_only"] is True
+
+    for forbidden in (
+        "calo_rpd_studio/data/trained_models/old.pt",
+        "calo_rpd_studio/data/trained_models/receipt.json",
+        "calo_rpd_studio/data/base_branches/member.ckpt",
+        "calo_rpd_studio/data/candidate.branches.json",
+        "validation/Validate-Phase4.ps1",
+        "validation_logs/phase4/command.txt",
+        "calo-rpd-studio-12.0.0.dev1/validation/logs/phase4.txt",
+    ):
+        payload = {
+            "schema": safe["schema"],
+            "artifacts": [
+                {"path": forbidden, "size_bytes": 1, "sha256": "c" * 64},
+            ],
+        }
+        with pytest.raises(RuntimeError, match="excluded policy/training/validation"):
+            _verify_image_release_scope(payload)
 
 
 def test_image_drops_root_before_runtime_entrypoint():
@@ -80,7 +123,15 @@ def test_container_context_excludes_generated_policies_and_user_build_notes():
     }
     assert "*.pt" in patterns
     assert "*.pt.sha256" in patterns
+    assert "*.pth" in patterns
+    assert "*.ckpt" in patterns
+    assert "*.onnx" in patterns
+    assert "*.safetensors" in patterns
+    assert "validation" in patterns
     assert "*_lineage" in patterns
+    assert "*_branches" in patterns
+    assert "*_artifacts" in patterns
+    assert "*.branches.json" in patterns
     assert "calo_rpd_studio/data/trained_models/*" in patterns
     assert "!calo_rpd_studio/data/trained_models/__init__.py" in patterns
     assert "Docker_Build.txt" in patterns
@@ -165,14 +216,16 @@ def test_ci_lock_and_workflow_are_reproducible_and_supply_chain_pinned():
         "calo_rpd_studio/scripts/validate_packaged_gui.py",
         "calo_rpd_studio/accelerated/cuda_timing.py",
         "calo_rpd_studio/scripts/validate_cuda_hot_path.py",
-        "calo_rpd_studio/scripts/validate_cuda_policy_hot_path.py",
+        "calo_rpd_studio/algorithms/calo/policy_retirement.py",
+        "calo_rpd_studio/scripts/create_development_freeze_candidate.py",
+        "calo_rpd_studio/scripts/manage_policy_retirement.py",
     ):
         assert typed_release_module in workflow_text
-    assert "Qualify CUDA-resident numerical-time share" in workflow_text
+    assert "Qualify policy-free CUDA-resident numerical-time share" in workflow_text
     assert "validate_cuda_hot_path --case case30 --batch-size 100" in workflow_text
     assert "validate_cuda_hot_path --case case57 --batch-size 100" in workflow_text
-    assert "validate_cuda_policy_hot_path --case case30 --updates 3" in workflow_text
-    assert "validate_cuda_policy_hot_path --case case57 --updates 3" in workflow_text
+    physical_cuda_text = yaml.safe_dump(workflow["jobs"]["physical-cuda"], sort_keys=True)
+    assert "validate_cuda_policy_hot_path" not in physical_cuda_text
     compatibility = workflow["jobs"]["compatibility"]
     compatibility_text = yaml.safe_dump(compatibility, sort_keys=True)
     assert "python -m pip check" in compatibility_text

@@ -21,6 +21,7 @@ dependencies = [
   "psutil>=5.9,<8",
   "nvidia-ml-py>=13,<14",
   "cma>=4.4.4,<5",
+  "torch>=2.10,<2.11",
 ]
 
 [project.optional-dependencies]
@@ -53,6 +54,13 @@ calo-rpd-stage-b-validate = "calo_rpd_studio.scripts.validate_stage_b_synthetic:
 calo-rpd-math-reference = "calo_rpd_studio.scripts.run_mathematical_reference:main"
 calo-rpd-packaged-gui-validate = "calo_rpd_studio.scripts.validate_packaged_gui:main"
 calo-rpd-export = "calo_rpd_studio.scripts.export_publication_results:main"
+calo-rpd-policy-retirement = "calo_rpd_studio.scripts.manage_policy_retirement:main"
+calo-rpd-development-freeze = "calo_rpd_studio.scripts.create_development_freeze_candidate:main"
+calo-rpd-accept-development-freeze = "calo_rpd_studio.scripts.accept_development_freeze:main"
+calo-rpd-release-scope = "calo_rpd_studio.scripts.release_policy_scope:main"
+calo-rpd-release-preparation = "calo_rpd_studio.scripts.create_release_preparation:main"
+calo-rpd-distribution-manifests = "calo_rpd_studio.scripts.generate_distribution_manifests:main"
+calo-rpd-finalize-records = "calo_rpd_studio.scripts.finalize_release_records:main"
 
 [tool.setuptools.packages.find]
 include = ["calo_rpd_studio*", "calo_bootstrap*"]

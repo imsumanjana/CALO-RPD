@@ -1353,3 +1353,337 @@ Append timestamped entries below this line after each material action, validatio
   requires explicit authorization before tag, push, publication, or release.
 - Prompt drafting did not start either phase, create a phase goal, modify/delete a policy, or run a
   test, validator, build, container, policy, scientific, protected-case, or release command.
+
+### 2026-08-12 - Phase 3 Linux boundary accepted by project owner; Phase 4 started
+
+- The project owner explicitly accepted the manually validated Linux xcb boundary and directed the
+  project to continue to Phase 4. No automated `phase3-remaining-linux-*` directory was returned or
+  retained, so this is an owner-approved scope/gate decision rather than reproducible automated
+  Linux evidence. It does not infer human screen-reader, usability, or scientist acceptance and does
+  not qualify policy, scientific, hardware-performance, release-candidate, or release claims.
+- Phase 3 is closed by that explicit owner decision. The accepted Windows evidence remains the
+  retained automated GUI evidence; Linux xcb remains manually accepted without a retained automated
+  evidence bundle.
+- Created the required Phase 4 goal before starting source development. Objective: complete v12
+  production development, empty-policy hardening, engineering/release-infrastructure completion,
+  controlled old-policy removal preparation without deletion, authoritative record updates, and a
+  source-bound manual validator.
+- Phase 4 started from clean commit `f800119cd3a14e2965c91040d0a8392013532089`. Phase 4 remains
+  coding-only: no manual-capable test/validator/build command and no policy training, evaluation,
+  qualification, registration, activation, protected campaign, or deletion is authorized.
+
+### 2026-08-12 - Phase 4 coding completed; manual validation pending
+
+- Completed the production integration gap that kept policy-gated TSH-CALO outside the ordinary
+  experiment validator/runner/Algorithms workflow. TSH-CALO is now a separate gated algorithm and
+  requires an immutable qualified active binding; Change F and experimental flags remain disabled.
+  Primary CALO remains rule-only when the policy store is empty.
+- Hardened empty-policy behavior. Application state removes stale CALO and TSH-CALO checkpoint,
+  checksum, qualification, calibration, receipt, ensemble, and training-provenance fields; forces
+  both policy-use flags off; and never fabricates or auto-selects a policy. The GUI no longer scans
+  bundled/checkout `.pt` files. Existing/pre-freeze records remain inspectable but cannot activate,
+  bind, qualify through the historical paired-CALO action, resume/fork as initialization, or delete.
+- Added new-policy provenance fields for exact development-freeze commit, retained freeze payload
+  SHA-256, and empty initialization checksum. Only completely new post-development TSH-CALO
+  ensembles pass registry readiness. A future training plan/command must supply and validate the
+  exact clean, empty-policy, post-transition freeze report; a dirty Phase 4 evidence candidate
+  cannot authorize training.
+  The production inference loader independently repeats this source/initialization gate, so a
+  hand-authored serialized binding cannot bypass the registry; historical artifacts remain
+  inspectable only and non-production qualification authorities retain their explicit scope.
+  Experiment policy inference is bound to the scheduler's resolved CPU/CUDA device and forbids
+  internal or baseline fallback; exploratory CUDA failure must be a separately recorded full-request
+  CPU restart.
+- Added exact policy-lifecycle database snapshots plus inventory-bound transactional cleanup, and
+  added `policy_retirement.py` / `manage_policy_retirement.py`. Phase 4 uses their read-only inventory,
+  dry-run plan, and disabled authorization template only. The later execution path requires unchanged
+  files/database, matching plan hashes, clean full source identity, matching retained authorization,
+  the accepted Phase 4 freeze payload SHA-256, explicit freeze/irreversible/database
+  acknowledgements, path confinement, and a receipt outside the policy store. No policy record,
+  row, or file was deleted or altered in this coding pass.
+- Added the development-only `calo-rpd-development-freeze` report. It hashes the source identity,
+  Phase 4 validator, policy inventory, A-E/F-off interfaces, schemas, dependency locks, containers,
+  and exclusion rules while recording zero release-scope policies and explicit prohibited claims.
+  It is not a final freeze, release manifest, qualification receipt, RC, or release-ready statement.
+- Extended distribution-required source, kept trained policies/validation excluded, and changed the
+  physical-CUDA CI label/scope to policy-free engineering evidence. Removed policy hot-path
+  evaluation from the Phase 4 physical lane.
+- Added proportional Phase 4 test source for empty-policy state, gated TSH-CALO configuration,
+  Change-F/internal-fallback refusal, new provenance, inventory/path confinement, authorization and
+  synthetic retirement receipts, and development-freeze source binding. Updated affected historical
+  activation fixtures without weakening old negative evidence.
+- Kept the generated experiment schema structurally open for registry-defined algorithm parameter
+  maps while publishing the safe rule-only CALO default. Legacy GUI training, recovery,
+  continuation, resume, fork, and paired-qualification entry points now fail closed in their
+  callbacks as well as remaining disabled, so worker completion cannot re-enable an old-policy path.
+- Created the noninteractive Git-ignored `validation/Validate-Phase4.ps1` and
+  `validation/PHASE4_VALIDATION.md`. The harness creates a new timestamped directory and covers
+  source/schema/style/type gates, targeted Phase 4 and non-policy engineering/GUI tests, actual
+  old-policy inventory and dry-run, disabled authorization, wheel/sdist/clean-install checks, CPU/CUDA
+  containers, physical case30/case57 parity and batching, resource recovery, source/interface freeze
+  identity, and detailed command/source/evidence hashes. It explicitly excludes Linux xcb because
+  the project owner accepted that boundary manually before Phase 4; it does not infer human
+  accessibility, usability, or scientist acceptance.
+- The final source-to-validator audit added direct built-image-manifest policy/training/validation
+  exclusions, broader artifact-format and Docker-context exclusions, complete tracked plus
+  untracked source hashes, start/end Git-state stability, and nested instruction/package-marker
+  protection in retirement plans. Broad policy-training and qualification-analysis regression files
+  were removed from the Phase 4 validator to preserve the owner's no-policy-test boundary. Durable
+  source identity and future training/qualification/ablation entry points now treat non-ignored
+  untracked files as dirty source; ignored validation/log/policy artifacts remain excluded.
+- The retained development-freeze candidate now embeds its own sorted SHA-256 manifest of every
+  Git-tracked and non-ignored untracked source file, plus the raw Git-status SHA-256/clean state. Its
+  parser requires the complete declared interface/dependency/container/exclusion contract, exact
+  policy-empty counts and authority boundaries, and the full prohibited-workflow record. A
+  structurally incomplete but self-hashed JSON file can no longer be used as later training
+  authority. The ignored validator and its instructions remain separately declared and hashed.
+- Added a separate `calo-rpd-accept-development-freeze` decision command. It cannot run validation
+  or self-accept a candidate: it accepts only a complete, fully passing `phase4-*` directory with
+  all 32 exact result IDs produced by the 30 numbered stages and whose every retained file matches
+  its hash manifest, then writes a non-overwriting
+  receipt outside that immutable run under an explicit decision ID. The receipt binds a production-
+  source content contract that excludes only development-policy artifacts, allowing the separately
+  authorized old-policy cleanup without losing the accepted code identity. Future training plans,
+  candidates, registry readiness, and experiment bindings require the receipt SHA-256 in addition
+  to the later clean/empty post-transition freeze SHA-256. No acceptance receipt was created in this
+  coding pass; it is available only after returned-log review and an explicit closure decision.
+- Codex used Ruff format only as a mechanical source rewrite. It did not run the validator or any
+  Ruff check, test, compilation, schema check, lint, mypy, package, GUI, browser, Docker, CUDA,
+  policy, benchmark, campaign, protected-case, qualification, or release command. Phase 4 and its
+  goal remain open until the user runs
+  `& .\validation\Validate-Phase4.ps1`, returns the complete new `phase4-*` log directory, and its
+  source/hash-bound evidence is reviewed and accepted.
+
+### 2026-08-12 - Phase 4 final source-only completion audit
+
+- Corrected the governing-policy readiness record construction so a pre-freeze active record fails
+  closed as `development_only` without a positional-argument exception. All active-record status
+  branches now use one keyword-labelled constructor, and regression source covers the pre-freeze
+  boundary. No policy workflow was executed.
+- Changed the GUI removal-plan export to open a dedicated SQLite read-only database handle rather
+  than borrowing the application's writable handle. The GUI remains inventory/dry-run only and
+  cannot execute deletion.
+- Tightened the accepted production-source contract: only generated records beneath the designated
+  `calo_rpd_studio/data/trained_models/` store may be excluded during a later authorized retirement.
+  A policy-looking filename elsewhere remains ordinary source content and cannot evade the accepted
+  source digest. Regression source records that boundary.
+- Updated `ACTIVE_DEVELOPMENT_STATUS.json`, the active-version verifier, Phase 3/4 contracts, the
+  five-phase plan, gates, and traceability so the current state is Phase 4 with Phase 3 closed by
+  owner manual Linux/xcb acceptance. The records still state that no automated Linux evidence bundle
+  was retained and do not infer human accessibility, scientist acceptance, or release evidence.
+- Completed the final static requirement-to-source inspection and applied Ruff formatting only as a
+  mechanical rewrite. `git diff --check` reported no whitespace errors. No validator, pytest,
+  compile, schema, Ruff check, type check, package build, GUI test, container, CUDA check, policy
+  workflow, protected case, or release command was run by Codex.
+- The Phase 4 development implementation and its ignored manual harness are complete. The Phase 4
+  acceptance gate remains intentionally unevidenced until the user runs
+  `& .\validation\Validate-Phase4.ps1` and returns the complete new log directory. A passing run is
+  still not self-acceptance; the separate receipt is created only after read-only review and an
+  explicit acceptance decision.
+
+### 2026-08-12 - Phase 5 release-preparation development completed; combined validation pending
+
+- The project owner explicitly changed sequencing: complete Phase 5 coding first, then manually
+  validate Phase 4 and Phase 5 together. The Phase 4 development goal was closed and a distinct
+  Phase 5 goal was created before Phase 5 source edits. This does not mark Phase 4 or Phase 5
+  validation accepted.
+- Added `release_policy_scope.py`. Its disabled template authorizes nothing. An approved decision
+  must choose exactly `policy-free` or `newly-qualified-policy`; forbids old-policy reuse and F;
+  binds Phase 4 acceptance, clean post-transition freeze, and production-source contract; and, for
+  a policy scope, verifies the exact confined artifact, policy manifest, and immutable parsed
+  qualification receipt.
+- Added `create_release_preparation.py`, distinct wheel/sdist member-manifest generation, and CI
+  contract verification. The preparation candidate hashes Python distributions, both archive
+  member manifests, CPU/CUDA image identities, Buildx metadata, SBOMs, complete vulnerability
+  reports, actual image filesystem manifests, scanner/database identity, independent wheel/sdist
+  clean installs, packaged GUI evidence, and CI scope. It always records RC, final, release-ready,
+  publication, policy-benefit, superiority, protected-case, and human-acceptance claims as false.
+- Declared PyTorch as a package runtime dependency and required every new Phase 5 trust module in
+  wheel/sdist verification and CI's typed boundary. CI generates distinct distribution manifests;
+  existing CPU/CUDA maximum-provenance, SBOM, security, GUI, compatibility, and explicit-dispatch
+  physical-CUDA jobs remain the execution authorities.
+- Added `finalize_release_records.py`. Development may create its disabled authorization template,
+  but final metadata/source-manifest generation requires a clean already reviewed `12.0.0` release
+  identity, passing combined evidence on that exact commit, release preparation rebuilt for the
+  exact approved scope, and a self-hashed explicit authorization. It cannot version-promote,
+  commit, tag, push, publish, upload, or release.
+- Added deterministic Phase 5 test source without executing it. Added ignored noninteractive
+  `Validate-Phase5.ps1` and `Validate-Phase4-And-Phase5.ps1`. The wrapper runs full Phase 4 first,
+  stops on failure, then runs Phase 5, requires identical Git commit/dirty state, and retains two
+  full phase directories plus a combined hash-bound directory.
+- Codex used Ruff format only as a mechanical rewrite. No test, compile, schema, Ruff check, mypy,
+  build, install, GUI, Docker, Trivy, CUDA, policy, protected-case, final-record, tag, push,
+  publication, or release command was executed. The exact next action is
+  `& .\validation\Validate-Phase4-And-Phase5.ps1` and return all three new directories.
+
+### 2026-08-12 - First combined run interrupted; source and harness corrections applied
+
+- The owner-executed combined run created `phase4-20260812-165006` and
+  `phase4-phase5-20260812-165006`. Phase 5 never started. The owner stopped the run while the Phase
+  4 CUDA image command was still buffered; the partial directory has no complete acceptance
+  summary and is not accepted evidence.
+- Retained command logs showed one Ruff-format mismatch, 15 typed-boundary diagnostics, two
+  engineering contract failures, and three GUI contract failures. Source/test corrections now
+  cover the typed returns and heterogeneous SQL values, the active Phase 5 status contract, a
+  deterministically tampered retirement plan, the seven-step stacked workflow, requested-output
+  header width, and ordinary scientist wording.
+- The original PowerShell command wrapper incorrectly converted normal native stderr (including
+  Docker progress) into terminating exceptions, continued after failures, buffered all output, and
+  passed Compose v5 an unsupported `run --read-only` option. Both phase validators now stream
+  stdout/stderr to the terminal and per-command log, decide success by native exit code, and stop at
+  the first failure. The combined wrapper streams both child validators and uses exact phase
+  directory matching. Phase 4 Compose smoke inherits `read_only: true` from `compose.yaml`.
+- Packaging and CPU/CUDA results from the interrupted run are not reusable proof because the faulty
+  wrapper aborted native commands on stderr and later commands ran after failed prerequisites.
+  No validator, test, format/lint/type/schema/compile check, package build, Docker/CUDA/Trivy
+  command, policy workflow, protected case, or release action was executed by Codex during these
+  corrections. A fresh owner-executed combined run is required.
+
+### 2026-08-12 - Corrected fail-fast validator confirmed; eight files mechanically formatted
+
+- Owner run `phase4-20260812-182252` used corrected validator SHA-256
+  `c61e7c5a920f4ad420835d6fb99b06df014e46acb18e54daf6eba575be92e1f3`. Commands 01-05 passed:
+  environment capture, active-version identity, compile, generated schema, and Ruff source checks.
+  Command `06-format` failed and stopped Phase 4 immediately; Phase 5 did not start.
+- The complete Phase 4 and combined summaries/hash manifests were retained. They record no policy
+  workflow, real-policy deletion, protected case, release generation, RC, final release, or
+  publication. The run is failed evidence, not Phase 4 acceptance.
+- Ruff's formatter was applied mechanically to exactly the eight files named by `06-format`:
+  policy registry, experiment configuration/runner, CALO Intelligence, Portfolio Manager, result
+  database, distribution verifier, and GUI startup test. Codex did not execute the follow-up format
+  check or any test, validator, build, Docker/CUDA/Trivy, policy, protected-case, or release command.
+  A fresh combined owner run is the next authority.
+- The combined wrapper was additionally corrected to embed a failed child's retained path, exit
+  code, hashes, source identity, command counts, and explicit `passed: false` state. The prior
+  `phase4: null` summary did not lose the child evidence, but made the combined record less useful.
+  Passing requirements are unchanged.
+
+### 2026-08-12 - Type and engineering gates pass; one scientist-facing GUI phrase corrected
+
+- Owner run `phase4-20260812-182752` passed commands 01-08: environment, version, compile, schema,
+  Ruff, formatting, all 15 typed-boundary files, and 112 Phase 4/non-policy engineering tests.
+  Command `09-gui` passed 36/37 tests and stopped on the single ordinary-interface language gate.
+  Phase 5 did not start.
+- The only hit was `development` in the disabled qualification button tooltip: “independent
+  post-development qualification authority.” It now says “independent post-freeze qualification
+  authority.” Related normal policy/campaign tooltips and dialogs now consistently use historical,
+  pre-freeze, post-freeze, or accepted-source wording. Internal provenance/field names are unchanged.
+- The combined summary correctly embedded the failed Phase 4 child path, hashes, source identity,
+  exit code, and command counts. No policy workflow, deletion, protected case, release, RC, final
+  release, or publication occurred. Ruff mechanically formatted the three GUI files affected by the
+  language correction; the status-contract test already matched formatter output. Codex did not
+  execute any test, check, or validator after the correction; a fresh combined owner run remains
+  required.
+
+### 2026-08-12 - Distribution verifier package-namespace false positive corrected
+
+- Owner run `phase4-20260812-184454` passed 14 result IDs through the fresh wheel/sdist build,
+  including all 37 GUI tests and the read-only policy inventory/plan/disabled-authorization
+  boundaries. Command `14-distribution` then rejected the legitimate packaged source
+  `calo_rpd_studio/validation/__init__.py` as though it were the Git-ignored root `validation/`
+  evidence directory. Phase 5 did not start.
+- Distribution and container filesystem gates now reject root `validation/`, `validation_logs/`,
+  and sdist-prefixed root equivalents while allowing the application namespace
+  `calo_rpd_studio/validation/`. Distribution verification additionally requires its initializer
+  and GUI contract module. Focused regression source covers accepted application paths and rejected
+  local-evidence paths for both archives and images.
+- The failed run remains non-acceptance evidence and records no policy workflow, deletion,
+  protected case, release, RC, final release, or publication. Codex did not rerun packaging,
+  tests, containers, or validation after correction. Ruff mechanically formatted the two corrected
+  release-boundary modules and affected regression source (four files changed; the status-contract
+  test was already formatted). A fresh combined owner run remains required.
+
+### 2026-08-12 - Clean-install smoke assertion corrected after fifth combined attempt
+
+- Owner run `phase4-20260812-185135` passed 17 result IDs, including distribution verification and
+  installation of the built wheel with runtime dependencies into the isolated clean environment.
+  Its first failure was `17-clean-smoke`; Phase 5 did not start.
+- The command already ran from `validation/logs/.../clean-install`, but the assertion rejected every
+  path beneath the repository. Because the intentionally Git-ignored clean virtual environment is
+  itself beneath that directory, its valid `Lib/site-packages/calo_rpd_studio` installation was
+  rejected even though it was not the checkout source package.
+- The ignored Phase 4 validator now requires the imported module to reside beneath that run's clean
+  environment and separately forbids resolution beneath the checkout `calo_rpd_studio` source
+  directory. The installed entry-point assertions remain unchanged. Codex did not execute the
+  corrected smoke, tests, or validator; preserve the failed evidence and perform a fresh combined
+  owner run.
+
+### 2026-08-12 - Physical-CUDA development evidence tier corrected after sixth attempt
+
+- Owner run `phase4-20260812-190643` passed 24 result IDs, including clean installation, the
+  checkout-independent lifecycle CLI, locked CPU and CUDA image builds, both container smokes, and
+  physical NVIDIA discovery. The CUDA container reported CUDA available with no packaged policy or
+  local validation content; the host reported an RTX 4060 Laptop GPU. The first failure was
+  `23-cuda-parity-30`, before numerical parity executed, because the dirty development worktree did
+  not qualify for the command's durable-evidence source tier. Phase 5 did not start.
+- The strict default remains unchanged: retained durable qualification evidence requires a full
+  clean source identity. Physical parity, CUDA time-share, and resource-recovery tools now expose a
+  separate explicit `--allow-dirty-development-evidence` option. It still requires a full commit,
+  records dirty state, emits `evidence_tier=development-only`, keeps
+  `durable_evidence_eligible=false` and `qualification_passed=false`, and permits exit success only
+  when the underlying engineering checks pass.
+- The Git-ignored Phase 4 validator alone opts into that development tier because its freeze binds
+  the complete tracked plus non-ignored source manifest and later proves source stability. Formal
+  CLI/CI callers retain clean-source qualification semantics. Codex did not execute formatting,
+  tests, CUDA work, containers, or either phase validator after this correction; fresh combined
+  owner evidence remains required.
+- A forward audit corrected the same repository-root assumption in the ignored Phase 5 wheel,
+  sdist, and packaged-GUI checks before another long run could encounter it. Wheel/sdist imports must
+  be inside their exact isolated environments and outside the checkout source package; packaged-GUI
+  validation forbids that source package rather than the enclosing Git-ignored validation storage.
+- The combined ignored wrapper now resolves Python, Docker, NVIDIA-SMI, and Trivy before Phase 4
+  starts and retains a preflight log. This makes the owner's already observed missing-Trivy blocker
+  fail immediately instead of after expensive container builds; installation remains a separate
+  manual environment action.
+
+### 2026-08-12 - Phase 4 passes; Phase 5 typed boundary corrected
+
+- Owner run `phase4-20260812-195901` passed all 32 required Phase 4 result IDs with zero failures.
+  The retained summary binds commit `f800119cd3a14e2965c91040d0a8392013532089`, records the exact
+  dirty development source state, and confirms that no policy workflow, real-policy deletion,
+  protected case, RC, final release, or publication occurred. It is a successful checkpoint for
+  that exact source state; the subsequent Phase 5 typing correction changed the source identity, so
+  the current tree still needs a fresh combined run. The separate explicit acceptance receipt and
+  clean final-source gates remain pending.
+- Phase 5 run `phase5-20260812-201822` passed its first five gates: active development identity,
+  compilation, generated schema, Ruff lint, and formatting over 458 files. It failed first at
+  `06-types` with two findings: PyYAML lacks inline typing metadata, and the Phase 5 summary JSON
+  loader returned mypy `Any`. Combined run `phase4-phase5-20260812-195901` therefore failed and is
+  not combined acceptance evidence.
+- The CI workflow import now has a narrow `import-untyped` annotation with its existing runtime
+  mapping checks retained. Final-record evidence loading now uses one fail-closed JSON-object loader
+  that rejects malformed JSON, arrays, and scalars before returning a typed mapping; all six final
+  record inputs use it. Regression source covers the non-object rejection.
+- Codex did not execute mypy, tests, validation, builds, containers, policy work, or release work
+  after correction. Phase 5 and combined validation require a fresh owner-executed run.
+
+### 2026-08-12 - Active-version status contract aligned after eighth attempt
+
+- Owner combined run `phase4-phase5-20260812-202511` passed the prerequisite preflight and Phase 4
+  environment record, then stopped at `02-version`. The version, display version, project metadata,
+  release boundaries, and policy boundaries all passed; only `active_status_runtime_contract` was
+  false. Phase 5 did not start.
+- The cause was an internal source mismatch: the status ledger had correctly advanced to record the
+  seventh combined attempt and post-correction revalidation state, while `verify_active_version.py`
+  still required the earlier pre-validation Phase 4 wording. The verifier now requires the current
+  evidence-accurate core values and has a separate exact validation-attempt history check covering
+  the seventh and eighth attempts. No release or scientific semantics changed.
+- The failed run records one passed command and first failure `02-version`; it is retained negative
+  evidence. Codex did not execute the corrected verifier, tests, or validators. Fresh combined
+  owner validation remains required.
+
+### 2026-08-12 - Phase 5 attestation prerequisite exposed after ninth attempt
+
+- Owner combined run `phase4-phase5-20260812-202852` passed all 32 Phase 4 commands. Phase 5 run
+  `phase5-20260812-204823` then passed 23 commands, including types, 543 tests, distribution
+  manifests, clean wheel and sdist installation, packaged-GUI smoke, and isolated sdist smoke.
+  Its first failure was `22-cpu-build`; Buildx rejected provenance/SBOM attestations because Docker
+  Desktop was using its classic image store and `docker` driver.
+- The Phase 5 build contract remains unchanged: both local images still require maximum provenance
+  and SBOM attestations. The ignored combined wrapper now checks Docker's driver status before
+  Phase 4 and fails immediately unless `io.containerd.snapshotter.v1` is present. It gives the exact
+  Docker Desktop setting and restart instruction and records the result in `combined-preflight.txt`.
+- This is an environment prerequisite plus a fail-fast harness correction, not a scientific or
+  release-scope change. Codex did not switch Docker Desktop settings, execute tests/builds, run
+  validation, or perform policy/release workflows. The owner must enable the containerd image store
+  and run the combined validator again.

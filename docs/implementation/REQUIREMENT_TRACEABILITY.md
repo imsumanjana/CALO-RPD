@@ -103,21 +103,22 @@ validator identity, and no prohibited workflows. Phase 2 is accepted.
 
 | Requirement | Implementation evidence | Validation state | Remaining proof |
 |---|---|---|---|
-| Stable grouped information architecture | `app/workspaces.py`; `gui/navigation/sidebar.py`; inline SVG registry | Corrected Windows contracts and all-workspace automation accepted | Linux xcb interaction evidence |
-| Dashboard decision hierarchy | next-action/readiness/recent-work/activity disclosure in `dashboard_panel.py` | Windows light/dark/high-DPI and all-workspace evidence accepted | Linux xcb evidence |
-| Seven-step Study Setup | `StudySetupWorkflow`; existing authoritative panels routed without state duplication | Windows programmatic keyboard/workflow interaction accepted | Linux xcb interaction evidence |
-| Compact structured inputs | application-wide density policy; integer chips; 240-480px limits; responsive Results grid; dedicated copyable database-path field | Corrected Windows clipping/input-width automation accepted | Linux xcb all-workspace automation |
-| Horizontal use of wide workspaces | shared `WorkspaceTabs`; side-by-side ORPD, scenario, portfolio, settings, and benchmark groups; stretching Portfolio output tree | Corrected `121530` Windows light/dark-200% tabs and tree-width gate accepted; visual review confirms no right-side waste or evidence truncation | Linux xcb per-tab screenshots and tree-width evidence |
-| Accessible semantic visual system | named tokens, light/dark QSS, focus borders, text badges, accessible names/buddies | Windows high-DPI contrast/name/buddy/keyboard automation accepted | Linux xcb automated evidence |
-| Render and glyph evidence | isolated render CLI; deterministic existing-OS-font registration; font provenance; separate glyph/clipping/input counts | Four corrected Windows cells accepted with zero glyph/replacement/clipping/input/editor failures | Linux light/dark xcb matrix |
-| Durable local evidence identity | ignored validator; v2 source manifest with commit/dirty/status hashes; v3 workspace evidence and v4 Windows summary | Corrected `121530`: validator/status identities matched at review; 17/17 source entries and 79/79 evidence hashes matched; acceptance ledger postdates manifest | Source-bound Linux directory |
+| Stable grouped information architecture | `app/workspaces.py`; `gui/navigation/sidebar.py`; inline SVG registry | Corrected Windows contracts and all-workspace automation accepted; Linux boundary owner-accepted manually without a retained automated bundle | Phase 4 source-bound rerun; no automated Linux claim |
+| Dashboard decision hierarchy | next-action/readiness/recent-work/activity disclosure in `dashboard_panel.py` | Windows light/dark/high-DPI and all-workspace evidence accepted; Linux boundary owner-accepted manually | Phase 4 source-bound rerun; human acceptance remains separate |
+| Seven-step Study Setup | `StudySetupWorkflow`; existing authoritative panels routed without state duplication | Windows programmatic keyboard/workflow interaction accepted; Linux boundary owner-accepted manually | Phase 4 source-bound rerun |
+| Compact structured inputs | application-wide density policy; integer chips; 240-480px limits; responsive Results grid; dedicated copyable database-path field | Corrected Windows clipping/input-width automation accepted; Linux boundary owner-accepted manually | Phase 4 source-bound rerun |
+| Horizontal use of wide workspaces | shared `WorkspaceTabs`; side-by-side ORPD, scenario, portfolio, settings, and benchmark groups; stretching Portfolio output tree | Corrected `121530` Windows light/dark-200% tabs and tree-width gate accepted; Linux boundary owner-accepted manually | Phase 4 source-bound rerun |
+| Accessible semantic visual system | named tokens, light/dark QSS, focus borders, text badges, accessible names/buddies | Windows high-DPI contrast/name/buddy/keyboard automation accepted; Linux boundary owner-accepted manually | Human accessibility acceptance remains separate |
+| Render and glyph evidence | isolated render CLI; deterministic existing-OS-font registration; font provenance; separate glyph/clipping/input counts | Four corrected Windows cells accepted; Linux boundary owner-accepted manually without an automated render bundle | No reproducible automated Linux claim |
+| Durable local evidence identity | ignored validator; v2 source manifest with commit/dirty/status hashes; v3 workspace evidence and v4 Windows summary | Corrected `121530` Windows hashes accepted; Linux closure is an owner decision without a retained automated directory | Phase 4 source/hash-bound validation directory |
 
 Phase 3 Windows-local baseline evidence is accepted. `phase3-20260807-045558` and
 `phase3-remaining-windows-20260807-092741` remain immutable failed history;
 `phase3-20260807-052047` is the accepted baseline rerun; and
 `phase3-remaining-windows-20260807-112621` accepted the corrected pre-tabbed source at 10/10. The
 new tabbed-layout source postdates that manifest and therefore required fresh noninteractive
-Windows and Linux xcb evidence. Windows is now accepted in `121530`; Linux remains. Manual reviewer answers are excluded by user instruction,
+Windows and resolution of the Linux xcb boundary. Windows is accepted in `121530`; the owner later
+accepted the manually validated Linux boundary without claiming an automated directory. Manual reviewer answers are excluded by user instruction,
 and automated evidence does not claim a human screen-reader or scientist study. No GUI result
 qualifies policy, protected-case, performance, scientific-superiority, release-candidate, or release
 claims.
@@ -131,7 +132,14 @@ tree unused width, overflow, and header/cell fit an automated gate. Corrected re
 Corrected Windows run `phase3-remaining-windows-20260807-121530` supersedes `120240` for current
 Windows source and is accepted at 10/10. Fifteen contracts, six layout regressions, both v3
 workspace cells, all source/evidence hashes, and the Portfolio width records pass. Windows correction
-work is complete; the remaining Phase 3 proof is the separate Linux xcb directory only.
+work is complete. Phase 3 was subsequently closed by the owner's manual Linux/xcb acceptance; this
+does not create reproducible automated Linux evidence.
+
+On 2026-08-12 the project owner explicitly accepted the manually validated Linux xcb boundary and
+directed Phase 4 to proceed. Phase 3 is therefore closed by owner decision. No automated Linux log
+directory was retained, so the Linux rendering row must continue to say `owner-accepted/manual` and
+must not be cited as reproducible automated, human accessibility, scientist-acceptance, policy,
+scientific-performance, RC, or release evidence.
 
 ## Current verification checkpoint
 
@@ -207,3 +215,135 @@ negative history, but their execution timing is superseded by the user's develop
 - `docs/DOCUMENTATION_STATUS.md` is the current routing index. Versioned reports, dated audits,
   prior release validation, and copied build/baseline Markdown remain historical records and cannot
   override this boundary or qualify current v12 source.
+
+## Phase 4 implementation trace — 2026-08-12
+
+- Empty-policy GUI/database/config: `app/state_manager.py` clears both CALO and TSH-CALO immutable
+  binding fields, calibration, receipt, and provenance data; Algorithms exposes TSH-CALO as a
+  visibly gated separate row; CALO Intelligence no longer auto-discovers checkout policies and
+  retains rule-only CALO availability.
+- Old-policy exclusion: `PolicyRecord.post_development_eligible`, activation/binding guards, and
+  post-freeze provenance fields bar every historical artifact from v12 use or initialization.
+  Future exported TSH candidates identify the exact 40-character development-freeze commit, exact
+  retained freeze payload SHA-256, and an empty initialization-policy checksum. The campaign CLI
+  accepts only a clean, empty-policy, post-transition freeze report matching both identities. The
+  production TSH inference loader repeats the provenance
+  gate after checksum-valid artifact loading, preventing serialized-config bypass while keeping old
+  artifacts inspectable as development history.
+- Device/accounting boundary: TSH-CALO can enter the normal experiment runner only through its
+  immutable qualified binding; its inference device is overwritten with the scheduler-resolved
+  device and internal/baseline fallback is false. Existing whole-population counted-context and
+  outer-boundary materialization source remains the canonical A-E path; F stays off.
+- Controlled retirement: `policy_retirement.py`, `manage_policy_retirement.py`, and exact database
+  lifecycle snapshot/cleanup implement file/database inventory, external-artifact blockers,
+  cryptographic dry-run binding, disabled authorization templates, accepted-Phase-4-freeze payload
+  binding, source/path confinement, transactional cleanup, and immutable external receipts. The GUI
+  exports only inventory/plan.
+- Freeze/package/CI: `create_development_freeze_candidate.py` embeds a sorted SHA-256 manifest of
+  every Git-tracked and non-ignored untracked source file, hashes raw Git status, and verifies the
+  exact Phase 4 interface/dependency/container/exclusion contract plus policy-empty authority
+  boundary. Distribution verification requires the new modules; package and Docker ignores exclude
+  policy and validation content; container smoke verifies its actual filesystem manifest;
+  physical-CUDA CI runs policy-free evaluator evidence. The ignored validator independently hashes
+  the complete tracked/untracked source set and fails if Git status changes during the run.
+- Acceptance authority: `accept_development_freeze.py` verifies a complete passing hash manifest,
+  all 30 Phase 4 command identities, source/freeze/validator agreement, and an explicit decision ID
+  before writing a non-overwriting receipt outside the immutable run. The receipt binds production
+  source content while excluding only recorded development-policy artifacts. Future retirement,
+  training provenance, registry readiness, and experiment configuration require its SHA-256. The
+  Phase 4 validator never calls this command and no receipt exists before returned-log acceptance.
+- Test source: the new Phase 4 retirement, development-freeze, and empty-policy integration suites
+  cover synthetic path confinement, explicit authorization, stale-binding removal, gated TSH-CALO,
+  disabled F/internal fallback, production artifact provenance eligibility, and source identity.
+  Existing affected lifecycle fixtures now use explicit post-development provenance. Historical
+  GUI training/recovery/continuation callbacks are fail-closed and cannot be re-enabled by an old
+  worker completion path.
+- Proof remains pending. Codex did not execute any manual-capable command. Run
+  `& .\validation\Validate-Phase4.ps1` and return the complete new `validation\logs\phase4-*`
+  directory. Until accepted, no package/container/CUDA/GUI pass, clean development freeze, Phase 4
+  completion, RC, policy, scientific, or release claim is made.
+
+## v12 Phase 5 release-preparation traceability - 2026-08-12
+
+| Requirement | Implementation evidence | Current proof | Remaining gate |
+|---|---|---|---|
+| Exact policy scope | `scripts/release_policy_scope.py`; disabled template; exact policy/qualification/Phase 4/freeze bindings | Test and validator source only | Combined validation, transition evidence, explicit decision |
+| Exactly one wheel and sdist with distinct manifests | `verify_distribution_stage.py`; `generate_distribution_manifests.py` | Source implemented | Combined manual build/install/hash evidence |
+| CPU/CUDA immutable evidence aggregation | `create_release_preparation.py`; container smoke filesystem manifest; Buildx/Trivy commands in Phase 5 validator | Source implemented | Actual image IDs, metadata, SBOMs, scans and GPU runtime evidence |
+| Clean installed artifacts | isolated wheel/sdist environments; cleared checkout `PYTHONPATH`; packaged GUI render | Harness implemented | Returned clean-install and render artifacts |
+| Final CI contract | `verify_release_ci_contract.py`; updated pinned-action workflow | Source implemented | Actual hosted/self-hosted CI execution remains separate |
+| Final metadata/freeze authority | `finalize_release_records.py`; disabled explicit authorization | Fail-closed development source only | Clean reviewed `12.0.0`, approved scope, accepted evidence, explicit authority |
+| Combined phase identity | `Validate-Phase4-And-Phase5.ps1` | Ignored noninteractive wrapper implemented | User run and read-only acceptance review |
+
+No Phase 5 implementation row is release evidence. Active identity remains `12.0.0.dev1`; release
+scope, deletion/empty-store transition, combined validation, RC, final records, tag, push,
+publication, and release remain unexecuted.
+
+The first owner combined attempt, `phase4-20260812-165006`, is interrupted partial diagnostics and
+does not satisfy any proof row. Its format/type/engineering/GUI diagnostics and native-command
+wrapper defects were corrected in source. The ignored validators now stream output and fail at the
+first nonzero native exit. No correction was validated by Codex; every proof row above still
+requires the fresh owner-executed combined run.
+
+Owner run `phase4-20260812-182252` passed environment/version/compile/schema/Ruff and failed first at
+Ruff formatting, proving the corrected fail-fast route while providing no Phase 4 acceptance. The
+eight reported files were mechanically formatted; Phase 5 did not start, and fresh combined proof
+remains required.
+
+Owner run `phase4-20260812-182752` advanced through formatting, typed safety, and 112 engineering
+tests; GUI passed 36/37 and failed only on one visible development-stage phrase. Normal-interface
+policy/campaign wording was corrected without changing policy semantics. The run remains failed
+evidence and Phase 5 did not start.
+
+Owner run `phase4-20260812-184454` passed 14 result IDs through wheel/sdist construction and failed
+only when the distribution gate confused the legitimate `calo_rpd_studio/validation/` application
+namespace with root Git-ignored validation evidence. Distribution/container path classification and
+regression source are corrected; Phase 5 did not start and the correction still needs a fresh run.
+
+Owner run `phase4-20260812-185135` passed 17 result IDs through the corrected archive gate and clean
+wheel installation. Its clean smoke failed on a harness-only path predicate: the valid clean
+environment is intentionally beneath Git-ignored repository validation storage. The validator now
+requires imports from that clean environment and excludes the actual checkout source-package path.
+This preserves checkout-independence and entry-point proof without misclassifying installed code.
+Phase 5 did not start; fresh combined evidence remains required.
+
+Owner run `phase4-20260812-190643` passed 24 result IDs through CPU/CUDA container construction and
+smoke plus physical NVIDIA discovery. The first physical parity command rejected the dirty source
+before computation because it requested durable evidence. The corrected tools separate underlying
+engineering success from durable qualification: an explicit Phase 4-only option may retain
+full-commit dirty-source development evidence, but it records non-durable/development-only status and
+cannot set qualification true. Clean source remains mandatory for formal durable evidence, Phase 5
+release preparation, and any later qualification claim. Phase 5 did not start.
+
+A forward Phase 5 harness audit also narrowed wheel, sdist, and packaged-GUI import exclusions from
+the whole repository to the checkout source package, while positively requiring wheel/sdist imports
+inside their isolated environments. This correction is source only and still needs the fresh
+user-executed combined run.
+
+The combined harness now retains an early executable-resolution preflight for Python, Docker,
+NVIDIA-SMI, and Trivy. This is routing evidence only, but it prevents known missing scanner tooling
+from being discovered after lengthy Phase 4 and image-build work.
+
+Owner evidence `phase4-20260812-195901` passes the complete 32-result Phase 4 development contract
+for its retained dirty source identity. Subsequent Phase 5 typing corrections changed source, so it
+is a successful checkpoint rather than proof of the current tree. Phase 5 evidence
+`phase5-20260812-201822` passes five gates
+and fails typed trust boundaries before tests, distributions, Phase 5 images, scans, or release
+preparation. The two typing defects are corrected in source: PyYAML remains runtime-validated across
+a narrowly annotated import, and all final-record JSON inputs must decode to mappings. No combined
+pass, clean final source, approved scope, RC, or final release exists yet.
+
+Combined attempt `phase4-phase5-20260812-202511` passed executable preflight and environment capture
+but failed Phase 4 `02-version`. The failure was confined to an obsolete exact status-string
+contract in `verify_active_version.py`; every other version check passed. The verifier now binds the
+current revalidation-pending status and explicitly validates seventh/eighth attempt history. Phase 5
+did not start, and the correction remains unvalidated until the next owner combined run.
+
+Combined attempt `phase4-phase5-20260812-202852` passed 32/32 Phase 4 commands and reached Phase 5.
+The Phase 5 child `phase5-20260812-204823` passed 23 commands through isolated sdist smoke before
+`22-cpu-build` failed because Docker Desktop's classic image store does not support the required
+local-image provenance/SBOM attestations. Supply-chain requirements were not relaxed. The ignored
+combined wrapper now resolves Docker driver status and requires
+`io.containerd.snapshotter.v1` during preflight, binding the environment result into the retained
+summary before any phase starts. Fresh owner validation remains pending after enabling Docker
+Desktop's containerd image store and restarting it.

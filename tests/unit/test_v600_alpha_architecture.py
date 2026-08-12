@@ -137,18 +137,30 @@ class _Policy:
     metadata: dict = None
     usable: bool = True
     runtime_compatible: bool = True
+    post_development_eligible: bool = True
+    algorithm_id: str = "TSH-CALO"
+
+    def compatible_with(self, algorithm_id: str) -> bool:
+        return algorithm_id == self.algorithm_id
 
 
 class _Registry:
-    def __init__(self, records, checksum="abc"):
+    def __init__(self, records, checksum="abc", *, reject_binding=False):
         self.records = records
         self.checksum = checksum
+        self.reject_binding = reject_binding
 
     def list(self, include_archived=False):
         return list(self.records)
 
     def inspect_checkpoint(self, path):
         return {"sha256": self.checksum}
+
+    def bind_to_experiment_config(self, policy_id, config, **_kwargs):
+        if self.reject_binding:
+            raise ValueError("qualification receipt is malformed")
+        config.algorithm_parameters["TSH-CALO"] = {"policy_id": policy_id}
+        return config.algorithm_parameters["TSH-CALO"]
 
 
 def test_governing_policy_is_fail_closed_until_qualified_active_integrity_verified():
@@ -157,6 +169,10 @@ def test_governing_policy_is_fail_closed_until_qualified_active_integrity_verifi
     assert evaluate_governing_policy(_Registry([candidate])).state == "unqualified"
     qualified = _Policy(active=True, qualification_status="qualified", grade="A")
     assert evaluate_governing_policy(_Registry([qualified])).ready is True
+    assert (
+        evaluate_governing_policy(_Registry([qualified], reject_binding=True)).state
+        == "binding_invalid"
+    )
     assert (
         evaluate_governing_policy(_Registry([qualified], checksum="changed")).state
         == "checksum_mismatch"

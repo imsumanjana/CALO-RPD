@@ -74,7 +74,7 @@ def test_native_policy_schema_is_explicit_and_32_dimensional(tmp_path):
     np.testing.assert_allclose(vector[-8:], [0.7, 0.6, 0.5, 0.4, 0.3, 1.0, 0.2, 0.1])
 
 
-def test_policy_registry_requires_qualification_and_preserves_experiment_references(tmp_path):
+def test_pre_freeze_policy_cannot_activate_bind_or_delete_directly(tmp_path):
     database = ResultDatabase(tmp_path / "results.sqlite")
     registry = PolicyRegistry(database)
     policy = registry.register(
@@ -83,7 +83,7 @@ def test_policy_registry_requires_qualification_and_preserves_experiment_referen
     assert policy.qualification_status == "candidate"
     assert policy.grade == "U"
 
-    with pytest.raises(ValueError, match="Only qualified policies"):
+    with pytest.raises(ValueError, match="Existing/pre-freeze"):
         registry.activate(policy.id)
 
     database.add_policy_qualification(
@@ -96,37 +96,13 @@ def test_policy_registry_requires_qualification_and_preserves_experiment_referen
         score=82.0,
         qualification_status="qualified",
     )
-    activated = registry.activate(policy.id)
-    assert activated.active is True
-    assert activated.grade == "A"
-
     config = ExperimentConfig()
     config.algorithms = ["CALO"]
-    binding = registry.bind_to_experiment_config(policy.id, config, deterministic=True)
-    assert binding["policy_sha256"] == policy.sha256
-    assert binding["strict_policy_binding"] is True
-    assert config.algorithm_parameters["CALO"]["policy_id"] == policy.id
-
-    experiment_id = database.create_experiment(config, collect_provenance())
-    database.bind_policy_to_experiment(experiment_id, binding)
-    assert database.policy_reference_count(policy.id, policy.sha256) == 1
-
-    # Move the default-active marker to another qualified policy so the deletion guard reaches
-    # the stronger experiment-provenance reference check.
-    replacement = registry.register(
-        _write_native_policy(tmp_path / "replacement.pt"), name="Replacement"
-    )
-    database.add_policy_qualification(
-        qualification_id="q2",
-        policy_id=replacement.id,
-        passed=True,
-        grade="A",
-        score=80.0,
-        qualification_status="qualified",
-    )
-    registry.activate(replacement.id)
-    with pytest.raises(ValueError, match="referenced"):
+    with pytest.raises(ValueError, match="Existing/pre-freeze"):
+        registry.bind_to_experiment_config(policy.id, config, deterministic=True)
+    with pytest.raises(PermissionError, match="inventory"):
         registry.delete(policy.id, delete_artifact=True)
+    assert registry.get(policy.id).active is False
     assert Path(policy.checkpoint_path).is_file()
 
 
@@ -188,5 +164,5 @@ def test_policy_activation_rejects_incompatible_legacy_policy(tmp_path):
         score=99.0,
         qualification_status="legacy_qualified",
     )
-    with pytest.raises(ValueError, match="not compatible"):
+    with pytest.raises(ValueError, match="Existing/pre-freeze"):
         registry.activate(policy.id)

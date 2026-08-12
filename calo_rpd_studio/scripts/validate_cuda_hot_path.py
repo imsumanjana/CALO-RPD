@@ -13,7 +13,7 @@ from calo_rpd_studio.accelerated.cuda_timing import (
     measure_cuda_window,
 )
 from calo_rpd_studio.ai.model_io import durable_write_bytes
-from calo_rpd_studio.compute.source_identity import resolve_source_identity
+from calo_rpd_studio.compute.source_identity import resolve_evidence_source_identity
 from calo_rpd_studio.experiments.experiment_config import ExperimentConfig
 from calo_rpd_studio.experiments.experiment_runner import build_problem
 
@@ -57,6 +57,14 @@ def main() -> int:
     parser.add_argument("--seed", type=int, default=20260804)
     parser.add_argument("--run-id", required=True)
     parser.add_argument("--output", required=True)
+    parser.add_argument(
+        "--allow-dirty-development-evidence",
+        action="store_true",
+        help=(
+            "permit source-bound development measurements from a dirty full Git identity; "
+            "results remain non-durable and cannot qualify a release"
+        ),
+    )
     args = parser.parse_args()
     if args.batch_size < POWER_SYSTEM_EVALUATIONS_PER_BOUNDARY:
         raise ValueError("CUDA qualification requires at least 100 evaluations per host boundary")
@@ -65,7 +73,9 @@ def main() -> int:
     if not args.run_id.strip():
         raise ValueError("CUDA hot-path evidence requires a non-empty run ID")
 
-    source = resolve_source_identity(require_durable=True)
+    source = resolve_evidence_source_identity(
+        allow_dirty_development_evidence=args.allow_dirty_development_evidence
+    )
     import torch
 
     if not torch.cuda.is_available():
@@ -125,7 +135,7 @@ def main() -> int:
         int(residency.get("target_evaluations_per_host_boundary", 0))
         == POWER_SYSTEM_EVALUATIONS_PER_BOUNDARY
     )
-    qualification_passed = bool(
+    engineering_validation_passed = bool(
         timing.target_met
         and tensors_on_cuda
         and full_request_admitted
@@ -133,6 +143,7 @@ def main() -> int:
         and no_fallback
         and target_boundary
     )
+    qualification_passed = bool(engineering_validation_passed and source.durable_evidence_eligible)
     evidence = {
         "schema_version": "calo-rpd-cuda-hot-path-v1",
         "run_id": args.run_id.strip(),
@@ -141,6 +152,9 @@ def main() -> int:
         "source_commit": source.source_commit,
         "source_identity_kind": source.source_identity_kind,
         "tracked_source_clean": source.tracked_source_clean,
+        "durable_evidence_eligible": source.durable_evidence_eligible,
+        "evidence_tier": ("durable" if source.durable_evidence_eligible else "development-only"),
+        "development_evidence_only": not source.durable_evidence_eligible,
         "parameters": {
             "case": args.case,
             "seed": int(args.seed),
@@ -148,6 +162,7 @@ def main() -> int:
             "measured_batches": int(args.batches),
             "warmup_batches": int(args.warmup_batches),
             "measured_candidate_evaluations": int(args.batch_size) * int(args.batches),
+            "allow_dirty_development_evidence": bool(args.allow_dirty_development_evidence),
         },
         "runtime": {
             "torch": str(torch.__version__),
@@ -169,13 +184,19 @@ def main() -> int:
                 residency.get("target_evaluations_per_host_boundary", 0)
             ),
         },
+        "engineering_validation_passed": engineering_validation_passed,
         "qualification_passed": qualification_passed,
         "protected_cases_opened": False,
         "claim_scope": (
             "more than or equal to 95% CUDA event-time share for this steady-state, "
             "accelerator-eligible ORPD numerical window only"
             if qualification_passed
-            else "no CUDA numerical-time-share qualification claim"
+            else (
+                "development-only CUDA numerical-time-share observation; dirty source is "
+                "non-durable and cannot qualify a release"
+                if engineering_validation_passed
+                else "no CUDA numerical-time-share qualification claim"
+            )
         ),
         "excluded_from_metric": [
             "startup",
@@ -191,7 +212,12 @@ def main() -> int:
     destination = _write_new_json(args.output, evidence)
     print(f"evidence_path={destination}")
     print(json.dumps(evidence, indent=2, sort_keys=True, allow_nan=False))
-    return 0 if qualification_passed else 1
+    command_passed = (
+        engineering_validation_passed
+        if args.allow_dirty_development_evidence
+        else qualification_passed
+    )
+    return 0 if command_passed else 1
 
 
 if __name__ == "__main__":

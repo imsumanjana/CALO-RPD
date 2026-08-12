@@ -7,8 +7,9 @@ from enum import Enum
 import json
 from pathlib import Path
 import math
+from typing import Any, cast
 
-import yaml
+import yaml  # type: ignore[import-untyped]
 
 from calo_rpd_studio.orpd.objectives import ObjectiveConfig, ObjectiveKind
 from calo_rpd_studio.orpd.constraints import ConstraintToleranceConfig
@@ -47,6 +48,69 @@ LEGACY_EXECUTION_TUNING_FIELDS = frozenset(
         "cuda_priority_work_stealing",
     }
 )
+
+
+def _load_algorithm_parameters(raw: object) -> dict[str, dict]:
+    if raw is None:
+        parameters: dict[str, dict] = {}
+    elif isinstance(raw, dict):
+        parameters = {
+            str(name): dict(values or {})
+            for name, values in raw.items()
+            if isinstance(values, dict)
+        }
+        if len(parameters) != len(raw):
+            raise ValueError("algorithm_parameters values must be JSON objects")
+    else:
+        raise ValueError("algorithm_parameters must be a JSON object")
+    parameters["CALO"] = {
+        "use_ai": False,
+        "strict_policy_binding": False,
+        "allow_unqualified_policy": False,
+        **dict(parameters.get("CALO", {})),
+    }
+    return parameters
+
+
+def _is_sha256(value: object) -> bool:
+    text = str(value).strip().lower()
+    return len(text) == 64 and all(character in "0123456789abcdef" for character in text)
+
+
+def _post_development_ensemble_binding(parameters: dict) -> bool:
+    try:
+        ensemble_size = int(parameters.get("policy_ensemble_size", 0) or 0)
+    except (TypeError, ValueError):
+        return False
+    if str(parameters.get("policy_artifact_kind", "")) != "ensemble_policy" or ensemble_size < 2:
+        return False
+    provenance = dict(parameters.get("policy_training_provenance", {}) or {})
+    if provenance.get("source_kind") != "independent_policy_training_ensemble":
+        return False
+    members = list(provenance.get("members", []) or [])
+    bound_members = list(parameters.get("policy_ensemble_members", []) or [])
+    if len(members) != ensemble_size or bound_members != members:
+        return False
+    identities: set[tuple[str, str, str]] = set()
+    for member in members:
+        if not isinstance(member, dict):
+            return False
+        row = dict(member.get("training_provenance", {}) or {})
+        source_commit = str(row.get("source_commit", "")).strip().lower()
+        freeze_commit = str(row.get("development_freeze_commit", "")).strip().lower()
+        freeze_sha256 = str(row.get("development_freeze_sha256", "")).strip().lower()
+        acceptance_sha256 = str(row.get("phase4_acceptance_sha256", "")).strip().lower()
+        if (
+            len(source_commit) != 40
+            or any(character not in "0123456789abcdef" for character in source_commit)
+            or freeze_commit != source_commit
+            or not _is_sha256(freeze_sha256)
+            or not _is_sha256(acceptance_sha256)
+            or str(row.get("initialization_policy_sha256", "")).strip()
+        ):
+            return False
+        identities.add((source_commit, freeze_sha256, acceptance_sha256))
+    return len(identities) == 1
 
 
 def migrate_execution_backend(value: object) -> str:
@@ -167,7 +231,15 @@ class ExperimentConfig:
         default_factory=ConstraintToleranceConfig
     )
     scenarios: RobustScenarioSettings = field(default_factory=RobustScenarioSettings)
-    algorithm_parameters: dict[str, dict] = field(default_factory=dict)
+    algorithm_parameters: dict[str, dict] = field(
+        default_factory=lambda: {
+            "CALO": {
+                "use_ai": False,
+                "strict_policy_binding": False,
+                "allow_unqualified_policy": False,
+            }
+        }
+    )
     output_directory: str = "results_data"
     parallel_workers: int = 1
     execution_backend: str = "cuda_preferred"
@@ -265,7 +337,7 @@ class ExperimentConfig:
             raise ValueError("risk_lambda must be non-negative")
 
     def validate(self) -> None:
-        from calo_rpd_studio.algorithms.registry import SPECS
+        from calo_rpd_studio.algorithms.registry import POLICY_GATED_SPECS, SPECS
 
         if self.runs <= 0:
             raise ValueError("runs must be positive")
@@ -297,9 +369,81 @@ class ExperimentConfig:
             raise ValueError("population_size must be at least 2")
         if not self.algorithms:
             raise ValueError("At least one algorithm must be selected")
-        unknown = [name for name in self.algorithms if name not in SPECS]
+        available = {**SPECS, **POLICY_GATED_SPECS}
+        unknown = [name for name in self.algorithms if name not in available]
         if unknown:
-            raise ValueError(f"Unknown primary algorithms: {unknown}")
+            raise ValueError(f"Unknown algorithms: {unknown}")
+        calo_parameters = dict(self.algorithm_parameters.get("CALO", {}) or {})
+        stale_calo_binding = any(
+            str(calo_parameters.get(field, "")).strip()
+            for field in ("policy_id", "policy_checkpoint", "policy_sha256")
+        )
+        if calo_parameters.get("use_ai") is True or stale_calo_binding:
+            raise ValueError(
+                "Primary CALO is rule-only in v12 and cannot consume an old policy binding. "
+                "Policy-assisted experiments must use a new qualified TSH-CALO ensemble."
+            )
+        for algorithm in self.algorithms:
+            if algorithm not in POLICY_GATED_SPECS:
+                continue
+            parameters = dict(self.algorithm_parameters.get(algorithm, {}) or {})
+            required_text = (
+                "policy_id",
+                "policy_checkpoint",
+                "policy_sha256",
+                "policy_architecture_version",
+                "policy_state_schema_version",
+                "policy_action_schema_version",
+                "policy_training_environment_version",
+            )
+            missing = [
+                field for field in required_text if not str(parameters.get(field, "")).strip()
+            ]
+            if missing:
+                raise ValueError(
+                    f"{algorithm} requires an immutable qualified policy binding; missing {missing}"
+                )
+            if (
+                parameters.get("strict_policy_binding") is not True
+                or parameters.get("allow_unqualified_policy") is True
+                or parameters.get("policy_active_at_binding") is not True
+                or str(parameters.get("policy_qualification_status", "")) != "qualified"
+                or str(parameters.get("policy_algorithm_id", "")) != algorithm
+            ):
+                raise ValueError(
+                    f"{algorithm} requires a qualified, explicitly active, strict policy binding"
+                )
+            if not _is_sha256(parameters.get("policy_sha256", "")):
+                raise ValueError(f"{algorithm} policy SHA-256 is invalid")
+            if not _post_development_ensemble_binding(parameters):
+                raise ValueError(
+                    f"{algorithm} requires a completely new development-freeze-bound ensemble "
+                    "with empty policy initialization"
+                )
+            if (
+                not str(parameters.get("policy_qualification_id", "")).strip()
+                or not _is_sha256(parameters.get("policy_qualification_receipt_sha256", ""))
+                or not isinstance(parameters.get("policy_qualification_receipt"), dict)
+                or not parameters.get("policy_qualification_receipt")
+                or not _is_sha256(parameters.get("policy_ood_calibration_sha256", ""))
+                or not isinstance(parameters.get("ood_calibration"), dict)
+                or not parameters.get("ood_calibration")
+            ):
+                raise ValueError(
+                    f"{algorithm} requires an immutable independent qualification receipt and "
+                    "OOD calibration binding"
+                )
+            flags = dict(parameters.get("policy_feature_flags", {}) or {})
+            if flags.get("population_schedule") or flags.get("allow_experimental_components"):
+                raise ValueError("Experimental TSH-CALO Change F must remain disabled")
+            if (
+                parameters.get("allow_cpu_fallback") is not False
+                or parameters.get("baseline_fallback_permitted") is not False
+            ):
+                raise ValueError(
+                    f"{algorithm} cannot perform an internal fallback; scheduling must restart the "
+                    "complete request on the resolved CPU device"
+                )
         if self.parallel_workers <= 0:
             raise ValueError("parallel_workers must be positive")
         if "xpu" in str(self.execution_backend).lower():
@@ -408,7 +552,7 @@ class ExperimentConfig:
         return self
 
     def to_dict(self) -> dict:
-        def convert(value):
+        def convert(value: Any) -> Any:
             if isinstance(value, Enum):
                 return value.value
             if isinstance(value, dict):
@@ -417,7 +561,7 @@ class ExperimentConfig:
                 return [convert(item) for item in value]
             return value
 
-        payload = convert(asdict(self))
+        payload = cast(dict[str, Any], convert(asdict(self)))
         payload.pop("runtime_resolution_process_id", None)
         for field_name in LEGACY_EXECUTION_TUNING_FIELDS:
             payload.pop(field_name, None)
@@ -588,7 +732,7 @@ class ExperimentConfig:
             power_flow=power_flow,
             constraint_tolerances=constraint_tolerances,
             scenarios=RobustScenarioSettings(**scenario_data),
-            algorithm_parameters=dict(data.get("algorithm_parameters", {})),
+            algorithm_parameters=_load_algorithm_parameters(data.get("algorithm_parameters", {})),
             output_directory=data.get("output_directory", "results_data"),
             parallel_workers=int(data.get("parallel_workers", 1)),
             execution_backend=execution_backend,

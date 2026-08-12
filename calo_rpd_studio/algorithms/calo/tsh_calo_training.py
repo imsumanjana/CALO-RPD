@@ -65,6 +65,9 @@ class TSHCALOTrainingConfig:
     development_cases: tuple[str, ...]
     seed_manifest_sha256: str
     resource_envelope: TSHCALOTrainingResourceEnvelope
+    development_freeze_commit: str = ""
+    development_freeze_sha256: str = ""
+    phase4_acceptance_sha256: str = ""
     seed: int = 0
     hidden_dim: int = 64
     graph_steps: int = 2
@@ -92,6 +95,22 @@ class TSHCALOTrainingConfig:
             )
         if not _valid_sha256(self.seed_manifest_sha256):
             raise ValueError("TSH-CALO seed manifest SHA-256 is invalid")
+        if (
+            self.development_freeze_commit
+            or self.development_freeze_sha256
+            or self.phase4_acceptance_sha256
+        ):
+            normalized_commit = str(self.development_freeze_commit).strip().lower()
+            if (
+                len(normalized_commit) != 40
+                or any(character not in "0123456789abcdef" for character in normalized_commit)
+                or not _valid_sha256(self.development_freeze_sha256)
+                or not _valid_sha256(self.phase4_acceptance_sha256)
+            ):
+                raise ValueError(
+                    "TSH-CALO post-development training requires an exact freeze commit, freeze "
+                    "payload SHA-256, and Phase 4 acceptance SHA-256"
+                )
         if self.hidden_dim < 8 or self.graph_steps < 1:
             raise ValueError("TSH-CALO policy architecture is invalid")
         if self.learning_rate <= 0.0 or self.ppo_epochs < 1:
@@ -772,7 +791,7 @@ class IndependentTSHCALOTrainer:
         target = Path(path).expanduser().resolve()
         payload = self.resume_state_dict()
         durable_torch_save(payload, target)
-        return checkpoint_sha256(target)
+        return str(checkpoint_sha256(target))
 
     @classmethod
     def from_resume_state_dict(
@@ -849,6 +868,15 @@ class IndependentTSHCALOTrainer:
         source_commit: str,
     ) -> TSHCALOCandidateArtifact:
         self._assert_open()
+        normalized_source = str(source_commit).strip().lower()
+        if normalized_source != str(self.config.development_freeze_commit).strip().lower():
+            raise ValueError(
+                "TSH-CALO candidate source does not match the retained development freeze"
+            )
+        if not _valid_sha256(self.config.development_freeze_sha256):
+            raise ValueError("TSH-CALO candidate lacks a development-freeze payload SHA-256")
+        if not _valid_sha256(self.config.phase4_acceptance_sha256):
+            raise ValueError("TSH-CALO candidate lacks a Phase 4 acceptance receipt SHA-256")
         if self.update_steps < 1:
             raise ValueError("TSH-CALO candidate export requires at least one completed PPO update")
         if not self.training_episode_receipts:
@@ -859,6 +887,10 @@ class IndependentTSHCALOTrainer:
             training_run_id=self.config.training_run_id,
             training_design_sha256=self.config.scientific_design_hash(),
             source_commit=str(source_commit),
+            development_freeze_commit=str(self.config.development_freeze_commit),
+            development_freeze_sha256=str(self.config.development_freeze_sha256),
+            phase4_acceptance_sha256=str(self.config.phase4_acceptance_sha256),
+            initialization_policy_sha256="",
             development_cases=tuple(self.config.development_cases),
             seed_manifest_sha256=self.config.seed_manifest_sha256,
             training_device_provenance=self.device_provenance(),

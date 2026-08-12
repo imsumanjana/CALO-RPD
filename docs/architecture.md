@@ -29,6 +29,14 @@ All registered primary algorithms call the same `ORPDProblem.evaluate()` method.
 - `visualization` and `gui.plotting`: raw-data-preserving plots, square preview/export, selective preview and export series, and popup-based publication formatting tools.
 - `app` and `gui`: PyQt6 desktop application with guided scientific workflow, global task status, and thirteen workspaces.
 
+For v12, the policy-gated runtime is registered separately as `TSH-CALO`; primary rule-only `CALO`
+never inherits its policy binding. The application supports an empty policy database/store, clears
+stale bindings fail-closed, and keeps TSH-CALO unavailable until a future new post-freeze ensemble
+is independently qualified and explicitly activated. Existing/pre-freeze records remain visible
+only for inventory/lifecycle review. Direct deletion is disabled; the retirement service produces
+an exact path-confined inventory and dry-run plan, while its destructive transaction remains behind
+a later clean-source, exact-document, explicit-authorization and external-receipt gate.
+
 ## CALO Core v2 data flow
 
 `Population → physical evaluation → constraint decomposition → cognitive state → regime policy/prior → operator distribution → online-credit fusion → per-individual operators → offspring → epsilon environmental selection → archives/memory/credit → diagnostics`
@@ -55,7 +63,7 @@ SQLite uses WAL mode for transaction safety and a durable `PRAGMA user_version`.
 
 `.github/workflows/ci.yml` defines separate source/scientific, Python/platform compatibility,
 headless scientist-GUI, staged Python artifact, CPU-container, CUDA build-only, and manually gated
-physical-CUDA qualification lanes. Third-party actions are pinned to immutable commit SHAs. The
+physical-CUDA engineering-evidence lanes. Third-party actions are pinned to immutable commit SHAs. The
 release Python 3.11 lane installs a hash-complete CPU validation lock, verifies exact pins, approved
 indexes and complete SHA-256 coverage without re-resolving, checks the generated experiment schema,
 runs formatting/lint and a bounded mypy safety target, then executes the active development test suite. Historical release-freeze tests remain

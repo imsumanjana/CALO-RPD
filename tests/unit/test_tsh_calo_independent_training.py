@@ -42,6 +42,9 @@ def _config(**changes) -> TSHCALOTrainingConfig:
         development_cases=("case30", "case57"),
         seed_manifest_sha256=_sha("seed-manifest"),
         resource_envelope=TSHCALOTrainingResourceEnvelope(4, 16, 16, 32, 16, 8),
+        development_freeze_commit="d" * 40,
+        development_freeze_sha256="e" * 64,
+        phase4_acceptance_sha256="a" * 64,
         seed=29,
         hidden_dim=16,
         graph_steps=1,
@@ -278,10 +281,10 @@ def test_exact_resume_rejects_hash_and_scientific_design_drift(tmp_path):
 def test_training_cannot_export_without_update_and_counted_episode_receipt(tmp_path, toy_case):
     trainer = IndependentTSHCALOTrainer(_config())
     with pytest.raises(ValueError, match="at least one"):
-        trainer.export_unqualified_candidate(tmp_path / "early.pt", source_commit="380e7a7")
+        trainer.export_unqualified_candidate(tmp_path / "early.pt", source_commit="d" * 40)
     trainer.update(_rollout(trainer, _state(toy_case)))
     with pytest.raises(ValueError, match="counted training episode receipt"):
-        trainer.export_unqualified_candidate(tmp_path / "candidate.pt", source_commit="380e7a7")
+        trainer.export_unqualified_candidate(tmp_path / "candidate.pt", source_commit="d" * 40)
     assert not (tmp_path / "candidate.pt").exists()
 
 

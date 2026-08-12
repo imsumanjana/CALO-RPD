@@ -1,14 +1,20 @@
 """Central Qt application state."""
 
+import logging
+
 from PyQt6.QtCore import QObject, pyqtSignal
 from calo_rpd_studio.experiments.experiment_config import ExperimentConfig
 from calo_rpd_studio.results.database import ResultDatabase
 from calo_rpd_studio.resume.service import ResumeService
 from calo_rpd_studio.algorithms.calo.policy_registry import PolicyRegistry
 from calo_rpd_studio.algorithms.calo.policy_readiness import evaluate_governing_policy
+from calo_rpd_studio.algorithms.calo.tsh_calo_schema import TSH_CALO_ALGORITHM_ID
 from calo_rpd_studio.compute.topology import ComputeTopologyService, SafeResourceBudgetEngine
 from calo_rpd_studio.compute.governor import AdaptiveComputeGovernor, GovernorConfig
 from .task_status import TaskStatus
+
+
+_LOG = logging.getLogger(__name__)
 
 
 class AppState(QObject):
@@ -31,6 +37,7 @@ class AppState(QObject):
         self.database = ResultDatabase(database_path)
         self.resume_service = ResumeService(self.database)
         self.policy_registry = PolicyRegistry(self.database)
+        self.synchronize_governing_policy_binding()
         self.resume_service.recover_after_restart()
         self.theme = "light"
         self.task_status = TaskStatus()
@@ -121,9 +128,14 @@ class AppState(QObject):
         their original database binding.
         """
         status = status or self.governing_policy_status()
-        parameters = dict(self.config.algorithm_parameters.get("CALO", {}))
-        before = dict(parameters)
+        calo_parameters = dict(self.config.algorithm_parameters.get("CALO", {}))
+        tsh_parameters = dict(self.config.algorithm_parameters.get(TSH_CALO_ALGORITHM_ID, {}))
+        before = {
+            "CALO": dict(calo_parameters),
+            TSH_CALO_ALGORITHM_ID: dict(tsh_parameters),
+        }
         binding_keys = {
+            "policy_algorithm_id",
             "policy_id",
             "policy_name",
             "policy_checkpoint",
@@ -134,24 +146,65 @@ class AppState(QObject):
             "policy_training_environment_version",
             "policy_qualification_status",
             "policy_grade",
+            "policy_active_at_binding",
+            "policy_feature_flags",
+            "policy_artifact_kind",
+            "policy_ensemble_size",
+            "policy_ensemble_members",
+            "policy_training_provenance",
+            "policy_qualification_id",
+            "policy_qualification_receipt_sha256",
+            "policy_qualification_receipt",
+            "policy_ood_calibration_sha256",
+            "ood_calibration",
         }
-        if status.ready:
-            parameters["use_ai"] = True
-            self.config.algorithm_parameters["CALO"] = parameters
-            self.policy_registry.bind_to_experiment_config(
-                status.policy_id,
-                self.config,
-                deterministic=bool(parameters.get("deterministic_policy", True)),
-                allow_unqualified=False,
-            )
-            parameters = dict(self.config.algorithm_parameters.get("CALO", {}))
-        else:
+        binding_ready = bool(
+            status.ready and getattr(status, "algorithm_id", "") == TSH_CALO_ALGORITHM_ID
+        )
+        if binding_ready:
+            tsh_parameters["use_ai"] = True
+            self.config.algorithm_parameters[TSH_CALO_ALGORITHM_ID] = tsh_parameters
+            try:
+                self.policy_registry.bind_to_experiment_config(
+                    status.policy_id,
+                    self.config,
+                    deterministic=bool(tsh_parameters.get("deterministic_policy", True)),
+                    allow_unqualified=False,
+                    algorithm_id=TSH_CALO_ALGORITHM_ID,
+                )
+            except Exception:
+                binding_ready = False
+                _LOG.warning(
+                    "Governing TSH-CALO binding was rejected; using the policy-free safe state",
+                    exc_info=True,
+                )
+            else:
+                tsh_parameters = dict(
+                    self.config.algorithm_parameters.get(TSH_CALO_ALGORITHM_ID, {})
+                )
+                calo_parameters["use_ai"] = False
+                self.config.algorithm_parameters["CALO"] = calo_parameters
+        if not binding_ready:
             for key in binding_keys:
-                parameters.pop(key, None)
-            parameters["strict_policy_binding"] = False
-            parameters["allow_unqualified_policy"] = False
-            self.config.algorithm_parameters["CALO"] = parameters
-        return before != parameters
+                calo_parameters.pop(key, None)
+                tsh_parameters.pop(key, None)
+            calo_parameters["use_ai"] = False
+            calo_parameters["strict_policy_binding"] = False
+            calo_parameters["allow_unqualified_policy"] = False
+            tsh_parameters["use_ai"] = False
+            tsh_parameters["strict_policy_binding"] = True
+            tsh_parameters["allow_unqualified_policy"] = False
+            tsh_parameters["allow_cpu_fallback"] = False
+            tsh_parameters["baseline_fallback_permitted"] = False
+            self.config.algorithm_parameters["CALO"] = calo_parameters
+            self.config.algorithm_parameters[TSH_CALO_ALGORITHM_ID] = tsh_parameters
+        after = {
+            "CALO": dict(self.config.algorithm_parameters.get("CALO", {})),
+            TSH_CALO_ALGORITHM_ID: dict(
+                self.config.algorithm_parameters.get(TSH_CALO_ALGORITHM_ID, {})
+            ),
+        }
+        return before != after
 
     def notify_policy_state_changed(self):
         status = self.governing_policy_status()

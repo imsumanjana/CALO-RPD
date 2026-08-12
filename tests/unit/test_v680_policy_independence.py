@@ -80,29 +80,34 @@ def test_active_governing_policy_is_automatically_bound_to_new_experiments(monke
             "strict_policy_binding": True,
         }
     )
+    state.config.algorithm_parameters["TSH-CALO"] = {"deterministic_policy": False}
     unavailable = SimpleNamespace(ready=False)
     assert state.synchronize_governing_policy_binding(unavailable) is True
     assert "policy_id" not in state.config.algorithm_parameters["CALO"]
     assert state.config.algorithm_parameters["CALO"]["strict_policy_binding"] is False
 
-    ready = SimpleNamespace(ready=True, policy_id="governing-policy")
+    ready = SimpleNamespace(ready=True, policy_id="governing-policy", algorithm_id="TSH-CALO")
 
-    def bind(policy_id, config, *, deterministic, allow_unqualified):
+    def bind(policy_id, config, *, deterministic, allow_unqualified, algorithm_id):
         assert policy_id == "governing-policy"
         assert deterministic is False
         assert allow_unqualified is False
-        config.algorithm_parameters["CALO"].update(
+        assert algorithm_id == "TSH-CALO"
+        config.algorithm_parameters["TSH-CALO"].update(
             {
                 "policy_id": policy_id,
                 "policy_sha256": "verified-sha",
                 "strict_policy_binding": True,
+                "allow_cpu_fallback": False,
+                "baseline_fallback_permitted": False,
             }
         )
-        return dict(config.algorithm_parameters["CALO"])
+        return dict(config.algorithm_parameters["TSH-CALO"])
 
     monkeypatch.setattr(state.policy_registry, "bind_to_experiment_config", bind)
     assert state.synchronize_governing_policy_binding(ready) is True
-    bound = state.config.algorithm_parameters["CALO"]
+    bound = state.config.algorithm_parameters["TSH-CALO"]
     assert bound["policy_id"] == "governing-policy"
     assert bound["policy_sha256"] == "verified-sha"
     assert bound["strict_policy_binding"] is True
+    assert state.config.algorithm_parameters["CALO"]["use_ai"] is False

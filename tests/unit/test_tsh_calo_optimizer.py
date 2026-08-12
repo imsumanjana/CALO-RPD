@@ -118,14 +118,19 @@ def _member(
     torch.manual_seed(seed)
     run_id = f"independent-{seed}"
     design = _sha("design")
+    freeze_commit = "b" * 40
     provenance = IndependentTrainingProvenance(
         training_run_id=run_id,
         training_design_sha256=design,
-        source_commit="optimizer-test",
+        source_commit=freeze_commit,
         development_cases=("case30", "case57"),
         seed_manifest_sha256=_sha("seeds"),
         training_device_provenance=_device_provenance(),
         training_episode_receipts=_episode_receipts(run_id, design),
+        development_freeze_commit=freeze_commit,
+        development_freeze_sha256=_sha("development-freeze"),
+        phase4_acceptance_sha256=_sha("phase4-acceptance"),
+        initialization_policy_sha256="",
     )
     save_tsh_calo_candidate(
         path,

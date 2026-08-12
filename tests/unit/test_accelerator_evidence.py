@@ -4,12 +4,20 @@ import json
 
 import pytest
 
+from calo_rpd_studio.compute.source_identity import SourceIdentity
+
 from calo_rpd_studio.scripts.validate_accelerator import (
     _cuda_peak_residency_evidence,
     _json_safe,
     _runtime_snapshot,
     _write_new_evidence,
 )
+
+
+def test_dirty_development_identity_is_never_durable_qualification():
+    identity = SourceIdentity("a" * 40, False, "git")
+
+    assert identity.durable_evidence_eligible is False
 
 
 def test_accelerator_evidence_is_strict_json_and_never_overwritten(tmp_path):

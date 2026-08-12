@@ -10,7 +10,10 @@ Select active-power loss, voltage deviation, L-index, or multi-objective optimiz
 
 ## 3. Algorithms
 
-Select any subset of the registered primary methods. Method settings are saved with the experiment. All optimizers use the same normalized decision space, decoder, physical evaluator, constraints, scenarios, and budget policy.
+Select any subset of the registered primary methods. Method settings are saved with the experiment.
+All optimizers use the same normalized decision space, decoder, physical evaluator, constraints,
+scenarios, and budget policy. `TSH-CALO` is shown as a separate policy-gated row and remains disabled
+until a future completely new post-development ensemble satisfies every immutable activation gate.
 
 ## 4. CALO Intelligence
 
@@ -36,6 +39,24 @@ A-E/F-off policy be trained. That new artifact remains an unqualified candidate 
 separate qualification, registration, activation, and immutable experiment-binding gates. F remains
 experimental, independently feature-flagged, and disabled by default. A policy-free Phase 5 route is
 also valid.
+
+The Policy Center's **Export removal plan** action writes a read-only inventory and dry-run plan. It
+does not delete or deactivate anything. Existing policy files are not discovered automatically.
+Direct policy deletion and the historical paired-CALO qualification button are disabled for v12;
+future TSH-CALO qualification uses the independent post-development authority. If there is no ready
+policy, the application forces rule-only CALO, clears stale policy/calibration fields, and keeps
+policy-assisted execution locked.
+
+The historical GUI CALO train/resume/fork controls are also disabled because they cannot create the
+new TSH-CALO ABI and must never initialize from an old checkpoint. After Phase 4 is accepted and the
+separate empty-store transition is complete, prepare a frozen independent TSH-CALO campaign plan and
+first use `calo-rpd-train-tsh <plan.json> --development-freeze <post-transition-freeze.json>
+--phase4-acceptance <phase4-acceptance.json> --check`. The retained freeze must be clean,
+empty-policy, post-transition evidence and must match the exact commit and freeze payload SHA-256
+declared by the plan. The separate acceptance receipt must match the accepted Phase 4 production-
+source contract and its SHA-256 must also be declared by the plan. Starting/resuming that campaign
+remains an explicit later user action; it never qualifies, registers, or activates its output
+automatically.
 
 The CALO ablation study remains separate from the primary benchmark. Its scientific execution is not
 part of Phase 4 development.

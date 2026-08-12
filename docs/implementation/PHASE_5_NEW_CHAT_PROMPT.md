@@ -1,5 +1,12 @@
 # New-chat prompt: Phase 5 clean release reproduction and final release
 
+> **Superseded execution prompt as of 2026-08-12.** Phase 5 release-preparation development was
+> completed in the active chat after the project owner explicitly chose combined Phase 4/5 manual
+> validation. Do not paste this file to restart or duplicate Phase 5. Continue from
+> `ACTIVE_CONTINUATION_LOG.md` and run the ignored combined validator documented in
+> `validation/PHASE4_PHASE5_VALIDATION.md`. The prerequisite list below remains useful as the later
+> final-release gate; it is not evidence that those decisions or validations have passed.
+
 > Use this entire file as the first request in a new Codex chat. It is intentionally self-contained,
 > but the new chat must verify all prerequisites from the live repository and retained evidence.
 
@@ -41,7 +48,10 @@ Before creating a goal or editing Phase 5 source:
 4. Verify all of the following from direct, source/hash-bound evidence:
    - Phase 3 is closed;
    - Phase 4 is closed and its goal is complete;
-   - the exact clean Phase 4 development-freeze commit is recorded;
+   - the exact clean Phase 4 development-freeze commit and retained freeze payload SHA-256 are
+     recorded;
+   - the separate explicit Phase 4 acceptance receipt exists, matches the accepted log/source
+     contract, and its SHA-256 is recorded;
    - the old-policy inventory and dry-run removal plan were reviewed;
    - the user separately authorized the exact old-policy deletion targets;
    - deletion completed with an immutable receipt and no out-of-scope target;
@@ -103,7 +113,9 @@ Before creating a goal or editing Phase 5 source:
 
 ### 1. Freeze source identity and approved policy scope
 
-- Start from or reproduce a clean clone of the exact accepted Phase 4 development-freeze commit.
+- Start from or reproduce a clean clone of the exact accepted Phase 4 development-freeze commit and
+  verify the retained freeze report by its payload SHA-256 plus the separate Phase 4 acceptance
+  receipt by its receipt SHA-256 and production-source content contract.
 - Fail closed if the source is dirty, the commit is unavailable, the Phase 4 freeze identity differs,
   or the approved policy-scope record is missing or inconsistent.
 - Confirm exclusions for generated policies, old policies, checkpoints, lineages, databases, results,

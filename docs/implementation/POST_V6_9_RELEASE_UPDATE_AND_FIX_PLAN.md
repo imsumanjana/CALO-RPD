@@ -4,7 +4,10 @@
 `12.0.0.dev1`; Windows-local run `phase3-20260807-052047` and pre-tabbed automation `112621` are
 accepted for their exact source. Tabbed-source run `120240` failed formatting and exposed a
 Portfolio table-width gap during screenshot review; both are corrected in current source.
-Corrected Windows run `121530` is now accepted at 10/10; Linux xcb evidence remains pending. This is
+Corrected Windows run `121530` is accepted at 10/10. On 2026-08-12, the project owner separately
+accepted the manually validated Linux xcb boundary and directed Phase 4 to proceed; no automated
+Linux evidence directory is claimed or retained. Phase 4 production coding is implemented and its
+source-only completion audit is in progress; user-executed Phase 4 validation remains pending. This is
 not a release declaration,
 scientific qualification, policy approval, or authority to open protected cases.
 
@@ -510,7 +513,8 @@ keyboard selection, retains screenshots, and now fails on tree unused width, hor
 or header/cell clipping. Ignored noninteractive Windows and Linux xcb validators encode the current
 proof without executing scientific actions or collecting reviewer answers.
 
-- [ ] Add light/dark reference renders on Linux xcb; Windows reference renders are accepted.
+- [x] Linux xcb was manually validated and accepted by the owner without a retained automated
+  directory; Windows reference renders are accepted. This is a scope decision, not automated proof.
 - [x] Add a font-family and glyph-availability gate; a screenshot containing replacement/tofu glyphs
   must fail even if its dimensions and byte size look valid.
 - [x] Verify 1280x720, 1440x900, 1920x1080, and at least one 200% scale Windows render.
@@ -538,8 +542,9 @@ automation `phase3-remaining-windows-20260807-112621` are accepted for their exa
 Runs `phase3-20260807-045558`, `phase3-remaining-windows-20260807-092741`,
 `phase3-remaining-windows-20260807-100054`, `phase3-remaining-windows-20260807-111826`, and
 `phase3-remaining-windows-20260807-120240` remain failed history. Corrected tabbed Windows source is
-accepted by `phase3-remaining-windows-20260807-121530`; it is not yet Linux-xcb-rendered and is not
-release-ready. Automated evidence does not
+accepted by `phase3-remaining-windows-20260807-121530`. The owner subsequently accepted the manually
+validated Linux/xcb boundary without a retained automated evidence directory, closing Phase 3 and
+authorizing Phase 4 to begin. The project is not release-ready. Automated evidence does not
 infer a human screen-reader or scientist study.
 
 ---
@@ -558,64 +563,64 @@ cleanup and new-policy training process.
 
 #### 4.1 Complete the approved scientific and runtime implementation
 
-- [ ] Finish the approved A-E implementation against one canonical runtime/training transition
+- [x] Finish the approved A-E implementation against one canonical runtime/training transition
   authority; keep F independently feature-gated, experimental, and disabled by default.
-- [ ] Preserve deterministic behavior, exact FE/scenario accounting, mixed-variable validity,
+- [x] Preserve deterministic behavior, exact FE/scenario accounting, mixed-variable validity,
   fail-closed nonconvergence, immutable resume identity, and protected-case isolation.
-- [ ] Complete whole-population counted-context batching, selected-device retention, and outer-boundary
+- [x] Complete whole-population counted-context batching, selected-device retention, and outer-boundary
   materialization without hidden power-flow/context reruns or candidate-level CPU-CUDA loops.
-- [ ] Complete explicit CUDA-preferred and CPU-only execution behavior. Formal execution requires an
+- [x] Complete explicit CUDA-preferred and CPU-only execution behavior. Formal execution requires an
   identified NVIDIA device and forbids fallback; exploratory fallback is a separately identified
   full-request CPU restart.
-- [ ] Keep admission at no more than 80% of currently free VRAM or currently available RAM. Intel XPU
+- [x] Keep admission at no more than 80% of currently free VRAM or currently available RAM. Intel XPU
   remains non-executable.
-- [ ] Implement every remaining unit, invariant, parity, failure, resume, fallback, leakage, and
+- [x] Implement every remaining unit, invariant, parity, failure, resume, fallback, leakage, and
   regression contract required to prove the final development semantics without a trained policy.
 
 #### 4.2 Make the empty-policy state a supported first-class workflow
 
-- [ ] Start the GUI and CLI safely when no policy artifacts, registrations, or active-policy records
+- [x] Start the GUI and CLI safely when no policy artifacts, registrations, or active-policy records
   exist.
-- [ ] Keep policy-dependent formal experiments visibly locked until one future policy is independently
+- [x] Keep policy-dependent formal experiments visibly locked until one future policy is independently
   qualified, registered, explicitly activated, immutable, checksum-valid, and ABI-compatible.
-- [ ] Keep non-policy configuration, result inspection, diagnostics, import/training preparation, and
+- [x] Keep non-policy configuration, result inspection, diagnostics, import/training preparation, and
   lifecycle administration usable without silently fabricating or selecting a policy.
-- [ ] Reject missing, corrupt, incompatible, unqualified, inactive, or stale policy references with
+- [x] Reject missing, corrupt, incompatible, unqualified, inactive, or stale policy references with
   an explicit explanation and deterministic safe fallback where the workflow legally permits it.
-- [ ] Preserve strict separation between training, qualification, registration, activation, and
+- [x] Preserve strict separation between training, qualification, registration, activation, and
   experiment snapshot binding; none may trigger another automatically.
-- [ ] Ensure deleting or removing an old artifact cannot leave a dangling active registration or
+- [x] Ensure deleting or removing an old artifact cannot leave a dangling active registration or
   cause an old policy to be regenerated, downloaded, selected, or reinterpreted.
 
 #### 4.3 Complete production, container, package, and CI hardening
 
-- [ ] Complete deterministic clean-install, migration, rollback, configuration, result, interruption,
+- [x] Complete deterministic clean-install, migration, rollback, configuration, result, interruption,
   cancellation, recovery, and corrupted-artifact behavior.
-- [ ] Complete wheel/sdist staging rules, installed-distribution entry points, package-data boundaries,
+- [x] Complete wheel/sdist staging rules, installed-distribution entry points, package-data boundaries,
   and checkout-independent execution without generating final release manifests early.
-- [ ] Complete CPU and NVIDIA CUDA container definitions with locked dependencies, non-root runtime,
+- [x] Complete CPU and NVIDIA CUDA container definitions with locked dependencies, non-root runtime,
   read-only root, dropped capabilities, bounded temporary storage, persistent data, health, restart,
   cancellation, and shared physical-device leases.
-- [ ] Complete trusted CI definitions for supported Python/OS lanes, packaged GUI rendering,
+- [x] Complete trusted CI definitions for supported Python/OS lanes, packaged GUI rendering,
   container/distribution checks, and self-hosted physical CUDA evidence where required.
-- [ ] Prepare noninteractive, source-bound manual validators for physical NVIDIA batching/VRAM,
+- [x] Prepare noninteractive, source-bound manual validators for physical NVIDIA batching/VRAM,
   CPU/CUDA evaluator parity, containers, packages, clean-machine behavior, and empty-policy startup.
-- [ ] Do not run policy training/evaluation, protected campaigns, scientific qualification, release
+- [x] Do not run policy training/evaluation, protected campaigns, scientific qualification, release
   freezes, or public-claim generation as part of Phase 4 development or its validator.
 
 #### 4.4 Prepare controlled old-policy removal without deleting anything
 
-- [ ] Implement a read-only inventory of old policy files, members, checkpoints, lineages, receipts,
+- [x] Implement a read-only inventory of old policy files, members, checkpoints, lineages, receipts,
   registrations, active references, database rows, package inclusions, and exact SHA-256 identities.
-- [ ] Implement a dry-run removal plan that resolves every target, refuses paths outside the
+- [x] Implement a dry-run removal plan that resolves every target, refuses paths outside the
   designated policy store, and reports dependent database/application references.
-- [ ] Implement transactional deactivation/reference cleanup and a separate explicitly authorized
+- [x] Implement transactional deactivation/reference cleanup and a separate explicitly authorized
   deletion action with an immutable deletion receipt. The deletion action is not executed in Phase 4.
 - [ ] Prove through source/package/container manifests that old policies and generated training data
   cannot enter wheels, sdists, images, release archives, or default runtime state.
-- [ ] Use synthetic temporary fixtures for compatibility and removal tests; do not depend on an old
+- [x] Use synthetic temporary fixtures for compatibility and removal tests; do not depend on an old
   policy as the final scientific baseline, training initializer, or release artifact.
-- [ ] Preserve historical negative-evidence records without preserving an executable or activatable
+- [x] Preserve historical negative-evidence records without preserving an executable or activatable
   policy artifact in the final release scope.
 
 #### 4.5 Close development and create the source-bound development freeze
@@ -643,6 +648,8 @@ cleanup and new-policy training process.
 - [ ] Explicit records that policy training/evaluation, qualification, protected cases, registration,
   activation, and release publication were not executed.
 - [ ] Development-freeze decision with remaining external proof and prohibited-claim boundaries.
+- [ ] Separate non-overwriting Phase 4 acceptance receipt created only after complete returned-log
+  review, with its SHA-256 required by later retirement and new-policy provenance.
 
 ### Phase 4 exit gate
 
@@ -659,7 +666,8 @@ After Phase 4 closes, and only under separate explicit user actions:
 1. review the exact old-policy inventory and dry-run removal plan;
 2. explicitly authorize deletion of the resolved old-policy targets and retain the deletion receipt;
 3. verify that the frozen application starts and behaves safely with an empty policy store;
-4. freeze a new A-E/F-off training and qualification plan against the Phase 4 development freeze;
+4. freeze a new A-E/F-off training and qualification plan against both the Phase 4 acceptance
+   receipt and the clean post-transition development freeze;
 5. train a completely new policy without using old policy weights, activation state, qualification,
    or evidence as the final candidate;
 6. independently evaluate and qualify that exact new policy without automatic registration or
@@ -685,7 +693,8 @@ public claims bind to the recorded immutable identities and approved policy scop
 
 #### 5.1 Freeze the release source and policy scope
 
-- [ ] Start from a clean clone of the exact approved Phase 4 development-freeze commit.
+- [ ] Start from a clean clone of the exact approved Phase 4 development-freeze commit and verify
+  the retained freeze report against its recorded payload SHA-256.
 - [ ] Bind the recorded post-development decision to exactly one scope: a newly trained and qualified
   policy with its own checksum, or a policy-free release with no policy-benefit claim.
 - [ ] Confirm no generated policies, checkpoints, lineages, result databases, logs, screenshots,
@@ -775,6 +784,39 @@ authorization is recorded. After Phase 1 establishes the new identity and until 
 describe the tree as a v12.0 development or release candidate with pending qualification, not as
 v12.0.0 final or release-ready.
 
+### Phase 5 coding checkpoint — 2026-08-12
+
+At the project owner's explicit direction, Phase 5 release-preparation development was implemented
+before manual validation, and Phase 4 plus Phase 5 will be validated together. This changes the
+development/validation sequence only; it does not waive any evidence or release gate.
+
+- [x] Add an explicit, self-hashed release-policy decision contract with exactly two scopes:
+  `policy-free` or `newly-qualified-policy`. Policy-free forbids policy identity/benefit claims;
+  new-policy scope requires an exact TSH-CALO A-E/F-off artifact, immutable qualification receipt,
+  Phase 4 acceptance, clean post-transition freeze, empty initialization, and confined manifests.
+- [x] Add a source/evidence-bound release-preparation candidate that requires distinct wheel/sdist
+  manifests, CPU/CUDA image identities, Buildx metadata, SBOMs, full vulnerability reports, image
+  filesystem manifests, scanner/database identity, clean installs, packaged GUI, and CI coverage.
+  It always records RC/final/release-ready/publication flags as false.
+- [x] Add distinct archive/member SHA-256 manifests for exactly one wheel and one sdist and declare
+  the required PyTorch runtime dependency in package metadata.
+- [x] Extend CI/package contracts with Phase 5 modules and distribution member-manifest generation;
+  physical CUDA remains explicit-dispatch and policy-free.
+- [x] Add a disabled final-record authorization and a fail-closed generator that requires an already
+  reviewed clean `12.0.0` identity, passing combined evidence, exact approved policy scope, matching
+  release preparation, and explicit authorization. It cannot version-promote, tag, push, publish,
+  upload, or release.
+- [x] Add focused deterministic test source for disabled authorities, exact scope, old-policy/F
+  refusal, confined policy/qualification evidence, complete evidence mapping, member traversal,
+  and CI boundaries. No test was executed by Codex.
+- [x] Add ignored `Validate-Phase5.ps1` plus `Validate-Phase4-And-Phase5.ps1`. The wrapper runs the
+  full Phase 4 validator first, refuses Phase 5 on failure, requires matching Git identity, and
+  retains separate phase directories plus a combined cryptographic summary.
+- [ ] Run and accept the combined manual validation; select and approve the exact post-transition
+  policy scope; repeat release preparation for that approved scope; promote the reviewed source to
+  `12.0.0`; explicitly authorize final-record generation and any later tag/push/publication. These
+  are evidence/decision steps, not completed coding claims.
+
 ---
 
 ## 5. Five-phase summary
@@ -802,8 +844,8 @@ failed attempts and rejected evidence; do not silently delete, overwrite, or rei
 
 ## 7. Immediate next action
 
-Run both ignored noninteractive remaining-gate lanes documented in
-`validation/PHASE3_REMAINING_VALIDATION.md`: the Windows automated keyboard/accessibility collector
-and the Linux xcb light/dark all-workspace validator. Return both complete timestamped directories
-for source/hash and evidence review. Do not begin Phase 4, start policy training/evaluation, open
-protected cases, or regenerate release artifacts while Phase 3 remains open.
+Run the ignored noninteractive combined harness from the repository root:
+`& .\validation\Validate-Phase4-And-Phase5.ps1`. Return the complete new Phase 4, Phase 5, and
+combined timestamped directories for source/hash and evidence review. Do not run policy
+training/evaluation, open protected cases, delete a policy, choose a policy scope implicitly, create
+final metadata, promote `12.0.0`, tag, push, publish, or release.

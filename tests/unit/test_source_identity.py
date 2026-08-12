@@ -9,6 +9,7 @@ from calo_rpd_studio.compute import source_identity as identity_module
 from calo_rpd_studio.compute.source_identity import (
     SOURCE_IDENTITY_SCHEMA,
     SourceIdentity,
+    resolve_evidence_source_identity,
     resolve_source_identity,
     write_source_declaration,
 )
@@ -66,6 +67,27 @@ def test_dirty_git_identity_cannot_be_bypassed_by_clean_declaration(monkeypatch,
         resolve_source_identity(declaration_path=path, require_durable=True)
 
 
+def test_dirty_full_identity_requires_explicit_development_evidence_scope(monkeypatch):
+    dirty = SourceIdentity("b" * 40, False, "git")
+    monkeypatch.setattr(identity_module, "_git_identity", lambda _cwd=None: dirty)
+
+    with pytest.raises(RuntimeError, match="explicit development-evidence option"):
+        resolve_evidence_source_identity()
+
+    accepted = resolve_evidence_source_identity(allow_dirty_development_evidence=True)
+
+    assert accepted == dirty
+    assert accepted.durable_evidence_eligible is False
+
+
+def test_development_evidence_scope_still_rejects_unavailable_identity(monkeypatch):
+    monkeypatch.setattr(identity_module, "_git_identity", lambda _cwd=None: None)
+    monkeypatch.setattr(identity_module, "_read_source_declaration", lambda _path=None: None)
+
+    with pytest.raises(RuntimeError, match="full source commit"):
+        resolve_evidence_source_identity(allow_dirty_development_evidence=True)
+
+
 def test_unavailable_development_declaration_is_never_durable(monkeypatch, tmp_path: Path):
     path = tmp_path / "source.json"
     write_source_declaration(path, source_commit="unavailable", tracked_source_clean=False)
@@ -86,3 +108,31 @@ def test_malformed_or_unknown_declaration_fails_closed(monkeypatch, tmp_path: Pa
 
     with pytest.raises(RuntimeError, match="Unsupported source-declaration schema"):
         resolve_source_identity(declaration_path=path)
+
+
+def test_live_git_identity_includes_nonignored_untracked_source(monkeypatch):
+    calls = []
+
+    class Result:
+        def __init__(self, stdout="", stderr="", returncode=0):
+            self.stdout = stdout
+            self.stderr = stderr
+            self.returncode = returncode
+
+    def fake_run(*arguments, cwd=None):
+        calls.append((arguments, cwd))
+        if arguments == ("rev-parse", "--is-inside-work-tree"):
+            return Result("true\n")
+        if arguments == ("rev-parse", "HEAD"):
+            return Result(COMMIT + "\n")
+        if arguments == ("status", "--porcelain", "--untracked-files=all"):
+            return Result("?? untracked_source.py\n")
+        raise AssertionError(arguments)
+
+    monkeypatch.setattr(identity_module, "_run_git", fake_run)
+
+    identity = identity_module._git_identity("source-root")
+
+    assert identity is not None
+    assert identity.tracked_source_clean is False
+    assert calls[-1][0] == ("status", "--porcelain", "--untracked-files=all")

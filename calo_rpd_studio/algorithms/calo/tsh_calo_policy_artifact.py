@@ -42,12 +42,46 @@ class IndependentTrainingProvenance:
     training_device_provenance: dict
     training_episode_receipts: tuple[dict, ...]
     source_kind: str = "independent_policy_training"
+    development_freeze_commit: str = ""
+    development_freeze_sha256: str = ""
+    phase4_acceptance_sha256: str = ""
+    initialization_policy_sha256: str = ""
 
     def validate(self) -> None:
         if self.source_kind != "independent_policy_training":
             raise ValueError("TSH-CALO candidates must originate from independent policy training")
         if not self.training_run_id.strip() or not self.source_commit.strip():
             raise ValueError("TSH-CALO training provenance requires a run ID and source commit")
+        if (
+            self.development_freeze_commit
+            or self.development_freeze_sha256
+            or self.phase4_acceptance_sha256
+            or self.initialization_policy_sha256
+        ):
+            normalized_freeze = str(self.development_freeze_commit).strip().lower()
+            normalized_source = str(self.source_commit).strip().lower()
+            if (
+                len(normalized_freeze) != 40
+                or any(character not in "0123456789abcdef" for character in normalized_freeze)
+                or normalized_freeze != normalized_source
+            ):
+                raise ValueError(
+                    "Post-development TSH-CALO training must bind the exact development-freeze commit"
+                )
+            if str(self.initialization_policy_sha256).strip():
+                raise ValueError(
+                    "Post-development TSH-CALO training cannot initialize from an old policy"
+                )
+            if not _is_sha256(self.development_freeze_sha256):
+                raise ValueError(
+                    "Post-development TSH-CALO training requires the retained development-freeze "
+                    "payload SHA-256"
+                )
+            if not _is_sha256(self.phase4_acceptance_sha256):
+                raise ValueError(
+                    "Post-development TSH-CALO training requires the explicit Phase 4 acceptance "
+                    "receipt SHA-256"
+                )
         for label, digest in (
             ("training design", self.training_design_sha256),
             ("seed manifest", self.seed_manifest_sha256),
@@ -95,6 +129,38 @@ class TSHCALOCandidateArtifact:
     ensemble_size: int
     feature_flags: dict[str, bool]
     training_provenance: dict
+
+    @property
+    def post_development_eligible(self) -> bool:
+        """Whether every member was initialized empty and trained on the frozen source."""
+
+        provenance = dict(self.training_provenance or {})
+        if provenance.get("source_kind") == "independent_policy_training_ensemble":
+            rows = [
+                dict(member.get("training_provenance", {}) or {})
+                for member in list(provenance.get("members", []) or [])
+            ]
+            if len(rows) < 2:
+                return False
+        else:
+            rows = [provenance]
+        identities: set[tuple[str, str, str]] = set()
+        for row in rows:
+            source_commit = str(row.get("source_commit", "")).strip().lower()
+            freeze_commit = str(row.get("development_freeze_commit", "")).strip().lower()
+            freeze_sha256 = str(row.get("development_freeze_sha256", "")).strip().lower()
+            acceptance_sha256 = str(row.get("phase4_acceptance_sha256", "")).strip().lower()
+            if (
+                len(source_commit) != 40
+                or any(character not in "0123456789abcdef" for character in source_commit)
+                or freeze_commit != source_commit
+                or not _is_sha256(freeze_sha256)
+                or not _is_sha256(acceptance_sha256)
+                or str(row.get("initialization_policy_sha256", "")).strip()
+            ):
+                return False
+            identities.add((source_commit, freeze_sha256, acceptance_sha256))
+        return len(identities) == 1
 
 
 def _validated_feature_flags(

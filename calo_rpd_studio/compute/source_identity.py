@@ -61,7 +61,9 @@ def _git_identity(cwd: str | Path | None = None) -> SourceIdentity | None:
     if probe.stdout.strip().lower() != "true":
         return None
     commit_result = _run_git("rev-parse", "HEAD", cwd=cwd)
-    status_result = _run_git("status", "--porcelain", "--untracked-files=no", cwd=cwd)
+    # Non-ignored untracked files can participate in imports, packaging, or container contexts and
+    # therefore must prevent durable source claims just like modifications to tracked files.
+    status_result = _run_git("status", "--porcelain", "--untracked-files=all", cwd=cwd)
     if commit_result.returncode != 0 or status_result.returncode != 0:
         raise RuntimeError("Unable to resolve the complete Git source identity")
     commit = commit_result.stdout.strip().lower()
@@ -167,6 +169,30 @@ def resolve_source_identity(
             "Durable evidence requires a full source commit and clean tracked source identity"
         )
     return identity
+
+
+def resolve_evidence_source_identity(
+    *,
+    cwd: str | Path | None = None,
+    declaration_path: str | Path | None = None,
+    allow_dirty_development_evidence: bool = False,
+) -> SourceIdentity:
+    """Resolve a durable identity or an explicitly scoped development-only identity.
+
+    Development evidence still requires a full commit identity. The opt-in permits a dirty source
+    state to be measured and retained, but callers must label it non-durable and must not convert a
+    successful engineering observation into qualification or release evidence.
+    """
+
+    identity = resolve_source_identity(cwd=cwd, declaration_path=declaration_path)
+    if identity.durable_evidence_eligible:
+        return identity
+    if allow_dirty_development_evidence and _FULL_COMMIT.fullmatch(identity.source_commit):
+        return identity
+    raise RuntimeError(
+        "Durable evidence requires a full source commit and clean tracked source identity; "
+        "dirty source is allowed only with the explicit development-evidence option"
+    )
 
 
 def _parse_bool(value: str) -> bool:

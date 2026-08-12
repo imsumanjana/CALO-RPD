@@ -44,16 +44,16 @@ def test_study_strength_applies_one_coherent_valid_protocol(strength, scenario_m
 
 def test_study_strength_does_not_modify_governing_policy_binding():
     config = ExperimentConfig()
-    config.algorithm_parameters["CALO"] = {
+    config.algorithm_parameters["TSH-CALO"] = {
         "use_ai": True,
         "policy_id": "governing",
         "policy_sha256": "immutable-sha",
         "strict_policy_binding": True,
     }
     apply_study_strength(config, StudyStrength.STRONG, case_name="case118")
-    assert config.algorithm_parameters["CALO"]["policy_id"] == "governing"
-    assert config.algorithm_parameters["CALO"]["policy_sha256"] == "immutable-sha"
-    assert config.algorithm_parameters["CALO"]["strict_policy_binding"] is True
+    assert config.algorithm_parameters["TSH-CALO"]["policy_id"] == "governing"
+    assert config.algorithm_parameters["TSH-CALO"]["policy_sha256"] == "immutable-sha"
+    assert config.algorithm_parameters["TSH-CALO"]["strict_policy_binding"] is True
 
 
 def test_study_protocol_diff_is_scientist_readable_and_excludes_policy_internals():

@@ -1,5 +1,10 @@
 # New-chat prompt: Phase 4 development completion and freeze
 
+> **Superseded execution prompt as of 2026-08-12.** Phase 4 development is complete and Phase 5
+> release-preparation development has also been implemented under the owner's combined-validation
+> sequence. Do not restart Phase 4 from this prompt. Use `ACTIVE_CONTINUATION_LOG.md` and
+> `validation/PHASE4_PHASE5_VALIDATION.md` for the current manual handoff.
+
 > Use this entire file as the first request in a new Codex chat. It is intentionally self-contained,
 > but the new chat must verify every status statement against the live repository before acting.
 
@@ -35,9 +40,10 @@ take precedence.
    - `docs/implementation/REQUIREMENT_TRACEABILITY.md`;
    - `docs/implementation/CALO_ARCHITECTURE_CHANGE_PROPOSAL.md`;
    - `docs/implementation/SCIENTIFIC_VALIDATION_PROTOCOL.md`.
-4. Verify that Phase 3 is formally closed in all authoritative ledgers and that the required Linux
-   xcb evidence has been returned, source/hash checked, and accepted. At the time this prompt was
-   drafted, that Linux xcb evidence was still the only recorded Phase 3 blocker.
+4. Verify that Phase 3 is formally closed in all authoritative ledgers. On 2026-08-12 the project
+   owner explicitly accepted the manually validated Linux xcb boundary and directed Phase 4 to
+   proceed; no automated Linux evidence directory was retained. Preserve that limitation and do
+   not reinterpret the owner decision as automated proof or human accessibility/scientist evidence.
 5. If Phase 3 is still open, do not create a Phase 4 goal, do not state that Phase 4 has started, and
    do not edit Phase 4 source. Report the exact blocker and the precise user-run validation command or
    missing log directory, then stop.
@@ -197,6 +203,12 @@ return the logs.
 When the user returns logs, review them read-only. Accept only source/hash-bound evidence. Make
 evidence-backed coding corrections, update the same ignored validator when necessary, and request a
 fresh noninteractive rerun. Never take manual PASS/FAIL answers from a reviewer.
+
+The validator must never self-accept. After a complete passing directory is reviewed and the owner
+explicitly accepts the Phase 4 gate, create the separate non-overwriting development-freeze
+acceptance receipt outside the immutable run. Bind it to the complete hash manifest and production-
+source content contract, and require its SHA-256 for later old-policy authorization and every new-
+policy plan/candidate. Do not create this receipt before returned-log acceptance.
 
 ## Completion and goal handling
 

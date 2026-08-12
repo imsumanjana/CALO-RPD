@@ -57,6 +57,12 @@ def build_schema() -> dict[str, Any]:
     properties["master_seed"].update(minimum=0)
     properties["population_size"].update(minimum=2)
     properties["parallel_workers"].update(minimum=1)
+    # Algorithm names and their parameter surfaces are supplied by the algorithm registry. Keep
+    # this map structurally open while still publishing the safe, policy-free CALO default.
+    properties["algorithm_parameters"] = {
+        "type": "object",
+        "default": defaults["algorithm_parameters"],
+    }
     properties["execution_backend"] = {
         "type": "string",
         "enum": ["cuda_preferred", "cpu_only"],

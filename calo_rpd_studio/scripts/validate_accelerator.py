@@ -14,7 +14,10 @@ from calo_rpd_studio.accelerated.device import resolve_device
 from calo_rpd_studio.accelerated.parity_audit import run_configuration_parity_audit
 from calo_rpd_studio.ai.model_io import durable_write_bytes
 from calo_rpd_studio.compute.memory_budget import calculate_available_memory_admission
-from calo_rpd_studio.compute.source_identity import resolve_source_identity
+from calo_rpd_studio.compute.source_identity import (
+    resolve_evidence_source_identity,
+    resolve_source_identity,
+)
 from calo_rpd_studio.experiments.experiment_config import ExperimentConfig
 
 
@@ -152,7 +155,8 @@ def main() -> int:
     parser.add_argument("--batch-size", type=int, default=64)
     parser.add_argument("--seed", type=int, default=2026)
     parser.add_argument(
-        "--output", help="new durable JSON evidence path; existing paths are refused"
+        "--output",
+        help="new JSON evidence path; durable by default; existing paths are refused",
     )
     parser.add_argument("--run-id", default="", help="stable qualification-run identity")
     parser.add_argument(
@@ -160,7 +164,17 @@ def main() -> int:
         action="store_true",
         help="fail unless the resolved computation device is physical NVIDIA CUDA",
     )
+    parser.add_argument(
+        "--allow-dirty-development-evidence",
+        action="store_true",
+        help=(
+            "permit source-bound development measurements from a dirty full Git identity; "
+            "results remain non-durable and cannot qualify a release"
+        ),
+    )
     args = parser.parse_args()
+    if args.allow_dirty_development_evidence and not args.output:
+        raise ValueError("Development-evidence mode requires --output and a retained run ID")
 
     config = ExperimentConfig(case_name=args.case, master_seed=args.seed)
     config.tensor_batch_size = args.batch_size
@@ -170,7 +184,9 @@ def main() -> int:
     if args.output:
         if not args.run_id.strip():
             raise ValueError("--run-id is required when --output is used")
-        source_identity = resolve_source_identity(require_durable=True)
+        source_identity = resolve_evidence_source_identity(
+            allow_dirty_development_evidence=args.allow_dirty_development_evidence
+        )
         source_commit = source_identity.source_commit
         source_identity_kind = source_identity.source_identity_kind
         tracked_dirty = not source_identity.tracked_source_clean
@@ -200,14 +216,17 @@ def main() -> int:
             peak_reserved_bytes=int(torch.cuda.max_memory_reserved(target)),
         )
     dedicated_vram_verified = bool(cuda_peak and cuda_peak.get("dedicated_vram_execution_verified"))
-    qualification_passed = bool(report.get("passed")) and (
+    engineering_validation_passed = bool(report.get("passed")) and (
         (physical_cuda and dedicated_vram_verified)
         if physical_cuda or args.require_physical_cuda
         else True
     )
+    durable_source = bool(source_identity.durable_evidence_eligible) if args.output else True
+    qualification_passed = bool(engineering_validation_passed and durable_source)
     report["physical_cuda_exercised"] = physical_cuda
     report["physical_cuda_required"] = bool(args.require_physical_cuda)
     report["dedicated_vram_execution_verified"] = dedicated_vram_verified
+    report["engineering_validation_passed"] = engineering_validation_passed
     report["qualification_passed"] = qualification_passed
     if args.output:
         runtime_after = _runtime_snapshot(resolved)
@@ -222,6 +241,9 @@ def main() -> int:
             "source_commit": source_commit,
             "tracked_source_clean": not tracked_dirty,
             "source_identity_kind": source_identity_kind,
+            "durable_evidence_eligible": durable_source,
+            "evidence_tier": "durable" if durable_source else "development-only",
+            "development_evidence_only": not durable_source,
             "parameters": {
                 "case": args.case,
                 "requested_device": args.device,
@@ -229,9 +251,11 @@ def main() -> int:
                 "batch_size": int(args.batch_size),
                 "seed": int(args.seed),
                 "require_physical_cuda": bool(args.require_physical_cuda),
+                "allow_dirty_development_evidence": bool(args.allow_dirty_development_evidence),
             },
             "runtime": runtime,
             "parity": report,
+            "engineering_validation_passed": engineering_validation_passed,
             "qualification_passed": qualification_passed,
             "protected_cases_opened": False,
             "claim_scope": (
@@ -239,13 +263,23 @@ def main() -> int:
                 "allocation for this development case, candidate battery, source commit, "
                 "device, and software stack only"
                 if qualification_passed and physical_cuda
-                else "no physical CPU/CUDA parity claim"
+                else (
+                    "development-only physical FP64 CPU/CUDA parity observation; dirty source "
+                    "is non-durable and cannot qualify a release"
+                    if engineering_validation_passed and physical_cuda
+                    else "no physical CPU/CUDA parity claim"
+                )
             ),
         }
         destination = _write_new_evidence(args.output, evidence)
         print(f"evidence_path={destination}")
     print(json.dumps(_json_safe(report), indent=2, sort_keys=True, allow_nan=False))
-    return 0 if qualification_passed else 1
+    command_passed = (
+        engineering_validation_passed
+        if args.allow_dirty_development_evidence
+        else qualification_passed
+    )
+    return 0 if command_passed else 1
 
 
 if __name__ == "__main__":

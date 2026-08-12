@@ -163,7 +163,7 @@ POLICY_GATED_SPECS = {
             "strict_policy_binding": True,
             "deterministic_policy": False,
             "inference_device": "auto",
-            "allow_cpu_fallback": True,
+            "allow_cpu_fallback": False,
             "baseline_fallback_permitted": False,
         },
     )

@@ -96,14 +96,19 @@ def _episode_receipts(run_id: str, design: str) -> tuple[dict, ...]:
 
 def _provenance(*cases: str, run_id: str = "training-run-001") -> IndependentTrainingProvenance:
     design = _sha("design")
+    freeze_commit = "a" * 40
     return IndependentTrainingProvenance(
         training_run_id=run_id,
         training_design_sha256=design,
-        source_commit="0a8989f",
+        source_commit=freeze_commit,
         development_cases=tuple(cases or ("case30", "case57")),
         seed_manifest_sha256=_sha("seeds"),
         training_device_provenance=_device_provenance(),
         training_episode_receipts=_episode_receipts(run_id, design),
+        development_freeze_commit=freeze_commit,
+        development_freeze_sha256=_sha("development-freeze"),
+        phase4_acceptance_sha256=_sha("phase4-acceptance"),
+        initialization_policy_sha256="",
     )
 
 
@@ -217,7 +222,7 @@ def test_registry_keeps_tsh_candidate_separate_from_frozen_calo_runtime(tmp_path
     assert policy.qualification_status == "candidate"
     assert policy.runtime_compatible is False
     assert policy.compatible_with(TSH_CALO_ALGORITHM_ID) is True
-    with pytest.raises(ValueError, match="current CALO|CALO runtime"):
+    with pytest.raises(ValueError, match="only.*TSH-CALO"):
         registry.activate(policy.id)
     with pytest.raises(ValueError, match="before qualification"):
         registry.activate(policy.id, algorithm_id=TSH_CALO_ALGORITHM_ID, allow_unqualified=True)
@@ -254,6 +259,8 @@ def test_qualified_tsh_policy_activation_and_binding_are_explicit_and_immutable(
         == "independent_policy_training_ensemble"
     )
     assert binding["policy_ensemble_size"] == 2
+    assert binding["allow_cpu_fallback"] is False
+    assert binding["baseline_fallback_permitted"] is False
     assert binding["policy_qualification_id"] == "qualification-001"
     assert binding["policy_qualification_receipt_sha256"]
     assert binding["policy_ood_calibration_sha256"]

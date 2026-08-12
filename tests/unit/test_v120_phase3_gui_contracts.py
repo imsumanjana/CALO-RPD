@@ -26,11 +26,11 @@ def _source(relative: str) -> str:
     return (ROOT / relative).read_text(encoding="utf-8")
 
 
-def test_active_status_records_pre_tab_pass_and_current_refinement_gate():
+def test_active_status_records_pre_tab_pass_and_owner_accepted_linux_boundary():
     import json
 
     payload = json.loads((ROOT / "ACTIVE_DEVELOPMENT_STATUS.json").read_text(encoding="utf-8"))
-    assert payload["phase"] == 3
+    assert payload["phase"] == 5
     assert payload["phase_2_validation"] == "accepted_phase2-20260807-003828_15_of_15_passed"
     assert payload["phase_3_coding"] == (
         "implemented_tabbed_workspace_table_width_correction_validated_windows"
@@ -39,7 +39,7 @@ def test_active_status_records_pre_tab_pass_and_current_refinement_gate():
         "failed_phase3-20260807-045558_11_of_18_passed"
     )
     assert payload["phase_3_validation"] == (
-        "windows_automated_accepted_current_tabbed_layout_linux_pending"
+        "windows_automated_accepted_current_tabbed_layout_linux_manually_accepted"
     )
     assert payload["phase_3_failed_validation_policy_workflows_executed"] is False
     assert payload["phase_3_corrections"] == "implemented"
@@ -53,18 +53,130 @@ def test_active_status_records_pre_tab_pass_and_current_refinement_gate():
         "accepted_phase3-remaining-windows-20260807-121530"
     )
     assert payload["phase_3_tabbed_layout_refinement"] == (
-        "windows_automated_accepted_linux_xcb_pending"
+        "windows_automated_accepted_linux_xcb_manually_accepted_by_owner"
     )
     assert payload["phase_3_tabbed_layout_refinement_windows_validation"] == (
         "accepted_phase3-remaining-windows-20260807-121530_10_of_10_passed"
     )
-    assert payload["phase_3_linux_rendering"] == "not_executed_user_reserved"
+    assert payload["phase_3_linux_rendering"] == (
+        "manually_validated_and_accepted_by_owner_no_automated_bundle_retained"
+    )
     assert payload["phase_3_keyboard_accessibility_acceptance"] == (
         "accepted_windows_20260807_121530"
     )
     assert payload["phase_3_human_reviewer_input"] == "disabled_by_user_instruction"
     assert payload["phase_3_scientist_acceptance"] == ("not_inferred_automated_evidence_only")
-    assert payload["phase_3_overall_gate"] == "open_linux_xcb_evidence_pending"
+    assert payload["phase_3_overall_gate"] == "closed_by_owner_manual_linux_xcb_acceptance"
+    assert payload["phase_4_started"] is True
+    assert payload["phase_4_coding"] == (
+        "implemented_source_audit_complete_previous_validation_passed_current_source_revalidation_pending"
+    )
+    assert payload["phase_4_validation"] == (
+        "passed_phase4-20260812-195901_32_of_32_pre_phase5_type_correction_fresh_combined_required"
+    )
+    assert payload["phase_4_first_combined_validation_attempt"] == (
+        "interrupted_phase4-20260812-165006_partial_diagnostics_not_accepted"
+    )
+    assert payload["phase_4_post_attempt_corrections"] == (
+        "implemented_awaiting_fresh_combined_manual_validation"
+    )
+    assert payload["phase_4_second_combined_validation_attempt"] == (
+        "failed_phase4-20260812-182252_5_passed_first_failure_06-format"
+    )
+    assert payload["phase_4_post_second_attempt_corrections"] == (
+        "ruff_format_applied_to_8_reported_files_awaiting_fresh_combined_manual_validation"
+    )
+    assert payload["phase_4_third_combined_validation_attempt"] == (
+        "failed_phase4-20260812-182752_8_passed_first_failure_09-gui"
+    )
+    assert payload["phase_4_post_third_attempt_corrections"] == (
+        "scientist_facing_development_stage_wording_removed_awaiting_fresh_combined_manual_validation"
+    )
+    assert payload["phase_4_fourth_combined_validation_attempt"] == (
+        "failed_phase4-20260812-184454_14_passed_first_failure_14-distribution"
+    )
+    assert payload["phase_4_post_fourth_attempt_corrections"] == (
+        "root_validation_evidence_distinguished_from_application_validation_package_awaiting_fresh_combined_manual_validation"
+    )
+    assert payload["phase_4_fifth_combined_validation_attempt"] == (
+        "failed_phase4-20260812-185135_17_passed_first_failure_17-clean-smoke"
+    )
+    assert payload["phase_4_post_fifth_attempt_corrections"] == (
+        "clean_install_import_assertion_scoped_to_checkout_source_and_clean_environment_awaiting_fresh_combined_manual_validation"
+    )
+    assert payload["phase_4_sixth_combined_validation_attempt"] == (
+        "failed_phase4-20260812-190643_24_passed_first_failure_23-cuda-parity-30"
+    )
+    assert payload["phase_4_post_sixth_attempt_corrections"] == (
+        "physical_cuda_development_evidence_tier_added_without_weakening_durable_qualification_awaiting_fresh_combined_manual_validation"
+    )
+    assert payload["phase_4_seventh_combined_validation_attempt"] == (
+        "passed_phase4-20260812-195901_32_of_32_development_validation"
+    )
+    assert payload["phase_4_development_goal"] == (
+        "completed_phase4_development_previous_validation_passed_current_combined_revalidation_pending"
+    )
+    assert payload["phase_5_started"] is True
+    assert payload["phase_5_coding"] == (
+        "release_preparation_development_complete_combined_validation_pending"
+    )
+    assert payload["phase_5_first_combined_validation_attempt"] == (
+        "not_started_because_phase4_did_not_pass"
+    )
+    assert payload["phase_5_second_combined_validation_attempt"] == (
+        "not_started_because_phase4_failed_06-format"
+    )
+    assert payload["phase_5_third_combined_validation_attempt"] == (
+        "not_started_because_phase4_failed_09-gui"
+    )
+    assert payload["phase_5_fourth_combined_validation_attempt"] == (
+        "not_started_because_phase4_failed_14-distribution"
+    )
+    assert payload["phase_5_fifth_combined_validation_attempt"] == (
+        "not_started_because_phase4_failed_17-clean-smoke"
+    )
+    assert payload["phase_5_sixth_combined_validation_attempt"] == (
+        "not_started_because_phase4_failed_23-cuda-parity-30"
+    )
+    assert payload["phase_5_seventh_combined_validation_attempt"] == (
+        "failed_phase5-20260812-201822_5_passed_first_failure_06-types"
+    )
+    assert payload["phase_5_post_seventh_attempt_corrections"] == (
+        "pyyaml_typing_boundary_and_json_object_loader_corrected_awaiting_fresh_combined_manual_validation"
+    )
+    assert payload["combined_seventh_validation_attempt"] == (
+        "failed_phase4-phase5-20260812-195901_phase4_passed_phase5_failed_06-types"
+    )
+    assert payload["phase_4_eighth_combined_validation_attempt"] == (
+        "failed_phase4-20260812-202511_1_passed_first_failure_02-version"
+    )
+    assert payload["phase_4_post_eighth_attempt_corrections"] == (
+        "active_version_runtime_contract_aligned_to_current_status_awaiting_fresh_combined_manual_validation"
+    )
+    assert payload["phase_5_eighth_combined_validation_attempt"] == (
+        "not_started_because_phase4_failed_02-version"
+    )
+    assert payload["combined_eighth_validation_attempt"] == (
+        "failed_phase4-phase5-20260812-202511_phase4_failed_02-version_phase5_not_started"
+    )
+    assert payload["phase_4_ninth_combined_validation_attempt"] == (
+        "passed_phase4-20260812-202852_32_of_32_development_validation"
+    )
+    assert payload["phase_5_ninth_combined_validation_attempt"] == (
+        "failed_phase5-20260812-204823_23_passed_first_failure_22-cpu-build"
+    )
+    assert payload["phase_5_post_ninth_attempt_corrections"] == (
+        "docker_containerd_image_store_preflight_added_attestation_requirements_preserved_awaiting_environment_enablement_and_fresh_combined_manual_validation"
+    )
+    assert payload["combined_ninth_validation_attempt"] == (
+        "failed_phase4-phase5-20260812-202852_phase4_passed_phase5_failed_22-cpu-build"
+    )
+    assert payload["combined_validation_harness_behavior"] == (
+        "live_streaming_native_exit_code_fail_fast_first_failure_containerd_attestation_preflight"
+    )
+    assert payload["phase_5_release_policy_scope"] == "pending_explicit_decision"
+    assert payload["phase_5_release_candidate"] is False
+    assert payload["phase_5_final_release"] is False
 
 
 def test_phase3_grouping_preserves_all_stable_workspace_keys():

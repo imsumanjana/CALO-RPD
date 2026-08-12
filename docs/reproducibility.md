@@ -54,6 +54,25 @@ curriculum, training history, protected-asset exclusions, and artifact SHA-256. 
 registration, activation, and immutable experiment binding remain distinct gates. A policy-free
 release-validation path is also permitted.
 
+The Phase 4 development-freeze candidate binds the exact Git identity and clean/dirty state; a
+sorted SHA-256 manifest of every Git-tracked and non-ignored untracked source file; the ignored
+manual validator/instructions; dependency locks; container declarations; exclusion rules;
+experiment schema; and the A-E/F-off interfaces. It records zero release-scope policies and whether
+it can authorize later new-policy training. Training eligibility is true only for a clean durable
+source identity after policy files, external references, and lifecycle rows are empty. A future
+campaign must bind both the exact freeze commit and retained freeze payload SHA-256; the training
+command validates the complete retained report before it can start or resume. A report with pending
+development-only policy files/rows remains valid engineering evidence but is not training-eligible.
+It is not a release manifest, policy receipt, RC, scientific qualification, or final freeze.
+
+The manual validator does not accept its own output. A separate post-review acceptance receipt must
+verify every retained log hash, the fully passing set of 32 exact result IDs from 30 numbered
+stages, the candidate/summary source
+identity, and an explicit decision ID. That receipt binds a production-source content digest while
+excluding only recorded development-policy artifacts so the later authorized cleanup does not
+change the accepted code identity. Future new-policy provenance must record both this Phase 4
+acceptance-receipt SHA-256 and the clean, empty-policy post-transition freeze SHA-256.
+
 ## Future policy-training reproducibility contract
 
 This section defines the required record for a future, separately authorized post-development

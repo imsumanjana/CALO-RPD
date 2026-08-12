@@ -348,7 +348,7 @@ class BenchmarkCampaignPanel(WorkspacePage):
         answer = QMessageBox.question(
             self,
             "Start frozen confirmatory campaign",
-            "This starts the frozen benchmark. Development-used systems are labeled validation "
+            "This starts the frozen benchmark. Previously used systems are labeled validation "
             "replays; unseen systems are labeled protected tests. All are locked out of historical "
             "learning. Continue?",
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,

@@ -14,6 +14,24 @@ inventory-first operation. Any later policy-assisted route must train an entirel
 policy from a clean policy store and qualify it independently; a policy-free Phase 5 route also
 remains valid.
 
+Phase 5 release-preparation development is implemented at the unchanged `12.0.0.dev1` identity.
+It adds explicit policy-free/newly-qualified-policy scope contracts, distinct wheel/sdist member
+manifests, source-bound distribution/image/SBOM/security/clean-install evidence aggregation, final
+CI contract checks, and a separately authorized final-record generator. The project owner elected
+to run Phase 4 and Phase 5 validation together after both coding phases. Until that combined run is
+returned and accepted, the release-policy scope remains pending and this tree is not a release
+candidate, release-ready, final `12.0.0`, tagged, published, or released.
+
+The implemented Phase 4 lifecycle is fail-closed: the GUI no longer auto-discovers checkout policy
+files; direct registry/GUI deletion is disabled; the Policy Center exports an exact SHA-256-bound
+inventory and dry-run plan; stale policy bindings are cleared in empty-policy mode; and only a new
+post-development TSH-CALO ensemble can later be activated or bound. Future training is bound to an
+exact clean, empty-policy freeze report by both commit and payload SHA-256 and proves empty policy
+initialization. Policy inference is pinned to
+the experiment scheduler's resolved device, so CUDA-to-CPU fallback can occur only as a separately
+identified full-request restart. The `calo-rpd-development-freeze` command creates a development-
+only source/interface report—not a release manifest or release-readiness claim.
+
 See [`docs/DOCUMENTATION_STATUS.md`](docs/DOCUMENTATION_STATUS.md) before using older release,
 training, audit, or validation documents as instructions.
 

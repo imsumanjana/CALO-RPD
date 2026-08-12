@@ -46,6 +46,9 @@ def _training(*, rollout_capacity: int = 2) -> TSHCALOTrainingConfig:
         development_cases=("toy-development",),
         seed_manifest_sha256=_sha("fresh-member-seeds"),
         resource_envelope=TSHCALOTrainingResourceEnvelope(rollout_capacity, 8, 16, 32, 16, 8),
+        development_freeze_commit="e" * 40,
+        development_freeze_sha256="f" * 64,
+        phase4_acceptance_sha256="a" * 64,
         seed=211,
         hidden_dim=16,
         graph_steps=1,
@@ -108,7 +111,7 @@ def test_completed_counted_session_earns_receipt_and_only_unqualified_export(tmp
         session.trainer.record_training_episode_receipt(replay.to_dict())
 
     artifact = session.trainer.export_unqualified_candidate(
-        tmp_path / "candidate.pt", source_commit="5839955"
+        tmp_path / "candidate.pt", source_commit="e" * 40
     )
     inspected = inspect_tsh_calo_candidate(artifact.path, expected_sha256=artifact.sha256)
     provenance = inspected.training_provenance

@@ -360,6 +360,10 @@ class TSHCALOInferenceController:
             )
         if self.artifact is None:
             raise RuntimeError("TSH-CALO ensemble loader returned no artifact metadata")
+        if authority is None and not self.artifact.post_development_eligible:
+            raise ValueError(
+                "TSH-CALO production runtime rejects pre-freeze or old-policy-initialized artifacts"
+            )
         if self.artifact.ensemble_size != int(binding["policy_ensemble_size"]):
             raise ValueError("TSH-CALO bound ensemble size does not match the immutable artifact")
         if self.artifact.feature_flags != asdict(flags):

@@ -36,11 +36,20 @@ class ResultDatabase:
     intentionally not touched because they may contain user-managed copies.
     """
 
-    def __init__(self, path="calo_rpd_results.sqlite"):
+    def __init__(self, path="calo_rpd_results.sqlite", *, read_only: bool = False):
         self.path = str(path)
+        self.read_only = bool(read_only)
         self.migration_backup_path: str | None = None
         self._lock = threading.RLock()
-        self._initialize()
+        if self.read_only:
+            source_version, has_user_tables = self._inspect_existing_schema()
+            if has_user_tables and source_version < DATABASE_SCHEMA_VERSION:
+                raise RuntimeError(
+                    "Read-only database access cannot migrate an older schema; create and review "
+                    "a migration backup through the ordinary application workflow first"
+                )
+        else:
+            self._initialize()
 
     def _inspect_existing_schema(self) -> tuple[int, bool]:
         """Return ``(user_version, has_user_tables)`` without mutating the database."""
@@ -84,13 +93,25 @@ class ResultDatabase:
 
     @contextmanager
     def connect(self):
-        con = sqlite3.connect(self.path, timeout=30)
+        if self.read_only:
+            if self.path == ":memory:" or not Path(self.path).is_file():
+                raise FileNotFoundError(f"Read-only database does not exist: {self.path}")
+            uri = f"{Path(self.path).resolve().as_uri()}?mode=ro"
+            con = sqlite3.connect(uri, uri=True, timeout=30)
+        else:
+            con = sqlite3.connect(self.path, timeout=30)
         con.row_factory = sqlite3.Row
         con.execute("PRAGMA foreign_keys=ON")
-        con.execute("PRAGMA journal_mode=WAL")
+        if self.read_only:
+            con.execute("PRAGMA query_only=ON")
+        else:
+            con.execute("PRAGMA journal_mode=WAL")
         try:
             yield con
-            con.commit()
+            if self.read_only:
+                con.rollback()
+            else:
+                con.commit()
         finally:
             con.close()
 
@@ -663,7 +684,7 @@ class ResultDatabase:
         message: str | None = None,
     ) -> None:
         clauses = ["updated_at=?"]
-        values = [self._utcnow()]
+        values: list[object] = [self._utcnow()]
         if status is not None:
             clauses.append("status=?")
             values.append(str(status))
@@ -753,7 +774,7 @@ class ResultDatabase:
         increment_attempts: bool = False,
     ) -> None:
         clauses = ["last_activity=?"]
-        values = [self._utcnow()]
+        values: list[object] = [self._utcnow()]
         if status is not None:
             clauses.append("status=?")
             values.append(str(status))
@@ -873,7 +894,7 @@ class ResultDatabase:
         resumable: bool | None = None,
     ) -> None:
         clauses = ["updated_at=?"]
-        values = [self._utcnow()]
+        values: list[object] = [self._utcnow()]
         if status is not None:
             clauses.append("status=?")
             values.append(str(status))
@@ -1154,6 +1175,100 @@ class ResultDatabase:
             ).fetchone()["n"]
         return int(count)
 
+    @staticmethod
+    def _policy_lifecycle_snapshot_from_connection(con: sqlite3.Connection) -> dict:
+        """Return stable policy-lifecycle rows for inventory-bound retirement.
+
+        This intentionally includes immutable experiment bindings and policy-training resume tasks.
+        A post-freeze removal receipt can therefore retain the exact evidence that was removed from
+        the live database without retaining an executable policy artifact or resumable workflow.
+        """
+
+        tables = {
+            "policies": ("SELECT * FROM policies ORDER BY id", ()),
+            "policy_qualifications": (
+                "SELECT * FROM policy_qualifications ORDER BY id",
+                (),
+            ),
+            "experiment_policy_bindings": (
+                "SELECT * FROM experiment_policy_bindings ORDER BY experiment_id",
+                (),
+            ),
+            "policy_lineages": ("SELECT * FROM policy_lineages ORDER BY id", ()),
+            "policy_checkpoints": ("SELECT * FROM policy_checkpoints ORDER BY id", ()),
+            "suppressed_policies": ("SELECT * FROM suppressed_policies ORDER BY sha256", ()),
+            "policy_training_resume_tasks": (
+                "SELECT * FROM resumable_tasks WHERE task_type='policy_training' ORDER BY id",
+                (),
+            ),
+        }
+        return {
+            name: [dict(row) for row in con.execute(query, arguments).fetchall()]
+            for name, (query, arguments) in tables.items()
+        }
+
+    def policy_lifecycle_snapshot(self) -> dict:
+        """Return a read-only exact snapshot of policy lifecycle database state."""
+
+        if (
+            self.read_only
+            and self.path != ":memory:"
+            and (not Path(self.path).is_file() or Path(self.path).stat().st_size == 0)
+        ):
+            return {
+                "policies": [],
+                "policy_qualifications": [],
+                "experiment_policy_bindings": [],
+                "policy_lineages": [],
+                "policy_checkpoints": [],
+                "suppressed_policies": [],
+                "policy_training_resume_tasks": [],
+            }
+        with self.connect() as con:
+            return self._policy_lifecycle_snapshot_from_connection(con)
+
+    def clear_policy_lifecycle(self, *, expected_snapshot: dict) -> dict:
+        """Remove the exact inventoried lifecycle state in one database transaction.
+
+        This method is deliberately unusable as an unscoped "delete all" operation: the caller must
+        provide the complete snapshot observed during the authorized inventory. Any concurrent or
+        otherwise unreviewed change aborts before a row is modified. The caller is responsible for
+        retaining the snapshot in an immutable external deletion receipt.
+        """
+
+        if self.read_only:
+            raise PermissionError("A read-only database cannot clear policy lifecycle state")
+        expected = json.loads(json.dumps(expected_snapshot, sort_keys=True, allow_nan=True))
+        with self._lock, self.connect() as con:
+            current = self._policy_lifecycle_snapshot_from_connection(con)
+            if current != expected:
+                raise RuntimeError(
+                    "Policy lifecycle database state changed after inventory; removal is blocked"
+                )
+            removed = {
+                "experiment_policy_bindings": int(
+                    con.execute("DELETE FROM experiment_policy_bindings").rowcount
+                ),
+                "policy_qualifications": int(
+                    con.execute("DELETE FROM policy_qualifications").rowcount
+                ),
+                "policy_checkpoints": int(con.execute("DELETE FROM policy_checkpoints").rowcount),
+                "policy_lineages": int(con.execute("DELETE FROM policy_lineages").rowcount),
+                "policies": int(con.execute("DELETE FROM policies").rowcount),
+                "suppressed_policies": int(con.execute("DELETE FROM suppressed_policies").rowcount),
+                "policy_training_resume_tasks": int(
+                    con.execute(
+                        "DELETE FROM resumable_tasks WHERE task_type='policy_training'"
+                    ).rowcount
+                ),
+            }
+            remaining = self._policy_lifecycle_snapshot_from_connection(con)
+            if any(remaining.values()):
+                raise RuntimeError(
+                    "Policy lifecycle cleanup did not produce an empty database state"
+                )
+        return {"removed": removed, "remaining": remaining}
+
     def list_suppressed_policy_sha256(self) -> set[str]:
         """Return policy suppressions scoped to this project/results database."""
         with self.connect() as con:
@@ -1243,7 +1358,12 @@ class ResultDatabase:
                 "UPDATE experiments SET data_role=?,learning_eligible=?,learning_locked=? WHERE id=?",
                 (role, int(eligible), int(next_locked), experiment_id),
             )
-        return self.get_experiment(experiment_id)
+        updated = self.get_experiment(experiment_id)
+        if not isinstance(updated, dict):
+            raise RuntimeError(
+                f"Experiment disappeared after learning-role update: {experiment_id}"
+            )
+        return updated
 
     def list_learning_experiments(
         self, *, role: str | None = None, eligible_only: bool = False
@@ -1555,7 +1675,12 @@ class ResultDatabase:
                     json.dumps(protocol or {}, allow_nan=True),
                 ),
             )
-        return self.get_experiment_revision(revision_id)
+        created = self.get_experiment_revision(revision_id)
+        if created is None:
+            raise RuntimeError(
+                f"Experiment revision was not retained after creation: {revision_id}"
+            )
+        return created
 
     def get_experiment_revision(self, revision_id: str) -> dict | None:
         with self.connect() as con:

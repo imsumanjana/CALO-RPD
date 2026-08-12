@@ -11,6 +11,11 @@ delete any policy. Existing policy artifacts are non-final and excluded from ima
 state. A future newly qualified policy, if Phase 5 includes one, requires a separate immutable
 manifest and is not part of the Phase 4 image contract.
 
+The distribution/container verifier rejects `.pt`, `.pt.sha256`, generated policy metadata, and
+all trained-model store content except the non-executable package `__init__.py`. Physical CUDA CI
+during this development phase runs policy-free evaluator engineering evidence only; it does not run
+the policy hot-path evaluator, train a policy, qualify a policy, or imply release readiness.
+
 The Linux/amd64 Python 3.11 slim-bookworm base is pinned by OCI manifest digest. Runtime dependency
 graphs are separately resolved for CPU and CUDA 12.8 against Python 3.11/manylinux 2.28, with every
 distribution protected by SHA-256 and installation forced through `--require-hashes`.
@@ -119,7 +124,7 @@ tracked checkout and pass its full commit into the immutable in-image source dec
 
 ```text
 $commit = git rev-parse HEAD
-if (git status --porcelain --untracked-files=no) { throw "Tracked source is dirty" }
+if (git status --porcelain --untracked-files=all) { throw "Non-ignored source is dirty" }
 docker buildx build --platform linux/amd64 --build-arg RUNTIME_LOCK=requirements-lock-cpu-py311-linux.txt --build-arg SOURCE_COMMIT=$commit --build-arg SOURCE_TRACKED_CLEAN=true --provenance=mode=max --sbom=true --tag "calo-rpd-studio:cpu-$($commit.Substring(0,12))" --load .
 docker buildx build --platform linux/amd64 --build-arg RUNTIME_LOCK=requirements-lock-cuda128-py311-linux.txt --build-arg SOURCE_COMMIT=$commit --build-arg SOURCE_TRACKED_CLEAN=true --provenance=mode=max --sbom=true --tag "calo-rpd-studio:cuda-$($commit.Substring(0,12))" --load .
 ```
@@ -153,7 +158,10 @@ The repository workflow is a release harness, not evidence by itself. Its main l
   contracts, renders a real dashboard PNG and uploads it;
 - a CPU image lane that builds with BuildKit SBOM/provenance, verifies UID/GID 10001, enforces a
   read-only root, performs a version-checked SQLite/config round-trip, creates a manifest from `/opt/calo`, emits a
-  CycloneDX SBOM and fails on fixable high/critical vulnerabilities;
+  CycloneDX SBOM and fails on fixable high/critical vulnerabilities. The runtime smoke also fails
+  if that filesystem manifest contains a policy checkpoint, generated lineage/branch/artifact
+  directory, training manifest, or local validation content, and reports the manifest hash and
+  zero forbidden-artifact count;
 - a CUDA image build without a device on non-pull-request runs; and
 - a manually requested physical-CUDA lane restricted to a trusted `calo-cuda` runner, covering
   visibility, FP64 parity, a bounded protection soak and graceful cancellation.

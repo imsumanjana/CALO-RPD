@@ -11,6 +11,13 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign import (
     IndependentTSHCALOTrainingCampaign,
     TSHCALOTrainingCampaignPlan,
 )
+from calo_rpd_studio.scripts.create_development_freeze_candidate import (
+    validate_development_freeze_candidate,
+)
+from calo_rpd_studio.scripts.accept_development_freeze import (
+    acceptance_matches_freeze,
+    validate_acceptance_receipt,
+)
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -38,7 +45,7 @@ def repository_state(root: str | Path = ROOT) -> tuple[str, str]:
             text=True,
         ).stdout.strip()
         tracked_status = subprocess.run(
-            ["git", "status", "--porcelain", "--untracked-files=no"],
+            ["git", "status", "--porcelain", "--untracked-files=all"],
             cwd=directory,
             check=True,
             capture_output=True,
@@ -60,17 +67,65 @@ def validate_repository_for_plan(
             "TSH-CALO training plan source commit does not match the checked-out repository"
         )
     if tracked_status:
-        raise RuntimeError("TSH-CALO training requires a clean tracked working tree")
+        raise RuntimeError("TSH-CALO training requires a clean non-ignored source tree")
+    if plan.source_commit.lower() != plan.development_freeze_commit.lower():
+        raise RuntimeError("TSH-CALO training source does not match the development freeze")
+
+
+def validate_development_freeze_for_plan(
+    plan: TSHCALOTrainingCampaignPlan,
+    path: str | Path,
+    acceptance_path: str | Path,
+) -> dict:
+    source = Path(path).expanduser().resolve(strict=True)
+    try:
+        report = json.loads(source.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise ValueError(f"Development-freeze report is unreadable: {source}") from exc
+    if not isinstance(report, dict):
+        raise ValueError("Development-freeze report must be a JSON object")
+    validate_development_freeze_candidate(report, require_training_eligible=True)
+    acceptance_source = Path(acceptance_path).expanduser().resolve(strict=True)
+    try:
+        acceptance = json.loads(acceptance_source.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise ValueError(f"Phase 4 acceptance receipt is unreadable: {acceptance_source}") from exc
+    if not isinstance(acceptance, dict):
+        raise ValueError("Phase 4 acceptance receipt must be a JSON object")
+    validate_acceptance_receipt(acceptance)
+    acceptance_matches_freeze(acceptance, report)
+    identity = dict(report.get("source_identity", {}) or {})
+    comparisons = {
+        "source commit": (
+            str(identity.get("source_commit", "")).lower(),
+            plan.development_freeze_commit.lower(),
+        ),
+        "payload SHA-256": (
+            str(report.get("development_freeze_payload_sha256", "")).lower(),
+            plan.development_freeze_sha256.lower(),
+        ),
+        "acceptance receipt SHA-256": (
+            str(acceptance.get("acceptance_receipt_sha256", "")).lower(),
+            plan.phase4_acceptance_sha256.lower(),
+        ),
+    }
+    for label, (actual, expected) in comparisons.items():
+        if actual != expected:
+            raise ValueError(f"Training plan development-freeze {label} does not match the report")
+    return report
 
 
 def _summary(plan: TSHCALOTrainingCampaignPlan, *, state: str, result=None) -> dict:
-    payload = {
+    payload: dict[str, object] = {
         "state": state,
         "campaign_id": plan.campaign_id,
         "scientific_design_sha256": plan.scientific_design_hash(),
         "execution_plan_sha256": plan.execution_plan_sha256(),
         "seed_manifest_sha256": plan.seed_manifest_sha256(),
         "source_commit": plan.source_commit,
+        "development_freeze_commit": plan.development_freeze_commit,
+        "development_freeze_sha256": plan.development_freeze_sha256,
+        "phase4_acceptance_sha256": plan.phase4_acceptance_sha256,
         "authority_boundary": "independent_training_only",
     }
     if result is not None:
@@ -90,6 +145,18 @@ def _summary(plan: TSHCALOTrainingCampaignPlan, *, state: str, result=None) -> d
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("plan", type=Path, help="Frozen JSON training plan")
+    parser.add_argument(
+        "--development-freeze",
+        type=Path,
+        required=True,
+        help="Accepted clean post-transition development-freeze report",
+    )
+    parser.add_argument(
+        "--phase4-acceptance",
+        type=Path,
+        required=True,
+        help="Explicit accepted Phase 4 source-contract receipt",
+    )
     parser.add_argument("--output", type=Path, help="New or explicitly resumed output directory")
     parser.add_argument(
         "--resume",
@@ -109,6 +176,11 @@ def main(argv: list[str] | None = None) -> int:
 
     plan = load_plan(arguments.plan)
     validate_repository_for_plan(plan)
+    validate_development_freeze_for_plan(
+        plan,
+        arguments.development_freeze,
+        arguments.phase4_acceptance,
+    )
     if arguments.check:
         print(json.dumps(_summary(plan, state="validated_not_started"), sort_keys=True))
         return 0

@@ -61,7 +61,7 @@ def verify_active_version(root: Path = PROJECT_ROOT) -> dict:
         and status.get("policy_evaluation_authorized_by_status") is False
     )
     checks["active_status_runtime_contract"] = (
-        status.get("phase") == 3
+        status.get("phase") == 5
         and status.get("supported_execution_modes") == ["cuda-preferred", "cpu-only"]
         and status.get("supported_execution_purposes") == ["exploratory", "formal"]
         and status.get("intel_xpu_executable") is False
@@ -73,7 +73,7 @@ def verify_active_version(root: Path = PROJECT_ROOT) -> dict:
         and status.get("phase_3_initial_validation")
         == "failed_phase3-20260807-045558_11_of_18_passed"
         and status.get("phase_3_validation")
-        == "windows_automated_accepted_current_tabbed_layout_linux_pending"
+        == "windows_automated_accepted_current_tabbed_layout_linux_manually_accepted"
         and status.get("phase_3_corrections") == "implemented"
         and status.get("phase_3_revalidation") == "accepted_phase3-20260807-052047_18_of_18_passed"
         and status.get("phase_3_revalidation_policy_workflows_executed") is False
@@ -83,15 +83,58 @@ def verify_active_version(root: Path = PROJECT_ROOT) -> dict:
         and status.get("phase_3_remaining_windows_corrections")
         == "accepted_phase3-remaining-windows-20260807-121530"
         and status.get("phase_3_tabbed_layout_refinement")
-        == "windows_automated_accepted_linux_xcb_pending"
+        == "windows_automated_accepted_linux_xcb_manually_accepted_by_owner"
         and status.get("phase_3_tabbed_layout_refinement_windows_validation")
         == "accepted_phase3-remaining-windows-20260807-121530_10_of_10_passed"
-        and status.get("phase_3_linux_rendering") == "not_executed_user_reserved"
+        and status.get("phase_3_linux_rendering")
+        == "manually_validated_and_accepted_by_owner_no_automated_bundle_retained"
         and status.get("phase_3_keyboard_accessibility_acceptance")
         == "accepted_windows_20260807_121530"
         and status.get("phase_3_human_reviewer_input") == "disabled_by_user_instruction"
         and status.get("phase_3_scientist_acceptance") == "not_inferred_automated_evidence_only"
-        and status.get("phase_3_overall_gate") == "open_linux_xcb_evidence_pending"
+        and status.get("phase_3_overall_gate") == "closed_by_owner_manual_linux_xcb_acceptance"
+        and status.get("phase_4_started") is True
+        and status.get("phase_4_coding")
+        == "implemented_source_audit_complete_previous_validation_passed_current_source_revalidation_pending"
+        and status.get("phase_4_validation")
+        == "passed_phase4-20260812-195901_32_of_32_pre_phase5_type_correction_fresh_combined_required"
+        and status.get("phase_4_development_goal")
+        == "completed_phase4_development_previous_validation_passed_current_combined_revalidation_pending"
+        and status.get("phase_5_started") is True
+        and status.get("phase_5_coding")
+        == "release_preparation_development_complete_combined_validation_pending"
+        and status.get("phase_5_validation")
+        == "pending_user_executed_combined_phase4_phase5_validator"
+        and status.get("phase_5_release_policy_scope") == "pending_explicit_decision"
+        and status.get("phase_5_release_candidate") is False
+        and status.get("phase_5_final_release") is False
+        and status.get("phase_5_publication_authorized") is False
+    )
+    checks["validation_attempt_history_contract"] = (
+        status.get("phase_4_seventh_combined_validation_attempt")
+        == "passed_phase4-20260812-195901_32_of_32_development_validation"
+        and status.get("phase_5_seventh_combined_validation_attempt")
+        == "failed_phase5-20260812-201822_5_passed_first_failure_06-types"
+        and status.get("phase_5_post_seventh_attempt_corrections")
+        == "pyyaml_typing_boundary_and_json_object_loader_corrected_awaiting_fresh_combined_manual_validation"
+        and status.get("combined_seventh_validation_attempt")
+        == "failed_phase4-phase5-20260812-195901_phase4_passed_phase5_failed_06-types"
+        and status.get("phase_4_eighth_combined_validation_attempt")
+        == "failed_phase4-20260812-202511_1_passed_first_failure_02-version"
+        and status.get("phase_4_post_eighth_attempt_corrections")
+        == "active_version_runtime_contract_aligned_to_current_status_awaiting_fresh_combined_manual_validation"
+        and status.get("phase_5_eighth_combined_validation_attempt")
+        == "not_started_because_phase4_failed_02-version"
+        and status.get("combined_eighth_validation_attempt")
+        == "failed_phase4-phase5-20260812-202511_phase4_failed_02-version_phase5_not_started"
+        and status.get("phase_4_ninth_combined_validation_attempt")
+        == "passed_phase4-20260812-202852_32_of_32_development_validation"
+        and status.get("phase_5_ninth_combined_validation_attempt")
+        == "failed_phase5-20260812-204823_23_passed_first_failure_22-cpu-build"
+        and status.get("phase_5_post_ninth_attempt_corrections")
+        == "docker_containerd_image_store_preflight_added_attestation_requirements_preserved_awaiting_environment_enablement_and_fresh_combined_manual_validation"
+        and status.get("combined_ninth_validation_attempt")
+        == "failed_phase4-phase5-20260812-202852_phase4_passed_phase5_failed_22-cpu-build"
     )
 
     index = _load_json(root / "STATUS_RECORD_INDEX.json")

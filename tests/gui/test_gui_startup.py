@@ -223,15 +223,15 @@ def test_experiment_manager_uses_guided_scrollable_order_without_compression(qtb
     assert isinstance(panel.body_scroll, QScrollArea)
     assert panel.body_scroll.objectName() == "ExperimentManagerScroll"
     assert panel.body_scroll.horizontalScrollBarPolicy().name == "ScrollBarAlwaysOff"
-    assert panel.body_layout.indexOf(panel.setup_card) < panel.body_layout.indexOf(
-        panel.fairness_card
+    workflow = panel.study_setup_workflow
+    assert panel.body_layout.indexOf(workflow) == 0
+    assert workflow.stack.indexOf(panel.setup_card) == 3
+    assert workflow.stack.indexOf(panel.fairness_card) == 5
+    assert workflow.stack.indexOf(panel.execution_card) == 6
+    assert panel.body_layout.indexOf(panel.evolution_drawer) < panel.body_layout.indexOf(
+        panel.queue_drawer
     )
-    assert panel.body_layout.indexOf(panel.fairness_card) < panel.body_layout.indexOf(
-        panel.execution_card
-    )
-    assert panel.body_layout.indexOf(panel.execution_card) < panel.body_layout.indexOf(
-        panel.queue_card
-    )
+    assert panel.queue_drawer.content is panel.queue_card
     assert panel.compare.isEnabled() is False
     assert panel.calo.isEnabled() is False
     for widget in (

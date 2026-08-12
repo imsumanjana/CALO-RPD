@@ -401,10 +401,10 @@ def test_cpu_only_synthetic_topology_scan_is_fail_closed(monkeypatch):
     assert topology.fingerprint
 
 
-def test_active_status_retains_phase2_cuda_cpu_only_contract_during_phase3():
+def test_active_status_retains_phase2_cuda_cpu_only_contract_in_later_phases():
     root = Path(__file__).resolve().parents[2]
     payload = json.loads((root / "ACTIVE_DEVELOPMENT_STATUS.json").read_text(encoding="utf-8"))
-    assert payload["phase"] == 3
+    assert payload["phase"] >= 3
     assert payload["supported_execution_modes"] == ["cuda-preferred", "cpu-only"]
     assert payload["intel_xpu_executable"] is False
     assert payload["phase_2_validation"] == "accepted_phase2-20260807-003828_15_of_15_passed"

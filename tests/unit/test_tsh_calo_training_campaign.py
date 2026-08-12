@@ -21,16 +21,23 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_training_resources import (
     TSHCALOTrainingResourceEnvelope,
 )
 from calo_rpd_studio.orpd.problem import ORPDProblem
+from calo_rpd_studio.scripts import accept_development_freeze as acceptance
 from calo_rpd_studio.scripts import train_tsh_calo
+from calo_rpd_studio.scripts import create_development_freeze_candidate as freeze
 
 
 SOURCE_COMMIT = "a4329c3a39ae2646da134c4d3219b957c7c3c2bc"
+DEVELOPMENT_FREEZE_SHA256 = "f" * 64
+PHASE4_ACCEPTANCE_SHA256 = "e" * 64
 
 
 def _plan() -> TSHCALOTrainingCampaignPlan:
     return TSHCALOTrainingCampaignPlan(
         campaign_id="fresh-campaign-001",
         source_commit=SOURCE_COMMIT,
+        development_freeze_commit=SOURCE_COMMIT,
+        development_freeze_sha256=DEVELOPMENT_FREEZE_SHA256,
+        phase4_acceptance_sha256=PHASE4_ACCEPTANCE_SHA256,
         development_cases=("toy-development",),
         members=(
             TSHCALOTrainingMemberPlan(
@@ -81,6 +88,10 @@ def test_campaign_freezes_plan_and_exports_only_unqualified_candidates(tmp_path,
     for index, candidate in enumerate(result.member_candidates):
         provenance = candidate.training_provenance
         assert provenance["training_run_id"] == f"fresh-campaign-001:member-00{index + 1}"
+        assert provenance["development_freeze_commit"] == SOURCE_COMMIT
+        assert provenance["development_freeze_sha256"] == DEVELOPMENT_FREEZE_SHA256
+        assert provenance["phase4_acceptance_sha256"] == PHASE4_ACCEPTANCE_SHA256
+        assert provenance["initialization_policy_sha256"] == ""
         assert provenance["seed_manifest_sha256"] == plan.seed_manifest_sha256()
         assert len(provenance["training_episode_receipts"]) == 1
     manifest = json.loads(Path(result.manifest_path).read_text(encoding="utf-8"))
@@ -390,10 +401,123 @@ def test_explicit_training_command_requires_frozen_clean_source(tmp_path, monkey
         "repository_state",
         lambda _root: (SOURCE_COMMIT, " M tracked.py"),
     )
-    with pytest.raises(RuntimeError, match="clean tracked working tree"):
+    with pytest.raises(RuntimeError, match="clean non-ignored source tree"):
         train_tsh_calo.validate_repository_for_plan(loaded, root=tmp_path)
 
     source = Path("calo_rpd_studio/scripts/train_tsh_calo.py").read_text(encoding="utf-8")
     assert "experiments.experiment_runner" not in source
     assert "PolicyRegistry" not in source
     assert "activate(" not in source
+
+
+def test_explicit_training_command_requires_exact_training_eligible_freeze_report(tmp_path):
+    plan = _plan()
+
+    def record(path: str) -> dict:
+        return {"path": path, "size_bytes": 1, "sha256": "1" * 64}
+
+    complete_paths = sorted(
+        set(freeze.INTERFACE_FILES.values())
+        | set(freeze.DEPENDENCY_FILES)
+        | set(freeze.CONTAINER_FILES)
+        | set(freeze.EXCLUSION_FILES)
+    )
+    stable = {
+        "schema": freeze.DEVELOPMENT_FREEZE_SCHEMA,
+        "status": "development_freeze_candidate",
+        "source_identity": {
+            "source_commit": SOURCE_COMMIT,
+            "tracked_source_clean": True,
+            "durable_evidence_eligible": True,
+        },
+        "validator": {"path": "validator.ps1", "size_bytes": 1, "sha256": "2" * 64},
+        "interfaces": {name: record(path) for name, path in freeze.INTERFACE_FILES.items()},
+        "dependencies": [record(path) for path in freeze.DEPENDENCY_FILES],
+        "containers": [record(path) for path in freeze.CONTAINER_FILES],
+        "distribution_exclusions": [record(path) for path in freeze.EXCLUSION_FILES],
+        "complete_source_manifest": {
+            "schema": freeze.COMPLETE_SOURCE_MANIFEST_SCHEMA,
+            "enumeration": "test_fixture",
+            "source_status_sha256": "3" * 64,
+            "source_status_clean": True,
+            "file_count": len(complete_paths),
+            "files": [record(path) for path in complete_paths],
+        },
+        "policy_inventory": {
+            "inventory_sha256": "4" * 64,
+            "removable_development_file_count": 0,
+            "external_existing_artifact_count": 0,
+            "database_row_counts": {},
+            "release_scope_policy_count": 0,
+            "old_policy_removal_executed": False,
+            "old_policy_transition_pending": False,
+        },
+        "policy_scope": {
+            "qualified_policy_in_development_freeze": False,
+            "active_policy_in_development_freeze": False,
+            "final_policy_in_development_freeze": False,
+            "future_policy_initialization_policy_sha256": "",
+        },
+        "commands_not_executed": [
+            "policy_training",
+            "policy_evaluation",
+            "policy_qualification",
+            "policy_registration",
+            "policy_activation",
+            "policy_deletion",
+            "protected_case_campaign",
+            "release_publication",
+        ],
+        "post_transition_training_eligible": True,
+    }
+    report = {
+        **stable,
+        "created_at": "2026-08-12T00:00:00+00:00",
+        "development_freeze_payload_sha256": freeze._canonical_sha256(stable),
+    }
+    plan = replace(
+        plan,
+        development_freeze_sha256=report["development_freeze_payload_sha256"],
+    )
+    path = tmp_path / "accepted-freeze.json"
+    path.write_text(json.dumps(report), encoding="utf-8")
+
+    contract = freeze.development_source_contract(report)
+    acceptance_stable = {
+        "schema": acceptance.ACCEPTANCE_SCHEMA,
+        "status": "accepted",
+        "decision_id": "phase4-test-acceptance",
+        "validation_run_id": "phase4-test-run",
+        "validated_source_commit": SOURCE_COMMIT,
+        "validated_source_dirty": False,
+        "claim_boundary": acceptance.ACCEPTANCE_CLAIM_BOUNDARY,
+        "validation_summary_sha256": "5" * 64,
+        "validation_log_manifest_sha256": "6" * 64,
+        "development_freeze_candidate_sha256": report["development_freeze_payload_sha256"],
+        "development_source_contract_sha256": contract["files_sha256"],
+        "development_source_file_count": contract["file_count"],
+        "validator_sha256": "7" * 64,
+    }
+    acceptance_report = {
+        **acceptance_stable,
+        "created_at": "2026-08-12T00:00:00+00:00",
+        "acceptance_receipt_sha256": acceptance._canonical_sha256(acceptance_stable),
+    }
+    acceptance_path = tmp_path / "phase4-acceptance.json"
+    acceptance_path.write_text(json.dumps(acceptance_report), encoding="utf-8")
+    plan = replace(
+        plan,
+        phase4_acceptance_sha256=acceptance_report["acceptance_receipt_sha256"],
+    )
+
+    validated = train_tsh_calo.validate_development_freeze_for_plan(
+        plan,
+        path,
+        acceptance_path,
+    )
+    assert validated["development_freeze_payload_sha256"] == plan.development_freeze_sha256
+
+    report["post_transition_training_eligible"] = False
+    path.write_text(json.dumps(report), encoding="utf-8")
+    with pytest.raises(ValueError, match="payload SHA-256 mismatch"):
+        train_tsh_calo.validate_development_freeze_for_plan(plan, path, acceptance_path)

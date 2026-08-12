@@ -1,6 +1,6 @@
 # Documentation status and precedence
 
-**Current as of 2026-08-07.** This index prevents historical release, audit, training, and validation
+**Current as of 2026-08-12.** This index prevents historical release, audit, training, and validation
 records from being mistaken for active v12 instructions. It changes document routing only; it does
 not claim that a development, scientific, hardware, container, release-candidate, or release gate
 has passed.
@@ -23,8 +23,9 @@ release proof.
 
 ## Current v12 development boundary
 
-- v12 starts at `12.0.0-dev.1`; Phase 4 has not started until its phase-specific goal exists and the
-  Phase 3 Linux xcb prerequisite is accepted.
+- v12 starts at `12.0.0-dev.1`. Phase 3 was closed on 2026-08-12 by explicit project-owner
+  acceptance of the manually validated Linux xcb boundary; no automated Linux evidence directory
+  was retained. The required Phase 4 goal was then created before development started.
 - Phase 4 completes production code, empty-policy safety, integration, CUDA/CPU runtime hardening,
   containers, packages, CI, old-policy inventory/dry-run removal tooling, documentation, and a
   source-bound development freeze.
@@ -39,6 +40,22 @@ release proof.
   an explicitly approved policy-free Phase 5 route.
 - TSH-CALO A-E remain approved. F remains experimental, independently feature-flagged, evidence-gated,
   and disabled by default.
+- At the project owner's direction, Phase 4 development closed without a separate validator run and
+  Phase 5 release-preparation coding followed. The ignored combined validator runs full Phase 4
+  first and starts Phase 5 only if Phase 4 passes. This sequencing decision does not accept either
+  phase from source existence.
+- Phase 5 development is complete at `12.0.0.dev1`; combined manual validation, an explicit
+  policy-free or newly-qualified-policy scope, any old-policy transition, final-record
+  authorization, `12.0.0` promotion, tag, push, publication, and release remain pending.
+- Phase 4 coding now implements separate TSH-CALO experiment selection, empty-policy stale-binding
+  cleanup, post-development-only activation/binding provenance, no internal inference fallback,
+  read-only old-policy inventory/dry-run export, authorization-bound later retirement, distribution
+  exclusions, policy-free physical-CUDA CI, and a complete tracked/non-ignored-source-bound
+  development-freeze candidate report with exact interface/policy-empty validation. Proportional
+  test source, separate post-review acceptance-receipt tooling, and the ignored
+  `validation/Validate-Phase4.ps1`
+  harness exist but have not been executed by Codex. Phase 4 remains open pending returned manual
+  validation evidence and a development-freeze decision.
 
 ## Current-facing documents
 

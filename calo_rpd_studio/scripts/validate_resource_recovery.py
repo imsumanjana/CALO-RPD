@@ -20,7 +20,7 @@ from calo_rpd_studio.accelerated.vram_residency import (
 )
 from calo_rpd_studio.compute.device_lease import DeviceLeaseUnavailable, ExclusiveDeviceLease
 from calo_rpd_studio.compute.memory_budget import calculate_available_memory_admission
-from calo_rpd_studio.compute.source_identity import resolve_source_identity
+from calo_rpd_studio.compute.source_identity import resolve_evidence_source_identity
 from calo_rpd_studio.experiments.experiment_config import ExperimentConfig
 from calo_rpd_studio.experiments.experiment_runner import build_problem
 from calo_rpd_studio.scripts.validate_accelerator import (
@@ -354,6 +354,14 @@ def main() -> int:
     parser.add_argument("--run-id", required=True)
     parser.add_argument("--output", required=True)
     parser.add_argument("--require-physical-cuda", action="store_true")
+    parser.add_argument(
+        "--allow-dirty-development-evidence",
+        action="store_true",
+        help=(
+            "permit source-bound development measurements from a dirty full Git identity; "
+            "results remain non-durable and cannot qualify a release"
+        ),
+    )
     args = parser.parse_args()
 
     destination = Path(args.output)
@@ -361,7 +369,9 @@ def main() -> int:
         raise FileExistsError(f"Refusing to overwrite accelerator evidence: {destination}")
     if int(args.candidates) < 1 or int(args.batch_size) < 1:
         raise ValueError("candidates and batch size must be positive")
-    source_identity = resolve_source_identity(require_durable=True)
+    source_identity = resolve_evidence_source_identity(
+        allow_dirty_development_evidence=args.allow_dirty_development_evidence
+    )
     source_commit = source_identity.source_commit
     tracked_dirty = not source_identity.tracked_source_clean
     selected = str(
@@ -382,6 +392,11 @@ def main() -> int:
         "source_commit": source_commit,
         "tracked_source_clean": not tracked_dirty,
         "source_identity_kind": source_identity.source_identity_kind,
+        "durable_evidence_eligible": source_identity.durable_evidence_eligible,
+        "evidence_tier": (
+            "durable" if source_identity.durable_evidence_eligible else "development-only"
+        ),
+        "development_evidence_only": not source_identity.durable_evidence_eligible,
         "parameters": {
             "device": str(args.device),
             "case": str(args.case),
@@ -392,6 +407,7 @@ def main() -> int:
             "maximum_pressure_mib": int(args.maximum_pressure_mib),
             "recovery_tolerance_mib": int(args.recovery_tolerance_mib),
             "require_physical_cuda": bool(args.require_physical_cuda),
+            "allow_dirty_development_evidence": bool(args.allow_dirty_development_evidence),
         },
         "selected_device": selected,
         "physical_cuda_exercised": physical_cuda,
@@ -422,7 +438,7 @@ def main() -> int:
             batch_size=int(args.batch_size),
         )
         evidence["cross_process_lease"] = _cross_process_lease_probe(selected)
-        qualification_passed = physical_cuda and all(
+        engineering_validation_passed = physical_cuda and all(
             bool(evidence[name].get("passed"))
             for name in (
                 "pressure",
@@ -432,16 +448,31 @@ def main() -> int:
                 "cross_process_lease",
             )
         )
+        qualification_passed = bool(
+            engineering_validation_passed and source_identity.durable_evidence_eligible
+        )
+        evidence["engineering_validation_passed"] = bool(engineering_validation_passed)
         evidence["qualification_passed"] = bool(qualification_passed)
         evidence["claim_scope"] = (
             "bounded physical VRAM pressure/recovery, host-staged CUDA execution, and cross-process "
             "device-lease evidence on this source/device; OOM and CPU-restart boundaries used "
             "explicit controlled fault injection"
             if qualification_passed
-            else "no physical resource-recovery qualification claim"
+            else (
+                "development-only physical resource-recovery observation; dirty source is "
+                "non-durable and cannot qualify a release"
+                if engineering_validation_passed
+                else "no physical resource-recovery qualification claim"
+            )
         )
-        exit_code = 0 if qualification_passed else 1
+        command_passed = (
+            engineering_validation_passed
+            if args.allow_dirty_development_evidence
+            else qualification_passed
+        )
+        exit_code = 0 if command_passed else 1
     except Exception as exc:
+        evidence["engineering_validation_passed"] = False
         evidence["qualification_passed"] = False
         evidence["failure"] = {"type": type(exc).__name__, "message": str(exc)}
         evidence["claim_scope"] = "no physical resource-recovery qualification claim"
@@ -449,6 +480,10 @@ def main() -> int:
     evidence["completed_at"] = _utc_now()
     written = _write_new_evidence(destination, evidence)
     print(f"evidence_path={written}")
+    print(
+        "engineering_validation_passed="
+        f"{str(bool(evidence['engineering_validation_passed'])).lower()}"
+    )
     print(f"qualification_passed={str(bool(evidence['qualification_passed'])).lower()}")
     return exit_code
 

@@ -7,6 +7,7 @@ from datetime import datetime, timezone
 import json
 import logging
 from pathlib import Path
+import re
 import uuid
 
 from calo_rpd_studio.ai.model_io import checkpoint_sha256, load_checkpoint
@@ -36,6 +37,40 @@ def _utcnow() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
+def _post_development_training_provenance(metadata: dict) -> bool:
+    """Return whether provenance proves completely new post-freeze training."""
+
+    provenance = dict(metadata.get("training_provenance", {}) or {})
+    if str(metadata.get("artifact_kind", "")) == "ensemble_policy":
+        members = list(metadata.get("ensemble_members", []) or [])
+        provenance_rows = [dict(item.get("training_provenance", {}) or {}) for item in members]
+        if len(provenance_rows) < 2:
+            return False
+    elif provenance.get("source_kind") == "independent_policy_training_ensemble":
+        members = list(provenance.get("members", []) or [])
+        provenance_rows = [dict(item.get("training_provenance", {}) or {}) for item in members]
+        if len(provenance_rows) < 2:
+            return False
+    else:
+        provenance_rows = [provenance]
+    identities: set[tuple[str, str, str]] = set()
+    for row in provenance_rows:
+        source_commit = str(row.get("source_commit", "")).strip().lower()
+        freeze_commit = str(row.get("development_freeze_commit", "")).strip().lower()
+        freeze_sha256 = str(row.get("development_freeze_sha256", "")).strip().lower()
+        acceptance_sha256 = str(row.get("phase4_acceptance_sha256", "")).strip().lower()
+        if (
+            not re.fullmatch(r"[0-9a-f]{40}", source_commit)
+            or freeze_commit != source_commit
+            or not re.fullmatch(r"[0-9a-f]{64}", freeze_sha256)
+            or not re.fullmatch(r"[0-9a-f]{64}", acceptance_sha256)
+            or str(row.get("initialization_policy_sha256", "")).strip()
+        ):
+            return False
+        identities.add((source_commit, freeze_sha256, acceptance_sha256))
+    return len(identities) == 1
+
+
 @dataclass(frozen=True, slots=True)
 class PolicyRecord:
     id: str
@@ -62,9 +97,15 @@ class PolicyRecord:
         """Backward-compatible alias for the frozen CALO v5.9 runtime."""
         return self.compatible_with(CALO_ALGORITHM_ID)
 
+    @property
+    def post_development_eligible(self) -> bool:
+        """Whether this artifact proves new training against the development freeze."""
+
+        return _post_development_training_provenance(self.metadata)
+
     def compatible_with(self, algorithm_id: str) -> bool:
         if str(algorithm_id) == TSH_CALO_ALGORITHM_ID:
-            return (
+            return bool(
                 self.algorithm_id == TSH_CALO_ALGORITHM_ID
                 and self.architecture_version == TSH_CALO_ALGORITHM_VERSION
                 and self.state_schema_version == TSH_CALO_STATE_SCHEMA
@@ -73,7 +114,7 @@ class PolicyRecord:
                 and str(self.metadata.get("policy_architecture_version", ""))
                 == TSH_CALO_POLICY_ARCHITECTURE
             )
-        return (
+        return bool(
             str(algorithm_id) == CALO_ALGORITHM_ID
             and self.algorithm_id == CALO_ALGORITHM_ID
             and self.architecture_version == CALO_RUNTIME_ARCHITECTURE
@@ -204,6 +245,16 @@ class PolicyRegistry:
         algorithm_id: str = CALO_ALGORITHM_ID,
     ) -> PolicyRecord:
         policy = self.get(policy_id)
+        if not policy.post_development_eligible:
+            raise ValueError(
+                "Existing/pre-freeze policies are development-only and cannot be activated in the "
+                "v12 release lifecycle. Train and qualify a completely new A-E/F-off policy after "
+                "the development freeze."
+            )
+        if algorithm_id != TSH_CALO_ALGORITHM_ID:
+            raise ValueError(
+                "v12 activation accepts only a completely new TSH-CALO A-E/F-off ensemble"
+            )
         if algorithm_id == TSH_CALO_ALGORITHM_ID and allow_unqualified:
             raise ValueError("TSH-CALO policies cannot be activated before qualification")
         if (
@@ -220,14 +271,10 @@ class PolicyRegistry:
                 f"Policy {policy.name!r} is not compatible with the {algorithm_id} runtime schema. "
                 "Import/train a native compatible policy before activation."
             )
-        if (
-            policy.qualification_status not in {"qualified", "legacy_qualified"}
-            and not allow_unqualified
-        ):
+        if policy.qualification_status != "qualified":
             raise ValueError(
                 f"Policy {policy.name!r} is {policy.qualification_status!r}. "
-                "Only qualified policies can become the default active policy; use an explicit "
-                "research-only experiment binding for an unqualified candidate."
+                "Only an independently qualified new TSH-CALO policy can become active."
             )
         inspected = self.inspect_checkpoint(policy.checkpoint_path)
         if inspected["sha256"] != policy.sha256:
@@ -271,34 +318,10 @@ class PolicyRegistry:
         self.database.update_policy(policy_id, archived=False)
 
     def delete(self, policy_id: str, *, delete_artifact: bool = False) -> None:
-        policy = self.get(policy_id)
-        if policy.active:
-            raise ValueError("The active policy cannot be deleted")
-        references = self.database.policy_reference_count(policy_id, policy.sha256)
-        if references > 0:
-            raise ValueError(
-                f"Policy is referenced by {references} experiment binding(s); archive it instead to preserve reproducibility"
-            )
-        checkpoint = self.database.get_policy_checkpoint_by_sha256(policy.sha256)
-        if delete_artifact and checkpoint is not None:
-            self.database.delete_policy_checkpoint(str(checkpoint["id"]))
-        self.database.delete_policy(policy_id)
-        if not delete_artifact:
-            return
-        source = Path(policy.checkpoint_path)
-        existed = source.is_file()
-        try:
-            source.unlink(missing_ok=True)
-            sidecar = source.with_suffix(source.suffix + ".sha256")
-            sidecar.unlink(missing_ok=True)
-        except OSError as exc:
-            _LOG.error("Failed to delete policy artifact %s: %s", source, exc)
-            # Suppress the exact SHA so rediscovery cannot silently resurrect a deliberately deleted record.
-            self.suppress(policy.sha256, reason="delete_failed")
-            raise
-        # A deliberate delete is a project-scoped suppression even when the file was already absent.
-        self.suppress(
-            policy.sha256, reason="deleted_artifact" if existed else "artifact_already_absent"
+        del policy_id, delete_artifact
+        raise PermissionError(
+            "Direct policy deletion is disabled. Export an exact policy-retirement inventory and "
+            "dry-run plan; post-freeze removal requires separate authorization and an immutable receipt."
         )
 
     def bind_to_experiment_config(
@@ -311,6 +334,13 @@ class PolicyRegistry:
         algorithm_id: str = CALO_ALGORITHM_ID,
     ) -> dict:
         policy = self.get(policy_id)
+        if not policy.post_development_eligible:
+            raise ValueError(
+                "Existing/pre-freeze policies cannot be bound to v12 experiments. Only a completely "
+                "new post-development A-E/F-off policy may enter the release lifecycle."
+            )
+        if algorithm_id != TSH_CALO_ALGORITHM_ID:
+            raise ValueError("v12 experiments may bind only a new qualified TSH-CALO ensemble")
         if algorithm_id == TSH_CALO_ALGORITHM_ID and allow_unqualified:
             raise ValueError("TSH-CALO experiments cannot consume an unqualified policy")
         if (
@@ -328,13 +358,10 @@ class PolicyRegistry:
             raise ValueError(
                 f"Policy {policy.name!r} is incompatible with the {algorithm_id} runtime; experiment binding refused"
             )
-        if (
-            policy.qualification_status not in {"qualified", "legacy_qualified"}
-            and not allow_unqualified
-        ):
+        if policy.qualification_status != "qualified":
             raise ValueError(
                 f"Policy {policy.name!r} is {policy.qualification_status!r}, not qualified. "
-                "Run Policy Qualification or explicitly enable research-only unqualified use."
+                "Only a new independently qualified TSH-CALO policy may be bound."
             )
         inspected = self.inspect_checkpoint(policy.checkpoint_path)
         if inspected["sha256"] != policy.sha256:
@@ -356,6 +383,8 @@ class PolicyRegistry:
             "deterministic_policy": bool(deterministic),
             "strict_policy_binding": True,
             "allow_unqualified_policy": bool(allow_unqualified),
+            "allow_cpu_fallback": False,
+            "baseline_fallback_permitted": False,
         }
         if policy.algorithm_id == TSH_CALO_ALGORITHM_ID:
             binding["policy_feature_flags"] = dict(policy.metadata.get("feature_flags", {}))
@@ -414,11 +443,13 @@ class PolicyRegistry:
         forked_from_checkpoint_id: str = "",
         notes: str = "",
     ) -> str:
-        return self.lineages.create(
-            name,
-            parent_lineage_id=parent_lineage_id,
-            forked_from_checkpoint_id=forked_from_checkpoint_id,
-            notes=notes,
+        return str(
+            self.lineages.create(
+                name,
+                parent_lineage_id=parent_lineage_id,
+                forked_from_checkpoint_id=forked_from_checkpoint_id,
+                notes=notes,
+            )
         )
 
     @staticmethod

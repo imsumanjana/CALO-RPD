@@ -5,7 +5,7 @@ from dataclasses import dataclass, field, replace
 import hashlib, json, time, traceback
 import numpy as np
 from calo_rpd_studio.algorithms.base_optimizer import OptimizerConfig
-from calo_rpd_studio.algorithms.registry import SPECS, create_optimizer
+from calo_rpd_studio.algorithms.registry import POLICY_GATED_SPECS, SPECS, create_optimizer
 from calo_rpd_studio.algorithms.result import OptimizerResult
 from calo_rpd_studio.orpd.problem import ORPDProblem, ORPDProblemConfig
 from calo_rpd_studio.orpd.formulation_fingerprint import scientific_problem_fingerprint
@@ -305,16 +305,26 @@ def run_single(config, algorithm, run_index, seeds, progress_callback=None, canc
         problem = build_problem(config, seeds.scenario_seed, cancel_callback)
     except Exception as exc:
         raise RunExecutionFailure(exc, _optimizer_failure_state(None, config, exc)) from exc
-    defaults = dict(SPECS[algorithm].default_parameters)
+    available_specs = {**SPECS, **POLICY_GATED_SPECS}
+    if algorithm not in available_specs:
+        raise RunExecutionFailure(
+            KeyError(f"Unknown optimizer: {algorithm}"),
+            _optimizer_failure_state(None, config, KeyError(algorithm)),
+        )
+    defaults = dict(available_specs[algorithm].default_parameters)
     defaults.update(config.algorithm_parameters.get(algorithm, {}))
     defaults.setdefault("execution_device", str(getattr(config, "runtime_compute_device", "cpu")))
     if str(getattr(config, "scientific_backend", "cpu_reference")) == "torch_fp64":
         defaults.setdefault("optimizer_backend", "torch")
-    if algorithm == "CALO":
+    if algorithm in {"CALO", "TSH-CALO"}:
         defaults.setdefault("ai_inference_seed", seeds.ai_inference_seed)
-        defaults.setdefault(
-            "inference_device", str(getattr(config, "runtime_compute_device", "cpu"))
-        )
+        runtime_device = str(getattr(config, "runtime_compute_device", "cpu"))
+        defaults["inference_device"] = runtime_device
+        if algorithm == "TSH-CALO":
+            # The scheduler resolves exploratory CUDA-to-CPU fallback as a separately identified
+            # full-request restart. Policy loading must never migrate inside an active request.
+            defaults["allow_cpu_fallback"] = False
+            defaults["baseline_fallback_permitted"] = False
     started = time.perf_counter()
     policy = config.budget.policy
     if policy is BudgetPolicy.EQUAL_WALL_CLOCK:
@@ -400,8 +410,8 @@ def run_sequential_resilient(config, progress_callback=None, cancel_callback=Non
     config.validate()
     config = resolve_config_for_entrypoint(config)
     seeds = SeedManager(config.master_seed).generate(config.runs)
-    done = []
-    failed = []
+    done: list[CompletedRun] = []
+    failed: list[FailedRun] = []
     for ri in range(config.runs):
         for algo in config.algorithms:
             if cancel_callback and cancel_callback():

@@ -46,7 +46,7 @@ CUDA_DURABLE_EVALUATION_WINDOW = 100
 
 
 TSH_CALO_TRAINING_CAMPAIGN_SCHEMA = (
-    "tsh-calo-independent-training-campaign-v2-batched-device-context"
+    "tsh-calo-independent-training-campaign-v4-phase4-acceptance-bound"
 )
 TSH_CALO_TRAINING_SEED_MANIFEST_SCHEMA = "tsh-calo-training-seed-manifest-v1"
 TSH_CALO_TRAINING_CAMPAIGN_STATUS_SCHEMA = "tsh-calo-training-campaign-status-v2"
@@ -165,6 +165,9 @@ class TSHCALOEnvironmentHyperparameters:
 class TSHCALOTrainingCampaignPlan:
     campaign_id: str
     source_commit: str
+    development_freeze_commit: str
+    development_freeze_sha256: str
+    phase4_acceptance_sha256: str
     development_cases: tuple[str, ...]
     members: tuple[TSHCALOTrainingMemberPlan, ...]
     resource_envelope: TSHCALOTrainingResourceEnvelope
@@ -188,6 +191,23 @@ class TSHCALOTrainingCampaignPlan:
             raise ValueError("TSH-CALO campaign requires an ID")
         if not _valid_commit(self.source_commit):
             raise ValueError("TSH-CALO campaign requires an exact 40-character source commit")
+        if (
+            not _valid_commit(self.development_freeze_commit)
+            or self.development_freeze_commit.lower() != self.source_commit.lower()
+        ):
+            raise ValueError(
+                "TSH-CALO campaign source must equal the accepted development-freeze commit"
+            )
+        if len(str(self.development_freeze_sha256)) != 64 or any(
+            character not in "0123456789abcdef"
+            for character in str(self.development_freeze_sha256).lower()
+        ):
+            raise ValueError("TSH-CALO campaign requires the development-freeze payload SHA-256")
+        if len(str(self.phase4_acceptance_sha256)) != 64 or any(
+            character not in "0123456789abcdef"
+            for character in str(self.phase4_acceptance_sha256).lower()
+        ):
+            raise ValueError("TSH-CALO campaign requires the Phase 4 acceptance receipt SHA-256")
         if len(self.members) < 2:
             raise ValueError(
                 "TSH-CALO epistemic training requires at least two independent members"
@@ -323,6 +343,9 @@ class TSHCALOTrainingCampaignPlan:
             "development_cases": self.development_cases,
             "seed_manifest_sha256": self.seed_manifest_sha256(),
             "resource_envelope": self.resource_envelope,
+            "development_freeze_commit": self.development_freeze_commit,
+            "development_freeze_sha256": self.development_freeze_sha256,
+            "phase4_acceptance_sha256": self.phase4_acceptance_sha256,
             "seed": member.training_seed,
             "device": self.requested_device,
             "allow_cpu_fallback": self.allow_cpu_fallback,
@@ -612,6 +635,9 @@ class IndependentTSHCALOTrainingCampaign:
             or provenance.get("training_run_id") != training.training_run_id
             or provenance.get("training_design_sha256") != training.scientific_design_hash()
             or provenance.get("source_commit") != self.plan.source_commit
+            or provenance.get("development_freeze_commit") != self.plan.development_freeze_commit
+            or provenance.get("development_freeze_sha256") != self.plan.development_freeze_sha256
+            or provenance.get("phase4_acceptance_sha256") != self.plan.phase4_acceptance_sha256
             or len(provenance.get("training_episode_receipts", ())) != expected_receipts
         ):
             raise ValueError(
@@ -749,6 +775,9 @@ class IndependentTSHCALOTrainingCampaign:
                 "state": "completed_unqualified",
                 "campaign_id": self.plan.campaign_id,
                 "source_commit": self.plan.source_commit,
+                "development_freeze_commit": self.plan.development_freeze_commit,
+                "development_freeze_sha256": self.plan.development_freeze_sha256,
+                "phase4_acceptance_sha256": self.plan.phase4_acceptance_sha256,
                 "scientific_design_sha256": self.plan.scientific_design_hash(),
                 "execution_plan_sha256": self.plan.execution_plan_sha256(),
                 "seed_manifest_sha256": self.plan.seed_manifest_sha256(),

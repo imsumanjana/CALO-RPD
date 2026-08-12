@@ -120,7 +120,8 @@ class PortfolioManagerPanel(ScrollablePage):
         output_header.setSectionResizeMode(0, QHeaderView.ResizeMode.Fixed)
         output_header.setSectionResizeMode(1, QHeaderView.ResizeMode.Stretch)
         output_header.setSectionResizeMode(2, QHeaderView.ResizeMode.ResizeToContents)
-        output_header.resizeSection(0, 110)
+        generate_width = self.outputs.fontMetrics().horizontalAdvance("Generate") + 32
+        output_header.resizeSection(0, max(132, generate_width))
         for category, requirements in categories().items():
             parent_item = QTreeWidgetItem(["", category, ""])
             parent_item.setFlags(parent_item.flags() & ~Qt.ItemFlag.ItemIsSelectable)
