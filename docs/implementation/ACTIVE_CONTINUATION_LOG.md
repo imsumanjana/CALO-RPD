@@ -2206,3 +2206,20 @@ Append timestamped entries below this line after each material action, validatio
 - No validator, test, GUI render, build, Docker, training, policy, qualification, protected-case,
   publication, release, or scientific workflow was executed by the development agent. Commands
   `13` onward require one fresh complete owner run.
+
+### 2026-08-13 - Phase 6 training start action made explicit
+
+- Owner run `phase6-20260813-215626` passed the complete validator sequence: 62 unit, 21 focused
+  GUI, 21 GUI-regression, and 9 empty-policy tests passed; offscreen rendering, wheel/sdist build,
+  distribution safety, required Phase 6 contents, and exact source stability also passed.
+- Manual GUI review then identified an interaction defect not represented by that contract: the
+  contextual input pane calculated `Check readiness` and `Start training`, but rendered neither.
+  It silently reassigned those stages to repeated clicks on the ribbon `Train policy` command.
+- The ribbon command is now navigation-only and remains labelled `Train policy`. A persistent
+  action footer below the scrollable training inputs visibly shows `Check readiness`, changes to
+  `Start training` only after exact-input readiness passes, and retains the existing explicit
+  confirmation before process launch. It is disabled with contextual guidance when unavailable.
+- Focused GUI, static, offscreen-renderer, light-theme, and dark-theme contracts were updated. No
+  validator, test, GUI render, build, Docker, training, policy, qualification, protected-case,
+  publication, release, or scientific workflow was executed by the development agent. A fresh
+  complete owner validator run is required for the changed source.

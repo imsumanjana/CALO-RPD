@@ -1341,3 +1341,10 @@ scientific/hardware qualification—not as a final release.
   already proved all 18 information controls, including Base architecture. The renderer is aligned
   and future mismatches identify exact missing/unexpected keys. No execution was performed by the
   development agent; request one fresh complete owner rerun for commands `13` onward.
+- Owner run `phase6-20260813-215626` passed the complete sequence with 113 tests plus rendering,
+  packaging, distribution, and source-stability checks. Manual GUI review nevertheless found no
+  visible readiness/start control because repeated ribbon clicks owned those process stages. The
+  current source makes `Train policy` navigation-only and anchors a visible `Check readiness` then
+  gated `Start training` action below the scrollable input pane, retaining explicit confirmation
+  and no automatic experiment selection. No execution followed this correction; request one fresh
+  complete owner rerun.

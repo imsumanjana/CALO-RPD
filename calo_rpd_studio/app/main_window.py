@@ -176,8 +176,6 @@ class MainWindow(QMainWindow):
         self.pages_by_key["calo_intelligence"].independent_training_requested.connect(
             self.command_registry.action("policies.training").trigger
         )
-        self.context_pane.training.action_state_changed.connect(self._update_training_command)
-
         self._create_compatibility_actions()
         self._install_region_shortcut()
         self._create_global_status_bar()
@@ -563,10 +561,6 @@ class MainWindow(QMainWindow):
         target.setFocus(Qt.FocusReason.ShortcutFocusReason)
 
     def _command_selected(self, spec: CommandSpec) -> None:
-        self._training_context_was_visible = (
-            spec.command_id == "policies.training"
-            and self.context_pane.stack.currentWidget() is self.context_pane.training
-        )
         self.context_pane.show_command(spec)
         self.context_dock.show()
 
@@ -610,12 +604,7 @@ class MainWindow(QMainWindow):
     def _open_training_center(self) -> None:
         self.context_dock.show()
         self.context_pane.show_command(self.command_registry.spec("policies.training"))
-        was_visible = bool(getattr(self, "_training_context_was_visible", False))
-        self._training_context_was_visible = False
-        if not was_visible:
-            self.context_pane.training.refresh()
-            return
-        self.context_pane.activate_training()
+        self.context_pane.training.refresh()
 
     def _prepare_independent_training_resume(self, record: dict) -> None:
         """Open and prefill independent resume inputs without starting policy work."""
@@ -632,12 +621,6 @@ class MainWindow(QMainWindow):
                 exc,
                 source="independent training resume",
             )
-
-    def _update_training_command(self, label: str, tooltip: str) -> None:
-        action = self.command_registry.action("policies.training")
-        action.setText(str(label))
-        action.setToolTip(str(tooltip))
-        action.setStatusTip(str(tooltip))
 
     def _open_user_guide(self) -> None:
         guide = getattr(self, "_guide_document", None)

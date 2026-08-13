@@ -1,7 +1,8 @@
 """Authoritative ribbon metadata and generated Qt actions.
 
 Scientific work remains in its existing services. Most commands navigate; the policy-training
-command delegates to the explicit readiness/start state machine backed by contextual inputs.
+command opens contextual inputs; the visible in-pane action owns the explicit readiness/start
+state machine.
 """
 
 from __future__ import annotations
@@ -436,7 +437,7 @@ COMMAND_SPECS: tuple[CommandSpec, ...] = (
         "Training",
         "Train policy",
         "training",
-        "Check the selected inputs, then explicitly start a new policy training run. The result is not selected for experiments automatically.",
+        "Open the policy-training inputs. Use the visible readiness and start action in the input pane; results are not selected for experiments automatically.",
         "training",
         context="training",
         primary=True,

@@ -718,6 +718,10 @@ QToolButton#DocumentCloseButton:hover {
 #TrainingInputCaption {
     color: #334155;
 }
+#TrainingActionBar {
+    background: #f8fafc;
+    border-top: 1px solid #dce4ee;
+}
 QToolButton#TrainingInfoButton {
     color: #1d4ed8;
     background: #edf4ff;

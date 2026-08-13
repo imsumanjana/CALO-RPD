@@ -162,6 +162,14 @@ def validate(output: Path, *, platform: str) -> dict:
     if window.context_pane.stack.currentWidget() is not window.context_pane.training:
         raise AssertionError("Training inputs were not selected in the context pane")
     training_editor = window.context_pane.training
+    if training_editor.action_bar.isHidden():
+        raise AssertionError("Training action footer is not visible with the training inputs")
+    if training_editor.training_action_button.text() != "Check readiness":
+        raise AssertionError("Training inputs do not expose the readiness action")
+    if not training_editor.training_action_button.isEnabled():
+        raise AssertionError("Training readiness action is unavailable for valid default inputs")
+    if window.command_registry.action("policies.training").text() != "Train policy":
+        raise AssertionError("Training ribbon navigation was repurposed as a hidden process action")
     if set(training_editor.fields) != {"plan", "output"}:
         raise AssertionError("Scientist-facing training paths are not minimal")
     if len(training_editor._plan_controls) < 15:

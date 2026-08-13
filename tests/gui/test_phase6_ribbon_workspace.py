@@ -519,7 +519,9 @@ def test_training_case_picker_selects_all_eligible_and_locks_protected_holdouts(
     assert editor.case_checks["case300"].isChecked() is False
 
 
-def test_same_training_ribbon_action_checks_then_starts(qtbot, tmp_path, monkeypatch):
+def test_training_ribbon_opens_inputs_and_in_pane_action_checks_then_starts(
+    qtbot, tmp_path, monkeypatch
+):
     _state, window = _window(qtbot, tmp_path, monkeypatch)
     model = _complete_training_inputs(window, tmp_path)
 
@@ -527,18 +529,28 @@ def test_same_training_ribbon_action_checks_then_starts(qtbot, tmp_path, monkeyp
     monkeypatch.setattr(window.training_center, "check_readiness", lambda: calls.append("check"))
     monkeypatch.setattr(window.training_center, "start_training", lambda: calls.append("start"))
     action = window.command_registry.action("policies.training")
+    editor = window.context_pane.training
 
     action.trigger()
     assert calls == []
-    assert action.text() == "Check readiness"
+    assert action.text() == "Train policy"
+    assert editor.action_bar.isHidden() is False
+    assert editor.training_action_button.text() == "Check readiness"
+    assert editor.training_action_button.isEnabled() is True
 
     action.trigger()
+    assert calls == []
+    assert action.text() == "Train policy"
+
+    editor.training_action_button.click()
     assert calls == ["check"]
 
     window.training_center._validated_fingerprint = model.fingerprint()
-    window.context_pane.training.refresh()
-    assert action.text() == "Start training"
-    action.trigger()
+    editor.refresh()
+    assert action.text() == "Train policy"
+    assert editor.training_action_button.text() == "Start training"
+    assert editor.training_action_button.isEnabled() is True
+    editor.training_action_button.click()
     assert calls == ["check", "start"]
 
 
@@ -597,7 +609,7 @@ def test_ordinary_product_surfaces_hide_engineering_lifecycle_language(
 
     _state, window = _window(qtbot, tmp_path, monkeypatch)
     window.show()
-    window.context_pane.activate_training()
+    window.command_registry.action("policies.training").trigger()
     window.pages_by_key["benchmark"].show()
 
     fragments = []

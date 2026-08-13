@@ -866,6 +866,13 @@ though the live widget and command-`10` contract correctly include all 18 contro
 aligned and now reports exact missing/unexpected keys for future drift. Commands `13` onward require
 a fresh owner run.
 
+Owner run `phase6-20260813-215626` subsequently passed the complete Phase 6 sequence with 113 tests,
+offscreen renders, packaging, distribution checks, and stable source identity. Manual inspection
+then exposed that readiness/start stages were only reachable through repeated ribbon clicks and had
+no visible input-pane control. The ribbon is now navigation-only, while a persistent input-pane
+footer visibly owns `Check readiness` and gated `Start training`; explicit start confirmation and
+no-auto-selection remain unchanged. This post-pass source correction requires one fresh owner run.
+
 ## Invariants
 
 1. No old result, experiment, policy, or fingerprint is silently rewritten.

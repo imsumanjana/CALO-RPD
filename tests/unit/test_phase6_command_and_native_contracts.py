@@ -297,6 +297,19 @@ def test_offscreen_renderer_requires_the_base_architecture_information_control()
     assert "unexpected={sorted(observed_help - expected_help)}" in renderer
 
 
+def test_policy_training_process_actions_are_visible_in_the_input_pane():
+    context = (ROOT / "calo_rpd_studio/gui/widgets/context_pane.py").read_text(encoding="utf-8")
+    main_window = (ROOT / "calo_rpd_studio/app/main_window.py").read_text(encoding="utf-8")
+
+    assert 'self.training_action_button = QPushButton("Check readiness")' in context
+    assert '"Start training", "Start the checked new-policy training run.", True' in context
+    assert "self.training_controller.check_readiness()" in context
+    assert "self.training_controller.start_training()" in context
+    assert "_training_context_was_visible" not in main_window
+    assert "_update_training_command" not in main_window
+    assert "self.context_pane.activate_training()" not in main_window
+
+
 def test_phase6_distribution_contract_rejects_local_evidence_and_policy_artifacts():
     from calo_rpd_studio.scripts.verify_phase6_distribution import (
         _reject_local_evidence_or_policy_artifacts,

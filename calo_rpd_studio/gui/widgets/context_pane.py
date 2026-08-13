@@ -435,8 +435,6 @@ class ComputeQuickEditor(QWidget):
 
 
 class TrainingPathEditor(QWidget):
-    action_state_changed = pyqtSignal(str, str)
-
     def __init__(self, model, training_controller, parent=None) -> None:
         super().__init__(parent)
         self.model = model
@@ -659,10 +657,21 @@ class TrainingPathEditor(QWidget):
                 control.toggled.connect(self._new_plan_input_changed)
             else:
                 control.valueChanged.connect(self._new_plan_input_changed)
+        self.action_bar = QFrame()
+        self.action_bar.setObjectName("TrainingActionBar")
+        action_layout = QVBoxLayout(self.action_bar)
+        action_layout.setContentsMargins(12, 10, 12, 12)
+        action_layout.setSpacing(8)
         self.status = QLabel()
         self.status.setObjectName("ContextValue")
         self.status.setWordWrap(True)
-        layout.addWidget(self.status)
+        action_layout.addWidget(self.status)
+        self.training_action_button = QPushButton("Check readiness")
+        self.training_action_button.setObjectName("PrimaryButton")
+        self.training_action_button.setAccessibleName("Check policy training readiness")
+        self.training_action_button.setMinimumHeight(38)
+        self.training_action_button.clicked.connect(self._run_primary_action)
+        action_layout.addWidget(self.training_action_button)
         layout.addStretch(1)
         self.model.changed.connect(lambda _values: self.refresh())
         self.training_controller.activity_message.connect(
@@ -868,43 +877,54 @@ class TrainingPathEditor(QWidget):
             )
         if controller.process is not None:
             self.status.setText(controller.status.text())
-            self.action_state_changed.emit("Training active", controller.status.text())
+            self._set_primary_action("Training active", controller.status.text(), False)
             return
         if not trainable:
             self.status.setText("CALO is built in; no policy training is required")
             self.status.setToolTip(
                 "Select CALO directly in the Algorithms workspace, or choose TSH-CALO here to train a policy."
             )
-            self.action_state_changed.emit("Train policy", "Choose TSH-CALO to train a new policy.")
+            self._set_primary_action(
+                "Training not required", "Choose TSH-CALO to train a new policy.", False
+            )
             return
         missing = self.model.missing(include_output=False)
         if missing:
             self.status.setText("Complete the required fields")
-            self.action_state_changed.emit("Train policy", "Complete the required inputs.")
+            self._set_primary_action("Check readiness", "Complete the required inputs.", False)
             return
         if self.model.plan_error:
             self.status.setText("Training settings could not be imported")
             self.status.setToolTip(self.model.plan_error)
-            self.action_state_changed.emit("Train policy", "Load a valid training plan.")
+            self._set_primary_action("Check readiness", "Load valid training settings.", False)
             return
         self.status.setToolTip("")
         ready = controller._validated_fingerprint == self.model.fingerprint()
         if ready and not self.model.missing(include_output=True):
             self.status.setText("Ready to start")
-            self.action_state_changed.emit(
-                "Start training", "Start the checked new-policy training run."
+            self._set_primary_action(
+                "Start training", "Start the checked new-policy training run.", True
             )
             return
         if ready:
             self.status.setText("Select a new output path")
-            self.action_state_changed.emit("Train policy", "Select a new output path.")
+            self._set_primary_action("Start training", "Select a new output path.", False)
             return
         self.status.setText("Ready for validation")
-        self.action_state_changed.emit(
-            "Check readiness", "Validate the selected training inputs without starting training."
+        self._set_primary_action(
+            "Check readiness",
+            "Validate the selected training inputs without starting training.",
+            True,
         )
 
-    def activate(self) -> None:
+    def _set_primary_action(self, label: str, tooltip: str, enabled: bool) -> None:
+        self.training_action_button.setText(label)
+        self.training_action_button.setToolTip(tooltip)
+        self.training_action_button.setStatusTip(tooltip)
+        self.training_action_button.setEnabled(enabled)
+        self.training_action_button.setAccessibleName(label)
+
+    def _run_primary_action(self) -> None:
         if self.training_controller.process is not None:
             return
         if str(self.architecture.currentData() or "tsh_calo") == "calo":
@@ -1020,6 +1040,9 @@ class ContextPane(QWidget):
                 editor.open_requested.connect(self.workspace_requested)
         self.experiment.applied.connect(self.status_message)
         self.compute.applied.connect(self.status_message)
+        self.training.action_bar.setParent(self)
+        outer.addWidget(self.training.action_bar)
+        self.training.action_bar.hide()
 
     def show_command(self, spec: CommandSpec) -> None:
         self.title.setText(spec.label)
@@ -1036,18 +1059,15 @@ class ContextPane(QWidget):
             self.generic.configure(spec)
             target = self.generic
         self.stack.setCurrentWidget(target)
+        self.training.action_bar.setVisible(target is self.training)
         self.tabs.setCurrentIndex(0)
 
     def focus_navigator(self) -> None:
         self.tabs.setCurrentIndex(0)
         self.title.setFocus(Qt.FocusReason.ShortcutFocusReason)
 
-    def activate_training(self) -> None:
-        self.tabs.setCurrentIndex(0)
-        self.stack.setCurrentWidget(self.training)
-        self.training.activate()
-
     def prepare_training_resume(self, record: dict) -> None:
         self.tabs.setCurrentIndex(0)
         self.stack.setCurrentWidget(self.training)
+        self.training.action_bar.show()
         self.training.prepare_resume(record)

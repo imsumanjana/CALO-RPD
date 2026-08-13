@@ -192,13 +192,13 @@ def test_active_status_records_phase6_development_complete_after_combined_pass()
     assert payload["phase_5_final_release"] is False
     assert payload["phase_6_started"] is True
     assert payload["phase_6_goal"] == (
-        "completed_builtin_training_architecture_gui_correction_validation_pending"
+        "completed_visible_in_pane_training_action_correction_validation_pending"
     )
     assert payload["phase_6_coding"] == (
-        "implemented_with_builtin_training_architecture_followup_awaiting_validation"
+        "implemented_visible_check_readiness_then_start_training_action_awaiting_validation"
     )
     assert payload["phase_6_training_interface"] == (
-        "single_ribbon_action_builtin_tsh_calo_architecture_optional_existing_plan_template_visible_scientific_inputs_protected_118_300_locked_readiness_then_explicit_confirmed_start_no_redundant_document"
+        "ribbon_navigation_only_builtin_tsh_calo_architecture_optional_existing_plan_template_visible_scientific_inputs_protected_118_300_locked_in_pane_readiness_then_explicit_confirmed_start_no_redundant_document"
     )
     assert payload["phase_6_training_input_help"] == (
         "complete_18_of_18_accessible_hover_focus_information_controls_with_directional_effects_suggested_ranges_hard_limits_and_lifecycle_boundaries_manual_validation_pending"
@@ -207,7 +207,7 @@ def test_active_status_records_phase6_development_complete_after_combined_pass()
         "validated_first_class_windows_non_docker_launch"
     )
     assert payload["phase_6_validation"] == (
-        "historical_pass_phase6-20260813-032036_superseded_by_current_source_followup_validation_pending"
+        "passed_phase6-20260813-215626_superseded_by_visible_training_action_followup_validation_pending"
     )
     assert payload["phase_6_validation_policy_or_scientific_workflows_executed"] is False
     assert payload["phase_6_automated_human_acceptance"] == "not_inferred"
@@ -294,6 +294,12 @@ def test_active_status_records_phase6_development_complete_after_combined_pass()
     )
     assert payload["phase_6_post_fourteenth_attempt_correction"] == (
         "offscreen_renderer_aligned_to_18_training_information_controls_with_explicit_key_diagnostics_fresh_phase6_rerun_required"
+    )
+    assert payload["phase_6_fifteenth_validation_attempt"] == (
+        "passed_phase6-20260813-215626_complete_19_of_19_113_tests_gui_native_packaging_source_stable"
+    )
+    assert payload["phase_6_post_fifteenth_attempt_correction"] == (
+        "visible_persistent_in_pane_check_readiness_then_start_training_action_ribbon_navigation_only_fresh_phase6_rerun_required"
     )
 
 
