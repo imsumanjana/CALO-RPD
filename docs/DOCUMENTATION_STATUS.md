@@ -99,11 +99,11 @@ Training cases use a catalog checklist: all legally eligible bundled development
 automatically, while `case118` and `case300` are displayed as disabled protected holdouts. The
 native title-bar icon and separator styling are also corrected in source; the focused validator has
 not yet been owner-executed for these additions.
-The current 18 training controls have compact accessible hover/focus information buttons with
+The current applicable training controls have compact accessible hover/focus information buttons with
 purpose and directional-effect guidance. Development and acceptance paths are not user inputs,
-and the Base architecture selector distinguishes policy-free **CALO** from trainable **TSH-CALO**.
-CALO disables the policy-training inputs instead of routing to the retired trainer; TSH-CALO uses
-the existing independent readiness/start workflow. Optional plans are scientific-settings
+and the policy-training pane is dedicated to trainable **TSH-CALO**. Policy-free **CALO** remains
+an ordinary algorithm/experiment choice and is not shown among inapplicable training inputs;
+TSH-CALO uses the existing independent readiness/start workflow. Optional plans are scientific-settings
 templates only. This source addition awaits the same focused owner validator.
 
 The latest Phase 6 policy/GUI consolidation removes the dormant embedded training implementation,

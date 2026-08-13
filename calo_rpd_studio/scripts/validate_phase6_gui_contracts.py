@@ -164,6 +164,8 @@ def validate(output: Path, *, platform: str) -> dict:
     training_editor = window.context_pane.training
     if training_editor.action_bar.isHidden():
         raise AssertionError("Training action footer is not visible with the training inputs")
+    if training_editor.status.text() != "Ready for validation":
+        raise AssertionError("Training inputs were refreshed before their status control was ready")
     if training_editor.training_action_button.text() != "Check readiness":
         raise AssertionError("Training inputs do not expose the readiness action")
     if not training_editor.training_action_button.isEnabled():
@@ -177,9 +179,10 @@ def validate(output: Path, *, platform: str) -> dict:
     if training_editor.plan_group.isHidden():
         raise AssertionError("Training parameters are hidden from the input pane")
     expected_help = {
-        "architecture",
+        "library",
         "plan",
         "output",
+        "resume",
         "campaign_id",
         "cases",
         "members",
@@ -203,11 +206,27 @@ def validate(output: Path, *, platform: str) -> dict:
             f"missing={sorted(expected_help - observed_help)}, "
             f"unexpected={sorted(observed_help - expected_help)}"
         )
+    if hasattr(training_editor, "architecture"):
+        raise AssertionError("The TSH-CALO training pane still exposes an architecture selector")
+    if "architecture" in window.training_launch_model.values:
+        raise AssertionError("The TSH-CALO training model still accepts mutable architecture input")
     if any(
         not button.toolTip() or not button.accessibleName()
         for button in training_editor.info_buttons.values()
     ):
         raise AssertionError("Training information controls are not accessible")
+    if training_editor.resume is not window.training_center.resume:
+        raise AssertionError("Visible resume choice is not bound to the training controller")
+    if training_editor.resume.isHidden() or training_editor.resume.isChecked():
+        raise AssertionError("Compatible resume choice must be visible and off by default")
+    if training_editor.library_picker.itemText(0) != "New training":
+        raise AssertionError("The resumable-model picker has no explicit new-training choice")
+    if training_editor.add_library_location_button.text() != "Add to path":
+        raise AssertionError("The resumable-model picker cannot register another scan location")
+    if Path(training_editor.fields["output"].text()).parent != (
+        window.training_model_library.default_directory
+    ):
+        raise AssertionError("Fresh training does not default to the per-user model directory")
     if training_editor.selected_training_cases() != ["case30", "case57"]:
         raise AssertionError("All eligible bundled training cases are not selected by default")
     for protected_case in ("case118", "case300"):

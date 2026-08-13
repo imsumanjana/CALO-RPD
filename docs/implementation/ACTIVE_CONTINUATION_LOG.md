@@ -2223,3 +2223,69 @@ Append timestamped entries below this line after each material action, validatio
   validator, test, GUI render, build, Docker, training, policy, qualification, protected-case,
   publication, release, or scientific workflow was executed by the development agent. A fresh
   complete owner validator run is required for the changed source.
+
+### 2026-08-13 - Phase 6 compatible resume made visible
+
+- Manual start review reached the existing-output guard, which instructed the user to select a
+  compatible resume option even though that canonical option still lived in the hidden controller.
+- The controller-owned checkbox is now reparented into the visible Campaign inputs as `Resume
+  compatible training`; it remains off by default and has its own accessible information control.
+  No duplicate resume state exists. A new run cannot enable `Start training` for an existing path,
+  and resume cannot enable it unless the output is an existing directory.
+- Browse now matches the selected intent: fresh training selects a parent location and proposes a
+  non-existing campaign-named child directory; resume selects the existing interrupted directory.
+  Backend exact-plan, status-schema, campaign-state, checkpoint-identity, checkpoint-checksum,
+  clean-source, readiness, and confirmation gates remain unchanged and fail closed.
+- Focused GUI, static, and offscreen-renderer contracts were updated. No validator, test, GUI
+  render, build, Docker, training, policy, qualification, protected-case, publication, release, or
+  scientific workflow was executed by the development agent. A fresh complete owner validator run
+  is required.
+
+### 2026-08-13 - Phase 6 resumable-model library and readiness feedback corrected
+
+- CALO remains the built-in rule-based optimizer and therefore has no policy-training lifecycle.
+  TSH-CALO remains the only trainable architecture, with separate readiness, explicit start,
+  unqualified saved output, and no automatic experiment selection or activation.
+- Fresh TSH-CALO campaigns now default to a unique child of the operating system's per-user CALO-RPD
+  application-data `training-models` directory. The campaign backend creates that directory tree
+  only when explicit training starts; no model data is written into the source checkout.
+- `Saved training` lists only interrupted/running campaigns discovered in the default location and
+  directories explicitly registered with `Add to path`. Selecting one visibly enables the single
+  canonical resume checkbox and keeps the saved plan, checkpoints, output, and source identity in
+  their original directory. Added locations expand scanning only; files are not copied or moved.
+- Readiness still rejects a dirty nonignored source tree. Its traceback is retained at DEBUG level
+  in Activity -> Logs, while the input footer and Warnings present a short explanation that the
+  application source has uncommitted changes and that training was not started.
+- Focused unit, GUI, static, offscreen-renderer, status, and ignored-validator contracts were
+  updated. The development agent ran no validator, tests, GUI, Docker, policy training/evaluation,
+  qualification, protected-case, publication, or release workflow. A fresh complete owner Phase 6
+  validator run is required.
+
+### 2026-08-13 - Phase 6 policy training made TSH-CALO-only
+
+- The `Base architecture` CALO/TSH-CALO selector was removed from policy training because rule-based
+  CALO has no applicable training lifecycle. Leaving it there incorrectly implied that both choices
+  could consume the campaign, PPO, checkpoint, and resume inputs.
+- The independent training model no longer accepts a mutable architecture value, and its controller
+  no longer retains hidden CALO-specific branches or no-training dialogs. Every input and action in
+  this pane now applies to TSH-CALO policy training.
+- Rule-based CALO remains unchanged in the ordinary algorithm and experiment-selection registry. No
+  CALO search behavior, TSH-CALO policy semantics, training plan, reward, compatibility, readiness,
+  resume, qualification, activation, or fallback gate changed.
+- Focused GUI, unit, static, offscreen-renderer, status, traceability, and ignored-validator
+  contracts were updated. The development agent ran no tests, GUI, validator, Docker, training,
+  evaluation, qualification, protected-case, publication, or release workflow. A fresh owner Phase
+  6 validator run is required.
+
+### 2026-08-14 - Phase 6 training-editor startup order corrected
+
+- Manual native launch exposed an initialization-order failure before the main window appeared:
+  `TrainingPathEditor._select_new_training()` refreshed the editor before its visible status and
+  primary-action widgets had been constructed.
+- Initial new-training selection now occurs after those widgets and their controller connections
+  exist. The first refresh can therefore publish `Ready for validation` and configure the visible
+  `Check readiness` action without accessing a missing attribute.
+- Focused static and offscreen startup contracts now require the safe construction order and the
+  initial visible status. No GUI, tests, validator, Docker, training, evaluation, qualification,
+  protected-case, publication, or release workflow was executed by the development agent. A fresh
+  native launch and complete owner Phase 6 validator run are required.

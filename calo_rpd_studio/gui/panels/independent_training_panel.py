@@ -10,7 +10,7 @@ import tempfile
 import uuid
 from pathlib import Path
 
-from PyQt6.QtCore import QObject, QProcess, pyqtSignal
+from PyQt6.QtCore import QObject, QProcess, QStandardPaths, pyqtSignal
 from PyQt6.QtWidgets import (
     QCheckBox,
     QHBoxLayout,
@@ -26,13 +26,100 @@ from calo_rpd_studio.gui.user_feedback import show_error
 from calo_rpd_studio.gui.widgets.page_header import PageHeader
 
 
+class TrainingModelLibrary:
+    """Discover resumable campaigns in per-user, explicitly registered locations."""
+
+    SETTINGS_KEY = "training/model_scan_locations"
+    PLAN_FILE = "training_plan.json"
+    STATUS_FILE = "training_status.json"
+    RESUMABLE_STATES = frozenset({"running", "interrupted"})
+
+    def __init__(self, settings_manager, *, default_directory: str | Path | None = None) -> None:
+        self.settings_manager = settings_manager
+        if default_directory is None:
+            local_data = QStandardPaths.writableLocation(
+                QStandardPaths.StandardLocation.AppLocalDataLocation
+            )
+            if not local_data:
+                local_data = str(Path.home() / ".calo-rpd-studio")
+            default_directory = Path(local_data).expanduser() / "training-models"
+        self.default_directory = Path(default_directory).expanduser().resolve()
+        self.default_directory_error = ""
+        try:
+            self.default_directory.mkdir(mode=0o700, parents=True, exist_ok=True)
+        except OSError as exc:
+            self.default_directory_error = str(exc)
+
+    def scan_locations(self) -> tuple[Path, ...]:
+        stored = self.settings_manager.value(self.SETTINGS_KEY, [])
+        if isinstance(stored, str):
+            stored = [stored] if stored.strip() else []
+        locations = [self.default_directory]
+        for item in stored or []:
+            try:
+                path = Path(str(item)).expanduser().resolve()
+            except (OSError, RuntimeError, ValueError):
+                continue
+            if path not in locations:
+                locations.append(path)
+        return tuple(locations)
+
+    def add_scan_location(self, path: str | Path) -> Path:
+        location = Path(path).expanduser().resolve(strict=True)
+        if not location.is_dir():
+            raise ValueError("Model-library location must be a directory")
+        additional = [item for item in self.scan_locations() if item != self.default_directory]
+        if location != self.default_directory and location not in additional:
+            additional.append(location)
+            self.settings_manager.set_value(self.SETTINGS_KEY, [str(item) for item in additional])
+        return location
+
+    def resumable_campaigns(self) -> tuple[dict, ...]:
+        campaigns: dict[str, dict] = {}
+        for root in self.scan_locations():
+            candidates = [root]
+            if root.is_dir():
+                try:
+                    candidates.extend(item for item in root.iterdir() if item.is_dir())
+                except OSError:
+                    continue
+            for candidate in candidates:
+                plan_path = candidate / self.PLAN_FILE
+                status_path = candidate / self.STATUS_FILE
+                if not plan_path.is_file() or not status_path.is_file():
+                    continue
+                try:
+                    plan = json.loads(plan_path.read_text(encoding="utf-8"))
+                    status = json.loads(status_path.read_text(encoding="utf-8"))
+                except (OSError, json.JSONDecodeError):
+                    continue
+                if not isinstance(plan, dict) or not isinstance(status, dict):
+                    continue
+                state = str(status.get("state", "")).strip().lower()
+                if state not in self.RESUMABLE_STATES:
+                    continue
+                campaign_id = str(plan.get("campaign_id", "")).strip() or candidate.name
+                resolved = str(candidate.resolve())
+                campaigns[resolved.casefold()] = {
+                    "campaign_id": campaign_id,
+                    "state": state,
+                    "directory": resolved,
+                    "plan": str(plan_path.resolve()),
+                }
+        return tuple(
+            sorted(
+                campaigns.values(),
+                key=lambda item: (item["campaign_id"].casefold(), item["directory"].casefold()),
+            )
+        )
+
+
 class TrainingLaunchModel(QObject):
     changed = pyqtSignal(object)
 
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
         self.values = {
-            "architecture": "tsh_calo",
             "plan": "",
             "output": "",
         }
@@ -64,7 +151,7 @@ class TrainingLaunchModel(QObject):
             self.plan_error = ""
         self.changed.emit(dict(self.values))
 
-    def load_plan(self) -> None:
+    def load_plan(self, *, preserve_identity: bool = False) -> None:
         """Load and validate the selected plan without starting policy work."""
         source = Path(self.values.get("plan", "")).expanduser()
         try:
@@ -76,21 +163,22 @@ class TrainingLaunchModel(QObject):
             )
 
             plan = TSHCALOTrainingCampaignPlan.from_dict(payload)
-            # Imported plans supply scientific settings only; they cannot confer
-            # lifecycle or release authority through scientist-selected files.
-            normalized = plan.to_dict()
-            normalized["source_commit"] = self._current_source_commit()
-            normalized["development_freeze_commit"] = ""
-            normalized["development_freeze_sha256"] = ""
-            normalized["phase4_acceptance_sha256"] = ""
-            plan = TSHCALOTrainingCampaignPlan.from_dict(normalized)
+            if not preserve_identity:
+                # Imported templates supply scientific settings only; they cannot confer
+                # lifecycle or release authority through scientist-selected files. An exact
+                # resume keeps its stored identity for the campaign runner to authenticate.
+                normalized = plan.to_dict()
+                normalized["source_commit"] = self._current_source_commit()
+                normalized["development_freeze_commit"] = ""
+                normalized["development_freeze_sha256"] = ""
+                normalized["phase4_acceptance_sha256"] = ""
+                plan = TSHCALOTrainingCampaignPlan.from_dict(normalized)
         except (OSError, RuntimeError, json.JSONDecodeError, ValueError) as exc:
             self.plan_payload = None
             self.plan_error = str(exc)
         else:
             self.plan_payload = plan.to_dict()
             self.plan_error = ""
-            self.values["architecture"] = "tsh_calo"
         self.changed.emit(dict(self.values))
 
     def create_plan(
@@ -255,8 +343,6 @@ class TrainingLaunchModel(QObject):
         return tuple(missing)
 
     def arguments(self, *, check: bool, resume: bool = False) -> list[str]:
-        if self.values.get("architecture") != "tsh_calo":
-            raise ValueError("CALO is built in and does not require policy training")
         result = [
             "-m",
             "calo_rpd_studio.scripts.train_tsh_calo",
@@ -282,7 +368,6 @@ class TrainingLaunchModel(QObject):
                 plan = str(output_path / "training_plan.json")
         if not output or not plan:
             raise ValueError("Independent training resume record is missing its plan or output")
-        self.values["architecture"] = "tsh_calo"
         self.values["plan"] = plan
         self.values["output"] = output
         self.plan_payload = None
@@ -303,6 +388,7 @@ class IndependentTrainingPanel(QWidget):
         self._operation = ""
         self._invocation_fingerprint = ""
         self._validated_fingerprint = ""
+        self._process_output: list[str] = []
 
         layout = QVBoxLayout(self)
         layout.setContentsMargins(22, 18, 22, 18)
@@ -334,9 +420,10 @@ class IndependentTrainingPanel(QWidget):
         self.command_preview.setMaximumHeight(92)
         layout.addWidget(self.command_preview)
 
-        self.resume = QCheckBox("Resume this compatible training run")
+        self.resume = QCheckBox("Resume compatible training")
         self.resume.setToolTip(
-            "Resume only when the saved run matches the selected inputs and output directory."
+            "Continue only an existing interrupted directory whose saved plan, status, and "
+            "checkpoint pass exact compatibility checks. Leave off for new training."
         )
         layout.addWidget(self.resume)
 
@@ -359,8 +446,14 @@ class IndependentTrainingPanel(QWidget):
         layout.addStretch(1)
 
         self.model.changed.connect(self._configuration_changed)
-        self.resume.toggled.connect(lambda _checked: self._refresh_preview())
+        self.resume.toggled.connect(self._resume_intent_changed)
         self._configuration_changed(dict(self.model.values))
+
+    def _resume_intent_changed(self, _checked: bool) -> None:
+        self._validated_fingerprint = ""
+        self.start_button.setEnabled(False)
+        self.status.setText("Resume choice changed · check readiness again")
+        self._refresh_preview()
 
     def prepare_resume(self, record: dict) -> None:
         """Load an authenticated resume request; explicit readiness and start remain mandatory."""
@@ -377,22 +470,13 @@ class IndependentTrainingPanel(QWidget):
     def _configuration_changed(self, values: dict) -> None:
         self._validated_fingerprint = ""
         self.start_button.setEnabled(False)
-        trainable = values.get("architecture") == "tsh_calo"
-        self.check_button.setEnabled(self.process is None and trainable)
-        self.resume.setEnabled(trainable)
+        self.check_button.setEnabled(self.process is None)
+        self.resume.setEnabled(self.process is None)
         missing = self.model.missing(include_output=False)
         output = values.get("output") or "not selected"
-        architecture = "CALO" if values.get("architecture") == "calo" else "TSH-CALO"
         self.plan_summary.setText(
-            f"Base architecture: {architecture}\n"
-            f"Settings template: {values.get('plan') or 'not selected'}\n"
-            f"Output: {output}"
+            f"Settings template: {values.get('plan') or 'not selected'}\nOutput: {output}"
         )
-        if values.get("architecture") == "calo":
-            self.resume.setChecked(False)
-            self.status.setText("CALO is ready without policy training")
-            self._refresh_preview()
-            return
         self.status.setText(
             "Readiness invalidated by input change"
             if not missing
@@ -401,11 +485,6 @@ class IndependentTrainingPanel(QWidget):
         self._refresh_preview()
 
     def _refresh_preview(self) -> None:
-        if self.model.values.get("architecture") == "calo":
-            self.command_preview.setPlainText(
-                "CALO is ready to use and does not require policy training."
-            )
-            return
         self.command_preview.setPlainText(
             "Readiness reviews the current training inputs without starting training.\n"
             "Training starts only after readiness passes and you confirm."
@@ -414,20 +493,12 @@ class IndependentTrainingPanel(QWidget):
     def check_readiness(self) -> None:
         if self.process is not None:
             return
-        if self.model.values.get("architecture") == "calo":
-            QMessageBox.information(
-                self,
-                "No training required",
-                "CALO is built in and can be selected directly for an experiment. "
-                "Choose TSH-CALO to train a new policy.",
-            )
-            return
         missing = self.model.missing(include_output=False)
         if missing:
             QMessageBox.warning(self, "Readiness inputs required", f"Select: {', '.join(missing)}")
             return
         if self.model.plan_payload is None and self.model.values.get("plan"):
-            self.model.load_plan()
+            self.model.load_plan(preserve_identity=self.resume.isChecked())
         if self.model.plan_payload is None:
             QMessageBox.warning(
                 self,
@@ -439,13 +510,6 @@ class IndependentTrainingPanel(QWidget):
 
     def start_training(self) -> None:
         if self.process is not None:
-            return
-        if self.model.values.get("architecture") == "calo":
-            QMessageBox.information(
-                self,
-                "No training required",
-                "CALO is built in and does not require or produce a trained policy.",
-            )
             return
         if bool(getattr(self.state, "policy_training_active", False)):
             QMessageBox.warning(
@@ -474,6 +538,14 @@ class IndependentTrainingPanel(QWidget):
             QMessageBox.warning(self, "Training output required", f"Select: {', '.join(missing)}")
             return
         output_path = Path(self.model.values["output"]).expanduser()
+        if self.resume.isChecked() and not output_path.is_dir():
+            QMessageBox.warning(
+                self,
+                "Resumable output required",
+                "Select an existing interrupted training directory, or turn off resume and "
+                "choose a new output directory.",
+            )
+            return
         if output_path.exists() and not self.resume.isChecked():
             QMessageBox.warning(
                 self,
@@ -499,6 +571,7 @@ class IndependentTrainingPanel(QWidget):
     def _start_process(self, operation: str, arguments: list[str]) -> None:
         self._operation = operation
         self._invocation_fingerprint = self.model.fingerprint()
+        self._process_output = []
         self.check_button.setEnabled(False)
         self.start_button.setEnabled(False)
         process = QProcess(self)
@@ -528,7 +601,44 @@ class IndependentTrainingPanel(QWidget):
             return
         text = bytes(self.process.readAllStandardOutput()).decode("utf-8", errors="replace")
         if text:
-            self.activity_message.emit("INFO", text.rstrip())
+            cleaned = text.rstrip()
+            self._process_output.append(cleaned)
+            # Full command output belongs in Activity -> Logs. The status and warning feeds
+            # receive the short user-facing result from _process_finished instead.
+            self.activity_message.emit("DEBUG", cleaned)
+
+    def _friendly_process_failure(self, operation: str, exit_code: int) -> str:
+        technical_output = "\n".join(self._process_output).casefold()
+        if "requires a clean non-ignored source tree" in technical_output:
+            return (
+                "Readiness stopped because this application source has uncommitted changes. "
+                "Finish and commit the software changes, then check readiness again. "
+                "Training was not started."
+            )
+        if "requires an inspectable git source tree" in technical_output:
+            return (
+                "This application version could not be verified for policy training. "
+                "Use a complete installed or checked-out application version, then check "
+                "readiness again. Training was not started."
+            )
+        if "source" in technical_output and (
+            "mismatch" in technical_output
+            or "does not match" in technical_output
+            or "identity" in technical_output
+        ):
+            return (
+                "The saved training source does not match this application version. "
+                "Select a compatible saved training run or start a new one."
+            )
+        if operation == "check":
+            return (
+                f"Readiness could not be confirmed (code {exit_code}). Training was not started. "
+                "See Activity -> Logs for technical details."
+            )
+        return (
+            f"Training stopped before a usable result was produced (code {exit_code}). "
+            "No policy was selected. See Activity -> Logs for technical details."
+        )
 
     def _process_error(self, error) -> None:
         if self.process is None:
@@ -582,7 +692,7 @@ class IndependentTrainingPanel(QWidget):
                 )
             else:
                 self._validated_fingerprint = ""
-                self.status.setText(f"Readiness failed (exit {exit_code}) · training not started")
+                self.status.setText(self._friendly_process_failure(operation, int(exit_code)))
             severity = (
                 "INFO"
                 if passed and invocation_fingerprint == current_fingerprint
@@ -604,7 +714,7 @@ class IndependentTrainingPanel(QWidget):
             )
             self.state.task_status.finish(self.status.text())
         else:
-            self.status.setText(f"Training failed (exit {exit_code}) · no result was selected")
+            self.status.setText(self._friendly_process_failure(operation, int(exit_code)))
             self.state.task_status.fail(self.status.text())
         self.activity_message.emit("INFO" if passed else "ERROR", self.status.text())
         if process is not None:

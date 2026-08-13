@@ -28,6 +28,7 @@ from calo_rpd_studio.gui.panels.dashboard_panel import DashboardPanel
 from calo_rpd_studio.gui.panels.experiment_manager_panel import ExperimentManagerPanel
 from calo_rpd_studio.gui.panels.independent_training_panel import (
     IndependentTrainingPanel,
+    TrainingModelLibrary,
     TrainingLaunchModel,
 )
 from calo_rpd_studio.gui.panels.live_optimization_panel import LiveOptimizationPanel
@@ -133,6 +134,7 @@ class MainWindow(QMainWindow):
         self.setMenuWidget(self.ribbon)
 
         self.training_launch_model = TrainingLaunchModel(self)
+        self.training_model_library = TrainingModelLibrary(self.settings_manager)
         self.training_center = IndependentTrainingPanel(
             self.state, self.training_launch_model, self
         )
@@ -141,6 +143,7 @@ class MainWindow(QMainWindow):
             self.sidebar,
             self.training_launch_model,
             self.training_center,
+            self.training_model_library,
             self,
         )
         self.context_dock = QDockWidget("Inputs", self)

@@ -6,6 +6,7 @@ import json
 import os
 import sys
 import threading
+from pathlib import Path
 
 import pytest
 
@@ -45,6 +46,7 @@ def _window(qtbot, tmp_path, monkeypatch):
     from calo_rpd_studio.app.state_manager import AppState
     from calo_rpd_studio.compute.source_identity import SourceIdentity
     import calo_rpd_studio.compute.source_identity as source_identity
+    from calo_rpd_studio.gui.panels.independent_training_panel import TrainingModelLibrary
 
     QSettings.setDefaultFormat(QSettings.Format.IniFormat)
     QSettings.setPath(QSettings.Format.IniFormat, QSettings.Scope.UserScope, str(tmp_path))
@@ -58,6 +60,13 @@ def _window(qtbot, tmp_path, monkeypatch):
         main_window_module,
         "SessionRecoveryJournal",
         lambda: SessionRecoveryJournal(tmp_path / "session-recovery"),
+    )
+    monkeypatch.setattr(
+        main_window_module,
+        "TrainingModelLibrary",
+        lambda settings: TrainingModelLibrary(
+            settings, default_directory=tmp_path / "training-models"
+        ),
     )
     monkeypatch.setattr(main_window_module.MainWindow, "_initial_system_scan", lambda self: None)
     monkeypatch.setattr(main_window_module.MainWindow, "_check_unfinished_work", lambda self: None)
@@ -423,15 +432,21 @@ def test_training_parameters_are_available_without_an_existing_plan(qtbot, tmp_p
     assert editor.population.value() >= 2
     assert editor.learning_rate.value() > 0
     assert editor.load_plan_button.text() == "Import settings"
+    assert editor.library_picker.itemText(0) == "New training"
+    assert Path(editor.fields["output"].text()).parent == (
+        window.training_model_library.default_directory
+    )
+    assert editor.add_library_location_button.text() == "Add to path"
 
 
 def test_every_training_input_has_accessible_directional_information(qtbot, tmp_path, monkeypatch):
     _state, window = _window(qtbot, tmp_path, monkeypatch)
     editor = window.context_pane.training
     expected = {
-        "architecture",
+        "library",
         "plan",
         "output",
+        "resume",
         "campaign_id",
         "cases",
         "members",
@@ -494,6 +509,96 @@ def test_every_training_input_has_accessible_directional_information(qtbot, tmp_
     assert "20 to 64" in editor.info_buttons["population"].accessibleDescription()
     assert "0.0001 to 0.001" in editor.info_buttons["learning_rate"].accessibleDescription()
     assert "case118 and case300" in editor.info_buttons["cases"].accessibleDescription()
+    assert "off for every new training run" in editor.info_buttons["resume"].accessibleDescription()
+
+
+def test_saved_training_picker_resumes_in_its_original_registered_directory(
+    qtbot, tmp_path, monkeypatch
+):
+    _state, window = _window(qtbot, tmp_path, monkeypatch)
+    editor = window.context_pane.training
+    external = tmp_path / "external-models"
+    campaign = external / "interrupted-campaign"
+    campaign.mkdir(parents=True)
+    plan = _training_plan(tmp_path)
+    plan_payload = json.loads(plan.read_text(encoding="utf-8"))
+    plan_payload["development_freeze_commit"] = ""
+    plan_payload["development_freeze_sha256"] = ""
+    plan_payload["phase4_acceptance_sha256"] = ""
+    (campaign / "training_plan.json").write_text(json.dumps(plan_payload), encoding="utf-8")
+    (campaign / "training_status.json").write_text(
+        json.dumps({"state": "interrupted"}), encoding="utf-8"
+    )
+
+    window.training_model_library.add_scan_location(external)
+    editor.refresh_model_library()
+    editor.library_picker.setCurrentIndex(1)
+
+    assert editor.resume.isHidden() is False
+    assert editor.resume.isChecked() is True
+    assert editor.fields["output"].text() == str(campaign.resolve())
+    assert editor.fields["plan"].text() == str((campaign / "training_plan.json").resolve())
+    assert editor.model.plan_payload is not None
+    assert editor.model.plan_payload["source_commit"] == "a" * 40
+    assert editor.campaign_id.isEnabled() is False
+    assert editor.learning_rate.isEnabled() is False
+
+
+def test_clean_source_readiness_failure_is_summarized_and_trace_is_debug_only(
+    qtbot, tmp_path, monkeypatch
+):
+    _state, window = _window(qtbot, tmp_path, monkeypatch)
+    model = _complete_training_inputs(window, tmp_path)
+    panel = window.training_center
+    messages = []
+    panel.activity_message.connect(lambda severity, message: messages.append((severity, message)))
+    panel._operation = "check"
+    panel._invocation_fingerprint = model.fingerprint()
+    raw_failure = (
+        "Traceback (most recent call last):\n"
+        "RuntimeError: TSH-CALO training requires a clean non-ignored source tree"
+    )
+    panel._process_output = [raw_failure]
+    panel.activity_message.emit("DEBUG", raw_failure)
+
+    panel._process_finished(1, None)
+
+    assert "uncommitted changes" in panel.status.text().lower()
+    assert "training was not started" in panel.status.text().lower()
+    assert "uncommitted changes" in window.context_pane.training.status.text().lower()
+    assert messages[-1][0] == "ERROR"
+    assert "traceback" not in messages[-1][1].lower()
+    assert any(severity == "DEBUG" and "Traceback" in message for severity, message in messages)
+    assert "Traceback" in window.activity_center.logs.toPlainText()
+    assert all(
+        "Traceback" not in window.activity_center.warnings.item(index).text()
+        for index in range(window.activity_center.warnings.count())
+    )
+
+
+def test_existing_training_output_requires_explicit_visible_resume_choice(
+    qtbot, tmp_path, monkeypatch
+):
+    _state, window = _window(qtbot, tmp_path, monkeypatch)
+    model = _complete_training_inputs(window, tmp_path)
+    editor = window.context_pane.training
+    output = tmp_path / "existing-training"
+    output.mkdir()
+    model.set_value("output", str(output))
+    window.training_center._validated_fingerprint = model.fingerprint()
+
+    editor.refresh()
+    assert editor.resume is window.training_center.resume
+    assert editor.resume.isChecked() is False
+    assert editor.resume.isHidden() is False
+    assert editor.training_action_button.text() == "Start training"
+    assert editor.training_action_button.isEnabled() is False
+    assert "already exists" in editor.status.text().lower()
+
+    editor.resume.setChecked(True)
+    assert window.training_center._validated_fingerprint == ""
+    assert editor.training_action_button.text() == "Check readiness"
+    assert editor.training_action_button.isEnabled() is True
 
 
 def test_training_case_picker_selects_all_eligible_and_locks_protected_holdouts(
@@ -569,37 +674,21 @@ def test_readiness_result_is_rejected_when_bound_paths_change(qtbot, tmp_path, m
     assert "inputs changed" in panel.status.text().lower()
 
 
-def test_builtin_architecture_and_governance_paths_are_not_user_inputs(
+def test_training_is_tsh_calo_only_and_governance_paths_are_not_user_inputs(
     qtbot, tmp_path, monkeypatch
 ):
     _state, window = _window(qtbot, tmp_path, monkeypatch)
     editor = window.context_pane.training
 
     assert set(editor.fields) == {"plan", "output"}
-    assert editor.architecture.itemText(editor.architecture.findData("calo")) == "CALO"
-    assert editor.architecture.itemText(editor.architecture.findData("tsh_calo")) == "TSH-CALO"
-    assert editor.architecture.currentData() == "tsh_calo"
+    assert not hasattr(editor, "architecture")
+    assert "architecture" not in window.training_launch_model.values
+    assert "architecture" not in editor.info_buttons
     assert "foundation" not in editor.info_buttons
     assert not hasattr(editor, "foundation_status")
     placeholders = " ".join(field.placeholderText().lower() for field in editor.fields.values())
     assert "development freeze" not in placeholders
     assert "phase 4" not in placeholders
-
-
-def test_calo_architecture_disables_policy_training_inputs(qtbot, tmp_path, monkeypatch):
-    _state, window = _window(qtbot, tmp_path, monkeypatch)
-    editor = window.context_pane.training
-
-    editor.architecture.setCurrentIndex(editor.architecture.findData("calo"))
-
-    assert window.training_launch_model.values["architecture"] == "calo"
-    assert editor.fields["plan"].isEnabled() is False
-    assert editor.fields["output"].isEnabled() is False
-    assert editor.campaign_id.isEnabled() is False
-    assert editor.architecture.isEnabled() is True
-    assert "no policy training" in editor.status.text().lower()
-    assert window.training_center.check_button.isEnabled() is False
-    assert window.training_center.start_button.isEnabled() is False
 
 
 def test_ordinary_product_surfaces_hide_engineering_lifecycle_language(

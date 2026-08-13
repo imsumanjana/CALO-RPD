@@ -1348,3 +1348,26 @@ scientific/hardware qualification—not as a final release.
   gated `Start training` action below the scrollable input pane, retaining explicit confirmation
   and no automatic experiment selection. No execution followed this correction; request one fresh
   complete owner rerun.
+- Manual start review then showed the existing-output dialog referencing a compatible-resume option
+  that remained hidden. The existing controller-owned checkbox is now visible and off by default;
+  new training cannot target an existing path, resume requires an existing interrupted directory,
+  and Browse now proposes a non-existing campaign child for fresh runs versus selecting the exact
+  directory for resume. Stored-plan/status/checkpoint integrity, clean-source, readiness, explicit
+  confirmation, and no-auto-selection gates remain fail closed. No execution followed this source
+  correction; request one fresh complete owner rerun.
+- The latest coding-only correction adds a private per-user `training-models` default directory and
+  a `Saved training` picker spanning that default plus explicitly added scan locations. New runs
+  receive unique child paths; selecting an interrupted/running campaign preserves and resumes in
+  its original directory with the checkbox visibly enabled and exact identity/integrity checks
+  intact. CALO remains built in and non-trainable. Dirty-source readiness still stops, but raw
+  traceback output is kept in Activity Logs and the visible status gives a short user-facing
+  explanation. Focused contracts and the ignored validator documentation were updated but not run.
+- The subsequent GUI correction removes the `Base architecture` selector from policy training and
+  removes architecture from the launch model itself. That surface is now explicitly TSH-CALO-only;
+  rule-based CALO remains an ordinary algorithm/experiment choice and is not modified. The change
+  preserves all training, readiness, resume, qualification, activation, protected-case, and
+  no-auto-selection gates. Contracts were updated but not executed.
+- The latest native-launch correction moves initial new-training selection below construction of
+  the training status and primary-action widgets. This removes the pre-window `AttributeError` and
+  lets the first refresh present readiness state safely. Focused static/offscreen contracts were
+  updated; no GUI, tests, validator, Docker, or policy workflow was executed afterward.

@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
+import uuid
 from copy import deepcopy
 from html import escape
-import uuid
+from pathlib import Path
 
 from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtWidgets import (
@@ -44,9 +45,10 @@ def _help(text: str) -> QLabel:
 
 
 _TRAINING_INPUT_HELP = {
-    "architecture": (
-        "Policy architecture. CALO is the built-in rule-based optimizer and needs no policy "
-        "training. TSH-CALO learns a separate policy from the selected training inputs."
+    "library": (
+        "Saved interrupted training runs found in the private application model directory and "
+        "any locations you explicitly add. Selecting one keeps checkpoints in its own directory; "
+        "it never copies them into the default directory."
     ),
     "plan": (
         "Optional settings template. Importing it fills the visible controls with compatible "
@@ -55,6 +57,11 @@ _TRAINING_INPUT_HELP = {
     "output": (
         "Directory for checkpoints, run records, and the trained policy. Choose a new directory; "
         "the result is not selected for experiments automatically."
+    ),
+    "resume": (
+        "Use an existing interrupted training directory only when continuing that exact run. "
+        "Its saved plan, status, campaign state, checkpoint identity, and checkpoint checksum "
+        "must all pass compatibility checks before any continuation."
     ),
     "campaign_id": (
         "Unique training-run identity used in saved plans and run records. Changing "
@@ -130,9 +137,9 @@ _TRAINING_INPUT_HELP = {
 }
 
 _TRAINING_INPUT_SUGGESTIONS = {
-    "architecture": (
-        "Suggested choice: CALO for the built-in policy-free optimizer; TSH-CALO when creating a "
-        "new trained policy. This categorical choice has no lower-to-higher range."
+    "library": (
+        "Suggested choice: New training for a fresh run, or one listed interrupted run for an "
+        "exact resume. Added locations expand discovery only and have no low-to-high range."
     ),
     "plan": (
         "Suggested selection: leave blank for fresh defaults, or import one JSON settings "
@@ -141,6 +148,10 @@ _TRAINING_INPUT_SUGGESTIONS = {
     "output": (
         "Suggested selection: one new empty directory, or one explicitly resumable directory "
         "from the same checked campaign."
+    ),
+    "resume": (
+        "Suggested choice: off for every new training run; on only for an existing interrupted "
+        "directory from the exact same campaign. This categorical choice has no numeric range."
     ),
     "campaign_id": (
         "Suggested format: a short unique identifier with project, design, and run date; identity "
@@ -435,10 +446,11 @@ class ComputeQuickEditor(QWidget):
 
 
 class TrainingPathEditor(QWidget):
-    def __init__(self, model, training_controller, parent=None) -> None:
+    def __init__(self, model, training_controller, model_library, parent=None) -> None:
         super().__init__(parent)
         self.model = model
         self.training_controller = training_controller
+        self.model_library = model_library
         layout = QVBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(12)
@@ -449,9 +461,39 @@ class TrainingPathEditor(QWidget):
         self.fields: dict[str, QLineEdit] = {}
         self.info_buttons: dict[str, _TrainingInfoButton] = {}
         self.path_rows: list[QWidget] = []
+        self.library_picker = QComboBox()
+        self.library_picker.setAccessibleName("Resumable policy training models")
+        self.library_picker.currentIndexChanged.connect(self._library_selection_changed)
+        library_host = QWidget()
+        library_layout = QVBoxLayout(library_host)
+        library_layout.setContentsMargins(0, 0, 0, 0)
+        library_layout.setSpacing(6)
+        library_layout.addWidget(self.library_picker)
+        library_buttons = QHBoxLayout()
+        self.add_library_location_button = QPushButton("Add to path")
+        self.add_library_location_button.setToolTip(
+            "Add another directory to future resumable-model scans."
+        )
+        self.add_library_location_button.setAccessibleName("Add a resumable training scan location")
+        self.add_library_location_button.clicked.connect(self._add_library_location)
+        self.refresh_library_button = QPushButton("Refresh")
+        self.refresh_library_button.clicked.connect(self.refresh_model_library)
+        library_buttons.addWidget(self.add_library_location_button)
+        library_buttons.addWidget(self.refresh_library_button)
+        library_buttons.addStretch(1)
+        library_layout.addLayout(library_buttons)
+        default_text = f"Default location: {self.model_library.default_directory}"
+        if self.model_library.default_directory_error:
+            default_text = "Default location unavailable · choose another training directory"
+        self.default_library_path = QLabel(default_text)
+        self.default_library_path.setObjectName("ContextHelp")
+        self.default_library_path.setToolTip(self.model_library.default_directory_error)
+        self.default_library_path.setWordWrap(True)
+        library_layout.addWidget(self.default_library_path)
+        campaign_form.addRow(self._info_label("library", "Saved training"), library_host)
         for key, label, placeholder in (
             ("plan", "Settings template", "Optional training settings (.json)"),
-            ("output", "New output", "New or explicitly resumable output directory"),
+            ("output", "Training directory", "New or explicitly resumable training directory"),
         ):
             field = QLineEdit()
             field.setPlaceholderText(placeholder)
@@ -471,6 +513,15 @@ class TrainingPathEditor(QWidget):
             row_layout.addWidget(browse)
             self.path_rows.append(row)
             campaign_form.addRow(self._info_label(key, label), row)
+        self.resume = self.training_controller.resume
+        self.resume.setParent(campaign_group)
+        self.resume.setText("Resume compatible training")
+        self.resume.setToolTip(
+            "Continue only an existing interrupted directory whose saved plan, status, and "
+            "checkpoint pass exact compatibility checks. Leave off for new training."
+        )
+        self.resume.toggled.connect(lambda _checked: self.refresh())
+        campaign_form.addRow(self._info_label("resume", "Existing output"), self.resume)
         self.load_plan_button = QPushButton("Import settings")
         self.load_plan_button.clicked.connect(self._load_plan)
         campaign_form.addRow("", self.load_plan_button)
@@ -481,10 +532,6 @@ class TrainingPathEditor(QWidget):
         plan_form.setRowWrapPolicy(QFormLayout.RowWrapPolicy.WrapAllRows)
         plan_form.setFieldGrowthPolicy(QFormLayout.FieldGrowthPolicy.AllNonFixedFieldsGrow)
         self.campaign_id = QLineEdit()
-        self.architecture = QComboBox()
-        self.architecture.addItem("CALO", "calo")
-        self.architecture.addItem("TSH-CALO", "tsh_calo")
-        self.architecture.setCurrentIndex(self.architecture.findData("tsh_calo"))
         self.case_checks: dict[str, QCheckBox] = {}
         self._case_check_guard = False
         case_picker = QFrame()
@@ -526,7 +573,6 @@ class TrainingPathEditor(QWidget):
         self.device.addItem("CPU only", "cpu")
         self.cpu_fallback = QCheckBox("Allow CPU fallback")
         self.cpu_fallback.setChecked(True)
-        plan_form.addRow(self._info_label("architecture", "Base architecture"), self.architecture)
         plan_form.addRow(self._info_label("campaign_id", "Campaign"), self.campaign_id)
         plan_form.addRow(self._info_label("cases", "Training cases"), case_picker)
         plan_form.addRow(self._info_label("members", "Independent members"), self.members)
@@ -573,7 +619,6 @@ class TrainingPathEditor(QWidget):
         layout.addWidget(self.plan_group)
 
         self._plan_controls = (
-            self.architecture,
             self.campaign_id,
             self.all_eligible_cases,
             *self.case_checks.values(),
@@ -595,7 +640,7 @@ class TrainingPathEditor(QWidget):
         self._new_plan_mode = True
         self.campaign_id.setText(f"tsh-calo-{uuid.uuid4().hex[:12]}")
         self._set_selected_cases(("case30", "case57"))
-        self.architecture.currentIndexChanged.connect(self._architecture_changed)
+        self.refresh_model_library()
         self.campaign_id.textChanged.connect(
             lambda value: self._set_plan_value("campaign_id", value=str(value).strip())
         )
@@ -631,7 +676,6 @@ class TrainingPathEditor(QWidget):
                 )
             )
         for control in (
-            self.architecture,
             self.campaign_id,
             self.all_eligible_cases,
             *self.case_checks.values(),
@@ -674,10 +718,15 @@ class TrainingPathEditor(QWidget):
         action_layout.addWidget(self.training_action_button)
         layout.addStretch(1)
         self.model.changed.connect(lambda _values: self.refresh())
-        self.training_controller.activity_message.connect(
-            lambda _severity, _message: self.refresh()
-        )
+        self.training_controller.activity_message.connect(self._training_activity)
+        # Initial selection updates the model and refreshes this editor. Keep it after the
+        # status/action widgets exist because refresh() writes to both of them.
+        self._select_new_training()
+
+    def _training_activity(self, severity: str, message: str) -> None:
         self.refresh()
+        if str(severity).upper() in {"WARNING", "ERROR", "CRITICAL"}:
+            self.status.setText(str(message))
 
     def _info_label(self, key: str, label: str) -> QWidget:
         host = QWidget()
@@ -770,9 +819,15 @@ class TrainingPathEditor(QWidget):
     def _browse(self, key: str) -> None:
         current = self.fields[key].text().strip()
         if key == "output":
-            selected = QFileDialog.getExistingDirectory(
-                self, "Select policy training output", current
-            )
+            if self.resume.isChecked():
+                selected = QFileDialog.getExistingDirectory(
+                    self, "Select interrupted training directory", current
+                )
+            else:
+                selected_parent = QFileDialog.getExistingDirectory(
+                    self, "Select location for new training output", current
+                )
+                selected = self._new_output_path(selected_parent) if selected_parent else ""
         else:
             caption = {"plan": "Select training settings template"}[key]
             selected, _filter = QFileDialog.getOpenFileName(
@@ -781,8 +836,95 @@ class TrainingPathEditor(QWidget):
         if selected:
             self.fields[key].setText(selected)
 
+    def refresh_model_library(self) -> None:
+        selected = self.library_picker.currentData()
+        current = selected.get("directory", "") if isinstance(selected, dict) else ""
+        self.library_picker.blockSignals(True)
+        try:
+            self.library_picker.clear()
+            self.library_picker.addItem("New training", "")
+            for campaign in self.model_library.resumable_campaigns():
+                label = f"{campaign['campaign_id']}  ·  {campaign['state'].title()}"
+                self.library_picker.addItem(label, campaign)
+            selected_index = 0
+            for index in range(1, self.library_picker.count()):
+                record = self.library_picker.itemData(index)
+                if isinstance(record, dict) and record.get("directory") == current:
+                    selected_index = index
+                    break
+            self.library_picker.setCurrentIndex(selected_index)
+        finally:
+            self.library_picker.blockSignals(False)
+
+    def _add_library_location(self) -> None:
+        selected = QFileDialog.getExistingDirectory(
+            self,
+            "Add resumable-model location",
+            str(self.model_library.default_directory.parent),
+        )
+        if not selected:
+            return
+        try:
+            self.model_library.add_scan_location(selected)
+        except (OSError, RuntimeError, ValueError) as exc:
+            show_warning(
+                self,
+                "Location could not be added",
+                "Choose a readable directory containing resumable training folders.",
+                exc,
+                source="training model library",
+            )
+            return
+        self.refresh_model_library()
+
+    def _library_selection_changed(self, _index: int = -1) -> None:
+        record = self.library_picker.currentData()
+        if isinstance(record, dict) and record.get("directory"):
+            self.resume.setChecked(True)
+            self.fields["plan"].setText(str(record["plan"]))
+            self.fields["output"].setText(str(record["directory"]))
+            self._load_plan()
+            if self.model.plan_payload is None:
+                self.resume.setChecked(False)
+                show_warning(
+                    self,
+                    "Saved training could not be loaded",
+                    "This saved run is incomplete or incompatible. Choose another saved run.",
+                    ValueError(self.model.plan_error or "Saved training plan is invalid"),
+                    source="training model library",
+                )
+            self.refresh()
+            return
+        self._select_new_training()
+
+    def _select_new_training(self) -> None:
+        self.resume.setChecked(False)
+        self.fields["plan"].clear()
+        self.model.clear_loaded_plan()
+        self._new_plan_mode = True
+        self.campaign_id.setText(f"tsh-calo-{uuid.uuid4().hex[:12]}")
+        output = ""
+        if not self.model_library.default_directory_error:
+            output = self._new_output_path(str(self.model_library.default_directory))
+        self.fields["output"].setText(output)
+        self.refresh()
+
+    def _new_output_path(self, selected_parent: str) -> str:
+        campaign = self.campaign_id.text().strip() or f"tsh-calo-{uuid.uuid4().hex[:12]}"
+        safe_name = "".join(
+            character if character.isalnum() or character in {"-", "_"} else "-"
+            for character in campaign
+        ).strip("-_")
+        base = Path(selected_parent).expanduser() / (safe_name or "tsh-calo-training")
+        candidate = base
+        suffix = 2
+        while candidate.exists():
+            candidate = base.with_name(f"{base.name}-{suffix}")
+            suffix += 1
+        return str(candidate)
+
     def _load_plan(self) -> None:
-        self.model.load_plan()
+        self.model.load_plan(preserve_identity=self.resume.isChecked())
         self._load_plan_controls()
         if self.model.plan_payload is not None:
             self._new_plan_mode = False
@@ -790,16 +932,6 @@ class TrainingPathEditor(QWidget):
     def _plan_path_changed(self, value: str) -> None:
         if not str(value).strip():
             self._new_plan_mode = True
-
-    def _architecture_changed(self, _index: int = -1) -> None:
-        if self._loading_plan:
-            return
-        architecture = str(self.architecture.currentData() or "tsh_calo")
-        self.model.set_value("architecture", architecture)
-        if architecture == "calo":
-            self.model.clear_loaded_plan()
-            self._new_plan_mode = True
-        self.refresh()
 
     def _set_plan_value(self, *path: str, value) -> None:
         if not self._loading_plan and not self._new_plan_mode:
@@ -839,7 +971,6 @@ class TrainingPathEditor(QWidget):
         self._loading_plan = True
         try:
             training = dict(payload.get("training", {}))
-            self.architecture.setCurrentIndex(self.architecture.findData("tsh_calo"))
             self.campaign_id.setText(str(payload.get("campaign_id", "")))
             self._set_selected_cases(payload.get("development_cases", ()))
             self.members.setValue(len(payload.get("members", ())))
@@ -865,28 +996,24 @@ class TrainingPathEditor(QWidget):
     def refresh(self) -> None:
         controller = self.training_controller
         idle = controller.process is None
-        trainable = str(self.architecture.currentData() or "tsh_calo") == "tsh_calo"
+        self.library_picker.setEnabled(idle)
+        self.add_library_location_button.setEnabled(idle)
+        self.refresh_library_button.setEnabled(idle)
         for row in self.path_rows:
-            row.setEnabled(idle and trainable)
-        self.load_plan_button.setEnabled(idle and trainable and bool(self.model.values.get("plan")))
+            row.setEnabled(idle)
+        self.resume.setEnabled(idle and bool(self.model.values.get("output")))
+        self.load_plan_button.setEnabled(
+            idle and not self.resume.isChecked() and bool(self.model.values.get("plan"))
+        )
         for control in self._plan_controls:
             control.setEnabled(
                 idle
-                and (control is self.architecture or trainable)
+                and not self.resume.isChecked()
                 and not bool(control.property("protectedHoldout"))
             )
         if controller.process is not None:
             self.status.setText(controller.status.text())
             self._set_primary_action("Training active", controller.status.text(), False)
-            return
-        if not trainable:
-            self.status.setText("CALO is built in; no policy training is required")
-            self.status.setToolTip(
-                "Select CALO directly in the Algorithms workspace, or choose TSH-CALO here to train a policy."
-            )
-            self._set_primary_action(
-                "Training not required", "Choose TSH-CALO to train a new policy.", False
-            )
             return
         missing = self.model.missing(include_output=False)
         if missing:
@@ -900,15 +1027,31 @@ class TrainingPathEditor(QWidget):
             return
         self.status.setToolTip("")
         ready = controller._validated_fingerprint == self.model.fingerprint()
-        if ready and not self.model.missing(include_output=True):
+        missing_output = self.model.missing(include_output=True)
+        if ready and missing_output:
+            self.status.setText("Select a new or resumable output directory")
+            self._set_primary_action("Start training", "Select an output directory.", False)
+            return
+        output_path = Path(self.model.values["output"]).expanduser()
+        if ready and self.resume.isChecked() and not output_path.is_dir():
+            self.status.setText("Resume requires an existing training directory")
+            self._set_primary_action(
+                "Start training", "Select an existing compatible training directory.", False
+            )
+            return
+        if ready and output_path.exists() and not self.resume.isChecked():
+            self.status.setText("Output already exists · choose a new directory or enable resume")
+            self._set_primary_action(
+                "Start training",
+                "Choose a new output directory or enable compatible resume.",
+                False,
+            )
+            return
+        if ready:
             self.status.setText("Ready to start")
             self._set_primary_action(
                 "Start training", "Start the checked new-policy training run.", True
             )
-            return
-        if ready:
-            self.status.setText("Select a new output path")
-            self._set_primary_action("Start training", "Select a new output path.", False)
             return
         self.status.setText("Ready for validation")
         self._set_primary_action(
@@ -926,10 +1069,6 @@ class TrainingPathEditor(QWidget):
 
     def _run_primary_action(self) -> None:
         if self.training_controller.process is not None:
-            return
-        if str(self.architecture.currentData() or "tsh_calo") == "calo":
-            self.refresh()
-            self.architecture.setFocus(Qt.FocusReason.ShortcutFocusReason)
             return
         missing = self.model.missing(include_output=False)
         if missing:
@@ -985,7 +1124,7 @@ class TrainingPathEditor(QWidget):
         self.training_controller.prepare_resume(record)
         self.fields["plan"].setText(self.model.values["plan"])
         self.fields["output"].setText(self.model.values["output"])
-        self.architecture.setCurrentIndex(self.architecture.findData("tsh_calo"))
+        self._load_plan()
         self.refresh()
 
 
@@ -994,7 +1133,13 @@ class ContextPane(QWidget):
     status_message = pyqtSignal(str)
 
     def __init__(
-        self, state, navigator: QWidget, training_model, training_controller, parent=None
+        self,
+        state,
+        navigator: QWidget,
+        training_model,
+        training_controller,
+        training_model_library,
+        parent=None,
     ) -> None:
         super().__init__(parent)
         self.setObjectName("ContextPane")
@@ -1033,7 +1178,9 @@ class ContextPane(QWidget):
         self.generic = GenericContextEditor("overview")
         self.experiment = ExperimentQuickEditor(state)
         self.compute = ComputeQuickEditor(state)
-        self.training = TrainingPathEditor(training_model, training_controller)
+        self.training = TrainingPathEditor(
+            training_model, training_controller, training_model_library
+        )
         for editor in (self.generic, self.experiment, self.compute, self.training):
             self.stack.addWidget(editor)
             if hasattr(editor, "open_requested"):

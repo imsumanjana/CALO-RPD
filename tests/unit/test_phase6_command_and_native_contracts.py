@@ -1,12 +1,24 @@
 from __future__ import annotations
 
-from pathlib import Path
+import json
 import tomllib
+from pathlib import Path
 
 import pytest
 
 
 ROOT = Path(__file__).resolve().parents[2]
+
+
+class _MemorySettings:
+    def __init__(self):
+        self.values = {}
+
+    def value(self, key, default=None):
+        return self.values.get(key, default)
+
+    def set_value(self, key, value):
+        self.values[key] = value
 
 
 def test_phase6_command_registry_has_one_stable_authority():
@@ -88,10 +100,12 @@ def test_independent_training_arguments_keep_check_and_start_separate():
         model.set_value(key, value)
     check = model.arguments(check=True)
     start = model.arguments(check=False)
+    resume = model.arguments(check=False, resume=True)
     assert "--check" in check
     assert "--output" not in check
     assert "--check" not in start
     assert start[-2:] == ["--output", "new-output"]
+    assert resume[-3:] == ["--output", "new-output", "--resume"]
     assert "qualify" not in " ".join(start).lower()
     assert "activate" not in " ".join(start).lower()
     assert "--development-freeze" not in check
@@ -139,20 +153,62 @@ def test_fresh_plan_uses_builtin_architecture_and_has_no_governance_path_inputs(
     assert model.plan_payload["phase4_acceptance_sha256"] == ""
     assert model.plan_payload["feature_flags"]["allow_experimental_components"] is False
     assert model.plan_payload["feature_flags"]["population_schedule"] is False
-    assert model.values["architecture"] == "tsh_calo"
-    assert set(model.values) == {"architecture", "plan", "output"}
+    assert set(model.values) == {"plan", "output"}
+    with pytest.raises(KeyError):
+        model.set_value("architecture", "calo")
     with pytest.raises(KeyError):
         model.set_value("development_freeze", "user-selected.json")
 
 
-def test_calo_architecture_does_not_route_to_the_policy_trainer():
+def test_rule_based_calo_remains_an_ordinary_algorithm_not_a_training_input():
+    from calo_rpd_studio.algorithms.registry import SPECS
     from calo_rpd_studio.gui.panels.independent_training_panel import TrainingLaunchModel
 
+    assert "CALO" in SPECS
     model = TrainingLaunchModel()
-    model.set_value("architecture", "calo")
+    assert "architecture" not in model.values
+    with pytest.raises(KeyError, match="Unknown scientist-facing training input"):
+        model.set_value("architecture", "calo")
 
-    with pytest.raises(ValueError, match="does not require policy training"):
-        model.arguments(check=True)
+
+def test_training_model_library_scans_default_and_explicit_locations(tmp_path):
+    from calo_rpd_studio.gui.panels.independent_training_panel import TrainingModelLibrary
+
+    settings = _MemorySettings()
+    default = tmp_path / "private-models"
+    external = tmp_path / "external-models"
+    resumable = external / "campaign-one"
+    completed = default / "campaign-complete"
+    resumable.mkdir(parents=True)
+    completed.mkdir(parents=True)
+    (resumable / "training_plan.json").write_text(
+        json.dumps({"campaign_id": "campaign-one"}), encoding="utf-8"
+    )
+    (resumable / "training_status.json").write_text(
+        json.dumps({"state": "interrupted"}), encoding="utf-8"
+    )
+    (completed / "training_plan.json").write_text(
+        json.dumps({"campaign_id": "campaign-complete"}), encoding="utf-8"
+    )
+    (completed / "training_status.json").write_text(
+        json.dumps({"state": "completed"}), encoding="utf-8"
+    )
+
+    library = TrainingModelLibrary(settings, default_directory=default)
+    assert default.is_dir()
+    assert library.default_directory_error == ""
+    assert library.scan_locations() == (default.resolve(),)
+    library.add_scan_location(external)
+
+    assert library.scan_locations() == (default.resolve(), external.resolve())
+    assert library.resumable_campaigns() == (
+        {
+            "campaign_id": "campaign-one",
+            "state": "interrupted",
+            "directory": str(resumable.resolve()),
+            "plan": str((resumable / "training_plan.json").resolve()),
+        },
+    )
 
 
 def test_phase6_shell_contract_keeps_inputs_and_ribbon_permanent():
@@ -285,13 +341,16 @@ def test_empty_portfolio_selection_is_an_input_prompt_not_a_logged_failure():
     assert "Select at least one output to preview the portfolio plan." in source
 
 
-def test_offscreen_renderer_requires_the_base_architecture_information_control():
+def test_offscreen_renderer_rejects_a_training_architecture_control():
     renderer = (ROOT / "calo_rpd_studio/scripts/validate_phase6_gui_contracts.py").read_text(
         encoding="utf-8"
     )
     expected_help = renderer.split("expected_help = {", 1)[1].split("}", 1)[0]
 
-    assert '"architecture"' in expected_help
+    assert '"library"' in expected_help
+    assert '"architecture"' not in expected_help
+    assert 'hasattr(training_editor, "architecture")' in renderer
+    assert '"architecture" in window.training_launch_model.values' in renderer
     assert "observed_help = set(training_editor.info_buttons)" in renderer
     assert "missing={sorted(expected_help - observed_help)}" in renderer
     assert "unexpected={sorted(observed_help - expected_help)}" in renderer
@@ -301,10 +360,35 @@ def test_policy_training_process_actions_are_visible_in_the_input_pane():
     context = (ROOT / "calo_rpd_studio/gui/widgets/context_pane.py").read_text(encoding="utf-8")
     main_window = (ROOT / "calo_rpd_studio/app/main_window.py").read_text(encoding="utf-8")
 
+    constructor = context.split("class TrainingPathEditor", 1)[1].split(
+        "    def _training_activity", 1
+    )[0]
+    assert constructor.index("self.status = QLabel()") < constructor.index(
+        "self._select_new_training()"
+    )
     assert 'self.training_action_button = QPushButton("Check readiness")' in context
     assert '"Start training", "Start the checked new-policy training run.", True' in context
     assert "self.training_controller.check_readiness()" in context
     assert "self.training_controller.start_training()" in context
+    assert "self.resume = self.training_controller.resume" in context
+    assert 'self.resume.setText("Resume compatible training")' in context
+    assert "output_path.exists() and not self.resume.isChecked()" in context
+    controller = (ROOT / "calo_rpd_studio/gui/panels/independent_training_panel.py").read_text(
+        encoding="utf-8"
+    )
+    assert "self.resume.toggled.connect(self._resume_intent_changed)" in controller
+    assert 'self._validated_fingerprint = ""' in controller
+    assert "Resume choice changed · check readiness again" in controller
+    assert '"Select location for new training output"' in context
+    assert '"Select interrupted training directory"' in context
+    assert "while candidate.exists():" in context
+    assert "TrainingModelLibrary" in controller
+    assert 'self.activity_message.emit("DEBUG", cleaned)' in controller
+    assert "requires a clean non-ignored source tree" in controller
+    assert "uncommitted changes" in controller
+    assert 'self.add_library_location_button = QPushButton("Add to path")' in context
+    assert 'self.library_picker.addItem("New training", "")' in context
+    assert "self.model.load_plan(preserve_identity=self.resume.isChecked())" in context
     assert "_training_context_was_visible" not in main_window
     assert "_update_training_command" not in main_window
     assert "self.context_pane.activate_training()" not in main_window

@@ -873,6 +873,35 @@ no visible input-pane control. The ribbon is now navigation-only, while a persis
 footer visibly owns `Check readiness` and gated `Start training`; explicit start confirmation and
 no-auto-selection remain unchanged. This post-pass source correction requires one fresh owner run.
 
+Manual start review then reached the existing-output guard and revealed that its compatible-resume
+choice was still hidden. The canonical controller checkbox is now visible, off by default, and
+bound directly into Campaign inputs. Existing paths cannot start as new runs; resume requires an
+existing directory and still passes the exact stored-plan/status/checkpoint integrity gates. Fresh
+Browse proposes a new child path while resume Browse selects the interrupted directory. This
+current-source follow-up requires one fresh owner run.
+
+The current follow-up adds a per-user resumable-model library. New TSH-CALO runs propose unique
+children of the OS-managed CALO-RPD application-data `training-models` directory; explicitly added
+directories join future scans without copying or relocating their campaigns. The picker admits
+only stored `running` or `interrupted` plan/status pairs, preserves stored source identity, selects
+their original output directory, and visibly enables the canonical exact-resume choice. CALO
+remains built in and does not train. Dirty-source readiness remains fail-closed, but its traceback
+is confined to Activity Logs while the visible status explains the corrective action. Focused
+contracts are written; current-source owner validation is pending.
+
+The policy-training pane is now unambiguously TSH-CALO-only. The inapplicable CALO/TSH-CALO
+architecture selector and its help control were removed, and the training launch model no longer
+accepts architecture as mutable input. Rule-based CALO remains available through ordinary algorithm
+and experiment selection and is not changed by this GUI correction. All TSH-CALO readiness, exact
+resume, qualification, activation, protected-case, and no-auto-selection boundaries remain intact.
+Focused contracts are updated; current-source owner validation is pending.
+
+The TSH-CALO-only training-editor startup order is corrected after a manual native launch exposed
+that initial selection refreshed the editor before its status/action widgets existed. Initial
+selection now follows construction of those controls, and focused static/offscreen contracts cover
+the ordering and first visible readiness state. No execution was performed by the development
+agent; current-source owner launch and validation remain pending.
+
 ## Invariants
 
 1. No old result, experiment, policy, or fingerprint is silently rewritten.
