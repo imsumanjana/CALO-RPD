@@ -113,9 +113,9 @@ def verify_active_version(root: Path = PROJECT_ROOT) -> dict:
         and status.get("phase_5_publication_authorized") is False
         and status.get("phase_6_started") is True
         and status.get("phase_6_goal")
-        == "completed_training_editor_initialization_order_correction_validation_pending"
+        == "completed_training_resource_readiness_parity_correction_validation_pending"
         and status.get("phase_6_coding")
-        == "implemented_training_editor_status_and_action_before_initial_refresh_awaiting_validation"
+        == "implemented_shared_safe80_preflight_and_transition_bound_rollout_envelope_awaiting_validation"
         and status.get("phase_6_training_interface")
         == "ribbon_navigation_only_tsh_calo_only_training_no_architecture_selector_optional_settings_template_per_user_default_model_directory_registered_resume_scan_locations_visible_scientific_inputs_protected_118_300_locked_visible_default_off_exact_resume_in_pane_readiness_then_explicit_confirmed_start_rule_based_calo_remains_in_algorithm_selection_no_redundant_document"
         and status.get("phase_6_training_input_help")
@@ -123,7 +123,7 @@ def verify_active_version(root: Path = PROJECT_ROOT) -> dict:
         and status.get("phase_6_native_execution")
         == "validated_first_class_windows_non_docker_launch"
         and status.get("phase_6_validation")
-        == "passed_phase6-20260813-215626_superseded_by_training_interface_and_startup_followup_validation_pending"
+        == "passed_phase6-20260813-215626_superseded_by_training_readiness_resource_parity_followup_validation_pending"
         and status.get("phase_6_validation_policy_or_scientific_workflows_executed") is False
         and status.get("phase_6_automated_human_acceptance") == "not_inferred"
         and status.get("phase_6_visual_refinement")
@@ -217,7 +217,15 @@ def verify_active_version(root: Path = PROJECT_ROOT) -> dict:
         and status.get("phase_6_fifteenth_validation_attempt")
         == "passed_phase6-20260813-215626_complete_19_of_19_113_tests_gui_native_packaging_source_stable"
         and status.get("phase_6_post_fifteenth_attempt_correction")
-        == "visible_training_actions_exact_resume_model_library_friendly_failures_tsh_calo_only_training_and_safe_training_editor_startup_fresh_phase6_rerun_required"
+        == "visible_training_actions_exact_resume_model_library_friendly_failures_tsh_calo_only_startup_and_safe80_resource_preflight_parity_fresh_phase6_rerun_required"
+        and status.get("phase_6_sixteenth_validation_attempt")
+        == "failed_phase6-20260814-003900_8_passed_first_failure_07_ruff_undefined_offscreen_repository_root"
+        and status.get("phase_6_post_sixteenth_attempt_correction")
+        == "offscreen_resource_contract_uses_explicit_repository_root_fresh_phase6_rerun_required"
+        and status.get("phase_6_seventeenth_validation_attempt")
+        == "failed_phase6-20260814-004621_10_commands_73_unit_passed_22_of_24_gui_passed_stale_test_settings_and_visible_checksum_wording"
+        and status.get("phase_6_post_seventeenth_attempt_correction")
+        == "focused_gui_settings_cleared_per_window_and_resume_help_uses_product_integrity_language_fresh_phase6_rerun_required"
     )
 
     index = _load_json(root / "STATUS_RECORD_INDEX.json")

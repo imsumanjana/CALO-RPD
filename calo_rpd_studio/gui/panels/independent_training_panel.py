@@ -239,7 +239,10 @@ class TrainingLaunchModel(QObject):
                 development_cases=tuple(development_cases),
                 members=members,
                 resource_envelope=TSHCALOTrainingResourceEnvelope(
-                    rollout_capacity=max(1, min(int(max_evaluations), 4096)),
+                    # Reset consumes the initial population; every retained policy transition
+                    # consumes one subsequent population. Bound retained transitions, not raw
+                    # candidate evaluations, so memory admission matches the actual PPO rollout.
+                    rollout_capacity=self._rollout_capacity(population_size, max_evaluations),
                     maximum_population_size=int(population_size),
                     maximum_topology_nodes=300,
                     maximum_topology_edges=1_000,
@@ -266,6 +269,21 @@ class TrainingLaunchModel(QObject):
         else:
             self.plan_payload = plan.to_dict()
             self.plan_error = ""
+        self.changed.emit(dict(self.values))
+
+    @staticmethod
+    def _rollout_capacity(population_size: int, max_evaluations: int) -> int:
+        population = max(1, int(population_size))
+        return max(1, min(int(max_evaluations) // population - 1, 4096))
+
+    def set_resource_design(self, *, population_size: int, max_evaluations: int) -> None:
+        if self.plan_payload is None:
+            return
+        self.plan_payload["population_size"] = int(population_size)
+        self.plan_payload["max_evaluations"] = int(max_evaluations)
+        envelope = self.plan_payload["resource_envelope"]
+        envelope["maximum_population_size"] = int(population_size)
+        envelope["rollout_capacity"] = self._rollout_capacity(population_size, max_evaluations)
         self.changed.emit(dict(self.values))
 
     def set_plan_value(self, *path: str, value) -> None:
@@ -609,6 +627,20 @@ class IndependentTrainingPanel(QWidget):
 
     def _friendly_process_failure(self, operation: str, exit_code: int) -> str:
         technical_output = "\n".join(self._process_output).casefold()
+        if "currently available cpu ram" in technical_output:
+            return (
+                "The selected training settings need more memory than is currently available. "
+                "Free system memory or reduce evaluations per episode, hidden dimension, or graph "
+                "steps. At a fixed evaluation budget, a scientifically appropriate larger "
+                "population also retains fewer policy transitions. Check readiness again; "
+                "training was not started."
+            )
+        if "currently free vram" in technical_output:
+            return (
+                "The selected training settings exceed the safe NVIDIA GPU memory limit. Free GPU "
+                "memory, reduce the training size, or enable CPU fallback when sufficient system "
+                "memory is available. Training was not started."
+            )
         if "requires a clean non-ignored source tree" in technical_output:
             return (
                 "Readiness stopped because this application source has uncommitted changes. "

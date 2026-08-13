@@ -59,6 +59,35 @@ def _valid_sha256(value: str) -> bool:
     return len(text) == 64 and all(character in "0123456789abcdef" for character in text)
 
 
+def _build_and_admit_training_network(config: "TSHCALOTrainingConfig"):
+    """Build the policy shape and apply the same Safe-80 admission used by training."""
+
+    config.validate()
+    with torch.random.fork_rng(devices=[]):
+        torch.manual_seed(int(config.seed))
+        network = TSHCALOPolicyNetwork(config.hidden_dim, config.graph_steps)
+    estimate = estimate_tsh_calo_training_working_set(network, config.resource_envelope)
+    guard = TSHCALOTrainingDeviceGuard.admit(
+        estimate,
+        requested_device=config.device,
+        allow_cpu_fallback=config.allow_cpu_fallback,
+    )
+    return network, estimate, guard
+
+
+def preflight_tsh_calo_training_resources(config: "TSHCALOTrainingConfig") -> dict:
+    """Check current training admission without starting a campaign or retaining a device lease."""
+
+    _network, estimate, guard = _build_and_admit_training_network(config)
+    try:
+        return {
+            "memory_estimate": estimate.to_dict(),
+            "memory_admission": guard.admission.to_dict(),
+        }
+    finally:
+        guard.close()
+
+
 @dataclass(frozen=True, slots=True)
 class TSHCALOTrainingConfig:
     training_run_id: str
@@ -399,19 +428,8 @@ class IndependentTSHCALOTrainer:
 
     def __init__(self, config: TSHCALOTrainingConfig) -> None:
         self._closed = False
-        config.validate()
         self.config = config
-        with torch.random.fork_rng(devices=[]):
-            torch.manual_seed(int(config.seed))
-            network = TSHCALOPolicyNetwork(config.hidden_dim, config.graph_steps)
-        self.memory_estimate = estimate_tsh_calo_training_working_set(
-            network, config.resource_envelope
-        )
-        self.device_guard = TSHCALOTrainingDeviceGuard.admit(
-            self.memory_estimate,
-            requested_device=config.device,
-            allow_cpu_fallback=config.allow_cpu_fallback,
-        )
+        network, self.memory_estimate, self.device_guard = _build_and_admit_training_network(config)
         self.device = torch.device(self.device_guard.admission.selected_device)
         try:
             self.network = network.to(self.device)

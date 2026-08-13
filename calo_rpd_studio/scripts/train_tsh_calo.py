@@ -11,6 +11,9 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign import (
     IndependentTSHCALOTrainingCampaign,
     TSHCALOTrainingCampaignPlan,
 )
+from calo_rpd_studio.algorithms.calo.tsh_calo_training import (
+    preflight_tsh_calo_training_resources,
+)
 from calo_rpd_studio.scripts.create_development_freeze_candidate import (
     validate_development_freeze_candidate,
 )
@@ -118,7 +121,13 @@ def validate_development_freeze_for_plan(
     return report
 
 
-def _summary(plan: TSHCALOTrainingCampaignPlan, *, state: str, result=None) -> dict:
+def _summary(
+    plan: TSHCALOTrainingCampaignPlan,
+    *,
+    state: str,
+    result=None,
+    resource_preflight: dict | None = None,
+) -> dict:
     payload: dict[str, object] = {
         "state": state,
         "campaign_id": plan.campaign_id,
@@ -142,7 +151,15 @@ def _summary(plan: TSHCALOTrainingCampaignPlan, *, state: str, result=None) -> d
                 "lifecycle_status": "candidate_unqualified",
             }
         )
+    if resource_preflight is not None:
+        payload["resource_preflight"] = resource_preflight
     return payload
+
+
+def validate_training_resources(plan: TSHCALOTrainingCampaignPlan) -> dict:
+    """Apply the trainer's current Safe-80 admission without starting training."""
+
+    return preflight_tsh_calo_training_resources(plan.training_config(plan.members[0]))
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -194,7 +211,17 @@ def main(argv: list[str] | None = None) -> int:
     ):
         parser.error("this legacy plan requires its internal authority records")
     if arguments.check:
-        print(json.dumps(_summary(plan, state="validated_not_started"), sort_keys=True))
+        resource_preflight = validate_training_resources(plan)
+        print(
+            json.dumps(
+                _summary(
+                    plan,
+                    state="validated_not_started",
+                    resource_preflight=resource_preflight,
+                ),
+                sort_keys=True,
+            )
+        )
         return 0
 
     campaign = IndependentTSHCALOTrainingCampaign(plan, arguments.output)

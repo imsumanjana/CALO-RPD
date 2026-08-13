@@ -74,7 +74,10 @@ def _window(qtbot, tmp_path, monkeypatch):
         main_window_module.MainWindow, "closeEvent", lambda self, event: event.accept()
     )
     state = AppState(tmp_path / "phase6-gui.sqlite")
-    window = main_window_module.MainWindow(state, ExperimentManager(state), SettingsManager())
+    settings = SettingsManager()
+    settings.settings.clear()
+    settings.settings.sync()
+    window = main_window_module.MainWindow(state, ExperimentManager(state), settings)
 
     def close_focused_test_window(widget):
         widget.activity_center.detach_logging()
@@ -574,6 +577,26 @@ def test_clean_source_readiness_failure_is_summarized_and_trace_is_debug_only(
         "Traceback" not in window.activity_center.warnings.item(index).text()
         for index in range(window.activity_center.warnings.count())
     )
+
+
+def test_memory_readiness_failure_is_explained_before_training_starts(qtbot, tmp_path, monkeypatch):
+    state, window = _window(qtbot, tmp_path, monkeypatch)
+    model = _complete_training_inputs(window, tmp_path)
+    panel = window.training_center
+    panel._operation = "check"
+    panel._invocation_fingerprint = model.fingerprint()
+    panel._process_output = [
+        "MemoryError: TSH-CALO training working set exceeds 80% of currently available CPU RAM"
+    ]
+
+    panel._process_finished(1, None)
+
+    assert "more memory than is currently available" in panel.status.text().lower()
+    assert "training was not started" in panel.status.text().lower()
+    assert "more memory" in window.context_pane.training.status.text().lower()
+    assert state.policy_training_active is False
+    assert panel._validated_fingerprint == ""
+    assert panel.start_button.isEnabled() is False
 
 
 def test_existing_training_output_requires_explicit_visible_resume_choice(

@@ -1371,3 +1371,24 @@ scientific/hardware qualification—not as a final release.
   the training status and primary-action widgets. This removes the pre-window `AttributeError` and
   lets the first refresh present readiness state safely. Focused static/offscreen contracts were
   updated; no GUI, tests, validator, Docker, or policy workflow was executed afterward.
+- A subsequent owner training attempt passed readiness three times but failed at first trainer
+  construction because Safe-80 GPU admission and permitted CPU fallback both lacked sufficient
+  current memory. `--check` now uses the trainer's exact estimator/device guard and releases its
+  readiness-only admission immediately. GUI-created rollout capacity now counts possible retained
+  policy transitions rather than raw candidate evaluations. The evaluation budget and Safe-80
+  ceiling remain unchanged; focused contracts were updated but not executed.
+- Owner validator run `phase6-20260814-003900` subsequently passed through compilation and first
+  failed Ruff on two references to the same undefined lowercase `root` in the new offscreen
+  resource contracts. The retained log confirms no concatenated test-path argument. The contract
+  now uses its explicit source-derived repository root; no checks were run afterward.
+- Authorized validator run `phase6-20260814-004621` passed Ruff, format, 73 unit tests, and 22/24
+  focused GUI tests. The failures were a stale scan location retained across isolated Qt test
+  windows and visible `checksum` wording in resume help. Temporary settings are now cleared per
+  test window and the help uses saved-file-integrity wording; production persistence and internal
+  checksum enforcement are unchanged. A fresh complete rerun is in progress/pending.
+- Authorized validator run `phase6-20260814-004927` passed the full command `01` through `17`
+  sequence, including 73 unit, 24 focused GUI, 21 GUI-regression, and 9 integration tests; all
+  offscreen render modes; fresh wheel/sdist build; both distribution verifiers; and source
+  stability. Retained evidence is in `validation/logs/phase6-20260814-004927`. This is automated
+  Phase 6 GUI/native/packaging evidence only, not policy/scientific qualification, human
+  acceptance, or release authorization.

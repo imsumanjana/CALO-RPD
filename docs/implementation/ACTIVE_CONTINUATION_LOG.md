@@ -2289,3 +2289,66 @@ Append timestamped entries below this line after each material action, validatio
   initial visible status. No GUI, tests, validator, Docker, training, evaluation, qualification,
   protected-case, publication, or release workflow was executed by the development agent. A fresh
   native launch and complete owner Phase 6 validator run are required.
+
+### 2026-08-14 - Phase 6 readiness and Safe-80 training admission made consistent
+
+- Manual TSH-CALO execution showed three successful readiness checks followed by immediate
+  first-member failure: CUDA could not admit the estimated working set, fallback CPU admission also
+  exceeded 80% of currently available RAM, and no usable policy was produced.
+- `--check` had validated the plan/source boundary but returned before constructing the policy
+  shape or invoking the Safe-80 device guard. Readiness now calls the same network estimator and
+  device-admission routine as `IndependentTSHCALOTrainer`, records the nonexecuting admission
+  summary, and immediately releases any readiness-only CUDA lease. A failed admission cannot mark
+  the training fingerprint ready or expose Start training.
+- Fresh GUI plans had also equated raw candidate evaluations with retained policy transitions. The
+  exact session accounting consumes one initial population and then one population per policy
+  transition, so rollout capacity is now `evaluations / population - 1` (bounded by 4096) and stays
+  synchronized when either input changes. Evaluation totals and the 80% VRAM/RAM ceiling are not
+  reduced or weakened.
+- CPU/VRAM admission failures now produce a short input-pane explanation while technical details
+  remain in Activity -> Logs. No tests, GUI, validator, Docker, training, evaluation,
+  qualification, protected-case, publication, or release workflow was executed by the development
+  agent. A fresh native owner check and complete Phase 6 validator run are required.
+
+### 2026-08-14 - Phase 6 owner run 16 stopped at Ruff
+
+- Owner run `phase6-20260814-003900` passed eight checks through command `06`, including all three
+  ignored-path checks, then first failed command `07-ruff` with two F821 reports for the same
+  undefined lowercase `root` name in the new offscreen resource-contract source reads.
+- The retained command log proves the adjacent unit-test paths were separate arguments; the compact
+  console rendering did not identify a PowerShell array defect. No unnecessary validator-list
+  change was made.
+- The offscreen contract now defines and uses an explicit repository root derived from its own
+  source path. No tests, GUI, validator, Docker, training, evaluation, qualification,
+  protected-case, publication, or release workflow was executed by the development agent. A fresh
+  complete owner Phase 6 rerun is required.
+
+### 2026-08-14 - Phase 6 agent-run validation 17 stopped at focused GUI contracts
+
+- With explicit owner authorization, sandboxed launch first produced retained infrastructure-only
+  run `phase6-20260814-004600`, which could not execute repository Python. The exact validator was
+  then run outside the sandbox as `phase6-20260814-004621` without changing persistent PowerShell
+  policy.
+- The executable run passed commands `01` through `09`, including Ruff, formatting, and 73 unit
+  tests. Command `10` completed with 22 of 24 GUI tests passing. One failure selected a scan path
+  persisted by an earlier focused-test window; Qt application settings can retain their first
+  storage location across repeated windows in one process. The fixture now clears and synchronizes
+  only its isolated temporary settings before each window. Production scan-location persistence is
+  unchanged.
+- The second failure found visible resume help containing the internal word `checksum`. It now says
+  `saved-file integrity`; exact checksum enforcement remains unchanged internally.
+- No Docker, training, evaluation, qualification, protected-case, publication, or release workflow
+  was executed. A fresh complete validator rerun is required.
+
+### 2026-08-14 - Phase 6 authorized validation completed
+
+- Authorized run `phase6-20260814-004927` passed the complete command `01` through `17` sequence:
+  73 unit tests, 24 focused GUI tests, 21 affected GUI regression tests, 9 empty-policy/training-
+  navigation integration tests, offscreen light/dark/constrained rendering, wheel and sdist build,
+  both distribution verifiers, and nonignored-source stability.
+- The validated corrections isolate temporary GUI settings per test window and use product-facing
+  saved-file-integrity wording without weakening internal exact-resume verification.
+- The retained evidence is under `validation/logs/phase6-20260814-004927`. The validator performed
+  no Docker, policy training/evaluation/qualification/registration/activation/deletion,
+  protected-case, publication, CUDA-campaign, or release operation, and it does not infer human
+  screen-reader, usability, or scientist acceptance.

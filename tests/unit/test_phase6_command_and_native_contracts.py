@@ -153,6 +153,12 @@ def test_fresh_plan_uses_builtin_architecture_and_has_no_governance_path_inputs(
     assert model.plan_payload["phase4_acceptance_sha256"] == ""
     assert model.plan_payload["feature_flags"]["allow_experimental_components"] is False
     assert model.plan_payload["feature_flags"]["population_schedule"] is False
+    assert model.plan_payload["resource_envelope"]["rollout_capacity"] == 499
+    model.set_resource_design(population_size=50, max_evaluations=10_000)
+    assert model.plan_payload["population_size"] == 50
+    assert model.plan_payload["max_evaluations"] == 10_000
+    assert model.plan_payload["resource_envelope"]["maximum_population_size"] == 50
+    assert model.plan_payload["resource_envelope"]["rollout_capacity"] == 199
     assert set(model.values) == {"plan", "output"}
     with pytest.raises(KeyError):
         model.set_value("architecture", "calo")
@@ -386,6 +392,19 @@ def test_policy_training_process_actions_are_visible_in_the_input_pane():
     assert 'self.activity_message.emit("DEBUG", cleaned)' in controller
     assert "requires a clean non-ignored source tree" in controller
     assert "uncommitted changes" in controller
+    assert "currently available cpu ram" in controller
+    training_command = (ROOT / "calo_rpd_studio/scripts/train_tsh_calo.py").read_text(
+        encoding="utf-8"
+    )
+    assert "resource_preflight = validate_training_resources(plan)" in training_command
+    assert "preflight_tsh_calo_training_resources(plan.training_config(plan.members[0]))" in (
+        training_command
+    )
+    training_core = (ROOT / "calo_rpd_studio/algorithms/calo/tsh_calo_training.py").read_text(
+        encoding="utf-8"
+    )
+    assert training_core.count("_build_and_admit_training_network(config)") == 2
+    assert "finally:\n        guard.close()" in training_core
     assert 'self.add_library_location_button = QPushButton("Add to path")' in context
     assert 'self.library_picker.addItem("New training", "")' in context
     assert "self.model.load_plan(preserve_identity=self.resume.isChecked())" in context

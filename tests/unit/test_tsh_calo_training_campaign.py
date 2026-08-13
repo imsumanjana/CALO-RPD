@@ -419,6 +419,40 @@ def test_explicit_training_command_requires_frozen_clean_source(tmp_path, monkey
     with pytest.raises(RuntimeError, match="clean non-ignored source tree"):
         train_tsh_calo.validate_repository_for_plan(loaded, root=tmp_path)
 
+
+def test_readiness_preflights_the_same_training_resource_guard(monkeypatch):
+    plan = _plan()
+    captured = {}
+
+    def preflight(config):
+        captured["config"] = config
+        return {
+            "memory_estimate": {"estimated_working_set_bytes": 123},
+            "memory_admission": {"selected_device": "cpu", "allowance_bytes": 456},
+        }
+
+    monkeypatch.setattr(train_tsh_calo, "preflight_tsh_calo_training_resources", preflight)
+
+    result = train_tsh_calo.validate_training_resources(plan)
+
+    assert captured["config"] == plan.training_config(plan.members[0])
+    assert result["memory_estimate"]["estimated_working_set_bytes"] == 123
+    assert result["memory_admission"]["selected_device"] == "cpu"
+
+
+def test_readiness_resource_failure_is_not_reported_as_validated(monkeypatch):
+    plan = _plan()
+
+    def reject(_config):
+        raise MemoryError(
+            "TSH-CALO training working set exceeds 80% of currently available CPU RAM"
+        )
+
+    monkeypatch.setattr(train_tsh_calo, "preflight_tsh_calo_training_resources", reject)
+
+    with pytest.raises(MemoryError, match="currently available CPU RAM"):
+        train_tsh_calo.validate_training_resources(plan)
+
     source = Path("calo_rpd_studio/scripts/train_tsh_calo.py").read_text(encoding="utf-8")
     assert "experiments.experiment_runner" not in source
     assert "PolicyRegistry" not in source

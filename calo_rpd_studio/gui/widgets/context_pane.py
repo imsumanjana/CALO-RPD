@@ -60,7 +60,7 @@ _TRAINING_INPUT_HELP = {
     ),
     "resume": (
         "Use an existing interrupted training directory only when continuing that exact run. "
-        "Its saved plan, status, campaign state, checkpoint identity, and checkpoint checksum "
+        "Its saved plan, status, campaign state, checkpoint identity, and saved-file integrity "
         "must all pass compatibility checks before any continuation."
     ),
     "campaign_id": (
@@ -650,9 +650,7 @@ class TrainingPathEditor(QWidget):
         self.members.valueChanged.connect(self._member_design_changed)
         self.master_seed.valueChanged.connect(self._member_design_changed)
         self.population.valueChanged.connect(self._population_changed)
-        self.evaluations.valueChanged.connect(
-            lambda value: self._set_plan_value("max_evaluations", value=int(value))
-        )
+        self.evaluations.valueChanged.connect(self._resource_design_changed)
         self.device.currentIndexChanged.connect(
             lambda _index: self._set_plan_value(
                 "requested_device", value=str(self.device.currentData())
@@ -961,8 +959,15 @@ class TrainingPathEditor(QWidget):
         )
 
     def _population_changed(self, value: int) -> None:
-        self._set_plan_value("population_size", value=int(value))
-        self._set_plan_value("resource_envelope", "maximum_population_size", value=int(value))
+        self._resource_design_changed()
+
+    def _resource_design_changed(self, *_args) -> None:
+        if self._loading_plan or self._new_plan_mode:
+            return
+        self.model.set_resource_design(
+            population_size=self.population.value(),
+            max_evaluations=self.evaluations.value(),
+        )
 
     def _load_plan_controls(self) -> None:
         payload = self.model.plan_payload

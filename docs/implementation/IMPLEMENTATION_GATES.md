@@ -902,6 +902,34 @@ selection now follows construction of those controls, and focused static/offscre
 the ordering and first visible readiness state. No execution was performed by the development
 agent; current-source owner launch and validation remain pending.
 
+Independent-training readiness now applies the same current Safe-80 network estimate and
+CUDA/CPU device admission as actual trainer construction, releasing a readiness-only lease before
+returning. Therefore an over-limit configuration cannot pass readiness and then fail immediately
+after being reported as running. Fresh GUI plans now bind rollout memory to actual retained policy
+transitions (`evaluations / population - 1`) rather than raw candidate evaluations, without changing
+the requested evaluation budget or 80% ceiling. Focused contracts are written; owner execution and
+validation remain pending.
+
+Owner run `phase6-20260814-003900` passed the environment, ignored-path, active-status, and compile
+checks before command `07-ruff` first failed on an undefined lowercase `root` used by the new
+offscreen resource-contract reads. The retained command log confirms the visually adjacent unit
+paths were passed separately. The contract now uses an explicit repository root derived from its
+source file; no development-agent execution followed, and a fresh complete owner rerun is pending.
+
+Authorized run `phase6-20260814-004621` passed through 73 command-`09` unit tests and completed
+command `10` with 22/24 GUI tests passing. The two focused failures were isolated GUI-test settings
+retaining an earlier scan location in the same Qt process and one visible resume tooltip using the
+internal term `checksum`. The fixture now clears only temporary test settings per window, and the
+tooltip uses saved-file-integrity language while internal verification remains exact. A complete
+rerun is pending; no prohibited workflow executed.
+
+Authorized run `phase6-20260814-004927` then passed the complete command `01` through `17`
+sequence: 73 unit tests, 24 focused GUI tests, 21 affected GUI regression tests, 9 integration
+tests, all three offscreen render modes, build, distribution verification, and nonignored-source
+stability. This closes the Phase 6 automated GUI/native/packaging validation gate for the tested
+source. Human usability, screen-reader, and scientist acceptance remain separate, and no policy,
+protected-case, Docker, CUDA-campaign, publication, or release workflow was executed.
+
 ## Invariants
 
 1. No old result, experiment, policy, or fingerprint is silently rewritten.

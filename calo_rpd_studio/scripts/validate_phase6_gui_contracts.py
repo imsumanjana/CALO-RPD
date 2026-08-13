@@ -9,6 +9,9 @@ from pathlib import Path
 import sys
 
 
+REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
+
+
 RIBBON_CATEGORIES = (
     "Home",
     "Workspace",
@@ -229,6 +232,14 @@ def validate(output: Path, *, platform: str) -> dict:
         raise AssertionError("Fresh training does not default to the per-user model directory")
     if training_editor.selected_training_cases() != ["case30", "case57"]:
         raise AssertionError("All eligible bundled training cases are not selected by default")
+    if "resource_preflight = validate_training_resources(plan)" not in (
+        REPOSITORY_ROOT / "calo_rpd_studio/scripts/train_tsh_calo.py"
+    ).read_text(encoding="utf-8"):
+        raise AssertionError("Readiness does not apply the training resource-admission preflight")
+    if "self._rollout_capacity(population_size, max_evaluations)" not in (
+        REPOSITORY_ROOT / "calo_rpd_studio/gui/panels/independent_training_panel.py"
+    ).read_text(encoding="utf-8"):
+        raise AssertionError("Fresh training does not bound retained rollout transitions")
     for protected_case in ("case118", "case300"):
         checkbox = training_editor.case_checks.get(protected_case)
         if checkbox is None or checkbox.isEnabled() or checkbox.isChecked():
