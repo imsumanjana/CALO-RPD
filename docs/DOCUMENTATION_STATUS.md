@@ -44,9 +44,19 @@ release proof.
   Phase 5 release-preparation coding followed. The ignored combined validator runs full Phase 4
   first and starts Phase 5 only if Phase 4 passes. This sequencing decision does not accept either
   phase from source existence.
-- Phase 5 development is complete at `12.0.0.dev1`; combined manual validation, an explicit
-  policy-free or newly-qualified-policy scope, any old-policy transition, final-record
-  authorization, `12.0.0` promotion, tag, push, publication, and release remain pending.
+- Phase 5 development is complete at `12.0.0.dev1`, and the owner-run combined Phase 4/5 validator
+  passed for its recorded source identity. An explicit policy-free or newly-qualified-policy scope,
+  any old-policy transition, final-record authorization, `12.0.0` promotion, tag, push,
+  publication, and release remain pending.
+- Phase 6 GUI/native-launch development is complete. Authorized consolidated run
+  `phase6-20260813-032036` passed all 19/19 automated unit, GUI, regression, empty-policy, render,
+  build, distribution-safety, and native/GUI package-membership checks for its recorded source
+  identity. It ran no Docker, policy/scientific, protected-case, publication, or release workflow;
+  automated evidence does not infer human screen-reader, usability, or scientist acceptance.
+- Phase 6's post-validation visual refinement is also source-complete: the ribbon owns all
+  workspace navigation, the left dock is input-only, policy readiness/start uses one ribbon action,
+  and all 16 workspace panels plus light/dark/constrained shell states were rendered and visually
+  reviewed in `phase6-panel-sweep-20260813-041700`.
 - Phase 4 coding now implements separate TSH-CALO experiment selection, empty-policy stale-binding
   cleanup, post-development-only activation/binding provenance, no internal inference fallback,
   read-only old-policy inventory/dry-run export, authorization-bound later retirement, distribution
@@ -60,6 +70,8 @@ release proof.
 ## Current-facing documents
 
 - `README.md`: active v12 status followed by clearly labeled historical release material.
+- `docs/NATIVE_WINDOWS_GUIDE.md`: current one-time setup, routine native launch, installed-wheel,
+  CUDA/CPU, activity/data/shutdown, Docker, and troubleshooting guidance.
 - `docs/user_guide.md`: current GUI and workflow behavior.
 - `docs/architecture.md`: package/data-flow structure, subject to the Phase 4 scheduling note.
 - `docs/reproducibility.md`: current empty-policy boundary and future reproducibility contract.
@@ -70,9 +82,36 @@ release proof.
   current scheduling addendum.
 - `docs/implementation/SCIENTIFIC_VALIDATION_PROTOCOL.md`: frozen future scientific protocol; not a
   Phase 4 execution plan.
-- `docs/implementation/PHASE_4_NEW_CHAT_PROMPT.md` and
-  `docs/implementation/PHASE_5_NEW_CHAT_PROMPT.md`: self-contained operational handoff prompts. They
+- `docs/implementation/PHASE_4_NEW_CHAT_PROMPT.md`,
+  `docs/implementation/PHASE_5_NEW_CHAT_PROMPT.md`, and
+  `docs/implementation/PHASE_6_NEW_CHAT_PROMPT.md`: self-contained operational handoff prompts. They
   remain subordinate to the live worktree, applicable `AGENTS.md` files, and authoritative ledgers.
+- `docs/implementation/PHASE_6_EXACT_CONTINUATION_PROMPT.md`: consumed dirty-worktree Phase 6
+  continuation with a completion banner; it prevents restarting the original audit and routes the
+  owner to the retained passing validator bundle and current ledgers.
+
+The current Phase 6 GUI follow-up restores complete frozen-plan training inputs to the single
+input-only dock without re-enabling the historical embedded trainer. Its focused validator has not
+yet been owner-executed; the earlier Phase 6 bundle remains historical evidence for its exact source.
+Inputs and the expanded ribbon are now permanent shell regions; the central preview is scrollable
+with a roomy minimum canvas and a taller branded tab header.
+Training cases use a catalog checklist: all legally eligible bundled development cases are selected
+automatically, while `case118` and `case300` are displayed as disabled protected holdouts. The
+native title-bar icon and separator styling are also corrected in source; the focused validator has
+not yet been owner-executed for these additions.
+The current 18 training controls have compact accessible hover/focus information buttons with
+purpose and directional-effect guidance. Development and acceptance paths are not user inputs,
+and the Base architecture selector distinguishes policy-free **CALO** from trainable **TSH-CALO**.
+CALO disables the policy-training inputs instead of routing to the retired trainer; TSH-CALO uses
+the existing independent readiness/start workflow. Optional plans are scientific-settings
+templates only. This source addition awaits the same focused owner validator.
+
+The latest Phase 6 policy/GUI consolidation removes the dormant embedded training implementation,
+routes policy-training resume records only to the independent prefill/check/explicit-start state
+machine, keeps one policy import, replaces raw Resume Center JSON with a concise summary, and uses
+Activity Logs for technical exception details. Ribbon categories now use exclusive styled buttons
+instead of a native category tab painter. This source is unvalidated until the owner runs the
+current ignored Phase 6 validator; the earlier 19/19 bundle applies only to its recorded source.
 
 ## Historical records
 

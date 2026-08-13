@@ -13,6 +13,14 @@ QMainWindow, #WorkspaceStack, #WorkspacePage, #ScrollableWorkspace,
 QDialog {
     background: #0f1520;
 }
+QMainWindow::separator {
+    background: #263247;
+    width: 1px;
+    height: 1px;
+}
+QMainWindow::separator:hover {
+    background: #344258;
+}
 QSplitter::handle {
     background: #273244;
     width: 1px;
@@ -172,6 +180,45 @@ QTextEdit, QPlainTextEdit, QListView, QTreeView {
 QLineEdit:focus, QComboBox:focus, QSpinBox:focus, QDoubleSpinBox:focus,
 QTextEdit:focus, QPlainTextEdit:focus {
     border: 1px solid #6b92ff;
+}
+QSpinBox, QDoubleSpinBox {
+    padding-right: 30px;
+}
+QSpinBox::up-button, QDoubleSpinBox::up-button,
+QSpinBox::down-button, QDoubleSpinBox::down-button {
+    subcontrol-origin: border;
+    width: 24px;
+    background: #182843;
+    border: 0;
+    border-left: 1px solid #36598f;
+}
+QSpinBox::up-button, QDoubleSpinBox::up-button {
+    subcontrol-position: top right;
+    border-bottom: 1px solid #2d4771;
+    border-top-right-radius: 6px;
+}
+QSpinBox::down-button, QDoubleSpinBox::down-button {
+    subcontrol-position: bottom right;
+    border-bottom-right-radius: 6px;
+}
+QSpinBox::up-button:hover, QDoubleSpinBox::up-button:hover,
+QSpinBox::down-button:hover, QDoubleSpinBox::down-button:hover {
+    background: #2853a3;
+    border-left-color: #8fb0ff;
+}
+QSpinBox::up-button:pressed, QDoubleSpinBox::up-button:pressed,
+QSpinBox::down-button:pressed, QDoubleSpinBox::down-button:pressed {
+    background: #1f4387;
+}
+QSpinBox::up-button:disabled, QDoubleSpinBox::up-button:disabled,
+QSpinBox::down-button:disabled, QDoubleSpinBox::down-button:disabled {
+    background: #151f2d;
+    border-left-color: #27364b;
+}
+QSpinBox::up-arrow, QDoubleSpinBox::up-arrow,
+QSpinBox::down-arrow, QDoubleSpinBox::down-arrow {
+    width: 12px;
+    height: 7px;
 }
 QComboBox QAbstractItemView {
     color: #e8edf5;
@@ -425,8 +472,285 @@ DARK_STYLESHEET += r"""
     background: #3a2424;
 }
 """
+
+# Phase 6 ribbon workspace, contextual panes, activity, and disabled-primary correction.
+DARK_STYLESHEET += r"""
+QPushButton#PrimaryButton:disabled {
+    color: #657287;
+    background: #182231;
+    border-color: #2a3548;
+}
+#RibbonBar {
+    background: #111923;
+    border-bottom: 1px solid #2a3548;
+}
+#RibbonIdentityBar {
+    background: #121c29;
+    border: 0;
+    border-bottom: 1px solid #344258;
+}
+#RibbonNavigationArea {
+    background: #111923;
+    border: 0;
+}
+#RibbonProduct {
+    color: #dce6ff;
+    font-size: 13pt;
+    font-weight: 800;
+}
+#RibbonVersion {
+    color: #9fb4d7;
+    font-size: 9pt;
+    font-weight: 600;
+}
+#RibbonState {
+    color: #b9ccff;
+    background: #182843;
+    border: 1px solid #36598f;
+    border-radius: 9px;
+    padding: 3px 9px;
+    font-size: 8.8pt;
+    font-weight: 650;
+}
+#RibbonTabs, #RibbonPageStack {
+    background: #111923;
+    border: 0;
+}
+QWidget#RibbonPage {
+    background: #111923;
+}
+#RibbonCategoryRow {
+    background: #111923;
+    border: 0;
+}
+QPushButton#RibbonCategoryButton {
+    color: #9aa8bc;
+    background: transparent;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    padding: 5px 14px 4px 14px;
+    border-radius: 0;
+    min-height: 18px;
+}
+QPushButton#RibbonCategoryButton:checked {
+    color: #dce6ff;
+    background: transparent;
+    border-bottom: 2px solid #6b92ff;
+}
+QPushButton#RibbonCategoryButton:hover:!checked {
+    color: #c8d2e0;
+    background: #151f2d;
+}
+QGroupBox#RibbonGroup {
+    background: #151e2c;
+    border: 1px solid #2a3548;
+    border-radius: 6px;
+    margin-top: 0;
+    padding: 0;
+}
+#RibbonGroupCommands {
+    background: transparent;
+}
+QLabel#RibbonGroupCaption {
+    color: #8d9aaf;
+    background: transparent;
+    border: 0;
+    padding: 0 4px 1px 4px;
+    min-height: 12px;
+    max-height: 12px;
+    font-size: 7.8pt;
+    font-weight: 650;
+}
+QToolButton#RibbonButton, QToolButton#RibbonPrimaryButton {
+    color: #c8d2e0;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    padding: 3px 7px 8px 7px;
+    min-width: 48px;
+}
+QToolButton#RibbonButton:hover, QToolButton#RibbonPrimaryButton:hover {
+    background: #1c315b;
+    border-color: #36598f;
+}
+QToolButton#RibbonPrimaryButton {
+    color: #dce6ff;
+    font-weight: 700;
+}
+QToolButton#RibbonButton:disabled, QToolButton#RibbonPrimaryButton:disabled {
+    color: #657287;
+    background: transparent;
+}
+QDockWidget {
+    color: #c8d2e0;
+    font-weight: 700;
+}
+QDockWidget::title {
+    background: #111923;
+    border: 0;
+    border-bottom: 1px solid #2a3548;
+    padding: 6px 9px;
+    text-align: left;
+}
+#ContextPane, #ContextEditor, #ActivityCenter, #DocumentWorkspace {
+    background: #151e2c;
+}
+#ContextTitle {
+    color: #f8fafc;
+    font-size: 15pt;
+    font-weight: 750;
+}
+#ContextDescription, #ContextHelp {
+    color: #8d9aaf;
+}
+#DocumentWorkspace::pane, #ActivityCenter::pane {
+    border: 1px solid #2a3548;
+    background: #151e2c;
+}
+QStatusBar #StatusCompute, QStatusBar #StatusDevice, QStatusBar #StatusMemory,
+QStatusBar #StatusPolicy, QStatusBar #StatusVersion {
+    color: #8d9aaf;
+    padding: 0 5px;
+    border-left: 1px solid #2a3548;
+}
+"""
 DARK_STYLESHEET += r"""
 #GlobalTaskState[taskState="cancelled"] { color: #d6b978; }
+"""
+
+# Professional shell refinement: concise headers, compact workspace palette, and quiet controls.
+DARK_STYLESHEET += r"""
+#PageTitle {
+    font-size: 18pt;
+}
+#ContextTitle {
+    font-size: 13pt;
+}
+QToolButton#WorkspaceRibbonButton {
+    color: #c8d2e0;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    padding: 4px 7px;
+    min-width: 82px;
+    min-height: 24px;
+    text-align: left;
+}
+QToolButton#WorkspaceRibbonButton:hover {
+    color: #dce6ff;
+    background: #1c315b;
+    border-color: #36598f;
+}
+QToolButton#WorkspaceRibbonButton:disabled {
+    color: #657287;
+    background: transparent;
+}
+QToolButton#DocumentCloseButton {
+    color: #8d9aaf;
+    background: transparent;
+    border: 0;
+    border-radius: 4px;
+    padding: 0;
+    font-size: 12pt;
+}
+QToolButton#DocumentCloseButton:hover {
+    color: #f8fafc;
+    background: #263247;
+}
+#ActivityCenter QTabBar::tab, #DocumentWorkspace QTabBar::tab {
+    min-height: 24px;
+    padding: 5px 12px;
+}
+#ActivityCenter::pane {
+    border: 0;
+    border-top: 1px solid #2a3548;
+    border-radius: 0;
+}
+#ActivityCenter QTabBar {
+    background: #111923;
+}
+#TrainingCasePicker {
+    background: transparent;
+}
+#TrainingCaseBoundary {
+    color: #8d9aaf;
+    font-size: 8.6pt;
+}
+#TrainingInputLabel {
+    background: transparent;
+}
+#TrainingInputCaption {
+    color: #c8d2e0;
+}
+QToolButton#TrainingInfoButton {
+    color: #b9ccff;
+    background: #182843;
+    border: 1px solid #36598f;
+    border-radius: 9px;
+    padding: 0;
+    font-size: 8.5pt;
+    font-weight: 800;
+}
+QToolButton#TrainingInfoButton:hover,
+QToolButton#TrainingInfoButton:focus {
+    color: #ffffff;
+    background: #2853a3;
+    border-color: #8fb0ff;
+}
+#DocumentWorkspace QTabBar {
+    min-height: 48px;
+    background: #111923;
+}
+#DocumentWorkspace QTabBar::tab {
+    min-height: 34px;
+    min-width: 178px;
+    padding: 7px 18px;
+    margin: 5px 3px 0 5px;
+    border: 1px solid transparent;
+    border-radius: 9px 9px 0 0;
+    font-size: 10pt;
+    font-weight: 700;
+}
+#DocumentWorkspace QTabBar::tab:selected {
+    color: #dce6ff;
+    background: #151e2c;
+    border-color: #344258;
+    border-bottom-color: #151e2c;
+}
+#DocumentBrand {
+    color: #dce6ff;
+    background: #1c315b;
+    border: 1px solid #36598f;
+    border-radius: 9px;
+    margin: 5px 8px 4px 4px;
+}
+#DocumentBrandName {
+    color: #dce6ff;
+    font-size: 10.5pt;
+    font-weight: 850;
+}
+#MainPreviewScroll, #MainPreviewScroll > QWidget > QWidget {
+    background: #101721;
+}
+#WorkspaceContainer {
+    min-width: 920px;
+    min-height: 650px;
+}
+#WorkspaceContainer QGroupBox, #WorkspaceContainer #SectionCard {
+    min-height: 48px;
+}
+#WorkspaceContainer QTableView, #WorkspaceContainer QTableWidget {
+    min-height: 220px;
+}
+#WorkspaceContainer QTextEdit, #WorkspaceContainer QPlainTextEdit {
+    min-height: 150px;
+}
+#WorkspaceContainer QTabWidget {
+    min-height: 320px;
+}
+QDockWidget::title {
+    padding: 5px 9px;
+}
 """
 
 # Phase 3 semantic workspace, navigation, disclosure, and density tokens.

@@ -12,6 +12,7 @@ from PyQt6.QtWidgets import (
     QFormLayout,
     QGridLayout,
     QHBoxLayout,
+    QHeaderView,
     QLabel,
     QMessageBox,
     QPushButton,
@@ -20,20 +21,21 @@ from PyQt6.QtWidgets import (
     QTabWidget,
     QTableWidget,
     QTableWidgetItem,
-    QHeaderView,
     QVBoxLayout,
     QWidget,
 )
 
-from calo_rpd_studio.gui.widgets.section_card import MetricCard, SectionCard
-from calo_rpd_studio.gui.widgets.disclosure import DisclosurePanel
-from calo_rpd_studio.gui.widgets.workspace_page import WorkspacePage
+from calo_rpd_studio.algorithms.calo.policy_readiness import governing_policy_user_message
 from calo_rpd_studio.experiments.study_strength import (
     StudyStrength,
     apply_study_strength,
     study_strength_plan,
     summarize_study_protocol_change,
 )
+from calo_rpd_studio.gui.user_feedback import show_error
+from calo_rpd_studio.gui.widgets.disclosure import DisclosurePanel
+from calo_rpd_studio.gui.widgets.section_card import MetricCard, SectionCard
+from calo_rpd_studio.gui.widgets.workspace_page import WorkspacePage
 from calo_rpd_studio.power_system.case_loader import CaseLoader
 from calo_rpd_studio.power_system.case_validation import validate_case
 from calo_rpd_studio.power_system.network_metrics import summarize_case
@@ -82,10 +84,7 @@ class DashboardPanel(WorkspacePage):
         self.dashboard_scroll.setWidget(self.dashboard_body)
         self.layout_root.addWidget(self.dashboard_scroll, 1)
 
-        self.next_action_card = SectionCard(
-            "Next required action",
-            "The next legal scientific step is derived from the shared workflow state.",
-        )
+        self.next_action_card = SectionCard("Next required action")
         next_action_row = QHBoxLayout()
         self.next_action_status = QLabel("Reviewing current study readiness")
         self.next_action_status.setObjectName("NextActionStatus")
@@ -111,7 +110,9 @@ class DashboardPanel(WorkspacePage):
         self.branch_metric = MetricCard(
             "Simultaneous tasks", "—", "Calculated from protected hardware capacity"
         )
-        self.policy_metric = MetricCard("Policy", "Not ready", "Qualified active policy required")
+        self.policy_metric = MetricCard(
+            "Policy", "Not ready", "Select a verified compatible policy"
+        )
         self.verified_metric = MetricCard(
             "Validation", "0 verified", "Independent validation required for export"
         )
@@ -339,7 +340,7 @@ class DashboardPanel(WorkspacePage):
 
         context = SectionCard(
             "Scientific context",
-            "Power-system and experiment context remains visible here, but Power System is workflow-locked until CALO governing intelligence is qualified and active.",
+            "Power-system and experiment context remains visible here. Policy-guided workflow steps become available after a verified compatible TSH-CALO policy is selected.",
         )
         grid = QGridLayout()
         grid.setContentsMargins(0, 4, 0, 0)
@@ -446,8 +447,10 @@ class DashboardPanel(WorkspacePage):
         enabled: bool,
     ) -> None:
         self._next_workspace_key = str(workspace_key)
-        self.next_action_status.setText(f"{title} — {detail}")
-        self.next_action_button.setText(f"Open {title}")
+        self.next_action_status.setText(title)
+        self.next_action_status.setToolTip(detail)
+        self.next_action_button.setText("Continue")
+        self.next_action_button.setAccessibleName(f"Continue to {title}")
         self.next_action_button.setEnabled(bool(enabled))
         self.next_action_button.setToolTip(detail)
         self.next_action_button.setAccessibleDescription(detail)
@@ -560,7 +563,13 @@ class DashboardPanel(WorkspacePage):
                 + ("\n\nApplied throughout:\n• " + "\n• ".join(changes) if changes else ""),
             )
         except Exception as exc:
-            QMessageBox.critical(self, "Study setup", str(exc))
+            show_error(
+                self,
+                "Study setup could not be applied",
+                "Review the case and study values.",
+                exc,
+                source="study setup",
+            )
 
     def _sample_live_protection(self) -> None:
         if getattr(self.state, "compute_protection_profile", None) is None:
@@ -605,12 +614,14 @@ class DashboardPanel(WorkspacePage):
             self.state.refresh_compute_profile()
             self.state.task_status.finish("System readiness and memory protection refreshed")
         except Exception as exc:
-            QMessageBox.critical(
-                self, "System readiness scan failed", f"{type(exc).__name__}: {exc}"
+            show_error(
+                self,
+                "System readiness scan stopped",
+                "Compute availability could not be refreshed.",
+                exc,
+                source="system readiness scan",
             )
-            self.state.task_status.fail(
-                f"System readiness scan failed: {type(exc).__name__}: {exc}"
-            )
+            self.state.task_status.fail("System readiness scan stopped")
         finally:
             self.refresh_system_button.setEnabled(
                 not bool(getattr(self.state, "policy_training_active", False))
@@ -817,11 +828,11 @@ class DashboardPanel(WorkspacePage):
         if status.ready:
             self.policy_metric.set_metric("READY", f"{status.policy_name} · {status.grade}")
             self.labels["Governing policy"].setText(
-                f"{status.policy_name} · {status.grade} · SHA {status.policy_sha256[:12]}…"
+                f"{status.policy_name} · {status.grade} · Ready for experiments"
             )
         else:
-            self.policy_metric.set_metric("NOT READY", status.state.replace("_", " ").title())
-            self.labels["Governing policy"].setText(status.reason)
+            self.policy_metric.set_metric("NOT READY", "Rule-based CALO available")
+            self.labels["Governing policy"].setText(governing_policy_user_message(status))
 
     def refresh(self) -> None:
         self.refresh_recent_work()

@@ -6,7 +6,7 @@ from collections.abc import Sequence
 
 from calo_rpd_studio.app.workspaces import WorkspaceSpec, grouped_workspace_specs
 from calo_rpd_studio.gui.icons.workspace_icons import workspace_icon
-from calo_rpd_studio.version import DISPLAY_VERSION
+from calo_rpd_studio.version import PRODUCT_VERSION
 
 from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtWidgets import (
@@ -184,7 +184,7 @@ class NavigationSidebar(QFrame):
         footer_layout.setSpacing(2)
         edition = QLabel("Scientific workspace")
         edition.setObjectName("SidebarFooterTitle")
-        version = QLabel(f"CALO-RPD Studio {DISPLAY_VERSION}")
+        version = QLabel(f"CALO-RPD Studio {PRODUCT_VERSION}")
         version.setObjectName("SidebarFooterText")
         footer_layout.addWidget(edition)
         footer_layout.addWidget(version)

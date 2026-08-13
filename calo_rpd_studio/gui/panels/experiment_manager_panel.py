@@ -33,8 +33,8 @@ from PyQt6.QtWidgets import (
     QWidget,
 )
 
-from calo_rpd_studio.compute.resource_scheduler import ResourceMonitor, build_weighted_lane_plan
 from calo_rpd_studio.accelerated.parity_audit import run_configuration_parity_audit
+from calo_rpd_studio.compute.resource_scheduler import ResourceMonitor, build_weighted_lane_plan
 from calo_rpd_studio.experiments.evaluation_budget import BudgetPolicy
 from calo_rpd_studio.portfolio.planner import PortfolioPlanner
 from calo_rpd_studio.portfolio.fingerprint import run_fingerprint
@@ -47,8 +47,9 @@ from calo_rpd_studio.experiments.execution_plan import (
     planned_item_count,
 )
 from calo_rpd_studio.experiments.fairness_validator import validate_fairness
-from calo_rpd_studio.gui.widgets.section_card import SectionCard
+from calo_rpd_studio.gui.user_feedback import log_technical_error, show_error
 from calo_rpd_studio.gui.widgets.disclosure import DisclosurePanel
+from calo_rpd_studio.gui.widgets.section_card import SectionCard
 from calo_rpd_studio.gui.widgets.study_setup import StudySetupWorkflow, linked_step_page
 from calo_rpd_studio.gui.widgets.workspace_page import WorkspacePage
 from calo_rpd_studio.results.database import ResultDatabase
@@ -262,7 +263,7 @@ class ExperimentManagerPanel(WorkspacePage):
         self.scientific_backend.addItem(
             "PyTorch FP64 batched AC Newton-Raphson (CPU/CUDA)", "torch_fp64"
         )
-        self.scientific_backend.addItem("Trusted legacy CPU reference", "cpu_reference")
+        self.scientific_backend.addItem("Reference CPU solver", "cpu_reference")
         self.tensor_batch_size = QSpinBox()
         self.tensor_batch_size.setRange(1, 4096)
         self.tensor_batch_size.setToolTip(
@@ -704,7 +705,7 @@ class ExperimentManagerPanel(WorkspacePage):
                 ),
                 (
                     "Review + launch",
-                    "Review the frozen setup and start the permitted study.",
+                    "Review the checked setup and start the permitted study.",
                     self.execution_card,
                 ),
             )
@@ -749,7 +750,10 @@ class ExperimentManagerPanel(WorkspacePage):
                     "memory and CPU computation with the same 80%-of-currently-available admission rule."
                 )
         except Exception as exc:
-            self.device_inventory.setText(f"Compute availability could not be checked: {exc}")
+            self.device_inventory.setText(
+                "Compute availability could not be checked. Review Activity > Logs for details."
+            )
+            log_technical_error("compute availability", exc)
 
     def _update_plan_summary(self, *_args) -> None:
         runs = int(self.runs.value())
@@ -957,7 +961,8 @@ class ExperimentManagerPanel(WorkspacePage):
         try:
             self.apply()
         except Exception as exc:
-            self.audit.setPlainText(str(exc))
+            log_technical_error("experiment audit preparation", exc)
+            self.audit.setPlainText("The audit could not be prepared. Review Activity > Logs.")
             self.audit_state.setText("Audit could not be started")
             return False
         self.fairness_passed = False if not parity_only else self.fairness_passed
@@ -1000,10 +1005,19 @@ class ExperimentManagerPanel(WorkspacePage):
         self.backend_parity_passed = False
         self.compare.setEnabled(False)
         self.calo.setEnabled(False)
-        self.audit.setPlainText(f"Scientific audit failed to execute: {message}")
+        self.audit.setPlainText(
+            "The scientific audit could not be completed. Review Activity > Logs for details."
+        )
         self.audit_state.setText("Audit failed — correct the reported issue")
         self.status.setText("Fairness audit failed. Review the audit output before execution.")
-        self.state.task_status.fail(message)
+        self.state.task_status.fail("Scientific audit could not be completed")
+        show_error(
+            self,
+            "Scientific audit stopped",
+            "The audit could not be completed.",
+            message,
+            source="scientific audit",
+        )
 
     def _on_audit_completed(self, payload: dict) -> None:
         parity = payload.get("parity")
@@ -1121,7 +1135,13 @@ class ExperimentManagerPanel(WorkspacePage):
         try:
             self.apply()
         except Exception as exc:
-            QMessageBox.critical(self, "Configuration error", str(exc))
+            show_error(
+                self,
+                "Experiment settings were not accepted",
+                "Review the study, algorithm, and compute inputs.",
+                exc,
+                source="experiment settings",
+            )
             return
         if not self.fairness_passed:
             QMessageBox.information(
@@ -1152,7 +1172,13 @@ class ExperimentManagerPanel(WorkspacePage):
         try:
             self.apply()
         except Exception as exc:
-            QMessageBox.critical(self, "Configuration error", str(exc))
+            show_error(
+                self,
+                "Experiment settings were not accepted",
+                "Review the study, algorithm, and compute inputs.",
+                exc,
+                source="experiment settings",
+            )
             return
         answer = QMessageBox.question(
             self,
@@ -1250,7 +1276,13 @@ class ExperimentManagerPanel(WorkspacePage):
         try:
             run_indices = self._parse_run_numbers(self.extension_run_indices.text())
         except Exception as exc:
-            QMessageBox.critical(self, "Run selection", str(exc))
+            show_error(
+                self,
+                "Run selection could not be applied",
+                "Select a compatible completed experiment.",
+                exc,
+                source="run selection",
+            )
             return
         algorithms = tuple(
             a.strip() for a in self.extension_algorithms.text().split(",") if a.strip()
@@ -1402,7 +1434,13 @@ class ExperimentManagerPanel(WorkspacePage):
         self.status.setText(
             "Experiment stopped because an execution or configuration error occurred."
         )
-        QMessageBox.critical(self, "Experiment execution failed", message)
+        show_error(
+            self,
+            "Experiment stopped",
+            "The experiment could not continue.",
+            message,
+            source="experiment execution",
+        )
 
     def on_busy(self, message: str) -> None:
         self.status.setText(message)

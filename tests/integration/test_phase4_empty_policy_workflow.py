@@ -236,9 +236,14 @@ def test_gui_exposes_retirement_plan_and_blocks_historical_training_surfaces():
     algorithms = Path("calo_rpd_studio/gui/panels/algorithms_panel.py").read_text(encoding="utf-8")
 
     assert "discover_bundled" not in intelligence
-    assert 'QPushButton("Export removal plan")' in intelligence
-    assert 'QPushButton("Legacy training unavailable")' in intelligence
-    assert "independent calo-rpd-train-tsh" in intelligence
+    assert 'QPushButton("Review removal")' in intelligence
+    assert 'QPushButton("Legacy training unavailable")' not in intelligence
+    assert "self.train_button" not in intelligence
+    assert 'QPushButton("Train policy")' in intelligence
+    assert intelligence.count('QPushButton("Import policy")') == 1
+    assert "independent_training_requested" in intelligence
+    assert "TrainingWorker" not in intelligence
+    assert "resume_task_by_id" not in intelligence
     assert "POLICY_GATED_SPECS" in algorithms
     assert "def _safe_defaults" in algorithms
     assert 'if name == "CALO"' in algorithms

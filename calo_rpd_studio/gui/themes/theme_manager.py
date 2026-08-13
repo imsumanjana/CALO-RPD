@@ -7,6 +7,7 @@ from PyQt6.QtWidgets import QApplication
 
 from .dark import DARK_STYLESHEET
 from .light import LIGHT_STYLESHEET
+from .modern_spin_style import ModernSpinBoxStyle
 from .runtime_fonts import ensure_application_font
 from .tokens import DARK_TOKENS, LIGHT_TOKENS
 
@@ -78,7 +79,11 @@ def apply_theme(app: QApplication, name: str) -> str:
     settings from older installations.
     """
     normalized = "dark" if str(name).strip().lower() == "dark" else "light"
-    app.setStyle("Fusion")
+    modern_style = ModernSpinBoxStyle("Fusion")
+    app.setStyle(modern_style)
+    # QApplication owns the native style after setStyle; retaining the Python
+    # wrapper also keeps repeated live theme changes safe under PyQt.
+    app._calo_modern_spin_style = modern_style
     ensure_application_font(app)
     if normalized == "dark":
         app.setPalette(_dark_palette())

@@ -8,13 +8,13 @@ from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtWidgets import (
     QHBoxLayout,
     QHeaderView,
-    QMessageBox,
     QPushButton,
     QTableWidget,
     QTableWidgetItem,
 )
 
 from calo_rpd_studio.algorithms.registry import POLICY_GATED_SPECS, SPECS
+from calo_rpd_studio.gui.user_feedback import show_error
 from calo_rpd_studio.gui.widgets.section_card import SectionCard
 from calo_rpd_studio.gui.widgets.workspace_page import WorkspacePage
 
@@ -107,8 +107,7 @@ class AlgorithmsPanel(WorkspacePage):
         status = self.state.governing_policy_status()
         ready = bool(status.ready and status.algorithm_id == "TSH-CALO")
         reason = (
-            "A qualified, explicitly active, checksum-valid, completely new post-freeze "
-            "TSH-CALO policy is required."
+            "TSH-CALO requires a verified compatible policy that has been selected for experiments."
         )
         for row, name in enumerate(self.specs):
             if name not in POLICY_GATED_SPECS:
@@ -165,7 +164,13 @@ class AlgorithmsPanel(WorkspacePage):
             if not selected:
                 raise ValueError("Select at least one primary optimizer.")
         except Exception as exc:
-            QMessageBox.critical(self, "Algorithm configuration error", str(exc))
+            show_error(
+                self,
+                "Algorithm settings were not applied",
+                "Review the selected algorithms and parameter values.",
+                exc,
+                source="algorithm settings",
+            )
             return
 
         self.state.config.algorithms = selected

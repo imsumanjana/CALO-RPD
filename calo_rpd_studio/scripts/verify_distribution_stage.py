@@ -26,6 +26,7 @@ _REQUIRED_SOURCE_FILES = {
     "calo_rpd_studio/scripts/manage_policy_retirement.py",
     "calo_rpd_studio/scripts/release_policy_scope.py",
     "calo_rpd_studio/scripts/validate_packaged_gui.py",
+    "calo_rpd_studio/scripts/train_tsh_calo.py",
     "calo_rpd_studio/scripts/verify_distribution_stage.py",
     "calo_rpd_studio/scripts/verify_requirements_lock.py",
     "calo_rpd_studio/scripts/verify_release_ci_contract.py",

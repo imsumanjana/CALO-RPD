@@ -13,7 +13,6 @@ from PyQt6.QtWidgets import (
     QHeaderView,
     QHBoxLayout,
     QLabel,
-    QMessageBox,
     QPushButton,
     QSpinBox,
     QTreeWidget,
@@ -22,6 +21,10 @@ from PyQt6.QtWidgets import (
     QWidget,
 )
 
+from calo_rpd_studio.gui.user_feedback import log_technical_error, show_error
+from calo_rpd_studio.gui.widgets.page_header import PageHeader
+from calo_rpd_studio.gui.widgets.scrollable_page import ScrollablePage
+from calo_rpd_studio.gui.widgets.workspace_tabs import WorkspaceTabs
 from calo_rpd_studio.portfolio.catalog import OUTPUT_REQUIREMENTS, categories
 from calo_rpd_studio.portfolio.fingerprint import stable_sha256
 from calo_rpd_studio.portfolio.models import (
@@ -32,9 +35,6 @@ from calo_rpd_studio.portfolio.models import (
     StorageProfile,
 )
 from calo_rpd_studio.portfolio.planner import PortfolioPlanner
-from calo_rpd_studio.gui.widgets.page_header import PageHeader
-from calo_rpd_studio.gui.widgets.scrollable_page import ScrollablePage
-from calo_rpd_studio.gui.widgets.workspace_tabs import WorkspaceTabs
 
 
 class PortfolioManagerPanel(ScrollablePage):
@@ -286,8 +286,12 @@ class PortfolioManagerPanel(ScrollablePage):
         )
 
     def refresh_plan(self) -> None:
+        portfolio = self._build_config()
+        if not portfolio.requested_outputs:
+            self.plan_summary.setText("Select at least one output to preview the portfolio plan.")
+            self.plan_detail.clear()
+            return
         try:
-            portfolio = self._build_config()
             temp_config = self.state.config
             plan = PortfolioPlanner.plan(temp_config, portfolio, benchmark_blocks=1)
             disabled = (
@@ -307,8 +311,11 @@ class PortfolioManagerPanel(ScrollablePage):
                 f"Planner warnings:\n{warnings}"
             )
         except Exception as exc:
-            self.plan_summary.setText(f"Portfolio plan is incomplete: {exc}")
+            self.plan_summary.setText(
+                "The portfolio plan is incomplete. Review Activity > Logs for details."
+            )
             self.plan_detail.clear()
+            log_technical_error("portfolio planning", exc)
 
     def refresh(self) -> None:
         portfolio = getattr(self.state.config, "portfolio", PortfolioConfig())
@@ -351,4 +358,10 @@ class PortfolioManagerPanel(ScrollablePage):
             self.refresh_plan()
             self.stage_completed.emit()
         except Exception as exc:
-            QMessageBox.critical(self, "Portfolio planning error", str(exc))
+            show_error(
+                self,
+                "Portfolio plan was not applied",
+                "Review the selected evidence portfolio and study size.",
+                exc,
+                source="portfolio planning",
+            )

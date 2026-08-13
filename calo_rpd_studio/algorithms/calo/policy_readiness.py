@@ -27,6 +27,53 @@ class GoverningPolicyStatus:
         return asdict(self)
 
 
+def governing_policy_user_message(status: GoverningPolicyStatus) -> str:
+    """Describe policy availability without exposing engineering lifecycle terminology."""
+
+    if status.ready:
+        identity = status.policy_name or "The selected TSH-CALO policy"
+        grade = f" (grade {status.grade})" if status.grade else ""
+        return f"{identity}{grade} is verified, compatible, and selected for experiments."
+    messages = {
+        "archived": "The selected policy is archived. Restore it or select another verified policy.",
+        "artifact_unavailable": (
+            "The selected policy file is unavailable. Select another verified policy."
+        ),
+        "incompatible": (
+            "The selected policy is not compatible with this application. Select a compatible policy."
+        ),
+        "inspection_failed": (
+            "The selected policy could not be verified. Rule-based CALO remains available."
+        ),
+        "checksum_mismatch": (
+            "The selected policy did not pass integrity verification. Rule-based CALO remains available."
+        ),
+        "binding_invalid": (
+            "The selected policy cannot be applied to experiments. Rule-based CALO remains available."
+        ),
+    }
+    return messages.get(
+        getattr(status, "state", ""),
+        "Select a verified, compatible TSH-CALO policy for policy-guided experiments. "
+        "Rule-based CALO remains available.",
+    )
+
+
+def policy_record_user_status(record) -> str:
+    """Return a concise scientific availability label for a policy-library row."""
+
+    if record.archived:
+        return "Archived"
+    if not record.usable:
+        return "File unavailable"
+    if not record.compatible_with(TSH_CALO_ALGORITHM_ID):
+        return "Not compatible"
+    ready = bool(record.post_development_eligible and record.qualification_status == "qualified")
+    if not ready:
+        return "Not ready for experiments"
+    return "Verification required" if record.active else "Eligible to select"
+
+
 def _record_status(
     record,
     *,

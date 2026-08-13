@@ -7,6 +7,7 @@ import sys
 
 from PyQt6.QtWidgets import QApplication
 
+from calo_rpd_studio.gui.icons.workspace_icons import application_icon
 from calo_rpd_studio.gui.themes.theme_manager import apply_theme
 
 from .experiment_manager import ExperimentManager
@@ -23,6 +24,7 @@ def main() -> int:
     app = QApplication(sys.argv)
     app.setApplicationName("CALO-RPD Studio")
     app.setOrganizationName("CALO-RPD")
+    app.setWindowIcon(application_icon())
     from calo_rpd_studio.version import VERSION
 
     app.setApplicationVersion(VERSION)

@@ -166,6 +166,8 @@ class LiveOptimizationPanel(WorkspacePage):
             "Telemetry from all runs is retained independently. Auto-follow advances to newly started repeated runs; choose a run number to pin it."
         )
         self.run_note.setWordWrap(True)
+        self.run_selector.setToolTip(self.run_note.text())
+        self.run_note.hide()
         self.run_note.setObjectName("HelpText")
         run_row.addWidget(self.run_note, 1)
         content_layout.addLayout(run_row)
@@ -177,6 +179,7 @@ class LiveOptimizationPanel(WorkspacePage):
         portfolio_row.addWidget(self.portfolio_view)
         self.portfolio_status = QLabel()
         self.portfolio_status.setWordWrap(True)
+        self.portfolio_status.hide()
         self.portfolio_status.setObjectName("HelpText")
         portfolio_row.addWidget(self.portfolio_status, 1)
         content_layout.addLayout(portfolio_row)
@@ -201,6 +204,7 @@ class LiveOptimizationPanel(WorkspacePage):
             "Automatic mode shows constraint-violation convergence until the monitored algorithms have reached feasibility, then switches to best-feasible objective."
         )
         self.metric_note.setWordWrap(True)
+        self.metric_note.hide()
         self.metric_note.setObjectName("HelpText")
         mode_row.addWidget(self.metric_note, 1)
         content_layout.addLayout(mode_row)

@@ -55,6 +55,20 @@ def _config(**changes) -> TSHCALOTrainingConfig:
     return TSHCALOTrainingConfig(**values)
 
 
+def test_builtin_architecture_export_reaches_scientific_completion_gate(tmp_path):
+    trainer = IndependentTSHCALOTrainer(
+        _config(
+            development_freeze_commit="",
+            development_freeze_sha256="",
+            phase4_acceptance_sha256="",
+        )
+    )
+    with pytest.raises(ValueError, match="completed PPO update"):
+        trainer.export_unqualified_candidate(
+            tmp_path / "fresh-candidate.pt", source_commit="d" * 40
+        )
+
+
 def _state(toy_case) -> TopologyAwarePolicyState:
     decoder = ORPDVariableDecoder(toy_case, ORPDVariableConfig())
     result = run_ac_power_flow(toy_case)

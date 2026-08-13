@@ -13,8 +13,8 @@ class WorkflowGuide(QWidget):
         super().__init__(parent)
         self.setObjectName("WorkflowGuide")
         layout = QHBoxLayout(self)
-        layout.setContentsMargins(18, 10, 18, 10)
-        layout.setSpacing(14)
+        layout.setContentsMargins(18, 7, 18, 7)
+        layout.setSpacing(12)
 
         text_layout = QVBoxLayout()
         text_layout.setContentsMargins(0, 0, 0, 0)
@@ -23,7 +23,7 @@ class WorkflowGuide(QWidget):
         self.step.setObjectName("WorkflowStep")
         self.instruction = QLabel("")
         self.instruction.setObjectName("WorkflowInstruction")
-        self.instruction.setWordWrap(True)
+        self.instruction.setWordWrap(False)
         text_layout.addWidget(self.step)
         text_layout.addWidget(self.instruction)
         layout.addLayout(text_layout, 1)
@@ -38,5 +38,6 @@ class WorkflowGuide(QWidget):
     ) -> None:
         self.step.setText(step_text)
         self.instruction.setText(instruction)
+        self.instruction.setToolTip(instruction)
         self.next_button.setText(button_text)
         self.next_button.setEnabled(enabled)

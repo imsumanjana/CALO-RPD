@@ -869,14 +869,20 @@ class IndependentTSHCALOTrainer:
     ) -> TSHCALOCandidateArtifact:
         self._assert_open()
         normalized_source = str(source_commit).strip().lower()
-        if normalized_source != str(self.config.development_freeze_commit).strip().lower():
-            raise ValueError(
-                "TSH-CALO candidate source does not match the retained development freeze"
-            )
-        if not _valid_sha256(self.config.development_freeze_sha256):
-            raise ValueError("TSH-CALO candidate lacks a development-freeze payload SHA-256")
-        if not _valid_sha256(self.config.phase4_acceptance_sha256):
-            raise ValueError("TSH-CALO candidate lacks a Phase 4 acceptance receipt SHA-256")
+        legacy_authority = (
+            self.config.development_freeze_commit,
+            self.config.development_freeze_sha256,
+            self.config.phase4_acceptance_sha256,
+        )
+        if any(legacy_authority):
+            if normalized_source != str(self.config.development_freeze_commit).strip().lower():
+                raise ValueError(
+                    "TSH-CALO candidate source does not match the retained development freeze"
+                )
+            if not _valid_sha256(self.config.development_freeze_sha256):
+                raise ValueError("TSH-CALO candidate lacks a development-freeze payload SHA-256")
+            if not _valid_sha256(self.config.phase4_acceptance_sha256):
+                raise ValueError("TSH-CALO candidate lacks a Phase 4 acceptance receipt SHA-256")
         if self.update_steps < 1:
             raise ValueError("TSH-CALO candidate export requires at least one completed PPO update")
         if not self.training_episode_receipts:

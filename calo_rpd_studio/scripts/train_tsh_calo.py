@@ -68,7 +68,10 @@ def validate_repository_for_plan(
         )
     if tracked_status:
         raise RuntimeError("TSH-CALO training requires a clean non-ignored source tree")
-    if plan.source_commit.lower() != plan.development_freeze_commit.lower():
+    if (
+        plan.development_freeze_commit
+        and plan.source_commit.lower() != plan.development_freeze_commit.lower()
+    ):
         raise RuntimeError("TSH-CALO training source does not match the development freeze")
 
 
@@ -148,14 +151,12 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--development-freeze",
         type=Path,
-        required=True,
-        help="Accepted clean post-transition development-freeze report",
+        help="Legacy accepted development-freeze report",
     )
     parser.add_argument(
         "--phase4-acceptance",
         type=Path,
-        required=True,
-        help="Explicit accepted Phase 4 source-contract receipt",
+        help="Legacy accepted source-contract receipt",
     )
     parser.add_argument("--output", type=Path, help="New or explicitly resumed output directory")
     parser.add_argument(
@@ -173,14 +174,25 @@ def main(argv: list[str] | None = None) -> int:
         parser.error("--check and --resume are mutually exclusive")
     if not arguments.check and arguments.output is None:
         parser.error("--output is required unless --check is used")
+    if bool(arguments.development_freeze) != bool(arguments.phase4_acceptance):
+        parser.error("legacy authority paths must be supplied together")
 
     plan = load_plan(arguments.plan)
     validate_repository_for_plan(plan)
-    validate_development_freeze_for_plan(
-        plan,
-        arguments.development_freeze,
-        arguments.phase4_acceptance,
-    )
+    if arguments.development_freeze is not None:
+        validate_development_freeze_for_plan(
+            plan,
+            arguments.development_freeze,
+            arguments.phase4_acceptance,
+        )
+    elif any(
+        (
+            plan.development_freeze_commit,
+            plan.development_freeze_sha256,
+            plan.phase4_acceptance_sha256,
+        )
+    ):
+        parser.error("this legacy plan requires its internal authority records")
     if arguments.check:
         print(json.dumps(_summary(plan, state="validated_not_started"), sort_keys=True))
         return 0

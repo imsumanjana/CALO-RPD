@@ -3,6 +3,7 @@
 VERSION = "12.0.0.dev1"
 DISPLAY_VERSION = "12.0.0-dev.1"
 RELEASE_LINE = "12.0"
+PRODUCT_VERSION = VERSION.partition(".dev")[0]
 VERSION_STAGE = "development"
 RELEASE_NAME = "v12 Modernization Development"
 

@@ -191,23 +191,35 @@ class TSHCALOTrainingCampaignPlan:
             raise ValueError("TSH-CALO campaign requires an ID")
         if not _valid_commit(self.source_commit):
             raise ValueError("TSH-CALO campaign requires an exact 40-character source commit")
-        if (
-            not _valid_commit(self.development_freeze_commit)
-            or self.development_freeze_commit.lower() != self.source_commit.lower()
-        ):
-            raise ValueError(
-                "TSH-CALO campaign source must equal the accepted development-freeze commit"
-            )
-        if len(str(self.development_freeze_sha256)) != 64 or any(
-            character not in "0123456789abcdef"
-            for character in str(self.development_freeze_sha256).lower()
-        ):
-            raise ValueError("TSH-CALO campaign requires the development-freeze payload SHA-256")
-        if len(str(self.phase4_acceptance_sha256)) != 64 or any(
-            character not in "0123456789abcdef"
-            for character in str(self.phase4_acceptance_sha256).lower()
-        ):
-            raise ValueError("TSH-CALO campaign requires the Phase 4 acceptance receipt SHA-256")
+        legacy_authority = (
+            self.development_freeze_commit,
+            self.development_freeze_sha256,
+            self.phase4_acceptance_sha256,
+        )
+        if any(legacy_authority):
+            if not all(legacy_authority):
+                raise ValueError("Legacy TSH-CALO training authority must be complete or absent")
+            if (
+                not _valid_commit(self.development_freeze_commit)
+                or self.development_freeze_commit.lower() != self.source_commit.lower()
+            ):
+                raise ValueError(
+                    "TSH-CALO campaign source must equal the accepted development-freeze commit"
+                )
+            if len(str(self.development_freeze_sha256)) != 64 or any(
+                character not in "0123456789abcdef"
+                for character in str(self.development_freeze_sha256).lower()
+            ):
+                raise ValueError(
+                    "TSH-CALO campaign requires the development-freeze payload SHA-256"
+                )
+            if len(str(self.phase4_acceptance_sha256)) != 64 or any(
+                character not in "0123456789abcdef"
+                for character in str(self.phase4_acceptance_sha256).lower()
+            ):
+                raise ValueError(
+                    "TSH-CALO campaign requires the Phase 4 acceptance receipt SHA-256"
+                )
         if len(self.members) < 2:
             raise ValueError(
                 "TSH-CALO epistemic training requires at least two independent members"

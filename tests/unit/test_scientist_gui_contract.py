@@ -45,7 +45,7 @@ def test_experiment_workspace_has_only_two_scientist_compute_modes(qt_applicatio
         qt_application.processEvents()
 
 
-def test_policy_workspace_hides_internal_routing_and_validation_modes(qt_application, tmp_path):
+def test_policy_workspace_omits_internal_training_and_validation_modes(qt_application, tmp_path):
     from calo_rpd_studio.app.experiment_manager import ExperimentManager
     from calo_rpd_studio.app.state_manager import AppState
     from calo_rpd_studio.gui.panels.calo_intelligence_panel import CALOIntelligencePanel
@@ -53,14 +53,13 @@ def test_policy_workspace_hides_internal_routing_and_validation_modes(qt_applica
     state = AppState(tmp_path / "scientist-policy.sqlite")
     panel = CALOIntelligencePanel(state, ExperimentManager(state))
     try:
-        assert panel.no_ai_mode.isHidden()
-        assert panel.allow_unqualified.isHidden()
-        assert panel.metadata.isHidden()
-        assert panel.cuda_rollout_share.parentWidget().isHidden()
-        assert panel.cpu_rollout_share.parentWidget().isHidden()
-        summary = panel.accelerator_status.text().lower()
-        assert "80%" in summary
-        assert not any(token in summary for token in ("microbatch", "schema", "utilization"))
+        assert panel.new_training_button.text() == "Train policy"
+        assert panel.policy_import_button.text() == "Import policy"
+        assert not hasattr(panel, "no_ai_mode")
+        assert not hasattr(panel, "allow_unqualified")
+        assert not hasattr(panel, "metadata")
+        assert not hasattr(panel, "cuda_rollout_share")
+        assert not hasattr(panel, "resume_task_by_id")
     finally:
         panel.close()
         qt_application.processEvents()
@@ -184,6 +183,20 @@ def test_normal_scientist_panels_hide_venue_and_engineering_language(qt_applicat
             "worker budget",
             "microbatch",
             "utilization",
+            "phase 4",
+            "phase 6",
+            "legacy",
+            "production-candidate",
+            "development freeze",
+            "source-bound",
+            "feature flag",
+            "post-freeze",
+            "a-e/f-off",
+            "runtime abi",
+            "software freeze",
+            "frozen calo",
+            "checksum",
+            "sha-256",
         )
         hits = {token for token in forbidden if token in visible_text}
         assert not hits, {

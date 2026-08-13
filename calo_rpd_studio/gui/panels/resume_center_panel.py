@@ -2,17 +2,21 @@
 
 from __future__ import annotations
 
-import json
-
 from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtWidgets import (
     QAbstractItemView,
+    QDialog,
+    QDialogButtonBox,
+    QFormLayout,
     QHBoxLayout,
     QHeaderView,
+    QLabel,
     QMessageBox,
+    QPlainTextEdit,
     QPushButton,
     QTableWidget,
     QTableWidgetItem,
+    QVBoxLayout,
 )
 
 from calo_rpd_studio.gui.widgets.section_card import SectionCard
@@ -22,7 +26,7 @@ from calo_rpd_studio.gui.widgets.workspace_page import WorkspacePage
 class ResumeCenterPanel(WorkspacePage):
     workspace_requested = pyqtSignal(int)
     experiment_restore_requested = pyqtSignal(str)
-    policy_training_resumed = pyqtSignal(str)
+    policy_training_requested = pyqtSignal(object)
     validation_resumed = pyqtSignal(str)
     portfolio_export_resumed = pyqtSignal(str)
 
@@ -36,10 +40,7 @@ class ResumeCenterPanel(WorkspacePage):
         self.manager = experiment_manager
         self._rows: list[dict] = []
 
-        card = SectionCard(
-            "Unfinished work",
-            "Running tasks are marked interrupted after an unclean shutdown. Safe pause stops new admissions and retains all completed runs and checkpoints.",
-        )
+        card = SectionCard("Unfinished work")
         self.table = QTableWidget(0, 6)
         self.table.setHorizontalHeaderLabels(
             ["Type", "Task", "Progress", "Status", "Last activity", "Task ID"]
@@ -146,8 +147,7 @@ class ResumeCenterPanel(WorkspacePage):
                 self.experiment_restore_requested.emit(experiment_id)
             return bool(self.manager.resume_campaign(campaign_id))
         if task_type == "policy_training":
-            self.workspace_requested.emit(1)
-            self.policy_training_resumed.emit(item["id"])
+            self.policy_training_requested.emit(dict(item))
             return True
         if task_type == "validation":
             self.workspace_requested.emit(11)
@@ -159,13 +159,17 @@ class ResumeCenterPanel(WorkspacePage):
             return True
         return False
 
+    @staticmethod
+    def _resume_verb(item: dict) -> str:
+        return "Prepared" if item.get("task_type") == "policy_training" else "Resumed"
+
     def resume_selected(self) -> None:
         item = self._selected()
         if item and self._resume(item):
             self.refresh()
 
     def resume_all(self) -> None:
-        resumed: list[str] = []
+        resumed: list[tuple[str, str]] = []
         deferred: list[str] = []
         unsupported: list[str] = []
         # Global scientific exclusivity permits only one executing/resumed task at a time. Select
@@ -179,14 +183,19 @@ class ResumeCenterPanel(WorkspacePage):
                 deferred.append(f"{task_type}: {item.get('title', item.get('id', ''))}")
                 continue
             if self._resume(item):
-                resumed.append(f"{task_type}: {item.get('title', item.get('id', ''))}")
+                resumed.append(
+                    (
+                        self._resume_verb(item),
+                        f"{task_type}: {item.get('title', item.get('id', ''))}",
+                    )
+                )
             else:
                 deferred.append(f"{task_type}: {item.get('title', item.get('id', ''))}")
         self.refresh()
         if deferred or unsupported:
             lines = []
             if resumed:
-                lines.append("Resumed: " + resumed[0])
+                lines.append(f"{resumed[0][0]}: {resumed[0][1]}")
             if deferred:
                 lines.append("Deferred/manual action required: " + "; ".join(deferred))
             if unsupported:
@@ -195,8 +204,47 @@ class ResumeCenterPanel(WorkspacePage):
 
     def inspect_selected(self) -> None:
         item = self._selected()
-        if item:
-            QMessageBox.information(self, "Resume record", json.dumps(item, indent=2, default=str))
+        if not item:
+            return
+        dialog = QDialog(self)
+        dialog.setWindowTitle("Unfinished work details")
+        dialog.setMinimumWidth(520)
+        layout = QVBoxLayout(dialog)
+        form = QFormLayout()
+        labels = {
+            "Type": str(item.get("task_type", "")).replace("_", " ").title(),
+            "Task": str(item.get("title", "")),
+            "Progress": str(item.get("progress", "")),
+            "Status": str(item.get("status", "")).replace("_", " ").title(),
+            "Last activity": str(item.get("updated_at", "")),
+        }
+        for name, value in labels.items():
+            label = QLabel(value)
+            label.setWordWrap(True)
+            form.addRow(name, label)
+        layout.addLayout(form)
+        technical_toggle = QPushButton("Show technical details")
+        technical_toggle.setCheckable(True)
+        technical = QPlainTextEdit()
+        technical.setReadOnly(True)
+        technical.setAccessibleName("Technical resume details")
+        technical.setPlainText(
+            "Task ID: " + str(item.get("id", "")) + "\n"
+            "Resumable: " + ("yes" if item.get("resumable") else "no")
+        )
+        technical.hide()
+        technical_toggle.toggled.connect(technical.setVisible)
+        technical_toggle.toggled.connect(
+            lambda checked: technical_toggle.setText(
+                "Hide technical details" if checked else "Show technical details"
+            )
+        )
+        layout.addWidget(technical_toggle)
+        layout.addWidget(technical)
+        buttons = QDialogButtonBox(QDialogButtonBox.StandardButton.Close)
+        buttons.rejected.connect(dialog.reject)
+        layout.addWidget(buttons)
+        dialog.exec()
 
     def archive_selected(self) -> None:
         item = self._selected()

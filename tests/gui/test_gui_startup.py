@@ -335,7 +335,7 @@ def test_experiment_manager_exposes_only_scientist_compute_modes(qtbot, tmp_path
     assert not hasattr(panel, "cpu_share")
 
 
-def test_policy_training_hides_device_split_and_validation_only_modes(qtbot, tmp_path):
+def test_policy_center_routes_training_without_legacy_training_controls(qtbot, tmp_path):
     from calo_rpd_studio.app.experiment_manager import ExperimentManager
     from calo_rpd_studio.app.state_manager import AppState
     from calo_rpd_studio.gui.panels.calo_intelligence_panel import CALOIntelligencePanel
@@ -343,18 +343,12 @@ def test_policy_training_hides_device_split_and_validation_only_modes(qtbot, tmp
     state = AppState(tmp_path / "policy-weighted-actors.sqlite")
     panel = CALOIntelligencePanel(state, ExperimentManager(state))
     qtbot.addWidget(panel)
-    assert panel.rollout_mode.currentData() == "weighted"
-    assert (
-        panel.cuda_rollout_share.value(),
-        panel.cpu_rollout_share.value(),
-    ) == (100, 0)
-    assert "80%" in panel.accelerator_status.text()
-    assert "microbatch" not in panel.accelerator_status.text().lower()
-    assert "routing" not in panel.accelerator_status.text().lower()
-    assert panel.cuda_rollout_share.parentWidget().isHidden()
-    assert panel.no_ai_mode.isHidden()
-    assert panel.allow_unqualified.isHidden()
-    assert panel.auto_tuned_training.isChecked() is False
+    assert panel.new_training_button.text() == "Train policy"
+    assert panel.policy_import_button.text() == "Import policy"
+    assert not hasattr(panel, "rollout_mode")
+    assert not hasattr(panel, "cuda_rollout_share")
+    assert not hasattr(panel, "no_ai_mode")
+    assert not hasattr(panel, "resume_task_by_id")
 
 
 def test_live_optimization_auto_fits_visible_data_by_default(qtbot, tmp_path):

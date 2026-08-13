@@ -5,6 +5,19 @@ release candidate or final release, its v12 final freeze and qualification gates
 historical v6.9 evidence does not qualify v12. Policy training, policy qualification,
 protected-case evaluation, and release production are separate gated workflows.
 
+The Phase 6 desktop shell supports a first-class native Windows path without Docker. One-time
+dependency setup and ordinary launch are intentionally separate: use `bootstrap.py --setup` for
+setup/repair, then `Launch-CALO-RPD.ps1` from a repository checkout or `calo-rpd-native` from an
+installed environment. See `docs/NATIVE_WINDOWS_GUIDE.md` for CUDA/CPU selection, logs, shutdown,
+data locations, Docker operation, and troubleshooting. Ordinary native launch never installs
+packages or performs policy work.
+
+New-policy training uses the CALO application's existing TSH-CALO architecture automatically;
+there is no separate foundation to select or display. Scientists select scientific inputs and a
+new output, not development-freeze or acceptance files. An optional existing plan is imported only
+as a settings template and is rebound to the current authenticated application source. Training
+produces an unqualified, inactive candidate; qualification and activation remain separate gates.
+
 Phase 4 completes the remaining production code, empty-policy behavior, integration surfaces,
 documentation, and development-freeze evidence only. Every existing policy is development-only,
 unqualified, inactive, non-final, and excluded from final-candidate selection and initialization.
@@ -17,9 +30,9 @@ remains valid.
 Phase 5 release-preparation development is implemented at the unchanged `12.0.0.dev1` identity.
 It adds explicit policy-free/newly-qualified-policy scope contracts, distinct wheel/sdist member
 manifests, source-bound distribution/image/SBOM/security/clean-install evidence aggregation, final
-CI contract checks, and a separately authorized final-record generator. The project owner elected
-to run Phase 4 and Phase 5 validation together after both coding phases. Until that combined run is
-returned and accepted, the release-policy scope remains pending and this tree is not a release
+CI contract checks, and a separately authorized final-record generator. The owner-run combined
+Phase 4/Phase 5 validator passed on 2026-08-13 for its recorded development source identity. The
+release-policy scope and final authorization remain separate and pending, so this tree is not a release
 candidate, release-ready, final `12.0.0`, tagged, published, or released.
 
 The implemented Phase 4 lifecycle is fail-closed: the GUI no longer auto-discovers checkout policy

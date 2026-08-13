@@ -17,6 +17,7 @@ from PyQt6.QtWidgets import (
     QTableWidgetItem,
 )
 
+from calo_rpd_studio.gui.user_feedback import show_error, show_warning
 from calo_rpd_studio.gui.widgets.workspace_page import WorkspacePage
 from calo_rpd_studio.power_system.ac_power_flow import run_ac_power_flow
 from calo_rpd_studio.power_system.case_loader import CaseLoader
@@ -93,7 +94,7 @@ class PowerSystemPanel(WorkspacePage):
         metrics = summarize_case(case)
         self.summary.setText(
             f"{case.name} · {metrics['buses']} buses · {metrics['generators']} online generators · "
-            f"{metrics['branches']} active branches · {metrics['transformers']} transformers · checksum {metrics['checksum']}"
+            f"{metrics['branches']} active branches · {metrics['transformers']} transformers"
         )
         self._fill(self.bus_table, case.bus, "B")
         self._fill(self.gen_table, case.gen, "G")
@@ -141,8 +142,7 @@ class PowerSystemPanel(WorkspacePage):
             metrics = summarize_case(case)
             self.summary.setText(
                 f"{case.name} · {metrics['buses']} buses · {metrics['generators']} online generators · "
-                f"{metrics['branches']} active branches · {metrics['transformers']} transformers · "
-                f"checksum {metrics['checksum']}"
+                f"{metrics['branches']} active branches · {metrics['transformers']} transformers"
             )
             self._fill(self.bus_table, case.bus, "B")
             self._fill(self.gen_table, case.gen, "G")
@@ -156,8 +156,14 @@ class PowerSystemPanel(WorkspacePage):
         except Exception as exc:
             self.power_flow_button.setEnabled(False)
             self.cross_check_button.setEnabled(False)
-            task.fail(str(exc))
-            QMessageBox.critical(self, "Case load failed", str(exc))
+            task.fail("Power-system case load stopped")
+            show_error(
+                self,
+                "Case could not be loaded",
+                "Select a valid power-system case.",
+                exc,
+                source="power-system case load",
+            )
 
     def run_pf(self) -> None:
         if self.state.current_case is None:
@@ -190,8 +196,14 @@ class PowerSystemPanel(WorkspacePage):
                 task.fail("Base AC power flow did not converge")
         except Exception as exc:
             self.cross_check_button.setEnabled(False)
-            task.fail(str(exc))
-            QMessageBox.critical(self, "Power-flow execution failed", str(exc))
+            task.fail("Base power flow stopped")
+            show_error(
+                self,
+                "Power flow could not be completed",
+                "Review the case and power-flow settings.",
+                exc,
+                source="base power flow",
+            )
 
     def cross_validate(self) -> None:
         if self.state.current_power_flow is None or not self.state.current_power_flow.converged:
@@ -224,5 +236,11 @@ class PowerSystemPanel(WorkspacePage):
             else:
                 task.fail("Independent cross-validation did not pass")
         except Exception as exc:
-            task.fail(str(exc))
-            QMessageBox.warning(self, "Cross-validation unavailable", str(exc))
+            task.fail("Power-flow cross-check stopped")
+            show_warning(
+                self,
+                "Cross-check is unavailable",
+                "The optional reference cross-check could not be completed.",
+                exc,
+                source="power-flow cross-check",
+            )

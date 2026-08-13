@@ -644,6 +644,228 @@ Docker driver status `io.containerd.snapshotter.v1` before beginning Phase 4, so
 cannot again be discovered after the expensive preliminary gates. Enable Docker Desktop's
 containerd image store, restart Docker Desktop, and perform a fresh owner combined run.
 
+## Phase 6 GUI modernization gate
+
+Owner combined attempt `phase4-phase5-20260813-000340` passed: Phase 4 is 32/32 and Phase 5 is
+41/41 with zero failed commands for their exact retained source identity. This closes the combined
+development/release-preparation validation prerequisite for starting Phase 6; it does not select a
+release-policy scope or authorize a release.
+
+Phase 6 started from clean commit `2d7130fb63c13d35d0419dd63b1d68e2050dcf72` after its goal was
+created. Its gate is GUI/native-launch development only: one registry-generated ribbon, compact
+context editors, central workspace tabs, truthful jobs/logs/progress/status, responsive themes, an
+enabled entry to the independently gated new-policy training center, and first-class Windows launch
+without Docker. The obsolete embedded legacy trainer remains unavailable, navigation cannot start
+training, and no policy or scientific workflow is authorized during development.
+
+Phase 6 production, test, documentation, packaging-check, and ignored-validator source is now
+development-complete. The independent training adapter rejects a successful readiness result if any
+bound path changed during the check, keeps output unqualified/inactive, and prevents silent window
+close while its process is active. Native checkout and installed-wheel launch paths are distinct
+from setup. No development-agent validation, Docker, policy, protected-case, publication, or release
+operation was executed.
+
+Owner attempts `phase6-20260813-031026` and `phase6-20260813-031046` are retained **failed harness
+evidence**: both stopped before command `01` while Windows PowerShell evaluated the environment
+architecture expression. Both prove exact nonignored source-status stability and record all
+prohibited-operation and inferred-human-acceptance fields false, but neither validates Phase 6. The
+ignored validator uses a Windows-compatible process-environment architecture value plus bitness
+fallback after correction.
+
+Authorized consolidated run `phase6-20260813-032036` passed all 19/19 checks. It binds commit
+`2d7130fb63c13d35d0419dd63b1d68e2050dcf72` plus retained dirty source-status SHA-256
+`beabf2d918c4717e61e3b9c12ba449fdf2e59a38ccd549da54e2fb74cbabe9bf`, proves identical
+before/after nonignored source state, validates GUI contracts and regressions, renders light/dark/
+constrained layouts, builds a fresh wheel and sdist, and verifies native/GUI package membership.
+The Phase 6 development-validation gate is **closed / 19 of 19 passed**. Every policy, protected-
+case, Docker, CUDA-campaign, publication, and release-execution field is false. Human usability,
+screen-reader, and scientist acceptance remain uninferred, and all release-policy, qualification,
+release-candidate, publication, release-readiness, and final-release gates remain separate and open.
+
+A post-gate professional visual-refinement pass subsequently removed inactive ribbon-page
+bleed-through, added a complete 16-workspace ribbon palette, made the left dock input-only, and
+unified new-policy readiness/start behind the same ribbon action without weakening confirmation or
+lifecycle gates. Targeted GUI contracts passed 7/7 and the retained
+`phase6-panel-sweep-20260813-041700` captures cover every workspace plus light, dark, and constrained
+shell states. This presentation evidence performed no policy, scientific, protected-case, Docker,
+publication, or release workflow and does not alter the already separate release gates.
+
+A focused follow-up restores complete active-plan training inputs to the left Inputs pane. The
+retired legacy trainer stays hidden: the visible fields edit a loaded frozen TSH-CALO plan, produce
+a separate hash-addressed plan, invalidate stale readiness, and feed the same explicitly confirmed
+ribbon action. This source follow-up awaits the owner-run Phase 6 validator and does not reopen or
+weaken any policy-lifecycle or release gate.
+
+That follow-up also makes Inputs and the expanded ribbon permanent by removing their hide/compact
+commands and migrating saved layout state. The central scientific preview now scrolls around a
+roomy minimum canvas and uses a taller branded tab header. These are presentation contracts only;
+focused owner validation remains pending.
+
+The training-case control is now a catalog-backed checklist. One action selects all legally
+eligible bundled cases (`case30` and `case57`); protected `case118` and `case300` are shown but
+disabled and remain rejected by the scientific plan boundary. The Windows title bar now receives a
+CALO-RPD application icon, while native tab bases and main-window/dock separators are explicitly
+themed to remove the gray/yellow-looking artifacts observed in the dark shell. This focused source
+change remains unvalidated until the owner runs the narrow validator; it authorizes no training or
+protected-case work.
+
+The current 18-field scientific training surface gives every visible field a compact accessible
+information button. Its hover, click, and keyboard-focus tooltip explains purpose and directional
+effects while avoiding permanent prose
+in the input pane. This is a presentation/help contract only; focused owner validation remains
+pending and no scientific setting or lifecycle authority changed.
+
+The ribbon now explicitly synchronizes page visibility on category changes and same-category
+reselections. This removes the stale inactive command-group edge that could paint as a short
+colored fragment between the CALO-RPD heading and Home. The regression and ignored validator
+sources are updated; this focused presentation correction remains owner-validation pending.
+
+Ribbon group names no longer use a native `QGroupBox` title forced onto the lower border. Each
+group instead owns a centered, fixed footer label within its layout, preventing Windows theme
+painting from overflowing or clipping captions such as `Project` and `Navigate`. Both themes and
+the focused GUI contract are updated; owner visual and automated validation remain pending.
+
+Numeric inputs now use package-safe antialiased vector chevrons supplied by a Qt proxy style rather
+than low-contrast native Windows spin glyphs. Light and dark themes provide a wider separated
+stepper column with clear normal, hover, pressed, and disabled states while reserving text padding
+so values do not collide with the controls. Focused source and validator contracts are updated;
+owner visual and automated validation remain pending.
+
+The independent training editor no longer displays a separate foundation or asks scientists for
+development-freeze and Phase 4 acceptance paths. Training uses the existing built-in TSH-CALO
+architecture; approved A–E remain available, optional E is off, and experimental F remains disabled
+by default. Optional plans import only
+scientific settings and are rebound to the current application source. The CLI keeps its clean
+source readiness boundary, and candidate qualification and activation remain separate fail-closed
+lifecycle operations. Focused source, test, documentation, and ignored-validator updates await
+owner-run validation; no policy or release operation was executed.
+
+All 18 current training-input information tooltips add practical low-to-high starting ranges for
+numeric values and explicit recommended choices or constraints for nonnumeric values. The text
+separates suggestions from hard GUI/scientific boundaries, preserves the protected-case exclusion,
+and explicitly disclaims policy-quality or qualification evidence. Changing any checked input still
+invalidates readiness. Focused owner validation remains pending.
+
+Long-form workspace pages embedded inside the scientific preview now use the main preview as their
+single vertical scroll owner. Their content expands to full preferred height, their nested page bar
+is disabled, and wheel input can propagate to the outer canvas. Standalone page behavior and
+purpose-specific table, editor, plot, activity, and log scrolling remain intact. The focused owner
+visual and automated checks remain pending.
+
+Ribbon category pages no longer receive direct visibility changes that compete with Qt's internal
+stack. Qt alone selects the visible page; all noncurrent pages are disabled, mouse-transparent, and
+removed from focus as a defense against hidden control activation, with opaque theme backgrounds
+providing paint containment. The focused contract specifically blocks the inactive `Train policy`
+button while Compute is selected. Owner visual and automated validation remain pending.
+
+The ribbon product heading is now a dedicated 42-pixel identity row above the category tabs. It
+contains only the CALO-RPD product name, user-facing product version, and application-state badge,
+with explicit light/dark surfaces and accessibility metadata. The added height separates product
+identity from category navigation and makes the entire heading content visible. Focused owner
+visual and automated validation remain pending.
+
+The navigation tabs and pages are additionally parented by a dedicated opaque frame below that
+identity row. The identity surface stays above the navigation sibling, preventing platform-style
+tab or page paint from crossing the heading boundary and ensuring that no ribbon command occupies
+the product strip. Focused owner visual and automated validation remain pending.
+
+After the misplaced fragment persisted, the native composite ribbon `QTabWidget` was removed.
+The remaining native category `QTabBar` is now also superseded: category selection uses exclusive
+styled buttons, and command pages use a separately owned `QStackedWidget` below them. No native
+selected-tab primitive remains that could paint into the product heading. Registered actions,
+category navigation, keyboard focus, permanent expansion, and inactive-page interaction guards are
+preserved. Focused owner visual and automated validation remain pending.
+
+Numeric stepper chevrons are now drawn after the complete stylesheet-driven spin-box control,
+directly inside the style-computed upper and lower button rectangles. This avoids reliance on an
+optional native arrow-primitive request while retaining the current dimensions and palette-aware
+normal, interactive, and disabled colors. Focused owner visual and automated validation remain
+pending.
+
+Ordinary scientific panels now use a content-first central surface: the single-workspace document
+tab, duplicate CALO-RPD badge, global workflow banner, and global Continue control are absent and
+reserve no height. Workflow state remains enforced, with the Dashboard's existing next-action card
+as the sole continuation surface. The document tab row is contextual and appears only while a
+genuine secondary document is open. Focused owner visual and automated validation remain pending.
+
+Ribbon category selection now uses a transparent label with a two-pixel lower accent rather than
+a rounded filled block. This prevents the top edge of the selected first category from resembling
+a misplaced command beneath the product heading while preserving category selection, hover,
+keyboard, and command-page behavior. Focused owner visual and automated validation remain pending.
+
+The policy center and recovery/error paths are now consolidated. CALO Intelligence no longer
+instantiates the hidden legacy training/qualification tree or retains its callbacks; it exposes one
+independent training entry and one policy import. Policy-training Resume Center records can only
+prefill the independent training state machine, with readiness and start still explicit. Resume
+inspection is a clean summary with narrowly scoped optional details, and shared user-feedback
+helpers keep technical exceptions in Activity Logs across scientific panels. Focused tests and the
+ignored validator were updated but not executed, so current-source validation remains pending.
+
+Ordinary GUI language is now governed by a product boundary: screens expose scientific choices,
+capabilities, verification, compatibility, and experiment selection, while proposal/phase/build,
+candidate, freeze, feature-flag, ABI, checksum, and source-authority terminology remains confined
+to provenance, logs, schemas, and engineering records. The exact development identity and all
+policy gates remain unchanged internally. Product-language render and source contracts are written;
+owner execution remains pending.
+
+Owner validation `phase6-20260813-183722` reached the version-identity contract after six passing
+prechecks and stopped at command `05`. The sole reported mismatch was the absent `product_version`
+field in the active development-status record; the technical build identity remained correct. The
+status record, verifier history contract, and focused unit contract are synchronized. This is a
+source correction only; a fresh complete owner validation is still pending.
+
+The next owner run, `phase6-20260813-184612`, verified the identity correction and compilation,
+then failed `07-ruff` after eight passing checks on three unused exception bindings and four unused
+Qt imports. Those seven mechanical findings are corrected with used exception bindings preserved.
+No later command ran, so format, test, render, build, and distribution status for the current source
+remain pending until another complete owner validation.
+
+Owner run `phase6-20260813-185633` subsequently passed through `07-ruff` and stopped at
+`08-format` after nine passing checks. Ruff named 27 files; deterministic formatting was applied
+to exactly that set. The formatter operation is not validation evidence, and commands `09` onward
+remain pending for a fresh complete owner run.
+
+Owner run `phase6-20260813-190343` then passed ten checks through `08-format`; command `09-unit`
+reported 57 passing tests and two stale source-literal assertions. The permanent scientific canvas
+already suppresses its redundant tab header when it is the sole document, and the benchmark tab is
+already product-facing `Method verification`. The tests now assert those approved behaviors instead
+of requiring the removed `DocumentBrand` chrome or development-facing `Freeze gate` label. No
+runtime behavior changed, and command `09` onward requires a fresh complete owner run.
+
+Owner run `phase6-20260813-191340` passed all 59 command-`09` tests, then command `10-phase6-gui`
+remained incomplete until the owner interrupted it after approximately 54 minutes. The resulting
+summary incorrectly said PASS because Ctrl+C bypassed command result creation and the validator did
+not require later commands. That PASS is rejected. GUI tests now isolate the session-recovery
+journal so a real user's unfinished-session dialog cannot enter an offscreen test, print each test
+name, and terminate the dedicated test process with retained thread stacks if any test exceeds two
+minutes. The validator now fails closed unless the exact `01`-through-`17` sequence completes. A
+focused fixture also suppresses scheduled real-session recovery and hardware discovery so these
+layout/product contracts do not depend on external startup state. Production behavior is unchanged.
+A fresh owner run is required; commands `10` onward remain unverified.
+
+Owner run `phase6-20260813-202657` confirmed the bounded/fail-closed validator, passed commands
+`01` through `09` including 60/60 unit tests, and passed the first 18 of 21 command-`10` GUI tests.
+The watchdog then returned code 124 during teardown of the eighteenth test after its assertions had
+passed. That test uniquely shows the top-level window, and pytest-qt was invoking the full
+production close path during cleanup. The focused fixture now detaches its temporary log handler
+and directly accepts only pytest-owned teardown; production recovery, policy, persistence, safety,
+and close behavior is unchanged. Commands `10` onward require a fresh owner run.
+
+Owner run `phase6-20260813-205516` then passed commands `01` through `09`, including 60/60 unit
+tests, and completed command `10` with 20/21 GUI tests passing in 25.77 seconds. Its only failure
+was a stale `ceiling` tooltip assertion; the product now correctly presents the same admission rule
+as an `available-memory safety limit`. The assertion is aligned. Expected empty portfolio selection
+during panel setup is now a concise input prompt rather than ERROR-level technical logging, while
+unexpected planner exceptions and invalid apply actions remain fail-closed. Commands `10` onward
+require a fresh owner run.
+
+Owner run `phase6-20260813-212634` passed commands `01` through `12`, including 61/61 unit tests,
+21/21 focused GUI tests, 21/21 GUI regressions, and 9/9 empty-policy tests. The first failure was
+`13-gui-render`: its expected information-control set omitted the Base architecture control even
+though the live widget and command-`10` contract correctly include all 18 controls. The renderer is
+aligned and now reports exact missing/unexpected keys for future drift. Commands `13` onward require
+a fresh owner run.
+
 ## Invariants
 
 1. No old result, experiment, policy, or fingerprint is silently rewritten.

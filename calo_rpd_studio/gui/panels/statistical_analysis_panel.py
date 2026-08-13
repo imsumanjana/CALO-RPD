@@ -12,7 +12,6 @@ from PyQt6.QtWidgets import (
     QHBoxLayout,
     QHeaderView,
     QLabel,
-    QMessageBox,
     QPushButton,
     QTabWidget,
     QTableWidget,
@@ -20,6 +19,7 @@ from PyQt6.QtWidgets import (
 )
 
 from calo_rpd_studio.gui.plotting.scientific_plot import ScientificPlotWidget
+from calo_rpd_studio.gui.user_feedback import show_error
 from calo_rpd_studio.gui.widgets.workspace_page import WorkspacePage
 from calo_rpd_studio.statistics.descriptive import descriptive_statistics
 
@@ -283,5 +283,11 @@ class StatisticalAnalysisPanel(WorkspacePage):
             )
             self.analysis_completed.emit()
         except Exception as exc:
-            task.fail(str(exc))
-            QMessageBox.critical(self, "Statistical analysis failed", str(exc))
+            task.fail("Statistical analysis stopped")
+            show_error(
+                self,
+                "Statistical analysis could not be completed",
+                "Select a compatible completed experiment and try again.",
+                exc,
+                source="statistical analysis",
+            )

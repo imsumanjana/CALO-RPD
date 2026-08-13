@@ -5,7 +5,7 @@ from __future__ import annotations
 from PyQt6.QtCore import pyqtSignal
 from PyQt6.QtWidgets import QComboBox, QGridLayout, QLabel, QLineEdit, QPushButton, QWidget
 
-from calo_rpd_studio.version import DISPLAY_VERSION
+from calo_rpd_studio.version import PRODUCT_VERSION
 
 from calo_rpd_studio.gui.dialogs.experiment_history_dialog import ExperimentHistoryDialog
 from calo_rpd_studio.gui.widgets.workspace_page import WorkspacePage
@@ -88,7 +88,7 @@ class ApplicationSettingsPanel(WorkspacePage):
         information_layout.addWidget(QLabel("Name"), 0, 0)
         information_layout.addWidget(QLabel("CALO-RPD Studio"), 0, 1)
         information_layout.addWidget(QLabel("Version"), 0, 2)
-        information_layout.addWidget(QLabel(DISPLAY_VERSION), 0, 3)
+        information_layout.addWidget(QLabel(PRODUCT_VERSION), 0, 3)
         information_layout.setColumnStretch(1, 1)
         information_layout.setColumnStretch(3, 1)
 

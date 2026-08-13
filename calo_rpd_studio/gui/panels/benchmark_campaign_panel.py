@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from copy import deepcopy
 import json
+import logging
 from pathlib import Path
 
 from PyQt6.QtCore import QTimer
@@ -35,11 +36,14 @@ from calo_rpd_studio.benchmarking.campaign import (
 )
 from calo_rpd_studio.benchmarking.freeze import verify_freeze_manifest
 from calo_rpd_studio.benchmarking.package import ScientificEvidencePackageBuilder
-from calo_rpd_studio.benchmarking.validation import validate_campaign
 from calo_rpd_studio.benchmarking.suite import standard_benchmark_suite
+from calo_rpd_studio.benchmarking.validation import validate_campaign
+from calo_rpd_studio.gui.user_feedback import show_error
 from calo_rpd_studio.gui.widgets.workspace_page import WorkspacePage
 from calo_rpd_studio.gui.widgets.workspace_tabs import WorkspaceTabs
 from calo_rpd_studio.version import FREEZE_MANIFEST
+
+_LOG = logging.getLogger(__name__)
 
 
 class BenchmarkCampaignPanel(WorkspacePage):
@@ -48,7 +52,7 @@ class BenchmarkCampaignPanel(WorkspacePage):
     def __init__(self, state, experiment_manager, parent=None) -> None:
         super().__init__(
             "Benchmark & Evidence",
-            "Verify the CALO software freeze, execute a preregistered held-out campaign, and "
+            "Verify the CALO method record, execute a preregistered held-out campaign, and "
             "generate comprehensive statistical and reproducibility evidence.",
             parent,
         )
@@ -65,25 +69,24 @@ class BenchmarkCampaignPanel(WorkspacePage):
         freeze_layout = QVBoxLayout(freeze_page)
         freeze_layout.setContentsMargins(18, 18, 18, 18)
         freeze_description = QLabel(
-            "Held-out execution is blocked unless the software freeze matches the CALO equations, "
+            "Held-out execution requires a verified CALO method record covering the equations, "
             "operators, state, archives, policy architecture, training semantics, hyperparameters, "
-            "decoder, and feasibility rules. The governing policy is separately bound by explicit "
-            "artifact SHA-256."
+            "decoder, and feasibility rules. The selected policy is verified separately."
         )
         freeze_description.setWordWrap(True)
-        freeze_layout.addWidget(freeze_description)
+        freeze_description.hide()
         freeze_row = QHBoxLayout()
         self.freeze_path = QLineEdit(
             str(Path(__file__).resolve().parents[2] / "data" / "frozen" / FREEZE_MANIFEST)
         )
         self.freeze_path.setProperty("fullWidthInput", True)
-        self.freeze_path.setAccessibleName("Frozen CALO manifest path")
-        self.freeze_path.setToolTip(self.freeze_path.text())
+        self.freeze_path.setAccessibleName("CALO method record path")
+        self.freeze_path.hide()
         self.freeze_status = QLabel("Not verified")
-        verify = QPushButton("Verify frozen CALO")
+        verify = QPushButton("Verify CALO method")
         verify.setObjectName("PrimaryButton")
+        verify.setToolTip(freeze_description.text())
         verify.clicked.connect(self.verify_freeze)
-        freeze_row.addWidget(self.freeze_path, 1)
         freeze_row.addWidget(verify)
         freeze_row.addWidget(self.freeze_status)
         freeze_layout.addLayout(freeze_row)
@@ -93,11 +96,11 @@ class BenchmarkCampaignPanel(WorkspacePage):
         design_layout = QVBoxLayout(design_page)
         design_layout.setContentsMargins(18, 18, 18, 18)
         design_description = QLabel(
-            "The campaign uses the frozen registered comparator set, equal objective-function "
+            "The campaign uses the preregistered comparator set, equal objective-function "
             "evaluation budgets, paired run seeds, and a multiplicity-aware powered run plan."
         )
         design_description.setWordWrap(True)
-        design_layout.addWidget(design_description)
+        design_description.hide()
         grid = QGridLayout()
         self.case_checks: dict[str, QCheckBox] = {}
         case_box = QGroupBox("Benchmark systems")
@@ -169,9 +172,10 @@ class BenchmarkCampaignPanel(WorkspacePage):
         design_layout.addLayout(grid, 1)
 
         buttons = QHBoxLayout()
-        self.plan_button = QPushButton("Build frozen campaign plan")
+        self.plan_button = QPushButton("Build held-out campaign plan")
+        self.plan_button.setToolTip(design_description.text())
         self.plan_button.clicked.connect(self.build_plan)
-        self.start_button = QPushButton("Start frozen held-out campaign")
+        self.start_button = QPushButton("Start held-out campaign")
         self.start_button.setObjectName("PrimaryButton")
         self.start_button.setEnabled(False)
         self.start_button.clicked.connect(self.start_campaign)
@@ -192,12 +196,13 @@ class BenchmarkCampaignPanel(WorkspacePage):
             "automatically locked out of historical learning."
         )
         queue_description.setWordWrap(True)
-        queue_layout.addWidget(queue_description)
+        queue_description.hide()
         self.table = QTableWidget(0, 8)
         self.table.setHorizontalHeaderLabels(
             ["#", "Task", "Case", "Evidence role", "Study", "Jobs", "Status", "Experiment ID"]
         )
         self.table.setMinimumHeight(260)
+        self.table.setToolTip(queue_description.text())
         queue_layout.addWidget(self.table, 1)
 
         package_page = QWidget()
@@ -206,20 +211,21 @@ class BenchmarkCampaignPanel(WorkspacePage):
         package_description = QLabel(
             "Generate verified tables, advanced publication figures, global nonparametric "
             "statistics, evidence-based interpretation, raw run records, experiment "
-            "configurations, validation status, frozen CALO manifest, and a reproducibility archive."
+            "configurations, validation status, CALO method record, and a reproducibility archive."
         )
         package_description.setWordWrap(True)
-        package_layout.addWidget(package_description)
+        package_description.hide()
         package_row = QHBoxLayout()
-        self.package_manifest = QLineEdit("benchmark_v600a4/campaign_manifest.json")
+        self.package_manifest = QLineEdit("benchmark_results/campaign_record.json")
         self.package_manifest.setProperty("fullWidthInput", True)
-        self.package_manifest.setAccessibleName("Completed campaign manifest path")
-        browse = QPushButton("Load campaign manifest")
+        self.package_manifest.setAccessibleName("Completed campaign record path")
+        browse = QPushButton("Load campaign record")
         browse.clicked.connect(self.choose_manifest)
         validate_button = QPushButton("Validate completed campaign")
         validate_button.clicked.connect(self.validate_completed_campaign)
         build_package = QPushButton("Generate scientific evidence package")
         build_package.setObjectName("PrimaryButton")
+        build_package.setToolTip(package_description.text())
         build_package.clicked.connect(self.generate_package)
         package_row.addWidget(self.package_manifest, 1)
         package_row.addWidget(browse)
@@ -233,9 +239,9 @@ class BenchmarkCampaignPanel(WorkspacePage):
 
         self.section_tabs = WorkspaceTabs("Benchmark and evidence sections")
         self.section_tabs.add_section(
-            "Freeze gate",
+            "Method verification",
             freeze_page,
-            "Verify the frozen CALO manifest before held-out execution.",
+            "Verify the CALO method record before held-out execution.",
         )
         self.section_tabs.add_section(
             "Campaign design",
@@ -283,8 +289,16 @@ class BenchmarkCampaignPanel(WorkspacePage):
     def verify_freeze(self) -> bool:
         result = verify_freeze_manifest(self.freeze_path.text().strip())
         self.freeze_status.setText("VERIFIED" if result.passed else "FAILED")
-        self.freeze_status.setToolTip(result.message)
-        self.log.append(result.message)
+        user_message = (
+            "The CALO method record is verified."
+            if result.passed
+            else "The CALO method record could not be verified. Review Activity > Logs for details."
+        )
+        self.freeze_status.setToolTip(user_message)
+        self.log.append(user_message)
+        (_LOG.info if result.passed else _LOG.warning)(
+            "CALO method-record verification: %s", result.message
+        )
         return result.passed
 
     def build_plan(self) -> None:
@@ -298,7 +312,7 @@ class BenchmarkCampaignPanel(WorkspacePage):
             output = Path(campaign.output_directory)
             output.mkdir(parents=True, exist_ok=True)
             self._manifest_path = write_campaign_plan(
-                campaign, tasks, output / "campaign_manifest.json"
+                campaign, tasks, output / "campaign_record.json"
             )
             self.package_manifest.setText(str(self._manifest_path))
             self._tasks = tasks
@@ -324,7 +338,13 @@ class BenchmarkCampaignPanel(WorkspacePage):
             self.start_button.setEnabled(True)
         except Exception as exc:
             self.start_button.setEnabled(False)
-            QMessageBox.critical(self, "Campaign plan failed", str(exc))
+            show_error(
+                self,
+                "Campaign plan could not be built",
+                "Review the selected benchmark design.",
+                exc,
+                source="benchmark campaign plan",
+            )
 
     def start_campaign(self) -> None:
         if not self._tasks:
@@ -334,8 +354,8 @@ class BenchmarkCampaignPanel(WorkspacePage):
         if not self.verify_freeze():
             QMessageBox.critical(
                 self,
-                "Frozen CALO verification failed",
-                "The confirmatory campaign cannot start until the frozen CALO manifest verifies successfully.",
+                "CALO method verification required",
+                "The confirmatory campaign cannot start until the CALO method record verifies successfully.",
             )
             return
         if self._manifest_path is None:
@@ -343,12 +363,18 @@ class BenchmarkCampaignPanel(WorkspacePage):
             return
         design_ok, design_message = verify_campaign_plan_design(self._manifest_path)
         if not design_ok:
-            QMessageBox.critical(self, "Campaign design verification failed", design_message)
+            show_error(
+                self,
+                "Campaign design is not ready",
+                "Review the benchmark design before starting the campaign.",
+                design_message,
+                source="benchmark design verification",
+            )
             return
         answer = QMessageBox.question(
             self,
-            "Start frozen confirmatory campaign",
-            "This starts the frozen benchmark. Previously used systems are labeled validation "
+            "Start confirmatory campaign",
+            "This starts the preregistered benchmark. Previously used systems are labeled validation "
             "replays; unseen systems are labeled protected tests. All are locked out of historical "
             "learning. Continue?",
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
@@ -378,8 +404,16 @@ class BenchmarkCampaignPanel(WorkspacePage):
             self.plan_button.setEnabled(True)
             self.start_button.setEnabled(True)
             message = freeze.message if not freeze.passed else design_message
-            self.log.append("Campaign stopped before the next task: " + message)
-            QMessageBox.critical(self, "Frozen campaign verification failed", message)
+            self.log.append(
+                "Campaign stopped before the next task. Review Activity > Logs for details."
+            )
+            show_error(
+                self,
+                "Campaign verification stopped",
+                "The verified campaign design could not continue.",
+                message,
+                source="frozen benchmark verification",
+            )
             return
         self._task_cursor += 1
         if self._task_cursor >= len(self._tasks):
@@ -387,7 +421,7 @@ class BenchmarkCampaignPanel(WorkspacePage):
             self.cancel_button.setEnabled(False)
             self.plan_button.setEnabled(True)
             self.log.append(
-                "Frozen validation/test campaign completed. Generate the scientific evidence "
+                "Held-out campaign completed. Generate the scientific evidence "
                 "package after independent validation is complete."
             )
             return
@@ -464,10 +498,17 @@ class BenchmarkCampaignPanel(WorkspacePage):
         self.cancel_button.setEnabled(False)
         self.plan_button.setEnabled(True)
         self.start_button.setEnabled(True)
-        self.log.append("Campaign stopped after failure: " + message)
+        self.log.append("Campaign stopped. Review Activity > Logs for details.")
+        show_error(
+            self,
+            "Benchmark campaign stopped",
+            "The campaign could not continue.",
+            message,
+            source="benchmark campaign",
+        )
 
     def choose_manifest(self) -> None:
-        path, _ = QFileDialog.getOpenFileName(self, "Open campaign manifest", "", "JSON (*.json)")
+        path, _ = QFileDialog.getOpenFileName(self, "Open campaign record", "", "JSON (*.json)")
         if path:
             self.package_manifest.setText(path)
 
@@ -504,8 +545,14 @@ class BenchmarkCampaignPanel(WorkspacePage):
             )
             task.finish("Campaign validation completed")
         except Exception as exc:
-            task.fail(str(exc))
-            QMessageBox.critical(self, "Campaign validation failed", str(exc))
+            task.fail("Campaign validation stopped")
+            show_error(
+                self,
+                "Campaign could not be validated",
+                "The completed campaign evidence could not be verified.",
+                exc,
+                source="campaign validation",
+            )
 
     def generate_package(self) -> None:
         task = self.state.task_status
@@ -526,5 +573,11 @@ class BenchmarkCampaignPanel(WorkspacePage):
             self.log.append(f"Scientific evidence package created: {archive.resolve()}")
             task.finish("Scientific evidence package generated")
         except Exception as exc:
-            task.fail(str(exc))
-            QMessageBox.critical(self, "Evidence package failed", str(exc))
+            task.fail("Evidence package generation stopped")
+            show_error(
+                self,
+                "Evidence package could not be generated",
+                "Review the completed campaign and destination.",
+                exc,
+                source="evidence package",
+            )

@@ -19,7 +19,5 @@ class PageHeader(QWidget):
         layout.addWidget(heading)
 
         if subtitle:
-            description = QLabel(subtitle)
-            description.setObjectName("PageSubtitle")
-            description.setWordWrap(True)
-            layout.addWidget(description)
+            heading.setAccessibleDescription(subtitle)
+            heading.setToolTip(subtitle)

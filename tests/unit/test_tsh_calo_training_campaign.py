@@ -58,6 +58,21 @@ def _plan() -> TSHCALOTrainingCampaignPlan:
     )
 
 
+def test_builtin_architecture_plan_needs_no_legacy_governance_receipts():
+    plan = replace(
+        _plan(),
+        development_freeze_commit="",
+        development_freeze_sha256="",
+        phase4_acceptance_sha256="",
+    )
+
+    plan.validate()
+    assert plan.training_config(plan.members[0]).development_freeze_commit == ""
+
+    with pytest.raises(ValueError, match="complete or absent"):
+        replace(plan, development_freeze_commit=SOURCE_COMMIT).validate()
+
+
 def _factory(toy_case):
     return lambda _identity: ORPDProblem(toy_case)
 

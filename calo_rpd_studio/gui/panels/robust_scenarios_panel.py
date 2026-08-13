@@ -18,6 +18,7 @@ from PyQt6.QtWidgets import (
 )
 
 from calo_rpd_studio.gui.widgets.page_header import PageHeader
+from calo_rpd_studio.gui.user_feedback import show_error
 from calo_rpd_studio.gui.widgets.chip_editor import IntegerChipEditor
 from calo_rpd_studio.gui.widgets.scrollable_page import ScrollablePage
 from calo_rpd_studio.gui.widgets.workspace_tabs import WorkspaceTabs
@@ -182,4 +183,4 @@ class RobustScenariosPanel(ScrollablePage):
             self.state.update_config()
             self.stage_completed.emit()
         except Exception as exc:
-            QMessageBox.critical(self, "Scenario configuration error", str(exc))
+            show_error(self, "Scenario settings were not applied", "Review the selected uncertainty and scenario values.", exc, source="robust scenario settings")

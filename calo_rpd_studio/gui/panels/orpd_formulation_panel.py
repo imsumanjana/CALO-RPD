@@ -17,6 +17,7 @@ from PyQt6.QtWidgets import (
 )
 
 from calo_rpd_studio.gui.widgets.page_header import PageHeader
+from calo_rpd_studio.gui.user_feedback import show_error
 from calo_rpd_studio.gui.widgets.scrollable_page import ScrollablePage
 from calo_rpd_studio.gui.widgets.workspace_tabs import WorkspaceTabs
 from calo_rpd_studio.orpd.objectives import ObjectiveKind
@@ -171,7 +172,7 @@ class ORPDFormulationPanel(ScrollablePage):
         except Exception as exc:
             from PyQt6.QtWidgets import QMessageBox
 
-            QMessageBox.critical(self, "ORPD formulation error", str(exc))
+            show_error(self, "ORPD formulation was not applied", "Review the objective, controls, and constraints.", exc, source="ORPD formulation")
             return
         self.state.update_config()
         self.stage_completed.emit()

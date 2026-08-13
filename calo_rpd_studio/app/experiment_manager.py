@@ -2198,10 +2198,10 @@ class ExperimentManager(QObject):
             worker.failed.connect(self._failed)
             worker.finished.connect(self._worker_finished)
             worker.start()
-        except Exception as exc:
+        except Exception:
             self._busy = False
             self.worker = None
-            self.state.task_status.fail(str(exc))
+            self.state.task_status.fail("Experiment could not be started")
             raise
         return True
 
@@ -2274,7 +2274,7 @@ class ExperimentManager(QObject):
         self.cancelled.emit(experiment_id)
 
     def _failed(self, message: str) -> None:
-        self.state.task_status.fail(message)
+        self.state.task_status.fail("Experiment stopped")
         self.failed.emit(message)
 
     def _worker_finished(self) -> None:

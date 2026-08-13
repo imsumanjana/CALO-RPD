@@ -22,6 +22,7 @@ from calo_rpd_studio.benchmarking.validation import (
     select_runs_for_validation,
     validate_runs,
 )
+from calo_rpd_studio.gui.user_feedback import show_error
 from calo_rpd_studio.gui.widgets.workspace_page import WorkspacePage
 from calo_rpd_studio.results.integrity_checker import check_run_record
 from calo_rpd_studio.results.solution_validator import validate_stored_run
@@ -192,8 +193,14 @@ class ValidationAuditPanel(WorkspacePage):
             else:
                 task.fail("Independent result validation failed")
         except Exception as exc:
-            task.fail(str(exc))
-            QMessageBox.critical(self, "Validation failed", str(exc))
+            task.fail("Run validation stopped")
+            show_error(
+                self,
+                "Run could not be validated",
+                "Select a complete compatible run and try again.",
+                exc,
+                source="run validation",
+            )
 
     def validate_current_experiment(self) -> None:
         experiment_id = self.experiment.currentData()
@@ -328,14 +335,20 @@ class ValidationAuditPanel(WorkspacePage):
                 )
 
     def _bulk_failed(self, message: str) -> None:
-        self.bulk_status.setText(f"Bulk validation stopped: {message}")
+        self.bulk_status.setText("Bulk validation stopped. Review Activity > Logs for details.")
         self.bulk_progress.setFormat("Failed")
-        self.state.task_status.fail(message)
+        self.state.task_status.fail("Bulk validation stopped")
         if self._bulk_resume_task_id:
             self.state.resume_service.update(
                 self._bulk_resume_task_id, status=ResumeStatus.INTERRUPTED, resumable=True
             )
-        QMessageBox.critical(self, "Bulk validation failed", message)
+        show_error(
+            self,
+            "Bulk validation stopped",
+            "The remaining runs were not validated.",
+            message,
+            source="bulk validation",
+        )
 
     def resume_task_by_id(self, task_id: str) -> bool:
         """Resume one specific bulk-validation record selected by Resume Center."""

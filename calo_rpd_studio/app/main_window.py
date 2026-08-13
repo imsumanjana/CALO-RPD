@@ -3,24 +3,22 @@
 from __future__ import annotations
 
 import logging
+from pathlib import Path
 
-from calo_rpd_studio.version import DISPLAY_VERSION
-
-from PyQt6.QtCore import Qt, QTimer
-from PyQt6.QtGui import QAction, QKeySequence
+from PyQt6.QtCore import QByteArray, Qt, QTimer
+from PyQt6.QtGui import QKeySequence, QShortcut
 from PyQt6.QtWidgets import (
+    QDockWidget,
     QFileDialog,
-    QLabel,
     QMainWindow,
     QMessageBox,
-    QSizePolicy,
-    QSplitter,
     QStackedWidget,
-    QToolBar,
-    QVBoxLayout,
-    QWidget,
+    QTextBrowser,
 )
 
+from calo_rpd_studio.gui.command_registry import CommandRegistry, CommandSpec
+from calo_rpd_studio.gui.dialogs.unfinished_work_dialog import UnfinishedWorkDialog
+from calo_rpd_studio.gui.icons.workspace_icons import application_icon
 from calo_rpd_studio.gui.navigation.sidebar import NavigationSidebar
 from calo_rpd_studio.gui.panels.algorithms_panel import AlgorithmsPanel
 from calo_rpd_studio.gui.panels.application_settings_panel import ApplicationSettingsPanel
@@ -28,38 +26,48 @@ from calo_rpd_studio.gui.panels.benchmark_campaign_panel import BenchmarkCampaig
 from calo_rpd_studio.gui.panels.calo_intelligence_panel import CALOIntelligencePanel
 from calo_rpd_studio.gui.panels.dashboard_panel import DashboardPanel
 from calo_rpd_studio.gui.panels.experiment_manager_panel import ExperimentManagerPanel
+from calo_rpd_studio.gui.panels.independent_training_panel import (
+    IndependentTrainingPanel,
+    TrainingLaunchModel,
+)
 from calo_rpd_studio.gui.panels.live_optimization_panel import LiveOptimizationPanel
 from calo_rpd_studio.gui.panels.portfolio_manager_panel import PortfolioManagerPanel
-from calo_rpd_studio.gui.panels.resume_center_panel import ResumeCenterPanel
-from calo_rpd_studio.gui.dialogs.unfinished_work_dialog import UnfinishedWorkDialog
 from calo_rpd_studio.gui.panels.orpd_formulation_panel import ORPDFormulationPanel
 from calo_rpd_studio.gui.panels.power_system_panel import PowerSystemPanel
 from calo_rpd_studio.gui.panels.publication_export_panel import PublicationExportPanel
 from calo_rpd_studio.gui.panels.results_explorer_panel import ResultsExplorerPanel
 from calo_rpd_studio.gui.panels.robust_scenarios_panel import RobustScenariosPanel
+from calo_rpd_studio.gui.panels.resume_center_panel import ResumeCenterPanel
 from calo_rpd_studio.gui.panels.statistical_analysis_panel import StatisticalAnalysisPanel
 from calo_rpd_studio.gui.panels.validation_audit_panel import ValidationAuditPanel
-from calo_rpd_studio.gui.widgets.global_status_bar import GlobalStatusBarWidget
+from calo_rpd_studio.gui.user_feedback import show_error
+from calo_rpd_studio.gui.widgets.activity_center import ActivityCenter
+from calo_rpd_studio.gui.widgets.context_pane import ContextPane
+from calo_rpd_studio.gui.widgets.document_workspace import DocumentWorkspace
 from calo_rpd_studio.gui.widgets.form_density import apply_compact_input_policy
+from calo_rpd_studio.gui.widgets.global_status_bar import GlobalStatusBarWidget
+from calo_rpd_studio.gui.widgets.ribbon_bar import RibbonBar
 from calo_rpd_studio.gui.widgets.scrollable_page import ScrollablePage
-from calo_rpd_studio.gui.widgets.workflow_guide import WorkflowGuide
+from calo_rpd_studio.version import PRODUCT_VERSION
 
-from .project_manager import ProjectManager
-from .workflow_manager import WorkflowManager
 from .experiment_workspace_restorer import ExperimentWorkspaceRestorer
+from .project_manager import ProjectManager
 from .session_recovery import SessionRecoveryJournal
+from .workflow_manager import WorkflowManager
 from .workspaces import (
-    WORKSPACE_SPECS,
     WORKSPACE_KEYS,
-    WORKSPACE_TITLE,
-    migrate_workspace_ui,
-    WORKSPACE_SCHEMA_VERSION,
     WORKSPACE_LAYOUT_ID,
+    WORKSPACE_SCHEMA_VERSION,
+    WORKSPACE_SPECS,
+    migrate_workspace_ui,
     workspace_index_for_key,
     workspace_key_for_index,
 )
 
 _LOG = logging.getLogger(__name__)
+_LAYOUT_VERSION = 3
+_DEFAULT_CONTEXT_WIDTH = 340
+_DEFAULT_ACTIVITY_HEIGHT = 135
 
 
 class MainWindow(QMainWindow):
@@ -70,10 +78,10 @@ class MainWindow(QMainWindow):
         self.settings_manager = settings_manager
         self.workflow = WorkflowManager(state)
         self._close_when_paused = False
-        self._close_when_training_stopped = False
         self._training_exclusive_active = False
 
         self.setWindowTitle("CALO-RPD Studio")
+        self.setWindowIcon(application_icon())
         self.resize(1500, 920)
         self.setMinimumSize(1120, 720)
 
@@ -117,33 +125,68 @@ class MainWindow(QMainWindow):
             }
         )
 
-        self.guide = WorkflowGuide()
-        self.guide.next_clicked.connect(self._go_to_recommended_step)
-        right = QWidget()
-        right.setObjectName("WorkspaceContainer")
-        right_layout = QVBoxLayout(right)
-        right_layout.setContentsMargins(0, 0, 0, 0)
-        right_layout.setSpacing(0)
-        right_layout.addWidget(self.guide)
-        right_layout.addWidget(self.stack, 1)
+        self.documents = DocumentWorkspace(self.stack)
+        self.setCentralWidget(self.documents)
+
+        self.command_registry = CommandRegistry(self)
+        self.ribbon = RibbonBar(self.command_registry)
+        self.setMenuWidget(self.ribbon)
+
+        self.training_launch_model = TrainingLaunchModel(self)
+        self.training_center = IndependentTrainingPanel(
+            self.state, self.training_launch_model, self
+        )
+        self.context_pane = ContextPane(
+            self.state,
+            self.sidebar,
+            self.training_launch_model,
+            self.training_center,
+            self,
+        )
+        self.context_dock = QDockWidget("Inputs", self)
+        self.context_dock.setObjectName("Phase6ContextDock")
+        self.context_dock.setAccessibleName("Contextual input pane")
+        self.context_dock.setAllowedAreas(Qt.DockWidgetArea.LeftDockWidgetArea)
+        self.context_dock.setFeatures(QDockWidget.DockWidgetFeature.NoDockWidgetFeatures)
+        self.context_dock.toggleViewAction().setEnabled(False)
+        self.context_dock.setWidget(self.context_pane)
+        self.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, self.context_dock)
+
+        self.activity_center = ActivityCenter(self.state, self)
+        self.activity_dock = QDockWidget("Activity", self)
+        self.activity_dock.setObjectName("Phase6ActivityDock")
+        self.activity_dock.setAccessibleName("Jobs logs warnings device and provenance")
+        self.activity_dock.setAllowedAreas(
+            Qt.DockWidgetArea.BottomDockWidgetArea | Qt.DockWidgetArea.TopDockWidgetArea
+        )
+        self.activity_dock.setFeatures(
+            QDockWidget.DockWidgetFeature.DockWidgetClosable
+            | QDockWidget.DockWidgetFeature.DockWidgetMovable
+            | QDockWidget.DockWidgetFeature.DockWidgetFloatable
+        )
+        self.activity_dock.setWidget(self.activity_center)
+        self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self.activity_dock)
 
         self.sidebar.page_requested.connect(self._set_workspace)
+        self.context_pane.workspace_requested.connect(self._context_workspace_requested)
+        self.context_pane.status_message.connect(self._show_status_message)
+        self.command_registry.command_triggered.connect(self._execute_command)
+        self.command_registry.command_selected.connect(self._command_selected)
+        self.training_center.activity_message.connect(self.activity_center.append_external)
+        self.pages_by_key["calo_intelligence"].independent_training_requested.connect(
+            self.command_registry.action("policies.training").trigger
+        )
+        self.context_pane.training.action_state_changed.connect(self._update_training_command)
 
-        splitter = QSplitter(Qt.Orientation.Horizontal)
-        splitter.setObjectName("MainSplitter")
-        splitter.setHandleWidth(1)
-        splitter.setChildrenCollapsible(False)
-        splitter.addWidget(self.sidebar)
-        splitter.addWidget(right)
-        splitter.setStretchFactor(0, 0)
-        splitter.setStretchFactor(1, 1)
-        splitter.setSizes([248, 1252])
-        self.setCentralWidget(splitter)
-
-        self._create_toolbar()
+        self._create_compatibility_actions()
+        self._install_region_shortcut()
         self._create_global_status_bar()
         self._connect_workflow()
         self._refresh_workflow()
+        self._restore_shell_layout()
+        self.context_dock.show()
+        if not self._shell_layout_restored:
+            QTimer.singleShot(0, self._apply_default_dock_sizes)
         QTimer.singleShot(150, self._initial_system_scan)
         QTimer.singleShot(350, self._check_unfinished_work)
 
@@ -164,9 +207,6 @@ class MainWindow(QMainWindow):
         self.pages_by_key["calo_intelligence"].stage_completed.connect(self._governing_policy_event)
         self.pages_by_key["scenarios"].stage_completed.connect(
             lambda: self.workflow.mark_completed("scenarios")
-        )
-        self.pages_by_key["calo_intelligence"].experiment_manager_requested.connect(
-            lambda: self._set_workspace("experiment")
         )
         self.pages_by_key["dashboard"].workspace_requested.connect(self._set_workspace)
         self.pages_by_key["experiment"].workspace_requested.connect(self._set_workspace)
@@ -194,8 +234,8 @@ class MainWindow(QMainWindow):
         self.pages_by_key["resume_center"].experiment_restore_requested.connect(
             self.restore_experiment_workspace
         )
-        self.pages_by_key["resume_center"].policy_training_resumed.connect(
-            lambda task_id: self.pages_by_key["calo_intelligence"].resume_task_by_id(task_id)
+        self.pages_by_key["resume_center"].policy_training_requested.connect(
+            self._prepare_independent_training_resume
         )
         self.pages_by_key["resume_center"].validation_resumed.connect(
             lambda task_id: self.pages_by_key["validation"].resume_task_by_id(task_id)
@@ -224,11 +264,9 @@ class MainWindow(QMainWindow):
             dashboard = self.pages_by_key["dashboard"]
             if hasattr(dashboard, "refresh_compute"):
                 dashboard.refresh_compute()
-        except Exception as exc:
+        except Exception:
             _LOG.exception("Initial compute-topology scan failed")
-            self.state.task_status.fail(
-                f"System readiness scan failed: {type(exc).__name__}: {exc}"
-            )
+            self.state.task_status.fail("System readiness scan stopped")
         finally:
             self.state.notify_policy_state_changed()
 
@@ -252,6 +290,14 @@ class MainWindow(QMainWindow):
 
     def _on_task_status_changed(self, snapshot: dict) -> None:
         self.global_status.apply_snapshot(snapshot)
+        state = str(snapshot.get("state", "Ready"))
+        title = str(snapshot.get("title", "") or snapshot.get("detail", ""))
+        self.ribbon.set_summary(f"{state} · {title}" if title else state)
+        self.command_registry.set_available(
+            "experiment.stop",
+            bool(snapshot.get("busy")) and bool(snapshot.get("cancellable")),
+            "The current task does not expose safe cancellation.",
+        )
         if not snapshot.get("busy") and snapshot.get("state") in {
             "Completed",
             "Failed",
@@ -274,9 +320,6 @@ class MainWindow(QMainWindow):
         if hasattr(self, "save_config_action"):
             self.save_config_action.setEnabled(not active)
         self._refresh_workflow()
-        if not active and self._close_when_training_stopped:
-            self._close_when_training_stopped = False
-            QTimer.singleShot(0, self.close)
 
     def _refresh_verified_count(self) -> None:
         experiment_id = self.state.current_experiment_id or None
@@ -291,16 +334,36 @@ class MainWindow(QMainWindow):
         for index, key in enumerate(WORKSPACE_KEYS):
             state, reason = self.workflow.workspace_state_key(key)
             self.sidebar.set_workflow_state(index, state, reason)
+        for spec in self.command_registry.specs:
+            if spec.handler != "workspace" or not spec.workspace:
+                continue
+            enabled = self.workflow.is_workspace_enabled(spec.workspace)
+            _, reason = self.workflow.workspace_state_key(spec.workspace)
+            self.command_registry.set_available(spec.command_id, enabled, reason)
+        training_active = bool(getattr(self.state, "policy_training_active", False))
+        self.command_registry.set_available(
+            "project.open",
+            not training_active,
+            "Configuration is locked while training owns runtime state.",
+        )
+        self.command_registry.set_available(
+            "project.save",
+            not training_active,
+            "Configuration is locked while training owns runtime state.",
+        )
+        self.command_registry.set_available("policies.training", True)
+        self.command_registry.set_available("policies.resume", True)
+        task = self.state.task_status.snapshot()
+        self.command_registry.set_available(
+            "experiment.stop",
+            bool(task.get("busy")) and bool(task.get("cancellable")),
+            "The current task does not expose safe cancellation.",
+        )
+        self.activity_center.refresh_context()
+        self.global_status.apply_context(self.state)
 
-        completed, total = self.workflow.progress()
         descriptor = self.workflow.next_descriptor()
         if descriptor is None:
-            self.guide.set_guidance(
-                "Workflow complete",
-                "The configured workflow has no pending required step.",
-                "Workflow complete",
-                False,
-            )
             dashboard = self.pages_by_key.get("dashboard")
             if dashboard is not None and hasattr(dashboard, "set_next_action"):
                 dashboard.set_next_action(
@@ -310,17 +373,6 @@ class MainWindow(QMainWindow):
                     True,
                 )
             return
-        step_text = (
-            "Post-experiment workflow"
-            if descriptor.key in {"validation", "publication"}
-            else f"Guided workflow · step {min(completed + 1, total)} of {total}"
-        )
-        self.guide.set_guidance(
-            step_text,
-            f"Next: {descriptor.title}. {descriptor.instruction}",
-            f"Open {WORKSPACE_TITLE[descriptor.workspace_key]}",
-            self.workflow.is_workspace_enabled(descriptor.workspace_key),
-        )
         dashboard = self.pages_by_key.get("dashboard")
         if dashboard is not None and hasattr(dashboard, "set_next_action"):
             dashboard.set_next_action(
@@ -329,11 +381,6 @@ class MainWindow(QMainWindow):
                 descriptor.workspace_key,
                 self.workflow.is_workspace_enabled(descriptor.workspace_key),
             )
-
-    def _go_to_recommended_step(self) -> None:
-        descriptor = self.workflow.next_descriptor()
-        if descriptor is not None:
-            self._set_workspace(descriptor.workspace_key)
 
     def _workspace_key(self, workspace: str | int) -> str:
         return workspace_key_for_index(workspace) if isinstance(workspace, int) else str(workspace)
@@ -358,6 +405,18 @@ class MainWindow(QMainWindow):
         index = workspace_index_for_key(key)
         self.stack.setCurrentIndex(index)
         self.sidebar.set_current(index)
+        self.settings_manager.set_value("phase6/last_workspace_key", key)
+        self.documents.focus_scientific_workspace()
+        related = next(
+            (
+                spec
+                for spec in self.command_registry.specs
+                if spec.handler == "workspace" and spec.workspace == key
+            ),
+            None,
+        )
+        if related is not None:
+            self.command_registry.select(related.command_id)
 
     def _check_unfinished_work(self) -> None:
         previous = dict(self._previous_unclean_session or {})
@@ -439,11 +498,9 @@ class MainWindow(QMainWindow):
                 )
             except Exception:
                 _LOG.exception("Failed to update application-session recovery journal")
-        except Exception as exc:
+        except Exception:
             _LOG.exception("Failed to persist workspace state for experiment %s", experiment_id)
-            self.state.task_status.fail(
-                f"Workspace-state persistence failed: {type(exc).__name__}: {exc}"
-            )
+            self.state.task_status.fail("Workspace state could not be saved")
 
     def restore_experiment_workspace(self, experiment_id: str) -> None:
         try:
@@ -471,42 +528,214 @@ class MainWindow(QMainWindow):
                 f"Restored experiment workspace · {restored['runs']} stored run(s) · {restored['campaign_status']}"
             )
         except Exception as exc:
-            QMessageBox.critical(self, "Experiment restoration failed", str(exc))
+            show_error(
+                self,
+                "Experiment could not be restored",
+                "The saved experiment workspace could not be opened.",
+                exc,
+                source="experiment restoration",
+            )
 
-    def _create_toolbar(self) -> None:
-        toolbar = QToolBar("Project")
-        toolbar.setObjectName("TopToolbar")
-        toolbar.setMovable(False)
-        toolbar.setFloatable(False)
-        toolbar.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
-        self.addToolBar(Qt.ToolBarArea.TopToolBarArea, toolbar)
+    def _create_compatibility_actions(self) -> None:
+        """Retain established public action attributes while the registry owns the actions."""
+        self.open_config_action = self.command_registry.action("project.open")
+        self.save_config_action = self.command_registry.action("project.save")
 
-        open_action = QAction("Open configuration", self)
-        self.open_config_action = open_action
-        open_action.setShortcut(QKeySequence.StandardKey.Open)
-        open_action.triggered.connect(self.open_config)
-        save_action = QAction("Save configuration", self)
-        self.save_config_action = save_action
-        save_action.setShortcut(QKeySequence.StandardKey.Save)
-        save_action.triggered.connect(self.save_config)
-        search_action = QAction("Find workspace", self)
-        search_action.setShortcut(QKeySequence("Ctrl+K"))
-        search_action.triggered.connect(self.sidebar.focus_search)
-        about_action = QAction("About", self)
-        about_action.triggered.connect(self.about)
+    def _install_region_shortcut(self) -> None:
+        self._focus_regions = (
+            self.ribbon.tabs,
+            self.context_pane.tabs,
+            self.documents,
+            self.activity_center,
+        )
+        self._focus_region_index = -1
+        self.region_shortcut = QShortcut(QKeySequence("F6"), self)
+        self.region_shortcut.setContext(Qt.ShortcutContext.ApplicationShortcut)
+        self.region_shortcut.activated.connect(self._focus_next_region)
 
-        toolbar.addAction(open_action)
-        toolbar.addAction(save_action)
-        toolbar.addAction(search_action)
-        toolbar.addSeparator()
-        spacer = QWidget()
-        spacer.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
-        toolbar.addWidget(spacer)
-        context = QLabel("Cognitive Adaptive Learning Optimizer · ORPD Research Studio")
-        context.setObjectName("ToolbarContext")
-        toolbar.addWidget(context)
-        toolbar.addSeparator()
-        toolbar.addAction(about_action)
+    def _focus_next_region(self) -> None:
+        self._focus_region_index = (self._focus_region_index + 1) % len(self._focus_regions)
+        target = self._focus_regions[self._focus_region_index]
+        if target is self.context_pane.tabs:
+            self.context_dock.show()
+        elif target is self.activity_center:
+            self.activity_dock.show()
+        target.setFocus(Qt.FocusReason.ShortcutFocusReason)
+
+    def _command_selected(self, spec: CommandSpec) -> None:
+        self._training_context_was_visible = (
+            spec.command_id == "policies.training"
+            and self.context_pane.stack.currentWidget() is self.context_pane.training
+        )
+        self.context_pane.show_command(spec)
+        self.context_dock.show()
+
+    def _execute_command(self, command_id: str) -> None:
+        spec = self.command_registry.spec(command_id)
+        handlers = {
+            "open": self.open_config,
+            "save": self.save_config,
+            "find": self._find_workspace,
+            "cancel": self.state.task_status.cancel,
+            "training": self._open_training_center,
+            "toggle_activity": lambda: self.activity_dock.setVisible(
+                not self.activity_dock.isVisible()
+            ),
+            "toggle_theme": self._toggle_theme,
+            "reset_layout": self.reset_shell_layout,
+            "guide": self._open_user_guide,
+            "about": self.about,
+        }
+        if spec.handler == "workspace":
+            self._set_workspace(spec.workspace)
+            return
+        handler = handlers.get(spec.handler)
+        if handler is not None:
+            handler()
+
+    def _context_workspace_requested(self, target: str) -> None:
+        if target == "independent-training":
+            self._open_training_center()
+        elif target:
+            self._set_workspace(target)
+
+    def _show_status_message(self, message: str) -> None:
+        self.statusBar().showMessage(str(message), 5000)
+
+    def _find_workspace(self) -> None:
+        self.context_dock.show()
+        self.ribbon.select_category("Workspace")
+        self.ribbon.tabs.setFocus(Qt.FocusReason.ShortcutFocusReason)
+
+    def _open_training_center(self) -> None:
+        self.context_dock.show()
+        self.context_pane.show_command(self.command_registry.spec("policies.training"))
+        was_visible = bool(getattr(self, "_training_context_was_visible", False))
+        self._training_context_was_visible = False
+        if not was_visible:
+            self.context_pane.training.refresh()
+            return
+        self.context_pane.activate_training()
+
+    def _prepare_independent_training_resume(self, record: dict) -> None:
+        """Open and prefill independent resume inputs without starting policy work."""
+
+        self.context_dock.show()
+        self.context_pane.show_command(self.command_registry.spec("policies.training"))
+        try:
+            self.context_pane.prepare_training_resume(record)
+        except Exception as exc:
+            show_error(
+                self,
+                "Training resume could not be prepared",
+                "This record is not compatible with independent policy training.",
+                exc,
+                source="independent training resume",
+            )
+
+    def _update_training_command(self, label: str, tooltip: str) -> None:
+        action = self.command_registry.action("policies.training")
+        action.setText(str(label))
+        action.setToolTip(str(tooltip))
+        action.setStatusTip(str(tooltip))
+
+    def _open_user_guide(self) -> None:
+        guide = getattr(self, "_guide_document", None)
+        if guide is None:
+            guide = QTextBrowser()
+            guide.setObjectName("NativeAndContainerGuide")
+            guide.setAccessibleName("CALO-RPD operating guide")
+            guide.setOpenExternalLinks(True)
+            candidates = (
+                Path(__file__).resolve().parents[2] / "docs" / "NATIVE_WINDOWS_GUIDE.md",
+                Path(__file__).resolve().parents[2] / "README.md",
+            )
+            source = next((item for item in candidates if item.is_file()), None)
+            if source is None:
+                guide.setMarkdown(
+                    "# CALO-RPD Studio operation\n\n"
+                    "This installed build uses `calo-rpd-native` for direct routine desktop "
+                    "launch. The direct entry does not install dependencies or perform policy "
+                    "work. Use the **Compute** ribbon to distinguish configured CUDA-preferred "
+                    "or CPU-only intent from the actual assigned device; Safe-80 values are "
+                    "admission ceilings, not measured use.\n\n"
+                    "Repository checkouts also provide `Launch-CALO-RPD.ps1` and the complete "
+                    "native/Docker guide under `docs/NATIVE_WINDOWS_GUIDE.md`."
+                )
+            else:
+                guide.setMarkdown(source.read_text(encoding="utf-8"))
+            self._guide_document = guide
+        self.documents.open_document(
+            "operating-guide",
+            "Operating guide",
+            guide,
+            tooltip="Native Windows and Docker guidance",
+        )
+
+    def _toggle_theme(self) -> None:
+        target = "dark" if str(self.state.theme) != "dark" else "light"
+        self.settings_manager.set_value("appearance", target)
+        self.state.set_theme(target)
+
+    def reset_shell_layout(self) -> None:
+        self.ribbon.set_compact(False)
+        self.context_dock.setFloating(False)
+        self.activity_dock.setFloating(False)
+        self.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, self.context_dock)
+        self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self.activity_dock)
+        self.context_dock.show()
+        self.activity_dock.show()
+        self.resizeDocks((self.context_dock,), (_DEFAULT_CONTEXT_WIDTH,), Qt.Orientation.Horizontal)
+        self.resizeDocks(
+            (self.activity_dock,), (_DEFAULT_ACTIVITY_HEIGHT,), Qt.Orientation.Vertical
+        )
+        self.documents.focus_scientific_workspace()
+        self.settings_manager.set_value("phase6/layout_version", _LAYOUT_VERSION)
+        self.settings_manager.set_value("phase6/main_window_state", QByteArray())
+        self._show_status_message("Application layout restored to the default")
+
+    def _apply_default_dock_sizes(self) -> None:
+        self.resizeDocks((self.context_dock,), (_DEFAULT_CONTEXT_WIDTH,), Qt.Orientation.Horizontal)
+        self.resizeDocks(
+            (self.activity_dock,), (_DEFAULT_ACTIVITY_HEIGHT,), Qt.Orientation.Vertical
+        )
+
+    def _restore_shell_layout(self) -> None:
+        self.ribbon.set_compact(False, emit=False)
+        try:
+            version = int(self.settings_manager.value("phase6/layout_version", 0) or 0)
+        except (TypeError, ValueError):
+            version = 0
+        state = self.settings_manager.value("phase6/main_window_state", QByteArray())
+        restored = False
+        if version == _LAYOUT_VERSION and isinstance(state, QByteArray) and not state.isEmpty():
+            restored = bool(self.restoreState(state, _LAYOUT_VERSION))
+        self._shell_layout_restored = restored
+        if not restored:
+            self.context_dock.show()
+            self.activity_dock.show()
+            self.resizeDocks(
+                (self.context_dock,), (_DEFAULT_CONTEXT_WIDTH,), Qt.Orientation.Horizontal
+            )
+            self.resizeDocks(
+                (self.activity_dock,), (_DEFAULT_ACTIVITY_HEIGHT,), Qt.Orientation.Vertical
+            )
+        self.context_dock.setFloating(False)
+        self.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, self.context_dock)
+        self.context_dock.show()
+        last_workspace = str(
+            self.settings_manager.value("phase6/last_workspace_key", "dashboard") or "dashboard"
+        )
+        if last_workspace in WORKSPACE_KEYS and self.workflow.is_workspace_enabled(last_workspace):
+            self._set_workspace(last_workspace)
+
+    def _save_shell_layout(self) -> None:
+        self.ribbon.set_compact(False, emit=False)
+        self.context_dock.setFloating(False)
+        self.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, self.context_dock)
+        self.context_dock.show()
+        self.settings_manager.set_value("phase6/layout_version", _LAYOUT_VERSION)
+        self.settings_manager.set_value("phase6/main_window_state", self.saveState(_LAYOUT_VERSION))
 
     def open_config(self) -> None:
         path, _ = QFileDialog.getOpenFileName(
@@ -523,7 +752,13 @@ class MainWindow(QMainWindow):
             self.state.task_status.finish(f"Configuration loaded: {path}")
             self._set_workspace("calo_intelligence")
         except Exception as exc:
-            QMessageBox.critical(self, "Configuration load failed", str(exc))
+            show_error(
+                self,
+                "Configuration could not be opened",
+                "The selected configuration is invalid or unavailable.",
+                exc,
+                source="configuration open",
+            )
 
     def save_config(self) -> None:
         path, _ = QFileDialog.getSaveFileName(
@@ -538,15 +773,21 @@ class MainWindow(QMainWindow):
             ProjectManager.save(self.state.config, path)
             self.state.task_status.finish(f"Configuration saved: {path}")
         except Exception as exc:
-            QMessageBox.critical(self, "Configuration save failed", str(exc))
+            show_error(
+                self,
+                "Configuration could not be saved",
+                "Choose a writable location and try again.",
+                exc,
+                source="configuration save",
+            )
 
     def about(self) -> None:
         QMessageBox.information(
             self,
             "About CALO-RPD Studio",
-            f"CALO-RPD Studio {DISPLAY_VERSION}\n"
+            f"CALO-RPD Studio {PRODUCT_VERSION}\n"
             "Cognitive Adaptive Learning Optimizer for Robust Reactive Power Dispatch\n\n"
-            "Policy-first guided scientific optimization with Safe-80 compute protection, reproducible benchmarking, validation, statistics, and publication export.",
+            "Scientific optimization with optional policy guidance, available-memory protection, reproducible benchmarking, validation, statistics, and publication export.",
         )
 
     def _finish_deferred_close(self) -> None:
@@ -556,21 +797,23 @@ class MainWindow(QMainWindow):
 
     def closeEvent(self, event) -> None:  # noqa: N802 - Qt API
         self._persist_workspace_state()
-        if bool(getattr(self.state, "policy_training_active", False)):
-            answer = QMessageBox.question(
+        if self.training_center.process is not None:
+            QMessageBox.information(
                 self,
-                "Policy training running",
-                "CALO policy training is active under the Global Training Exclusive Lock. Request an exact Safe Stop and close after training state is durably preserved?",
-                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
-                QMessageBox.StandardButton.No,
+                "Independent policy process is active",
+                "An independent readiness or training process is still active. Keep CALO-RPD "
+                "Studio open until it finishes; closing will not silently terminate it or accept "
+                "an incomplete result.",
             )
-            if answer != QMessageBox.StandardButton.Yes:
-                event.ignore()
-                return
-            self._close_when_training_stopped = True
-            panel = self.pages_by_key.get("calo_intelligence")
-            if panel is not None and hasattr(panel, "request_training_safe_stop"):
-                panel.request_training_safe_stop()
+            event.ignore()
+            return
+        if bool(getattr(self.state, "policy_training_active", False)):
+            QMessageBox.information(
+                self,
+                "Independent policy training is active",
+                "Keep CALO-RPD Studio open until the independent training process finishes. "
+                "Closing will not silently stop or accept an incomplete training result.",
+            )
             event.ignore()
             return
         if self.experiment_manager.running:
@@ -606,4 +849,6 @@ class MainWindow(QMainWindow):
             )
         except Exception:
             _LOG.exception("Failed to finalize clean application-session recovery journal")
+        self._save_shell_layout()
+        self.activity_center.detach_logging()
         event.accept()

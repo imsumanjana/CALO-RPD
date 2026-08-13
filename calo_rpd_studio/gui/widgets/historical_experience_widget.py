@@ -27,6 +27,7 @@ from PyQt6.QtWidgets import (
     QWidget,
 )
 
+from calo_rpd_studio.gui.user_feedback import show_error
 from calo_rpd_studio.learning.experience_repository import (
     EXPERIMENT_ROLES,
     build_experience_repository,
@@ -190,7 +191,16 @@ class HistoricalExperienceWidget(QGroupBox):
                 verified_only=self.verified_only.isChecked(),
             )
         except Exception as exc:
-            self.summary.setPlainText(f"Continual-learning repository rebuild failed: {exc}")
+            self.summary.setPlainText(
+                "Historical learning could not be refreshed. Review Activity > Logs for details."
+            )
+            show_error(
+                self,
+                "Historical learning could not be refreshed",
+                "The selected training history could not be prepared.",
+                exc,
+                source="historical learning refresh",
+            )
             return
         self.repository_path.setText(repository.path)
         self.summary.setPlainText(
@@ -298,7 +308,13 @@ class HistoricalExperienceWidget(QGroupBox):
                     locked=lock_requested,
                 )
         except Exception as exc:
-            QMessageBox.critical(self, "Historical experiment classification", str(exc))
+            show_error(
+                self,
+                "Classifications could not be saved",
+                "Review the selected historical experiment roles.",
+                exc,
+                source="historical classification",
+            )
             self.refresh()
             return
         self.refresh()
@@ -327,7 +343,13 @@ class HistoricalExperienceWidget(QGroupBox):
                 verified_only=self.verified_only.isChecked(),
             )
         except Exception as exc:
-            QMessageBox.critical(self, "Build Experience Repository", str(exc))
+            show_error(
+                self,
+                "Experience repository could not be built",
+                "Review the selected experiments and destination.",
+                exc,
+                source="experience repository build",
+            )
             return
         self.repository_path.setText(repository.path)
         self.summary.setPlainText(json.dumps(repository.summary, indent=2))
@@ -343,7 +365,13 @@ class HistoricalExperienceWidget(QGroupBox):
         try:
             repository = load_experience_repository(path)
         except Exception as exc:
-            QMessageBox.critical(self, "Historical Experience", str(exc))
+            show_error(
+                self,
+                "Historical experience could not be previewed",
+                "Review the selected repository and eligible data.",
+                exc,
+                source="historical experience preview",
+            )
             return
         preview = {
             "repository": repository.path,
@@ -385,7 +413,13 @@ class HistoricalExperienceWidget(QGroupBox):
         try:
             load_experience_repository(path)
         except Exception as exc:
-            QMessageBox.critical(self, "Historical Learning", str(exc))
+            show_error(
+                self,
+                "Historical learning could not be applied",
+                "The selected historical data is not ready for this action.",
+                exc,
+                source="historical learning",
+            )
             return
         parameters = dict(self.state.config.algorithm_parameters.get("CALO", {}))
         parameters.update(

@@ -7,6 +7,24 @@ from types import MappingProxyType
 
 SPACING_UNIT = 8
 
+LAYOUT_TOKENS = MappingProxyType(
+    {
+        "spacing_xs": 4,
+        "spacing_sm": 8,
+        "spacing_md": 12,
+        "spacing_lg": 16,
+        "radius_sm": 6,
+        "radius_md": 9,
+        "control_height_compact": 28,
+        "control_height_normal": 34,
+        "icon_compact": 20,
+        "icon_primary": 24,
+        "context_default_width": 320,
+        "context_minimum_width": 250,
+        "activity_default_height": 230,
+    }
+)
+
 
 LIGHT_TOKENS = MappingProxyType(
     {

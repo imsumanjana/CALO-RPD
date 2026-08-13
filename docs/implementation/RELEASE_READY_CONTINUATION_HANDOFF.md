@@ -1208,3 +1208,136 @@ scientific/hardware qualification—not as a final release.
   those flags. Enable Docker Desktop's containerd image store and restart it. The ignored combined
   wrapper now verifies `io.containerd.snapshotter.v1` before starting Phase 4 and retains the check
   in its preflight log; then run the complete combined validator again.
+- Combined retry `phase4-phase5-20260813-000340` passed both children: Phase 4
+  `phase4-20260813-000340` is 32/32 and Phase 5 `phase5-20260813-010531` is 41/41. Preserve the
+  bundle as direct combined development/release-preparation validation for commit
+  `f800119cd3a14e2965c91040d0a8392013532089` plus its retained dirty source identity. It is not a
+  release-policy choice, policy authorization, RC, publication authorization, or final release.
+- Phase 6 is active from clean commit `2d7130fb63c13d35d0419dd63b1d68e2050dcf72`. Continue from
+  `PHASE_6_NEW_CHAT_PROMPT.md`: implement the ribbon workspace, fix disabled-primary visual state and
+  constrained action clipping, expose only the independent prerequisite-gated new-policy training
+  center, and provide routine native Windows launch separate from one-time setup. Do not restore the
+  legacy trainer or run policy/test/validation work as the development agent.
+
+## 26. Phase 6 development handoff - 2026-08-13
+
+- Phase 6 coding and automated GUI/native/packaging validation are complete. The consumed
+  `PHASE_6_EXACT_CONTINUATION_PROMPT.md` now carries a completion banner; do not restart its earlier
+  audit or remaining-work list.
+- The shell now uses one command registry for the tabbed ribbon and retains the public
+  `window.stack`/`window.sidebar` compatibility contracts inside the pinned scientific document.
+  Context, activity, status, theme, layout-restoration, and native-launch surfaces are implemented
+  with proportional unit, GUI, integration, render, and distribution-check source.
+- The independent new-policy center performs no work on construction/navigation and separates plan,
+  readiness, explicit confirmed start, and explicit resume. Readiness is bound to the exact checked
+  paths; a successful stale result is rejected. The embedded legacy trainer remains hidden and
+  disabled, and no output is automatically qualified, registered, activated, or selected.
+- Authorized run `phase6-20260813-032036` passed 19/19 retained checks with identical before/after
+  nonignored source-state hashes. It includes unit, GUI, regression, empty-policy, render, build,
+  distribution-safety, and Phase 6 package-membership evidence.
+- Phase 6 may close as development-validated. Do not promote that result into a release-policy
+  choice, policy authorization, qualification, release candidate, publication authorization,
+  release-readiness claim, or final release. Human usability, screen-reader, and scientist
+  acceptance remain uninferred by automation.
+- A later professional visual-refinement pass keeps all workspace navigation in a complete ribbon
+  palette and reserves the left dock for contextual inputs. `Train policy` now checks and then
+  explicitly starts through the same stateful ribbon action; it does not open a second training
+  document. Retained `phase6-panel-sweep-20260813-041700` renders cover every workspace plus four
+  shell states, and the targeted ribbon/context/training GUI suite passed 7/7. No policy or
+  scientific workflow was executed.
+- A focused training-input correction now loads the frozen TSH-CALO plan into that same left pane
+  and exposes the useful campaign, resource, PPO, and model controls formerly missing from the
+  replacement UI. Edits generate a separate hash-addressed plan and invalidate readiness. The
+  retired trainer remains hidden, and this follow-up awaits owner-run Phase 6 validation.
+- The same follow-up makes the left Inputs dock and expanded ribbon permanent, removes their hide
+  controls, introduces layout version 3, and places the scientific preview on a larger scrollable
+  canvas below a taller CALO-RPD-branded document header.
+- Training cases are now catalog checkboxes with one all-eligible control. `case30` and `case57` are
+  automatically selected; `case118` and `case300` are visibly locked protected holdouts. The native
+  window icon is the CALO-RPD mark, and native tab/dock separator leakage is explicitly suppressed
+  and themed. These focused changes have not been executed or validator-accepted yet.
+- Every visible training input now has a small keyboard-accessible `i` tooltip explaining purpose,
+  increase/decrease or enable/disable effects, interactions, and relevant lifecycle boundaries. The
+  help remains hidden until requested so the input-only pane stays clean. Validation is pending.
+- Development-freeze and Phase 4 acceptance paths are not scientist-facing inputs. **Base
+  architecture** distinguishes built-in policy-free CALO from policy-trained TSH-CALO. CALO does
+  not route to the retired policy trainer; TSH-CALO uses the independent readiness/start path.
+  Fresh plans bind to the current application source, while imported plans supply scientific
+  settings only. The CLI clean-source
+  gate and separate candidate qualification/activation boundaries remain unchanged. This follow-up
+  is not yet validated.
+- Owner runs `phase6-20260813-031026` and `phase6-20260813-031046` both failed before command `01`
+  at Windows PowerShell environment-identity capture. They retained matching stable before/after
+  source-status hashes and no prohibited work. The ignored validator's architecture lookup was
+  corrected without execution. Preserve both failed bundles as historical failure evidence; the
+  later passing `phase6-20260813-032036` bundle supersedes them for the Phase 6 gate.
+- The latest GUI consolidation removes the legacy training widget/callback implementation rather
+  than hiding it. CALO Intelligence now has one independent `Train policy` entry and one policy
+  import. Policy-training Resume Center records only prefill the independent training inputs, and
+  both readiness and start remain explicit. Resume inspection no longer prints stored state JSON.
+- A shared scientist-facing error adapter sends technical exception details to Activity Logs while
+  panels display short actionable explanations. Ribbon category selection now uses exclusive
+  buttons instead of any native category tab, closing the remaining product-heading paint path.
+- This latest source has not been executed. Run only the owner Phase 6 validator command listed in
+  the handoff after reviewing the dirty tree; do not infer validation from the earlier retained
+  bundle and do not run Docker or any policy/scientific workflow.
+- The latest product-language pass removes proposal letters, phase/build labels, development and
+  candidate terminology, feature-flag/ABI/checksum language, and similar engineering vocabulary
+  from ordinary controls, cards, headings, and tooltips. Exact internal states, reasons, artifact
+  identities, build identity, provenance, and enforcement are preserved. The user-facing version
+  is `12.0.0`; the technical build remains `12.0.0-dev.1`. Training command/process details now
+  appear only in Activity Logs, and benchmark freeze/manifest controls are presented as method and
+  campaign-record capabilities. Focused tests and the ignored validator were updated but not run.
+- Owner run `phase6-20260813-183722` subsequently passed six preliminary checks and failed
+  `05-active-version` because `ACTIVE_DEVELOPMENT_STATUS.json` lacked the newly required
+  `product_version=12.0.0` field. That field and the exact attempt history are now synchronized with
+  the verifier and focused source contract. This correction was not executed; request a fresh full
+  owner validator run and do not infer later-command status from this failed bundle.
+- Owner rerun `phase6-20260813-184612` passed the corrected version contract and source compilation,
+  then stopped at `07-ruff` with three unused exception bindings and four unused `QMessageBox`
+  imports. All seven are mechanically corrected; bindings needed by technical logging remain.
+  The retained command log confirms the apparently concatenated test paths were separate arguments.
+  Commands `08` onward remain unverified for this source and require a fresh complete owner run.
+- Owner rerun `phase6-20260813-185633` then passed commands `01` through `07` and failed
+  `08-format` with 27 reported files. Ruff formatting was applied to exactly those 27 files in
+  Windows-safe chunks; no format check, tests, GUI render, build, distribution validation, Docker,
+  or policy/scientific workflow was run by the development agent. Commands `09` onward are still
+  unverified and require a fresh complete owner validator run.
+- Owner rerun `phase6-20260813-190343` passed ten checks through `08-format`. Command `09-unit`
+  reported 57 passing tests and only two stale static expectations: removed `DocumentBrand` chrome
+  and the replaced `Freeze gate` label. The contracts now preserve the intentional behavior: the
+  document tab bar appears only when it can switch documents, and the benchmark tab is named
+  `Method verification`. This was a test/ledger correction only; no validation, GUI interaction,
+  Docker, build, policy, or scientific workflow was run by the development agent. A fresh complete
+  owner validator run remains required.
+- Owner rerun `phase6-20260813-191340` passed all 59 command-`09` tests, then remained inside
+  `10-phase6-gui` until Ctrl+C approximately 54 minutes later. Command `10` has no completion or
+  result record and commands `11`-`16` never started; the generated PASS is therefore rejected.
+  The GUI suite now uses a temporary isolated session-recovery journal, suppresses scheduled real
+  recovery/hardware startup probes in this focused fixture, prints each test name, and fails its
+  dedicated subprocess with thread stacks when one test exceeds two minutes. The ignored
+  validator independently requires the exact complete `01`-through-`17` command sequence before it
+  can report PASS. No validator, test, GUI, build, Docker, policy, or scientific workflow was run by
+  the development agent for this correction. Request one fresh complete owner rerun.
+- Owner run `phase6-20260813-202657` proved the new safeguards: commands `01`-`09` passed, all 60
+  unit tests passed, and command `10` showed its first 18 of 21 GUI tests passing. The two-minute
+  watchdog then returned code 124 during pytest-qt teardown after test 18 had passed; the validator
+  correctly reported FAIL. Test 18 uniquely shows the top-level window, causing test cleanup to
+  enter the production close finalizer. The focused fixture now detaches its temporary Activity log
+  handler and directly accepts pytest-owned close cleanup. Production recovery, policy inspection,
+  layout persistence, active-work safeguards, dialogs, and scientific behavior remain unchanged.
+  No execution was performed by the development agent; request one fresh complete owner rerun.
+- Owner run `phase6-20260813-205516` confirmed the hang correction: commands `01`-`09` passed and
+  all 21 command-`10` tests completed in 25.77 seconds. Twenty passed; the sole failure required the
+  obsolete word `ceiling` although the product-facing tooltip intentionally says
+  `available-memory safety limit`. The test is aligned without changing admission semantics.
+  Repeated portfolio ERROR logs in that failure report were expected empty-selection state during
+  panel setup; the panel now presents a clean input prompt and returns before planning. Unexpected
+  planner failures still enter Activity Logs and invalid apply remains fail-closed. No execution
+  was performed by the development agent; request one fresh complete owner rerun.
+- Owner run `phase6-20260813-212634` advanced through command `12`: 61 unit, 21 focused GUI, 21
+  GUI regression, and 9 empty-policy tests all passed. Command `13-gui-render` failed because its
+  expected help-key set was stale and omitted `architecture`; the live input pane and command `10`
+  already proved all 18 information controls, including Base architecture. The renderer is aligned
+  and future mismatches identify exact missing/unexpected keys. No execution was performed by the
+  development agent; request one fresh complete owner rerun for commands `13` onward.

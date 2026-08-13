@@ -6,6 +6,8 @@ from dataclasses import dataclass
 
 from PyQt6.QtCore import QObject, pyqtSignal
 
+from calo_rpd_studio.algorithms.calo.policy_readiness import governing_policy_user_message
+
 from .workspaces import workspace_index_for_key, workspace_key_for_index
 
 
@@ -26,8 +28,8 @@ SETUP_STEPS = (
     WorkflowDescriptor(
         "calo_intelligence",
         "calo_intelligence",
-        "Establish CALO governing intelligence",
-        "Train/import a policy if needed, qualify it, and explicitly activate one integrity-verified compatible policy. Power System remains locked until this gate is READY.",
+        "Choose the CALO policy mode",
+        "Select a verified compatible TSH-CALO policy for policy-guided experiments, or continue using rule-based CALO where available.",
     ),
     WorkflowDescriptor(
         "power_system",
@@ -271,7 +273,7 @@ class WorkflowManager(QObject):
         }:
             return (
                 "locked",
-                "Policy training is running under the Global Training Exclusive Lock. Only Dashboard monitoring and CALO Intelligence status are available until training completes or Safe Stops.",
+                "Policy training is using the scientific workspace. Monitor it on the Dashboard or stop it safely before opening another workflow.",
             )
         if key in {"dashboard", "resume_center", "settings", "benchmark"}:
             return "available", "Always available."
@@ -282,12 +284,12 @@ class WorkflowManager(QObject):
                     "completed",
                     f"CALO governing intelligence READY · {status.policy_name} · {status.grade}.",
                 )
-            return "recommended", status.reason
+            return "recommended", governing_policy_user_message(status)
         if key == "power_system":
             if not self._setup_complete("calo_intelligence"):
                 return (
                     "locked",
-                    "Activate a qualified, compatible, integrity-verified CALO governing policy first.",
+                    "Select a verified, compatible TSH-CALO policy first.",
                 )
             return (
                 ("completed", "Power system validated.")

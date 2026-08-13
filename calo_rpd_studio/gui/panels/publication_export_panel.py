@@ -8,8 +8,8 @@ from PyQt6.QtCore import QThread, pyqtSignal
 from PyQt6.QtWidgets import (
     QComboBox,
     QFileDialog,
+    QFormLayout,
     QHBoxLayout,
-    QLabel,
     QLineEdit,
     QMessageBox,
     QPushButton,
@@ -17,6 +17,7 @@ from PyQt6.QtWidgets import (
     QTextEdit,
 )
 
+from calo_rpd_studio.gui.user_feedback import show_error
 from calo_rpd_studio.gui.widgets.section_card import SectionCard
 from calo_rpd_studio.gui.widgets.workspace_page import WorkspacePage
 from calo_rpd_studio.portfolio.exporter import PortfolioExporter
@@ -102,18 +103,16 @@ class PublicationExportPanel(WorkspacePage):
         self.worker: _StandardExportWorker | _PortfolioExportWorker | None = None
         self.resume_task_id = ""
 
-        card = SectionCard(
-            "Export selection",
-            "The standard package exports verified records. The portfolio engine follows the stored portfolio plan, skips unavailable evidence with an explicit reason, and resumes artifact-by-artifact.",
-        )
+        card = SectionCard("Export selection")
+        form = QFormLayout()
+        form.setFieldGrowthPolicy(QFormLayout.FieldGrowthPolicy.AllNonFixedFieldsGrow)
         experiment_row = QHBoxLayout()
         self.experiment = QComboBox()
         refresh = QPushButton("Refresh")
         refresh.clicked.connect(self.refresh)
-        experiment_row.addWidget(QLabel("Experiment"))
         experiment_row.addWidget(self.experiment, 1)
         experiment_row.addWidget(refresh)
-        card.layout_root.addLayout(experiment_row)
+        form.addRow("Experiment", experiment_row)
 
         output_row = QHBoxLayout()
         self.directory = QLineEdit("publication_export")
@@ -121,7 +120,8 @@ class PublicationExportPanel(WorkspacePage):
         choose.clicked.connect(self.choose)
         output_row.addWidget(self.directory, 1)
         output_row.addWidget(choose)
-        card.layout_root.addLayout(output_row)
+        form.addRow("Output directory", output_row)
+        card.layout_root.addLayout(form)
 
         actions = QHBoxLayout()
         standard = QPushButton("Export verified publication package")
@@ -142,6 +142,8 @@ class PublicationExportPanel(WorkspacePage):
         self.progress = QProgressBar()
         self.progress.setRange(0, 100)
         self.progress.setValue(0)
+        self.progress.setTextVisible(False)
+        self.progress.setMaximumHeight(10)
         card.layout_root.addWidget(self.progress)
         self.layout_root.addWidget(card)
 
@@ -229,9 +231,15 @@ class PublicationExportPanel(WorkspacePage):
         self.state.task_status.cancelled("Publication export cancelled safely")
 
     def _standard_failed(self, message: str) -> None:
-        self.status.append(f"Publication export failed: {message}")
-        self.state.task_status.fail(message)
-        QMessageBox.critical(self, "Publication export failed", message)
+        self.status.append("Publication export stopped. Review Activity > Logs for details.")
+        self.state.task_status.fail("Publication export stopped")
+        show_error(
+            self,
+            "Publication export stopped",
+            "The package was not completed.",
+            message,
+            source="publication export",
+        )
 
     def _resume_record(self, experiment_id: str) -> tuple[str, dict] | tuple[str, None]:
         for item in self.state.resume_service.unfinished():
@@ -404,12 +412,18 @@ class PublicationExportPanel(WorkspacePage):
         )
 
     def _portfolio_failed(self, message: str) -> None:
-        self.status.append(f"Portfolio export failed: {message}")
+        self.status.append("Portfolio export stopped. Review Activity > Logs for details.")
         self.state.resume_service.update(
             self.resume_task_id, status=ResumeStatus.INTERRUPTED, resumable=True
         )
-        self.state.task_status.fail(message)
-        QMessageBox.critical(self, "Portfolio export failed", message)
+        self.state.task_status.fail("Portfolio export stopped")
+        show_error(
+            self,
+            "Portfolio export stopped",
+            "The portfolio was not completed.",
+            message,
+            source="portfolio export",
+        )
 
     def _portfolio_finished(self) -> None:
         self.cancel_button.setEnabled(False)

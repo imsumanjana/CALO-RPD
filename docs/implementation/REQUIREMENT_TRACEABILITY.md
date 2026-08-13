@@ -347,3 +347,106 @@ combined wrapper now resolves Docker driver status and requires
 `io.containerd.snapshotter.v1` during preflight, binding the environment result into the retained
 summary before any phase starts. Fresh owner validation remains pending after enabling Docker
 Desktop's containerd image store and restarting it.
+
+Combined attempt `phase4-phase5-20260813-000340` supplies the previously pending combined
+development evidence: Phase 4 passed 32/32 and Phase 5 passed 41/41 with matching recorded source
+identity and no policy, protected-case, publication, RC, or final-release operation. The separate
+release-policy-scope and final-authorization rows remain open.
+
+Phase 6 traceability is now routed through `PHASE_6_NEW_CHAT_PROMPT.md` and the active goal. Required
+implementation rows are: registry-generated ribbon/navigation; compact contextual editors; central
+result/preview documents; truthful activity/log/progress/device/policy status; disabled-primary and
+constrained-layout corrections; an enabled navigation entry that opens but never starts the
+independent new-policy plan/check/start workflow; and native Windows setup/start separation without
+Docker. The passing ignored Phase 6 bundle supplies automated development evidence; automation
+cannot infer human usability, screen-reader, or scientist acceptance.
+
+Phase 6 implementation rows are now source-complete and route through the exact continuation prompt:
+
+| Phase 6 requirement | Implemented source | Current evidence / remaining gate |
+|---|---|---|
+| One ribbon command authority | `command_registry.py`; registry-generated `ribbon_bar.py`; `main_window.py` adapters | `phase6-20260813-032036`: unit, GUI, and render checks passed |
+| Compact shared-state inputs | `context_pane.py`; copied full-config validation before state replacement | Phase 6 GUI contracts passed 6/6 |
+| Central documents and activity | `document_workspace.py`; `activity_center.py`; `global_status_bar.py` | Truthful determinate/indeterminate and configured/actual checks and renders passed |
+| Independent new-policy entry | `independent_training_panel.py`; built-in `tsh_calo_schema.py` architecture; hidden disabled legacy action; exact readiness fingerprint | Historical navigation evidence passed; built-in-architecture follow-up awaits current-source validation; no lifecycle transition executed |
+| Responsive accessible shell | light/dark disabled-primary selectors; versioned docks/ribbon layout; F6 region cycle | Automated light/dark/constrained evidence passed; human acceptance remains uninferred |
+| Native and packaged operation | `Launch-CALO-RPD.ps1`; `calo-rpd-native`; native guide; Phase 6 distribution verifier | Fresh wheel/sdist and Phase 6 package-membership checks passed; Docker unchanged |
+| Proportional retained evidence | unit/GUI/integration/render sources; ignored `Validate-Phase6.ps1` and instructions | `phase6-20260813-032036` passed 19/19 with a hashed retained bundle |
+
+The post-validation training-interface follow-up removes scientist-selected engineering receipts
+and the erroneous separate-foundation status. The existing application-owned TSH-CALO schema
+supplies the approved A–E architecture automatically, with optional E and experimental F disabled
+by default. Fresh plans
+bind to the current source identity; imported plans supply scientific settings only. Current-source
+validation is pending; the earlier 19/19 bundle remains historical.
+
+All scientific equations/accounting, A-E approval, F-off default, CUDA-preferred/CPU-only modes,
+Safe-80 ceilings, zero-policy fallback, lifecycle authority, persistence, and release gates remain
+unchanged. Phase 6 source completion is not validation, policy authorization, RC, publication,
+release readiness, or final release.
+
+The first two owner validator attempts, `phase6-20260813-031026` and
+`phase6-20260813-031046`, supply only pre-command harness evidence. Both failed during Windows
+PowerShell environment-architecture capture before Phase 6 command `01`; both preserve identical
+nonignored source state and record no policy, Docker, CUDA-campaign, protected-case, publication,
+release, or inferred-human-acceptance work. The architecture lookup is corrected in the ignored
+validator, but current-source Phase 6 validation remains missing until a fresh complete rerun.
+
+The fresh consolidated run `phase6-20260813-032036` subsequently passed 19/19 checks and preserved
+identical before/after nonignored source-status SHA-256
+`beabf2d918c4717e61e3b9c12ba449fdf2e59a38ccd549da54e2fb74cbabe9bf`. It closes the Phase 6
+automated GUI/native/packaging development gate only. Its retained summary records every policy,
+protected-case, Docker, CUDA-campaign, publication, and release execution field false; separate
+qualification and release gates remain open.
+
+Post-validation visual traceability is retained in `phase6-panel-sweep-20260813-041700`: all 16
+workspace panels and four shell states were rendered and visually inspected. The authoritative
+command registry now includes the complete Workspace ribbon palette; the left pane has one hidden-
+tab input surface and no navigator; and `policies.training` performs the readiness/start state
+transition through the same action while retaining exact-input fingerprinting, explicit start
+confirmation, and unqualified/inactive output. Targeted GUI contracts passed 7/7 without executing
+training or any policy/scientific lifecycle operation.
+
+The focused training-input follow-up keeps that navigation contract but corrects its content:
+after a valid frozen plan is loaded, the input-only dock presents campaign/cases, member count,
+population, evaluation horizon, compute/fallback, PPO, and model controls. Any edit is included in
+the exact readiness fingerprint and a non-overwriting hash-addressed launch plan. Focused validation
+is pending; no legacy trainer or automatic lifecycle transition was restored.
+
+The left Inputs dock and expanded ribbon are now invariant shell regions: no close/toggle/compact
+command remains, and layout version 3 rejects older hidden states. `DocumentWorkspace` provides a
+scrollable 920x650 minimum scientific canvas with a taller CALO-RPD-branded tab header so preview
+blocks retain useful dimensions under constrained windows. Focused render validation is pending.
+
+The policy-training case input now derives from the bundled case catalog instead of free text:
+`case30` and `case57` are automatically selected by `All eligible bundled cases`, and the protected
+`case118`/`case300` holdouts are visible, disabled, and excluded. Loaded eligible custom development
+cases remain plan-bound selections. `application_icon()`, native-tab-base suppression, explicit
+`QMainWindow::separator` styling, and simplified dock/Activity boundaries address the observed
+blank Windows icon and warm native separator lines. Focused owner validation remains pending.
+
+The current two user paths and all 16 campaign/compute/PPO/architecture controls have an accessible
+`i` affordance with hover, click, keyboard-focus,
+accessible-name, and accessible-description coverage. Directional explanations distinguish
+evidence volume, PPO aggressiveness, architecture capacity, compute fallback, and identity-only
+changes. Internal authority paths are not user controls. Focused validation is pending.
+
+The current policy/GUI consolidation adds these pending current-source rows:
+
+| Follow-up requirement | Implemented source | Current evidence / remaining gate |
+|---|---|---|
+| Independent policy-training resume only | `resume_center_panel.py`; `main_window.py`; `context_pane.py`; `independent_training_panel.py` | Source routes records only to independent prefill; focused tests written; owner validator not run |
+| No dormant legacy training tree | simplified `calo_intelligence_panel.py`; stale close callback removed from `main_window.py` | Static source contract written; current-source execution pending |
+| Single policy import | `calo_intelligence_panel.py` | One visible import action and focused count contract; execution pending |
+| Clean resume inspection | `resume_center_panel.py` | Raw state JSON removed; focused summary/details contract written; execution pending |
+| Contained ribbon category paint | button-based `ribbon_bar.py`; light/dark category-button selectors | No native category tab painter remains; visual and automated validation pending |
+| Standard scientist-facing errors | `gui/user_feedback.py` plus scientific panel adapters | Exceptions log to Activity and short modal/status copy is implemented; current-source validator pending |
+| Product-facing scientific language | `version.py`; `policy_readiness.py`; ribbon/status/navigation; Dashboard; CALO Intelligence; training, benchmark, algorithm, experiment, and power-system panels | Ordinary UI hides proposal, phase, build-stage, development/candidate, feature-flag, ABI, checksum, and source-authority terms; exact internal records and gates remain intact; focused owner validation pending |
+| Product/internal version separation | `version.py`; `ACTIVE_DEVELOPMENT_STATUS.json`; `verify_active_version.py`; Phase 6 command/native and v12 status contracts | Owner run `phase6-20260813-183722` failed command `05` only after six passing prechecks because `product_version` was absent; record/verifier/test correction implemented; fresh owner rerun pending |
+| Current Phase 6 source hygiene | `experiment_manager.py`; `main_window.py`; algorithms, portfolio, statistics, and context GUI imports; active-status/verifier attempt history | Owner run `phase6-20260813-184612` passed eight checks through compilation and failed `07-ruff` on seven unused names/imports; mechanical corrections implemented; command `08` onward and full rerun pending |
+| Current Phase 6 formatting | Exact 27-file set from retained `phase6-20260813-185633/commands/08-format.txt`; active-status/verifier history | Owner run passed nine checks through Ruff and failed `08-format`; deterministic Ruff formatting applied to exactly all 27 reported files; commands `09` onward and complete owner rerun pending |
+| Current Phase 6 unit contracts | `test_phase6_command_and_native_contracts.py`; `test_v120_phase3_gui_contracts.py`; active-status/verifier history | Owner run `phase6-20260813-190343` passed ten checks through format and command `09-unit` reported 57 passed/2 failed; both failures were stale literals now aligned to the intentional single-document header suppression and product-facing `Method verification` tab; fresh complete owner rerun pending |
+| Interrupt-safe bounded Phase 6 GUI validation | isolated `SessionRecoveryJournal` and suppressed external startup probes in `test_phase6_ribbon_workspace.py`; two-minute per-test watchdog; verbose command `10`; exact expected-command sequence in ignored `Validate-Phase6.ps1` | Owner run `phase6-20260813-191340` passed 11 checks including all 59 unit tests, then command `10` was interrupted after about 54 minutes and was falsely summarized PASS; that PASS is rejected, the hang/summary paths are corrected without changing production behavior, and commands `10` onward require a fresh owner run |
+| Focused GUI teardown isolation | pytest-qt `before_close_func` in `test_phase6_ribbon_workspace.py`; Activity handler detach; test-only direct close acceptance | Owner run `phase6-20260813-202657` passed commands `01`-`09`, all 60 unit tests, and 18/21 command-`10` GUI tests before code-124 teardown timeout after test 18 passed; focused cleanup no longer enters production finalization, production close safeguards remain unchanged, and commands `10` onward require a fresh owner run |
+| Product-facing memory and empty-portfolio feedback | `global_status_bar.py`; aligned GUI assertion; guarded `PortfolioManagerPanel.refresh_plan`; focused static contract | Owner run `phase6-20260813-205516` passed commands `01`-`09` and completed all 21 command-`10` tests with 20 passed/1 stale-wording failure; safety-limit wording is now asserted, expected empty selection is a clean prompt rather than ERROR noise, and commands `10` onward require a fresh owner run |
+| Offscreen Base architecture help parity | `validate_phase6_gui_contracts.py`; `test_phase6_command_and_native_contracts.py`; active-status/verifier history | Owner run `phase6-20260813-212634` passed commands `01`-`12` and first failed `13-gui-render` because the renderer omitted `architecture` from its 18-key help expectation; aligned with exact mismatch diagnostics, commands `13` onward require a fresh owner run |

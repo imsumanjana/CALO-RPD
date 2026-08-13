@@ -64,6 +64,7 @@ def test_distribution_verifier_requires_release_critical_reference_and_gui_comma
         "calo_rpd_studio/scripts/validate_packaged_gui.py",
         "calo_rpd_studio/scripts/create_development_freeze_candidate.py",
         "calo_rpd_studio/scripts/accept_development_freeze.py",
+        "calo_rpd_studio/scripts/train_tsh_calo.py",
         "calo_rpd_studio/validation/gui_contract.py",
     ):
         assert required in verifier
