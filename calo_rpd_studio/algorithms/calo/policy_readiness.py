@@ -68,7 +68,7 @@ def policy_record_user_status(record) -> str:
         return "File unavailable"
     if not record.compatible_with(TSH_CALO_ALGORITHM_ID):
         return "Not compatible"
-    ready = bool(record.post_development_eligible and record.qualification_status == "qualified")
+    ready = bool(record.qualification_status == "qualified")
     if not ready:
         return "Not ready for experiments"
     return "Verification required" if record.active else "Eligible to select"
@@ -105,15 +105,13 @@ def evaluate_governing_policy(registry) -> GoverningPolicyStatus:
             return GoverningPolicyStatus(
                 False,
                 "missing",
-                "No release policy exists. CALO remains in the policy-free safe path until a "
-                "completely new post-freeze TSH-CALO candidate is independently qualified and "
-                "activated.",
+                "No policy exists. CALO remains in the policy-free safe path until a compatible "
+                "TSH-CALO candidate is independently qualified and explicitly activated.",
             )
         return GoverningPolicyStatus(
             False,
             "inactive",
-            "Only development policy records exist, or no new qualified compatible TSH-CALO "
-            "policy is active. CALO remains policy-free.",
+            "No qualified compatible TSH-CALO policy is active. CALO remains policy-free.",
         )
     if active.archived:
         return _record_status(
@@ -121,16 +119,6 @@ def evaluate_governing_policy(registry) -> GoverningPolicyStatus:
             ready=False,
             state="archived",
             reason="The active policy record is archived.",
-        )
-    if not active.post_development_eligible:
-        return _record_status(
-            active,
-            ready=False,
-            state="development_only",
-            reason=(
-                "The active record is a pre-freeze development policy and cannot govern v12. "
-                "A completely new A-E/F-off policy must be trained after the development freeze."
-            ),
         )
     if not active.usable:
         return _record_status(
@@ -194,7 +182,7 @@ def evaluate_governing_policy(registry) -> GoverningPolicyStatus:
         ready=True,
         state="ready",
         reason=(
-            "A new qualified, runtime-compatible, integrity-verified TSH-CALO governing policy "
-            "is active."
+            "A qualified, runtime-compatible, integrity-verified TSH-CALO governing policy is "
+            "explicitly active."
         ),
     )

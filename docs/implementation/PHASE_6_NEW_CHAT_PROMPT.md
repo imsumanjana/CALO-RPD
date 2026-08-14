@@ -214,7 +214,7 @@ Suggested categories:
 - Replace the blue-but-disabled `Legacy training unavailable` primary action and the clipped
   multi-button legacy row. Do not merely re-enable its obsolete handler.
 - Provide an enabled ribbon/command-registry entry that opens a compact contextual editor plus a
-  central training-plan/activity workspace for a completely new policy.
+  central training-plan/activity workspace for an immutable compatible policy candidate.
 - Adapt the existing independent `calo-rpd-train-tsh` plan/check/start workflow. Keep plan, readiness
   check and explicit start as separate user actions with visible prerequisites and generated command
   or job identity.

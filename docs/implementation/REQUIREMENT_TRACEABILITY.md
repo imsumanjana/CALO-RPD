@@ -194,10 +194,11 @@ freeze a new non-tuning v5/campaign-v2 A–E/F-off plan and train one fresh cand
 candidate, execute physical device equivalence, the frozen A–E matrix and screening/formal eligibility
 without adapting thresholds or opening protected cases. Change F remains excluded and disabled.
 
-## Current development-first policy boundary - 2026-08-07
+## Historical development-first policy boundary - 2026-08-07 (superseded 2026-08-14)
 
-The preceding candidate-related rows retain the scientific evidence requirements and immutable
-negative history, but their execution timing is superseded by the user's development-first decision:
+The following bullets record the former development-first decision. They remain historical evidence
+but no longer define compatibility or formal-qualification admission; the 2026-08-14 stage-neutral
+contract rows below supersede that policy-lifecycle restriction:
 
 - Phase 4 completes and validates production source with no policy training/evaluation or candidate
   qualification. It must support a safe empty policy store and exclude old/generated policies from
@@ -216,7 +217,7 @@ negative history, but their execution timing is superseded by the user's develop
   prior release validation, and copied build/baseline Markdown remain historical records and cannot
   override this boundary or qualify current v12 source.
 
-## Phase 4 implementation trace — 2026-08-12
+## Historical Phase 4 implementation trace — 2026-08-12
 
 - Empty-policy GUI/database/config: `app/state_manager.py` clears both CALO and TSH-CALO immutable
   binding fields, calibration, receipt, and provenance data; Algorithms exposes TSH-CALO as a
@@ -486,3 +487,5 @@ The current policy/GUI consolidation adds these pending current-source rows:
 | Explicit in-library policy qualification workflow | `CALOIntelligencePanel` formal-plan check and background run/resume controls; independent `qualify_tsh_calo`; `PolicyRegistry.inspect_qualification_evidence`; atomic `ResultDatabase.admit_verified_policy_qualification` | Import, plan check, finite run/resume, passed-evidence admission, comparison, activation, and governing-policy Apply are visible separate actions. Completion does not admit; admission does not activate; activation does not bind. Exact checkpoint/design/seed/evidence/receipt/calibration/A-E hashes, complete zero-failure cells, protected-case closure, and canonical gate recomputation fail closed. Implemented with synthetic fixtures; owner validation pending. |
 | Comparable-policy selection guidance | `qualification_comparison_protocol`; conservative evidence summaries; `pareto_dominates`; Policy comparison dialog | Direct comparison is restricted to matching cases, paired seeds, FE/population budgets, analysis/calibration definitions, thresholds, anytime design, and A-E set. A strongest label requires one policy to dominate every comparable policy across conservative feasibility, improvement, win-rate, effect, anytime, and Holm measures. Otherwise the UI requires scientist judgment. Source version, age, and training duration are not quality evidence. Implemented; owner validation pending. |
 | Cumulative exact model training evaluations | `count_tsh_calo_candidate_training_evaluations`; authenticated per-member episode receipts; candidate SHA; `PolicyRegistry.training_evaluation_count`; Policy Library column | Reports completed candidate evaluations used to produce the exact model. Each completed extension child includes base plus all of its completed finite segments; the parent remains unchanged. Qualification and experiment evaluations are excluded, and unverifiable legacy accounting shows `Not available`. Synthetic contracts written; owner validation pending. |
+| Stage-neutral formal qualification admission | `PolicyRegistry.inspect_qualification_candidate`; `CALOIntelligencePanel._qualification_candidate_blocker`; exact candidate SHA; native TSH-CALO artifact inspection | Development phase, software revision, and missing historical acceptance receipts do not decide quality eligibility. The exact immutable artifact must prove the current ABI, ensemble structure, member architecture/provenance, authenticated training receipts, feature flags, and protected-case isolation before formal evidence can be admitted. Synthetic contracts written; owner validation pending. |
+| Independent resume/extension compatibility | `tsh_calo_training_compatibility_contract`; parameter-layout and training-schema hashes; extension checkpoints | Qualification admission does not weaken exact continuation. Resume/extension require compatible architecture, parameter names/shapes/dtypes, persisted training fields and state, and evaluation accounting. Software revision is provenance only. Synthetic contracts written; owner validation pending. |

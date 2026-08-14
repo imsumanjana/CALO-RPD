@@ -650,6 +650,55 @@ def test_completed_training_is_visible_without_automatic_policy_registration(
     assert campaign.exists() is False
 
 
+def test_formal_plan_check_explains_a_selected_policy_compatibility_blocker(
+    qtbot, tmp_path, monkeypatch
+):
+    from types import SimpleNamespace
+
+    from PyQt6.QtWidgets import QMessageBox
+
+    _state, window = _window(qtbot, tmp_path, monkeypatch)
+    policy_center = window.pages_by_key["calo_intelligence"]
+    blocker = "The selected policy is not compatible with the frozen TSH-CALO architecture."
+    policy = SimpleNamespace(
+        id="blocked-policy",
+        name="blocked-policy",
+        checkpoint_path=str(tmp_path / "blocked-policy.pt"),
+        grade="U",
+        active=False,
+        archived=False,
+        qualification_status="candidate",
+        usable=True,
+        metadata={"ensemble_size": 3},
+        compatible_with=lambda _algorithm_id: False,
+    )
+    policy_center._policy_rows = [policy]
+    policy_center.policy_table.setRowCount(1)
+    policy_center.policy_table.selectRow(0)
+    policy_center._policy_selection_changed()
+
+    assert policy_center.qualification_check_button.isEnabled() is True
+    assert policy_center.qualification_run_button.isEnabled() is False
+    assert policy_center.qualification_admit_button.isEnabled() is False
+    assert blocker in policy_center.qualification_check_button.toolTip()
+    assert blocker in policy_center.qualification_workflow_status.text()
+    shown = []
+    monkeypatch.setattr(
+        QMessageBox,
+        "information",
+        lambda _parent, title, text, *_args: shown.append((title, text)),
+    )
+
+    policy_center.qualification_check_button.click()
+
+    assert shown
+    assert shown[0][0] == "Formal plan check unavailable"
+    assert blocker in shown[0][1]
+    assert "No plan, qualification evidence, registry state, or model file was changed" in (
+        shown[0][1]
+    )
+
+
 def test_imported_unqualified_completed_campaign_can_be_removed_exactly(
     qtbot, tmp_path, monkeypatch
 ):

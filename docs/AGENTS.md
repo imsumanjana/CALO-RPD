@@ -6,6 +6,8 @@
 - Treat `docs/DOCUMENTATION_STATUS.md` as the routing index for current instructions versus
   historical records. Preserve dated/versioned evidence; add an explicit status banner when an old
   operational document could be mistaken for current v12 guidance.
-- Current Phase 4 documentation is development-only: existing policies are non-final and excluded,
-  no policy workflow or deletion is executed, and any future new-policy or policy-free release path
-  begins only after the development freeze and separately authorized transition.
+- Preserve Phase 4 records as historical engineering evidence, not current policy compatibility or
+  scientific quality authority. Current guidance must use the immutable candidate contract, frozen
+  resume/extension training contract, fresh candidate-bound qualification, and explicit activation.
+- Documentation work does not execute policy or deletion workflows. Older policy results confer no
+  qualification, while policy age or software revision alone must not imply incompatibility.

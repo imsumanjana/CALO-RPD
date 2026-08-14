@@ -486,8 +486,6 @@ class CALOIntelligencePanel(ScrollablePage):
             return "Restore the archived policy first."
         if policy.qualification_status == "qualified":
             return "Passed formal evidence is already admitted for this policy."
-        if not policy.post_development_eligible:
-            return "Only a new policy trained against the accepted development freeze is eligible."
         if not policy.usable:
             return "The selected policy model file is unavailable."
         if not policy.compatible_with(TSH_CALO_ALGORITHM_ID):
@@ -500,14 +498,15 @@ class CALOIntelligencePanel(ScrollablePage):
         policy = self._selected_policy()
         blocker = self._qualification_candidate_blocker(policy)
         process_running = self._qualification_process is not None
-        check_enabled = policy is not None and not blocker and not process_running
+        check_enabled = policy is not None and not process_running
+        workflow_enabled = check_enabled and not blocker
         checked = bool(policy and policy.id in self._checked_qualification_plans)
         self.qualification_check_button.setEnabled(check_enabled)
         self.qualification_check_button.setToolTip(
-            blocker
+            (f"Check unavailable: {blocker}" if blocker else "")
             or "Select and validate a frozen formal qualification plan; no evaluation starts."
         )
-        self.qualification_run_button.setEnabled(check_enabled and checked)
+        self.qualification_run_button.setEnabled(workflow_enabled and checked)
         self.qualification_run_button.setToolTip(
             blocker
             or (
@@ -516,7 +515,7 @@ class CALOIntelligencePanel(ScrollablePage):
                 else "Check a formal plan for this exact policy first."
             )
         )
-        self.qualification_admit_button.setEnabled(check_enabled)
+        self.qualification_admit_button.setEnabled(workflow_enabled)
         self.qualification_admit_button.setToolTip(
             blocker
             or "Verify and explicitly admit a completed passed evidence directory; this does not "
@@ -530,11 +529,27 @@ class CALOIntelligencePanel(ScrollablePage):
         self.qualification_compare_button.setToolTip(
             "Compare only policies whose retained formal evidence can be integrity-verified."
         )
+        if policy is not None and blocker and not process_running:
+            self.qualification_workflow_status.setText(
+                f"Formal workflow blocked for {policy.name}: {blocker}"
+            )
 
     def check_qualification_plan(self) -> None:
         policy = self._selected_policy()
+        if policy is None:
+            return
         blocker = self._qualification_candidate_blocker(policy)
         if blocker:
+            self._checked_qualification_plans.pop(policy.id, None)
+            message = (
+                f"The selected policy cannot enter formal qualification:\n\n{blocker}\n\n"
+                "No plan, qualification evidence, registry state, or model file was changed."
+            )
+            self.qualification_workflow_status.setText(
+                f"Formal workflow blocked for {policy.name}: {blocker}"
+            )
+            self.activity_message.emit("WARNING", self.qualification_workflow_status.text())
+            QMessageBox.information(self, "Formal plan check unavailable", message)
             return
         path, _selected_filter = QFileDialog.getOpenFileName(
             self,
@@ -551,9 +566,7 @@ class CALOIntelligencePanel(ScrollablePage):
             if plan.candidate_sha256.lower() != policy.sha256.lower():
                 raise ValueError("The selected plan belongs to a different policy checkpoint")
             validate_repository_for_plan(plan)
-            inspected = self.state.policy_registry.inspect_checkpoint(policy.checkpoint_path)
-            if inspected["sha256"] != policy.sha256:
-                raise RuntimeError("The selected policy checkpoint changed after import")
+            self.state.policy_registry.inspect_qualification_candidate(policy.id)
         except Exception as exc:
             self._checked_qualification_plans.pop(policy.id, None)
             self._update_qualification_controls()

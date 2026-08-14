@@ -4,12 +4,14 @@ Status: frozen validation protocol. The separate architecture decision recorded 
 approved TSH-CALO A–E, with F experimental, independently evidence-gated, and disabled by default.
 This protocol does not constitute implementation or scientific evidence.
 
-**Current scheduling boundary (2026-08-07):** this protocol is not executed during Phase 4.
-Phase 4 completes production code, empty-policy behavior, documentation, and the development freeze.
-Existing policies are non-final and cannot be used as candidates, initial weights, or scientific
-evidence. After a separately authorized post-freeze inventory, deletion, and empty-store check, this
-protocol may be applied to a completely new A-E/F-off policy. The policy-free Phase 5 route remains
-available. This scheduling addendum does not change the frozen scientific tests or acceptance rules.
+**Current scheduling boundary (revised 2026-08-14):** engineering phases do not determine policy
+compatibility or scientific quality. This protocol may evaluate an immutable A-E/F-off epistemic
+ensemble from any software revision when the exact candidate passes the current runtime ABI,
+architecture, schema, authenticated-training-receipt, checksum, and protected-case-isolation
+contract. Earlier results do not qualify it; the complete candidate-bound protocol must still run.
+Resume/extension separately requires the frozen training compatibility contract. The policy-free
+release route remains available. This addendum does not change the frozen scientific tests or
+acceptance rules.
 
 This protocol converts the repository audit into a falsifiable evaluation program. Its purpose is
 not to prove that CALO is universally best. The defensible target is to determine whether a frozen

@@ -1011,7 +1011,10 @@ scientific/hardware qualification—not as a final release.
 - Codex did not rerun tests or validation after recording acceptance. The next user-executed Linux
   xcb lane must bind the post-evidence ledger identities with current source.
 
-## 19. Phase 4 redesigned as policy-free development completion - 2026-08-07
+## 19. Historical Phase 4 policy-free development decision - 2026-08-07
+
+This section records the former scheduling decision. Its “completely new policy” restriction was
+superseded by the stage-neutral compatibility and qualification boundary on 2026-08-14.
 
 - The user directed that no old policy is final and that all old policies will be deleted after
   development before a completely new policy is trained. Old policies are therefore development-only,
@@ -1262,10 +1265,9 @@ scientific/hardware qualification—not as a final release.
 - Development-freeze and Phase 4 acceptance paths are not scientist-facing inputs. **Base
   architecture** distinguishes built-in policy-free CALO from policy-trained TSH-CALO. CALO does
   not route to the retired policy trainer; TSH-CALO uses the independent readiness/start path.
-  Fresh plans bind to the current application source, while imported plans supply scientific
-  settings only. The CLI clean-source
-  gate and separate candidate qualification/activation boundaries remain unchanged. This follow-up
-  is not yet validated.
+  Fresh plans bind source provenance, while imported templates supply scientific settings only.
+  Qualification eligibility is decided by the immutable candidate contract and formal quality
+  evidence, not the software-development phase. This follow-up is not yet validated.
 - Owner runs `phase6-20260813-031026` and `phase6-20260813-031046` both failed before command `01`
   at Windows PowerShell environment-identity capture. They retained matching stable before/after
   source-status hashes and no prohibited work. The ignored validator's architecture lookup was
@@ -1512,3 +1514,11 @@ scientific/hardware qualification—not as a final release.
   completed finite segments to the retained base receipts; parents remain immutable. Qualification
   and experiment evaluations are excluded, and an unprovable legacy value is `Not available`, not
   zero. These source and synthetic contracts are included in the same pending owner validator run.
+- The lifecycle gate was refined after live diagnosis showed that missing historical freeze/Phase 4
+  receipts—not an architecture incompatibility—blocked the selected earlier-version ensemble before
+  quality evaluation. Development phase and software revision are now provenance only.
+- Formal qualification admission re-inspects the exact checksum-bound TSH-CALO ensemble, current ABI,
+  feature flags, member architecture/provenance, authenticated training receipts, and protected-case
+  isolation. Resume/extension independently retain their complete training-contract and continuation-
+  state checks. Passed evidence still requires explicit admission and activation before experiment
+  binding. No policy/scientific workflow or validation was executed; owner validation remains pending.

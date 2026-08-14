@@ -137,7 +137,6 @@ class _Policy:
     metadata: dict = None
     usable: bool = True
     runtime_compatible: bool = True
-    post_development_eligible: bool = True
     algorithm_id: str = "TSH-CALO"
 
     def compatible_with(self, algorithm_id: str) -> bool:

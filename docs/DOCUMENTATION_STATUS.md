@@ -1,6 +1,6 @@
 # Documentation status and precedence
 
-**Current as of 2026-08-12.** This index prevents historical release, audit, training, and validation
+**Current as of 2026-08-14.** This index prevents historical release, audit, training, and validation
 records from being mistaken for active v12 instructions. It changes document routing only; it does
 not claim that a development, scientific, hardware, container, release-candidate, or release gate
 has passed.
@@ -21,7 +21,7 @@ The live worktree and returned source-bound validation evidence remain authorita
 Markdown statement alone is never scientific, hardware, container, performance, qualification, or
 release proof.
 
-## Current v12 development boundary
+## Current v12 engineering and policy boundary
 
 - v12 starts at `12.0.0-dev.1`. Phase 3 was closed on 2026-08-12 by explicit project-owner
   acceptance of the manually validated Linux xcb boundary; no automated Linux evidence directory
@@ -31,13 +31,13 @@ release proof.
   source-bound development freeze.
 - Phase 4 performs no policy training, evaluation, qualification, protected-case campaign,
   registration, activation, deletion, RC creation, final manifest freeze, or release.
-- Every existing policy is development-only, unqualified, inactive, non-final, excluded from release
-  packages, and barred from candidate selection or initialization.
+- Existing policies receive no qualification or release authority from prior results. Their age,
+  development phase, and software revision are provenance only; an exact immutable candidate may
+  enter fresh formal qualification when it passes the current ABI/ensemble/receipt contract.
 - Executable modes are CUDA-preferred and CPU-only. Intel XPU remains readable as historical metadata
   only and is never executable.
-- After Phase 4, an exact old-policy inventory must be reviewed before any separately authorized
-  deletion. Empty-store verification precedes either a completely new A-E/F-off policy workflow or
-  an explicitly approved policy-free Phase 5 route.
+- Old-policy deletion remains a separately reviewed retirement workflow and is not a prerequisite
+  for inspecting or qualifying another intact compatible policy. A policy-free route remains valid.
 - TSH-CALO A-E remain approved. F remains experimental, independently feature-flagged, evidence-gated,
   and disabled by default.
 - At the project owner's direction, Phase 4 development closed without a separate validator run and
@@ -45,7 +45,7 @@ release proof.
   first and starts Phase 5 only if Phase 4 passes. This sequencing decision does not accept either
   phase from source existence.
 - Phase 5 development is complete at `12.0.0.dev1`, and the owner-run combined Phase 4/5 validator
-  passed for its recorded source identity. An explicit policy-free or newly-qualified-policy scope,
+  passed for its recorded source identity. An explicit policy-free or qualified-compatible-policy scope,
   any old-policy transition, final-record authorization, `12.0.0` promotion, tag, push,
   publication, and release remain pending.
 - Phase 6 GUI/native-launch development is complete. Authorized consolidated run
@@ -57,15 +57,14 @@ release proof.
   workspace navigation, the left dock is input-only, policy readiness/start uses one ribbon action,
   and all 16 workspace panels plus light/dark/constrained shell states were rendered and visually
   reviewed in `phase6-panel-sweep-20260813-041700`.
-- Phase 4 coding now implements separate TSH-CALO experiment selection, empty-policy stale-binding
-  cleanup, post-development-only activation/binding provenance, no internal inference fallback,
+- Historical Phase 4 coding implemented separate TSH-CALO experiment selection, empty-policy stale-
+  binding cleanup, no internal inference fallback,
   read-only old-policy inventory/dry-run export, authorization-bound later retirement, distribution
   exclusions, policy-free physical-CUDA CI, and a complete tracked/non-ignored-source-bound
   development-freeze candidate report with exact interface/policy-empty validation. Proportional
   test source, separate post-review acceptance-receipt tooling, and the ignored
-  `validation/Validate-Phase4.ps1`
-  harness exist but have not been executed by Codex. Phase 4 remains open pending returned manual
-  validation evidence and a development-freeze decision.
+  `validation/Validate-Phase4.ps1` harness exist. Its development acceptance identity is engineering
+  evidence, not policy compatibility or scientific quality authority.
 
 ## Current-facing documents
 
@@ -73,15 +72,16 @@ release proof.
 - `docs/NATIVE_WINDOWS_GUIDE.md`: current one-time setup, routine native launch, installed-wheel,
   CUDA/CPU, activity/data/shutdown, Docker, and troubleshooting guidance.
 - `docs/user_guide.md`: current GUI and workflow behavior.
-- `docs/architecture.md`: package/data-flow structure, subject to the Phase 4 scheduling note.
+- `docs/architecture.md`: package/data-flow structure, subject to the current stage-neutral policy
+  compatibility and qualification boundary.
 - `docs/reproducibility.md`: current empty-policy boundary and future reproducibility contract.
 - `docs/CONTAINER_RUNBOOK.md`: current CPU/CUDA container-development contract.
 - `docs/algorithm_sources.md`, `docs/mathematical_formulation.md`, and `docs/validation.md`: current
   technical references where unchanged by a newer implementation ledger.
 - `docs/implementation/CALO_ARCHITECTURE_CHANGE_PROPOSAL.md`: approved A-E/F architecture with the
   current scheduling addendum.
-- `docs/implementation/SCIENTIFIC_VALIDATION_PROTOCOL.md`: frozen future scientific protocol; not a
-  Phase 4 execution plan.
+- `docs/implementation/SCIENTIFIC_VALIDATION_PROTOCOL.md`: frozen candidate-bound scientific
+  protocol; not a development-phase acceptance mechanism.
 - `docs/implementation/PHASE_4_NEW_CHAT_PROMPT.md`,
   `docs/implementation/PHASE_5_NEW_CHAT_PROMPT.md`, and
   `docs/implementation/PHASE_6_NEW_CHAT_PROMPT.md`: self-contained operational handoff prompts. They

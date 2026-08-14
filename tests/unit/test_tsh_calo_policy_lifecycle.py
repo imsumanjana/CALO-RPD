@@ -352,6 +352,74 @@ def test_registry_keeps_tsh_candidate_separate_from_frozen_calo_runtime(tmp_path
         registry.activate(policy.id, algorithm_id=TSH_CALO_ALGORITHM_ID, allow_unqualified=True)
 
 
+def test_legacy_phase_receipts_are_not_a_qualification_compatibility_gate(tmp_path):
+    path = _candidate(tmp_path / "legacy-authority-member.pt")
+    payload = torch.load(path, map_location="cpu", weights_only=False)
+    provenance = payload["metadata"]["training_provenance"]
+    provenance["development_freeze_commit"] = ""
+    provenance["development_freeze_sha256"] = ""
+    provenance["phase4_acceptance_sha256"] = ""
+    torch.save(payload, path)
+    second = _candidate(tmp_path / "legacy-authority-member-2.pt", seed=23)
+    second_payload = torch.load(second, map_location="cpu", weights_only=False)
+    second_provenance = second_payload["metadata"]["training_provenance"]
+    second_provenance["development_freeze_commit"] = ""
+    second_provenance["development_freeze_sha256"] = ""
+    second_provenance["phase4_acceptance_sha256"] = ""
+    torch.save(second_payload, second)
+    ensemble = assemble_tsh_calo_ensemble_candidate(
+        tmp_path / "legacy-authority-ensemble.pt",
+        ((path, checkpoint_sha256(path)), (second, checkpoint_sha256(second))),
+    )
+    database = ResultDatabase(tmp_path / "results.sqlite")
+    registry = PolicyRegistry(database)
+    policy = registry.register(ensemble.path)
+
+    inspected = registry.inspect_qualification_candidate(policy.id)
+
+    assert policy.compatible_with(TSH_CALO_ALGORITHM_ID) is True
+    assert inspected.sha256 == policy.sha256
+    assert inspected.artifact_kind == "ensemble_policy"
+    assert inspected.ensemble_size == 2
+
+    database.add_policy_qualification(
+        qualification_id="qualification-legacy-software-001",
+        policy_id=policy.id,
+        passed=True,
+        grade="A",
+        score=80.0,
+        qualification_status="qualified",
+        config=_qualification_config(policy.sha256),
+    )
+    active = registry.activate(policy.id, algorithm_id=TSH_CALO_ALGORITHM_ID)
+    config = ExperimentConfig()
+    binding = registry.bind_to_experiment_config(
+        active.id,
+        config,
+        deterministic=True,
+        algorithm_id=TSH_CALO_ALGORITHM_ID,
+    )
+
+    assert active.active is True
+    assert binding["policy_sha256"] == policy.sha256
+    assert binding["policy_training_provenance"]["members"][0]["training_provenance"][
+        "development_freeze_commit"
+    ] == ""
+
+
+def test_qualification_contract_rejects_experimental_change_f(tmp_path):
+    path = _ensemble(tmp_path)
+    payload = torch.load(path, map_location="cpu", weights_only=False)
+    payload["metadata"]["feature_flags"]["population_schedule"] = True
+    payload["metadata"]["feature_flags"]["allow_experimental_components"] = True
+    torch.save(payload, path)
+    registry = PolicyRegistry(ResultDatabase(tmp_path / "results.sqlite"))
+    policy = registry.register(path)
+
+    with pytest.raises(ValueError, match="A-E contract with F off"):
+        registry.inspect_qualification_candidate(policy.id)
+
+
 def test_qualified_tsh_policy_activation_and_binding_are_explicit_and_immutable(tmp_path):
     database = ResultDatabase(tmp_path / "results.sqlite")
     registry = PolicyRegistry(database)

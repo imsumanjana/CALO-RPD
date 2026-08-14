@@ -2647,3 +2647,26 @@ Append timestamped entries below this line after each material action, validatio
 - Synthetic unit, GUI, and static contracts plus the ignored Phase 6 validator were updated. No
   test, validator, training, extension, qualification, experiment, activation, deletion, protected-
   case, publication, or release workflow was executed. Fresh complete owner validation is pending.
+
+### 2026-08-14 - Policy compatibility and qualification decoupled from development phases
+
+- Project governance and active lifecycle source now treat development phase and software revision as
+  provenance, not policy-quality or qualification-admission criteria. An earlier-version policy is
+  neither accepted nor rejected because of age.
+- Formal qualification admission now requires the current frozen TSH-CALO ABI, an immutable exact
+  checksum, a validated epistemic ensemble, authenticated independent-member training receipts, and
+  protected-case isolation. The registry re-inspects the exact artifact before evidence inspection,
+  activation, and experiment binding.
+- Exact resume and completed-training extension remain stricter and continue to require the retained
+  training compatibility contract: parameter names/shapes/dtypes, training-parameter schema,
+  persisted optimizer/trainer/session/environment state, and exact evaluation accounting. Source
+  revision alone is deliberately excluded from that compatibility identity.
+- `Check formal plan` remains clickable for a selected imported policy. Immutable-file, ABI, or
+  ensemble blockers are presented; missing historical development receipts no longer block formal
+  quality evaluation. Run/admit still require a checked exact candidate-bound formal plan.
+- Qualification still cannot activate or bind a policy automatically. Experiment use still requires
+  passed evidence admission, explicit activation, immutable qualification receipt/calibration
+  binding, and a final checksum-valid artifact inspection. Change F remains disabled.
+- The prior unvalidated GUI addition of accepted-freeze and Phase 4 receipt path inputs was removed.
+  No test, validator, training, extension, qualification, experiment, activation, deletion,
+  protected-case, publication, or release workflow was executed. Fresh owner validation is pending.

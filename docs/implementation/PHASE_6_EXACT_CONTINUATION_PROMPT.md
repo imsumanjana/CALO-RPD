@@ -172,14 +172,15 @@ Do not recreate these modules from scratch. Inspect and refine them narrowly.
 ### Independent new-policy interface
 
 - `calo_rpd_studio/gui/panels/independent_training_panel.py`
-  - shared `TrainingLaunchModel` for plan, development-freeze, Phase 4 acceptance, and output paths;
+  - shared `TrainingLaunchModel` for settings-plan and output paths; development-phase acceptance
+    files are not scientist-facing training inputs or qualification criteria;
   - separate command previews for check and explicit start;
   - readiness invalidation whenever bound path values change;
   - start disabled until readiness passes and required output exists;
   - explicit resume checkbox, existing-output protection, foreground-task exclusion, confirmation,
     merged QProcess output, activity integration, and unqualified/inactive result wording;
-  - it invokes the existing `calo_rpd_studio.scripts.train_tsh_calo` CLI and does not weaken its
-    source/freeze/acceptance/clean-tree checks.
+  - it invokes the existing `calo_rpd_studio.scripts.train_tsh_calo` CLI and preserves source
+    provenance, clean-tree execution, exact resume, and frozen extension-contract checks.
 - `calo_rpd_studio/gui/panels/calo_intelligence_panel.py`
   - old `Legacy training unavailable` compatibility button remains disabled and is now hidden;
   - visible primary action is `Open new policy training`;

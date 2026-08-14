@@ -9,14 +9,26 @@ These instructions apply to the entire repository unless a deeper `AGENTS.md` na
 - Do not change scientific semantics outside the approved A–F proposal without explicit user approval.
 - Policy training is independent. Experiments may only consume separately qualified, explicitly activated, immutable, checksum-valid policies.
 - Never auto-train, auto-modify, auto-qualify, or auto-activate a policy from an experiment workflow.
-- Phase 4 is development completion only: do not train, evaluate, qualify, register, activate, or
-  delete any policy. Complete production code, empty-policy safety, engineering hardening,
-  old-policy inventory/dry-run removal tooling, and a source-bound development freeze.
-- Treat every existing policy as development-only, unqualified, inactive, non-final, barred from
-  final-policy initialization or evidence, and excluded from release. Deletion requires a reviewed
-  exact inventory and separate explicit authorization after the Phase 4 development freeze.
-- Any policy used after development must be completely new, trained against the frozen source, and
-  independently qualified. Phase 5 may instead use an explicitly approved policy-free scope.
+- Development-phase labels and software-version identities are provenance only. They must not decide
+  whether an immutable policy may be extended, formally qualified, activated, or compared.
+- Admit a policy to formal qualification when its checksum-valid artifact proves the current frozen
+  TSH-CALO runtime ABI, policy architecture, state/action schemas, training-environment schema,
+  epistemic-ensemble structure, authenticated training receipts, and protected-case isolation.
+- Exact resume or completed-training extension additionally requires the retained frozen training
+  compatibility contract: policy parameter names/shapes/dtypes, persisted training-parameter schema,
+  optimizer/trainer/session/environment state schemas, and exact evaluation-accounting semantics.
+  A software source revision alone is not an incompatibility. Added, removed, or semantically changed
+  architecture, parameters, persisted state, schemas, or evaluation accounting must fail closed.
+- Existing and earlier-version policies are not presumed good, bad, qualified, or incompatible because
+  of their age or originating development phase. Missing integrity or compatibility evidence must be
+  reported precisely and must never be fabricated or retroactively asserted.
+- Qualification is candidate-bound scientific quality evidence, not a development acceptance receipt.
+  It must retain the frozen comparison plan, equal exact function-evaluation budgets, protected-case
+  isolation, feasibility, objective, effect-size, significance, anytime, stability, and OOD evidence.
+- A qualification pass never activates a policy. Experiment use still requires a separately qualified,
+  explicitly activated, immutable, checksum-valid policy and exact qualification receipt binding.
+- Policy deletion requires an exact reviewed target and explicit confirmation. Active, qualified, or
+  experiment-referenced policies remain protected by the retirement workflow.
 - Preserve explicit safe fallback for unavailable, incompatible, or rejected policies.
 - Intel XPU must not be executable. Current modes are CUDA-preferred and CPU-only.
 - Admission ceilings use at most 80% of currently free VRAM or currently available RAM. CUDA computes on NVIDIA GPUs; CPU fallback computes on CPUs.
@@ -24,7 +36,9 @@ These instructions apply to the entire repository unless a deeper `AGENTS.md` na
 - Do not make release-ready or superiority claims before their documented gates have direct evidence.
 
 ## Workflow
-- Follow `docs/implementation/IMPLEMENTATION_GATES.md` in order and keep the handoff and traceability ledger current.
+- Follow `docs/implementation/IMPLEMENTATION_GATES.md` in order for engineering and release evidence,
+  and keep the handoff and traceability ledger current. Those phase gates must not substitute for
+  policy compatibility or scientific qualification evidence.
 - Before stating or starting any numbered development phase, create a new phase-specific goal with
   the goal service. Do not begin source implementation until that goal exists. If another goal is
   unfinished, resolve it according to the goal-service rules before starting the new phase.
@@ -51,7 +65,8 @@ These instructions apply to the entire repository unless a deeper `AGENTS.md` na
 - Before semantic CALO changes, prove canonical-refactor parity against the frozen baseline.
 - Add unit, invariant, parity, ablation, falsification, leakage, fallback, and regression tests proportional to each change.
 - Keep protected cases out of training, tuning, reward design, and checkpoint selection.
-- During Phase 4, use empty-policy behavior and synthetic temporary policy fixtures for development
-  tests; do not execute policy workflows or depend on an old policy as a release baseline.
+- Use empty-policy behavior and synthetic temporary policy fixtures for development tests. Do not
+  execute real policy training, qualification, activation, deletion, or protected-case workflows
+  unless the user explicitly authorizes the named execution command in a later message.
 - Do not regenerate release freezes, manifests, SBOMs, image digests, or public release claims before their gates close.
 - Preserve user files and unrelated changes. Do not push, merge, publish, or release without explicit approval.

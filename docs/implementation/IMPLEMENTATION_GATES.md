@@ -106,11 +106,11 @@ development branch and must not be regenerated before the final staged release a
 | G10 | Partially complete; mathematical-reference and A–E campaign implementations retained | Statistical corrections, honest claim boundaries, power-aware planning and a frozen-design preregistration protocol exist in `SCIENTIFIC_VALIDATION_PROTOCOL.md`. The runtime-enumerated 22-method campaign defaults to 98 initiated paired runs for 21 CALO-versus-comparator tests at effect 0.50, 95% power, Holm family control and 10% failures; pilot/simulation designs require an evidence SHA. case30/57 are validation replays, case118/300 are protected tests. Source-traceable L-SHADE 1.0.1, pinned pycma 4.4.4, official PGLib-OPF v23.07 validation assets and disclosed mathematical-reference adapters retain provenance, independent checks and protected-case refusal. The latest complete active suite is `638 passed, 63 skipped`; the new A–E campaign harness is not scientific evidence by itself. Human-reviewed external ORPD profiles, full multistart/reference execution, fresh-candidate accepted ablations, protected campaign execution and final qualification remain pending. |
 | G11 | Harness implemented; final candidate blocked on G9/G10 and CI | A fresh dedicated distribution stage must be absent before each build, preventing obsolete artifacts from entering the wheel/sdist manifest. Generated policy checkpoints, lineages and training metadata are excluded. The verifier now requires the mathematical-reference and packaged-GUI commands in both distributions. Clean `383e5bc` produced a verified 349-member wheel and 401-member sdist; the extracted wheel passed Linux GUI, PGLib and reference-CLI checks and a six-file manifest. The CPU smoke image generates its filesystem manifest from `/opt/calo`; CI is configured to upload staged distributions/rendering and CycloneDX SBOM. This is development packaging evidence, not the final candidate. Final CI execution, exact final image attestations/digests, clean-machine reproduction, requirement closure and release freeze still follow G9/G10. |
 
-### Current Phase 4 policy-development boundary — 2026-08-07
+### Historical Phase 4 policy-development boundary — 2026-08-07 (superseded 2026-08-14)
 
-The user has superseded the forward execution order implied by the G9-G11 remaining-proof text.
-Those rows continue to describe scientific capabilities and evidence that would eventually be
-required for a policy-bearing release, but candidate creation is no longer part of Phase 4.
+These bullets preserve the former execution order. They no longer make development phase, policy
+age, or software revision a compatibility or qualification-admission criterion; the 2026-08-14
+stage-neutral qualification compatibility gate below supersedes that lifecycle restriction.
 
 - Phase 4 is coding and development validation only: finish A-E/F-off-capable production source,
   empty-policy behavior, runtime/CUDA/container/package/CI hardening, old-policy inventory and safe
@@ -1104,3 +1104,19 @@ child includes the base plus each completed finite extension segment; the parent
 Qualification and experiment evaluation counts are outside this field. Unverifiable or legacy
 accounting is reported as unavailable rather than inferred. Source and synthetic contracts are
 implemented but unexecuted, so this gate remains open pending a fresh complete owner Phase 6 bundle.
+
+### 2026-08-14 - Stage-neutral qualification compatibility gate open
+
+Development phase, policy age, and originating software revision no longer decide whether an
+immutable candidate may enter formal qualification. Admission requires the current frozen TSH-CALO
+runtime ABI, exact candidate checksum, validated epistemic-ensemble structure, authenticated member
+training receipts, and protected-case isolation. `Check formal plan` exposes ABI/file/ensemble
+blockers without mutating lifecycle state. The exact candidate-bound formal plan, independent quality
+thresholds, passed-evidence admission, explicit activation, qualification receipt/calibration, and
+experiment binding remain separate fail-closed gates.
+
+Resume and extension are not relaxed by this qualification change. They remain bound to the retained
+training compatibility contract and exact persisted continuation state. A source revision alone does
+not break compatibility; architecture, parameter layout/schema, persisted-state schema, or evaluation-
+accounting changes do. Source and synthetic contracts are implemented but unexecuted; fresh complete
+owner Phase 6 validation is pending.

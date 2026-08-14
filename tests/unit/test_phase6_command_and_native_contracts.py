@@ -78,10 +78,8 @@ def test_policy_display_language_hides_internal_lifecycle_reason():
         governing_policy_user_message,
     )
 
-    technical_reason = (
-        "Pre-freeze development candidate requires A-E/F-off qualification and activation."
-    )
-    status = GoverningPolicyStatus(False, "development_only", technical_reason)
+    technical_reason = "Runtime ABI mismatch requires A-E/F-off qualification review."
+    status = GoverningPolicyStatus(False, "incompatible", technical_reason)
     message = governing_policy_user_message(status).lower()
 
     assert status.reason == technical_reason
@@ -577,6 +575,10 @@ def test_policy_training_process_actions_are_visible_in_the_input_pane():
     assert "admit_qualification_evidence" in intelligence
     assert "The process produces evidence only" in intelligence
     assert "It will not admit, activate, or bind the policy" in intelligence
+    assert "Formal plan check unavailable" in intelligence
+    assert "No plan, qualification evidence, registry state, or model file was changed" in (
+        intelligence
+    )
     assert "Delete model files" in intelligence
     assert "Review policy removal" not in intelligence
     assert (

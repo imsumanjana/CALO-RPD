@@ -6,7 +6,12 @@
 - One canonical transition authority must govern runtime and training.
 - Count every evaluator/repair call; preserve exact resume and deterministic intervention replay.
 - Each retained component must pass preregistered paired-seed ablation and falsification criteria.
-- Phase 4 completes A-E/F-off-capable source and development contracts only; do not create, train,
-  evaluate, or qualify a candidate during the phase.
-- Old policies are not final baselines or initializers. Candidate/component scientific evidence is
-  deferred to a completely new policy trained after the development freeze.
+- Development agents do not execute training, qualification, protected-case, activation, or
+  experiment workflows unless the user explicitly authorizes the named command. This execution
+  boundary is independent of policy compatibility.
+- Policy age, development phase, and software revision are provenance only. Qualification requires
+  the current immutable candidate ABI/ensemble/receipt contract and candidate-bound formal evidence.
+  Exact resume or extension additionally requires the frozen training compatibility contract.
+- Earlier policies and evidence are not final baselines and confer no qualification. A compatible
+  earlier-version candidate may undergo a fresh formal qualification; incompatible or unverifiable
+  artifacts fail closed without fabricated migration.

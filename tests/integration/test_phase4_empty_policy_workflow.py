@@ -129,24 +129,25 @@ def test_rejected_active_binding_cannot_crash_startup_or_leave_policy_state(tmp_
     assert not any(key.startswith("policy_") for key in tsh)
 
 
-def test_pre_freeze_active_policy_readiness_fails_closed_without_exception():
+def test_incompatible_active_policy_readiness_fails_closed_without_exception():
     record = SimpleNamespace(
         active=True,
         archived=False,
-        post_development_eligible=False,
         id="historical-policy",
         name="Historical policy",
         sha256="a" * 64,
         qualification_status="legacy_qualified",
         grade="A",
         algorithm_id="CALO",
+        usable=True,
+        compatible_with=lambda _algorithm_id: False,
     )
     registry = SimpleNamespace(list=lambda include_archived: [record])
 
     status = evaluate_governing_policy(registry)
 
     assert status.ready is False
-    assert status.state == "development_only"
+    assert status.state == "incompatible"
     assert status.algorithm_id == "CALO"
 
 
@@ -207,7 +208,7 @@ def test_tsh_calo_accepts_only_a_complete_a_to_e_binding_without_internal_fallba
     config.validate()
 
 
-def test_tsh_calo_config_rejects_forged_pre_freeze_provenance_before_execution():
+def test_tsh_calo_config_uses_member_provenance_not_legacy_phase_receipts():
     config = ExperimentConfig()
     config.algorithms = [TSH_CALO_ALGORITHM_ID]
     binding = _complete_tsh_binding()
@@ -215,17 +216,14 @@ def test_tsh_calo_config_rejects_forged_pre_freeze_provenance_before_execution()
         "development_freeze_sha256"
     ] = ""
     config.algorithm_parameters[TSH_CALO_ALGORITHM_ID] = binding
+    config.validate()
 
-    with pytest.raises(ValueError, match="development-freeze-bound ensemble"):
-        config.validate()
-
-    binding = _complete_tsh_binding()
     binding["policy_training_provenance"]["members"][0]["training_provenance"][
-        "phase4_acceptance_sha256"
-    ] = ""
+        "training_episode_receipts"
+    ] = []
     config.algorithm_parameters[TSH_CALO_ALGORITHM_ID] = binding
 
-    with pytest.raises(ValueError, match="development-freeze-bound ensemble"):
+    with pytest.raises(ValueError, match="authenticated member provenance"):
         config.validate()
 
 

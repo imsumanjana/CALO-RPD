@@ -7,7 +7,6 @@ from datetime import datetime, timezone
 import json
 import logging
 from pathlib import Path
-import re
 import uuid
 
 from calo_rpd_studio.ai.model_io import checkpoint_sha256, load_checkpoint
@@ -46,40 +45,6 @@ def _utcnow() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
-def _post_development_training_provenance(metadata: dict) -> bool:
-    """Return whether provenance proves completely new post-freeze training."""
-
-    provenance = dict(metadata.get("training_provenance", {}) or {})
-    if str(metadata.get("artifact_kind", "")) == "ensemble_policy":
-        members = list(metadata.get("ensemble_members", []) or [])
-        provenance_rows = [dict(item.get("training_provenance", {}) or {}) for item in members]
-        if len(provenance_rows) < 2:
-            return False
-    elif provenance.get("source_kind") == "independent_policy_training_ensemble":
-        members = list(provenance.get("members", []) or [])
-        provenance_rows = [dict(item.get("training_provenance", {}) or {}) for item in members]
-        if len(provenance_rows) < 2:
-            return False
-    else:
-        provenance_rows = [provenance]
-    identities: set[tuple[str, str, str]] = set()
-    for row in provenance_rows:
-        source_commit = str(row.get("source_commit", "")).strip().lower()
-        freeze_commit = str(row.get("development_freeze_commit", "")).strip().lower()
-        freeze_sha256 = str(row.get("development_freeze_sha256", "")).strip().lower()
-        acceptance_sha256 = str(row.get("phase4_acceptance_sha256", "")).strip().lower()
-        if (
-            not re.fullmatch(r"[0-9a-f]{40}", source_commit)
-            or freeze_commit != source_commit
-            or not re.fullmatch(r"[0-9a-f]{64}", freeze_sha256)
-            or not re.fullmatch(r"[0-9a-f]{64}", acceptance_sha256)
-            or str(row.get("initialization_policy_sha256", "")).strip()
-        ):
-            return False
-        identities.add((source_commit, freeze_sha256, acceptance_sha256))
-    return len(identities) == 1
-
-
 @dataclass(frozen=True, slots=True)
 class PolicyRecord:
     id: str
@@ -105,12 +70,6 @@ class PolicyRecord:
     def runtime_compatible(self) -> bool:
         """Backward-compatible alias for the frozen CALO v5.9 runtime."""
         return self.compatible_with(CALO_ALGORITHM_ID)
-
-    @property
-    def post_development_eligible(self) -> bool:
-        """Whether this artifact proves new training against the development freeze."""
-
-        return _post_development_training_provenance(self.metadata)
 
     def compatible_with(self, algorithm_id: str) -> bool:
         if str(algorithm_id) == TSH_CALO_ALGORITHM_ID:
@@ -275,6 +234,40 @@ class PolicyRegistry:
         except (OSError, RuntimeError, TypeError, ValueError):
             return None
 
+    def inspect_qualification_candidate(self, policy_id: str):
+        """Verify the stage-neutral immutable contract for formal qualification.
+
+        Source revision and historical development receipts remain provenance. Eligibility is
+        instead bound to the current frozen runtime ABI, an exact checksum, an epistemic ensemble,
+        validated member architectures, authenticated training receipts, and protected-case
+        isolation enforced by ``inspect_tsh_calo_candidate``.
+        """
+
+        policy = self.get(policy_id)
+        if policy.archived:
+            raise ValueError("The selected policy is archived")
+        if not policy.usable:
+            raise ValueError("The selected policy model file is unavailable")
+        if not policy.compatible_with(TSH_CALO_ALGORITHM_ID):
+            raise ValueError(
+                "The selected policy is incompatible with the frozen TSH-CALO runtime ABI"
+            )
+        artifact = inspect_tsh_calo_candidate(
+            policy.checkpoint_path,
+            expected_sha256=policy.sha256,
+        )
+        if artifact.artifact_kind != "ensemble_policy" or artifact.ensemble_size < 2:
+            raise ValueError("Formal qualification requires an epistemic ensemble policy")
+        if artifact.ensemble_size != int(policy.metadata.get("ensemble_size", 1)):
+            raise ValueError("The registered ensemble size differs from the immutable artifact")
+        if artifact.feature_flags != dict(policy.metadata.get("feature_flags", {}) or {}):
+            raise ValueError("The registered feature flags differ from the immutable artifact")
+        if artifact.feature_flags.get("population_schedule") or artifact.feature_flags.get(
+            "allow_experimental_components"
+        ):
+            raise ValueError("Formal qualification requires the approved A-E contract with F off")
+        return artifact
+
     def activate(
         self,
         policy_id: str,
@@ -283,16 +276,8 @@ class PolicyRegistry:
         algorithm_id: str = CALO_ALGORITHM_ID,
     ) -> PolicyRecord:
         policy = self.get(policy_id)
-        if not policy.post_development_eligible:
-            raise ValueError(
-                "Existing/pre-freeze policies are development-only and cannot be activated in the "
-                "v12 release lifecycle. Train and qualify a completely new A-E/F-off policy after "
-                "the development freeze."
-            )
         if algorithm_id != TSH_CALO_ALGORITHM_ID:
-            raise ValueError(
-                "v12 activation accepts only a completely new TSH-CALO A-E/F-off ensemble"
-            )
+            raise ValueError("Activation accepts only a compatible TSH-CALO A-E/F-off ensemble")
         if algorithm_id == TSH_CALO_ALGORITHM_ID and allow_unqualified:
             raise ValueError("TSH-CALO policies cannot be activated before qualification")
         if (
@@ -312,13 +297,9 @@ class PolicyRegistry:
         if policy.qualification_status != "qualified":
             raise ValueError(
                 f"Policy {policy.name!r} is {policy.qualification_status!r}. "
-                "Only an independently qualified new TSH-CALO policy can become active."
+                "Only an independently qualified compatible TSH-CALO policy can become active."
             )
-        inspected = self.inspect_checkpoint(policy.checkpoint_path)
-        if inspected["sha256"] != policy.sha256:
-            raise RuntimeError(
-                "Policy checkpoint checksum changed since registration; activation is blocked"
-            )
+        self.inspect_qualification_candidate(policy.id)
         if algorithm_id == TSH_CALO_ALGORITHM_ID:
             rows = [
                 row
@@ -363,21 +344,7 @@ class PolicyRegistry:
         """Verify passed formal evidence for one exact registered policy without mutating it."""
 
         policy = self.get(policy_id)
-        if not policy.post_development_eligible:
-            raise ValueError(
-                "Only a completely new post-development TSH-CALO policy can enter qualification"
-            )
-        if policy.algorithm_id != TSH_CALO_ALGORITHM_ID or not policy.compatible_with(
-            TSH_CALO_ALGORITHM_ID
-        ):
-            raise ValueError("The selected policy is not a native compatible TSH-CALO policy")
-        if int(policy.metadata.get("ensemble_size", 1)) < 2:
-            raise ValueError("Formal qualification requires an epistemic ensemble policy")
-        if not policy.usable:
-            raise ValueError("The selected policy is archived or its model file is unavailable")
-        inspected = self.inspect_checkpoint(policy.checkpoint_path)
-        if inspected["sha256"] != policy.sha256:
-            raise RuntimeError("Policy checkpoint checksum changed after registration")
+        self.inspect_qualification_candidate(policy.id)
         return inspect_qualification_evidence(
             directory,
             expected_policy_sha256=policy.sha256,
@@ -431,8 +398,8 @@ class PolicyRegistry:
                 metrics = verified.metrics
                 summary = dict(metrics.get("summary", {}) or {})
                 protocol = str(metrics.get("comparison_protocol_sha256", ""))
-                inspected = self.inspect_checkpoint(policy.checkpoint_path)
-                if inspected["sha256"] != policy.sha256 or not protocol or not summary:
+                self.inspect_qualification_candidate(policy.id)
+                if not protocol or not summary:
                     raise ValueError("retained evidence summary is incomplete")
                 rows.append(
                     {
@@ -442,7 +409,7 @@ class PolicyRegistry:
                         "grade": policy.grade,
                         "usable": bool(policy.usable),
                         "compatible": bool(policy.compatible_with(TSH_CALO_ALGORITHM_ID)),
-                        "post_development_eligible": bool(policy.post_development_eligible),
+                        "qualification_contract_compatible": True,
                         "qualification_id": str(qualification.get("id", "")),
                         "qualified_at": str(qualification.get("created_at", "")),
                         "receipt_sha256": receipt.receipt_sha256,
@@ -463,7 +430,7 @@ class PolicyRegistry:
                         "grade": policy.grade,
                         "usable": False,
                         "compatible": False,
-                        "post_development_eligible": bool(policy.post_development_eligible),
+                        "qualification_contract_compatible": False,
                         "qualification_id": str(qualification.get("id", "")),
                         "qualified_at": str(qualification.get("created_at", "")),
                         "receipt_sha256": "",
@@ -521,7 +488,7 @@ class PolicyRegistry:
         del policy_id, delete_artifact
         raise PermissionError(
             "Direct policy deletion is disabled. Export an exact policy-retirement inventory and "
-            "dry-run plan; post-freeze removal requires separate authorization and an immutable receipt."
+            "dry-run plan; protected removal requires separate authorization and an immutable receipt."
         )
 
     def unqualified_candidate_removal_blocker(self, policy_id: str) -> str:
@@ -574,13 +541,8 @@ class PolicyRegistry:
         algorithm_id: str = CALO_ALGORITHM_ID,
     ) -> dict:
         policy = self.get(policy_id)
-        if not policy.post_development_eligible:
-            raise ValueError(
-                "Existing/pre-freeze policies cannot be bound to v12 experiments. Only a completely "
-                "new post-development A-E/F-off policy may enter the release lifecycle."
-            )
         if algorithm_id != TSH_CALO_ALGORITHM_ID:
-            raise ValueError("v12 experiments may bind only a new qualified TSH-CALO ensemble")
+            raise ValueError("Experiments may bind only a qualified TSH-CALO ensemble")
         if algorithm_id == TSH_CALO_ALGORITHM_ID and allow_unqualified:
             raise ValueError("TSH-CALO experiments cannot consume an unqualified policy")
         if (
@@ -601,11 +563,9 @@ class PolicyRegistry:
         if policy.qualification_status != "qualified":
             raise ValueError(
                 f"Policy {policy.name!r} is {policy.qualification_status!r}, not qualified. "
-                "Only a new independently qualified TSH-CALO policy may be bound."
+                "Only an independently qualified compatible TSH-CALO policy may be bound."
             )
-        inspected = self.inspect_checkpoint(policy.checkpoint_path)
-        if inspected["sha256"] != policy.sha256:
-            raise RuntimeError("Policy artifact checksum mismatch; experiment binding refused")
+        artifact = self.inspect_qualification_candidate(policy.id)
         parameters = dict(config.algorithm_parameters.get(algorithm_id, {}))
         binding = {
             "policy_algorithm_id": policy.algorithm_id,
@@ -627,14 +587,16 @@ class PolicyRegistry:
             "baseline_fallback_permitted": False,
         }
         if policy.algorithm_id == TSH_CALO_ALGORITHM_ID:
-            binding["policy_feature_flags"] = dict(policy.metadata.get("feature_flags", {}))
-            binding["policy_artifact_kind"] = str(policy.metadata.get("artifact_kind", ""))
-            binding["policy_ensemble_size"] = int(policy.metadata.get("ensemble_size", 1))
-            binding["policy_ensemble_members"] = list(policy.metadata.get("ensemble_members", []))
+            binding["policy_feature_flags"] = dict(artifact.feature_flags)
+            binding["policy_artifact_kind"] = artifact.artifact_kind
+            binding["policy_ensemble_size"] = artifact.ensemble_size
+            binding["policy_ensemble_members"] = list(
+                artifact.training_provenance.get("members", []) or []
+            )
             binding["policy_training_provenance"] = (
                 {
                     "source_kind": "independent_policy_training_ensemble",
-                    "members": list(policy.metadata.get("ensemble_members", [])),
+                    "members": list(artifact.training_provenance.get("members", []) or []),
                 }
                 if binding["policy_artifact_kind"] == "ensemble_policy"
                 else dict(policy.metadata.get("training_provenance", {}))

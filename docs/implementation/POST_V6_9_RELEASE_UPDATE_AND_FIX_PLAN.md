@@ -11,11 +11,12 @@ source-only completion audit is in progress; user-executed Phase 4 validation re
 not a release declaration,
 scientific qualification, policy approval, or authority to open protected cases.
 
-**Policy-development boundary:** All existing policies are development-only, unqualified, inactive,
-non-final, and excluded from release. Phase 4 performs coding and development validation only. It
-does not train, evaluate, qualify, register, activate, or delete a policy. Old-policy deletion and
-completely new A-E/F-off policy training occur only after the Phase 4 development freeze through
-separately authorized user-controlled actions.
+**Policy-lifecycle boundary (revised 2026-08-14):** Development phase, policy age, and software
+revision are provenance only. An immutable policy from any revision may enter fresh formal
+qualification when it passes the current ABI, architecture/schema, ensemble, authenticated-receipt,
+checksum, feature-flag, and protected-case contract. Exact resume/extension separately requires the
+frozen training compatibility contract. Qualification, activation, experiment binding, retirement,
+and release authorization remain explicit separate actions.
 
 **Prepared:** 2026-08-06 (Asia/Calcutta)
 
@@ -649,7 +650,7 @@ cleanup and new-policy training process.
   activation, and release publication were not executed.
 - [ ] Development-freeze decision with remaining external proof and prohibited-claim boundaries.
 - [ ] Separate non-overwriting Phase 4 acceptance receipt created only after complete returned-log
-  review, with its SHA-256 required by later retirement and new-policy provenance.
+  review as historical engineering evidence; it is not a policy compatibility or quality gate.
 
 ### Phase 4 exit gate
 
@@ -659,25 +660,27 @@ are inventoried and excluded from release artifacts; controlled deletion is prep
 executed; and no policy training/evaluation or qualification has occurred. Phase 4 produces a
 development freeze, not a trained policy, release candidate, or release.
 
-### Post-Phase 4 controlled policy transition — outside coding development
+### Controlled policy transition — stage-neutral revision 2026-08-14
 
-After Phase 4 closes, and only under separate explicit user actions:
+Policy age, development phase, and software revision are provenance only. Under separate explicit
+user actions:
 
-1. review the exact old-policy inventory and dry-run removal plan;
-2. explicitly authorize deletion of the resolved old-policy targets and retain the deletion receipt;
-3. verify that the frozen application starts and behaves safely with an empty policy store;
-4. freeze a new A-E/F-off training and qualification plan against both the Phase 4 acceptance
-   receipt and the clean post-transition development freeze;
-5. train a completely new policy without using old policy weights, activation state, qualification,
-   or evidence as the final candidate;
-6. independently evaluate and qualify that exact new policy without automatic registration or
-   activation; and
-7. choose the Phase 5 scope: include only the newly qualified checksum-bound policy, or approve a
-   policy-free release with no policy-benefit claim.
+1. inspect one exact checksum-bound candidate against the current TSH-CALO runtime ABI, policy
+   architecture, state/action/environment schemas, ensemble/member provenance, authenticated
+   training receipts, feature flags, and protected-case isolation;
+2. if more training is requested, resume or extend only when the separate frozen training contract
+   and authenticated continuation state match exactly;
+3. freeze a candidate-bound A-E/F-off formal qualification plan against the current qualification
+   execution source and equal exact function-evaluation design;
+4. independently evaluate and qualify that exact candidate without automatic activation;
+5. explicitly activate a passed, evidence-admitted policy and bind its immutable qualification
+   receipt/calibration only when an experiment is configured; and
+6. choose the release scope: include only the qualified checksum-bound compatible policy, or approve
+   a policy-free release with no policy-benefit claim.
 
-Phase 5 cannot start until that post-development policy-scope decision is recorded. Training,
-evaluation, qualification, protected-case execution, deletion, registration, and activation are not
-performed by the Phase 4 coding agent or Phase 4 validator.
+Old-policy inventory and deletion remain a separate retirement workflow and are not prerequisites
+for evaluating another intact candidate. Phase validators do not execute training, qualification,
+protected cases, deletion, activation, or experiment workflows.
 
 ---
 
@@ -685,8 +688,8 @@ performed by the Phase 4 coding agent or Phase 4 validator.
 
 ### Goal
 
-Produce one reproducible, clean, internally consistent release in which source, optional newly
-qualified policy, distributions, containers, evidence, metadata, manifests, documentation, and
+Produce one reproducible, clean, internally consistent release in which source, optional qualified
+compatible policy, distributions, containers, evidence, metadata, manifests, documentation, and
 public claims bind to the recorded immutable identities and approved policy scope.
 
 ### Required work
@@ -695,11 +698,11 @@ public claims bind to the recorded immutable identities and approved policy scop
 
 - [ ] Start from a clean clone of the exact approved Phase 4 development-freeze commit and verify
   the retained freeze report against its recorded payload SHA-256.
-- [ ] Bind the recorded post-development decision to exactly one scope: a newly trained and qualified
-  policy with its own checksum, or a policy-free release with no policy-benefit claim.
+- [ ] Bind the recorded policy-scope decision to exactly one scope: a qualified, current-contract-
+  compatible policy with its own checksum, or a policy-free release with no policy-benefit claim.
 - [ ] Confirm no generated policies, checkpoints, lineages, result databases, logs, screenshots,
   credentials, user data, caches, publication exports, or old policy artifacts are tracked or
-  packaged. An explicitly included new qualified policy must use a separate immutable manifest.
+  packaged. An explicitly included qualified policy must use a separate immutable manifest.
 - [ ] Run the complete requirement audit and close every traceability row with direct evidence.
 - [ ] Promote the final accepted RC identity to `12.0.0` only after all Phase 5 prerequisites pass,
   and confirm v12.0.0 is consistent in code, package metadata, documentation, status, and artifacts.
@@ -794,6 +797,9 @@ development/validation sequence only; it does not waive any evidence or release 
   `policy-free` or `newly-qualified-policy`. Policy-free forbids policy identity/benefit claims;
   new-policy scope requires an exact TSH-CALO A-E/F-off artifact, immutable qualification receipt,
   Phase 4 acceptance, clean post-transition freeze, empty initialization, and confined manifests.
+  `newly-qualified-policy` is the retained schema spelling from this historical implementation; it
+  must not be interpreted as requiring a newly trained artifact when a compatible exact candidate
+  has received fresh candidate-bound qualification. Release-source acceptance remains separate.
 - [x] Add a source/evidence-bound release-preparation candidate that requires distinct wheel/sdist
   manifests, CPU/CUDA image identities, Buildx metadata, SBOMs, full vulnerability reports, image
   filesystem manifests, scanner/database identity, clean installs, packaged GUI, and CI coverage.
@@ -826,8 +832,8 @@ development/validation sequence only; it does not waive any evidence or release 
 | 1. Identity and scientific correctness | Truthful `12.0.0.devN` identity and corrected, versioned qualification analysis | Accurate later development and evidence |
 | 2. Runtime and provenance hardening | Concrete device binding, explicit fallback, exact FE/cardinality, physical leases, partial failures | Trustworthy hardware and campaign execution |
 | 3. Modern scientist GUI | Grouped navigation, modern Dashboard, compact inputs, progressive disclosure, accessibility | Final GUI/package qualification |
-| 4. Development completion and freeze | Final A-E/F-off-capable code, empty-policy safety, production hardening, old-policy removal preparation, validated development freeze | Post-development deletion and new-policy decision |
-| 5. Immutable release | Clean policy-free or newly-qualified-policy scope, distributions/images, final CI, manifests, SBOMs, metadata, documentation, authorization | Public release |
+| 4. Development completion and freeze | Final A-E/F-off-capable code, empty-policy safety, production hardening, old-policy removal preparation, validated development freeze | Engineering and source evidence only |
+| 5. Immutable release | Clean policy-free or freshly qualified compatible-policy scope, distributions/images, final CI, manifests, SBOMs, metadata, documentation, authorization | Public release |
 
 ## 6. Required record updates after each phase
 

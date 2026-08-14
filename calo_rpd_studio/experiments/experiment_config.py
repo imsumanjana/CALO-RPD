@@ -77,7 +77,9 @@ def _is_sha256(value: object) -> bool:
     return len(text) == 64 and all(character in "0123456789abcdef" for character in text)
 
 
-def _post_development_ensemble_binding(parameters: dict) -> bool:
+def _immutable_ensemble_binding(parameters: dict) -> bool:
+    """Validate the stage-neutral structural contract retained in an experiment binding."""
+
     try:
         ensemble_size = int(parameters.get("policy_ensemble_size", 0) or 0)
     except (TypeError, ValueError):
@@ -91,26 +93,24 @@ def _post_development_ensemble_binding(parameters: dict) -> bool:
     bound_members = list(parameters.get("policy_ensemble_members", []) or [])
     if len(members) != ensemble_size or bound_members != members:
         return False
-    identities: set[tuple[str, str, str]] = set()
     for member in members:
         if not isinstance(member, dict):
             return False
+        if not _is_sha256(member.get("source_candidate_sha256", "")):
+            return False
         row = dict(member.get("training_provenance", {}) or {})
         source_commit = str(row.get("source_commit", "")).strip().lower()
-        freeze_commit = str(row.get("development_freeze_commit", "")).strip().lower()
-        freeze_sha256 = str(row.get("development_freeze_sha256", "")).strip().lower()
-        acceptance_sha256 = str(row.get("phase4_acceptance_sha256", "")).strip().lower()
         if (
             len(source_commit) != 40
             or any(character not in "0123456789abcdef" for character in source_commit)
-            or freeze_commit != source_commit
-            or not _is_sha256(freeze_sha256)
-            or not _is_sha256(acceptance_sha256)
-            or str(row.get("initialization_policy_sha256", "")).strip()
+            or not str(row.get("training_run_id", "")).strip()
+            or not isinstance(row.get("development_cases"), (list, tuple))
+            or not row.get("development_cases")
+            or not isinstance(row.get("training_episode_receipts"), (list, tuple))
+            or not row.get("training_episode_receipts")
         ):
             return False
-        identities.add((source_commit, freeze_sha256, acceptance_sha256))
-    return len(identities) == 1
+    return True
 
 
 def migrate_execution_backend(value: object) -> str:
@@ -415,10 +415,10 @@ class ExperimentConfig:
                 )
             if not _is_sha256(parameters.get("policy_sha256", "")):
                 raise ValueError(f"{algorithm} policy SHA-256 is invalid")
-            if not _post_development_ensemble_binding(parameters):
+            if not _immutable_ensemble_binding(parameters):
                 raise ValueError(
-                    f"{algorithm} requires a completely new development-freeze-bound ensemble "
-                    "with empty policy initialization"
+                    f"{algorithm} requires an immutable, independently trained epistemic ensemble "
+                    "with authenticated member provenance"
                 )
             if (
                 not str(parameters.get("policy_qualification_id", "")).strip()
