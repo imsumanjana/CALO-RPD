@@ -1455,3 +1455,9 @@ scientific/hardware qualification—not as a final release.
   starts no case, power flow, or evaluation. Source/tests/offscreen contracts and the ignored
   validator are unexecuted. Run the same full owner validator and return the complete new log
   directory; do not treat implementation as validation, qualification, or release evidence.
+- The newest layout-only follow-up removes both internal scrollbars from the Policy library, sizes
+  its table to the header plus all visible entries, and makes the Policy library and Governing
+  policy sections consume the full content width. The main preview remains the only page-level
+  scroll owner if many entries exceed the window height. Policy lifecycle and scientific behavior
+  are unchanged. GUI/static/offscreen contracts and the ignored validator were updated but not
+  run; request the same fresh complete owner Phase 6 bundle.

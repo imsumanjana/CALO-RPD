@@ -1012,3 +1012,13 @@ paths. Applying a ready governing policy binds it to experiment settings and exp
 as the next explicit page without starting a case, power flow, evaluation, or experiment. These are
 implemented source and synthetic contracts only. The prior `phase6-20260814-131637` bundle predates
 them; this gate remains open until a fresh complete owner validator bundle passes.
+
+### 2026-08-14 - Full-width Policy library and Governing policy layout gate open
+
+The Policy library table now has no internal horizontal or vertical scrollbar and its height tracks
+the header plus all currently visible entries. Removing its vertical stretch allows the library and
+governing groups to keep their preferred content height while both expand across the page. The
+governing form uses expanding fields, and the main preview retains sole page-level scroll ownership
+when many entries make the whole page taller than the viewport. Constrained GUI, row-height,
+scrollbar-policy, full-width geometry, static, and offscreen contracts are implemented but
+unexecuted. The current gate remains open until a complete owner Phase 6 validator bundle passes.

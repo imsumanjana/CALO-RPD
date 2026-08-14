@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from PyQt6.QtCore import pyqtSignal
+from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtWidgets import (
     QAbstractItemView,
     QCheckBox,
@@ -17,6 +17,7 @@ from PyQt6.QtWidgets import (
     QLineEdit,
     QMessageBox,
     QPushButton,
+    QSizePolicy,
     QTableWidget,
     QTableWidgetItem,
     QVBoxLayout,
@@ -69,6 +70,7 @@ class CALOIntelligencePanel(ScrollablePage):
 
         library = QGroupBox("Policy library")
         self.policy_center_group = library
+        library.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
         library_layout = QVBoxLayout(library)
         self.policy_table = QTableWidget(0, 5)
         self.policy_table.setHorizontalHeaderLabels(
@@ -78,17 +80,25 @@ class CALOIntelligencePanel(ScrollablePage):
         self.policy_table.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
         self.policy_table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         self.policy_table.setAlternatingRowColors(True)
-        self.policy_table.verticalHeader().setVisible(False)
-        self.policy_table.horizontalHeader().setSectionResizeMode(
-            0, QHeaderView.ResizeMode.ResizeToContents
+        self.policy_table.setWordWrap(True)
+        self.policy_table.setHorizontalScrollBarPolicy(
+            Qt.ScrollBarPolicy.ScrollBarAlwaysOff
         )
-        self.policy_table.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeMode.Stretch)
-        for column in (2, 3, 4):
+        self.policy_table.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        self.policy_table.setSizePolicy(
+            QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed
+        )
+        self.policy_table.verticalHeader().setVisible(False)
+        for column in (0, 2, 4):
             self.policy_table.horizontalHeader().setSectionResizeMode(
                 column, QHeaderView.ResizeMode.ResizeToContents
             )
+        for column in (1, 3):
+            self.policy_table.horizontalHeader().setSectionResizeMode(
+                column, QHeaderView.ResizeMode.Stretch
+            )
         self.policy_table.itemSelectionChanged.connect(self._policy_selection_changed)
-        library_layout.addWidget(self.policy_table, 1)
+        library_layout.addWidget(self.policy_table)
 
         buttons = QHBoxLayout()
         self.policy_import_button = QPushButton("Import policy")
@@ -114,12 +124,16 @@ class CALOIntelligencePanel(ScrollablePage):
         buttons.addWidget(self.show_archived_policies)
         buttons.addStretch(1)
         library_layout.addLayout(buttons)
-        layout.addWidget(library, 1)
+        layout.addWidget(library)
 
         controller = QGroupBox("Governing policy")
         self.policy_controller_group = controller
+        controller.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
         form = QFormLayout(controller)
+        form.setFieldGrowthPolicy(QFormLayout.FieldGrowthPolicy.AllNonFixedFieldsGrow)
         self.path = QLineEdit()
+        self.path.setMinimumWidth(0)
+        self.path.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
         self.path.setReadOnly(True)
         self.path.setPlaceholderText("Select a compatible policy in the Policy library")
         self.deterministic = QCheckBox("Use deterministic policy decisions during evaluation")
@@ -132,6 +146,9 @@ class CALOIntelligencePanel(ScrollablePage):
         self.policy_gate_status = QLabel()
         self.policy_gate_status.setWordWrap(True)
         self.policy_gate_status.setObjectName("ContextValue")
+        self.policy_gate_status.setSizePolicy(
+            QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred
+        )
         form.addRow("Policy", self.path)
         form.addRow("Evaluation", self.deterministic)
         form.addRow("Status", self.policy_gate_status)
@@ -143,6 +160,11 @@ class CALOIntelligencePanel(ScrollablePage):
         if self.model_library is not None:
             self.model_library.changed.connect(self.refresh_policy_library)
         self.refresh_policy_library()
+
+    def resizeEvent(self, event) -> None:  # noqa: N802 - Qt API
+        super().resizeEvent(event)
+        if hasattr(self, "policy_table"):
+            self._resize_policy_table_to_entries()
 
     def refresh_policy_library(self) -> None:
         selected_key = self._row_key(self._selected_row())
@@ -237,12 +259,30 @@ class CALOIntelligencePanel(ScrollablePage):
                 )
             for column, value in enumerate(values):
                 self.policy_table.setItem(row, column, QTableWidgetItem(str(value)))
+        self._resize_policy_table_to_entries()
         if selected_key:
             self._select_row_key(selected_key)
         elif self._policy_rows:
             self.policy_table.selectRow(0)
         self._update_policy_gate_state()
         self.state.notify_policy_state_changed()
+
+    def _resize_policy_table_to_entries(self) -> None:
+        """Give the library one visible row per entry and no nested scrollbar."""
+
+        self.policy_table.resizeRowsToContents()
+        header = self.policy_table.horizontalHeader()
+        header_height = max(header.height(), header.sizeHint().height())
+        body_height = sum(
+            self.policy_table.rowHeight(row) for row in range(self.policy_table.rowCount())
+        )
+        frame_height = self.policy_table.frameWidth() * 2
+        self.policy_table.setFixedHeight(header_height + body_height + frame_height)
+        self.policy_table.updateGeometry()
+        self.policy_center_group.updateGeometry()
+        if self.widget() is not None:
+            self.widget().updateGeometry()
+        self.updateGeometry()
 
     def _selected_row(self):
         row = self.policy_table.currentRow()

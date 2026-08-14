@@ -113,9 +113,9 @@ def verify_active_version(root: Path = PROJECT_ROOT) -> dict:
         and status.get("phase_5_publication_authorized") is False
         and status.get("phase_6_started") is True
         and status.get("phase_6_goal")
-        == "responsive_training_policy_library_and_governing_policy_handoff_implementation_complete_validation_pending"
+        == "full_width_entry_sized_policy_library_and_governing_policy_layout_implementation_complete_validation_pending"
         and status.get("phase_6_coding")
-        == "implemented_nonduplicated_progress_responsive_inputs_all_completed_campaign_discovery_guarded_file_deletion_qualified_activation_and_power_system_handoff_validation_pending"
+        == "implemented_full_width_scrollbar_free_dynamic_policy_library_and_expanding_governing_policy_followup_validation_pending"
         and status.get("phase_6_training_interface")
         == "ribbon_navigation_only_tsh_calo_only_training_no_architecture_selector_optional_settings_template_per_user_default_model_directory_registered_resume_scan_locations_visible_scientific_inputs_protected_118_300_locked_visible_default_off_exact_resume_in_pane_readiness_then_explicit_confirmed_start_rule_based_calo_remains_in_algorithm_selection_no_redundant_document"
         and status.get("phase_6_training_input_help")
@@ -123,7 +123,7 @@ def verify_active_version(root: Path = PROJECT_ROOT) -> dict:
         and status.get("phase_6_native_execution")
         == "validated_first_class_windows_non_docker_launch"
         and status.get("phase_6_validation")
-        == "prior_pass_phase6-20260814-131637_superseded_by_progress_pause_completed_model_extension_and_policy_library_ui_followups_validation_pending"
+        == "prior_pass_phase6-20260814-131637_superseded_by_progress_pause_completed_model_extension_policy_library_workflow_and_full_width_layout_followups_validation_pending"
         and status.get("phase_6_checkbox_indicator_visibility")
         == "validated_global_palette_aware_borders_and_state_marks_light_dark_phase6-20260814-131637"
         and status.get("phase_6_new_training_recovery_presentation")
@@ -150,6 +150,10 @@ def verify_active_version(root: Path = PROJECT_ROOT) -> dict:
         == "explicit_in_library_activation_for_independently_qualified_compatible_integrity_verified_policy_only_training_completion_never_sufficient_validation_pending"
         and status.get("phase_6_governing_policy_handoff")
         == "explicit_apply_binds_ready_immutable_policy_unlocks_and_navigates_to_power_system_without_starting_scientific_work_validation_pending"
+        and status.get("phase_6_policy_library_layout")
+        == "full_width_no_internal_horizontal_or_vertical_scrollbar_height_tracks_header_plus_all_current_entries_validation_pending"
+        and status.get("phase_6_governing_policy_layout")
+        == "full_width_expanding_policy_field_status_and_action_with_page_level_scroll_ownership_validation_pending"
         and status.get("phase_6_extension_retained_state")
         == "model_optimizer_numpy_rng_torch_rng_ppo_updates_episode_receipts_device_memory_session_environment_rollout_collector_exact_accounting"
         and status.get("phase_6_extension_count_limit")

@@ -2490,3 +2490,17 @@ Append timestamped entries below this line after each material action, validatio
   starting evaluation, or performing any other scientific work. Source, synthetic unit/GUI/static/
   offscreen contracts, the ignored validator, active status, and ledgers are updated but unexecuted.
   Fresh complete owner-run Phase 6 validation remains pending.
+
+### 2026-08-14 - Full-width dynamic Policy library layout implemented, validation pending
+
+- The CALO Intelligence Policy library no longer receives vertical stretch or owns nested scrolling.
+  Its horizontal and vertical scrollbars are disabled, Policy and Scientific status columns share
+  the available width, and the table recalculates a fixed height equal to its header plus every
+  current visible entry after refresh and panel resize. An empty library occupies only its header.
+- The Policy library and Governing policy groups use expanding horizontal size policies. The
+  governing form now grows every non-fixed field, so the selected policy, wrapped status, and apply
+  action consume the available page width. The existing main preview remains the sole vertical
+  scroll owner when the complete page is taller than the window.
+- No policy discovery, lifecycle, activation, deletion, experiment binding, scientific, training,
+  or evaluation semantics changed. GUI/static/offscreen contracts and the ignored Phase 6
+  validator are updated but not executed; current-source owner validation remains pending.

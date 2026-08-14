@@ -455,11 +455,13 @@ def test_training_parameters_are_available_without_an_existing_plan(qtbot, tmp_p
 def test_completed_training_is_visible_without_automatic_policy_registration(
     qtbot, tmp_path, monkeypatch
 ):
-    from PyQt6.QtWidgets import QMessageBox
+    from PyQt6.QtCore import Qt
+    from PyQt6.QtWidgets import QMessageBox, QSizePolicy
 
     state, window = _window(qtbot, tmp_path, monkeypatch)
     editor = window.context_pane.training
     policy_center = window.pages_by_key["calo_intelligence"]
+    empty_table_height = policy_center.policy_table.height()
     campaign = window.training_model_library.default_directory / "completed-campaign"
     campaign.mkdir(parents=True)
     candidate = campaign / "ensemble.candidate.pt"
@@ -499,6 +501,31 @@ def test_completed_training_is_visible_without_automatic_policy_registration(
         if policy_center.policy_table.item(row, 1).text() == "completed-campaign"
     ]
     assert len(matching_rows) == 1
+    assert policy_center.policy_table.height() > empty_table_height
+    assert policy_center.policy_table.verticalScrollBarPolicy() == (
+        Qt.ScrollBarPolicy.ScrollBarAlwaysOff
+    )
+    assert policy_center.policy_table.horizontalScrollBarPolicy() == (
+        Qt.ScrollBarPolicy.ScrollBarAlwaysOff
+    )
+    expected_table_height = (
+        max(
+            policy_center.policy_table.horizontalHeader().height(),
+            policy_center.policy_table.horizontalHeader().sizeHint().height(),
+        )
+        + sum(
+            policy_center.policy_table.rowHeight(row)
+            for row in range(policy_center.policy_table.rowCount())
+        )
+        + policy_center.policy_table.frameWidth() * 2
+    )
+    assert policy_center.policy_table.height() == expected_table_height
+    assert policy_center.path.sizePolicy().horizontalPolicy() == (
+        QSizePolicy.Policy.Expanding
+    )
+    assert policy_center.policy_controller_group.sizePolicy().horizontalPolicy() == (
+        QSizePolicy.Policy.Expanding
+    )
     policy_center.policy_table.selectRow(matching_rows[0])
     assert policy_center.policy_import_button.text() == "Import trained policy"
     assert policy_center.policy_import_button.isEnabled() is True

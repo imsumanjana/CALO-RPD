@@ -557,6 +557,11 @@ def test_policy_training_process_actions_are_visible_in_the_input_pane():
     assert "Permanently delete completed model files" in intelligence
     assert "Qualification required" in intelligence
     assert "Apply governing policy and continue to Power System" in intelligence
+    assert "def _resize_policy_table_to_entries" in intelligence
+    assert intelligence.count("Qt.ScrollBarPolicy.ScrollBarAlwaysOff") >= 2
+    assert "QFormLayout.FieldGrowthPolicy.AllNonFixedFieldsGrow" in intelligence
+    assert "layout.addWidget(library)" in intelligence
+    assert "layout.addWidget(library, 1)" not in intelligence
     assert 'self._set_workspace("power_system")' in main_window
     assert "_training_context_was_visible" not in main_window
     assert "_update_training_command" not in main_window

@@ -157,10 +157,11 @@ def _checkbox_border_evidence(application, output: Path, theme: str) -> dict:
 
 def validate(output: Path, *, platform: str) -> dict:
     os.environ["QT_QPA_PLATFORM"] = str(platform)
-    from PyQt6.QtCore import QPoint, QSettings
+    from PyQt6.QtCore import QPoint, QSettings, Qt
     from PyQt6.QtWidgets import (
         QApplication,
         QPushButton,
+        QSizePolicy,
         QStackedWidget,
         QTabWidget,
         QToolButton,
@@ -395,6 +396,33 @@ def validate(output: Path, *, platform: str) -> dict:
     if window.context_pane.tabs.count() != 1:
         raise AssertionError("The input pane contains workspace navigation")
     intelligence = window.pages_by_key["calo_intelligence"]
+    if intelligence.policy_table.verticalScrollBarPolicy() != (
+        Qt.ScrollBarPolicy.ScrollBarAlwaysOff
+    ) or intelligence.policy_table.horizontalScrollBarPolicy() != (
+        Qt.ScrollBarPolicy.ScrollBarAlwaysOff
+    ):
+        raise AssertionError("The Policy library retains a nested table scrollbar")
+    expected_table_height = (
+        max(
+            intelligence.policy_table.horizontalHeader().height(),
+            intelligence.policy_table.horizontalHeader().sizeHint().height(),
+        )
+        + sum(
+            intelligence.policy_table.rowHeight(row)
+            for row in range(intelligence.policy_table.rowCount())
+        )
+        + intelligence.policy_table.frameWidth() * 2
+    )
+    if intelligence.policy_table.height() != expected_table_height:
+        raise AssertionError("The Policy library height does not match its visible entries")
+    if intelligence.path.sizePolicy().horizontalPolicy() != QSizePolicy.Policy.Expanding:
+        raise AssertionError("The governing-policy field does not use the full available width")
+    content = intelligence.widget()
+    margins = content.layout().contentsMargins()
+    usable_width = content.width() - margins.left() - margins.right()
+    for group in (intelligence.policy_center_group, intelligence.policy_controller_group):
+        if group.width() < usable_width - 2:
+            raise AssertionError("A CALO Intelligence policy section is not full width")
     if intelligence.policy_activate_button.text() != "Activate for experiments":
         raise AssertionError("The policy library has no explicit experiment-activation action")
     if intelligence.policy_delete_button.text() != "Delete model files":
