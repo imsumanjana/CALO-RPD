@@ -56,6 +56,105 @@ def _save_image(window, path: Path) -> dict:
     }
 
 
+def _checkbox_border_evidence(application, output: Path, theme: str) -> dict:
+    """Render global checkbox states and require a contrasting indicator perimeter."""
+    from PyQt6.QtCore import Qt
+    from PyQt6.QtWidgets import (
+        QCheckBox,
+        QStyle,
+        QStyleOptionButton,
+        QVBoxLayout,
+        QWidget,
+    )
+
+    host = QWidget()
+    host.setWindowTitle(f"{theme.title()} checkbox indicator evidence")
+    layout = QVBoxLayout(host)
+    probes = []
+    for state_name in ("unchecked", "checked", "partial", "focused", "disabled"):
+        checkbox = QCheckBox(state_name.title())
+        checkbox.setTristate(state_name == "partial")
+        if state_name == "checked":
+            checkbox.setChecked(True)
+        elif state_name == "partial":
+            checkbox.setCheckState(Qt.CheckState.PartiallyChecked)
+        elif state_name == "disabled":
+            checkbox.setEnabled(False)
+        layout.addWidget(checkbox)
+        probes.append((state_name, checkbox))
+
+    host.resize(220, host.sizeHint().height())
+    host.show()
+    probes[3][1].setFocus(Qt.FocusReason.OtherFocusReason)
+    application.processEvents()
+    rendered = _save_image(host, output / f"phase6-{theme}-checkboxes.png")
+    # Sample the fully composited host render. QCheckBox has a transparent
+    # background, so grabbing the child alone compares premultiplied pixels
+    # with transparent black instead of the application surface users see.
+    image = host.grab().toImage()
+    state_evidence = {}
+    for state_name, checkbox in probes:
+        option = QStyleOptionButton()
+        option.initFrom(checkbox)
+        if checkbox.checkState() == Qt.CheckState.Checked:
+            option.state |= QStyle.StateFlag.State_On
+        elif checkbox.checkState() == Qt.CheckState.PartiallyChecked:
+            option.state |= QStyle.StateFlag.State_NoChange
+        else:
+            option.state |= QStyle.StateFlag.State_Off
+        indicator = checkbox.style().subElementRect(
+            QStyle.SubElement.SE_CheckBoxIndicator,
+            option,
+            checkbox,
+        )
+        if indicator.width() < 16 or indicator.height() < 16:
+            raise AssertionError(
+                f"{theme} {state_name} checkbox indicator is undersized: {indicator}"
+            )
+        indicator_origin = checkbox.mapTo(host, indicator.topLeft())
+        indicator_left = indicator_origin.x()
+        indicator_top = indicator_origin.y()
+        indicator_right = indicator_left + indicator.width() - 1
+        indicator_bottom = indicator_top + indicator.height() - 1
+        background_x = min(image.width() - 1, indicator_right + 3)
+        background_y = indicator_top + indicator.height() // 2
+        background = image.pixelColor(background_x, background_y)
+        perimeter = []
+        for x in range(indicator_left, indicator_right + 1):
+            perimeter.extend(
+                (
+                    image.pixelColor(x, indicator_top),
+                    image.pixelColor(x, indicator_bottom),
+                )
+            )
+        for y in range(indicator_top, indicator_bottom + 1):
+            perimeter.extend(
+                (
+                    image.pixelColor(indicator_left, y),
+                    image.pixelColor(indicator_right, y),
+                )
+            )
+        maximum_rgb_delta = max(
+            abs(color.red() - background.red())
+            + abs(color.green() - background.green())
+            + abs(color.blue() - background.blue())
+            for color in perimeter
+        )
+        if maximum_rgb_delta < 90:
+            raise AssertionError(
+                f"{theme} {state_name} checkbox has no visible perimeter contrast: "
+                f"RGB delta {maximum_rgb_delta}"
+            )
+        state_evidence[state_name] = {
+            "indicator_width": indicator.width(),
+            "indicator_height": indicator.height(),
+            "maximum_perimeter_rgb_delta": maximum_rgb_delta,
+        }
+    host.close()
+    application.processEvents()
+    return {"render": rendered, "states": state_evidence}
+
+
 def validate(output: Path, *, platform: str) -> dict:
     os.environ["QT_QPA_PLATFORM"] = str(platform)
     from PyQt6.QtCore import QSettings
@@ -138,6 +237,7 @@ def validate(output: Path, *, platform: str) -> dict:
         raise AssertionError("GUI construction performed policy or foreground work")
 
     light = _save_image(window, output / "phase6-light.png")
+    light_checkbox_evidence = _checkbox_border_evidence(application, output, "light")
     panel_renders = []
     for key in PANEL_KEYS:
         window.stack.setCurrentWidget(window.pages_by_key[key])
@@ -167,7 +267,7 @@ def validate(output: Path, *, platform: str) -> dict:
     training_editor = window.context_pane.training
     if training_editor.action_bar.isHidden():
         raise AssertionError("Training action footer is not visible with the training inputs")
-    if training_editor.status.text() != "Ready for validation":
+    if training_editor.status.text() != "Ready for validation · automatic recovery is on":
         raise AssertionError("Training inputs were refreshed before their status control was ready")
     if training_editor.training_action_button.text() != "Check readiness":
         raise AssertionError("Training inputs do not expose the readiness action")
@@ -219,9 +319,18 @@ def validate(output: Path, *, platform: str) -> dict:
     ):
         raise AssertionError("Training information controls are not accessible")
     if training_editor.resume is not window.training_center.resume:
-        raise AssertionError("Visible resume choice is not bound to the training controller")
-    if training_editor.resume.isHidden() or training_editor.resume.isChecked():
-        raise AssertionError("Compatible resume choice must be visible and off by default")
+        raise AssertionError("Exact-resume choice is not bound to the training controller")
+    if training_editor.recovery_stack.currentWidget() is not training_editor.automatic_recovery:
+        raise AssertionError("New training does not present automatic recovery status")
+    if not training_editor.automatic_recovery.isChecked():
+        raise AssertionError("New-training automatic recovery is not visibly on")
+    if training_editor.resume.isChecked():
+        raise AssertionError("New training incorrectly requests exact resume")
+    campaign_source = (
+        REPOSITORY_ROOT / "calo_rpd_studio/algorithms/calo/tsh_calo_training_campaign.py"
+    ).read_text(encoding="utf-8")
+    if "checkpoint_sha256 = session.save_resume(checkpoint_path)" not in campaign_source:
+        raise AssertionError("New training does not retain automatic recovery checkpoints")
     if training_editor.library_picker.itemText(0) != "New training":
         raise AssertionError("The resumable-model picker has no explicit new-training choice")
     if training_editor.add_library_location_button.text() != "Add to path":
@@ -255,6 +364,7 @@ def validate(output: Path, *, platform: str) -> dict:
     window.ribbon.select_category("Policies")
     application.processEvents()
     dark = _save_image(window, output / "phase6-dark.png")
+    dark_checkbox_evidence = _checkbox_border_evidence(application, output, "dark")
     theme_source = application.styleSheet()
     if "QPushButton#PrimaryButton:disabled" not in theme_source:
         raise AssertionError("Disabled primary-button selector is absent from the active theme")
@@ -272,6 +382,10 @@ def validate(output: Path, *, platform: str) -> dict:
             window.activity_center.tabText(index) for index in range(window.activity_center.count())
         ],
         "renders": [light, workspaces, constrained, dark],
+        "checkbox_borders": {
+            "light": light_checkbox_evidence,
+            "dark": dark_checkbox_evidence,
+        },
         "panel_renders": panel_renders,
         "policy_training_executed": False,
         "policy_evaluation_executed": False,

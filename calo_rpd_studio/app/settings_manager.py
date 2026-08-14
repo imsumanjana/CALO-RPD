@@ -12,3 +12,6 @@ class SettingsManager:
 
     def set_value(self, key, value):
         self.settings.setValue(key, value)
+
+    def sync(self):
+        self.settings.sync()

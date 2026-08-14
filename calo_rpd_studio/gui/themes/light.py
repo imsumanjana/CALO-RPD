@@ -261,7 +261,11 @@ QComboBox QAbstractItemView {
 QCheckBox, QRadioButton, QLabel {
     background: transparent;
 }
-QCheckBox::indicator, QRadioButton::indicator {
+QCheckBox::indicator {
+    width: 16px;
+    height: 16px;
+}
+QRadioButton::indicator {
     width: 15px;
     height: 15px;
 }

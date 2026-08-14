@@ -80,6 +80,7 @@ class MainWindow(QMainWindow):
         self.workflow = WorkflowManager(state)
         self._close_when_paused = False
         self._training_exclusive_active = False
+        self.training_model_library = TrainingModelLibrary(self.settings_manager)
 
         self.setWindowTitle("CALO-RPD Studio")
         self.setWindowIcon(application_icon())
@@ -91,7 +92,9 @@ class MainWindow(QMainWindow):
         self.stack.setObjectName("WorkspaceStack")
         self.pages_by_key = {
             "dashboard": DashboardPanel(state),
-            "calo_intelligence": CALOIntelligencePanel(state, experiment_manager),
+            "calo_intelligence": CALOIntelligencePanel(
+                state, experiment_manager, self.training_model_library
+            ),
             "power_system": PowerSystemPanel(state),
             "orpd": ORPDFormulationPanel(state),
             "algorithms": AlgorithmsPanel(state),
@@ -134,9 +137,11 @@ class MainWindow(QMainWindow):
         self.setMenuWidget(self.ribbon)
 
         self.training_launch_model = TrainingLaunchModel(self)
-        self.training_model_library = TrainingModelLibrary(self.settings_manager)
         self.training_center = IndependentTrainingPanel(
             self.state, self.training_launch_model, self
+        )
+        self.training_center.training_completed.connect(
+            self.training_model_library.record_training_output
         )
         self.context_pane = ContextPane(
             self.state,

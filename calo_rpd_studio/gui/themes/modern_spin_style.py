@@ -1,13 +1,14 @@
-"""Theme-aware vector chevrons for Qt spin-box step controls."""
+"""Theme-aware vector details for compact Qt input controls."""
 
 from __future__ import annotations
 
-from PyQt6.QtCore import QPointF, Qt
-from PyQt6.QtGui import QPainter, QPalette, QPen, QPolygonF
+from PyQt6.QtCore import QPointF, QRectF, Qt
+from PyQt6.QtGui import QColor, QPainter, QPalette, QPen, QPolygonF
 from PyQt6.QtWidgets import (
     QAbstractSpinBox,
     QProxyStyle,
     QStyle,
+    QStyleOption,
     QStyleOptionComplex,
     QStyleOptionSpinBox,
     QWidget,
@@ -15,7 +16,7 @@ from PyQt6.QtWidgets import (
 
 
 class ModernSpinBoxStyle(QProxyStyle):
-    """Draw crisp spin arrows instead of low-contrast platform glyphs."""
+    """Draw crisp spin arrows and consistently bounded checkbox indicators."""
 
     _BUTTONS = {
         QStyle.SubControl.SC_SpinBoxUp: (
@@ -27,6 +28,18 @@ class ModernSpinBoxStyle(QProxyStyle):
             QAbstractSpinBox.StepEnabledFlag.StepDownEnabled,
         ),
     }
+
+    def drawPrimitive(
+        self,
+        element: QStyle.PrimitiveElement,
+        option: QStyleOption,
+        painter: QPainter,
+        widget: QWidget | None = None,
+    ) -> None:
+        if element == QStyle.PrimitiveElement.PE_IndicatorCheckBox:
+            self._draw_checkbox_indicator(painter, option)
+            return
+        super().drawPrimitive(element, option, painter, widget)
 
     def drawComplexControl(
         self,
@@ -61,6 +74,96 @@ class ModernSpinBoxStyle(QProxyStyle):
                         & (QStyle.StateFlag.State_MouseOver | QStyle.StateFlag.State_Sunken)
                     ),
                 )
+
+    @staticmethod
+    def _draw_checkbox_indicator(painter: QPainter, option: QStyleOption) -> None:
+        """Paint a visible box and state mark with colors from the active palette."""
+        state = option.state
+        enabled = bool(state & QStyle.StateFlag.State_Enabled)
+        checked = bool(state & QStyle.StateFlag.State_On)
+        partial = bool(state & QStyle.StateFlag.State_NoChange)
+        interactive = bool(
+            state
+            & (
+                QStyle.StateFlag.State_MouseOver
+                | QStyle.StateFlag.State_HasFocus
+                | QStyle.StateFlag.State_Sunken
+            )
+        )
+        group = QPalette.ColorGroup.Active if enabled else QPalette.ColorGroup.Disabled
+        palette = option.palette
+        box_color = palette.color(group, QPalette.ColorRole.Base)
+        border_color = palette.color(group, QPalette.ColorRole.ButtonText)
+        mark_color = palette.color(group, QPalette.ColorRole.HighlightedText)
+
+        if checked or partial:
+            box_color = palette.color(group, QPalette.ColorRole.Highlight)
+        elif state & QStyle.StateFlag.State_Sunken:
+            box_color = palette.color(group, QPalette.ColorRole.Button)
+
+        if enabled and interactive:
+            border_color = palette.color(group, QPalette.ColorRole.Highlight)
+        elif enabled:
+            border_color = QColor(border_color)
+            # Keep the idle outline fully opaque: partial alpha made the
+            # outer antialiased pixels disappear against light surfaces.
+            border_color.setAlpha(255)
+        else:
+            border_color = QColor(border_color)
+            border_color.setAlpha(150)
+
+        box = QRectF(option.rect).adjusted(0.75, 0.75, -0.75, -0.75)
+        border_width = 2.0 if state & QStyle.StateFlag.State_HasFocus else 1.5
+
+        painter.save()
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing, True)
+        painter.setBrush(box_color)
+        painter.setPen(QPen(border_color, border_width))
+        painter.drawRoundedRect(box, 3.0, 3.0)
+
+        if checked:
+            points = QPolygonF(
+                (
+                    QPointF(
+                        box.left() + box.width() * 0.22,
+                        box.top() + box.height() * 0.52,
+                    ),
+                    QPointF(
+                        box.left() + box.width() * 0.43,
+                        box.top() + box.height() * 0.73,
+                    ),
+                    QPointF(
+                        box.left() + box.width() * 0.80,
+                        box.top() + box.height() * 0.30,
+                    ),
+                )
+            )
+            painter.setBrush(Qt.BrushStyle.NoBrush)
+            painter.setPen(
+                QPen(
+                    mark_color,
+                    2.0,
+                    Qt.PenStyle.SolidLine,
+                    Qt.PenCapStyle.RoundCap,
+                    Qt.PenJoinStyle.RoundJoin,
+                )
+            )
+            painter.drawPolyline(points)
+        elif partial:
+            y = box.center().y()
+            painter.setPen(
+                QPen(
+                    mark_color,
+                    2.0,
+                    Qt.PenStyle.SolidLine,
+                    Qt.PenCapStyle.RoundCap,
+                )
+            )
+            painter.drawLine(
+                QPointF(box.left() + box.width() * 0.25, y),
+                QPointF(box.right() - box.width() * 0.25, y),
+            )
+        painter.restore()
 
     @staticmethod
     def _draw_arrowhead(

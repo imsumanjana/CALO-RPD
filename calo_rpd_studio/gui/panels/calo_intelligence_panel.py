@@ -43,11 +43,12 @@ class CALOIntelligencePanel(ScrollablePage):
     stage_completed = pyqtSignal()
     independent_training_requested = pyqtSignal()
 
-    def __init__(self, state, experiment_manager, parent=None) -> None:
+    def __init__(self, state, experiment_manager, model_library=None, parent=None) -> None:
         del experiment_manager
         content = QWidget()
         super().__init__(content, parent)
         self.state = state
+        self.model_library = model_library
         self._policy_rows = []
 
         layout = QVBoxLayout(content)
@@ -137,12 +138,14 @@ class CALOIntelligencePanel(ScrollablePage):
         layout.addStretch(1)
 
         self.state.policy_state_changed.connect(lambda _status: self._update_policy_gate_state())
+        if self.model_library is not None:
+            self.model_library.changed.connect(self.refresh_policy_library)
         self.refresh_policy_library()
 
     def refresh_policy_library(self) -> None:
-        selected_id = getattr(self._selected_policy(), "id", "")
+        selected_key = self._row_key(self._selected_row())
         governing = self.state.governing_policy_status()
-        self._policy_rows = [
+        registered = [
             policy
             for policy in self.state.policy_registry.list(
                 include_archived=self.show_archived_policies.isChecked()
@@ -150,51 +153,107 @@ class CALOIntelligencePanel(ScrollablePage):
             if not policy.checkpoint_path.endswith(".resume.pt")
             and "_lineage" not in str(policy.checkpoint_path)
         ]
+        registered_paths = {
+            str(Path(policy.checkpoint_path).expanduser().resolve()).casefold()
+            for policy in registered
+        }
+        discovered: list[dict] = []
+        if self.model_library is not None:
+            for campaign in self.model_library.completed_policy_candidates():
+                candidate_path = str(campaign.get("policy_candidate", ""))
+                if not candidate_path or candidate_path.casefold() in registered_paths:
+                    continue
+                discovered.append({**campaign, "row_kind": "completed_training"})
+        self._policy_rows = [*registered, *discovered]
         self.policy_table.setRowCount(len(self._policy_rows))
         for row, policy in enumerate(self._policy_rows):
-            scientific_status = policy_record_user_status(policy)
-            if policy.active and governing.ready and governing.policy_id == policy.id:
-                scientific_status = "Ready and selected"
-            if policy.active and not governing.ready:
-                compatibility = "Verification required"
-            else:
-                compatibility = (
-                    "Compatible"
-                    if policy.compatible_with(TSH_CALO_ALGORITHM_ID)
-                    else "Not compatible"
+            if isinstance(policy, dict):
+                values = (
+                    "",
+                    str(policy.get("campaign_id", "Saved policy")),
+                    "—",
+                    "Training complete · import required",
+                    "Saved candidate",
                 )
-            values = (
-                "Active" if policy.active else "",
-                policy.name,
-                policy.grade,
-                scientific_status,
-                compatibility,
-            )
+            else:
+                scientific_status = policy_record_user_status(policy)
+                if policy.active and governing.ready and governing.policy_id == policy.id:
+                    scientific_status = "Ready and selected"
+                if policy.active and not governing.ready:
+                    compatibility = "Verification required"
+                else:
+                    compatibility = (
+                        "Compatible"
+                        if policy.compatible_with(TSH_CALO_ALGORITHM_ID)
+                        else "Not compatible"
+                    )
+                values = (
+                    "Active" if policy.active else "",
+                    policy.name,
+                    policy.grade,
+                    scientific_status,
+                    compatibility,
+                )
             for column, value in enumerate(values):
                 self.policy_table.setItem(row, column, QTableWidgetItem(str(value)))
-        if selected_id:
-            self._select_policy_id(selected_id)
+        if selected_key:
+            self._select_row_key(selected_key)
         elif self._policy_rows:
             self.policy_table.selectRow(0)
         self._update_policy_gate_state()
         self.state.notify_policy_state_changed()
 
-    def _selected_policy(self):
+    def _selected_row(self):
         row = self.policy_table.currentRow()
         return self._policy_rows[row] if 0 <= row < len(self._policy_rows) else None
 
+    def _selected_policy(self):
+        selected = self._selected_row()
+        return None if isinstance(selected, dict) else selected
+
+    def _selected_completed_training(self) -> dict | None:
+        selected = self._selected_row()
+        return selected if isinstance(selected, dict) else None
+
+    @staticmethod
+    def _row_key(row) -> str:
+        if isinstance(row, dict):
+            return f"training:{row.get('directory', '')}"
+        return f"policy:{getattr(row, 'id', '')}" if row is not None else ""
+
+    def _select_row_key(self, row_key: str) -> None:
+        for row, item in enumerate(self._policy_rows):
+            if self._row_key(item) == row_key:
+                self.policy_table.selectRow(row)
+                return
+
     def _select_policy_id(self, policy_id: str) -> None:
         for row, policy in enumerate(self._policy_rows):
-            if policy.id == policy_id:
+            if getattr(policy, "id", "") == policy_id:
                 self.policy_table.selectRow(row)
                 return
 
     def _policy_selection_changed(self) -> None:
+        completed_training = self._selected_completed_training()
+        if completed_training is not None:
+            self.policy_import_button.setText("Import trained policy")
+            self.policy_import_button.setEnabled(
+                bool(completed_training.get("policy_candidate", ""))
+            )
+            self.policy_activate_button.setEnabled(False)
+            self.policy_archive_button.setEnabled(False)
+            self.policy_archive_button.setText("Archive")
+            self.policy_delete_button.setEnabled(False)
+            self.path.setText(str(completed_training.get("campaign_id", "")))
+            return
         policy = self._selected_policy()
+        self.policy_import_button.setText("Import policy")
+        self.policy_import_button.setEnabled(True)
         self.policy_activate_button.setEnabled(
             bool(policy and policy_record_user_status(policy) == "Eligible to select")
         )
         self.policy_archive_button.setEnabled(policy is not None)
+        self.policy_delete_button.setEnabled(policy is not None)
         self.policy_archive_button.setText(
             "Restore archived" if policy is not None and policy.archived else "Archive"
         )
@@ -216,7 +275,7 @@ class CALOIntelligencePanel(ScrollablePage):
                 "No governing TSH-CALO policy is active. Rule-only CALO remains available."
             )
             self.apply_policy_button.setEnabled(False)
-            if self._selected_policy() is None:
+            if self._selected_row() is None:
                 self.path.clear()
             return
         self.policy_gate_status.setText(
@@ -226,13 +285,19 @@ class CALOIntelligencePanel(ScrollablePage):
         self.apply_policy_button.setEnabled(True)
 
     def import_policy(self) -> None:
-        path, _filter = QFileDialog.getOpenFileName(
-            self, "Import policy", "", "Policy checkpoint (*.pt)"
-        )
-        if not path:
-            return
+        completed_training = self._selected_completed_training()
+        if completed_training is not None:
+            path = str(completed_training.get("policy_candidate", ""))
+            policy_name = str(completed_training.get("campaign_id", "")) or None
+        else:
+            path, _filter = QFileDialog.getOpenFileName(
+                self, "Import policy", "", "Policy checkpoint (*.pt)"
+            )
+            policy_name = None
+            if not path:
+                return
         try:
-            policy = self.state.policy_registry.register(path)
+            policy = self.state.policy_registry.register(path, name=policy_name)
         except Exception as exc:
             show_error(
                 self,

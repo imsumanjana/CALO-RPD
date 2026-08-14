@@ -2352,3 +2352,73 @@ Append timestamped entries below this line after each material action, validatio
   no Docker, policy training/evaluation/qualification/registration/activation/deletion,
   protected-case, publication, CUDA-campaign, or release operation, and it does not infer human
   screen-reader, usability, or scientist acceptance.
+
+### 2026-08-14 - Completed training discovery and explicit policy import corrected
+
+- The saved-training selector previously scanned only `running` and `interrupted` campaign states,
+  so a valid `completed` campaign disappeared from the selector. The Policy library independently
+  listed only registered records, while successful training correctly avoided automatic
+  registration; together those rules made a completed output appear lost.
+- `TrainingModelLibrary` now discovers completed campaigns, verifies the manifest-bound ensemble
+  file by SHA-256 using a cached streaming read, scans registered roots to a bounded depth, and
+  synchronizes newly added locations. Adding a location or completing a run refreshes the selector
+  and Policy library; the explicitly added location selects its newest saved campaign.
+- Completed candidates appear in the Policy library as `Training complete · import required`.
+  The existing single Import action registers the selected candidate only after the user clicks it.
+  Discovery never registers, qualifies, selects, activates, binds, resumes, or retrains a completed
+  candidate.
+- Focused Ruff/format checks, 18 command/native contracts, and 25 offscreen GUI contracts passed.
+  No policy training or scientific lifecycle operation executed. The ignored complete Phase 6
+  validator is updated for a later full follow-up run.
+
+### 2026-08-14 - Global checkbox borders restored in both themes
+
+- Native inspection showed checkbox state marks without a visible indicator boundary, including the
+  Training cases and compatible-resume controls. Both themes had constrained every indicator to
+  `15px` but supplied no application-owned boundary.
+- The application-wide Qt proxy style now paints every `QCheckBox` indicator with a palette-aware
+  rounded border and surface, plus vector checked and partial marks. Hover, keyboard focus, pressed,
+  and disabled states remain visibly distinct in light and dark themes; radio-button rendering is
+  unchanged. Both theme contracts now reserve a consistent `16px` checkbox indicator.
+- Focused source contracts and the ignored Phase 6 renderer/validator now require global styling and
+  retained light/dark renders of unchecked, checked, partial, focused, and disabled states with a
+  minimum perimeter-contrast check. No GUI, test, validator, policy, scientific, protected-case,
+  publication, or release workflow was executed by the development agent. A fresh complete Phase 6
+  follow-up validator run remains pending.
+
+### 2026-08-14 - New-training recovery and exact resume separated in the GUI
+
+- User inspection found the exact-resume checkbox disabled while `New training` was selected and
+  reasonably interpreted that as meaning a fresh campaign could not be resumed. The backend already
+  saves a verified recovery point after every safely committed training window; `--resume` is only
+  legal for an existing compatible interrupted campaign and would make a fresh output fail.
+- The Recovery row now shows a checked, non-configurable `Automatic recovery for new training`
+  status for a fresh campaign. Selecting a discovered `running` or `interrupted` campaign replaces
+  that status with the interactive `Resume selected interrupted training` choice; a completed
+  campaign shows that resume is not applicable. Status and help text explain the same distinction.
+- No checkpoint frequency, training equation, evaluation accounting, integrity guard, or lifecycle
+  authority changed. Focused source/GUI/offscreen contracts and the ignored Phase 6 validator are
+  updated but not executed. No training, policy, scientific, protected-case, publication, or
+  release workflow was performed; complete current-source Phase 6 follow-up validation is pending.
+
+### 2026-08-14 - Checkbox and new-training recovery follow-up validation passed
+
+- With explicit owner authorization, the initial sandboxed infrastructure run
+  `phase6-20260814-130518` could not execute repository Python. Executable attempts then retained
+  the first failure at format (`130547`), a whitespace-sensitive unit source assertion (`130631`),
+  and the light unchecked-border render threshold (`130806`, `131047`, and `131435`). Ruff formatted
+  exactly the five reported files; the brittle assertion now checks stable validation tokens.
+- The checkbox border is fully opaque in the idle enabled state. Retained screenshot and pixel
+  inspection also proved the renderer had measured a transparent child grab against transparent
+  black rather than the displayed application surface. The gate now samples mapped indicator
+  pixels from the fully composited host render; it still requires measurable borders for unchecked,
+  checked, partial, focused, and disabled states in light and dark themes.
+- Authorized run `phase6-20260814-131637` passed the complete command `01` through `17` sequence:
+  74 unit tests, 25 focused GUI tests, 21 GUI regression tests, 9 empty-policy/training-navigation
+  integration tests, composited light/dark checkbox renders, fresh wheel and sdist build, both
+  distribution verifiers, evidence hashing, and nonignored-source stability.
+- This closes the current automated Phase 6 GUI/native/packaging follow-up gate for completed-output
+  discovery, global checkbox borders, and truthful fresh-training automatic recovery presentation.
+  The validator executed no Docker, CUDA campaign, training, policy lifecycle, protected-case,
+  publication, or release workflow and does not infer human screen-reader, usability, or scientist
+  acceptance.

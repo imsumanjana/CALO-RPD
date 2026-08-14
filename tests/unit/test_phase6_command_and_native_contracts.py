@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import tomllib
 from pathlib import Path
@@ -199,6 +200,21 @@ def test_training_model_library_scans_default_and_explicit_locations(tmp_path):
     (completed / "training_status.json").write_text(
         json.dumps({"state": "completed"}), encoding="utf-8"
     )
+    completed_candidate = completed / "ensemble.candidate.pt"
+    completed_candidate.write_bytes(b"completed-policy-candidate")
+    candidate_sha256 = hashlib.sha256(completed_candidate.read_bytes()).hexdigest()
+    (completed / "training_manifest.json").write_text(
+        json.dumps(
+            {
+                "state": "completed_unqualified",
+                "ensemble_candidate": {
+                    "path": completed_candidate.name,
+                    "sha256": candidate_sha256,
+                },
+            }
+        ),
+        encoding="utf-8",
+    )
 
     library = TrainingModelLibrary(settings, default_directory=default)
     assert default.is_dir()
@@ -215,6 +231,12 @@ def test_training_model_library_scans_default_and_explicit_locations(tmp_path):
             "plan": str((resumable / "training_plan.json").resolve()),
         },
     )
+    saved = {item["campaign_id"]: item for item in library.saved_campaigns()}
+    assert set(saved) == {"campaign-one", "campaign-complete"}
+    assert saved["campaign-one"]["resumable"] is True
+    assert saved["campaign-complete"]["resumable"] is False
+    assert saved["campaign-complete"]["policy_candidate"] == str(completed_candidate.resolve())
+    assert library.completed_policy_candidates() == (saved["campaign-complete"],)
 
 
 def test_phase6_shell_contract_keeps_inputs_and_ribbon_permanent():
@@ -298,6 +320,37 @@ def test_spin_controls_use_modern_vector_arrows_and_themed_interaction_states():
         assert "down-button:disabled" in theme
 
 
+def test_global_checkbox_style_draws_visible_borders_and_complete_states():
+    style_source = (ROOT / "calo_rpd_studio/gui/themes/modern_spin_style.py").read_text(
+        encoding="utf-8"
+    )
+    assert "PE_IndicatorCheckBox" in style_source
+    assert "_draw_checkbox_indicator" in style_source
+    assert "drawRoundedRect" in style_source
+    assert "State_On" in style_source
+    assert "State_NoChange" in style_source
+    assert "State_MouseOver" in style_source
+    assert "State_HasFocus" in style_source
+    assert "State_Sunken" in style_source
+    assert "ColorGroup.Disabled" in style_source
+    for relative in (
+        "calo_rpd_studio/gui/themes/light.py",
+        "calo_rpd_studio/gui/themes/dark.py",
+    ):
+        theme = (ROOT / relative).read_text(encoding="utf-8")
+        checkbox_indicator = theme.split("QCheckBox::indicator {", 1)[1].split("}", 1)[0]
+        assert "width: 16px" in checkbox_indicator
+        assert "height: 16px" in checkbox_indicator
+    render_source = (ROOT / "calo_rpd_studio/scripts/validate_phase6_gui_contracts.py").read_text(
+        encoding="utf-8"
+    )
+    assert "_checkbox_border_evidence" in render_source
+    assert '"unchecked", "checked", "partial", "focused", "disabled"' in render_source
+    assert "if maximum_rgb_delta < 90:" in render_source
+    assert '"maximum_perimeter_rgb_delta": maximum_rgb_delta' in render_source
+    assert '"checkbox_borders"' in render_source
+
+
 def test_ribbon_category_buttons_use_an_underline_without_native_tab_painting():
     ribbon = (ROOT / "calo_rpd_studio/gui/widgets/ribbon_bar.py").read_text(encoding="utf-8")
     assert "QTabBar" not in ribbon
@@ -377,7 +430,12 @@ def test_policy_training_process_actions_are_visible_in_the_input_pane():
     assert "self.training_controller.check_readiness()" in context
     assert "self.training_controller.start_training()" in context
     assert "self.resume = self.training_controller.resume" in context
-    assert 'self.resume.setText("Resume compatible training")' in context
+    assert 'self.resume.setText("Resume selected interrupted training")' in context
+    assert 'self.automatic_recovery = QCheckBox("Automatic recovery for new training")' in context
+    assert "self.automatic_recovery.setChecked(True)" in context
+    assert "WA_TransparentForMouseEvents" in context
+    assert "self.recovery_stack.setCurrentWidget(self.automatic_recovery)" in context
+    assert "self.recovery_stack.setCurrentWidget(self.resume)" in context
     assert "output_path.exists() and not self.resume.isChecked()" in context
     controller = (ROOT / "calo_rpd_studio/gui/panels/independent_training_panel.py").read_text(
         encoding="utf-8"
@@ -389,6 +447,12 @@ def test_policy_training_process_actions_are_visible_in_the_input_pane():
     assert '"Select interrupted training directory"' in context
     assert "while candidate.exists():" in context
     assert "TrainingModelLibrary" in controller
+    campaign = (ROOT / "calo_rpd_studio/algorithms/calo/tsh_calo_training_campaign.py").read_text(
+        encoding="utf-8"
+    )
+    assert "checkpoint_sha256 = session.save_resume(checkpoint_path)" in campaign
+    assert 'status["session_checkpoint"] = {' in campaign
+    assert 'status["state"] = "interrupted"' in campaign
     assert 'self.activity_message.emit("DEBUG", cleaned)' in controller
     assert "requires a clean non-ignored source tree" in controller
     assert "uncommitted changes" in controller
@@ -407,7 +471,12 @@ def test_policy_training_process_actions_are_visible_in_the_input_pane():
     assert "finally:\n        guard.close()" in training_core
     assert 'self.add_library_location_button = QPushButton("Add to path")' in context
     assert 'self.library_picker.addItem("New training", "")' in context
-    assert "self.model.load_plan(preserve_identity=self.resume.isChecked())" in context
+    assert "self.model.load_plan(preserve_identity=preserve_identity)" in context
+    assert "self._load_plan(preserve_identity=True)" in context
+    assert "self.model_library.saved_campaigns()" in context
+    assert "Import trained policy" in (
+        ROOT / "calo_rpd_studio/gui/panels/calo_intelligence_panel.py"
+    ).read_text(encoding="utf-8")
     assert "_training_context_was_visible" not in main_window
     assert "_update_training_command" not in main_window
     assert "self.context_pane.activate_training()" not in main_window

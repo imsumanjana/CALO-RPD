@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import importlib.util
 import faulthandler
+import hashlib
 import json
 import os
 import sys
@@ -427,6 +428,8 @@ def test_training_inputs_load_active_plan_and_edits_change_launch_fingerprint(
 
 
 def test_training_parameters_are_available_without_an_existing_plan(qtbot, tmp_path, monkeypatch):
+    from PyQt6.QtCore import Qt
+
     _state, window = _window(qtbot, tmp_path, monkeypatch)
     editor = window.context_pane.training
 
@@ -440,6 +443,65 @@ def test_training_parameters_are_available_without_an_existing_plan(qtbot, tmp_p
         window.training_model_library.default_directory
     )
     assert editor.add_library_location_button.text() == "Add to path"
+    assert editor.recovery_stack.currentWidget() is editor.automatic_recovery
+    assert editor.automatic_recovery.isChecked() is True
+    assert editor.automatic_recovery.isEnabled() is True
+    assert editor.automatic_recovery.focusPolicy() == Qt.FocusPolicy.NoFocus
+    assert editor.automatic_recovery.testAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents)
+    assert editor.resume.isChecked() is False
+    assert "automatic recovery is on" in editor.status.text().lower()
+
+
+def test_completed_training_is_visible_without_automatic_policy_registration(
+    qtbot, tmp_path, monkeypatch
+):
+    state, window = _window(qtbot, tmp_path, monkeypatch)
+    editor = window.context_pane.training
+    policy_center = window.pages_by_key["calo_intelligence"]
+    campaign = window.training_model_library.default_directory / "completed-campaign"
+    campaign.mkdir(parents=True)
+    candidate = campaign / "ensemble.candidate.pt"
+    candidate.write_bytes(b"saved-completed-policy")
+    candidate_sha256 = hashlib.sha256(candidate.read_bytes()).hexdigest()
+    plan_payload = json.loads(_training_plan(tmp_path).read_text(encoding="utf-8"))
+    plan_payload["campaign_id"] = "completed-campaign"
+    (campaign / "training_plan.json").write_text(json.dumps(plan_payload), encoding="utf-8")
+    (campaign / "training_status.json").write_text(
+        json.dumps({"state": "completed"}), encoding="utf-8"
+    )
+    (campaign / "training_manifest.json").write_text(
+        json.dumps(
+            {
+                "state": "completed_unqualified",
+                "ensemble_candidate": {
+                    "path": candidate.name,
+                    "sha256": candidate_sha256,
+                },
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    window.training_model_library.changed.emit()
+    editor.refresh_model_library(window.training_model_library.default_directory)
+
+    assert editor.library_picker.currentData()["campaign_id"] == "completed-campaign"
+    assert "Training complete" in editor.library_picker.currentText()
+    assert editor.resume.isChecked() is False
+    assert editor.recovery_stack.currentWidget() is editor.completed_recovery
+    assert editor.training_action_button.isEnabled() is False
+    assert "available in the Policy library" in editor.status.text()
+    matching_rows = [
+        row
+        for row in range(policy_center.policy_table.rowCount())
+        if policy_center.policy_table.item(row, 1).text() == "completed-campaign"
+    ]
+    assert len(matching_rows) == 1
+    policy_center.policy_table.selectRow(matching_rows[0])
+    assert policy_center.policy_import_button.text() == "Import trained policy"
+    assert policy_center.policy_import_button.isEnabled() is True
+    assert policy_center.policy_activate_button.isEnabled() is False
+    assert state.policy_registry.list(include_archived=True) == []
 
 
 def test_every_training_input_has_accessible_directional_information(qtbot, tmp_path, monkeypatch):
@@ -512,7 +574,7 @@ def test_every_training_input_has_accessible_directional_information(qtbot, tmp_
     assert "20 to 64" in editor.info_buttons["population"].accessibleDescription()
     assert "0.0001 to 0.001" in editor.info_buttons["learning_rate"].accessibleDescription()
     assert "case118 and case300" in editor.info_buttons["cases"].accessibleDescription()
-    assert "off for every new training run" in editor.info_buttons["resume"].accessibleDescription()
+    assert "automatic recovery stays on" in editor.info_buttons["resume"].accessibleDescription()
 
 
 def test_saved_training_picker_resumes_in_its_original_registered_directory(
@@ -539,6 +601,8 @@ def test_saved_training_picker_resumes_in_its_original_registered_directory(
 
     assert editor.resume.isHidden() is False
     assert editor.resume.isChecked() is True
+    assert editor.resume.isEnabled() is True
+    assert editor.recovery_stack.currentWidget() is editor.resume
     assert editor.fields["output"].text() == str(campaign.resolve())
     assert editor.fields["plan"].text() == str((campaign / "training_plan.json").resolve())
     assert editor.model.plan_payload is not None
@@ -599,7 +663,7 @@ def test_memory_readiness_failure_is_explained_before_training_starts(qtbot, tmp
     assert panel.start_button.isEnabled() is False
 
 
-def test_existing_training_output_requires_explicit_visible_resume_choice(
+def test_new_training_rejects_existing_output_without_conflating_recovery_and_resume(
     qtbot, tmp_path, monkeypatch
 ):
     _state, window = _window(qtbot, tmp_path, monkeypatch)
@@ -613,15 +677,11 @@ def test_existing_training_output_requires_explicit_visible_resume_choice(
     editor.refresh()
     assert editor.resume is window.training_center.resume
     assert editor.resume.isChecked() is False
-    assert editor.resume.isHidden() is False
+    assert editor.recovery_stack.currentWidget() is editor.automatic_recovery
+    assert editor.automatic_recovery.isChecked() is True
     assert editor.training_action_button.text() == "Start training"
     assert editor.training_action_button.isEnabled() is False
     assert "already exists" in editor.status.text().lower()
-
-    editor.resume.setChecked(True)
-    assert window.training_center._validated_fingerprint == ""
-    assert editor.training_action_button.text() == "Check readiness"
-    assert editor.training_action_button.isEnabled() is True
 
 
 def test_training_case_picker_selects_all_eligible_and_locks_protected_holdouts(

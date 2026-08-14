@@ -59,9 +59,10 @@ _TRAINING_INPUT_HELP = {
         "the result is not selected for experiments automatically."
     ),
     "resume": (
-        "Use an existing interrupted training directory only when continuing that exact run. "
-        "Its saved plan, status, campaign state, checkpoint identity, and saved-file integrity "
-        "must all pass compatibility checks before any continuation."
+        "New training saves verified recovery points automatically after each safely completed "
+        "training window. Continue an existing interrupted directory only by selecting that "
+        "saved run; its settings, state, recovery point, and saved-file integrity must pass "
+        "compatibility checks."
     ),
     "campaign_id": (
         "Unique training-run identity used in saved plans and run records. Changing "
@@ -150,8 +151,8 @@ _TRAINING_INPUT_SUGGESTIONS = {
         "from the same checked campaign."
     ),
     "resume": (
-        "Suggested choice: off for every new training run; on only for an existing interrupted "
-        "directory from the exact same campaign. This categorical choice has no numeric range."
+        "Suggested choice: automatic recovery stays on for new training. Exact resume is on only "
+        "for a selected compatible interrupted run. These fixed modes have no numeric range."
     ),
     "campaign_id": (
         "Suggested format: a short unique identifier with project, design, and run date; identity "
@@ -514,14 +515,36 @@ class TrainingPathEditor(QWidget):
             self.path_rows.append(row)
             campaign_form.addRow(self._info_label(key, label), row)
         self.resume = self.training_controller.resume
-        self.resume.setParent(campaign_group)
-        self.resume.setText("Resume compatible training")
+        self.resume.setText("Resume selected interrupted training")
         self.resume.setToolTip(
-            "Continue only an existing interrupted directory whose saved plan, status, and "
-            "checkpoint pass exact compatibility checks. Leave off for new training."
+            "Continue only the selected interrupted training directory after its saved settings, "
+            "state, recovery point, and saved-file integrity pass compatibility checks."
         )
         self.resume.toggled.connect(lambda _checked: self.refresh())
-        campaign_form.addRow(self._info_label("resume", "Existing output"), self.resume)
+        self.automatic_recovery = QCheckBox("Automatic recovery for new training")
+        self.automatic_recovery.setChecked(True)
+        self.automatic_recovery.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+        self.automatic_recovery.setAttribute(
+            Qt.WidgetAttribute.WA_TransparentForMouseEvents,
+            True,
+        )
+        self.automatic_recovery.setAccessibleName("Automatic training recovery status")
+        self.automatic_recovery.setAccessibleDescription(
+            "Always on for new training. Verified recovery points are saved after each safely "
+            "completed training window; this status is not a configurable input."
+        )
+        self.automatic_recovery.setToolTip(
+            "New training saves verified recovery points automatically after each safely "
+            "completed training window. Select an interrupted run from Saved training to "
+            "continue it later."
+        )
+        self.completed_recovery = QLabel("Training complete · resume is not applicable")
+        self.completed_recovery.setObjectName("ContextValue")
+        self.recovery_stack = QStackedWidget()
+        self.recovery_stack.addWidget(self.automatic_recovery)
+        self.recovery_stack.addWidget(self.resume)
+        self.recovery_stack.addWidget(self.completed_recovery)
+        campaign_form.addRow(self._info_label("resume", "Recovery"), self.recovery_stack)
         self.load_plan_button = QPushButton("Import settings")
         self.load_plan_button.clicked.connect(self._load_plan)
         campaign_form.addRow("", self.load_plan_button)
@@ -638,6 +661,7 @@ class TrainingPathEditor(QWidget):
         )
         self._loading_plan = False
         self._new_plan_mode = True
+        self._selected_saved_state = ""
         self.campaign_id.setText(f"tsh-calo-{uuid.uuid4().hex[:12]}")
         self._set_selected_cases(("case30", "case57"))
         self.refresh_model_library()
@@ -717,6 +741,8 @@ class TrainingPathEditor(QWidget):
         layout.addStretch(1)
         self.model.changed.connect(lambda _values: self.refresh())
         self.training_controller.activity_message.connect(self._training_activity)
+        self.training_controller.training_completed.connect(self.refresh_model_library)
+        self.model_library.changed.connect(self.refresh_model_library)
         # Initial selection updates the model and refreshes this editor. Keep it after the
         # status/action widgets exist because refresh() writes to both of them.
         self._select_new_training()
@@ -834,15 +860,21 @@ class TrainingPathEditor(QWidget):
         if selected:
             self.fields[key].setText(selected)
 
-    def refresh_model_library(self) -> None:
+    def refresh_model_library(self, preferred_root: str | Path | None = None) -> None:
         selected = self.library_picker.currentData()
         current = selected.get("directory", "") if isinstance(selected, dict) else ""
+        campaigns = self.model_library.saved_campaigns()
         self.library_picker.blockSignals(True)
         try:
             self.library_picker.clear()
             self.library_picker.addItem("New training", "")
-            for campaign in self.model_library.resumable_campaigns():
-                label = f"{campaign['campaign_id']}  ·  {campaign['state'].title()}"
+            for campaign in campaigns:
+                state_label = (
+                    "Training complete"
+                    if campaign["state"] == "completed"
+                    else campaign["state"].title()
+                )
+                label = f"{campaign['campaign_id']}  ·  {state_label}"
                 self.library_picker.addItem(label, campaign)
             selected_index = 0
             for index in range(1, self.library_picker.count()):
@@ -850,9 +882,24 @@ class TrainingPathEditor(QWidget):
                 if isinstance(record, dict) and record.get("directory") == current:
                     selected_index = index
                     break
+            if preferred_root and selected_index == 0:
+                preferred = Path(preferred_root).expanduser().resolve()
+                for index in range(1, self.library_picker.count()):
+                    record = self.library_picker.itemData(index)
+                    if not isinstance(record, dict):
+                        continue
+                    directory = Path(str(record.get("directory", ""))).expanduser().resolve()
+                    if directory == preferred or preferred in directory.parents:
+                        selected_index = index
+                        break
             self.library_picker.setCurrentIndex(selected_index)
         finally:
             self.library_picker.blockSignals(False)
+        if selected_index > 0 and (
+            not isinstance(selected, dict)
+            or selected.get("directory") != self.library_picker.currentData().get("directory", "")
+        ):
+            self._library_selection_changed(selected_index)
 
     def _add_library_location(self) -> None:
         selected = QFileDialog.getExistingDirectory(
@@ -863,7 +910,7 @@ class TrainingPathEditor(QWidget):
         if not selected:
             return
         try:
-            self.model_library.add_scan_location(selected)
+            location = self.model_library.add_scan_location(selected)
         except (OSError, RuntimeError, ValueError) as exc:
             show_warning(
                 self,
@@ -873,15 +920,16 @@ class TrainingPathEditor(QWidget):
                 source="training model library",
             )
             return
-        self.refresh_model_library()
+        self.refresh_model_library(location)
 
     def _library_selection_changed(self, _index: int = -1) -> None:
         record = self.library_picker.currentData()
         if isinstance(record, dict) and record.get("directory"):
-            self.resume.setChecked(True)
+            self._selected_saved_state = str(record.get("state", ""))
+            self.resume.setChecked(bool(record.get("resumable", False)))
             self.fields["plan"].setText(str(record["plan"]))
             self.fields["output"].setText(str(record["directory"]))
-            self._load_plan()
+            self._load_plan(preserve_identity=True)
             if self.model.plan_payload is None:
                 self.resume.setChecked(False)
                 show_warning(
@@ -896,6 +944,7 @@ class TrainingPathEditor(QWidget):
         self._select_new_training()
 
     def _select_new_training(self) -> None:
+        self._selected_saved_state = ""
         self.resume.setChecked(False)
         self.fields["plan"].clear()
         self.model.clear_loaded_plan()
@@ -921,8 +970,10 @@ class TrainingPathEditor(QWidget):
             suffix += 1
         return str(candidate)
 
-    def _load_plan(self) -> None:
-        self.model.load_plan(preserve_identity=self.resume.isChecked())
+    def _load_plan(self, *, preserve_identity: bool | None = None) -> None:
+        if preserve_identity is None:
+            preserve_identity = self.resume.isChecked()
+        self.model.load_plan(preserve_identity=preserve_identity)
         self._load_plan_controls()
         if self.model.plan_payload is not None:
             self._new_plan_mode = False
@@ -1001,24 +1052,57 @@ class TrainingPathEditor(QWidget):
     def refresh(self) -> None:
         controller = self.training_controller
         idle = controller.process is None
+        saved_locked = bool(self._selected_saved_state)
+        if self._selected_saved_state in self.model_library.RESUMABLE_STATES:
+            self.recovery_stack.setCurrentWidget(self.resume)
+        elif self._selected_saved_state == "completed":
+            self.recovery_stack.setCurrentWidget(self.completed_recovery)
+        else:
+            self.recovery_stack.setCurrentWidget(self.automatic_recovery)
         self.library_picker.setEnabled(idle)
         self.add_library_location_button.setEnabled(idle)
         self.refresh_library_button.setEnabled(idle)
         for row in self.path_rows:
-            row.setEnabled(idle)
-        self.resume.setEnabled(idle and bool(self.model.values.get("output")))
+            row.setEnabled(idle and not saved_locked)
+        self.resume.setEnabled(
+            idle
+            and self._selected_saved_state in self.model_library.RESUMABLE_STATES
+            and bool(self.model.values.get("output"))
+        )
         self.load_plan_button.setEnabled(
-            idle and not self.resume.isChecked() and bool(self.model.values.get("plan"))
+            idle
+            and not saved_locked
+            and not self.resume.isChecked()
+            and bool(self.model.values.get("plan"))
         )
         for control in self._plan_controls:
             control.setEnabled(
                 idle
+                and not saved_locked
                 and not self.resume.isChecked()
                 and not bool(control.property("protectedHoldout"))
             )
         if controller.process is not None:
             self.status.setText(controller.status.text())
             self._set_primary_action("Training active", controller.status.text(), False)
+            return
+        if self._selected_saved_state == "completed":
+            record = self.library_picker.currentData()
+            candidate_error = (
+                str(record.get("candidate_error", "")) if isinstance(record, dict) else ""
+            )
+            if candidate_error:
+                self.status.setText(candidate_error)
+                self._set_primary_action("Training complete", candidate_error, False)
+            else:
+                self.status.setText(
+                    "Training complete · the saved candidate is available in the Policy library"
+                )
+                self._set_primary_action(
+                    "Training complete",
+                    "Use the Policy library's single Import action to add this saved candidate.",
+                    False,
+                )
             return
         missing = self.model.missing(include_output=False)
         if missing:
@@ -1045,20 +1129,29 @@ class TrainingPathEditor(QWidget):
             )
             return
         if ready and output_path.exists() and not self.resume.isChecked():
-            self.status.setText("Output already exists · choose a new directory or enable resume")
+            self.status.setText(
+                "Output already exists · choose a new directory or select the interrupted run "
+                "from Saved training"
+            )
             self._set_primary_action(
                 "Start training",
-                "Choose a new output directory or enable compatible resume.",
+                "Choose a new output directory or select the interrupted run from Saved training.",
                 False,
             )
             return
         if ready:
-            self.status.setText("Ready to start")
+            self.status.setText(
+                "Ready to start" if saved_locked else "Ready to start · automatic recovery is on"
+            )
             self._set_primary_action(
                 "Start training", "Start the checked new-policy training run.", True
             )
             return
-        self.status.setText("Ready for validation")
+        self.status.setText(
+            "Ready for validation"
+            if saved_locked
+            else "Ready for validation · automatic recovery is on"
+        )
         self._set_primary_action(
             "Check readiness",
             "Validate the selected training inputs without starting training.",
@@ -1074,6 +1167,9 @@ class TrainingPathEditor(QWidget):
 
     def _run_primary_action(self) -> None:
         if self.training_controller.process is not None:
+            return
+        if self._selected_saved_state == "completed":
+            self.refresh()
             return
         missing = self.model.missing(include_output=False)
         if missing:

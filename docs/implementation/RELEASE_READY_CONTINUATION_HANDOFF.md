@@ -1392,3 +1392,34 @@ scientific/hardware qualification—not as a final release.
   stability. Retained evidence is in `validation/logs/phase6-20260814-004927`. This is automated
   Phase 6 GUI/native/packaging evidence only, not policy/scientific qualification, human
   acceptance, or release authorization.
+- A later GUI follow-up corrects completed-output discovery. Saved-training scans now include valid
+  completed campaigns and bounded nested folders, explicit scan paths are synchronized, and a
+  newly completed output refreshes both the selector and Policy library. The latter shows the
+  candidate as requiring import; the existing single Import action remains explicit and no
+  registration, qualification, selection, activation, binding, resume, or retraining occurs during
+  discovery. Focused Ruff/format, 18 command/native, and 25 GUI contracts pass. The updated ignored
+  Phase 6 validator has not yet been run end to end against this follow-up source.
+- The latest visual follow-up restores indicator boundaries for every checkbox through the global
+  Qt proxy style. Light and dark palettes now provide a rounded box, checked/partial vector mark,
+  and distinct hover, focus, pressed, and disabled states; the two theme styles reserve a consistent
+  `16px` indicator. Radio buttons and all scientific/policy behavior are unchanged. Focused source
+  and offscreen state-render contracts plus the ignored validator are updated but not executed; a
+  complete current-source Phase 6 follow-up run remains pending and no human acceptance is inferred.
+- The Recovery row now distinguishes automatic recoverability from exact resume. New training shows
+  a checked, non-configurable automatic-recovery status because the existing runner already saves a
+  verified recovery point after each safely committed training window. Only a selected compatible
+  `running` or `interrupted` campaign exposes the interactive exact-resume checkbox; completed
+  campaigns show resume as inapplicable. This changes no checkpoint, accounting, integrity,
+  training, or policy-lifecycle semantics. Focused source/GUI/offscreen contracts and the ignored
+  validator are updated but unexecuted; complete follow-up validation remains pending.
+- The pending checkbox/recovery follow-up is now closed by authorized run
+  `validation/logs/phase6-20260814-131637`. It passed all 17 stages with 74 unit, 25 focused GUI,
+  21 GUI-regression, and 9 integration tests; composited light/dark checkbox-state evidence; fresh
+  wheel/sdist; both distribution checks; hashes; and stable nonignored source. A validation defect
+  found during the run was corrected so checkbox contrast is measured from the displayed host
+  composition instead of a transparent child grab. The validated product border remains fully
+  opaque when enabled and idle, with explicit checked, partial, focused, pressed, hover, and
+  disabled states. New training continues to show automatic recovery on, while exact resume remains
+  restricted to a selected running/interrupted campaign. No policy/scientific lifecycle,
+  protected-case, Docker, CUDA-campaign, publication, or release workflow executed; human
+  acceptance remains separate.

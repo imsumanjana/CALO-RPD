@@ -930,6 +930,31 @@ stability. This closes the Phase 6 automated GUI/native/packaging validation gat
 source. Human usability, screen-reader, and scientist acceptance remain separate, and no policy,
 protected-case, Docker, CUDA-campaign, publication, or release workflow was executed.
 
+The subsequent saved-policy discovery correction includes completed campaigns in bounded scans,
+persists explicit scan locations synchronously, refreshes both saved-training and Policy-library
+views after a successful output, and represents an unregistered completed candidate without
+silently changing its lifecycle. The single existing Import action remains the explicit
+registration boundary; qualification, selection, activation, experiment binding, and completed-
+identity resume remain blocked. Focused Ruff/format, 18 command/native, and 25 GUI contracts pass;
+a fresh complete Phase 6 validator run remains pending for this follow-up source.
+
+Screenshot inspection then exposed a theme-wide checkbox visibility defect: native state marks were
+present, but the indicator boundary blended into the surface. The global Qt proxy style now draws a
+palette-aware rounded boundary and surface for every checkbox, with vector checked/partial marks and
+distinct hover, focus, pressed, and disabled treatment in both themes. Radio-button rendering and
+all scientific, training, and lifecycle semantics are unchanged. Focused source and light/dark
+render-contract updates are implemented but not executed; the complete current-source Phase 6
+follow-up validator remains pending.
+
+Subsequent user inspection exposed a semantic presentation defect in the Recovery row. The disabled
+exact-resume checkbox shown for `New training` was being interpreted as disabled recoverability,
+even though the campaign runner already writes a verified recovery point after every safely
+committed training window. Fresh training now displays a checked, fixed automatic-recovery status;
+the interactive exact-resume control appears only for a selected `running` or `interrupted` saved
+campaign, and completed campaigns show resume as inapplicable. The `--resume` boundary, checkpoint
+writes, deterministic accounting, and integrity rejection paths are unchanged. Focused contracts
+are updated but unexecuted; complete current-source Phase 6 follow-up validation remains pending.
+
 ## Invariants
 
 1. No old result, experiment, policy, or fingerprint is silently rewritten.
@@ -940,3 +965,13 @@ protected-case, Docker, CUDA-campaign, publication, or release workflow was exec
 6. CPU/GPU timing comparisons never mix fallback modes without explicit stratification.
 7. Generated checkout files are not treated as packaged release contents.
 8. A release freeze is generated from staged artifacts only after all gates pass.
+
+### 2026-08-14 - Current Phase 6 GUI/native/packaging follow-up gate closed
+
+Authorized retained run `validation/logs/phase6-20260814-131637` passed the exact command `01`-`17`
+sequence against stable nonignored source: 74 unit, 25 focused GUI, 21 GUI-regression, and 9
+empty-policy/training-navigation integration tests; composited light/dark checkbox-state renders;
+fresh wheel/sdist build; and both distribution verifiers. The global checkbox-border and fresh-
+training automatic-recovery presentation follow-ups are therefore automated-validation complete.
+No scientific/policy, protected-case, Docker, CUDA-campaign, publication, or release gate was
+executed or closed, and automated evidence does not establish human acceptance.

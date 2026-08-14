@@ -26,15 +26,22 @@ from calo_rpd_studio.gui.user_feedback import show_error
 from calo_rpd_studio.gui.widgets.page_header import PageHeader
 
 
-class TrainingModelLibrary:
-    """Discover resumable campaigns in per-user, explicitly registered locations."""
+class TrainingModelLibrary(QObject):
+    """Discover saved campaigns in per-user, explicitly registered locations."""
+
+    changed = pyqtSignal()
 
     SETTINGS_KEY = "training/model_scan_locations"
     PLAN_FILE = "training_plan.json"
     STATUS_FILE = "training_status.json"
+    MANIFEST_FILE = "training_manifest.json"
     RESUMABLE_STATES = frozenset({"running", "interrupted"})
+    DISCOVERABLE_STATES = frozenset({*RESUMABLE_STATES, "completed"})
+    MAX_SCAN_DEPTH = 2
+    MAX_SCANNED_DIRECTORIES = 500
 
     def __init__(self, settings_manager, *, default_directory: str | Path | None = None) -> None:
+        super().__init__()
         self.settings_manager = settings_manager
         if default_directory is None:
             local_data = QStandardPaths.writableLocation(
@@ -45,6 +52,7 @@ class TrainingModelLibrary:
             default_directory = Path(local_data).expanduser() / "training-models"
         self.default_directory = Path(default_directory).expanduser().resolve()
         self.default_directory_error = ""
+        self._candidate_integrity_cache: dict[tuple, tuple[str, str]] = {}
         try:
             self.default_directory.mkdir(mode=0o700, parents=True, exist_ok=True)
         except OSError as exc:
@@ -72,18 +80,81 @@ class TrainingModelLibrary:
         if location != self.default_directory and location not in additional:
             additional.append(location)
             self.settings_manager.set_value(self.SETTINGS_KEY, [str(item) for item in additional])
+            sync = getattr(self.settings_manager, "sync", None)
+            if callable(sync):
+                sync()
+        self.changed.emit()
         return location
 
-    def resumable_campaigns(self) -> tuple[dict, ...]:
+    @classmethod
+    def _candidate_directories(cls, root: Path) -> tuple[Path, ...]:
+        if not root.is_dir():
+            return (root,)
+        candidates: list[Path] = []
+        queue: list[tuple[Path, int]] = [(root, 0)]
+        while queue and len(candidates) < cls.MAX_SCANNED_DIRECTORIES:
+            candidate, depth = queue.pop(0)
+            candidates.append(candidate)
+            if depth >= cls.MAX_SCAN_DEPTH:
+                continue
+            try:
+                children = sorted(
+                    (item for item in candidate.iterdir() if item.is_dir()),
+                    key=lambda item: item.name.casefold(),
+                )
+            except OSError:
+                continue
+            queue.extend((item, depth + 1) for item in children)
+        return tuple(candidates)
+
+    def _completed_candidate(self, candidate: Path) -> tuple[str, str]:
+        manifest_path = candidate / TrainingModelLibrary.MANIFEST_FILE
+        if not manifest_path.is_file():
+            return "", "Training completed, but its saved-policy manifest is unavailable."
+        try:
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            return "", "Training completed, but its saved-policy manifest could not be read."
+        ensemble = dict(manifest.get("ensemble_candidate", {}) or {})
+        candidate_name = str(ensemble.get("path", "")).strip()
+        expected_sha256 = str(ensemble.get("sha256", "")).strip().lower()
+        if not candidate_name or Path(candidate_name).name != candidate_name:
+            return "", "Training completed, but its saved policy location is invalid."
+        candidate_path = candidate / candidate_name
+        if not candidate_path.is_file():
+            return "", "Training completed, but its saved policy file is unavailable."
+        try:
+            stat = candidate_path.stat()
+            cache_key = (
+                str(candidate_path.resolve()).casefold(),
+                stat.st_size,
+                stat.st_mtime_ns,
+                expected_sha256,
+            )
+            cached = self._candidate_integrity_cache.get(cache_key)
+            if cached is not None:
+                return cached
+            digest = hashlib.sha256()
+            with candidate_path.open("rb") as stream:
+                for block in iter(lambda: stream.read(1024 * 1024), b""):
+                    digest.update(block)
+            actual_sha256 = digest.hexdigest()
+        except OSError:
+            return "", "Training completed, but its saved policy file could not be read."
+        if actual_sha256 != expected_sha256:
+            result = (
+                "",
+                "Training completed, but its saved policy integrity could not be confirmed.",
+            )
+        else:
+            result = (str(candidate_path.resolve()), "")
+        self._candidate_integrity_cache[cache_key] = result
+        return result
+
+    def saved_campaigns(self) -> tuple[dict, ...]:
         campaigns: dict[str, dict] = {}
         for root in self.scan_locations():
-            candidates = [root]
-            if root.is_dir():
-                try:
-                    candidates.extend(item for item in root.iterdir() if item.is_dir())
-                except OSError:
-                    continue
-            for candidate in candidates:
+            for candidate in self._candidate_directories(root):
                 plan_path = candidate / self.PLAN_FILE
                 status_path = candidate / self.STATUS_FILE
                 if not plan_path.is_file() or not status_path.is_file():
@@ -96,22 +167,65 @@ class TrainingModelLibrary:
                 if not isinstance(plan, dict) or not isinstance(status, dict):
                     continue
                 state = str(status.get("state", "")).strip().lower()
-                if state not in self.RESUMABLE_STATES:
+                if state not in self.DISCOVERABLE_STATES:
                     continue
                 campaign_id = str(plan.get("campaign_id", "")).strip() or candidate.name
                 resolved = str(candidate.resolve())
+                policy_candidate = ""
+                candidate_error = ""
+                if state == "completed":
+                    policy_candidate, candidate_error = self._completed_candidate(candidate)
+                try:
+                    modified_ns = max(plan_path.stat().st_mtime_ns, status_path.stat().st_mtime_ns)
+                except OSError:
+                    modified_ns = 0
                 campaigns[resolved.casefold()] = {
                     "campaign_id": campaign_id,
                     "state": state,
                     "directory": resolved,
                     "plan": str(plan_path.resolve()),
+                    "resumable": state in self.RESUMABLE_STATES,
+                    "policy_candidate": policy_candidate,
+                    "candidate_error": candidate_error,
+                    "modified_ns": modified_ns,
                 }
         return tuple(
             sorted(
                 campaigns.values(),
-                key=lambda item: (item["campaign_id"].casefold(), item["directory"].casefold()),
+                key=lambda item: (
+                    -int(item["modified_ns"]),
+                    item["campaign_id"].casefold(),
+                    item["directory"].casefold(),
+                ),
             )
         )
+
+    def resumable_campaigns(self) -> tuple[dict, ...]:
+        return tuple(
+            {
+                "campaign_id": item["campaign_id"],
+                "state": item["state"],
+                "directory": item["directory"],
+                "plan": item["plan"],
+            }
+            for item in self.saved_campaigns()
+            if item["resumable"]
+        )
+
+    def completed_policy_candidates(self) -> tuple[dict, ...]:
+        return tuple(
+            item
+            for item in self.saved_campaigns()
+            if item["state"] == "completed" and item["policy_candidate"]
+        )
+
+    def record_training_output(self, output_directory: str) -> None:
+        output = Path(output_directory).expanduser().resolve()
+        existing_roots = self.scan_locations()
+        if not any(output == root or root in output.parents for root in existing_roots):
+            self.add_scan_location(output.parent)
+            return
+        self.changed.emit()
 
 
 class TrainingLaunchModel(QObject):
@@ -397,6 +511,7 @@ class IndependentTrainingPanel(QWidget):
     """Never starts work on construction or navigation; all process actions are explicit."""
 
     activity_message = pyqtSignal(str, str)
+    training_completed = pyqtSignal(str)
 
     def __init__(self, state, model: TrainingLaunchModel, parent=None) -> None:
         super().__init__(parent)
@@ -438,10 +553,10 @@ class IndependentTrainingPanel(QWidget):
         self.command_preview.setMaximumHeight(92)
         layout.addWidget(self.command_preview)
 
-        self.resume = QCheckBox("Resume compatible training")
+        self.resume = QCheckBox("Resume selected interrupted training")
         self.resume.setToolTip(
-            "Continue only an existing interrupted directory whose saved plan, status, and "
-            "checkpoint pass exact compatibility checks. Leave off for new training."
+            "Continue only the selected interrupted training directory after its saved settings, "
+            "state, recovery point, and saved-file integrity pass compatibility checks."
         )
         layout.addWidget(self.resume)
 
@@ -505,7 +620,8 @@ class IndependentTrainingPanel(QWidget):
     def _refresh_preview(self) -> None:
         self.command_preview.setPlainText(
             "Readiness reviews the current training inputs without starting training.\n"
-            "Training starts only after readiness passes and you confirm."
+            "New training saves recovery points automatically. Training starts only after "
+            "readiness passes and you confirm."
         )
 
     def check_readiness(self) -> None:
@@ -568,7 +684,8 @@ class IndependentTrainingPanel(QWidget):
             QMessageBox.warning(
                 self,
                 "Output already exists",
-                "Choose a new output directory or select the compatible resume option.",
+                "Choose a new output directory, or select the interrupted run from Saved "
+                "training before continuing it.",
             )
             return
         answer = QMessageBox.question(
@@ -745,6 +862,7 @@ class IndependentTrainingPanel(QWidget):
                 "Training completed · result saved and not selected for experiments"
             )
             self.state.task_status.finish(self.status.text())
+            self.training_completed.emit(str(self.model.values.get("output", "")))
         else:
             self.status.setText(self._friendly_process_failure(operation, int(exit_code)))
             self.state.task_status.fail(self.status.text())
