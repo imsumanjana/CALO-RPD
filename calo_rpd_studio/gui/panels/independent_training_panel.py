@@ -438,7 +438,12 @@ class TrainingLaunchModel(QObject):
         """Return the authenticated application source identity used by fresh candidates."""
         from calo_rpd_studio.compute.source_identity import resolve_source_identity
 
-        source_identity = resolve_source_identity()
+        # A native shortcut or installed console entry may start with an arbitrary working
+        # directory. Resolve a checkout from the imported package location so fresh-plan
+        # provenance does not depend on where the user launched the application. Packaged
+        # builds still fall back to their immutable source declaration when no Git root exists.
+        source_root = Path(__file__).resolve().parents[3]
+        source_identity = resolve_source_identity(cwd=source_root)
         source_commit = str(source_identity.source_commit).strip().lower()
         if len(source_commit) != 40 or any(
             character not in "0123456789abcdef" for character in source_commit

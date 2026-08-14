@@ -268,7 +268,10 @@ def validate(output: Path, *, platform: str) -> dict:
     training_editor = window.context_pane.training
     if training_editor.action_bar.isHidden():
         raise AssertionError("Training action footer is not visible with the training inputs")
-    if training_editor.status.text() != "Ready for validation · automatic recovery is on":
+    if training_editor.status.text() != (
+        "Ready for validation · plan will be generated from these inputs · "
+        "automatic recovery is on"
+    ):
         raise AssertionError("Training inputs were refreshed before their status control was ready")
     if training_editor.training_action_button.text() != "Check readiness":
         raise AssertionError("Training inputs do not expose the readiness action")
@@ -278,6 +281,14 @@ def validate(output: Path, *, platform: str) -> dict:
         raise AssertionError("Training ribbon navigation was repurposed as a hidden process action")
     if set(training_editor.fields) != {"output"}:
         raise AssertionError("Scientist-facing training paths are not minimal")
+    training_editor.model.plan_error = "synthetic fresh-plan generation failure"
+    training_editor.refresh()
+    if training_editor.status.text() != (
+        "Training plan could not be generated: synthetic fresh-plan generation failure"
+    ):
+        raise AssertionError("Fresh-plan failures are mislabeled as saved-plan import failures")
+    training_editor.model.clear_loaded_plan()
+    training_editor.refresh()
     if len(training_editor._plan_controls) < 15:
         raise AssertionError("Frozen-plan training parameters are absent from the input pane")
     if training_editor.plan_group.isHidden():

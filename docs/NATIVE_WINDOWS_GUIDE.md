@@ -62,9 +62,11 @@ For fresh policy training, open **Policies > Train policy** once to display the 
 Choose **New training**, the eligible cases and other visible parameters, and a new training
 directory. The application constructs the full internal plan from those inputs plus safe fixed
 defaults; there is no external settings-template or model-library-path control. Click **Check
-readiness** in the input pane. If readiness passes, it changes to **Start training**; click it and
-confirm the explicit start. The output is an unqualified, inactive candidate and is never activated
-automatically.
+readiness** in the input pane. The plan retains the checkout source identity even when the native
+command was launched from a different working directory. Fresh plan-generation errors are labeled
+separately from retained saved-plan load errors. If readiness passes, the action changes to **Start
+training**; click it to confirm the explicit start. The output is an unqualified, inactive candidate
+and is never activated automatically.
 
 ## Activity, logs, data, and shutdown
 

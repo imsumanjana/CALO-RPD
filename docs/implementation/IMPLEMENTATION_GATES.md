@@ -1171,3 +1171,10 @@ load their own immutable plan internally for exact resume or compatible finite e
 selected campaign now resets to New training instead of leaving an invisible stale plan path.
 Synthetic source/GUI/offscreen contracts are implemented but unexecuted; G6/Phase 6 validation
 remains open pending a fresh complete owner validator bundle.
+
+The first owner GUI inspection of that follow-up exposed two readiness defects. The shared
+`plan_error` presentation called a fresh-plan construction failure a saved-plan load failure, and
+fresh-plan source identity was resolved from the launch working directory instead of the imported
+checkout. The UI now distinguishes those error domains, while the source identity lookup is anchored
+to the package root with the existing immutable build-declaration fallback. Contracts are written
+but unexecuted; G6 remains open pending the fresh complete owner validator bundle.

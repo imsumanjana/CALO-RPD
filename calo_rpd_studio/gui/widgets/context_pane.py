@@ -1152,9 +1152,19 @@ class TrainingPathEditor(QWidget):
             self._set_primary_action("Check readiness", "Complete the required inputs.", False)
             return
         if self.model.plan_error:
-            self.status.setText("Saved training plan could not be loaded")
             self.status.setToolTip(self.model.plan_error)
-            self._set_primary_action("Check readiness", "Select another saved run.", False)
+            if self._selected_saved_state or self.model.values.get("plan"):
+                self.status.setText("Saved training plan could not be loaded")
+                self._set_primary_action("Check readiness", "Select another saved run.", False)
+            else:
+                self.status.setText(
+                    f"Training plan could not be generated: {self.model.plan_error}"
+                )
+                self._set_primary_action(
+                    "Check readiness",
+                    f"Correct the reported plan-generation issue: {self.model.plan_error}",
+                    False,
+                )
             return
         self.status.setToolTip("")
         ready = controller._validated_fingerprint == self.model.fingerprint()

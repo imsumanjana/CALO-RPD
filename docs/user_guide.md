@@ -30,6 +30,14 @@ scientist input. **Refresh** updates its retained campaigns. Selecting a saved c
 campaign's exact retained plan internally for authenticated resume or compatible finite extension;
 it never silently copies those settings into an unrelated new campaign.
 
+In a repository checkout, fresh-plan provenance is resolved from the installed CALO-RPD package
+location rather than the process working directory. Launching the native command or shortcut from
+another folder therefore does not turn a fresh plan into a misleading saved-plan load failure. A
+real saved-plan error and a fresh plan-generation error are reported as separate states.
+The fresh-plan state includes the exact corrective reason, such as a finite evaluation budget that
+is not divisible by the selected population; the application does not silently alter a scientific
+input to make it pass.
+
 The visible inputs are only the scientist-controlled portion of the plan. The generated plan also
 contains deterministic member/episode identities and seeds, resource ceilings, schema and source
 provenance, checkpoint/resume contracts, and exact evaluation accounting. Creating the plan does

@@ -55,7 +55,7 @@ def _window(qtbot, tmp_path, monkeypatch):
     monkeypatch.setattr(
         source_identity,
         "resolve_source_identity",
-        lambda: SourceIdentity("a" * 40, False, "test"),
+        lambda **_kwargs: SourceIdentity("a" * 40, False, "test"),
     )
     monkeypatch.setattr(
         main_window_module,
@@ -558,6 +558,27 @@ def test_training_parameters_are_available_without_an_existing_plan(qtbot, tmp_p
     assert editor.model.plan_payload["training"]["learning_rate"] == pytest.approx(
         editor.learning_rate.value()
     )
+
+
+def test_new_plan_generation_error_is_not_mislabeled_as_a_saved_plan_failure(
+    qtbot, tmp_path, monkeypatch
+):
+    _state, window = _window(qtbot, tmp_path, monkeypatch)
+    editor = window.context_pane.training
+
+    assert editor.library_picker.currentText() == "New training"
+    assert editor.model.values["plan"] == ""
+    editor.model.plan_payload = None
+    editor.model.plan_error = "Training requires an identifiable application source build"
+    editor.refresh()
+
+    assert editor.status.text() == (
+        "Training plan could not be generated: "
+        "Training requires an identifiable application source build"
+    )
+    assert editor.status.toolTip() == editor.model.plan_error
+    assert "plan-generation issue" in editor.training_action_button.toolTip()
+    assert "saved" not in editor.status.text().lower()
 
 
 def test_disappearing_saved_training_resets_to_input_generated_new_plan(

@@ -2757,3 +2757,20 @@ Append timestamped entries below this line after each material action, validatio
   regression. Per repository instructions Codex ran no tests, validator, GUI, training, extension,
   qualification, protected-case, deletion, Docker, publication, or release workflow. Fresh complete
   owner Phase 6 validation remains pending.
+
+### 2026-08-15 - Fresh-plan error classification and native launch provenance corrected
+
+- User-returned GUI evidence showed `Saved training plan could not be loaded` after requesting
+  readiness for the simplified flow. Inspection found that the status branch labeled every
+  `plan_error` as a retained saved-plan failure, including errors raised while generating a new plan.
+  New-plan generation failures now have their own truthful status, display the exact corrective
+  reason, and retain it in the status/action tooltips; saved campaign failures retain their separate
+  load wording. Invalid scientific inputs are not silently rounded or replaced.
+- Fresh plan source identity previously depended on the process working directory. A native command
+  or shortcut started outside the checkout could therefore resolve `unavailable` even though the
+  imported application source was a Git checkout. Resolution now anchors to the imported package
+  root and still falls back to an immutable build declaration outside a checkout.
+- Synthetic unit, GUI, and offscreen contracts plus the Git-ignored validator instructions were
+  updated. Per repository instructions Codex ran no tests, validator, GUI, training, qualification,
+  protected-case, Docker, publication, or release workflow. Fresh complete owner Phase 6 validation
+  remains pending.

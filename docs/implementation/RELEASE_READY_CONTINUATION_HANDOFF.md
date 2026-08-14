@@ -1561,3 +1561,8 @@ superseded by the stage-neutral compatibility and qualification boundary on 2026
   moves to New training, preventing the prior generic import failure and allowing a genuinely new
   input-generated plan. Synthetic regression and offscreen/static contracts are written but not
   executed; fresh complete owner Phase 6 validation remains pending.
+- A subsequent fresh-readiness screenshot exposed misleading error classification: the UI used the
+  saved-plan load message for every plan error. Fresh generation and retained-plan loading now have
+  distinct states. Fresh provenance also resolves the checkout from the imported package root, so a
+  native shortcut or command launched from another directory does not lose the current Git identity.
+  Synthetic contracts are written but unexecuted; complete owner validation is still pending.

@@ -120,10 +120,16 @@ def test_fresh_plan_uses_builtin_architecture_and_has_no_governance_path_inputs(
     from calo_rpd_studio.compute.source_identity import SourceIdentity
     import calo_rpd_studio.compute.source_identity as source_identity
 
+    source_roots = []
+
+    def resolved_source_identity(*, cwd=None):
+        source_roots.append(Path(cwd).resolve())
+        return SourceIdentity("a" * 40, False, "git")
+
     monkeypatch.setattr(
         source_identity,
         "resolve_source_identity",
-        lambda: SourceIdentity("a" * 40, False, "git"),
+        resolved_source_identity,
     )
     model = TrainingLaunchModel()
 
@@ -152,6 +158,7 @@ def test_fresh_plan_uses_builtin_architecture_and_has_no_governance_path_inputs(
 
     assert model.plan_error == ""
     assert model.plan_payload is not None
+    assert source_roots == [ROOT.resolve()]
     assert model.plan_payload["development_freeze_sha256"] == ""
     assert model.plan_payload["phase4_acceptance_sha256"] == ""
     assert model.plan_payload["feature_flags"]["allow_experimental_components"] is False
