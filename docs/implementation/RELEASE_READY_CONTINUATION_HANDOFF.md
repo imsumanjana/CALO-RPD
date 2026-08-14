@@ -1436,3 +1436,13 @@ scientific/hardware qualification—not as a final release.
   -PythonExecutable .\.venv\Scripts\python.exe`; return the complete fresh
   `validation\logs\phase6-*` directory. Do not train, qualify, register, activate, publish, release,
   reset, clean, stage, commit, or push as part of that validation.
+
+- The newest follow-up adds explicit completed-model extension. Current-source base completion
+  manifests authenticate full final trainer/session checkpoints for every ensemble member. The GUI
+  offers extension only for that complete contract; legacy completed candidates remain visible but
+  non-extendable. Every confirmed child segment preserves its parent, repeats the unchanged finite
+  curriculum and per-episode FE budget, chains parent/child manifest hashes, advances cumulative exact
+  accounting, exports only unqualified artifacts, and retains fresh continuation checkpoints. Any
+  number of successful finite children can be requested; none starts automatically. More optimization
+  is not evidence of a stronger or qualified model. The source/tests/ignored validator are unexecuted,
+  so the same fresh complete Phase 6 command and returned log-directory requirement remain current.

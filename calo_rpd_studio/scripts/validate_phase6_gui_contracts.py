@@ -339,6 +339,19 @@ def validate(output: Path, *, platform: str) -> dict:
     ):
         if token not in campaign_source:
             raise AssertionError(f"Checkpoint-safe finite training contract is absent: {token}")
+    extension_source = (
+        REPOSITORY_ROOT
+        / "calo_rpd_studio/algorithms/calo/tsh_calo_training_extension.py"
+    ).read_text(encoding="utf-8")
+    for token in (
+        "IndependentTSHCALOTrainingExtension",
+        "parent_manifest_sha256",
+        "cumulative_candidate_evaluations",
+        "same_scientific_design_required",
+        "automatic_start",
+    ):
+        if token not in extension_source:
+            raise AssertionError(f"Finite completed-training extension contract is absent: {token}")
     if training_editor.pause_training_button.accessibleName() != (
         "Pause policy training after the next checkpoint"
     ):

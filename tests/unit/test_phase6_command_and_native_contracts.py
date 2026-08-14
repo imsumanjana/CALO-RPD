@@ -102,11 +102,15 @@ def test_independent_training_arguments_keep_check_and_start_separate():
     check = model.arguments(check=True)
     start = model.arguments(check=False)
     resume = model.arguments(check=False, resume=True)
+    extension_check = model.arguments(check=True, extend=True)
+    extension_start = model.arguments(check=False, extend=True)
     assert "--check" in check
     assert "--output" not in check
     assert "--check" not in start
     assert start[-2:] == ["--output", "new-output"]
     assert resume[-3:] == ["--output", "new-output", "--resume"]
+    assert extension_check[-4:] == ["--check", "--output", "new-output", "--extend"]
+    assert extension_start[-3:] == ["--output", "new-output", "--extend"]
     assert "qualify" not in " ".join(start).lower()
     assert "activate" not in " ".join(start).lower()
     assert "--development-freeze" not in check
@@ -465,6 +469,9 @@ def test_policy_training_process_actions_are_visible_in_the_input_pane():
     campaign = (ROOT / "calo_rpd_studio/algorithms/calo/tsh_calo_training_campaign.py").read_text(
         encoding="utf-8"
     )
+    extension = (
+        ROOT / "calo_rpd_studio/algorithms/calo/tsh_calo_training_extension.py"
+    ).read_text(encoding="utf-8")
     assert "checkpoint_sha256 = session.save_resume(checkpoint_path)" in campaign
     assert 'status["session_checkpoint"] = {' in campaign
     assert 'status["state"] = "interrupted"' in campaign
@@ -479,6 +486,13 @@ def test_policy_training_process_actions_are_visible_in_the_input_pane():
     assert "TSHCALOTrainingPauseRequested" in campaign
     assert 'self.pause_button = QPushButton("Pause after checkpoint")' in controller
     assert "cancellable=True" in controller
+    assert "IndependentTSHCALOTrainingExtension" in extension
+    assert "parent_manifest_sha256" in extension
+    assert "cumulative_candidate_evaluations" in extension
+    assert "same_scientific_design_required" in extension
+    assert 'session_id=f"{episode.session_id}:extension:' in extension
+    assert "automatic_start" in extension
+    assert "--extend" in controller
     assert "requires a clean non-ignored source tree" in controller
     assert "uncommitted changes" in controller
     assert "currently available cpu ram" in controller

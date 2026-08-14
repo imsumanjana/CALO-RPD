@@ -2442,3 +2442,26 @@ Append timestamped entries below this line after each material action, validatio
   training, scientific, protected-case, qualification, publication, or release workflow ran.
   The prior `phase6-20260814-131637` pass predates this source and fresh complete owner validation is
   pending.
+
+### 2026-08-14 - Completed-model finite extension follow-up implemented, validation pending
+
+- A completed campaign now records one final authenticated continuation checkpoint per ensemble
+  member in its immutable manifest. Each checkpoint retains model parameters, optimizer state,
+  NumPy/Torch RNG states, PPO update count, prior episode receipts, device/memory provenance,
+  session/environment state, rollout collector state, and exact evaluation accounting.
+- The completed-model selector exposes `Check extension readiness` and then `Extend training` only
+  for manifests with the complete continuation contract. Older completed artifacts without bound
+  continuation hashes remain usable as unqualified saved candidates but are not guessed into exact
+  extendability.
+- Every explicit extension is a new finite child segment under `extensions/segment-NNNNNN`. It
+  authenticates the unchanged source/scientific/execution plan and parent manifest, continues every
+  member from its final trainer state, repeats the identical case/seed curriculum and finite episode
+  budget, adds unique receipt/session identities, retains cumulative exact FE accounting, and writes
+  new unqualified member/ensemble candidates plus continuation checkpoints. Parent files are not
+  mutated. A paused child resumes through the same checkpoint-safe protocol.
+- The successful extension count has no configured ceiling, but no segment starts automatically and
+  each segment remains finite and explicitly confirmed. More training is not claimed to improve,
+  strengthen, qualify, register, activate, or select a model; independent evidence remains required.
+- Production source, synthetic unit/GUI/static/offscreen contracts, the ignored Phase 6 validator,
+  active status, traceability, and handoff are updated. Nothing was executed by Codex. Fresh complete
+  owner validation remains pending and no policy/scientific/protected/release workflow ran.

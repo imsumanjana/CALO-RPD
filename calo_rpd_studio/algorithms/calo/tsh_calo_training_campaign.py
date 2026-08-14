@@ -582,7 +582,6 @@ class IndependentTSHCALOTrainingCampaign:
             else 0
         )
         member = self.plan.members[member_index]
-        episode = member.episodes[episode_index]
         return {
             "member_index": int(member_index),
             "member_number": int(member_index + 1),
@@ -591,8 +590,8 @@ class IndependentTSHCALOTrainingCampaign:
             "episode_index": int(episode_index),
             "episode_number": int(episode_ordinal),
             "episode_count": int(episode_count),
-            "session_id": episode.session_id,
-            "case_identity": episode.case_identity,
+            "session_id": session.config.session_id,
+            "case_identity": session.environment.config.case_identity,
             "transition_count": int(session.transition_count),
             "episode_candidate_evaluations": episode_evaluations,
             "episode_evaluation_limit": episode_limit,
@@ -675,6 +674,7 @@ class IndependentTSHCALOTrainingCampaign:
             "session_checkpoint": None,
             "uncommitted_cuda_window": None,
             "member_candidates": [],
+            "continuation_checkpoints": [],
             "failure": None,
             "pause": None,
             "progress": None,
@@ -850,6 +850,21 @@ class IndependentTSHCALOTrainingCampaign:
                 episode_index,
                 checkpoint_sha256,
             )
+            extension = status.get("extension")
+            if isinstance(extension, dict):
+                prior = int(extension.get("prior_cumulative_candidate_evaluations", 0))
+                progress.update(
+                    {
+                        "extension_id": str(extension.get("extension_id", "")),
+                        "segment_number": int(extension.get("segment_number", 0)),
+                        "segment_candidate_evaluations": progress[
+                            "total_candidate_evaluations"
+                        ],
+                        "cumulative_candidate_evaluations": (
+                            prior + progress["committed_candidate_evaluations"]
+                        ),
+                    }
+                )
             status["progress"] = progress
             self._record_event(
                 status,
@@ -997,6 +1012,18 @@ class IndependentTSHCALOTrainingCampaign:
                 status["member_candidates"] = [
                     {"path": Path(item.path).name, "sha256": item.sha256} for item in members
                 ]
+                checkpoint = dict(status.get("session_checkpoint", {}) or {})
+                if int(checkpoint.get("member_index", -1)) != member_index:
+                    raise ValueError("TSH-CALO member lacks its final continuation checkpoint")
+                status.setdefault("continuation_checkpoints", []).append(
+                    {
+                        "member_index": member_index,
+                        "member_id": self.plan.members[member_index].member_id,
+                        "path": str(checkpoint["path"]),
+                        "sha256": str(checkpoint["sha256"]),
+                        "receipt_count": len(candidate.training_provenance["training_episode_receipts"]),
+                    }
+                )
                 member_index += 1
                 status["current_member_index"] = member_index
                 status["current_episode_index"] = 0
@@ -1032,6 +1059,29 @@ class IndependentTSHCALOTrainingCampaign:
                 "member_candidates": [
                     {"path": Path(item.path).name, "sha256": item.sha256} for item in members
                 ],
+                "continuation_checkpoints": list(status["continuation_checkpoints"]),
+                "extension_contract": {
+                    "repeatable_finite_segments": True,
+                    "same_scientific_design_required": True,
+                    "same_execution_plan_required": True,
+                    "segment_evaluations": sum(
+                        len(member.episodes) for member in self.plan.members
+                    )
+                    * self.plan.max_evaluations,
+                    "retained_state": [
+                        "model_parameters",
+                        "optimizer_state",
+                        "numpy_generator_state",
+                        "torch_generator_state",
+                        "ppo_update_count",
+                        "episode_receipts",
+                        "device_and_memory_admission_provenance",
+                        "session_environment_state",
+                        "rollout_collector_state",
+                        "exact_evaluation_accounting",
+                    ],
+                    "automatic_extension": False,
+                },
                 "ensemble_candidate": {
                     "path": Path(ensemble.path).name,
                     "sha256": ensemble.sha256,

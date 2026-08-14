@@ -19,6 +19,7 @@ GUI_MEMBERS = {
     "calo_rpd_studio/scripts/validate_phase6_gui_contracts.py",
     "calo_rpd_studio/scripts/verify_phase6_distribution.py",
     "calo_rpd_studio/scripts/train_tsh_calo.py",
+    "calo_rpd_studio/algorithms/calo/tsh_calo_training_extension.py",
 }
 SDIST_MEMBERS = {
     "Launch-CALO-RPD.ps1",

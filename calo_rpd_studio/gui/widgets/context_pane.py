@@ -64,7 +64,8 @@ _TRAINING_INPUT_HELP = {
         "training window. You may safely pause and resume any number of times before the finite "
         "campaign completes. Continue an existing interrupted directory only by selecting that "
         "saved run; its unchanged plan, state, recovery point, and saved-file integrity must "
-        "pass compatibility checks."
+        "pass compatibility checks. A completed model with authenticated final optimizer, RNG, "
+        "receipt, and checkpoint state may explicitly add another identical finite segment."
     ),
     "campaign_id": (
         "Unique training-run identity used in saved plans and run records. Changing "
@@ -156,7 +157,8 @@ _TRAINING_INPUT_SUGGESTIONS = {
     "resume": (
         "Suggested choice: automatic recovery stays on for new training. Exact resume is on only "
         "for a selected compatible interrupted run. The number of safe resume cycles is not "
-        "limited, but every cycle continues the same finite evaluation plan."
+        "limited, but every cycle continues the same finite evaluation plan. Completed-model "
+        "extensions are also explicit finite segments and are never started automatically."
     ),
     "campaign_id": (
         "Suggested format: a short unique identifier with project, design, and run date; identity "
@@ -672,6 +674,8 @@ class TrainingPathEditor(QWidget):
         self._new_plan_mode = True
         self._selected_saved_state = ""
         self._selected_saved_resumable = False
+        self._selected_saved_extendable = False
+        self._selected_extension_pending = False
         self.campaign_id.setText(f"tsh-calo-{uuid.uuid4().hex[:12]}")
         self._set_selected_cases(("case30", "case57"))
         self.refresh_model_library()
@@ -793,6 +797,10 @@ class TrainingPathEditor(QWidget):
 
     def _training_progress_changed(self, event: dict) -> None:
         progress = max(0, min(100, int(event.get("progress_percent", 0))))
+        cumulative = event.get("cumulative_candidate_evaluations")
+        cumulative_text = (
+            "" if cumulative is None else f" · {int(cumulative)} cumulative"
+        )
         self.training_progress.setValue(progress)
         self.training_progress.setFormat(f"{progress}% committed")
         self.training_progress_detail.setText(
@@ -801,7 +809,7 @@ class TrainingPathEditor(QWidget):
             f"{event.get('case_identity', 'case')} · "
             f"{int(event.get('episode_candidate_evaluations', 0))}/"
             f"{int(event.get('episode_evaluation_limit', 0))} evaluations · "
-            f"checkpoint {str(event.get('checkpoint_sha256', ''))[:12]}"
+            f"checkpoint {str(event.get('checkpoint_sha256', ''))[:12]}{cumulative_text}"
         )
         self.training_progress.show()
         self.training_progress_detail.show()
@@ -981,6 +989,12 @@ class TrainingPathEditor(QWidget):
         if isinstance(record, dict) and record.get("directory"):
             self._selected_saved_state = str(record.get("state", ""))
             self._selected_saved_resumable = bool(record.get("resumable", False))
+            self._selected_saved_extendable = bool(record.get("extendable", False))
+            self._selected_extension_pending = bool(record.get("extension_pending", False))
+            self.training_controller.set_extension_mode(
+                self._selected_saved_state == "completed"
+                and self._selected_saved_extendable
+            )
             self.training_controller.last_progress_event = dict(
                 record.get("progress", {}) or {}
             )
@@ -990,6 +1004,7 @@ class TrainingPathEditor(QWidget):
             self._load_plan(preserve_identity=True)
             if self.model.plan_payload is None:
                 self.resume.setChecked(False)
+                self.training_controller.set_extension_mode(False)
                 show_warning(
                     self,
                     "Saved training could not be loaded",
@@ -1004,6 +1019,9 @@ class TrainingPathEditor(QWidget):
     def _select_new_training(self) -> None:
         self._selected_saved_state = ""
         self._selected_saved_resumable = False
+        self._selected_saved_extendable = False
+        self._selected_extension_pending = False
+        self.training_controller.set_extension_mode(False)
         self.training_controller.last_progress_event = {}
         self.training_progress.hide()
         self.training_progress_detail.hide()
@@ -1163,12 +1181,43 @@ class TrainingPathEditor(QWidget):
             candidate_error = (
                 str(record.get("candidate_error", "")) if isinstance(record, dict) else ""
             )
-            if candidate_error:
+            extension_error = (
+                str(record.get("extension_error", "")) if isinstance(record, dict) else ""
+            )
+            if self._selected_saved_extendable:
+                ready = controller._validated_fingerprint == self.model.fingerprint()
+                self.status.setText(
+                    (
+                        "Ready to continue the paused finite extension segment"
+                        if self._selected_extension_pending
+                        else "Ready to extend with one finite identical-condition segment"
+                    )
+                    if ready
+                    else (
+                        "Paused extension is resumable - check extension readiness"
+                        if self._selected_extension_pending
+                        else "Completed model is extendable - check extension readiness"
+                    )
+                )
+                self._set_primary_action(
+                    (
+                        "Continue extension"
+                        if ready and self._selected_extension_pending
+                        else ("Extend training" if ready else "Check extension readiness")
+                    ),
+                    (
+                        "Continue every member from authenticated optimizer, RNG, receipt, and "
+                        "checkpoint state under the unchanged finite plan."
+                    ),
+                    True,
+                )
+            elif candidate_error:
                 self.status.setText(candidate_error)
                 self._set_primary_action("Training complete", candidate_error, False)
             else:
                 self.status.setText(
                     "Training complete · the saved candidate is available in the Policy library"
+                    + (f". {extension_error}" if extension_error else "")
                 )
                 self._set_primary_action(
                     "Training complete",
@@ -1246,7 +1295,7 @@ class TrainingPathEditor(QWidget):
     def _run_primary_action(self) -> None:
         if self.training_controller.process is not None:
             return
-        if self._selected_saved_state == "completed":
+        if self._selected_saved_state == "completed" and not self._selected_saved_extendable:
             self.refresh()
             return
         missing = self.model.missing(include_output=False)

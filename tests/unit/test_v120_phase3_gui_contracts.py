@@ -192,10 +192,10 @@ def test_active_status_records_phase6_development_complete_after_combined_pass()
     assert payload["phase_5_final_release"] is False
     assert payload["phase_6_started"] is True
     assert payload["phase_6_goal"] == (
-        "completed_prior_phase6_gui_native_packaging_validation_checkpoint_safe_pause_followup_validation_pending"
+        "completed_model_finite_extension_implementation_complete_validation_pending"
     )
     assert payload["phase_6_coding"] == (
-        "implemented_checkpoint_safe_pause_progress_followup_validation_pending"
+        "implemented_completed_model_repeatable_finite_extension_followup_validation_pending"
     )
     assert payload["phase_6_training_interface"] == (
         "ribbon_navigation_only_tsh_calo_only_training_no_architecture_selector_optional_settings_template_per_user_default_model_directory_registered_resume_scan_locations_visible_scientific_inputs_protected_118_300_locked_visible_default_off_exact_resume_in_pane_readiness_then_explicit_confirmed_start_rule_based_calo_remains_in_algorithm_selection_no_redundant_document"
@@ -207,7 +207,7 @@ def test_active_status_records_phase6_development_complete_after_combined_pass()
         "validated_first_class_windows_non_docker_launch"
     )
     assert payload["phase_6_validation"] == (
-        "prior_pass_phase6-20260814-131637_superseded_by_checkpoint_safe_pause_progress_followup_validation_pending"
+        "prior_pass_phase6-20260814-131637_superseded_by_progress_pause_and_completed_model_extension_followups_validation_pending"
     )
     assert payload["phase_6_checkbox_indicator_visibility"] == (
         "validated_global_palette_aware_borders_and_state_marks_light_dark_phase6-20260814-131637"
@@ -226,6 +226,18 @@ def test_active_status_records_phase6_development_complete_after_combined_pass()
     )
     assert payload["phase_6_unbounded_training"] == (
         "not_implemented_finite_exact_evaluation_plan_preserved"
+    )
+    assert payload["phase_6_completed_model_extension"] == (
+        "implemented_explicit_authenticated_repeatable_finite_segments_same_scientific_and_execution_plan_validation_pending"
+    )
+    assert payload["phase_6_extension_retained_state"] == (
+        "model_optimizer_numpy_rng_torch_rng_ppo_updates_episode_receipts_device_memory_session_environment_rollout_collector_exact_accounting"
+    )
+    assert payload["phase_6_extension_count_limit"] == (
+        "none_each_segment_explicit_and_finite"
+    )
+    assert payload["phase_6_extension_scientific_claim"] == (
+        "no_improvement_superiority_qualification_registration_or_activation_inferred"
     )
     assert payload["phase_6_validation_policy_or_scientific_workflows_executed"] is False
     assert payload["phase_6_automated_human_acceptance"] == "not_inferred"

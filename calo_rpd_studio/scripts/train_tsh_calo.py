@@ -17,6 +17,10 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign import (
 from calo_rpd_studio.algorithms.calo.tsh_calo_training import (
     preflight_tsh_calo_training_resources,
 )
+from calo_rpd_studio.algorithms.calo.tsh_calo_training_extension import (
+    IndependentTSHCALOTrainingExtension,
+    extension_plan_summary,
+)
 from calo_rpd_studio.scripts.create_development_freeze_candidate import (
     validate_development_freeze_candidate,
 )
@@ -195,6 +199,14 @@ def main(argv: list[str] | None = None) -> int:
         help="Explicitly resume the exact authenticated campaign state",
     )
     parser.add_argument(
+        "--extend",
+        action="store_true",
+        help=(
+            "Explicitly run or resume one finite extension segment from authenticated completed "
+            "trainer state"
+        ),
+    )
+    parser.add_argument(
         "--check",
         action="store_true",
         help="Validate plan and source tree without starting training",
@@ -202,8 +214,12 @@ def main(argv: list[str] | None = None) -> int:
     arguments = parser.parse_args(argv)
     if arguments.check and arguments.resume:
         parser.error("--check and --resume are mutually exclusive")
+    if arguments.extend and arguments.resume:
+        parser.error("--extend already resumes a pending extension when present")
     if not arguments.check and arguments.output is None:
         parser.error("--output is required unless --check is used")
+    if arguments.extend and arguments.output is None:
+        parser.error("--extend requires the completed campaign --output directory")
     if bool(arguments.development_freeze) != bool(arguments.phase4_acceptance):
         parser.error("legacy authority paths must be supplied together")
 
@@ -225,6 +241,22 @@ def main(argv: list[str] | None = None) -> int:
         parser.error("this legacy plan requires its internal authority records")
     if arguments.check:
         resource_preflight = validate_training_resources(plan)
+        if arguments.extend:
+            extension = extension_plan_summary(plan, arguments.output)
+            print(
+                json.dumps(
+                    {
+                        **_summary(
+                            plan,
+                            state="extension_validated_not_started",
+                            resource_preflight=resource_preflight,
+                        ),
+                        "extension": extension,
+                    },
+                    sort_keys=True,
+                )
+            )
+            return 0
         print(
             json.dumps(
                 _summary(
@@ -257,28 +289,63 @@ def main(argv: list[str] | None = None) -> int:
         ),
         flush=True,
     )
-    campaign = IndependentTSHCALOTrainingCampaign(
-        plan,
-        arguments.output,
-        event_callback=emit_training_event,
-    )
+    campaign = None
+    extension = None
+    if arguments.extend:
+        extension = IndependentTSHCALOTrainingExtension(
+            plan,
+            arguments.output,
+            event_callback=emit_training_event,
+        )
+    else:
+        campaign = IndependentTSHCALOTrainingCampaign(
+            plan,
+            arguments.output,
+            event_callback=emit_training_event,
+        )
     try:
-        result = campaign.resume() if arguments.resume else campaign.start()
+        if extension is not None:
+            result = extension.start_or_resume()
+        else:
+            assert campaign is not None
+            result = campaign.resume() if arguments.resume else campaign.start()
     except TSHCALOTrainingPauseRequested as exc:
+        paused_output = (
+            extension.segment_directory
+            if extension is not None and extension.segment_directory is not None
+            else arguments.output.expanduser().resolve()
+        )
         print(
             json.dumps(
                 {
                     **_summary(plan, state="paused_resumable"),
-                    "output_directory": str(arguments.output.expanduser().resolve()),
+                    "output_directory": str(paused_output),
                     "pause": exc.event,
                     "resumable": True,
+                    "extension": extension is not None,
                 },
                 sort_keys=True,
             ),
             flush=True,
         )
         return TSH_CALO_TRAINING_PAUSE_EXIT_CODE
-    print(json.dumps(_summary(plan, state="completed_unqualified", result=result), sort_keys=True))
+    print(
+        json.dumps(
+            {
+                **_summary(
+                    plan,
+                    state=(
+                        "completed_unqualified_extension"
+                        if extension is not None
+                        else "completed_unqualified"
+                    ),
+                    result=result,
+                ),
+                "extension": extension is not None,
+            },
+            sort_keys=True,
+        )
+    )
     return 0
 
 

@@ -504,6 +504,65 @@ def test_completed_training_is_visible_without_automatic_policy_registration(
     assert state.policy_registry.list(include_archived=True) == []
 
 
+def test_authenticated_completed_training_exposes_explicit_finite_extension_action(
+    qtbot, tmp_path, monkeypatch
+):
+    _state, window = _window(qtbot, tmp_path, monkeypatch)
+    editor = window.context_pane.training
+    campaign = window.training_model_library.default_directory / "extendable-campaign"
+    campaign.mkdir(parents=True)
+    candidate = campaign / "ensemble.candidate.pt"
+    candidate.write_bytes(b"extendable-completed-policy")
+    candidate_sha256 = hashlib.sha256(candidate.read_bytes()).hexdigest()
+    plan_payload = json.loads(_training_plan(tmp_path).read_text(encoding="utf-8"))
+    plan_payload["campaign_id"] = "extendable-campaign"
+    checkpoints = []
+    for member_index, member in enumerate(plan_payload["members"]):
+        checkpoint = campaign / f"member-{member_index + 1:03d}.resume"
+        checkpoint.write_bytes(f"checkpoint-{member_index}".encode())
+        checkpoints.append(
+            {
+                "member_index": member_index,
+                "member_id": member["member_id"],
+                "path": checkpoint.name,
+                "sha256": hashlib.sha256(checkpoint.read_bytes()).hexdigest(),
+                "receipt_count": 1,
+            }
+        )
+    (campaign / "training_plan.json").write_text(
+        json.dumps(plan_payload), encoding="utf-8"
+    )
+    (campaign / "training_status.json").write_text(
+        json.dumps({"state": "completed"}), encoding="utf-8"
+    )
+    (campaign / "training_manifest.json").write_text(
+        json.dumps(
+            {
+                "state": "completed_unqualified",
+                "continuation_checkpoints": checkpoints,
+                "extension_contract": {"repeatable_finite_segments": True},
+                "ensemble_candidate": {
+                    "path": candidate.name,
+                    "sha256": candidate_sha256,
+                },
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    window.training_model_library.changed.emit()
+    editor.refresh_model_library(window.training_model_library.default_directory)
+
+    record = editor.library_picker.currentData()
+    assert record["extendable"] is True
+    assert window.training_center._extension_mode is True
+    assert editor.training_action_button.text() == "Check extension readiness"
+    assert editor.training_action_button.isEnabled() is True
+    arguments = window.training_launch_model.arguments(check=True, extend=True)
+    assert arguments[-3:] == ["--output", str(campaign.resolve()), "--extend"]
+    assert "automatic" not in editor.status.text().lower()
+
+
 def test_every_training_input_has_accessible_directional_information(qtbot, tmp_path, monkeypatch):
     _state, window = _window(qtbot, tmp_path, monkeypatch)
     editor = window.context_pane.training

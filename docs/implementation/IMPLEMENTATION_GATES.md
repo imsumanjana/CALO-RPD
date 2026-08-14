@@ -987,3 +987,15 @@ were introduced. Synthetic parity and repeated-pause tests, GUI progress/pause c
 ignored validator revision are implemented but unexecuted. The completed
 `phase6-20260814-131637` evidence is therefore historical for this follow-up; the gate remains open
 until a fresh complete owner-run Phase 6 bundle passes. No policy or scientific workflow was run.
+
+### 2026-08-14 - Completed-model extension gate open pending fresh validation
+
+Completed campaigns produced by current source now bind every member's full final trainer/session
+checkpoint into the completion manifest. An explicit child extension must authenticate that manifest,
+the unchanged plan/design/device conditions, checkpoint hashes, receipt counts, and exact finite
+segment budget. It preserves its parent, writes a separately identified child manifest/candidates,
+and advances cumulative FE accounting without a segment-count ceiling. Paused children use the same
+safe checkpoint protocol. Legacy completed artifacts without authenticated optimizer/RNG checkpoint
+state are deliberately non-extendable. Extension does not establish improvement or any policy
+lifecycle authority. Source and synthetic contracts are implemented but unexecuted; the gate remains
+open until a fresh complete owner Phase 6 evidence bundle passes.

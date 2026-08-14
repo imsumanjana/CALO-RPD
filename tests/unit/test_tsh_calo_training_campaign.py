@@ -9,6 +9,7 @@ from pathlib import Path
 import pytest
 import torch
 
+from calo_rpd_studio.ai.model_io import checkpoint_sha256
 from calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign import (
     CUDA_DURABLE_EVALUATION_WINDOW,
     IndependentTSHCALOTrainingCampaign,
@@ -20,6 +21,10 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign import (
     request_tsh_calo_training_pause,
 )
 import calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign as campaign_module
+from calo_rpd_studio.algorithms.calo.tsh_calo_training_extension import (
+    IndependentTSHCALOTrainingExtension,
+    extension_plan_summary,
+)
 from calo_rpd_studio.algorithms.calo.tsh_calo_training_resources import (
     TSHCALOTrainingResourceEnvelope,
 )
@@ -123,6 +128,12 @@ def test_campaign_freezes_plan_and_exports_only_unqualified_candidates(tmp_path,
         "activated": False,
         "experiment_bound": False,
     }
+    assert manifest["extension_contract"]["repeatable_finite_segments"] is True
+    assert len(manifest["continuation_checkpoints"]) == len(plan.members)
+    for checkpoint in manifest["continuation_checkpoints"]:
+        assert checkpoint_sha256(
+            tmp_path / "campaign" / checkpoint["path"]
+        ) == checkpoint["sha256"]
     event_names = [event["event"] for event in streamed_events]
     assert event_names[0] == "campaign_started"
     assert event_names[-1] == "campaign_completed"
@@ -137,6 +148,101 @@ def test_campaign_freezes_plan_and_exports_only_unqualified_candidates(tmp_path,
             tmp_path / "campaign",
             problem_factory=_factory(toy_case),
         ).start()
+
+
+def test_completed_campaign_can_add_repeatable_finite_authenticated_extensions(
+    tmp_path, toy_case
+):
+    plan = _plan()
+    root = tmp_path / "extendable-campaign"
+    base = IndependentTSHCALOTrainingCampaign(
+        plan,
+        root,
+        problem_factory=_factory(toy_case),
+    ).start()
+    base_manifest_bytes = Path(base.manifest_path).read_bytes()
+    base_states = _model_states(base)
+
+    readiness = extension_plan_summary(plan, root)
+    assert readiness["completed_extension_count"] == 0
+    assert readiness["segment_candidate_evaluations"] == 16
+    assert readiness["next_cumulative_candidate_evaluations"] == 32
+    with pytest.raises(ValueError, match="plan changed"):
+        extension_plan_summary(replace(plan, max_evaluations=16), root)
+
+    first = IndependentTSHCALOTrainingExtension(
+        plan,
+        root,
+        problem_factory=_factory(toy_case),
+    ).start()
+    second = IndependentTSHCALOTrainingExtension(
+        plan,
+        root,
+        problem_factory=_factory(toy_case),
+    ).start()
+
+    assert Path(base.manifest_path).read_bytes() == base_manifest_bytes
+    first_manifest = json.loads(Path(first.manifest_path).read_text(encoding="utf-8"))
+    second_manifest = json.loads(Path(second.manifest_path).read_text(encoding="utf-8"))
+    assert first_manifest["segment_number"] == 1
+    assert first_manifest["cumulative_candidate_evaluations"] == 32
+    assert second_manifest["segment_number"] == 2
+    assert second_manifest["cumulative_candidate_evaluations"] == 48
+    assert second_manifest["parent_manifest_sha256"] == first.manifest_sha256
+    for candidate in first.member_candidates:
+        receipts = candidate.training_provenance["training_episode_receipts"]
+        assert len(receipts) == 2
+        assert receipts[-1]["session_id"].endswith(":extension:000001")
+        assert receipts[-1]["candidate_evaluations"] == plan.max_evaluations
+    for candidate in second.member_candidates:
+        receipts = candidate.training_provenance["training_episode_receipts"]
+        assert len(receipts) == 3
+        assert receipts[-1]["session_id"].endswith(":extension:000002")
+        assert receipts[-1]["candidate_evaluations"] == plan.max_evaluations
+    for initial, extended in zip(base_states, _model_states(second)):
+        assert any(not torch.equal(initial[name], extended[name]) for name in initial)
+
+
+def test_training_extension_pauses_and_resumes_at_authenticated_checkpoint(
+    tmp_path, toy_case
+):
+    plan = _plan()
+    root = tmp_path / "paused-extension"
+    IndependentTSHCALOTrainingCampaign(
+        plan,
+        root,
+        problem_factory=_factory(toy_case),
+    ).start()
+    extension = IndependentTSHCALOTrainingExtension(
+        plan,
+        root,
+        problem_factory=_factory(toy_case),
+    )
+
+    def pause_extension(_event):
+        assert extension.segment_directory is not None
+        request_tsh_calo_training_pause(extension.segment_directory)
+
+    extension.transition_callback = pause_extension
+    with pytest.raises(TSHCALOTrainingPauseRequested):
+        extension.start()
+    paused_segment = extension.segment_directory
+    assert paused_segment is not None
+    paused_status = json.loads(
+        (paused_segment / "training_status.json").read_text(encoding="utf-8")
+    )
+    assert paused_status["state"] == "interrupted"
+    assert paused_status["extension"]["segment_number"] == 1
+    assert paused_status["uncommitted_cuda_window"] is None
+
+    completed = IndependentTSHCALOTrainingExtension(
+        plan,
+        root,
+        problem_factory=_factory(toy_case),
+    ).start_or_resume()
+    manifest = json.loads(Path(completed.manifest_path).read_text(encoding="utf-8"))
+    assert manifest["segment_number"] == 1
+    assert manifest["cumulative_candidate_evaluations"] == 32
 
 
 def test_interrupted_campaign_resumes_exactly_from_authenticated_session(tmp_path, toy_case):

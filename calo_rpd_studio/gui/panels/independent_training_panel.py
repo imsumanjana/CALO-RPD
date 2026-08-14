@@ -108,7 +108,11 @@ class TrainingModelLibrary(QObject):
                 continue
             try:
                 children = sorted(
-                    (item for item in candidate.iterdir() if item.is_dir()),
+                    (
+                        item
+                        for item in candidate.iterdir()
+                        if item.is_dir() and item.name != "extensions"
+                    ),
                     key=lambda item: item.name.casefold(),
                 )
             except OSError:
@@ -122,6 +126,20 @@ class TrainingModelLibrary(QObject):
             return "", "Training completed, but its saved-policy manifest is unavailable."
         try:
             manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            for segment in sorted((candidate / "extensions").glob("segment-*")):
+                child_status_path = segment / self.STATUS_FILE
+                if not child_status_path.is_file():
+                    continue
+                child_status = json.loads(child_status_path.read_text(encoding="utf-8"))
+                if child_status.get("state") != "completed":
+                    continue
+                child_manifest_path = segment / self.MANIFEST_FILE
+                if not child_manifest_path.is_file():
+                    continue
+                child_manifest = json.loads(child_manifest_path.read_text(encoding="utf-8"))
+                if child_manifest.get("state") == "completed_unqualified_extension":
+                    manifest_path = child_manifest_path
+                    manifest = child_manifest
         except (OSError, json.JSONDecodeError):
             return "", "Training completed, but its saved-policy manifest could not be read."
         ensemble = dict(manifest.get("ensemble_candidate", {}) or {})
@@ -129,7 +147,7 @@ class TrainingModelLibrary(QObject):
         expected_sha256 = str(ensemble.get("sha256", "")).strip().lower()
         if not candidate_name or Path(candidate_name).name != candidate_name:
             return "", "Training completed, but its saved policy location is invalid."
-        candidate_path = candidate / candidate_name
+        candidate_path = manifest_path.parent / candidate_name
         if not candidate_path.is_file():
             return "", "Training completed, but its saved policy file is unavailable."
         try:
@@ -159,6 +177,37 @@ class TrainingModelLibrary(QObject):
             result = (str(candidate_path.resolve()), "")
         self._candidate_integrity_cache[cache_key] = result
         return result
+
+    @classmethod
+    def _extension_capability(cls, candidate: Path, plan: dict) -> tuple[bool, str]:
+        try:
+            manifest = json.loads((candidate / cls.MANIFEST_FILE).read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            return False, "Extension is unavailable because the completion manifest is unreadable."
+        contract = manifest.get("extension_contract")
+        checkpoints = manifest.get("continuation_checkpoints")
+        members = plan.get("members")
+        if (
+            not isinstance(contract, dict)
+            or contract.get("repeatable_finite_segments") is not True
+            or not isinstance(checkpoints, list)
+            or not isinstance(members, list)
+            or len(checkpoints) != len(members)
+        ):
+            return False, "This completed model predates authenticated extension checkpoints."
+        for record in checkpoints:
+            if not isinstance(record, dict):
+                return False, "A continuation-checkpoint record is invalid."
+            name = str(record.get("path", ""))
+            digest = str(record.get("sha256", ""))
+            if (
+                not name
+                or Path(name).name != name
+                or len(digest) != 64
+                or not (candidate / name).is_file()
+            ):
+                return False, "An authenticated continuation checkpoint is unavailable."
+        return True, ""
 
     def saved_campaigns(self) -> tuple[dict, ...]:
         campaigns: dict[str, dict] = {}
@@ -191,10 +240,33 @@ class TrainingModelLibrary(QObject):
                 resolved = str(candidate.resolve())
                 policy_candidate = ""
                 candidate_error = ""
+                saved_progress = dict(status.get("progress", {}) or {})
+                extension_pending = False
                 if state == "completed":
                     policy_candidate, candidate_error = self._completed_candidate(candidate)
+                    extendable, extension_error = self._extension_capability(candidate, plan)
+                    for segment in sorted((candidate / "extensions").glob("segment-*")):
+                        child_status_path = segment / self.STATUS_FILE
+                        if not child_status_path.is_file():
+                            continue
+                        try:
+                            child_status = json.loads(
+                                child_status_path.read_text(encoding="utf-8")
+                            )
+                        except (OSError, json.JSONDecodeError):
+                            continue
+                        child_state = str(child_status.get("state", ""))
+                        if child_state in {"running", "interrupted", "completed"}:
+                            saved_progress = dict(child_status.get("progress", {}) or {})
+                            extension_pending = child_state in {"running", "interrupted"}
+                else:
+                    extendable, extension_error = False, ""
                 try:
                     modified_ns = max(plan_path.stat().st_mtime_ns, status_path.stat().st_mtime_ns)
+                    for child_status_path in (candidate / "extensions").glob(
+                        f"segment-*/{self.STATUS_FILE}"
+                    ):
+                        modified_ns = max(modified_ns, child_status_path.stat().st_mtime_ns)
                 except OSError:
                     modified_ns = 0
                 campaigns[resolved.casefold()] = {
@@ -205,7 +277,10 @@ class TrainingModelLibrary(QObject):
                     "resumable": resumable,
                     "policy_candidate": policy_candidate,
                     "candidate_error": candidate_error,
-                    "progress": dict(status.get("progress", {}) or {}),
+                    "extendable": extendable,
+                    "extension_error": extension_error,
+                    "extension_pending": extension_pending,
+                    "progress": saved_progress,
                     "pause": dict(status.get("pause", {}) or {}),
                     "modified_ns": modified_ns,
                 }
@@ -494,7 +569,9 @@ class TrainingLaunchModel(QObject):
             missing.append("output")
         return tuple(missing)
 
-    def arguments(self, *, check: bool, resume: bool = False) -> list[str]:
+    def arguments(
+        self, *, check: bool, resume: bool = False, extend: bool = False
+    ) -> list[str]:
         result = [
             "-m",
             "calo_rpd_studio.scripts.train_tsh_calo",
@@ -506,6 +583,10 @@ class TrainingLaunchModel(QObject):
             result.extend(("--output", self.values["output"]))
             if resume:
                 result.append("--resume")
+        if extend:
+            if check:
+                result.extend(("--output", self.values["output"]))
+            result.append("--extend")
         return result
 
     def load_resume_record(self, record: dict) -> None:
@@ -546,6 +627,8 @@ class IndependentTrainingPanel(QWidget):
         self._process_output: deque[str] = deque(maxlen=5000)
         self._stdout_buffer = ""
         self._pause_requested = False
+        self._extension_mode = False
+        self._active_control_output = ""
         self.last_progress_event: dict = {}
 
         layout = QVBoxLayout(self)
@@ -561,7 +644,8 @@ class IndependentTrainingPanel(QWidget):
             "Opening this page does not start training. Check readiness reviews the selected inputs; "
             "Start training runs only after confirmation. A completed result is saved but is not "
             "selected for experiments automatically. The checked evaluation plan remains finite; "
-            "safe checkpoint pause and exact resume may be repeated until it completes."
+            "safe checkpoint pause and exact resume may be repeated until it completes. An "
+            "authenticated completed model can explicitly add another identical finite segment."
         )
         boundary.setObjectName("ResultBanner")
         boundary.setWordWrap(True)
@@ -629,6 +713,15 @@ class IndependentTrainingPanel(QWidget):
         self.status.setText("Resume choice changed · check readiness again")
         self._refresh_preview()
 
+    def set_extension_mode(self, enabled: bool) -> None:
+        enabled = bool(enabled)
+        if self._extension_mode == enabled:
+            return
+        self._extension_mode = enabled
+        self._validated_fingerprint = ""
+        self.start_button.setEnabled(False)
+        self._refresh_preview()
+
     def prepare_resume(self, record: dict) -> None:
         """Load an authenticated resume request; explicit readiness and start remain mandatory."""
 
@@ -659,6 +752,14 @@ class IndependentTrainingPanel(QWidget):
         self._refresh_preview()
 
     def _refresh_preview(self) -> None:
+        if self._extension_mode:
+            self.command_preview.setPlainText(
+                "Extension readiness authenticates every final member checkpoint, the unchanged "
+                "scientific/execution plan, parent lineage, exact added budget, and current "
+                "resource admission without starting work. One finite extension starts only "
+                "after readiness passes and you confirm; it remains unqualified."
+            )
+            return
         self.command_preview.setPlainText(
             "Readiness reviews the current training inputs without starting training.\n"
             "New training saves recovery points automatically. Safe pause and exact resume can be "
@@ -674,7 +775,9 @@ class IndependentTrainingPanel(QWidget):
             QMessageBox.warning(self, "Readiness inputs required", f"Select: {', '.join(missing)}")
             return
         if self.model.plan_payload is None and self.model.values.get("plan"):
-            self.model.load_plan(preserve_identity=self.resume.isChecked())
+            self.model.load_plan(
+                preserve_identity=self.resume.isChecked() or self._extension_mode
+            )
         if self.model.plan_payload is None:
             QMessageBox.warning(
                 self,
@@ -682,7 +785,10 @@ class IndependentTrainingPanel(QWidget):
                 self.model.plan_error or "Review the scientific training inputs.",
             )
             return
-        self._start_process("check", self.model.arguments(check=True))
+        self._start_process(
+            "check",
+            self.model.arguments(check=True, extend=self._extension_mode),
+        )
 
     def start_training(self) -> None:
         if self.process is not None:
@@ -722,7 +828,7 @@ class IndependentTrainingPanel(QWidget):
                 "choose a new output directory.",
             )
             return
-        if output_path.exists() and not self.resume.isChecked():
+        if output_path.exists() and not self.resume.isChecked() and not self._extension_mode:
             QMessageBox.warning(
                 self,
                 "Output already exists",
@@ -732,9 +838,18 @@ class IndependentTrainingPanel(QWidget):
             return
         answer = QMessageBox.question(
             self,
-            "Start independent policy training",
-            "Start the checked training run now? The saved result will not be selected for "
-            "experiments automatically.",
+            (
+                "Extend completed policy training"
+                if self._extension_mode
+                else "Start independent policy training"
+            ),
+            (
+                "Run one finite authenticated extension segment now? The parent and extended "
+                "results remain unqualified and are not selected for experiments automatically."
+                if self._extension_mode
+                else "Start the checked training run now? The saved result will not be selected "
+                "for experiments automatically."
+            ),
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
             QMessageBox.StandardButton.No,
         )
@@ -742,7 +857,11 @@ class IndependentTrainingPanel(QWidget):
             return
         self._start_process(
             "training",
-            self.model.arguments(check=False, resume=self.resume.isChecked()),
+            self.model.arguments(
+                check=False,
+                resume=self.resume.isChecked(),
+                extend=self._extension_mode,
+            ),
         )
 
     def _start_process(self, operation: str, arguments: list[str]) -> None:
@@ -751,6 +870,7 @@ class IndependentTrainingPanel(QWidget):
         self._process_output.clear()
         self._stdout_buffer = ""
         self._pause_requested = False
+        self._active_control_output = ""
         self.last_progress_event = {}
         self.check_button.setEnabled(False)
         self.start_button.setEnabled(False)
@@ -765,8 +885,16 @@ class IndependentTrainingPanel(QWidget):
         process.finished.connect(self._process_finished)
         self.process = process
         if operation == "training":
-            self.status.setText("Training running · result is not selected for experiments")
-            self.state.begin_policy_training("Independent TSH-CALO training process")
+            self.status.setText(
+                "Training extension running - parent and result remain unqualified"
+                if self._extension_mode
+                else "Training running · result is not selected for experiments"
+            )
+            self.state.begin_policy_training(
+                "Independent TSH-CALO training extension process"
+                if self._extension_mode
+                else "Independent TSH-CALO training process"
+            )
             self.state.task_status.begin(
                 "Independent policy training",
                 detail="Starting the finite checked plan · waiting for the first checkpoint",
@@ -790,7 +918,9 @@ class IndependentTrainingPanel(QWidget):
                 request_tsh_calo_training_pause,
             )
 
-            request = request_tsh_calo_training_pause(self.model.values["output"])
+            request = request_tsh_calo_training_pause(
+                self._active_control_output or self.model.values["output"]
+            )
         except (OSError, RuntimeError, ValueError) as exc:
             message = f"Safe pause could not be requested: {type(exc).__name__}: {exc}"
             self.activity_message.emit("ERROR", message)
@@ -865,6 +995,17 @@ class IndependentTrainingPanel(QWidget):
             self.state.task_status.update(progress=0, detail=detail)
             self.activity_message.emit("INFO", detail)
             return
+        if name in {"extension_started", "extension_resumed"}:
+            self._active_control_output = str(event.get("control_directory", ""))
+            progress = max(0, min(99, int(event.get("progress_percent", 0))))
+            detail = (
+                f"Finite extension segment {int(event.get('segment_number', 0))} "
+                f"{'resumed' if name == 'extension_resumed' else 'started'} - "
+                f"{progress}% committed"
+            )
+            self.state.task_status.update(progress=progress, detail=detail)
+            self.activity_message.emit("INFO", detail)
+            return
         if name == "campaign_resumed":
             progress = max(0, min(99, int(event.get("progress_percent", 0))))
             detail = (
@@ -881,6 +1022,15 @@ class IndependentTrainingPanel(QWidget):
                 f"Member {int(event.get('member_number', 0))}/"
                 f"{int(event.get('member_count', 0))} candidate saved - "
                 f"{progress}% of the finite plan committed"
+            )
+            self.state.task_status.update(progress=progress, detail=detail)
+            self.activity_message.emit("INFO", detail)
+            return
+        if name == "extension_member_completed":
+            progress = max(0, min(99, int(event.get("progress_percent", 0))))
+            detail = (
+                f"Extension member {int(event.get('member_number', 0))}/"
+                f"{int(event.get('member_count', 0))} candidate saved - {progress}% committed"
             )
             self.state.task_status.update(progress=progress, detail=detail)
             self.activity_message.emit("INFO", detail)
@@ -902,16 +1052,33 @@ class IndependentTrainingPanel(QWidget):
             self.training_progress.emit(dict(event))
             self.activity_message.emit("INFO", detail)
             return
+        if name == "extension_completed":
+            detail = (
+                "Finite extension completed - "
+                f"{int(event.get('cumulative_candidate_evaluations', 0))} cumulative exact "
+                "candidate evaluations"
+            )
+            self.last_progress_event = dict(event)
+            self.state.task_status.update(progress=100, detail=detail)
+            self.training_progress.emit(dict(event))
+            self.activity_message.emit("INFO", detail)
+            return
         if name != "checkpoint_committed":
             return
         progress = max(0, min(99, int(event.get("progress_percent", 0))))
         checkpoint_sha256 = str(event.get("checkpoint_sha256", ""))
+        cumulative = event.get("cumulative_candidate_evaluations")
+        cumulative_detail = (
+            ""
+            if cumulative is None
+            else f" · {int(cumulative)} cumulative candidate evaluations"
+        )
         detail = (
             f"Member {int(event.get('member_number', 0))}/{int(event.get('member_count', 0))} · "
             f"{event.get('case_identity', 'case')} · "
             f"{int(event.get('episode_candidate_evaluations', 0))}/"
             f"{int(event.get('episode_evaluation_limit', 0))} episode evaluations · "
-            f"checkpoint {checkpoint_sha256[:12]} committed"
+            f"checkpoint {checkpoint_sha256[:12]} committed{cumulative_detail}"
         )
         self.last_progress_event = dict(event)
         self.status.setText(f"Training {progress}% · {detail}")
@@ -921,7 +1088,28 @@ class IndependentTrainingPanel(QWidget):
 
     def _friendly_process_failure(self, operation: str, exit_code: int) -> str:
         technical_output = "\n".join(self._process_output).casefold()
+        if self._extension_mode and any(
+            token in technical_output
+            for token in (
+                "continuation checkpoint",
+                "extension manifest",
+                "extension chain",
+                "authenticate its manifest",
+                "exact extension is forbidden",
+            )
+        ):
+            return (
+                "This completed model cannot be extended because its authenticated continuation "
+                "state or lineage did not pass integrity checks. No extension was started. See "
+                "Activity -> Logs for technical details."
+            )
         if "currently available cpu ram" in technical_output:
+            if self._extension_mode:
+                return (
+                    "The extension requires the completed model's unchanged memory and device "
+                    "conditions. Free system memory and try again; extension settings cannot be "
+                    "reduced without breaking exact continuation. No extension was started."
+                )
             return (
                 "The selected training settings need more memory than is currently available. "
                 "Free system memory or reduce evaluations per episode, hidden dimension, or graph "
@@ -930,6 +1118,12 @@ class IndependentTrainingPanel(QWidget):
                 "training was not started."
             )
         if "currently free vram" in technical_output:
+            if self._extension_mode:
+                return (
+                    "The extension requires the completed model's unchanged admitted device. "
+                    "Free memory on that NVIDIA GPU and try again; changing the device or model "
+                    "shape would break exact continuation. No extension was started."
+                )
             return (
                 "The selected training settings exceed the safe NVIDIA GPU memory limit. Free GPU "
                 "memory, reduce the training size, or enable CPU fallback when sufficient system "
@@ -1059,7 +1253,11 @@ class IndependentTrainingPanel(QWidget):
         )
         if passed:
             self.status.setText(
-                "Training completed · result saved and not selected for experiments"
+                (
+                    "Training extension completed - parent and extended result remain unqualified"
+                    if self._extension_mode
+                    else "Training completed · result saved and not selected for experiments"
+                )
             )
             if self.last_progress_event:
                 self.last_progress_event = {
@@ -1078,7 +1276,9 @@ class IndependentTrainingPanel(QWidget):
             process.deleteLater()
 
     def _confirmed_safe_pause(self) -> bool:
-        output = Path(self.model.values.get("output", "")).expanduser()
+        output = Path(
+            self._active_control_output or self.model.values.get("output", "")
+        ).expanduser()
         try:
             status = json.loads((output / TrainingModelLibrary.STATUS_FILE).read_text("utf-8"))
             control = json.loads(
