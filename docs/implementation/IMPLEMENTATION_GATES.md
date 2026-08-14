@@ -999,3 +999,16 @@ safe checkpoint protocol. Legacy completed artifacts without authenticated optim
 state are deliberately non-extendable. Extension does not establish improvement or any policy
 lifecycle authority. Source and synthetic contracts are implemented but unexecuted; the gate remains
 open until a fresh complete owner Phase 6 evidence bundle passes.
+
+### 2026-08-14 - Responsive training and governed policy-library gate open pending validation
+
+The left training footer now delegates live percentage to the single persistent bottom status bar
+and detailed checkpoints to Activity, while retaining the safe-pause action. Responsive size-policy
+and constrained-render contracts cover the fixed-width input pane. The Policy library lists all
+completed campaigns, merges imported registry state, and exposes explicit import, qualified-only
+activation, and exact unregistered-campaign file deletion. Deletion is irreversible but runtime-
+confirmed and fail-closed for scan roots, symlinks, incomplete state, and registered/active policy
+paths. Applying a ready governing policy binds it to experiment settings and exposes Power System
+as the next explicit page without starting a case, power flow, evaluation, or experiment. These are
+implemented source and synthetic contracts only. The prior `phase6-20260814-131637` bundle predates
+them; this gate remains open until a fresh complete owner validator bundle passes.

@@ -236,7 +236,8 @@ def test_gui_exposes_retirement_plan_and_blocks_historical_training_surfaces():
     algorithms = Path("calo_rpd_studio/gui/panels/algorithms_panel.py").read_text(encoding="utf-8")
 
     assert "discover_bundled" not in intelligence
-    assert 'QPushButton("Review removal")' in intelligence
+    assert 'QPushButton("Delete model files")' in intelligence
+    assert 'setText("Review removal")' in intelligence
     assert 'QPushButton("Legacy training unavailable")' not in intelligence
     assert "self.train_button" not in intelligence
     assert 'QPushButton("Train policy")' in intelligence

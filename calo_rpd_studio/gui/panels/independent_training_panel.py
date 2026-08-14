@@ -6,6 +6,7 @@ from collections import deque
 import hashlib
 import json
 import os
+import shutil
 import sys
 import tempfile
 import uuid
@@ -313,6 +314,53 @@ class TrainingModelLibrary(QObject):
             for item in self.saved_campaigns()
             if item["state"] == "completed" and item["policy_candidate"]
         )
+
+    def completed_campaigns(self) -> tuple[dict, ...]:
+        """Return every completed campaign, including one with an unavailable candidate."""
+
+        return tuple(item for item in self.saved_campaigns() if item["state"] == "completed")
+
+    def delete_completed_campaign(self, directory: str | Path) -> Path:
+        """Permanently remove one exact, discovered, completed campaign directory.
+
+        Registry and experiment-reference checks belong to the policy-library controller. This
+        filesystem boundary independently refuses scan roots, symbolic-link targets, incomplete
+        campaigns, and paths that are no longer discoverable under a configured model location.
+        """
+
+        requested = Path(directory).expanduser()
+        if requested.is_symlink():
+            raise ValueError("A symbolic-link campaign directory cannot be deleted")
+        target = requested.resolve(strict=True)
+        if not target.is_dir():
+            raise ValueError("The selected completed campaign directory is unavailable")
+        roots = tuple(root.resolve() for root in self.scan_locations())
+        if not any(root in target.parents for root in roots):
+            raise ValueError(
+                "The selected campaign must be a child of a configured model-library location"
+            )
+        known = {
+            str(Path(item["directory"]).resolve()).casefold(): item
+            for item in self.completed_campaigns()
+        }
+        if str(target).casefold() not in known:
+            raise ValueError("The selected directory is not a currently completed campaign")
+        for required in (self.PLAN_FILE, self.STATUS_FILE, self.MANIFEST_FILE):
+            path = target / required
+            if not path.is_file() or path.is_symlink():
+                raise ValueError(
+                    "Completed campaign deletion requires ordinary plan, status, and manifest files"
+                )
+        try:
+            status = json.loads((target / self.STATUS_FILE).read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            raise ValueError("The completed campaign status could not be verified") from exc
+        if not isinstance(status, dict) or status.get("state") != "completed":
+            raise ValueError("Only a completed campaign can be deleted from the policy library")
+        shutil.rmtree(target)
+        self._candidate_integrity_cache.clear()
+        self.changed.emit()
+        return target
 
     def record_training_output(self, output_directory: str) -> None:
         output = Path(output_directory).expanduser().resolve()

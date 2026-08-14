@@ -157,7 +157,7 @@ def _checkbox_border_evidence(application, output: Path, theme: str) -> dict:
 
 def validate(output: Path, *, platform: str) -> dict:
     os.environ["QT_QPA_PLATFORM"] = str(platform)
-    from PyQt6.QtCore import QSettings
+    from PyQt6.QtCore import QPoint, QSettings
     from PyQt6.QtWidgets import (
         QApplication,
         QPushButton,
@@ -356,10 +356,17 @@ def validate(output: Path, *, platform: str) -> dict:
         "Pause policy training after the next checkpoint"
     ):
         raise AssertionError("The training pane has no accessible checkpoint-safe pause action")
-    if training_editor.training_progress.minimum() != 0 or (
-        training_editor.training_progress.maximum() != 100
+    if hasattr(training_editor, "training_progress"):
+        raise AssertionError("Training progress is duplicated inside the left input pane")
+    if (
+        window.global_status.progress.minimum() != 0
+        or window.global_status.progress.maximum() != 100
     ):
-        raise AssertionError("The training pane has no exact finite committed-progress scale")
+        raise AssertionError("The bottom status bar has no finite committed-progress scale")
+    for row in training_editor.path_rows:
+        top_left = row.mapTo(training_editor, QPoint(0, 0))
+        if top_left.x() < 0 or top_left.x() + row.width() > training_editor.width() + 2:
+            raise AssertionError("A training path row overflows the left input pane")
     if training_editor.library_picker.itemText(0) != "New training":
         raise AssertionError("The resumable-model picker has no explicit new-training choice")
     if training_editor.add_library_location_button.text() != "Add to path":
@@ -387,6 +394,26 @@ def validate(output: Path, *, platform: str) -> dict:
             raise AssertionError(f"Protected holdout {protected_case} is selectable for training")
     if window.context_pane.tabs.count() != 1:
         raise AssertionError("The input pane contains workspace navigation")
+    intelligence = window.pages_by_key["calo_intelligence"]
+    if intelligence.policy_activate_button.text() != "Activate for experiments":
+        raise AssertionError("The policy library has no explicit experiment-activation action")
+    if intelligence.policy_delete_button.text() != "Delete model files":
+        raise AssertionError("The policy library has no completed-model file deletion action")
+    if intelligence.apply_policy_button.text() != (
+        "Apply governing policy and continue to Power System"
+    ):
+        raise AssertionError("The governing-policy path does not expose the next Power System step")
+    intelligence_source = (
+        REPOSITORY_ROOT / "calo_rpd_studio/gui/panels/calo_intelligence_panel.py"
+    ).read_text(encoding="utf-8")
+    for token in (
+        "completed_campaigns()",
+        "Permanently delete completed model files",
+        "Qualification required",
+        "reviewed policy-retirement workflow",
+    ):
+        if token not in intelligence_source:
+            raise AssertionError(f"Completed-model policy-library contract is absent: {token}")
 
     window.ribbon.set_compact(True)
     if window.ribbon.compact or window.ribbon.tabs.minimumHeight() < 118:
@@ -425,6 +452,7 @@ def validate(output: Path, *, platform: str) -> dict:
         "policy_registration_executed": False,
         "policy_activation_executed": False,
         "policy_deletion_executed": False,
+        "synthetic_completed_campaign_deletion_contract_in_suite": True,
         "protected_case_work_executed": False,
         "release_executed": False,
         "scientific_workflows_executed": False,

@@ -455,6 +455,8 @@ def test_training_parameters_are_available_without_an_existing_plan(qtbot, tmp_p
 def test_completed_training_is_visible_without_automatic_policy_registration(
     qtbot, tmp_path, monkeypatch
 ):
+    from PyQt6.QtWidgets import QMessageBox
+
     state, window = _window(qtbot, tmp_path, monkeypatch)
     editor = window.context_pane.training
     policy_center = window.pages_by_key["calo_intelligence"]
@@ -501,7 +503,18 @@ def test_completed_training_is_visible_without_automatic_policy_registration(
     assert policy_center.policy_import_button.text() == "Import trained policy"
     assert policy_center.policy_import_button.isEnabled() is True
     assert policy_center.policy_activate_button.isEnabled() is False
+    assert policy_center.policy_activate_button.text() == "Import before activation"
+    assert policy_center.policy_delete_button.text() == "Delete model files"
+    assert policy_center.policy_delete_button.isEnabled() is True
     assert state.policy_registry.list(include_archived=True) == []
+    monkeypatch.setattr(
+        QMessageBox,
+        "warning",
+        lambda *_args, **_kwargs: QMessageBox.StandardButton.Yes,
+    )
+    monkeypatch.setattr(QMessageBox, "information", lambda *_args, **_kwargs: None)
+    policy_center.prepare_policy_removal()
+    assert campaign.exists() is False
 
 
 def test_authenticated_completed_training_exposes_explicit_finite_extension_action(
@@ -911,7 +924,7 @@ def test_activity_uses_indeterminate_progress_without_fabricating_percentage(
     assert window.global_status.progress.maximum() == 0
 
 
-def test_policy_training_checkpoint_progress_is_visible_and_pause_retains_it(
+def test_policy_training_checkpoint_progress_uses_bottom_bar_activity_and_pause_retains_it(
     qtbot, tmp_path, monkeypatch
 ):
     from calo_rpd_studio.gui.panels.independent_training_panel import (
@@ -946,8 +959,7 @@ def test_policy_training_checkpoint_progress_is_visible_and_pause_retains_it(
     assert "Member 2/4" in state.task_status.detail
     assert window.global_status.progress.value() == 37
     assert window.global_status.cancel_button.text() == "Pause safely"
-    assert window.context_pane.training.training_progress.value() == 37
-    assert "case57" in window.context_pane.training.training_progress_detail.text()
+    assert not hasattr(window.context_pane.training, "training_progress")
     assert "checkpoint aaaaaaaaaaaa committed" in window.activity_center.logs.toPlainText()
     last_row = window.activity_center.jobs.rowCount() - 1
     assert window.activity_center.jobs.item(last_row, 4).text() == "37%"

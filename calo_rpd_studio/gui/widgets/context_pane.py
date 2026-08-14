@@ -19,9 +19,9 @@ from PyQt6.QtWidgets import (
     QHBoxLayout,
     QLabel,
     QLineEdit,
-    QProgressBar,
     QPushButton,
     QScrollArea,
+    QSizePolicy,
     QSpinBox,
     QStackedWidget,
     QTabWidget,
@@ -465,10 +465,15 @@ class TrainingPathEditor(QWidget):
         campaign_group = QGroupBox("Campaign")
         campaign_form = QFormLayout(campaign_group)
         campaign_form.setRowWrapPolicy(QFormLayout.RowWrapPolicy.WrapAllRows)
+        campaign_form.setFieldGrowthPolicy(QFormLayout.FieldGrowthPolicy.AllNonFixedFieldsGrow)
         self.fields: dict[str, QLineEdit] = {}
         self.info_buttons: dict[str, _TrainingInfoButton] = {}
         self.path_rows: list[QWidget] = []
         self.library_picker = QComboBox()
+        self.library_picker.setMinimumWidth(0)
+        self.library_picker.setSizePolicy(
+            QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed
+        )
         self.library_picker.setAccessibleName("Resumable policy training models")
         self.library_picker.currentIndexChanged.connect(self._library_selection_changed)
         library_host = QWidget()
@@ -504,18 +509,21 @@ class TrainingPathEditor(QWidget):
         ):
             field = QLineEdit()
             field.setPlaceholderText(placeholder)
-            field.setMaximumWidth(310)
+            field.setMinimumWidth(0)
+            field.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
             field.textChanged.connect(lambda value, name=key: self.model.set_value(name, value))
             if key == "plan":
                 field.textChanged.connect(self._plan_path_changed)
             self.fields[key] = field
             row = QWidget()
+            row.setMinimumWidth(0)
+            row.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
             row_layout = QHBoxLayout(row)
             row_layout.setContentsMargins(0, 0, 0, 0)
             row_layout.setSpacing(6)
             row_layout.addWidget(field, 1)
             browse = QPushButton("Browse")
-            browse.setMaximumWidth(72)
+            browse.setFixedWidth(70)
             browse.clicked.connect(lambda _checked=False, name=key: self._browse(name))
             row_layout.addWidget(browse)
             self.path_rows.append(row)
@@ -746,18 +754,6 @@ class TrainingPathEditor(QWidget):
         self.status.setObjectName("ContextValue")
         self.status.setWordWrap(True)
         action_layout.addWidget(self.status)
-        self.training_progress = QProgressBar()
-        self.training_progress.setRange(0, 100)
-        self.training_progress.setValue(0)
-        self.training_progress.setFormat("0% committed")
-        self.training_progress.setAccessibleName("Committed policy training progress")
-        self.training_progress.hide()
-        action_layout.addWidget(self.training_progress)
-        self.training_progress_detail = QLabel()
-        self.training_progress_detail.setObjectName("ContextHelp")
-        self.training_progress_detail.setWordWrap(True)
-        self.training_progress_detail.hide()
-        action_layout.addWidget(self.training_progress_detail)
         self.training_action_button = QPushButton("Check readiness")
         self.training_action_button.setObjectName("PrimaryButton")
         self.training_action_button.setAccessibleName("Check policy training readiness")
@@ -784,7 +780,6 @@ class TrainingPathEditor(QWidget):
         self.training_controller.activity_message.connect(self._training_activity)
         self.training_controller.training_completed.connect(self.refresh_model_library)
         self.training_controller.training_paused.connect(self.refresh_model_library)
-        self.training_controller.training_progress.connect(self._training_progress_changed)
         self.model_library.changed.connect(self.refresh_model_library)
         # Initial selection updates the model and refreshes this editor. Keep it after the
         # status/action widgets exist because refresh() writes to both of them.
@@ -794,25 +789,6 @@ class TrainingPathEditor(QWidget):
         self.refresh()
         if str(severity).upper() in {"WARNING", "ERROR", "CRITICAL"}:
             self.status.setText(str(message))
-
-    def _training_progress_changed(self, event: dict) -> None:
-        progress = max(0, min(100, int(event.get("progress_percent", 0))))
-        cumulative = event.get("cumulative_candidate_evaluations")
-        cumulative_text = (
-            "" if cumulative is None else f" · {int(cumulative)} cumulative"
-        )
-        self.training_progress.setValue(progress)
-        self.training_progress.setFormat(f"{progress}% committed")
-        self.training_progress_detail.setText(
-            f"Member {int(event.get('member_number', 0))}/"
-            f"{int(event.get('member_count', 0))} · "
-            f"{event.get('case_identity', 'case')} · "
-            f"{int(event.get('episode_candidate_evaluations', 0))}/"
-            f"{int(event.get('episode_evaluation_limit', 0))} evaluations · "
-            f"checkpoint {str(event.get('checkpoint_sha256', ''))[:12]}{cumulative_text}"
-        )
-        self.training_progress.show()
-        self.training_progress_detail.show()
 
     def _info_label(self, key: str, label: str) -> QWidget:
         host = QWidget()
@@ -1023,8 +999,6 @@ class TrainingPathEditor(QWidget):
         self._selected_extension_pending = False
         self.training_controller.set_extension_mode(False)
         self.training_controller.last_progress_event = {}
-        self.training_progress.hide()
-        self.training_progress_detail.hide()
         self.resume.setChecked(False)
         self.fields["plan"].clear()
         self.model.clear_loaded_plan()
@@ -1134,11 +1108,10 @@ class TrainingPathEditor(QWidget):
         idle = controller.process is None
         training_active = not idle and controller._operation == "training"
         self.pause_training_button.setVisible(training_active)
+        self.training_action_button.setVisible(not training_active)
         self.pause_training_button.setEnabled(
             training_active and not controller._pause_requested
         )
-        if controller.last_progress_event:
-            self._training_progress_changed(controller.last_progress_event)
         saved_locked = bool(self._selected_saved_state)
         if self._selected_saved_resumable:
             self.recovery_stack.setCurrentWidget(self.resume)
@@ -1172,9 +1145,15 @@ class TrainingPathEditor(QWidget):
                 and not bool(control.property("protectedHoldout"))
             )
         if controller.process is not None:
-            self.status.setText(controller.status.text())
-            action_label = "Pause pending" if controller._pause_requested else "Training active"
-            self._set_primary_action(action_label, controller.status.text(), False)
+            if training_active:
+                self.status.setText(
+                    "Safe pause pending · progress remains in the bottom bar and Activity"
+                    if controller._pause_requested
+                    else "Training active · progress is shown in the bottom bar and Activity"
+                )
+            else:
+                self.status.setText(controller.status.text())
+                self._set_primary_action("Readiness check active", controller.status.text(), False)
             return
         if self._selected_saved_state == "completed":
             record = self.library_picker.currentData()
@@ -1385,6 +1364,8 @@ class ContextPane(QWidget):
         editor_scroll.setWidgetResizable(True)
         editor_scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         editor_host = QFrame()
+        editor_host.setMinimumWidth(0)
+        editor_host.setSizePolicy(QSizePolicy.Policy.Ignored, QSizePolicy.Policy.Preferred)
         editor_host.setObjectName("ContextEditor")
         editor_layout = QVBoxLayout(editor_host)
         editor_layout.setContentsMargins(14, 14, 14, 14)
@@ -1397,6 +1378,8 @@ class ContextPane(QWidget):
         editor_layout.addWidget(self.title)
         editor_layout.addWidget(self.description)
         self.stack = QStackedWidget()
+        self.stack.setMinimumWidth(0)
+        self.stack.setSizePolicy(QSizePolicy.Policy.Ignored, QSizePolicy.Policy.Expanding)
         editor_layout.addWidget(self.stack, 1)
         editor_scroll.setWidget(editor_host)
         self.tabs.addTab(editor_scroll, "Inputs")

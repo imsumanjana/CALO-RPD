@@ -1446,3 +1446,12 @@ scientific/hardware qualification—not as a final release.
   number of successful finite children can be requested; none starts automatically. More optimization
   is not evidence of a stronger or qualified model. The source/tests/ignored validator are unexecuted,
   so the same fresh complete Phase 6 command and returned log-directory requirement remain current.
+- The latest UI/policy-library follow-up removes the duplicate training progress block from the left
+  footer, makes its path rows responsive, lists every completed campaign (including attention
+  states), merges imported registry state into the completed row, and presents explicit qualified-
+  only activation. `Delete model files` permanently removes only an exact unregistered completed
+  campaign child after confirmation; registered/active records remain on the reviewed retirement
+  path. Applying a ready governing policy binds it and navigates to newly unlocked Power System but
+  starts no case, power flow, or evaluation. Source/tests/offscreen contracts and the ignored
+  validator are unexecuted. Run the same full owner validator and return the complete new log
+  directory; do not treat implementation as validation, qualification, or release evidence.

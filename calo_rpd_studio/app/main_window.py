@@ -259,7 +259,15 @@ class MainWindow(QMainWindow):
         self.workflow.changed.connect(self._persist_workspace_state)
 
     def _governing_policy_event(self) -> None:
-        self.state.notify_policy_state_changed()
+        status = self.state.notify_policy_state_changed()
+        self._refresh_workflow()
+        if status.ready:
+            self._show_status_message(
+                "Governing policy applied · Power System is unlocked for experiment setup"
+            )
+            # Navigation changes no scientific state and starts no evaluation. It exposes the
+            # next explicit setup step only after the qualified immutable policy binding passes.
+            self._set_workspace("power_system")
 
     def _apply_interface_density(self, density: str) -> None:
         self.interface_density = apply_compact_input_policy(self.stack, density)

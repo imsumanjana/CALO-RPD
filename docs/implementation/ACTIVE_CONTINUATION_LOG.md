@@ -2427,8 +2427,8 @@ Append timestamped entries below this line after each material action, validatio
 
 - The independent campaign now emits schema-bound start, committed-checkpoint, resume, member, pause,
   and completion events. `training_events.jsonl` retains the detailed event history while the CLI
-  streams checkpoint events for the GUI. The global task bar, Training Inputs pane, and Activity
-  Jobs/Logs expose exact committed candidate-evaluation progress and checkpoint identity.
+  streams checkpoint events for the GUI. The global task bar exposes exact committed percentage;
+  Activity Jobs/Logs retain candidate-evaluation and checkpoint identity detail.
 - Pause is cooperative: the GUI writes an idempotent control request bound to the campaign ID and
   immutable plan hash. The runner acknowledges it only after the current bounded window finishes,
   the checkpoint is durably saved and hashed, and `uncommitted_cuda_window` is cleared. Only that
@@ -2465,3 +2465,28 @@ Append timestamped entries below this line after each material action, validatio
 - Production source, synthetic unit/GUI/static/offscreen contracts, the ignored Phase 6 validator,
   active status, traceability, and handoff are updated. Nothing was executed by Codex. Fresh complete
   owner validation remains pending and no policy/scientific/protected/release workflow ran.
+
+### 2026-08-14 - Responsive training and completed-policy-library workflow implemented, validation pending
+
+- The training input footer no longer repeats the percentage bar and checkpoint detail already
+  presented by the persistent bottom status bar and Activity Jobs/Logs. While training owns the
+  runtime, the left footer retains only a short location hint and the checkpoint-safe pause action.
+  Path fields, rows, the editor host, and its stack now shrink inside the fixed-width dock; the
+  horizontal scrollbar remains prohibited.
+- Policy-library discovery now includes every completed campaign, including an invalid/missing
+  candidate attention state. A completed campaign remains visible after import by merging its
+  registry record into the same row. Import is explicit; training completion still confers no
+  qualification, activation, selection, binding, or experiment authority.
+- A library row can activate a policy only when the existing registry proves it independently
+  qualified, compatible, post-development eligible, immutable, checksum-valid, and backed by a
+  passed qualification receipt. Ordinary completed candidates visibly require import and then
+  qualification. No qualification workflow was added or executed.
+- `Delete model files` physically removes one exact unregistered completed campaign child directory
+  only after an irreversible-path confirmation. The guard rejects scan roots, symbolic links,
+  incomplete/non-discoverable campaigns, and any directory containing a registered or active
+  policy. Registered records retain the evidence-backed retirement-review path.
+- Applying an already ready governing policy preserves the immutable experiment binding, unlocks
+  the next Power System setup step, and navigates there without loading a case, running power flow,
+  starting evaluation, or performing any other scientific work. Source, synthetic unit/GUI/static/
+  offscreen contracts, the ignored validator, active status, and ledgers are updated but unexecuted.
+  Fresh complete owner-run Phase 6 validation remains pending.

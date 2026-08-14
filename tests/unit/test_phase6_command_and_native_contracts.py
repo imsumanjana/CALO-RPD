@@ -191,9 +191,11 @@ def test_training_model_library_scans_default_and_explicit_locations(tmp_path):
     resumable = external / "campaign-one"
     unsafe_interruption = external / "campaign-unsafe-window"
     completed = default / "campaign-complete"
+    completed_without_candidate = default / "campaign-complete-without-candidate"
     resumable.mkdir(parents=True)
     unsafe_interruption.mkdir(parents=True)
     completed.mkdir(parents=True)
+    completed_without_candidate.mkdir(parents=True)
     (resumable / "training_plan.json").write_text(
         json.dumps({"campaign_id": "campaign-one"}), encoding="utf-8"
     )
@@ -233,6 +235,16 @@ def test_training_model_library_scans_default_and_explicit_locations(tmp_path):
         ),
         encoding="utf-8",
     )
+    (completed_without_candidate / "training_plan.json").write_text(
+        json.dumps({"campaign_id": "campaign-complete-without-candidate"}),
+        encoding="utf-8",
+    )
+    (completed_without_candidate / "training_status.json").write_text(
+        json.dumps({"state": "completed"}), encoding="utf-8"
+    )
+    (completed_without_candidate / "training_manifest.json").write_text(
+        json.dumps({"state": "completed_unqualified"}), encoding="utf-8"
+    )
 
     library = TrainingModelLibrary(settings, default_directory=default)
     assert default.is_dir()
@@ -250,12 +262,28 @@ def test_training_model_library_scans_default_and_explicit_locations(tmp_path):
         },
     )
     saved = {item["campaign_id"]: item for item in library.saved_campaigns()}
-    assert set(saved) == {"campaign-one", "campaign-unsafe-window", "campaign-complete"}
+    assert set(saved) == {
+        "campaign-one",
+        "campaign-unsafe-window",
+        "campaign-complete",
+        "campaign-complete-without-candidate",
+    }
     assert saved["campaign-one"]["resumable"] is True
     assert saved["campaign-unsafe-window"]["resumable"] is False
     assert saved["campaign-complete"]["resumable"] is False
     assert saved["campaign-complete"]["policy_candidate"] == str(completed_candidate.resolve())
+    assert {item["campaign_id"] for item in library.completed_campaigns()} == {
+        "campaign-complete",
+        "campaign-complete-without-candidate",
+    }
     assert library.completed_policy_candidates() == (saved["campaign-complete"],)
+
+    deleted = library.delete_completed_campaign(completed)
+    assert deleted == completed.resolve()
+    assert completed.exists() is False
+    assert tuple(item["campaign_id"] for item in library.completed_campaigns()) == (
+        "campaign-complete-without-candidate",
+    )
 
 
 def test_phase6_shell_contract_keeps_inputs_and_ribbon_permanent():
@@ -276,6 +304,9 @@ def test_phase6_shell_contract_keeps_inputs_and_ribbon_permanent():
     assert "PROTECTED_HOLDOUT_BUS_COUNTS" in context
     assert "_TRAINING_INPUT_HELP" in context
     assert "TrainingInfoButton" in context
+    assert "QProgressBar" not in context
+    assert "progress is shown in the bottom bar and Activity" in context
+    assert "QSizePolicy.Policy.Ignored" in context
     assert "Training foundation" not in context
     assert "Development freeze" not in context
     assert "Phase 4 acceptance" not in context
@@ -516,9 +547,17 @@ def test_policy_training_process_actions_are_visible_in_the_input_pane():
     assert "self.model.load_plan(preserve_identity=preserve_identity)" in context
     assert "self._load_plan(preserve_identity=True)" in context
     assert "self.model_library.saved_campaigns()" in context
-    assert "Import trained policy" in (
+    intelligence = (
         ROOT / "calo_rpd_studio/gui/panels/calo_intelligence_panel.py"
     ).read_text(encoding="utf-8")
+    assert "Import trained policy" in intelligence
+    assert "completed_campaigns()" in intelligence
+    assert "Activate for experiments" in intelligence
+    assert "Delete model files" in intelligence
+    assert "Permanently delete completed model files" in intelligence
+    assert "Qualification required" in intelligence
+    assert "Apply governing policy and continue to Power System" in intelligence
+    assert 'self._set_workspace("power_system")' in main_window
     assert "_training_context_was_visible" not in main_window
     assert "_update_training_command" not in main_window
     assert "self.context_pane.activate_training()" not in main_window

@@ -92,9 +92,9 @@ class CALOIntelligencePanel(ScrollablePage):
 
         buttons = QHBoxLayout()
         self.policy_import_button = QPushButton("Import policy")
-        self.policy_activate_button = QPushButton("Select for experiments")
+        self.policy_activate_button = QPushButton("Activate for experiments")
         self.policy_archive_button = QPushButton("Archive")
-        self.policy_delete_button = QPushButton("Review removal")
+        self.policy_delete_button = QPushButton("Delete model files")
         self.policy_refresh_button = QPushButton("Refresh")
         self.show_archived_policies = QCheckBox("Show archived")
         self.policy_import_button.clicked.connect(self.import_policy)
@@ -124,7 +124,9 @@ class CALOIntelligencePanel(ScrollablePage):
         self.path.setPlaceholderText("Select a compatible policy in the Policy library")
         self.deterministic = QCheckBox("Use deterministic policy decisions during evaluation")
         self.deterministic.setChecked(True)
-        self.apply_policy_button = QPushButton("Apply governing policy to experiment settings")
+        self.apply_policy_button = QPushButton(
+            "Apply governing policy and continue to Power System"
+        )
         self.apply_policy_button.setObjectName("PrimaryButton")
         self.apply_policy_button.clicked.connect(self.apply_policy_configuration)
         self.policy_gate_status = QLabel()
@@ -145,36 +147,75 @@ class CALOIntelligencePanel(ScrollablePage):
     def refresh_policy_library(self) -> None:
         selected_key = self._row_key(self._selected_row())
         governing = self.state.governing_policy_status()
-        registered = [
+        all_registered = [
             policy
-            for policy in self.state.policy_registry.list(
-                include_archived=self.show_archived_policies.isChecked()
-            )
+            for policy in self.state.policy_registry.list(include_archived=True)
             if not policy.checkpoint_path.endswith(".resume.pt")
             and "_lineage" not in str(policy.checkpoint_path)
         ]
-        registered_paths = {
-            str(Path(policy.checkpoint_path).expanduser().resolve()).casefold()
-            for policy in registered
+        registered = [
+            policy
+            for policy in all_registered
+            if self.show_archived_policies.isChecked() or not policy.archived
+        ]
+        registered_by_path = {
+            str(Path(policy.checkpoint_path).expanduser().resolve()).casefold(): policy
+            for policy in all_registered
         }
         discovered: list[dict] = []
+        matched_policy_ids: set[str] = set()
         if self.model_library is not None:
-            for campaign in self.model_library.completed_policy_candidates():
+            for campaign in self.model_library.completed_campaigns():
                 candidate_path = str(campaign.get("policy_candidate", ""))
-                if not candidate_path or candidate_path.casefold() in registered_paths:
-                    continue
-                discovered.append({**campaign, "row_kind": "completed_training"})
-        self._policy_rows = [*registered, *discovered]
+                registered_policy = registered_by_path.get(candidate_path.casefold())
+                if registered_policy is not None:
+                    matched_policy_ids.add(registered_policy.id)
+                discovered.append(
+                    {
+                        **campaign,
+                        "row_kind": "completed_training",
+                        "registered_policy": registered_policy,
+                    }
+                )
+        self._policy_rows = [
+            policy for policy in registered if policy.id not in matched_policy_ids
+        ] + discovered
         self.policy_table.setRowCount(len(self._policy_rows))
         for row, policy in enumerate(self._policy_rows):
             if isinstance(policy, dict):
-                values = (
-                    "",
-                    str(policy.get("campaign_id", "Saved policy")),
-                    "—",
-                    "Training complete · import required",
-                    "Saved candidate",
-                )
+                registered_policy = policy.get("registered_policy")
+                candidate_error = str(policy.get("candidate_error", ""))
+                if registered_policy is None:
+                    values = (
+                        "",
+                        str(policy.get("campaign_id", "Saved policy")),
+                        "U",
+                        (
+                            "Training complete · import required"
+                            if policy.get("policy_candidate")
+                            else "Training complete · candidate unavailable"
+                        ),
+                        "Verified saved candidate" if not candidate_error else "Needs attention",
+                    )
+                else:
+                    scientific_status = policy_record_user_status(registered_policy)
+                    if (
+                        registered_policy.active
+                        and governing.ready
+                        and governing.policy_id == registered_policy.id
+                    ):
+                        scientific_status = "Ready and active"
+                    values = (
+                        "Active" if registered_policy.active else "",
+                        str(policy.get("campaign_id", registered_policy.name)),
+                        registered_policy.grade,
+                        scientific_status,
+                        (
+                            "Compatible"
+                            if registered_policy.compatible_with(TSH_CALO_ALGORITHM_ID)
+                            else "Not compatible"
+                        ),
+                    )
             else:
                 scientific_status = policy_record_user_status(policy)
                 if policy.active and governing.ready and governing.policy_id == policy.id:
@@ -209,7 +250,9 @@ class CALOIntelligencePanel(ScrollablePage):
 
     def _selected_policy(self):
         selected = self._selected_row()
-        return None if isinstance(selected, dict) else selected
+        if isinstance(selected, dict):
+            return selected.get("registered_policy")
+        return selected
 
     def _selected_completed_training(self) -> dict | None:
         selected = self._selected_row()
@@ -229,31 +272,75 @@ class CALOIntelligencePanel(ScrollablePage):
 
     def _select_policy_id(self, policy_id: str) -> None:
         for row, policy in enumerate(self._policy_rows):
-            if getattr(policy, "id", "") == policy_id:
+            registered_policy = (
+                policy.get("registered_policy") if isinstance(policy, dict) else policy
+            )
+            if getattr(registered_policy, "id", "") == policy_id:
                 self.policy_table.selectRow(row)
                 return
 
     def _policy_selection_changed(self) -> None:
         completed_training = self._selected_completed_training()
         if completed_training is not None:
-            self.policy_import_button.setText("Import trained policy")
-            self.policy_import_button.setEnabled(
-                bool(completed_training.get("policy_candidate", ""))
-            )
-            self.policy_activate_button.setEnabled(False)
-            self.policy_archive_button.setEnabled(False)
-            self.policy_archive_button.setText("Archive")
-            self.policy_delete_button.setEnabled(False)
+            policy = self._selected_policy()
+            if policy is None:
+                self.policy_import_button.setText("Import trained policy")
+                self.policy_import_button.setEnabled(
+                    bool(completed_training.get("policy_candidate", ""))
+                )
+                self.policy_activate_button.setText("Import before activation")
+                self.policy_activate_button.setEnabled(False)
+                self.policy_archive_button.setEnabled(False)
+                self.policy_archive_button.setText("Archive")
+                self.policy_delete_button.setText("Delete model files")
+                self.policy_delete_button.setToolTip(
+                    "Permanently delete this unregistered completed campaign directory after "
+                    "an exact-path confirmation."
+                )
+                self.policy_delete_button.setEnabled(
+                    bool(completed_training.get("directory", ""))
+                )
+            else:
+                self.policy_import_button.setText("Imported")
+                self.policy_import_button.setEnabled(False)
+                if policy.active:
+                    self.policy_activate_button.setText("Active governing policy")
+                    self.policy_activate_button.setEnabled(False)
+                else:
+                    eligible = policy_record_user_status(policy) == "Eligible to select"
+                    self.policy_activate_button.setText(
+                        "Activate for experiments" if eligible else "Qualification required"
+                    )
+                    self.policy_activate_button.setEnabled(eligible)
+                self.policy_archive_button.setEnabled(not policy.active)
+                self.policy_archive_button.setText(
+                    "Restore archived" if policy.archived else "Archive"
+                )
+                self.policy_delete_button.setText("Review removal")
+                self.policy_delete_button.setToolTip(
+                    "Registered policies use the evidence-backed retirement workflow; active "
+                    "policies cannot be deleted."
+                )
+                self.policy_delete_button.setEnabled(True)
             self.path.setText(str(completed_training.get("campaign_id", "")))
             return
         policy = self._selected_policy()
         self.policy_import_button.setText("Import policy")
         self.policy_import_button.setEnabled(True)
-        self.policy_activate_button.setEnabled(
-            bool(policy and policy_record_user_status(policy) == "Eligible to select")
+        eligible = bool(policy and policy_record_user_status(policy) == "Eligible to select")
+        self.policy_activate_button.setText(
+            "Active governing policy"
+            if policy is not None and policy.active
+            else ("Activate for experiments" if eligible else "Qualification required")
         )
-        self.policy_archive_button.setEnabled(policy is not None)
+        self.policy_activate_button.setEnabled(eligible)
+        self.policy_archive_button.setEnabled(policy is not None and not policy.active)
         self.policy_delete_button.setEnabled(policy is not None)
+        self.policy_delete_button.setText("Review removal")
+        self.policy_delete_button.setToolTip(
+            "Registered policies use the evidence-backed retirement workflow; active policies "
+            "cannot be deleted."
+        )
         self.policy_archive_button.setText(
             "Restore archived" if policy is not None and policy.archived else "Archive"
         )
@@ -351,6 +438,10 @@ class CALOIntelligencePanel(ScrollablePage):
         self.refresh_policy_library()
 
     def prepare_policy_removal(self) -> None:
+        completed_training = self._selected_completed_training()
+        if completed_training is not None and self._selected_policy() is None:
+            self._delete_completed_training(completed_training)
+            return
         selected, _filter = QFileDialog.getSaveFileName(
             self,
             "Save policy removal review",
@@ -384,6 +475,59 @@ class CALOIntelligencePanel(ScrollablePage):
             self,
             "Removal review saved",
             "The policy removal review was saved. No policy was changed or deleted.",
+        )
+
+    def _delete_completed_training(self, completed_training: dict) -> None:
+        if self.model_library is None:
+            return
+        directory_text = str(completed_training.get("directory", "")).strip()
+        campaign_id = str(completed_training.get("campaign_id", "Completed model")).strip()
+        if not directory_text:
+            return
+        try:
+            directory = Path(directory_text).expanduser().resolve(strict=True)
+            for policy in self.state.policy_registry.list(include_archived=True):
+                checkpoint = Path(policy.checkpoint_path).expanduser().resolve()
+                if checkpoint == directory or directory in checkpoint.parents:
+                    raise ValueError(
+                        "This completed campaign is registered in the policy library. Use the "
+                        "reviewed policy-retirement workflow; model files were not deleted."
+                    )
+        except (OSError, RuntimeError, ValueError) as exc:
+            show_error(
+                self,
+                "Completed model could not be deleted",
+                "The exact completed-campaign target could not be verified.",
+                exc,
+                source="completed training deletion preflight",
+            )
+            return
+        answer = QMessageBox.warning(
+            self,
+            "Permanently delete completed model files",
+            f"Delete completed campaign {campaign_id!r} and every checkpoint, log, extension, "
+            f"and model file inside this exact directory?\n\n{directory}\n\n"
+            "This cannot be undone. No registered or active policy will be changed.",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.Cancel,
+            QMessageBox.StandardButton.Cancel,
+        )
+        if answer != QMessageBox.StandardButton.Yes:
+            return
+        try:
+            deleted = self.model_library.delete_completed_campaign(directory)
+        except (OSError, RuntimeError, ValueError) as exc:
+            show_error(
+                self,
+                "Completed model could not be deleted",
+                "No verified completed-campaign deletion was accepted.",
+                exc,
+                source="completed training deletion",
+            )
+            return
+        QMessageBox.information(
+            self,
+            "Completed model files deleted",
+            f"The completed campaign directory was permanently deleted:\n{deleted}",
         )
 
     def apply_policy_configuration(self) -> None:
