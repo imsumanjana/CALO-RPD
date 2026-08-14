@@ -2737,3 +2737,23 @@ Append timestamped entries below this line after each material action, validatio
 - Production source, synthetic unit/GUI/static contracts, docs, and the ignored Phase 6 validator
   were updated. No test, validator, GUI, training, qualification, protected-case, Docker,
   publication, or release workflow was executed; fresh owner validation is pending.
+
+### 2026-08-15 - New training plans generated from visible inputs, validation pending
+
+- The ordinary **New training** path now treats the campaign, eligible cases, ensemble/member seed,
+  population, finite evaluation budget, compute/fallback, and PPO/model controls as the complete
+  scientist-facing settings surface. **Check readiness** generates the full internal plan from
+  those values plus code-owned safe resource/schema/provenance/resume defaults. No external JSON
+  template is required and plan construction still starts no training or policy lifecycle action.
+- `Add to path`, the displayed managed default location, `Settings template`, and `Import settings`
+  were removed from the training pane. The managed per-user library and output directory remain
+  internal/application-owned; `Refresh` and the explicit training-directory chooser remain.
+- Selecting a retained campaign still loads its exact plan internally for authenticated resume or
+  compatible finite extension. A library refresh that loses the selected campaign now resets both
+  the selector and backing model to **New training**, clears the stale plan identity/error, creates a
+  new campaign/output identity, and permits input-generated plan construction.
+- Synthetic GUI/static/offscreen contracts and the Git-ignored Phase 6 validator were updated for
+  automatic plan generation, absence of the four obsolete controls, and the disappearing-campaign
+  regression. Per repository instructions Codex ran no tests, validator, GUI, training, extension,
+  qualification, protected-case, deletion, Docker, publication, or release workflow. Fresh complete
+  owner Phase 6 validation remains pending.

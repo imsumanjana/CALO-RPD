@@ -305,8 +305,8 @@ def test_phase6_shell_contract_keeps_inputs_and_ribbon_permanent():
     assert "PROTECTED_HOLDOUT_BUS_COUNTS" in context
     assert "_TRAINING_INPUT_HELP" in context
     assert "TrainingInfoButton" in context
-    assert "class _ResponsivePathLabel" in context
-    assert "Qt.TextFlag.TextWrapAnywhere" in context
+    assert 'self.library_picker.addItem("New training", "")' in context
+    assert 'self.fields["output"] = output_field' in context
     assert "QProgressBar" not in context
     assert "progress is shown in the bottom bar and Activity" in context
     assert "QSizePolicy.Policy.Ignored" in context
@@ -556,8 +556,12 @@ def test_policy_training_process_actions_are_visible_in_the_input_pane():
     )
     assert training_core.count("_build_and_admit_training_network(config)") == 2
     assert "finally:\n        guard.close()" in training_core
-    assert 'self.add_library_location_button = QPushButton("Add to path")' in context
     assert 'self.library_picker.addItem("New training", "")' in context
+    assert 'self.add_library_location_button = QPushButton("Add to path")' not in context
+    assert 'self.load_plan_button = QPushButton("Import settings")' not in context
+    assert '("plan", "Settings template"' not in context
+    assert "if selected_index == 0 and current:" in context
+    assert 'self.model.set_value("plan", "")' in context
     assert "self.model.load_plan(preserve_identity=preserve_identity)" in context
     assert "self._load_plan(preserve_identity=True)" in context
     assert "self.model_library.saved_campaigns()" in context

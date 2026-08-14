@@ -103,8 +103,11 @@ The current applicable training controls have compact accessible hover/focus inf
 purpose and directional-effect guidance. Development and acceptance paths are not user inputs,
 and the policy-training pane is dedicated to trainable **TSH-CALO**. Policy-free **CALO** remains
 an ordinary algorithm/experiment choice and is not shown among inapplicable training inputs;
-TSH-CALO uses the existing independent readiness/start workflow. Optional plans are scientific-settings
-templates only. This source addition awaits the same focused owner validator.
+TSH-CALO uses the existing independent readiness/start workflow. The historical optional-template
+surface is now superseded: **New training** generates its full plan from visible inputs plus
+application-owned safe defaults, while saved campaigns load their retained plan internally for exact
+resume/extension. The ordinary UI no longer exposes Add to path, the managed default path, Settings
+template, or Import settings. This source addition awaits the same focused owner validator.
 
 The latest Phase 6 policy/GUI consolidation removes the dormant embedded training implementation,
 routes policy-training resume records only to the independent prefill/check/explicit-start state

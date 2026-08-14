@@ -839,8 +839,13 @@ class IndependentTrainingPanel(QWidget):
         self.resume.setEnabled(self.process is None)
         missing = self.model.missing(include_output=False)
         output = values.get("output") or "not selected"
+        plan_source = (
+            "retained saved-training plan"
+            if values.get("plan")
+            else "generated from the visible training inputs"
+        )
         self.plan_summary.setText(
-            f"Settings template: {values.get('plan') or 'not selected'}\nOutput: {output}"
+            f"Plan: {plan_source}\nOutput: {output}"
         )
         self.status.setText(
             "Readiness invalidated by input change"

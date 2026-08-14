@@ -45,50 +45,11 @@ def _help(text: str) -> QLabel:
     return label
 
 
-class _ResponsivePathLabel(QLabel):
-    """Wrap a long filesystem path and reserve every rendered line."""
-
-    def __init__(self, text: str, parent=None) -> None:
-        super().__init__(text, parent)
-        self.setWordWrap(True)
-        self.setMinimumWidth(0)
-        self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
-        self.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
-
-    def heightForWidth(self, width: int) -> int:  # noqa: N802 - Qt API
-        margins = self.contentsMargins()
-        usable_width = max(
-            1,
-            width - margins.left() - margins.right() - (self.margin() * 2),
-        )
-        flags = Qt.TextFlag.TextWordWrap | Qt.TextFlag.TextWrapAnywhere
-        bounds = self.fontMetrics().boundingRect(
-            0,
-            0,
-            usable_width,
-            1_000_000,
-            flags.value,
-            self.text(),
-        )
-        return bounds.height() + margins.top() + margins.bottom() + (self.margin() * 2)
-
-    def resizeEvent(self, event) -> None:  # noqa: N802 - Qt API
-        super().resizeEvent(event)
-        required_height = self.heightForWidth(event.size().width())
-        if required_height > 0 and self.height() != required_height:
-            self.setFixedHeight(required_height)
-            self.updateGeometry()
-
-
 _TRAINING_INPUT_HELP = {
     "library": (
-        "Saved interrupted training runs found in the private application model directory and "
-        "any locations you explicitly add. Selecting one keeps checkpoints in its own directory; "
-        "it never copies them into the default directory."
-    ),
-    "plan": (
-        "Optional settings template. Importing it fills the visible controls with compatible "
-        "scientific training settings."
+        "Saved training found in the application's managed model library. Select New training to "
+        "build a fresh plan from the visible inputs, or select one retained campaign for its "
+        "authenticated resume or extension workflow."
     ),
     "output": (
         "Directory for checkpoints, run records, and the trained policy. Choose a new directory; "
@@ -178,12 +139,8 @@ _TRAINING_INPUT_HELP = {
 
 _TRAINING_INPUT_SUGGESTIONS = {
     "library": (
-        "Suggested choice: New training for a fresh run, or one listed interrupted run for an "
-        "exact resume. Added locations expand discovery only and have no low-to-high range."
-    ),
-    "plan": (
-        "Suggested selection: leave blank for fresh defaults, or import one JSON settings "
-        "template. A template does not make a policy available for experiments."
+        "Suggested choice: New training for a fresh input-generated plan, or one listed retained "
+        "campaign for an exact resume or compatible finite extension."
     ),
     "output": (
         "Suggested selection: one new empty directory, or one explicitly resumable directory "
@@ -519,54 +476,31 @@ class TrainingPathEditor(QWidget):
         library_layout.setSpacing(6)
         library_layout.addWidget(self.library_picker)
         library_buttons = QHBoxLayout()
-        self.add_library_location_button = QPushButton("Add to path")
-        self.add_library_location_button.setToolTip(
-            "Add another directory to future resumable-model scans."
-        )
-        self.add_library_location_button.setAccessibleName("Add a resumable training scan location")
-        self.add_library_location_button.clicked.connect(self._add_library_location)
         self.refresh_library_button = QPushButton("Refresh")
         self.refresh_library_button.clicked.connect(self.refresh_model_library)
-        library_buttons.addWidget(self.add_library_location_button)
         library_buttons.addWidget(self.refresh_library_button)
         library_buttons.addStretch(1)
         library_layout.addLayout(library_buttons)
-        default_text = f"Default location: {self.model_library.default_directory}"
-        if self.model_library.default_directory_error:
-            default_text = "Default location unavailable · choose another training directory"
-        self.default_library_path = _ResponsivePathLabel(default_text)
-        self.default_library_path.setObjectName("ContextHelp")
-        self.default_library_path.setAccessibleName("Default saved-training location")
-        self.default_library_path.setToolTip(
-            self.model_library.default_directory_error or str(self.model_library.default_directory)
-        )
-        library_layout.addWidget(self.default_library_path)
         campaign_form.addRow(self._info_label("library", "Saved training"), library_host)
-        for key, label, placeholder in (
-            ("plan", "Settings template", "Optional training settings (.json)"),
-            ("output", "Training directory", "New or explicitly resumable training directory"),
-        ):
-            field = QLineEdit()
-            field.setPlaceholderText(placeholder)
-            field.setMinimumWidth(0)
-            field.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
-            field.textChanged.connect(lambda value, name=key: self.model.set_value(name, value))
-            if key == "plan":
-                field.textChanged.connect(self._plan_path_changed)
-            self.fields[key] = field
-            row = QWidget()
-            row.setMinimumWidth(0)
-            row.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
-            row_layout = QHBoxLayout(row)
-            row_layout.setContentsMargins(0, 0, 0, 0)
-            row_layout.setSpacing(6)
-            row_layout.addWidget(field, 1)
-            browse = QPushButton("Browse")
-            browse.setFixedWidth(70)
-            browse.clicked.connect(lambda _checked=False, name=key: self._browse(name))
-            row_layout.addWidget(browse)
-            self.path_rows.append(row)
-            campaign_form.addRow(self._info_label(key, label), row)
+        output_field = QLineEdit()
+        output_field.setPlaceholderText("New or explicitly resumable training directory")
+        output_field.setMinimumWidth(0)
+        output_field.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        output_field.textChanged.connect(lambda value: self.model.set_value("output", value))
+        self.fields["output"] = output_field
+        output_row = QWidget()
+        output_row.setMinimumWidth(0)
+        output_row.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        output_layout = QHBoxLayout(output_row)
+        output_layout.setContentsMargins(0, 0, 0, 0)
+        output_layout.setSpacing(6)
+        output_layout.addWidget(output_field, 1)
+        output_browse = QPushButton("Browse")
+        output_browse.setFixedWidth(70)
+        output_browse.clicked.connect(lambda _checked=False: self._browse("output"))
+        output_layout.addWidget(output_browse)
+        self.path_rows.append(output_row)
+        campaign_form.addRow(self._info_label("output", "Training directory"), output_row)
         self.resume = self.training_controller.resume
         self.resume.setText("Resume selected interrupted training")
         self.resume.setToolTip(
@@ -603,9 +537,6 @@ class TrainingPathEditor(QWidget):
         self.recovery_stack.addWidget(self.completed_recovery)
         self.recovery_stack.addWidget(self.unavailable_recovery)
         campaign_form.addRow(self._info_label("resume", "Recovery"), self.recovery_stack)
-        self.load_plan_button = QPushButton("Import settings")
-        self.load_plan_button.clicked.connect(self._load_plan)
-        campaign_form.addRow("", self.load_plan_button)
         layout.addWidget(campaign_group)
 
         self.plan_group = QGroupBox("Training inputs")
@@ -918,22 +849,18 @@ class TrainingPathEditor(QWidget):
         self._new_plan_input_changed()
 
     def _browse(self, key: str) -> None:
+        if key != "output":
+            raise KeyError(f"Unknown scientist-facing training path: {key}")
         current = self.fields[key].text().strip()
-        if key == "output":
-            if self.resume.isChecked():
-                selected = QFileDialog.getExistingDirectory(
-                    self, "Select interrupted training directory", current
-                )
-            else:
-                selected_parent = QFileDialog.getExistingDirectory(
-                    self, "Select location for new training output", current
-                )
-                selected = self._new_output_path(selected_parent) if selected_parent else ""
-        else:
-            caption = {"plan": "Select training settings template"}[key]
-            selected, _filter = QFileDialog.getOpenFileName(
-                self, caption, current, "JSON files (*.json);;All files (*)"
+        if self.resume.isChecked():
+            selected = QFileDialog.getExistingDirectory(
+                self, "Select interrupted training directory", current
             )
+        else:
+            selected_parent = QFileDialog.getExistingDirectory(
+                self, "Select location for new training output", current
+            )
+            selected = self._new_output_path(selected_parent) if selected_parent else ""
         if selected:
             self.fields[key].setText(selected)
 
@@ -972,32 +899,13 @@ class TrainingPathEditor(QWidget):
             self.library_picker.setCurrentIndex(selected_index)
         finally:
             self.library_picker.blockSignals(False)
-        if selected_index > 0 and (
+        if selected_index == 0 and current:
+            self._select_new_training()
+        elif selected_index > 0 and (
             not isinstance(selected, dict)
             or selected.get("directory") != self.library_picker.currentData().get("directory", "")
         ):
             self._library_selection_changed(selected_index)
-
-    def _add_library_location(self) -> None:
-        selected = QFileDialog.getExistingDirectory(
-            self,
-            "Add resumable-model location",
-            str(self.model_library.default_directory.parent),
-        )
-        if not selected:
-            return
-        try:
-            location = self.model_library.add_scan_location(selected)
-        except (OSError, RuntimeError, ValueError) as exc:
-            show_warning(
-                self,
-                "Location could not be added",
-                "Choose a readable directory containing resumable training folders.",
-                exc,
-                source="training model library",
-            )
-            return
-        self.refresh_model_library(location)
 
     def _library_selection_changed(self, _index: int = -1) -> None:
         record = self.library_picker.currentData()
@@ -1014,7 +922,7 @@ class TrainingPathEditor(QWidget):
                 record.get("progress", {}) or {}
             )
             self.resume.setChecked(bool(record.get("resumable", False)))
-            self.fields["plan"].setText(str(record["plan"]))
+            self.model.set_value("plan", str(record["plan"]))
             self.fields["output"].setText(str(record["directory"]))
             self._load_plan(preserve_identity=True)
             if self.model.plan_payload is None:
@@ -1039,7 +947,7 @@ class TrainingPathEditor(QWidget):
         self.training_controller.set_extension_mode(False)
         self.training_controller.last_progress_event = {}
         self.resume.setChecked(False)
-        self.fields["plan"].clear()
+        self.model.set_value("plan", "")
         self.model.clear_loaded_plan()
         self._new_plan_mode = True
         self.campaign_id.setText(f"tsh-calo-{uuid.uuid4().hex[:12]}")
@@ -1070,10 +978,6 @@ class TrainingPathEditor(QWidget):
         self._load_plan_controls()
         if self.model.plan_payload is not None:
             self._new_plan_mode = False
-
-    def _plan_path_changed(self, value: str) -> None:
-        if not str(value).strip():
-            self._new_plan_mode = True
 
     def _set_plan_value(self, *path: str, value) -> None:
         if not self._loading_plan and not self._new_plan_mode:
@@ -1161,7 +1065,6 @@ class TrainingPathEditor(QWidget):
         else:
             self.recovery_stack.setCurrentWidget(self.automatic_recovery)
         self.library_picker.setEnabled(idle)
-        self.add_library_location_button.setEnabled(idle)
         self.refresh_library_button.setEnabled(idle)
         for row in self.path_rows:
             row.setEnabled(idle and not saved_locked)
@@ -1169,12 +1072,6 @@ class TrainingPathEditor(QWidget):
             idle
             and self._selected_saved_resumable
             and bool(self.model.values.get("output"))
-        )
-        self.load_plan_button.setEnabled(
-            idle
-            and not saved_locked
-            and not self.resume.isChecked()
-            and bool(self.model.values.get("plan"))
         )
         for control in self._plan_controls:
             control.setEnabled(
@@ -1255,9 +1152,9 @@ class TrainingPathEditor(QWidget):
             self._set_primary_action("Check readiness", "Complete the required inputs.", False)
             return
         if self.model.plan_error:
-            self.status.setText("Training settings could not be imported")
+            self.status.setText("Saved training plan could not be loaded")
             self.status.setToolTip(self.model.plan_error)
-            self._set_primary_action("Check readiness", "Load valid training settings.", False)
+            self._set_primary_action("Check readiness", "Select another saved run.", False)
             return
         self.status.setToolTip("")
         ready = controller._validated_fingerprint == self.model.fingerprint()
@@ -1295,11 +1192,18 @@ class TrainingPathEditor(QWidget):
         self.status.setText(
             "Ready for validation"
             if saved_locked
-            else "Ready for validation · automatic recovery is on"
+            else (
+                "Ready for validation · plan will be generated from these inputs · "
+                "automatic recovery is on"
+            )
         )
         self._set_primary_action(
             "Check readiness",
-            "Validate the selected training inputs without starting training.",
+            (
+                "Validate the selected retained training plan without starting training."
+                if saved_locked
+                else "Generate and validate a plan from the visible inputs without starting training."
+            ),
             True,
         )
 
@@ -1324,7 +1228,7 @@ class TrainingPathEditor(QWidget):
         if self.model.plan_payload is None and self.model.values.get("plan"):
             self._load_plan()
             if self.model.plan_payload is None:
-                self.fields["plan"].setFocus(Qt.FocusReason.ShortcutFocusReason)
+                self.library_picker.setFocus(Qt.FocusReason.ShortcutFocusReason)
                 self.refresh()
                 return
         if self.model.plan_payload is None:
@@ -1368,7 +1272,6 @@ class TrainingPathEditor(QWidget):
 
     def prepare_resume(self, record: dict) -> None:
         self.training_controller.prepare_resume(record)
-        self.fields["plan"].setText(self.model.values["plan"])
         self.fields["output"].setText(self.model.values["output"])
         self._load_plan()
         self.refresh()

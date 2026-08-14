@@ -21,6 +21,21 @@ CALO Intelligence is the policy lifecycle and readiness surface. The safe defaul
 store with rule-only CALO available. Completed training outputs appear in Policy Library and require
 an explicit import. Import never qualifies, activates, or binds a model.
 
+Use **Policies → Train policy** for a new TSH-CALO campaign. **New training** is the ordinary
+path: choose the eligible cases and visible campaign, ensemble, budget, compute, and PPO inputs,
+then select a new training directory. **Check readiness** constructs the complete internal training
+plan from those inputs plus application-owned safe defaults and current source identity; no external
+settings-template file is required. The managed model-library location is intentionally not a
+scientist input. **Refresh** updates its retained campaigns. Selecting a saved campaign loads that
+campaign's exact retained plan internally for authenticated resume or compatible finite extension;
+it never silently copies those settings into an unrelated new campaign.
+
+The visible inputs are only the scientist-controlled portion of the plan. The generated plan also
+contains deterministic member/episode identities and seeds, resource ceilings, schema and source
+provenance, checkpoint/resume contracts, and exact evaluation accounting. Creating the plan does
+not start training. Training completion still produces an unqualified, inactive candidate and does
+not register, qualify, activate, select, or bind it automatically.
+
 Executable compute modes are **CUDA-preferred** and **CPU-only**. CUDA admission is bounded by at
 most 80% of currently free VRAM, while CPU admission is bounded by at most 80% of currently available
 RAM. Intel XPU may appear only as historical or diagnostic metadata; it is not an executable mode.

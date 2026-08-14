@@ -276,7 +276,7 @@ def validate(output: Path, *, platform: str) -> dict:
         raise AssertionError("Training readiness action is unavailable for valid default inputs")
     if window.command_registry.action("policies.training").text() != "Train policy":
         raise AssertionError("Training ribbon navigation was repurposed as a hidden process action")
-    if set(training_editor.fields) != {"plan", "output"}:
+    if set(training_editor.fields) != {"output"}:
         raise AssertionError("Scientist-facing training paths are not minimal")
     if len(training_editor._plan_controls) < 15:
         raise AssertionError("Frozen-plan training parameters are absent from the input pane")
@@ -284,7 +284,6 @@ def validate(output: Path, *, platform: str) -> dict:
         raise AssertionError("Training parameters are hidden from the input pane")
     expected_help = {
         "library",
-        "plan",
         "output",
         "resume",
         "campaign_id",
@@ -376,14 +375,15 @@ def validate(output: Path, *, platform: str) -> dict:
             raise AssertionError("A training path row overflows the left input pane")
     if training_editor.library_picker.itemText(0) != "New training":
         raise AssertionError("The resumable-model picker has no explicit new-training choice")
-    if training_editor.add_library_location_button.text() != "Add to path":
-        raise AssertionError("The resumable-model picker cannot register another scan location")
-    if training_editor.default_library_path.height() < (
-        training_editor.default_library_path.heightForWidth(
-            training_editor.default_library_path.width()
-        )
+    for obsolete_control in (
+        "add_library_location_button",
+        "default_library_path",
+        "load_plan_button",
     ):
-        raise AssertionError("The complete saved-training path is clipped in the input pane")
+        if hasattr(training_editor, obsolete_control):
+            raise AssertionError(f"Obsolete training control is still visible: {obsolete_control}")
+    if window.training_launch_model.values.get("plan"):
+        raise AssertionError("New training still depends on an external settings-template path")
     if Path(training_editor.fields["output"].text()).parent != (
         window.training_model_library.default_directory
     ):

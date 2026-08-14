@@ -59,10 +59,11 @@ Safe-80 resource values are admission ceilings based on currently free VRAM or a
 must not be interpreted as current consumption.
 
 For fresh policy training, open **Policies > Train policy** once to display the scientific inputs.
-Leave **Settings template** blank to use the fresh defaults, choose eligible cases and other
-parameters, and select a new output directory. Click the same ribbon command again when it reads
-**Check readiness**. If readiness passes, it changes to **Start training**; click it and confirm the
-explicit start. The output is an unqualified, inactive candidate and is never activated
+Choose **New training**, the eligible cases and other visible parameters, and a new training
+directory. The application constructs the full internal plan from those inputs plus safe fixed
+defaults; there is no external settings-template or model-library-path control. Click **Check
+readiness** in the input pane. If readiness passes, it changes to **Start training**; click it and
+confirm the explicit start. The output is an unqualified, inactive candidate and is never activated
 automatically.
 
 ## Activity, logs, data, and shutdown
@@ -102,5 +103,6 @@ builder cache, or a different builder can require downloads again.
 - **New policy training readiness fails:** review the training-center output. Select **CALO** when
   using the built-in policy-free optimizer; it requires no training. Select **TSH-CALO** to prepare
   a new policy through the independent CLI. That CLI authenticates the generated plan, current
-  application source identity, and clean tracked source before work starts. An imported plan
-  supplies settings only. Do not weaken readiness checks to make the GUI appear ready.
+  application source identity, and clean tracked source before work starts. Saved campaigns load
+  their own retained plan internally only for exact resume or compatible finite extension. Do not
+  weaken readiness checks to make the GUI appear ready.

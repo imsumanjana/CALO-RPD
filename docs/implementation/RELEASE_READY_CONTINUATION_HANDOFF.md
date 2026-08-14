@@ -1553,3 +1553,11 @@ superseded by the stage-neutral compatibility and qualification boundary on 2026
 - Source, synthetic contracts, documentation, and the ignored validator are updated but unexecuted.
   No test, qualification, policy workflow, protected case, Docker, or release action ran; request a
   complete fresh owner `validation\logs\phase6-*` bundle.
+- The latest training-pane follow-up removes Add to path, the displayed managed default location,
+  Settings template, and Import settings. New training now generates its complete internal plan from
+  the visible inputs plus application-owned safe defaults when readiness is requested. Saved
+  campaigns still load their retained plan internally for authenticated resume/extension.
+- The saved-library fallback now clears a vanished selected campaign's hidden plan identity when it
+  moves to New training, preventing the prior generic import failure and allowing a genuinely new
+  input-generated plan. Synthetic regression and offscreen/static contracts are written but not
+  executed; fresh complete owner Phase 6 validation remains pending.

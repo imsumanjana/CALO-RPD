@@ -524,18 +524,12 @@ def test_training_parameters_are_available_without_an_existing_plan(qtbot, tmp_p
     assert editor.members.value() >= 2
     assert editor.population.value() >= 2
     assert editor.learning_rate.value() > 0
-    assert editor.load_plan_button.text() == "Import settings"
     assert editor.library_picker.itemText(0) == "New training"
+    assert set(editor.fields) == {"output"}
+    assert not hasattr(editor, "load_plan_button")
+    assert not hasattr(editor, "add_library_location_button")
+    assert not hasattr(editor, "default_library_path")
     assert Path(editor.fields["output"].text()).parent == (
-        window.training_model_library.default_directory
-    )
-    assert editor.add_library_location_button.text() == "Add to path"
-    qtbot.waitUntil(
-        lambda: editor.default_library_path.height()
-        >= editor.default_library_path.heightForWidth(editor.default_library_path.width())
-    )
-    assert editor.default_library_path.minimumWidth() == 0
-    assert editor.default_library_path.toolTip() == str(
         window.training_model_library.default_directory
     )
     assert editor.recovery_stack.currentWidget() is editor.automatic_recovery
@@ -545,6 +539,60 @@ def test_training_parameters_are_available_without_an_existing_plan(qtbot, tmp_p
     assert editor.automatic_recovery.testAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents)
     assert editor.resume.isChecked() is False
     assert "automatic recovery is on" in editor.status.text().lower()
+
+    readiness_requests = []
+    monkeypatch.setattr(
+        editor.training_controller,
+        "check_readiness",
+        lambda: readiness_requests.append(editor.model.fingerprint()),
+    )
+    editor.training_action_button.click()
+
+    assert readiness_requests == [editor.model.fingerprint()]
+    assert editor.model.values["plan"] == ""
+    assert editor.model.plan_payload is not None
+    assert editor.model.plan_payload["campaign_id"] == editor.campaign_id.text()
+    assert editor.model.plan_payload["development_cases"] == ["case30", "case57"]
+    assert editor.model.plan_payload["population_size"] == editor.population.value()
+    assert editor.model.plan_payload["max_evaluations"] == editor.evaluations.value()
+    assert editor.model.plan_payload["training"]["learning_rate"] == pytest.approx(
+        editor.learning_rate.value()
+    )
+
+
+def test_disappearing_saved_training_resets_to_input_generated_new_plan(
+    qtbot, tmp_path, monkeypatch
+):
+    _state, window = _window(qtbot, tmp_path, monkeypatch)
+    editor = window.context_pane.training
+    campaign = window.training_model_library.default_directory / "removed-campaign"
+    campaign.mkdir(parents=True)
+    plan_payload = json.loads(_training_plan(tmp_path).read_text(encoding="utf-8"))
+    plan_payload["campaign_id"] = "removed-campaign"
+    plan_path = campaign / "training_plan.json"
+    status_path = campaign / "training_status.json"
+    plan_path.write_text(json.dumps(plan_payload), encoding="utf-8")
+    status_path.write_text(json.dumps({"state": "interrupted"}), encoding="utf-8")
+
+    editor.refresh_model_library()
+    editor.library_picker.setCurrentIndex(1)
+    assert editor.model.values["plan"] == str(plan_path.resolve())
+    assert editor.model.plan_payload is not None
+
+    plan_path.unlink()
+    status_path.unlink()
+    campaign.rmdir()
+    editor.refresh_model_library()
+
+    assert editor.library_picker.currentIndex() == 0
+    assert editor.library_picker.currentText() == "New training"
+    assert editor.model.values["plan"] == ""
+    assert editor.model.plan_payload is None
+    assert editor.model.plan_error == ""
+    assert editor._new_plan_mode is True
+    assert Path(editor.fields["output"].text()).parent == (
+        window.training_model_library.default_directory
+    )
 
 
 def test_completed_training_is_visible_without_automatic_policy_registration(
@@ -900,7 +948,6 @@ def test_every_training_input_has_accessible_directional_information(qtbot, tmp_
     editor = window.context_pane.training
     expected = {
         "library",
-        "plan",
         "output",
         "resume",
         "campaign_id",
@@ -995,7 +1042,7 @@ def test_saved_training_picker_resumes_in_its_original_registered_directory(
     assert editor.resume.isEnabled() is True
     assert editor.recovery_stack.currentWidget() is editor.resume
     assert editor.fields["output"].text() == str(campaign.resolve())
-    assert editor.fields["plan"].text() == str((campaign / "training_plan.json").resolve())
+    assert editor.model.values["plan"] == str((campaign / "training_plan.json").resolve())
     assert editor.model.plan_payload is not None
     assert editor.model.plan_payload["source_commit"] == "a" * 40
     assert editor.campaign_id.isEnabled() is False
@@ -1154,7 +1201,7 @@ def test_training_is_tsh_calo_only_and_governance_paths_are_not_user_inputs(
     _state, window = _window(qtbot, tmp_path, monkeypatch)
     editor = window.context_pane.training
 
-    assert set(editor.fields) == {"plan", "output"}
+    assert set(editor.fields) == {"output"}
     assert not hasattr(editor, "architecture")
     assert "architecture" not in window.training_launch_model.values
     assert "architecture" not in editor.info_buttons

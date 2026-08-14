@@ -1160,3 +1160,14 @@ population transition after the checkpoint or cell record exists and its SHA-256
 Exact resume restores the same population, adaptive state, histories, FE counter, and RNG streams;
 it neither restarts the cell nor changes the finite budget. Source and synthetic contracts are
 implemented but unexecuted, so this gate remains open for the complete owner Phase 6 validator.
+
+### Input-generated new-training plan follow-up (2026-08-15)
+
+The ordinary new-training UI no longer exposes external scan-location or settings-template
+management. Visible campaign, eligible-case, ensemble/member-seed, finite budget, compute/fallback,
+and PPO/model inputs are combined with application-owned safe resource, schema, provenance, and
+resume defaults to construct a fresh internal plan at readiness. Retained campaigns continue to
+load their own immutable plan internally for exact resume or compatible finite extension. A removed
+selected campaign now resets to New training instead of leaving an invisible stale plan path.
+Synthetic source/GUI/offscreen contracts are implemented but unexecuted; G6/Phase 6 validation
+remains open pending a fresh complete owner validator bundle.
