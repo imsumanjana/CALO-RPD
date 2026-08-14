@@ -596,6 +596,16 @@ def test_completed_training_is_visible_without_automatic_policy_registration(
         if policy_center.policy_table.item(row, 1).text() == "completed-campaign"
     ]
     assert len(matching_rows) == 1
+    assert policy_center.policy_table.horizontalHeaderItem(2).text() == (
+        "Training evaluations"
+    )
+    assert policy_center.policy_table.item(matching_rows[0], 2).text() == "Not available"
+    assert "Completed extension segments are included" in policy_center.policy_table.item(
+        matching_rows[0], 2
+    ).toolTip()
+    assert "qualification and experiment evaluations are excluded" in (
+        policy_center.policy_table.item(matching_rows[0], 2).toolTip()
+    )
     assert policy_center.policy_table.height() > empty_table_height
     assert policy_center.policy_table.verticalScrollBarPolicy() == (
         Qt.ScrollBarPolicy.ScrollBarAlwaysOff

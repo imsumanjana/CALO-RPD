@@ -1200,6 +1200,92 @@ class ResultDatabase:
                 ),
             )
 
+    def admit_verified_policy_qualification(
+        self,
+        *,
+        qualification_id: str,
+        policy_id: str,
+        expected_sha256: str,
+        config: dict,
+        metrics: dict,
+        grade: str,
+        score: float,
+    ) -> bool:
+        """Atomically admit already-verified evidence without activating its policy.
+
+        Returns ``False`` for an exact idempotent re-admission. A reused qualification identity,
+        changed policy artifact, active policy, or conflicting evidence fails closed.
+        """
+
+        qualification_key = str(qualification_id).strip()
+        policy_key = str(policy_id).strip()
+        expected = str(expected_sha256).strip().lower()
+        config_json = json.dumps(config or {}, sort_keys=True, allow_nan=False)
+        metrics_json = json.dumps(metrics or {}, sort_keys=True, allow_nan=False)
+        if not qualification_key or not policy_key or len(expected) != 64:
+            raise ValueError("Verified qualification admission identities are incomplete")
+        with self._lock, self.connect() as con:
+            policy_row = con.execute(
+                "SELECT sha256,qualification_status,active,archived FROM policies WHERE id=?",
+                (policy_key,),
+            ).fetchone()
+            if policy_row is None:
+                raise KeyError(f"Unknown CALO policy: {policy_key}")
+            if str(policy_row["sha256"]).lower() != expected:
+                raise RuntimeError("Policy artifact identity changed before evidence admission")
+            if bool(policy_row["active"]):
+                raise PermissionError(
+                    "An active policy cannot accept replacement qualification evidence"
+                )
+            if bool(policy_row["archived"]):
+                raise PermissionError(
+                    "Restore the archived policy before admitting qualification evidence"
+                )
+            existing = con.execute(
+                "SELECT * FROM policy_qualifications WHERE id=?", (qualification_key,)
+            ).fetchone()
+            if existing is not None:
+                row = dict(existing)
+                same = bool(
+                    str(row.get("policy_id", "")) == policy_key
+                    and str(row.get("config_json", "")) == config_json
+                    and str(row.get("metrics_json", "")) == metrics_json
+                    and bool(row.get("passed", False))
+                    and str(row.get("grade", "")) == str(grade)
+                    and float(row.get("score", 0.0)) == float(score)
+                )
+                if not same:
+                    raise RuntimeError(
+                        "Qualification identity is already bound to different retained evidence"
+                    )
+                return False
+            con.execute(
+                "INSERT INTO policy_qualifications VALUES(?,?,?,?,?,?,?,?,?)",
+                (
+                    qualification_key,
+                    policy_key,
+                    self._utcnow(),
+                    "",
+                    config_json,
+                    metrics_json,
+                    1,
+                    str(grade),
+                    float(score),
+                ),
+            )
+            updated = int(
+                con.execute(
+                    "UPDATE policies SET qualification_status='qualified',grade=?,updated_at=? "
+                    "WHERE id=? AND lower(sha256)=lower(?) AND active=0 AND archived=0",
+                    (str(grade), self._utcnow(), policy_key, expected),
+                ).rowcount
+            )
+            if updated != 1:
+                raise RuntimeError(
+                    "Policy qualification admission did not update exactly one policy"
+                )
+        return True
+
     def list_policy_qualifications(self, policy_id: str | None = None) -> list[dict]:
         query = "SELECT * FROM policy_qualifications"
         args: list = []

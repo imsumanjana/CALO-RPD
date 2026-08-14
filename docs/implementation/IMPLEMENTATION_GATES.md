@@ -1078,3 +1078,29 @@ legacy freeze and acceptance hashes remain authenticated lineage; `--extend` doe
 user to reselect historical authority files. Fresh training and unfinished base-campaign resume
 retain the stricter external-authority requirement. These additions remain source/test contracts
 only until the same complete owner-run validator passes.
+
+### 2026-08-14 - Policy Library qualification-admission and evidence-comparison gate open
+
+CALO Intelligence now exposes an explicit formal lifecycle without merging scientific authorities:
+import; validate a frozen policy-bound formal plan; start or exactly resume its finite independent
+campaign; separately verify and admit passed retained evidence; compare qualified policies under
+matching frozen evidence designs; explicitly activate one; and separately apply the active immutable
+binding before continuing to Power System. No stage automatically advances the next one.
+
+Admission recomputes the canonical qualification decision and validates exact policy, plan, source,
+seed, evidence, A-E, OOD calibration, receipt, paired-cell completeness, and protected-case closure
+before one atomic registry transition. Comparison has no promotion authority. It labels a unique
+leader only when that policy Pareto-dominates all policies with the same case/seed/budget/analysis/
+threshold design; incomparable designs and metric trade-offs remain explicit scientist decisions.
+Software version, training age, and training duration are not selection metrics. Source and
+synthetic test contracts are implemented but unexecuted; the gate remains open until a fresh full
+owner Phase 6 validator bundle passes. No real policy or scientific workflow was run here.
+
+### 2026-08-14 - Policy Library cumulative training-evaluation accounting gate open
+
+Each native TSH-CALO library row now derives a model-specific cumulative candidate-evaluation count
+from authenticated training episode receipts bound to the exact candidate SHA. A completed extension
+child includes the base plus each completed finite extension segment; the parent remains immutable.
+Qualification and experiment evaluation counts are outside this field. Unverifiable or legacy
+accounting is reported as unavailable rather than inferred. Source and synthetic contracts are
+implemented but unexecuted, so this gate remains open pending a fresh complete owner Phase 6 bundle.

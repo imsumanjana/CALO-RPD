@@ -62,7 +62,7 @@ class TrainingModelLibrary(QObject):
             default_directory = Path(local_data).expanduser() / "training-models"
         self.default_directory = Path(default_directory).expanduser().resolve()
         self.default_directory_error = ""
-        self._candidate_integrity_cache: dict[tuple, tuple[str, str]] = {}
+        self._candidate_integrity_cache: dict[tuple, tuple[str, str, int | None]] = {}
         try:
             self.default_directory.mkdir(mode=0o700, parents=True, exist_ok=True)
         except OSError as exc:
@@ -121,10 +121,10 @@ class TrainingModelLibrary(QObject):
             queue.extend((item, depth + 1) for item in children)
         return tuple(candidates)
 
-    def _completed_candidate(self, candidate: Path) -> tuple[str, str]:
+    def _completed_candidate(self, candidate: Path) -> tuple[str, str, int | None]:
         manifest_path = candidate / TrainingModelLibrary.MANIFEST_FILE
         if not manifest_path.is_file():
-            return "", "Training completed, but its saved-policy manifest is unavailable."
+            return "", "Training completed, but its saved-policy manifest is unavailable.", None
         try:
             manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
             for segment in sorted((candidate / "extensions").glob("segment-*")):
@@ -142,15 +142,19 @@ class TrainingModelLibrary(QObject):
                     manifest_path = child_manifest_path
                     manifest = child_manifest
         except (OSError, json.JSONDecodeError):
-            return "", "Training completed, but its saved-policy manifest could not be read."
+            return (
+                "",
+                "Training completed, but its saved-policy manifest could not be read.",
+                None,
+            )
         ensemble = dict(manifest.get("ensemble_candidate", {}) or {})
         candidate_name = str(ensemble.get("path", "")).strip()
         expected_sha256 = str(ensemble.get("sha256", "")).strip().lower()
         if not candidate_name or Path(candidate_name).name != candidate_name:
-            return "", "Training completed, but its saved policy location is invalid."
+            return "", "Training completed, but its saved policy location is invalid.", None
         candidate_path = manifest_path.parent / candidate_name
         if not candidate_path.is_file():
-            return "", "Training completed, but its saved policy file is unavailable."
+            return "", "Training completed, but its saved policy file is unavailable.", None
         try:
             stat = candidate_path.stat()
             cache_key = (
@@ -168,14 +172,33 @@ class TrainingModelLibrary(QObject):
                     digest.update(block)
             actual_sha256 = digest.hexdigest()
         except OSError:
-            return "", "Training completed, but its saved policy file could not be read."
+            return "", "Training completed, but its saved policy file could not be read.", None
         if actual_sha256 != expected_sha256:
             result = (
                 "",
                 "Training completed, but its saved policy integrity could not be confirmed.",
+                None,
             )
         else:
-            result = (str(candidate_path.resolve()), "")
+            training_evaluations = None
+            try:
+                from calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact import (
+                    count_tsh_calo_candidate_training_evaluations,
+                    inspect_tsh_calo_candidate,
+                )
+
+                artifact = inspect_tsh_calo_candidate(
+                    candidate_path,
+                    expected_sha256=expected_sha256,
+                )
+                training_evaluations = count_tsh_calo_candidate_training_evaluations(
+                    artifact
+                )
+            except Exception:
+                # Candidate discovery and its existing integrity result remain independent from
+                # optional evaluation-count presentation for older/non-native saved artifacts.
+                training_evaluations = None
+            result = (str(candidate_path.resolve()), "", training_evaluations)
         self._candidate_integrity_cache[cache_key] = result
         return result
 
@@ -259,7 +282,11 @@ class TrainingModelLibrary(QObject):
                 saved_progress = dict(status.get("progress", {}) or {})
                 extension_pending = False
                 if state == "completed":
-                    policy_candidate, candidate_error = self._completed_candidate(candidate)
+                    (
+                        policy_candidate,
+                        candidate_error,
+                        training_evaluations,
+                    ) = self._completed_candidate(candidate)
                     extendable, extension_error = self._extension_capability(candidate, plan)
                     for segment in sorted((candidate / "extensions").glob("segment-*")):
                         child_status_path = segment / self.STATUS_FILE
@@ -277,6 +304,7 @@ class TrainingModelLibrary(QObject):
                             extension_pending = child_state in {"running", "interrupted"}
                 else:
                     extendable, extension_error = False, ""
+                    training_evaluations = None
                 try:
                     modified_ns = max(plan_path.stat().st_mtime_ns, status_path.stat().st_mtime_ns)
                     for child_status_path in (candidate / "extensions").glob(
@@ -293,6 +321,7 @@ class TrainingModelLibrary(QObject):
                     "resumable": resumable,
                     "policy_candidate": policy_candidate,
                     "candidate_error": candidate_error,
+                    "training_evaluations": training_evaluations,
                     "extendable": extendable,
                     "extension_error": extension_error,
                     "extension_pending": extension_pending,

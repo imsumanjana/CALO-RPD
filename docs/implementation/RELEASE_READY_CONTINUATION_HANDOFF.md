@@ -1490,3 +1490,25 @@ scientific/hardware qualification—not as a final release.
   files for extension; fresh training and unfinished base resume remain strict. Implementation and
   synthetic contracts are unexecuted; run the same complete owner validator and return its whole new
   log directory. The validator itself performs no destructive or policy/scientific workflow.
+- The latest Policy Library follow-up adds the complete explicit qualification lifecycle as visible
+  actions: check a frozen formal plan for the exact imported checkpoint, run or exactly resume its
+  finite independent campaign, separately verify/admit passed evidence, compare qualified policies,
+  and explicitly activate. Campaign completion cannot auto-admit, admission cannot auto-activate,
+  activation cannot auto-bind, and Apply remains the separate Power System handoff.
+- Admission recomputes canonical gates and validates exact checkpoint, plan, source, seed, evidence,
+  A-E, receipt, OOD calibration, cell-completeness, zero-failure, and protected-case identities in
+  one fail-closed transaction. Comparison is direct only within one matching frozen evidence design.
+  `Strongest comparable evidence` requires Pareto dominance on conservative feasibility, objective
+  improvement, win rate, effect size, anytime behavior, and Holm confidence; otherwise the UI calls
+  out the trade-off for scientist selection. Software revisions and training duration are not policy-
+  quality evidence.
+- These production, synthetic-test, ledger, and ignored-validator changes postdate retained PASS
+  `phase6-20260814-132200` and were not executed by Codex. Run
+  `powershell -NoProfile -ExecutionPolicy Bypass -File .\validation\Validate-Phase6.ps1` and return
+  the complete new `validation\logs\phase6-*` directory. The validator must not be interpreted as
+  real policy qualification, activation, scientific evidence, human acceptance, or release evidence.
+- Policy Library additionally shows `Training evaluations`: the exact cumulative committed candidate
+  evaluations authenticated by the selected model's receipts and SHA. Extension children add their
+  completed finite segments to the retained base receipts; parents remain immutable. Qualification
+  and experiment evaluations are excluded, and an unprovable legacy value is `Not available`, not
+  zero. These source and synthetic contracts are included in the same pending owner validator run.

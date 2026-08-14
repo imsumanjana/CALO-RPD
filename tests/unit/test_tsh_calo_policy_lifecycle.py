@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 from pathlib import Path
 
 import pytest
@@ -28,6 +29,11 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_schema import (
 from calo_rpd_studio.algorithms.calo.tsh_calo_qualification import (
     build_tsh_calo_qualification_receipt,
     qualification_config,
+)
+from calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign import (
+    TSH_CALO_QUALIFICATION_EVIDENCE_SCHEMA,
+    TSHCALOQualificationPlan,
+    grade_tsh_calo_qualification_evidence,
 )
 from calo_rpd_studio.algorithms.calo.tsh_calo_shield import OODCalibration
 from calo_rpd_studio.algorithms.calo.tsh_calo_training_receipt import (
@@ -122,9 +128,9 @@ def _candidate(path: Path, seed: int = 17) -> Path:
     return path
 
 
-def _ensemble(tmp_path: Path) -> Path:
-    first = _candidate(tmp_path / "member-1.pt", seed=17)
-    second = _candidate(tmp_path / "member-2.pt", seed=23)
+def _ensemble(tmp_path: Path, *, seed_offset: int = 0) -> Path:
+    first = _candidate(tmp_path / "member-1.pt", seed=17 + seed_offset)
+    second = _candidate(tmp_path / "member-2.pt", seed=23 + seed_offset)
     return Path(
         assemble_tsh_calo_ensemble_candidate(
             tmp_path / "ensemble.pt",
@@ -148,6 +154,119 @@ def _qualification_config(policy_sha256: str) -> dict:
         ood_calibration=OODCalibration(np.zeros(2), np.ones(2)),
     )
     return qualification_config(receipt)
+
+
+def _write_json(path: Path, payload: dict) -> str:
+    encoded = (json.dumps(payload, sort_keys=True, indent=2, allow_nan=False) + "\n").encode()
+    path.write_bytes(encoded)
+    return hashlib.sha256(encoded).hexdigest()
+
+
+def _formal_evidence(directory: Path, policy_path: Path, policy_sha256: str, *, strength=1.0):
+    directory.mkdir(parents=True)
+    component_evidence = {
+        component: {"path": f"component-{component}.json", "sha256": _sha(component)}
+        for component in "ABCDE"
+    }
+    plan = TSHCALOQualificationPlan(
+        qualification_run_id=f"qualification-{policy_sha256[:12]}",
+        source_commit="b" * 40,
+        source_tracked_clean=True,
+        candidate_path=str(policy_path),
+        candidate_sha256=policy_sha256,
+        development_cases=("case30", "case57"),
+        runs=30,
+        master_seed=1907,
+        population_size=4,
+        max_evaluations=8,
+        mode="formal",
+        calibration_samples_per_case=4,
+        calibration_population_size=4,
+        bootstrap_resamples=1_000,
+        component_evidence=component_evidence,
+    )
+    plan.validate()
+    case_evidence = []
+    for case_name in plan.development_cases:
+        case_evidence.append(
+            {
+                "case": case_name,
+                "equal_exact_fe": True,
+                "all_candidate_independently_validated": True,
+                "all_baseline_independently_validated": True,
+                "candidate_feasible_probability": min(1.0, 0.96 + 0.01 * strength),
+                "feasible_probability_difference_ci95": [0.0 + 0.01 * strength, 0.1],
+                "paired_feasible_objective_fraction": 1.0,
+                "median_relative_objective_improvement": 0.01 + 0.01 * strength,
+                "objective_win_rate": min(1.0, 0.65 + 0.05 * strength),
+                "paired_rank_biserial": min(1.0, 0.30 + 0.10 * strength),
+                "holm_p": max(0.001, 0.02 - 0.005 * strength),
+                "anytime": {
+                    str(fraction): {
+                        "feasible_probability_difference": 0.0 + 0.01 * strength,
+                        "median_relative_objective_improvement": 0.005 * strength,
+                    }
+                    for fraction in plan.anytime_fractions
+                },
+            }
+        )
+    decision = grade_tsh_calo_qualification_evidence(plan, case_evidence, [])
+    assert decision["passed"] is True
+    _write_json(directory / "qualification_plan.json", plan.to_dict())
+    _write_json(directory / "seed_manifest.json", plan.seed_manifest())
+    evidence = {
+        "schema_version": TSH_CALO_QUALIFICATION_EVIDENCE_SCHEMA,
+        "analysis_schema_version": plan.analysis_schema_version,
+        "relative_improvement_version": plan.relative_improvement_version,
+        "objective_scale_floor": plan.objective_scale_floor,
+        "qualification_run_id": plan.qualification_run_id,
+        "source_commit": plan.source_commit,
+        "source_tracked_clean": True,
+        "source_policy_sha256": policy_sha256,
+        "qualification_plan_sha256": plan.execution_plan_sha256(),
+        "scientific_design_sha256": plan.scientific_design_sha256(),
+        "seed_manifest_sha256": plan.seed_manifest_sha256(),
+        "ood_calibration_sha256": "",
+        "development_cases": list(plan.development_cases),
+        "protected_cases_opened": False,
+        "component_evidence": {
+            key: {**value, "accepted": True} for key, value in component_evidence.items()
+        },
+        "records": {
+            "expected": len(plan.development_cases) * plan.runs * 2,
+            "completed": len(plan.development_cases) * plan.runs * 2,
+            "failed": 0,
+        },
+        "case_evidence": case_evidence,
+        "decision": decision,
+        "authority_boundary": "independent_qualification_only_no_registration_or_activation",
+    }
+    evidence_sha256 = _write_json(directory / "qualification_evidence.json", evidence)
+    calibration = OODCalibration(np.zeros(2), np.ones(2))
+    receipt = build_tsh_calo_qualification_receipt(
+        qualification_run_id=plan.qualification_run_id,
+        source_policy_sha256=policy_sha256,
+        source_commit=plan.source_commit,
+        qualification_protocol_sha256=plan.scientific_design_sha256(),
+        seed_manifest_sha256=plan.seed_manifest_sha256(),
+        evidence_artifact_sha256=evidence_sha256,
+        development_cases=plan.development_cases,
+        ood_calibration=calibration,
+    )
+    evidence["ood_calibration_sha256"] = receipt["ood_calibration_sha256"]
+    evidence_sha256 = _write_json(directory / "qualification_evidence.json", evidence)
+    receipt = build_tsh_calo_qualification_receipt(
+        qualification_run_id=plan.qualification_run_id,
+        source_policy_sha256=policy_sha256,
+        source_commit=plan.source_commit,
+        qualification_protocol_sha256=plan.scientific_design_sha256(),
+        seed_manifest_sha256=plan.seed_manifest_sha256(),
+        evidence_artifact_sha256=evidence_sha256,
+        development_cases=plan.development_cases,
+        ood_calibration=calibration,
+    )
+    _write_json(directory / "qualification_receipt.json", receipt)
+    return directory
 
 
 def test_candidate_export_is_exact_versioned_unqualified_and_loadable(tmp_path):
@@ -220,6 +339,11 @@ def test_registry_keeps_tsh_candidate_separate_from_frozen_calo_runtime(tmp_path
 
     assert policy.algorithm_id == TSH_CALO_ALGORITHM_ID
     assert policy.qualification_status == "candidate"
+    assert registry.training_evaluation_count(policy.id) == 16
+    assert policy.metadata["training_candidate_evaluations"] == 16
+    assert policy.metadata["training_evaluation_count_scope"] == (
+        "cumulative_exact_training_candidate_evaluations"
+    )
     assert policy.runtime_compatible is False
     assert policy.compatible_with(TSH_CALO_ALGORITHM_ID) is True
     with pytest.raises(ValueError, match="only.*TSH-CALO"):
@@ -267,6 +391,81 @@ def test_qualified_tsh_policy_activation_and_binding_are_explicit_and_immutable(
     assert binding["ood_calibration"]["mean"] == [0.0, 0.0]
     assert "policy_id" not in config.algorithm_parameters.get("CALO", {})
     assert config.algorithm_parameters[TSH_CALO_ALGORITHM_ID]["policy_id"] == policy.id
+
+
+def test_formal_evidence_admission_is_explicit_integrity_bound_and_does_not_activate(tmp_path):
+    model_directory = tmp_path / "model"
+    model_directory.mkdir()
+    database = ResultDatabase(tmp_path / "results.sqlite")
+    registry = PolicyRegistry(database)
+    policy = registry.register(_ensemble(model_directory), name="Evidence candidate")
+    evidence_directory = _formal_evidence(
+        tmp_path / "qualification", Path(policy.checkpoint_path), policy.sha256
+    )
+
+    verified = registry.inspect_qualification_evidence(policy.id, evidence_directory)
+    assert registry.get(policy.id).qualification_status == "candidate"
+    admitted = registry.admit_qualification_evidence(policy.id, evidence_directory)
+
+    assert verified.policy_sha256 == policy.sha256
+    assert admitted.qualification_status == "qualified"
+    assert admitted.grade == "A"
+    assert admitted.active is False
+    assert database.list_policy_qualifications(policy.id)[0]["passed"] == 1
+    summary = registry.qualification_evidence_summaries()[0]
+    assert summary["recommendation"] == "Only policy in this evidence design"
+    assert summary["summary"]["minimum_candidate_feasible_probability"] >= 0.95
+    activated = registry.activate(admitted.id, algorithm_id=TSH_CALO_ALGORITHM_ID)
+    assert activated.active is True
+
+
+def test_policy_comparison_names_a_leader_only_within_one_matching_design(tmp_path):
+    database = ResultDatabase(tmp_path / "results.sqlite")
+    registry = PolicyRegistry(database)
+    designs = (("conservative", 0.0), ("stronger", 2.0))
+    for index, (label, strength) in enumerate(designs):
+        model_directory = tmp_path / f"model-{label}"
+        model_directory.mkdir()
+        policy = registry.register(
+            _ensemble(model_directory, seed_offset=index * 100), name=label
+        )
+        evidence = _formal_evidence(
+            tmp_path / f"qualification-{label}",
+            Path(policy.checkpoint_path),
+            policy.sha256,
+            strength=strength,
+        )
+        registry.admit_qualification_evidence(policy.id, evidence)
+
+    summaries = {
+        item["policy_name"]: item for item in registry.qualification_evidence_summaries()
+    }
+    assert summaries["conservative"]["comparison_protocol_sha256"] == summaries["stronger"][
+        "comparison_protocol_sha256"
+    ]
+    assert summaries["stronger"]["recommendation"] == "Strongest comparable evidence"
+    assert summaries["conservative"]["recommendation"] == (
+        "Dominated by strongest comparable evidence"
+    )
+
+
+def test_tampered_qualification_decision_is_rejected_without_registry_mutation(tmp_path):
+    model_directory = tmp_path / "model"
+    model_directory.mkdir()
+    registry = PolicyRegistry(ResultDatabase(tmp_path / "results.sqlite"))
+    policy = registry.register(_ensemble(model_directory))
+    directory = _formal_evidence(
+        tmp_path / "qualification", Path(policy.checkpoint_path), policy.sha256
+    )
+    evidence_path = directory / "qualification_evidence.json"
+    evidence = json.loads(evidence_path.read_text(encoding="utf-8"))
+    evidence["case_evidence"][0]["median_relative_objective_improvement"] = -1.0
+    _write_json(evidence_path, evidence)
+
+    with pytest.raises(ValueError, match="canonical frozen gates"):
+        registry.admit_qualification_evidence(policy.id, directory)
+    assert registry.get(policy.id).qualification_status == "candidate"
+    assert registry.database.list_policy_qualifications(policy.id) == []
 
 
 def test_tsh_registration_cannot_self_qualify_or_accept_an_incompatible_abi(tmp_path):

@@ -853,6 +853,16 @@ def _grade(plan: TSHCALOQualificationPlan, cases: list[dict], failures: list[dic
     }
 
 
+def grade_tsh_calo_qualification_evidence(
+    plan: TSHCALOQualificationPlan,
+    cases: list[dict],
+    failures: list[dict],
+) -> dict:
+    """Reapply the canonical frozen qualification gates to retained evidence rows."""
+
+    return _grade(plan, cases, failures)
+
+
 class TSHCALOQualificationCampaign:
     """Execute or exactly resume one frozen qualification evidence directory."""
 
@@ -1040,7 +1050,7 @@ class TSHCALOQualificationCampaign:
         for item in cases:
             if item["wilcoxon_p_one_sided"] is not None:
                 item["holm_p"] = float(next(corrected_iter))
-        decision = _grade(self.plan, cases, failures)
+        decision = grade_tsh_calo_qualification_evidence(self.plan, cases, failures)
         evidence = {
             "schema_version": TSH_CALO_QUALIFICATION_EVIDENCE_SCHEMA,
             "analysis_schema_version": PAIRED_ANALYSIS_SCHEMA_VERSION,

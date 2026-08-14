@@ -10,6 +10,10 @@ import pytest
 import torch
 
 from calo_rpd_studio.ai.model_io import checkpoint_sha256
+import calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign as campaign_module
+from calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact import (
+    count_tsh_calo_candidate_training_evaluations,
+)
 from calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign import (
     CUDA_DURABLE_EVALUATION_WINDOW,
     IndependentTSHCALOTrainingCampaign,
@@ -21,7 +25,6 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign import (
     request_tsh_calo_training_pause,
     tsh_calo_training_compatibility_contract,
 )
-import calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign as campaign_module
 from calo_rpd_studio.algorithms.calo.tsh_calo_training_extension import (
     IndependentTSHCALOTrainingExtension,
     extension_plan_summary,
@@ -201,6 +204,9 @@ def test_completed_campaign_can_add_repeatable_finite_authenticated_extensions(
     assert first_manifest["cumulative_candidate_evaluations"] == 32
     assert second_manifest["segment_number"] == 2
     assert second_manifest["cumulative_candidate_evaluations"] == 48
+    assert count_tsh_calo_candidate_training_evaluations(base.ensemble_candidate) == 16
+    assert count_tsh_calo_candidate_training_evaluations(first.ensemble_candidate) == 32
+    assert count_tsh_calo_candidate_training_evaluations(second.ensemble_candidate) == 48
     assert second_manifest["parent_manifest_sha256"] == first.manifest_sha256
     for candidate in first.member_candidates:
         assert candidate.training_provenance["source_commit"] == SOURCE_COMMIT

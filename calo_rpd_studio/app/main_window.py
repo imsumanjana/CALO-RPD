@@ -181,6 +181,9 @@ class MainWindow(QMainWindow):
         self.command_registry.command_triggered.connect(self._execute_command)
         self.command_registry.command_selected.connect(self._command_selected)
         self.training_center.activity_message.connect(self.activity_center.append_external)
+        self.pages_by_key["calo_intelligence"].activity_message.connect(
+            self.activity_center.append_external
+        )
         self.pages_by_key["calo_intelligence"].independent_training_requested.connect(
             self.command_registry.action("policies.training").trigger
         )

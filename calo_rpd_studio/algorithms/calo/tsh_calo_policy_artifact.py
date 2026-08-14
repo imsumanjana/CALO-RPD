@@ -169,6 +169,44 @@ class TSHCALOCandidateArtifact:
         return len(identities) == 1
 
 
+def count_tsh_calo_candidate_training_evaluations(
+    artifact: TSHCALOCandidateArtifact,
+) -> int:
+    """Return exact cumulative candidate evaluations from authenticated episode receipts.
+
+    An extended candidate retains the base receipts and appends each explicit extension segment,
+    so summing every ensemble member's unique receipt produces the model-specific cumulative total.
+    Qualification and experiment evaluations are intentionally outside this count.
+    """
+
+    provenance = dict(artifact.training_provenance or {})
+    if provenance.get("source_kind") == "independent_policy_training_ensemble":
+        rows = [
+            dict(member.get("training_provenance", {}) or {})
+            for member in list(provenance.get("members", []) or [])
+        ]
+        if len(rows) != artifact.ensemble_size or len(rows) < 2:
+            raise ValueError("TSH-CALO ensemble training provenance is incomplete")
+    else:
+        rows = [provenance]
+        if artifact.ensemble_size != 1:
+            raise ValueError("TSH-CALO single-policy training provenance is inconsistent")
+    total = 0
+    receipt_hashes: set[str] = set()
+    for row in rows:
+        validated = IndependentTrainingProvenance(**row)
+        validated.validate()
+        for payload in validated.training_episode_receipts:
+            receipt = load_tsh_calo_training_episode_receipt(payload)
+            if receipt.receipt_sha256 in receipt_hashes:
+                raise ValueError("TSH-CALO cumulative training accounting duplicates a receipt")
+            receipt_hashes.add(receipt.receipt_sha256)
+            total += int(receipt.candidate_evaluations)
+    if total < 1:
+        raise ValueError("TSH-CALO cumulative training evaluation count must be positive")
+    return total
+
+
 def _validated_feature_flags(
     feature_flags: TSHCALOFeatureFlags | None,
 ) -> TSHCALOFeatureFlags:

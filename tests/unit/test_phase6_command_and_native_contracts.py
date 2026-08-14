@@ -569,6 +569,14 @@ def test_policy_training_process_actions_are_visible_in_the_input_pane():
     assert "Import trained policy" in intelligence
     assert "completed_campaigns()" in intelligence
     assert "Activate for experiments" in intelligence
+    assert 'QPushButton("Check formal plan")' in intelligence
+    assert 'QPushButton("Run / resume qualification")' in intelligence
+    assert 'QPushButton("Admit passed evidence")' in intelligence
+    assert 'QPushButton("Compare qualified policies")' in intelligence
+    assert "inspect_qualification_evidence" in intelligence
+    assert "admit_qualification_evidence" in intelligence
+    assert "The process produces evidence only" in intelligence
+    assert "It will not admit, activate, or bind the policy" in intelligence
     assert "Delete model files" in intelligence
     assert "Review policy removal" not in intelligence
     assert (
@@ -581,6 +589,10 @@ def test_policy_training_process_actions_are_visible_in_the_input_pane():
     assert "Permanently delete completed model files" in intelligence
     assert "Qualification required" in intelligence
     assert "Apply governing policy and continue to Power System" in intelligence
+    assert '"Training evaluations"' in intelligence
+    assert "training_evaluation_count" in intelligence
+    assert "Completed extension segments are included" in intelligence
+    assert "qualification and experiment" in intelligence
     assert "def _resize_policy_table_to_entries" in intelligence
     assert intelligence.count("Qt.ScrollBarPolicy.ScrollBarAlwaysOff") >= 2
     assert "QFormLayout.FieldGrowthPolicy.AllNonFixedFieldsGrow" in intelligence

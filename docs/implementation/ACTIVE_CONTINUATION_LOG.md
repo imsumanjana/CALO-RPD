@@ -2602,3 +2602,48 @@ Append timestamped entries below this line after each material action, validatio
   first-row deletion, selection-scroll preservation, and architecture/parameter-based extension.
 - Active status, verifier, validation instructions, gates, and handoff now identify `132200` as the
   latest complete but superseded PASS. A new complete owner-run bundle is still required.
+
+### 2026-08-14 - Explicit Policy Library qualification and comparison workflow implemented
+
+- Policy Library now presents the scientist-controlled sequence in place: `Import policy`, `Check
+  formal plan`, `Run / resume qualification`, `Admit passed evidence`, `Compare qualified policies`,
+  then `Activate for experiments`. Run completion never admits evidence; admission never activates;
+  activation never binds an experiment; governing-policy Apply remains the separate Power System
+  handoff.
+- Formal-plan checking binds the selected imported policy SHA and the existing clean exact source
+  contract. Run/resume launches the independent finite qualification command in a background
+  process, retains technical output in Activity Logs, and states the exact cases, paired runs,
+  optimizer cells, and per-cell evaluation budget before confirmation. It grants no registry or
+  activation authority.
+- Evidence admission is a new fail-closed transaction. It revalidates the formal plan and canonical
+  qualification gates, exact policy/checkpoint SHA, source/design/seed/evidence/receipt/calibration
+  hashes, complete zero-failure paired cells, protected-case closure, A-E evidence identities, and
+  immutable receipt before setting `qualified`. Conflicting qualification IDs, active/archived
+  records, changed checkpoints, screening/failing/tampered evidence, or partial results are rejected.
+- Comparison uses a protocol identity that retains cases, paired seeds, exact FE/population budget,
+  calibration and analysis schemas, thresholds, anytime fractions, and A-E component set. It omits
+  candidate identity, run label, local device, and source-commit churn. A policy is labelled
+  `Strongest comparable evidence` only if it Pareto-dominates every policy under the same design on
+  conservative feasibility, objective improvement, win rate, effect size, anytime safety, and Holm
+  confidence; otherwise the UI says scientist review is required. Training duration and software
+  version are explicitly not quality evidence.
+- Production source, synthetic temporary-registry tests, static GUI contracts, active status,
+  traceability, handoff, and the ignored Phase 6 validator are updated. Codex did not execute the
+  validator, tests, GUI, training, evaluation, qualification, activation, binding, deletion,
+  protected-case, or release workflow. Fresh complete owner validation is pending.
+
+### 2026-08-14 - Cumulative exact model training evaluations shown in Policy Library
+
+- Policy Library now has a `Training evaluations` column. It reports completed, committed candidate
+  evaluations used to produce that exact model; it is not a count of qualification passes or
+  experiment runs.
+- The authority is the model-SHA-bound TSH-CALO artifact and its authenticated per-member training
+  episode receipts. An extended child retains the base receipts and appends each completed finite
+  extension segment, so its cumulative count increases exactly. The base/parent artifact and its
+  displayed count are never rewritten.
+- New registrations retain the authenticated total as registry metadata. Older registered native
+  candidates are calculated read-only from their exact checkpoint and receipts. Legacy, non-native,
+  missing, or unverifiable accounting displays `Not available`; it never fabricates zero.
+- Synthetic unit, GUI, and static contracts plus the ignored Phase 6 validator were updated. No
+  test, validator, training, extension, qualification, experiment, activation, deletion, protected-
+  case, publication, or release workflow was executed. Fresh complete owner validation is pending.
