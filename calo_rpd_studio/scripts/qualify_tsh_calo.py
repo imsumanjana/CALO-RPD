@@ -8,12 +8,22 @@ from pathlib import Path
 import subprocess
 
 from calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign import (
+    TSH_CALO_QUALIFICATION_EVENT_SCHEMA,
+    TSH_CALO_QUALIFICATION_PAUSE_EXIT_CODE,
     TSHCALOQualificationCampaign,
+    TSHCALOQualificationPauseRequested,
     TSHCALOQualificationPlan,
 )
 
 
 ROOT = Path(__file__).resolve().parents[2]
+QUALIFICATION_EVENT_PREFIX = "TSH_CALO_QUALIFICATION_EVENT "
+
+
+def _print_event(event: dict) -> None:
+    if event.get("schema_version") != TSH_CALO_QUALIFICATION_EVENT_SCHEMA:
+        raise ValueError("Qualification runner received an incompatible progress event")
+    print(QUALIFICATION_EVENT_PREFIX + json.dumps(event, sort_keys=True), flush=True)
 
 
 def load_plan(path: str | Path) -> TSHCALOQualificationPlan:
@@ -96,8 +106,15 @@ def main(argv: list[str] | None = None) -> int:
     if arguments.check:
         print(json.dumps(_summary(plan, state="validated_not_started"), sort_keys=True))
         return 0
-    campaign = TSHCALOQualificationCampaign(plan, arguments.output)
-    result = campaign.resume() if arguments.resume else campaign.start()
+    campaign = TSHCALOQualificationCampaign(
+        plan,
+        arguments.output,
+        event_callback=_print_event,
+    )
+    try:
+        result = campaign.resume() if arguments.resume else campaign.start()
+    except TSHCALOQualificationPauseRequested:
+        return TSH_CALO_QUALIFICATION_PAUSE_EXIT_CODE
     state = "completed_qualified" if result["passed"] else "completed_not_qualified"
     print(json.dumps(_summary(plan, state=state, result=result), sort_keys=True))
     return 0

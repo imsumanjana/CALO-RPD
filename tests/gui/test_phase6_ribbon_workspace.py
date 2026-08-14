@@ -1299,9 +1299,59 @@ def test_qualification_committed_cells_drive_bottom_bar_percentage(
         panel._qualification_process = None
 
     assert state.task_status.progress == 50
-    assert "60/120 cells committed" in state.task_status.detail
+    assert "60/120 cells durable" in state.task_status.detail
     assert window.global_status.progress.value() == 50
-    assert "Qualification progress 50%" in window.activity_center.logs.toPlainText()
+    assert "Qualification durable progress 50%" in window.activity_center.logs.toPlainText()
+
+
+def test_qualification_micro_event_updates_live_detail_without_claiming_cell_commit(
+    qtbot, tmp_path, monkeypatch
+):
+    from calo_rpd_studio.algorithms.calo.tsh_calo_automatic_qualification import (
+        AutomaticQualificationWorkspace,
+    )
+    from calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign import (
+        TSH_CALO_QUALIFICATION_EVENT_SCHEMA,
+    )
+
+    state, window = _window(qtbot, tmp_path, monkeypatch)
+    panel = window.pages_by_key["calo_intelligence"]
+    workspace = AutomaticQualificationWorkspace.create(
+        tmp_path / "qualification-live",
+        candidate_sha256="c" * 64,
+        source_commit="d" * 40,
+    )
+    workspace.qualification_output.mkdir(parents=True)
+    assert state.task_status.begin(
+        "Independent policy qualification", progress=0, cancellable=True
+    )
+    panel._qualification_process = object()
+    panel._qualification_workspace = workspace
+    panel._qualification_expected_cells = 120
+    event = {
+        "schema_version": TSH_CALO_QUALIFICATION_EVENT_SCHEMA,
+        "event": "cell_progress",
+        "cell_index": 1,
+        "total_cells": 120,
+        "case": "case30",
+        "label": "baseline",
+        "committed_cells": 0,
+        "live_evaluations": 2500,
+        "max_evaluations": 10000,
+        "cell_percent": 25.0,
+        "best_feasible_objective": None,
+        "best_constraint_violation": 0.125,
+        "cell_eta_seconds": 42.0,
+    }
+    try:
+        panel._apply_qualification_event(event)
+    finally:
+        panel._qualification_process = None
+
+    assert "cell 1/120 baseline 2500/10000" in state.task_status.detail
+    assert "0 cells durable" in state.task_status.detail
+    assert "live, not yet a committed cell" in window.activity_center.logs.toPlainText()
+    assert window.global_status.cancel_button.text() == "Pause safely"
 
 
 def test_policy_training_checkpoint_progress_uses_bottom_bar_activity_and_pause_retains_it(

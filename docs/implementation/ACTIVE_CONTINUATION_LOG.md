@@ -2719,3 +2719,21 @@ Append timestamped entries below this line after each material action, validatio
 - Source, synthetic unit/GUI/static contracts, current ledgers, and the ignored validator were
   updated. Per repository instructions no test, validator, GUI, training, qualification, protected-
   case, Docker, publication, or release workflow was executed. Fresh owner validation is pending.
+
+### 2026-08-14 — qualification micro-observability and safe partial-cell continuation
+
+- The qualification campaign now emits schema-bound structured events at each cell boundary and
+  every 500 formal-cell evaluations. Events are fsync-retained in `qualification_events.jsonl` and
+  streamed to Activity with case/run/side, live FE count, feasible objective, violation,
+  first-feasible FE, throughput, and cell ETA.
+- The global bar combines live evaluation progress with the authoritative retained-cell count and
+  explicitly labels current-cell work as uncommitted. Activity and the bottom bar stay enabled while
+  other task-changing surfaces remain locked.
+- **Pause safely** writes a frozen-plan-bound request. The optimizer latches it only after a complete
+  population transition, saves its population, archives/memory, histories, FE counter, and RNG state
+  through the existing authenticated exact-run envelope, and exits with code 75 only after the
+  campaign records a matching acknowledged receipt. Resume restores that partial cell; completed
+  records remain immutable, and the finite plan/budget cannot change across unlimited pause cycles.
+- Production source, synthetic unit/GUI/static contracts, docs, and the ignored Phase 6 validator
+  were updated. No test, validator, GUI, training, qualification, protected-case, Docker,
+  publication, or release workflow was executed; fresh owner validation is pending.

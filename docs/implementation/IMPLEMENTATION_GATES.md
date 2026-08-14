@@ -1149,3 +1149,14 @@ bottom bar. All task-changing workspace surfaces are disabled while any foregrou
 while Activity and the global status bar remain enabled for detailed inspection and safe task
 control. Source and synthetic contracts are implemented but unexecuted. This gate remains open until
 a fresh complete owner Phase 6 validator bundle passes.
+
+### Qualification micro-progress and safe-pause follow-up (2026-08-14)
+
+The fixed 120-cell quality design and all scientific thresholds remain unchanged. Each optimizer now
+uses its existing exact-run state envelope at a 500-evaluation formal-cell interval. Structured live
+events are durably appended and sent to Activity; the bottom bar reports both live FE progress and
+the independent durable-cell count. A cooperative pause is acknowledged only at a completed
+population transition after the checkpoint or cell record exists and its SHA-256 is recorded.
+Exact resume restores the same population, adaptive state, histories, FE counter, and RNG streams;
+it neither restarts the cell nor changes the finite budget. Source and synthetic contracts are
+implemented but unexecuted, so this gate remains open for the complete owner Phase 6 validator.

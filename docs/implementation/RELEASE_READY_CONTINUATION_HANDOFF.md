@@ -1542,3 +1542,14 @@ superseded by the stage-neutral compatibility and qualification boundary on 2026
   document workspaces are disabled; Activity and the status bar remain enabled. These changes are
   source/test contracts only until the owner runs the ignored validator and returns the complete new
   `validation\logs\phase6-*` directory.
+- Qualification now retains throttled 500-evaluation micro-events in a durable JSONL log and streams
+  them to Activity. The bottom bar distinguishes live in-cell work from completed durable cells and
+  exposes **Pause safely** while the rest of the task-changing workspace remains locked.
+- A qualification pause is accepted only after an authenticated exact-run checkpoint (or completed
+  cell record) is bound to the request and frozen plan by path/SHA-256. Exit code 75 without that
+  receipt is a failure. A later `Qualify policy` invocation restores the same partial cell including
+  optimizer/RNG/accounting state; resume count is unlimited but the 120-cell/10,000-FE finite design
+  is immutable.
+- Source, synthetic contracts, documentation, and the ignored validator are updated but unexecuted.
+  No test, qualification, policy workflow, protected case, Docker, or release action ran; request a
+  complete fresh owner `validation\logs\phase6-*` bundle.

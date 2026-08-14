@@ -10,17 +10,24 @@ from __future__ import annotations
 
 from copy import deepcopy
 from dataclasses import asdict, dataclass, field
+from datetime import datetime, timezone
 import hashlib
 import json
 import math
 import os
 from pathlib import Path
 import threading
-from typing import Any
+import time
+from typing import Any, Callable
+import uuid
 
 import numpy as np
 
-from calo_rpd_studio.ai.model_io import checkpoint_sha256, durable_write_bytes
+from calo_rpd_studio.ai.model_io import (
+    checkpoint_sha256,
+    durable_write_bytes,
+    trusted_resume_sha_path,
+)
 from calo_rpd_studio.algorithms.base_optimizer import OptimizerConfig
 from calo_rpd_studio.algorithms.registry import SPECS, create_optimizer
 from calo_rpd_studio.experiments.experiment_config import ExperimentConfig
@@ -66,6 +73,14 @@ TSH_CALO_QUALIFICATION_EVIDENCE_SCHEMA = "tsh-calo-qualification-evidence-v2-exa
 TSH_CALO_COMPONENT_EVIDENCE_SCHEMA = "tsh-calo-component-ablation-evidence-v2-exact-pairs"
 _REQUIRED_COMPONENTS = ("A", "B", "C", "D", "E")
 TSH_CALO_CANDIDATE_CONTRACT_SCHEMA = "tsh-calo-candidate-contract-v1"
+TSH_CALO_QUALIFICATION_STATUS_SCHEMA = "tsh-calo-qualification-status-v1"
+TSH_CALO_QUALIFICATION_CONTROL_SCHEMA = "tsh-calo-qualification-control-v1"
+TSH_CALO_QUALIFICATION_EVENT_SCHEMA = "tsh-calo-qualification-progress-event-v1"
+TSH_CALO_QUALIFICATION_PAUSE_EXIT_CODE = 75
+QUALIFICATION_STATUS_FILE = "qualification_status.json"
+QUALIFICATION_CONTROL_FILE = "qualification_control.json"
+QUALIFICATION_EVENT_LOG_FILE = "qualification_events.jsonl"
+QUALIFICATION_CHECKPOINT_INTERVAL = 500
 _CANDIDATE_CONTRACT_FIELDS = {
     "schema_version",
     "candidate_sha256",
@@ -86,6 +101,14 @@ _CANDIDATE_CONTRACT_FIELDS = {
 
 class QualificationCampaignLeaseUnavailable(RuntimeError):
     """Raised when another process or thread owns the same evidence directory."""
+
+
+class TSHCALOQualificationPauseRequested(RuntimeError):
+    """The campaign acknowledged a pause at an authenticated durable boundary."""
+
+    def __init__(self, event: dict) -> None:
+        super().__init__("TSH-CALO qualification paused at a verified checkpoint")
+        self.event = dict(event)
 
 
 class _ExclusiveQualificationCampaignLease:
@@ -187,6 +210,54 @@ def _read_json(path: Path) -> dict:
     if not isinstance(payload, dict):
         raise ValueError(f"TSH-CALO qualification record must be an object: {path}")
     return payload
+
+
+def _append_json_line(path: Path, payload: dict) -> None:
+    encoded = (
+        json.dumps(payload, sort_keys=True, separators=(",", ":"), allow_nan=False) + "\n"
+    ).encode("utf-8")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("ab") as stream:
+        stream.write(encoded)
+        stream.flush()
+        os.fsync(stream.fileno())
+
+
+def request_tsh_calo_qualification_pause(output_directory: str | Path) -> dict:
+    """Record an idempotent safe-pause request for one running qualification plan."""
+
+    output = Path(output_directory).expanduser().resolve(strict=True)
+    plan = TSHCALOQualificationPlan.from_dict(_read_json(output / "qualification_plan.json"))
+    status = _read_json(output / QUALIFICATION_STATUS_FILE)
+    plan_sha256 = plan.execution_plan_sha256()
+    if status.get("schema_version") != TSH_CALO_QUALIFICATION_STATUS_SCHEMA:
+        raise ValueError("TSH-CALO qualification status schema is incompatible")
+    if status.get("qualification_plan_sha256") != plan_sha256:
+        raise ValueError("TSH-CALO qualification status belongs to another frozen plan")
+    if status.get("state") != "running":
+        raise RuntimeError("Only a running TSH-CALO qualification can accept a safe pause")
+    control_path = output / QUALIFICATION_CONTROL_FILE
+    if control_path.is_file():
+        existing = _read_json(control_path)
+        if (
+            existing.get("schema_version") == TSH_CALO_QUALIFICATION_CONTROL_SCHEMA
+            and existing.get("state") == "requested"
+            and existing.get("action") == "pause"
+            and existing.get("qualification_run_id") == plan.qualification_run_id
+            and existing.get("qualification_plan_sha256") == plan_sha256
+        ):
+            return existing
+    request = {
+        "schema_version": TSH_CALO_QUALIFICATION_CONTROL_SCHEMA,
+        "request_id": uuid.uuid4().hex,
+        "action": "pause",
+        "state": "requested",
+        "qualification_run_id": plan.qualification_run_id,
+        "qualification_plan_sha256": plan_sha256,
+        "requested_at": datetime.now(timezone.utc).isoformat(),
+    }
+    _write_json(control_path, request)
+    return request
 
 
 def _finite_or_none(value: float) -> float | None:
@@ -477,7 +548,9 @@ def _candidate_binding(artifact: TSHCALOCandidateArtifact, calibration: OODCalib
 
 
 def _collect_calibration(
-    plan: TSHCALOQualificationPlan, seeds: list[RunSeeds]
+    plan: TSHCALOQualificationPlan,
+    seeds: list[RunSeeds],
+    progress_callback: Callable[[dict], None] | None = None,
 ) -> tuple[OODCalibration, dict]:
     signatures: list[np.ndarray] = []
     records: list[dict] = []
@@ -529,6 +602,14 @@ def _collect_calibration(
                     ).hexdigest(),
                 }
             )
+            if progress_callback is not None:
+                progress_callback(
+                    {
+                        **records[-1],
+                        "completed_samples": len(records),
+                        "total_samples": len(plan.development_cases) * len(seeds),
+                    }
+                )
     matrix = np.stack(signatures)
     mean = matrix.mean(axis=0)
     raw_scale = matrix.std(axis=0, ddof=1)
@@ -982,10 +1063,140 @@ def grade_tsh_calo_qualification_evidence(
 class TSHCALOQualificationCampaign:
     """Execute or exactly resume one frozen qualification evidence directory."""
 
-    def __init__(self, plan: TSHCALOQualificationPlan, output_directory: str | Path) -> None:
+    def __init__(
+        self,
+        plan: TSHCALOQualificationPlan,
+        output_directory: str | Path,
+        *,
+        event_callback: Callable[[dict], None] | None = None,
+    ) -> None:
         plan.validate()
         self.plan = plan
         self.output_directory = Path(output_directory).expanduser().resolve()
+        self.event_callback = event_callback
+
+    def _expected_cells(self) -> int:
+        return len(self.plan.development_cases) * self.plan.runs * 2
+
+    def _checkpoint_interval(self) -> int:
+        bounded = min(QUALIFICATION_CHECKPOINT_INTERVAL, int(self.plan.max_evaluations))
+        population = int(self.plan.population_size)
+        return max(population, (bounded // population) * population)
+
+    def _completed_cells(self) -> int:
+        return sum(
+            1
+            for directory in (
+                self.output_directory / "records",
+                self.output_directory / "failures",
+            )
+            if directory.is_dir()
+            for _path in directory.glob("*.json")
+        )
+
+    def _emit_event(self, event: str, **details) -> dict:
+        payload = {
+            "schema_version": TSH_CALO_QUALIFICATION_EVENT_SCHEMA,
+            "event": str(event),
+            "qualification_run_id": self.plan.qualification_run_id,
+            "qualification_plan_sha256": self.plan.execution_plan_sha256(),
+            "emitted_at": datetime.now(timezone.utc).isoformat(),
+            **details,
+        }
+        _append_json_line(self.output_directory / QUALIFICATION_EVENT_LOG_FILE, payload)
+        if self.event_callback is not None:
+            self.event_callback(dict(payload))
+        return payload
+
+    def _write_status(self, *, state: str, **details) -> dict:
+        payload = {
+            "schema_version": TSH_CALO_QUALIFICATION_STATUS_SCHEMA,
+            "qualification_run_id": self.plan.qualification_run_id,
+            "qualification_plan_sha256": self.plan.execution_plan_sha256(),
+            "state": str(state),
+            "completed_cells": self._completed_cells(),
+            "total_cells": self._expected_cells(),
+            "updated_at": datetime.now(timezone.utc).isoformat(),
+            **details,
+        }
+        _write_json(self.output_directory / QUALIFICATION_STATUS_FILE, payload)
+        return payload
+
+    def _pending_pause_request(self) -> dict | None:
+        path = self.output_directory / QUALIFICATION_CONTROL_FILE
+        if not path.is_file():
+            return None
+        request = _read_json(path)
+        if request.get("state") != "requested" or request.get("action") != "pause":
+            return None
+        if (
+            request.get("schema_version") != TSH_CALO_QUALIFICATION_CONTROL_SCHEMA
+            or request.get("qualification_run_id") != self.plan.qualification_run_id
+            or request.get("qualification_plan_sha256")
+            != self.plan.execution_plan_sha256()
+        ):
+            raise RuntimeError("Qualification pause request belongs to another frozen plan")
+        return request
+
+    def _acknowledge_pause(
+        self,
+        request: dict,
+        *,
+        boundary: str,
+        durable_path: Path,
+        cell: dict | None = None,
+        evaluations: int = 0,
+    ) -> None:
+        if not durable_path.is_file():
+            raise RuntimeError("Qualification pause boundary was not durably committed")
+        digest = checkpoint_sha256(durable_path)
+        acknowledged = {
+            **request,
+            "state": "acknowledged",
+            "acknowledged_at": datetime.now(timezone.utc).isoformat(),
+            "boundary": str(boundary),
+            "durable_path": str(durable_path),
+            "durable_sha256": digest,
+            "evaluations": int(evaluations),
+        }
+        _write_json(self.output_directory / QUALIFICATION_CONTROL_FILE, acknowledged)
+        event = self._emit_event(
+            "campaign_paused",
+            request_id=request["request_id"],
+            boundary=str(boundary),
+            durable_path=str(durable_path),
+            durable_sha256=digest,
+            evaluations=int(evaluations),
+            completed_cells=self._completed_cells(),
+            total_cells=self._expected_cells(),
+            current_cell=dict(cell or {}),
+            resumable=True,
+        )
+        self._write_status(
+            state="paused",
+            pause={
+                "reason": "user_requested_safe_pause",
+                "request_id": request["request_id"],
+                "boundary": str(boundary),
+                "durable_path": str(durable_path),
+                "durable_sha256": digest,
+                "evaluations": int(evaluations),
+                "resumable": True,
+            },
+            current_cell=dict(cell or {}),
+            last_event=event,
+        )
+        raise TSHCALOQualificationPauseRequested(event)
+
+    @staticmethod
+    def _remove_completed_cell_checkpoint(path: Path) -> None:
+        for target in (path, trusted_resume_sha_path(path)):
+            try:
+                target.unlink(missing_ok=True)
+            except OSError:
+                # The committed JSON result is authoritative; stale recovery bytes are harmless
+                # and are ignored whenever that result exists.
+                pass
 
     def _preflight(self) -> tuple[TSHCALOCandidateArtifact, dict, dict[str, dict]]:
         artifact = inspect_tsh_calo_candidate(
@@ -1032,6 +1243,14 @@ class TSHCALOQualificationCampaign:
         plan_hash = self.plan.execution_plan_sha256()
         seed_manifest = self.plan.seed_manifest()
         seed_hash = self.plan.seed_manifest_sha256()
+        self._write_status(state="running", pause=None, current_cell=None)
+        self._emit_event(
+            "campaign_resumed" if resume else "campaign_started",
+            completed_cells=self._completed_cells(),
+            total_cells=self._expected_cells(),
+            evaluations_per_cell=int(self.plan.max_evaluations),
+            checkpoint_interval_evaluations=self._checkpoint_interval(),
+        )
         calibration_path = self.output_directory / "ood_calibration_evidence.json"
         if resume and calibration_path.is_file():
             calibration_evidence = _read_json(calibration_path)
@@ -1047,9 +1266,24 @@ class TSHCALOQualificationCampaign:
             ):
                 raise ValueError("TSH-CALO stored OOD calibration checksum mismatch")
         else:
+            self._emit_event(
+                "calibration_started",
+                cases=len(self.plan.development_cases),
+                samples_per_case=int(self.plan.calibration_samples_per_case),
+            )
             calibration_seeds = [RunSeeds(**item) for item in seed_manifest["calibration_runs"]]
-            calibration, calibration_evidence = _collect_calibration(self.plan, calibration_seeds)
+            calibration, calibration_evidence = _collect_calibration(
+                self.plan,
+                calibration_seeds,
+                progress_callback=lambda progress: self._emit_event(
+                    "calibration_progress", **progress
+                ),
+            )
             _write_json(calibration_path, calibration_evidence)
+            self._emit_event(
+                "calibration_completed",
+                ood_calibration_sha256=ood_calibration_sha256(calibration),
+            )
         authority = QualificationCandidateAuthority(
             self.plan.qualification_run_id,
             plan_hash,
@@ -1070,14 +1304,157 @@ class TSHCALOQualificationCampaign:
         records_directory.mkdir(exist_ok=True)
         failures_directory.mkdir(exist_ok=True)
         paired_seeds = [RunSeeds(**item) for item in seed_manifest["paired_runs"]]
-        for case_name in self.plan.development_cases:
+        checkpoints_directory = self.output_directory / "checkpoints"
+        checkpoints_directory.mkdir(exist_ok=True)
+        for case_index, case_name in enumerate(self.plan.development_cases):
             config = _base_experiment_config(self.plan, case_name)
             for run_index, seeds in enumerate(paired_seeds):
-                for label in ("baseline", "candidate"):
+                for label_index, label in enumerate(("baseline", "candidate")):
+                    cell_index = (
+                        case_index * self.plan.runs * 2 + run_index * 2 + label_index + 1
+                    )
                     record_path = records_directory / f"{case_name}-{run_index:03d}-{label}.json"
                     failure_path = failures_directory / f"{case_name}-{run_index:03d}-{label}.json"
                     if resume and (record_path.is_file() or failure_path.is_file()):
                         continue
+                    boundary_request = self._pending_pause_request()
+                    if boundary_request is not None:
+                        durable_records = sorted(
+                            [
+                                *records_directory.glob("*.json"),
+                                *failures_directory.glob("*.json"),
+                            ]
+                        )
+                        self._acknowledge_pause(
+                            boundary_request,
+                            boundary="cell_record" if durable_records else "calibration",
+                            durable_path=(durable_records[-1] if durable_records else calibration_path),
+                            cell={
+                                "cell_index": cell_index,
+                                "case": case_name,
+                                "run_index": run_index,
+                                "label": label,
+                            },
+                        )
+                    checkpoint_path = (
+                        checkpoints_directory
+                        / f"{case_name}-{run_index:03d}-{label}.resume"
+                    )
+                    resumed_checkpoint = checkpoint_path.is_file()
+                    checkpoint_interval = self._checkpoint_interval()
+                    cell = {
+                        "cell_index": cell_index,
+                        "total_cells": self._expected_cells(),
+                        "case": case_name,
+                        "run_index": run_index,
+                        "run_number": run_index + 1,
+                        "runs_per_case": self.plan.runs,
+                        "label": label,
+                    }
+                    self._write_status(
+                        state="running",
+                        pause=None,
+                        current_cell={**cell, "resumed_checkpoint": resumed_checkpoint},
+                    )
+                    self._emit_event(
+                        "cell_started",
+                        **cell,
+                        resumed_checkpoint=resumed_checkpoint,
+                        committed_cells=self._completed_cells(),
+                        max_evaluations=int(self.plan.max_evaluations),
+                    )
+                    pause_state: dict[str, dict | None] = {"request": None}
+                    progress_state: dict[str, int | None] = {
+                        "next_log_evaluation": checkpoint_interval,
+                        "first_observed_evaluations": None,
+                    }
+                    cell_started = time.perf_counter()
+
+                    def progress_callback(
+                        progress: dict,
+                        _cell=cell,
+                        _resumed_checkpoint=resumed_checkpoint,
+                        _checkpoint_interval=checkpoint_interval,
+                        _cell_started=cell_started,
+                        _pause_state=pause_state,
+                        _progress_state=progress_state,
+                    ) -> None:
+                        evaluations = int(progress.get("evaluations", 0))
+                        first_resumed_sample = False
+                        if _progress_state["first_observed_evaluations"] is None:
+                            _progress_state["first_observed_evaluations"] = evaluations
+                            first_resumed_sample = _resumed_checkpoint
+                            if _resumed_checkpoint:
+                                _progress_state["next_log_evaluation"] = (
+                                    (evaluations // _checkpoint_interval) + 1
+                                ) * _checkpoint_interval
+                        if (
+                            first_resumed_sample
+                            or evaluations
+                            >= int(_progress_state["next_log_evaluation"] or 0)
+                            or evaluations >= self.plan.max_evaluations
+                        ):
+                            elapsed = max(time.perf_counter() - _cell_started, 1e-9)
+                            observed = (
+                                0
+                                if first_resumed_sample
+                                else max(
+                                    evaluations
+                                    - (
+                                        int(
+                                            _progress_state[
+                                                "first_observed_evaluations"
+                                            ]
+                                            or 0
+                                        )
+                                        if _resumed_checkpoint
+                                        else 0
+                                    ),
+                                    self.plan.population_size,
+                                )
+                            )
+                            evaluations_per_second = (
+                                observed / elapsed if observed > 0 else None
+                            )
+                            remaining = max(0, self.plan.max_evaluations - evaluations)
+                            self._emit_event(
+                                "cell_progress",
+                                **_cell,
+                                live_evaluations=evaluations,
+                                max_evaluations=int(self.plan.max_evaluations),
+                                cell_percent=round(
+                                    100.0 * evaluations / self.plan.max_evaluations, 1
+                                ),
+                                committed_cells=self._completed_cells(),
+                                best_feasible_objective=_finite_or_none(
+                                    progress.get("best_feasible_objective", float("nan"))
+                                ),
+                                best_constraint_violation=_finite_or_none(
+                                    progress.get("best_constraint_violation", float("nan"))
+                                ),
+                                first_feasible_evaluation=progress.get(
+                                    "first_feasible_evaluation"
+                                ),
+                                evaluations_per_second=(
+                                    round(evaluations_per_second, 3)
+                                    if evaluations_per_second is not None
+                                    else None
+                                ),
+                                cell_eta_seconds=(
+                                    round(remaining / evaluations_per_second, 1)
+                                    if evaluations_per_second is not None
+                                    and evaluations_per_second > 0.0
+                                    else None
+                                ),
+                                durability="live_uncommitted_until_checkpoint_acknowledgement",
+                            )
+                            _progress_state["next_log_evaluation"] = (
+                                (evaluations // _checkpoint_interval) + 1
+                            ) * _checkpoint_interval
+                        if _pause_state["request"] is None:
+                            _pause_state["request"] = self._pending_pause_request()
+
+                    parameters: dict
                     try:
                         problem = build_problem(config, seeds.scenario_seed)
                         if label == "baseline":
@@ -1092,6 +1469,14 @@ class TSHCALOQualificationCampaign:
                                     "optimizer_backend": "legacy",
                                 }
                             )
+                            parameters.update(
+                                {
+                                    "run_checkpoint_path": str(checkpoint_path),
+                                    "checkpoint_interval_evaluations": checkpoint_interval,
+                                }
+                            )
+                            if resumed_checkpoint:
+                                parameters["resume_run_checkpoint"] = str(checkpoint_path)
                             optimizer = create_optimizer(
                                 "CALO",
                                 problem,
@@ -1102,10 +1487,22 @@ class TSHCALOQualificationCampaign:
                                     parameters,
                                 ),
                                 seeds.algorithm_seed,
+                                progress_callback=progress_callback,
+                                cancel_callback=lambda _state=pause_state: (
+                                    _state["request"] is not None
+                                ),
                             )
                         else:
                             parameters = deepcopy(binding)
                             parameters["ai_inference_seed"] = int(seeds.ai_inference_seed)
+                            parameters.update(
+                                {
+                                    "run_checkpoint_path": str(checkpoint_path),
+                                    "checkpoint_interval_evaluations": checkpoint_interval,
+                                }
+                            )
+                            if resumed_checkpoint:
+                                parameters["resume_run_checkpoint"] = str(checkpoint_path)
                             optimizer = _QualificationCandidateOptimizer(
                                 problem,
                                 OptimizerConfig(
@@ -1116,8 +1513,25 @@ class TSHCALOQualificationCampaign:
                                 ),
                                 seeds.algorithm_seed,
                                 qualification_authority=authority,
+                                progress_callback=progress_callback,
+                                cancel_callback=lambda _state=pause_state: (
+                                    _state["request"] is not None
+                                ),
                             )
                         result = optimizer.run()
+                        if int(result.evaluations) < int(self.plan.max_evaluations):
+                            request = pause_state["request"] or self._pending_pause_request()
+                            if request is None:
+                                raise RuntimeError(
+                                    "Qualification cell stopped before its exact evaluation budget"
+                                )
+                            self._acknowledge_pause(
+                                request,
+                                boundary="optimizer_checkpoint",
+                                durable_path=checkpoint_path,
+                                cell=cell,
+                                evaluations=int(result.evaluations),
+                            )
                         record = _result_record(
                             label=label,
                             case_name=case_name,
@@ -1130,6 +1544,19 @@ class TSHCALOQualificationCampaign:
                         record["qualification_plan_sha256"] = plan_hash
                         record["source_policy_sha256"] = artifact.sha256
                         _write_json(record_path, record)
+                        self._remove_completed_cell_checkpoint(checkpoint_path)
+                        self._emit_event(
+                            "cell_completed",
+                            **cell,
+                            evaluations=int(result.evaluations),
+                            committed_cells=self._completed_cells(),
+                            total_cells=self._expected_cells(),
+                            feasible=bool(result.feasible),
+                            objective=_finite_or_none(result.best_objective),
+                            violation=_finite_or_none(result.total_constraint_violation),
+                        )
+                    except TSHCALOQualificationPauseRequested:
+                        raise
                     except Exception as exc:
                         failure = {
                             "schema_version": "tsh-calo-qualification-failure-v1",
@@ -1144,6 +1571,26 @@ class TSHCALOQualificationCampaign:
                             "retained": True,
                         }
                         _write_json(failure_path, failure)
+                        self._emit_event(
+                            "cell_failed",
+                            **cell,
+                            committed_cells=self._completed_cells(),
+                            total_cells=self._expected_cells(),
+                            exception_type=type(exc).__name__,
+                            message=str(exc),
+                        )
+                    request_after_cell = (
+                        pause_state["request"] or self._pending_pause_request()
+                    )
+                    if request_after_cell is not None:
+                        durable_path = record_path if record_path.is_file() else failure_path
+                        self._acknowledge_pause(
+                            request_after_cell,
+                            boundary="cell_record",
+                            durable_path=durable_path,
+                            cell=cell,
+                            evaluations=int(self.plan.max_evaluations),
+                        )
         records = [_read_json(path) for path in sorted(records_directory.glob("*.json"))]
         failures = [_read_json(path) for path in sorted(failures_directory.glob("*.json"))]
         expected = len(self.plan.development_cases) * self.plan.runs * 2
@@ -1215,6 +1662,24 @@ class TSHCALOQualificationCampaign:
                 ood_calibration=calibration,
             )
             _write_json(self.output_directory / "qualification_receipt.json", receipt)
+        completed_event = self._emit_event(
+            "campaign_completed",
+            passed=bool(decision["passed"]),
+            completed_cells=len(records) + len(failures),
+            successful_cells=len(records),
+            failed_cells=len(failures),
+            total_cells=expected,
+            evidence_path=str(evidence_path),
+            evidence_sha256=evidence_sha,
+        )
+        self._write_status(
+            state="completed_qualified" if decision["passed"] else "completed_not_qualified",
+            pause=None,
+            current_cell=None,
+            last_event=completed_event,
+            evidence_path=str(evidence_path),
+            evidence_sha256=evidence_sha,
+        )
         return {
             "qualification_run_id": self.plan.qualification_run_id,
             "passed": bool(decision["passed"]),

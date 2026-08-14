@@ -579,10 +579,19 @@ def test_policy_training_process_actions_are_visible_in_the_input_pane():
     assert "automatic_qualification_workflow_payload" in intelligence
     assert "prepare_automatic_source_snapshot" in intelligence
     assert "process.setWorkingDirectory(str(source_snapshot.root))" in intelligence
-    assert "Completed cells are retained for unlimited exact resumes" in intelligence
+    assert "Pause safely commits the current" in intelligence
+    assert "partial cell can continue later" in intelligence
     assert "this action never activates or binds the policy" in intelligence
     assert 'stage="formal"' in intelligence
     assert "_update_qualification_progress" in intelligence
+    assert "request_safe_qualification_pause" in intelligence
+    assert "QUALIFICATION_EVENT_PREFIX" in intelligence
+    assert "cell_progress" in intelligence
+    assert "live, not yet a committed cell" in intelligence
+    assert "_confirmed_safe_qualification_pause" in intelligence
+    assert "_retained_qualification_resume" in intelligence
+    assert "qualification_candidate_contract" in intelligence
+    assert "source-snapshots" in intelligence
     assert 'progress=0' in intelligence
     assert "Model-quality checks" in intelligence
     assert "A-E optimizer cells" not in intelligence

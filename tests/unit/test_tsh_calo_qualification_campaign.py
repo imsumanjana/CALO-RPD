@@ -17,13 +17,19 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact import (
     save_tsh_calo_candidate,
 )
 from calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign import (
+    QUALIFICATION_CONTROL_FILE,
+    QUALIFICATION_EVENT_LOG_FILE,
+    QUALIFICATION_STATUS_FILE,
     QualificationCampaignLeaseUnavailable,
     TSH_CALO_COMPONENT_EVIDENCE_SCHEMA,
+    TSH_CALO_QUALIFICATION_EVENT_SCHEMA,
+    TSHCALOQualificationPauseRequested,
     TSHCALOQualificationCampaign,
     TSHCALOQualificationPlan,
     _ExclusiveQualificationCampaignLease,
     _verify_component_evidence,
     qualification_candidate_contract,
+    request_tsh_calo_qualification_pause,
 )
 from calo_rpd_studio.algorithms.calo.tsh_calo_training_receipt import (
     build_tsh_calo_training_episode_receipt,
@@ -156,6 +162,90 @@ def test_screening_campaign_retains_evidence_but_cannot_emit_receipt(tmp_path):
     assert candidate_records
     assert all(item["evaluations"] == 8 for item in candidate_records)
     assert all(item["source_policy_sha256"] == sha256 for item in candidate_records)
+
+
+def test_qualification_micro_events_pause_inside_cell_and_exactly_resume(
+    tmp_path, monkeypatch
+):
+    path, sha256 = _ensemble(tmp_path)
+    plan = _plan(path, sha256, max_evaluations=12)
+    output = tmp_path / "resumable-screening"
+    events = []
+    pause_requested = False
+    monkeypatch.setattr(
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign."
+        "QUALIFICATION_CHECKPOINT_INTERVAL",
+        4,
+    )
+
+    def capture(event):
+        nonlocal pause_requested
+        events.append(dict(event))
+        if event["event"] == "cell_progress" and not pause_requested:
+            pause_requested = True
+            request_tsh_calo_qualification_pause(output)
+
+    campaign = TSHCALOQualificationCampaign(plan, output, event_callback=capture)
+    with pytest.raises(TSHCALOQualificationPauseRequested):
+        campaign.start()
+
+    status = json.loads((output / QUALIFICATION_STATUS_FILE).read_text(encoding="utf-8"))
+    control = json.loads((output / QUALIFICATION_CONTROL_FILE).read_text(encoding="utf-8"))
+    event_log = [
+        json.loads(line)
+        for line in (output / QUALIFICATION_EVENT_LOG_FILE)
+        .read_text(encoding="utf-8")
+        .splitlines()
+    ]
+    assert status["state"] == "paused"
+    assert status["pause"]["boundary"] == "optimizer_checkpoint"
+    assert status["pause"]["resumable"] is True
+    assert control["state"] == "acknowledged"
+    assert control["evaluations"] == 8
+    assert Path(control["durable_path"]).is_file()
+    assert any(item["event"] == "cell_progress" for item in events)
+    assert event_log[-1]["schema_version"] == TSH_CALO_QUALIFICATION_EVENT_SCHEMA
+    assert event_log[-1]["event"] == "campaign_paused"
+
+    resumed_events = []
+    result = TSHCALOQualificationCampaign(
+        plan,
+        output,
+        event_callback=lambda event: resumed_events.append(dict(event)),
+    ).resume()
+
+    assert result["registration_performed"] is False
+    assert result["activation_performed"] is False
+    assert any(
+        item["event"] == "cell_started" and item["resumed_checkpoint"] is True
+        for item in resumed_events
+    )
+    assert any(item["event"] == "campaign_completed" for item in resumed_events)
+    assert json.loads((output / QUALIFICATION_STATUS_FILE).read_text(encoding="utf-8"))[
+        "state"
+    ] == "completed_not_qualified"
+
+    uninterrupted_output = tmp_path / "uninterrupted-screening"
+    TSHCALOQualificationCampaign(plan, uninterrupted_output).start()
+    for resumed_path in sorted((output / "records").glob("*.json")):
+        resumed_record = json.loads(resumed_path.read_text(encoding="utf-8"))
+        uninterrupted_record = json.loads(
+            (uninterrupted_output / "records" / resumed_path.name).read_text(
+                encoding="utf-8"
+            )
+        )
+        for field in (
+            "seeds",
+            "feasible",
+            "objective",
+            "violation",
+            "evaluations",
+            "iterations",
+            "first_feasible_evaluation",
+            "best_vector",
+            "anytime",
+        ):
+            assert resumed_record[field] == uninterrupted_record[field]
 
 
 def test_formal_plan_requires_frozen_candidate_architecture_contract(tmp_path):

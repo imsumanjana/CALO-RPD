@@ -32,9 +32,26 @@ evaluation budget. Product version and project lifecycle labels do not decide el
 cells are retained, so the same finite plan may be resumed any number of times without changing its
 budget or selecting a more favorable rerun.
 
-Qualification progress appears once in the persistent bottom bar as committed cells and percentage;
-detailed status remains visible in Activity. While a run is active, task-changing workspace controls
-are locked, but Activity and the bottom status bar remain usable.
+Qualification progress appears once in the persistent bottom bar. It shows live overall and current-
+cell percentages while naming the separate durable-cell count. Activity logs a throttled micro step
+every 500 evaluations (5% of a 10,000-evaluation formal cell), including case, run, baseline or
+candidate side, best feasible objective, minimum violation, first-feasible point, throughput, and
+cell ETA. The durable `qualification_events.jsonl` retains the same structured events; live in-cell
+values are clearly labeled uncommitted until an authenticated checkpoint or final cell record is
+acknowledged.
+
+Use **Pause safely** in the bottom bar whenever the qualification task is running. The request is
+cooperative: the current population transition finishes, then the exact optimizer population,
+archives/memory, histories, evaluation counter, and random-number state are saved in an authenticated
+checkpoint. The application reports **Paused** only after verifying the request, frozen-plan identity,
+durable path, and SHA-256. Select the same policy and click **Qualify policy** later to restore that
+checkpoint and continue the unchanged finite plan. Pause/resume may be repeated without a count
+limit; it never resets or extends the frozen evaluation budget. While a run is active, task-changing
+workspace controls are locked, but Activity and the bottom status bar remain usable.
+If the application source changes between sessions, the library first searches for the exact
+candidate's valid incomplete campaign and reopens its preserved clean source snapshot. A mere
+software-version change therefore does not orphan a paused check; an architecture, schema, candidate
+checksum, or frozen-plan incompatibility still fails closed.
 
 A complete passing result is admitted automatically by the explicit qualification transaction, but
 the policy remains inactive. Compare qualified policies using feasibility, objective improvement,

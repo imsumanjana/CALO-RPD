@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import sys
 from pathlib import Path
 
@@ -27,6 +28,7 @@ from PyQt6.QtWidgets import (
     QWidget,
 )
 
+from calo_rpd_studio.ai.model_io import checkpoint_sha256
 from calo_rpd_studio.algorithms.calo.policy_readiness import policy_record_user_status
 from calo_rpd_studio.algorithms.calo.tsh_calo_automatic_qualification import (
     AutomaticQualificationRejected,
@@ -39,12 +41,24 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_automatic_qualification import (
     freeze_plan,
     prepare_automatic_source_snapshot,
 )
+from calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign import (
+    QUALIFICATION_CONTROL_FILE,
+    QUALIFICATION_STATUS_FILE,
+    TSH_CALO_QUALIFICATION_CONTROL_SCHEMA,
+    TSH_CALO_QUALIFICATION_EVENT_SCHEMA,
+    TSH_CALO_QUALIFICATION_PAUSE_EXIT_CODE,
+    TSH_CALO_QUALIFICATION_STATUS_SCHEMA,
+    TSHCALOQualificationPlan,
+    qualification_candidate_contract,
+    request_tsh_calo_qualification_pause,
+)
 from calo_rpd_studio.algorithms.calo.tsh_calo_schema import TSH_CALO_ALGORITHM_ID
 from calo_rpd_studio.gui.user_feedback import show_error
 from calo_rpd_studio.gui.widgets.page_header import PageHeader
 from calo_rpd_studio.gui.widgets.scrollable_page import ScrollablePage
 from calo_rpd_studio.gui.widgets.section_card import SectionCard
 from calo_rpd_studio.scripts.qualify_tsh_calo import (
+    QUALIFICATION_EVENT_PREFIX,
     ROOT as QUALIFICATION_SOURCE_ROOT,
     load_plan as load_qualification_plan,
     validate_repository_for_plan,
@@ -67,15 +81,22 @@ class CALOIntelligencePanel(ScrollablePage):
         self._policy_rows = []
         self._qualification_process: QProcess | None = None
         self._qualification_process_output = ""
+        self._qualification_stdout_buffer = ""
         self._qualification_policy_id = ""
         self._qualification_process_stage = ""
         self._qualification_workspace: AutomaticQualificationWorkspace | None = None
         self._qualification_source_snapshot: AutomaticQualificationSourceSnapshot | None = None
         self._qualification_expected_cells = 0
         self._qualification_reported_cells = -1
+        self._qualification_pause_requested = False
+        self._qualification_live_event: dict = {}
+        self._qualification_last_event: dict = {}
         self._qualification_progress_timer = QTimer(self)
         self._qualification_progress_timer.setInterval(500)
         self._qualification_progress_timer.timeout.connect(self._update_qualification_progress)
+        self.state.task_status.cancel_requested.connect(
+            self.request_safe_qualification_pause
+        )
 
         layout = QVBoxLayout(content)
         layout.setContentsMargins(24, 22, 24, 72)
@@ -541,6 +562,94 @@ class CALOIntelligencePanel(ScrollablePage):
         )
         return Path(local_data).expanduser().resolve() / "policy-qualification"
 
+    def _retained_qualification_resume(
+        self, qualification_base: Path, policy, candidate_artifact
+    ) -> tuple[
+        TSHCALOQualificationPlan,
+        AutomaticQualificationWorkspace,
+        AutomaticQualificationSourceSnapshot,
+    ] | None:
+        """Find the newest valid retained plan or result for this exact candidate checksum."""
+
+        campaigns = qualification_base / "campaigns"
+        if not campaigns.is_dir():
+            return None
+        prefix = f"architecture-v2-{policy.sha256[:16].lower()}-"
+        retained: list[tuple[int, Path, TSHCALOQualificationPlan]] = []
+        for root in campaigns.glob(f"{prefix}*"):
+            plan_path = root / "formal_qualification_plan.json"
+            output = root / "formal-qualification-evidence"
+            if (
+                not root.is_dir()
+                or not plan_path.is_file()
+                or not output.is_dir()
+                or (output / "campaign_integrity_failure.json").is_file()
+            ):
+                continue
+            try:
+                plan = load_qualification_plan(plan_path)
+            except (OSError, RuntimeError, ValueError):
+                continue
+            if (
+                plan.candidate_sha256.lower() != policy.sha256.lower()
+                or Path(plan.candidate_path).expanduser().resolve()
+                != Path(policy.checkpoint_path).expanduser().resolve()
+            ):
+                continue
+            status_rank = 0
+            if (output / "qualification_evidence.json").is_file():
+                status_rank = 3
+            status_path = output / QUALIFICATION_STATUS_FILE
+            if status_path.is_file():
+                try:
+                    status = json.loads(status_path.read_text(encoding="utf-8"))
+                    if status.get("state") == "paused":
+                        status_rank = 4
+                    elif status_rank < 3:
+                        status_rank = 2 if status.get("state") == "running" else 1
+                except (OSError, json.JSONDecodeError):
+                    status_rank = max(status_rank, 0)
+            retained.append((status_rank, root, plan))
+        if not retained:
+            return None
+        _rank, root, stored_plan = max(
+            retained,
+            key=lambda item: (item[0], item[1].stat().st_mtime_ns),
+        )
+        if stored_plan.candidate_contract != qualification_candidate_contract(
+            candidate_artifact
+        ):
+            raise ValueError(
+                "The retained qualification plan no longer matches the candidate architecture "
+                "and parameter contract"
+            )
+        snapshot_root = (
+            qualification_base / "source-snapshots" / stored_plan.source_commit
+        ).resolve()
+        validate_repository_for_plan(stored_plan, root=snapshot_root)
+        manifest_path = snapshot_root / AUTOMATIC_SOURCE_SNAPSHOT_MANIFEST
+        try:
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            raise ValueError("Retained qualification source manifest is unreadable") from exc
+        if not isinstance(manifest, dict) or not isinstance(manifest.get("files"), list):
+            raise ValueError("Retained qualification source manifest is incompatible")
+        workspace = AutomaticQualificationWorkspace.create(
+            campaigns,
+            candidate_sha256=policy.sha256,
+            source_commit=stored_plan.source_commit,
+        )
+        if workspace.root != root.resolve():
+            raise ValueError("Retained qualification workspace identity is inconsistent")
+        snapshot = AutomaticQualificationSourceSnapshot(
+            root=snapshot_root,
+            source_commit=stored_plan.source_commit,
+            worktree_sha256=str(manifest.get("worktree_sha256", "")),
+            manifest_sha256=checkpoint_sha256(manifest_path),
+            file_count=len(manifest["files"]),
+        )
+        return stored_plan, workspace, snapshot
+
     def qualify_selected_policy(self) -> None:
         """Run the one-action frozen qualification workflow; never activate the policy."""
 
@@ -573,21 +682,27 @@ class CALOIntelligencePanel(ScrollablePage):
                 policy.id
             )
             qualification_base = self._automatic_qualification_base_directory()
-            source_snapshot = prepare_automatic_source_snapshot(
-                QUALIFICATION_SOURCE_ROOT,
-                qualification_base / "source-snapshots",
+            retained = self._retained_qualification_resume(
+                qualification_base, policy, candidate_artifact
             )
-            qualification_plan = build_automatic_formal_qualification_plan(
-                candidate_path=policy.checkpoint_path,
-                candidate_sha256=policy.sha256,
-                source_commit=source_snapshot.source_commit,
-                candidate_artifact=candidate_artifact,
-            )
-            workspace = AutomaticQualificationWorkspace.create(
-                qualification_base / "campaigns",
-                candidate_sha256=policy.sha256,
-                source_commit=source_snapshot.source_commit,
-            )
+            if retained is not None:
+                qualification_plan, workspace, source_snapshot = retained
+            else:
+                source_snapshot = prepare_automatic_source_snapshot(
+                    QUALIFICATION_SOURCE_ROOT,
+                    qualification_base / "source-snapshots",
+                )
+                qualification_plan = build_automatic_formal_qualification_plan(
+                    candidate_path=policy.checkpoint_path,
+                    candidate_sha256=policy.sha256,
+                    source_commit=source_snapshot.source_commit,
+                    candidate_artifact=candidate_artifact,
+                )
+                workspace = AutomaticQualificationWorkspace.create(
+                    qualification_base / "campaigns",
+                    candidate_sha256=policy.sha256,
+                    source_commit=source_snapshot.source_commit,
+                )
             if workspace.qualification_plan.is_file():
                 stored = load_qualification_plan(workspace.qualification_plan)
                 if stored.execution_plan_sha256() != qualification_plan.execution_plan_sha256():
@@ -627,10 +742,11 @@ class CALOIntelligencePanel(ScrollablePage):
             f"Source snapshot: {source_snapshot.source_commit[:12]} from "
             f"{source_snapshot.file_count} non-ignored files. The working source tree is not "
             "modified.\n\n"
-            "Completed cells are retained for unlimited exact resumes. A failed frozen gate "
-            "rejects the policy. A verified pass is admitted automatically and enables the "
-            "separate Activate for experiments button; this action never activates or binds the "
-            "policy.",
+            "Activity records a micro step every 500 evaluations. Pause safely commits the current "
+            "optimizer state, so even a partial cell can continue later. Pause/resume has no count "
+            "limit and never changes this finite budget. A failed frozen gate rejects the policy. "
+            "A verified pass is admitted automatically and enables the separate Activate for "
+            "experiments button; this action never activates or binds the policy.",
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.Cancel,
             QMessageBox.StandardButton.Cancel,
         )
@@ -728,20 +844,25 @@ class CALOIntelligencePanel(ScrollablePage):
         process.finished.connect(self._qualification_process_finished)
         self._qualification_process = process
         self._qualification_process_output = ""
+        self._qualification_stdout_buffer = ""
         self._qualification_process_stage = stage
         self._qualification_expected_cells = automatic_qualification_workload()[
             "qualification_cells"
         ]
         self._qualification_reported_cells = -1
+        self._qualification_pause_requested = False
+        self._qualification_live_event = {}
+        self._qualification_last_event = {}
         self.state.task_status.begin(
             "Independent policy qualification",
-            detail="Preparing frozen architecture and model-quality checks",
+            detail="Preparing frozen checks and resumable optimizer checkpoints",
             progress=0,
-            cancellable=False,
+            cancellable=True,
         )
         self.qualification_workflow_status.setText(
-            f"Qualification {'resuming' if resume else 'running'}. Completed-cell progress is "
-            "shown in the bottom bar; detailed output is retained in Activity -> Logs."
+            f"Qualification {'resuming' if resume else 'running'}. Live micro-progress and durable "
+            "cell counts are shown in the bottom bar and Activity. Use Pause safely to stop at "
+            "an authenticated optimizer checkpoint."
         )
         self.activity_message.emit("INFO", self.qualification_workflow_status.text())
         self._update_qualification_controls()
@@ -751,7 +872,7 @@ class CALOIntelligencePanel(ScrollablePage):
             self._qualification_progress_timer.start()
 
     def _update_qualification_progress(self) -> None:
-        """Publish committed qualification cells to the global progress bar and Activity."""
+        """Publish live work separately from authoritative committed-cell progress."""
 
         if self._qualification_process is None or self._qualification_workspace is None:
             return
@@ -764,24 +885,205 @@ class CALOIntelligencePanel(ScrollablePage):
         )
         expected = max(1, int(self._qualification_expected_cells))
         completed = min(completed, expected)
-        percentage = min(99, int(completed * 100 / expected))
-        detail = f"Model-quality checks · {completed}/{expected} cells committed"
+        evaluations_per_cell = int(
+            automatic_qualification_workload()["evaluations_per_cell"]
+        )
+        live = dict(self._qualification_live_event or {})
+        live_evaluations = 0
+        live_base = int(live.get("committed_cells", -1))
+        if live.get("event") == "cell_progress" and completed == live_base:
+            live_evaluations = max(
+                0,
+                min(evaluations_per_cell, int(live.get("live_evaluations", 0))),
+            )
+        total_evaluations = expected * evaluations_per_cell
+        observed_evaluations = completed * evaluations_per_cell + live_evaluations
+        overall_percentage = 100.0 * observed_evaluations / max(total_evaluations, 1)
+        percentage = min(99, int(overall_percentage))
+        if live_evaluations:
+            detail = (
+                f"Live {overall_percentage:.1f}% | cell {int(live.get('cell_index', 0))}/"
+                f"{expected} {str(live.get('label', ''))} "
+                f"{live_evaluations}/{evaluations_per_cell} | {completed} cells durable"
+            )
+        else:
+            detail = f"Model-quality checks | {completed}/{expected} cells durable"
         self.state.task_status.update(progress=percentage, detail=detail)
         if completed != self._qualification_reported_cells:
             self._qualification_reported_cells = completed
             self.activity_message.emit(
-                "INFO", f"Qualification progress {percentage}% · {completed}/{expected} cells"
+                "INFO",
+                f"Qualification durable progress {percentage}% | {completed}/{expected} cells",
             )
+
+    def request_safe_qualification_pause(self) -> None:
+        """Request a cooperative pause; the child acknowledges only durable state."""
+
+        if self._qualification_process is None or self._qualification_pause_requested:
+            return
+        workspace = self._qualification_workspace
+        if workspace is None:
+            self.state.task_status.rearm_cancel(
+                "Safe pause was not recorded | qualification is still running"
+            )
+            return
+        try:
+            request = request_tsh_calo_qualification_pause(
+                workspace.qualification_output
+            )
+        except (OSError, RuntimeError, ValueError) as exc:
+            self.activity_message.emit(
+                "ERROR",
+                f"Safe qualification pause could not be requested: {type(exc).__name__}: {exc}",
+            )
+            self.state.task_status.rearm_cancel(
+                "Safe pause was not recorded | qualification is still running"
+            )
+            return
+        self._qualification_pause_requested = True
+        detail = "Pause requested | committing and authenticating the current optimizer state"
+        self.state.task_status.update(detail=detail)
+        self.qualification_workflow_status.setText(detail)
+        self.activity_message.emit(
+            "INFO",
+            "Safe qualification pause request recorded; the current population transition will "
+            f"finish before checkpoint acknowledgement ({str(request.get('request_id', ''))[:12]}).",
+        )
 
     def _read_qualification_output(self) -> None:
         process = self._qualification_process
         if process is None:
             return
         output = bytes(process.readAllStandardOutput()).decode("utf-8", errors="replace")
+        if not output:
+            return
         self._qualification_process_output += output
-        for line in output.splitlines():
-            if line.strip():
-                self.activity_message.emit("DEBUG", line.strip())
+        self._qualification_stdout_buffer += output
+        while "\n" in self._qualification_stdout_buffer:
+            line, self._qualification_stdout_buffer = self._qualification_stdout_buffer.split(
+                "\n", 1
+            )
+            self._consume_qualification_output_line(line.rstrip("\r"))
+
+    def _flush_qualification_output(self) -> None:
+        if self._qualification_stdout_buffer:
+            self._consume_qualification_output_line(
+                self._qualification_stdout_buffer.rstrip("\r")
+            )
+            self._qualification_stdout_buffer = ""
+
+    def _consume_qualification_output_line(self, line: str) -> None:
+        if not line:
+            return
+        if not line.startswith(QUALIFICATION_EVENT_PREFIX):
+            self.activity_message.emit("DEBUG", line)
+            return
+        try:
+            event = json.loads(line[len(QUALIFICATION_EVENT_PREFIX) :])
+        except json.JSONDecodeError:
+            self.activity_message.emit("WARNING", "A qualification progress event was unreadable.")
+            return
+        if (
+            not isinstance(event, dict)
+            or event.get("schema_version") != TSH_CALO_QUALIFICATION_EVENT_SCHEMA
+        ):
+            self.activity_message.emit("WARNING", "A qualification progress event was incompatible.")
+            return
+        self._qualification_last_event = dict(event)
+        self._apply_qualification_event(event)
+
+    def _apply_qualification_event(self, event: dict) -> None:
+        name = str(event.get("event", ""))
+        if name in {"campaign_started", "campaign_resumed"}:
+            detail = (
+                f"Qualification {'resumed' if name == 'campaign_resumed' else 'started'} | "
+                f"{int(event.get('completed_cells', 0))}/{int(event.get('total_cells', 0))} "
+                "cells durable"
+            )
+            self.state.task_status.update(detail=detail)
+            self.activity_message.emit("INFO", detail)
+            return
+        if name == "calibration_started":
+            detail = "OOD calibration running | optimizer cells have not started"
+            self.state.task_status.update(detail=detail)
+            self.activity_message.emit("INFO", detail)
+            return
+        if name == "calibration_progress":
+            detail = (
+                f"OOD calibration | sample {int(event.get('completed_samples', 0))}/"
+                f"{int(event.get('total_samples', 0))} | {event.get('case')}"
+            )
+            self.state.task_status.update(detail=detail)
+            self.activity_message.emit("INFO", detail)
+            return
+        if name == "calibration_completed":
+            self.activity_message.emit("INFO", "OOD calibration committed and checksum verified.")
+            return
+        if name == "cell_started":
+            self._qualification_live_event = {}
+            detail = (
+                f"Cell {int(event.get('cell_index', 0))}/{int(event.get('total_cells', 0))} | "
+                f"{event.get('case')} run {int(event.get('run_number', 0))} "
+                f"{event.get('label')} | "
+                f"{'restoring exact checkpoint' if event.get('resumed_checkpoint') else 'starting'}"
+            )
+            self.state.task_status.update(detail=detail)
+            self.activity_message.emit("INFO", detail)
+            return
+        if name == "cell_progress":
+            self._qualification_live_event = dict(event)
+            self._update_qualification_progress()
+            feasible = event.get("best_feasible_objective")
+            feasible_text = "none yet" if feasible is None else f"{float(feasible):.6g}"
+            violation = event.get("best_constraint_violation")
+            violation_text = "n/a" if violation is None else f"{float(violation):.6g}"
+            eta = event.get("cell_eta_seconds")
+            eta_text = "n/a" if eta is None else f"{float(eta):.0f}s"
+            rate = event.get("evaluations_per_second")
+            rate_text = "n/a" if rate is None else f"{float(rate):.2f} eval/s"
+            first_feasible = event.get("first_feasible_evaluation")
+            first_feasible_text = (
+                "not reached" if first_feasible is None else str(int(first_feasible))
+            )
+            self.activity_message.emit(
+                "INFO",
+                f"Micro step | cell {int(event.get('cell_index', 0))}/"
+                f"{int(event.get('total_cells', 0))} {event.get('case')} "
+                f"run {int(event.get('run_number', 0))} {event.get('label')} | "
+                f"{int(event.get('live_evaluations', 0))}/"
+                f"{int(event.get('max_evaluations', 0))} evaluations "
+                f"({float(event.get('cell_percent', 0.0)):.1f}%) | best feasible "
+                f"{feasible_text} | violation {violation_text} | first feasible FE "
+                f"{first_feasible_text} | {rate_text} | cell ETA {eta_text} | live, "
+                "not yet a committed cell",
+            )
+            return
+        if name in {"cell_completed", "cell_failed"}:
+            self._qualification_live_event = {}
+            self._update_qualification_progress()
+            severity = "INFO" if name == "cell_completed" else "ERROR"
+            self.activity_message.emit(
+                severity,
+                f"Cell {int(event.get('cell_index', 0))}/"
+                f"{int(event.get('total_cells', 0))} "
+                f"{'committed' if name == 'cell_completed' else 'retained as failed'} | "
+                f"{int(event.get('committed_cells', 0))} cells durable",
+            )
+            return
+        if name == "campaign_paused":
+            self._qualification_live_event = {}
+            detail = (
+                f"Safe pause acknowledged | {int(event.get('completed_cells', 0))}/"
+                f"{int(event.get('total_cells', 0))} cells durable | "
+                f"boundary {event.get('boundary')}"
+            )
+            self.state.task_status.update(detail=detail)
+            self.activity_message.emit("INFO", detail)
+            return
+        if name == "campaign_completed":
+            self._qualification_live_event = {}
+            self.state.task_status.update(progress=100, detail="Qualification evidence committed")
+            self.activity_message.emit("INFO", "Qualification evidence and final decision committed.")
 
     def _qualification_process_error(self, error) -> None:
         process = self._qualification_process
@@ -790,6 +1092,7 @@ class CALOIntelligencePanel(ScrollablePage):
         message = process.errorString()
         self._qualification_progress_timer.stop()
         self._qualification_process = None
+        self._qualification_pause_requested = False
         stage = self._qualification_process_stage or "automatic"
         self.state.task_status.fail(f"Qualification {stage} process could not start")
         self.qualification_workflow_status.setText(
@@ -811,6 +1114,7 @@ class CALOIntelligencePanel(ScrollablePage):
         if process is None:
             return
         self._read_qualification_output()
+        self._flush_qualification_output()
         self._qualification_progress_timer.stop()
         self._update_qualification_progress()
         process.deleteLater()
@@ -818,6 +1122,27 @@ class CALOIntelligencePanel(ScrollablePage):
         stage = self._qualification_process_stage
         policy_id = self._qualification_policy_id
         workspace = self._qualification_workspace
+        paused = (
+            int(exit_code) == TSH_CALO_QUALIFICATION_PAUSE_EXIT_CODE
+            and self._confirmed_safe_qualification_pause()
+        )
+        if paused:
+            self._qualification_pause_requested = False
+            completed = int(self._qualification_last_event.get("completed_cells", 0))
+            expected = max(1, int(self._qualification_expected_cells))
+            detail = (
+                f"Qualification paused safely | {completed}/{expected} cells durable | "
+                "click Qualify policy to resume the exact frozen plan"
+            )
+            self.state.task_status.paused(detail)
+            self.qualification_workflow_status.setText(detail)
+            self.activity_message.emit(
+                "INFO",
+                "Qualification paused at an authenticated boundary. No policy evidence was "
+                "admitted or activated; the same finite plan remains resumable.",
+            )
+            self._update_qualification_controls()
+            return
         if exit_code == 0:
             try:
                 if not policy_id or workspace is None:
@@ -848,7 +1173,55 @@ class CALOIntelligencePanel(ScrollablePage):
                 "activated. Click Qualify policy again to resume the exact retained plan."
             )
             self.activity_message.emit("ERROR", self.qualification_workflow_status.text())
+        self._qualification_pause_requested = False
         self._update_qualification_controls()
+
+    def _confirmed_safe_qualification_pause(self) -> bool:
+        workspace = self._qualification_workspace
+        if workspace is None:
+            return False
+        output = workspace.qualification_output
+        try:
+            status = json.loads((output / QUALIFICATION_STATUS_FILE).read_text("utf-8"))
+            control = json.loads((output / QUALIFICATION_CONTROL_FILE).read_text("utf-8"))
+        except (OSError, json.JSONDecodeError):
+            return False
+        if not isinstance(status, dict) or not isinstance(control, dict):
+            return False
+        pause = status.get("pause", {})
+        last_event = status.get("last_event", {})
+        if not isinstance(pause, dict) or not isinstance(last_event, dict):
+            return False
+        durable_path = Path(str(control.get("durable_path", ""))).expanduser()
+        try:
+            durable_digest = (
+                checkpoint_sha256(durable_path.resolve())
+                if durable_path.resolve().is_file()
+                else ""
+            )
+        except OSError:
+            durable_digest = ""
+        return bool(
+            status.get("schema_version") == TSH_CALO_QUALIFICATION_STATUS_SCHEMA
+            and control.get("schema_version") == TSH_CALO_QUALIFICATION_CONTROL_SCHEMA
+            and last_event.get("schema_version") == TSH_CALO_QUALIFICATION_EVENT_SCHEMA
+            and status.get("state") == "paused"
+            and pause.get("reason") == "user_requested_safe_pause"
+            and pause.get("resumable") is True
+            and control.get("action") == "pause"
+            and control.get("state") == "acknowledged"
+            and last_event.get("event") == "campaign_paused"
+            and pause.get("request_id") == control.get("request_id")
+            and last_event.get("request_id") == control.get("request_id")
+            and control.get("qualification_plan_sha256")
+            == status.get("qualification_plan_sha256")
+            and last_event.get("qualification_plan_sha256")
+            == status.get("qualification_plan_sha256")
+            and pause.get("durable_path") == control.get("durable_path")
+            and pause.get("durable_sha256") == control.get("durable_sha256")
+            and last_event.get("durable_sha256") == control.get("durable_sha256")
+            and durable_digest == control.get("durable_sha256")
+        )
 
     def _admit_automatic_qualification(
         self, policy, workspace: AutomaticQualificationWorkspace

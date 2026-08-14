@@ -119,8 +119,13 @@ internal Git snapshot without modifying the development checkout, and binds the 
 file/SHA-256 manifest as source identity. It freezes the candidate architecture, parameter/schema,
 ensemble, training-design, and exact-model contract, then starts or exactly resumes the fixed 120-cell
 paired quality plan and admits only reverified passing evidence. Software/development labels are not
-qualification gates. Committed retained cells drive the global percentage; Activity remains enabled
-while the rest of the workspace is locked during a run. Separate plan-browser, run/resume, and
+qualification gates. Structured micro-events report every 500 evaluations to the bottom-bar detail,
+Activity, and durable `qualification_events.jsonl`, while committed cells remain explicitly separate
+from live uncommitted work. The bottom bar exposes cooperative **Pause safely**; a pause is accepted
+only after an exact authenticated optimizer checkpoint or cell record is committed and checksum-
+verified. The same frozen finite plan can restore the partial cell any number of times without
+changing seeds or evaluation accounting. Activity remains enabled while the rest of the workspace is
+locked during a run. Separate plan-browser, run/resume, and
 admission buttons are obsolete. Qualification never activates or binds: a pass only enables the
 separate activation action, and governing-policy Apply remains the separate experiment handoff.
 These source/test contracts have not been executed; the current ignored Phase 6 validator remains the
