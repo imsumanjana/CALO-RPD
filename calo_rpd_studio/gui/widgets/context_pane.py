@@ -45,6 +45,41 @@ def _help(text: str) -> QLabel:
     return label
 
 
+class _ResponsivePathLabel(QLabel):
+    """Wrap a long filesystem path and reserve every rendered line."""
+
+    def __init__(self, text: str, parent=None) -> None:
+        super().__init__(text, parent)
+        self.setWordWrap(True)
+        self.setMinimumWidth(0)
+        self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        self.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
+
+    def heightForWidth(self, width: int) -> int:  # noqa: N802 - Qt API
+        margins = self.contentsMargins()
+        usable_width = max(
+            1,
+            width - margins.left() - margins.right() - (self.margin() * 2),
+        )
+        flags = Qt.TextFlag.TextWordWrap | Qt.TextFlag.TextWrapAnywhere
+        bounds = self.fontMetrics().boundingRect(
+            0,
+            0,
+            usable_width,
+            1_000_000,
+            flags.value,
+            self.text(),
+        )
+        return bounds.height() + margins.top() + margins.bottom() + (self.margin() * 2)
+
+    def resizeEvent(self, event) -> None:  # noqa: N802 - Qt API
+        super().resizeEvent(event)
+        required_height = self.heightForWidth(event.size().width())
+        if required_height > 0 and self.height() != required_height:
+            self.setFixedHeight(required_height)
+            self.updateGeometry()
+
+
 _TRAINING_INPUT_HELP = {
     "library": (
         "Saved interrupted training runs found in the private application model directory and "
@@ -477,6 +512,8 @@ class TrainingPathEditor(QWidget):
         self.library_picker.setAccessibleName("Resumable policy training models")
         self.library_picker.currentIndexChanged.connect(self._library_selection_changed)
         library_host = QWidget()
+        library_host.setMinimumWidth(0)
+        library_host.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
         library_layout = QVBoxLayout(library_host)
         library_layout.setContentsMargins(0, 0, 0, 0)
         library_layout.setSpacing(6)
@@ -497,10 +534,12 @@ class TrainingPathEditor(QWidget):
         default_text = f"Default location: {self.model_library.default_directory}"
         if self.model_library.default_directory_error:
             default_text = "Default location unavailable · choose another training directory"
-        self.default_library_path = QLabel(default_text)
+        self.default_library_path = _ResponsivePathLabel(default_text)
         self.default_library_path.setObjectName("ContextHelp")
-        self.default_library_path.setToolTip(self.model_library.default_directory_error)
-        self.default_library_path.setWordWrap(True)
+        self.default_library_path.setAccessibleName("Default saved-training location")
+        self.default_library_path.setToolTip(
+            self.model_library.default_directory_error or str(self.model_library.default_directory)
+        )
         library_layout.addWidget(self.default_library_path)
         campaign_form.addRow(self._info_label("library", "Saved training"), library_host)
         for key, label, placeholder in (

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from PyQt6.QtCore import QSize, Qt
+from PyQt6.QtCore import QEvent, QSize, QTimer, Qt
 from PyQt6.QtGui import QWheelEvent
 from PyQt6.QtWidgets import QAbstractScrollArea, QScrollArea, QSizePolicy, QWidget
 
@@ -30,6 +30,8 @@ class ScrollablePage(QScrollArea):
         content.setObjectName("ScrollableContent")
         content.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
         self.setWidget(content)
+        self._external_height_sync_pending = False
+        content.installEventFilter(self)
 
     def use_external_vertical_scroll(self, enabled: bool = True) -> None:
         """Delegate page scrolling to an enclosing main preview when embedded."""
@@ -43,7 +45,36 @@ class ScrollablePage(QScrollArea):
             self.setSizeAdjustPolicy(QAbstractScrollArea.SizeAdjustPolicy.AdjustIgnored)
             self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
             self.setProperty("verticalScrollOwner", "self")
+            self.setMinimumHeight(0)
         self.updateGeometry()
+        self._queue_external_height_sync()
+
+    def eventFilter(self, watched, event) -> bool:  # noqa: N802 - Qt API
+        if watched is self.widget() and event.type() == QEvent.Type.LayoutRequest:
+            self._queue_external_height_sync()
+        return super().eventFilter(watched, event)
+
+    def _queue_external_height_sync(self) -> None:
+        if self.property("verticalScrollOwner") != "main-preview":
+            return
+        if self._external_height_sync_pending:
+            return
+        self._external_height_sync_pending = True
+        QTimer.singleShot(0, self._sync_external_minimum_height)
+
+    def _sync_external_minimum_height(self) -> None:
+        self._external_height_sync_pending = False
+        content = self.widget()
+        if self.property("verticalScrollOwner") != "main-preview" or content is None:
+            return
+        required_height = max(
+            1,
+            content.minimumSizeHint().height(),
+            content.sizeHint().height(),
+        )
+        if self.minimumHeight() != required_height:
+            self.setMinimumHeight(required_height)
+            self.updateGeometry()
 
     def viewportSizeHint(self) -> QSize:  # noqa: N802 - Qt API
         content = self.widget()

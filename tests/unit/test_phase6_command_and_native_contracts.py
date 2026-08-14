@@ -298,12 +298,17 @@ def test_phase6_shell_contract_keeps_inputs_and_ribbon_permanent():
     assert "toggleViewAction().setEnabled(False)" in source
     assert "return False" in ribbon
     assert "MainPreviewScroll" in documents
+    assert "QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred" in documents
+    assert "def _sync_content_height" in documents
+    assert "current_widget.minimumHeight()" in documents
     assert "self.tabBar().setVisible(self.count() > 1)" in documents
     assert "app.setWindowIcon(application_icon())" in application
     assert "All eligible bundled cases" in context
     assert "PROTECTED_HOLDOUT_BUS_COUNTS" in context
     assert "_TRAINING_INPUT_HELP" in context
     assert "TrainingInfoButton" in context
+    assert "class _ResponsivePathLabel" in context
+    assert "Qt.TextFlag.TextWrapAnywhere" in context
     assert "QProgressBar" not in context
     assert "progress is shown in the bottom bar and Activity" in context
     assert "QSizePolicy.Policy.Ignored" in context
@@ -521,6 +526,12 @@ def test_policy_training_process_actions_are_visible_in_the_input_pane():
     assert "parent_manifest_sha256" in extension
     assert "cumulative_candidate_evaluations" in extension
     assert "same_scientific_design_required" in extension
+    assert "training_compatibility_contract" in extension
+    assert "policy_parameter_layout_sha256" in extension
+    assert "training_parameter_schema_sha256" in campaign
+    assert "TSH_CALO_NON_TRAINING_PLAN_FIELDS" in campaign
+    assert "parse_tsh_calo_extension_plan" in extension
+    assert "execution_source_commit" in extension
     assert 'session_id=f"{episode.session_id}:extension:' in extension
     assert "automatic_start" in extension
     assert "--extend" in controller
@@ -531,6 +542,11 @@ def test_policy_training_process_actions_are_visible_in_the_input_pane():
         encoding="utf-8"
     )
     assert 'TRAINING_EVENT_PREFIX = "CALO_TRAINING_EVENT "' in training_command
+    assert "compatible_extension=arguments.extend" in training_command
+    assert (
+        "load_plan(arguments.plan, compatible_extension=arguments.extend)" in training_command
+    )
+    assert "elif not arguments.extend and any(" in training_command
     assert "event_callback=emit_training_event" in training_command
     assert "TSH_CALO_TRAINING_PAUSE_EXIT_CODE" in training_command
     assert "resource_preflight = validate_training_resources(plan)" in training_command
@@ -554,6 +570,14 @@ def test_policy_training_process_actions_are_visible_in_the_input_pane():
     assert "completed_campaigns()" in intelligence
     assert "Activate for experiments" in intelligence
     assert "Delete model files" in intelligence
+    assert "Review policy removal" not in intelligence
+    assert (
+        "self.policy_delete_button.clicked.connect(self.delete_selected_model_files)" in intelligence
+    )
+    assert "unqualified_candidate_removal_blocker" in intelligence
+    assert "remove_unqualified_candidate" in intelligence
+    assert "ensureWidgetVisible(self.policy_controller_group" not in intelligence
+    assert "_delete_standalone_policy_file" in intelligence
     assert "Permanently delete completed model files" in intelligence
     assert "Qualification required" in intelligence
     assert "Apply governing policy and continue to Power System" in intelligence

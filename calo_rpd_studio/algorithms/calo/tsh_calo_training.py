@@ -884,6 +884,7 @@ class IndependentTSHCALOTrainer:
         path: str | Path,
         *,
         source_commit: str,
+        execution_source_commit: str | None = None,
     ) -> TSHCALOCandidateArtifact:
         self._assert_open()
         normalized_source = str(source_commit).strip().lower()
@@ -911,6 +912,7 @@ class IndependentTSHCALOTrainer:
             training_run_id=self.config.training_run_id,
             training_design_sha256=self.config.scientific_design_hash(),
             source_commit=str(source_commit),
+            execution_source_commit=str(execution_source_commit or source_commit),
             development_freeze_commit=str(self.config.development_freeze_commit),
             development_freeze_sha256=str(self.config.development_freeze_sha256),
             phase4_acceptance_sha256=str(self.config.phase4_acceptance_sha256),

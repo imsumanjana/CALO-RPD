@@ -13,6 +13,7 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign import (
     TSHCALOTrainingPauseRequested,
     TSH_CALO_TRAINING_EVENT_SCHEMA,
     TSH_CALO_TRAINING_PAUSE_EXIT_CODE,
+    parse_tsh_calo_extension_plan,
 )
 from calo_rpd_studio.algorithms.calo.tsh_calo_training import (
     preflight_tsh_calo_training_resources,
@@ -43,7 +44,11 @@ def emit_training_event(event: dict) -> None:
     print(TRAINING_EVENT_PREFIX + json.dumps(payload, sort_keys=True), flush=True)
 
 
-def load_plan(path: str | Path) -> TSHCALOTrainingCampaignPlan:
+def load_plan(
+    path: str | Path,
+    *,
+    compatible_extension: bool = False,
+) -> TSHCALOTrainingCampaignPlan:
     source = Path(path).expanduser().resolve()
     try:
         payload = json.loads(source.read_text(encoding="utf-8"))
@@ -51,6 +56,8 @@ def load_plan(path: str | Path) -> TSHCALOTrainingCampaignPlan:
         raise ValueError(f"TSH-CALO training plan is unreadable: {source}") from exc
     if not isinstance(payload, dict):
         raise ValueError("TSH-CALO training plan must be a JSON object")
+    if compatible_extension:
+        return parse_tsh_calo_extension_plan(payload)
     return TSHCALOTrainingCampaignPlan.from_dict(payload)
 
 
@@ -80,19 +87,22 @@ def validate_repository_for_plan(
     plan: TSHCALOTrainingCampaignPlan,
     *,
     root: str | Path = ROOT,
-) -> None:
+    compatible_extension: bool = False,
+) -> str:
     head, tracked_status = repository_state(root)
-    if head.lower() != plan.source_commit.lower():
+    if not compatible_extension and head.lower() != plan.source_commit.lower():
         raise RuntimeError(
             "TSH-CALO training plan source commit does not match the checked-out repository"
         )
     if tracked_status:
         raise RuntimeError("TSH-CALO training requires a clean non-ignored source tree")
     if (
-        plan.development_freeze_commit
+        not compatible_extension
+        and plan.development_freeze_commit
         and plan.source_commit.lower() != plan.development_freeze_commit.lower()
     ):
         raise RuntimeError("TSH-CALO training source does not match the development freeze")
+    return head.lower()
 
 
 def validate_development_freeze_for_plan(
@@ -223,15 +233,18 @@ def main(argv: list[str] | None = None) -> int:
     if bool(arguments.development_freeze) != bool(arguments.phase4_acceptance):
         parser.error("legacy authority paths must be supplied together")
 
-    plan = load_plan(arguments.plan)
-    validate_repository_for_plan(plan)
+    plan = load_plan(arguments.plan, compatible_extension=arguments.extend)
+    execution_source_commit = validate_repository_for_plan(
+        plan,
+        compatible_extension=arguments.extend,
+    )
     if arguments.development_freeze is not None:
         validate_development_freeze_for_plan(
             plan,
             arguments.development_freeze,
             arguments.phase4_acceptance,
         )
-    elif any(
+    elif not arguments.extend and any(
         (
             plan.development_freeze_commit,
             plan.development_freeze_sha256,
@@ -296,6 +309,7 @@ def main(argv: list[str] | None = None) -> int:
             plan,
             arguments.output,
             event_callback=emit_training_event,
+            execution_source_commit=execution_source_commit,
         )
     else:
         campaign = IndependentTSHCALOTrainingCampaign(

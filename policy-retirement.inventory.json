@@ -1,0 +1,504 @@
+{
+  "created_at": "2026-08-14T11:09:39.761074+00:00",
+  "database": {
+    "experiment_policy_bindings": [],
+    "policies": [
+      {
+        "action_schema_version": "tsh-calo-action-v1-hierarchical-4r-3g-4c-7o-6p",
+        "active": 0,
+        "architecture_version": "tsh-calo-v1.1.0-counted-physics-candidate",
+        "archived": 0,
+        "checkpoint_path": "C:\\Users\\User\\AppData\\Local\\CALO-RPD\\CALO-RPD Studio\\training-models\\tsh-calo-ee46b9b1d431\\ensemble.candidate.pt",
+        "created_at": "2026-08-13T20:05:41.786234+00:00",
+        "grade": "U",
+        "id": "329700c0-a4a4-43f1-9df3-ce68d5b73c64",
+        "metadata_json": "{\"algorithm_id\": \"TSH-CALO\", \"runtime_architecture_version\": \"tsh-calo-v1.1.0-counted-physics-candidate\", \"policy_architecture_version\": \"tsh-calo-policy-v1\", \"state_dimension\": 32, \"state_schema_version\": \"tsh-calo-state-v1-aggregate32-topology\", \"action_schema_version\": \"tsh-calo-action-v1-hierarchical-4r-3g-4c-7o-6p\", \"training_environment_version\": \"tsh-calo-training-v5-batched-device-context-safe80\", \"lifecycle_status\": \"candidate_unqualified\", \"artifact_kind\": \"ensemble_policy\", \"ensemble_size\": 3, \"feature_flags\": {\"graph_context\": true, \"hierarchical_actions\": true, \"uncertainty_shield\": true, \"contextual_bandit_residual\": true, \"physics_repair\": false, \"population_schedule\": false, \"allow_experimental_components\": false}, \"ensemble_members\": [{\"source_candidate_sha256\": \"114300c899574673c484196084cd17818bc2c296c78be756d98f29843ce52370\", \"training_provenance\": {\"training_run_id\": \"tsh-calo-ee46b9b1d431:member-001\", \"training_design_sha256\": \"f6edcd3fe7fea89eb59ce856b31015e2937e48bf15e9946b48792102a2e7b893\", \"source_commit\": \"af740bf27cc24d7c0f3437e05d1c72fd76e23e9a\", \"development_cases\": [\"case30\", \"case57\"], \"seed_manifest_sha256\": \"3dcbbefa2ced86233eeffa9e027a78e5cb9f3e421f8bb218b3461d8134e8020e\", \"training_device_provenance\": {\"memory_estimate\": {\"estimator_version\": \"tsh-calo-training-memory-v1\", \"parameter_and_buffer_bytes\": 247760, \"optimizer_gradient_bytes\": 743280, \"retained_rollout_bytes\": 77205280, \"autograd_activation_bytes\": 3923273728, \"runtime_overhead_floor_bytes\": 67108864, \"estimated_working_set_bytes\": 6002205072, \"envelope\": {\"rollout_capacity\": 499, \"maximum_population_size\": 20, \"maximum_topology_nodes\": 300, \"maximum_topology_edges\": 1000, \"maximum_topology_controls\": 256, \"maximum_scenarios\": 64}}, \"memory_admission\": {\"requested_device\": \"auto\", \"selected_device\": \"cpu\", \"computation_device\": \"cpu\", \"estimated_working_set_bytes\": 6002205072, \"total_bytes\": 34053414912, \"available_bytes_at_admission\": 17655881728, \"baseline_reserved_bytes\": 0, \"allowance_bytes\": 14124705382, \"process_ceiling_bytes\": 14124705382, \"allocator_fraction_of_total\": 0.4147808793479514, \"fallback_reason\": \"estimated working set exceeds 80% of currently free VRAM\", \"estimator_version\": \"tsh-calo-training-memory-v1\"}, \"computation_semantics\": \"CPU computes; system RAM is admitted storage\", \"ppo_host_synchronization\": \"not_applicable_cpu_execution\", \"per_ppo_epoch_cpu_metric_transfer\": false}, \"training_episode_receipts\": [{\"schema_version\": \"tsh-calo-training-episode-receipt-v2-device-context\", \"session_id\": \"tsh-calo-ee46b9b1d431-001-001\", \"training_run_id\": \"tsh-calo-ee46b9b1d431:member-001\", \"training_design_sha256\": \"f6edcd3fe7fea89eb59ce856b31015e2937e48bf15e9946b48792102a2e7b893\", \"session_design_sha256\": \"9ceb92fcd5662c9a9b2a5d1ab78ed720f69b15c503ad3000eae7de670974087f\", \"environment_design_sha256\": \"1ac787845ce2f426ef4086f53e9e64daab758baa3ca607183bd56a11a5ddd3f0\", \"case_identity\": \"case30\", \"case_checksum\": \"a4e6e680047160f3bcb0a3a9d927c6843f7067203281a4aed3fcfc6c18c6d0ac\", \"problem_fingerprint\": \"d94f33c8e5e7c00489f2811a2ab5a8df64cfe2db766278bb84024ba0da32a646\", \"seed\": 102026, \"deterministic_policy\": false, \"candidate_evaluations\": 10000, \"scenario_power_flow_calls\": 10000, \"canonical_transition_count\": 499, \"ppo_update_count\": 1, \"canonical_reward_sha256\": \"c4620c750ef1b1d1bcc77a5bb3db11c485275d7098cec20b9d7a3dda6f19c6c1\", \"accounting_complete\": true, \"terminal\": true, \"counted_orpd_evaluator_computation\": \"cpu\", \"counted_orpd_selected_device\": \"cpu\", \"counted_orpd_batch_context_api\": false, \"counted_orpd_target_evaluations_per_host_boundary\": 1, \"counted_orpd_cpu_cuda_inner_loop_transfers\": 0, \"counted_orpd_context_power_flow_reruns\": 0, \"receipt_sha256\": \"d9b262663be14c94796e562034e1fce463c7a49387bd7a443a8d742be32d6315\"}, {\"schema_version\": \"tsh-calo-training-episode-receipt-v2-device-context\", \"session_id\": \"tsh-calo-ee46b9b1d431-001-002\", \"training_run_id\": \"tsh-calo-ee46b9b1d431:member-001\", \"training_design_sha256\": \"f6edcd3fe7fea89eb59ce856b31015e2937e48bf15e9946b48792102a2e7b893\", \"session_design_sha256\": \"4adc1663a3aae2180b41012d32e553d098b01bf0e8158af058ce924fadeda29a\", \"environment_design_sha256\": \"4879bf169af9727778814edf842c4acf010445d12c08e736e47ad6f6c0251ad3\", \"case_identity\": \"case57\", \"case_checksum\": \"db8dd806cb3235a8b923abcc7ad80dce6bdc6e66faf8cea8071f11809365bb44\", \"problem_fingerprint\": \"532db81bf01aeaa4064903ecd01526ea550ddd2ac67dbe4ae18055cd8ebecb67\", \"seed\": 102027, \"deterministic_policy\": false, \"candidate_evaluations\": 10000, \"scenario_power_flow_calls\": 10000, \"canonical_transition_count\": 499, \"ppo_update_count\": 1, \"canonical_reward_sha256\": \"63693817226493742c3ff6698591ce2477d5c5dd7d5d5897d96a570757bcec1b\", \"accounting_complete\": true, \"terminal\": true, \"counted_orpd_evaluator_computation\": \"cpu\", \"counted_orpd_selected_device\": \"cpu\", \"counted_orpd_batch_context_api\": false, \"counted_orpd_target_evaluations_per_host_boundary\": 1, \"counted_orpd_cpu_cuda_inner_loop_transfers\": 0, \"counted_orpd_context_power_flow_reruns\": 0, \"receipt_sha256\": \"47818514cdc1c3af343f82baf03371e2ddcf9993abebe43ded81131d942adbae\"}], \"source_kind\": \"independent_policy_training\", \"development_freeze_commit\": \"\", \"development_freeze_sha256\": \"\", \"phase4_acceptance_sha256\": \"\", \"initialization_policy_sha256\": \"\"}}, {\"source_candidate_sha256\": \"7d6c92767dba9a266c45ddde231e436100c7cd9aa26f0dd153da1e58db46e186\", \"training_provenance\": {\"training_run_id\": \"tsh-calo-ee46b9b1d431:member-002\", \"training_design_sha256\": \"d57c529cb4bbc0591135292dab983ac35a1d000f85b98d33e568a90e9ae3745d\", \"source_commit\": \"af740bf27cc24d7c0f3437e05d1c72fd76e23e9a\", \"development_cases\": [\"case30\", \"case57\"], \"seed_manifest_sha256\": \"3dcbbefa2ced86233eeffa9e027a78e5cb9f3e421f8bb218b3461d8134e8020e\", \"training_device_provenance\": {\"memory_estimate\": {\"estimator_version\": \"tsh-calo-training-memory-v1\", \"parameter_and_buffer_bytes\": 247760, \"optimizer_gradient_bytes\": 743280, \"retained_rollout_bytes\": 77205280, \"autograd_activation_bytes\": 3923273728, \"runtime_overhead_floor_bytes\": 67108864, \"estimated_working_set_bytes\": 6002205072, \"envelope\": {\"rollout_capacity\": 499, \"maximum_population_size\": 20, \"maximum_topology_nodes\": 300, \"maximum_topology_edges\": 1000, \"maximum_topology_controls\": 256, \"maximum_scenarios\": 64}}, \"memory_admission\": {\"requested_device\": \"auto\", \"selected_device\": \"cpu\", \"computation_device\": \"cpu\", \"estimated_working_set_bytes\": 6002205072, \"total_bytes\": 34053414912, \"available_bytes_at_admission\": 17947607040, \"baseline_reserved_bytes\": 0, \"allowance_bytes\": 14358085632, \"process_ceiling_bytes\": 14358085632, \"allocator_fraction_of_total\": 0.4216342375384029, \"fallback_reason\": \"estimated working set exceeds 80% of currently free VRAM\", \"estimator_version\": \"tsh-calo-training-memory-v1\"}, \"computation_semantics\": \"CPU computes; system RAM is admitted storage\", \"ppo_host_synchronization\": \"not_applicable_cpu_execution\", \"per_ppo_epoch_cpu_metric_transfer\": false}, \"training_episode_receipts\": [{\"schema_version\": \"tsh-calo-training-episode-receipt-v2-device-context\", \"session_id\": \"tsh-calo-ee46b9b1d431-002-001\", \"training_run_id\": \"tsh-calo-ee46b9b1d431:member-002\", \"training_design_sha256\": \"d57c529cb4bbc0591135292dab983ac35a1d000f85b98d33e568a90e9ae3745d\", \"session_design_sha256\": \"ac8af77dec5640c7933011391e13e7fb7bf2dd96b4d9925ce5a9d0ef5e2268ce\", \"environment_design_sha256\": \"eacba25d7c16a32758c9f43f845e607317d8087b762b18f3696ebbc0abbfc27e\", \"case_identity\": \"case30\", \"case_checksum\": \"a4e6e680047160f3bcb0a3a9d927c6843f7067203281a4aed3fcfc6c18c6d0ac\", \"problem_fingerprint\": \"d94f33c8e5e7c00489f2811a2ab5a8df64cfe2db766278bb84024ba0da32a646\", \"seed\": 102028, \"deterministic_policy\": false, \"candidate_evaluations\": 10000, \"scenario_power_flow_calls\": 10000, \"canonical_transition_count\": 499, \"ppo_update_count\": 1, \"canonical_reward_sha256\": \"d8323ef3a4b9c693f9ae3180cc77a0175e31baa41c57069efee1d9adb9ad8487\", \"accounting_complete\": true, \"terminal\": true, \"counted_orpd_evaluator_computation\": \"cpu\", \"counted_orpd_selected_device\": \"cpu\", \"counted_orpd_batch_context_api\": false, \"counted_orpd_target_evaluations_per_host_boundary\": 1, \"counted_orpd_cpu_cuda_inner_loop_transfers\": 0, \"counted_orpd_context_power_flow_reruns\": 0, \"receipt_sha256\": \"9b7fd2ad1e185fadd11859757bd8fb879adeb88372bc38c6eb90abfbac47a236\"}, {\"schema_version\": \"tsh-calo-training-episode-receipt-v2-device-context\", \"session_id\": \"tsh-calo-ee46b9b1d431-002-002\", \"training_run_id\": \"tsh-calo-ee46b9b1d431:member-002\", \"training_design_sha256\": \"d57c529cb4bbc0591135292dab983ac35a1d000f85b98d33e568a90e9ae3745d\", \"session_design_sha256\": \"370793b01bc09449d61b29f4b8578ca65cc9677ff1fdb887d40bc36f3a30bd6d\", \"environment_design_sha256\": \"36572e2f6fff350228895dfa5ed13226ba1033343a8a4ea949f9b65a7227605c\", \"case_identity\": \"case57\", \"case_checksum\": \"db8dd806cb3235a8b923abcc7ad80dce6bdc6e66faf8cea8071f11809365bb44\", \"problem_fingerprint\": \"532db81bf01aeaa4064903ecd01526ea550ddd2ac67dbe4ae18055cd8ebecb67\", \"seed\": 102029, \"deterministic_policy\": false, \"candidate_evaluations\": 10000, \"scenario_power_flow_calls\": 10000, \"canonical_transition_count\": 499, \"ppo_update_count\": 1, \"canonical_reward_sha256\": \"0668afb304e5ce43f03bb49d2ca2d820ac1807ce95911c48a95f8ce01c99876b\", \"accounting_complete\": true, \"terminal\": true, \"counted_orpd_evaluator_computation\": \"cpu\", \"counted_orpd_selected_device\": \"cpu\", \"counted_orpd_batch_context_api\": false, \"counted_orpd_target_evaluations_per_host_boundary\": 1, \"counted_orpd_cpu_cuda_inner_loop_transfers\": 0, \"counted_orpd_context_power_flow_reruns\": 0, \"receipt_sha256\": \"81db47790d6741c6775af3f3c205de9eaeb7afbd725ec53c004425d83a977319\"}], \"source_kind\": \"independent_policy_training\", \"development_freeze_commit\": \"\", \"development_freeze_sha256\": \"\", \"phase4_acceptance_sha256\": \"\", \"initialization_policy_sha256\": \"\"}}, {\"source_candidate_sha256\": \"466e74900b40ad8cb5aedcd8f924f3f7aace72f05dd5cc1b0ebe11472edc0845\", \"training_provenance\": {\"training_run_id\": \"tsh-calo-ee46b9b1d431:member-003\", \"training_design_sha256\": \"aa3c1648eb1694a8bbac5f3ee7debdc89090eb6f8c91d070553074ba8433d56b\", \"source_commit\": \"af740bf27cc24d7c0f3437e05d1c72fd76e23e9a\", \"development_cases\": [\"case30\", \"case57\"], \"seed_manifest_sha256\": \"3dcbbefa2ced86233eeffa9e027a78e5cb9f3e421f8bb218b3461d8134e8020e\", \"training_device_provenance\": {\"memory_estimate\": {\"estimator_version\": \"tsh-calo-training-memory-v1\", \"parameter_and_buffer_bytes\": 247760, \"optimizer_gradient_bytes\": 743280, \"retained_rollout_bytes\": 77205280, \"autograd_activation_bytes\": 3923273728, \"runtime_overhead_floor_bytes\": 67108864, \"estimated_working_set_bytes\": 6002205072, \"envelope\": {\"rollout_capacity\": 499, \"maximum_population_size\": 20, \"maximum_topology_nodes\": 300, \"maximum_topology_edges\": 1000, \"maximum_topology_controls\": 256, \"maximum_scenarios\": 64}}, \"memory_admission\": {\"requested_device\": \"auto\", \"selected_device\": \"cpu\", \"computation_device\": \"cpu\", \"estimated_working_set_bytes\": 6002205072, \"total_bytes\": 34053414912, \"available_bytes_at_admission\": 21046452224, \"baseline_reserved_bytes\": 0, \"allowance_bytes\": 16837161779, \"process_ceiling_bytes\": 16837161779, \"allocator_fraction_of_total\": 0.49443387168394654, \"fallback_reason\": \"estimated working set exceeds 80% of currently free VRAM\", \"estimator_version\": \"tsh-calo-training-memory-v1\"}, \"computation_semantics\": \"CPU computes; system RAM is admitted storage\", \"ppo_host_synchronization\": \"not_applicable_cpu_execution\", \"per_ppo_epoch_cpu_metric_transfer\": false}, \"training_episode_receipts\": [{\"schema_version\": \"tsh-calo-training-episode-receipt-v2-device-context\", \"session_id\": \"tsh-calo-ee46b9b1d431-003-001\", \"training_run_id\": \"tsh-calo-ee46b9b1d431:member-003\", \"training_design_sha256\": \"aa3c1648eb1694a8bbac5f3ee7debdc89090eb6f8c91d070553074ba8433d56b\", \"session_design_sha256\": \"a14a5f7dbc0db4ed572f0735719a2007dce19b2006ba463e6de4508b91925c33\", \"environment_design_sha256\": \"e6732607966dbcb3cf3949cf872e19640651507f3b21b459de85cca2e45cbe62\", \"case_identity\": \"case30\", \"case_checksum\": \"a4e6e680047160f3bcb0a3a9d927c6843f7067203281a4aed3fcfc6c18c6d0ac\", \"problem_fingerprint\": \"d94f33c8e5e7c00489f2811a2ab5a8df64cfe2db766278bb84024ba0da32a646\", \"seed\": 102030, \"deterministic_policy\": false, \"candidate_evaluations\": 10000, \"scenario_power_flow_calls\": 10000, \"canonical_transition_count\": 499, \"ppo_update_count\": 1, \"canonical_reward_sha256\": \"5ff46e7aedf7cc39804fe76605ff2b03f1190c5ac552aed15aee1d183dd24472\", \"accounting_complete\": true, \"terminal\": true, \"counted_orpd_evaluator_computation\": \"cpu\", \"counted_orpd_selected_device\": \"cpu\", \"counted_orpd_batch_context_api\": false, \"counted_orpd_target_evaluations_per_host_boundary\": 1, \"counted_orpd_cpu_cuda_inner_loop_transfers\": 0, \"counted_orpd_context_power_flow_reruns\": 0, \"receipt_sha256\": \"2c4fd84ba2e9bd6d76117f25ef719cbc4cf0f98b828d60d282a24bdc9fccb095\"}, {\"schema_version\": \"tsh-calo-training-episode-receipt-v2-device-context\", \"session_id\": \"tsh-calo-ee46b9b1d431-003-002\", \"training_run_id\": \"tsh-calo-ee46b9b1d431:member-003\", \"training_design_sha256\": \"aa3c1648eb1694a8bbac5f3ee7debdc89090eb6f8c91d070553074ba8433d56b\", \"session_design_sha256\": \"fef404118e4e0befde169db2faadbef71503e21b409053683c877a3a05cdb8f4\", \"environment_design_sha256\": \"6550cd690aaa2b1ec9e44dbfbe87a33924aaeeb5d438b3491e1b2df09454e73a\", \"case_identity\": \"case57\", \"case_checksum\": \"db8dd806cb3235a8b923abcc7ad80dce6bdc6e66faf8cea8071f11809365bb44\", \"problem_fingerprint\": \"532db81bf01aeaa4064903ecd01526ea550ddd2ac67dbe4ae18055cd8ebecb67\", \"seed\": 102031, \"deterministic_policy\": false, \"candidate_evaluations\": 10000, \"scenario_power_flow_calls\": 10000, \"canonical_transition_count\": 499, \"ppo_update_count\": 1, \"canonical_reward_sha256\": \"4814b2870aa6cba9f2936b5adb56c1c292367e14f9cc1283f6b2c9f0cd752fe4\", \"accounting_complete\": true, \"terminal\": true, \"counted_orpd_evaluator_computation\": \"cpu\", \"counted_orpd_selected_device\": \"cpu\", \"counted_orpd_batch_context_api\": false, \"counted_orpd_target_evaluations_per_host_boundary\": 1, \"counted_orpd_cpu_cuda_inner_loop_transfers\": 0, \"counted_orpd_context_power_flow_reruns\": 0, \"receipt_sha256\": \"26223ae3493cacb35f428f2e58705fbb0e50460c629f15ebe81f3046d1ca6782\"}], \"source_kind\": \"independent_policy_training\", \"development_freeze_commit\": \"\", \"development_freeze_sha256\": \"\", \"phase4_acceptance_sha256\": \"\", \"initialization_policy_sha256\": \"\"}}]}",
+        "name": "ensemble.candidate",
+        "qualification_status": "candidate",
+        "sha256": "ee2b136cc4aa8c0e50a5e3810498b1cf4e124065cf9388e87912c7c3c2d49e54",
+        "state_schema_version": "tsh-calo-state-v1-aggregate32-topology",
+        "training_environment_version": "tsh-calo-training-v5-batched-device-context-safe80",
+        "updated_at": "2026-08-13T20:05:41.786234+00:00"
+      },
+      {
+        "action_schema_version": "calo-action-v4.1-4r-6o-6p",
+        "active": 0,
+        "architecture_version": "calo-v4.1",
+        "archived": 0,
+        "checkpoint_path": "C:\\Users\\User\\Downloads\\calo-rpd-studio-v1.0.0\\calo-rpd-studio\\calo_rpd_studio\\data\\trained_models\\base_policy_0.1_lineage\\epoch_000000000130_lineage\\epoch_000000000003.pt",
+        "created_at": "2026-07-21T16:45:52.303873+00:00",
+        "grade": "U",
+        "id": "6c54edf7-1558-4226-b014-ff90aaf2694c",
+        "metadata_json": "{\"algorithm\": \"CALO\", \"calo_core\": \"v5.0\", \"training_method\": \"PPO\", \"training_config\": {\"epochs\": 24, \"episodes_per_epoch\": 12, \"horizon\": 28, \"seed\": 2026, \"learning_rate\": 0.0003, \"gamma\": 0.98, \"gae_lambda\": 0.95, \"clip_ratio\": 0.2, \"entropy_weight\": 0.01, \"value_weight\": 0.5, \"ppo_epochs\": 4, \"minibatch_size\": 128, \"hidden_dim\": 96, \"population_size\": 20, \"rollout_workers\": 12, \"ppo_device\": \"cuda\", \"cpu_threads_per_worker\": 1, \"development_cases\": [], \"allow_final_benchmark_training\": false, \"historical_repository\": \"\", \"use_historical_trajectories\": false, \"historical_pretraining_epochs\": 0, \"resume_checkpoint\": \"C:\\\\Users\\\\User\\\\Downloads\\\\calo-rpd-studio-v1.0.0\\\\calo-rpd-studio\\\\calo_rpd_studio\\\\data\\\\trained_models\\\\base_policy_0.1_lineage\\\\epoch_000000000130.resume.pt\", \"checkpoint_each_epoch\": true, \"resume_task_id\": \"1d9ac510-27a3-4c86-a272-c513963a2168\", \"initial_policy_checkpoint\": \"C:\\\\Users\\\\User\\\\Downloads\\\\calo-rpd-studio-v1.0.0\\\\calo-rpd-studio\\\\calo_rpd_studio\\\\data\\\\trained_models\\\\base_policy_0.1_lineage\\\\epoch_000000000130.pt\", \"training_mode\": \"additional\", \"checkpoint_interval_epochs\": 10, \"deployable_checkpoint_interval_epochs\": 10, \"qualification_interval_epochs\": 10000, \"policy_lineage_id\": \"a9179292-57af-471a-b9b8-1ac833b96679\", \"policy_lineage_name\": \"CALO-policy-lineage\", \"policy_phase_index\": 2, \"keep_resume_after_completion\": true, \"max_session_epochs\": 0, \"heterogeneous_rollouts\": true, \"cuda_rollout_share\": 100, \"xpu_rollout_share\": 0, \"cpu_rollout_share\": 0, \"actor_batch_size\": 0, \"throughput_adaptive_rollouts\": false, \"persistent_actor_workers\": true, \"actor_calibration_episodes\": 1, \"use_accelerated_orpd_rollouts\": true, \"training_cross_episode_batching\": true, \"training_batch_window_ms\": 4.0, \"training_max_cross_batch\": 2048, \"training_tensor_batch_size\": 64}, \"training_seed\": 2026, \"cumulative_epoch\": 3, \"policy_lineage_id\": \"a9179292-57af-471a-b9b8-1ac833b96679\", \"policy_lineage_name\": \"CALO-policy-lineage\", \"policy_phase_index\": 2, \"state_dimension\": 32, \"state_schema_version\": \"calo-state-v4.1-32\", \"action_schema_version\": \"calo-action-v4.1-4r-6o-6p\", \"runtime_architecture_version\": \"calo-v4.1\", \"training_environment_version\": \"calo-training-v4.1\", \"execution\": {\"rollout_workers\": 12, \"ppo_device\": \"cuda:0\"}, \"development_cases\": [], \"historical_pretraining\": {\"enabled\": false, \"samples\": 0, \"epochs\": 0, \"mean_loss\": null}, \"history\": [{\"epoch\": 1, \"curriculum_stage\": 1, \"mean_loss\": -0.018805963220074773, \"mean_episode_return\": 0.9696157250590623, \"transitions\": 336, \"ppo_learner_device\": \"cuda:0\", \"policy_snapshot_sha256\": \"8619ec444ac567b3c1a933b9d4ed56cc62482a109b8aad0b88a13eeb5d7c85af\", \"requested_rollout_shares\": {\"cuda\": 100, \"xpu\": 0, \"cpu\": 0}, \"effective_rollout_shares\": {\"cuda\": 100.0, \"xpu\": 0.0, \"cpu\": 0.0}, \"episode_allocation\": {\"cuda\": 12, \"xpu\": 0, \"cpu\": 0}, \"actor_lanes\": [{\"lane\": \"cuda\", \"device\": \"cuda:0\", \"episodes\": 12}], \"measured_actor_transitions_per_second\": {}, \"persistent_actor_workers\": true, \"cross_episode_batching\": true, \"warnings\": []}, {\"epoch\": 2, \"curriculum_stage\": 1, \"mean_loss\": -0.02970917709171772, \"mean_episode_return\": 1.0921442978459128, \"transitions\": 336, \"ppo_learner_device\": \"cuda:0\", \"policy_snapshot_sha256\": \"7a57abfffb3f2443d574c4d3a40bfc15ee77f12b9d87f2ffe9a68dfe1d0b1338\", \"requested_rollout_shares\": {\"cuda\": 100, \"xpu\": 0, \"cpu\": 0}, \"effective_rollout_shares\": {\"cuda\": 100.0, \"xpu\": 0.0, \"cpu\": 0.0}, \"episode_allocation\": {\"cuda\": 12, \"xpu\": 0, \"cpu\": 0}, \"actor_lanes\": [{\"lane\": \"cuda\", \"device\": \"cuda:0\", \"episodes\": 12}], \"measured_actor_transitions_per_second\": {}, \"persistent_actor_workers\": true, \"cross_episode_batching\": true, \"warnings\": []}, {\"epoch\": 3, \"curriculum_stage\": 1, \"mean_loss\": -0.014392306872953972, \"mean_episode_return\": 0.9775423280326958, \"transitions\": 336, \"ppo_learner_device\": \"cuda:0\", \"policy_snapshot_sha256\": \"c36d6470d86000b9b063ebad65b12396a04ea4062400d193d0ea607c1a629f6e\", \"requested_rollout_shares\": {\"cuda\": 100, \"xpu\": 0, \"cpu\": 0}, \"effective_rollout_shares\": {\"cuda\": 100.0, \"xpu\": 0.0, \"cpu\": 0.0}, \"episode_allocation\": {\"cuda\": 12, \"xpu\": 0, \"cpu\": 0}, \"actor_lanes\": [{\"lane\": \"cuda\", \"device\": \"cuda:0\", \"episodes\": 12}], \"measured_actor_transitions_per_second\": {}, \"persistent_actor_workers\": true, \"cross_episode_batching\": true, \"warnings\": []}], \"checkpoint_role\": \"usable_policy_snapshot\"}",
+        "name": "CALO-policy-lineage@3",
+        "qualification_status": "candidate",
+        "sha256": "06cbc0c4204e45a97664ce84eeb9dd36d52d47160fe31d443bb9dd1f403607b8",
+        "state_schema_version": "calo-state-v4.1-32",
+        "training_environment_version": "calo-training-v4.1",
+        "updated_at": "2026-07-21T16:45:52.303873+00:00"
+      },
+      {
+        "action_schema_version": "tsh-calo-action-v1-hierarchical-4r-3g-4c-7o-6p",
+        "active": 0,
+        "architecture_version": "tsh-calo-v1.1.0-counted-physics-candidate",
+        "archived": 0,
+        "checkpoint_path": "C:\\Users\\User\\AppData\\Local\\CALO-RPD\\CALO-RPD Studio\\training-models\\tsh-calo-ee46b9b1d431\\member-001.candidate.pt",
+        "created_at": "2026-08-13T20:05:57.256847+00:00",
+        "grade": "U",
+        "id": "71dd98ff-325d-4a3c-ab1d-7b511d4d5e1e",
+        "metadata_json": "{\"algorithm_id\": \"TSH-CALO\", \"runtime_architecture_version\": \"tsh-calo-v1.1.0-counted-physics-candidate\", \"policy_architecture_version\": \"tsh-calo-policy-v1\", \"state_dimension\": 32, \"state_schema_version\": \"tsh-calo-state-v1-aggregate32-topology\", \"action_schema_version\": \"tsh-calo-action-v1-hierarchical-4r-3g-4c-7o-6p\", \"training_environment_version\": \"tsh-calo-training-v5-batched-device-context-safe80\", \"lifecycle_status\": \"candidate_unqualified\", \"artifact_kind\": \"single_policy_member\", \"ensemble_size\": 1, \"feature_flags\": {\"graph_context\": true, \"hierarchical_actions\": true, \"uncertainty_shield\": true, \"contextual_bandit_residual\": true, \"physics_repair\": false, \"population_schedule\": false, \"allow_experimental_components\": false}, \"training_provenance\": {\"training_run_id\": \"tsh-calo-ee46b9b1d431:member-001\", \"training_design_sha256\": \"f6edcd3fe7fea89eb59ce856b31015e2937e48bf15e9946b48792102a2e7b893\", \"source_commit\": \"af740bf27cc24d7c0f3437e05d1c72fd76e23e9a\", \"development_cases\": [\"case30\", \"case57\"], \"seed_manifest_sha256\": \"3dcbbefa2ced86233eeffa9e027a78e5cb9f3e421f8bb218b3461d8134e8020e\", \"training_device_provenance\": {\"memory_estimate\": {\"estimator_version\": \"tsh-calo-training-memory-v1\", \"parameter_and_buffer_bytes\": 247760, \"optimizer_gradient_bytes\": 743280, \"retained_rollout_bytes\": 77205280, \"autograd_activation_bytes\": 3923273728, \"runtime_overhead_floor_bytes\": 67108864, \"estimated_working_set_bytes\": 6002205072, \"envelope\": {\"rollout_capacity\": 499, \"maximum_population_size\": 20, \"maximum_topology_nodes\": 300, \"maximum_topology_edges\": 1000, \"maximum_topology_controls\": 256, \"maximum_scenarios\": 64}}, \"memory_admission\": {\"requested_device\": \"auto\", \"selected_device\": \"cpu\", \"computation_device\": \"cpu\", \"estimated_working_set_bytes\": 6002205072, \"total_bytes\": 34053414912, \"available_bytes_at_admission\": 17655881728, \"baseline_reserved_bytes\": 0, \"allowance_bytes\": 14124705382, \"process_ceiling_bytes\": 14124705382, \"allocator_fraction_of_total\": 0.4147808793479514, \"fallback_reason\": \"estimated working set exceeds 80% of currently free VRAM\", \"estimator_version\": \"tsh-calo-training-memory-v1\"}, \"computation_semantics\": \"CPU computes; system RAM is admitted storage\", \"ppo_host_synchronization\": \"not_applicable_cpu_execution\", \"per_ppo_epoch_cpu_metric_transfer\": false}, \"training_episode_receipts\": [{\"schema_version\": \"tsh-calo-training-episode-receipt-v2-device-context\", \"session_id\": \"tsh-calo-ee46b9b1d431-001-001\", \"training_run_id\": \"tsh-calo-ee46b9b1d431:member-001\", \"training_design_sha256\": \"f6edcd3fe7fea89eb59ce856b31015e2937e48bf15e9946b48792102a2e7b893\", \"session_design_sha256\": \"9ceb92fcd5662c9a9b2a5d1ab78ed720f69b15c503ad3000eae7de670974087f\", \"environment_design_sha256\": \"1ac787845ce2f426ef4086f53e9e64daab758baa3ca607183bd56a11a5ddd3f0\", \"case_identity\": \"case30\", \"case_checksum\": \"a4e6e680047160f3bcb0a3a9d927c6843f7067203281a4aed3fcfc6c18c6d0ac\", \"problem_fingerprint\": \"d94f33c8e5e7c00489f2811a2ab5a8df64cfe2db766278bb84024ba0da32a646\", \"seed\": 102026, \"deterministic_policy\": false, \"candidate_evaluations\": 10000, \"scenario_power_flow_calls\": 10000, \"canonical_transition_count\": 499, \"ppo_update_count\": 1, \"canonical_reward_sha256\": \"c4620c750ef1b1d1bcc77a5bb3db11c485275d7098cec20b9d7a3dda6f19c6c1\", \"accounting_complete\": true, \"terminal\": true, \"counted_orpd_evaluator_computation\": \"cpu\", \"counted_orpd_selected_device\": \"cpu\", \"counted_orpd_batch_context_api\": false, \"counted_orpd_target_evaluations_per_host_boundary\": 1, \"counted_orpd_cpu_cuda_inner_loop_transfers\": 0, \"counted_orpd_context_power_flow_reruns\": 0, \"receipt_sha256\": \"d9b262663be14c94796e562034e1fce463c7a49387bd7a443a8d742be32d6315\"}, {\"schema_version\": \"tsh-calo-training-episode-receipt-v2-device-context\", \"session_id\": \"tsh-calo-ee46b9b1d431-001-002\", \"training_run_id\": \"tsh-calo-ee46b9b1d431:member-001\", \"training_design_sha256\": \"f6edcd3fe7fea89eb59ce856b31015e2937e48bf15e9946b48792102a2e7b893\", \"session_design_sha256\": \"4adc1663a3aae2180b41012d32e553d098b01bf0e8158af058ce924fadeda29a\", \"environment_design_sha256\": \"4879bf169af9727778814edf842c4acf010445d12c08e736e47ad6f6c0251ad3\", \"case_identity\": \"case57\", \"case_checksum\": \"db8dd806cb3235a8b923abcc7ad80dce6bdc6e66faf8cea8071f11809365bb44\", \"problem_fingerprint\": \"532db81bf01aeaa4064903ecd01526ea550ddd2ac67dbe4ae18055cd8ebecb67\", \"seed\": 102027, \"deterministic_policy\": false, \"candidate_evaluations\": 10000, \"scenario_power_flow_calls\": 10000, \"canonical_transition_count\": 499, \"ppo_update_count\": 1, \"canonical_reward_sha256\": \"63693817226493742c3ff6698591ce2477d5c5dd7d5d5897d96a570757bcec1b\", \"accounting_complete\": true, \"terminal\": true, \"counted_orpd_evaluator_computation\": \"cpu\", \"counted_orpd_selected_device\": \"cpu\", \"counted_orpd_batch_context_api\": false, \"counted_orpd_target_evaluations_per_host_boundary\": 1, \"counted_orpd_cpu_cuda_inner_loop_transfers\": 0, \"counted_orpd_context_power_flow_reruns\": 0, \"receipt_sha256\": \"47818514cdc1c3af343f82baf03371e2ddcf9993abebe43ded81131d942adbae\"}], \"source_kind\": \"independent_policy_training\", \"development_freeze_commit\": \"\", \"development_freeze_sha256\": \"\", \"phase4_acceptance_sha256\": \"\", \"initialization_policy_sha256\": \"\"}}",
+        "name": "member-001.candidate",
+        "qualification_status": "candidate",
+        "sha256": "114300c899574673c484196084cd17818bc2c296c78be756d98f29843ce52370",
+        "state_schema_version": "tsh-calo-state-v1-aggregate32-topology",
+        "training_environment_version": "tsh-calo-training-v5-batched-device-context-safe80",
+        "updated_at": "2026-08-14T11:06:31.054812+00:00"
+      },
+      {
+        "action_schema_version": "tsh-calo-action-v1-hierarchical-4r-3g-4c-7o-6p",
+        "active": 0,
+        "architecture_version": "tsh-calo-v1.1.0-counted-physics-candidate",
+        "archived": 0,
+        "checkpoint_path": "C:\\Users\\User\\AppData\\Local\\CALO-RPD\\CALO-RPD Studio\\training-models\\tsh-calo-94a39e38c8d9\\ensemble.candidate.pt",
+        "created_at": "2026-08-14T10:54:03.514277+00:00",
+        "grade": "U",
+        "id": "9b49ed6a-6cb0-4677-8929-2e28c0b46b09",
+        "metadata_json": "{\"algorithm_id\": \"TSH-CALO\", \"runtime_architecture_version\": \"tsh-calo-v1.1.0-counted-physics-candidate\", \"policy_architecture_version\": \"tsh-calo-policy-v1\", \"state_dimension\": 32, \"state_schema_version\": \"tsh-calo-state-v1-aggregate32-topology\", \"action_schema_version\": \"tsh-calo-action-v1-hierarchical-4r-3g-4c-7o-6p\", \"training_environment_version\": \"tsh-calo-training-v5-batched-device-context-safe80\", \"lifecycle_status\": \"candidate_unqualified\", \"artifact_kind\": \"ensemble_policy\", \"ensemble_size\": 3, \"feature_flags\": {\"graph_context\": true, \"hierarchical_actions\": true, \"uncertainty_shield\": true, \"contextual_bandit_residual\": true, \"physics_repair\": false, \"population_schedule\": false, \"allow_experimental_components\": false}, \"ensemble_members\": [{\"source_candidate_sha256\": \"19999de36b6a8100103b1b59bb53c7cdc290fa99f5dd944a5e1b37d9b55c51be\", \"training_provenance\": {\"training_run_id\": \"tsh-calo-94a39e38c8d9:member-001\", \"training_design_sha256\": \"e73b9dc59c44cbec77269d81a49e784c36bbd71e389a60a38b6663725d04f634\", \"source_commit\": \"2065b3b4e1f9eb479a55f42b23971c8e4e7c3314\", \"development_cases\": [\"case30\", \"case57\"], \"seed_manifest_sha256\": \"2a366230e998de13e0a17312e2989d7da9e07d92a16cafa387eb5cdbc5c283bf\", \"training_device_provenance\": {\"memory_estimate\": {\"estimator_version\": \"tsh-calo-training-memory-v1\", \"parameter_and_buffer_bytes\": 247760, \"optimizer_gradient_bytes\": 743280, \"retained_rollout_bytes\": 77205280, \"autograd_activation_bytes\": 3923273728, \"runtime_overhead_floor_bytes\": 67108864, \"estimated_working_set_bytes\": 6002205072, \"envelope\": {\"rollout_capacity\": 499, \"maximum_population_size\": 20, \"maximum_topology_nodes\": 300, \"maximum_topology_edges\": 1000, \"maximum_topology_controls\": 256, \"maximum_scenarios\": 64}}, \"memory_admission\": {\"requested_device\": \"auto\", \"selected_device\": \"cpu\", \"computation_device\": \"cpu\", \"estimated_working_set_bytes\": 6002205072, \"total_bytes\": 34053414912, \"available_bytes_at_admission\": 16038989824, \"baseline_reserved_bytes\": 0, \"allowance_bytes\": 12831191859, \"process_ceiling_bytes\": 12831191859, \"allocator_fraction_of_total\": 0.376796039168408, \"fallback_reason\": \"estimated working set exceeds 80% of currently free VRAM\", \"estimator_version\": \"tsh-calo-training-memory-v1\"}, \"computation_semantics\": \"CPU computes; system RAM is admitted storage\", \"ppo_host_synchronization\": \"not_applicable_cpu_execution\", \"per_ppo_epoch_cpu_metric_transfer\": false}, \"training_episode_receipts\": [{\"schema_version\": \"tsh-calo-training-episode-receipt-v2-device-context\", \"session_id\": \"tsh-calo-94a39e38c8d9-001-001\", \"training_run_id\": \"tsh-calo-94a39e38c8d9:member-001\", \"training_design_sha256\": \"e73b9dc59c44cbec77269d81a49e784c36bbd71e389a60a38b6663725d04f634\", \"session_design_sha256\": \"34b9f8044dda982f973b2a04c5ec15139ae5c13c33a217ca093ceeb7ab4f2107\", \"environment_design_sha256\": \"3bfac400e9f7d9b34173085de93f9be0bcc5a9979af45cc80daf3e89dff7c3c7\", \"case_identity\": \"case30\", \"case_checksum\": \"a4e6e680047160f3bcb0a3a9d927c6843f7067203281a4aed3fcfc6c18c6d0ac\", \"problem_fingerprint\": \"d94f33c8e5e7c00489f2811a2ab5a8df64cfe2db766278bb84024ba0da32a646\", \"seed\": 102026, \"deterministic_policy\": false, \"candidate_evaluations\": 10000, \"scenario_power_flow_calls\": 10000, \"canonical_transition_count\": 499, \"ppo_update_count\": 1, \"canonical_reward_sha256\": \"c4620c750ef1b1d1bcc77a5bb3db11c485275d7098cec20b9d7a3dda6f19c6c1\", \"accounting_complete\": true, \"terminal\": true, \"counted_orpd_evaluator_computation\": \"cpu\", \"counted_orpd_selected_device\": \"cpu\", \"counted_orpd_batch_context_api\": false, \"counted_orpd_target_evaluations_per_host_boundary\": 1, \"counted_orpd_cpu_cuda_inner_loop_transfers\": 0, \"counted_orpd_context_power_flow_reruns\": 0, \"receipt_sha256\": \"ee3fbe87f95d3f0e1d0c64641ba237a5097cd2a69e508992cce972ad424a1069\"}, {\"schema_version\": \"tsh-calo-training-episode-receipt-v2-device-context\", \"session_id\": \"tsh-calo-94a39e38c8d9-001-002\", \"training_run_id\": \"tsh-calo-94a39e38c8d9:member-001\", \"training_design_sha256\": \"e73b9dc59c44cbec77269d81a49e784c36bbd71e389a60a38b6663725d04f634\", \"session_design_sha256\": \"89b7fe92de7d00f3a31ca49f8bcc386c799fd205551a9c3f4dd49e3e3dcccb3e\", \"environment_design_sha256\": \"8f7a1409dd740f0c97e375a30c77df839b0f0e0cd2da99208f56cb12f1cc434a\", \"case_identity\": \"case57\", \"case_checksum\": \"db8dd806cb3235a8b923abcc7ad80dce6bdc6e66faf8cea8071f11809365bb44\", \"problem_fingerprint\": \"532db81bf01aeaa4064903ecd01526ea550ddd2ac67dbe4ae18055cd8ebecb67\", \"seed\": 102027, \"deterministic_policy\": false, \"candidate_evaluations\": 10000, \"scenario_power_flow_calls\": 10000, \"canonical_transition_count\": 499, \"ppo_update_count\": 1, \"canonical_reward_sha256\": \"63693817226493742c3ff6698591ce2477d5c5dd7d5d5897d96a570757bcec1b\", \"accounting_complete\": true, \"terminal\": true, \"counted_orpd_evaluator_computation\": \"cpu\", \"counted_orpd_selected_device\": \"cpu\", \"counted_orpd_batch_context_api\": false, \"counted_orpd_target_evaluations_per_host_boundary\": 1, \"counted_orpd_cpu_cuda_inner_loop_transfers\": 0, \"counted_orpd_context_power_flow_reruns\": 0, \"receipt_sha256\": \"46a75b7b34437abb854cb2a9b97a896d446d2f5c392eed0c5354c0e1f5128e51\"}], \"source_kind\": \"independent_policy_training\", \"development_freeze_commit\": \"\", \"development_freeze_sha256\": \"\", \"phase4_acceptance_sha256\": \"\", \"initialization_policy_sha256\": \"\"}}, {\"source_candidate_sha256\": \"ad26935461ceed4aca025eb175d123585ceae11934313632294adf31d37e3cb9\", \"training_provenance\": {\"training_run_id\": \"tsh-calo-94a39e38c8d9:member-002\", \"training_design_sha256\": \"a420920f25216755bbb34a7787e465221bb7282af9d364708593ab416664b3ca\", \"source_commit\": \"2065b3b4e1f9eb479a55f42b23971c8e4e7c3314\", \"development_cases\": [\"case30\", \"case57\"], \"seed_manifest_sha256\": \"2a366230e998de13e0a17312e2989d7da9e07d92a16cafa387eb5cdbc5c283bf\", \"training_device_provenance\": {\"memory_estimate\": {\"estimator_version\": \"tsh-calo-training-memory-v1\", \"parameter_and_buffer_bytes\": 247760, \"optimizer_gradient_bytes\": 743280, \"retained_rollout_bytes\": 77205280, \"autograd_activation_bytes\": 3923273728, \"runtime_overhead_floor_bytes\": 67108864, \"estimated_working_set_bytes\": 6002205072, \"envelope\": {\"rollout_capacity\": 499, \"maximum_population_size\": 20, \"maximum_topology_nodes\": 300, \"maximum_topology_edges\": 1000, \"maximum_topology_controls\": 256, \"maximum_scenarios\": 64}}, \"memory_admission\": {\"requested_device\": \"auto\", \"selected_device\": \"cpu\", \"computation_device\": \"cpu\", \"estimated_working_set_bytes\": 6002205072, \"total_bytes\": 34053414912, \"available_bytes_at_admission\": 15237443584, \"baseline_reserved_bytes\": 0, \"allowance_bytes\": 12189954867, \"process_ceiling_bytes\": 12189954867, \"allocator_fraction_of_total\": 0.3579657105902883, \"fallback_reason\": \"estimated working set exceeds 80% of currently free VRAM\", \"estimator_version\": \"tsh-calo-training-memory-v1\"}, \"computation_semantics\": \"CPU computes; system RAM is admitted storage\", \"ppo_host_synchronization\": \"not_applicable_cpu_execution\", \"per_ppo_epoch_cpu_metric_transfer\": false}, \"training_episode_receipts\": [{\"schema_version\": \"tsh-calo-training-episode-receipt-v2-device-context\", \"session_id\": \"tsh-calo-94a39e38c8d9-002-001\", \"training_run_id\": \"tsh-calo-94a39e38c8d9:member-002\", \"training_design_sha256\": \"a420920f25216755bbb34a7787e465221bb7282af9d364708593ab416664b3ca\", \"session_design_sha256\": \"9442432feac6174e38fe33349f5e1cd70d484da8a017402874b886fd00d6cf12\", \"environment_design_sha256\": \"579c7093af4e57919b27f64a843930748db4d02258fffb934cb2aaaf610307f5\", \"case_identity\": \"case30\", \"case_checksum\": \"a4e6e680047160f3bcb0a3a9d927c6843f7067203281a4aed3fcfc6c18c6d0ac\", \"problem_fingerprint\": \"d94f33c8e5e7c00489f2811a2ab5a8df64cfe2db766278bb84024ba0da32a646\", \"seed\": 102028, \"deterministic_policy\": false, \"candidate_evaluations\": 10000, \"scenario_power_flow_calls\": 10000, \"canonical_transition_count\": 499, \"ppo_update_count\": 1, \"canonical_reward_sha256\": \"d8323ef3a4b9c693f9ae3180cc77a0175e31baa41c57069efee1d9adb9ad8487\", \"accounting_complete\": true, \"terminal\": true, \"counted_orpd_evaluator_computation\": \"cpu\", \"counted_orpd_selected_device\": \"cpu\", \"counted_orpd_batch_context_api\": false, \"counted_orpd_target_evaluations_per_host_boundary\": 1, \"counted_orpd_cpu_cuda_inner_loop_transfers\": 0, \"counted_orpd_context_power_flow_reruns\": 0, \"receipt_sha256\": \"91cf830f79e1fef364d70c0653875f769405350938554580b08d5fb016250531\"}, {\"schema_version\": \"tsh-calo-training-episode-receipt-v2-device-context\", \"session_id\": \"tsh-calo-94a39e38c8d9-002-002\", \"training_run_id\": \"tsh-calo-94a39e38c8d9:member-002\", \"training_design_sha256\": \"a420920f25216755bbb34a7787e465221bb7282af9d364708593ab416664b3ca\", \"session_design_sha256\": \"b2c9838ea0a02680f6e389249ae7fe5e73bb0672d5c2913c92b488d7fab56263\", \"environment_design_sha256\": \"7fc05d8c8a01b6d6ec479c9809db5b8f5acfca772386c1c996726569504738ad\", \"case_identity\": \"case57\", \"case_checksum\": \"db8dd806cb3235a8b923abcc7ad80dce6bdc6e66faf8cea8071f11809365bb44\", \"problem_fingerprint\": \"532db81bf01aeaa4064903ecd01526ea550ddd2ac67dbe4ae18055cd8ebecb67\", \"seed\": 102029, \"deterministic_policy\": false, \"candidate_evaluations\": 10000, \"scenario_power_flow_calls\": 10000, \"canonical_transition_count\": 499, \"ppo_update_count\": 1, \"canonical_reward_sha256\": \"0668afb304e5ce43f03bb49d2ca2d820ac1807ce95911c48a95f8ce01c99876b\", \"accounting_complete\": true, \"terminal\": true, \"counted_orpd_evaluator_computation\": \"cpu\", \"counted_orpd_selected_device\": \"cpu\", \"counted_orpd_batch_context_api\": false, \"counted_orpd_target_evaluations_per_host_boundary\": 1, \"counted_orpd_cpu_cuda_inner_loop_transfers\": 0, \"counted_orpd_context_power_flow_reruns\": 0, \"receipt_sha256\": \"2fc939fcd75b13612bd8dc004b35e2be1473e0ddbb1180d74d7e4947a31b5df4\"}], \"source_kind\": \"independent_policy_training\", \"development_freeze_commit\": \"\", \"development_freeze_sha256\": \"\", \"phase4_acceptance_sha256\": \"\", \"initialization_policy_sha256\": \"\"}}, {\"source_candidate_sha256\": \"b0fef6b928a587226f10bcd32dd64533a9d7118b9ec9663acc5b1396ce800913\", \"training_provenance\": {\"training_run_id\": \"tsh-calo-94a39e38c8d9:member-003\", \"training_design_sha256\": \"9dabbbaab256c346daa986ac7723cba81d17abdce0040fa6909767ddd82b9c36\", \"source_commit\": \"2065b3b4e1f9eb479a55f42b23971c8e4e7c3314\", \"development_cases\": [\"case30\", \"case57\"], \"seed_manifest_sha256\": \"2a366230e998de13e0a17312e2989d7da9e07d92a16cafa387eb5cdbc5c283bf\", \"training_device_provenance\": {\"memory_estimate\": {\"estimator_version\": \"tsh-calo-training-memory-v1\", \"parameter_and_buffer_bytes\": 247760, \"optimizer_gradient_bytes\": 743280, \"retained_rollout_bytes\": 77205280, \"autograd_activation_bytes\": 3923273728, \"runtime_overhead_floor_bytes\": 67108864, \"estimated_working_set_bytes\": 6002205072, \"envelope\": {\"rollout_capacity\": 499, \"maximum_population_size\": 20, \"maximum_topology_nodes\": 300, \"maximum_topology_edges\": 1000, \"maximum_topology_controls\": 256, \"maximum_scenarios\": 64}}, \"memory_admission\": {\"requested_device\": \"auto\", \"selected_device\": \"cpu\", \"computation_device\": \"cpu\", \"estimated_working_set_bytes\": 6002205072, \"total_bytes\": 34053414912, \"available_bytes_at_admission\": 14627545088, \"baseline_reserved_bytes\": 0, \"allowance_bytes\": 11702036070, \"process_ceiling_bytes\": 11702036070, \"allocator_fraction_of_total\": 0.34363766747740615, \"fallback_reason\": \"estimated working set exceeds 80% of currently free VRAM\", \"estimator_version\": \"tsh-calo-training-memory-v1\"}, \"computation_semantics\": \"CPU computes; system RAM is admitted storage\", \"ppo_host_synchronization\": \"not_applicable_cpu_execution\", \"per_ppo_epoch_cpu_metric_transfer\": false}, \"training_episode_receipts\": [{\"schema_version\": \"tsh-calo-training-episode-receipt-v2-device-context\", \"session_id\": \"tsh-calo-94a39e38c8d9-003-001\", \"training_run_id\": \"tsh-calo-94a39e38c8d9:member-003\", \"training_design_sha256\": \"9dabbbaab256c346daa986ac7723cba81d17abdce0040fa6909767ddd82b9c36\", \"session_design_sha256\": \"36e84dfe36f1aea355f565f0f974df90e171de891c6af629145def7cceb36f51\", \"environment_design_sha256\": \"14e862b8429698286bdc38d247bd34669a87a2a039140afbcd20b5b7d7010be4\", \"case_identity\": \"case30\", \"case_checksum\": \"a4e6e680047160f3bcb0a3a9d927c6843f7067203281a4aed3fcfc6c18c6d0ac\", \"problem_fingerprint\": \"d94f33c8e5e7c00489f2811a2ab5a8df64cfe2db766278bb84024ba0da32a646\", \"seed\": 102030, \"deterministic_policy\": false, \"candidate_evaluations\": 10000, \"scenario_power_flow_calls\": 10000, \"canonical_transition_count\": 499, \"ppo_update_count\": 1, \"canonical_reward_sha256\": \"5ff46e7aedf7cc39804fe76605ff2b03f1190c5ac552aed15aee1d183dd24472\", \"accounting_complete\": true, \"terminal\": true, \"counted_orpd_evaluator_computation\": \"cpu\", \"counted_orpd_selected_device\": \"cpu\", \"counted_orpd_batch_context_api\": false, \"counted_orpd_target_evaluations_per_host_boundary\": 1, \"counted_orpd_cpu_cuda_inner_loop_transfers\": 0, \"counted_orpd_context_power_flow_reruns\": 0, \"receipt_sha256\": \"1aae1eaab0e461ba4fccc57c331cb176a74c5dbe2d57ebf62676a9295d8aded6\"}, {\"schema_version\": \"tsh-calo-training-episode-receipt-v2-device-context\", \"session_id\": \"tsh-calo-94a39e38c8d9-003-002\", \"training_run_id\": \"tsh-calo-94a39e38c8d9:member-003\", \"training_design_sha256\": \"9dabbbaab256c346daa986ac7723cba81d17abdce0040fa6909767ddd82b9c36\", \"session_design_sha256\": \"ff4eef2867623c3e3af95f076163730e1385362ff8545c292f721f44b0403a96\", \"environment_design_sha256\": \"d71395fce6c4dbb08c718d1b3706484e56ed90f3e52c96b3028ea7b0dba0111f\", \"case_identity\": \"case57\", \"case_checksum\": \"db8dd806cb3235a8b923abcc7ad80dce6bdc6e66faf8cea8071f11809365bb44\", \"problem_fingerprint\": \"532db81bf01aeaa4064903ecd01526ea550ddd2ac67dbe4ae18055cd8ebecb67\", \"seed\": 102031, \"deterministic_policy\": false, \"candidate_evaluations\": 10000, \"scenario_power_flow_calls\": 10000, \"canonical_transition_count\": 499, \"ppo_update_count\": 1, \"canonical_reward_sha256\": \"4814b2870aa6cba9f2936b5adb56c1c292367e14f9cc1283f6b2c9f0cd752fe4\", \"accounting_complete\": true, \"terminal\": true, \"counted_orpd_evaluator_computation\": \"cpu\", \"counted_orpd_selected_device\": \"cpu\", \"counted_orpd_batch_context_api\": false, \"counted_orpd_target_evaluations_per_host_boundary\": 1, \"counted_orpd_cpu_cuda_inner_loop_transfers\": 0, \"counted_orpd_context_power_flow_reruns\": 0, \"receipt_sha256\": \"7162a0bda4b349cdb7ff54f74afdc2334e747961fcf4854695856523acc1d265\"}], \"source_kind\": \"independent_policy_training\", \"development_freeze_commit\": \"\", \"development_freeze_sha256\": \"\", \"phase4_acceptance_sha256\": \"\", \"initialization_policy_sha256\": \"\"}}]}",
+        "name": "tsh-calo-94a39e38c8d9",
+        "qualification_status": "candidate",
+        "sha256": "e40d4cc21e2a8c1d273ef80ebab0c527f4b9d1f2784f22db496216d6ba940158",
+        "state_schema_version": "tsh-calo-state-v1-aggregate32-topology",
+        "training_environment_version": "tsh-calo-training-v5-batched-device-context-safe80",
+        "updated_at": "2026-08-14T10:54:03.514277+00:00"
+      },
+      {
+        "action_schema_version": "tsh-calo-action-v1-hierarchical-4r-3g-4c-7o-6p",
+        "active": 0,
+        "architecture_version": "tsh-calo-v1.1.0-counted-physics-candidate",
+        "archived": 0,
+        "checkpoint_path": "C:\\Users\\User\\AppData\\Local\\CALO-RPD\\CALO-RPD Studio\\training-models\\tsh-calo-8ad9c2eedeb1\\ensemble.candidate.pt",
+        "created_at": "2026-08-14T11:05:59.285438+00:00",
+        "grade": "U",
+        "id": "fdb8b4e6-395d-4f3c-adce-abb558246e91",
+        "metadata_json": "{\"algorithm_id\": \"TSH-CALO\", \"runtime_architecture_version\": \"tsh-calo-v1.1.0-counted-physics-candidate\", \"policy_architecture_version\": \"tsh-calo-policy-v1\", \"state_dimension\": 32, \"state_schema_version\": \"tsh-calo-state-v1-aggregate32-topology\", \"action_schema_version\": \"tsh-calo-action-v1-hierarchical-4r-3g-4c-7o-6p\", \"training_environment_version\": \"tsh-calo-training-v5-batched-device-context-safe80\", \"lifecycle_status\": \"candidate_unqualified\", \"artifact_kind\": \"ensemble_policy\", \"ensemble_size\": 3, \"feature_flags\": {\"graph_context\": true, \"hierarchical_actions\": true, \"uncertainty_shield\": true, \"contextual_bandit_residual\": true, \"physics_repair\": false, \"population_schedule\": false, \"allow_experimental_components\": false}, \"ensemble_members\": [{\"source_candidate_sha256\": \"efd9e86e0f031430872f4c16a386982da236aa399ab879efa9423e83a9368683\", \"training_provenance\": {\"training_run_id\": \"tsh-calo-8ad9c2eedeb1:member-001\", \"training_design_sha256\": \"99d0876a802bdb1b544d7f38a2c89e48f45d1512deab2443701704450f5f00f2\", \"source_commit\": \"cbce10cecc42c7882c7d3b8d71d21c23b3a532cb\", \"development_cases\": [\"case30\", \"case57\"], \"seed_manifest_sha256\": \"5b878784a4c47f78e13ad656a386ba906c21ffd3a7ce5603c2e5545ad2d5d000\", \"training_device_provenance\": {\"memory_estimate\": {\"estimator_version\": \"tsh-calo-training-memory-v1\", \"parameter_and_buffer_bytes\": 247760, \"optimizer_gradient_bytes\": 743280, \"retained_rollout_bytes\": 77205280, \"autograd_activation_bytes\": 3923273728, \"runtime_overhead_floor_bytes\": 67108864, \"estimated_working_set_bytes\": 6002205072, \"envelope\": {\"rollout_capacity\": 499, \"maximum_population_size\": 20, \"maximum_topology_nodes\": 300, \"maximum_topology_edges\": 1000, \"maximum_topology_controls\": 256, \"maximum_scenarios\": 64}}, \"memory_admission\": {\"requested_device\": \"auto\", \"selected_device\": \"cpu\", \"computation_device\": \"cpu\", \"estimated_working_set_bytes\": 6002205072, \"total_bytes\": 34053414912, \"available_bytes_at_admission\": 15629885440, \"baseline_reserved_bytes\": 0, \"allowance_bytes\": 12503908352, \"process_ceiling_bytes\": 12503908352, \"allocator_fraction_of_total\": 0.36718515262895934, \"fallback_reason\": \"estimated working set exceeds 80% of currently free VRAM\", \"estimator_version\": \"tsh-calo-training-memory-v1\"}, \"computation_semantics\": \"CPU computes; system RAM is admitted storage\", \"ppo_host_synchronization\": \"not_applicable_cpu_execution\", \"per_ppo_epoch_cpu_metric_transfer\": false}, \"training_episode_receipts\": [{\"schema_version\": \"tsh-calo-training-episode-receipt-v2-device-context\", \"session_id\": \"tsh-calo-8ad9c2eedeb1-001-001\", \"training_run_id\": \"tsh-calo-8ad9c2eedeb1:member-001\", \"training_design_sha256\": \"99d0876a802bdb1b544d7f38a2c89e48f45d1512deab2443701704450f5f00f2\", \"session_design_sha256\": \"eaf1f92276e9ad0cf2f7cfbf690fc61e9cc55da1d35a7cc6134f6d6d95ce6655\", \"environment_design_sha256\": \"58919ec2c01677387c4597250ee2b4ca7160331c18dd61dc5a25b106b647b20f\", \"case_identity\": \"case30\", \"case_checksum\": \"a4e6e680047160f3bcb0a3a9d927c6843f7067203281a4aed3fcfc6c18c6d0ac\", \"problem_fingerprint\": \"d94f33c8e5e7c00489f2811a2ab5a8df64cfe2db766278bb84024ba0da32a646\", \"seed\": 102026, \"deterministic_policy\": false, \"candidate_evaluations\": 10000, \"scenario_power_flow_calls\": 10000, \"canonical_transition_count\": 499, \"ppo_update_count\": 1, \"canonical_reward_sha256\": \"c4620c750ef1b1d1bcc77a5bb3db11c485275d7098cec20b9d7a3dda6f19c6c1\", \"accounting_complete\": true, \"terminal\": true, \"counted_orpd_evaluator_computation\": \"cpu\", \"counted_orpd_selected_device\": \"cpu\", \"counted_orpd_batch_context_api\": false, \"counted_orpd_target_evaluations_per_host_boundary\": 1, \"counted_orpd_cpu_cuda_inner_loop_transfers\": 0, \"counted_orpd_context_power_flow_reruns\": 0, \"receipt_sha256\": \"51e4d75e63d6b990047482d1cbdf0b1a024bd73b34e01f387843af6619940fef\"}, {\"schema_version\": \"tsh-calo-training-episode-receipt-v2-device-context\", \"session_id\": \"tsh-calo-8ad9c2eedeb1-001-002\", \"training_run_id\": \"tsh-calo-8ad9c2eedeb1:member-001\", \"training_design_sha256\": \"99d0876a802bdb1b544d7f38a2c89e48f45d1512deab2443701704450f5f00f2\", \"session_design_sha256\": \"ca40362f8f7ec1e74af689161a87773218b77fb0035d1e2c862c2907842baf19\", \"environment_design_sha256\": \"dc67f82ba0a8fd23ac1b2883a7cf95c250bd84f3d61c07ba1d4203103bc81342\", \"case_identity\": \"case57\", \"case_checksum\": \"db8dd806cb3235a8b923abcc7ad80dce6bdc6e66faf8cea8071f11809365bb44\", \"problem_fingerprint\": \"532db81bf01aeaa4064903ecd01526ea550ddd2ac67dbe4ae18055cd8ebecb67\", \"seed\": 102027, \"deterministic_policy\": false, \"candidate_evaluations\": 10000, \"scenario_power_flow_calls\": 10000, \"canonical_transition_count\": 499, \"ppo_update_count\": 1, \"canonical_reward_sha256\": \"63693817226493742c3ff6698591ce2477d5c5dd7d5d5897d96a570757bcec1b\", \"accounting_complete\": true, \"terminal\": true, \"counted_orpd_evaluator_computation\": \"cpu\", \"counted_orpd_selected_device\": \"cpu\", \"counted_orpd_batch_context_api\": false, \"counted_orpd_target_evaluations_per_host_boundary\": 1, \"counted_orpd_cpu_cuda_inner_loop_transfers\": 0, \"counted_orpd_context_power_flow_reruns\": 0, \"receipt_sha256\": \"f57d911275c248f02660acea17bc125285393d8f32007f4c22cc001af93186c9\"}], \"source_kind\": \"independent_policy_training\", \"development_freeze_commit\": \"\", \"development_freeze_sha256\": \"\", \"phase4_acceptance_sha256\": \"\", \"initialization_policy_sha256\": \"\"}}, {\"source_candidate_sha256\": \"3cd5d62fada545e3d8d40a8f77b128f645e1431d6134c19e032295b196c9cdc8\", \"training_provenance\": {\"training_run_id\": \"tsh-calo-8ad9c2eedeb1:member-002\", \"training_design_sha256\": \"74d9ff5e6c2d77fc0d6db23b7ba3975e386b5a8c4ecd48338673231810a8123b\", \"source_commit\": \"cbce10cecc42c7882c7d3b8d71d21c23b3a532cb\", \"development_cases\": [\"case30\", \"case57\"], \"seed_manifest_sha256\": \"5b878784a4c47f78e13ad656a386ba906c21ffd3a7ce5603c2e5545ad2d5d000\", \"training_device_provenance\": {\"memory_estimate\": {\"estimator_version\": \"tsh-calo-training-memory-v1\", \"parameter_and_buffer_bytes\": 247760, \"optimizer_gradient_bytes\": 743280, \"retained_rollout_bytes\": 77205280, \"autograd_activation_bytes\": 3923273728, \"runtime_overhead_floor_bytes\": 67108864, \"estimated_working_set_bytes\": 6002205072, \"envelope\": {\"rollout_capacity\": 499, \"maximum_population_size\": 20, \"maximum_topology_nodes\": 300, \"maximum_topology_edges\": 1000, \"maximum_topology_controls\": 256, \"maximum_scenarios\": 64}}, \"memory_admission\": {\"requested_device\": \"auto\", \"selected_device\": \"cpu\", \"computation_device\": \"cpu\", \"estimated_working_set_bytes\": 6002205072, \"total_bytes\": 34053414912, \"available_bytes_at_admission\": 16048144384, \"baseline_reserved_bytes\": 0, \"allowance_bytes\": 12838515507, \"process_ceiling_bytes\": 12838515507, \"allocator_fraction_of_total\": 0.3770111027095807, \"fallback_reason\": \"estimated working set exceeds 80% of currently free VRAM\", \"estimator_version\": \"tsh-calo-training-memory-v1\"}, \"computation_semantics\": \"CPU computes; system RAM is admitted storage\", \"ppo_host_synchronization\": \"not_applicable_cpu_execution\", \"per_ppo_epoch_cpu_metric_transfer\": false}, \"training_episode_receipts\": [{\"schema_version\": \"tsh-calo-training-episode-receipt-v2-device-context\", \"session_id\": \"tsh-calo-8ad9c2eedeb1-002-001\", \"training_run_id\": \"tsh-calo-8ad9c2eedeb1:member-002\", \"training_design_sha256\": \"74d9ff5e6c2d77fc0d6db23b7ba3975e386b5a8c4ecd48338673231810a8123b\", \"session_design_sha256\": \"6ecacf8d7c0f2ceaea6556d9aac25ae32838607952a913a387f768adbd807487\", \"environment_design_sha256\": \"8216c506bf1292d7c79ea18daa790968b7a2a9ede705dd110c1526d53369945a\", \"case_identity\": \"case30\", \"case_checksum\": \"a4e6e680047160f3bcb0a3a9d927c6843f7067203281a4aed3fcfc6c18c6d0ac\", \"problem_fingerprint\": \"d94f33c8e5e7c00489f2811a2ab5a8df64cfe2db766278bb84024ba0da32a646\", \"seed\": 102028, \"deterministic_policy\": false, \"candidate_evaluations\": 10000, \"scenario_power_flow_calls\": 10000, \"canonical_transition_count\": 499, \"ppo_update_count\": 1, \"canonical_reward_sha256\": \"d8323ef3a4b9c693f9ae3180cc77a0175e31baa41c57069efee1d9adb9ad8487\", \"accounting_complete\": true, \"terminal\": true, \"counted_orpd_evaluator_computation\": \"cpu\", \"counted_orpd_selected_device\": \"cpu\", \"counted_orpd_batch_context_api\": false, \"counted_orpd_target_evaluations_per_host_boundary\": 1, \"counted_orpd_cpu_cuda_inner_loop_transfers\": 0, \"counted_orpd_context_power_flow_reruns\": 0, \"receipt_sha256\": \"ec0c359f1a41163ae24e975646f668814062ec8ba574e73add5d0e071e7bc249\"}, {\"schema_version\": \"tsh-calo-training-episode-receipt-v2-device-context\", \"session_id\": \"tsh-calo-8ad9c2eedeb1-002-002\", \"training_run_id\": \"tsh-calo-8ad9c2eedeb1:member-002\", \"training_design_sha256\": \"74d9ff5e6c2d77fc0d6db23b7ba3975e386b5a8c4ecd48338673231810a8123b\", \"session_design_sha256\": \"88d0fd67c587214c6c174d3a919594060a62cff2c9577b443e829005780ed059\", \"environment_design_sha256\": \"e6642501fdaf4270d5fd84415e9e236f447a7bd77785a9f1bd1d539fefa58169\", \"case_identity\": \"case57\", \"case_checksum\": \"db8dd806cb3235a8b923abcc7ad80dce6bdc6e66faf8cea8071f11809365bb44\", \"problem_fingerprint\": \"532db81bf01aeaa4064903ecd01526ea550ddd2ac67dbe4ae18055cd8ebecb67\", \"seed\": 102029, \"deterministic_policy\": false, \"candidate_evaluations\": 10000, \"scenario_power_flow_calls\": 10000, \"canonical_transition_count\": 499, \"ppo_update_count\": 1, \"canonical_reward_sha256\": \"0668afb304e5ce43f03bb49d2ca2d820ac1807ce95911c48a95f8ce01c99876b\", \"accounting_complete\": true, \"terminal\": true, \"counted_orpd_evaluator_computation\": \"cpu\", \"counted_orpd_selected_device\": \"cpu\", \"counted_orpd_batch_context_api\": false, \"counted_orpd_target_evaluations_per_host_boundary\": 1, \"counted_orpd_cpu_cuda_inner_loop_transfers\": 0, \"counted_orpd_context_power_flow_reruns\": 0, \"receipt_sha256\": \"a8f5aef8d404ba19c640ae1e15c0ac83832e4d04905f8652d647f8c3a84ebb28\"}], \"source_kind\": \"independent_policy_training\", \"development_freeze_commit\": \"\", \"development_freeze_sha256\": \"\", \"phase4_acceptance_sha256\": \"\", \"initialization_policy_sha256\": \"\"}}, {\"source_candidate_sha256\": \"b2923a1c85bffe7dd2a37b65d0eae12e9537e90890de170b1139dcc26c00cdc0\", \"training_provenance\": {\"training_run_id\": \"tsh-calo-8ad9c2eedeb1:member-003\", \"training_design_sha256\": \"87e13f2c8706aa697a58c69fc237e628f835ff6343d9ce1c5438d63e5764ce90\", \"source_commit\": \"cbce10cecc42c7882c7d3b8d71d21c23b3a532cb\", \"development_cases\": [\"case30\", \"case57\"], \"seed_manifest_sha256\": \"5b878784a4c47f78e13ad656a386ba906c21ffd3a7ce5603c2e5545ad2d5d000\", \"training_device_provenance\": {\"memory_estimate\": {\"estimator_version\": \"tsh-calo-training-memory-v1\", \"parameter_and_buffer_bytes\": 247760, \"optimizer_gradient_bytes\": 743280, \"retained_rollout_bytes\": 77205280, \"autograd_activation_bytes\": 3923273728, \"runtime_overhead_floor_bytes\": 67108864, \"estimated_working_set_bytes\": 6002205072, \"envelope\": {\"rollout_capacity\": 499, \"maximum_population_size\": 20, \"maximum_topology_nodes\": 300, \"maximum_topology_edges\": 1000, \"maximum_topology_controls\": 256, \"maximum_scenarios\": 64}}, \"memory_admission\": {\"requested_device\": \"auto\", \"selected_device\": \"cpu\", \"computation_device\": \"cpu\", \"estimated_working_set_bytes\": 6002205072, \"total_bytes\": 34053414912, \"available_bytes_at_admission\": 16355155968, \"baseline_reserved_bytes\": 0, \"allowance_bytes\": 13084124774, \"process_ceiling_bytes\": 13084124774, \"allocator_fraction_of_total\": 0.38422357369478727, \"fallback_reason\": \"estimated working set exceeds 80% of currently free VRAM\", \"estimator_version\": \"tsh-calo-training-memory-v1\"}, \"computation_semantics\": \"CPU computes; system RAM is admitted storage\", \"ppo_host_synchronization\": \"not_applicable_cpu_execution\", \"per_ppo_epoch_cpu_metric_transfer\": false}, \"training_episode_receipts\": [{\"schema_version\": \"tsh-calo-training-episode-receipt-v2-device-context\", \"session_id\": \"tsh-calo-8ad9c2eedeb1-003-001\", \"training_run_id\": \"tsh-calo-8ad9c2eedeb1:member-003\", \"training_design_sha256\": \"87e13f2c8706aa697a58c69fc237e628f835ff6343d9ce1c5438d63e5764ce90\", \"session_design_sha256\": \"558ecc3f45a5e2f17230c8347c2f48e14cbd22ab3bf384f973352bbb4bd673d6\", \"environment_design_sha256\": \"2c0889b5cf6e0f531e215149dd7758173613388f5972560e14013824bddcb79e\", \"case_identity\": \"case30\", \"case_checksum\": \"a4e6e680047160f3bcb0a3a9d927c6843f7067203281a4aed3fcfc6c18c6d0ac\", \"problem_fingerprint\": \"d94f33c8e5e7c00489f2811a2ab5a8df64cfe2db766278bb84024ba0da32a646\", \"seed\": 102030, \"deterministic_policy\": false, \"candidate_evaluations\": 10000, \"scenario_power_flow_calls\": 10000, \"canonical_transition_count\": 499, \"ppo_update_count\": 1, \"canonical_reward_sha256\": \"5ff46e7aedf7cc39804fe76605ff2b03f1190c5ac552aed15aee1d183dd24472\", \"accounting_complete\": true, \"terminal\": true, \"counted_orpd_evaluator_computation\": \"cpu\", \"counted_orpd_selected_device\": \"cpu\", \"counted_orpd_batch_context_api\": false, \"counted_orpd_target_evaluations_per_host_boundary\": 1, \"counted_orpd_cpu_cuda_inner_loop_transfers\": 0, \"counted_orpd_context_power_flow_reruns\": 0, \"receipt_sha256\": \"ee9f2d6dd8061816876a6d20d59fd4778176e12a52cb434bd5758bcb6414b638\"}, {\"schema_version\": \"tsh-calo-training-episode-receipt-v2-device-context\", \"session_id\": \"tsh-calo-8ad9c2eedeb1-003-002\", \"training_run_id\": \"tsh-calo-8ad9c2eedeb1:member-003\", \"training_design_sha256\": \"87e13f2c8706aa697a58c69fc237e628f835ff6343d9ce1c5438d63e5764ce90\", \"session_design_sha256\": \"86308965f0ca8451a50e9108cd8c9c6789a169becc586307fd294f7fcabc23cb\", \"environment_design_sha256\": \"2a2513d0524b767580207efaf040cc4c375cf5c827d850d09cd8381ef6e83aa8\", \"case_identity\": \"case57\", \"case_checksum\": \"db8dd806cb3235a8b923abcc7ad80dce6bdc6e66faf8cea8071f11809365bb44\", \"problem_fingerprint\": \"532db81bf01aeaa4064903ecd01526ea550ddd2ac67dbe4ae18055cd8ebecb67\", \"seed\": 102031, \"deterministic_policy\": false, \"candidate_evaluations\": 10000, \"scenario_power_flow_calls\": 10000, \"canonical_transition_count\": 499, \"ppo_update_count\": 1, \"canonical_reward_sha256\": \"4814b2870aa6cba9f2936b5adb56c1c292367e14f9cc1283f6b2c9f0cd752fe4\", \"accounting_complete\": true, \"terminal\": true, \"counted_orpd_evaluator_computation\": \"cpu\", \"counted_orpd_selected_device\": \"cpu\", \"counted_orpd_batch_context_api\": false, \"counted_orpd_target_evaluations_per_host_boundary\": 1, \"counted_orpd_cpu_cuda_inner_loop_transfers\": 0, \"counted_orpd_context_power_flow_reruns\": 0, \"receipt_sha256\": \"f7ae95ca3804ac8bda8e0f05e0e8ac2ddef2bc8e2cd161514728835f150d026b\"}], \"source_kind\": \"independent_policy_training\", \"development_freeze_commit\": \"\", \"development_freeze_sha256\": \"\", \"phase4_acceptance_sha256\": \"\", \"initialization_policy_sha256\": \"\"}}]}",
+        "name": "tsh-calo-8ad9c2eedeb1",
+        "qualification_status": "candidate",
+        "sha256": "9cda965a023e966ef7ae621c7494acb17bba671386bf27dab3a1108aff7c08c2",
+        "state_schema_version": "tsh-calo-state-v1-aggregate32-topology",
+        "training_environment_version": "tsh-calo-training-v5-batched-device-context-safe80",
+        "updated_at": "2026-08-14T11:05:59.285438+00:00"
+      }
+    ],
+    "policy_checkpoints": [
+      {
+        "checkpoint_path": "C:\\Users\\User\\Downloads\\calo-rpd-studio-v1.0.0\\calo-rpd-studio\\calo_rpd_studio\\data\\trained_models\\base_policy_0.1_lineage\\epoch_000000000130_lineage\\epoch_000000000003.pt",
+        "created_at": "2026-07-21T16:45:52.321735+00:00",
+        "cumulative_epoch": 3,
+        "grade": "U",
+        "id": "e8d01642-7d3b-4fe6-a6da-424a4b185eb2",
+        "is_best": 0,
+        "is_latest": 1,
+        "lineage_id": "a9179292-57af-471a-b9b8-1ac833b96679",
+        "metadata_json": "{\"policy_id\": \"6c54edf7-1558-4226-b014-ff90aaf2694c\", \"policy_name\": \"CALO-policy-lineage@3\", \"terminal\": false}",
+        "phase_index": 2,
+        "qualification_status": "candidate",
+        "resume_path": "C:\\Users\\User\\Downloads\\calo-rpd-studio-v1.0.0\\calo-rpd-studio\\calo_rpd_studio\\data\\trained_models\\base_policy_0.1_lineage\\epoch_000000000130.resume.pt",
+        "sha256": "06cbc0c4204e45a97664ce84eeb9dd36d52d47160fe31d443bb9dd1f403607b8"
+      }
+    ],
+    "policy_lineages": [
+      {
+        "archived": 0,
+        "created_at": "2026-07-21T09:38:21.140281+00:00",
+        "forked_from_checkpoint_id": "",
+        "id": "a9179292-57af-471a-b9b8-1ac833b96679",
+        "name": "CALO-policy-lineage",
+        "notes": "",
+        "parent_lineage_id": "",
+        "updated_at": "2026-07-21T16:45:52.321735+00:00"
+      }
+    ],
+    "policy_qualifications": [],
+    "policy_training_resume_tasks": [
+      {
+        "created_at": "2026-07-19T18:45:59.896876+00:00",
+        "id": "5d7a64f6-2f81-48b4-9638-c571e063eeb1",
+        "progress_current": 100,
+        "progress_total": 100,
+        "resumable": 0,
+        "state_json": "{\"output_path\": \"C:/Users/User/Downloads/calo-rpd-studio-v1.0.0/calo-rpd-studio/calo_rpd_studio/data/trained_models/calo_policy_v4.pt\", \"resume_checkpoint\": \"C:\\\\Users\\\\User\\\\Downloads\\\\calo-rpd-studio-v1.0.0\\\\calo-rpd-studio\\\\calo_rpd_studio\\\\data\\\\trained_models\\\\calo_policy_v4.resume.pt\", \"config\": {\"epochs\": 100, \"episodes_per_epoch\": 20, \"horizon\": 28, \"seed\": 2026, \"learning_rate\": 0.0003, \"gamma\": 0.98, \"gae_lambda\": 0.95, \"clip_ratio\": 0.2, \"entropy_weight\": 0.01, \"value_weight\": 0.5, \"ppo_epochs\": 4, \"minibatch_size\": 128, \"hidden_dim\": 96, \"population_size\": 20, \"rollout_workers\": 20, \"ppo_device\": \"cuda\", \"cpu_threads_per_worker\": 1, \"development_cases\": [], \"allow_final_benchmark_training\": false, \"historical_repository\": \"C:\\\\Users\\\\User\\\\Downloads\\\\calo-rpd-studio-v1.0.0\\\\calo-rpd-studio\\\\historical_experience_v1.3.json\", \"use_historical_trajectories\": true, \"historical_pretraining_epochs\": 4, \"resume_checkpoint\": \"C:\\\\Users\\\\User\\\\Downloads\\\\calo-rpd-studio-v1.0.0\\\\calo-rpd-studio\\\\calo_rpd_studio\\\\data\\\\trained_models\\\\calo_policy_v4.resume.pt\", \"checkpoint_each_epoch\": true, \"resume_task_id\": \"\", \"heterogeneous_rollouts\": true, \"cuda_rollout_share\": 100, \"xpu_rollout_share\": 0, \"cpu_rollout_share\": 0, \"actor_batch_size\": 0, \"throughput_adaptive_rollouts\": true, \"persistent_actor_workers\": true, \"actor_calibration_episodes\": 10, \"use_accelerated_orpd_rollouts\": true, \"training_cross_episode_batching\": true, \"training_batch_window_ms\": 4.0, \"training_max_cross_batch\": 2048, \"training_tensor_batch_size\": 64}, \"heterogeneous\": true}",
+        "status": "completed",
+        "task_type": "policy_training",
+        "title": "CALO policy training → calo_policy_v4.pt",
+        "updated_at": "2026-07-19T19:15:14.509762+00:00"
+      },
+      {
+        "created_at": "2026-07-21T19:29:57.037278+00:00",
+        "id": "6014b8cc-d540-48a8-8fab-9e13983d0d1f",
+        "progress_current": 100,
+        "progress_total": 100,
+        "resumable": 1,
+        "state_json": "{\"output_path\": \"C:/Users/User/Downloads/calo-rpd-studio-v1.0.0/calo-rpd-studio/calo_rpd_studio/data/trained_models/base_1.pt\", \"resume_checkpoint\": \"C:\\\\Users\\\\User\\\\Downloads\\\\calo-rpd-studio-v1.0.0\\\\calo-rpd-studio\\\\calo_rpd_studio\\\\data\\\\trained_models\\\\base_1.resume.pt\", \"config\": {\"epochs\": 24, \"episodes_per_epoch\": 12, \"horizon\": 28, \"seed\": 2026, \"learning_rate\": 0.0003, \"gamma\": 0.98, \"gae_lambda\": 0.95, \"clip_ratio\": 0.2, \"entropy_weight\": 0.01, \"value_weight\": 0.5, \"ppo_epochs\": 4, \"minibatch_size\": 128, \"hidden_dim\": 96, \"population_size\": 20, \"rollout_workers\": 12, \"ppo_device\": \"cuda\", \"cpu_threads_per_worker\": 1, \"development_cases\": [], \"allow_final_benchmark_training\": false, \"historical_repository\": \"\", \"use_historical_trajectories\": false, \"historical_pretraining_epochs\": 0, \"resume_checkpoint\": \"C:\\\\Users\\\\User\\\\Downloads\\\\calo-rpd-studio-v1.0.0\\\\calo-rpd-studio\\\\calo_rpd_studio\\\\data\\\\trained_models\\\\base_1.resume.pt\", \"checkpoint_each_epoch\": true, \"resume_task_id\": \"\", \"initial_policy_checkpoint\": \"\", \"training_mode\": \"indefinite\", \"checkpoint_interval_epochs\": 1, \"qualification_interval_epochs\": 10000, \"policy_lineage_id\": \"a9179292-57af-471a-b9b8-1ac833b96679\", \"policy_lineage_name\": \"CALO-policy-lineage\", \"policy_phase_index\": 1, \"keep_resume_after_completion\": true, \"max_session_epochs\": 0, \"parallel_runs\": 5, \"heterogeneous_rollouts\": true, \"cuda_rollout_share\": 100, \"xpu_rollout_share\": 0, \"cpu_rollout_share\": 0, \"actor_batch_size\": 0, \"throughput_adaptive_rollouts\": true, \"persistent_actor_workers\": true, \"actor_calibration_episodes\": 10, \"use_accelerated_orpd_rollouts\": true, \"training_cross_episode_batching\": true, \"training_batch_window_ms\": 4.0, \"training_max_cross_batch\": 2048, \"training_tensor_batch_size\": 64}, \"heterogeneous\": true}",
+        "status": "completed",
+        "task_type": "policy_training",
+        "title": "CALO policy training → base_1.pt",
+        "updated_at": "2026-07-21T19:29:59.113286+00:00"
+      },
+      {
+        "created_at": "2026-07-21T19:39:08.799878+00:00",
+        "id": "c9f8287a-5f9c-48ac-8ca0-b9feb18bbec1",
+        "progress_current": 100,
+        "progress_total": 100,
+        "resumable": 1,
+        "state_json": "{\"output_path\": \"C:/Users/User/Downloads/calo-rpd-studio-v1.0.0/calo-rpd-studio/calo_rpd_studio/data/trained_models/base_1.pt\", \"resume_checkpoint\": \"C:\\\\Users\\\\User\\\\Downloads\\\\calo-rpd-studio-v1.0.0\\\\calo-rpd-studio\\\\calo_rpd_studio\\\\data\\\\trained_models\\\\base_1.resume.pt\", \"config\": {\"epochs\": 24, \"episodes_per_epoch\": 12, \"horizon\": 28, \"seed\": 2026, \"learning_rate\": 0.0003, \"gamma\": 0.98, \"gae_lambda\": 0.95, \"clip_ratio\": 0.2, \"entropy_weight\": 0.01, \"value_weight\": 0.5, \"ppo_epochs\": 4, \"minibatch_size\": 128, \"hidden_dim\": 96, \"population_size\": 20, \"rollout_workers\": 12, \"ppo_device\": \"cuda\", \"cpu_threads_per_worker\": 1, \"development_cases\": [], \"allow_final_benchmark_training\": false, \"historical_repository\": \"\", \"use_historical_trajectories\": false, \"historical_pretraining_epochs\": 0, \"resume_checkpoint\": \"C:\\\\Users\\\\User\\\\Downloads\\\\calo-rpd-studio-v1.0.0\\\\calo-rpd-studio\\\\calo_rpd_studio\\\\data\\\\trained_models\\\\base_1.resume.pt\", \"checkpoint_each_epoch\": true, \"resume_task_id\": \"\", \"initial_policy_checkpoint\": \"\", \"training_mode\": \"indefinite\", \"checkpoint_interval_epochs\": 1, \"qualification_interval_epochs\": 10000, \"policy_lineage_id\": \"a9179292-57af-471a-b9b8-1ac833b96679\", \"policy_lineage_name\": \"CALO-policy-lineage\", \"policy_phase_index\": 1, \"keep_resume_after_completion\": true, \"max_session_epochs\": 0, \"parallel_runs\": 5, \"heterogeneous_rollouts\": true, \"cuda_rollout_share\": 100, \"xpu_rollout_share\": 0, \"cpu_rollout_share\": 0, \"actor_batch_size\": 0, \"throughput_adaptive_rollouts\": true, \"persistent_actor_workers\": true, \"actor_calibration_episodes\": 5, \"use_accelerated_orpd_rollouts\": true, \"training_cross_episode_batching\": true, \"training_batch_window_ms\": 4.0, \"training_max_cross_batch\": 2048, \"training_tensor_batch_size\": 64}, \"heterogeneous\": true}",
+        "status": "completed",
+        "task_type": "policy_training",
+        "title": "CALO policy training → base_1.pt",
+        "updated_at": "2026-07-21T19:39:22.133544+00:00"
+      },
+      {
+        "created_at": "2026-07-21T19:35:25.273086+00:00",
+        "id": "f11b4813-a5d5-48b9-ae00-ea47418f62c3",
+        "progress_current": 100,
+        "progress_total": 100,
+        "resumable": 1,
+        "state_json": "{\"output_path\": \"C:/Users/User/Downloads/calo-rpd-studio-v1.0.0/calo-rpd-studio/calo_rpd_studio/data/trained_models/base_1.pt\", \"resume_checkpoint\": \"C:\\\\Users\\\\User\\\\Downloads\\\\calo-rpd-studio-v1.0.0\\\\calo-rpd-studio\\\\calo_rpd_studio\\\\data\\\\trained_models\\\\base_1.resume.pt\", \"config\": {\"epochs\": 24, \"episodes_per_epoch\": 12, \"horizon\": 28, \"seed\": 2026, \"learning_rate\": 0.0003, \"gamma\": 0.98, \"gae_lambda\": 0.95, \"clip_ratio\": 0.2, \"entropy_weight\": 0.01, \"value_weight\": 0.5, \"ppo_epochs\": 4, \"minibatch_size\": 128, \"hidden_dim\": 96, \"population_size\": 20, \"rollout_workers\": 12, \"ppo_device\": \"cuda\", \"cpu_threads_per_worker\": 1, \"development_cases\": [], \"allow_final_benchmark_training\": false, \"historical_repository\": \"\", \"use_historical_trajectories\": false, \"historical_pretraining_epochs\": 0, \"resume_checkpoint\": \"C:\\\\Users\\\\User\\\\Downloads\\\\calo-rpd-studio-v1.0.0\\\\calo-rpd-studio\\\\calo_rpd_studio\\\\data\\\\trained_models\\\\base_1.resume.pt\", \"checkpoint_each_epoch\": true, \"resume_task_id\": \"\", \"initial_policy_checkpoint\": \"\", \"training_mode\": \"indefinite\", \"checkpoint_interval_epochs\": 1, \"qualification_interval_epochs\": 10000, \"policy_lineage_id\": \"a9179292-57af-471a-b9b8-1ac833b96679\", \"policy_lineage_name\": \"CALO-policy-lineage\", \"policy_phase_index\": 1, \"keep_resume_after_completion\": true, \"max_session_epochs\": 0, \"parallel_runs\": 5, \"heterogeneous_rollouts\": true, \"cuda_rollout_share\": 100, \"xpu_rollout_share\": 0, \"cpu_rollout_share\": 0, \"actor_batch_size\": 0, \"throughput_adaptive_rollouts\": true, \"persistent_actor_workers\": true, \"actor_calibration_episodes\": 5, \"use_accelerated_orpd_rollouts\": true, \"training_cross_episode_batching\": true, \"training_batch_window_ms\": 4.0, \"training_max_cross_batch\": 2048, \"training_tensor_batch_size\": 64}, \"heterogeneous\": true}",
+        "status": "completed",
+        "task_type": "policy_training",
+        "title": "CALO policy training → base_1.pt",
+        "updated_at": "2026-07-21T19:35:45.450699+00:00"
+      }
+    ],
+    "suppressed_policies": [
+      {
+        "created_at": "2026-07-23T18:52:51.276198+00:00",
+        "reason": "deleted_artifact",
+        "sha256": "9d9c3d8c7781d006fd429a3b93334bc124266eda24951f9ad384356a5f400482"
+      },
+      {
+        "created_at": "2026-07-23T18:52:46.593947+00:00",
+        "reason": "deleted_artifact",
+        "sha256": "ba3a0379a5ae2d61795596b0fc223ae8072bea409645766f3090f7738e543265"
+      }
+    ]
+  },
+  "external_existing_artifacts": [
+    {
+      "exists": true,
+      "is_file": true,
+      "path": "C:\\Users\\User\\AppData\\Local\\CALO-RPD\\CALO-RPD Studio\\training-models\\tsh-calo-8ad9c2eedeb1\\ensemble.candidate.pt",
+      "source_field": "checkpoint_path",
+      "source_table": "policies"
+    },
+    {
+      "exists": true,
+      "is_file": true,
+      "path": "C:\\Users\\User\\AppData\\Local\\CALO-RPD\\CALO-RPD Studio\\training-models\\tsh-calo-94a39e38c8d9\\ensemble.candidate.pt",
+      "source_field": "checkpoint_path",
+      "source_table": "policies"
+    },
+    {
+      "exists": true,
+      "is_file": true,
+      "path": "C:\\Users\\User\\AppData\\Local\\CALO-RPD\\CALO-RPD Studio\\training-models\\tsh-calo-ee46b9b1d431\\ensemble.candidate.pt",
+      "source_field": "checkpoint_path",
+      "source_table": "policies"
+    },
+    {
+      "exists": true,
+      "is_file": true,
+      "path": "C:\\Users\\User\\AppData\\Local\\CALO-RPD\\CALO-RPD Studio\\training-models\\tsh-calo-ee46b9b1d431\\member-001.candidate.pt",
+      "source_field": "checkpoint_path",
+      "source_table": "policies"
+    }
+  ],
+  "inventory_sha256": "a3f042a2675933155f1f363d876306e228b34908345080f20e4991114b578d4a",
+  "policy_store_root": "C:\\Users\\User\\Downloads\\calo-rpd-studio-v1.0.0\\calo-rpd-studio\\calo_rpd_studio\\data\\trained_models",
+  "protected_files": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "559d71d2ad5bdd2f88a15225b5bb17ebdcde7f0b50e4861e8aeeba7f9cc09fd4",
+      "size_bytes": 604
+    },
+    {
+      "path": "__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "base_0.3_artifacts/AGENTS.md",
+      "sha256": "f0913628a82d9013b55cff67d934d97e1f48ccfec557a9e97a3e84e6af0e02ea",
+      "size_bytes": 427
+    },
+    {
+      "path": "base_0.3_branches/generations/87ae97ecc58a4e8aa6846bc541cf89a1/AGENTS.md",
+      "sha256": "d2209b5cca916baf211b6eae9831d039c1c62776718d38df2ab0c684591212ab",
+      "size_bytes": 321
+    },
+    {
+      "path": "base_0.3_branches/provenance/AGENTS.md",
+      "sha256": "8e25f86743a99da3e07fd04a75136365f16d4f705488588e34a88a77863b6560",
+      "size_bytes": 381
+    },
+    {
+      "path": "base_0.3_branches/recovery/AGENTS.md",
+      "sha256": "4fdb5e8d53bbcb6050c2cebff833216736039bdada3ad450a27916d28990f299",
+      "size_bytes": 336
+    },
+    {
+      "path": "base_4_artifacts/AGENTS.md",
+      "sha256": "f0913628a82d9013b55cff67d934d97e1f48ccfec557a9e97a3e84e6af0e02ea",
+      "size_bytes": 427
+    },
+    {
+      "path": "base_4_branches/generations/c719d850efe74079b4a7531e1f617847/AGENTS.md",
+      "sha256": "d2209b5cca916baf211b6eae9831d039c1c62776718d38df2ab0c684591212ab",
+      "size_bytes": 321
+    },
+    {
+      "path": "base_4_branches/provenance/AGENTS.md",
+      "sha256": "8e25f86743a99da3e07fd04a75136365f16d4f705488588e34a88a77863b6560",
+      "size_bytes": 381
+    }
+  ],
+  "removable_files": [
+    {
+      "path": "__pycache__/__init__.cpython-313.pyc",
+      "sha256": "5c9ab6418258f25accac5e8d23fa80eb4e62ceb37b230e75b97944b8ee3e4c41",
+      "size_bytes": 182
+    },
+    {
+      "path": "__pycache__/__init__.cpython-314.pyc",
+      "sha256": "d6299bbe419165592585d4a890439c0737243655a67514f6f5e2ea6cf13368eb",
+      "size_bytes": 146
+    },
+    {
+      "path": "base_0.3.branches.json",
+      "sha256": "8be7eadf4c900be7123f041b17f8222af5a41d79720824f8076fb87e99438965",
+      "size_bytes": 9158
+    },
+    {
+      "path": "base_0.3_artifacts/base_000000000000_5acf7fc1e3.json",
+      "sha256": "ae50c8bb01f253c17eb5fd68189cb20a88a953ef06995d32589f636832649054",
+      "size_bytes": 9576
+    },
+    {
+      "path": "base_0.3_artifacts/base_000000000000_5acf7fc1e3.pt",
+      "sha256": "b821b16f0f8895a642835ba464f0a07851e1028d8712f9c1c2df18d06e721f6d",
+      "size_bytes": 71411
+    },
+    {
+      "path": "base_0.3_branches/B01.resume.pt",
+      "sha256": "0e05b1e5f58a701725489e93162c1f3bed1674ab0fd8c5023d981e0b1d9a2a09",
+      "size_bytes": 82925
+    },
+    {
+      "path": "base_0.3_branches/B01.resume.pt.sha256",
+      "sha256": "244731df1775e47fa57b3c1b5c2ac0079018eb03e9f160e8a53e29a1cd3a5be5",
+      "size_bytes": 265
+    },
+    {
+      "path": "base_0.3_branches/generations/87ae97ecc58a4e8aa6846bc541cf89a1/B01.resume.pt",
+      "sha256": "0e05b1e5f58a701725489e93162c1f3bed1674ab0fd8c5023d981e0b1d9a2a09",
+      "size_bytes": 82925
+    },
+    {
+      "path": "base_0.3_branches/generations/87ae97ecc58a4e8aa6846bc541cf89a1/B01.resume.pt.sha256",
+      "sha256": "244731df1775e47fa57b3c1b5c2ac0079018eb03e9f160e8a53e29a1cd3a5be5",
+      "size_bytes": 265
+    },
+    {
+      "path": "base_0.3_branches/generations/87ae97ecc58a4e8aa6846bc541cf89a1/generation.json",
+      "sha256": "87faa91c279475c74210ef85c070bda862b9df5f65738540706f12b2a1771d99",
+      "size_bytes": 695
+    },
+    {
+      "path": "base_0.3_branches/provenance/87ae97ecc58a4e8aa6846bc541cf89a1.compute.jsonl",
+      "sha256": "c9a23a157b2c310dafbdef4512667713b03baf69daccaa4f9711a591de64141b",
+      "size_bytes": 4488
+    },
+    {
+      "path": "base_0.3_branches/recovery/1680db8835334ed5a6b0c4e5304bc1b6.json",
+      "sha256": "e5a5d64459c5ed0c65c0828d96809d237de5d215c2ded182c0638746ada2c144",
+      "size_bytes": 2904
+    },
+    {
+      "path": "base_1.resume.pt",
+      "sha256": "c9bdb26ad634e63b54859dbfa46278ab71558cf9709e246f7cc9257b4a178b52",
+      "size_bytes": 213309
+    },
+    {
+      "path": "base_1.resume.pt.sha256",
+      "sha256": "a67d1102286e6451c18389f30538efc3ae170cf4f1f5eb96919a8214d78bc7c1",
+      "size_bytes": 66
+    },
+    {
+      "path": "base_4.branches.json",
+      "sha256": "61423b982f293482eeaf2319b94fa98b43acbcce0916c4cafb665a11d30cd94f",
+      "size_bytes": 14136
+    },
+    {
+      "path": "base_4_artifacts/base_000000000007_92d939e7f9.json",
+      "sha256": "9e1986f601930c0102e38bf29f95c5741f18320817aac4954d352b077cd91122",
+      "size_bytes": 14903
+    },
+    {
+      "path": "base_4_artifacts/base_000000000007_92d939e7f9.pt",
+      "sha256": "e808284da18a25008521ea5b9c970af5db824a689ac12efec8f69b4bed003425",
+      "size_bytes": 72627
+    },
+    {
+      "path": "base_4_branches/B01.resume.pt",
+      "sha256": "38de30f5898113f5823b9e7f17de9c614f208cd333382d5ec6cb7ea5fbf188af",
+      "size_bytes": 296173
+    },
+    {
+      "path": "base_4_branches/B01.resume.pt.sha256",
+      "sha256": "0ecb0c4f5f46609a1ab4d9004ab0314670a8ec614d750337b09e8993a2e5dbb9",
+      "size_bytes": 265
+    },
+    {
+      "path": "base_4_branches/generations/c719d850efe74079b4a7531e1f617847/B01.resume.pt",
+      "sha256": "38de30f5898113f5823b9e7f17de9c614f208cd333382d5ec6cb7ea5fbf188af",
+      "size_bytes": 296173
+    },
+    {
+      "path": "base_4_branches/generations/c719d850efe74079b4a7531e1f617847/B01.resume.pt.sha256",
+      "sha256": "0ecb0c4f5f46609a1ab4d9004ab0314670a8ec614d750337b09e8993a2e5dbb9",
+      "size_bytes": 265
+    },
+    {
+      "path": "base_4_branches/generations/c719d850efe74079b4a7531e1f617847/generation.json",
+      "sha256": "088bdd3919870cc13c342b211817b04dca7153f9cb007b08025f79954e9f5a31",
+      "size_bytes": 695
+    },
+    {
+      "path": "base_4_branches/provenance/c719d850efe74079b4a7531e1f617847.compute.jsonl",
+      "sha256": "eafe66acc978685e8f445ebbac5afbecef83adb043e6fff3b87d85915e458e4e",
+      "size_bytes": 5359
+    },
+    {
+      "path": "base_policy_0.1.resume.pt",
+      "sha256": "5707a7a295aa4bfcde261992a845006fac71b649173dac809beb900e802bbe6c",
+      "size_bytes": 332605
+    },
+    {
+      "path": "base_policy_0.1.resume.pt.sha256",
+      "sha256": "d9519edc2c557f0e0de50883ab17ce22f0b8307808b1e770ef7b506e688d5490",
+      "size_bytes": 66
+    },
+    {
+      "path": "base_policy_0.1_lineage/epoch_000000000130.resume.pt",
+      "sha256": "10bb993f6fb6ec096ee78837e8e71e8e0bb6193ac4fbce5a7b6e464a47653dce",
+      "size_bytes": 215165
+    },
+    {
+      "path": "base_policy_0.1_lineage/epoch_000000000130.resume.pt.sha256",
+      "sha256": "dcfe395f989fd95150be1d82c2c900ebbd6d974b6fc08d531b8054be1746e3fe",
+      "size_bytes": 66
+    },
+    {
+      "path": "base_policy_0.1_lineage/epoch_000000000130_lineage/epoch_000000000003.pt",
+      "sha256": "06cbc0c4204e45a97664ce84eeb9dd36d52d47160fe31d443bb9dd1f403607b8",
+      "size_bytes": 68747
+    },
+    {
+      "path": "base_policy_0.1_lineage/epoch_000000000130_lineage/epoch_000000000003.pt.sha256",
+      "sha256": "0637faa50449c60b27167fb22c67743b13a6fad747346bf9045811e2babaa227",
+      "size_bytes": 66
+    },
+    {
+      "path": "base_policy_0.1_lineage/epoch_000000000131.resume.pt",
+      "sha256": "614730eb12061886f051b2e00cbd017a26b579f15068b9fe9f92663ecbd3c9e5",
+      "size_bytes": 216317
+    },
+    {
+      "path": "base_policy_0.1_lineage/epoch_000000000131.resume.pt.sha256",
+      "sha256": "add0fc84019dee8376e84885c8061ce9dd91f4683e590ddd73ef40ec6daeed6c",
+      "size_bytes": 66
+    },
+    {
+      "path": "base_policy_0.2.resume.pt",
+      "sha256": "51d8580ea69bcfbe7555dcec11c1c77b830768a8cd79833ae3f3c68b23f9845f",
+      "size_bytes": 223229
+    },
+    {
+      "path": "base_policy_0.2.resume.pt.sha256",
+      "sha256": "74d152e7e6a52f9eb5de86ba66d6f8469f640502f2a6ec5597e1e7088f44c90f",
+      "size_bytes": 66
+    },
+    {
+      "path": "base_policy_0.3.resume.pt",
+      "sha256": "bcd7906c1b33f680ac8b7a25eacfbe722595824e094d1a0207e61eb435dd78c1",
+      "size_bytes": 250365
+    },
+    {
+      "path": "base_policy_0.3.resume.pt.sha256",
+      "sha256": "a87df47d66aa274d1a083110b33fcf119df575b760eb708b8e5fe17e5184bd93",
+      "size_bytes": 66
+    },
+    {
+      "path": "calo_policy_candidate.branches.json",
+      "sha256": "7200148cc29feed292e4029987346e932309f0dff36d633f04d5771f0d461284",
+      "size_bytes": 12304
+    },
+    {
+      "path": "calo_policy_candidate_artifacts/base_000000000000_70bf219703.json",
+      "sha256": "b30c308a32ef2a8809f46aa536480d6eb6b79270355d21b9b2e703fc19e6df3b",
+      "size_bytes": 13409
+    },
+    {
+      "path": "calo_policy_candidate_artifacts/base_000000000000_70bf219703.pt",
+      "sha256": "0a22cb8c4594c0eebb53b38df041f109c4b0cc8e31326aa16f0a46a6a3a961f4",
+      "size_bytes": 72499
+    },
+    {
+      "path": "calo_policy_candidate_branches/B01.resume.pt",
+      "sha256": "5ff6af37e3ad1f9dcd76ba865ec16247562a3d13f1eb73bf7612484e9ba642bd",
+      "size_bytes": 83565
+    },
+    {
+      "path": "calo_policy_candidate_branches/B01.resume.pt.sha256",
+      "sha256": "3a07a73314fec7b7a6a50ecf8c5c669f8a77bb2646ba91d39a35719565e215d4",
+      "size_bytes": 265
+    },
+    {
+      "path": "calo_policy_candidate_branches/generations/4413b567963643efa66dc6c33ce86ce9/B01.resume.pt",
+      "sha256": "5ff6af37e3ad1f9dcd76ba865ec16247562a3d13f1eb73bf7612484e9ba642bd",
+      "size_bytes": 83565
+    },
+    {
+      "path": "calo_policy_candidate_branches/generations/4413b567963643efa66dc6c33ce86ce9/B01.resume.pt.sha256",
+      "sha256": "3a07a73314fec7b7a6a50ecf8c5c669f8a77bb2646ba91d39a35719565e215d4",
+      "size_bytes": 265
+    },
+    {
+      "path": "calo_policy_candidate_branches/generations/4413b567963643efa66dc6c33ce86ce9/generation.json",
+      "sha256": "f0e7a911ea2a9e248d2e06345dbe90bbf35e5b3791cd29b08e990263f72a9035",
+      "size_bytes": 641
+    },
+    {
+      "path": "calo_policy_candidate_branches/provenance/4413b567963643efa66dc6c33ce86ce9.compute.jsonl",
+      "sha256": "f5db13c17caec6c586398f10498f952dc30c5c058b6eb59bc16284604472c1a6",
+      "size_bytes": 4134
+    },
+    {
+      "path": "calo_policy_candidate_branches/provenance/5409d42f1ef2487ebc9e8e1cc09e4dba.compute.jsonl",
+      "sha256": "af6bfb8f8c539cb14c73d30bb8da482ca7563c4c5b1ca6ce0d633d2acd5c6217",
+      "size_bytes": 3668
+    },
+    {
+      "path": "calo_policy_candidate_branches/recovery/5409d42f1ef2487ebc9e8e1cc09e4dba.json",
+      "sha256": "1a7aef5fb1704505119ea881c4d4bf0d2e4bda93e6e078ed8b3dd0db5be48cdd",
+      "size_bytes": 1724
+    }
+  ],
+  "schema": "calo-policy-retirement-inventory-v1",
+  "source_identity": {
+    "declaration_path": "",
+    "durable_evidence_eligible": false,
+    "source_commit": "879c2fb1fc299dee3af4f026db916457a6e79add",
+    "source_identity_kind": "git",
+    "tracked_source_clean": false
+  }
+}

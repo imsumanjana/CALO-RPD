@@ -19,6 +19,7 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign import (
     TSHCALOTrainingPauseRequested,
     TSH_CALO_TRAINING_EVENT_SCHEMA,
     request_tsh_calo_training_pause,
+    tsh_calo_training_compatibility_contract,
 )
 import calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign as campaign_module
 from calo_rpd_studio.algorithms.calo.tsh_calo_training_extension import (
@@ -129,6 +130,12 @@ def test_campaign_freezes_plan_and_exports_only_unqualified_candidates(tmp_path,
         "experiment_bound": False,
     }
     assert manifest["extension_contract"]["repeatable_finite_segments"] is True
+    assert manifest["training_compatibility_contract"]["algorithm_version"]
+    assert manifest["training_compatibility_contract"]["policy_parameter_layout_sha256"]
+    assert manifest["training_compatibility_contract"][
+        "training_parameter_schema_sha256"
+    ]
+    assert manifest["training_compatibility_contract"]["plan_field_schema_sha256"]
     assert len(manifest["continuation_checkpoints"]) == len(plan.members)
     for checkpoint in manifest["continuation_checkpoints"]:
         assert checkpoint_sha256(
@@ -165,15 +172,19 @@ def test_completed_campaign_can_add_repeatable_finite_authenticated_extensions(
 
     readiness = extension_plan_summary(plan, root)
     assert readiness["completed_extension_count"] == 0
+    assert readiness["source_revision_is_compatibility_identity"] is False
+    assert readiness["architecture_and_parameter_schema_required"] is True
     assert readiness["segment_candidate_evaluations"] == 16
     assert readiness["next_cumulative_candidate_evaluations"] == 32
     with pytest.raises(ValueError, match="plan changed"):
         extension_plan_summary(replace(plan, max_evaluations=16), root)
 
+    extension_source_commit = "b" * 40
     first = IndependentTSHCALOTrainingExtension(
         plan,
         root,
         problem_factory=_factory(toy_case),
+        execution_source_commit=extension_source_commit,
     ).start()
     second = IndependentTSHCALOTrainingExtension(
         plan,
@@ -185,11 +196,18 @@ def test_completed_campaign_can_add_repeatable_finite_authenticated_extensions(
     first_manifest = json.loads(Path(first.manifest_path).read_text(encoding="utf-8"))
     second_manifest = json.loads(Path(second.manifest_path).read_text(encoding="utf-8"))
     assert first_manifest["segment_number"] == 1
+    assert first_manifest["source_commit"] == SOURCE_COMMIT
+    assert first_manifest["execution_source_commit"] == extension_source_commit
     assert first_manifest["cumulative_candidate_evaluations"] == 32
     assert second_manifest["segment_number"] == 2
     assert second_manifest["cumulative_candidate_evaluations"] == 48
     assert second_manifest["parent_manifest_sha256"] == first.manifest_sha256
     for candidate in first.member_candidates:
+        assert candidate.training_provenance["source_commit"] == SOURCE_COMMIT
+        assert (
+            candidate.training_provenance["execution_source_commit"]
+            == extension_source_commit
+        )
         receipts = candidate.training_provenance["training_episode_receipts"]
         assert len(receipts) == 2
         assert receipts[-1]["session_id"].endswith(":extension:000001")
@@ -201,6 +219,115 @@ def test_completed_campaign_can_add_repeatable_finite_authenticated_extensions(
         assert receipts[-1]["candidate_evaluations"] == plan.max_evaluations
     for initial, extended in zip(base_states, _model_states(second)):
         assert any(not torch.equal(initial[name], extended[name]) for name in initial)
+
+
+def test_extension_blocks_added_or_removed_training_parameter_fields(tmp_path, toy_case):
+    plan = _plan()
+    root = tmp_path / "parameter-schema-campaign"
+    IndependentTSHCALOTrainingCampaign(
+        plan,
+        root,
+        problem_factory=_factory(toy_case),
+    ).start()
+    stored_plan_path = root / "training_plan.json"
+    stored_plan = json.loads(stored_plan_path.read_text(encoding="utf-8"))
+    stored_plan["training"].pop("learning_rate")
+    stored_plan_path.write_text(json.dumps(stored_plan), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="parameter schema changed.*added fields"):
+        extension_plan_summary(plan, root)
+
+
+def test_extension_ignores_reserved_plan_writer_metadata(tmp_path, toy_case):
+    plan = _plan()
+    root = tmp_path / "writer-metadata-campaign"
+    IndependentTSHCALOTrainingCampaign(
+        plan,
+        root,
+        problem_factory=_factory(toy_case),
+    ).start()
+    stored_plan_path = root / "training_plan.json"
+    stored_plan = json.loads(stored_plan_path.read_text(encoding="utf-8"))
+    stored_plan["writer_metadata"] = {
+        "product_version": "99.0.0",
+        "source_writer": "future-calo-studio",
+    }
+    stored_plan_path.write_text(json.dumps(stored_plan), encoding="utf-8")
+
+    readiness = extension_plan_summary(plan, root)
+
+    assert readiness["completed_extension_count"] == 0
+    assert readiness["training_compatibility_contract"][
+        "training_parameter_schema_sha256"
+    ]
+
+
+def test_precontract_completed_model_remains_extendable_when_checkpoint_architecture_matches(
+    tmp_path,
+    toy_case,
+):
+    plan = _plan()
+    root = tmp_path / "precontract-compatible-campaign"
+    result = IndependentTSHCALOTrainingCampaign(
+        plan,
+        root,
+        problem_factory=_factory(toy_case),
+    ).start()
+    manifest_path = Path(result.manifest_path)
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest.pop("training_compatibility_contract")
+    manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+    status_path = root / "training_status.json"
+    status = json.loads(status_path.read_text(encoding="utf-8"))
+    status["manifest_sha256"] = checkpoint_sha256(manifest_path)
+    status_path.write_text(json.dumps(status), encoding="utf-8")
+
+    readiness = extension_plan_summary(plan, root)
+
+    assert readiness["completed_extension_count"] == 0
+    assert readiness["training_compatibility_contract"]["algorithm_version"]
+
+
+def test_extension_ignores_writer_metadata_but_blocks_changed_frozen_architecture(
+    tmp_path,
+    toy_case,
+):
+    plan = _plan()
+    root = tmp_path / "architecture-contract-campaign"
+    result = IndependentTSHCALOTrainingCampaign(
+        plan,
+        root,
+        problem_factory=_factory(toy_case),
+    ).start()
+    manifest_path = Path(result.manifest_path)
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest["training_compatibility_contract"].pop("policy_parameter_layout_sha256")
+    manifest["training_compatibility_contract"]["writer_product_version"] = "99.0.0"
+    manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+    status_path = root / "training_status.json"
+    status = json.loads(status_path.read_text(encoding="utf-8"))
+    status["manifest_sha256"] = checkpoint_sha256(manifest_path)
+    status_path.write_text(json.dumps(status), encoding="utf-8")
+
+    assert extension_plan_summary(plan, root)["completed_extension_count"] == 0
+
+    manifest["training_compatibility_contract"][
+        "training_parameter_schema_sha256"
+    ] = "0" * 64
+    manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+    with pytest.raises(ValueError, match="architecture or parameter schema changed"):
+        extension_plan_summary(plan, root)
+
+    manifest["training_compatibility_contract"][
+        "training_parameter_schema_sha256"
+    ] = tsh_calo_training_compatibility_contract(plan)[
+        "training_parameter_schema_sha256"
+    ]
+    manifest["training_compatibility_contract"]["algorithm_version"] = "changed-architecture"
+    manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="architecture or parameter schema changed"):
+        extension_plan_summary(plan, root)
 
 
 def test_training_extension_pauses_and_resumes_at_authenticated_checkpoint(
@@ -623,6 +750,16 @@ def test_explicit_training_command_requires_frozen_clean_source(tmp_path, monkey
     plan_path.write_text(json.dumps(plan.to_dict()), encoding="utf-8")
     loaded = train_tsh_calo.load_plan(plan_path)
     assert loaded.execution_plan_sha256() == plan.execution_plan_sha256()
+    plan_with_writer_metadata = plan.to_dict()
+    plan_with_writer_metadata["writer_metadata"] = {"product_version": "99.0.0"}
+    plan_path.write_text(json.dumps(plan_with_writer_metadata), encoding="utf-8")
+    extension_loaded = train_tsh_calo.load_plan(
+        plan_path,
+        compatible_extension=True,
+    )
+    assert extension_loaded.execution_plan_sha256() == plan.execution_plan_sha256()
+    with pytest.raises(ValueError, match="fields are incomplete"):
+        train_tsh_calo.load_plan(plan_path)
 
     monkeypatch.setattr(
         train_tsh_calo,
@@ -637,6 +774,11 @@ def test_explicit_training_command_requires_frozen_clean_source(tmp_path, monkey
     )
     with pytest.raises(RuntimeError, match="source commit"):
         train_tsh_calo.validate_repository_for_plan(loaded, root=tmp_path)
+    assert train_tsh_calo.validate_repository_for_plan(
+        loaded,
+        root=tmp_path,
+        compatible_extension=True,
+    ) == "0" * 40
     monkeypatch.setattr(
         train_tsh_calo,
         "repository_state",
@@ -644,6 +786,12 @@ def test_explicit_training_command_requires_frozen_clean_source(tmp_path, monkey
     )
     with pytest.raises(RuntimeError, match="clean non-ignored source tree"):
         train_tsh_calo.validate_repository_for_plan(loaded, root=tmp_path)
+    with pytest.raises(RuntimeError, match="clean non-ignored source tree"):
+        train_tsh_calo.validate_repository_for_plan(
+            loaded,
+            root=tmp_path,
+            compatible_extension=True,
+        )
 
 
 def test_readiness_preflights_the_same_training_resource_guard(monkeypatch):
@@ -664,6 +812,41 @@ def test_readiness_preflights_the_same_training_resource_guard(monkeypatch):
     assert captured["config"] == plan.training_config(plan.members[0])
     assert result["memory_estimate"]["estimated_working_set_bytes"] == 123
     assert result["memory_admission"]["selected_device"] == "cpu"
+
+
+def test_extension_check_uses_authenticated_campaign_without_requiring_legacy_paths(
+    tmp_path,
+    monkeypatch,
+    capsys,
+):
+    plan = _plan()
+    monkeypatch.setattr(train_tsh_calo, "load_plan", lambda _path, **_kwargs: plan)
+    monkeypatch.setattr(
+        train_tsh_calo,
+        "validate_repository_for_plan",
+        lambda _plan, **_kwargs: "b" * 40,
+    )
+    monkeypatch.setattr(train_tsh_calo, "validate_training_resources", lambda _plan: {})
+    monkeypatch.setattr(
+        train_tsh_calo,
+        "extension_plan_summary",
+        lambda _plan, _output: {"authenticated": True},
+    )
+
+    exit_code = train_tsh_calo.main(
+        [
+            str(tmp_path / "legacy-plan.json"),
+            "--check",
+            "--extend",
+            "--output",
+            str(tmp_path / "completed-campaign"),
+        ]
+    )
+
+    assert exit_code == 0
+    summary = json.loads(capsys.readouterr().out)
+    assert summary["state"] == "extension_validated_not_started"
+    assert summary["extension"] == {"authenticated": True}
 
 
 def test_readiness_resource_failure_is_not_reported_as_validated(monkeypatch):

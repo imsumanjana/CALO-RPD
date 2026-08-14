@@ -2504,3 +2504,101 @@ Append timestamped entries below this line after each material action, validatio
 - No policy discovery, lifecycle, activation, deletion, experiment binding, scientific, training,
   or evaluation semantics changed. GUI/static/offscreen contracts and the ignored Phase 6
   validator are updated but not executed; current-source owner validation remains pending.
+
+### 2026-08-14 - Path visibility, explicit removal actions, and reachable policy form implemented
+
+- The saved-training default location now uses a width-aware selectable path label. It calculates
+  and reserves every wrapped line, including unbroken filesystem segments, so the Settings template
+  row cannot cover or clip the path in the permanent narrow input pane. The complete path is also
+  retained as its tooltip.
+- Policy Library now presents two stable, unambiguous controls: `Review policy removal` for the
+  evidence-backed registered-policy inventory/dry-run, and `Delete model files` for an exact
+  unregistered completed campaign. Registered policy files remain protected from direct deletion;
+  destructive retirement still requires the separately authorized workflow.
+- Externally scrolled workspace pages now propagate their changing preferred content height through
+  the workspace stack. When entry-sized policy rows push Governing policy below the viewport, the
+  main preview obtains the required scroll range and can reveal the complete status and apply action
+  above the Activity dock. Child table scrollbars remain disabled.
+- Source, GUI/static/offscreen contracts, the ignored Phase 6 validator, active status, traceability,
+  and handoff are updated but unexecuted. No model file, registry record, training, policy lifecycle,
+  experiment, protected-case, publication, or release workflow was executed.
+
+### 2026-08-14 - Usable imported-model deletion and automatic Governing policy reveal implemented
+
+- The prior visible `Delete model files` control was disabled for an imported completed campaign;
+  the latest screenshot correctly showed that it was not a usable removal action. It is now enabled
+  for exactly one completed campaign whose selected registration is inactive, unqualified, has no
+  qualification evidence, experiment binding, or lineage checkpoint, still matches its registered
+  SHA-256, and is the only registered policy contained by that verified campaign directory.
+- After explicit irreversible confirmation, the exact registration is atomically suppressed and
+  removed, then the existing path-confined campaign deletion removes its checkpoints, extensions,
+  logs, and model files. Active, qualified, referenced, checksum-changed, multi-registered,
+  standalone, incomplete, scan-root, or symlink targets remain fail-closed. The separate reviewed
+  retirement action remains available for governed cases that cannot use this narrow direct path.
+- CALO Intelligence now reserves additional bottom clearance and queues `ensureWidgetVisible` for
+  the complete Governing policy group after page display or policy selection. Dynamic outer-height
+  synchronization remains in place, but the viewport now actively scrolls the entire group above
+  Activity rather than requiring the user to discover and position the outer scrollbar manually.
+- Database, registry, filesystem preflight, GUI, static, offscreen, ignored validator, status, and
+  ledger contracts are updated but unexecuted. No actual model or registration was removed and no
+  policy/scientific workflow ran during implementation; fresh owner validation remains pending.
+
+### 2026-08-14 - Selection scroll, standalone deletion, and extension compatibility corrected
+
+- Removed the automatic Governing policy reveal calls from page display and policy selection.
+  Policy Library row selection now preserves the main-preview scroll position; dynamic content
+  height and bottom clearance still make the full Governing policy group manually reachable.
+- Removed the redundant `Review policy removal` GUI action. The existing non-GUI retirement
+  inventory/dry-run tooling remains unchanged for separately authorized governed-policy work.
+- `Delete model files` now evaluates the same fail-closed inactive/unqualified/unreferenced/checksum
+  guard for ordinary standalone registry rows, so the first listed eligible model is deletable after
+  exact-path irreversible confirmation. Completed-campaign deletion retains its directory and
+  sibling-registration guards. No actual file or registration was deleted during implementation.
+- Extension source admission now treats the origin software commit as provenance rather than the
+  architecture identity. A clean later source revision may extend the saved exact plan only when
+  authenticated trainer checkpoints still match the frozen algorithm/state/action/training-
+  environment identities and the complete plan/trainer/environment parameter field schemas. Exact
+  parameter values and execution-plan hashes remain unchanged. Added/removed parameters or changed
+  architecture fail closed. Extension manifests record both origin and execution source commits.
+- Completion-audit hardening authenticates the policy parameter layout by state-dict name, tensor
+  shape, and dtype, including directly from a pre-contract continuation checkpoint. Compatibility
+  comparison ignores unrelated future writer metadata; an authority field is binding when recorded,
+  while older missing fields are backfilled from the authenticated plan/checkpoint instead of
+  rejecting the model solely for its writer version. A completed campaign carrying legacy freeze/acceptance hashes
+  can use those already authenticated embedded identities during `--extend`; the GUI no longer
+  fails solely because historical authority files were not reselected.
+- Production source, synthetic unit/GUI/static/offscreen contracts, active status, traceability,
+  handoff, and the ignored Phase 6 validator are updated. Per repository instructions Codex did not
+  run tests, validation, GUI/browser smoke, training, deletion, policy lifecycle, protected-case,
+  qualification, publication, or release workflows. Fresh complete owner validation is pending.
+
+### 2026-08-14 - Extension parameter authority narrowed to training semantics, validation pending
+
+- A completion audit found that the first compatibility implementation described every persisted
+  top-level plan path as a training parameter. That could have rejected a future plan carrying only
+  new writer metadata even though its CALO architecture and training conditions were unchanged.
+- The compatibility contract now emits a dedicated training-parameter-schema digest. Campaign,
+  source, freeze/acceptance identity, and the reserved `writer_metadata` namespace are retained as
+  provenance but excluded from parameter-schema authority. The campaign schema remains binding to
+  training semantics. Every other
+  plan field remains training authority by default, and trainer/session/environment field sets,
+  exact values, checkpoint hashes, and policy tensor names/shapes/dtypes still fail closed.
+- GUI extension readiness, the extension-chain resolver, and `train_tsh_calo --extend` now share the
+  same metadata-tolerant authenticated plan parser. Fresh training remains strict and rejects the
+  extension-only writer namespace. Synthetic contracts cover future writer metadata acceptance and
+  retained added/removed training-field rejection.
+- Source, tests, active status, gates, traceability, handoff, and the ignored Phase 6 validator were
+  updated. Nothing was executed; fresh complete owner validation remains pending.
+
+### 2026-08-14 - Latest retained Phase 6 PASS audited as superseded
+
+- Read-only inspection found the complete retained owner bundle
+  `validation/logs/phase6-20260814-132200`. All expected commands `01` through `17` passed with 74
+  unit, 25 focused GUI, 21 GUI-regression, and 9 integration tests, build/distribution checks, and
+  stable source status. It executed no policy/scientific/deletion/protected/release workflow.
+- The bundle is not current evidence for this corrective goal. Its source-status inventory omits
+  the later registry, database, and training-extension changes; its manifest records an older CALO
+  Intelligence hash and an older training-campaign test hash; and its command descriptions predate
+  first-row deletion, selection-scroll preservation, and architecture/parameter-based extension.
+- Active status, verifier, validation instructions, gates, and handoff now identify `132200` as the
+  latest complete but superseded PASS. A new complete owner-run bundle is still required.

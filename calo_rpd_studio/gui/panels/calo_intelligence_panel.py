@@ -25,17 +25,11 @@ from PyQt6.QtWidgets import (
 )
 
 from calo_rpd_studio.algorithms.calo.policy_readiness import policy_record_user_status
-from calo_rpd_studio.algorithms.calo.policy_retirement import (
-    PolicyRetirementManager,
-    write_inventory,
-    write_plan,
-)
 from calo_rpd_studio.algorithms.calo.tsh_calo_schema import TSH_CALO_ALGORITHM_ID
 from calo_rpd_studio.gui.user_feedback import show_error
 from calo_rpd_studio.gui.widgets.page_header import PageHeader
 from calo_rpd_studio.gui.widgets.scrollable_page import ScrollablePage
 from calo_rpd_studio.gui.widgets.section_card import SectionCard
-from calo_rpd_studio.results.database import ResultDatabase
 
 
 class CALOIntelligencePanel(ScrollablePage):
@@ -53,7 +47,7 @@ class CALOIntelligencePanel(ScrollablePage):
         self._policy_rows = []
 
         layout = QVBoxLayout(content)
-        layout.setContentsMargins(24, 22, 24, 22)
+        layout.setContentsMargins(24, 22, 24, 72)
         layout.setSpacing(16)
         layout.addWidget(PageHeader("CALO Intelligence", "Manage the governing TSH-CALO policy."))
 
@@ -110,7 +104,7 @@ class CALOIntelligencePanel(ScrollablePage):
         self.policy_import_button.clicked.connect(self.import_policy)
         self.policy_activate_button.clicked.connect(self.activate_selected_policy)
         self.policy_archive_button.clicked.connect(self.archive_selected_policy)
-        self.policy_delete_button.clicked.connect(self.prepare_policy_removal)
+        self.policy_delete_button.clicked.connect(self.delete_selected_model_files)
         self.policy_refresh_button.clicked.connect(self.refresh_policy_library)
         self.show_archived_policies.toggled.connect(lambda _checked: self.refresh_policy_library())
         for button in (
@@ -283,6 +277,7 @@ class CALOIntelligencePanel(ScrollablePage):
         if self.widget() is not None:
             self.widget().updateGeometry()
         self.updateGeometry()
+        self._queue_external_height_sync()
 
     def _selected_row(self):
         row = self.policy_table.currentRow()
@@ -332,7 +327,6 @@ class CALOIntelligencePanel(ScrollablePage):
                 self.policy_activate_button.setEnabled(False)
                 self.policy_archive_button.setEnabled(False)
                 self.policy_archive_button.setText("Archive")
-                self.policy_delete_button.setText("Delete model files")
                 self.policy_delete_button.setToolTip(
                     "Permanently delete this unregistered completed campaign directory after "
                     "an exact-path confirmation."
@@ -356,17 +350,23 @@ class CALOIntelligencePanel(ScrollablePage):
                 self.policy_archive_button.setText(
                     "Restore archived" if policy.archived else "Archive"
                 )
-                self.policy_delete_button.setText("Review removal")
-                self.policy_delete_button.setToolTip(
-                    "Registered policies use the evidence-backed retirement workflow; active "
-                    "policies cannot be deleted."
+                removal_blocker = self._registered_completed_removal_blocker(
+                    completed_training,
+                    policy,
                 )
-                self.policy_delete_button.setEnabled(True)
+                self.policy_delete_button.setEnabled(not removal_blocker)
+                self.policy_delete_button.setToolTip(
+                    removal_blocker
+                    or "Permanently remove this inactive unqualified registration and its exact "
+                    "completed campaign directory after confirmation."
+                )
             self.path.setText(str(completed_training.get("campaign_id", "")))
             return
         policy = self._selected_policy()
-        self.policy_import_button.setText("Import policy")
-        self.policy_import_button.setEnabled(True)
+        self.policy_import_button.setText(
+            "Imported" if policy is not None else "Import policy"
+        )
+        self.policy_import_button.setEnabled(policy is None)
         eligible = bool(policy and policy_record_user_status(policy) == "Eligible to select")
         self.policy_activate_button.setText(
             "Active governing policy"
@@ -375,17 +375,40 @@ class CALOIntelligencePanel(ScrollablePage):
         )
         self.policy_activate_button.setEnabled(eligible)
         self.policy_archive_button.setEnabled(policy is not None and not policy.active)
-        self.policy_delete_button.setEnabled(policy is not None)
-        self.policy_delete_button.setText("Review removal")
+        removal_blocker = "Select a model to delete."
+        if policy is not None:
+            try:
+                removal_blocker = (
+                    self.state.policy_registry.unqualified_candidate_removal_blocker(policy.id)
+                )
+            except (KeyError, OSError, RuntimeError, ValueError) as exc:
+                removal_blocker = str(exc) or "The selected policy cannot be removed."
+        self.policy_delete_button.setEnabled(policy is not None and not removal_blocker)
         self.policy_delete_button.setToolTip(
-            "Registered policies use the evidence-backed retirement workflow; active policies "
-            "cannot be deleted."
+            removal_blocker
+            or "Permanently remove this exact inactive, unqualified, unreferenced model file "
+            "and its registry entry after confirmation."
         )
         self.policy_archive_button.setText(
             "Restore archived" if policy is not None and policy.archived else "Archive"
         )
         if policy is not None:
             self.path.setText(policy.name)
+
+    def _registered_completed_removal_blocker(self, completed_training: dict, policy) -> str:
+        if self.model_library is None:
+            return "The completed-model library is unavailable."
+        try:
+            directory = Path(str(completed_training.get("directory", ""))).expanduser().resolve()
+            checkpoint = Path(policy.checkpoint_path).expanduser().resolve()
+        except (OSError, RuntimeError, ValueError):
+            return "The selected campaign or registered checkpoint path is invalid."
+        if directory not in checkpoint.parents:
+            return "The registered checkpoint is not contained by this completed campaign."
+        try:
+            return self.state.policy_registry.unqualified_candidate_removal_blocker(policy.id)
+        except (KeyError, OSError, RuntimeError, ValueError) as exc:
+            return str(exc) or "The selected policy cannot be removed."
 
     def _update_policy_gate_state(self) -> None:
         records = self.state.policy_registry.list(include_archived=True)
@@ -477,47 +500,92 @@ class CALOIntelligencePanel(ScrollablePage):
             return
         self.refresh_policy_library()
 
-    def prepare_policy_removal(self) -> None:
+    def delete_selected_model_files(self) -> None:
         completed_training = self._selected_completed_training()
-        if completed_training is not None and self._selected_policy() is None:
-            self._delete_completed_training(completed_training)
+        if completed_training is not None:
+            self._delete_completed_training(
+                completed_training,
+                registered_policy=self._selected_policy(),
+            )
             return
-        selected, _filter = QFileDialog.getSaveFileName(
-            self,
-            "Save policy removal review",
-            str(Path.cwd() / "policy-retirement.inventory.json"),
-            "JSON evidence (*.json)",
-        )
-        if not selected:
-            return
+        policy = self._selected_policy()
+        if policy is not None:
+            self._delete_standalone_policy_file(policy)
+
+    def _delete_standalone_policy_file(self, policy) -> None:
+        source = Path(policy.checkpoint_path).expanduser()
         try:
-            store = Path(__file__).resolve().parents[2] / "data" / "trained_models"
-            database = ResultDatabase(self.state.database.path, read_only=True)
-            manager = PolicyRetirementManager(
-                store, database, source_root=Path(__file__).resolve().parents[3]
-            )
-            inventory = manager.inventory()
-            inventory_path = write_inventory(selected, inventory)
-            plan_path = inventory_path.with_name(
-                f"{inventory_path.stem.removesuffix('.inventory')}.plan.json"
-            )
-            write_plan(plan_path, manager.dry_run(inventory))
-        except Exception as exc:
+            if source.is_symlink():
+                raise ValueError("Symbolic-link model targets cannot be deleted from the library.")
+            checkpoint = source.resolve(strict=True)
+            if not checkpoint.is_file():
+                raise ValueError("The selected model target is not a regular file.")
+            blocker = self.state.policy_registry.unqualified_candidate_removal_blocker(policy.id)
+            if blocker:
+                raise PermissionError(blocker)
+        except (KeyError, OSError, RuntimeError, ValueError) as exc:
             show_error(
                 self,
-                "Removal plan could not be exported",
-                "The read-only policy inventory could not be written.",
+                "Model could not be deleted",
+                "The exact standalone model target could not be verified.",
                 exc,
-                source="policy removal plan export",
+                source="standalone policy deletion preflight",
             )
             return
+        answer = QMessageBox.warning(
+            self,
+            "Permanently delete model file",
+            f"Delete the inactive, unqualified, unreferenced model {policy.name!r}?\n\n"
+            f"{checkpoint}\n\n"
+            "This permanently removes both the exact model file and its registry entry and "
+            "cannot be undone.",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.Cancel,
+            QMessageBox.StandardButton.Cancel,
+        )
+        if answer != QMessageBox.StandardButton.Yes:
+            return
+        registration_removed = False
+        try:
+            self.state.policy_registry.remove_unqualified_candidate(
+                policy.id,
+                reason="user_deleted_standalone_model",
+            )
+            registration_removed = True
+            if (
+                self.state.policy_registry.inspect_checkpoint(checkpoint)["sha256"]
+                != policy.sha256
+            ):
+                raise RuntimeError("Model checksum changed immediately before file deletion")
+            checkpoint.unlink()
+        except (KeyError, OSError, RuntimeError, ValueError) as exc:
+            self.refresh_policy_library()
+            show_error(
+                self,
+                "Model could not be deleted",
+                (
+                    "The registry entry was removed, but the exact model file remains at the "
+                    "shown path and must be reviewed manually."
+                    if registration_removed
+                    else "No verified standalone-model deletion was accepted."
+                ),
+                exc,
+                source="standalone policy deletion",
+            )
+            return
+        self.refresh_policy_library()
         QMessageBox.information(
             self,
-            "Removal review saved",
-            "The policy removal review was saved. No policy was changed or deleted.",
+            "Model file deleted",
+            f"The unqualified registry entry and exact model file were permanently deleted:\n"
+            f"{checkpoint}",
         )
 
-    def _delete_completed_training(self, completed_training: dict) -> None:
+    def _delete_completed_training(
+        self,
+        completed_training: dict,
+        *,
+        registered_policy=None,
+    ) -> None:
         if self.model_library is None:
             return
         directory_text = str(completed_training.get("directory", "")).strip()
@@ -525,14 +593,28 @@ class CALOIntelligencePanel(ScrollablePage):
         if not directory_text:
             return
         try:
-            directory = Path(directory_text).expanduser().resolve(strict=True)
+            directory = self.model_library.validate_completed_campaign_deletion(directory_text)
             for policy in self.state.policy_registry.list(include_archived=True):
                 checkpoint = Path(policy.checkpoint_path).expanduser().resolve()
-                if checkpoint == directory or directory in checkpoint.parents:
+                if (
+                    (checkpoint == directory or directory in checkpoint.parents)
+                    and (registered_policy is None or policy.id != registered_policy.id)
+                ):
                     raise ValueError(
-                        "This completed campaign is registered in the policy library. Use the "
-                        "reviewed policy-retirement workflow; model files were not deleted."
+                        "This completed campaign contains another registered policy. Model files "
+                        "were not deleted."
                     )
+            if registered_policy is not None:
+                checkpoint = Path(registered_policy.checkpoint_path).expanduser().resolve()
+                if directory not in checkpoint.parents:
+                    raise ValueError(
+                        "The selected registered policy is not contained by this campaign."
+                    )
+                blocker = self.state.policy_registry.unqualified_candidate_removal_blocker(
+                    registered_policy.id
+                )
+                if blocker:
+                    raise PermissionError(blocker)
         except (OSError, RuntimeError, ValueError) as exc:
             show_error(
                 self,
@@ -542,24 +624,40 @@ class CALOIntelligencePanel(ScrollablePage):
                 source="completed training deletion preflight",
             )
             return
+        confirmation_scope = (
+            "This cannot be undone. Its exact inactive, unqualified, unreferenced registry "
+            "entry will also be removed."
+            if registered_policy is not None
+            else "This cannot be undone. No registered or active policy will be changed."
+        )
         answer = QMessageBox.warning(
             self,
             "Permanently delete completed model files",
             f"Delete completed campaign {campaign_id!r} and every checkpoint, log, extension, "
             f"and model file inside this exact directory?\n\n{directory}\n\n"
-            "This cannot be undone. No registered or active policy will be changed.",
+            + confirmation_scope,
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.Cancel,
             QMessageBox.StandardButton.Cancel,
         )
         if answer != QMessageBox.StandardButton.Yes:
             return
+        registration_removed = False
         try:
+            if registered_policy is not None:
+                self.state.policy_registry.remove_unqualified_candidate(registered_policy.id)
+                registration_removed = True
             deleted = self.model_library.delete_completed_campaign(directory)
-        except (OSError, RuntimeError, ValueError) as exc:
+        except (KeyError, OSError, RuntimeError, ValueError) as exc:
+            self.refresh_policy_library()
             show_error(
                 self,
                 "Completed model could not be deleted",
-                "No verified completed-campaign deletion was accepted.",
+                (
+                    "The registry entry was removed, but the campaign files remain and can be "
+                    "retried from the refreshed unregistered row."
+                    if registration_removed
+                    else "No verified completed-campaign deletion was accepted."
+                ),
                 exc,
                 source="completed training deletion",
             )
@@ -567,7 +665,12 @@ class CALOIntelligencePanel(ScrollablePage):
         QMessageBox.information(
             self,
             "Completed model files deleted",
-            f"The completed campaign directory was permanently deleted:\n{deleted}",
+            (
+                "The unqualified registry entry and completed campaign directory were permanently "
+                f"deleted:\n{deleted}"
+                if registration_removed
+                else f"The completed campaign directory was permanently deleted:\n{deleted}"
+            ),
         )
 
     def apply_policy_configuration(self) -> None:

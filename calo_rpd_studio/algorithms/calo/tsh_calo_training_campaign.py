@@ -9,12 +9,15 @@ from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
+from functools import lru_cache
 import hashlib
 import json
 import os
 from pathlib import Path
 from typing import Callable
 import uuid
+
+import torch
 
 from calo_rpd_studio.accelerated.torch_orpd import AcceleratedORPDProblem
 from calo_rpd_studio.ai.model_io import (
@@ -26,12 +29,21 @@ from calo_rpd_studio.orpd.problem import ORPDProblem
 from calo_rpd_studio.power_system.case_identity import protected_holdout_matches
 from calo_rpd_studio.power_system.case_loader import CaseLoader
 
+from .tsh_calo_policy import TSHCALOPolicyNetwork
 from .tsh_calo_policy_artifact import (
     TSHCALOCandidateArtifact,
     assemble_tsh_calo_ensemble_candidate,
     inspect_tsh_calo_candidate,
 )
-from .tsh_calo_schema import TSHCALOFeatureFlags
+from .tsh_calo_schema import (
+    TSH_CALO_ACTION_SCHEMA,
+    TSH_CALO_ALGORITHM_ID,
+    TSH_CALO_ALGORITHM_VERSION,
+    TSH_CALO_POLICY_ARCHITECTURE,
+    TSH_CALO_STATE_SCHEMA,
+    TSH_CALO_TRAINING_ENVIRONMENT,
+    TSHCALOFeatureFlags,
+)
 from .tsh_calo_training import IndependentTSHCALOTrainer, TSHCALOTrainingConfig
 from .tsh_calo_training_environment import (
     IndependentTSHCALOTrainingEnvironment,
@@ -56,6 +68,18 @@ TSH_CALO_TRAINING_CAMPAIGN_STATUS_SCHEMA = "tsh-calo-training-campaign-status-v2
 TSH_CALO_TRAINING_CONTROL_SCHEMA = "tsh-calo-training-control-v1"
 TSH_CALO_TRAINING_EVENT_SCHEMA = "tsh-calo-training-progress-event-v1"
 TSH_CALO_TRAINING_PAUSE_EXIT_CODE = 75
+TSH_CALO_TRAINING_COMPATIBILITY_SCHEMA = "tsh-calo-training-compatibility-v1"
+TSH_CALO_PLAN_WRITER_METADATA_FIELD = "writer_metadata"
+TSH_CALO_NON_TRAINING_PLAN_FIELDS = frozenset(
+    {
+        "campaign_id",
+        "source_commit",
+        "development_freeze_commit",
+        "development_freeze_sha256",
+        "phase4_acceptance_sha256",
+        TSH_CALO_PLAN_WRITER_METADATA_FIELD,
+    }
+)
 
 
 class TSHCALOTrainingPauseRequested(RuntimeError):
@@ -69,6 +93,166 @@ class TSHCALOTrainingPauseRequested(RuntimeError):
 def _canonical_sha256(payload: dict) -> str:
     encoded = json.dumps(payload, sort_keys=True, separators=(",", ":"), allow_nan=False)
     return hashlib.sha256(encoded.encode("utf-8")).hexdigest()
+
+
+def _field_schema_paths(value, prefix: str = "") -> tuple[str, ...]:
+    """Describe every persisted plan field without coupling compatibility to its values."""
+
+    paths: set[str] = set()
+    if isinstance(value, dict):
+        for key, child in value.items():
+            child_path = f"{prefix}.{key}" if prefix else str(key)
+            paths.add(child_path)
+            paths.update(_field_schema_paths(child, child_path))
+    elif isinstance(value, list):
+        list_path = f"{prefix}[]"
+        paths.add(list_path)
+        for child in value:
+            paths.update(_field_schema_paths(child, list_path))
+    return tuple(sorted(paths))
+
+
+def _training_parameter_schema_payload(payload: dict) -> dict:
+    """Return only fields that define training behavior or its exact conditions.
+
+    Campaign/source/freeze identities remain separately authenticated provenance, while writer
+    metadata is deliberately non-authoritative. Adding or removing either category must not
+    masquerade as a model-architecture or training-parameter incompatibility. All other plan fields
+    remain fail-closed training authority by default. Future non-authoritative writer data belongs
+    under the reserved ``writer_metadata`` namespace.
+    """
+
+    if not isinstance(payload, dict):
+        raise ValueError("TSH-CALO training plan payload must be an object")
+    return {
+        key: value
+        for key, value in payload.items()
+        if key not in TSH_CALO_NON_TRAINING_PLAN_FIELDS
+    }
+
+
+def tsh_calo_model_state_schema_sha256(state_dict: dict) -> str:
+    """Authenticate policy parameter names, tensor shapes, and dtypes without their values."""
+
+    if not isinstance(state_dict, dict) or not state_dict:
+        raise ValueError("TSH-CALO model parameter layout is unavailable")
+    parameters = []
+    for name, tensor in sorted(state_dict.items()):
+        if not isinstance(tensor, torch.Tensor):
+            raise ValueError("TSH-CALO model parameter layout contains a non-tensor value")
+        parameters.append(
+            {
+                "name": str(name),
+                "shape": list(tensor.shape),
+                "dtype": str(tensor.dtype),
+            }
+        )
+    return _canonical_sha256({"parameters": parameters})
+
+
+@lru_cache(maxsize=32)
+def _expected_policy_parameter_layout_sha256(hidden_dim: int, graph_steps: int) -> str:
+    with torch.random.fork_rng(devices=[]):
+        network = TSHCALOPolicyNetwork(int(hidden_dim), int(graph_steps))
+    return tsh_calo_model_state_schema_sha256(network.state_dict())
+
+
+def tsh_calo_training_compatibility_contract(
+    plan: "TSHCALOTrainingCampaignPlan",
+) -> dict:
+    """Return the architecture and complete persisted training-field contract.
+
+    Source commits remain provenance and deliberately do not participate in this compatibility
+    identity. Exact plan values are authenticated separately by the execution-plan digest.
+    """
+
+    field_paths = _field_schema_paths(_training_parameter_schema_payload(plan.to_dict()))
+    training_fields = tuple(sorted(asdict(plan.training_config(plan.members[0])).keys()))
+    episode = plan.members[0].episodes[0]
+    environment = plan.environment_config(plan.training_config(plan.members[0]), episode)
+    environment_fields = tuple(sorted(asdict(environment).keys()))
+    parameter_layout_sha256 = _expected_policy_parameter_layout_sha256(
+        plan.training.hidden_dim,
+        plan.training.graph_steps,
+    )
+    parameter_schema_sha256 = _canonical_sha256({"paths": field_paths})
+    return {
+        "schema_version": TSH_CALO_TRAINING_COMPATIBILITY_SCHEMA,
+        "algorithm_id": TSH_CALO_ALGORITHM_ID,
+        "algorithm_version": TSH_CALO_ALGORITHM_VERSION,
+        "policy_architecture": TSH_CALO_POLICY_ARCHITECTURE,
+        "state_schema": TSH_CALO_STATE_SCHEMA,
+        "action_schema": TSH_CALO_ACTION_SCHEMA,
+        "training_environment": TSH_CALO_TRAINING_ENVIRONMENT,
+        "policy_parameter_layout_sha256": parameter_layout_sha256,
+        "training_parameter_schema_sha256": parameter_schema_sha256,
+        # Retain the original writer key as a non-authoritative compatibility alias. Older
+        # manifests may carry its broader v1 meaning, so admission uses the explicit key above.
+        "plan_field_schema_sha256": parameter_schema_sha256,
+        "training_config_fields": list(training_fields),
+        "environment_config_fields": list(environment_fields),
+    }
+
+
+def validate_tsh_calo_extension_plan_field_schema(
+    stored_payload: dict,
+    plan: "TSHCALOTrainingCampaignPlan",
+) -> None:
+    """Reject a saved plan when current code adds or removes a persisted training field."""
+
+    writer_metadata = stored_payload.get(TSH_CALO_PLAN_WRITER_METADATA_FIELD)
+    if writer_metadata is not None and not isinstance(writer_metadata, dict):
+        raise ValueError("Completed training writer metadata must be an object")
+    stored_paths = _field_schema_paths(_training_parameter_schema_payload(stored_payload))
+    current_paths = _field_schema_paths(
+        _training_parameter_schema_payload(plan.to_dict())
+    )
+    if stored_paths != current_paths:
+        added = sorted(set(current_paths) - set(stored_paths))
+        removed = sorted(set(stored_paths) - set(current_paths))
+        details = []
+        if added:
+            details.append("added fields: " + ", ".join(added))
+        if removed:
+            details.append("removed fields: " + ", ".join(removed))
+        raise ValueError(
+            "Completed training parameter schema changed; exact extension is forbidden ("
+            + "; ".join(details)
+            + ")"
+        )
+
+
+def validate_tsh_calo_training_compatibility_contract(
+    recorded: dict,
+    plan: "TSHCALOTrainingCampaignPlan",
+) -> None:
+    """Reject recorded authority mismatches while checkpoints backfill older missing fields."""
+
+    if not isinstance(recorded, dict):
+        raise ValueError("Completed training compatibility contract is invalid")
+    expected = tsh_calo_training_compatibility_contract(plan)
+    authority_fields = (
+        "algorithm_id",
+        "algorithm_version",
+        "policy_architecture",
+        "state_schema",
+        "action_schema",
+        "training_environment",
+        "policy_parameter_layout_sha256",
+        "training_parameter_schema_sha256",
+        "training_config_fields",
+        "environment_config_fields",
+    )
+    changed = [
+        key
+        for key in authority_fields
+        if key in recorded and recorded.get(key) != expected[key]
+    ]
+    if changed:
+        raise ValueError(
+            "Completed training architecture or parameter schema changed: "
+            + ", ".join(changed)
+        )
 
 
 def _valid_commit(value: str) -> bool:
@@ -445,6 +629,20 @@ class TSHCALOTrainingCampaignPlan:
         config = TSHCALOTrainingEnvironmentConfig(**values)
         config.validate(training)
         return config
+
+
+def parse_tsh_calo_extension_plan(payload: dict) -> TSHCALOTrainingCampaignPlan:
+    """Load one saved plan while keeping writer metadata outside compatibility authority."""
+
+    if not isinstance(payload, dict):
+        raise ValueError("Completed training plan must be an object")
+    parse_payload = dict(payload)
+    writer_metadata = parse_payload.pop(TSH_CALO_PLAN_WRITER_METADATA_FIELD, None)
+    if writer_metadata is not None and not isinstance(writer_metadata, dict):
+        raise ValueError("Completed training writer metadata must be an object")
+    plan = TSHCALOTrainingCampaignPlan.from_dict(parse_payload)
+    validate_tsh_calo_extension_plan_field_schema(payload, plan)
+    return plan
 
 
 @dataclass(frozen=True, slots=True)
@@ -1060,10 +1258,15 @@ class IndependentTSHCALOTrainingCampaign:
                     {"path": Path(item.path).name, "sha256": item.sha256} for item in members
                 ],
                 "continuation_checkpoints": list(status["continuation_checkpoints"]),
+                "training_compatibility_contract": tsh_calo_training_compatibility_contract(
+                    self.plan
+                ),
                 "extension_contract": {
                     "repeatable_finite_segments": True,
                     "same_scientific_design_required": True,
                     "same_execution_plan_required": True,
+                    "source_revision_is_compatibility_identity": False,
+                    "architecture_and_parameter_schema_required": True,
                     "segment_evaluations": sum(
                         len(member.episodes) for member in self.plan.members
                     )

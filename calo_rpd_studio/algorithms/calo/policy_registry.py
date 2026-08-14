@@ -324,6 +324,46 @@ class PolicyRegistry:
             "dry-run plan; post-freeze removal requires separate authorization and an immutable receipt."
         )
 
+    def unqualified_candidate_removal_blocker(self, policy_id: str) -> str:
+        """Explain why one registered unqualified candidate cannot use direct removal."""
+
+        policy = self.get(policy_id)
+        if policy.active:
+            return "The active governing policy cannot be removed. Activate another policy first."
+        if not Path(policy.checkpoint_path).expanduser().is_file():
+            return "The registered model file is unavailable and cannot pass removal verification."
+        if policy.qualification_status == "qualified":
+            return "Qualified policies require the reviewed policy-retirement workflow."
+        if self.database.list_policy_qualifications(policy.id):
+            return "Policies with qualification evidence require the reviewed retirement workflow."
+        if self.database.policy_reference_count(policy.id, policy.sha256):
+            return "This policy is referenced by a retained experiment."
+        if self.database.get_policy_checkpoint_by_sha256(policy.sha256) is not None:
+            return "This policy is referenced by a retained lineage checkpoint."
+        return ""
+
+    def remove_unqualified_candidate(
+        self,
+        policy_id: str,
+        *,
+        reason: str = "user_deleted_completed_campaign",
+    ) -> PolicyRecord:
+        """Remove one exact inactive unqualified unreferenced registration, but not its file."""
+
+        policy = self.get(policy_id)
+        blocker = self.unqualified_candidate_removal_blocker(policy.id)
+        if blocker:
+            raise PermissionError(blocker)
+        inspected = self.inspect_checkpoint(policy.checkpoint_path)
+        if inspected["sha256"] != policy.sha256:
+            raise RuntimeError("Policy checkpoint checksum changed after registration")
+        self.database.remove_unreferenced_unqualified_policy(
+            policy.id,
+            expected_sha256=policy.sha256,
+            reason=reason,
+        )
+        return policy
+
     def bind_to_experiment_config(
         self,
         policy_id: str,

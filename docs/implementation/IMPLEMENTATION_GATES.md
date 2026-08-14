@@ -985,7 +985,7 @@ an uncommitted CUDA window remains non-resumable. Exact resume has no cycle-coun
 cycle continues the immutable finite candidate-evaluation budget, so no infinite training semantics
 were introduced. Synthetic parity and repeated-pause tests, GUI progress/pause contracts, and the
 ignored validator revision are implemented but unexecuted. The completed
-`phase6-20260814-131637` evidence is therefore historical for this follow-up; the gate remains open
+`phase6-20260814-132200` evidence is therefore historical for this follow-up; the gate remains open
 until a fresh complete owner-run Phase 6 bundle passes. No policy or scientific workflow was run.
 
 ### 2026-08-14 - Completed-model extension gate open pending fresh validation
@@ -1010,7 +1010,7 @@ activation, and exact unregistered-campaign file deletion. Deletion is irreversi
 confirmed and fail-closed for scan roots, symlinks, incomplete state, and registered/active policy
 paths. Applying a ready governing policy binds it to experiment settings and exposes Power System
 as the next explicit page without starting a case, power flow, evaluation, or experiment. These are
-implemented source and synthetic contracts only. The prior `phase6-20260814-131637` bundle predates
+implemented source and synthetic contracts only. The prior `phase6-20260814-132200` bundle predates
 them; this gate remains open until a fresh complete owner validator bundle passes.
 
 ### 2026-08-14 - Full-width Policy library and Governing policy layout gate open
@@ -1022,3 +1022,59 @@ governing form uses expanding fields, and the main preview retains sole page-lev
 when many entries make the whole page taller than the viewport. Constrained GUI, row-height,
 scrollbar-policy, full-width geometry, static, and offscreen contracts are implemented but
 unexecuted. The current gate remains open until a complete owner Phase 6 validator bundle passes.
+
+### 2026-08-14 - CALO Intelligence reachability and removal-control gate open
+
+The narrow input pane now gives its full field width to the default saved-training path and reserves
+the path's calculated wrapped height. Policy Library retains an always-visible `Delete model files`
+control for exact unregistered completed campaigns and adds a separate `Review policy removal`
+control for registered entries; the former is disabled when retirement authorization is required.
+Scrollable pages synchronize their current content height into the central workspace stack, giving
+the main preview sufficient range to reach the entire Governing policy block above Activity even as
+the entry-sized table grows. Focused responsive-path, action-state, dynamic-height, and bottom-
+reachability contracts are implemented but unexecuted. The gate remains open pending a fresh full
+owner Phase 6 validator bundle.
+
+### 2026-08-14 - Imported completed-candidate removal and active reveal gate open
+
+The previously disabled registered-row deletion control now uses a narrow, exact removal contract.
+Only an inactive, unqualified, SHA-256-valid imported completed candidate with no qualification,
+experiment, lineage, or sibling-registration reference may proceed. One confirmation atomically
+suppresses/removes that exact registration before deleting the already verified completed campaign
+directory; partial filesystem failure leaves the campaign discoverable as an unregistered row for
+safe retry. Other registered policy state remains routed to reviewed retirement. Selection and page
+display also request outer-preview visibility for the complete Governing policy group with explicit
+bottom clearance above Activity. Source and synthetic contracts are implemented but unexecuted; the
+gate remains open until a fresh complete owner Phase 6 validator bundle passes.
+
+### 2026-08-14 - Scroll-preserving model deletion and cross-version extension gate open
+
+This corrective source pass supersedes the automatic reveal and two-button removal presentation
+above. Selecting a Policy Library row no longer calls `ensureWidgetVisible` or changes the outer
+main-preview scroll value. Dynamic page-height synchronization remains, so manual page scrolling
+can reach the complete Governing policy block. The redundant `Review policy removal` GUI action is
+removed; one confirmed `Delete model files` action now accepts an exact unregistered completed
+campaign or an inactive, unqualified, unreferenced, checksum-valid completed/standalone candidate,
+including the first displayed row. All active, qualified, evidence-bound, lineage-bound, ambiguous,
+symlink, scan-root, incomplete, or integrity-invalid targets fail closed. The retirement inventory
+and dry-run CLI remains separate and requires its existing explicit authority.
+
+Extension admission also no longer requires the currently checked-out source commit to equal the
+campaign's origin commit. Both origin and executing commits are retained as provenance. Admission
+instead authenticates exact plan values, the frozen algorithm/policy/state/action/training-
+environment architecture identities, resume checkpoint identity, and the complete training,
+trainer, session, and environment parameter field sets. Campaign/source/freeze identity and
+the reserved `writer_metadata` namespace remain provenance rather than parameter-schema authority;
+the campaign schema itself remains binding and may change only with training semantics.
+A software revision with the same contract remains extendable; architecture changes or
+added/removed training parameters fail closed. Source and synthetic
+contracts are implemented but unexecuted. This gate remains open until a fresh complete owner-run
+Phase 6 validator bundle passes; no policy/scientific workflow or deletion was executed here.
+
+The completion audit further binds parameter names, tensor shapes, and dtypes from the retained
+policy state and ignores unrelated compatibility-writer metadata. Both the GUI readiness path and
+the `--extend` command use the metadata-tolerant authenticated plan parser. A completed campaign's embedded
+legacy freeze and acceptance hashes remain authenticated lineage; `--extend` does not require the
+user to reselect historical authority files. Fresh training and unfinished base-campaign resume
+retain the stricter external-authority requirement. These additions remain source/test contracts
+only until the same complete owner-run validator passes.

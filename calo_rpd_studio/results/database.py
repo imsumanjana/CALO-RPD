@@ -1087,6 +1087,81 @@ class ResultDatabase:
             con.execute("DELETE FROM policy_qualifications WHERE policy_id=?", (str(policy_id),))
             con.execute("DELETE FROM policies WHERE id=?", (str(policy_id),))
 
+    def remove_unreferenced_unqualified_policy(
+        self,
+        policy_id: str,
+        *,
+        expected_sha256: str,
+        reason: str = "user_deleted_completed_campaign",
+    ) -> dict:
+        """Atomically suppress and remove one exact unused candidate registration."""
+
+        policy_key = str(policy_id)
+        expected = str(expected_sha256).strip().lower()
+        if not expected:
+            raise ValueError("Expected policy SHA-256 cannot be empty")
+        with self._lock, self.connect() as con:
+            row = con.execute("SELECT * FROM policies WHERE id=?", (policy_key,)).fetchone()
+            if row is None:
+                raise KeyError(f"Unknown CALO policy: {policy_key}")
+            selected = dict(row)
+            if str(selected.get("sha256", "")).lower() != expected:
+                raise RuntimeError("Selected policy identity changed before removal")
+            if bool(selected.get("active", False)):
+                raise PermissionError("The active governing policy cannot be removed")
+            if str(selected.get("qualification_status", "")).lower() == "qualified":
+                raise PermissionError(
+                    "A qualified policy requires the reviewed retirement workflow"
+                )
+            qualification_count = int(
+                con.execute(
+                    "SELECT COUNT(*) AS n FROM policy_qualifications WHERE policy_id=?",
+                    (policy_key,),
+                ).fetchone()["n"]
+            )
+            binding_count = int(
+                con.execute(
+                    "SELECT COUNT(*) AS n FROM experiment_policy_bindings "
+                    "WHERE policy_id=? OR sha256=?",
+                    (policy_key, expected),
+                ).fetchone()["n"]
+            )
+            checkpoint_count = int(
+                con.execute(
+                    "SELECT COUNT(*) AS n FROM policy_checkpoints "
+                    "WHERE lower(sha256)=lower(?) OR checkpoint_path=? OR resume_path=?",
+                    (
+                        expected,
+                        str(selected.get("checkpoint_path", "")),
+                        str(selected.get("checkpoint_path", "")),
+                    ),
+                ).fetchone()["n"]
+            )
+            if qualification_count:
+                raise PermissionError(
+                    "A policy with qualification evidence requires the reviewed retirement workflow"
+                )
+            if binding_count:
+                raise PermissionError("A policy referenced by an experiment cannot be removed")
+            if checkpoint_count:
+                raise PermissionError(
+                    "A policy referenced by a lineage checkpoint cannot be removed"
+                )
+            con.execute(
+                "INSERT INTO suppressed_policies(sha256,created_at,reason) VALUES(?,?,?) "
+                "ON CONFLICT(sha256) DO UPDATE SET reason=excluded.reason",
+                (expected, self._utcnow(), str(reason)),
+            )
+            removed = int(
+                con.execute(
+                    "DELETE FROM policies WHERE id=? AND lower(sha256)=lower(?)",
+                    (policy_key, expected),
+                ).rowcount
+            )
+            if removed != 1:
+                raise RuntimeError("The selected policy registration was not removed exactly once")
+        return selected
+
     def add_policy_qualification(
         self,
         *,

@@ -186,6 +186,7 @@ class TrainingModelLibrary(QObject):
         except (OSError, json.JSONDecodeError):
             return False, "Extension is unavailable because the completion manifest is unreadable."
         contract = manifest.get("extension_contract")
+        compatibility = manifest.get("training_compatibility_contract")
         checkpoints = manifest.get("continuation_checkpoints")
         members = plan.get("members")
         if (
@@ -196,6 +197,20 @@ class TrainingModelLibrary(QObject):
             or len(checkpoints) != len(members)
         ):
             return False, "This completed model predates authenticated extension checkpoints."
+        try:
+            from calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign import (
+                parse_tsh_calo_extension_plan,
+                validate_tsh_calo_training_compatibility_contract,
+            )
+
+            parsed_plan = parse_tsh_calo_extension_plan(plan)
+            if compatibility is not None:
+                validate_tsh_calo_training_compatibility_contract(
+                    compatibility,
+                    parsed_plan,
+                )
+        except (KeyError, TypeError, ValueError) as exc:
+            return False, str(exc)
         for record in checkpoints:
             if not isinstance(record, dict):
                 return False, "A continuation-checkpoint record is invalid."
@@ -320,8 +335,8 @@ class TrainingModelLibrary(QObject):
 
         return tuple(item for item in self.saved_campaigns() if item["state"] == "completed")
 
-    def delete_completed_campaign(self, directory: str | Path) -> Path:
-        """Permanently remove one exact, discovered, completed campaign directory.
+    def validate_completed_campaign_deletion(self, directory: str | Path) -> Path:
+        """Return one exact completed-campaign deletion target without changing it.
 
         Registry and experiment-reference checks belong to the policy-library controller. This
         filesystem boundary independently refuses scan roots, symbolic-link targets, incomplete
@@ -357,6 +372,12 @@ class TrainingModelLibrary(QObject):
             raise ValueError("The completed campaign status could not be verified") from exc
         if not isinstance(status, dict) or status.get("state") != "completed":
             raise ValueError("Only a completed campaign can be deleted from the policy library")
+        return target
+
+    def delete_completed_campaign(self, directory: str | Path) -> Path:
+        """Permanently remove one exact, preflighted completed campaign directory."""
+
+        target = self.validate_completed_campaign_deletion(directory)
         shutil.rmtree(target)
         self._candidate_integrity_cache.clear()
         self.changed.emit()

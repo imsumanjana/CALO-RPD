@@ -102,8 +102,27 @@ def test_pre_freeze_policy_cannot_activate_bind_or_delete_directly(tmp_path):
         registry.bind_to_experiment_config(policy.id, config, deterministic=True)
     with pytest.raises(PermissionError, match="inventory"):
         registry.delete(policy.id, delete_artifact=True)
+    assert "qualification evidence" in registry.unqualified_candidate_removal_blocker(policy.id)
+    with pytest.raises(PermissionError, match="qualification evidence"):
+        registry.remove_unqualified_candidate(policy.id)
     assert registry.get(policy.id).active is False
     assert Path(policy.checkpoint_path).is_file()
+
+
+def test_exact_unused_unqualified_candidate_registration_can_be_removed(tmp_path):
+    database = ResultDatabase(tmp_path / "results.sqlite")
+    registry = PolicyRegistry(database)
+    checkpoint = _write_native_policy(tmp_path / "removable-candidate.pt")
+    policy = registry.register(checkpoint, name="Removable candidate")
+
+    assert registry.unqualified_candidate_removal_blocker(policy.id) == ""
+    removed = registry.remove_unqualified_candidate(policy.id)
+
+    assert removed.id == policy.id
+    assert checkpoint.is_file()
+    assert registry.is_suppressed(policy.sha256) is True
+    with pytest.raises(KeyError):
+        registry.get(policy.id)
 
 
 def test_workspace_state_round_trip_and_delete_cleanup(tmp_path):

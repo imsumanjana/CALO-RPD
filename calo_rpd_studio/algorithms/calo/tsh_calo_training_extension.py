@@ -8,7 +8,7 @@ explicitly; no segment is started automatically and no candidate is qualified or
 
 from __future__ import annotations
 
-from dataclasses import dataclass, replace
+from dataclasses import asdict, dataclass, replace
 from pathlib import Path
 from typing import Callable
 
@@ -18,6 +18,13 @@ from .tsh_calo_policy_artifact import (
     TSHCALOCandidateArtifact,
     assemble_tsh_calo_ensemble_candidate,
     inspect_tsh_calo_candidate,
+)
+from .tsh_calo_schema import (
+    TSH_CALO_ACTION_SCHEMA,
+    TSH_CALO_ALGORITHM_ID,
+    TSH_CALO_ALGORITHM_VERSION,
+    TSH_CALO_STATE_SCHEMA,
+    TSH_CALO_TRAINING_ENVIRONMENT,
 )
 from .tsh_calo_training import IndependentTSHCALOTrainer
 from .tsh_calo_training_campaign import (
@@ -30,6 +37,10 @@ from .tsh_calo_training_campaign import (
     _canonical_sha256,
     _read_json,
     _write_json,
+    parse_tsh_calo_extension_plan,
+    tsh_calo_model_state_schema_sha256,
+    tsh_calo_training_compatibility_contract,
+    validate_tsh_calo_training_compatibility_contract,
 )
 from .tsh_calo_training_session import (
     IndependentTSHCALOTrainingSession,
@@ -85,6 +96,59 @@ def _validated_continuation_checkpoints(
         payload = load_trusted_resume(path, map_location="cpu")
         trainer = dict(payload.get("trainer", {}) or {})
         config = plan.training_config(member)
+        environment_config = plan.environment_config(config, member.episodes[-1])
+        for key, expected in (
+            ("algorithm_id", TSH_CALO_ALGORITHM_ID),
+            ("algorithm_version", TSH_CALO_ALGORITHM_VERSION),
+            ("state_schema_version", TSH_CALO_STATE_SCHEMA),
+            ("action_schema_version", TSH_CALO_ACTION_SCHEMA),
+            ("training_environment_version", TSH_CALO_TRAINING_ENVIRONMENT),
+        ):
+            if str(trainer.get(key, "")) != expected:
+                raise ValueError(
+                    f"Continuation checkpoint training architecture {key} changed"
+                )
+        saved_training_config = trainer.get("training_config")
+        expected_training_config = asdict(config)
+        if not isinstance(saved_training_config, dict):
+            raise ValueError("Continuation checkpoint training parameters are unavailable")
+        if set(saved_training_config) != set(expected_training_config):
+            raise ValueError(
+                "Continuation checkpoint training parameter fields were added or removed"
+            )
+        if saved_training_config != expected_training_config:
+            raise ValueError("Continuation checkpoint training parameter values changed")
+        expected_compatibility = tsh_calo_training_compatibility_contract(plan)
+        if tsh_calo_model_state_schema_sha256(trainer.get("model_state_dict")) != (
+            expected_compatibility["policy_parameter_layout_sha256"]
+        ):
+            raise ValueError("Continuation checkpoint policy parameter layout changed")
+        saved_session_config = payload.get("session_config")
+        if not isinstance(saved_session_config, dict):
+            raise ValueError("Continuation checkpoint session parameters are unavailable")
+        expected_session_fields = set(asdict(TSHCALOTrainingSessionConfig("schema-check")))
+        if set(saved_session_config) != expected_session_fields:
+            raise ValueError(
+                "Continuation checkpoint session parameter fields were added or removed"
+            )
+        if bool(saved_session_config.get("deterministic_policy")) != (
+            plan.deterministic_policy
+        ):
+            raise ValueError("Continuation checkpoint session parameter values changed")
+        environment = dict(payload.get("environment", {}) or {})
+        if environment.get("environment_design_sha256") != (
+            environment_config.scientific_design_hash(config)
+        ):
+            raise ValueError("Continuation checkpoint environment parameters changed")
+        expected_session = TSHCALOTrainingSessionConfig(
+            session_id=str(saved_session_config.get("session_id", "")),
+            deterministic_policy=plan.deterministic_policy,
+        )
+        if payload.get("session_design_sha256") != expected_session.scientific_design_hash(
+            config,
+            environment_config,
+        ):
+            raise ValueError("Continuation checkpoint session design changed")
         if trainer.get("scientific_design_hash") != config.scientific_design_hash():
             raise ValueError("Continuation checkpoint scientific design changed")
         receipts = list(trainer.get("training_episode_receipts", ()))
@@ -101,9 +165,8 @@ def resolve_tsh_calo_training_extension_parent(
     """Validate the immutable completed chain and return its parent plus any pending segment."""
 
     root = Path(campaign_directory).expanduser().resolve(strict=True)
-    stored_plan = TSHCALOTrainingCampaignPlan.from_dict(
-        _read_json(root / IndependentTSHCALOTrainingCampaign.PLAN_FILE)
-    )
+    stored_plan_payload = _read_json(root / IndependentTSHCALOTrainingCampaign.PLAN_FILE)
+    stored_plan = parse_tsh_calo_extension_plan(stored_plan_payload)
     if stored_plan.execution_plan_sha256() != plan.execution_plan_sha256():
         raise ValueError("Completed training plan changed; exact extension is forbidden")
     root_status = _read_json(root / IndependentTSHCALOTrainingCampaign.STATUS_FILE)
@@ -115,6 +178,9 @@ def resolve_tsh_calo_training_extension_parent(
         raise ValueError("Completed training manifest is incompatible with extension")
     if manifest.get("execution_plan_sha256") != plan.execution_plan_sha256():
         raise ValueError("Completed training manifest belongs to another execution plan")
+    compatibility = manifest.get("training_compatibility_contract")
+    if compatibility is not None:
+        validate_tsh_calo_training_compatibility_contract(compatibility, plan)
     manifest_sha256 = checkpoint_sha256(manifest_path)
     if root_status.get("manifest_sha256") != manifest_sha256:
         raise ValueError("Completed training status does not authenticate its manifest")
@@ -177,6 +243,9 @@ def resolve_tsh_calo_training_extension_parent(
             != status_extension.get("extension_plan_sha256")
         ):
             raise ValueError("Training extension manifest breaks its authenticated lineage")
+        child_compatibility = child_manifest.get("training_compatibility_contract")
+        if child_compatibility is not None:
+            validate_tsh_calo_training_compatibility_contract(child_compatibility, plan)
         child_sha256 = checkpoint_sha256(child_manifest_path)
         if status.get("manifest_sha256") != child_sha256:
             raise ValueError("Training extension status does not authenticate its manifest")
@@ -206,6 +275,7 @@ class IndependentTSHCALOTrainingExtension:
         problem_factory: Callable[[str], object] | None = None,
         event_callback: Callable[[dict], None] | None = None,
         transition_callback: Callable[[dict], None] | None = None,
+        execution_source_commit: str | None = None,
     ) -> None:
         plan.validate()
         self.plan = plan
@@ -213,6 +283,14 @@ class IndependentTSHCALOTrainingExtension:
         self.problem_factory = problem_factory
         self.event_callback = event_callback
         self.transition_callback = transition_callback
+        self.execution_source_commit = str(
+            execution_source_commit or plan.source_commit
+        ).lower()
+        if len(self.execution_source_commit) != 40 or any(
+            character not in "0123456789abcdef"
+            for character in self.execution_source_commit
+        ):
+            raise ValueError("Training extension requires an exact execution source commit")
         self.parent: TSHCALOTrainingExtensionParent | None = None
         self.segment_directory: Path | None = None
         self.runner: IndependentTSHCALOTrainingCampaign | None = None
@@ -264,7 +342,14 @@ class IndependentTSHCALOTrainingExtension:
             "segment_candidate_evaluations": _finite_segment_evaluations(self.plan),
             "same_scientific_design_required": True,
             "same_execution_plan_required": True,
+            "source_revision_is_compatibility_identity": False,
+            "architecture_and_parameter_schema_required": True,
             "automatic_start": False,
+            "training_compatibility_contract": tsh_calo_training_compatibility_contract(
+                self.plan
+            ),
+            "origin_source_commit": self.plan.source_commit,
+            "execution_source_commit": self.execution_source_commit,
         }
         extension_plan_sha256 = _write_json(segment / "extension_plan.json", extension_plan)
         status = {
@@ -412,6 +497,7 @@ class IndependentTSHCALOTrainingExtension:
             candidate = trainer.export_unqualified_candidate(
                 candidate_path,
                 source_commit=self.plan.source_commit,
+                execution_source_commit=self.execution_source_commit,
             )
             expected_receipts = int(self.parent.checkpoints[member_index]["receipt_count"]) + len(
                 member.episodes
@@ -487,6 +573,7 @@ class IndependentTSHCALOTrainingExtension:
                 "extension_plan_sha256": extension["extension_plan_sha256"],
                 "base_campaign_directory": str(self.campaign_directory),
                 "source_commit": self.plan.source_commit,
+                "execution_source_commit": self.execution_source_commit,
                 "scientific_design_sha256": self.plan.scientific_design_hash(),
                 "execution_plan_sha256": self.plan.execution_plan_sha256(),
                 "seed_manifest_sha256": self.plan.seed_manifest_sha256(),
@@ -497,6 +584,9 @@ class IndependentTSHCALOTrainingExtension:
                 "completed_extension_count": self.parent.completed_extension_count + 1,
                 "member_candidates": status["member_candidates"],
                 "continuation_checkpoints": status["continuation_checkpoints"],
+                "training_compatibility_contract": tsh_calo_training_compatibility_contract(
+                    self.plan
+                ),
                 "ensemble_candidate": {
                     "path": Path(ensemble.path).name,
                     "sha256": ensemble.sha256,
@@ -506,6 +596,8 @@ class IndependentTSHCALOTrainingExtension:
                     "repeatable_finite_segments": True,
                     "same_scientific_design": True,
                     "same_execution_plan": True,
+                    "source_revision_is_compatibility_identity": False,
+                    "architecture_and_parameter_schema_required": True,
                     "retained_state": [
                         "model_parameters",
                         "optimizer_state",
@@ -594,6 +686,9 @@ def extension_plan_summary(
         "pending_segment": "" if pending is None else str(pending),
         "same_scientific_design_required": True,
         "same_execution_plan_required": True,
+        "source_revision_is_compatibility_identity": False,
+        "architecture_and_parameter_schema_required": True,
+        "training_compatibility_contract": tsh_calo_training_compatibility_contract(plan),
         "automatic_start": False,
         "summary_sha256": _canonical_sha256(
             {

@@ -42,6 +42,7 @@ class IndependentTrainingProvenance:
     training_device_provenance: dict
     training_episode_receipts: tuple[dict, ...]
     source_kind: str = "independent_policy_training"
+    execution_source_commit: str = ""
     development_freeze_commit: str = ""
     development_freeze_sha256: str = ""
     phase4_acceptance_sha256: str = ""
@@ -52,6 +53,11 @@ class IndependentTrainingProvenance:
             raise ValueError("TSH-CALO candidates must originate from independent policy training")
         if not self.training_run_id.strip() or not self.source_commit.strip():
             raise ValueError("TSH-CALO training provenance requires a run ID and source commit")
+        execution_source = str(self.execution_source_commit or self.source_commit).strip().lower()
+        if len(execution_source) != 40 or any(
+            character not in "0123456789abcdef" for character in execution_source
+        ):
+            raise ValueError("TSH-CALO execution source commit is invalid")
         if (
             self.development_freeze_commit
             or self.development_freeze_sha256

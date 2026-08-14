@@ -229,7 +229,7 @@ def test_tsh_calo_config_rejects_forged_pre_freeze_provenance_before_execution()
         config.validate()
 
 
-def test_gui_exposes_retirement_plan_and_blocks_historical_training_surfaces():
+def test_gui_exposes_exact_candidate_deletion_and_blocks_historical_training_surfaces():
     intelligence = Path("calo_rpd_studio/gui/panels/calo_intelligence_panel.py").read_text(
         encoding="utf-8"
     )
@@ -237,7 +237,8 @@ def test_gui_exposes_retirement_plan_and_blocks_historical_training_surfaces():
 
     assert "discover_bundled" not in intelligence
     assert 'QPushButton("Delete model files")' in intelligence
-    assert 'setText("Review removal")' in intelligence
+    assert 'QPushButton("Review policy removal")' not in intelligence
+    assert 'setText("Review removal")' not in intelligence
     assert 'QPushButton("Legacy training unavailable")' not in intelligence
     assert "self.train_button" not in intelligence
     assert 'QPushButton("Train policy")' in intelligence

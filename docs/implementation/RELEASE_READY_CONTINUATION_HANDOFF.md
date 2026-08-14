@@ -1424,6 +1424,13 @@ scientific/hardware qualification—not as a final release.
   protected-case, Docker, CUDA-campaign, publication, or release workflow executed; human
   acceptance remains separate.
 
+- Authorized run `validation/logs/phase6-20260814-132200` later repeated the same complete 17-stage
+  evidence sequence with the same 74 unit, 25 focused GUI, 21 GUI-regression, and 9 integration
+  counts and stable source. It is the latest complete Phase 6 PASS, but its source-status evidence
+  predates the registry/database/extension files and current scroll/deletion/architecture-parameter
+  contracts. It is therefore retained as historical evidence and cannot validate this corrective
+  follow-up.
+
 - A newer finite-plan training observability and safe-pause follow-up supersedes that Phase 6 source
   for current validation purposes. The campaign durably records detailed checkpoint progress and
   streams it to the GUI; the GUI exposes Pause safely and accepts a paused result only after a
@@ -1449,9 +1456,10 @@ scientific/hardware qualification—not as a final release.
 - The latest UI/policy-library follow-up removes the duplicate training progress block from the left
   footer, makes its path rows responsive, lists every completed campaign (including attention
   states), merges imported registry state into the completed row, and presents explicit qualified-
-  only activation. `Delete model files` permanently removes only an exact unregistered completed
-  campaign child after confirmation; registered/active records remain on the reviewed retirement
-  path. Applying a ready governing policy binds it and navigates to newly unlocked Power System but
+  only activation. `Delete model files` permanently removes an exact unregistered campaign or a
+  narrowly eligible inactive, unqualified, unreferenced imported completed campaign after
+  confirmation; active, qualified, referenced, and standalone records remain on the reviewed
+  retirement path. Applying a ready governing policy binds it and navigates to Power System but
   starts no case, power flow, or evaluation. Source/tests/offscreen contracts and the ignored
   validator are unexecuted. Run the same full owner validator and return the complete new log
   directory; do not treat implementation as validation, qualification, or release evidence.
@@ -1461,3 +1469,24 @@ scientific/hardware qualification—not as a final release.
   scroll owner if many entries exceed the window height. Policy lifecycle and scientific behavior
   are unchanged. GUI/static/offscreen contracts and the ignored validator were updated but not
   run; request the same fresh complete owner Phase 6 bundle.
+- The latest corrective follow-up keeps the complete saved-training path height-reserved, removes
+  the redundant `Review policy removal` GUI action, and uses one `Delete model files` action for an
+  exact unregistered campaign or an inactive, unqualified, unreferenced, SHA-valid completed or
+  standalone candidate, including the first list row. Active, qualified, bound, lineage-referenced,
+  checksum-changed, symlink, scan-root, incomplete, and ambiguous targets remain fail-closed; the
+  separate retirement inventory/dry-run CLI is retained for explicitly authorized governed work.
+  Model selection now preserves the main-preview scroll position, while dynamic height and manual
+  outer scrolling keep the complete Governing policy group reachable above Activity.
+- Extension admission no longer equates a software source revision with an architecture change.
+  The original and executing source commits are retained separately as provenance. Exact plan values,
+  frozen algorithm/policy/state/action/training-environment identities, authenticated continuation
+  state, the policy parameter names/shapes/dtypes, and the complete training/trainer/session/
+  environment parameter field sets remain mandatory. Campaign/source/freeze identity and
+  reserved `writer_metadata` are provenance, not training-parameter schema authority. The campaign
+  schema remains binding to training semantics; both GUI
+  readiness and `--extend` use the same metadata-tolerant authenticated parser.
+  Added/removed parameters or changed architecture/resume identity fail closed. A completed campaign
+  with embedded legacy freeze/acceptance hashes does not require the user to reselect those historical
+  files for extension; fresh training and unfinished base resume remain strict. Implementation and
+  synthetic contracts are unexecuted; run the same complete owner validator and return its whole new
+  log directory. The validator itself performs no destructive or policy/scientific workflow.

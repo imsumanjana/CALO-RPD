@@ -189,6 +189,7 @@ def test_inputs_and_ribbon_cannot_be_hidden(qtbot, tmp_path, monkeypatch):
 
 def test_main_preview_owns_long_workspace_vertical_scrolling(qtbot, tmp_path, monkeypatch):
     from PyQt6.QtCore import Qt
+    from PyQt6.QtWidgets import QSizePolicy
 
     from calo_rpd_studio.gui.widgets.scrollable_page import ScrollablePage
 
@@ -198,11 +199,94 @@ def test_main_preview_owns_long_workspace_vertical_scrolling(qtbot, tmp_path, mo
     assert window.documents.preview_scroll.verticalScrollBarPolicy() == (
         Qt.ScrollBarPolicy.ScrollBarAsNeeded
     )
+    assert window.documents.scientific_workspace.sizePolicy().verticalPolicy() == (
+        QSizePolicy.Policy.Preferred
+    )
     assert long_pages
     for page in long_pages:
         assert page.verticalScrollBarPolicy() == Qt.ScrollBarPolicy.ScrollBarAlwaysOff
         assert page.property("verticalScrollOwner") == "main-preview"
         assert page.sizeHint().height() >= page.widget().sizeHint().height()
+        qtbot.waitUntil(lambda item=page: item.minimumHeight() >= item.widget().sizeHint().height())
+
+
+def test_main_preview_can_scroll_to_dynamic_governing_policy_bottom(qtbot, tmp_path, monkeypatch):
+    from PyQt6.QtCore import QPoint
+    from PyQt6.QtWidgets import QTableWidgetItem
+    import torch
+
+    from calo_rpd_studio.algorithms.calo.policy_network import CALOPolicyNetwork
+    from calo_rpd_studio.algorithms.calo.policy_schema import (
+        CALO_RUNTIME_ARCHITECTURE,
+        POLICY_ACTION_SCHEMA,
+        POLICY_STATE_DIM,
+        POLICY_STATE_SCHEMA,
+        TRAINING_ENVIRONMENT_VERSION,
+    )
+
+    state, window = _window(qtbot, tmp_path, monkeypatch)
+    intelligence = window.pages_by_key["calo_intelligence"]
+    registered = []
+    for index, hidden_dim in enumerate((16, 24), start=1):
+        candidate = tmp_path / f"scroll-policy-{index}.candidate.pt"
+        network = CALOPolicyNetwork(input_dim=POLICY_STATE_DIM, hidden_dim=hidden_dim)
+        torch.save(
+            {
+                "model_state_dict": network.state_dict(),
+                "architecture": {
+                    "input_dim": POLICY_STATE_DIM,
+                    "hidden_dim": hidden_dim,
+                },
+                "metadata": {
+                    "calo_core": "v4.1",
+                    "state_dimension": POLICY_STATE_DIM,
+                    "runtime_architecture_version": CALO_RUNTIME_ARCHITECTURE,
+                    "state_schema_version": POLICY_STATE_SCHEMA,
+                    "action_schema_version": POLICY_ACTION_SCHEMA,
+                    "training_environment_version": TRAINING_ENVIRONMENT_VERSION,
+                },
+            },
+            candidate,
+        )
+        registered.append(
+            state.policy_registry.register(candidate, name=f"scroll-policy-{index}")
+        )
+    intelligence.refresh_policy_library()
+    window.stack.setCurrentWidget(intelligence)
+    window.resize(1120, 720)
+    window.show()
+    for row in range(14):
+        intelligence.policy_table.insertRow(intelligence.policy_table.rowCount())
+        intelligence.policy_table.setItem(
+            intelligence.policy_table.rowCount() - 1,
+            1,
+            QTableWidgetItem(f"synthetic-layout-policy-{row:02d}"),
+        )
+    intelligence._resize_policy_table_to_entries()
+
+    scroll = window.documents.preview_scroll
+    qtbot.waitUntil(lambda: scroll.verticalScrollBar().maximum() > 0)
+    scroll.verticalScrollBar().setValue(0)
+    intelligence.policy_table.clearSelection()
+    target_row = next(
+        row
+        for row, policy in enumerate(intelligence._policy_rows)
+        if getattr(policy, "id", "") == registered[1].id
+    )
+    intelligence.policy_table.selectRow(target_row)
+    qtbot.wait(1)
+    assert intelligence._selected_policy().id == registered[1].id
+    assert scroll.verticalScrollBar().value() == 0
+
+    scroll.verticalScrollBar().setValue(scroll.verticalScrollBar().maximum())
+    qtbot.waitUntil(
+        lambda: intelligence.apply_policy_button.mapTo(
+            scroll.viewport(),
+            QPoint(0, intelligence.apply_policy_button.height()),
+        ).y()
+        <= scroll.viewport().height()
+    )
+    assert scroll.verticalScrollBar().value() == scroll.verticalScrollBar().maximum()
 
 
 def test_ribbon_reselection_leaves_visibility_to_qt_and_blocks_inactive_controls(
@@ -432,6 +516,9 @@ def test_training_parameters_are_available_without_an_existing_plan(qtbot, tmp_p
 
     _state, window = _window(qtbot, tmp_path, monkeypatch)
     editor = window.context_pane.training
+    window.context_pane.stack.setCurrentWidget(editor)
+    window.resize(1120, 720)
+    window.show()
 
     assert editor.plan_group.isHidden() is False
     assert editor.members.value() >= 2
@@ -443,6 +530,14 @@ def test_training_parameters_are_available_without_an_existing_plan(qtbot, tmp_p
         window.training_model_library.default_directory
     )
     assert editor.add_library_location_button.text() == "Add to path"
+    qtbot.waitUntil(
+        lambda: editor.default_library_path.height()
+        >= editor.default_library_path.heightForWidth(editor.default_library_path.width())
+    )
+    assert editor.default_library_path.minimumWidth() == 0
+    assert editor.default_library_path.toolTip() == str(
+        window.training_model_library.default_directory
+    )
     assert editor.recovery_stack.currentWidget() is editor.automatic_recovery
     assert editor.automatic_recovery.isChecked() is True
     assert editor.automatic_recovery.isEnabled() is True
@@ -533,6 +628,7 @@ def test_completed_training_is_visible_without_automatic_policy_registration(
     assert policy_center.policy_activate_button.text() == "Import before activation"
     assert policy_center.policy_delete_button.text() == "Delete model files"
     assert policy_center.policy_delete_button.isEnabled() is True
+    assert not hasattr(policy_center, "policy_removal_review_button")
     assert state.policy_registry.list(include_archived=True) == []
     monkeypatch.setattr(
         QMessageBox,
@@ -540,8 +636,143 @@ def test_completed_training_is_visible_without_automatic_policy_registration(
         lambda *_args, **_kwargs: QMessageBox.StandardButton.Yes,
     )
     monkeypatch.setattr(QMessageBox, "information", lambda *_args, **_kwargs: None)
-    policy_center.prepare_policy_removal()
+    policy_center.delete_selected_model_files()
     assert campaign.exists() is False
+
+
+def test_imported_unqualified_completed_campaign_can_be_removed_exactly(
+    qtbot, tmp_path, monkeypatch
+):
+    from PyQt6.QtWidgets import QMessageBox
+    import torch
+
+    from calo_rpd_studio.algorithms.calo.policy_network import CALOPolicyNetwork
+    from calo_rpd_studio.algorithms.calo.policy_schema import (
+        CALO_RUNTIME_ARCHITECTURE,
+        POLICY_ACTION_SCHEMA,
+        POLICY_STATE_DIM,
+        POLICY_STATE_SCHEMA,
+        TRAINING_ENVIRONMENT_VERSION,
+    )
+
+    state, window = _window(qtbot, tmp_path, monkeypatch)
+    policy_center = window.pages_by_key["calo_intelligence"]
+    campaign = window.training_model_library.default_directory / "registered-completed-campaign"
+    campaign.mkdir(parents=True)
+    candidate = campaign / "candidate.pt"
+    network = CALOPolicyNetwork(input_dim=POLICY_STATE_DIM, hidden_dim=16)
+    torch.save(
+        {
+            "model_state_dict": network.state_dict(),
+            "architecture": {"input_dim": POLICY_STATE_DIM, "hidden_dim": 16},
+            "metadata": {
+                "calo_core": "v4.1",
+                "state_dimension": POLICY_STATE_DIM,
+                "runtime_architecture_version": CALO_RUNTIME_ARCHITECTURE,
+                "state_schema_version": POLICY_STATE_SCHEMA,
+                "action_schema_version": POLICY_ACTION_SCHEMA,
+                "training_environment_version": TRAINING_ENVIRONMENT_VERSION,
+            },
+        },
+        candidate,
+    )
+    candidate_sha256 = hashlib.sha256(candidate.read_bytes()).hexdigest()
+    plan_payload = json.loads(_training_plan(tmp_path).read_text(encoding="utf-8"))
+    plan_payload["campaign_id"] = "registered-completed-campaign"
+    (campaign / "training_plan.json").write_text(json.dumps(plan_payload), encoding="utf-8")
+    (campaign / "training_status.json").write_text(
+        json.dumps({"state": "completed"}), encoding="utf-8"
+    )
+    (campaign / "training_manifest.json").write_text(
+        json.dumps(
+            {
+                "state": "completed_unqualified",
+                "ensemble_candidate": {
+                    "path": candidate.name,
+                    "sha256": candidate_sha256,
+                },
+            }
+        ),
+        encoding="utf-8",
+    )
+    registered = state.policy_registry.register(candidate, name="registered-completed-campaign")
+    window.training_model_library.changed.emit()
+    matching_row = next(
+        row
+        for row in range(policy_center.policy_table.rowCount())
+        if policy_center.policy_table.item(row, 1).text() == "registered-completed-campaign"
+    )
+    policy_center.policy_table.selectRow(matching_row)
+
+    assert policy_center.policy_delete_button.isEnabled() is True
+    monkeypatch.setattr(
+        QMessageBox,
+        "warning",
+        lambda *_args, **_kwargs: QMessageBox.StandardButton.Yes,
+    )
+    monkeypatch.setattr(QMessageBox, "information", lambda *_args, **_kwargs: None)
+    policy_center.delete_selected_model_files()
+
+    assert campaign.exists() is False
+    assert state.policy_registry.is_suppressed(registered.sha256) is True
+    with pytest.raises(KeyError):
+        state.policy_registry.get(registered.id)
+
+
+def test_first_standalone_unqualified_model_can_be_deleted_exactly(
+    qtbot, tmp_path, monkeypatch
+):
+    from PyQt6.QtWidgets import QMessageBox
+    import torch
+
+    from calo_rpd_studio.algorithms.calo.policy_network import CALOPolicyNetwork
+    from calo_rpd_studio.algorithms.calo.policy_schema import (
+        CALO_RUNTIME_ARCHITECTURE,
+        POLICY_ACTION_SCHEMA,
+        POLICY_STATE_DIM,
+        POLICY_STATE_SCHEMA,
+        TRAINING_ENVIRONMENT_VERSION,
+    )
+
+    state, window = _window(qtbot, tmp_path, monkeypatch)
+    policy_center = window.pages_by_key["calo_intelligence"]
+    candidate = tmp_path / "first-standalone.candidate.pt"
+    network = CALOPolicyNetwork(input_dim=POLICY_STATE_DIM, hidden_dim=16)
+    torch.save(
+        {
+            "model_state_dict": network.state_dict(),
+            "architecture": {"input_dim": POLICY_STATE_DIM, "hidden_dim": 16},
+            "metadata": {
+                "calo_core": "v4.1",
+                "state_dimension": POLICY_STATE_DIM,
+                "runtime_architecture_version": CALO_RUNTIME_ARCHITECTURE,
+                "state_schema_version": POLICY_STATE_SCHEMA,
+                "action_schema_version": POLICY_ACTION_SCHEMA,
+                "training_environment_version": TRAINING_ENVIRONMENT_VERSION,
+            },
+        },
+        candidate,
+    )
+    registered = state.policy_registry.register(candidate, name="first-standalone")
+    policy_center.refresh_policy_library()
+
+    assert policy_center.policy_table.rowCount() == 1
+    assert policy_center.policy_table.currentRow() == 0
+    assert policy_center.policy_table.item(0, 1).text() == "first-standalone"
+    assert policy_center.policy_delete_button.isEnabled() is True
+    monkeypatch.setattr(
+        QMessageBox,
+        "warning",
+        lambda *_args, **_kwargs: QMessageBox.StandardButton.Yes,
+    )
+    monkeypatch.setattr(QMessageBox, "information", lambda *_args, **_kwargs: None)
+
+    policy_center.delete_selected_model_files()
+
+    assert candidate.exists() is False
+    assert state.policy_registry.is_suppressed(registered.sha256) is True
+    with pytest.raises(KeyError):
+        state.policy_registry.get(registered.id)
 
 
 def test_authenticated_completed_training_exposes_explicit_finite_extension_action(

@@ -337,6 +337,8 @@ def validate(output: Path, *, platform: str) -> dict:
         "request_tsh_calo_training_pause",
         "_honor_pause_after_checkpoint(status, progress)",
         '"total_candidate_evaluations": total_evaluations',
+        '"training_parameter_schema_sha256"',
+        "TSH_CALO_NON_TRAINING_PLAN_FIELDS",
     ):
         if token not in campaign_source:
             raise AssertionError(f"Checkpoint-safe finite training contract is absent: {token}")
@@ -349,6 +351,10 @@ def validate(output: Path, *, platform: str) -> dict:
         "parent_manifest_sha256",
         "cumulative_candidate_evaluations",
         "same_scientific_design_required",
+        "training_compatibility_contract",
+        "policy_parameter_layout_sha256",
+        "parse_tsh_calo_extension_plan",
+        "execution_source_commit",
         "automatic_start",
     ):
         if token not in extension_source:
@@ -372,6 +378,12 @@ def validate(output: Path, *, platform: str) -> dict:
         raise AssertionError("The resumable-model picker has no explicit new-training choice")
     if training_editor.add_library_location_button.text() != "Add to path":
         raise AssertionError("The resumable-model picker cannot register another scan location")
+    if training_editor.default_library_path.height() < (
+        training_editor.default_library_path.heightForWidth(
+            training_editor.default_library_path.width()
+        )
+    ):
+        raise AssertionError("The complete saved-training path is clipped in the input pane")
     if Path(training_editor.fields["output"].text()).parent != (
         window.training_model_library.default_directory
     ):
@@ -385,6 +397,14 @@ def validate(output: Path, *, platform: str) -> dict:
         raise AssertionError("Readiness does not apply the training resource-admission preflight")
     if 'TRAINING_EVENT_PREFIX = "CALO_TRAINING_EVENT "' not in training_command_source:
         raise AssertionError("The training command does not stream structured progress events")
+    if "compatible_extension=arguments.extend" not in training_command_source:
+        raise AssertionError("Software revision is still incorrectly used as extension identity")
+    if "load_plan(arguments.plan, compatible_extension=arguments.extend)" not in (
+        training_command_source
+    ):
+        raise AssertionError("Extension does not use its metadata-tolerant authenticated plan")
+    if "elif not arguments.extend and any(" not in training_command_source:
+        raise AssertionError("Completed legacy-authority extension still requires historical paths")
     if "self._rollout_capacity(population_size, max_evaluations)" not in (
         REPOSITORY_ROOT / "calo_rpd_studio/gui/panels/independent_training_panel.py"
     ).read_text(encoding="utf-8"):
@@ -427,6 +447,8 @@ def validate(output: Path, *, platform: str) -> dict:
         raise AssertionError("The policy library has no explicit experiment-activation action")
     if intelligence.policy_delete_button.text() != "Delete model files":
         raise AssertionError("The policy library has no completed-model file deletion action")
+    if hasattr(intelligence, "policy_removal_review_button"):
+        raise AssertionError("The removed policy-removal review action is still visible")
     if intelligence.apply_policy_button.text() != (
         "Apply governing policy and continue to Power System"
     ):
@@ -437,11 +459,38 @@ def validate(output: Path, *, platform: str) -> dict:
     for token in (
         "completed_campaigns()",
         "Permanently delete completed model files",
+        "Permanently delete model file",
         "Qualification required",
-        "reviewed policy-retirement workflow",
+        "_delete_standalone_policy_file",
     ):
         if token not in intelligence_source:
             raise AssertionError(f"Completed-model policy-library contract is absent: {token}")
+
+    window.stack.setCurrentWidget(intelligence)
+    window.resize(1120, 720)
+    application.processEvents()
+    preview_scroll = window.documents.preview_scroll
+    if preview_scroll.verticalScrollBar().maximum() <= 0:
+        raise AssertionError("The main preview has no scroll range for the complete policy page")
+    preview_scroll.verticalScrollBar().setValue(0)
+    intelligence._policy_selection_changed()
+    application.processEvents()
+    application.processEvents()
+    if preview_scroll.verticalScrollBar().value() != 0:
+        raise AssertionError("Policy selection moved the main preview away from its scroll position")
+    preview_scroll.verticalScrollBar().setValue(
+        preview_scroll.verticalScrollBar().maximum()
+    )
+    application.processEvents()
+    governing_bottom = intelligence.apply_policy_button.mapTo(
+        preview_scroll.viewport(),
+        QPoint(0, intelligence.apply_policy_button.height()),
+    ).y()
+    if governing_bottom > preview_scroll.viewport().height():
+        raise AssertionError("The bottom of Governing policy is unreachable above Activity")
+    if preview_scroll.verticalScrollBar().value() != preview_scroll.verticalScrollBar().maximum():
+        raise AssertionError("The main preview could not reach the complete Governing policy block")
+    preview_scroll.verticalScrollBar().setValue(0)
 
     window.ribbon.set_compact(True)
     if window.ribbon.compact or window.ribbon.tabs.minimumHeight() < 118:

@@ -113,9 +113,9 @@ def verify_active_version(root: Path = PROJECT_ROOT) -> dict:
         and status.get("phase_5_publication_authorized") is False
         and status.get("phase_6_started") is True
         and status.get("phase_6_goal")
-        == "full_width_entry_sized_policy_library_and_governing_policy_layout_implementation_complete_validation_pending"
+        == "scroll_preserving_policy_selection_guarded_standalone_model_deletion_and_architecture_schema_bound_cross_version_extension_implementation_complete_validation_pending"
         and status.get("phase_6_coding")
-        == "implemented_full_width_scrollbar_free_dynamic_policy_library_and_expanding_governing_policy_followup_validation_pending"
+        == "implemented_no_selection_autoscroll_removed_review_ui_exact_first_row_candidate_deletion_and_software_revision_independent_compatible_extension_validation_pending"
         and status.get("phase_6_training_interface")
         == "ribbon_navigation_only_tsh_calo_only_training_no_architecture_selector_optional_settings_template_per_user_default_model_directory_registered_resume_scan_locations_visible_scientific_inputs_protected_118_300_locked_visible_default_off_exact_resume_in_pane_readiness_then_explicit_confirmed_start_rule_based_calo_remains_in_algorithm_selection_no_redundant_document"
         and status.get("phase_6_training_input_help")
@@ -123,7 +123,7 @@ def verify_active_version(root: Path = PROJECT_ROOT) -> dict:
         and status.get("phase_6_native_execution")
         == "validated_first_class_windows_non_docker_launch"
         and status.get("phase_6_validation")
-        == "prior_pass_phase6-20260814-131637_superseded_by_progress_pause_completed_model_extension_policy_library_workflow_and_full_width_layout_followups_validation_pending"
+        == "prior_pass_phase6-20260814-132200_superseded_by_progress_pause_extension_library_layout_path_removal_scroll_and_cross_version_compatibility_followups_validation_pending"
         and status.get("phase_6_checkbox_indicator_visibility")
         == "validated_global_palette_aware_borders_and_state_marks_light_dark_phase6-20260814-131637"
         and status.get("phase_6_new_training_recovery_presentation")
@@ -137,15 +137,21 @@ def verify_active_version(root: Path = PROJECT_ROOT) -> dict:
         and status.get("phase_6_unbounded_training")
         == "not_implemented_finite_exact_evaluation_plan_preserved"
         and status.get("phase_6_completed_model_extension")
-        == "implemented_explicit_authenticated_repeatable_finite_segments_same_scientific_and_execution_plan_validation_pending"
+        == "implemented_explicit_authenticated_repeatable_finite_segments_exact_plan_values_frozen_architecture_complete_parameter_schema_software_revision_independent_validation_pending"
+        and status.get("phase_6_extension_compatibility")
+        == "source_commit_and_writer_metadata_retained_as_nonadmission_provenance_architecture_resume_policy_parameter_layout_and_complete_training_parameter_field_sets_fail_closed_legacy_authority_reuse_needs_no_resupplied_paths_validation_pending"
         and status.get("phase_6_training_progress_presentation")
         == "single_persistent_bottom_bar_progress_activity_retains_checkpoint_detail_left_inputs_retain_actions_only_validation_pending"
         and status.get("phase_6_context_pane_responsiveness")
-        == "training_paths_and_scroll_host_shrink_inside_fixed_left_pane_without_horizontal_overflow_validation_pending"
+        == "training_paths_and_scroll_host_shrink_inside_fixed_left_pane_default_saved_training_path_reserves_all_wrapped_lines_without_horizontal_overflow_validation_pending"
         and status.get("phase_6_policy_library_completed_campaigns")
         == "all_completed_campaigns_visible_including_candidate_attention_states_imported_campaigns_merged_with_registry_state_validation_pending"
         and status.get("phase_6_completed_campaign_deletion")
-        == "explicit_confirmed_physical_deletion_for_exact_unregistered_completed_child_directory_only_registered_active_scan_root_symlink_and_incomplete_targets_refused_validation_pending"
+        == "persistent_usable_delete_model_files_action_explicit_confirmed_physical_deletion_for_exact_unregistered_or_inactive_unqualified_unreferenced_imported_completed_directory_or_standalone_candidate_file_active_qualified_referenced_multi_registered_scan_root_symlink_and_incomplete_targets_refused_validation_pending"
+        and status.get("phase_6_registered_policy_removal")
+        == "eligible_completed_or_standalone_candidate_registration_atomically_identity_checked_suppressed_and_removed_before_exact_file_deletion_qualification_binding_lineage_active_and_checksum_guards_fail_closed_validation_pending"
+        and status.get("phase_6_reviewed_policy_removal")
+        == "review_policy_removal_gui_action_removed_cli_inventory_and_dry_run_workflow_retained_for_separately_governed_retirement_validation_pending"
         and status.get("phase_6_policy_activation")
         == "explicit_in_library_activation_for_independently_qualified_compatible_integrity_verified_policy_only_training_completion_never_sufficient_validation_pending"
         and status.get("phase_6_governing_policy_handoff")
@@ -153,7 +159,7 @@ def verify_active_version(root: Path = PROJECT_ROOT) -> dict:
         and status.get("phase_6_policy_library_layout")
         == "full_width_no_internal_horizontal_or_vertical_scrollbar_height_tracks_header_plus_all_current_entries_validation_pending"
         and status.get("phase_6_governing_policy_layout")
-        == "full_width_expanding_policy_field_status_and_action_with_page_level_scroll_ownership_validation_pending"
+        == "full_width_expanding_policy_field_status_and_action_dynamic_page_height_bottom_clearance_manual_outer_scroll_reaches_complete_block_and_model_selection_preserves_scroll_position_validation_pending"
         and status.get("phase_6_extension_retained_state")
         == "model_optimizer_numpy_rng_torch_rng_ppo_updates_episode_receipts_device_memory_session_environment_rollout_collector_exact_accounting"
         and status.get("phase_6_extension_count_limit")
@@ -290,6 +296,10 @@ def verify_active_version(root: Path = PROJECT_ROOT) -> dict:
         == "render_gate_samples_composited_host_surface_instead_of_transparent_child_pixels_fresh_phase6_rerun_required"
         and status.get("phase_6_twenty_fifth_validation_attempt")
         == "passed_phase6-20260814-131637_complete_17_stage_sequence_74_unit_25_gui_21_regression_9_integration_render_build_distribution_source_stable"
+        and status.get("phase_6_twenty_sixth_validation_attempt")
+        == "passed_phase6-20260814-132200_complete_17_stage_sequence_74_unit_25_gui_21_regression_9_integration_render_build_distribution_source_stable"
+        and status.get("phase_6_post_twenty_sixth_source_changes")
+        == "pass_superseded_by_later_progress_pause_extension_layout_removal_scroll_and_architecture_parameter_compatibility_source_fresh_validation_required"
     )
 
     index = _load_json(root / "STATUS_RECORD_INDEX.json")

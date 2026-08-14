@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import QEvent, QTimer, Qt
 from PyQt6.QtWidgets import (
     QFrame,
     QScrollArea,
@@ -32,11 +32,44 @@ class _PreviewSurface(QWidget):
         scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
         scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
         content.setMinimumSize(920, 650)
-        content.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        # The current page may be taller than the central viewport. Preserve its preferred
+        # height so this outer scroll area, rather than the page or a child table, owns overflow.
+        content.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
         scroll.setWidget(content)
         layout.addWidget(scroll)
         self.content = content
         self.scroll = scroll
+        self._content_height_sync_pending = False
+        content.installEventFilter(self)
+        current_changed = getattr(content, "currentChanged", None)
+        if current_changed is not None:
+            current_changed.connect(lambda _index: self._queue_content_height_sync())
+        self._queue_content_height_sync()
+
+    def eventFilter(self, watched, event) -> bool:  # noqa: N802 - Qt API
+        if watched is self.content and event.type() == QEvent.Type.LayoutRequest:
+            self._queue_content_height_sync()
+        return super().eventFilter(watched, event)
+
+    def _queue_content_height_sync(self) -> None:
+        if self._content_height_sync_pending:
+            return
+        self._content_height_sync_pending = True
+        QTimer.singleShot(0, self._sync_content_height)
+
+    def _sync_content_height(self) -> None:
+        self._content_height_sync_pending = False
+        current_widget = getattr(self.content, "currentWidget", lambda: None)()
+        required_height = 650
+        if current_widget is not None:
+            required_height = max(
+                required_height,
+                current_widget.minimumHeight(),
+                current_widget.sizeHint().height(),
+            )
+        if self.content.minimumHeight() != required_height:
+            self.content.setMinimumHeight(required_height)
+            self.content.updateGeometry()
 
 
 class DocumentWorkspace(QTabWidget):
