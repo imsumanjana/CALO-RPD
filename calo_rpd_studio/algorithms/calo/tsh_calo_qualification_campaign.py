@@ -1,4 +1,4 @@
-"""Preregistered, development-only evidence campaign for an unqualified TSH-CALO ensemble.
+"""Preregistered independent quality campaign for an unqualified TSH-CALO ensemble.
 
 This module has no registry or activation authority.  It evaluates one immutable candidate under a
 non-serializable qualification capability, compares it with frozen CALO under paired seeds and equal
@@ -51,7 +51,7 @@ from .tsh_calo_policy_artifact import (
     inspect_tsh_calo_candidate,
 )
 from .tsh_calo_qualification import build_tsh_calo_qualification_receipt
-from .tsh_calo_schema import TSH_CALO_ALGORITHM_ID
+from .tsh_calo_schema import TSH_CALO_ALGORITHM_ID, TSH_CALO_POLICY_ARCHITECTURE
 from .tsh_calo_shield import OODCalibration, ood_calibration_sha256, topology_ood_signature
 from .tsh_calo_training import TSHCALOTrainingConfig
 from .tsh_calo_training_environment import (
@@ -65,6 +65,23 @@ TSH_CALO_QUALIFICATION_PLAN_SCHEMA = "tsh-calo-qualification-plan-v2-exact-pairs
 TSH_CALO_QUALIFICATION_EVIDENCE_SCHEMA = "tsh-calo-qualification-evidence-v2-exact-pairs"
 TSH_CALO_COMPONENT_EVIDENCE_SCHEMA = "tsh-calo-component-ablation-evidence-v2-exact-pairs"
 _REQUIRED_COMPONENTS = ("A", "B", "C", "D", "E")
+TSH_CALO_CANDIDATE_CONTRACT_SCHEMA = "tsh-calo-candidate-contract-v1"
+_CANDIDATE_CONTRACT_FIELDS = {
+    "schema_version",
+    "candidate_sha256",
+    "algorithm_id",
+    "runtime_architecture_version",
+    "policy_architecture_version",
+    "state_schema_version",
+    "action_schema_version",
+    "training_environment_version",
+    "artifact_kind",
+    "ensemble_size",
+    "feature_contract",
+    "member_candidate_sha256",
+    "member_training_design_sha256",
+    "training_provenance_sha256",
+}
 
 
 class QualificationCampaignLeaseUnavailable(RuntimeError):
@@ -211,6 +228,7 @@ class TSHCALOQualificationPlan:
     anytime_regression_tolerance: float = 0.01
     anytime_fractions: tuple[float, ...] = (0.25, 0.50, 0.75, 1.00)
     bootstrap_resamples: int = 10_000
+    candidate_contract: dict = field(default_factory=dict)
     component_evidence: dict[str, dict] = field(default_factory=dict)
     analysis_schema_version: str = PAIRED_ANALYSIS_SCHEMA_VERSION
     relative_improvement_version: str = RELATIVE_IMPROVEMENT_VERSION
@@ -289,10 +307,50 @@ class TSHCALOQualificationPlan:
             raise ValueError("TSH-CALO anytime fractions must be unique and increasing")
         if fractions[-1] != 1.0 or any(not 0.0 < item <= 1.0 for item in fractions):
             raise ValueError("TSH-CALO anytime fractions must end at 1.0 and lie within (0, 1]")
-        if self.mode == "formal" and set(self.component_evidence) != set(_REQUIRED_COMPONENTS):
-            raise ValueError("Formal qualification requires direct accepted evidence for A-E")
-        if "F" in self.component_evidence:
-            raise ValueError("Experimental Change F cannot enter the production qualification plan")
+        has_candidate_contract = bool(self.candidate_contract)
+        has_legacy_component_evidence = bool(self.component_evidence)
+        if self.mode == "formal" and not (
+            has_candidate_contract or set(self.component_evidence) == set(_REQUIRED_COMPONENTS)
+        ):
+            raise ValueError(
+                "Formal qualification requires a frozen candidate architecture contract"
+            )
+        if has_candidate_contract and has_legacy_component_evidence:
+            raise ValueError(
+                "A qualification plan cannot mix the current architecture contract with legacy "
+                "component evidence"
+            )
+        if has_candidate_contract:
+            if set(self.candidate_contract) != _CANDIDATE_CONTRACT_FIELDS:
+                raise ValueError(
+                    "Qualification candidate architecture contract fields are incomplete"
+                )
+            if self.candidate_contract.get("schema_version") != (
+                TSH_CALO_CANDIDATE_CONTRACT_SCHEMA
+            ):
+                raise ValueError("Qualification candidate architecture contract is incompatible")
+            if str(self.candidate_contract.get("candidate_sha256", "")).lower() != (
+                self.candidate_sha256.lower()
+            ):
+                raise ValueError("Qualification candidate contract belongs to another checkpoint")
+            if (
+                self.candidate_contract.get("algorithm_id") != TSH_CALO_ALGORITHM_ID
+                or self.candidate_contract.get("artifact_kind") != "ensemble_policy"
+                or int(self.candidate_contract.get("ensemble_size", 0)) < 2
+                or not isinstance(self.candidate_contract.get("feature_contract"), dict)
+            ):
+                raise ValueError("Qualification candidate architecture contract is invalid")
+            member_sha = list(self.candidate_contract.get("member_candidate_sha256", []) or [])
+            training_sha = list(
+                self.candidate_contract.get("member_training_design_sha256", []) or []
+            )
+            if (
+                len(member_sha) != int(self.candidate_contract["ensemble_size"])
+                or len(training_sha) != int(self.candidate_contract["ensemble_size"])
+                or any(not _is_sha256(item) for item in member_sha + training_sha)
+                or not _is_sha256(self.candidate_contract.get("training_provenance_sha256", ""))
+            ):
+                raise ValueError("Qualification candidate member contract is invalid")
 
     def seed_manifest(self) -> dict:
         self.validate()
@@ -342,6 +400,7 @@ class TSHCALOQualificationPlan:
             str(key): dict(value)
             for key, value in dict(values.get("component_evidence", {})).items()
         }
+        values["candidate_contract"] = dict(values.get("candidate_contract", {}) or {})
         plan = cls(**values)
         plan.validate()
         return plan
@@ -739,6 +798,63 @@ def _case_evidence(
     }
 
 
+def qualification_candidate_contract(artifact: TSHCALOCandidateArtifact) -> dict:
+    """Freeze the ABI and training-design identity that makes a candidate comparable.
+
+    Product/source revisions are deliberately absent. Compatibility changes only when the policy
+    architecture, state/action/environment schemas, feature contract, ensemble structure, or
+    authenticated training-design provenance changes.
+    """
+
+    provenance = dict(artifact.training_provenance or {})
+    if provenance.get("source_kind") == "independent_policy_training_ensemble":
+        members = list(provenance.get("members", []) or [])
+        training_designs = sorted(
+            str(
+                dict(item.get("training_provenance", {}) or {}).get(
+                    "training_design_sha256", ""
+                )
+            )
+            for item in members
+        )
+        source_candidates = sorted(
+            str(item.get("source_candidate_sha256", "")).lower() for item in members
+        )
+    else:
+        training_designs = [str(provenance.get("training_design_sha256", ""))]
+        source_candidates = [artifact.sha256]
+    if any(not _is_sha256(item) for item in training_designs + source_candidates):
+        raise ValueError("Candidate training or member identity is incomplete")
+    contract = {
+        "schema_version": TSH_CALO_CANDIDATE_CONTRACT_SCHEMA,
+        "candidate_sha256": artifact.sha256.lower(),
+        "algorithm_id": artifact.algorithm_id,
+        "runtime_architecture_version": artifact.algorithm_version,
+        "policy_architecture_version": TSH_CALO_POLICY_ARCHITECTURE,
+        "state_schema_version": artifact.state_schema_version,
+        "action_schema_version": artifact.action_schema_version,
+        "training_environment_version": artifact.training_environment_version,
+        "artifact_kind": artifact.artifact_kind,
+        "ensemble_size": int(artifact.ensemble_size),
+        "feature_contract": dict(artifact.feature_flags),
+        "member_candidate_sha256": source_candidates,
+        "member_training_design_sha256": training_designs,
+        "training_provenance_sha256": _canonical_sha256(provenance),
+    }
+    return contract
+
+
+def _verify_candidate_contract(
+    plan: TSHCALOQualificationPlan, artifact: TSHCALOCandidateArtifact
+) -> dict:
+    actual = qualification_candidate_contract(artifact)
+    if actual != dict(plan.candidate_contract or {}):
+        raise ValueError(
+            "Candidate architecture or training-parameter contract differs from the frozen plan"
+        )
+    return actual
+
+
 def _verify_component_evidence(plan: TSHCALOQualificationPlan) -> dict[str, dict]:
     verified = {}
     for component, reference in sorted(plan.component_evidence.items()):
@@ -871,7 +987,7 @@ class TSHCALOQualificationCampaign:
         self.plan = plan
         self.output_directory = Path(output_directory).expanduser().resolve()
 
-    def _preflight(self) -> tuple[TSHCALOCandidateArtifact, dict[str, dict]]:
+    def _preflight(self) -> tuple[TSHCALOCandidateArtifact, dict, dict[str, dict]]:
         artifact = inspect_tsh_calo_candidate(
             self.plan.candidate_path, expected_sha256=self.plan.candidate_sha256
         )
@@ -879,7 +995,11 @@ class TSHCALOQualificationCampaign:
             raise ValueError("TSH-CALO qualification requires an immutable ensemble candidate")
         if artifact.algorithm_id != TSH_CALO_ALGORITHM_ID:
             raise ValueError("TSH-CALO qualification candidate algorithm is incompatible")
-        return artifact, _verify_component_evidence(self.plan)
+        if self.plan.candidate_contract:
+            return artifact, _verify_candidate_contract(self.plan, artifact), {}
+        # Backward compatibility for already-retained formal evidence. New plans use the
+        # stage-neutral candidate architecture contract above.
+        return artifact, {}, _verify_component_evidence(self.plan)
 
     def start(self) -> dict:
         if self.output_directory.exists():
@@ -908,7 +1028,7 @@ class TSHCALOQualificationCampaign:
             return self._run_owned(resume=resume)
 
     def _run_owned(self, *, resume: bool) -> dict:
-        artifact, component_evidence = self._preflight()
+        artifact, candidate_contract, component_evidence = self._preflight()
         plan_hash = self.plan.execution_plan_sha256()
         seed_manifest = self.plan.seed_manifest()
         seed_hash = self.plan.seed_manifest_sha256()
@@ -1066,6 +1186,7 @@ class TSHCALOQualificationCampaign:
             "ood_calibration_sha256": ood_calibration_sha256(calibration),
             "development_cases": list(self.plan.development_cases),
             "protected_cases_opened": False,
+            "candidate_contract": candidate_contract,
             "component_evidence": component_evidence,
             "records": {
                 "expected": expected,

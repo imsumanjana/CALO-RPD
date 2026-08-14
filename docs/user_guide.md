@@ -17,49 +17,34 @@ until a future completely new post-development ensemble satisfies every immutabl
 
 ## 4. CALO Intelligence
 
-During the v12 development line, CALO Intelligence is a policy-lifecycle and readiness surface. The
-supported default is an empty policy store with explicit safe fallback. Existing policy files, if
-present, are development-only, unqualified, inactive, non-final, and must not be used as final
-candidates or as initial weights for a later policy.
-
-Phase 4 is development completion only. The page may expose configuration and lifecycle metadata
-needed to complete and inspect the implementation, but Phase 4 does not run policy training,
-evaluation, qualification, registration, activation, or protected-case campaigns. Policy-dependent
-actions must remain visibly unavailable when no separately qualified and explicitly activated policy
-exists. Non-policy CALO development and baseline workflows must remain usable through the declared
-safe fallback.
+CALO Intelligence is the policy lifecycle and readiness surface. The safe default is an empty policy
+store with rule-only CALO available. Completed training outputs appear in Policy Library and require
+an explicit import. Import never qualifies, activates, or binds a model.
 
 Executable compute modes are **CUDA-preferred** and **CPU-only**. CUDA admission is bounded by at
 most 80% of currently free VRAM, while CPU admission is bounded by at most 80% of currently available
 RAM. Intel XPU may appear only as historical or diagnostic metadata; it is not an executable mode.
 
-After the Phase 4 development freeze, removal of old policies is a separate, explicitly authorized
-inventory-first operation. Only after the policy store is verified empty may a completely new
-A-E/F-off policy be trained. That new artifact remains an unqualified candidate until it passes the
-separate qualification, registration, activation, and immutable experiment-binding gates. F remains
-experimental, independently feature-flagged, and disabled by default. A policy-free Phase 5 route is
-also valid.
+Use **Qualify policy** to start or exactly resume one finite model-quality plan. Before running, the
+application freezes the exact candidate architecture, parameter/schema contract, ensemble and
+authenticated training-design identity, model checksum, qualification cases, paired seeds, and equal
+evaluation budget. Product version and project lifecycle labels do not decide eligibility. Completed
+cells are retained, so the same finite plan may be resumed any number of times without changing its
+budget or selecting a more favorable rerun.
 
-The Policy Center's **Export removal plan** action writes a read-only inventory and dry-run plan. It
-does not delete or deactivate anything. Existing policy files are not discovered automatically.
-Direct policy deletion and the historical paired-CALO qualification button are disabled for v12;
-future TSH-CALO qualification uses the independent post-development authority. If there is no ready
-policy, the application forces rule-only CALO, clears stale policy/calibration fields, and keeps
-policy-assisted execution locked.
+Qualification progress appears once in the persistent bottom bar as committed cells and percentage;
+detailed status remains visible in Activity. While a run is active, task-changing workspace controls
+are locked, but Activity and the bottom status bar remain usable.
 
-The historical GUI CALO train/resume/fork controls are also disabled because they cannot create the
-new TSH-CALO ABI and must never initialize from an old checkpoint. After Phase 4 is accepted and the
-separate empty-store transition is complete, prepare a frozen independent TSH-CALO campaign plan and
-first use `calo-rpd-train-tsh <plan.json> --development-freeze <post-transition-freeze.json>
---phase4-acceptance <phase4-acceptance.json> --check`. The retained freeze must be clean,
-empty-policy, post-transition evidence and must match the exact commit and freeze payload SHA-256
-declared by the plan. The separate acceptance receipt must match the accepted Phase 4 production-
-source contract and its SHA-256 must also be declared by the plan. Starting/resuming that campaign
-remains an explicit later user action; it never qualifies, registers, or activates its output
-automatically.
+A complete passing result is admitted automatically by the explicit qualification transaction, but
+the policy remains inactive. Compare qualified policies using feasibility, objective improvement,
+win rate, effect size, significance, anytime behavior, and matching evidence design. Then use
+**Activate for experiments** explicitly. Finally, apply the active governing policy to experiment
+settings before Power System becomes available. Qualification never performs those later actions.
 
-The CALO ablation study remains separate from the primary benchmark. Its scientific execution is not
-part of Phase 4 development.
+**Delete model files** physically removes only an exact eligible inactive, unqualified, unreferenced
+model after confirmation. Active, qualified, evidence-bound, lineage-bound, ambiguous, or
+integrity-invalid models remain protected.
 
 ## 5. Robust Scenarios
 

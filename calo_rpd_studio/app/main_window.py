@@ -80,6 +80,7 @@ class MainWindow(QMainWindow):
         self.workflow = WorkflowManager(state)
         self._close_when_paused = False
         self._training_exclusive_active = False
+        self._task_interaction_locked = False
         self.training_model_library = TrainingModelLibrary(self.settings_manager)
 
         self.setWindowTitle("CALO-RPD Studio")
@@ -307,6 +308,7 @@ class MainWindow(QMainWindow):
 
     def _on_task_status_changed(self, snapshot: dict) -> None:
         self.global_status.apply_snapshot(snapshot)
+        self._apply_task_interaction_lock(bool(snapshot.get("busy", False)))
         state = str(snapshot.get("state", "Ready"))
         title = str(snapshot.get("title", "") or snapshot.get("detail", ""))
         self.ribbon.set_summary(f"{state} · {title}" if title else state)
@@ -322,6 +324,26 @@ class MainWindow(QMainWindow):
             "Paused",
         }:
             QTimer.singleShot(4500, self.state.task_status.reset_ready)
+
+    def _apply_task_interaction_lock(self, busy: bool) -> None:
+        """Lock task-changing surfaces while keeping live Activity/status inspection usable."""
+
+        locked = bool(busy)
+        if locked == self._task_interaction_locked:
+            return
+        self._task_interaction_locked = locked
+        enabled = not locked
+        self.ribbon.setEnabled(enabled)
+        self.context_dock.setEnabled(enabled)
+        self.documents.setEnabled(enabled)
+        # Activity is a separate dock, so users can continue inspecting jobs, logs, warnings,
+        # device state, and provenance throughout every foreground run.
+        if locked:
+            self.activity_dock.show()
+        self.activity_dock.setEnabled(True)
+        self.activity_center.setEnabled(True)
+        self.statusBar().setEnabled(True)
+        self.global_status.setEnabled(True)
 
     def _on_policy_training_changed(self, active: bool, detail: str) -> None:
         self._training_exclusive_active = bool(active)
@@ -586,6 +608,11 @@ class MainWindow(QMainWindow):
 
     def _execute_command(self, command_id: str) -> None:
         spec = self.command_registry.spec(command_id)
+        if self.state.task_status.busy and spec.handler not in {"cancel", "toggle_activity"}:
+            self._show_status_message(
+                "The workspace is locked while the foreground task runs; Activity remains usable."
+            )
+            return
         handlers = {
             "open": self.open_config,
             "save": self.save_config,

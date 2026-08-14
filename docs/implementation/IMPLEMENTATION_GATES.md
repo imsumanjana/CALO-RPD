@@ -1079,13 +1079,25 @@ user to reselect historical authority files. Fresh training and unfinished base-
 retain the stricter external-authority requirement. These additions remain source/test contracts
 only until the same complete owner-run validator passes.
 
-### 2026-08-14 - Policy Library qualification-admission and evidence-comparison gate open
+### 2026-08-14 - One-action Policy Library qualification-admission gate open
 
-CALO Intelligence now exposes an explicit formal lifecycle without merging scientific authorities:
-import; validate a frozen policy-bound formal plan; start or exactly resume its finite independent
-campaign; separately verify and admit passed retained evidence; compare qualified policies under
-matching frozen evidence designs; explicitly activate one; and separately apply the active immutable
-binding before continuing to Power System. No stage automatically advances the next one.
+CALO Intelligence now exposes one user-authorized `Qualify policy` transaction. It checks the exact
+immutable candidate, inventories every current non-ignored source file, and creates a separate clean
+deterministic internal Git snapshot without modifying or committing the development worktree. The
+snapshot commit and full file/SHA-256 manifest become the exact qualification source identity. The
+transaction then creates and freezes the candidate-bound A-E component-ablation plan, starts or
+exactly resumes its retained finite cells, rejects the
+candidate if any approved component fails; then creates and freezes the formal paired qualification
+plan, starts or exactly resumes it, re-verifies completed evidence, and atomically admits only a pass.
+The fixed protocol uses case30/case57, 30 paired runs per case, population 20, and 10,000 exact
+evaluations per optimizer cell: 480 A-E cells followed by 120 formal cells. Interrupted execution has
+no resume-count ceiling, but no resume may alter the finite plans, seeds, completed cells, or FE budget.
+
+The former separate `Check formal plan`, `Run / resume qualification`, and `Admit passed evidence`
+controls are removed. Automatic advancement is confined to the explicitly requested qualification
+transaction and its checksum-bound stages. It never activates or binds a policy. A verified admitted
+pass only enables the separate `Activate for experiments` action; governing-policy Apply remains the
+separate immutable experiment handoff.
 
 Admission recomputes the canonical qualification decision and validates exact policy, plan, source,
 seed, evidence, A-E, OOD calibration, receipt, paired-cell completeness, and protected-case closure
@@ -1094,7 +1106,8 @@ leader only when that policy Pareto-dominates all policies with the same case/se
 threshold design; incomparable designs and metric trade-offs remain explicit scientist decisions.
 Software version, training age, and training duration are not selection metrics. Source and
 synthetic test contracts are implemented but unexecuted; the gate remains open until a fresh full
-owner Phase 6 validator bundle passes. No real policy or scientific workflow was run here.
+owner Phase 6 validator bundle passes. No real A-E campaign, qualification, admission, activation,
+policy binding, or experiment workflow was run here.
 
 ### 2026-08-14 - Policy Library cumulative training-evaluation accounting gate open
 
@@ -1110,13 +1123,29 @@ implemented but unexecuted, so this gate remains open pending a fresh complete o
 Development phase, policy age, and originating software revision no longer decide whether an
 immutable candidate may enter formal qualification. Admission requires the current frozen TSH-CALO
 runtime ABI, exact candidate checksum, validated epistemic-ensemble structure, authenticated member
-training receipts, and protected-case isolation. `Check formal plan` exposes ABI/file/ensemble
-blockers without mutating lifecycle state. The exact candidate-bound formal plan, independent quality
-thresholds, passed-evidence admission, explicit activation, qualification receipt/calibration, and
-experiment binding remain separate fail-closed gates.
+training receipts, and protected-case isolation. `Qualify policy` exposes ABI/file/ensemble/source
+blockers before evaluation and then owns only the frozen qualification transaction. Automatic
+passed-evidence admission is part of that explicit transaction; activation, qualification receipt/
+calibration binding, and experiment binding remain separate fail-closed gates.
 
 Resume and extension are not relaxed by this qualification change. They remain bound to the retained
 training compatibility contract and exact persisted continuation state. A source revision alone does
 not break compatibility; architecture, parameter layout/schema, persisted-state schema, or evaluation-
 accounting changes do. Source and synthetic contracts are implemented but unexecuted; fresh complete
 owner Phase 6 validation is pending.
+
+### 2026-08-14 - Architecture-bound qualification and observable-run gate open
+
+New automatic qualification plans no longer depend on the historical component-development gate.
+The frozen candidate contract binds immutable architecture, state/action/training schemas, ensemble
+membership, feature configuration, authenticated training-design provenance, and exact checkpoint
+identity. The only optimizer stage is the predeclared 120-cell paired model-quality campaign; its
+feasibility, exact-FE, objective, effect-size, significance, anytime, independent-validation, OOD,
+and protected-case gates remain unchanged. Historical component-bound evidence is readable only for
+backward verification.
+
+Qualification publishes committed/failed retained cell count as a real percentage in the global
+bottom bar. All task-changing workspace surfaces are disabled while any foreground task is busy,
+while Activity and the global status bar remain enabled for detailed inspection and safe task
+control. Source and synthetic contracts are implemented but unexecuted. This gate remains open until
+a fresh complete owner Phase 6 validator bundle passes.

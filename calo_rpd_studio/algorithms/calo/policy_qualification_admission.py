@@ -83,7 +83,7 @@ def qualification_comparison_protocol(plan: TSHCALOQualificationPlan) -> dict:
 
     Candidate identity, run labels, source checkout identity, and local execution device are
     intentionally excluded. The paired seeds, cases, budgets, analysis definitions, calibration
-    design, decision thresholds, and component set remain part of the comparison identity.
+    design, decision thresholds, and architecture contract remain part of the comparison identity.
     """
 
     payload = plan.to_dict()
@@ -97,8 +97,20 @@ def qualification_comparison_protocol(plan: TSHCALOQualificationPlan) -> dict:
         "allow_cpu_fallback",
     ):
         payload.pop(key, None)
+    candidate_contract = dict(payload.pop("candidate_contract", {}) or {})
     component_evidence = dict(payload.pop("component_evidence", {}) or {})
-    payload["qualified_components"] = sorted(component_evidence)
+    if candidate_contract:
+        for key in (
+            "candidate_sha256",
+            "member_candidate_sha256",
+            "member_training_design_sha256",
+            "training_provenance_sha256",
+        ):
+            candidate_contract.pop(key, None)
+        payload["candidate_architecture_contract"] = candidate_contract
+    elif component_evidence:
+        # Retained legacy evidence remains comparable without governing new qualification runs.
+        payload["legacy_qualified_components"] = sorted(component_evidence)
     return payload
 
 
@@ -233,22 +245,31 @@ def inspect_qualification_evidence(
         "independent_qualification_only_no_registration_or_activation"
     ):
         raise ValueError("Qualification evidence authority boundary is incompatible")
-    component_evidence = dict(evidence.get("component_evidence", {}) or {})
-    if set(component_evidence) != set("ABCDE") or any(
-        not isinstance(item, dict)
-        or item.get("accepted") is not True
-        or not _is_sha256(item.get("sha256", ""))
-        for item in component_evidence.values()
-    ):
-        raise ValueError("Qualification evidence lacks accepted frozen A-E component evidence")
-    for component, item in component_evidence.items():
-        planned = dict(plan.component_evidence.get(component, {}) or {})
-        if str(item.get("sha256", "")).lower() != str(
-            planned.get("sha256", "")
-        ).lower():
+    candidate_contract = dict(evidence.get("candidate_contract", {}) or {})
+    if plan.candidate_contract:
+        if candidate_contract != dict(plan.candidate_contract):
             raise ValueError(
-                f"Qualification Change {component} evidence does not match the frozen plan"
+                "Qualification evidence candidate architecture contract differs from its plan"
             )
+        if str(candidate_contract.get("candidate_sha256", "")).lower() != expected_sha:
+            raise ValueError("Qualification candidate contract belongs to another checkpoint")
+    else:
+        component_evidence = dict(evidence.get("component_evidence", {}) or {})
+        if set(component_evidence) != set("ABCDE") or any(
+            not isinstance(item, dict)
+            or item.get("accepted") is not True
+            or not _is_sha256(item.get("sha256", ""))
+            for item in component_evidence.values()
+        ):
+            raise ValueError("Legacy qualification evidence lacks its accepted component records")
+        for component, item in component_evidence.items():
+            planned = dict(plan.component_evidence.get(component, {}) or {})
+            if str(item.get("sha256", "")).lower() != str(
+                planned.get("sha256", "")
+            ).lower():
+                raise ValueError(
+                    f"Legacy qualification component {component} differs from the frozen plan"
+                )
 
     records = dict(evidence.get("records", {}) or {})
     expected_records = len(plan.development_cases) * plan.runs * 2

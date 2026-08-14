@@ -23,6 +23,7 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign import (
     TSHCALOQualificationPlan,
     _ExclusiveQualificationCampaignLease,
     _verify_component_evidence,
+    qualification_candidate_contract,
 )
 from calo_rpd_studio.algorithms.calo.tsh_calo_training_receipt import (
     build_tsh_calo_training_episode_receipt,
@@ -157,12 +158,22 @@ def test_screening_campaign_retains_evidence_but_cannot_emit_receipt(tmp_path):
     assert all(item["source_policy_sha256"] == sha256 for item in candidate_records)
 
 
-def test_formal_plan_requires_all_A_through_E_evidence(tmp_path):
+def test_formal_plan_requires_frozen_candidate_architecture_contract(tmp_path):
     path, sha256 = _ensemble(tmp_path)
     plan = _plan(path, sha256, mode="formal", runs=30)
 
-    with pytest.raises(ValueError, match="direct accepted evidence for A-E"):
+    with pytest.raises(ValueError, match="candidate architecture contract"):
         plan.validate()
+
+    artifact = inspect_tsh_calo_candidate(path, expected_sha256=sha256)
+    contracted = _plan(
+        path,
+        sha256,
+        mode="formal",
+        runs=30,
+        candidate_contract=qualification_candidate_contract(artifact),
+    )
+    contracted.validate()
 
 
 def test_formal_component_evidence_requires_frozen_direct_analysis(tmp_path):
@@ -192,19 +203,23 @@ def test_formal_component_evidence_requires_frozen_direct_analysis(tmp_path):
         _verify_component_evidence(plan)
 
 
-def test_qualification_plan_rejects_protected_cases_and_experimental_F(tmp_path):
+def test_qualification_plan_rejects_protected_cases_and_mixed_contract_authorities(tmp_path):
     path, sha256 = _ensemble(tmp_path)
     protected = _plan(path, sha256, development_cases=("case30", "case118"))
     with pytest.raises(ValueError, match="Protected holdouts"):
         protected.validate()
 
-    experimental = _plan(
+    artifact = inspect_tsh_calo_candidate(path, expected_sha256=sha256)
+    mixed = _plan(
         path,
         sha256,
-        component_evidence={"F": {"path": "evidence.json", "sha256": _sha("f")}},
+        mode="formal",
+        runs=30,
+        candidate_contract=qualification_candidate_contract(artifact),
+        component_evidence={component: {} for component in "ABCDE"},
     )
-    with pytest.raises(ValueError, match="Change F"):
-        experimental.validate()
+    with pytest.raises(ValueError, match="cannot mix"):
+        mixed.validate()
 
 
 def test_qualification_campaign_has_no_registry_or_activation_authority():

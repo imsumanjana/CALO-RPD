@@ -5,7 +5,7 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-from PyQt6.QtCore import QProcess, Qt, pyqtSignal
+from PyQt6.QtCore import QProcess, QProcessEnvironment, QStandardPaths, Qt, QTimer, pyqtSignal
 from PyQt6.QtWidgets import (
     QAbstractItemView,
     QCheckBox,
@@ -28,15 +28,27 @@ from PyQt6.QtWidgets import (
 )
 
 from calo_rpd_studio.algorithms.calo.policy_readiness import policy_record_user_status
-from calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign import (
-    TSHCALOQualificationPlan,
+from calo_rpd_studio.algorithms.calo.tsh_calo_automatic_qualification import (
+    AutomaticQualificationRejected,
+    AutomaticQualificationSourceSnapshot,
+    AutomaticQualificationWorkspace,
+    AUTOMATIC_SOURCE_SNAPSHOT_MANIFEST,
+    automatic_qualification_workload,
+    automatic_qualification_workflow_payload,
+    build_automatic_formal_qualification_plan,
+    freeze_plan,
+    prepare_automatic_source_snapshot,
 )
 from calo_rpd_studio.algorithms.calo.tsh_calo_schema import TSH_CALO_ALGORITHM_ID
 from calo_rpd_studio.gui.user_feedback import show_error
 from calo_rpd_studio.gui.widgets.page_header import PageHeader
 from calo_rpd_studio.gui.widgets.scrollable_page import ScrollablePage
 from calo_rpd_studio.gui.widgets.section_card import SectionCard
-from calo_rpd_studio.scripts.qualify_tsh_calo import load_plan, validate_repository_for_plan
+from calo_rpd_studio.scripts.qualify_tsh_calo import (
+    ROOT as QUALIFICATION_SOURCE_ROOT,
+    load_plan as load_qualification_plan,
+    validate_repository_for_plan,
+)
 
 
 class CALOIntelligencePanel(ScrollablePage):
@@ -53,10 +65,17 @@ class CALOIntelligencePanel(ScrollablePage):
         self.state = state
         self.model_library = model_library
         self._policy_rows = []
-        self._checked_qualification_plans: dict[str, tuple[str, TSHCALOQualificationPlan]] = {}
         self._qualification_process: QProcess | None = None
         self._qualification_process_output = ""
-        self._qualification_output_directory = ""
+        self._qualification_policy_id = ""
+        self._qualification_process_stage = ""
+        self._qualification_workspace: AutomaticQualificationWorkspace | None = None
+        self._qualification_source_snapshot: AutomaticQualificationSourceSnapshot | None = None
+        self._qualification_expected_cells = 0
+        self._qualification_reported_cells = -1
+        self._qualification_progress_timer = QTimer(self)
+        self._qualification_progress_timer.setInterval(500)
+        self._qualification_progress_timer.timeout.connect(self._update_qualification_progress)
 
         layout = QVBoxLayout(content)
         layout.setContentsMargins(24, 22, 24, 72)
@@ -116,9 +135,7 @@ class CALOIntelligencePanel(ScrollablePage):
 
         qualification_buttons = QHBoxLayout()
         self.policy_import_button = QPushButton("Import policy")
-        self.qualification_check_button = QPushButton("Check formal plan")
-        self.qualification_run_button = QPushButton("Run / resume qualification")
-        self.qualification_admit_button = QPushButton("Admit passed evidence")
+        self.qualification_button = QPushButton("Qualify policy")
         self.qualification_compare_button = QPushButton("Compare qualified policies")
         self.policy_activate_button = QPushButton("Activate for experiments")
         self.policy_archive_button = QPushButton("Archive")
@@ -126,9 +143,7 @@ class CALOIntelligencePanel(ScrollablePage):
         self.policy_refresh_button = QPushButton("Refresh")
         self.show_archived_policies = QCheckBox("Show archived")
         self.policy_import_button.clicked.connect(self.import_policy)
-        self.qualification_check_button.clicked.connect(self.check_qualification_plan)
-        self.qualification_run_button.clicked.connect(self.run_or_resume_qualification)
-        self.qualification_admit_button.clicked.connect(self.admit_qualification_evidence)
+        self.qualification_button.clicked.connect(self.qualify_selected_policy)
         self.qualification_compare_button.clicked.connect(self.compare_qualified_policies)
         self.policy_activate_button.clicked.connect(self.activate_selected_policy)
         self.policy_archive_button.clicked.connect(self.archive_selected_policy)
@@ -137,9 +152,7 @@ class CALOIntelligencePanel(ScrollablePage):
         self.show_archived_policies.toggled.connect(lambda _checked: self.refresh_policy_library())
         for button in (
             self.policy_import_button,
-            self.qualification_check_button,
-            self.qualification_run_button,
-            self.qualification_admit_button,
+            self.qualification_button,
             self.qualification_compare_button,
             self.policy_activate_button,
         ):
@@ -157,7 +170,7 @@ class CALOIntelligencePanel(ScrollablePage):
         lifecycle_buttons.addStretch(1)
         library_layout.addLayout(lifecycle_buttons)
         self.qualification_workflow_status = QLabel(
-            "Workflow: import -> check formal plan -> run or resume -> admit passed evidence -> "
+            "Workflow: import -> qualify (freeze, check, run/resume, verify, admit or reject) -> "
             "compare -> activate explicitly."
         )
         self.qualification_workflow_status.setWordWrap(True)
@@ -498,28 +511,12 @@ class CALOIntelligencePanel(ScrollablePage):
         policy = self._selected_policy()
         blocker = self._qualification_candidate_blocker(policy)
         process_running = self._qualification_process is not None
-        check_enabled = policy is not None and not process_running
-        workflow_enabled = check_enabled and not blocker
-        checked = bool(policy and policy.id in self._checked_qualification_plans)
-        self.qualification_check_button.setEnabled(check_enabled)
-        self.qualification_check_button.setToolTip(
-            (f"Check unavailable: {blocker}" if blocker else "")
-            or "Select and validate a frozen formal qualification plan; no evaluation starts."
-        )
-        self.qualification_run_button.setEnabled(workflow_enabled and checked)
-        self.qualification_run_button.setToolTip(
-            blocker
-            or (
-                "Run or exactly resume the checked finite formal qualification plan."
-                if checked
-                else "Check a formal plan for this exact policy first."
-            )
-        )
-        self.qualification_admit_button.setEnabled(workflow_enabled)
-        self.qualification_admit_button.setToolTip(
-            blocker
-            or "Verify and explicitly admit a completed passed evidence directory; this does not "
-            "activate the policy."
+        self.qualification_button.setEnabled(policy is not None and not process_running)
+        self.qualification_button.setToolTip(
+            (f"Qualification unavailable: {blocker}" if blocker else "")
+            or "Freeze the candidate architecture and training-parameter contract, start or "
+            "exactly resume retained quality cells, then automatically admit verified passing "
+            "evidence or retain the rejection. Activation always remains explicit."
         )
         has_qualified_policy = any(
             item.qualification_status == "qualified"
@@ -534,13 +531,24 @@ class CALOIntelligencePanel(ScrollablePage):
                 f"Formal workflow blocked for {policy.name}: {blocker}"
             )
 
-    def check_qualification_plan(self) -> None:
+    def _automatic_qualification_base_directory(self) -> Path:
+        if self.model_library is not None:
+            return Path(self.model_library.default_directory).resolve().parent / (
+                "policy-qualification"
+            )
+        local_data = QStandardPaths.writableLocation(
+            QStandardPaths.StandardLocation.AppLocalDataLocation
+        )
+        return Path(local_data).expanduser().resolve() / "policy-qualification"
+
+    def qualify_selected_policy(self) -> None:
+        """Run the one-action frozen qualification workflow; never activate the policy."""
+
         policy = self._selected_policy()
         if policy is None:
             return
         blocker = self._qualification_candidate_blocker(policy)
         if blocker:
-            self._checked_qualification_plans.pop(policy.id, None)
             message = (
                 f"The selected policy cannot enter formal qualification:\n\n{blocker}\n\n"
                 "No plan, qualification evidence, registry state, or model file was changed."
@@ -549,50 +557,9 @@ class CALOIntelligencePanel(ScrollablePage):
                 f"Formal workflow blocked for {policy.name}: {blocker}"
             )
             self.activity_message.emit("WARNING", self.qualification_workflow_status.text())
-            QMessageBox.information(self, "Formal plan check unavailable", message)
+            QMessageBox.information(self, "Qualification unavailable", message)
             return
-        path, _selected_filter = QFileDialog.getOpenFileName(
-            self,
-            "Select frozen formal qualification plan",
-            "",
-            "Qualification plan (qualification_plan.json *.json)",
-        )
-        if not path:
-            return
-        try:
-            plan = load_plan(path)
-            if plan.mode != "formal":
-                raise ValueError("A screening plan can never make a policy ready for experiments")
-            if plan.candidate_sha256.lower() != policy.sha256.lower():
-                raise ValueError("The selected plan belongs to a different policy checkpoint")
-            validate_repository_for_plan(plan)
-            self.state.policy_registry.inspect_qualification_candidate(policy.id)
-        except Exception as exc:
-            self._checked_qualification_plans.pop(policy.id, None)
-            self._update_qualification_controls()
-            show_error(
-                self,
-                "Formal plan is not ready",
-                "No qualification was started. Correct the frozen plan or source identity and "
-                "check again.",
-                exc,
-                source="qualification plan check",
-            )
-            return
-        self._checked_qualification_plans[policy.id] = (str(Path(path).resolve()), plan)
-        total_cells = len(plan.development_cases) * plan.runs * 2
-        self.qualification_workflow_status.setText(
-            f"Plan checked for {policy.name}: {len(plan.development_cases)} cases, {plan.runs} paired "
-            f"runs per case, {total_cells} optimizer cells, {plan.max_evaluations} evaluations per cell. "
-            "No qualification has started."
-        )
-        self.activity_message.emit("INFO", self.qualification_workflow_status.text())
-        self._update_qualification_controls()
-
-    def run_or_resume_qualification(self) -> None:
-        policy = self._selected_policy()
-        checked = self._checked_qualification_plans.get(getattr(policy, "id", ""))
-        if policy is None or checked is None or self._qualification_process is not None:
+        if self._qualification_process is not None:
             return
         if self.state.task_status.busy:
             QMessageBox.information(
@@ -601,75 +568,159 @@ class CALOIntelligencePanel(ScrollablePage):
                 "Finish or safely pause the active task before starting formal qualification.",
             )
             return
-        plan_path, plan = checked
         try:
-            current_plan = load_plan(plan_path)
-            if current_plan.execution_plan_sha256() != plan.execution_plan_sha256():
-                raise ValueError("The checked qualification plan changed; check it again")
+            candidate_artifact = self.state.policy_registry.inspect_qualification_candidate(
+                policy.id
+            )
+            qualification_base = self._automatic_qualification_base_directory()
+            source_snapshot = prepare_automatic_source_snapshot(
+                QUALIFICATION_SOURCE_ROOT,
+                qualification_base / "source-snapshots",
+            )
+            qualification_plan = build_automatic_formal_qualification_plan(
+                candidate_path=policy.checkpoint_path,
+                candidate_sha256=policy.sha256,
+                source_commit=source_snapshot.source_commit,
+                candidate_artifact=candidate_artifact,
+            )
+            workspace = AutomaticQualificationWorkspace.create(
+                qualification_base / "campaigns",
+                candidate_sha256=policy.sha256,
+                source_commit=source_snapshot.source_commit,
+            )
+            if workspace.qualification_plan.is_file():
+                stored = load_qualification_plan(workspace.qualification_plan)
+                if stored.execution_plan_sha256() != qualification_plan.execution_plan_sha256():
+                    raise ValueError(
+                        "The frozen architecture and quality plan changed; reuse is forbidden"
+                    )
         except Exception as exc:
-            self._checked_qualification_plans.pop(policy.id, None)
-            self._update_qualification_controls()
             show_error(
                 self,
-                "Formal plan changed",
-                "No qualification was started. Check the exact frozen plan again.",
+                "Policy was not admitted",
+                "Automatic preflight rejected the candidate before any evaluation started. "
+                "Correct the reported candidate, source, or architecture condition and try again.",
                 exc,
-                source="qualification start",
+                source="automatic qualification preflight",
             )
             return
-        selected_directory = QFileDialog.getExistingDirectory(
-            self,
-            "Select qualification evidence location",
-            str(Path(policy.checkpoint_path).parent),
-        )
-        if not selected_directory:
-            return
-        selected = Path(selected_directory).resolve()
-        resume = (selected / "qualification_plan.json").is_file()
-        output = selected if resume else selected / f"qualification-{plan.qualification_run_id}"
-        if not resume and output.exists():
-            show_error(
-                self,
-                "Qualification location already exists",
-                "Select that exact evidence directory to resume it, or choose a different parent "
-                "directory.",
-                FileExistsError(str(output)),
-                source="qualification start",
-            )
-            return
-        if resume and (output / "qualification_evidence.json").is_file():
-            QMessageBox.information(
-                self,
-                "Qualification already completed",
-                "Use Admit passed evidence to verify and admit this completed directory.",
-            )
-            return
-        total_cells = len(plan.development_cases) * plan.runs * 2
+
+        workload = automatic_qualification_workload()
+        if (workspace.qualification_output / "qualification_evidence.json").is_file():
+            action = "Verify and admit the retained formal result"
+        elif workspace.qualification_output.exists():
+            action = "Resume the retained formal qualification cells"
+        else:
+            action = "Start the frozen architecture and model-quality qualification"
         answer = QMessageBox.warning(
             self,
-            "Run formal qualification",
-            f"{'Resume' if resume else 'Start'} the checked formal plan for {policy.name!r}?\n\n"
-            f"Evidence directory: {output}\n"
-            f"Finite design: {len(plan.development_cases)} cases x {plan.runs} paired runs x 2 "
-            f"algorithms = {total_cells} optimizer cells. Each cell has exactly "
-            f"{plan.max_evaluations} evaluations.\n\n"
-            "The process produces evidence only. It will not admit, activate, or bind the policy.",
+            "Qualify policy",
+            f"{action} for {policy.name!r}?\n\n"
+            f"Frozen design: {workload['cases']} qualification cases (case30 and case57), "
+            f"{workload['runs_per_case']} paired runs per case, "
+            f"{workload['qualification_cells']} paired optimizer cells. Every optimizer cell has "
+            f"exactly {workload['evaluations_per_cell']} evaluations.\n\n"
+            "The frozen candidate contract verifies the policy architecture, state/action and "
+            "training schemas, ensemble membership, feature contract, training-design identity, "
+            "and exact model checksum. Product version labels and project lifecycle labels are "
+            "not qualification gates.\n\n"
+            f"Source snapshot: {source_snapshot.source_commit[:12]} from "
+            f"{source_snapshot.file_count} non-ignored files. The working source tree is not "
+            "modified.\n\n"
+            "Completed cells are retained for unlimited exact resumes. A failed frozen gate "
+            "rejects the policy. A verified pass is admitted automatically and enables the "
+            "separate Activate for experiments button; this action never activates or binds the "
+            "policy.",
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.Cancel,
             QMessageBox.StandardButton.Cancel,
         )
         if answer != QMessageBox.StandardButton.Yes:
             return
-        arguments = [
-            "-m",
-            "calo_rpd_studio.scripts.qualify_tsh_calo",
-            plan_path,
-            "--output",
-            str(output),
-        ]
+        try:
+            workflow_payload = automatic_qualification_workflow_payload(
+                qualification_plan=qualification_plan
+            )
+            workflow_payload["source_snapshot"] = {
+                "source_commit": source_snapshot.source_commit,
+                "worktree_sha256": source_snapshot.worktree_sha256,
+                "manifest_sha256": source_snapshot.manifest_sha256,
+                "file_count": source_snapshot.file_count,
+                "manifest_path": str(source_snapshot.root / AUTOMATIC_SOURCE_SNAPSHOT_MANIFEST),
+            }
+            freeze_plan(
+                workspace.workflow_plan,
+                workflow_payload,
+            )
+            freeze_plan(workspace.qualification_plan, qualification_plan.to_dict())
+            self._qualification_policy_id = policy.id
+            self._qualification_workspace = workspace
+            self._qualification_source_snapshot = source_snapshot
+            self._continue_automatic_qualification(policy, qualification_plan, workspace)
+        except AutomaticQualificationRejected as exc:
+            self._record_qualification_rejection(policy.name, str(exc))
+        except Exception as exc:
+            show_error(
+                self,
+                "Policy was not admitted",
+                "The automatic workflow stopped without changing policy activation or experiment "
+                "settings. Retained exact cells remain available when safe to resume.",
+                exc,
+                source="automatic qualification",
+            )
+            self._update_qualification_controls()
+
+    def _continue_automatic_qualification(
+        self, policy, qualification_plan, workspace: AutomaticQualificationWorkspace
+    ) -> None:
+        if (workspace.qualification_output / "campaign_integrity_failure.json").is_file():
+            raise AutomaticQualificationRejected(
+                "Policy rejected: the retained formal campaign has a terminal integrity failure"
+            )
+        freeze_plan(workspace.qualification_plan, qualification_plan.to_dict())
+        source_snapshot = self._qualification_source_snapshot
+        if source_snapshot is None:
+            raise RuntimeError("Automatic qualification source snapshot identity was lost")
+        validate_repository_for_plan(qualification_plan, root=source_snapshot.root)
+        resume = workspace.qualification_output.exists()
+        if resume:
+            stored = load_qualification_plan(
+                workspace.qualification_output / "qualification_plan.json"
+            )
+            if stored.execution_plan_sha256() != qualification_plan.execution_plan_sha256():
+                raise ValueError("Retained qualification cells belong to another frozen plan")
+        if (workspace.qualification_output / "qualification_evidence.json").is_file():
+            self._admit_automatic_qualification(policy, workspace)
+            return
+        self._start_qualification_process(
+            stage="formal",
+            module="calo_rpd_studio.scripts.qualify_tsh_calo",
+            plan_path=workspace.qualification_plan,
+            output=workspace.qualification_output,
+            resume=resume,
+        )
+
+    def _start_qualification_process(
+        self,
+        *,
+        stage: str,
+        module: str,
+        plan_path: Path,
+        output: Path,
+        resume: bool,
+    ) -> None:
+        source_snapshot = self._qualification_source_snapshot
+        if source_snapshot is None:
+            raise RuntimeError("Automatic qualification source snapshot identity was lost")
+        arguments = ["-m", module, str(plan_path), "--output", str(output)]
         if resume:
             arguments.append("--resume")
         process = QProcess(self)
         process.setProgram(sys.executable)
+        process.setWorkingDirectory(str(source_snapshot.root))
+        environment = QProcessEnvironment.systemEnvironment()
+        environment.insert("PYTHONDONTWRITEBYTECODE", "1")
+        environment.insert("MPLCONFIGDIR", str(output.parent / "runtime-cache" / "matplotlib"))
+        process.setProcessEnvironment(environment)
         process.setArguments(arguments)
         process.setProcessChannelMode(QProcess.ProcessChannelMode.MergedChannels)
         process.readyReadStandardOutput.connect(self._read_qualification_output)
@@ -677,19 +728,50 @@ class CALOIntelligencePanel(ScrollablePage):
         process.finished.connect(self._qualification_process_finished)
         self._qualification_process = process
         self._qualification_process_output = ""
-        self._qualification_output_directory = str(output)
+        self._qualification_process_stage = stage
+        self._qualification_expected_cells = automatic_qualification_workload()[
+            "qualification_cells"
+        ]
+        self._qualification_reported_cells = -1
         self.state.task_status.begin(
             "Independent policy qualification",
-            detail="Formal finite plan running; completed cells remain available for exact resume",
-            progress=-1,
+            detail="Preparing frozen architecture and model-quality checks",
+            progress=0,
             cancellable=False,
         )
         self.qualification_workflow_status.setText(
-            "Formal qualification running. Process output is being retained in Activity -> Logs."
+            f"Qualification {'resuming' if resume else 'running'}. Completed-cell progress is "
+            "shown in the bottom bar; detailed output is retained in Activity -> Logs."
         )
         self.activity_message.emit("INFO", self.qualification_workflow_status.text())
         self._update_qualification_controls()
         process.start()
+        if self._qualification_process is process:
+            self._update_qualification_progress()
+            self._qualification_progress_timer.start()
+
+    def _update_qualification_progress(self) -> None:
+        """Publish committed qualification cells to the global progress bar and Activity."""
+
+        if self._qualification_process is None or self._qualification_workspace is None:
+            return
+        output = self._qualification_workspace.qualification_output
+        completed = sum(
+            1
+            for directory in (output / "records", output / "failures")
+            if directory.is_dir()
+            for _path in directory.glob("*.json")
+        )
+        expected = max(1, int(self._qualification_expected_cells))
+        completed = min(completed, expected)
+        percentage = min(99, int(completed * 100 / expected))
+        detail = f"Model-quality checks · {completed}/{expected} cells committed"
+        self.state.task_status.update(progress=percentage, detail=detail)
+        if completed != self._qualification_reported_cells:
+            self._qualification_reported_cells = completed
+            self.activity_message.emit(
+                "INFO", f"Qualification progress {percentage}% · {completed}/{expected} cells"
+            )
 
     def _read_qualification_output(self) -> None:
         process = self._qualification_process
@@ -706,10 +788,12 @@ class CALOIntelligencePanel(ScrollablePage):
         if process is None or error != QProcess.ProcessError.FailedToStart:
             return
         message = process.errorString()
+        self._qualification_progress_timer.stop()
         self._qualification_process = None
-        self.state.task_status.fail("Formal qualification process could not start")
+        stage = self._qualification_process_stage or "automatic"
+        self.state.task_status.fail(f"Qualification {stage} process could not start")
         self.qualification_workflow_status.setText(
-            "Formal qualification process could not start; no evidence was admitted or activated."
+            f"Qualification {stage} process could not start; no evidence was admitted or activated."
         )
         self.activity_message.emit("ERROR", message)
         self._update_qualification_controls()
@@ -727,91 +811,98 @@ class CALOIntelligencePanel(ScrollablePage):
         if process is None:
             return
         self._read_qualification_output()
+        self._qualification_progress_timer.stop()
+        self._update_qualification_progress()
         process.deleteLater()
         self._qualification_process = None
+        stage = self._qualification_process_stage
+        policy_id = self._qualification_policy_id
+        workspace = self._qualification_workspace
         if exit_code == 0:
-            passed = '"passed": true' in self._qualification_process_output.lower()
-            state = "passed" if passed else "completed without qualification"
-            self.state.task_status.finish(f"Formal qualification {state}")
-            self.qualification_workflow_status.setText(
-                f"Formal qualification {state}. Evidence was retained at "
-                f"{self._qualification_output_directory}. Use Admit passed evidence; activation "
-                "remains separate."
-            )
-            self.activity_message.emit("INFO", self.qualification_workflow_status.text())
+            try:
+                if not policy_id or workspace is None:
+                    raise RuntimeError("Automatic qualification process identity was lost")
+                policy = self.state.policy_registry.get(policy_id)
+                self._admit_automatic_qualification(policy, workspace)
+                return
+            except AutomaticQualificationRejected as exc:
+                self._record_qualification_rejection(
+                    getattr(locals().get("policy"), "name", policy_id), str(exc)
+                )
+            except Exception as exc:
+                self.state.task_status.fail("Qualification evidence verification failed")
+                show_error(
+                    self,
+                    "Policy was not admitted",
+                    "The completed process did not provide admissible evidence. The policy remains "
+                    "inactive and experiment settings were not changed.",
+                    exc,
+                    source="automatic qualification verification",
+                )
         else:
             self.state.task_status.fail(
-                "Formal qualification stopped; retained completed cells may be resumed explicitly"
+                f"Qualification {stage} stopped; retained completed cells can resume on next click"
             )
             self.qualification_workflow_status.setText(
-                f"Formal qualification stopped with code {exit_code}. No evidence was admitted or "
-                "activated. Select the retained evidence directory to resume."
+                f"Qualification {stage} stopped with code {exit_code}. No evidence was admitted or "
+                "activated. Click Qualify policy again to resume the exact retained plan."
             )
             self.activity_message.emit("ERROR", self.qualification_workflow_status.text())
         self._update_qualification_controls()
 
-    def admit_qualification_evidence(self) -> None:
-        policy = self._selected_policy()
-        blocker = self._qualification_candidate_blocker(policy)
-        if blocker:
-            return
-        directory = QFileDialog.getExistingDirectory(
-            self,
-            "Select completed qualification evidence directory",
-            self._qualification_output_directory or str(Path(policy.checkpoint_path).parent),
-        )
-        if not directory:
-            return
+    def _admit_automatic_qualification(
+        self, policy, workspace: AutomaticQualificationWorkspace
+    ) -> None:
         try:
             verified = self.state.policy_registry.inspect_qualification_evidence(
-                policy.id, directory
+                policy.id, workspace.qualification_output
             )
         except Exception as exc:
-            show_error(
-                self,
-                "Qualification evidence was not admitted",
-                "The directory did not prove a complete passed formal qualification for this exact "
-                "policy.",
-                exc,
-                source="qualification evidence verification",
-            )
-            return
-        summary = verified.metrics["summary"]
-        answer = QMessageBox.question(
-            self,
-            "Admit passed qualification evidence",
-            f"Admit the verified grade {verified.grade} evidence for {policy.name!r}?\n\n"
-            f"Cases: {verified.metrics['development_cases']}\n"
-            f"Worst-case feasible probability: {summary['minimum_candidate_feasible_probability']:.1%}\n"
-            f"Worst-case median objective improvement: "
-            f"{summary['minimum_relative_objective_improvement']:.2%}\n"
-            f"Worst-case objective win rate: {summary['minimum_objective_win_rate']:.1%}\n\n"
-            "Admission makes the policy eligible for comparison and explicit activation. It does "
-            "not activate or bind the policy.",
-            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.Cancel,
-            QMessageBox.StandardButton.Cancel,
-        )
-        if answer != QMessageBox.StandardButton.Yes:
-            return
+            raise AutomaticQualificationRejected(
+                f"Policy rejected: completed formal evidence did not pass every frozen gate ({exc})"
+            ) from exc
         try:
             admitted = self.state.policy_registry.admit_qualification_evidence(
-                policy.id, directory
+                policy.id, workspace.qualification_output
             )
         except Exception as exc:
-            show_error(
-                self,
-                "Qualification evidence was not admitted",
-                "The registry remained unchanged.",
-                exc,
-                source="qualification evidence admission",
-            )
-            return
-        self.activity_message.emit(
-            "INFO",
-            f"Passed formal evidence admitted for {admitted.name}; the policy remains inactive.",
+            raise RuntimeError("Verified qualification evidence could not be admitted") from exc
+        summary = verified.metrics["summary"]
+        self.state.task_status.finish("Policy qualification passed and evidence was admitted")
+        qualified_status = (
+            f"Qualified: {admitted.name} earned grade {verified.grade}. Worst-case feasible "
+            f"probability {summary['minimum_candidate_feasible_probability']:.1%}, median "
+            f"objective improvement "
+            f"{summary['minimum_relative_objective_improvement']:.2%}, and objective win rate "
+            f"{summary['minimum_objective_win_rate']:.1%}. Activation remains explicit."
         )
         self.refresh_policy_library()
         self._select_policy_id(admitted.id)
+        self.qualification_workflow_status.setText(qualified_status)
+        self.activity_message.emit(
+            "INFO",
+            f"Passed formal evidence admitted for {admitted.name}; Activate for experiments is now "
+            "available and the policy remains inactive.",
+        )
+        QMessageBox.information(
+            self,
+            "Policy qualified",
+            f"{admitted.name!r} passed the frozen formal plan and its verified evidence was "
+            "admitted. The policy is still inactive. Review the comparison if needed, then use "
+            "Activate for experiments explicitly.",
+        )
+
+    def _record_qualification_rejection(self, policy_name: str, reason: str) -> None:
+        self.state.task_status.finish("Policy rejected by the frozen qualification workflow")
+        self.qualification_workflow_status.setText(f"{reason}. Activation remains disabled.")
+        self.activity_message.emit("WARNING", self.qualification_workflow_status.text())
+        self._update_qualification_controls()
+        QMessageBox.information(
+            self,
+            "Policy not qualified",
+            f"{policy_name!r} was not admitted.\n\n{reason}\n\nThe retained evidence remains "
+            "immutable, and activation stays disabled.",
+        )
 
     def compare_qualified_policies(self) -> None:
         summaries = self.state.policy_registry.qualification_evidence_summaries()

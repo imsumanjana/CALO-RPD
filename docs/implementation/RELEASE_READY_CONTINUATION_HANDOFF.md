@@ -1492,11 +1492,20 @@ superseded by the stage-neutral compatibility and qualification boundary on 2026
   files for extension; fresh training and unfinished base resume remain strict. Implementation and
   synthetic contracts are unexecuted; run the same complete owner validator and return its whole new
   log directory. The validator itself performs no destructive or policy/scientific workflow.
-- The latest Policy Library follow-up adds the complete explicit qualification lifecycle as visible
-  actions: check a frozen formal plan for the exact imported checkpoint, run or exactly resume its
-  finite independent campaign, separately verify/admit passed evidence, compare qualified policies,
-  and explicitly activate. Campaign completion cannot auto-admit, admission cannot auto-activate,
-  activation cannot auto-bind, and Apply remains the separate Power System handoff.
+- The latest Policy Library follow-up consolidates qualification into one visible `Qualify policy`
+  action. One click preflights the exact candidate and freezes all current non-ignored worktree files
+  into a separate clean deterministic internal Git snapshot. The original development worktree is not
+  staged, committed, reset, or modified; the snapshot commit plus file/SHA-256 manifest becomes the
+  qualification source identity. The action then freezes the deterministic A-E prerequisite, starts
+  or exactly resumes its 480 finite cells, rejects a failed component gate,
+  freezes the resulting formal plan, starts or exactly resumes its 120 finite cells, and automatically
+  admits only a checksum-verified pass. Both stages use case30/case57, 30 paired runs per case,
+  population 20, and 10,000 exact evaluations per optimizer cell. There is no resume-count limit, but
+  no resume changes the finite plans, seeds, completed cells, or budgets.
+- The separate plan-browser, run/resume, and passed-evidence admission buttons are removed. Automatic
+  admission is contained within the explicit qualification transaction; it cannot auto-activate or
+  auto-bind. A pass enables the separate `Activate for experiments` action, comparison remains
+  available for scientist selection, and Apply remains the separate Power System handoff.
 - Admission recomputes canonical gates and validates exact checkpoint, plan, source, seed, evidence,
   A-E, receipt, OOD calibration, cell-completeness, zero-failure, and protected-case identities in
   one fail-closed transaction. Comparison is direct only within one matching frozen evidence design.
@@ -1520,5 +1529,16 @@ superseded by the stage-neutral compatibility and qualification boundary on 2026
 - Formal qualification admission re-inspects the exact checksum-bound TSH-CALO ensemble, current ABI,
   feature flags, member architecture/provenance, authenticated training receipts, and protected-case
   isolation. Resume/extension independently retain their complete training-contract and continuation-
-  state checks. Passed evidence still requires explicit admission and activation before experiment
-  binding. No policy/scientific workflow or validation was executed; owner validation remains pending.
+  state checks. Passed evidence is admitted automatically only inside the user-invoked qualification
+  transaction; explicit activation is still required before experiment binding. No policy/scientific
+  workflow or validation was executed; owner validation remains pending.
+- This follow-up supersedes the component-development prerequisite for every newly created
+  qualification plan. One stage-neutral candidate architecture/parameter contract now precedes the
+  unchanged 120-cell paired quality campaign. Product/source version and development-stage labels
+  are provenance only; architecture, schema, ensemble/training-design provenance, and exact model
+  identity remain binding. Retained historical evidence stays verifiable through its legacy path.
+- Qualification progress now comes from durable record/failure files and is shown as completed cells
+  plus percentage in the global bottom bar. While any foreground task is busy, ribbon, Inputs, and
+  document workspaces are disabled; Activity and the status bar remain enabled. These changes are
+  source/test contracts only until the owner runs the ignored validator and returns the complete new
+  `validation\logs\phase6-*` directory.

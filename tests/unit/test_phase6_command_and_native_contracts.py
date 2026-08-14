@@ -567,15 +567,26 @@ def test_policy_training_process_actions_are_visible_in_the_input_pane():
     assert "Import trained policy" in intelligence
     assert "completed_campaigns()" in intelligence
     assert "Activate for experiments" in intelligence
-    assert 'QPushButton("Check formal plan")' in intelligence
-    assert 'QPushButton("Run / resume qualification")' in intelligence
-    assert 'QPushButton("Admit passed evidence")' in intelligence
+    assert 'QPushButton("Qualify policy")' in intelligence
+    assert 'QPushButton("Check formal plan")' not in intelligence
+    assert 'QPushButton("Run / resume qualification")' not in intelligence
+    assert 'QPushButton("Admit passed evidence")' not in intelligence
     assert 'QPushButton("Compare qualified policies")' in intelligence
     assert "inspect_qualification_evidence" in intelligence
     assert "admit_qualification_evidence" in intelligence
-    assert "The process produces evidence only" in intelligence
-    assert "It will not admit, activate, or bind the policy" in intelligence
-    assert "Formal plan check unavailable" in intelligence
+    assert "build_automatic_component_ablation_plan" not in intelligence
+    assert "build_automatic_formal_qualification_plan" in intelligence
+    assert "automatic_qualification_workflow_payload" in intelligence
+    assert "prepare_automatic_source_snapshot" in intelligence
+    assert "process.setWorkingDirectory(str(source_snapshot.root))" in intelligence
+    assert "Completed cells are retained for unlimited exact resumes" in intelligence
+    assert "this action never activates or binds the policy" in intelligence
+    assert 'stage="formal"' in intelligence
+    assert "_update_qualification_progress" in intelligence
+    assert 'progress=0' in intelligence
+    assert "Model-quality checks" in intelligence
+    assert "A-E optimizer cells" not in intelligence
+    assert "Qualification unavailable" in intelligence
     assert "No plan, qualification evidence, registry state, or model file was changed" in (
         intelligence
     )
@@ -601,6 +612,12 @@ def test_policy_training_process_actions_are_visible_in_the_input_pane():
     assert "layout.addWidget(library)" in intelligence
     assert "layout.addWidget(library, 1)" not in intelligence
     assert 'self._set_workspace("power_system")' in main_window
+    assert "def _apply_task_interaction_lock" in main_window
+    assert "self.documents.setEnabled(enabled)" in main_window
+    assert "self.context_dock.setEnabled(enabled)" in main_window
+    assert "self.activity_dock.show()" in main_window
+    assert "self.activity_center.setEnabled(True)" in main_window
+    assert 'spec.handler not in {"cancel", "toggle_activity"}' in main_window
     assert "_training_context_was_visible" not in main_window
     assert "_update_training_command" not in main_window
     assert "self.context_pane.activate_training()" not in main_window

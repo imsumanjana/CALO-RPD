@@ -650,7 +650,7 @@ def test_completed_training_is_visible_without_automatic_policy_registration(
     assert campaign.exists() is False
 
 
-def test_formal_plan_check_explains_a_selected_policy_compatibility_blocker(
+def test_qualify_action_explains_a_selected_policy_compatibility_blocker(
     qtbot, tmp_path, monkeypatch
 ):
     from types import SimpleNamespace
@@ -677,10 +677,12 @@ def test_formal_plan_check_explains_a_selected_policy_compatibility_blocker(
     policy_center.policy_table.selectRow(0)
     policy_center._policy_selection_changed()
 
-    assert policy_center.qualification_check_button.isEnabled() is True
-    assert policy_center.qualification_run_button.isEnabled() is False
-    assert policy_center.qualification_admit_button.isEnabled() is False
-    assert blocker in policy_center.qualification_check_button.toolTip()
+    assert policy_center.qualification_button.text() == "Qualify policy"
+    assert policy_center.qualification_button.isEnabled() is True
+    assert not hasattr(policy_center, "qualification_check_button")
+    assert not hasattr(policy_center, "qualification_run_button")
+    assert not hasattr(policy_center, "qualification_admit_button")
+    assert blocker in policy_center.qualification_button.toolTip()
     assert blocker in policy_center.qualification_workflow_status.text()
     shown = []
     monkeypatch.setattr(
@@ -689,10 +691,10 @@ def test_formal_plan_check_explains_a_selected_policy_compatibility_blocker(
         lambda _parent, title, text, *_args: shown.append((title, text)),
     )
 
-    policy_center.qualification_check_button.click()
+    policy_center.qualification_button.click()
 
     assert shown
-    assert shown[0][0] == "Formal plan check unavailable"
+    assert shown[0][0] == "Qualification unavailable"
     assert blocker in shown[0][1]
     assert "No plan, qualification evidence, registry state, or model file was changed" in (
         shown[0][1]
@@ -1239,6 +1241,67 @@ def test_activity_uses_indeterminate_progress_without_fabricating_percentage(
     assert window.activity_center.jobs.item(last_row, 4).text() == "indeterminate"
     assert window.global_status.progress.minimum() == 0
     assert window.global_status.progress.maximum() == 0
+
+
+def test_foreground_run_locks_workspace_but_keeps_activity_and_status_enabled(
+    qtbot, tmp_path, monkeypatch
+):
+    state, window = _window(qtbot, tmp_path, monkeypatch)
+
+    assert state.task_status.begin("Qualification run", progress=12)
+
+    assert window.ribbon.isEnabled() is False
+    assert window.context_dock.isEnabled() is False
+    assert window.documents.isEnabled() is False
+    assert window.activity_dock.isEnabled() is True
+    assert window.activity_center.isEnabled() is True
+    assert window.global_status.isEnabled() is True
+    assert window.global_status.progress.value() == 12
+
+    state.task_status.finish("Complete")
+
+    assert window.ribbon.isEnabled() is True
+    assert window.context_dock.isEnabled() is True
+    assert window.documents.isEnabled() is True
+    assert window.activity_center.isEnabled() is True
+
+
+def test_qualification_committed_cells_drive_bottom_bar_percentage(
+    qtbot, tmp_path, monkeypatch
+):
+    from calo_rpd_studio.algorithms.calo.tsh_calo_automatic_qualification import (
+        AutomaticQualificationWorkspace,
+    )
+
+    state, window = _window(qtbot, tmp_path, monkeypatch)
+    panel = window.pages_by_key["calo_intelligence"]
+    workspace = AutomaticQualificationWorkspace.create(
+        tmp_path / "qualification",
+        candidate_sha256="a" * 64,
+        source_commit="b" * 40,
+    )
+    records = workspace.qualification_output / "records"
+    failures = workspace.qualification_output / "failures"
+    records.mkdir(parents=True)
+    failures.mkdir(parents=True)
+    for index in range(57):
+        (records / f"record-{index:03d}.json").write_text("{}", encoding="utf-8")
+    for index in range(3):
+        (failures / f"failure-{index:03d}.json").write_text("{}", encoding="utf-8")
+
+    assert state.task_status.begin("Independent policy qualification", progress=0)
+    panel._qualification_process = object()
+    panel._qualification_workspace = workspace
+    panel._qualification_expected_cells = 120
+    try:
+        panel._update_qualification_progress()
+    finally:
+        panel._qualification_process = None
+
+    assert state.task_status.progress == 50
+    assert "60/120 cells committed" in state.task_status.detail
+    assert window.global_status.progress.value() == 50
+    assert "Qualification progress 50%" in window.activity_center.logs.toPlainText()
 
 
 def test_policy_training_checkpoint_progress_uses_bottom_bar_activity_and_pause_retains_it(

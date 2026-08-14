@@ -265,7 +265,10 @@ class PolicyRegistry:
         if artifact.feature_flags.get("population_schedule") or artifact.feature_flags.get(
             "allow_experimental_components"
         ):
-            raise ValueError("Formal qualification requires the approved A-E contract with F off")
+            raise ValueError(
+                "Formal qualification requires the frozen production architecture; this "
+                "candidate enables unsupported experimental architecture options"
+            )
         return artifact
 
     def activate(
@@ -277,7 +280,7 @@ class PolicyRegistry:
     ) -> PolicyRecord:
         policy = self.get(policy_id)
         if algorithm_id != TSH_CALO_ALGORITHM_ID:
-            raise ValueError("Activation accepts only a compatible TSH-CALO A-E/F-off ensemble")
+            raise ValueError("Activation accepts only a compatible frozen TSH-CALO ensemble")
         if algorithm_id == TSH_CALO_ALGORITHM_ID and allow_unqualified:
             raise ValueError("TSH-CALO policies cannot be activated before qualification")
         if (

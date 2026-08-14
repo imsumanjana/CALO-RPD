@@ -2670,3 +2670,52 @@ Append timestamped entries below this line after each material action, validatio
 - The prior unvalidated GUI addition of accepted-freeze and Phase 4 receipt path inputs was removed.
   No test, validator, training, extension, qualification, experiment, activation, deletion,
   protected-case, publication, or release workflow was executed. Fresh owner validation is pending.
+
+### 2026-08-14 - Policy qualification consolidated into one frozen automatic transaction
+
+- Policy Library now exposes one `Qualify policy` action instead of separate plan-browser,
+  run/resume, and evidence-admission buttons. The click first re-inspects the exact immutable
+  candidate and current TSH-CALO ABI/ensemble/training receipts/protected-case isolation. It then
+  inventories every current tracked or non-ignored untracked source file, verifies the inventory is
+  stable while copying, and creates a deterministic clean internal Git snapshot under per-user
+  qualification storage. The development worktree is not staged, committed, reset, or modified.
+  The internal snapshot commit plus retained file/SHA-256 manifest is the exact campaign source
+  identity. A failed preflight changes no plan, registry, model, activation, or experiment state and
+  reports the exact blocker.
+- The action deterministically builds and durably freezes a candidate/source-bound A-E plan using
+  case30/case57, 30 paired runs per case, population 20, and 10,000 exact evaluations per optimizer
+  cell. It starts or exactly resumes 480 retained component cells. There is no resume-count ceiling;
+  the plan, seeds, completed cells, and finite FE budget cannot change. Any rejected A-E component
+  terminates the workflow as an immutable policy rejection.
+- Only accepted exact A-E evidence can deterministically produce and freeze the formal plan. The
+  formal stage uses independent fixed seeds and the same cases/runs/population/FE design for 120
+  baseline/candidate optimizer cells. It starts or exactly resumes retained cells, recomputes all
+  gates, and automatically admits only a complete checksum-valid pass. A completed failed formal
+  result remains rejected instead of being rerun for a favorable outcome.
+- Automatic admission is limited to this explicit user-invoked qualification transaction. It never
+  activates, binds, initializes, or modifies an experiment. A verified admitted pass refreshes the
+  Policy Library and enables the separate `Activate for experiments` button. Comparison and
+  governing-policy Apply remain separate scientist actions.
+- Production source, deterministic unit/GUI/static contracts, gates, traceability, handoff, and the
+  Git-ignored Phase 6 validator were updated. Codex did not execute tests, validators, GUI/browser
+  checks, A-E work, qualification, admission, activation, binding, experiments, protected cases,
+  Docker, publication, or release work. Fresh complete owner validation is pending.
+
+### 2026-08-14 - Qualification uses architecture/parameter authority and durable progress
+
+- The current `Qualify policy` transaction no longer runs or requires the historical component-
+  development campaign. It freezes one stage-neutral candidate contract covering the exact model
+  SHA, runtime/policy state-action-training schemas, ensemble membership, feature contract,
+  authenticated member training-design identities, and training-provenance digest. Product version
+  and development-stage labels are absent from admission authority. Retained legacy qualification
+  evidence remains readable but does not govern new plans.
+- The fixed quality plan remains finite: case30/case57, 30 paired runs per case, population 20, and
+  10,000 exact evaluations in each of 120 baseline/candidate cells. Completed cell files drive the
+  persistent bottom progress bar and percentage. They remain available for unlimited exact resume
+  attempts without changing the finite budget, seeds, or plan.
+- Every foreground run now locks the ribbon, input dock, and document workspace. Activity and the
+  global status bar remain enabled so Jobs/Logs/Warnings/Device/Provenance and durable progress can
+  be inspected throughout execution. Existing status-bar safe pause/cancel authority is preserved.
+- Source, synthetic unit/GUI/static contracts, current ledgers, and the ignored validator were
+  updated. Per repository instructions no test, validator, GUI, training, qualification, protected-
+  case, Docker, publication, or release workflow was executed. Fresh owner validation is pending.

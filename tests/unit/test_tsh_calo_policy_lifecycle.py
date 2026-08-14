@@ -407,7 +407,7 @@ def test_legacy_phase_receipts_are_not_a_qualification_compatibility_gate(tmp_pa
     ] == ""
 
 
-def test_qualification_contract_rejects_experimental_change_f(tmp_path):
+def test_qualification_contract_rejects_unsupported_experimental_architecture(tmp_path):
     path = _ensemble(tmp_path)
     payload = torch.load(path, map_location="cpu", weights_only=False)
     payload["metadata"]["feature_flags"]["population_schedule"] = True
@@ -416,7 +416,7 @@ def test_qualification_contract_rejects_experimental_change_f(tmp_path):
     registry = PolicyRegistry(ResultDatabase(tmp_path / "results.sqlite"))
     policy = registry.register(path)
 
-    with pytest.raises(ValueError, match="A-E contract with F off"):
+    with pytest.raises(ValueError, match="unsupported experimental architecture options"):
         registry.inspect_qualification_candidate(policy.id)
 
 
