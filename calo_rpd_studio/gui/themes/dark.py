@@ -458,6 +458,7 @@ DARK_STYLESHEET += r"""
 #GlobalTaskState[taskState="busy"] { color: #9bb6ff; }
 #GlobalTaskState[taskState="completed"] { color: #73d7b4; }
 #GlobalTaskState[taskState="failed"] { color: #ff9b91; }
+#GlobalTaskState[taskState="paused"] { color: #d6b978; }
 #GlobalTaskDetail {
     color: #8f9caf;
 }

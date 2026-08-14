@@ -10,6 +10,9 @@ import subprocess
 from calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign import (
     IndependentTSHCALOTrainingCampaign,
     TSHCALOTrainingCampaignPlan,
+    TSHCALOTrainingPauseRequested,
+    TSH_CALO_TRAINING_EVENT_SCHEMA,
+    TSH_CALO_TRAINING_PAUSE_EXIT_CODE,
 )
 from calo_rpd_studio.algorithms.calo.tsh_calo_training import (
     preflight_tsh_calo_training_resources,
@@ -24,6 +27,16 @@ from calo_rpd_studio.scripts.accept_development_freeze import (
 
 
 ROOT = Path(__file__).resolve().parents[2]
+TRAINING_EVENT_PREFIX = "CALO_TRAINING_EVENT "
+
+
+def emit_training_event(event: dict) -> None:
+    """Emit one machine-readable checkpoint event while keeping stdout human-inspectable."""
+
+    payload = dict(event)
+    if payload.get("schema_version") != TSH_CALO_TRAINING_EVENT_SCHEMA:
+        raise ValueError("TSH-CALO training progress event schema is incompatible")
+    print(TRAINING_EVENT_PREFIX + json.dumps(payload, sort_keys=True), flush=True)
 
 
 def load_plan(path: str | Path) -> TSHCALOTrainingCampaignPlan:
@@ -224,8 +237,47 @@ def main(argv: list[str] | None = None) -> int:
         )
         return 0
 
-    campaign = IndependentTSHCALOTrainingCampaign(plan, arguments.output)
-    result = campaign.resume() if arguments.resume else campaign.start()
+    print(
+        TRAINING_EVENT_PREFIX
+        + json.dumps(
+            {
+                "schema_version": TSH_CALO_TRAINING_EVENT_SCHEMA,
+                "event": "process_started",
+                "campaign_id": plan.campaign_id,
+                "member_count": len(plan.members),
+                "episode_count": sum(len(member.episodes) for member in plan.members),
+                "total_candidate_evaluations": sum(
+                    len(member.episodes) for member in plan.members
+                )
+                * plan.max_evaluations,
+                "progress_percent": 0,
+                "resume": bool(arguments.resume),
+            },
+            sort_keys=True,
+        ),
+        flush=True,
+    )
+    campaign = IndependentTSHCALOTrainingCampaign(
+        plan,
+        arguments.output,
+        event_callback=emit_training_event,
+    )
+    try:
+        result = campaign.resume() if arguments.resume else campaign.start()
+    except TSHCALOTrainingPauseRequested as exc:
+        print(
+            json.dumps(
+                {
+                    **_summary(plan, state="paused_resumable"),
+                    "output_directory": str(arguments.output.expanduser().resolve()),
+                    "pause": exc.event,
+                    "resumable": True,
+                },
+                sort_keys=True,
+            ),
+            flush=True,
+        )
+        return TSH_CALO_TRAINING_PAUSE_EXIT_CODE
     print(json.dumps(_summary(plan, state="completed_unqualified", result=result), sort_keys=True))
     return 0
 

@@ -8,10 +8,13 @@ Qualification, registration, activation, experiment binding, and inference remai
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
+from datetime import datetime, timezone
 import hashlib
 import json
+import os
 from pathlib import Path
 from typing import Callable
+import uuid
 
 from calo_rpd_studio.accelerated.torch_orpd import AcceleratedORPDProblem
 from calo_rpd_studio.ai.model_io import (
@@ -50,6 +53,17 @@ TSH_CALO_TRAINING_CAMPAIGN_SCHEMA = (
 )
 TSH_CALO_TRAINING_SEED_MANIFEST_SCHEMA = "tsh-calo-training-seed-manifest-v1"
 TSH_CALO_TRAINING_CAMPAIGN_STATUS_SCHEMA = "tsh-calo-training-campaign-status-v2"
+TSH_CALO_TRAINING_CONTROL_SCHEMA = "tsh-calo-training-control-v1"
+TSH_CALO_TRAINING_EVENT_SCHEMA = "tsh-calo-training-progress-event-v1"
+TSH_CALO_TRAINING_PAUSE_EXIT_CODE = 75
+
+
+class TSHCALOTrainingPauseRequested(RuntimeError):
+    """The campaign reached a committed checkpoint and acknowledged a safe pause."""
+
+    def __init__(self, event: dict) -> None:
+        super().__init__("TSH-CALO training paused at a committed checkpoint")
+        self.event = dict(event)
 
 
 def _canonical_sha256(payload: dict) -> str:
@@ -78,6 +92,53 @@ def _read_json(path: Path) -> dict:
     if not isinstance(payload, dict):
         raise ValueError(f"TSH-CALO campaign record must be an object: {path.name}")
     return payload
+
+
+def _append_json_line(path: Path, payload: dict) -> None:
+    encoded = (
+        json.dumps(payload, sort_keys=True, separators=(",", ":"), allow_nan=False) + "\n"
+    ).encode("utf-8")
+    with path.open("ab") as stream:
+        stream.write(encoded)
+        stream.flush()
+        os.fsync(stream.fileno())
+
+
+def request_tsh_calo_training_pause(output_directory: str | Path) -> dict:
+    """Request an idempotent cooperative pause bound to the exact running campaign."""
+
+    output = Path(output_directory).expanduser().resolve(strict=True)
+    plan = TSHCALOTrainingCampaignPlan.from_dict(_read_json(output / "training_plan.json"))
+    status = _read_json(output / "training_status.json")
+    plan_sha256 = plan.execution_plan_sha256()
+    if status.get("schema_version") != TSH_CALO_TRAINING_CAMPAIGN_STATUS_SCHEMA:
+        raise ValueError("TSH-CALO campaign status schema is incompatible")
+    if status.get("plan_sha256") != plan_sha256:
+        raise ValueError("TSH-CALO campaign status belongs to another plan")
+    if status.get("state") != "running":
+        raise RuntimeError("Only a running TSH-CALO campaign can accept a safe-pause request")
+    control_path = output / IndependentTSHCALOTrainingCampaign.CONTROL_FILE
+    if control_path.is_file():
+        existing = _read_json(control_path)
+        if (
+            existing.get("schema_version") == TSH_CALO_TRAINING_CONTROL_SCHEMA
+            and existing.get("state") == "requested"
+            and existing.get("action") == "pause"
+            and existing.get("campaign_id") == plan.campaign_id
+            and existing.get("plan_sha256") == plan_sha256
+        ):
+            return existing
+    request = {
+        "schema_version": TSH_CALO_TRAINING_CONTROL_SCHEMA,
+        "request_id": uuid.uuid4().hex,
+        "action": "pause",
+        "state": "requested",
+        "campaign_id": plan.campaign_id,
+        "plan_sha256": plan_sha256,
+        "requested_at": datetime.now(timezone.utc).isoformat(),
+    }
+    _write_json(control_path, request)
+    return request
 
 
 @dataclass(frozen=True, slots=True)
@@ -403,6 +464,8 @@ class IndependentTSHCALOTrainingCampaign:
     PLAN_FILE = "training_plan.json"
     STATUS_FILE = "training_status.json"
     MANIFEST_FILE = "training_manifest.json"
+    CONTROL_FILE = "training_control.json"
+    EVENT_LOG_FILE = "training_events.jsonl"
 
     def __init__(
         self,
@@ -411,12 +474,14 @@ class IndependentTSHCALOTrainingCampaign:
         *,
         problem_factory: Callable[[str], object] | None = None,
         transition_callback: Callable[[dict], None] | None = None,
+        event_callback: Callable[[dict], None] | None = None,
     ) -> None:
         plan.validate()
         self.plan = plan
         self.output_directory = Path(output_directory).expanduser().resolve()
         self.problem_factory = problem_factory
         self.transition_callback = transition_callback
+        self.event_callback = event_callback
         self._active_session: IndependentTSHCALOTrainingSession | None = None
         self._last_failure_provenance: dict | None = None
         self._last_failure_resumable = False
@@ -463,6 +528,135 @@ class IndependentTSHCALOTrainingCampaign:
         status["plan_sha256"] = self.plan.execution_plan_sha256()
         _write_json(self._status_path, status)
 
+    def _record_event(
+        self,
+        status: dict,
+        event: str,
+        *,
+        details: dict | None = None,
+        notify_transition: bool = False,
+    ) -> dict:
+        sequence = int(status.get("event_sequence", 0)) + 1
+        payload = {
+            "schema_version": TSH_CALO_TRAINING_EVENT_SCHEMA,
+            "event": str(event),
+            "event_sequence": sequence,
+            "recorded_at": datetime.now(timezone.utc).isoformat(),
+            "campaign_id": self.plan.campaign_id,
+            "plan_sha256": self.plan.execution_plan_sha256(),
+            "state": str(status.get("state", "")),
+            **dict(details or {}),
+        }
+        status["event_sequence"] = sequence
+        status["last_event"] = payload
+        self._write_status(status)
+        _append_json_line(self.output_directory / self.EVENT_LOG_FILE, payload)
+        if self.event_callback is not None:
+            self.event_callback(dict(payload))
+        if notify_transition and self.transition_callback is not None:
+            self.transition_callback(dict(payload))
+        return payload
+
+    def _checkpoint_progress(
+        self,
+        session: IndependentTSHCALOTrainingSession,
+        member_index: int,
+        episode_index: int,
+        checkpoint_sha256_value: str,
+    ) -> dict:
+        episode_count = sum(len(member.episodes) for member in self.plan.members)
+        episodes_before_member = sum(
+            len(member.episodes) for member in self.plan.members[:member_index]
+        )
+        episode_ordinal = episodes_before_member + episode_index + 1
+        provenance = session.environment.scientific_provenance()
+        episode_evaluations = int(provenance.get("candidate_evaluations", 0))
+        episode_limit = int(self.plan.max_evaluations)
+        total_evaluations = int(episode_count * episode_limit)
+        committed_evaluations = int(
+            (episode_ordinal - 1) * episode_limit + episode_evaluations
+        )
+        percent = (
+            min(99, int(committed_evaluations * 100 / total_evaluations))
+            if total_evaluations > 0
+            else 0
+        )
+        member = self.plan.members[member_index]
+        episode = member.episodes[episode_index]
+        return {
+            "member_index": int(member_index),
+            "member_number": int(member_index + 1),
+            "member_count": int(len(self.plan.members)),
+            "member_id": member.member_id,
+            "episode_index": int(episode_index),
+            "episode_number": int(episode_ordinal),
+            "episode_count": int(episode_count),
+            "session_id": episode.session_id,
+            "case_identity": episode.case_identity,
+            "transition_count": int(session.transition_count),
+            "episode_candidate_evaluations": episode_evaluations,
+            "episode_evaluation_limit": episode_limit,
+            "committed_candidate_evaluations": committed_evaluations,
+            "total_candidate_evaluations": total_evaluations,
+            "progress_percent": percent,
+            "checkpoint_path": self._checkpoint_path(member_index).name,
+            "checkpoint_sha256": checkpoint_sha256_value,
+            "checkpoint_committed": True,
+            "resumable": True,
+        }
+
+    def _pending_pause_request(self) -> tuple[Path, dict] | None:
+        control_path = self.output_directory / self.CONTROL_FILE
+        if not control_path.is_file():
+            return None
+        request = _read_json(control_path)
+        if request.get("schema_version") != TSH_CALO_TRAINING_CONTROL_SCHEMA:
+            raise ValueError("TSH-CALO training control schema is incompatible")
+        if request.get("campaign_id") != self.plan.campaign_id:
+            raise ValueError("TSH-CALO training control belongs to another campaign")
+        if request.get("plan_sha256") != self.plan.execution_plan_sha256():
+            raise ValueError("TSH-CALO training control belongs to another plan")
+        if request.get("state") == "acknowledged":
+            return None
+        if request.get("state") != "requested" or request.get("action") != "pause":
+            raise ValueError("TSH-CALO training control request is invalid")
+        return control_path, request
+
+    def _honor_pause_after_checkpoint(self, status: dict, progress: dict) -> None:
+        pending = self._pending_pause_request()
+        if pending is None:
+            return
+        control_path, request = pending
+        acknowledged_at = datetime.now(timezone.utc).isoformat()
+        acknowledged = {
+            **request,
+            "state": "acknowledged",
+            "acknowledged_at": acknowledged_at,
+            "checkpoint_path": progress["checkpoint_path"],
+            "checkpoint_sha256": progress["checkpoint_sha256"],
+            "committed_candidate_evaluations": progress[
+                "committed_candidate_evaluations"
+            ],
+        }
+        _write_json(control_path, acknowledged)
+        status["state"] = "interrupted"
+        status["pause"] = {
+            "reason": "user_requested_checkpoint_pause",
+            "request_id": request["request_id"],
+            "acknowledged_at": acknowledged_at,
+            "checkpoint_path": progress["checkpoint_path"],
+            "checkpoint_sha256": progress["checkpoint_sha256"],
+            "progress": dict(progress),
+            "resumable": True,
+        }
+        status["failure"] = None
+        event = self._record_event(
+            status,
+            "campaign_paused",
+            details={**progress, "pause_request_id": request["request_id"]},
+        )
+        raise TSHCALOTrainingPauseRequested(event)
+
     def start(self) -> TSHCALOTrainingCampaignResult:
         if self.output_directory.exists():
             raise FileExistsError(
@@ -482,8 +676,23 @@ class IndependentTSHCALOTrainingCampaign:
             "uncommitted_cuda_window": None,
             "member_candidates": [],
             "failure": None,
+            "pause": None,
+            "progress": None,
+            "event_sequence": 0,
         }
-        self._write_status(status)
+        self._record_event(
+            status,
+            "campaign_started",
+            details={
+                "member_count": len(self.plan.members),
+                "episode_count": sum(len(member.episodes) for member in self.plan.members),
+                "total_candidate_evaluations": sum(
+                    len(member.episodes) for member in self.plan.members
+                )
+                * self.plan.max_evaluations,
+                "progress_percent": 0,
+            },
+        )
         return self._execute(status)
 
     def resume(self) -> TSHCALOTrainingCampaignResult:
@@ -520,7 +729,13 @@ class IndependentTSHCALOTrainingCampaign:
                 "TSH-CALO campaign stopped inside an uncommitted CUDA evaluation window"
             )
         status["state"] = "running"
-        self._write_status(status)
+        status["pause"] = None
+        status["failure"] = None
+        self._record_event(
+            status,
+            "campaign_resumed",
+            details=dict(status.get("progress", {}) or {}),
+        )
         return self._execute(status)
 
     def _new_session(
@@ -629,9 +844,20 @@ class IndependentTSHCALOTrainingCampaign:
                 "transition_count": session.transition_count,
             }
             status["uncommitted_cuda_window"] = None
-            self._write_status(status)
-            if self.transition_callback is not None:
-                self.transition_callback(dict(status))
+            progress = self._checkpoint_progress(
+                session,
+                member_index,
+                episode_index,
+                checkpoint_sha256,
+            )
+            status["progress"] = progress
+            self._record_event(
+                status,
+                "checkpoint_committed",
+                details=progress,
+                notify_transition=True,
+            )
+            self._honor_pause_after_checkpoint(status, progress)
             if result is not None:
                 return result
 
@@ -774,7 +1000,17 @@ class IndependentTSHCALOTrainingCampaign:
                 member_index += 1
                 status["current_member_index"] = member_index
                 status["current_episode_index"] = 0
-                self._write_status(status)
+                self._record_event(
+                    status,
+                    "member_completed",
+                    details={
+                        "member_number": member_index,
+                        "member_count": len(self.plan.members),
+                        "member_candidate_path": Path(candidate.path).name,
+                        "member_candidate_sha256": candidate.sha256,
+                        **dict(status.get("progress", {}) or {}),
+                    },
+                )
             ensemble_path = self.output_directory / "ensemble.candidate.pt"
             ensemble = self._existing_ensemble(ensemble_path, members)
             if ensemble is None:
@@ -813,7 +1049,24 @@ class IndependentTSHCALOTrainingCampaign:
             manifest_sha256 = _write_json(manifest_path, manifest)
             status["state"] = "completed"
             status["manifest_sha256"] = manifest_sha256
-            self._write_status(status)
+            completed_progress = {
+                **dict(status.get("progress", {}) or {}),
+                "progress_percent": 100,
+                "committed_candidate_evaluations": sum(
+                    len(member.episodes) for member in self.plan.members
+                )
+                * self.plan.max_evaluations,
+                "total_candidate_evaluations": sum(
+                    len(member.episodes) for member in self.plan.members
+                )
+                * self.plan.max_evaluations,
+            }
+            status["progress"] = completed_progress
+            self._record_event(
+                status,
+                "campaign_completed",
+                details={**completed_progress, "manifest_sha256": manifest_sha256},
+            )
             return TSHCALOTrainingCampaignResult(
                 str(self.output_directory),
                 self.plan.execution_plan_sha256(),
@@ -823,6 +1076,8 @@ class IndependentTSHCALOTrainingCampaign:
                 str(manifest_path),
                 manifest_sha256,
             )
+        except TSHCALOTrainingPauseRequested:
+            raise
         except KeyboardInterrupt:
             status["state"] = "interrupted"
             self._write_status(status)

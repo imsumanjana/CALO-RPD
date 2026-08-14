@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections import deque
 import hashlib
 import json
 import os
@@ -26,6 +27,13 @@ from calo_rpd_studio.gui.user_feedback import show_error
 from calo_rpd_studio.gui.widgets.page_header import PageHeader
 
 
+TRAINING_EVENT_PREFIX = "CALO_TRAINING_EVENT "
+TRAINING_EVENT_SCHEMA = "tsh-calo-training-progress-event-v1"
+TRAINING_STATUS_SCHEMA = "tsh-calo-training-campaign-status-v2"
+TRAINING_CONTROL_SCHEMA = "tsh-calo-training-control-v1"
+TRAINING_PAUSE_EXIT_CODE = 75
+
+
 class TrainingModelLibrary(QObject):
     """Discover saved campaigns in per-user, explicitly registered locations."""
 
@@ -35,6 +43,7 @@ class TrainingModelLibrary(QObject):
     PLAN_FILE = "training_plan.json"
     STATUS_FILE = "training_status.json"
     MANIFEST_FILE = "training_manifest.json"
+    CONTROL_FILE = "training_control.json"
     RESUMABLE_STATES = frozenset({"running", "interrupted"})
     DISCOVERABLE_STATES = frozenset({*RESUMABLE_STATES, "completed"})
     MAX_SCAN_DEPTH = 2
@@ -169,6 +178,15 @@ class TrainingModelLibrary(QObject):
                 state = str(status.get("state", "")).strip().lower()
                 if state not in self.DISCOVERABLE_STATES:
                     continue
+                failure = status.get("failure")
+                failure_allows_resume = failure is None or (
+                    isinstance(failure, dict) and failure.get("resumable") is not False
+                )
+                resumable = bool(
+                    state in self.RESUMABLE_STATES
+                    and status.get("uncommitted_cuda_window") is None
+                    and failure_allows_resume
+                )
                 campaign_id = str(plan.get("campaign_id", "")).strip() or candidate.name
                 resolved = str(candidate.resolve())
                 policy_candidate = ""
@@ -184,9 +202,11 @@ class TrainingModelLibrary(QObject):
                     "state": state,
                     "directory": resolved,
                     "plan": str(plan_path.resolve()),
-                    "resumable": state in self.RESUMABLE_STATES,
+                    "resumable": resumable,
                     "policy_candidate": policy_candidate,
                     "candidate_error": candidate_error,
+                    "progress": dict(status.get("progress", {}) or {}),
+                    "pause": dict(status.get("pause", {}) or {}),
                     "modified_ns": modified_ns,
                 }
         return tuple(
@@ -512,6 +532,8 @@ class IndependentTrainingPanel(QWidget):
 
     activity_message = pyqtSignal(str, str)
     training_completed = pyqtSignal(str)
+    training_paused = pyqtSignal(str)
+    training_progress = pyqtSignal(object)
 
     def __init__(self, state, model: TrainingLaunchModel, parent=None) -> None:
         super().__init__(parent)
@@ -521,7 +543,10 @@ class IndependentTrainingPanel(QWidget):
         self._operation = ""
         self._invocation_fingerprint = ""
         self._validated_fingerprint = ""
-        self._process_output: list[str] = []
+        self._process_output: deque[str] = deque(maxlen=5000)
+        self._stdout_buffer = ""
+        self._pause_requested = False
+        self.last_progress_event: dict = {}
 
         layout = QVBoxLayout(self)
         layout.setContentsMargins(22, 18, 22, 18)
@@ -535,7 +560,8 @@ class IndependentTrainingPanel(QWidget):
         boundary = QLabel(
             "Opening this page does not start training. Check readiness reviews the selected inputs; "
             "Start training runs only after confirmation. A completed result is saved but is not "
-            "selected for experiments automatically."
+            "selected for experiments automatically. The checked evaluation plan remains finite; "
+            "safe checkpoint pause and exact resume may be repeated until it completes."
         )
         boundary.setObjectName("ResultBanner")
         boundary.setWordWrap(True)
@@ -556,7 +582,8 @@ class IndependentTrainingPanel(QWidget):
         self.resume = QCheckBox("Resume selected interrupted training")
         self.resume.setToolTip(
             "Continue only the selected interrupted training directory after its saved settings, "
-            "state, recovery point, and saved-file integrity pass compatibility checks."
+            "state, recovery point, and saved-file integrity pass compatibility checks. Resuming "
+            "continues the same finite evaluation plan and does not consume a resume allowance."
         )
         layout.addWidget(self.resume)
 
@@ -567,8 +594,21 @@ class IndependentTrainingPanel(QWidget):
         self.start_button.setObjectName("PrimaryButton")
         self.start_button.setEnabled(False)
         self.start_button.clicked.connect(self.start_training)
+        self.pause_button = QPushButton("Pause after checkpoint")
+        self.pause_button.setToolTip(
+            "Finish the current bounded evaluation window, commit its verified checkpoint, "
+            "and stop in a resumable state."
+        )
+        self.pause_button.setAccessibleName("Pause policy training after the next checkpoint")
+        self.pause_button.clicked.connect(
+            lambda: self.state.task_status.cancel(
+                "Pause requested · committing the current checkpoint window"
+            )
+        )
+        self.pause_button.hide()
         buttons.addWidget(self.check_button)
         buttons.addWidget(self.start_button)
+        buttons.addWidget(self.pause_button)
         buttons.addStretch(1)
         layout.addLayout(buttons)
 
@@ -580,6 +620,7 @@ class IndependentTrainingPanel(QWidget):
 
         self.model.changed.connect(self._configuration_changed)
         self.resume.toggled.connect(self._resume_intent_changed)
+        self.state.task_status.cancel_requested.connect(self.request_safe_pause)
         self._configuration_changed(dict(self.model.values))
 
     def _resume_intent_changed(self, _checked: bool) -> None:
@@ -620,7 +661,8 @@ class IndependentTrainingPanel(QWidget):
     def _refresh_preview(self) -> None:
         self.command_preview.setPlainText(
             "Readiness reviews the current training inputs without starting training.\n"
-            "New training saves recovery points automatically. Training starts only after "
+            "New training saves recovery points automatically. Safe pause and exact resume can be "
+            "repeated without changing the finite evaluation budget. Training starts only after "
             "readiness passes and you confirm."
         )
 
@@ -706,9 +748,14 @@ class IndependentTrainingPanel(QWidget):
     def _start_process(self, operation: str, arguments: list[str]) -> None:
         self._operation = operation
         self._invocation_fingerprint = self.model.fingerprint()
-        self._process_output = []
+        self._process_output.clear()
+        self._stdout_buffer = ""
+        self._pause_requested = False
+        self.last_progress_event = {}
         self.check_button.setEnabled(False)
         self.start_button.setEnabled(False)
+        self.pause_button.setVisible(operation == "training")
+        self.pause_button.setEnabled(operation == "training")
         process = QProcess(self)
         process.setProgram(sys.executable)
         process.setArguments(arguments)
@@ -722,25 +769,155 @@ class IndependentTrainingPanel(QWidget):
             self.state.begin_policy_training("Independent TSH-CALO training process")
             self.state.task_status.begin(
                 "Independent policy training",
-                detail="The training result will not be selected automatically",
-                progress=-1,
-                cancellable=False,
+                detail="Starting the finite checked plan · waiting for the first checkpoint",
+                progress=0,
+                cancellable=True,
             )
         else:
             self.status.setText("Checking readiness · no training started")
         self.activity_message.emit("INFO", self.status.text())
         process.start()
 
+    def request_safe_pause(self) -> None:
+        if (
+            self.process is None
+            or self._operation != "training"
+            or self._pause_requested
+        ):
+            return
+        try:
+            from calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign import (
+                request_tsh_calo_training_pause,
+            )
+
+            request = request_tsh_calo_training_pause(self.model.values["output"])
+        except (OSError, RuntimeError, ValueError) as exc:
+            message = f"Safe pause could not be requested: {type(exc).__name__}: {exc}"
+            self.activity_message.emit("ERROR", message)
+            self.state.task_status.rearm_cancel(
+                "Safe pause was not recorded · training is still running"
+            )
+            self.pause_button.setEnabled(True)
+            return
+        self._pause_requested = True
+        self.pause_button.setEnabled(False)
+        self.status.setText("Pause requested · committing the current checkpoint window")
+        self.state.task_status.update(
+            detail="Pause requested · committing the current checkpoint window"
+        )
+        self.activity_message.emit(
+            "INFO",
+            "Safe pause request recorded · training will stop only after a verified "
+            f"checkpoint is committed ({str(request.get('request_id', ''))[:12]}).",
+        )
+
     def _read_output(self) -> None:
         if self.process is None:
             return
         text = bytes(self.process.readAllStandardOutput()).decode("utf-8", errors="replace")
-        if text:
-            cleaned = text.rstrip()
-            self._process_output.append(cleaned)
-            # Full command output belongs in Activity -> Logs. The status and warning feeds
-            # receive the short user-facing result from _process_finished instead.
-            self.activity_message.emit("DEBUG", cleaned)
+        if not text:
+            return
+        self._stdout_buffer += text
+        while "\n" in self._stdout_buffer:
+            line, self._stdout_buffer = self._stdout_buffer.split("\n", 1)
+            self._consume_output_line(line.rstrip("\r"))
+
+    def _flush_output_buffer(self) -> None:
+        if self._stdout_buffer:
+            self._consume_output_line(self._stdout_buffer.rstrip("\r"))
+            self._stdout_buffer = ""
+
+    def _consume_output_line(self, line: str) -> None:
+        if not line:
+            return
+        self._process_output.append(line)
+        self.activity_message.emit("DEBUG", line)
+        if not line.startswith(TRAINING_EVENT_PREFIX):
+            return
+        try:
+            event = json.loads(line[len(TRAINING_EVENT_PREFIX) :])
+        except json.JSONDecodeError:
+            self.activity_message.emit("WARNING", "A training progress event was unreadable.")
+            return
+        if not isinstance(event, dict) or event.get("schema_version") != TRAINING_EVENT_SCHEMA:
+            self.activity_message.emit("WARNING", "A training progress event was incompatible.")
+            return
+        self._apply_training_progress(event)
+
+    def _apply_training_progress(self, event: dict) -> None:
+        name = str(event.get("event", ""))
+        if name == "process_started":
+            member_count = int(event.get("member_count", 0))
+            episode_count = int(event.get("episode_count", 0))
+            detail = (
+                f"Plan started · {member_count} members · {episode_count} episodes · "
+                "waiting for the first committed checkpoint"
+            )
+            self.state.task_status.update(progress=0, detail=detail)
+            self.activity_message.emit("INFO", detail)
+            return
+        if name == "campaign_started":
+            detail = (
+                "Finite campaign records committed - "
+                f"{int(event.get('total_candidate_evaluations', 0))} exact candidate "
+                "evaluations planned"
+            )
+            self.state.task_status.update(progress=0, detail=detail)
+            self.activity_message.emit("INFO", detail)
+            return
+        if name == "campaign_resumed":
+            progress = max(0, min(99, int(event.get("progress_percent", 0))))
+            detail = (
+                f"Exact finite plan resumed from {progress}% committed progress - "
+                f"{int(event.get('committed_candidate_evaluations', 0))}/"
+                f"{int(event.get('total_candidate_evaluations', 0))} candidate evaluations"
+            )
+            self.state.task_status.update(progress=progress, detail=detail)
+            self.activity_message.emit("INFO", detail)
+            return
+        if name == "member_completed":
+            progress = max(0, min(99, int(event.get("progress_percent", 0))))
+            detail = (
+                f"Member {int(event.get('member_number', 0))}/"
+                f"{int(event.get('member_count', 0))} candidate saved - "
+                f"{progress}% of the finite plan committed"
+            )
+            self.state.task_status.update(progress=progress, detail=detail)
+            self.activity_message.emit("INFO", detail)
+            return
+        if name == "campaign_paused":
+            progress = max(0, min(99, int(event.get("progress_percent", 0))))
+            detail = f"Safe checkpoint pause acknowledged at {progress}% committed"
+            self.state.task_status.update(progress=progress, detail=detail)
+            self.activity_message.emit("INFO", detail)
+            return
+        if name == "campaign_completed":
+            detail = (
+                "Finite campaign completed - "
+                f"{int(event.get('total_candidate_evaluations', 0))} exact candidate "
+                "evaluations committed"
+            )
+            self.last_progress_event = dict(event)
+            self.state.task_status.update(progress=100, detail=detail)
+            self.training_progress.emit(dict(event))
+            self.activity_message.emit("INFO", detail)
+            return
+        if name != "checkpoint_committed":
+            return
+        progress = max(0, min(99, int(event.get("progress_percent", 0))))
+        checkpoint_sha256 = str(event.get("checkpoint_sha256", ""))
+        detail = (
+            f"Member {int(event.get('member_number', 0))}/{int(event.get('member_count', 0))} · "
+            f"{event.get('case_identity', 'case')} · "
+            f"{int(event.get('episode_candidate_evaluations', 0))}/"
+            f"{int(event.get('episode_evaluation_limit', 0))} episode evaluations · "
+            f"checkpoint {checkpoint_sha256[:12]} committed"
+        )
+        self.last_progress_event = dict(event)
+        self.status.setText(f"Training {progress}% · {detail}")
+        self.state.task_status.update(progress=progress, detail=detail)
+        self.training_progress.emit(dict(event))
+        self.activity_message.emit("INFO", detail)
 
     def _friendly_process_failure(self, operation: str, exit_code: int) -> str:
         technical_output = "\n".join(self._process_output).casefold()
@@ -802,6 +979,7 @@ class IndependentTrainingPanel(QWidget):
             self._invocation_fingerprint = ""
             self.check_button.setEnabled(True)
             self.start_button.setEnabled(False)
+            self.pause_button.hide()
             self._validated_fingerprint = ""
             self.status.setText("Process could not start · no training result was accepted")
             if operation == "training":
@@ -822,10 +1000,13 @@ class IndependentTrainingPanel(QWidget):
         process = self.process
         if process is not None:
             self._read_output()
+        self._flush_output_buffer()
         self.process = None
         self._operation = ""
         self._invocation_fingerprint = ""
         self.check_button.setEnabled(True)
+        self.pause_button.hide()
+        self.pause_button.setEnabled(True)
         passed = int(exit_code) == 0
         if operation == "check":
             current_fingerprint = self.model.fingerprint()
@@ -852,6 +1033,25 @@ class IndependentTrainingPanel(QWidget):
                 process.deleteLater()
             return
 
+        paused = int(exit_code) == TRAINING_PAUSE_EXIT_CODE and self._confirmed_safe_pause()
+        if paused:
+            self._pause_requested = False
+            self._validated_fingerprint = ""
+            self.start_button.setEnabled(False)
+            self.state.end_policy_training("Independent training paused safely")
+            self.status.setText("Training paused at a verified checkpoint · resumable")
+            self.state.task_status.paused(self.status.text())
+            output = str(self.model.values.get("output", ""))
+            self.activity_message.emit(
+                "INFO",
+                "Training paused safely. Select this interrupted campaign from Saved training "
+                "to resume the unchanged finite plan.",
+            )
+            self.training_paused.emit(output)
+            if process is not None:
+                process.deleteLater()
+            return
+
         self.state.end_policy_training(
             "Independent training completed"
             if passed
@@ -861,11 +1061,55 @@ class IndependentTrainingPanel(QWidget):
             self.status.setText(
                 "Training completed · result saved and not selected for experiments"
             )
+            if self.last_progress_event:
+                self.last_progress_event = {
+                    **self.last_progress_event,
+                    "progress_percent": 100,
+                }
+                self.training_progress.emit(dict(self.last_progress_event))
             self.state.task_status.finish(self.status.text())
             self.training_completed.emit(str(self.model.values.get("output", "")))
         else:
             self.status.setText(self._friendly_process_failure(operation, int(exit_code)))
             self.state.task_status.fail(self.status.text())
+        self._pause_requested = False
         self.activity_message.emit("INFO" if passed else "ERROR", self.status.text())
         if process is not None:
             process.deleteLater()
+
+    def _confirmed_safe_pause(self) -> bool:
+        output = Path(self.model.values.get("output", "")).expanduser()
+        try:
+            status = json.loads((output / TrainingModelLibrary.STATUS_FILE).read_text("utf-8"))
+            control = json.loads(
+                (output / TrainingModelLibrary.CONTROL_FILE).read_text("utf-8")
+            )
+        except (OSError, json.JSONDecodeError):
+            return False
+        if not isinstance(status, dict) or not isinstance(control, dict):
+            return False
+        pause = status.get("pause", {})
+        checkpoint = status.get("session_checkpoint", {})
+        last_event = status.get("last_event", {})
+        if not all(isinstance(item, dict) for item in (pause, checkpoint, last_event)):
+            return False
+        return bool(
+            status.get("schema_version") == TRAINING_STATUS_SCHEMA
+            and control.get("schema_version") == TRAINING_CONTROL_SCHEMA
+            and last_event.get("schema_version") == TRAINING_EVENT_SCHEMA
+            and status.get("state") == "interrupted"
+            and status.get("uncommitted_cuda_window") is None
+            and pause.get("reason") == "user_requested_checkpoint_pause"
+            and pause.get("resumable") is True
+            and last_event.get("event") == "campaign_paused"
+            and control.get("action") == "pause"
+            and control.get("state") == "acknowledged"
+            and pause.get("request_id") == control.get("request_id")
+            and last_event.get("pause_request_id") == control.get("request_id")
+            and last_event.get("plan_sha256") == status.get("plan_sha256")
+            and control.get("plan_sha256") == status.get("plan_sha256")
+            and pause.get("checkpoint_path") == checkpoint.get("path")
+            and pause.get("checkpoint_sha256") == checkpoint.get("sha256")
+            and control.get("checkpoint_path") == checkpoint.get("path")
+            and control.get("checkpoint_sha256") == checkpoint.get("sha256")
+        )

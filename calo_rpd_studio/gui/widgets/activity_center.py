@@ -62,7 +62,7 @@ class ActivityCenter(QTabWidget):
         self.setMinimumHeight(96)
         self._entries: deque[tuple[str, str, str, str]] = deque(maxlen=5000)
         self._job_sequence = 0
-        self._last_busy = False
+        self._last_job_signature: tuple | None = None
 
         self.jobs = QTableWidget(0, 6)
         self.jobs.setHorizontalHeaderLabels(("Time", "State", "Task", "Stage", "Progress", "Mode"))
@@ -181,10 +181,15 @@ class ActivityCenter(QTabWidget):
         title = str(snapshot.get("title", "") or "Foreground task")
         detail = str(snapshot.get("detail", ""))
         progress = int(snapshot.get("progress", 0))
-        should_add = busy != self._last_busy or state in {"Completed", "Failed", "Cancelled"}
-        self._last_busy = busy
+        signature = (busy, state, title, detail, progress)
+        should_add = (
+            busy and signature != self._last_job_signature
+        ) or state in {"Completed", "Failed", "Cancelled", "Paused"}
+        self._last_job_signature = signature
         if should_add:
             self._job_sequence += 1
+            if self.jobs.rowCount() >= 1000:
+                self.jobs.removeRow(0)
             row = self.jobs.rowCount()
             self.jobs.insertRow(row)
             mode = str(getattr(self.state.config, "execution_backend", ""))
@@ -199,8 +204,13 @@ class ActivityCenter(QTabWidget):
             )
             for column, value in enumerate(values):
                 self.jobs.setItem(row, column, QTableWidgetItem(value))
-        if state in {"Failed", "Cancelled"}:
-            self.append_log("ERROR" if state == "Failed" else "WARNING", "task", detail)
+        if state in {"Failed", "Cancelled", "Paused"}:
+            severity = (
+                "ERROR"
+                if state == "Failed"
+                else ("INFO" if state == "Paused" else "WARNING")
+            )
+            self.append_log(severity, "task", detail)
         self.refresh_context()
 
     def refresh_context(self) -> None:

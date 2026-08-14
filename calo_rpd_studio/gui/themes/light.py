@@ -494,6 +494,7 @@ LIGHT_STYLESHEET += r"""
 #GlobalTaskState[taskState="busy"] { color: #1d4ed8; }
 #GlobalTaskState[taskState="completed"] { color: #087f5b; }
 #GlobalTaskState[taskState="failed"] { color: #b42318; }
+#GlobalTaskState[taskState="paused"] { color: #7c5c16; }
 #GlobalTaskDetail {
     color: #64748b;
 }

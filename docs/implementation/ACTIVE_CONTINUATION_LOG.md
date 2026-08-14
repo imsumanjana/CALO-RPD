@@ -2422,3 +2422,23 @@ Append timestamped entries below this line after each material action, validatio
   The validator executed no Docker, CUDA campaign, training, policy lifecycle, protected-case,
   publication, or release workflow and does not infer human screen-reader, usability, or scientist
   acceptance.
+
+### 2026-08-14 - Finite training progress and repeatable checkpoint-safe pause follow-up
+
+- The independent campaign now emits schema-bound start, committed-checkpoint, resume, member, pause,
+  and completion events. `training_events.jsonl` retains the detailed event history while the CLI
+  streams checkpoint events for the GUI. The global task bar, Training Inputs pane, and Activity
+  Jobs/Logs expose exact committed candidate-evaluation progress and checkpoint identity.
+- Pause is cooperative: the GUI writes an idempotent control request bound to the campaign ID and
+  immutable plan hash. The runner acknowledges it only after the current bounded window finishes,
+  the checkpoint is durably saved and hashed, and `uncommitted_cuda_window` is cleared. Only that
+  receipt produces the distinct `Paused`/resumable UI state; force interruption retains the prior
+  fail-closed semantics.
+- There is no pause/resume-count ceiling. Every resume authenticates and continues the same finite
+  plan, seeds, state, and exact candidate-evaluation budget; pausing neither expands nor resets it.
+  Infinite evaluation-budget training is explicitly not implemented.
+- Focused campaign, CLI, GUI, status, static, and offscreen contracts plus the ignored Phase 6
+  validator are updated. Per repository instructions they were not executed by Codex. No policy
+  training, scientific, protected-case, qualification, publication, or release workflow ran.
+  The prior `phase6-20260814-131637` pass predates this source and fresh complete owner validation is
+  pending.

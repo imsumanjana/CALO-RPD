@@ -19,6 +19,7 @@ from PyQt6.QtWidgets import (
     QHBoxLayout,
     QLabel,
     QLineEdit,
+    QProgressBar,
     QPushButton,
     QScrollArea,
     QSpinBox,
@@ -60,9 +61,10 @@ _TRAINING_INPUT_HELP = {
     ),
     "resume": (
         "New training saves verified recovery points automatically after each safely completed "
-        "training window. Continue an existing interrupted directory only by selecting that "
-        "saved run; its settings, state, recovery point, and saved-file integrity must pass "
-        "compatibility checks."
+        "training window. You may safely pause and resume any number of times before the finite "
+        "campaign completes. Continue an existing interrupted directory only by selecting that "
+        "saved run; its unchanged plan, state, recovery point, and saved-file integrity must "
+        "pass compatibility checks."
     ),
     "campaign_id": (
         "Unique training-run identity used in saved plans and run records. Changing "
@@ -90,7 +92,8 @@ _TRAINING_INPUT_HELP = {
     "evaluations": (
         "Exact candidate-evaluation budget for each member-case episode. Increasing it gives more "
         "experience and costs more power-flow work; decreasing it shortens training. It must be "
-        "at least twice, and an exact multiple of, population."
+        "at least twice, and an exact multiple of, population. Pausing never expands or resets "
+        "this finite budget."
     ),
     "device": (
         "Execution intent. CUDA preferred uses NVIDIA CUDA when safely available; CUDA only is "
@@ -152,7 +155,8 @@ _TRAINING_INPUT_SUGGESTIONS = {
     ),
     "resume": (
         "Suggested choice: automatic recovery stays on for new training. Exact resume is on only "
-        "for a selected compatible interrupted run. These fixed modes have no numeric range."
+        "for a selected compatible interrupted run. The number of safe resume cycles is not "
+        "limited, but every cycle continues the same finite evaluation plan."
     ),
     "campaign_id": (
         "Suggested format: a short unique identifier with project, design, and run date; identity "
@@ -540,10 +544,15 @@ class TrainingPathEditor(QWidget):
         )
         self.completed_recovery = QLabel("Training complete · resume is not applicable")
         self.completed_recovery.setObjectName("ContextValue")
+        self.unavailable_recovery = QLabel(
+            "Resume unavailable - no verified safe checkpoint boundary"
+        )
+        self.unavailable_recovery.setObjectName("ContextValue")
         self.recovery_stack = QStackedWidget()
         self.recovery_stack.addWidget(self.automatic_recovery)
         self.recovery_stack.addWidget(self.resume)
         self.recovery_stack.addWidget(self.completed_recovery)
+        self.recovery_stack.addWidget(self.unavailable_recovery)
         campaign_form.addRow(self._info_label("resume", "Recovery"), self.recovery_stack)
         self.load_plan_button = QPushButton("Import settings")
         self.load_plan_button.clicked.connect(self._load_plan)
@@ -662,6 +671,7 @@ class TrainingPathEditor(QWidget):
         self._loading_plan = False
         self._new_plan_mode = True
         self._selected_saved_state = ""
+        self._selected_saved_resumable = False
         self.campaign_id.setText(f"tsh-calo-{uuid.uuid4().hex[:12]}")
         self._set_selected_cases(("case30", "case57"))
         self.refresh_model_library()
@@ -732,16 +742,45 @@ class TrainingPathEditor(QWidget):
         self.status.setObjectName("ContextValue")
         self.status.setWordWrap(True)
         action_layout.addWidget(self.status)
+        self.training_progress = QProgressBar()
+        self.training_progress.setRange(0, 100)
+        self.training_progress.setValue(0)
+        self.training_progress.setFormat("0% committed")
+        self.training_progress.setAccessibleName("Committed policy training progress")
+        self.training_progress.hide()
+        action_layout.addWidget(self.training_progress)
+        self.training_progress_detail = QLabel()
+        self.training_progress_detail.setObjectName("ContextHelp")
+        self.training_progress_detail.setWordWrap(True)
+        self.training_progress_detail.hide()
+        action_layout.addWidget(self.training_progress_detail)
         self.training_action_button = QPushButton("Check readiness")
         self.training_action_button.setObjectName("PrimaryButton")
         self.training_action_button.setAccessibleName("Check policy training readiness")
         self.training_action_button.setMinimumHeight(38)
         self.training_action_button.clicked.connect(self._run_primary_action)
         action_layout.addWidget(self.training_action_button)
+        self.pause_training_button = QPushButton("Pause after checkpoint")
+        self.pause_training_button.setAccessibleName(
+            "Pause policy training after the next checkpoint"
+        )
+        self.pause_training_button.setToolTip(
+            "Finish the current bounded evaluation window, commit its verified checkpoint, "
+            "and stop in a resumable state."
+        )
+        self.pause_training_button.clicked.connect(
+            lambda: self.training_controller.state.task_status.cancel(
+                "Pause requested · committing the current checkpoint window"
+            )
+        )
+        self.pause_training_button.hide()
+        action_layout.addWidget(self.pause_training_button)
         layout.addStretch(1)
         self.model.changed.connect(lambda _values: self.refresh())
         self.training_controller.activity_message.connect(self._training_activity)
         self.training_controller.training_completed.connect(self.refresh_model_library)
+        self.training_controller.training_paused.connect(self.refresh_model_library)
+        self.training_controller.training_progress.connect(self._training_progress_changed)
         self.model_library.changed.connect(self.refresh_model_library)
         # Initial selection updates the model and refreshes this editor. Keep it after the
         # status/action widgets exist because refresh() writes to both of them.
@@ -751,6 +790,21 @@ class TrainingPathEditor(QWidget):
         self.refresh()
         if str(severity).upper() in {"WARNING", "ERROR", "CRITICAL"}:
             self.status.setText(str(message))
+
+    def _training_progress_changed(self, event: dict) -> None:
+        progress = max(0, min(100, int(event.get("progress_percent", 0))))
+        self.training_progress.setValue(progress)
+        self.training_progress.setFormat(f"{progress}% committed")
+        self.training_progress_detail.setText(
+            f"Member {int(event.get('member_number', 0))}/"
+            f"{int(event.get('member_count', 0))} · "
+            f"{event.get('case_identity', 'case')} · "
+            f"{int(event.get('episode_candidate_evaluations', 0))}/"
+            f"{int(event.get('episode_evaluation_limit', 0))} evaluations · "
+            f"checkpoint {str(event.get('checkpoint_sha256', ''))[:12]}"
+        )
+        self.training_progress.show()
+        self.training_progress_detail.show()
 
     def _info_label(self, key: str, label: str) -> QWidget:
         host = QWidget()
@@ -926,6 +980,10 @@ class TrainingPathEditor(QWidget):
         record = self.library_picker.currentData()
         if isinstance(record, dict) and record.get("directory"):
             self._selected_saved_state = str(record.get("state", ""))
+            self._selected_saved_resumable = bool(record.get("resumable", False))
+            self.training_controller.last_progress_event = dict(
+                record.get("progress", {}) or {}
+            )
             self.resume.setChecked(bool(record.get("resumable", False)))
             self.fields["plan"].setText(str(record["plan"]))
             self.fields["output"].setText(str(record["directory"]))
@@ -945,6 +1003,10 @@ class TrainingPathEditor(QWidget):
 
     def _select_new_training(self) -> None:
         self._selected_saved_state = ""
+        self._selected_saved_resumable = False
+        self.training_controller.last_progress_event = {}
+        self.training_progress.hide()
+        self.training_progress_detail.hide()
         self.resume.setChecked(False)
         self.fields["plan"].clear()
         self.model.clear_loaded_plan()
@@ -1052,11 +1114,20 @@ class TrainingPathEditor(QWidget):
     def refresh(self) -> None:
         controller = self.training_controller
         idle = controller.process is None
+        training_active = not idle and controller._operation == "training"
+        self.pause_training_button.setVisible(training_active)
+        self.pause_training_button.setEnabled(
+            training_active and not controller._pause_requested
+        )
+        if controller.last_progress_event:
+            self._training_progress_changed(controller.last_progress_event)
         saved_locked = bool(self._selected_saved_state)
-        if self._selected_saved_state in self.model_library.RESUMABLE_STATES:
+        if self._selected_saved_resumable:
             self.recovery_stack.setCurrentWidget(self.resume)
         elif self._selected_saved_state == "completed":
             self.recovery_stack.setCurrentWidget(self.completed_recovery)
+        elif self._selected_saved_state:
+            self.recovery_stack.setCurrentWidget(self.unavailable_recovery)
         else:
             self.recovery_stack.setCurrentWidget(self.automatic_recovery)
         self.library_picker.setEnabled(idle)
@@ -1066,7 +1137,7 @@ class TrainingPathEditor(QWidget):
             row.setEnabled(idle and not saved_locked)
         self.resume.setEnabled(
             idle
-            and self._selected_saved_state in self.model_library.RESUMABLE_STATES
+            and self._selected_saved_resumable
             and bool(self.model.values.get("output"))
         )
         self.load_plan_button.setEnabled(
@@ -1084,7 +1155,8 @@ class TrainingPathEditor(QWidget):
             )
         if controller.process is not None:
             self.status.setText(controller.status.text())
-            self._set_primary_action("Training active", controller.status.text(), False)
+            action_label = "Pause pending" if controller._pause_requested else "Training active"
+            self._set_primary_action(action_label, controller.status.text(), False)
             return
         if self._selected_saved_state == "completed":
             record = self.library_picker.currentData()
@@ -1103,6 +1175,12 @@ class TrainingPathEditor(QWidget):
                     "Use the Policy library's single Import action to add this saved candidate.",
                     False,
                 )
+            return
+        if self._selected_saved_state and not self._selected_saved_resumable:
+            self.status.setText(
+                "Resume unavailable - the saved run has no verified safe checkpoint boundary"
+            )
+            self._set_primary_action("Resume unavailable", self.status.text(), False)
             return
         missing = self.model.missing(include_output=False)
         if missing:

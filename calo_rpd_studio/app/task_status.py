@@ -83,6 +83,15 @@ class TaskStatus(QObject):
         self.cancellable = False
         self._emit()
 
+    def paused(self, detail: str = "Paused at a safe checkpoint") -> None:
+        """Finish the foreground process while retaining its committed progress."""
+
+        self.busy = False
+        self.state = "Paused"
+        self.detail = detail
+        self.cancellable = False
+        self._emit()
+
     def cancel(self, detail: str = "Cancellation requested") -> None:
         if not self.busy or not self.cancellable:
             return
@@ -91,6 +100,16 @@ class TaskStatus(QObject):
         self.cancellable = False
         self._emit()
         self.cancel_requested.emit()
+
+    def rearm_cancel(self, detail: str) -> None:
+        """Restore a cooperative cancel action when recording its request failed."""
+
+        if not self.busy:
+            return
+        self.state = "Busy"
+        self.detail = str(detail)
+        self.cancellable = True
+        self._emit()
 
     def reset_ready(self) -> None:
         if self.busy:

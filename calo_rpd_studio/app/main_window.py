@@ -308,6 +308,7 @@ class MainWindow(QMainWindow):
             "Completed",
             "Failed",
             "Cancelled",
+            "Paused",
         }:
             QTimer.singleShot(4500, self.state.task_status.reset_ready)
 

@@ -113,9 +113,9 @@ def verify_active_version(root: Path = PROJECT_ROOT) -> dict:
         and status.get("phase_5_publication_authorized") is False
         and status.get("phase_6_started") is True
         and status.get("phase_6_goal")
-        == "completed_current_source_phase6_gui_native_packaging_validation"
+        == "completed_prior_phase6_gui_native_packaging_validation_checkpoint_safe_pause_followup_validation_pending"
         and status.get("phase_6_coding")
-        == "implemented_and_current_source_phase6_gui_native_packaging_validation_passed"
+        == "implemented_checkpoint_safe_pause_progress_followup_validation_pending"
         and status.get("phase_6_training_interface")
         == "ribbon_navigation_only_tsh_calo_only_training_no_architecture_selector_optional_settings_template_per_user_default_model_directory_registered_resume_scan_locations_visible_scientific_inputs_protected_118_300_locked_visible_default_off_exact_resume_in_pane_readiness_then_explicit_confirmed_start_rule_based_calo_remains_in_algorithm_selection_no_redundant_document"
         and status.get("phase_6_training_input_help")
@@ -123,11 +123,19 @@ def verify_active_version(root: Path = PROJECT_ROOT) -> dict:
         and status.get("phase_6_native_execution")
         == "validated_first_class_windows_non_docker_launch"
         and status.get("phase_6_validation")
-        == "passed_phase6-20260814-131637_complete_17_stage_sequence_129_tests_render_build_distribution_source_stable"
+        == "prior_pass_phase6-20260814-131637_superseded_by_checkpoint_safe_pause_progress_followup_validation_pending"
         and status.get("phase_6_checkbox_indicator_visibility")
         == "validated_global_palette_aware_borders_and_state_marks_light_dark_phase6-20260814-131637"
         and status.get("phase_6_new_training_recovery_presentation")
         == "validated_automatic_recovery_status_separate_from_selected_interrupted_exact_resume_phase6-20260814-131637"
+        and status.get("phase_6_training_observability")
+        == "implemented_structured_checkpoint_progress_durable_jsonl_detailed_activity_steps_validation_pending"
+        and status.get("phase_6_checkpoint_safe_pause")
+        == "implemented_authenticated_checkpoint_boundary_pause_unlimited_resume_count_validation_pending"
+        and status.get("phase_6_training_evaluation_budget")
+        == "finite_exact_immutable_across_pause_and_resume"
+        and status.get("phase_6_unbounded_training")
+        == "not_implemented_finite_exact_evaluation_plan_preserved"
         and status.get("phase_6_validation_policy_or_scientific_workflows_executed") is False
         and status.get("phase_6_automated_human_acceptance") == "not_inferred"
         and status.get("phase_6_visual_refinement")

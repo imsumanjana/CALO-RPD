@@ -331,6 +331,22 @@ def validate(output: Path, *, platform: str) -> dict:
     ).read_text(encoding="utf-8")
     if "checkpoint_sha256 = session.save_resume(checkpoint_path)" not in campaign_source:
         raise AssertionError("New training does not retain automatic recovery checkpoints")
+    for token in (
+        'EVENT_LOG_FILE = "training_events.jsonl"',
+        "request_tsh_calo_training_pause",
+        "_honor_pause_after_checkpoint(status, progress)",
+        '"total_candidate_evaluations": total_evaluations',
+    ):
+        if token not in campaign_source:
+            raise AssertionError(f"Checkpoint-safe finite training contract is absent: {token}")
+    if training_editor.pause_training_button.accessibleName() != (
+        "Pause policy training after the next checkpoint"
+    ):
+        raise AssertionError("The training pane has no accessible checkpoint-safe pause action")
+    if training_editor.training_progress.minimum() != 0 or (
+        training_editor.training_progress.maximum() != 100
+    ):
+        raise AssertionError("The training pane has no exact finite committed-progress scale")
     if training_editor.library_picker.itemText(0) != "New training":
         raise AssertionError("The resumable-model picker has no explicit new-training choice")
     if training_editor.add_library_location_button.text() != "Add to path":
@@ -341,10 +357,13 @@ def validate(output: Path, *, platform: str) -> dict:
         raise AssertionError("Fresh training does not default to the per-user model directory")
     if training_editor.selected_training_cases() != ["case30", "case57"]:
         raise AssertionError("All eligible bundled training cases are not selected by default")
-    if "resource_preflight = validate_training_resources(plan)" not in (
+    training_command_source = (
         REPOSITORY_ROOT / "calo_rpd_studio/scripts/train_tsh_calo.py"
-    ).read_text(encoding="utf-8"):
+    ).read_text(encoding="utf-8")
+    if "resource_preflight = validate_training_resources(plan)" not in training_command_source:
         raise AssertionError("Readiness does not apply the training resource-admission preflight")
+    if 'TRAINING_EVENT_PREFIX = "CALO_TRAINING_EVENT "' not in training_command_source:
+        raise AssertionError("The training command does not stream structured progress events")
     if "self._rollout_capacity(population_size, max_evaluations)" not in (
         REPOSITORY_ROOT / "calo_rpd_studio/gui/panels/independent_training_panel.py"
     ).read_text(encoding="utf-8"):

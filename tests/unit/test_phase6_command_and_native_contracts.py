@@ -185,14 +185,28 @@ def test_training_model_library_scans_default_and_explicit_locations(tmp_path):
     default = tmp_path / "private-models"
     external = tmp_path / "external-models"
     resumable = external / "campaign-one"
+    unsafe_interruption = external / "campaign-unsafe-window"
     completed = default / "campaign-complete"
     resumable.mkdir(parents=True)
+    unsafe_interruption.mkdir(parents=True)
     completed.mkdir(parents=True)
     (resumable / "training_plan.json").write_text(
         json.dumps({"campaign_id": "campaign-one"}), encoding="utf-8"
     )
     (resumable / "training_status.json").write_text(
         json.dumps({"state": "interrupted"}), encoding="utf-8"
+    )
+    (unsafe_interruption / "training_plan.json").write_text(
+        json.dumps({"campaign_id": "campaign-unsafe-window"}), encoding="utf-8"
+    )
+    (unsafe_interruption / "training_status.json").write_text(
+        json.dumps(
+            {
+                "state": "interrupted",
+                "uncommitted_cuda_window": {"starting_transition_count": 2},
+            }
+        ),
+        encoding="utf-8",
     )
     (completed / "training_plan.json").write_text(
         json.dumps({"campaign_id": "campaign-complete"}), encoding="utf-8"
@@ -232,8 +246,9 @@ def test_training_model_library_scans_default_and_explicit_locations(tmp_path):
         },
     )
     saved = {item["campaign_id"]: item for item in library.saved_campaigns()}
-    assert set(saved) == {"campaign-one", "campaign-complete"}
+    assert set(saved) == {"campaign-one", "campaign-unsafe-window", "campaign-complete"}
     assert saved["campaign-one"]["resumable"] is True
+    assert saved["campaign-unsafe-window"]["resumable"] is False
     assert saved["campaign-complete"]["resumable"] is False
     assert saved["campaign-complete"]["policy_candidate"] == str(completed_candidate.resolve())
     assert library.completed_policy_candidates() == (saved["campaign-complete"],)
@@ -453,13 +468,26 @@ def test_policy_training_process_actions_are_visible_in_the_input_pane():
     assert "checkpoint_sha256 = session.save_resume(checkpoint_path)" in campaign
     assert 'status["session_checkpoint"] = {' in campaign
     assert 'status["state"] = "interrupted"' in campaign
-    assert 'self.activity_message.emit("DEBUG", cleaned)' in controller
+    assert "request_tsh_calo_training_pause" in controller
+    assert "TRAINING_PAUSE_EXIT_CODE" in controller
+    assert 'if name != "checkpoint_committed":' in controller
+    assert "self.state.task_status.paused(self.status.text())" in controller
+    assert 'control.get("state") == "acknowledged"' in controller
+    assert 'last_event.get("event") == "campaign_paused"' in controller
+    assert 'EVENT_LOG_FILE = "training_events.jsonl"' in campaign
+    assert "_honor_pause_after_checkpoint(status, progress)" in campaign
+    assert "TSHCALOTrainingPauseRequested" in campaign
+    assert 'self.pause_button = QPushButton("Pause after checkpoint")' in controller
+    assert "cancellable=True" in controller
     assert "requires a clean non-ignored source tree" in controller
     assert "uncommitted changes" in controller
     assert "currently available cpu ram" in controller
     training_command = (ROOT / "calo_rpd_studio/scripts/train_tsh_calo.py").read_text(
         encoding="utf-8"
     )
+    assert 'TRAINING_EVENT_PREFIX = "CALO_TRAINING_EVENT "' in training_command
+    assert "event_callback=emit_training_event" in training_command
+    assert "TSH_CALO_TRAINING_PAUSE_EXIT_CODE" in training_command
     assert "resource_preflight = validate_training_resources(plan)" in training_command
     assert "preflight_tsh_calo_training_resources(plan.training_config(plan.members[0]))" in (
         training_command

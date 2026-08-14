@@ -15,6 +15,9 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign import (
     TSHCALOTrainingCampaignPlan,
     TSHCALOTrainingEpisodePlan,
     TSHCALOTrainingMemberPlan,
+    TSHCALOTrainingPauseRequested,
+    TSH_CALO_TRAINING_EVENT_SCHEMA,
+    request_tsh_calo_training_pause,
 )
 import calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign as campaign_module
 from calo_rpd_studio.algorithms.calo.tsh_calo_training_resources import (
@@ -87,6 +90,7 @@ def _model_states(result):
 
 def test_campaign_freezes_plan_and_exports_only_unqualified_candidates(tmp_path, toy_case):
     plan = _plan()
+    streamed_events = []
     restored = TSHCALOTrainingCampaignPlan.from_dict(plan.to_dict())
     assert restored.execution_plan_sha256() == plan.execution_plan_sha256()
     assert restored.seed_manifest_sha256() == plan.seed_manifest_sha256()
@@ -95,6 +99,7 @@ def test_campaign_freezes_plan_and_exports_only_unqualified_candidates(tmp_path,
         plan,
         tmp_path / "campaign",
         problem_factory=_factory(toy_case),
+        event_callback=streamed_events.append,
     ).start()
 
     assert len(result.member_candidates) == 2
@@ -118,6 +123,14 @@ def test_campaign_freezes_plan_and_exports_only_unqualified_candidates(tmp_path,
         "activated": False,
         "experiment_bound": False,
     }
+    event_names = [event["event"] for event in streamed_events]
+    assert event_names[0] == "campaign_started"
+    assert event_names[-1] == "campaign_completed"
+    assert event_names.count("checkpoint_committed") == 2
+    assert event_names.count("member_completed") == 2
+    assert [event["event_sequence"] for event in streamed_events] == list(
+        range(1, len(streamed_events) + 1)
+    )
     with pytest.raises(FileExistsError, match="explicit resume"):
         IndependentTSHCALOTrainingCampaign(
             plan,
@@ -173,6 +186,113 @@ def test_interrupted_campaign_resumes_exactly_from_authenticated_session(tmp_pat
         for item in uninterrupted.member_candidates
     ]
     assert resumed_receipts == expected_receipts
+
+
+def test_checkpoint_safe_pause_can_repeat_without_changing_finite_plan(tmp_path, toy_case):
+    plan = _plan()
+    output = tmp_path / "repeated-safe-pause"
+
+    def pause_at_next_checkpoint(event):
+        assert event["schema_version"] == TSH_CALO_TRAINING_EVENT_SCHEMA
+        assert event["event"] == "checkpoint_committed"
+        request = request_tsh_calo_training_pause(output)
+        assert request["plan_sha256"] == plan.execution_plan_sha256()
+
+    with pytest.raises(TSHCALOTrainingPauseRequested):
+        IndependentTSHCALOTrainingCampaign(
+            plan,
+            output,
+            problem_factory=_factory(toy_case),
+            transition_callback=pause_at_next_checkpoint,
+        ).start()
+    first_pause = json.loads((output / "training_status.json").read_text(encoding="utf-8"))
+    assert first_pause["state"] == "interrupted"
+    assert first_pause["pause"]["resumable"] is True
+    assert first_pause["uncommitted_cuda_window"] is None
+    first_control = json.loads(
+        (output / "training_control.json").read_text(encoding="utf-8")
+    )
+    assert first_control["state"] == "acknowledged"
+    assert first_control["request_id"] == first_pause["pause"]["request_id"]
+    assert first_control["checkpoint_sha256"] == first_pause["session_checkpoint"][
+        "sha256"
+    ]
+
+    with pytest.raises(TSHCALOTrainingPauseRequested):
+        IndependentTSHCALOTrainingCampaign(
+            plan,
+            output,
+            problem_factory=_factory(toy_case),
+            transition_callback=pause_at_next_checkpoint,
+        ).resume()
+    second_pause = json.loads((output / "training_status.json").read_text(encoding="utf-8"))
+    assert second_pause["state"] == "interrupted"
+    assert second_pause["pause"]["request_id"] != first_pause["pause"]["request_id"]
+    assert second_pause["progress"]["committed_candidate_evaluations"] > first_pause[
+        "progress"
+    ]["committed_candidate_evaluations"]
+
+    resumed = IndependentTSHCALOTrainingCampaign(
+        plan,
+        output,
+        problem_factory=_factory(toy_case),
+    ).resume()
+    uninterrupted = IndependentTSHCALOTrainingCampaign(
+        plan,
+        tmp_path / "repeated-safe-pause-reference",
+        problem_factory=_factory(toy_case),
+    ).start()
+
+    for resumed_state, expected_state in zip(_model_states(resumed), _model_states(uninterrupted)):
+        assert resumed_state.keys() == expected_state.keys()
+        for name, tensor in expected_state.items():
+            torch.testing.assert_close(resumed_state[name], tensor, rtol=0.0, atol=0.0)
+    completed = json.loads((output / "training_status.json").read_text(encoding="utf-8"))
+    assert completed["state"] == "completed"
+    assert completed["progress"]["progress_percent"] == 100
+    assert completed["progress"]["total_candidate_evaluations"] == 16
+    events = [
+        json.loads(line)
+        for line in (output / "training_events.jsonl").read_text(encoding="utf-8").splitlines()
+    ]
+    assert [event["event"] for event in events].count("campaign_paused") == 2
+    assert [event["event_sequence"] for event in events] == list(
+        range(1, len(events) + 1)
+    )
+
+
+def test_pause_request_is_idempotent_and_bound_to_running_campaign(tmp_path, toy_case):
+    plan = _plan()
+    output = tmp_path / "idempotent-safe-pause"
+
+    def request_twice(_event):
+        first = request_tsh_calo_training_pause(output)
+        second = request_tsh_calo_training_pause(output)
+        assert second["request_id"] == first["request_id"]
+
+    with pytest.raises(TSHCALOTrainingPauseRequested):
+        IndependentTSHCALOTrainingCampaign(
+            plan,
+            output,
+            problem_factory=_factory(toy_case),
+            transition_callback=request_twice,
+        ).start()
+    with pytest.raises(RuntimeError, match="Only a running"):
+        request_tsh_calo_training_pause(output)
+
+
+def test_training_cli_emits_machine_readable_checkpoint_progress(capsys):
+    event = {
+        "schema_version": TSH_CALO_TRAINING_EVENT_SCHEMA,
+        "event": "checkpoint_committed",
+        "progress_percent": 25,
+    }
+
+    train_tsh_calo.emit_training_event(event)
+
+    line = capsys.readouterr().out.strip()
+    assert line.startswith(train_tsh_calo.TRAINING_EVENT_PREFIX)
+    assert json.loads(line.removeprefix(train_tsh_calo.TRAINING_EVENT_PREFIX)) == event
 
 
 def test_failed_campaign_retains_accounting_and_cannot_retry(tmp_path, toy_case):

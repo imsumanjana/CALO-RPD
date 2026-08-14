@@ -975,3 +975,15 @@ fresh wheel/sdist build; and both distribution verifiers. The global checkbox-bo
 training automatic-recovery presentation follow-ups are therefore automated-validation complete.
 No scientific/policy, protected-case, Docker, CUDA-campaign, publication, or release gate was
 executed or closed, and automated evidence does not establish human acceptance.
+
+### 2026-08-14 - Finite-plan checkpoint-safe pause follow-up pending validation
+
+The training runner now records durable structured progress at each committed recovery checkpoint
+and accepts a campaign/plan-bound cooperative pause request only at that safe boundary. A confirmed
+pause retains the committed percentage and becomes explicitly resumable; force-stop behavior inside
+an uncommitted CUDA window remains non-resumable. Exact resume has no cycle-count limit, but every
+cycle continues the immutable finite candidate-evaluation budget, so no infinite training semantics
+were introduced. Synthetic parity and repeated-pause tests, GUI progress/pause contracts, and the
+ignored validator revision are implemented but unexecuted. The completed
+`phase6-20260814-131637` evidence is therefore historical for this follow-up; the gate remains open
+until a fresh complete owner-run Phase 6 bundle passes. No policy or scientific workflow was run.

@@ -1423,3 +1423,16 @@ scientific/hardware qualification—not as a final release.
   restricted to a selected running/interrupted campaign. No policy/scientific lifecycle,
   protected-case, Docker, CUDA-campaign, publication, or release workflow executed; human
   acceptance remains separate.
+
+- A newer finite-plan training observability and safe-pause follow-up supersedes that Phase 6 source
+  for current validation purposes. The campaign durably records detailed checkpoint progress and
+  streams it to the GUI; the GUI exposes Pause safely and accepts a paused result only after a
+  campaign/plan-bound request is acknowledged against the committed checkpoint with no uncommitted
+  window. Exact resume can repeat without a count limit, but it always continues the immutable
+  finite evaluation budget; infinite-budget training was not added. Synthetic campaign/CLI/GUI and
+  offscreen contracts plus the ignored Phase 6 validator are updated but have not been executed.
+  Next command, to be run by the owner from repository root, is
+  `powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\validation\Validate-Phase6.ps1
+  -PythonExecutable .\.venv\Scripts\python.exe`; return the complete fresh
+  `validation\logs\phase6-*` directory. Do not train, qualify, register, activate, publish, release,
+  reset, clean, stage, commit, or push as part of that validation.

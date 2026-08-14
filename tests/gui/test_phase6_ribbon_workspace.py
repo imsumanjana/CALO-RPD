@@ -852,6 +852,57 @@ def test_activity_uses_indeterminate_progress_without_fabricating_percentage(
     assert window.global_status.progress.maximum() == 0
 
 
+def test_policy_training_checkpoint_progress_is_visible_and_pause_retains_it(
+    qtbot, tmp_path, monkeypatch
+):
+    from calo_rpd_studio.gui.panels.independent_training_panel import (
+        TRAINING_EVENT_PREFIX,
+        TRAINING_EVENT_SCHEMA,
+    )
+
+    state, window = _window(qtbot, tmp_path, monkeypatch)
+    assert state.task_status.begin(
+        "Independent policy training",
+        detail="Starting finite plan",
+        progress=0,
+        cancellable=True,
+    )
+    event = {
+        "schema_version": TRAINING_EVENT_SCHEMA,
+        "event": "checkpoint_committed",
+        "progress_percent": 37,
+        "member_number": 2,
+        "member_count": 4,
+        "case_identity": "case57",
+        "episode_candidate_evaluations": 40,
+        "episode_evaluation_limit": 100,
+        "checkpoint_sha256": "a" * 64,
+    }
+
+    window.training_center._consume_output_line(
+        f"{TRAINING_EVENT_PREFIX}{json.dumps(event, sort_keys=True)}"
+    )
+
+    assert state.task_status.progress == 37
+    assert "Member 2/4" in state.task_status.detail
+    assert window.global_status.progress.value() == 37
+    assert window.global_status.cancel_button.text() == "Pause safely"
+    assert window.context_pane.training.training_progress.value() == 37
+    assert "case57" in window.context_pane.training.training_progress_detail.text()
+    assert "checkpoint aaaaaaaaaaaa committed" in window.activity_center.logs.toPlainText()
+    last_row = window.activity_center.jobs.rowCount() - 1
+    assert window.activity_center.jobs.item(last_row, 4).text() == "37%"
+
+    state.task_status.paused("Paused at a verified checkpoint")
+
+    assert state.task_status.state == "Paused"
+    assert state.task_status.progress == 37
+    assert window.global_status.progress.value() == 37
+    assert window.activity_center.jobs.item(
+        window.activity_center.jobs.rowCount() - 1, 1
+    ).text() == "Paused"
+
+
 def test_layout_reset_does_not_overwrite_foreground_task(qtbot, tmp_path, monkeypatch):
     state, window = _window(qtbot, tmp_path, monkeypatch)
     assert state.task_status.begin("Retained foreground task", progress=25)
