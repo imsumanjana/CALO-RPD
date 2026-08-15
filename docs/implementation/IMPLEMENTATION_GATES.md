@@ -1249,3 +1249,12 @@ historical archive storage remains internal and no data migration or deletion oc
 static/GUI contracts and validator coverage are implemented but unexecuted. A fresh complete focused
 validator PASS is required before treating this follow-up as validated; scientific, activation,
 broader Phase 6, and release gates remain separate.
+
+The next follow-up separates fresh and resume intent for multi-cell feasibility execution. Resume is
+visible only for one exact authenticated safe pause; ambiguous, unpaused, completed, or incident
+state is not resumable through the UI. Fresh start allocates a new run identity and, after explicit
+confirmation, permanently removes only canonical candidate-bound incomplete/resumable workspaces.
+Completed evidence, shared source snapshots, integrity failures, and immutable infrastructure
+incidents remain protected. Frozen scientific and training/architecture semantics are unchanged.
+Production/test/validator source is implemented but unexecuted, so a new complete focused validator
+PASS is required before this exact behavior is relied upon.

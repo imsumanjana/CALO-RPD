@@ -25,8 +25,14 @@ from .tsh_calo_component_ablation import (
 )
 from .tsh_calo_policy_artifact import TSHCALOCandidateArtifact
 from .tsh_calo_qualification_campaign import (
+    QUALIFICATION_CONTROL_FILE,
+    QUALIFICATION_STATUS_FILE,
+    TSH_CALO_QUALIFICATION_CONTROL_SCHEMA,
+    TSH_CALO_QUALIFICATION_EVENT_SCHEMA,
+    TSH_CALO_QUALIFICATION_STATUS_SCHEMA,
     TSHCALOQualificationPlan,
     _verify_component_evidence,
+    inspect_tsh_calo_qualification_resume_state,
     qualification_candidate_contract,
 )
 
@@ -42,8 +48,8 @@ AUTOMATIC_ABLATION_LABEL_COUNT = 8
 AUTOMATIC_SOURCE_SNAPSHOT_MANIFEST = "automatic_source_snapshot_manifest.json"
 
 
-def _remove_source_snapshot_staging(staging: Path) -> None:
-    """Remove one exact temporary snapshot, including read-only Windows Git objects."""
+def _remove_read_only_tree(staging: Path) -> None:
+    """Remove one exact managed tree, including read-only Windows Git objects."""
 
     def make_writable_and_retry(function, path, _error_info) -> None:
         os.chmod(path, stat.S_IWRITE)
@@ -100,6 +106,153 @@ class AutomaticQualificationWorkspace:
             qualification_plan=root / "formal_qualification_plan.json",
             qualification_output=root / "formal-qualification-evidence",
         )
+
+
+def inspect_incomplete_automatic_qualification_workspace(
+    workspace: AutomaticQualificationWorkspace,
+    *,
+    campaigns_directory: str | Path,
+    candidate_path: str | Path,
+    candidate_sha256: str,
+) -> TSHCALOQualificationPlan:
+    """Verify one exact candidate-bound incomplete workspace without changing it."""
+
+    campaigns = Path(campaigns_directory).expanduser().resolve()
+    root = workspace.root.expanduser().resolve()
+    if root.parent != campaigns or root == campaigns or root.is_symlink():
+        raise ValueError(
+            "Incomplete assessment workspace is outside the managed campaign directory"
+        )
+    expected_paths = {
+        "workflow": root / "automatic_qualification_workflow.json",
+        "plan": root / "formal_qualification_plan.json",
+        "output": root / "formal-qualification-evidence",
+    }
+    if (
+        workspace.workflow_plan.resolve() != expected_paths["workflow"]
+        or workspace.qualification_plan.resolve() != expected_paths["plan"]
+        or workspace.qualification_output.resolve() != expected_paths["output"]
+    ):
+        raise ValueError("Incomplete assessment workspace paths are not canonical")
+    try:
+        payload = json.loads(workspace.qualification_plan.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise ValueError("Incomplete assessment plan is unreadable") from exc
+    if not isinstance(payload, dict):
+        raise ValueError("Incomplete assessment plan must be a JSON object")
+    plan = TSHCALOQualificationPlan.from_dict(payload)
+    formal_prefix = "auto-formal-"
+    if not plan.qualification_run_id.startswith(formal_prefix):
+        raise ValueError("Incomplete assessment run identity is not automatic-feasibility state")
+    expected_root_name = "architecture-v2-" + plan.qualification_run_id[len(formal_prefix) :]
+    if root.name != expected_root_name:
+        raise ValueError("Incomplete assessment directory does not match its frozen run identity")
+    if plan.candidate_sha256.lower() != str(candidate_sha256).lower():
+        raise ValueError("Incomplete assessment belongs to another candidate checksum")
+    if Path(plan.candidate_path).expanduser().resolve() != (
+        Path(candidate_path).expanduser().resolve()
+    ):
+        raise ValueError("Incomplete assessment belongs to another candidate path")
+    disposition = inspect_tsh_calo_qualification_resume_state(workspace.qualification_output)
+    if disposition.get("classification") != "resumable" or disposition.get("completed"):
+        raise ValueError("Only incomplete resumable assessment work may be discarded")
+    return plan
+
+
+def inspect_verified_paused_automatic_qualification_workspace(
+    workspace: AutomaticQualificationWorkspace,
+    *,
+    campaigns_directory: str | Path,
+    candidate_path: str | Path,
+    candidate_sha256: str,
+) -> TSHCALOQualificationPlan:
+    """Verify unique-identity pause authority before exposing exact resume."""
+
+    plan = inspect_incomplete_automatic_qualification_workspace(
+        workspace,
+        campaigns_directory=campaigns_directory,
+        candidate_path=candidate_path,
+        candidate_sha256=candidate_sha256,
+    )
+    output = workspace.qualification_output.resolve()
+    try:
+        output_plan_payload = json.loads(
+            (output / "qualification_plan.json").read_text(encoding="utf-8")
+        )
+        status = json.loads((output / QUALIFICATION_STATUS_FILE).read_text(encoding="utf-8"))
+        control = json.loads((output / QUALIFICATION_CONTROL_FILE).read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise ValueError("Paused assessment authority is unreadable") from exc
+    if (
+        not isinstance(output_plan_payload, dict)
+        or not isinstance(status, dict)
+        or not isinstance(control, dict)
+    ):
+        raise ValueError("Paused assessment authority must contain JSON objects")
+    output_plan = TSHCALOQualificationPlan.from_dict(output_plan_payload)
+    if output_plan.execution_plan_sha256() != plan.execution_plan_sha256():
+        raise ValueError("Paused assessment output belongs to another frozen plan")
+    pause = status.get("pause", {})
+    last_event = status.get("last_event", {})
+    if not isinstance(pause, dict) or not isinstance(last_event, dict):
+        raise ValueError("Paused assessment authority is structurally incompatible")
+    durable_path = Path(str(control.get("durable_path", ""))).expanduser().resolve()
+    try:
+        durable_path.relative_to(output)
+    except ValueError as exc:
+        raise ValueError(
+            "Paused assessment durable state is outside its evidence directory"
+        ) from exc
+    durable_sha256 = checkpoint_sha256(durable_path) if durable_path.is_file() else ""
+    plan_sha256 = plan.execution_plan_sha256()
+    verified = bool(
+        status.get("schema_version") == TSH_CALO_QUALIFICATION_STATUS_SCHEMA
+        and control.get("schema_version") == TSH_CALO_QUALIFICATION_CONTROL_SCHEMA
+        and last_event.get("schema_version") == TSH_CALO_QUALIFICATION_EVENT_SCHEMA
+        and status.get("state") == "paused"
+        and pause.get("reason") == "user_requested_safe_pause"
+        and pause.get("resumable") is True
+        and control.get("action") == "pause"
+        and control.get("state") == "acknowledged"
+        and last_event.get("event") == "campaign_paused"
+        and pause.get("request_id") == control.get("request_id")
+        and last_event.get("request_id") == control.get("request_id")
+        and status.get("qualification_plan_sha256") == plan_sha256
+        and control.get("qualification_plan_sha256") == plan_sha256
+        and last_event.get("qualification_plan_sha256") == plan_sha256
+        and pause.get("durable_path") == control.get("durable_path")
+        and pause.get("durable_sha256") == control.get("durable_sha256")
+        and last_event.get("durable_sha256") == control.get("durable_sha256")
+        and durable_sha256 == control.get("durable_sha256")
+    )
+    if not verified:
+        raise ValueError(
+            "Paused assessment does not have one complete authenticated pause authority"
+        )
+    return plan
+
+
+def discard_incomplete_automatic_qualification_workspace(
+    workspace: AutomaticQualificationWorkspace,
+    *,
+    campaigns_directory: str | Path,
+    candidate_path: str | Path,
+    candidate_sha256: str,
+    expected_plan_sha256: str,
+) -> None:
+    """Permanently remove one verified incomplete workspace selected for a fresh assessment."""
+
+    verified_plan = inspect_incomplete_automatic_qualification_workspace(
+        workspace,
+        campaigns_directory=campaigns_directory,
+        candidate_path=candidate_path,
+        candidate_sha256=candidate_sha256,
+    )
+    if verified_plan.execution_plan_sha256() != str(expected_plan_sha256).lower():
+        raise ValueError("Incomplete assessment plan changed after fresh-start preflight")
+    _remove_read_only_tree(workspace.root.resolve())
+    if workspace.root.exists():
+        raise OSError("Incomplete assessment workspace still exists after removal")
 
 
 def build_automatic_component_ablation_plan(
@@ -294,7 +447,7 @@ def prepare_automatic_source_snapshot(
                 raise RuntimeError(
                     "Existing automatic qualification source snapshot is incompatible"
                 )
-            _remove_source_snapshot_staging(staging)
+            _remove_read_only_tree(staging)
         else:
             os.replace(staging, destination)
         return AutomaticQualificationSourceSnapshot(
@@ -307,7 +460,7 @@ def prepare_automatic_source_snapshot(
     except BaseException:
         if staging.exists():
             try:
-                _remove_source_snapshot_staging(staging)
+                _remove_read_only_tree(staging)
             except OSError:
                 pass
         raise

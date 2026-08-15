@@ -576,7 +576,17 @@ def test_policy_training_process_actions_are_visible_in_the_input_pane():
     assert "Import trained policy" in intelligence
     assert "completed_campaigns()" in intelligence
     assert "Activate for experiments" in intelligence
-    assert 'QPushButton("Assess feasibility")' in intelligence
+    assert 'QPushButton("Start fresh assessment")' in intelligence
+    assert 'QPushButton("Assess feasibility")' not in intelligence
+    assert 'QPushButton("Resume assessment")' in intelligence
+    assert "self.qualification_resume_button.setVisible(False)" in intelligence
+    assert "self.qualification_resume_button.clicked.connect(self.resume_selected_assessment)" in (
+        intelligence
+    )
+    assert "inspect_verified_paused_automatic_qualification_workspace" in intelligence
+    assert "discard_incomplete_automatic_qualification_workspace" in intelligence
+    assert "Multiple paused assessments exist" in intelligence
+    assert "Completed assessments, source snapshots" in intelligence
     assert 'QPushButton("Check formal plan")' not in intelligence
     assert 'QPushButton("Run / resume qualification")' not in intelligence
     assert 'QPushButton("Admit passed evidence")' not in intelligence

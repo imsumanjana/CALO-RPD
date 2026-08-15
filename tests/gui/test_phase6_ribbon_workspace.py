@@ -744,7 +744,7 @@ def test_feasibility_action_explains_a_selected_policy_compatibility_blocker(
     policy_center.policy_table.selectRow(0)
     policy_center._policy_selection_changed()
 
-    assert policy_center.qualification_button.text() == "Assess feasibility"
+    assert policy_center.qualification_button.text() == "Start fresh assessment"
     assert policy_center.qualification_button.isEnabled() is True
     assert not hasattr(policy_center, "qualification_check_button")
     assert not hasattr(policy_center, "qualification_run_button")
@@ -765,6 +765,56 @@ def test_feasibility_action_explains_a_selected_policy_compatibility_blocker(
     assert blocker in shown[0][1]
     assert (
         "No plan, assessment evidence, registry state, or model file was changed" in (shown[0][1])
+    )
+
+
+def test_resume_assessment_is_visible_only_for_one_verified_safe_pause(
+    qtbot, tmp_path, monkeypatch
+):
+    from types import SimpleNamespace
+
+    state, window = _window(qtbot, tmp_path, monkeypatch)
+    policy_center = window.pages_by_key["calo_intelligence"]
+    policy = SimpleNamespace(
+        id="resumable-policy",
+        name="resumable-policy",
+        checkpoint_path=str(tmp_path / "resumable-policy.pt"),
+        sha256="a" * 64,
+        active=False,
+        archived=False,
+        qualification_status="candidate",
+        usable=True,
+        metadata={"ensemble_size": 2},
+        compatible_with=lambda _algorithm_id: True,
+    )
+    monkeypatch.setattr(policy_center, "_selected_policy", lambda: policy)
+    monkeypatch.setattr(
+        state.policy_registry,
+        "inspect_qualification_candidate",
+        lambda _policy_id: object(),
+    )
+    monkeypatch.setattr(
+        policy_center,
+        "_retained_qualification_resume",
+        lambda *_args: None,
+    )
+
+    policy_center._update_qualification_controls()
+
+    assert policy_center.qualification_button.isEnabled() is True
+    assert policy_center.qualification_resume_button.isHidden() is True
+
+    monkeypatch.setattr(
+        policy_center,
+        "_retained_qualification_resume",
+        lambda *_args: (object(), object(), object()),
+    )
+    policy_center._update_qualification_controls()
+
+    assert policy_center.qualification_resume_button.isHidden() is False
+    assert policy_center.qualification_resume_button.isEnabled() is True
+    assert "uniquely verified paused assessment" in (
+        policy_center.qualification_resume_button.toolTip()
     )
 
 

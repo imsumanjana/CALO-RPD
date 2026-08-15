@@ -36,17 +36,16 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_automatic_qualification import (
     automatic_qualification_workload,
     automatic_qualification_workflow_payload,
     build_automatic_formal_qualification_plan,
+    discard_incomplete_automatic_qualification_workspace,
     freeze_plan,
     frozen_qualification_restart_design_sha256,
+    inspect_incomplete_automatic_qualification_workspace,
+    inspect_verified_paused_automatic_qualification_workspace,
     prepare_automatic_source_snapshot,
 )
 from calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign import (
-    QUALIFICATION_CONTROL_FILE,
-    QUALIFICATION_STATUS_FILE,
-    TSH_CALO_QUALIFICATION_CONTROL_SCHEMA,
     TSH_CALO_QUALIFICATION_EVENT_SCHEMA,
     TSH_CALO_QUALIFICATION_PAUSE_EXIT_CODE,
-    TSH_CALO_QUALIFICATION_STATUS_SCHEMA,
     TSHCALOQualificationPlan,
     inspect_tsh_calo_qualification_resume_state,
     qualification_candidate_contract,
@@ -98,6 +97,9 @@ class CALOIntelligencePanel(ScrollablePage):
         self._qualification_live_event: dict = {}
         self._qualification_last_event: dict = {}
         self._qualification_prior_incidents: list[dict] = []
+        self._qualification_discardable_workspaces: list[
+            tuple[TSHCALOQualificationPlan, AutomaticQualificationWorkspace]
+        ] = []
         self._qualification_progress_timer = QTimer(self)
         self._qualification_progress_timer.setInterval(500)
         self._qualification_progress_timer.timeout.connect(self._update_qualification_progress)
@@ -157,13 +159,16 @@ class CALOIntelligencePanel(ScrollablePage):
 
         qualification_buttons = QHBoxLayout()
         self.policy_import_button = QPushButton("Import policy")
-        self.qualification_button = QPushButton("Assess feasibility")
+        self.qualification_button = QPushButton("Start fresh assessment")
+        self.qualification_resume_button = QPushButton("Resume assessment")
+        self.qualification_resume_button.setVisible(False)
         self.policy_select_button = QPushButton("Select for use")
         self.policy_activate_button = QPushButton("Activate for experiments")
         self.policy_delete_button = QPushButton("Delete model files")
         self.policy_refresh_button = QPushButton("Refresh")
         self.policy_import_button.clicked.connect(self.import_policy)
         self.qualification_button.clicked.connect(self.qualify_selected_policy)
+        self.qualification_resume_button.clicked.connect(self.resume_selected_assessment)
         self.policy_select_button.clicked.connect(self.select_policy_for_use)
         self.policy_activate_button.clicked.connect(self.activate_selected_policy)
         self.policy_delete_button.clicked.connect(self.delete_selected_model_files)
@@ -171,6 +176,7 @@ class CALOIntelligencePanel(ScrollablePage):
         for button in (
             self.policy_import_button,
             self.qualification_button,
+            self.qualification_resume_button,
             self.policy_select_button,
             self.policy_activate_button,
             self.policy_delete_button,
@@ -180,8 +186,9 @@ class CALOIntelligencePanel(ScrollablePage):
         qualification_buttons.addStretch(1)
         library_layout.addLayout(qualification_buttons)
         self.qualification_workflow_status = QLabel(
-            "Workflow: import -> assess feasibility -> inspect ratings and training influence -> "
-            "scientist selects -> activate explicitly. The software makes no suitability decision."
+            "Workflow: import -> start fresh, or resume one verified safe pause -> inspect ratings "
+            "and training influence -> scientist selects -> activate explicitly. The software "
+            "makes no suitability decision."
         )
         self.qualification_workflow_status.setWordWrap(True)
         self.qualification_workflow_status.setObjectName("ContextValue")
@@ -841,12 +848,40 @@ class CALOIntelligencePanel(ScrollablePage):
         policy = self._selected_policy()
         blocker = self._qualification_candidate_blocker(policy)
         process_running = self._qualification_process is not None
+        self._qualification_prior_incidents = []
+        self._qualification_discardable_workspaces = []
         self.qualification_button.setEnabled(policy is not None and not process_running)
+        retained = None
+        resume_error = ""
+        if policy is not None and not blocker and not process_running:
+            try:
+                candidate_artifact = self.state.policy_registry.inspect_qualification_candidate(
+                    policy.id
+                )
+                retained = self._retained_qualification_resume(
+                    self._automatic_qualification_base_directory(),
+                    policy,
+                    candidate_artifact,
+                )
+            except (OSError, RuntimeError, ValueError) as exc:
+                resume_error = str(exc)
+        resume_available = retained is not None and not blocker and not process_running
+        self.qualification_resume_button.setVisible(resume_available)
+        self.qualification_resume_button.setEnabled(resume_available)
+        self.qualification_resume_button.setToolTip(
+            "Resume the uniquely verified paused assessment under its exact frozen plan."
+            if resume_available
+            else resume_error
+        )
         self.qualification_button.setToolTip(
             (f"Feasibility assessment unavailable: {blocker}" if blocker else "")
-            or "Freeze the candidate architecture and training-parameter contract, start or "
-            "exactly resume retained measurement cells, and retain verified ratings without an "
-            "automated suitability decision. Scientist selection and activation remain explicit."
+            or (
+                "Start a new frozen feasibility assessment. The confirmed fresh start permanently "
+                "removes existing incomplete resumable assessment work for this exact candidate."
+                if self._qualification_discardable_workspaces
+                else "Start a new frozen feasibility assessment without an automated suitability "
+                "decision. Scientist selection and activation remain explicit."
+            )
         )
         if policy is not None and blocker and not process_running:
             self.qualification_workflow_status.setText(
@@ -863,8 +898,31 @@ class CALOIntelligencePanel(ScrollablePage):
         )
         return Path(local_data).expanduser().resolve() / "policy-qualification"
 
+    @staticmethod
+    def _next_fresh_assessment_workspace(
+        qualification_base: Path, policy, source_commit: str
+    ) -> tuple[int, AutomaticQualificationWorkspace]:
+        """Allocate a new identity without overwriting any retained campaign directory."""
+
+        restart_ordinal = 0
+        while True:
+            workspace = AutomaticQualificationWorkspace.create(
+                qualification_base / "campaigns",
+                candidate_sha256=policy.sha256,
+                source_commit=source_commit,
+                restart_ordinal=restart_ordinal,
+            )
+            if not workspace.root.exists():
+                return restart_ordinal, workspace
+            restart_ordinal += 1
+
     def _retained_qualification_resume(
-        self, qualification_base: Path, policy, candidate_artifact
+        self,
+        qualification_base: Path,
+        policy,
+        candidate_artifact,
+        *,
+        require_unique_paused: bool = True,
     ) -> (
         tuple[
             TSHCALOQualificationPlan,
@@ -873,14 +931,21 @@ class CALOIntelligencePanel(ScrollablePage):
         ]
         | None
     ):
-        """Find safe retained state; preserve contradictory campaigns as read-only incidents."""
+        """Find one safe paused state and inventory exact incomplete work eligible for discard."""
 
         self._qualification_prior_incidents = []
+        self._qualification_discardable_workspaces = []
         campaigns = qualification_base / "campaigns"
         if not campaigns.is_dir():
             return None
         prefix = f"architecture-v2-{policy.sha256[:16].lower()}-"
-        retained: list[tuple[int, Path, TSHCALOQualificationPlan]] = []
+        paused: list[
+            tuple[
+                TSHCALOQualificationPlan,
+                AutomaticQualificationWorkspace,
+                AutomaticQualificationSourceSnapshot,
+            ]
+        ] = []
         for root in campaigns.glob(f"{prefix}*"):
             plan_path = root / "formal_qualification_plan.json"
             output = root / "formal-qualification-evidence"
@@ -913,61 +978,154 @@ class CALOIntelligencePanel(ScrollablePage):
                     }
                 )
                 continue
-            status_rank = 0
-            if (output / "qualification_evidence.json").is_file():
-                status_rank = 3
-            status_path = output / QUALIFICATION_STATUS_FILE
-            if status_path.is_file():
-                try:
-                    status = json.loads(status_path.read_text(encoding="utf-8"))
-                    if status.get("state") == "paused":
-                        status_rank = 4
-                    elif status_rank < 3:
-                        status_rank = 2 if status.get("state") == "running" else 1
-                except (OSError, json.JSONDecodeError):
-                    status_rank = max(status_rank, 0)
-            retained.append((status_rank, root, plan))
-        if self._qualification_prior_incidents:
-            return None
-        if not retained:
-            return None
-        _rank, root, stored_plan = max(
-            retained,
-            key=lambda item: (item[0], item[1].stat().st_mtime_ns),
-        )
-        if stored_plan.candidate_contract != qualification_candidate_contract(candidate_artifact):
-            raise ValueError(
-                "The retained qualification plan no longer matches the candidate architecture "
-                "and parameter contract"
+            if not disposition.get("resumable"):
+                # Completed evidence is never a fresh-start deletion target.
+                continue
+            workspace = AutomaticQualificationWorkspace(
+                root=root.resolve(),
+                workflow_plan=root.resolve() / "automatic_qualification_workflow.json",
+                qualification_plan=root.resolve() / "formal_qualification_plan.json",
+                qualification_output=root.resolve() / "formal-qualification-evidence",
             )
-        snapshot_root = (
-            qualification_base / "source-snapshots" / stored_plan.source_commit
-        ).resolve()
-        validate_repository_for_plan(stored_plan, root=snapshot_root)
-        manifest_path = snapshot_root / AUTOMATIC_SOURCE_SNAPSHOT_MANIFEST
+            verified_plan = inspect_incomplete_automatic_qualification_workspace(
+                workspace,
+                campaigns_directory=campaigns,
+                candidate_path=policy.checkpoint_path,
+                candidate_sha256=policy.sha256,
+            )
+            if verified_plan.execution_plan_sha256() != plan.execution_plan_sha256():
+                raise ValueError("Incomplete assessment plan changed during discovery")
+            plan = verified_plan
+            self._qualification_discardable_workspaces.append((plan, workspace))
+            if not require_unique_paused:
+                continue
+            if disposition.get("status_state") != "paused":
+                continue
+            if plan.candidate_contract != qualification_candidate_contract(candidate_artifact):
+                raise ValueError(
+                    "The paused assessment plan no longer matches the candidate architecture "
+                    "and parameter contract"
+                )
+            inspect_verified_paused_automatic_qualification_workspace(
+                workspace,
+                campaigns_directory=campaigns,
+                candidate_path=policy.checkpoint_path,
+                candidate_sha256=policy.sha256,
+            )
+            snapshot_root = (
+                qualification_base / "source-snapshots" / plan.source_commit
+            ).resolve()
+            validate_repository_for_plan(plan, root=snapshot_root)
+            manifest_path = snapshot_root / AUTOMATIC_SOURCE_SNAPSHOT_MANIFEST
+            try:
+                manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError) as exc:
+                raise ValueError("Paused assessment source manifest is unreadable") from exc
+            if not isinstance(manifest, dict) or not isinstance(manifest.get("files"), list):
+                raise ValueError("Paused assessment source manifest is incompatible")
+            snapshot = AutomaticQualificationSourceSnapshot(
+                root=snapshot_root,
+                source_commit=plan.source_commit,
+                worktree_sha256=str(manifest.get("worktree_sha256", "")),
+                manifest_sha256=checkpoint_sha256(manifest_path),
+                file_count=len(manifest["files"]),
+            )
+            paused.append((plan, workspace, snapshot))
+        if len(paused) > 1:
+            if require_unique_paused:
+                raise ValueError(
+                    "Multiple paused assessments exist for this candidate; exact resume is "
+                    "ambiguous. Start a fresh assessment to discard the verified incomplete work."
+                )
+            return None
+        return paused[0] if paused else None
+
+    def resume_selected_assessment(self) -> None:
+        """Resume only one uniquely verified safe pause under its retained frozen source."""
+
+        policy = self._selected_policy()
+        if policy is None or self._qualification_process is not None:
+            return
+        blocker = self._qualification_candidate_blocker(policy)
+        if blocker:
+            self._update_qualification_controls()
+            return
+        if self.state.task_status.busy:
+            QMessageBox.information(
+                self,
+                "Another task is active",
+                "Finish the active task before resuming feasibility assessment.",
+            )
+            return
         try:
-            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError) as exc:
-            raise ValueError("Retained qualification source manifest is unreadable") from exc
-        if not isinstance(manifest, dict) or not isinstance(manifest.get("files"), list):
-            raise ValueError("Retained qualification source manifest is incompatible")
-        workspace = AutomaticQualificationWorkspace(
-            root=root.resolve(),
-            workflow_plan=root.resolve() / "automatic_qualification_workflow.json",
-            qualification_plan=root.resolve() / "formal_qualification_plan.json",
-            qualification_output=root.resolve() / "formal-qualification-evidence",
+            candidate_artifact = self.state.policy_registry.inspect_qualification_candidate(
+                policy.id
+            )
+            retained = self._retained_qualification_resume(
+                self._automatic_qualification_base_directory(),
+                policy,
+                candidate_artifact,
+            )
+            if retained is None:
+                QMessageBox.information(
+                    self,
+                    "No paused assessment",
+                    "No uniquely verified safely paused assessment exists for the selected model. "
+                    "Start fresh assessment creates a new assessment instead.",
+                )
+                self._update_qualification_controls()
+                return
+            qualification_plan, workspace, source_snapshot = retained
+        except (OSError, RuntimeError, ValueError) as exc:
+            show_error(
+                self,
+                "Assessment cannot resume",
+                "Exact resume verification rejected the retained assessment. No retained file was "
+                "changed; start fresh only if you intend to discard incomplete assessment work.",
+                exc,
+                source="automatic feasibility resume verification",
+            )
+            self._update_qualification_controls()
+            return
+        disposition = inspect_tsh_calo_qualification_resume_state(workspace.qualification_output)
+        workload = automatic_qualification_workload()
+        durable_cells = int(disposition.get("success_artifact_count", 0)) + int(
+            disposition.get("failure_artifact_count", 0)
         )
-        snapshot = AutomaticQualificationSourceSnapshot(
-            root=snapshot_root,
-            source_commit=stored_plan.source_commit,
-            worktree_sha256=str(manifest.get("worktree_sha256", "")),
-            manifest_sha256=checkpoint_sha256(manifest_path),
-            file_count=len(manifest["files"]),
+        answer = QMessageBox.warning(
+            self,
+            "Resume feasibility assessment",
+            f"Resume the exact paused assessment for {policy.name!r}?\n\n"
+            f"Durable progress: {durable_cells}/"
+            f"{workload['qualification_cells']} cells. Source snapshot: "
+            f"{source_snapshot.source_commit[:12]}. The candidate checksum, frozen cases, seeds, "
+            "population, exact FE budgets, analysis, and protected-case closure remain unchanged.\n\n"
+            "Resume continues the authenticated partial cell/checkpoint and does not create a new "
+            "assessment identity.",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.Cancel,
+            QMessageBox.StandardButton.Cancel,
         )
-        return stored_plan, workspace, snapshot
+        if answer != QMessageBox.StandardButton.Yes:
+            return
+        try:
+            self._qualification_policy_id = policy.id
+            self._qualification_workspace = workspace
+            self._qualification_source_snapshot = source_snapshot
+            self._continue_automatic_qualification(policy, qualification_plan, workspace)
+        except AutomaticQualificationRejected as exc:
+            self._record_qualification_rejection(policy.name, str(exc))
+        except Exception as exc:
+            show_error(
+                self,
+                "Assessment could not resume",
+                "The retained paused assessment remains unchanged and no policy state changed.",
+                exc,
+                source="automatic feasibility resume",
+            )
+            self._update_qualification_controls()
 
     def qualify_selected_policy(self) -> None:
-        """Run frozen feasibility; this action never activates or binds the policy."""
+        """Start fresh feasibility; this action never activates or binds the policy."""
 
         policy = self._selected_policy()
         if policy is None:
@@ -998,48 +1156,40 @@ class CALOIntelligencePanel(ScrollablePage):
                 policy.id
             )
             qualification_base = self._automatic_qualification_base_directory()
-            retained = self._retained_qualification_resume(
-                qualification_base, policy, candidate_artifact
+            self._retained_qualification_resume(
+                qualification_base,
+                policy,
+                candidate_artifact,
+                require_unique_paused=False,
             )
-            if retained is not None:
-                qualification_plan, workspace, source_snapshot = retained
-            else:
-                source_snapshot = prepare_automatic_source_snapshot(
-                    QUALIFICATION_SOURCE_ROOT,
-                    qualification_base / "source-snapshots",
+            source_snapshot = prepare_automatic_source_snapshot(
+                QUALIFICATION_SOURCE_ROOT,
+                qualification_base / "source-snapshots",
+            )
+            restart_ordinal, workspace = self._next_fresh_assessment_workspace(
+                qualification_base,
+                policy,
+                source_snapshot.source_commit,
+            )
+            qualification_plan = build_automatic_formal_qualification_plan(
+                candidate_path=policy.checkpoint_path,
+                candidate_sha256=policy.sha256,
+                source_commit=source_snapshot.source_commit,
+                candidate_artifact=candidate_artifact,
+                restart_ordinal=restart_ordinal,
+            )
+            fresh_design_sha256 = frozen_qualification_restart_design_sha256(qualification_plan)
+            retained_designs = [
+                item["frozen_restart_design_sha256"]
+                for item in self._qualification_prior_incidents
+            ] + [
+                frozen_qualification_restart_design_sha256(plan)
+                for plan, _workspace in self._qualification_discardable_workspaces
+            ]
+            if any(identity != fresh_design_sha256 for identity in retained_designs):
+                raise ValueError(
+                    "The fresh assessment would change the complete frozen scientific design"
                 )
-                restart_ordinal = sum(
-                    1
-                    for item in self._qualification_prior_incidents
-                    if item["source_commit"] == source_snapshot.source_commit
-                )
-                qualification_plan = build_automatic_formal_qualification_plan(
-                    candidate_path=policy.checkpoint_path,
-                    candidate_sha256=policy.sha256,
-                    source_commit=source_snapshot.source_commit,
-                    candidate_artifact=candidate_artifact,
-                    restart_ordinal=restart_ordinal,
-                )
-                fresh_design_sha256 = frozen_qualification_restart_design_sha256(qualification_plan)
-                if any(
-                    item["frozen_restart_design_sha256"] != fresh_design_sha256
-                    for item in self._qualification_prior_incidents
-                ):
-                    raise ValueError(
-                        "The corrected-source restart would change the frozen scientific design"
-                    )
-                workspace = AutomaticQualificationWorkspace.create(
-                    qualification_base / "campaigns",
-                    candidate_sha256=policy.sha256,
-                    source_commit=source_snapshot.source_commit,
-                    restart_ordinal=restart_ordinal,
-                )
-            if workspace.qualification_plan.is_file():
-                stored = load_qualification_plan(workspace.qualification_plan)
-                if stored.execution_plan_sha256() != qualification_plan.execution_plan_sha256():
-                    raise ValueError(
-                        "The frozen architecture and quality plan changed; reuse is forbidden"
-                    )
         except Exception as exc:
             show_error(
                 self,
@@ -1052,14 +1202,10 @@ class CALOIntelligencePanel(ScrollablePage):
             return
 
         workload = automatic_qualification_workload()
-        if (workspace.qualification_output / "qualification_evidence.json").is_file():
-            action = "Verify and admit the retained feasibility measurements"
-        elif workspace.qualification_output.exists():
-            action = "Resume the retained feasibility cells"
-        elif self._qualification_prior_incidents:
+        if self._qualification_prior_incidents:
             action = "Start a fresh corrected-source feasibility assessment"
         else:
-            action = "Start the frozen architecture feasibility assessment"
+            action = "Start a new frozen architecture feasibility assessment"
         answer = QMessageBox.warning(
             self,
             "Assess policy feasibility",
@@ -1083,6 +1229,16 @@ class CALOIntelligencePanel(ScrollablePage):
                 if self._qualification_prior_incidents
                 else ""
             )
+            + (
+                f"Fresh-start removal: {len(self._qualification_discardable_workspaces)} exact "
+                "incomplete assessment workspace(s), including any safely paused work, will be "
+                "permanently removed after confirmation. Their durable cells and partial-cell "
+                "checkpoints will not be merged into the new assessment. "
+                "Completed assessments, source snapshots, and immutable infrastructure incidents "
+                "will not be removed.\n\n"
+                if self._qualification_discardable_workspaces
+                else ""
+            )
             + "Activity records a micro step every 500 evaluations. Pause safely commits the current "
             "optimizer state, so even a partial cell can continue later. Pause/resume has no count "
             "limit and never changes this finite budget. Completed integrity-valid measurements are "
@@ -1094,6 +1250,12 @@ class CALOIntelligencePanel(ScrollablePage):
         if answer != QMessageBox.StandardButton.Yes:
             return
         try:
+            discarded_roots = [
+                str(retained_workspace.root.resolve())
+                for _retained_plan, retained_workspace in (
+                    self._qualification_discardable_workspaces
+                )
+            ]
             workflow_payload = automatic_qualification_workflow_payload(
                 qualification_plan=qualification_plan
             )
@@ -1107,6 +1269,7 @@ class CALOIntelligencePanel(ScrollablePage):
             workflow_payload["prior_infrastructure_incidents"] = list(
                 self._qualification_prior_incidents
             )
+            workflow_payload["discarded_incomplete_assessment_roots"] = discarded_roots
             workflow_payload["frozen_restart_design_sha256"] = (
                 frozen_qualification_restart_design_sha256(qualification_plan)
             )
@@ -1115,6 +1278,23 @@ class CALOIntelligencePanel(ScrollablePage):
                 workflow_payload,
             )
             freeze_plan(workspace.qualification_plan, qualification_plan.to_dict())
+            for retained_plan, retained_workspace in list(
+                self._qualification_discardable_workspaces
+            ):
+                discard_incomplete_automatic_qualification_workspace(
+                    retained_workspace,
+                    campaigns_directory=qualification_base / "campaigns",
+                    candidate_path=policy.checkpoint_path,
+                    candidate_sha256=policy.sha256,
+                    expected_plan_sha256=retained_plan.execution_plan_sha256(),
+                )
+            if discarded_roots:
+                self.activity_message.emit(
+                    "INFO",
+                    f"Fresh feasibility start removed {len(discarded_roots)} verified incomplete "
+                    "assessment workspace(s); immutable incidents and completed evidence were "
+                    "retained.",
+                )
             self._qualification_policy_id = policy.id
             self._qualification_workspace = workspace
             self._qualification_source_snapshot = source_snapshot
@@ -1126,7 +1306,8 @@ class CALOIntelligencePanel(ScrollablePage):
                 self,
                 "Assessment was not admitted",
                 "The automatic workflow stopped without changing policy activation or experiment "
-                "settings. Retained exact cells remain available when safe to resume.",
+                "settings. Any incomplete assessment work removed by the confirmed fresh-start "
+                "choice is not recoverable.",
                 exc,
                 source="automatic feasibility assessment",
             )
@@ -1488,7 +1669,8 @@ class CALOIntelligencePanel(ScrollablePage):
             expected = max(1, int(self._qualification_expected_cells))
             detail = (
                 f"Feasibility assessment paused safely | {completed}/{expected} cells durable | "
-                "click Assess feasibility to resume the exact frozen plan"
+                "choose Resume assessment to continue the exact frozen plan, or Start fresh "
+                "assessment to discard incomplete work"
             )
             self.state.task_status.paused(detail)
             self.qualification_workflow_status.setText(detail)
@@ -1532,16 +1714,17 @@ class CALOIntelligencePanel(ScrollablePage):
                 )
                 self.qualification_workflow_status.setText(
                     f"Feasibility {stage} stopped with code {exit_code}. The contradictory run "
-                    "is retained read-only and cannot resume or admit evidence. Click Assess feasibility "
-                    "to prepare a new corrected-source run with the unchanged frozen design."
+                    "is retained read-only and cannot resume or admit evidence. Click Start fresh "
+                    "assessment to prepare a new corrected-source run with the unchanged frozen design."
                 )
             else:
                 self.state.task_status.fail(
-                    f"Feasibility {stage} stopped; retained completed cells can resume on next click"
+                    f"Feasibility {stage} stopped without a verified safe pause; fresh start required"
                 )
                 self.qualification_workflow_status.setText(
                     f"Feasibility {stage} stopped with code {exit_code}. No evidence was admitted "
-                    "or activated. Click Assess feasibility again to resume the exact retained plan."
+                    "or activated. Resume is unavailable without an authenticated safe pause; "
+                    "Start fresh assessment removes verified incomplete work after confirmation."
                 )
             self.activity_message.emit("ERROR", self.qualification_workflow_status.text())
         self._qualification_pause_requested = False
@@ -1551,47 +1734,17 @@ class CALOIntelligencePanel(ScrollablePage):
         workspace = self._qualification_workspace
         if workspace is None:
             return False
-        output = workspace.qualification_output
         try:
-            status = json.loads((output / QUALIFICATION_STATUS_FILE).read_text("utf-8"))
-            control = json.loads((output / QUALIFICATION_CONTROL_FILE).read_text("utf-8"))
-        except (OSError, json.JSONDecodeError):
-            return False
-        if not isinstance(status, dict) or not isinstance(control, dict):
-            return False
-        pause = status.get("pause", {})
-        last_event = status.get("last_event", {})
-        if not isinstance(pause, dict) or not isinstance(last_event, dict):
-            return False
-        durable_path = Path(str(control.get("durable_path", ""))).expanduser()
-        try:
-            durable_digest = (
-                checkpoint_sha256(durable_path.resolve())
-                if durable_path.resolve().is_file()
-                else ""
+            plan = load_qualification_plan(workspace.qualification_plan)
+            inspect_verified_paused_automatic_qualification_workspace(
+                workspace,
+                campaigns_directory=workspace.root.resolve().parent,
+                candidate_path=plan.candidate_path,
+                candidate_sha256=plan.candidate_sha256,
             )
-        except OSError:
-            durable_digest = ""
-        return bool(
-            status.get("schema_version") == TSH_CALO_QUALIFICATION_STATUS_SCHEMA
-            and control.get("schema_version") == TSH_CALO_QUALIFICATION_CONTROL_SCHEMA
-            and last_event.get("schema_version") == TSH_CALO_QUALIFICATION_EVENT_SCHEMA
-            and status.get("state") == "paused"
-            and pause.get("reason") == "user_requested_safe_pause"
-            and pause.get("resumable") is True
-            and control.get("action") == "pause"
-            and control.get("state") == "acknowledged"
-            and last_event.get("event") == "campaign_paused"
-            and pause.get("request_id") == control.get("request_id")
-            and last_event.get("request_id") == control.get("request_id")
-            and control.get("qualification_plan_sha256") == status.get("qualification_plan_sha256")
-            and last_event.get("qualification_plan_sha256")
-            == status.get("qualification_plan_sha256")
-            and pause.get("durable_path") == control.get("durable_path")
-            and pause.get("durable_sha256") == control.get("durable_sha256")
-            and last_event.get("durable_sha256") == control.get("durable_sha256")
-            and durable_digest == control.get("durable_sha256")
-        )
+        except (OSError, RuntimeError, ValueError):
+            return False
+        return True
 
     def _admit_automatic_qualification(
         self, policy, workspace: AutomaticQualificationWorkspace

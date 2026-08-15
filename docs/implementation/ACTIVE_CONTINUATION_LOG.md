@@ -2918,3 +2918,24 @@ Append timestamped entries below this line after each material action, validatio
   Ruff check, and format check. No validator, GUI, scientific campaign, training, selection,
   activation, protected-case, Docker, or release command was run after this follow-up; the prior
   `feasibility-influence-20260815-205030` PASS predates it and is stale for this exact source state.
+
+### 2026-08-15 - Explicit fresh-versus-resume feasibility actions, validation pending
+
+- Multi-cell feasibility execution now exposes separate intent. **Resume assessment** is hidden by
+  default and becomes visible only when the selected candidate has exactly one uniquely identified,
+  candidate/plan/source-bound workspace with a complete authenticated safe-pause status, control
+  receipt, final pause event, and durable checkpoint hash. Multiple or invalid pauses fail closed and
+  are never guessed.
+- **Start fresh assessment** always allocates a new run identity. Its confirmation enumerates exact
+  incomplete/resumable workspaces for the candidate and states that their durable cells and partial-
+  cell checkpoints will be permanently removed rather than merged. After confirmation, only those
+  canonical managed workspaces are deleted. Completed assessment evidence, shared source snapshots,
+  evidence-integrity failures, and infrastructure-aborted incidents are excluded and retained.
+- Fresh-plan construction is checked against every retained incident and discardable incomplete plan
+  using the frozen restart-design hash. Candidate checksum, case30/case57, 30 paired runs, seeds,
+  population 20, 10,000 exact FE per cell, analysis/OOD definitions, protected-case closure, training
+  protocol, and CALO/TSH architecture remain unchanged. Resume continues the same frozen plan and
+  partial-cell state without a new identity.
+- Unit/static/GUI contracts and the ignored validator guidance were updated. No formatter, lint,
+  test, validator, GUI, feasibility campaign, training, policy selection/activation, protected-case,
+  Docker, or release command was run; fresh focused validation is required.

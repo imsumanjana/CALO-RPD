@@ -1635,3 +1635,18 @@ superseded by the stage-neutral compatibility and qualification boundary on 2026
   preceding source but predates this UI follow-up. Updated static/GUI contracts and the ignored
   validator are ready, but no validator or scientific/lifecycle command was executed afterward.
   Run the complete focused validator again before relying on this exact source for a new assessment.
+
+### Explicit fresh/resume assessment follow-up
+
+- **Resume assessment** is a conditional action, not an alias for fresh assessment. It appears only
+  for exactly one candidate-bound safe pause whose status/control/event/checkpoint identities and
+  hashes verify under the retained frozen plan and retained source snapshot.
+- **Start fresh assessment** always means fresh. The confirmation discloses the count and consequence
+  of removing old incomplete/resumable work. On approval, those exact managed candidate workspaces
+  are permanently removed and a new non-colliding assessment identity is started; no old cell is
+  merged into the new run.
+- Completed evidence, source snapshots, contradictory/evidence-integrity state, and the immutable
+  infrastructure-aborted incident are not deletion targets. Governance/deletion protection remains
+  fail closed. No training value, architecture, candidate, or frozen scientific field changed.
+- Contracts and the ignored validator are updated but unexecuted. The prior focused PASS predates
+  both this change and the Show-archived removal; obtain a new complete focused PASS before launch.

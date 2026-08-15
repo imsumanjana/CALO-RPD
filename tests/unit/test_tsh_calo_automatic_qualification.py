@@ -16,15 +16,23 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_automatic_qualification import (
     automatic_qualification_workflow_payload,
     build_automatic_component_ablation_plan,
     build_automatic_formal_qualification_plan,
+    discard_incomplete_automatic_qualification_workspace,
     freeze_plan,
     frozen_qualification_restart_design,
     frozen_qualification_restart_design_sha256,
+    inspect_verified_paused_automatic_qualification_workspace,
     prepare_automatic_source_snapshot,
 )
 from calo_rpd_studio.algorithms.calo.tsh_calo_component_ablation import (
     TSH_CALO_COMPONENT_ABLATION_CAMPAIGN_SCHEMA,
 )
 from calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign import (
+    QUALIFICATION_CONTROL_FILE,
+    QUALIFICATION_INFRASTRUCTURE_DIRECTORY,
+    QUALIFICATION_STATUS_FILE,
+    TSH_CALO_QUALIFICATION_CONTROL_SCHEMA,
+    TSH_CALO_QUALIFICATION_EVENT_SCHEMA,
+    TSH_CALO_QUALIFICATION_STATUS_SCHEMA,
     TSH_CALO_COMPONENT_EVIDENCE_SCHEMA,
 )
 from calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact import TSHCALOCandidateArtifact
@@ -234,6 +242,146 @@ def test_workspace_identity_and_frozen_plan_refuse_silent_changes(tmp_path):
     assert freeze_plan(workspace.qualification_plan, {"frozen": 1}) == first_hash
     with pytest.raises(ValueError, match="different content"):
         freeze_plan(workspace.qualification_plan, {"frozen": 2})
+
+
+def test_only_exact_authenticated_incomplete_workspace_can_be_discarded(tmp_path):
+    candidate = tmp_path / "ensemble.candidate.pt"
+    candidate.write_bytes(b"candidate")
+    plan = build_automatic_formal_qualification_plan(
+        candidate_path=candidate,
+        candidate_sha256=_SHA,
+        source_commit=_COMMIT,
+        candidate_artifact=_candidate_artifact(candidate),
+    )
+    campaigns = tmp_path / "campaigns"
+    workspace = AutomaticQualificationWorkspace.create(
+        campaigns,
+        candidate_sha256=_SHA,
+        source_commit=_COMMIT,
+    )
+    _write_json(workspace.qualification_plan, plan.to_dict())
+    _write_json(workspace.qualification_output / "qualification_plan.json", plan.to_dict())
+    durable = workspace.qualification_output / "checkpoints" / "partial-cell.json"
+    durable_sha256 = _write_json(durable, {"evaluations": 8})
+    request_id = "pause-request-001"
+    plan_sha256 = plan.execution_plan_sha256()
+    durable_path = str(durable.resolve())
+    _write_json(
+        workspace.qualification_output / QUALIFICATION_CONTROL_FILE,
+        {
+            "schema_version": TSH_CALO_QUALIFICATION_CONTROL_SCHEMA,
+            "action": "pause",
+            "state": "acknowledged",
+            "request_id": request_id,
+            "qualification_plan_sha256": plan_sha256,
+            "durable_path": durable_path,
+            "durable_sha256": durable_sha256,
+        },
+    )
+    paused_event = {
+        "schema_version": TSH_CALO_QUALIFICATION_EVENT_SCHEMA,
+        "event": "campaign_paused",
+        "request_id": request_id,
+        "qualification_plan_sha256": plan_sha256,
+        "durable_sha256": durable_sha256,
+    }
+    _write_json(
+        workspace.qualification_output / QUALIFICATION_STATUS_FILE,
+        {
+            "schema_version": TSH_CALO_QUALIFICATION_STATUS_SCHEMA,
+            "state": "paused",
+            "qualification_plan_sha256": plan_sha256,
+            "pause": {
+                "reason": "user_requested_safe_pause",
+                "resumable": True,
+                "request_id": request_id,
+                "durable_path": durable_path,
+                "durable_sha256": durable_sha256,
+            },
+            "last_event": paused_event,
+        },
+    )
+
+    verified = inspect_verified_paused_automatic_qualification_workspace(
+        workspace,
+        campaigns_directory=campaigns,
+        candidate_path=candidate,
+        candidate_sha256=_SHA,
+    )
+    assert verified.execution_plan_sha256() == plan_sha256
+    with pytest.raises(ValueError, match="changed after fresh-start preflight"):
+        discard_incomplete_automatic_qualification_workspace(
+            workspace,
+            campaigns_directory=campaigns,
+            candidate_path=candidate,
+            candidate_sha256=_SHA,
+            expected_plan_sha256="f" * 64,
+        )
+    assert workspace.root.is_dir()
+    discard_incomplete_automatic_qualification_workspace(
+        workspace,
+        campaigns_directory=campaigns,
+        candidate_path=candidate,
+        candidate_sha256=_SHA,
+        expected_plan_sha256=plan_sha256,
+    )
+    assert workspace.root.exists() is False
+
+    incident = AutomaticQualificationWorkspace.create(
+        campaigns,
+        candidate_sha256=_SHA,
+        source_commit=_COMMIT,
+        restart_ordinal=1,
+    )
+    incident_plan = build_automatic_formal_qualification_plan(
+        candidate_path=candidate,
+        candidate_sha256=_SHA,
+        source_commit=_COMMIT,
+        candidate_artifact=_candidate_artifact(candidate),
+        restart_ordinal=1,
+    )
+    _write_json(incident.qualification_plan, incident_plan.to_dict())
+    _write_json(
+        incident.qualification_output / QUALIFICATION_INFRASTRUCTURE_DIRECTORY / "incident.json",
+        {"infrastructure_aborted": True},
+    )
+    with pytest.raises(ValueError, match="Only incomplete resumable"):
+        discard_incomplete_automatic_qualification_workspace(
+            incident,
+            campaigns_directory=campaigns,
+            candidate_path=candidate,
+            candidate_sha256=_SHA,
+            expected_plan_sha256=incident_plan.execution_plan_sha256(),
+        )
+    assert incident.root.is_dir()
+
+    completed = AutomaticQualificationWorkspace.create(
+        campaigns,
+        candidate_sha256=_SHA,
+        source_commit=_COMMIT,
+        restart_ordinal=2,
+    )
+    completed_plan = build_automatic_formal_qualification_plan(
+        candidate_path=candidate,
+        candidate_sha256=_SHA,
+        source_commit=_COMMIT,
+        candidate_artifact=_candidate_artifact(candidate),
+        restart_ordinal=2,
+    )
+    _write_json(completed.qualification_plan, completed_plan.to_dict())
+    _write_json(
+        completed.qualification_output / "qualification_evidence.json",
+        {"schema_version": "retained-legacy-completed-evidence"},
+    )
+    with pytest.raises(ValueError, match="Only incomplete resumable"):
+        discard_incomplete_automatic_qualification_workspace(
+            completed,
+            campaigns_directory=campaigns,
+            candidate_path=candidate,
+            candidate_sha256=_SHA,
+            expected_plan_sha256=completed_plan.execution_plan_sha256(),
+        )
+    assert completed.root.is_dir()
 
 
 def test_dirty_worktree_is_frozen_as_a_separate_clean_deterministic_commit(tmp_path):
