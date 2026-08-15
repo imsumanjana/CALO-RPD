@@ -43,7 +43,13 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign import (
     TSH_CALO_QUALIFICATION_STATUS_SCHEMA,
     TSHCALOQualificationPlan,
     grade_tsh_calo_qualification_evidence,
+    qualification_candidate_contract,
     tsh_calo_qualification_cell_identity,
+)
+from calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment import (
+    TSH_CALO_FEASIBILITY_ASSESSMENT_SCHEMA,
+    TSH_CALO_FEASIBILITY_COMPLETION_SCHEMA,
+    build_tsh_calo_feasibility_assessment,
 )
 from calo_rpd_studio.algorithms.calo.tsh_calo_shield import OODCalibration
 from calo_rpd_studio.algorithms.calo.tsh_calo_training_receipt import (
@@ -172,12 +178,26 @@ def _write_json(path: Path, payload: dict) -> str:
     return hashlib.sha256(encoded).hexdigest()
 
 
-def _formal_evidence(directory: Path, policy_path: Path, policy_sha256: str, *, strength=1.0):
+def _formal_evidence(
+    directory: Path,
+    policy_path: Path,
+    policy_sha256: str,
+    *,
+    strength=1.0,
+    current_candidate_contract: bool = False,
+):
     directory.mkdir(parents=True)
     component_evidence = {
         component: {"path": f"component-{component}.json", "sha256": _sha(component)}
         for component in "ABCDE"
     }
+    candidate_contract = (
+        qualification_candidate_contract(
+            inspect_tsh_calo_candidate(policy_path, expected_sha256=policy_sha256)
+        )
+        if current_candidate_contract
+        else {}
+    )
     plan = TSHCALOQualificationPlan(
         qualification_run_id=f"qualification-{policy_sha256[:12]}",
         source_commit="b" * 40,
@@ -193,7 +213,8 @@ def _formal_evidence(directory: Path, policy_path: Path, policy_sha256: str, *, 
         calibration_samples_per_case=4,
         calibration_population_size=4,
         bootstrap_resamples=1_000,
-        component_evidence=component_evidence,
+        component_evidence={} if current_candidate_contract else component_evidence,
+        candidate_contract=candidate_contract,
     )
     plan.validate()
     case_evidence = []
@@ -239,9 +260,12 @@ def _formal_evidence(directory: Path, policy_path: Path, policy_sha256: str, *, 
         "ood_calibration_sha256": "",
         "development_cases": list(plan.development_cases),
         "protected_cases_opened": False,
-        "component_evidence": {
-            key: {**value, "accepted": True} for key, value in component_evidence.items()
-        },
+        "candidate_contract": candidate_contract,
+        "component_evidence": (
+            {}
+            if current_candidate_contract
+            else {key: {**value, "accepted": True} for key, value in component_evidence.items()}
+        ),
         "records": {
             "expected": len(plan.development_cases) * plan.runs * 2,
             "completed": len(plan.development_cases) * plan.runs * 2,
@@ -408,6 +432,96 @@ def _add_transactional_completion(directory: Path) -> Path:
             "infrastructure_incident_count": 0,
             "authority_boundary": (
                 "completion_only_no_registration_activation_or_experiment_binding"
+            ),
+        },
+    )
+    return directory
+
+
+def _convert_to_feasibility_assessment(directory: Path) -> Path:
+    """Convert the synthetic current-contract fixture to the new measurement authority."""
+
+    _add_transactional_completion(directory)
+    plan = TSHCALOQualificationPlan.from_dict(
+        json.loads((directory / "qualification_plan.json").read_text(encoding="utf-8"))
+    )
+    evidence_path = directory / "qualification_evidence.json"
+    evidence = json.loads(evidence_path.read_text(encoding="utf-8"))
+    for case in evidence["case_evidence"]:
+        candidate_probability = float(case["candidate_feasible_probability"])
+        case.update(
+            {
+                "n_pairs": plan.runs,
+                "baseline_feasible_probability": max(0.0, candidate_probability - 0.05),
+                "candidate_first_feasible_reached_probability": candidate_probability,
+                "candidate_first_feasible_efficiency": 0.75,
+                "candidate_first_feasible_evaluation_median": 4.0,
+                "candidate_independent_validation_probability": 1.0,
+            }
+        )
+    assessment = build_tsh_calo_feasibility_assessment(
+        cases=evidence["case_evidence"], expected_case_order=plan.development_cases
+    )
+    evidence["schema_version"] = TSH_CALO_FEASIBILITY_ASSESSMENT_SCHEMA
+    evidence.pop("decision", None)
+    evidence["feasibility_assessment"] = assessment
+    evidence["authority_boundary"] = (
+        "measurement_only_scientist_decides_no_selection_activation_or_experiment_binding"
+    )
+    evidence_sha256 = _write_json(evidence_path, evidence)
+    calibration = OODCalibration(np.zeros(2), np.ones(2))
+    receipt = build_tsh_calo_qualification_receipt(
+        qualification_run_id=plan.qualification_run_id,
+        source_policy_sha256=plan.candidate_sha256,
+        source_commit=plan.source_commit,
+        qualification_protocol_sha256=plan.scientific_design_sha256(),
+        seed_manifest_sha256=plan.seed_manifest_sha256(),
+        evidence_artifact_sha256=evidence_sha256,
+        development_cases=plan.development_cases,
+        ood_calibration=calibration,
+    )
+    receipt_sha256 = _write_json(directory / "qualification_receipt.json", receipt)
+    event_sha256 = hashlib.sha256(
+        (directory / QUALIFICATION_EVENT_LOG_FILE).read_bytes()
+    ).hexdigest()
+    status_sha256 = _write_json(
+        directory / QUALIFICATION_STATUS_FILE,
+        {
+            "schema_version": TSH_CALO_QUALIFICATION_STATUS_SCHEMA,
+            "qualification_run_id": plan.qualification_run_id,
+            "qualification_plan_sha256": plan.execution_plan_sha256(),
+            "state": "completed_assessed",
+            "evidence_sha256": evidence_sha256,
+            "receipt_sha256": receipt_sha256,
+            "qualification_receipt_permitted": False,
+            "feasibility_receipt_permitted": True,
+            "scientist_decision": "not_recorded",
+        },
+    )
+    index_sha256 = hashlib.sha256(
+        (directory / QUALIFICATION_CELL_INDEX_FILE).read_bytes()
+    ).hexdigest()
+    _write_json(
+        directory / QUALIFICATION_COMPLETION_FILE,
+        {
+            "schema_version": TSH_CALO_FEASIBILITY_COMPLETION_SCHEMA,
+            "qualification_run_id": plan.qualification_run_id,
+            "qualification_plan_sha256": plan.execution_plan_sha256(),
+            "seed_manifest_sha256": plan.seed_manifest_sha256(),
+            "source_policy_sha256": plan.candidate_sha256,
+            "terminal_cell_index_sha256": index_sha256,
+            "qualification_event_log_sha256": event_sha256,
+            "qualification_status_sha256": status_sha256,
+            "evidence_artifact_sha256": evidence_sha256,
+            "receipt_sha256": receipt_sha256,
+            "assessment_complete": True,
+            "automated_suitability_decision": None,
+            "overall_feasibility_score": assessment["overall_feasibility_score"],
+            "committed_unique_cells": len(plan.development_cases) * plan.runs * 2,
+            "failed_scientific_cells": 0,
+            "infrastructure_incident_count": 0,
+            "authority_boundary": (
+                "assessment_completion_only_scientist_decides_no_selection_activation_or_binding"
             ),
         },
     )
@@ -630,6 +744,109 @@ def test_formal_evidence_admission_is_explicit_integrity_bound_and_does_not_acti
     assert summary["summary"]["minimum_candidate_feasible_probability"] >= 0.95
     activated = registry.activate(admitted.id, algorithm_id=TSH_CALO_ALGORITHM_ID)
     assert activated.active is True
+
+
+def test_verified_feasibility_requires_scientist_selection_before_separate_activation(tmp_path):
+    model_directory = tmp_path / "feasibility-model"
+    model_directory.mkdir()
+    database = ResultDatabase(tmp_path / "feasibility-results.sqlite")
+    registry = PolicyRegistry(database)
+    policy = registry.register(_ensemble(model_directory), name="Feasibility candidate")
+    evidence_directory = _convert_to_feasibility_assessment(
+        _formal_evidence(
+            tmp_path / "feasibility-assessment",
+            Path(policy.checkpoint_path),
+            policy.sha256,
+            current_candidate_contract=True,
+        )
+    )
+
+    verified = registry.inspect_feasibility_assessment(policy.id, evidence_directory)
+    assessed = registry.admit_feasibility_assessment(policy.id, evidence_directory)
+
+    assert verified.score == pytest.approx(97.0)
+    assert assessed.qualification_status == "assessed"
+    assert assessed.active is False
+    with pytest.raises(ValueError, match="scientist selection"):
+        registry.activate(assessed.id, algorithm_id=TSH_CALO_ALGORITHM_ID)
+
+    selected = registry.select_assessed_policy(assessed.id)
+    assert selected.qualification_status == "scientist_selected"
+    assert selected.active is False
+    active = registry.activate(selected.id, algorithm_id=TSH_CALO_ALGORITHM_ID)
+    assert active.active is True
+    config = ExperimentConfig()
+    binding = registry.bind_to_experiment_config(
+        active.id,
+        config,
+        deterministic=True,
+        algorithm_id=TSH_CALO_ALGORITHM_ID,
+    )
+    assert binding["policy_assessment_id"] == verified.assessment_id
+    assert binding["policy_scientist_selection"]["candidate_sha256"] == policy.sha256
+    assert binding["policy_scientist_selection"]["activation_performed"] is True
+
+
+def test_feasibility_admission_selection_and_activation_are_three_distinct_states(tmp_path):
+    database = ResultDatabase(tmp_path / "assessment-results.sqlite")
+    registry = PolicyRegistry(database)
+    model_directory = tmp_path / "assessment-model"
+    model_directory.mkdir()
+    policy = registry.register(_ensemble(model_directory), name="Measured")
+    assessment_id = "assessment-001"
+    evidence_sha256 = _sha("assessment-evidence")
+    metrics = {
+        "admission_schema_version": "tsh-calo-policy-feasibility-admission-v1",
+        "candidate_sha256": policy.sha256,
+        "evidence_artifact_sha256": evidence_sha256,
+        "evidence_directory": str(tmp_path / "retained-assessment"),
+        "feasibility_assessment": {
+            "overall_feasibility_score": 76.0,
+            "automated_suitability_decision": None,
+            "decision_authority": "scientist_only",
+        },
+    }
+
+    admitted = database.admit_verified_policy_assessment(
+        assessment_id=assessment_id,
+        policy_id=policy.id,
+        expected_sha256=policy.sha256,
+        config={"tsh_calo_qualification_receipt": {"integrity_only": True}},
+        metrics=metrics,
+        score=76.0,
+    )
+
+    assert admitted is True
+    assessed = registry.get(policy.id)
+    assert assessed.qualification_status == "assessed"
+    assert assessed.active is False
+    retained = database.list_policy_qualifications(policy.id)[0]
+    assert retained["passed"] == 0
+    assert retained["grade"] == "N/A"
+
+    selected = database.record_scientist_policy_selection(
+        policy_id=policy.id,
+        assessment_id=assessment_id,
+        expected_sha256=policy.sha256,
+        evidence_sha256=evidence_sha256,
+    )
+
+    assert selected is True
+    scientist_selected = registry.get(policy.id)
+    assert scientist_selected.qualification_status == "scientist_selected"
+    assert scientist_selected.active is False
+    assert scientist_selected.metadata["scientist_selection"] == {
+        "schema_version": "tsh-calo-scientist-policy-selection-v1",
+        "assessment_id": assessment_id,
+        "candidate_sha256": policy.sha256,
+        "evidence_sha256": evidence_sha256,
+        "selected_at": scientist_selected.metadata["scientist_selection"]["selected_at"],
+        "activation_performed": False,
+    }
+    assert database.list_policy_qualifications(policy.id)[0]["passed"] == 1
+    with pytest.raises((OSError, ValueError)):
+        registry.activate(policy.id, algorithm_id=TSH_CALO_ALGORITHM_ID)
+    assert registry.get(policy.id).active is False
 
 
 def test_transactional_evidence_requires_the_final_completion_authority(tmp_path):

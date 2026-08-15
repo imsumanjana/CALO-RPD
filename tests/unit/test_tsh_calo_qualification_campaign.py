@@ -37,6 +37,11 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign import (
     qualification_candidate_contract,
     request_tsh_calo_qualification_pause,
 )
+from calo_rpd_studio.algorithms.calo.tsh_calo_feasibility_assessment import (
+    TSH_CALO_FEASIBILITY_ASSESSMENT_SCHEMA,
+    TSH_CALO_FEASIBILITY_COMPLETION_SCHEMA,
+    TSH_CALO_FEASIBILITY_RATING_SCHEMA,
+)
 from calo_rpd_studio.algorithms.calo.tsh_calo_training_receipt import (
     build_tsh_calo_training_episode_receipt,
     canonical_reward_sequence_sha256,
@@ -140,12 +145,14 @@ def _plan(path: Path, sha256: str, **changes) -> TSHCALOQualificationPlan:
     return TSHCALOQualificationPlan(**values)
 
 
-def test_screening_campaign_retains_evidence_but_cannot_emit_receipt(tmp_path):
+def test_screening_campaign_retains_non_decisional_feasibility_evidence(tmp_path):
     path, sha256 = _ensemble(tmp_path)
     plan = _plan(path, sha256)
     result = TSHCALOQualificationCampaign(plan, tmp_path / "screening").start()
 
-    assert result["passed"] is False
+    assert result["assessment_complete"] is True
+    assert result["automated_suitability_decision"] is None
+    assert 0.0 <= result["overall_feasibility_score"] <= 100.0
     assert result["receipt"] is None
     assert result["registration_performed"] is False
     assert result["activation_performed"] is False
@@ -159,7 +166,13 @@ def test_screening_campaign_retains_evidence_but_cannot_emit_receipt(tmp_path):
         "directory": str(output.parent / "records"),
         "failures_directory": str(output.parent / "failures"),
     }
-    assert "screening campaigns cannot qualify" in " ".join(evidence["decision"]["reasons"])
+    assert evidence["schema_version"] == TSH_CALO_FEASIBILITY_ASSESSMENT_SCHEMA
+    assert "decision" not in evidence
+    assessment = evidence["feasibility_assessment"]
+    assert assessment["schema_version"] == TSH_CALO_FEASIBILITY_RATING_SCHEMA
+    assert assessment["decision_authority"] == "scientist_only"
+    assert assessment["automated_suitability_decision"] is None
+    assert assessment["overall_feasibility_score"] == result["overall_feasibility_score"]
     assert evidence["protected_cases_opened"] is False
     assert not (output.parent / "qualification_receipt.json").exists()
     candidate_records = [
@@ -171,6 +184,12 @@ def test_screening_campaign_retains_evidence_but_cannot_emit_receipt(tmp_path):
     assert all(item["source_policy_sha256"] == sha256 for item in candidate_records)
     assert (output.parent / QUALIFICATION_CELL_INDEX_FILE).is_file()
     assert (output.parent / QUALIFICATION_COMPLETION_FILE).is_file()
+    completion = json.loads(
+        (output.parent / QUALIFICATION_COMPLETION_FILE).read_text(encoding="utf-8")
+    )
+    assert completion["schema_version"] == TSH_CALO_FEASIBILITY_COMPLETION_SCHEMA
+    assert completion["assessment_complete"] is True
+    assert completion["automated_suitability_decision"] is None
 
 
 def test_completion_event_failure_preserves_one_success_and_aborts_infrastructure(tmp_path):
@@ -347,7 +366,7 @@ def test_qualification_micro_events_pause_inside_cell_and_exactly_resume(
     assert any(item["event"] == "campaign_completed" for item in resumed_events)
     assert json.loads((output / QUALIFICATION_STATUS_FILE).read_text(encoding="utf-8"))[
         "state"
-    ] == "completed_not_qualified"
+    ] == "completed_assessed"
 
     uninterrupted_output = tmp_path / "uninterrupted-screening"
     TSHCALOQualificationCampaign(plan, uninterrupted_output).start()

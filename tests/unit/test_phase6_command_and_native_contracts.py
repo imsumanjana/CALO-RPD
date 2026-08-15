@@ -578,13 +578,18 @@ def test_policy_training_process_actions_are_visible_in_the_input_pane():
     assert "Import trained policy" in intelligence
     assert "completed_campaigns()" in intelligence
     assert "Activate for experiments" in intelligence
-    assert 'QPushButton("Qualify policy")' in intelligence
+    assert 'QPushButton("Assess feasibility")' in intelligence
     assert 'QPushButton("Check formal plan")' not in intelligence
     assert 'QPushButton("Run / resume qualification")' not in intelligence
     assert 'QPushButton("Admit passed evidence")' not in intelligence
-    assert 'QPushButton("Compare qualified policies")' in intelligence
-    assert "inspect_qualification_evidence" in intelligence
-    assert "admit_qualification_evidence" in intelligence
+    assert 'QPushButton("Compare feasibility")' in intelligence
+    assert 'QPushButton("Select for use")' in intelligence
+    assert 'QGroupBox("Feasibility assessment")' in intelligence
+    assert 'QGroupBox("Training-parameter influence analysis")' in intelligence
+    assert "inspect_feasibility_assessment" in intelligence
+    assert "admit_feasibility_assessment" in intelligence
+    assert "select_assessed_policy" in intelligence
+    assert "build_training_parameter_influence" in intelligence
     assert "build_automatic_component_ablation_plan" not in intelligence
     assert "build_automatic_formal_qualification_plan" in intelligence
     assert "automatic_qualification_workflow_payload" in intelligence

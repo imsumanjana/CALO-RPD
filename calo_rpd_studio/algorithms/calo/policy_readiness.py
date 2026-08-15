@@ -68,10 +68,20 @@ def policy_record_user_status(record) -> str:
         return "File unavailable"
     if not record.compatible_with(TSH_CALO_ALGORITHM_ID):
         return "Not compatible"
-    ready = bool(record.qualification_status == "qualified")
+    ready = record.qualification_status in {"qualified", "scientist_selected"}
     if not ready:
-        return "Not ready for experiments"
-    return "Verification required" if record.active else "Eligible to select"
+        return (
+            "Assessment ready · scientist decision required"
+            if record.qualification_status == "assessed"
+            else "Feasibility assessment required"
+        )
+    if record.active:
+        return "Verification required"
+    return (
+        "Scientist selected · activation available"
+        if record.qualification_status == "scientist_selected"
+        else "Legacy qualified · activation available"
+    )
 
 
 def _record_status(
@@ -134,14 +144,14 @@ def evaluate_governing_policy(registry) -> GoverningPolicyStatus:
             state="incompatible",
             reason="The active policy is not compatible with the TSH-CALO A-E/F-off runtime ABI.",
         )
-    if active.qualification_status != "qualified":
+    if active.qualification_status not in {"qualified", "scientist_selected"}:
         return _record_status(
             active,
             ready=False,
             state="unqualified",
             reason=(
-                f"The active policy is {active.qualification_status!r}; a qualified governing "
-                "policy is required."
+                f"The active policy is {active.qualification_status!r}; an explicit scientist "
+                "selection or retained legacy qualification is required."
             ),
         )
     try:
@@ -182,7 +192,7 @@ def evaluate_governing_policy(registry) -> GoverningPolicyStatus:
         ready=True,
         state="ready",
         reason=(
-            "A qualified, runtime-compatible, integrity-verified TSH-CALO governing policy is "
-            "explicitly active."
+            "A scientist-selected or legacy-qualified, runtime-compatible, integrity-verified "
+            "TSH-CALO governing policy is explicitly active."
         ),
     )

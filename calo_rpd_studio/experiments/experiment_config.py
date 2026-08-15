@@ -401,17 +401,18 @@ class ExperimentConfig:
             ]
             if missing:
                 raise ValueError(
-                    f"{algorithm} requires an immutable qualified policy binding; missing {missing}"
+                    f"{algorithm} requires an immutable scientist-selected policy binding; missing {missing}"
                 )
             if (
                 parameters.get("strict_policy_binding") is not True
                 or parameters.get("allow_unqualified_policy") is True
                 or parameters.get("policy_active_at_binding") is not True
-                or str(parameters.get("policy_qualification_status", "")) != "qualified"
+                or str(parameters.get("policy_qualification_status", ""))
+                not in {"qualified", "scientist_selected"}
                 or str(parameters.get("policy_algorithm_id", "")) != algorithm
             ):
                 raise ValueError(
-                    f"{algorithm} requires a qualified, explicitly active, strict policy binding"
+                    f"{algorithm} requires a scientist-selected, explicitly active, strict policy binding"
                 )
             if not _is_sha256(parameters.get("policy_sha256", "")):
                 raise ValueError(f"{algorithm} policy SHA-256 is invalid")
@@ -433,6 +434,23 @@ class ExperimentConfig:
                     f"{algorithm} requires an immutable independent qualification receipt and "
                     "OOD calibration binding"
                 )
+            if str(parameters.get("policy_qualification_status", "")) == "scientist_selected":
+                selection = dict(parameters.get("policy_scientist_selection", {}) or {})
+                if (
+                    not str(parameters.get("policy_assessment_id", "")).strip()
+                    or not _is_sha256(parameters.get("policy_assessment_receipt_sha256", ""))
+                    or not isinstance(parameters.get("policy_assessment_receipt"), dict)
+                    or not parameters.get("policy_assessment_receipt")
+                    or selection.get("schema_version")
+                    != "tsh-calo-scientist-policy-selection-v1"
+                    or str(selection.get("candidate_sha256", "")).lower()
+                    != str(parameters.get("policy_sha256", "")).lower()
+                    or str(selection.get("assessment_id", ""))
+                    != str(parameters.get("policy_assessment_id", ""))
+                ):
+                    raise ValueError(
+                        f"{algorithm} scientist-selected policy binding is incomplete or inconsistent"
+                    )
             flags = dict(parameters.get("policy_feature_flags", {}) or {})
             if flags.get("population_schedule") or flags.get("allow_experimental_components"):
                 raise ValueError("Experimental TSH-CALO Change F must remain disabled")

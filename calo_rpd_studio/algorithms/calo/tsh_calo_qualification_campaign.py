@@ -1,9 +1,9 @@
-"""Preregistered independent quality campaign for an unqualified TSH-CALO ensemble.
+"""Preregistered independent feasibility campaign for a TSH-CALO ensemble candidate.
 
 This module has no registry or activation authority.  It evaluates one immutable candidate under a
-non-serializable qualification capability, compares it with frozen CALO under paired seeds and equal
-FE, independently validates every retained solution, and emits a receipt only for a formal campaign
-that satisfies every frozen gate.  Screening campaigns can never emit a qualification receipt.
+non-serializable assessment capability, compares it with frozen CALO under paired seeds and equal FE,
+independently validates every retained solution, and emits measurements without deciding whether a
+scientist should select or activate the candidate.
 """
 
 from __future__ import annotations
@@ -51,6 +51,11 @@ from calo_rpd_studio.statistics.posthoc import holm_correction
 from .tsh_calo_inference import (
     QualificationCandidateAuthority,
     TSHCALOInferenceController,
+)
+from .tsh_calo_feasibility_assessment import (
+    TSH_CALO_FEASIBILITY_ASSESSMENT_SCHEMA,
+    TSH_CALO_FEASIBILITY_COMPLETION_SCHEMA,
+    build_tsh_calo_feasibility_assessment,
 )
 from .tsh_calo_optimizer import TSHCALOOptimizer
 from .tsh_calo_policy_artifact import (
@@ -280,7 +285,10 @@ def inspect_tsh_calo_qualification_resume_state(output_directory: str | Path) ->
         try:
             current_evidence_without_completion = (
                 _read_json(evidence_path).get("schema_version")
-                == TSH_CALO_QUALIFICATION_EVIDENCE_SCHEMA
+                in {
+                    TSH_CALO_QUALIFICATION_EVIDENCE_SCHEMA,
+                    TSH_CALO_FEASIBILITY_ASSESSMENT_SCHEMA,
+                }
             )
         except ValueError:
             current_evidence_without_completion = True
@@ -913,6 +921,36 @@ def _case_evidence(
     baseline = [pair.comparator for pair in pairs]
     candidate_feasible = np.asarray([item["feasible"] for item in candidate], dtype=float)
     baseline_feasible = np.asarray([item["feasible"] for item in baseline], dtype=float)
+    candidate_first_feasible = [
+        int(item["first_feasible_evaluation"])
+        for item in candidate
+        if item.get("first_feasible_evaluation") is not None
+    ]
+    baseline_first_feasible = [
+        int(item["first_feasible_evaluation"])
+        for item in baseline
+        if item.get("first_feasible_evaluation") is not None
+    ]
+    denominator = max(int(plan.max_evaluations) - 1, 1)
+
+    def _first_feasible_efficiency(rows: list[dict]) -> float:
+        values = [
+            (
+                0.0
+                if item.get("first_feasible_evaluation") is None
+                else max(
+                    0.0,
+                    min(
+                        1.0,
+                        1.0
+                        - (int(item["first_feasible_evaluation"]) - 1) / denominator,
+                    ),
+                )
+            )
+            for item in rows
+        ]
+        return float(np.mean(values)) if values else 0.0
+
     feasible_interval = _proportion_difference_interval(
         candidate_feasible,
         baseline_feasible,
@@ -976,6 +1014,26 @@ def _case_evidence(
         "pair_manifest": pair_manifest(pairs, ("case", "run_index")),
         "candidate_feasible_probability": _mean_or_none(candidate_feasible),
         "baseline_feasible_probability": _mean_or_none(baseline_feasible),
+        "candidate_first_feasible_reached_probability": float(
+            len(candidate_first_feasible) / max(len(candidate), 1)
+        ),
+        "baseline_first_feasible_reached_probability": float(
+            len(baseline_first_feasible) / max(len(baseline), 1)
+        ),
+        "candidate_first_feasible_evaluation_median": (
+            float(np.median(candidate_first_feasible)) if candidate_first_feasible else None
+        ),
+        "baseline_first_feasible_evaluation_median": (
+            float(np.median(baseline_first_feasible)) if baseline_first_feasible else None
+        ),
+        "candidate_first_feasible_efficiency": _first_feasible_efficiency(candidate),
+        "baseline_first_feasible_efficiency": _first_feasible_efficiency(baseline),
+        "candidate_independent_validation_probability": float(
+            np.mean([bool(item["independent_validation"]["passed"]) for item in candidate])
+        ),
+        "baseline_independent_validation_probability": float(
+            np.mean([bool(item["independent_validation"]["passed"]) for item in baseline])
+        ),
         "feasible_probability_difference": _mean_or_none(candidate_feasible - baseline_feasible),
         "feasible_probability_difference_ci95": [
             _finite_or_none(value) for value in feasible_interval
@@ -2218,9 +2276,12 @@ class TSHCALOQualificationCampaign:
         for item in cases:
             if item["wilcoxon_p_one_sided"] is not None:
                 item["holm_p"] = float(next(corrected_iter))
-        decision = grade_tsh_calo_qualification_evidence(self.plan, cases, failures)
+        assessment = build_tsh_calo_feasibility_assessment(
+            cases=cases,
+            expected_case_order=self.plan.development_cases,
+        )
         evidence = {
-            "schema_version": TSH_CALO_QUALIFICATION_EVIDENCE_SCHEMA,
+            "schema_version": TSH_CALO_FEASIBILITY_ASSESSMENT_SCHEMA,
             "analysis_schema_version": PAIRED_ANALYSIS_SCHEMA_VERSION,
             "relative_improvement_version": RELATIVE_IMPROVEMENT_VERSION,
             "objective_scale_floor": float(self.plan.objective_scale_floor),
@@ -2254,8 +2315,10 @@ class TSHCALOQualificationCampaign:
             },
             "infrastructure_incidents": [],
             "case_evidence": cases,
-            "decision": decision,
-            "authority_boundary": "independent_qualification_only_no_registration_or_activation",
+            "feasibility_assessment": assessment,
+            "authority_boundary": (
+                "measurement_only_scientist_decides_no_selection_activation_or_experiment_binding"
+            ),
             "single_writer_semantics": "OS-released exclusive evidence-directory lease",
         }
         evidence_path = self.output_directory / "qualification_evidence.json"
@@ -2263,10 +2326,10 @@ class TSHCALOQualificationCampaign:
             evidence_sha = _write_json(evidence_path, evidence)
         except Exception as exc:
             self._abort_infrastructure(operation="qualification evidence commit", exc=exc)
-        receipt = None
         receipt_path = self.output_directory / "qualification_receipt.json"
+        receipt = None
         receipt_sha256 = None
-        if decision["passed"]:
+        if self.plan.mode == "formal" and self.plan.source_tracked_clean:
             receipt = build_tsh_calo_qualification_receipt(
                 qualification_run_id=self.plan.qualification_run_id,
                 source_policy_sha256=artifact.sha256,
@@ -2280,11 +2343,13 @@ class TSHCALOQualificationCampaign:
             try:
                 receipt_sha256 = _write_json(receipt_path, receipt)
             except Exception as exc:
-                self._abort_infrastructure(operation="qualification receipt commit", exc=exc)
+                self._abort_infrastructure(operation="feasibility receipt commit", exc=exc)
         completed_event = self._emit_event_required(
             "campaign_completed",
             operation="campaign completion event emission",
-            passed=bool(decision["passed"]),
+            assessment_complete=True,
+            automated_suitability_decision=None,
+            overall_feasibility_score=float(assessment["overall_feasibility_score"]),
             completed_cells=len(records) + len(failures),
             successful_cells=len(records),
             failed_cells=len(failures),
@@ -2294,7 +2359,7 @@ class TSHCALOQualificationCampaign:
         )
         try:
             self._write_status(
-                state="completed_qualified" if decision["passed"] else "completed_not_qualified",
+                state="completed_assessed",
                 pause=None,
                 current_cell=None,
                 last_event=completed_event,
@@ -2302,12 +2367,14 @@ class TSHCALOQualificationCampaign:
                 evidence_sha256=evidence_sha,
                 receipt_path=str(receipt_path) if receipt is not None else None,
                 receipt_sha256=receipt_sha256,
-                qualification_receipt_permitted=bool(decision["passed"]),
+                qualification_receipt_permitted=False,
+                feasibility_receipt_permitted=receipt is not None,
+                scientist_decision="not_recorded",
             )
         except Exception as exc:
             self._abort_infrastructure(operation="qualification completion status commit", exc=exc)
         completion = {
-            "schema_version": TSH_CALO_QUALIFICATION_COMPLETION_SCHEMA,
+            "schema_version": TSH_CALO_FEASIBILITY_COMPLETION_SCHEMA,
             "qualification_run_id": self.plan.qualification_run_id,
             "qualification_plan_sha256": plan_hash,
             "seed_manifest_sha256": seed_hash,
@@ -2323,12 +2390,14 @@ class TSHCALOQualificationCampaign:
             ),
             "evidence_artifact_sha256": evidence_sha,
             "receipt_sha256": receipt_sha256,
-            "passed": bool(decision["passed"]),
+            "assessment_complete": True,
+            "automated_suitability_decision": None,
+            "overall_feasibility_score": float(assessment["overall_feasibility_score"]),
             "committed_unique_cells": len(self._terminal_cells),
             "failed_scientific_cells": len(failures),
             "infrastructure_incident_count": 0,
             "authority_boundary": (
-                "completion_only_no_registration_activation_or_experiment_binding"
+                "assessment_completion_only_scientist_decides_no_selection_activation_or_binding"
             ),
             "completed_at": datetime.now(timezone.utc).isoformat(),
         }
@@ -2339,7 +2408,9 @@ class TSHCALOQualificationCampaign:
             self._abort_infrastructure(operation="qualification completion commit", exc=exc)
         return {
             "qualification_run_id": self.plan.qualification_run_id,
-            "passed": bool(decision["passed"]),
+            "assessment_complete": True,
+            "automated_suitability_decision": None,
+            "overall_feasibility_score": float(assessment["overall_feasibility_score"]),
             "mode": self.plan.mode,
             "evidence_path": str(evidence_path),
             "evidence_sha256": evidence_sha,

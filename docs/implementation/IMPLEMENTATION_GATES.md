@@ -1194,3 +1194,24 @@ receiving new run/source provenance identities. Implementation and synthetic fau
 contracts exist but were not executed. This gate remains open until the Git-ignored transactional
 qualification validator passes and its complete fresh log directory is reviewed; no qualification,
 policy admission, activation, protected-case, release, or scientific claim follows from source work.
+
+### Feasibility-assessment and influence-analysis gate open (2026-08-15)
+
+The current campaign finalizer now emits checksum-bound feasibility ratings and explicitly records
+`automated_suitability_decision: null`. It does not issue a quality pass, rejection, grade, policy
+selection, activation, or experiment binding. Overall feasibility is the exact candidate-cell full-
+feasibility percentage; first-feasible reach/efficiency, independent validation, objective coverage,
+and case-specific percentages remain separately inspectable. The complete frozen scientific design
+and transactional evidence requirements are unchanged.
+
+Verified admission creates only an inactive assessed dossier. Scientist selection and activation
+are separate exact-identity lifecycle transitions, and experiment binding still requires both the
+recorded selection and explicit activation plus re-verification of candidate, evidence, receipt, OOD,
+and compatibility bindings. Training-parameter influence uses only immutable authenticated plans and
+matching rating/protocol schemas, reports per-rating univariate observational associations with
+minimum cohort/variation requirements, and performs no tuning or training mutation. Protected cases
+remain unavailable to influence analysis.
+
+Source and synthetic contracts are implemented but unexecuted. This gate remains open pending a
+fresh owner run of the ignored validator and review of its entire timestamped log directory. No new
+feasibility assessment, policy selection, activation, or release claim is authorized by source work.

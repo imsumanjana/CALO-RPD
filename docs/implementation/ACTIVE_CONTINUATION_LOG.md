@@ -2813,3 +2813,34 @@ Append timestamped entries below this line after each material action, validatio
 - All prior validation evidence is stale with respect to this correction. The owner must run
   `validation/Validate-Qualification-Evidence-Transactions.ps1`, return its complete newly timestamped
   log directory, and wait for review before launching the corrected-source qualification.
+
+### 2026-08-15 - Scientist-directed feasibility and training-influence workflow, validation pending
+
+- New current-source campaigns preserve the complete frozen 120-cell scientific plan, exact FE
+  accounting, paired seeds, case30/case57 isolation, objective/effect/significance/anytime/OOD
+  evidence, candidate architecture contract, and transactional completion authority. The software
+  no longer converts those measurements into an automatic model-suitability pass/fail decision.
+- The primary score is transparent rather than threshold-composite: `overall_feasibility_score` is
+  exactly 100 times the proportion of candidate cells reaching complete physical feasibility within
+  their unchanged exact FE budgets. Separate ratings retain first-feasible reach, budget-normalized
+  first-feasible efficiency, independent validation, paired feasible-objective coverage, and per-case
+  full feasibility. Every dossier is checksum-bound to the exact candidate, plan, retained cells,
+  receipt, calibration, and rating schema.
+- Admission now produces an inactive `assessed` state. A separate **Select for use** action records a
+  scientist-only, candidate/evidence-bound decision and produces `scientist_selected`; a further
+  explicit activation remains required before experiment binding. Integrity, compatibility,
+  checksum, protected-case, OOD receipt, and fallback checks remain fail closed. Legacy qualified
+  evidence remains supported through its legacy schema.
+- Two connected blocks now appear below Governing policy. **Feasibility assessment** shows overall
+  and individual ratings with definitions/tooltips and no recommendation. **Training-parameter
+  influence analysis** reads authenticated completed training plans for the selected candidate and
+  comparable assessed candidates, shows each retained training value, and estimates the strongest
+  univariate association with each rating only when at least three comparable campaigns and two
+  distinct values exist. Results are explicitly observational, not causal; otherwise the UI reports
+  insufficient comparative evidence. No parameter, plan, model, training protocol, or CALO/TSH
+  architecture is changed automatically.
+- Production source, synthetic lifecycle/integrity/influence contracts, ledgers, and the ignored
+  validator were updated. Codex executed no test, validator, compile/lint/type check, GUI, training,
+  feasibility campaign, legacy qualification, activation, protected-case, Docker, publication, or
+  release workflow. A new assessment must not launch until the owner validator passes and its whole
+  fresh log directory is reviewed.

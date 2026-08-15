@@ -8,6 +8,7 @@ from contextlib import contextmanager
 from datetime import datetime, timezone
 import hashlib
 import json
+import math
 from pathlib import Path
 import sqlite3
 import threading
@@ -1284,6 +1285,179 @@ class ResultDatabase:
                 raise RuntimeError(
                     "Policy qualification admission did not update exactly one policy"
                 )
+        return True
+
+    def admit_verified_policy_assessment(
+        self,
+        *,
+        assessment_id: str,
+        policy_id: str,
+        expected_sha256: str,
+        config: dict,
+        metrics: dict,
+        score: float,
+    ) -> bool:
+        """Atomically retain a verified feasibility dossier without selecting its policy."""
+
+        assessment_key = str(assessment_id).strip()
+        policy_key = str(policy_id).strip()
+        expected = str(expected_sha256).strip().lower()
+        config_json = json.dumps(config or {}, sort_keys=True, allow_nan=False)
+        metrics_json = json.dumps(metrics or {}, sort_keys=True, allow_nan=False)
+        numeric_score = float(score)
+        if (
+            not assessment_key
+            or not policy_key
+            or len(expected) != 64
+            or any(character not in "0123456789abcdef" for character in expected)
+            or not math.isfinite(numeric_score)
+            or numeric_score < 0.0
+            or numeric_score > 100.0
+        ):
+            raise ValueError("Verified feasibility assessment identities are incomplete")
+        with self._lock, self.connect() as con:
+            policy_row = con.execute(
+                "SELECT sha256,qualification_status,active,archived FROM policies WHERE id=?",
+                (policy_key,),
+            ).fetchone()
+            if policy_row is None:
+                raise KeyError(f"Unknown CALO policy: {policy_key}")
+            if str(policy_row["sha256"]).lower() != expected:
+                raise RuntimeError("Policy artifact identity changed before assessment admission")
+            if bool(policy_row["active"]):
+                raise PermissionError("An active policy cannot accept replacement assessment evidence")
+            if bool(policy_row["archived"]):
+                raise PermissionError("Restore the archived policy before admitting an assessment")
+            existing = con.execute(
+                "SELECT * FROM policy_qualifications WHERE id=?", (assessment_key,)
+            ).fetchone()
+            if existing is not None:
+                row = dict(existing)
+                same = bool(
+                    str(row.get("policy_id", "")) == policy_key
+                    and str(row.get("config_json", "")) == config_json
+                    and str(row.get("metrics_json", "")) == metrics_json
+                    and str(row.get("grade", "")) == "N/A"
+                    and float(row.get("score", 0.0)) == numeric_score
+                )
+                if not same:
+                    raise RuntimeError(
+                        "Assessment identity is already bound to different retained evidence"
+                    )
+                return False
+            if str(policy_row["qualification_status"]) not in {"candidate", "assessed"}:
+                raise PermissionError(
+                    "Feasibility admission cannot replace an existing scientist or legacy decision"
+                )
+            con.execute(
+                "INSERT INTO policy_qualifications VALUES(?,?,?,?,?,?,?,?,?)",
+                (
+                    assessment_key,
+                    policy_key,
+                    self._utcnow(),
+                    "",
+                    config_json,
+                    metrics_json,
+                    0,
+                    "N/A",
+                    numeric_score,
+                ),
+            )
+            updated = int(
+                con.execute(
+                    "UPDATE policies SET qualification_status='assessed',grade='N/A',updated_at=? "
+                    "WHERE id=? AND lower(sha256)=lower(?) AND active=0 AND archived=0",
+                    (self._utcnow(), policy_key, expected),
+                ).rowcount
+            )
+            if updated != 1:
+                raise RuntimeError("Policy assessment admission did not update exactly one policy")
+        return True
+
+    def record_scientist_policy_selection(
+        self,
+        *,
+        policy_id: str,
+        assessment_id: str,
+        expected_sha256: str,
+        evidence_sha256: str,
+    ) -> bool:
+        """Record an explicit candidate-bound scientist selection without activating it."""
+
+        policy_key = str(policy_id).strip()
+        assessment_key = str(assessment_id).strip()
+        expected = str(expected_sha256).strip().lower()
+        evidence = str(evidence_sha256).strip().lower()
+        if (
+            len(expected) != 64
+            or len(evidence) != 64
+            or any(character not in "0123456789abcdef" for character in expected + evidence)
+        ):
+            raise ValueError("Scientist selection requires exact candidate and evidence SHA-256")
+        with self._lock, self.connect() as con:
+            policy_row = con.execute(
+                "SELECT * FROM policies WHERE id=?", (policy_key,)
+            ).fetchone()
+            if policy_row is None:
+                raise KeyError(f"Unknown CALO policy: {policy_key}")
+            if str(policy_row["sha256"]).lower() != expected:
+                raise RuntimeError("Policy artifact identity changed before scientist selection")
+            if bool(policy_row["active"]) or bool(policy_row["archived"]):
+                raise PermissionError("Only an inactive, unarchived policy can be selected")
+            assessment_row = con.execute(
+                "SELECT * FROM policy_qualifications WHERE id=? AND policy_id=?",
+                (assessment_key, policy_key),
+            ).fetchone()
+            if assessment_row is None:
+                raise ValueError("Scientist selection requires an admitted feasibility assessment")
+            metrics = json.loads(str(assessment_row["metrics_json"] or "{}"))
+            if (
+                metrics.get("admission_schema_version")
+                != "tsh-calo-policy-feasibility-admission-v1"
+                or str(metrics.get("candidate_sha256", "")).lower() != expected
+                or str(metrics.get("evidence_artifact_sha256", "")).lower() != evidence
+            ):
+                raise ValueError("Scientist selection assessment evidence is incompatible")
+            metadata = json.loads(str(policy_row["metadata_json"] or "{}"))
+            existing = dict(metadata.get("scientist_selection", {}) or {})
+            if existing:
+                if (
+                    str(policy_row["qualification_status"]) == "scientist_selected"
+                    and existing.get("schema_version")
+                    == "tsh-calo-scientist-policy-selection-v1"
+                    and existing.get("assessment_id") == assessment_key
+                    and str(existing.get("candidate_sha256", "")).lower() == expected
+                    and str(existing.get("evidence_sha256", "")).lower() == evidence
+                ):
+                    return False
+                raise RuntimeError("Policy is already bound to another scientist selection")
+            if str(policy_row["qualification_status"]) != "assessed":
+                raise PermissionError("Scientist selection requires the assessed policy state")
+            if bool(assessment_row["passed"]):
+                raise ValueError("Feasibility assessment already carries a decision state")
+            selected_at = self._utcnow()
+            metadata["scientist_selection"] = {
+                "schema_version": "tsh-calo-scientist-policy-selection-v1",
+                "assessment_id": assessment_key,
+                "candidate_sha256": expected,
+                "evidence_sha256": evidence,
+                "selected_at": selected_at,
+                "activation_performed": False,
+            }
+            con.execute(
+                "UPDATE policy_qualifications SET passed=1 WHERE id=? AND policy_id=?",
+                (assessment_key, policy_key),
+            )
+            updated = int(
+                con.execute(
+                    "UPDATE policies SET qualification_status='scientist_selected',grade='N/A',"
+                    "metadata_json=?,updated_at=? WHERE id=? AND lower(sha256)=lower(?) "
+                    "AND active=0 AND archived=0",
+                    (json.dumps(metadata, allow_nan=False), selected_at, policy_key, expected),
+                ).rowcount
+            )
+            if updated != 1:
+                raise RuntimeError("Scientist selection did not update exactly one policy")
         return True
 
     def list_policy_qualifications(self, policy_id: str | None = None) -> list[dict]:

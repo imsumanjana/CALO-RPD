@@ -1,4 +1,4 @@
-"""Validate, start, or resume an independent TSH-CALO qualification campaign."""
+"""Validate, start, or resume an independent TSH-CALO feasibility assessment."""
 
 from __future__ import annotations
 
@@ -80,7 +80,7 @@ def _summary(plan: TSHCALOQualificationPlan, *, state: str, result=None) -> dict
         "scientific_design_sha256": plan.scientific_design_sha256(),
         "execution_plan_sha256": plan.execution_plan_sha256(),
         "seed_manifest_sha256": plan.seed_manifest_sha256(),
-        "authority_boundary": "independent_qualification_only",
+        "authority_boundary": "measurement_only_scientist_decides",
         "registration_performed": False,
         "activation_performed": False,
     }
@@ -115,8 +115,7 @@ def main(argv: list[str] | None = None) -> int:
         result = campaign.resume() if arguments.resume else campaign.start()
     except TSHCALOQualificationPauseRequested:
         return TSH_CALO_QUALIFICATION_PAUSE_EXIT_CODE
-    state = "completed_qualified" if result["passed"] else "completed_not_qualified"
-    print(json.dumps(_summary(plan, state=state, result=result), sort_keys=True))
+    print(json.dumps(_summary(plan, state="completed_assessed", result=result), sort_keys=True))
     return 0
 
 

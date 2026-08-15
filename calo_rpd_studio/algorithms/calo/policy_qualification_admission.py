@@ -29,6 +29,13 @@ from .tsh_calo_qualification_campaign import (
     grade_tsh_calo_qualification_evidence,
     tsh_calo_qualification_cell_identity,
 )
+from .tsh_calo_feasibility_assessment import (
+    TSH_CALO_FEASIBILITY_ADMISSION_SCHEMA,
+    TSH_CALO_FEASIBILITY_ASSESSMENT_SCHEMA,
+    TSH_CALO_FEASIBILITY_COMPLETION_SCHEMA,
+    build_tsh_calo_feasibility_assessment,
+    validate_tsh_calo_feasibility_assessment,
+)
 
 
 def _canonical_sha256(payload: Any) -> str:
@@ -62,6 +69,7 @@ def _verify_transactional_completion(
     plan: TSHCALOQualificationPlan,
     evidence: dict,
     expected_policy_sha256: str,
+    assessment: bool = False,
 ) -> dict:
     """Require one complete unique-cell set and the final atomic completion authority."""
 
@@ -75,8 +83,13 @@ def _verify_transactional_completion(
     completion = _read_json_file(completion_path)
     index = _read_json_file(index_path)
     status = _read_json_file(status_path)
-    if completion.get("schema_version") != TSH_CALO_QUALIFICATION_COMPLETION_SCHEMA:
-        raise ValueError("Qualification completion schema is incompatible")
+    expected_completion_schema = (
+        TSH_CALO_FEASIBILITY_COMPLETION_SCHEMA
+        if assessment
+        else TSH_CALO_QUALIFICATION_COMPLETION_SCHEMA
+    )
+    if completion.get("schema_version") != expected_completion_schema:
+        raise ValueError("Qualification/assessment completion schema is incompatible")
     if index.get("schema_version") != TSH_CALO_QUALIFICATION_CELL_INDEX_SCHEMA:
         raise ValueError("Qualification terminal-cell index schema is incompatible")
     if status.get("schema_version") != TSH_CALO_QUALIFICATION_STATUS_SCHEMA:
@@ -99,10 +112,21 @@ def _verify_transactional_completion(
                 )
     expected_cells = len(plan.development_cases) * plan.runs * 2
     if (
-        completion.get("passed") is not True
-        or int(completion.get("committed_unique_cells", -1)) != expected_cells
+        int(completion.get("committed_unique_cells", -1)) != expected_cells
         or int(completion.get("failed_scientific_cells", -1)) != 0
         or int(completion.get("infrastructure_incident_count", -1)) != 0
+    ):
+        raise ValueError("Qualification/assessment completion cardinality is not admissible")
+    if assessment:
+        if (
+            completion.get("assessment_complete") is not True
+            or completion.get("automated_suitability_decision") is not None
+            or completion.get("authority_boundary")
+            != "assessment_completion_only_scientist_decides_no_selection_activation_or_binding"
+        ):
+            raise ValueError("Feasibility completion assigned or implied an automated decision")
+    elif (
+        completion.get("passed") is not True
         or completion.get("authority_boundary")
         != "completion_only_no_registration_activation_or_experiment_binding"
     ):
@@ -118,14 +142,23 @@ def _verify_transactional_completion(
         or completion.get("qualification_status_sha256") != _file_sha256(status_path)
     ):
         raise ValueError("Qualification completion checksums or cardinality are inconsistent")
+    expected_status = "completed_assessed" if assessment else "completed_qualified"
     if (
-        status.get("state") != "completed_qualified"
+        status.get("state") != expected_status
         or status.get("qualification_plan_sha256") != plan_sha256
         or status.get("evidence_sha256") != completion.get("evidence_artifact_sha256")
         or status.get("receipt_sha256") != completion.get("receipt_sha256")
-        or status.get("qualification_receipt_permitted") is not True
     ):
-        raise ValueError("Qualification completed status is not admission-authoritative")
+        raise ValueError("Qualification/assessment completed status is not admission-authoritative")
+    if assessment:
+        if (
+            status.get("qualification_receipt_permitted") is not False
+            or status.get("feasibility_receipt_permitted") is not True
+            or status.get("scientist_decision") != "not_recorded"
+        ):
+            raise ValueError("Feasibility status contains an automated or missing authority state")
+    elif status.get("qualification_receipt_permitted") is not True:
+        raise ValueError("Qualification completed status does not permit its receipt")
     incident_directory = source / QUALIFICATION_INFRASTRUCTURE_DIRECTORY
     if incident_directory.is_dir() and any(incident_directory.glob("*.json")):
         raise ValueError("Qualification retains an infrastructure incident")
@@ -339,6 +372,16 @@ class VerifiedQualificationEvidence:
     metrics: dict
 
 
+@dataclass(frozen=True, slots=True)
+class VerifiedFeasibilityAssessment:
+    directory: str
+    assessment_id: str
+    policy_sha256: str
+    score: float
+    config: dict
+    metrics: dict
+
+
 def inspect_qualification_evidence(
     directory: str | Path,
     *,
@@ -522,6 +565,149 @@ def inspect_qualification_evidence(
         policy_sha256=expected_sha,
         grade="A",
         score=score,
+        config=qualification_config(receipt.as_dict()),
+        metrics=metrics,
+    )
+
+
+def inspect_feasibility_assessment(
+    directory: str | Path,
+    *,
+    expected_policy_sha256: str,
+) -> VerifiedFeasibilityAssessment:
+    """Verify a complete measurement dossier without making a suitability decision."""
+
+    source = Path(directory).expanduser()
+    if source.is_symlink():
+        raise ValueError("Symbolic-link feasibility directories are not accepted")
+    source = source.resolve(strict=True)
+    if not source.is_dir():
+        raise ValueError("Feasibility evidence location is not a directory")
+    plan = TSHCALOQualificationPlan.from_dict(
+        _read_json_file(source / "qualification_plan.json")
+    )
+    seed_manifest = _read_json_file(source / "seed_manifest.json")
+    evidence_path = source / "qualification_evidence.json"
+    receipt_path = source / "qualification_receipt.json"
+    evidence = _read_json_file(evidence_path)
+    receipt_payload = _read_json_file(receipt_path)
+    expected_sha = str(expected_policy_sha256).strip().lower()
+    if plan.mode != "formal" or plan.source_tracked_clean is not True:
+        raise ValueError("A selectable feasibility assessment requires a clean formal source")
+    if plan.candidate_sha256.lower() != expected_sha:
+        raise ValueError("Feasibility plan belongs to a different policy checkpoint")
+    if _canonical_sha256(seed_manifest) != plan.seed_manifest_sha256():
+        raise ValueError("Feasibility seed manifest checksum does not match the frozen plan")
+    if evidence.get("schema_version") != TSH_CALO_FEASIBILITY_ASSESSMENT_SCHEMA:
+        raise ValueError("Feasibility assessment schema is incompatible")
+    completion = _verify_transactional_completion(
+        source,
+        plan=plan,
+        evidence=evidence,
+        expected_policy_sha256=expected_sha,
+        assessment=True,
+    )
+    expected_bindings = {
+        "analysis_schema_version": plan.analysis_schema_version,
+        "relative_improvement_version": plan.relative_improvement_version,
+        "qualification_run_id": plan.qualification_run_id,
+        "source_commit": plan.source_commit,
+        "source_policy_sha256": expected_sha,
+        "qualification_plan_sha256": plan.execution_plan_sha256(),
+        "scientific_design_sha256": plan.scientific_design_sha256(),
+        "seed_manifest_sha256": plan.seed_manifest_sha256(),
+    }
+    for key, expected in expected_bindings.items():
+        observed = evidence.get(key)
+        if key in {"source_commit", "source_policy_sha256"}:
+            observed, expected = str(observed).lower(), str(expected).lower()
+        if observed != expected:
+            raise ValueError(f"Feasibility evidence has an invalid {key} binding")
+    if float(evidence.get("objective_scale_floor", float("nan"))) != float(
+        plan.objective_scale_floor
+    ):
+        raise ValueError("Feasibility evidence objective scale is inconsistent")
+    if evidence.get("source_tracked_clean") is not True:
+        raise ValueError("Feasibility evidence did not retain a clean tracked source")
+    if tuple(evidence.get("development_cases", ())) != tuple(plan.development_cases):
+        raise ValueError("Feasibility evidence used a different case design")
+    if evidence.get("protected_cases_opened") is not False:
+        raise ValueError("Feasibility evidence did not prove protected-case closure")
+    if evidence.get("authority_boundary") != (
+        "measurement_only_scientist_decides_no_selection_activation_or_experiment_binding"
+    ):
+        raise ValueError("Feasibility evidence assigned incompatible decision authority")
+    candidate_contract = dict(evidence.get("candidate_contract", {}) or {})
+    if candidate_contract != dict(plan.candidate_contract):
+        raise ValueError("Feasibility candidate architecture contract differs from its plan")
+    if str(candidate_contract.get("candidate_sha256", "")).lower() != expected_sha:
+        raise ValueError("Feasibility candidate contract belongs to another checkpoint")
+    records = dict(evidence.get("records", {}) or {})
+    expected_records = len(plan.development_cases) * plan.runs * 2
+    if (
+        int(records.get("expected", -1)) != expected_records
+        or int(records.get("completed", -1)) != expected_records
+        or int(records.get("failed", -1)) != 0
+        or int(records.get("committed_unique", -1)) != expected_records
+    ):
+        raise ValueError("Feasibility assessment lacks a complete unique paired-cell set")
+    cases = list(evidence.get("case_evidence", []) or [])
+    if [str(item.get("case", "")) for item in cases] != list(plan.development_cases):
+        raise ValueError("Feasibility per-case evidence does not match the frozen case order")
+    assessment = dict(evidence.get("feasibility_assessment", {}) or {})
+    validate_tsh_calo_feasibility_assessment(assessment)
+    recalculated = build_tsh_calo_feasibility_assessment(
+        cases=cases,
+        expected_case_order=plan.development_cases,
+    )
+    if assessment != recalculated:
+        raise ValueError("Feasibility ratings do not match the retained cell measurements")
+    evidence_sha = _file_sha256(evidence_path)
+    receipt = load_tsh_calo_qualification_receipt(
+        {"tsh_calo_qualification_receipt": receipt_payload},
+        expected_policy_sha256=expected_sha,
+    )
+    if completion.get("receipt_sha256") != _file_sha256(receipt_path):
+        raise ValueError("Feasibility completion does not bind the retained receipt")
+    if (
+        receipt.qualification_run_id != plan.qualification_run_id
+        or receipt.source_commit.lower() != plan.source_commit.lower()
+        or receipt.qualification_protocol_sha256 != plan.scientific_design_sha256()
+        or receipt.seed_manifest_sha256 != plan.seed_manifest_sha256()
+        or receipt.evidence_artifact_sha256 != evidence_sha
+        or tuple(receipt.development_cases) != tuple(plan.development_cases)
+        or str(evidence.get("ood_calibration_sha256", "")).lower()
+        != receipt.ood_calibration_sha256
+    ):
+        raise ValueError("Feasibility receipt does not bind the frozen assessment")
+    protocol = qualification_comparison_protocol(plan)
+    metrics = {
+        "admission_schema_version": TSH_CALO_FEASIBILITY_ADMISSION_SCHEMA,
+        "evidence_directory": str(source),
+        "assessment_id": plan.qualification_run_id,
+        "candidate_sha256": expected_sha,
+        "source_commit": plan.source_commit,
+        "assessment_plan_sha256": plan.execution_plan_sha256(),
+        "scientific_design_sha256": plan.scientific_design_sha256(),
+        "seed_manifest_sha256": plan.seed_manifest_sha256(),
+        "evidence_artifact_sha256": evidence_sha,
+        "receipt_sha256": receipt.receipt_sha256,
+        "comparison_protocol": protocol,
+        "comparison_protocol_sha256": _canonical_sha256(protocol),
+        "development_cases": list(plan.development_cases),
+        "runs_per_case": int(plan.runs),
+        "population_size": int(plan.population_size),
+        "max_evaluations": int(plan.max_evaluations),
+        "feasibility_assessment": assessment,
+        "case_evidence": cases,
+        "decision_authority": "scientist_only",
+        "automated_suitability_decision": None,
+    }
+    return VerifiedFeasibilityAssessment(
+        directory=str(source),
+        assessment_id=plan.qualification_run_id,
+        policy_sha256=expected_sha,
+        score=float(assessment["overall_feasibility_score"]),
         config=qualification_config(receipt.as_dict()),
         metrics=metrics,
     )

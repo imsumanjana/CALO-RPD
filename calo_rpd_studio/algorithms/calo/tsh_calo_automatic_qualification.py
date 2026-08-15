@@ -1,4 +1,4 @@
-"""Frozen one-action orchestration contract for independent TSH-CALO qualification.
+"""Frozen one-action orchestration contract for independent TSH-CALO feasibility measurement.
 
 The current workflow freezes the candidate's architecture/training-parameter contract and one
 deterministic formal quality campaign. It has no registry, activation, or experiment-binding
@@ -31,7 +31,7 @@ from .tsh_calo_qualification_campaign import (
 
 
 TSH_CALO_AUTOMATIC_QUALIFICATION_PROTOCOL = (
-    "tsh-calo-one-action-qualification-v3-transactional-cells"
+    "tsh-calo-one-action-feasibility-v1-transactional-cells"
 )
 AUTOMATIC_QUALIFICATION_CASES = ("case30", "case57")
 AUTOMATIC_QUALIFICATION_RUNS = 30
@@ -44,7 +44,7 @@ AUTOMATIC_SOURCE_SNAPSHOT_MANIFEST = "automatic_source_snapshot_manifest.json"
 
 
 class AutomaticQualificationRejected(ValueError):
-    """The frozen candidate workflow reached a scientific rejection decision."""
+    """The frozen candidate workflow failed a technical integrity or compatibility boundary."""
 
 
 @dataclass(frozen=True, slots=True)
@@ -425,7 +425,7 @@ def frozen_qualification_restart_design_sha256(plan: TSHCALOQualificationPlan) -
 def automatic_qualification_workflow_payload(
     *, qualification_plan: TSHCALOQualificationPlan
 ) -> dict:
-    """Preregister one immutable architecture and model-quality campaign."""
+    """Preregister one immutable architecture and non-decisional feasibility campaign."""
 
     qualification_plan.validate()
     if not qualification_plan.candidate_contract:
@@ -438,11 +438,15 @@ def automatic_qualification_workflow_payload(
         "candidate_sha256": qualification_plan.candidate_sha256,
         "candidate_contract": dict(qualification_plan.candidate_contract),
         "formal_qualification_plan": qualification_plan.to_dict(),
-        "transition": "run_or_exactly_resume_formal; admit_only_verified_pass",
+        "transition": (
+            "run_or_exactly_resume_formal; admit_integrity_valid_measurements; "
+            "scientist_selection_separate"
+        ),
         "resume_count_limit": None,
         "finite_budgets_immutable": True,
         "automatic_activation": False,
         "automatic_experiment_binding": False,
+        "automatic_suitability_decision": False,
     }
 
 

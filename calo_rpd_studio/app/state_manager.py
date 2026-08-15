@@ -157,6 +157,10 @@ class AppState(QObject):
             "policy_qualification_receipt",
             "policy_ood_calibration_sha256",
             "ood_calibration",
+            "policy_assessment_id",
+            "policy_assessment_receipt_sha256",
+            "policy_assessment_receipt",
+            "policy_scientist_selection",
         }
         binding_ready = bool(
             status.ready and getattr(status, "algorithm_id", "") == TSH_CALO_ALGORITHM_ID

@@ -1532,6 +1532,19 @@ superseded by the stage-neutral compatibility and qualification boundary on 2026
   state checks. Passed evidence is admitted automatically only inside the user-invoked qualification
   transaction; explicit activation is still required before experiment binding. No policy/scientific
   workflow or validation was executed; owner validation remains pending.
+- Current-source automated qualification has been replaced after measurement by a non-decisional
+  feasibility lifecycle while preserving the frozen plan and every scientific measurement. The
+  Policy library now exposes **Assess feasibility**, a rating table, training-parameter influence,
+  **Select for use**, and the still-separate **Activate for experiments** action. Admission alone
+  leaves the model inactive and unselected. Influence is candidate-bound, uses only comparable
+  authenticated completed campaigns, reports the strongest association for each rating, and says
+  `insufficient comparative evidence` when the minimum three-campaign/two-value basis is absent.
+  It never modifies training inputs or architecture and must not be interpreted causally.
+- This follow-up is coding-only and unvalidated. Run
+  `powershell -NoProfile -ExecutionPolicy Bypass -File .\validation\Validate-Qualification-Evidence-Transactions.ps1`
+  from the repository root and return the complete new timestamped log directory. Do not launch a
+  new assessment, select/activate a policy, open protected cases, or make qualification/release claims
+  until that evidence is reviewed.
 - This follow-up supersedes the component-development prerequisite for every newly created
   qualification plan. One stage-neutral candidate architecture/parameter contract now precedes the
   unchanged 120-cell paired quality campaign. Product/source version and development-stage labels
