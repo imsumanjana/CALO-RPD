@@ -1650,3 +1650,20 @@ superseded by the stage-neutral compatibility and qualification boundary on 2026
   fail closed. No training value, architecture, candidate, or frozen scientific field changed.
 - Contracts and the ignored validator are updated but unexecuted. The prior focused PASS predates
   both this change and the Show-archived removal; obtain a new complete focused PASS before launch.
+
+### Fresh/resume validation closure
+
+- `feasibility-influence-20260815-215112` and `-215150` were retained as incomplete formatting-gate
+  attempts: source-diff and Ruff passed, while the GUI panel alone required mechanical Ruff
+  formatting; unit and GUI tests did not run in either attempt.
+- After that bounded correction, `feasibility-influence-20260815-215306` passed all six commands,
+  including Ruff/format, 61 focused unit/fault-injection tests, 37 focused GUI tests, and source
+  stability. It used deterministic synthetic fixtures only.
+- Use the newest complete PASS generated after this handoff entry as launch authority for exactly
+  one new corrected-source feasibility assessment. Resume is available only for one uniquely
+  authenticated safe pause. Starting fresh may permanently discard only verified incomplete
+  candidate-bound workspaces after explicit confirmation; it cannot delete the retained immutable
+  incident, completed evidence, source snapshots, or integrity failures.
+- This focused engineering validation is not a feasibility result, policy recommendation,
+  scientist selection, activation, scientific qualification, release authorization, or superiority
+  evidence. The complete frozen plan and training/CALO/TSH architecture remain unchanged.

@@ -1258,3 +1258,15 @@ Completed evidence, shared source snapshots, integrity failures, and immutable i
 incidents remain protected. Frozen scientific and training/architecture semantics are unchanged.
 Production/test/validator source is implemented but unexecuted, so a new complete focused validator
 PASS is required before this exact behavior is relied upon.
+
+Authorized attempts `feasibility-influence-20260815-215112` and `-215150` reached only the format
+gate: diff and Ruff passed, and Ruff format identified the GUI panel as the sole mechanically
+unformatted file.
+After that formatting correction, complete replay `feasibility-influence-20260815-215306` passed
+Ruff/format, 61 focused unit and fault-injection contracts, 37 focused GUI contracts, all command
+exit codes, and nonignored-source stability. Retained flags prove that no real assessment,
+qualification, training/parameter mutation, real-policy use, protected-case access, selection,
+activation, binding, Docker, or release workflow occurred. The focused engineering gate for the
+fresh/resume and non-archived UI behavior is satisfied, subject to the source-stable complete replay
+produced after this ledger closure. Scientific assessment, activation, broader Phase 6, and release
+gates remain separate and open.

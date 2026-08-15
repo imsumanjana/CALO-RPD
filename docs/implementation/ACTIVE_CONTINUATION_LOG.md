@@ -2939,3 +2939,21 @@ Append timestamped entries below this line after each material action, validatio
 - Unit/static/GUI contracts and the ignored validator guidance were updated. No formatter, lint,
   test, validator, GUI, feasibility campaign, training, policy selection/activation, protected-case,
   Docker, or release command was run; fresh focused validation is required.
+
+### 2026-08-15 - Fresh/resume follow-up validator correction and complete PASS
+
+- Authorized runs `feasibility-influence-20260815-215112` and `-215150` passed source-diff and Ruff
+  checks, then stopped at `04-format` because only `calo_intelligence_panel.py` required mechanical
+  Ruff formatting. No test command or scientific/lifecycle workflow ran in either incomplete
+  attempt.
+- The single indicated GUI file was formatted without changing its behavior. Complete replay
+  `feasibility-influence-20260815-215306` then passed Ruff and format, 61 focused unit and
+  fault-injection contracts, 37 focused GUI contracts, all six native commands, and the
+  before/after nonignored-source stability comparison.
+- Machine-readable flags record that neither attempt executed a real feasibility assessment or
+  qualification, training or parameter mutation, a real policy, protected cases, selection,
+  activation, binding, Docker, or a release workflow. The frozen plan and immutable prior
+  infrastructure-aborted incident were unchanged.
+- The newest complete PASS produced after this ledger entry is the source-bound launch-authority
+  bundle for one new corrected-source assessment. It does not constitute scientific evidence,
+  model suitability advice, activation authority, broader Phase 6 closure, or release evidence.

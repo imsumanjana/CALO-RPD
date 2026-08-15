@@ -1012,9 +1012,7 @@ class CALOIntelligencePanel(ScrollablePage):
                 candidate_path=policy.checkpoint_path,
                 candidate_sha256=policy.sha256,
             )
-            snapshot_root = (
-                qualification_base / "source-snapshots" / plan.source_commit
-            ).resolve()
+            snapshot_root = (qualification_base / "source-snapshots" / plan.source_commit).resolve()
             validate_repository_for_plan(plan, root=snapshot_root)
             manifest_path = snapshot_root / AUTOMATIC_SOURCE_SNAPSHOT_MANIFEST
             try:
@@ -1180,8 +1178,7 @@ class CALOIntelligencePanel(ScrollablePage):
             )
             fresh_design_sha256 = frozen_qualification_restart_design_sha256(qualification_plan)
             retained_designs = [
-                item["frozen_restart_design_sha256"]
-                for item in self._qualification_prior_incidents
+                item["frozen_restart_design_sha256"] for item in self._qualification_prior_incidents
             ] + [
                 frozen_qualification_restart_design_sha256(plan)
                 for plan, _workspace in self._qualification_discardable_workspaces
