@@ -1178,3 +1178,19 @@ fresh-plan source identity was resolved from the launch working directory instea
 checkout. The UI now distinguishes those error domains, while the source identity lookup is anchored
 to the package root with the existing immutable build-declaration fallback. Contracts are written
 but unexecuted; G6 remains open pending the fresh complete owner validator bundle.
+
+### Transactional qualification-evidence gate open (2026-08-15)
+
+The corrected runner uses canonical plan/policy/case/run/side/seed/budget cell identities, mutually
+exclusive atomic success/failure commits, a checksum-bound unique-cell index, and a separate
+infrastructure-incident state. Event, callback, status, index, or finalization faults cannot be
+graded as scientific cell failures. Current-schema evidence is admission-ineligible until a final
+completion authority binds the exact plan, seeds, terminal index, event log, status, evidence, and
+receipt with zero infrastructure incidents. Contradictory retained terminal artifacts fail closed.
+
+The observed `e266bd7598befa54` campaign is preserved without repair as infrastructure-aborted and
+cannot resume. A new corrected-source run must retain every operative frozen design field while
+receiving new run/source provenance identities. Implementation and synthetic fault-injection
+contracts exist but were not executed. This gate remains open until the Git-ignored transactional
+qualification validator passes and its complete fresh log directory is reviewed; no qualification,
+policy admission, activation, protected-case, release, or scientific claim follows from source work.

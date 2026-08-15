@@ -17,10 +17,15 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_policy_artifact import (
     save_tsh_calo_candidate,
 )
 from calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign import (
+    QUALIFICATION_CELL_INDEX_FILE,
+    QUALIFICATION_COMPLETION_FILE,
     QUALIFICATION_CONTROL_FILE,
     QUALIFICATION_EVENT_LOG_FILE,
+    QUALIFICATION_INFRASTRUCTURE_DIRECTORY,
     QUALIFICATION_STATUS_FILE,
     QualificationCampaignLeaseUnavailable,
+    QualificationEvidenceIntegrityError,
+    QualificationInfrastructureError,
     TSH_CALO_COMPONENT_EVIDENCE_SCHEMA,
     TSH_CALO_QUALIFICATION_EVENT_SCHEMA,
     TSHCALOQualificationPauseRequested,
@@ -28,6 +33,7 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign import (
     TSHCALOQualificationPlan,
     _ExclusiveQualificationCampaignLease,
     _verify_component_evidence,
+    inspect_tsh_calo_qualification_resume_state,
     qualification_candidate_contract,
     request_tsh_calo_qualification_pause,
 )
@@ -149,6 +155,7 @@ def test_screening_campaign_retains_evidence_but_cannot_emit_receipt(tmp_path):
         "expected": 4,
         "completed": 4,
         "failed": 0,
+        "committed_unique": 4,
         "directory": str(output.parent / "records"),
         "failures_directory": str(output.parent / "failures"),
     }
@@ -162,6 +169,123 @@ def test_screening_campaign_retains_evidence_but_cannot_emit_receipt(tmp_path):
     assert candidate_records
     assert all(item["evaluations"] == 8 for item in candidate_records)
     assert all(item["source_policy_sha256"] == sha256 for item in candidate_records)
+    assert (output.parent / QUALIFICATION_CELL_INDEX_FILE).is_file()
+    assert (output.parent / QUALIFICATION_COMPLETION_FILE).is_file()
+
+
+def test_completion_event_failure_preserves_one_success_and_aborts_infrastructure(tmp_path):
+    path, sha256 = _ensemble(tmp_path)
+    plan = _plan(path, sha256, runs=1)
+    output = tmp_path / "completion-event-failure"
+
+    def fail_after_commit(event):
+        if event["event"] == "cell_completed":
+            raise RuntimeError("injected completion telemetry failure")
+
+    with pytest.raises(QualificationInfrastructureError, match="cell completion event"):
+        TSHCALOQualificationCampaign(plan, output, event_callback=fail_after_commit).start()
+
+    records = list((output / "records").glob("*.json"))
+    failures = list((output / "failures").glob("*.json"))
+    index = json.loads((output / QUALIFICATION_CELL_INDEX_FILE).read_text(encoding="utf-8"))
+    status = json.loads((output / QUALIFICATION_STATUS_FILE).read_text(encoding="utf-8"))
+    assert len(records) == 1
+    assert failures == []
+    assert index["committed_unique_cells"] == 1
+    assert index["entries"][0]["terminal_state"] == "committed_success"
+    assert status["state"] == "infrastructure_aborted"
+    assert status["fresh_run_required"] is True
+    assert list((output / QUALIFICATION_INFRASTRUCTURE_DIRECTORY).glob("*.json"))
+    assert not (output / "qualification_evidence.json").exists()
+    assert not (output / "qualification_receipt.json").exists()
+    assert not (output / QUALIFICATION_COMPLETION_FILE).exists()
+    with pytest.raises(QualificationEvidenceIntegrityError, match="fresh source-bound"):
+        TSHCALOQualificationCampaign(plan, output).resume()
+
+
+def test_progress_telemetry_failure_is_not_a_scientific_cell_failure(
+    tmp_path, monkeypatch
+):
+    path, sha256 = _ensemble(tmp_path)
+    plan = _plan(path, sha256, runs=1, max_evaluations=12)
+    output = tmp_path / "progress-event-failure"
+    monkeypatch.setattr(
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign."
+        "QUALIFICATION_CHECKPOINT_INTERVAL",
+        4,
+    )
+
+    def fail_during_live_work(event):
+        if event["event"] == "cell_progress":
+            raise RuntimeError("injected live telemetry failure")
+
+    with pytest.raises(QualificationInfrastructureError, match="cell progress event"):
+        TSHCALOQualificationCampaign(
+            plan, output, event_callback=fail_during_live_work
+        ).start()
+
+    assert list((output / "records").glob("*.json")) == []
+    assert list((output / "failures").glob("*.json")) == []
+    status = json.loads((output / QUALIFICATION_STATUS_FILE).read_text(encoding="utf-8"))
+    assert status["state"] == "infrastructure_aborted"
+    assert status["qualification_receipt_permitted"] is False
+
+
+def test_result_record_construction_failure_is_infrastructure_not_scientific(
+    tmp_path, monkeypatch
+):
+    path, sha256 = _ensemble(tmp_path)
+    plan = _plan(path, sha256, runs=1)
+    output = tmp_path / "result-record-failure"
+
+    def fail_result_record(**_kwargs):
+        raise RuntimeError("injected result-record construction failure")
+
+    monkeypatch.setattr(
+        "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign._result_record",
+        fail_result_record,
+    )
+    with pytest.raises(QualificationInfrastructureError, match="result record construction"):
+        TSHCALOQualificationCampaign(plan, output).start()
+
+    assert list((output / "records").glob("*.json")) == []
+    assert list((output / "failures").glob("*.json")) == []
+    status = json.loads((output / QUALIFICATION_STATUS_FILE).read_text(encoding="utf-8"))
+    assert status["state"] == "infrastructure_aborted"
+    assert status["qualification_receipt_permitted"] is False
+
+
+def test_conflicting_terminal_artifacts_are_read_only_and_require_fresh_run(tmp_path):
+    path, sha256 = _ensemble(tmp_path)
+    plan = _plan(path, sha256, runs=1)
+    output = tmp_path / "contradictory-retained"
+    (output / "records").mkdir(parents=True)
+    (output / "failures").mkdir()
+    (output / "qualification_plan.json").write_text(
+        json.dumps(plan.to_dict(), sort_keys=True), encoding="utf-8"
+    )
+    artifact_name = "case30-000-baseline.json"
+    (output / "records" / artifact_name).write_text("{}", encoding="utf-8")
+    (output / "failures" / artifact_name).write_text("{}", encoding="utf-8")
+    before = {
+        str(item.relative_to(output)): hashlib.sha256(item.read_bytes()).hexdigest()
+        for item in output.rglob("*")
+        if item.is_file()
+    }
+
+    disposition = inspect_tsh_calo_qualification_resume_state(output)
+    assert disposition["classification"] == "infrastructure_aborted"
+    assert disposition["fresh_run_required"] is True
+    assert disposition["conflicting_terminal_artifacts"] == [artifact_name]
+    with pytest.raises(QualificationEvidenceIntegrityError, match="Contradictory success"):
+        TSHCALOQualificationCampaign(plan, output).resume()
+
+    after = {
+        str(item.relative_to(output)): hashlib.sha256(item.read_bytes()).hexdigest()
+        for item in output.rglob("*")
+        if item.is_file()
+    }
+    assert after == before
 
 
 def test_qualification_micro_events_pause_inside_cell_and_exactly_resume(
@@ -338,5 +462,5 @@ def test_integrity_failed_campaign_cannot_resume(tmp_path):
     (output / "campaign_integrity_failure.json").write_text("{}", encoding="utf-8")
     plan = _plan(tmp_path / "missing.pt", _sha("missing"))
 
-    with pytest.raises(RuntimeError, match="Failed-integrity"):
+    with pytest.raises(QualificationEvidenceIntegrityError, match="integrity failure marker"):
         TSHCALOQualificationCampaign(plan, output).resume()

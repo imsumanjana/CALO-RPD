@@ -31,9 +31,19 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_qualification import (
     qualification_config,
 )
 from calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign import (
+    LEGACY_TSH_CALO_QUALIFICATION_EVIDENCE_SCHEMA,
+    QUALIFICATION_CELL_INDEX_FILE,
+    QUALIFICATION_COMPLETION_FILE,
+    QUALIFICATION_EVENT_LOG_FILE,
+    QUALIFICATION_STATUS_FILE,
+    TSH_CALO_QUALIFICATION_CELL_INDEX_SCHEMA,
+    TSH_CALO_QUALIFICATION_CELL_SUCCESS_SCHEMA,
+    TSH_CALO_QUALIFICATION_COMPLETION_SCHEMA,
     TSH_CALO_QUALIFICATION_EVIDENCE_SCHEMA,
+    TSH_CALO_QUALIFICATION_STATUS_SCHEMA,
     TSHCALOQualificationPlan,
     grade_tsh_calo_qualification_evidence,
+    tsh_calo_qualification_cell_identity,
 )
 from calo_rpd_studio.algorithms.calo.tsh_calo_shield import OODCalibration
 from calo_rpd_studio.algorithms.calo.tsh_calo_training_receipt import (
@@ -215,7 +225,7 @@ def _formal_evidence(directory: Path, policy_path: Path, policy_sha256: str, *, 
     _write_json(directory / "qualification_plan.json", plan.to_dict())
     _write_json(directory / "seed_manifest.json", plan.seed_manifest())
     evidence = {
-        "schema_version": TSH_CALO_QUALIFICATION_EVIDENCE_SCHEMA,
+        "schema_version": LEGACY_TSH_CALO_QUALIFICATION_EVIDENCE_SCHEMA,
         "analysis_schema_version": plan.analysis_schema_version,
         "relative_improvement_version": plan.relative_improvement_version,
         "objective_scale_floor": plan.objective_scale_floor,
@@ -266,6 +276,141 @@ def _formal_evidence(directory: Path, policy_path: Path, policy_sha256: str, *, 
         ood_calibration=calibration,
     )
     _write_json(directory / "qualification_receipt.json", receipt)
+    return directory
+
+
+def _add_transactional_completion(directory: Path) -> Path:
+    plan = TSHCALOQualificationPlan.from_dict(
+        json.loads((directory / "qualification_plan.json").read_text(encoding="utf-8"))
+    )
+    paired_runs = list(plan.seed_manifest()["paired_runs"])
+    records_directory = directory / "records"
+    records_directory.mkdir()
+    entries = []
+    cell_index = 0
+    for case_name in plan.development_cases:
+        for run_index, seeds in enumerate(paired_runs):
+            for label in ("baseline", "candidate"):
+                cell_index += 1
+                identity = tsh_calo_qualification_cell_identity(
+                    plan,
+                    case_name=case_name,
+                    run_index=run_index,
+                    label=label,
+                    seeds=seeds,
+                )
+                artifact_name = f"{case_name}-{run_index:03d}-{label}.json"
+                artifact_path = records_directory / artifact_name
+                artifact_sha256 = _write_json(
+                    artifact_path,
+                    {
+                        "schema_version": TSH_CALO_QUALIFICATION_CELL_SUCCESS_SCHEMA,
+                        "terminal_state": "committed_success",
+                        "cell_identity": identity,
+                        "cell_index": cell_index,
+                        "total_cells": len(plan.development_cases) * plan.runs * 2,
+                        "qualification_run_id": plan.qualification_run_id,
+                        "qualification_plan_sha256": plan.execution_plan_sha256(),
+                        "source_policy_sha256": plan.candidate_sha256,
+                        "case": case_name,
+                        "run_index": run_index,
+                        "label": label,
+                        "seeds": seeds,
+                        "evaluations": plan.max_evaluations,
+                    },
+                )
+                entries.append(
+                    {
+                        "cell_identity": identity,
+                        "cell_index": cell_index,
+                        "case": case_name,
+                        "run_index": run_index,
+                        "label": label,
+                        "terminal_state": "committed_success",
+                        "artifact_path": f"records/{artifact_name}",
+                        "artifact_sha256": artifact_sha256,
+                    }
+                )
+    expected = len(entries)
+    index_sha256 = _write_json(
+        directory / QUALIFICATION_CELL_INDEX_FILE,
+        {
+            "schema_version": TSH_CALO_QUALIFICATION_CELL_INDEX_SCHEMA,
+            "qualification_run_id": plan.qualification_run_id,
+            "qualification_plan_sha256": plan.execution_plan_sha256(),
+            "source_policy_sha256": plan.candidate_sha256,
+            "expected_cells": expected,
+            "committed_unique_cells": expected,
+            "entries": entries,
+        },
+    )
+    evidence_path = directory / "qualification_evidence.json"
+    evidence = json.loads(evidence_path.read_text(encoding="utf-8"))
+    evidence["schema_version"] = TSH_CALO_QUALIFICATION_EVIDENCE_SCHEMA
+    evidence["records"]["committed_unique"] = expected
+    evidence["terminal_cell_index"] = {
+        "schema_version": TSH_CALO_QUALIFICATION_CELL_INDEX_SCHEMA,
+        "path": str(directory / QUALIFICATION_CELL_INDEX_FILE),
+        "sha256": index_sha256,
+        "committed_unique_cells": expected,
+    }
+    evidence["infrastructure_incidents"] = []
+    evidence_sha256 = _write_json(evidence_path, evidence)
+    calibration = OODCalibration(np.zeros(2), np.ones(2))
+    receipt = build_tsh_calo_qualification_receipt(
+        qualification_run_id=plan.qualification_run_id,
+        source_policy_sha256=plan.candidate_sha256,
+        source_commit=plan.source_commit,
+        qualification_protocol_sha256=plan.scientific_design_sha256(),
+        seed_manifest_sha256=plan.seed_manifest_sha256(),
+        evidence_artifact_sha256=evidence_sha256,
+        development_cases=plan.development_cases,
+        ood_calibration=calibration,
+    )
+    receipt_sha256 = _write_json(directory / "qualification_receipt.json", receipt)
+    event_sha256 = _write_json(
+        directory / QUALIFICATION_EVENT_LOG_FILE,
+        {
+            "schema_version": "tsh-calo-qualification-progress-event-v1",
+            "event": "campaign_completed",
+            "qualification_run_id": plan.qualification_run_id,
+            "qualification_plan_sha256": plan.execution_plan_sha256(),
+        },
+    )
+    status_sha256 = _write_json(
+        directory / QUALIFICATION_STATUS_FILE,
+        {
+            "schema_version": TSH_CALO_QUALIFICATION_STATUS_SCHEMA,
+            "qualification_run_id": plan.qualification_run_id,
+            "qualification_plan_sha256": plan.execution_plan_sha256(),
+            "state": "completed_qualified",
+            "evidence_sha256": evidence_sha256,
+            "receipt_sha256": receipt_sha256,
+            "qualification_receipt_permitted": True,
+        },
+    )
+    _write_json(
+        directory / QUALIFICATION_COMPLETION_FILE,
+        {
+            "schema_version": TSH_CALO_QUALIFICATION_COMPLETION_SCHEMA,
+            "qualification_run_id": plan.qualification_run_id,
+            "qualification_plan_sha256": plan.execution_plan_sha256(),
+            "seed_manifest_sha256": plan.seed_manifest_sha256(),
+            "source_policy_sha256": plan.candidate_sha256,
+            "terminal_cell_index_sha256": index_sha256,
+            "qualification_event_log_sha256": event_sha256,
+            "qualification_status_sha256": status_sha256,
+            "evidence_artifact_sha256": evidence_sha256,
+            "receipt_sha256": receipt_sha256,
+            "passed": True,
+            "committed_unique_cells": expected,
+            "failed_scientific_cells": 0,
+            "infrastructure_incident_count": 0,
+            "authority_boundary": (
+                "completion_only_no_registration_activation_or_experiment_binding"
+            ),
+        },
+    )
     return directory
 
 
@@ -485,6 +630,29 @@ def test_formal_evidence_admission_is_explicit_integrity_bound_and_does_not_acti
     assert summary["summary"]["minimum_candidate_feasible_probability"] >= 0.95
     activated = registry.activate(admitted.id, algorithm_id=TSH_CALO_ALGORITHM_ID)
     assert activated.active is True
+
+
+def test_transactional_evidence_requires_the_final_completion_authority(tmp_path):
+    model_directory = tmp_path / "model-transactional"
+    model_directory.mkdir()
+    registry = PolicyRegistry(ResultDatabase(tmp_path / "transactional-results.sqlite"))
+    policy = registry.register(_ensemble(model_directory), name="Transactional candidate")
+    evidence_directory = _add_transactional_completion(
+        _formal_evidence(
+            tmp_path / "transactional-qualification",
+            Path(policy.checkpoint_path),
+            policy.sha256,
+        )
+    )
+
+    verified = registry.inspect_qualification_evidence(policy.id, evidence_directory)
+    assert verified.policy_sha256 == policy.sha256
+    (evidence_directory / QUALIFICATION_COMPLETION_FILE).unlink()
+
+    with pytest.raises(ValueError, match="completion"):
+        registry.admit_qualification_evidence(policy.id, evidence_directory)
+    assert registry.get(policy.id).qualification_status == "candidate"
+    assert registry.database.list_policy_qualifications(policy.id) == []
 
 
 def test_policy_comparison_names_a_leader_only_within_one_matching_design(tmp_path):

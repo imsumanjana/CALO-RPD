@@ -2774,3 +2774,27 @@ Append timestamped entries below this line after each material action, validatio
   updated. Per repository instructions Codex ran no tests, validator, GUI, training, qualification,
   protected-case, Docker, publication, or release workflow. Fresh complete owner Phase 6 validation
   remains pending.
+
+### 2026-08-15 - Transactional qualification evidence correction, validation pending
+
+- The source-bound formal campaign under `architecture-v2-e266bd7598befa54-b47484ec0b9c`
+  stopped after its first case30 baseline cell because completion telemetry supplied `total_cells`
+  twice. The success record had already committed; the broad exception boundary then retained a
+  failure artifact for the same logical cell. That directory remains byte-for-byte untouched,
+  carries no completion authority or receipt, and is now classified read-only as an
+  infrastructure-aborted evidence-integrity conflict. It is not resumable or admissible.
+- New campaigns commit exactly one canonical cell identity to either `committed_success` or
+  `committed_scientific_failure`, maintain a checksum-bound unique-cell index, and keep event/status
+  faults in a separate infrastructure-incident channel. Telemetry can no longer transform a
+  committed scientific result into a failure. Any conflicting terminal identity or infrastructure
+  incident fails closed and requires a fresh source-bound campaign.
+- A final `qualification_completion.json` is written last and binds the plan, seeds, unique-cell
+  index, event log, status, evidence, and optional receipt. Current-schema admission requires that
+  authority plus 120 unique successful cells and zero infrastructure incidents; legacy completed
+  evidence remains readable through its explicit older schema.
+- The next `Qualify policy` action skips the damaged campaign, prepares a new corrected-source
+  snapshot/run identity, and proves that every operative frozen design field matches the retained
+  plan. Candidate checksum, case30/case57, 30 paired runs, seeds, population 20, 10,000 exact FE per
+  cell, analysis, OOD, thresholds, protected-case closure, and lifecycle boundaries are unchanged.
+  Source, tests, ledgers, and an ignored validator are implemented but unexecuted; do not launch the
+  new qualification until the owner validator passes and its complete log directory is reviewed.

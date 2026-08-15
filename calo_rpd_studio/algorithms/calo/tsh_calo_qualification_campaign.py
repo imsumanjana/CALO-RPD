@@ -18,7 +18,7 @@ import os
 from pathlib import Path
 import threading
 import time
-from typing import Any, Callable
+from typing import Any, Callable, NoReturn
 import uuid
 
 import numpy as np
@@ -69,7 +69,12 @@ from .tsh_calo_training_resources import TSHCALOTrainingResourceEnvelope
 
 
 TSH_CALO_QUALIFICATION_PLAN_SCHEMA = "tsh-calo-qualification-plan-v2-exact-pairs"
-TSH_CALO_QUALIFICATION_EVIDENCE_SCHEMA = "tsh-calo-qualification-evidence-v2-exact-pairs"
+LEGACY_TSH_CALO_QUALIFICATION_EVIDENCE_SCHEMA = (
+    "tsh-calo-qualification-evidence-v2-exact-pairs"
+)
+TSH_CALO_QUALIFICATION_EVIDENCE_SCHEMA = (
+    "tsh-calo-qualification-evidence-v3-transactional-cells"
+)
 TSH_CALO_COMPONENT_EVIDENCE_SCHEMA = "tsh-calo-component-ablation-evidence-v2-exact-pairs"
 _REQUIRED_COMPONENTS = ("A", "B", "C", "D", "E")
 TSH_CALO_CANDIDATE_CONTRACT_SCHEMA = "tsh-calo-candidate-contract-v1"
@@ -80,6 +85,16 @@ TSH_CALO_QUALIFICATION_PAUSE_EXIT_CODE = 75
 QUALIFICATION_STATUS_FILE = "qualification_status.json"
 QUALIFICATION_CONTROL_FILE = "qualification_control.json"
 QUALIFICATION_EVENT_LOG_FILE = "qualification_events.jsonl"
+QUALIFICATION_CELL_INDEX_FILE = "qualification_cell_index.json"
+QUALIFICATION_COMPLETION_FILE = "qualification_completion.json"
+QUALIFICATION_INFRASTRUCTURE_DIRECTORY = "infrastructure-incidents"
+TSH_CALO_QUALIFICATION_CELL_SUCCESS_SCHEMA = "tsh-calo-qualification-cell-success-v1"
+TSH_CALO_QUALIFICATION_CELL_FAILURE_SCHEMA = "tsh-calo-qualification-cell-failure-v2"
+TSH_CALO_QUALIFICATION_CELL_INDEX_SCHEMA = "tsh-calo-qualification-cell-index-v1"
+TSH_CALO_QUALIFICATION_INFRASTRUCTURE_SCHEMA = (
+    "tsh-calo-qualification-infrastructure-incident-v1"
+)
+TSH_CALO_QUALIFICATION_COMPLETION_SCHEMA = "tsh-calo-qualification-completion-v1"
 QUALIFICATION_CHECKPOINT_INTERVAL = 500
 _CANDIDATE_CONTRACT_FIELDS = {
     "schema_version",
@@ -109,6 +124,18 @@ class TSHCALOQualificationPauseRequested(RuntimeError):
     def __init__(self, event: dict) -> None:
         super().__init__("TSH-CALO qualification paused at a verified checkpoint")
         self.event = dict(event)
+
+
+class QualificationEvidenceIntegrityError(RuntimeError):
+    """The retained terminal-cell evidence is contradictory or identity-invalid."""
+
+
+class QualificationInfrastructureError(RuntimeError):
+    """A non-scientific runner/evidence/telemetry operation stopped the campaign."""
+
+    def __init__(self, message: str, *, incident: dict | None = None) -> None:
+        super().__init__(message)
+        self.incident = dict(incident or {})
 
 
 class _ExclusiveQualificationCampaignLease:
@@ -221,6 +248,104 @@ def _append_json_line(path: Path, payload: dict) -> None:
         stream.write(encoded)
         stream.flush()
         os.fsync(stream.fileno())
+
+
+def inspect_tsh_calo_qualification_resume_state(output_directory: str | Path) -> dict:
+    """Classify retained qualification state without changing a single retained byte."""
+
+    output = Path(output_directory).expanduser().resolve()
+    records = output / "records"
+    failures = output / "failures"
+    success_names = {path.name for path in records.glob("*.json")} if records.is_dir() else set()
+    failure_names = {path.name for path in failures.glob("*.json")} if failures.is_dir() else set()
+    conflicting = sorted(success_names & failure_names)
+    incident_directory = output / QUALIFICATION_INFRASTRUCTURE_DIRECTORY
+    incidents = (
+        sorted(str(path.resolve()) for path in incident_directory.glob("*.json"))
+        if incident_directory.is_dir()
+        else []
+    )
+    status_state = ""
+    status_path = output / QUALIFICATION_STATUS_FILE
+    if status_path.is_file():
+        try:
+            status_state = str(_read_json(status_path).get("state", ""))
+        except ValueError:
+            status_state = "unreadable"
+    integrity_marker = (output / "campaign_integrity_failure.json").is_file()
+    evidence_path = output / "qualification_evidence.json"
+    completed = evidence_path.is_file()
+    current_evidence_without_completion = False
+    if completed and not (output / QUALIFICATION_COMPLETION_FILE).is_file():
+        try:
+            current_evidence_without_completion = (
+                _read_json(evidence_path).get("schema_version")
+                == TSH_CALO_QUALIFICATION_EVIDENCE_SCHEMA
+            )
+        except ValueError:
+            current_evidence_without_completion = True
+    if conflicting:
+        classification = "infrastructure_aborted"
+        reason = (
+            "Contradictory success and failure artifacts exist for the same terminal cell: "
+            + ", ".join(conflicting)
+        )
+    elif integrity_marker:
+        classification = "evidence_integrity_failure"
+        reason = "A terminal campaign-integrity failure marker is retained"
+    elif status_state == "unreadable" or current_evidence_without_completion:
+        classification = "evidence_integrity_failure"
+        reason = "Qualification state is unreadable or lacks its completion authority"
+    elif incidents or status_state == "infrastructure_aborted":
+        classification = "infrastructure_aborted"
+        reason = "A retained infrastructure incident requires a fresh source-bound campaign"
+    elif completed:
+        classification = "completed"
+        reason = "Completed evidence is retained for independent admission verification"
+    else:
+        classification = "resumable"
+        reason = "No contradictory terminal-cell artifacts were detected"
+    fresh_run_required = classification in {
+        "infrastructure_aborted",
+        "evidence_integrity_failure",
+    }
+    return {
+        "schema_version": "tsh-calo-qualification-resume-inspection-v1",
+        "output_directory": str(output),
+        "classification": classification,
+        "reason": reason,
+        "fresh_run_required": fresh_run_required,
+        "resumable": classification == "resumable",
+        "completed": classification == "completed",
+        "status_state": status_state,
+        "success_artifact_count": len(success_names),
+        "failure_artifact_count": len(failure_names),
+        "conflicting_terminal_artifacts": conflicting,
+        "infrastructure_incidents": incidents,
+    }
+
+
+def tsh_calo_qualification_cell_identity(
+    plan: "TSHCALOQualificationPlan",
+    *,
+    case_name: str,
+    run_index: int,
+    label: str,
+    seeds: dict,
+) -> str:
+    """Return the canonical immutable identity for one planned qualification cell."""
+
+    identity_payload = {
+        "qualification_run_id": plan.qualification_run_id,
+        "qualification_plan_sha256": plan.execution_plan_sha256(),
+        "source_policy_sha256": plan.candidate_sha256,
+        "case": str(case_name),
+        "run_index": int(run_index),
+        "label": str(label),
+        "seeds": dict(seeds),
+        "max_evaluations": int(plan.max_evaluations),
+    }
+    return "qcell-" + _canonical_sha256(identity_payload)
 
 
 def request_tsh_calo_qualification_pause(output_directory: str | Path) -> dict:
@@ -1074,6 +1199,7 @@ class TSHCALOQualificationCampaign:
         self.plan = plan
         self.output_directory = Path(output_directory).expanduser().resolve()
         self.event_callback = event_callback
+        self._terminal_cells: dict[str, dict] = {}
 
     def _expected_cells(self) -> int:
         return len(self.plan.development_cases) * self.plan.runs * 2
@@ -1084,15 +1210,303 @@ class TSHCALOQualificationCampaign:
         return max(population, (bounded // population) * population)
 
     def _completed_cells(self) -> int:
-        return sum(
-            1
-            for directory in (
-                self.output_directory / "records",
-                self.output_directory / "failures",
+        return len(self._terminal_cells)
+
+    def _expected_cell_specs(self) -> tuple[dict, ...]:
+        paired_seeds = [
+            RunSeeds(**item) for item in self.plan.seed_manifest()["paired_runs"]
+        ]
+        plan_sha256 = self.plan.execution_plan_sha256()
+        specs: list[dict] = []
+        for case_index, case_name in enumerate(self.plan.development_cases):
+            for run_index, seeds in enumerate(paired_seeds):
+                for label_index, label in enumerate(("baseline", "candidate")):
+                    cell_index = (
+                        case_index * self.plan.runs * 2
+                        + run_index * 2
+                        + label_index
+                        + 1
+                    )
+                    identity_payload = {
+                        "qualification_run_id": self.plan.qualification_run_id,
+                        "qualification_plan_sha256": plan_sha256,
+                        "source_policy_sha256": self.plan.candidate_sha256,
+                        "case": case_name,
+                        "run_index": run_index,
+                        "label": label,
+                        "seeds": asdict(seeds),
+                        "max_evaluations": int(self.plan.max_evaluations),
+                    }
+                    specs.append(
+                        {
+                            **identity_payload,
+                            "cell_identity": tsh_calo_qualification_cell_identity(
+                                self.plan,
+                                case_name=case_name,
+                                run_index=run_index,
+                                label=label,
+                                seeds=asdict(seeds),
+                            ),
+                            "cell_index": cell_index,
+                            "total_cells": self._expected_cells(),
+                            "run_number": run_index + 1,
+                            "runs_per_case": self.plan.runs,
+                            "artifact_name": f"{case_name}-{run_index:03d}-{label}.json",
+                        }
+                    )
+        return tuple(specs)
+
+    @staticmethod
+    def _terminal_entry_core(entry: dict) -> dict:
+        return {
+            key: entry[key]
+            for key in (
+                "cell_identity",
+                "cell_index",
+                "case",
+                "run_index",
+                "label",
+                "terminal_state",
+                "artifact_path",
+                "artifact_sha256",
             )
-            if directory.is_dir()
-            for _path in directory.glob("*.json")
+        }
+
+    def _cell_index_payload(self, *, recovered: bool = False) -> dict:
+        entries = sorted(
+            (self._terminal_entry_core(item) for item in self._terminal_cells.values()),
+            key=lambda item: int(item["cell_index"]),
         )
+        return {
+            "schema_version": TSH_CALO_QUALIFICATION_CELL_INDEX_SCHEMA,
+            "qualification_run_id": self.plan.qualification_run_id,
+            "qualification_plan_sha256": self.plan.execution_plan_sha256(),
+            "source_policy_sha256": self.plan.candidate_sha256,
+            "expected_cells": self._expected_cells(),
+            "committed_unique_cells": len(entries),
+            "entries": entries,
+            "recovered_from_atomic_terminal_artifacts": bool(recovered),
+            "updated_at": datetime.now(timezone.utc).isoformat(),
+        }
+
+    def _write_cell_index(self, *, recovered: bool = False) -> str:
+        return _write_json(
+            self.output_directory / QUALIFICATION_CELL_INDEX_FILE,
+            self._cell_index_payload(recovered=recovered),
+        )
+
+    def _validate_terminal_payload(self, payload: dict, spec: dict, *, success: bool) -> None:
+        expected_schema = (
+            TSH_CALO_QUALIFICATION_CELL_SUCCESS_SCHEMA
+            if success
+            else TSH_CALO_QUALIFICATION_CELL_FAILURE_SCHEMA
+        )
+        expected_state = "committed_success" if success else "committed_scientific_failure"
+        required_equal = {
+            "schema_version": expected_schema,
+            "terminal_state": expected_state,
+            "cell_identity": spec["cell_identity"],
+            "cell_index": spec["cell_index"],
+            "total_cells": spec["total_cells"],
+            "qualification_run_id": self.plan.qualification_run_id,
+            "qualification_plan_sha256": spec["qualification_plan_sha256"],
+            "source_policy_sha256": spec["source_policy_sha256"],
+            "case": spec["case"],
+            "run_index": spec["run_index"],
+            "label": spec["label"],
+            "seeds": spec["seeds"],
+        }
+        for field_name, expected in required_equal.items():
+            if payload.get(field_name) != expected:
+                raise QualificationEvidenceIntegrityError(
+                    f"Qualification terminal cell {spec['artifact_name']} has an invalid "
+                    f"{field_name} binding"
+                )
+        if success and int(payload.get("evaluations", -1)) != int(
+            self.plan.max_evaluations
+        ):
+            raise QualificationEvidenceIntegrityError(
+                f"Qualification terminal cell {spec['artifact_name']} violates exact FE accounting"
+            )
+
+    def _scan_terminal_cells(self) -> dict[str, dict]:
+        records_directory = self.output_directory / "records"
+        failures_directory = self.output_directory / "failures"
+        for directory in (records_directory, failures_directory):
+            if directory.is_symlink():
+                raise QualificationEvidenceIntegrityError(
+                    "Qualification terminal-cell directories cannot be symbolic links"
+                )
+            directory.mkdir(exist_ok=True)
+        specs = self._expected_cell_specs()
+        by_name = {str(spec["artifact_name"]): spec for spec in specs}
+        discovered = {
+            path.name
+            for directory in (records_directory, failures_directory)
+            for path in directory.glob("*.json")
+        }
+        unexpected = sorted(discovered - set(by_name))
+        if unexpected:
+            raise QualificationEvidenceIntegrityError(
+                "Qualification evidence contains unexpected terminal-cell identities: "
+                + ", ".join(unexpected)
+            )
+        entries: dict[str, dict] = {}
+        for artifact_name, spec in by_name.items():
+            record_path = records_directory / artifact_name
+            failure_path = failures_directory / artifact_name
+            if record_path.is_file() and failure_path.is_file():
+                raise QualificationEvidenceIntegrityError(
+                    "Qualification evidence contains both success and failure for " + artifact_name
+                )
+            target = record_path if record_path.is_file() else failure_path
+            if not target.is_file():
+                continue
+            if target.is_symlink():
+                raise QualificationEvidenceIntegrityError(
+                    f"Qualification terminal cell {artifact_name} is not a regular retained file"
+                )
+            success = target == record_path
+            payload = _read_json(target)
+            self._validate_terminal_payload(payload, spec, success=success)
+            relative = target.relative_to(self.output_directory).as_posix()
+            entry = {
+                "cell_identity": spec["cell_identity"],
+                "cell_index": spec["cell_index"],
+                "case": spec["case"],
+                "run_index": spec["run_index"],
+                "label": spec["label"],
+                "terminal_state": (
+                    "committed_success" if success else "committed_scientific_failure"
+                ),
+                "artifact_path": relative,
+                "artifact_sha256": checkpoint_sha256(target),
+            }
+            entries[str(spec["cell_identity"])] = entry
+        return entries
+
+    def _initialize_cell_evidence(self, *, resume: bool) -> None:
+        disposition = inspect_tsh_calo_qualification_resume_state(self.output_directory)
+        if resume and disposition["fresh_run_required"]:
+            raise QualificationEvidenceIntegrityError(str(disposition["reason"]))
+        incident_directory = self.output_directory / QUALIFICATION_INFRASTRUCTURE_DIRECTORY
+        if resume and incident_directory.is_dir() and any(incident_directory.glob("*.json")):
+            raise QualificationEvidenceIntegrityError(
+                "Infrastructure-aborted qualification campaigns require a fresh run"
+            )
+        try:
+        entries = self._scan_terminal_cells()
+        except QualificationEvidenceIntegrityError:
+            raise
+        except (OSError, TypeError, ValueError) as exc:
+            raise QualificationEvidenceIntegrityError(
+                f"Qualification terminal-cell evidence is unreadable or incompatible: {exc}"
+            ) from exc
+        index_path = self.output_directory / QUALIFICATION_CELL_INDEX_FILE
+        if index_path.is_file():
+            if index_path.is_symlink():
+                raise QualificationEvidenceIntegrityError(
+                    "Qualification terminal-cell index cannot be a symbolic link"
+                )
+            stored = _read_json(index_path)
+            if (
+                stored.get("schema_version") != TSH_CALO_QUALIFICATION_CELL_INDEX_SCHEMA
+                or stored.get("qualification_run_id") != self.plan.qualification_run_id
+                or stored.get("qualification_plan_sha256")
+                != self.plan.execution_plan_sha256()
+                or stored.get("source_policy_sha256") != self.plan.candidate_sha256
+                or int(stored.get("expected_cells", -1)) != self._expected_cells()
+            ):
+                raise QualificationEvidenceIntegrityError(
+                    "Qualification terminal-cell index belongs to another frozen campaign"
+                )
+            try:
+                stored_entries = {
+                    str(item.get("cell_identity", "")): self._terminal_entry_core(item)
+                    for item in list(stored.get("entries", []))
+                    if isinstance(item, dict)
+                }
+            except (KeyError, TypeError) as exc:
+                raise QualificationEvidenceIntegrityError(
+                    "Qualification terminal-cell index entry is incomplete"
+                ) from exc
+            scanned_entries = {
+                key: self._terminal_entry_core(item) for key, item in entries.items()
+            }
+            if (
+                int(stored.get("committed_unique_cells", -1)) != len(entries)
+                or stored_entries != scanned_entries
+            ):
+                raise QualificationEvidenceIntegrityError(
+                    "Qualification terminal-cell index does not match atomic terminal artifacts"
+                )
+        self._terminal_cells = entries
+        if not index_path.is_file():
+            try:
+                self._write_cell_index(recovered=bool(resume and entries))
+            except Exception as exc:
+                raise QualificationInfrastructureError(
+                    f"Qualification terminal-cell index initialization failed: {exc}"
+                ) from exc
+
+    def _commit_terminal_cell(self, spec: dict, payload: dict, *, success: bool) -> Path:
+        cell_identity = str(spec["cell_identity"])
+        record_path = self.output_directory / "records" / str(spec["artifact_name"])
+        failure_path = self.output_directory / "failures" / str(spec["artifact_name"])
+        if (
+            cell_identity in self._terminal_cells
+            or record_path.exists()
+            or failure_path.exists()
+        ):
+            raise QualificationEvidenceIntegrityError(
+                f"Qualification cell {spec['artifact_name']} already has a terminal disposition"
+            )
+        terminal_state = "committed_success" if success else "committed_scientific_failure"
+        terminal_payload = {
+            **payload,
+            "schema_version": (
+                TSH_CALO_QUALIFICATION_CELL_SUCCESS_SCHEMA
+                if success
+                else TSH_CALO_QUALIFICATION_CELL_FAILURE_SCHEMA
+            ),
+            "terminal_state": terminal_state,
+            "cell_identity": cell_identity,
+            "cell_index": int(spec["cell_index"]),
+            "total_cells": int(spec["total_cells"]),
+            "qualification_run_id": self.plan.qualification_run_id,
+            "qualification_plan_sha256": self.plan.execution_plan_sha256(),
+            "source_policy_sha256": self.plan.candidate_sha256,
+            "case": spec["case"],
+            "run_index": int(spec["run_index"]),
+            "label": spec["label"],
+            "seeds": dict(spec["seeds"]),
+            "committed_at": datetime.now(timezone.utc).isoformat(),
+        }
+        target = record_path if success else failure_path
+        try:
+            artifact_sha256 = _write_json(target, terminal_payload)
+        except Exception as exc:
+            self._abort_infrastructure(
+                operation="terminal-cell artifact commit", exc=exc, cell=spec
+            )
+        entry = {
+            "cell_identity": cell_identity,
+            "cell_index": int(spec["cell_index"]),
+            "case": spec["case"],
+            "run_index": int(spec["run_index"]),
+            "label": spec["label"],
+            "terminal_state": terminal_state,
+            "artifact_path": target.relative_to(self.output_directory).as_posix(),
+            "artifact_sha256": artifact_sha256,
+        }
+        self._terminal_cells[cell_identity] = entry
+        try:
+            self._write_cell_index()
+        except Exception as exc:
+            self._abort_infrastructure(
+                operation="terminal-cell index commit", exc=exc, cell=spec
+            )
+        return target
 
     def _emit_event(self, event: str, **details) -> dict:
         payload = {
@@ -1108,6 +1522,67 @@ class TSHCALOQualificationCampaign:
             self.event_callback(dict(payload))
         return payload
 
+    def _abort_infrastructure(
+        self,
+        *,
+        operation: str,
+        exc: BaseException,
+        cell: dict | None = None,
+    ) -> NoReturn:
+        incident = {
+            "schema_version": TSH_CALO_QUALIFICATION_INFRASTRUCTURE_SCHEMA,
+            "classification": "infrastructure_aborted",
+            "qualification_run_id": self.plan.qualification_run_id,
+            "qualification_plan_sha256": self.plan.execution_plan_sha256(),
+            "source_policy_sha256": self.plan.candidate_sha256,
+            "operation": str(operation),
+            "exception_type": type(exc).__name__,
+            "message": str(exc),
+            "cell": dict(cell or {}),
+            "committed_unique_cells": self._completed_cells(),
+            "expected_cells": self._expected_cells(),
+            "fresh_run_required": True,
+            "qualification_receipt_permitted": False,
+            "recorded_at": datetime.now(timezone.utc).isoformat(),
+        }
+        incident_path: Path | None = None
+        try:
+            incident_directory = self.output_directory / QUALIFICATION_INFRASTRUCTURE_DIRECTORY
+            incident_directory.mkdir(parents=True, exist_ok=True)
+            incident_path = incident_directory / f"incident-{uuid.uuid4().hex}.json"
+            _write_json(incident_path, incident)
+        except Exception:
+            incident_path = None
+        try:
+            self._write_status(
+                state="infrastructure_aborted",
+                pause=None,
+                current_cell=dict(cell or {}),
+                infrastructure_incident=(
+                    {**incident, "path": str(incident_path)} if incident_path is not None else incident
+                ),
+                resumable=False,
+                fresh_run_required=True,
+                qualification_receipt_permitted=False,
+            )
+        except Exception:
+            pass
+        raise QualificationInfrastructureError(
+            f"Qualification infrastructure stopped during {operation}: {exc}",
+            incident=incident,
+        ) from exc
+
+    def _emit_event_required(
+        self, event: str, *, operation: str, cell: dict | None = None, **details
+    ) -> dict:
+        try:
+            return self._emit_event(event, **details)
+        except (KeyboardInterrupt, SystemExit):
+            raise
+        except Exception as exc:
+            self._abort_infrastructure(operation=operation, exc=exc, cell=cell)
+        raise AssertionError("unreachable")
+
     def _write_status(self, *, state: str, **details) -> dict:
         payload = {
             "schema_version": TSH_CALO_QUALIFICATION_STATUS_SCHEMA,
@@ -1121,6 +1596,22 @@ class TSHCALOQualificationCampaign:
         }
         _write_json(self.output_directory / QUALIFICATION_STATUS_FILE, payload)
         return payload
+
+    def _write_status_required(
+        self,
+        *,
+        operation: str,
+        cell: dict | None = None,
+        state: str,
+        **details,
+    ) -> dict:
+        try:
+            return self._write_status(state=state, **details)
+        except (KeyboardInterrupt, SystemExit):
+            raise
+        except Exception as exc:
+            self._abort_infrastructure(operation=operation, exc=exc, cell=cell)
+        raise AssertionError("unreachable")
 
     def _pending_pause_request(self) -> dict | None:
         path = self.output_directory / QUALIFICATION_CONTROL_FILE
@@ -1137,6 +1628,16 @@ class TSHCALOQualificationCampaign:
         ):
             raise RuntimeError("Qualification pause request belongs to another frozen plan")
         return request
+
+    def _pending_pause_request_required(self, *, cell: dict | None = None) -> dict | None:
+        try:
+            return self._pending_pause_request()
+        except (KeyboardInterrupt, SystemExit):
+            raise
+        except Exception as exc:
+            self._abort_infrastructure(
+                operation="qualification pause-control verification", exc=exc, cell=cell
+            )
 
     def _acknowledge_pause(
         self,
@@ -1160,8 +1661,10 @@ class TSHCALOQualificationCampaign:
             "evaluations": int(evaluations),
         }
         _write_json(self.output_directory / QUALIFICATION_CONTROL_FILE, acknowledged)
-        event = self._emit_event(
+        event = self._emit_event_required(
             "campaign_paused",
+            operation="safe-pause event emission",
+            cell=cell,
             request_id=request["request_id"],
             boundary=str(boundary),
             durable_path=str(durable_path),
@@ -1172,7 +1675,9 @@ class TSHCALOQualificationCampaign:
             current_cell=dict(cell or {}),
             resumable=True,
         )
-        self._write_status(
+        self._write_status_required(
+            operation="safe-pause status commit",
+            cell=cell,
             state="paused",
             pause={
                 "reason": "user_requested_safe_pause",
@@ -1223,15 +1728,21 @@ class TSHCALOQualificationCampaign:
         return self._run(resume=False)
 
     def resume(self) -> dict:
-        if (self.output_directory / "campaign_integrity_failure.json").exists():
-            raise RuntimeError("Failed-integrity TSH-CALO qualification campaigns cannot resume")
+        disposition = inspect_tsh_calo_qualification_resume_state(self.output_directory)
+        if disposition["fresh_run_required"]:
+            raise QualificationEvidenceIntegrityError(str(disposition["reason"]))
         stored = TSHCALOQualificationPlan.from_dict(
             _read_json(self.output_directory / "qualification_plan.json")
         )
         if stored.execution_plan_sha256() != self.plan.execution_plan_sha256():
             raise ValueError("TSH-CALO qualification plan changed; exact resume is forbidden")
         if (self.output_directory / "qualification_evidence.json").exists():
-            raise RuntimeError("TSH-CALO qualification campaign is already complete")
+            if (self.output_directory / QUALIFICATION_COMPLETION_FILE).is_file():
+                raise RuntimeError("TSH-CALO qualification campaign is already complete")
+            raise QualificationEvidenceIntegrityError(
+                "Qualification evidence exists without an authoritative completion commit; "
+                "a fresh run is required"
+            )
         return self._run(resume=True)
 
     def _run(self, *, resume: bool) -> dict:
@@ -1239,13 +1750,23 @@ class TSHCALOQualificationCampaign:
             return self._run_owned(resume=resume)
 
     def _run_owned(self, *, resume: bool) -> dict:
+        try:
+            self._initialize_cell_evidence(resume=resume)
+        except QualificationInfrastructureError as exc:
+            self._abort_infrastructure(operation="terminal-cell store initialization", exc=exc)
         artifact, candidate_contract, component_evidence = self._preflight()
         plan_hash = self.plan.execution_plan_sha256()
         seed_manifest = self.plan.seed_manifest()
         seed_hash = self.plan.seed_manifest_sha256()
-        self._write_status(state="running", pause=None, current_cell=None)
-        self._emit_event(
+        self._write_status_required(
+            operation="campaign running-status commit",
+            state="running",
+            pause=None,
+            current_cell=None,
+        )
+        self._emit_event_required(
             "campaign_resumed" if resume else "campaign_started",
+            operation="campaign start event emission",
             completed_cells=self._completed_cells(),
             total_cells=self._expected_cells(),
             evaluations_per_cell=int(self.plan.max_evaluations),
@@ -1253,21 +1774,27 @@ class TSHCALOQualificationCampaign:
         )
         calibration_path = self.output_directory / "ood_calibration_evidence.json"
         if resume and calibration_path.is_file():
-            calibration_evidence = _read_json(calibration_path)
-            payload = dict(calibration_evidence["calibration"])
-            calibration = OODCalibration(
-                np.asarray(payload["mean"], dtype=float),
-                np.asarray(payload["scale"], dtype=float),
-                float(payload["attenuation_start"]),
-                float(payload["minimum_neural_weight"]),
-            )
-            if ood_calibration_sha256(calibration) != calibration_evidence.get(
-                "ood_calibration_sha256"
-            ):
-                raise ValueError("TSH-CALO stored OOD calibration checksum mismatch")
+            try:
+                calibration_evidence = _read_json(calibration_path)
+                payload = dict(calibration_evidence["calibration"])
+                calibration = OODCalibration(
+                    np.asarray(payload["mean"], dtype=float),
+                    np.asarray(payload["scale"], dtype=float),
+                    float(payload["attenuation_start"]),
+                    float(payload["minimum_neural_weight"]),
+                )
+                if ood_calibration_sha256(calibration) != calibration_evidence.get(
+                    "ood_calibration_sha256"
+                ):
+                    raise ValueError("stored OOD calibration checksum mismatch")
+            except (KeyError, TypeError, ValueError) as exc:
+                raise QualificationEvidenceIntegrityError(
+                    f"TSH-CALO retained OOD calibration is incompatible: {exc}"
+                ) from exc
         else:
-            self._emit_event(
+            self._emit_event_required(
                 "calibration_started",
+                operation="OOD calibration start event emission",
                 cases=len(self.plan.development_cases),
                 samples_per_case=int(self.plan.calibration_samples_per_case),
             )
@@ -1275,13 +1802,21 @@ class TSHCALOQualificationCampaign:
             calibration, calibration_evidence = _collect_calibration(
                 self.plan,
                 calibration_seeds,
-                progress_callback=lambda progress: self._emit_event(
-                    "calibration_progress", **progress
+                progress_callback=lambda progress: self._emit_event_required(
+                    "calibration_progress",
+                    operation="OOD calibration progress event emission",
+                    **progress,
                 ),
             )
-            _write_json(calibration_path, calibration_evidence)
-            self._emit_event(
+            try:
+                _write_json(calibration_path, calibration_evidence)
+            except Exception as exc:
+                self._abort_infrastructure(
+                    operation="OOD calibration evidence commit", exc=exc
+                )
+            self._emit_event_required(
                 "calibration_completed",
+                operation="OOD calibration completion event emission",
                 ood_calibration_sha256=ood_calibration_sha256(calibration),
             )
         authority = QualificationCandidateAuthority(
@@ -1304,20 +1839,21 @@ class TSHCALOQualificationCampaign:
         records_directory.mkdir(exist_ok=True)
         failures_directory.mkdir(exist_ok=True)
         paired_seeds = [RunSeeds(**item) for item in seed_manifest["paired_runs"]]
+        cell_specs = {
+            (str(spec["case"]), int(spec["run_index"]), str(spec["label"])): spec
+            for spec in self._expected_cell_specs()
+        }
         checkpoints_directory = self.output_directory / "checkpoints"
         checkpoints_directory.mkdir(exist_ok=True)
-        for case_index, case_name in enumerate(self.plan.development_cases):
+        for case_name in self.plan.development_cases:
             config = _base_experiment_config(self.plan, case_name)
             for run_index, seeds in enumerate(paired_seeds):
-                for label_index, label in enumerate(("baseline", "candidate")):
-                    cell_index = (
-                        case_index * self.plan.runs * 2 + run_index * 2 + label_index + 1
-                    )
-                    record_path = records_directory / f"{case_name}-{run_index:03d}-{label}.json"
-                    failure_path = failures_directory / f"{case_name}-{run_index:03d}-{label}.json"
-                    if resume and (record_path.is_file() or failure_path.is_file()):
+                for label in ("baseline", "candidate"):
+                    cell_spec = cell_specs[(case_name, run_index, label)]
+                    cell_index = int(cell_spec["cell_index"])
+                    if str(cell_spec["cell_identity"]) in self._terminal_cells:
                         continue
-                    boundary_request = self._pending_pause_request()
+                    boundary_request = self._pending_pause_request_required()
                     if boundary_request is not None:
                         durable_records = sorted(
                             [
@@ -1343,6 +1879,7 @@ class TSHCALOQualificationCampaign:
                     resumed_checkpoint = checkpoint_path.is_file()
                     checkpoint_interval = self._checkpoint_interval()
                     cell = {
+                        "cell_identity": cell_spec["cell_identity"],
                         "cell_index": cell_index,
                         "total_cells": self._expected_cells(),
                         "case": case_name,
@@ -1351,13 +1888,17 @@ class TSHCALOQualificationCampaign:
                         "runs_per_case": self.plan.runs,
                         "label": label,
                     }
-                    self._write_status(
+                    self._write_status_required(
+                        operation="active cell status commit",
+                        cell=cell,
                         state="running",
                         pause=None,
                         current_cell={**cell, "resumed_checkpoint": resumed_checkpoint},
                     )
-                    self._emit_event(
+                    self._emit_event_required(
                         "cell_started",
+                        operation="cell start event emission",
+                        cell=cell,
                         **cell,
                         resumed_checkpoint=resumed_checkpoint,
                         committed_cells=self._completed_cells(),
@@ -1417,8 +1958,10 @@ class TSHCALOQualificationCampaign:
                                 observed / elapsed if observed > 0 else None
                             )
                             remaining = max(0, self.plan.max_evaluations - evaluations)
-                            self._emit_event(
+                            self._emit_event_required(
                                 "cell_progress",
+                                operation="cell progress event emission",
+                                cell=_cell,
                                 **_cell,
                                 live_evaluations=evaluations,
                                 max_evaluations=int(self.plan.max_evaluations),
@@ -1452,9 +1995,12 @@ class TSHCALOQualificationCampaign:
                                 (evaluations // _checkpoint_interval) + 1
                             ) * _checkpoint_interval
                         if _pause_state["request"] is None:
-                            _pause_state["request"] = self._pending_pause_request()
+                            _pause_state["request"] = self._pending_pause_request_required(
+                                cell=_cell
+                            )
 
                     parameters: dict
+                    terminal_path: Path
                     try:
                         problem = build_problem(config, seeds.scenario_seed)
                         if label == "baseline":
@@ -1520,7 +2066,9 @@ class TSHCALOQualificationCampaign:
                             )
                         result = optimizer.run()
                         if int(result.evaluations) < int(self.plan.max_evaluations):
-                            request = pause_state["request"] or self._pending_pause_request()
+                            request = pause_state[
+                                "request"
+                            ] or self._pending_pause_request_required(cell=cell)
                             if request is None:
                                 raise RuntimeError(
                                     "Qualification cell stopped before its exact evaluation budget"
@@ -1532,71 +2080,124 @@ class TSHCALOQualificationCampaign:
                                 cell=cell,
                                 evaluations=int(result.evaluations),
                             )
-                        record = _result_record(
-                            label=label,
-                            case_name=case_name,
-                            run_index=run_index,
-                            seeds=seeds,
-                            result=result,
-                            config=config,
-                            anytime_fractions=self.plan.anytime_fractions,
-                        )
-                        record["qualification_plan_sha256"] = plan_hash
-                        record["source_policy_sha256"] = artifact.sha256
-                        _write_json(record_path, record)
-                        self._remove_completed_cell_checkpoint(checkpoint_path)
-                        self._emit_event(
-                            "cell_completed",
-                            **cell,
-                            evaluations=int(result.evaluations),
-                            committed_cells=self._completed_cells(),
-                            total_cells=self._expected_cells(),
-                            feasible=bool(result.feasible),
-                            objective=_finite_or_none(result.best_objective),
-                            violation=_finite_or_none(result.total_constraint_violation),
-                        )
-                    except TSHCALOQualificationPauseRequested:
+                    except (
+                        TSHCALOQualificationPauseRequested,
+                        QualificationInfrastructureError,
+                        QualificationEvidenceIntegrityError,
+                    ):
                         raise
                     except Exception as exc:
                         failure = {
-                            "schema_version": "tsh-calo-qualification-failure-v1",
-                            "qualification_plan_sha256": plan_hash,
-                            "source_policy_sha256": artifact.sha256,
-                            "case": case_name,
-                            "run_index": run_index,
-                            "label": label,
-                            "seeds": asdict(seeds),
+                            "failure_classification": "scientific_cell_execution_failure",
                             "exception_type": type(exc).__name__,
                             "message": str(exc),
                             "retained": True,
                         }
-                        _write_json(failure_path, failure)
-                        self._emit_event(
+                        terminal_path = self._commit_terminal_cell(
+                            cell_spec, failure, success=False
+                        )
+                        self._emit_event_required(
                             "cell_failed",
+                            operation="scientific cell failure event emission",
+                            cell=cell,
                             **cell,
                             committed_cells=self._completed_cells(),
-                            total_cells=self._expected_cells(),
                             exception_type=type(exc).__name__,
                             message=str(exc),
                         )
+                    else:
+                        try:
+                            record = _result_record(
+                                label=label,
+                                case_name=case_name,
+                                run_index=run_index,
+                                seeds=seeds,
+                                result=result,
+                                config=config,
+                                anytime_fractions=self.plan.anytime_fractions,
+                            )
+                        except Exception as exc:
+                            self._abort_infrastructure(
+                                operation="scientific result record construction",
+                                exc=exc,
+                                cell=cell,
+                            )
+                        terminal_path = self._commit_terminal_cell(
+                            cell_spec, record, success=True
+                        )
+                        self._remove_completed_cell_checkpoint(checkpoint_path)
+                        self._emit_event_required(
+                            "cell_completed",
+                            operation="cell completion event emission",
+                            cell=cell,
+                            **cell,
+                            evaluations=int(result.evaluations),
+                            committed_cells=self._completed_cells(),
+                            feasible=bool(result.feasible),
+                            objective=_finite_or_none(result.best_objective),
+                            violation=_finite_or_none(result.total_constraint_violation),
+                        )
                     request_after_cell = (
-                        pause_state["request"] or self._pending_pause_request()
+                        pause_state["request"]
+                        or self._pending_pause_request_required(cell=cell)
                     )
                     if request_after_cell is not None:
-                        durable_path = record_path if record_path.is_file() else failure_path
                         self._acknowledge_pause(
                             request_after_cell,
                             boundary="cell_record",
-                            durable_path=durable_path,
+                            durable_path=terminal_path,
                             cell=cell,
                             evaluations=int(self.plan.max_evaluations),
                         )
-        records = [_read_json(path) for path in sorted(records_directory.glob("*.json"))]
-        failures = [_read_json(path) for path in sorted(failures_directory.glob("*.json"))]
+        scanned_terminal_cells = self._scan_terminal_cells()
+        if {
+            key: self._terminal_entry_core(value)
+            for key, value in scanned_terminal_cells.items()
+        } != {
+            key: self._terminal_entry_core(value)
+            for key, value in self._terminal_cells.items()
+        }:
+            raise QualificationEvidenceIntegrityError(
+                "Qualification terminal artifacts changed during the single-writer campaign"
+            )
+        self._terminal_cells = scanned_terminal_cells
+        try:
+            self._write_cell_index()
+        except Exception as exc:
+            self._abort_infrastructure(operation="final terminal-cell index commit", exc=exc)
+        success_entries = sorted(
+            (
+                entry
+                for entry in self._terminal_cells.values()
+                if entry["terminal_state"] == "committed_success"
+            ),
+            key=lambda item: int(item["cell_index"]),
+        )
+        failure_entries = sorted(
+            (
+                entry
+                for entry in self._terminal_cells.values()
+                if entry["terminal_state"] == "committed_scientific_failure"
+            ),
+            key=lambda item: int(item["cell_index"]),
+        )
+        records = [
+            _read_json(self.output_directory / str(entry["artifact_path"]))
+            for entry in success_entries
+        ]
+        failures = [
+            _read_json(self.output_directory / str(entry["artifact_path"]))
+            for entry in failure_entries
+        ]
         expected = len(self.plan.development_cases) * self.plan.runs * 2
-        if len(records) + len(failures) != expected:
-            raise RuntimeError(
-                "TSH-CALO qualification campaign did not retain every initiated cell"
+        if len(self._terminal_cells) != expected:
+            raise QualificationEvidenceIntegrityError(
+                "TSH-CALO qualification campaign did not retain every unique expected cell"
+            )
+        incident_directory = self.output_directory / QUALIFICATION_INFRASTRUCTURE_DIRECTORY
+        if incident_directory.is_dir() and any(incident_directory.glob("*.json")):
+            raise QualificationEvidenceIntegrityError(
+                "Infrastructure-aborted qualification evidence cannot be finalized"
             )
         cases = [
             _case_evidence(
@@ -1639,17 +2240,32 @@ class TSHCALOQualificationCampaign:
                 "expected": expected,
                 "completed": len(records),
                 "failed": len(failures),
+                "committed_unique": len(self._terminal_cells),
                 "directory": str(records_directory),
                 "failures_directory": str(failures_directory),
             },
+            "terminal_cell_index": {
+                "schema_version": TSH_CALO_QUALIFICATION_CELL_INDEX_SCHEMA,
+                "path": str(self.output_directory / QUALIFICATION_CELL_INDEX_FILE),
+                "sha256": checkpoint_sha256(
+                    self.output_directory / QUALIFICATION_CELL_INDEX_FILE
+                ),
+                "committed_unique_cells": len(self._terminal_cells),
+            },
+            "infrastructure_incidents": [],
             "case_evidence": cases,
             "decision": decision,
             "authority_boundary": "independent_qualification_only_no_registration_or_activation",
             "single_writer_semantics": "OS-released exclusive evidence-directory lease",
         }
         evidence_path = self.output_directory / "qualification_evidence.json"
-        evidence_sha = _write_json(evidence_path, evidence)
+        try:
+            evidence_sha = _write_json(evidence_path, evidence)
+        except Exception as exc:
+            self._abort_infrastructure(operation="qualification evidence commit", exc=exc)
         receipt = None
+        receipt_path = self.output_directory / "qualification_receipt.json"
+        receipt_sha256 = None
         if decision["passed"]:
             receipt = build_tsh_calo_qualification_receipt(
                 qualification_run_id=self.plan.qualification_run_id,
@@ -1661,9 +2277,13 @@ class TSHCALOQualificationCampaign:
                 development_cases=self.plan.development_cases,
                 ood_calibration=calibration,
             )
-            _write_json(self.output_directory / "qualification_receipt.json", receipt)
-        completed_event = self._emit_event(
+            try:
+                receipt_sha256 = _write_json(receipt_path, receipt)
+            except Exception as exc:
+                self._abort_infrastructure(operation="qualification receipt commit", exc=exc)
+        completed_event = self._emit_event_required(
             "campaign_completed",
+            operation="campaign completion event emission",
             passed=bool(decision["passed"]),
             completed_cells=len(records) + len(failures),
             successful_cells=len(records),
@@ -1672,14 +2292,51 @@ class TSHCALOQualificationCampaign:
             evidence_path=str(evidence_path),
             evidence_sha256=evidence_sha,
         )
-        self._write_status(
-            state="completed_qualified" if decision["passed"] else "completed_not_qualified",
-            pause=None,
-            current_cell=None,
-            last_event=completed_event,
-            evidence_path=str(evidence_path),
-            evidence_sha256=evidence_sha,
-        )
+        try:
+            self._write_status(
+                state="completed_qualified" if decision["passed"] else "completed_not_qualified",
+                pause=None,
+                current_cell=None,
+                last_event=completed_event,
+                evidence_path=str(evidence_path),
+                evidence_sha256=evidence_sha,
+                receipt_path=str(receipt_path) if receipt is not None else None,
+                receipt_sha256=receipt_sha256,
+                qualification_receipt_permitted=bool(decision["passed"]),
+            )
+        except Exception as exc:
+            self._abort_infrastructure(operation="qualification completion status commit", exc=exc)
+        completion = {
+            "schema_version": TSH_CALO_QUALIFICATION_COMPLETION_SCHEMA,
+            "qualification_run_id": self.plan.qualification_run_id,
+            "qualification_plan_sha256": plan_hash,
+            "seed_manifest_sha256": seed_hash,
+            "source_policy_sha256": artifact.sha256,
+            "terminal_cell_index_sha256": checkpoint_sha256(
+                self.output_directory / QUALIFICATION_CELL_INDEX_FILE
+            ),
+            "qualification_event_log_sha256": checkpoint_sha256(
+                self.output_directory / QUALIFICATION_EVENT_LOG_FILE
+            ),
+            "qualification_status_sha256": checkpoint_sha256(
+                self.output_directory / QUALIFICATION_STATUS_FILE
+            ),
+            "evidence_artifact_sha256": evidence_sha,
+            "receipt_sha256": receipt_sha256,
+            "passed": bool(decision["passed"]),
+            "committed_unique_cells": len(self._terminal_cells),
+            "failed_scientific_cells": len(failures),
+            "infrastructure_incident_count": 0,
+            "authority_boundary": (
+                "completion_only_no_registration_activation_or_experiment_binding"
+            ),
+            "completed_at": datetime.now(timezone.utc).isoformat(),
+        }
+        completion_path = self.output_directory / QUALIFICATION_COMPLETION_FILE
+        try:
+            completion_sha256 = _write_json(completion_path, completion)
+        except Exception as exc:
+            self._abort_infrastructure(operation="qualification completion commit", exc=exc)
         return {
             "qualification_run_id": self.plan.qualification_run_id,
             "passed": bool(decision["passed"]),
@@ -1687,6 +2344,8 @@ class TSHCALOQualificationCampaign:
             "evidence_path": str(evidence_path),
             "evidence_sha256": evidence_sha,
             "receipt": receipt,
+            "completion_path": str(completion_path),
+            "completion_sha256": completion_sha256,
             "registration_performed": False,
             "activation_performed": False,
         }

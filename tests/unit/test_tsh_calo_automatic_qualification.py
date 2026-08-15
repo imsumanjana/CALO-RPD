@@ -17,6 +17,8 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_automatic_qualification import (
     build_automatic_component_ablation_plan,
     build_automatic_formal_qualification_plan,
     freeze_plan,
+    frozen_qualification_restart_design,
+    frozen_qualification_restart_design_sha256,
     prepare_automatic_source_snapshot,
 )
 from calo_rpd_studio.algorithms.calo.tsh_calo_component_ablation import (
@@ -159,6 +161,46 @@ def test_one_action_plans_are_deterministic_finite_and_source_bound(tmp_path):
     }
 
 
+def test_corrected_source_restart_changes_only_provenance_not_frozen_design(tmp_path):
+    candidate = tmp_path / "ensemble.candidate.pt"
+    candidate.write_bytes(b"candidate")
+    artifact = _candidate_artifact(candidate)
+    retained = build_automatic_formal_qualification_plan(
+        candidate_path=candidate,
+        candidate_sha256=_SHA,
+        source_commit=_COMMIT,
+        candidate_artifact=artifact,
+    )
+    corrected = build_automatic_formal_qualification_plan(
+        candidate_path=candidate,
+        candidate_sha256=_SHA,
+        source_commit="c" * 40,
+        candidate_artifact=artifact,
+    )
+
+    assert retained.qualification_run_id != corrected.qualification_run_id
+    assert retained.source_commit != corrected.source_commit
+    assert retained.execution_plan_sha256() != corrected.execution_plan_sha256()
+    assert frozen_qualification_restart_design(retained) == (
+        frozen_qualification_restart_design(corrected)
+    )
+    assert frozen_qualification_restart_design_sha256(retained) == (
+        frozen_qualification_restart_design_sha256(corrected)
+    )
+
+    same_source_retry = build_automatic_formal_qualification_plan(
+        candidate_path=candidate,
+        candidate_sha256=_SHA,
+        source_commit="c" * 40,
+        candidate_artifact=artifact,
+        restart_ordinal=1,
+    )
+    assert same_source_retry.qualification_run_id.endswith("-restart-001")
+    assert frozen_qualification_restart_design_sha256(same_source_retry) == (
+        frozen_qualification_restart_design_sha256(corrected)
+    )
+
+
 def test_one_action_rejects_completed_ablation_when_any_A_E_gate_fails(tmp_path):
     _candidate, plan, output = _accepted_component_campaign(tmp_path, rejected="C")
 
@@ -173,7 +215,15 @@ def test_workspace_identity_and_frozen_plan_refuse_silent_changes(tmp_path):
     same = AutomaticQualificationWorkspace.create(
         tmp_path, candidate_sha256=_SHA, source_commit=_COMMIT
     )
+    retry = AutomaticQualificationWorkspace.create(
+        tmp_path,
+        candidate_sha256=_SHA,
+        source_commit=_COMMIT,
+        restart_ordinal=1,
+    )
     assert workspace == same
+    assert retry.root != workspace.root
+    assert retry.root.name.endswith("-restart-001")
     assert workspace.workflow_plan.name == "automatic_qualification_workflow.json"
     assert _SHA[:16] in workspace.root.name
     assert _COMMIT[:12] in workspace.root.name

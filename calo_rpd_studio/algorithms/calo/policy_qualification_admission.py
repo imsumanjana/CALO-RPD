@@ -14,9 +14,20 @@ from .tsh_calo_qualification import (
     load_tsh_calo_qualification_receipt,
 )
 from .tsh_calo_qualification_campaign import (
+    LEGACY_TSH_CALO_QUALIFICATION_EVIDENCE_SCHEMA,
+    QUALIFICATION_CELL_INDEX_FILE,
+    QUALIFICATION_COMPLETION_FILE,
+    QUALIFICATION_EVENT_LOG_FILE,
+    QUALIFICATION_INFRASTRUCTURE_DIRECTORY,
+    QUALIFICATION_STATUS_FILE,
+    TSH_CALO_QUALIFICATION_CELL_INDEX_SCHEMA,
+    TSH_CALO_QUALIFICATION_CELL_SUCCESS_SCHEMA,
+    TSH_CALO_QUALIFICATION_COMPLETION_SCHEMA,
     TSH_CALO_QUALIFICATION_EVIDENCE_SCHEMA,
+    TSH_CALO_QUALIFICATION_STATUS_SCHEMA,
     TSHCALOQualificationPlan,
     grade_tsh_calo_qualification_evidence,
+    tsh_calo_qualification_cell_identity,
 )
 
 
@@ -43,6 +54,159 @@ def _file_sha256(path: Path) -> str:
         for block in iter(lambda: stream.read(1024 * 1024), b""):
             digest.update(block)
     return digest.hexdigest()
+
+
+def _verify_transactional_completion(
+    source: Path,
+    *,
+    plan: TSHCALOQualificationPlan,
+    evidence: dict,
+    expected_policy_sha256: str,
+) -> dict:
+    """Require one complete unique-cell set and the final atomic completion authority."""
+
+    completion_path = source / QUALIFICATION_COMPLETION_FILE
+    index_path = source / QUALIFICATION_CELL_INDEX_FILE
+    status_path = source / QUALIFICATION_STATUS_FILE
+    event_path = source / QUALIFICATION_EVENT_LOG_FILE
+    for path in (completion_path, index_path, status_path, event_path):
+        if path.is_symlink() or not path.is_file():
+            raise ValueError(f"Transactional qualification artifact is missing: {path.name}")
+    completion = _read_json_file(completion_path)
+    index = _read_json_file(index_path)
+    status = _read_json_file(status_path)
+    if completion.get("schema_version") != TSH_CALO_QUALIFICATION_COMPLETION_SCHEMA:
+        raise ValueError("Qualification completion schema is incompatible")
+    if index.get("schema_version") != TSH_CALO_QUALIFICATION_CELL_INDEX_SCHEMA:
+        raise ValueError("Qualification terminal-cell index schema is incompatible")
+    if status.get("schema_version") != TSH_CALO_QUALIFICATION_STATUS_SCHEMA:
+        raise ValueError("Qualification status schema is incompatible")
+    plan_sha256 = plan.execution_plan_sha256()
+    seed_sha256 = plan.seed_manifest_sha256()
+    bindings = {
+        "qualification_run_id": plan.qualification_run_id,
+        "qualification_plan_sha256": plan_sha256,
+        "source_policy_sha256": expected_policy_sha256,
+    }
+    for artifact_name, payload in (
+        ("completion", completion),
+        ("terminal-cell index", index),
+    ):
+        for field_name, expected in bindings.items():
+            if payload.get(field_name) != expected:
+                raise ValueError(
+                    f"Qualification {artifact_name} has an invalid {field_name} binding"
+                )
+    expected_cells = len(plan.development_cases) * plan.runs * 2
+    if (
+        completion.get("passed") is not True
+        or int(completion.get("committed_unique_cells", -1)) != expected_cells
+        or int(completion.get("failed_scientific_cells", -1)) != 0
+        or int(completion.get("infrastructure_incident_count", -1)) != 0
+        or completion.get("authority_boundary")
+        != "completion_only_no_registration_activation_or_experiment_binding"
+    ):
+        raise ValueError("Qualification completion does not authorize passed evidence admission")
+    if (
+        int(index.get("expected_cells", -1)) != expected_cells
+        or int(index.get("committed_unique_cells", -1)) != expected_cells
+        or completion.get("seed_manifest_sha256") != seed_sha256
+        or completion.get("evidence_artifact_sha256")
+        != _file_sha256(source / "qualification_evidence.json")
+        or completion.get("terminal_cell_index_sha256") != _file_sha256(index_path)
+        or completion.get("qualification_event_log_sha256") != _file_sha256(event_path)
+        or completion.get("qualification_status_sha256") != _file_sha256(status_path)
+    ):
+        raise ValueError("Qualification completion checksums or cardinality are inconsistent")
+    if (
+        status.get("state") != "completed_qualified"
+        or status.get("qualification_plan_sha256") != plan_sha256
+        or status.get("evidence_sha256") != completion.get("evidence_artifact_sha256")
+        or status.get("receipt_sha256") != completion.get("receipt_sha256")
+        or status.get("qualification_receipt_permitted") is not True
+    ):
+        raise ValueError("Qualification completed status is not admission-authoritative")
+    incident_directory = source / QUALIFICATION_INFRASTRUCTURE_DIRECTORY
+    if incident_directory.is_dir() and any(incident_directory.glob("*.json")):
+        raise ValueError("Qualification retains an infrastructure incident")
+
+    paired_runs = list(plan.seed_manifest().get("paired_runs", []))
+    expected_by_identity: dict[str, dict] = {}
+    cell_index = 0
+    for case_name in plan.development_cases:
+        for run_index, seeds in enumerate(paired_runs):
+            for label in ("baseline", "candidate"):
+                cell_index += 1
+                identity = tsh_calo_qualification_cell_identity(
+                    plan,
+                    case_name=case_name,
+                    run_index=run_index,
+                    label=label,
+                    seeds=seeds,
+                )
+                expected_by_identity[identity] = {
+                    "case": case_name,
+                    "run_index": run_index,
+                    "label": label,
+                    "seeds": seeds,
+                    "cell_index": cell_index,
+                    "artifact_path": f"records/{case_name}-{run_index:03d}-{label}.json",
+                }
+    entries = list(index.get("entries", []))
+    if len(entries) != expected_cells or not all(isinstance(item, dict) for item in entries):
+        raise ValueError("Qualification terminal-cell index is incomplete")
+    observed_identities = [str(item.get("cell_identity", "")) for item in entries]
+    if len(set(observed_identities)) != expected_cells or set(observed_identities) != set(
+        expected_by_identity
+    ):
+        raise ValueError("Qualification terminal-cell identities are duplicate or unexpected")
+    for entry in entries:
+        identity = str(entry["cell_identity"])
+        expected = expected_by_identity[identity]
+        if (
+            entry.get("terminal_state") != "committed_success"
+            or int(entry.get("cell_index", -1)) != expected["cell_index"]
+            or entry.get("case") != expected["case"]
+            or int(entry.get("run_index", -1)) != expected["run_index"]
+            or entry.get("label") != expected["label"]
+            or entry.get("artifact_path") != expected["artifact_path"]
+        ):
+            raise ValueError("Qualification terminal-cell index contains an invalid disposition")
+        artifact_path = (source / str(entry["artifact_path"])).resolve()
+        try:
+            artifact_path.relative_to(source)
+        except ValueError as exc:
+            raise ValueError("Qualification terminal-cell artifact escaped its evidence root") from exc
+        payload = _read_json_file(artifact_path)
+        if _file_sha256(artifact_path) != entry.get("artifact_sha256"):
+            raise ValueError("Qualification terminal-cell artifact checksum changed")
+        required = {
+            "schema_version": TSH_CALO_QUALIFICATION_CELL_SUCCESS_SCHEMA,
+            "terminal_state": "committed_success",
+            "cell_identity": identity,
+            "cell_index": expected["cell_index"],
+            "total_cells": expected_cells,
+            "qualification_run_id": plan.qualification_run_id,
+            "qualification_plan_sha256": plan_sha256,
+            "source_policy_sha256": expected_policy_sha256,
+            "case": expected["case"],
+            "run_index": expected["run_index"],
+            "label": expected["label"],
+            "seeds": expected["seeds"],
+        }
+        if any(payload.get(key) != value for key, value in required.items()) or int(
+            payload.get("evaluations", -1)
+        ) != int(plan.max_evaluations):
+            raise ValueError("Qualification terminal success artifact violates its frozen binding")
+    terminal_index = dict(evidence.get("terminal_cell_index", {}) or {})
+    if (
+        terminal_index.get("schema_version") != TSH_CALO_QUALIFICATION_CELL_INDEX_SCHEMA
+        or terminal_index.get("sha256") != _file_sha256(index_path)
+        or int(terminal_index.get("committed_unique_cells", -1)) != expected_cells
+        or list(evidence.get("infrastructure_incidents", []))
+    ):
+        raise ValueError("Qualification evidence does not bind its clean terminal-cell index")
+    return completion
 
 
 def _finite(value: Any, label: str) -> float:
@@ -207,8 +371,22 @@ def inspect_qualification_evidence(
         raise ValueError("Qualification plan belongs to a different policy checkpoint")
     if _canonical_sha256(seed_manifest) != plan.seed_manifest_sha256():
         raise ValueError("Qualification seed manifest checksum does not match the frozen plan")
-    if evidence.get("schema_version") != TSH_CALO_QUALIFICATION_EVIDENCE_SCHEMA:
+    evidence_schema = str(evidence.get("schema_version", ""))
+    if evidence_schema not in {
+        LEGACY_TSH_CALO_QUALIFICATION_EVIDENCE_SCHEMA,
+        TSH_CALO_QUALIFICATION_EVIDENCE_SCHEMA,
+    }:
         raise ValueError("Qualification evidence schema is incompatible")
+    completion = (
+        _verify_transactional_completion(
+            source,
+            plan=plan,
+            evidence=evidence,
+            expected_policy_sha256=expected_sha,
+        )
+        if evidence_schema == TSH_CALO_QUALIFICATION_EVIDENCE_SCHEMA
+        else {}
+    )
     if evidence.get("analysis_schema_version") != plan.analysis_schema_version:
         raise ValueError("Qualification evidence paired-analysis schema is incompatible")
     if evidence.get("relative_improvement_version") != plan.relative_improvement_version:
@@ -297,6 +475,8 @@ def inspect_qualification_evidence(
         {"tsh_calo_qualification_receipt": receipt_payload},
         expected_policy_sha256=expected_sha,
     )
+    if completion and completion.get("receipt_sha256") != _file_sha256(receipt_path):
+        raise ValueError("Qualification completion does not bind the retained receipt")
     if receipt.qualification_run_id != plan.qualification_run_id:
         raise ValueError("Qualification receipt run identity does not match its plan")
     if receipt.source_commit.lower() != plan.source_commit.lower():

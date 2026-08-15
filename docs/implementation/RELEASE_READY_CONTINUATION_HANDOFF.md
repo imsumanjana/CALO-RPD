@@ -1566,3 +1566,17 @@ superseded by the stage-neutral compatibility and qualification boundary on 2026
   distinct states. Fresh provenance also resolves the checkout from the imported package root, so a
   native shortcut or command launched from another directory does not lose the current Git identity.
   Synthetic contracts are written but unexecuted; complete owner validation is still pending.
+- The 2026-08-15 formal run for candidate SHA prefix `e266bd7598befa54` is an immutable
+  infrastructure incident, not a qualification result. Its first case30 baseline success and the
+  erroneous same-cell failure remain untouched for audit; there is no admissible evidence,
+  qualification receipt, activation, or experiment binding. Do not click the old resume path.
+- Current source replaces file-count progress with canonical unique-cell terminal state, separates
+  telemetry/infrastructure faults from scientific execution, prohibits success/failure collisions,
+  and requires a final checksum-bound completion authority before admission. The GUI skips the old
+  conflict and prepares a new corrected-source workspace only after proving the operative frozen
+  design is unchanged; new run/source identities are provenance, while candidate, cases, seeds,
+  budgets, thresholds, OOD, analysis, and protected-case closure remain fixed.
+- No test, validator, GUI, training, qualification, admission, activation, experiment, protected-case,
+  Docker, publication, or release command was executed during this correction. First run the ignored
+  transactional qualification validator and return its complete newly timestamped log directory.
+  Launch a new qualification only after that bundle is reviewed as passing.

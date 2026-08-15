@@ -30,7 +30,9 @@ from .tsh_calo_qualification_campaign import (
 )
 
 
-TSH_CALO_AUTOMATIC_QUALIFICATION_PROTOCOL = "tsh-calo-one-action-qualification-v2"
+TSH_CALO_AUTOMATIC_QUALIFICATION_PROTOCOL = (
+    "tsh-calo-one-action-qualification-v3-transactional-cells"
+)
 AUTOMATIC_QUALIFICATION_CASES = ("case30", "case57")
 AUTOMATIC_QUALIFICATION_RUNS = 30
 AUTOMATIC_QUALIFICATION_POPULATION_SIZE = 20
@@ -72,10 +74,15 @@ class AutomaticQualificationWorkspace:
         *,
         candidate_sha256: str,
         source_commit: str,
+        restart_ordinal: int = 0,
     ) -> "AutomaticQualificationWorkspace":
         base = Path(base_directory).expanduser().resolve()
+        if int(restart_ordinal) < 0:
+            raise ValueError("Automatic qualification restart ordinal cannot be negative")
+        restart_suffix = f"-restart-{int(restart_ordinal):03d}" if restart_ordinal else ""
         identity = (
             f"architecture-v2-{candidate_sha256[:16].lower()}-{source_commit[:12].lower()}"
+            f"{restart_suffix}"
         )
         root = base / identity
         return cls(
@@ -349,13 +356,20 @@ def build_automatic_formal_qualification_plan(
     source_commit: str,
     candidate_artifact: TSHCALOCandidateArtifact | None = None,
     component_evidence: dict[str, dict] | None = None,
+    restart_ordinal: int = 0,
 ) -> TSHCALOQualificationPlan:
     """Build the exact formal plan from a frozen, stage-neutral candidate contract."""
 
     if candidate_artifact is None and not component_evidence:
         raise ValueError("Automatic qualification requires an inspected candidate artifact")
 
-    identity = f"auto-formal-{candidate_sha256[:16].lower()}-{source_commit[:12].lower()}"
+    if int(restart_ordinal) < 0:
+        raise ValueError("Automatic qualification restart ordinal cannot be negative")
+    restart_suffix = f"-restart-{int(restart_ordinal):03d}" if restart_ordinal else ""
+    identity = (
+        f"auto-formal-{candidate_sha256[:16].lower()}-{source_commit[:12].lower()}"
+        f"{restart_suffix}"
+    )
     plan = TSHCALOQualificationPlan(
         qualification_run_id=identity,
         source_commit=source_commit.lower(),
@@ -379,6 +393,33 @@ def build_automatic_formal_qualification_plan(
     if component_evidence:
         _verify_component_evidence(plan)
     return plan
+
+
+def frozen_qualification_restart_design(plan: TSHCALOQualificationPlan) -> dict:
+    """Return every frozen operative field, excluding only new-run provenance identities."""
+
+    plan.validate()
+    payload = plan.to_dict()
+    for field_name in (
+        "qualification_run_id",
+        "source_commit",
+        "source_tracked_clean",
+        "candidate_path",
+    ):
+        payload.pop(field_name, None)
+    return payload
+
+
+def frozen_qualification_restart_design_sha256(plan: TSHCALOQualificationPlan) -> str:
+    """Bind a fresh infrastructure restart to the unchanged preregistered design."""
+
+    encoded = json.dumps(
+        frozen_qualification_restart_design(plan),
+        sort_keys=True,
+        separators=(",", ":"),
+        allow_nan=False,
+    )
+    return hashlib.sha256(encoded.encode("utf-8")).hexdigest()
 
 
 def automatic_qualification_workflow_payload(

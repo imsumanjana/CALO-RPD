@@ -39,6 +39,7 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_automatic_qualification import (
     automatic_qualification_workflow_payload,
     build_automatic_formal_qualification_plan,
     freeze_plan,
+    frozen_qualification_restart_design_sha256,
     prepare_automatic_source_snapshot,
 )
 from calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign import (
@@ -49,6 +50,7 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign import (
     TSH_CALO_QUALIFICATION_PAUSE_EXIT_CODE,
     TSH_CALO_QUALIFICATION_STATUS_SCHEMA,
     TSHCALOQualificationPlan,
+    inspect_tsh_calo_qualification_resume_state,
     qualification_candidate_contract,
     request_tsh_calo_qualification_pause,
 )
@@ -91,6 +93,7 @@ class CALOIntelligencePanel(ScrollablePage):
         self._qualification_pause_requested = False
         self._qualification_live_event: dict = {}
         self._qualification_last_event: dict = {}
+        self._qualification_prior_incidents: list[dict] = []
         self._qualification_progress_timer = QTimer(self)
         self._qualification_progress_timer.setInterval(500)
         self._qualification_progress_timer.timeout.connect(self._update_qualification_progress)
@@ -569,8 +572,9 @@ class CALOIntelligencePanel(ScrollablePage):
         AutomaticQualificationWorkspace,
         AutomaticQualificationSourceSnapshot,
     ] | None:
-        """Find the newest valid retained plan or result for this exact candidate checksum."""
+        """Find safe retained state; preserve contradictory campaigns as read-only incidents."""
 
+        self._qualification_prior_incidents = []
         campaigns = qualification_base / "campaigns"
         if not campaigns.is_dir():
             return None
@@ -583,7 +587,6 @@ class CALOIntelligencePanel(ScrollablePage):
                 not root.is_dir()
                 or not plan_path.is_file()
                 or not output.is_dir()
-                or (output / "campaign_integrity_failure.json").is_file()
             ):
                 continue
             try:
@@ -595,6 +598,23 @@ class CALOIntelligencePanel(ScrollablePage):
                 or Path(plan.candidate_path).expanduser().resolve()
                 != Path(policy.checkpoint_path).expanduser().resolve()
             ):
+                continue
+            disposition = inspect_tsh_calo_qualification_resume_state(output)
+            if disposition["fresh_run_required"]:
+                self._qualification_prior_incidents.append(
+                    {
+                        "campaign_root": str(root.resolve()),
+                        "qualification_output": str(output.resolve()),
+                        "classification": disposition["classification"],
+                        "reason": disposition["reason"],
+                        "source_commit": plan.source_commit,
+                        "qualification_plan_sha256": plan.execution_plan_sha256(),
+                        "frozen_restart_design_sha256": (
+                            frozen_qualification_restart_design_sha256(plan)
+                        ),
+                        "retained_read_only": True,
+                    }
+                )
                 continue
             status_rank = 0
             if (output / "qualification_evidence.json").is_file():
@@ -610,6 +630,8 @@ class CALOIntelligencePanel(ScrollablePage):
                 except (OSError, json.JSONDecodeError):
                     status_rank = max(status_rank, 0)
             retained.append((status_rank, root, plan))
+        if self._qualification_prior_incidents:
+            return None
         if not retained:
             return None
         _rank, root, stored_plan = max(
@@ -634,13 +656,12 @@ class CALOIntelligencePanel(ScrollablePage):
             raise ValueError("Retained qualification source manifest is unreadable") from exc
         if not isinstance(manifest, dict) or not isinstance(manifest.get("files"), list):
             raise ValueError("Retained qualification source manifest is incompatible")
-        workspace = AutomaticQualificationWorkspace.create(
-            campaigns,
-            candidate_sha256=policy.sha256,
-            source_commit=stored_plan.source_commit,
+        workspace = AutomaticQualificationWorkspace(
+            root=root.resolve(),
+            workflow_plan=root.resolve() / "automatic_qualification_workflow.json",
+            qualification_plan=root.resolve() / "formal_qualification_plan.json",
+            qualification_output=root.resolve() / "formal-qualification-evidence",
         )
-        if workspace.root != root.resolve():
-            raise ValueError("Retained qualification workspace identity is inconsistent")
         snapshot = AutomaticQualificationSourceSnapshot(
             root=snapshot_root,
             source_commit=stored_plan.source_commit,
@@ -692,16 +713,33 @@ class CALOIntelligencePanel(ScrollablePage):
                     QUALIFICATION_SOURCE_ROOT,
                     qualification_base / "source-snapshots",
                 )
+                restart_ordinal = sum(
+                    1
+                    for item in self._qualification_prior_incidents
+                    if item["source_commit"] == source_snapshot.source_commit
+                )
                 qualification_plan = build_automatic_formal_qualification_plan(
                     candidate_path=policy.checkpoint_path,
                     candidate_sha256=policy.sha256,
                     source_commit=source_snapshot.source_commit,
                     candidate_artifact=candidate_artifact,
+                    restart_ordinal=restart_ordinal,
                 )
+                fresh_design_sha256 = frozen_qualification_restart_design_sha256(
+                    qualification_plan
+                )
+                if any(
+                    item["frozen_restart_design_sha256"] != fresh_design_sha256
+                    for item in self._qualification_prior_incidents
+                ):
+                    raise ValueError(
+                        "The corrected-source restart would change the frozen scientific design"
+                    )
                 workspace = AutomaticQualificationWorkspace.create(
                     qualification_base / "campaigns",
                     candidate_sha256=policy.sha256,
                     source_commit=source_snapshot.source_commit,
+                    restart_ordinal=restart_ordinal,
                 )
             if workspace.qualification_plan.is_file():
                 stored = load_qualification_plan(workspace.qualification_plan)
@@ -725,6 +763,8 @@ class CALOIntelligencePanel(ScrollablePage):
             action = "Verify and admit the retained formal result"
         elif workspace.qualification_output.exists():
             action = "Resume the retained formal qualification cells"
+        elif self._qualification_prior_incidents:
+            action = "Start a fresh corrected-source qualification"
         else:
             action = "Start the frozen architecture and model-quality qualification"
         answer = QMessageBox.warning(
@@ -742,7 +782,15 @@ class CALOIntelligencePanel(ScrollablePage):
             f"Source snapshot: {source_snapshot.source_commit[:12]} from "
             f"{source_snapshot.file_count} non-ignored files. The working source tree is not "
             "modified.\n\n"
-            "Activity records a micro step every 500 evaluations. Pause safely commits the current "
+            + (
+                f"Prior incident: {len(self._qualification_prior_incidents)} contradictory or "
+                "infrastructure-aborted campaign(s) remain byte-for-byte retained and will not "
+                "be resumed or admitted. Every operative scientific design field is unchanged; "
+                "only the new run and corrected source provenance identities differ.\n\n"
+                if self._qualification_prior_incidents
+                else ""
+            )
+            + "Activity records a micro step every 500 evaluations. Pause safely commits the current "
             "optimizer state, so even a partial cell can continue later. Pause/resume has no count "
             "limit and never changes this finite budget. A failed frozen gate rejects the policy. "
             "A verified pass is admitted automatically and enables the separate Activate for "
@@ -763,6 +811,12 @@ class CALOIntelligencePanel(ScrollablePage):
                 "file_count": source_snapshot.file_count,
                 "manifest_path": str(source_snapshot.root / AUTOMATIC_SOURCE_SNAPSHOT_MANIFEST),
             }
+            workflow_payload["prior_infrastructure_incidents"] = list(
+                self._qualification_prior_incidents
+            )
+            workflow_payload["frozen_restart_design_sha256"] = (
+                frozen_qualification_restart_design_sha256(qualification_plan)
+            )
             freeze_plan(
                 workspace.workflow_plan,
                 workflow_payload,
@@ -788,9 +842,15 @@ class CALOIntelligencePanel(ScrollablePage):
     def _continue_automatic_qualification(
         self, policy, qualification_plan, workspace: AutomaticQualificationWorkspace
     ) -> None:
-        if (workspace.qualification_output / "campaign_integrity_failure.json").is_file():
+        retained_state = (
+            inspect_tsh_calo_qualification_resume_state(workspace.qualification_output)
+            if workspace.qualification_output.is_dir()
+            else {}
+        )
+        if retained_state.get("fresh_run_required"):
             raise AutomaticQualificationRejected(
-                "Policy rejected: the retained formal campaign has a terminal integrity failure"
+                "Policy rejected: the retained formal campaign is an immutable infrastructure "
+                "incident and cannot resume"
             )
         freeze_plan(workspace.qualification_plan, qualification_plan.to_dict())
         source_snapshot = self._qualification_source_snapshot
@@ -877,12 +937,17 @@ class CALOIntelligencePanel(ScrollablePage):
         if self._qualification_process is None or self._qualification_workspace is None:
             return
         output = self._qualification_workspace.qualification_output
-        completed = sum(
-            1
-            for directory in (output / "records", output / "failures")
-            if directory.is_dir()
-            for _path in directory.glob("*.json")
+        success_names = (
+            {path.name for path in (output / "records").glob("*.json")}
+            if (output / "records").is_dir()
+            else set()
         )
+        failure_names = (
+            {path.name for path in (output / "failures").glob("*.json")}
+            if (output / "failures").is_dir()
+            else set()
+        )
+        completed = len(success_names | failure_names)
         expected = max(1, int(self._qualification_expected_cells))
         completed = min(completed, expected)
         evaluations_per_cell = int(
@@ -1165,13 +1230,30 @@ class CALOIntelligencePanel(ScrollablePage):
                     source="automatic qualification verification",
                 )
         else:
-            self.state.task_status.fail(
-                f"Qualification {stage} stopped; retained completed cells can resume on next click"
+            disposition = (
+                inspect_tsh_calo_qualification_resume_state(
+                    workspace.qualification_output
+                )
+                if workspace is not None and workspace.qualification_output.is_dir()
+                else {}
             )
-            self.qualification_workflow_status.setText(
-                f"Qualification {stage} stopped with code {exit_code}. No evidence was admitted or "
-                "activated. Click Qualify policy again to resume the exact retained plan."
-            )
+            if disposition.get("fresh_run_required"):
+                self.state.task_status.fail(
+                    f"Qualification {stage} retained as an infrastructure incident"
+                )
+                self.qualification_workflow_status.setText(
+                    f"Qualification {stage} stopped with code {exit_code}. The contradictory run "
+                    "is retained read-only and cannot resume or admit evidence. Click Qualify "
+                    "policy to prepare a new corrected-source run with the unchanged frozen design."
+                )
+            else:
+                self.state.task_status.fail(
+                    f"Qualification {stage} stopped; retained completed cells can resume on next click"
+                )
+                self.qualification_workflow_status.setText(
+                    f"Qualification {stage} stopped with code {exit_code}. No evidence was admitted "
+                    "or activated. Click Qualify policy again to resume the exact retained plan."
+                )
             self.activity_message.emit("ERROR", self.qualification_workflow_status.text())
         self._qualification_pause_requested = False
         self._update_qualification_controls()

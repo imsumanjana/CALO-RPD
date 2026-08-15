@@ -601,6 +601,10 @@ def test_policy_training_process_actions_are_visible_in_the_input_pane():
     assert "live, not yet a committed cell" in intelligence
     assert "_confirmed_safe_qualification_pause" in intelligence
     assert "_retained_qualification_resume" in intelligence
+    assert "inspect_tsh_calo_qualification_resume_state" in intelligence
+    assert "frozen_qualification_restart_design_sha256" in intelligence
+    assert "remain byte-for-byte retained" in intelligence
+    assert "new corrected-source run with the unchanged frozen design" in intelligence
     assert "qualification_candidate_contract" in intelligence
     assert "source-snapshots" in intelligence
     assert 'progress=0' in intelligence
