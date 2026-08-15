@@ -2798,3 +2798,18 @@ Append timestamped entries below this line after each material action, validatio
   cell, analysis, OOD, thresholds, protected-case closure, and lifecycle boundaries are unchanged.
   Source, tests, ledgers, and an ignored validator are implemented but unexecuted; do not launch the
   new qualification until the owner validator passes and its complete log directory is reviewed.
+
+### 2026-08-15 - Transactional qualification import correction, validation still pending
+
+- The owner attempted to launch the application before running the transactional-evidence validator.
+  Python stopped during module import with an `IndentationError` in `_initialize_cell_evidence`:
+  `_scan_terminal_cells()` was not indented beneath its `try` statement. Because import failed before
+  application construction, no campaign discovery, resume, scientific execution, or evidence write
+  occurred.
+- The single indentation defect is corrected. Textual inspection confirms the surrounding
+  resume-integrity exception boundary now encloses the terminal-cell scan as designed. No test,
+  validator, GUI, training, qualification, protected-case, activation, Docker, publication, or
+  release workflow was executed by Codex.
+- All prior validation evidence is stale with respect to this correction. The owner must run
+  `validation/Validate-Qualification-Evidence-Transactions.ps1`, return its complete newly timestamped
+  log directory, and wait for review before launching the corrected-source qualification.

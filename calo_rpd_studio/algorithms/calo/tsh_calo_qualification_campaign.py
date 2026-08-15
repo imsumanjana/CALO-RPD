@@ -1395,7 +1395,7 @@ class TSHCALOQualificationCampaign:
                 "Infrastructure-aborted qualification campaigns require a fresh run"
             )
         try:
-        entries = self._scan_terminal_cells()
+            entries = self._scan_terminal_cells()
         except QualificationEvidenceIntegrityError:
             raise
         except (OSError, TypeError, ValueError) as exc:
