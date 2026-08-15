@@ -586,7 +586,9 @@ def test_policy_training_process_actions_are_visible_in_the_input_pane():
     assert '"Scientist selection required"' not in intelligence
     assert "self.policy_activate_button.setVisible(eligible)" in intelligence
     assert "lifecycle_buttons = QHBoxLayout()" not in intelligence
-    assert "qualification_buttons.addWidget(self.show_archived_policies)" in intelligence
+    assert 'QCheckBox("Show archived")' not in intelligence
+    assert "show_archived_policies" not in intelligence
+    assert intelligence.count("self.state.policy_registry.list(include_archived=False)") == 2
     assert 'QGroupBox("Feasibility assessment")' in intelligence
     assert 'QGroupBox("Training-parameter influence analysis")' in intelligence
     assert "inspect_feasibility_assessment" in intelligence

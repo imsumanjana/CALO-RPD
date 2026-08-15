@@ -1624,3 +1624,14 @@ superseded by the stage-neutral compatibility and qualification boundary on 2026
   source-stable replay after this documentation update is the authority for launching one new
   corrected-source feasibility assessment with the unchanged frozen plan; it must create a new run
   identity and must not resume the retained incident.
+
+### Show-archived follow-up
+
+- The visible **Show archived** checkbox and its refresh connection are removed. Policy Library
+  refresh and the scientist-facing influence cohort now request only non-archived records, while
+  historical archive representation remains internal for compatibility and protection; nothing is
+  automatically deleted or restored.
+- The earlier `feasibility-influence-20260815-205030` PASS remains valid historical evidence for the
+  preceding source but predates this UI follow-up. Updated static/GUI contracts and the ignored
+  validator are ready, but no validator or scientific/lifecycle command was executed afterward.
+  Run the complete focused validator again before relying on this exact source for a new assessment.

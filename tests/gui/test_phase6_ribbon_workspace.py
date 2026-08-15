@@ -704,6 +704,7 @@ def test_completed_training_is_visible_without_automatic_policy_registration(
     assert policy_center.policy_activate_button.isHidden() is True
     assert policy_center.policy_delete_button.text() == "Delete model files"
     assert policy_center.policy_delete_button.isEnabled() is True
+    assert not hasattr(policy_center, "show_archived_policies")
     assert not hasattr(policy_center, "policy_removal_review_button")
     assert state.policy_registry.list(include_archived=True) == []
     monkeypatch.setattr(

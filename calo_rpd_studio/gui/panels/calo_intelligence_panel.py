@@ -162,14 +162,12 @@ class CALOIntelligencePanel(ScrollablePage):
         self.policy_activate_button = QPushButton("Activate for experiments")
         self.policy_delete_button = QPushButton("Delete model files")
         self.policy_refresh_button = QPushButton("Refresh")
-        self.show_archived_policies = QCheckBox("Show archived")
         self.policy_import_button.clicked.connect(self.import_policy)
         self.qualification_button.clicked.connect(self.qualify_selected_policy)
         self.policy_select_button.clicked.connect(self.select_policy_for_use)
         self.policy_activate_button.clicked.connect(self.activate_selected_policy)
         self.policy_delete_button.clicked.connect(self.delete_selected_model_files)
         self.policy_refresh_button.clicked.connect(self.refresh_policy_library)
-        self.show_archived_policies.toggled.connect(lambda _checked: self.refresh_policy_library())
         for button in (
             self.policy_import_button,
             self.qualification_button,
@@ -179,7 +177,6 @@ class CALOIntelligencePanel(ScrollablePage):
             self.policy_refresh_button,
         ):
             qualification_buttons.addWidget(button)
-        qualification_buttons.addWidget(self.show_archived_policies)
         qualification_buttons.addStretch(1)
         library_layout.addLayout(qualification_buttons)
         self.qualification_workflow_status = QLabel(
@@ -297,20 +294,15 @@ class CALOIntelligencePanel(ScrollablePage):
     def refresh_policy_library(self) -> None:
         selected_key = self._row_key(self._selected_row())
         governing = self.state.governing_policy_status()
-        all_registered = [
+        registered = [
             policy
-            for policy in self.state.policy_registry.list(include_archived=True)
+            for policy in self.state.policy_registry.list(include_archived=False)
             if not policy.checkpoint_path.endswith(".resume.pt")
             and "_lineage" not in str(policy.checkpoint_path)
         ]
-        registered = [
-            policy
-            for policy in all_registered
-            if self.show_archived_policies.isChecked() or not policy.archived
-        ]
         registered_by_path = {
             str(Path(policy.checkpoint_path).expanduser().resolve()).casefold(): policy
-            for policy in all_registered
+            for policy in registered
         }
         assessment_by_policy = {
             str(item.get("policy_id", "")): item
@@ -753,7 +745,7 @@ class CALOIntelligencePanel(ScrollablePage):
         if self.model_library is not None:
             policies_by_path = {
                 str(Path(item.checkpoint_path).expanduser().resolve()).casefold(): item
-                for item in self.state.policy_registry.list(include_archived=True)
+                for item in self.state.policy_registry.list(include_archived=False)
             }
             for campaign in self.model_library.completed_campaigns():
                 plan = self._parsed_training_plan(campaign)

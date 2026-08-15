@@ -1241,3 +1241,11 @@ open protected cases, select/activate/bind a policy, run Docker, or establish re
 evidence. The transactional feasibility/influence implementation gate is satisfied subject to one
 source-stable replay after this required ledger closure; broader Phase 6, scientific-assessment, and
 release gates remain separate and are not closed by this focused evidence.
+
+The subsequent owner-directed removal of **Show archived** changes the visible Policy Library and
+therefore supersedes the `feasibility-influence-20260815-205030` source identity for this follow-up.
+The current library and scientist-facing influence cohort request non-archived records only;
+historical archive storage remains internal and no data migration or deletion occurs. Updated
+static/GUI contracts and validator coverage are implemented but unexecuted. A fresh complete focused
+validator PASS is required before treating this follow-up as validated; scientific, activation,
+broader Phase 6, and release gates remain separate.

@@ -2903,3 +2903,18 @@ Append timestamped entries below this line after each material action, validatio
   flags confirm no real assessment, qualification, training/parameter mutation, real policy,
   protected-case access, activation, or binding occurred. A final complete replay after this ledger
   closure is the launch-authority bundle for the documented source state.
+
+### 2026-08-15 - Show-archived Policy Library control removed, follow-up validation pending
+
+- At owner request, the Policy Library no longer constructs, connects, or displays the **Show
+  archived** checkbox. Import, feasibility assessment, scientist selection, eligible activation,
+  guarded deletion, and refresh remain in the single action row.
+- Visible refresh and the scientist-facing comparative influence cohort now request only
+  non-archived policy records. Historical archive columns and registry readers remain internal for
+  backward compatibility and governance/deletion safety checks; this change does not delete,
+  unarchive, reactivate, select, or otherwise mutate any retained record or model file.
+- Static and GUI contracts now require the checkbox attribute/text to be absent and archived records
+  to be excluded. The ignored validator now includes the GUI contract file in its source manifest,
+  Ruff check, and format check. No validator, GUI, scientific campaign, training, selection,
+  activation, protected-case, Docker, or release command was run after this follow-up; the prior
+  `feasibility-influence-20260815-205030` PASS predates it and is stale for this exact source state.
