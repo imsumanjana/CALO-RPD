@@ -10,8 +10,6 @@ from PyQt6.QtCore import QProcess, QProcessEnvironment, QStandardPaths, Qt, QTim
 from PyQt6.QtWidgets import (
     QAbstractItemView,
     QCheckBox,
-    QDialog,
-    QDialogButtonBox,
     QFileDialog,
     QFormLayout,
     QGroupBox,
@@ -103,9 +101,7 @@ class CALOIntelligencePanel(ScrollablePage):
         self._qualification_progress_timer = QTimer(self)
         self._qualification_progress_timer.setInterval(500)
         self._qualification_progress_timer.timeout.connect(self._update_qualification_progress)
-        self.state.task_status.cancel_requested.connect(
-            self.request_safe_qualification_pause
-        )
+        self.state.task_status.cancel_requested.connect(self.request_safe_qualification_pause)
 
         layout = QVBoxLayout(content)
         layout.setContentsMargins(24, 22, 24, 72)
@@ -144,13 +140,9 @@ class CALOIntelligencePanel(ScrollablePage):
         self.policy_table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         self.policy_table.setAlternatingRowColors(True)
         self.policy_table.setWordWrap(True)
-        self.policy_table.setHorizontalScrollBarPolicy(
-            Qt.ScrollBarPolicy.ScrollBarAlwaysOff
-        )
+        self.policy_table.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.policy_table.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-        self.policy_table.setSizePolicy(
-            QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed
-        )
+        self.policy_table.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
         self.policy_table.verticalHeader().setVisible(False)
         for column in (0, 2, 3, 5, 6):
             self.policy_table.horizontalHeader().setSectionResizeMode(
@@ -166,42 +158,30 @@ class CALOIntelligencePanel(ScrollablePage):
         qualification_buttons = QHBoxLayout()
         self.policy_import_button = QPushButton("Import policy")
         self.qualification_button = QPushButton("Assess feasibility")
-        self.qualification_compare_button = QPushButton("Compare feasibility")
         self.policy_select_button = QPushButton("Select for use")
         self.policy_activate_button = QPushButton("Activate for experiments")
-        self.policy_archive_button = QPushButton("Archive")
         self.policy_delete_button = QPushButton("Delete model files")
         self.policy_refresh_button = QPushButton("Refresh")
         self.show_archived_policies = QCheckBox("Show archived")
         self.policy_import_button.clicked.connect(self.import_policy)
         self.qualification_button.clicked.connect(self.qualify_selected_policy)
-        self.qualification_compare_button.clicked.connect(self.compare_qualified_policies)
         self.policy_select_button.clicked.connect(self.select_policy_for_use)
         self.policy_activate_button.clicked.connect(self.activate_selected_policy)
-        self.policy_archive_button.clicked.connect(self.archive_selected_policy)
         self.policy_delete_button.clicked.connect(self.delete_selected_model_files)
         self.policy_refresh_button.clicked.connect(self.refresh_policy_library)
         self.show_archived_policies.toggled.connect(lambda _checked: self.refresh_policy_library())
         for button in (
             self.policy_import_button,
             self.qualification_button,
-            self.qualification_compare_button,
             self.policy_select_button,
             self.policy_activate_button,
-        ):
-            qualification_buttons.addWidget(button)
-        qualification_buttons.addStretch(1)
-        library_layout.addLayout(qualification_buttons)
-        lifecycle_buttons = QHBoxLayout()
-        for button in (
-            self.policy_archive_button,
             self.policy_delete_button,
             self.policy_refresh_button,
         ):
-            lifecycle_buttons.addWidget(button)
-        lifecycle_buttons.addWidget(self.show_archived_policies)
-        lifecycle_buttons.addStretch(1)
-        library_layout.addLayout(lifecycle_buttons)
+            qualification_buttons.addWidget(button)
+        qualification_buttons.addWidget(self.show_archived_policies)
+        qualification_buttons.addStretch(1)
+        library_layout.addLayout(qualification_buttons)
         self.qualification_workflow_status = QLabel(
             "Workflow: import -> assess feasibility -> inspect ratings and training influence -> "
             "scientist selects -> activate explicitly. The software makes no suitability decision."
@@ -364,9 +344,7 @@ class CALOIntelligencePanel(ScrollablePage):
                     values = (
                         "",
                         str(policy.get("campaign_id", "Saved policy")),
-                        self._training_evaluation_text(
-                            policy.get("training_evaluations")
-                        ),
+                        self._training_evaluation_text(policy.get("training_evaluations")),
                         "Not assessed",
                         (
                             "Training complete · import required"
@@ -420,9 +398,7 @@ class CALOIntelligencePanel(ScrollablePage):
                     )
             else:
                 retained_assessment = assessment_by_policy.get(policy.id, {})
-                retained_ratings = dict(
-                    retained_assessment.get("feasibility_assessment", {}) or {}
-                )
+                retained_ratings = dict(retained_assessment.get("feasibility_assessment", {}) or {})
                 scientific_status = policy_record_user_status(policy)
                 if policy.active and governing.ready and governing.policy_id == policy.id:
                     scientific_status = "Ready and selected"
@@ -542,36 +518,35 @@ class CALOIntelligencePanel(ScrollablePage):
                 self.policy_import_button.setEnabled(
                     bool(completed_training.get("policy_candidate", ""))
                 )
-                self.policy_activate_button.setText("Import before activation")
+                self.policy_activate_button.setVisible(False)
                 self.policy_activate_button.setEnabled(False)
                 self.policy_select_button.setText("Import before selection")
                 self.policy_select_button.setEnabled(False)
-                self.policy_archive_button.setEnabled(False)
-                self.policy_archive_button.setText("Archive")
                 self.policy_delete_button.setToolTip(
                     "Permanently delete this unregistered completed campaign directory after "
                     "an exact-path confirmation."
                 )
-                self.policy_delete_button.setEnabled(
-                    bool(completed_training.get("directory", ""))
-                )
+                self.policy_delete_button.setEnabled(bool(completed_training.get("directory", "")))
             else:
                 self.policy_import_button.setText("Imported")
                 self.policy_import_button.setEnabled(False)
                 if policy.active:
+                    self.policy_activate_button.setVisible(True)
                     self.policy_activate_button.setText("Active governing policy")
                     self.policy_activate_button.setEnabled(False)
+                    self.policy_activate_button.setToolTip("This is the active governing policy.")
                 else:
                     eligible = bool(
                         policy.usable
                         and policy.compatible_with(TSH_CALO_ALGORITHM_ID)
-                        and policy.qualification_status
-                        in {"scientist_selected", "qualified"}
+                        and policy.qualification_status in {"scientist_selected", "qualified"}
                     )
-                    self.policy_activate_button.setText(
-                        "Activate for experiments" if eligible else "Scientist selection required"
-                    )
+                    self.policy_activate_button.setVisible(eligible)
+                    self.policy_activate_button.setText("Activate for experiments")
                     self.policy_activate_button.setEnabled(eligible)
+                    self.policy_activate_button.setToolTip(
+                        "" if eligible else "Select this assessed model for use before activation."
+                    )
                 selectable = policy.qualification_status == "assessed"
                 self.policy_select_button.setText(
                     "Selected for use"
@@ -579,10 +554,6 @@ class CALOIntelligencePanel(ScrollablePage):
                     else "Select for use"
                 )
                 self.policy_select_button.setEnabled(selectable)
-                self.policy_archive_button.setEnabled(not policy.active)
-                self.policy_archive_button.setText(
-                    "Restore archived" if policy.archived else "Archive"
-                )
                 removal_blocker = self._registered_completed_removal_blocker(
                     completed_training,
                     policy,
@@ -598,9 +569,7 @@ class CALOIntelligencePanel(ScrollablePage):
             self._refresh_feasibility_and_influence()
             return
         policy = self._selected_policy()
-        self.policy_import_button.setText(
-            "Imported" if policy is not None else "Import policy"
-        )
+        self.policy_import_button.setText("Imported" if policy is not None else "Import policy")
         self.policy_import_button.setEnabled(policy is None)
         eligible = bool(
             policy
@@ -612,9 +581,17 @@ class CALOIntelligencePanel(ScrollablePage):
         self.policy_activate_button.setText(
             "Active governing policy"
             if policy is not None and policy.active
-            else ("Activate for experiments" if eligible else "Scientist selection required")
+            else "Activate for experiments"
         )
+        self.policy_activate_button.setVisible(bool(policy and (policy.active or eligible)))
         self.policy_activate_button.setEnabled(eligible)
+        self.policy_activate_button.setToolTip(
+            (
+                "This is the active governing policy."
+                if policy is not None and policy.active
+                else ("" if eligible else "Select an assessed model for use before activation.")
+            )
+        )
         selectable = bool(policy and policy.qualification_status == "assessed")
         self.policy_select_button.setText(
             "Selected for use"
@@ -623,12 +600,11 @@ class CALOIntelligencePanel(ScrollablePage):
             else "Select for use"
         )
         self.policy_select_button.setEnabled(selectable)
-        self.policy_archive_button.setEnabled(policy is not None and not policy.active)
         removal_blocker = "Select a model to delete."
         if policy is not None:
             try:
-                removal_blocker = (
-                    self.state.policy_registry.unqualified_candidate_removal_blocker(policy.id)
+                removal_blocker = self.state.policy_registry.unqualified_candidate_removal_blocker(
+                    policy.id
                 )
             except (KeyError, OSError, RuntimeError, ValueError) as exc:
                 removal_blocker = str(exc) or "The selected policy cannot be removed."
@@ -637,9 +613,6 @@ class CALOIntelligencePanel(ScrollablePage):
             removal_blocker
             or "Permanently remove this exact inactive, unqualified, unreferenced model file "
             "and its registry entry after confirmation."
-        )
-        self.policy_archive_button.setText(
-            "Restore archived" if policy is not None and policy.archived else "Archive"
         )
         if policy is not None:
             self.path.setText(policy.name)
@@ -688,12 +661,14 @@ class CALOIntelligencePanel(ScrollablePage):
             )
             return
         summaries = self.state.policy_registry.feasibility_assessment_summaries(policy.id)
-        assessment = next(
-            (item for item in summaries if not item.get("verification_error")), None
-        )
+        assessment = next((item for item in summaries if not item.get("verification_error")), None)
         if assessment is None:
             error = next(
-                (str(item.get("verification_error", "")) for item in summaries if item.get("verification_error")),
+                (
+                    str(item.get("verification_error", ""))
+                    for item in summaries
+                    if item.get("verification_error")
+                ),
                 "",
             )
             self.feasibility_status.setText(
@@ -712,10 +687,26 @@ class CALOIntelligencePanel(ScrollablePage):
                     ratings.get("overall_feasibility_score"),
                     f"{ratings.get('candidate_cell_count', 0)} candidate cells",
                 ),
-                ("First-feasible reach", overall.get("first_feasible_reached"), "Across candidate cells"),
-                ("First-feasible efficiency", overall.get("first_feasible_efficiency"), "Budget-normalized; not reached scores zero"),
-                ("Independent validation", overall.get("independent_validation"), "Retained candidate solutions"),
-                ("Paired objective coverage", overall.get("paired_feasible_objective_coverage"), "Pairs where both arms were feasible"),
+                (
+                    "First-feasible reach",
+                    overall.get("first_feasible_reached"),
+                    "Across candidate cells",
+                ),
+                (
+                    "First-feasible efficiency",
+                    overall.get("first_feasible_efficiency"),
+                    "Budget-normalized; not reached scores zero",
+                ),
+                (
+                    "Independent validation",
+                    overall.get("independent_validation"),
+                    "Retained candidate solutions",
+                ),
+                (
+                    "Paired objective coverage",
+                    overall.get("paired_feasible_objective_coverage"),
+                    "Pairs where both arms were feasible",
+                ),
             ]
             for case in list(ratings.get("case_ratings", [])):
                 case_scores = dict(case.get("ratings", {}) or {})
@@ -865,14 +856,6 @@ class CALOIntelligencePanel(ScrollablePage):
             "exactly resume retained measurement cells, and retain verified ratings without an "
             "automated suitability decision. Scientist selection and activation remain explicit."
         )
-        has_qualified_policy = any(
-            item.qualification_status in {"assessed", "scientist_selected", "qualified"}
-            for item in self.state.policy_registry.list(include_archived=False)
-        )
-        self.qualification_compare_button.setEnabled(has_qualified_policy and not process_running)
-        self.qualification_compare_button.setToolTip(
-            "Compare only policies whose retained feasibility evidence can be integrity-verified."
-        )
         if policy is not None and blocker and not process_running:
             self.qualification_workflow_status.setText(
                 f"Feasibility workflow blocked for {policy.name}: {blocker}"
@@ -890,11 +873,14 @@ class CALOIntelligencePanel(ScrollablePage):
 
     def _retained_qualification_resume(
         self, qualification_base: Path, policy, candidate_artifact
-    ) -> tuple[
-        TSHCALOQualificationPlan,
-        AutomaticQualificationWorkspace,
-        AutomaticQualificationSourceSnapshot,
-    ] | None:
+    ) -> (
+        tuple[
+            TSHCALOQualificationPlan,
+            AutomaticQualificationWorkspace,
+            AutomaticQualificationSourceSnapshot,
+        ]
+        | None
+    ):
         """Find safe retained state; preserve contradictory campaigns as read-only incidents."""
 
         self._qualification_prior_incidents = []
@@ -906,11 +892,7 @@ class CALOIntelligencePanel(ScrollablePage):
         for root in campaigns.glob(f"{prefix}*"):
             plan_path = root / "formal_qualification_plan.json"
             output = root / "formal-qualification-evidence"
-            if (
-                not root.is_dir()
-                or not plan_path.is_file()
-                or not output.is_dir()
-            ):
+            if not root.is_dir() or not plan_path.is_file() or not output.is_dir():
                 continue
             try:
                 plan = load_qualification_plan(plan_path)
@@ -961,9 +943,7 @@ class CALOIntelligencePanel(ScrollablePage):
             retained,
             key=lambda item: (item[0], item[1].stat().st_mtime_ns),
         )
-        if stored_plan.candidate_contract != qualification_candidate_contract(
-            candidate_artifact
-        ):
+        if stored_plan.candidate_contract != qualification_candidate_contract(candidate_artifact):
             raise ValueError(
                 "The retained qualification plan no longer matches the candidate architecture "
                 "and parameter contract"
@@ -995,7 +975,7 @@ class CALOIntelligencePanel(ScrollablePage):
         return stored_plan, workspace, snapshot
 
     def qualify_selected_policy(self) -> None:
-        """Run the frozen feasibility workflow; never select or activate the policy."""
+        """Run frozen feasibility; this action never activates or binds the policy."""
 
         policy = self._selected_policy()
         if policy is None:
@@ -1048,9 +1028,7 @@ class CALOIntelligencePanel(ScrollablePage):
                     candidate_artifact=candidate_artifact,
                     restart_ordinal=restart_ordinal,
                 )
-                fresh_design_sha256 = frozen_qualification_restart_design_sha256(
-                    qualification_plan
-                )
+                fresh_design_sha256 = frozen_qualification_restart_design_sha256(qualification_plan)
                 if any(
                     item["frozen_restart_design_sha256"] != fresh_design_sha256
                     for item in self._qualification_prior_incidents
@@ -1273,9 +1251,7 @@ class CALOIntelligencePanel(ScrollablePage):
         completed = len(success_names | failure_names)
         expected = max(1, int(self._qualification_expected_cells))
         completed = min(completed, expected)
-        evaluations_per_cell = int(
-            automatic_qualification_workload()["evaluations_per_cell"]
-        )
+        evaluations_per_cell = int(automatic_qualification_workload()["evaluations_per_cell"])
         live = dict(self._qualification_live_event or {})
         live_evaluations = 0
         live_base = int(live.get("committed_cells", -1))
@@ -1316,9 +1292,7 @@ class CALOIntelligencePanel(ScrollablePage):
             )
             return
         try:
-            request = request_tsh_calo_qualification_pause(
-                workspace.qualification_output
-            )
+            request = request_tsh_calo_qualification_pause(workspace.qualification_output)
         except (OSError, RuntimeError, ValueError) as exc:
             self.activity_message.emit(
                 "ERROR",
@@ -1355,9 +1329,7 @@ class CALOIntelligencePanel(ScrollablePage):
 
     def _flush_qualification_output(self) -> None:
         if self._qualification_stdout_buffer:
-            self._consume_qualification_output_line(
-                self._qualification_stdout_buffer.rstrip("\r")
-            )
+            self._consume_qualification_output_line(self._qualification_stdout_buffer.rstrip("\r"))
             self._qualification_stdout_buffer = ""
 
     def _consume_qualification_output_line(self, line: str) -> None:
@@ -1375,7 +1347,9 @@ class CALOIntelligencePanel(ScrollablePage):
             not isinstance(event, dict)
             or event.get("schema_version") != TSH_CALO_QUALIFICATION_EVENT_SCHEMA
         ):
-            self.activity_message.emit("WARNING", "A qualification progress event was incompatible.")
+            self.activity_message.emit(
+                "WARNING", "A qualification progress event was incompatible."
+            )
             return
         self._qualification_last_event = dict(event)
         self._apply_qualification_event(event)
@@ -1442,8 +1416,8 @@ class CALOIntelligencePanel(ScrollablePage):
                 f"{int(event.get('max_evaluations', 0))} evaluations "
                 f"({float(event.get('cell_percent', 0.0)):.1f}%) | best feasible "
                 f"{feasible_text} | violation {violation_text} | first feasible FE "
-                f"{first_feasible_text} | {rate_text} | cell ETA {eta_text} | live, "
-                "not yet a committed cell",
+                f"{first_feasible_text} | {rate_text} | cell ETA {eta_text} | "
+                "live, not yet a committed cell",
             )
             return
         if name in {"cell_completed", "cell_failed"}:
@@ -1556,9 +1530,7 @@ class CALOIntelligencePanel(ScrollablePage):
                 )
         else:
             disposition = (
-                inspect_tsh_calo_qualification_resume_state(
-                    workspace.qualification_output
-                )
+                inspect_tsh_calo_qualification_resume_state(workspace.qualification_output)
                 if workspace is not None and workspace.qualification_output.is_dir()
                 else {}
             )
@@ -1620,8 +1592,7 @@ class CALOIntelligencePanel(ScrollablePage):
             and last_event.get("event") == "campaign_paused"
             and pause.get("request_id") == control.get("request_id")
             and last_event.get("request_id") == control.get("request_id")
-            and control.get("qualification_plan_sha256")
-            == status.get("qualification_plan_sha256")
+            and control.get("qualification_plan_sha256") == status.get("qualification_plan_sha256")
             and last_event.get("qualification_plan_sha256")
             == status.get("qualification_plan_sha256")
             and pause.get("durable_path") == control.get("durable_path")
@@ -1682,81 +1653,6 @@ class CALOIntelligencePanel(ScrollablePage):
             f"{policy_name!r} has no admissible feasibility dossier.\n\n{reason}\n\nThe retained "
             "evidence remains immutable, and no model-quality judgment was inferred.",
         )
-
-    def compare_qualified_policies(self) -> None:
-        summaries = [
-            item
-            for item in self.state.policy_registry.feasibility_assessment_summaries()
-            if not item.get("verification_error")
-        ]
-        if not summaries:
-            return
-        dialog = QDialog(self)
-        dialog.setWindowTitle("Compare feasibility assessments")
-        dialog.resize(1240, 520)
-        layout = QVBoxLayout(dialog)
-        guidance = QLabel(
-            "The software reports measurements without choosing a model. Compare only matching "
-            "evidence designs, inspect every case and rating, and make the intended-use decision "
-            "explicitly in the Policy library."
-        )
-        guidance.setWordWrap(True)
-        layout.addWidget(guidance)
-        table = QTableWidget(len(summaries), 8)
-        table.setHorizontalHeaderLabels(
-            (
-                "Policy",
-                "Evidence design",
-                "Overall feasibility",
-                "First-feasible reach",
-                "First-feasible efficiency",
-                "Independent validation",
-                "Objective coverage",
-                "Scientist decision",
-            )
-        )
-        table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
-        table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
-        table.setWordWrap(True)
-        for row, item in enumerate(summaries):
-            assessment = dict(item.get("feasibility_assessment", {}) or {})
-            overall = dict(assessment.get("overall_ratings", {}) or {})
-            protocol = str(item.get("comparison_protocol_sha256", ""))
-            evidence_design = (
-                f"{protocol[:8]} | {len(item.get('development_cases', []))} cases | "
-                f"{item.get('runs_per_case', 0)} runs | {item.get('max_evaluations', 0)} FE"
-                if protocol
-                else "Not verifiable"
-            )
-            values = (
-                f"{'Active - ' if item.get('active') else ''}{item['policy_name']}",
-                evidence_design,
-                f"{float(assessment.get('overall_feasibility_score', 0.0)):.1f}/100",
-                f"{float(overall.get('first_feasible_reached', 0.0)):.1f}/100",
-                f"{float(overall.get('first_feasible_efficiency', 0.0)):.1f}/100",
-                f"{float(overall.get('independent_validation', 0.0)):.1f}/100",
-                f"{float(overall.get('paired_feasible_objective_coverage', 0.0)):.1f}/100",
-                "Selected" if item.get("scientist_selected") else "Not decided",
-            )
-            for column, value in enumerate(values):
-                table.setItem(row, column, QTableWidgetItem(value))
-        table.resizeRowsToContents()
-        for column in range(7):
-            table.horizontalHeader().setSectionResizeMode(
-                column, QHeaderView.ResizeMode.ResizeToContents
-            )
-        table.horizontalHeader().setSectionResizeMode(7, QHeaderView.ResizeMode.Stretch)
-        layout.addWidget(table)
-        note = QLabel(
-            "No row is recommended or rejected. Selection is the scientist's recorded decision; "
-            "activation remains a separate explicit action."
-        )
-        note.setWordWrap(True)
-        layout.addWidget(note)
-        close_buttons = QDialogButtonBox(QDialogButtonBox.StandardButton.Close)
-        close_buttons.rejected.connect(dialog.reject)
-        layout.addWidget(close_buttons)
-        dialog.exec()
 
     @staticmethod
     def _percent_or_dash(value) -> str:
@@ -1904,26 +1800,6 @@ class CALOIntelligencePanel(ScrollablePage):
         self.refresh_policy_library()
         self._select_policy_id(activated.id)
 
-    def archive_selected_policy(self) -> None:
-        policy = self._selected_policy()
-        if policy is None:
-            return
-        try:
-            if policy.archived:
-                self.state.policy_registry.unarchive(policy.id)
-            else:
-                self.state.policy_registry.archive(policy.id)
-        except Exception as exc:
-            show_error(
-                self,
-                "Policy status could not be changed",
-                "The selected policy could not be archived or restored.",
-                exc,
-                source="policy archive",
-            )
-            return
-        self.refresh_policy_library()
-
     def delete_selected_model_files(self) -> None:
         completed_training = self._selected_completed_training()
         if completed_training is not None:
@@ -1975,10 +1851,7 @@ class CALOIntelligencePanel(ScrollablePage):
                 reason="user_deleted_standalone_model",
             )
             registration_removed = True
-            if (
-                self.state.policy_registry.inspect_checkpoint(checkpoint)["sha256"]
-                != policy.sha256
-            ):
+            if self.state.policy_registry.inspect_checkpoint(checkpoint)["sha256"] != policy.sha256:
                 raise RuntimeError("Model checksum changed immediately before file deletion")
             checkpoint.unlink()
         except (KeyError, OSError, RuntimeError, ValueError) as exc:
@@ -2020,9 +1893,8 @@ class CALOIntelligencePanel(ScrollablePage):
             directory = self.model_library.validate_completed_campaign_deletion(directory_text)
             for policy in self.state.policy_registry.list(include_archived=True):
                 checkpoint = Path(policy.checkpoint_path).expanduser().resolve()
-                if (
-                    (checkpoint == directory or directory in checkpoint.parents)
-                    and (registered_policy is None or policy.id != registered_policy.id)
+                if (checkpoint == directory or directory in checkpoint.parents) and (
+                    registered_policy is None or policy.id != registered_policy.id
                 ):
                     raise ValueError(
                         "This completed campaign contains another registered policy. Model files "
@@ -2058,8 +1930,7 @@ class CALOIntelligencePanel(ScrollablePage):
             self,
             "Permanently delete completed model files",
             f"Delete completed campaign {campaign_id!r} and every checkpoint, log, extension, "
-            f"and model file inside this exact directory?\n\n{directory}\n\n"
-            + confirmation_scope,
+            f"and model file inside this exact directory?\n\n{directory}\n\n" + confirmation_scope,
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.Cancel,
             QMessageBox.StandardButton.Cancel,
         )

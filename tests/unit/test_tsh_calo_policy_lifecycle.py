@@ -10,6 +10,7 @@ import pytest
 import torch
 import numpy as np
 
+from calo_rpd_studio.ai.model_io import checkpoint_sha256
 from calo_rpd_studio.algorithms.calo.policy_registry import PolicyRegistry
 from calo_rpd_studio.algorithms.calo.policy_schema import infer_checkpoint_schema
 from calo_rpd_studio.algorithms.calo.tsh_calo_policy import TSHCALOPolicyNetwork
@@ -661,9 +662,12 @@ def test_legacy_phase_receipts_are_not_a_qualification_compatibility_gate(tmp_pa
 
     assert active.active is True
     assert binding["policy_sha256"] == policy.sha256
-    assert binding["policy_training_provenance"]["members"][0]["training_provenance"][
-        "development_freeze_commit"
-    ] == ""
+    assert (
+        binding["policy_training_provenance"]["members"][0]["training_provenance"][
+            "development_freeze_commit"
+        ]
+        == ""
+    )
 
 
 def test_qualification_contract_rejects_unsupported_experimental_architecture(tmp_path):
@@ -811,7 +815,7 @@ def test_feasibility_admission_selection_and_activation_are_three_distinct_state
         assessment_id=assessment_id,
         policy_id=policy.id,
         expected_sha256=policy.sha256,
-        config={"tsh_calo_qualification_receipt": {"integrity_only": True}},
+        config=_qualification_config(policy.sha256),
         metrics=metrics,
         score=76.0,
     )
@@ -879,9 +883,7 @@ def test_policy_comparison_names_a_leader_only_within_one_matching_design(tmp_pa
     for index, (label, strength) in enumerate(designs):
         model_directory = tmp_path / f"model-{label}"
         model_directory.mkdir()
-        policy = registry.register(
-            _ensemble(model_directory, seed_offset=index * 100), name=label
-        )
+        policy = registry.register(_ensemble(model_directory, seed_offset=index * 100), name=label)
         evidence = _formal_evidence(
             tmp_path / f"qualification-{label}",
             Path(policy.checkpoint_path),
@@ -890,12 +892,11 @@ def test_policy_comparison_names_a_leader_only_within_one_matching_design(tmp_pa
         )
         registry.admit_qualification_evidence(policy.id, evidence)
 
-    summaries = {
-        item["policy_name"]: item for item in registry.qualification_evidence_summaries()
-    }
-    assert summaries["conservative"]["comparison_protocol_sha256"] == summaries["stronger"][
-        "comparison_protocol_sha256"
-    ]
+    summaries = {item["policy_name"]: item for item in registry.qualification_evidence_summaries()}
+    assert (
+        summaries["conservative"]["comparison_protocol_sha256"]
+        == summaries["stronger"]["comparison_protocol_sha256"]
+    )
     assert summaries["stronger"]["recommendation"] == "Strongest comparable evidence"
     assert summaries["conservative"]["recommendation"] == (
         "Dominated by strongest comparable evidence"
@@ -962,7 +963,7 @@ def test_registered_artifact_mutation_blocks_tsh_activation(tmp_path):
     payload["model_state_dict"][first] = payload["model_state_dict"][first] + 1.0
     torch.save(payload, path)
 
-    with pytest.raises(RuntimeError, match="checksum changed"):
+    with pytest.raises(ValueError, match="SHA-256 mismatch"):
         registry.activate(policy.id, algorithm_id=TSH_CALO_ALGORITHM_ID)
 
 

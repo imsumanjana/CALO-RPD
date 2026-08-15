@@ -54,9 +54,7 @@ def training_comparability_protocol(plan: TSHCALOTrainingCampaignPlan) -> dict:
         "training_schema_version": plan.schema_version,
         "development_cases": list(plan.development_cases),
         "feature_flags": asdict(plan.feature_flags),
-        "episode_case_sequence": [
-            episode.case_identity for episode in plan.members[0].episodes
-        ],
+        "episode_case_sequence": [episode.case_identity for episode in plan.members[0].episodes],
     }
 
 
@@ -83,9 +81,7 @@ def _rating_values(ratings: dict) -> dict[str, float]:
         "first_feasible_reached": overall.get("first_feasible_reached"),
         "first_feasible_efficiency": overall.get("first_feasible_efficiency"),
         "independent_validation": overall.get("independent_validation"),
-        "paired_feasible_objective_coverage": overall.get(
-            "paired_feasible_objective_coverage"
-        ),
+        "paired_feasible_objective_coverage": overall.get("paired_feasible_objective_coverage"),
     }
     output: dict[str, float] = {}
     for name, value in values.items():
@@ -189,15 +185,11 @@ def build_training_parameter_influence(
                         "standardized_effect": effect,
                         "correlation": correlation,
                         "direction": (
-                            "positive"
-                            if effect > 0.0
-                            else ("negative" if effect < 0.0 else "flat")
+                            "positive" if effect > 0.0 else ("negative" if effect < 0.0 else "flat")
                         ),
                     }
                 )
-            rating_effects.sort(
-                key=lambda item: -abs(float(item["standardized_effect"]))
-            )
+            rating_effects.sort(key=lambda item: -abs(float(item["standardized_effect"])))
             strongest = rating_effects[0]
             result.update(
                 {

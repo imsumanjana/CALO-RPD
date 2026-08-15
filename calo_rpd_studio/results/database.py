@@ -1325,7 +1325,9 @@ class ResultDatabase:
             if str(policy_row["sha256"]).lower() != expected:
                 raise RuntimeError("Policy artifact identity changed before assessment admission")
             if bool(policy_row["active"]):
-                raise PermissionError("An active policy cannot accept replacement assessment evidence")
+                raise PermissionError(
+                    "An active policy cannot accept replacement assessment evidence"
+                )
             if bool(policy_row["archived"]):
                 raise PermissionError("Restore the archived policy before admitting an assessment")
             existing = con.execute(
@@ -1395,9 +1397,7 @@ class ResultDatabase:
         ):
             raise ValueError("Scientist selection requires exact candidate and evidence SHA-256")
         with self._lock, self.connect() as con:
-            policy_row = con.execute(
-                "SELECT * FROM policies WHERE id=?", (policy_key,)
-            ).fetchone()
+            policy_row = con.execute("SELECT * FROM policies WHERE id=?", (policy_key,)).fetchone()
             if policy_row is None:
                 raise KeyError(f"Unknown CALO policy: {policy_key}")
             if str(policy_row["sha256"]).lower() != expected:
@@ -1423,8 +1423,7 @@ class ResultDatabase:
             if existing:
                 if (
                     str(policy_row["qualification_status"]) == "scientist_selected"
-                    and existing.get("schema_version")
-                    == "tsh-calo-scientist-policy-selection-v1"
+                    and existing.get("schema_version") == "tsh-calo-scientist-policy-selection-v1"
                     and existing.get("assessment_id") == assessment_key
                     and str(existing.get("candidate_sha256", "")).lower() == expected
                     and str(existing.get("evidence_sha256", "")).lower() == evidence

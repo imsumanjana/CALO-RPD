@@ -14,9 +14,7 @@ from typing import Any
 
 
 TSH_CALO_FEASIBILITY_RATING_SCHEMA = "tsh-calo-feasibility-ratings-v1"
-TSH_CALO_FEASIBILITY_ASSESSMENT_SCHEMA = (
-    "tsh-calo-feasibility-assessment-v1-transactional-cells"
-)
+TSH_CALO_FEASIBILITY_ASSESSMENT_SCHEMA = "tsh-calo-feasibility-assessment-v1-transactional-cells"
 TSH_CALO_FEASIBILITY_COMPLETION_SCHEMA = "tsh-calo-feasibility-completion-v1"
 TSH_CALO_FEASIBILITY_ADMISSION_SCHEMA = "tsh-calo-policy-feasibility-admission-v1"
 

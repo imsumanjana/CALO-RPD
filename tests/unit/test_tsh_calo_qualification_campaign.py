@@ -106,7 +106,7 @@ def _member(path: Path, seed: int) -> Path:
     provenance = IndependentTrainingProvenance(
         training_run_id=run_id,
         training_design_sha256=design,
-        source_commit="qualification-test",
+        source_commit="a" * 40,
         development_cases=("case30",),
         seed_manifest_sha256=_sha("training-seeds"),
         training_device_provenance=_device_provenance(),
@@ -194,7 +194,7 @@ def test_screening_campaign_retains_non_decisional_feasibility_evidence(tmp_path
 
 def test_completion_event_failure_preserves_one_success_and_aborts_infrastructure(tmp_path):
     path, sha256 = _ensemble(tmp_path)
-    plan = _plan(path, sha256, runs=1)
+    plan = _plan(path, sha256, runs=2)
     output = tmp_path / "completion-event-failure"
 
     def fail_after_commit(event):
@@ -222,11 +222,9 @@ def test_completion_event_failure_preserves_one_success_and_aborts_infrastructur
         TSHCALOQualificationCampaign(plan, output).resume()
 
 
-def test_progress_telemetry_failure_is_not_a_scientific_cell_failure(
-    tmp_path, monkeypatch
-):
+def test_progress_telemetry_failure_is_not_a_scientific_cell_failure(tmp_path, monkeypatch):
     path, sha256 = _ensemble(tmp_path)
-    plan = _plan(path, sha256, runs=1, max_evaluations=12)
+    plan = _plan(path, sha256, runs=2, max_evaluations=12)
     output = tmp_path / "progress-event-failure"
     monkeypatch.setattr(
         "calo_rpd_studio.algorithms.calo.tsh_calo_qualification_campaign."
@@ -239,9 +237,7 @@ def test_progress_telemetry_failure_is_not_a_scientific_cell_failure(
             raise RuntimeError("injected live telemetry failure")
 
     with pytest.raises(QualificationInfrastructureError, match="cell progress event"):
-        TSHCALOQualificationCampaign(
-            plan, output, event_callback=fail_during_live_work
-        ).start()
+        TSHCALOQualificationCampaign(plan, output, event_callback=fail_during_live_work).start()
 
     assert list((output / "records").glob("*.json")) == []
     assert list((output / "failures").glob("*.json")) == []
@@ -250,11 +246,9 @@ def test_progress_telemetry_failure_is_not_a_scientific_cell_failure(
     assert status["qualification_receipt_permitted"] is False
 
 
-def test_result_record_construction_failure_is_infrastructure_not_scientific(
-    tmp_path, monkeypatch
-):
+def test_result_record_construction_failure_is_infrastructure_not_scientific(tmp_path, monkeypatch):
     path, sha256 = _ensemble(tmp_path)
-    plan = _plan(path, sha256, runs=1)
+    plan = _plan(path, sha256, runs=2)
     output = tmp_path / "result-record-failure"
 
     def fail_result_record(**_kwargs):
@@ -276,7 +270,7 @@ def test_result_record_construction_failure_is_infrastructure_not_scientific(
 
 def test_conflicting_terminal_artifacts_are_read_only_and_require_fresh_run(tmp_path):
     path, sha256 = _ensemble(tmp_path)
-    plan = _plan(path, sha256, runs=1)
+    plan = _plan(path, sha256, runs=2)
     output = tmp_path / "contradictory-retained"
     (output / "records").mkdir(parents=True)
     (output / "failures").mkdir()
@@ -307,9 +301,7 @@ def test_conflicting_terminal_artifacts_are_read_only_and_require_fresh_run(tmp_
     assert after == before
 
 
-def test_qualification_micro_events_pause_inside_cell_and_exactly_resume(
-    tmp_path, monkeypatch
-):
+def test_qualification_micro_events_pause_inside_cell_and_exactly_resume(tmp_path, monkeypatch):
     path, sha256 = _ensemble(tmp_path)
     plan = _plan(path, sha256, max_evaluations=12)
     output = tmp_path / "resumable-screening"
@@ -336,9 +328,7 @@ def test_qualification_micro_events_pause_inside_cell_and_exactly_resume(
     control = json.loads((output / QUALIFICATION_CONTROL_FILE).read_text(encoding="utf-8"))
     event_log = [
         json.loads(line)
-        for line in (output / QUALIFICATION_EVENT_LOG_FILE)
-        .read_text(encoding="utf-8")
-        .splitlines()
+        for line in (output / QUALIFICATION_EVENT_LOG_FILE).read_text(encoding="utf-8").splitlines()
     ]
     assert status["state"] == "paused"
     assert status["pause"]["boundary"] == "optimizer_checkpoint"
@@ -364,18 +354,17 @@ def test_qualification_micro_events_pause_inside_cell_and_exactly_resume(
         for item in resumed_events
     )
     assert any(item["event"] == "campaign_completed" for item in resumed_events)
-    assert json.loads((output / QUALIFICATION_STATUS_FILE).read_text(encoding="utf-8"))[
-        "state"
-    ] == "completed_assessed"
+    assert (
+        json.loads((output / QUALIFICATION_STATUS_FILE).read_text(encoding="utf-8"))["state"]
+        == "completed_assessed"
+    )
 
     uninterrupted_output = tmp_path / "uninterrupted-screening"
     TSHCALOQualificationCampaign(plan, uninterrupted_output).start()
     for resumed_path in sorted((output / "records").glob("*.json")):
         resumed_record = json.loads(resumed_path.read_text(encoding="utf-8"))
         uninterrupted_record = json.loads(
-            (uninterrupted_output / "records" / resumed_path.name).read_text(
-                encoding="utf-8"
-            )
+            (uninterrupted_output / "records" / resumed_path.name).read_text(encoding="utf-8")
         )
         for field in (
             "seeds",

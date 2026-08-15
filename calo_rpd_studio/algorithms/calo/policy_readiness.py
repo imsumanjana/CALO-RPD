@@ -40,7 +40,8 @@ def governing_policy_user_message(status: GoverningPolicyStatus) -> str:
             "The selected policy file is unavailable. Select another verified policy."
         ),
         "incompatible": (
-            "The selected policy is not compatible with this application. Select a compatible policy."
+            "The selected policy is not compatible with this application. "
+            "Select a verified, compatible TSH-CALO policy."
         ),
         "inspection_failed": (
             "The selected policy could not be verified. Rule-based CALO remains available."

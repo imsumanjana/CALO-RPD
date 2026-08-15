@@ -441,8 +441,7 @@ class ExperimentConfig:
                     or not _is_sha256(parameters.get("policy_assessment_receipt_sha256", ""))
                     or not isinstance(parameters.get("policy_assessment_receipt"), dict)
                     or not parameters.get("policy_assessment_receipt")
-                    or selection.get("schema_version")
-                    != "tsh-calo-scientist-policy-selection-v1"
+                    or selection.get("schema_version") != "tsh-calo-scientist-policy-selection-v1"
                     or str(selection.get("candidate_sha256", "")).lower()
                     != str(parameters.get("policy_sha256", "")).lower()
                     or str(selection.get("assessment_id", ""))

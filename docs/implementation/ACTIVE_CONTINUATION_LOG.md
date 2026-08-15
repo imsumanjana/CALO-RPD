@@ -2844,3 +2844,62 @@ Append timestamped entries below this line after each material action, validatio
   feasibility campaign, legacy qualification, activation, protected-case, Docker, publication, or
   release workflow. A new assessment must not launch until the owner validator passes and its whole
   fresh log directory is reviewed.
+
+### 2026-08-15 - Policy action strip simplified, validation still pending
+
+- The Policy Library no longer exposes **Compare feasibility** or **Archive**. The disabled
+  `Scientist selection required` activation placeholder is also removed: **Activate for experiments**
+  becomes visible only after explicit scientist selection or for a retained legacy-qualified policy,
+  and remains separately disabled as the active-policy indicator after activation.
+- Import, feasibility assessment, scientist selection, eligible activation, exact guarded deletion,
+  refresh, and the archived-record visibility control now occupy one horizontal action row. No
+  feasibility, scientist-selection, activation, deletion, registry, training, architecture, or
+  frozen-plan semantics changed.
+- The static UI contract and ignored validator source manifest remain updated. No test, validator,
+  GUI, scientific workflow, or policy lifecycle action was executed; fresh owner validation remains
+  required before launching an assessment.
+
+### 2026-08-15 - First feasibility/influence validator attempt stopped by native-stderr handling
+
+- Owner run `feasibility-influence-20260815-203150` stopped at command `02-diff-check`. Windows
+  PowerShell 5.1 converted Git's informational LF-to-CRLF stderr warning into a terminating error
+  under the validator's global `ErrorActionPreference = Stop`; Git provided no failing exit code.
+- Only `01-python-version` completed. Ruff, format, unit, GUI, and source-stability checks did not
+  execute, so this bundle supplies no implementation validation result. Its `source_status_stable:
+  false` value means the after-snapshot was never reached, not that source mutation was observed.
+- The ignored command recorder now retains native stderr in the per-command log under a local
+  `Continue` preference and restores the caller preference afterward; native success/failure remains
+  governed by `$LASTEXITCODE`. No production/scientific source or lifecycle behavior changed. A new
+  complete owner validator run is required.
+
+### 2026-08-15 - Second feasibility/influence validator attempt reached Ruff
+
+- Owner run `feasibility-influence-20260815-203426` confirms the native-stderr correction: Git's
+  line-ending warnings were retained and `02-diff-check` completed with exit code 0. Ruff then
+  failed authoritatively with two F821 reports for the same missing `checkpoint_sha256` import in a
+  synthetic legacy-policy lifecycle test fixture.
+- The production feasibility/influence source was not implicated. The test now imports the existing
+  checksum helper it already calls. The ignored recorder also renders native PowerShell ErrorRecord
+  output as its plain exception message so informational stderr remains readable without the noisy
+  `NativeCommandError` wrapper; exit-code authority is unchanged.
+- Format, unit, GUI, and final source-stability checks did not run. The returned bundle is not a pass,
+  and a new complete owner validator run remains required before any real assessment launch.
+
+### 2026-08-15 - Feasibility/influence validator correction loop reached complete PASS
+
+- Authorized validator attempts `feasibility-influence-20260815-203730`, `-203802`, `-204041`,
+  `-204403`, and `-204526` progressively exposed formatter drift, invalid synthetic one-run
+  fixtures, Windows read-only Git-object cleanup, obsolete qualification labels, and two stale GUI
+  expectations. Each failure was retained; none executed training, a real feasibility campaign,
+  policy selection/activation, protected cases, Docker, or a release workflow.
+- Corrections were bounded to mechanical formatting, test-fixture validity, Windows-safe removal of
+  the exact deterministic source-snapshot staging directory, and contracts for the requested
+  feasibility/scientist-selection UI. The frozen 120-cell plan, candidate, cases, seeds, population,
+  exact FE budgets, training protocol, CALO/TSH architecture, and immutable prior incident were not
+  changed.
+- `validation/logs/feasibility-influence-20260815-204719` is a complete PASS: Ruff and format passed,
+  60 focused unit/fault-injection contracts passed, 36 focused GUI contracts passed, every command
+  exited 0, and the before/after nonignored source status was byte-identical. Its machine-readable
+  flags confirm no real assessment, qualification, training/parameter mutation, real policy,
+  protected-case access, activation, or binding occurred. A final complete replay after this ledger
+  closure is the launch-authority bundle for the documented source state.

@@ -74,12 +74,8 @@ from .tsh_calo_training_resources import TSHCALOTrainingResourceEnvelope
 
 
 TSH_CALO_QUALIFICATION_PLAN_SCHEMA = "tsh-calo-qualification-plan-v2-exact-pairs"
-LEGACY_TSH_CALO_QUALIFICATION_EVIDENCE_SCHEMA = (
-    "tsh-calo-qualification-evidence-v2-exact-pairs"
-)
-TSH_CALO_QUALIFICATION_EVIDENCE_SCHEMA = (
-    "tsh-calo-qualification-evidence-v3-transactional-cells"
-)
+LEGACY_TSH_CALO_QUALIFICATION_EVIDENCE_SCHEMA = "tsh-calo-qualification-evidence-v2-exact-pairs"
+TSH_CALO_QUALIFICATION_EVIDENCE_SCHEMA = "tsh-calo-qualification-evidence-v3-transactional-cells"
 TSH_CALO_COMPONENT_EVIDENCE_SCHEMA = "tsh-calo-component-ablation-evidence-v2-exact-pairs"
 _REQUIRED_COMPONENTS = ("A", "B", "C", "D", "E")
 TSH_CALO_CANDIDATE_CONTRACT_SCHEMA = "tsh-calo-candidate-contract-v1"
@@ -96,9 +92,7 @@ QUALIFICATION_INFRASTRUCTURE_DIRECTORY = "infrastructure-incidents"
 TSH_CALO_QUALIFICATION_CELL_SUCCESS_SCHEMA = "tsh-calo-qualification-cell-success-v1"
 TSH_CALO_QUALIFICATION_CELL_FAILURE_SCHEMA = "tsh-calo-qualification-cell-failure-v2"
 TSH_CALO_QUALIFICATION_CELL_INDEX_SCHEMA = "tsh-calo-qualification-cell-index-v1"
-TSH_CALO_QUALIFICATION_INFRASTRUCTURE_SCHEMA = (
-    "tsh-calo-qualification-infrastructure-incident-v1"
-)
+TSH_CALO_QUALIFICATION_INFRASTRUCTURE_SCHEMA = "tsh-calo-qualification-infrastructure-incident-v1"
 TSH_CALO_QUALIFICATION_COMPLETION_SCHEMA = "tsh-calo-qualification-completion-v1"
 QUALIFICATION_CHECKPOINT_INTERVAL = 500
 _CANDIDATE_CONTRACT_FIELDS = {
@@ -283,13 +277,12 @@ def inspect_tsh_calo_qualification_resume_state(output_directory: str | Path) ->
     current_evidence_without_completion = False
     if completed and not (output / QUALIFICATION_COMPLETION_FILE).is_file():
         try:
-            current_evidence_without_completion = (
-                _read_json(evidence_path).get("schema_version")
-                in {
-                    TSH_CALO_QUALIFICATION_EVIDENCE_SCHEMA,
-                    TSH_CALO_FEASIBILITY_ASSESSMENT_SCHEMA,
-                }
-            )
+            current_evidence_without_completion = _read_json(evidence_path).get(
+                "schema_version"
+            ) in {
+                TSH_CALO_QUALIFICATION_EVIDENCE_SCHEMA,
+                TSH_CALO_FEASIBILITY_ASSESSMENT_SCHEMA,
+            }
         except ValueError:
             current_evidence_without_completion = True
     if conflicting:
@@ -942,8 +935,7 @@ def _case_evidence(
                     0.0,
                     min(
                         1.0,
-                        1.0
-                        - (int(item["first_feasible_evaluation"]) - 1) / denominator,
+                        1.0 - (int(item["first_feasible_evaluation"]) - 1) / denominator,
                     ),
                 )
             )
@@ -1074,11 +1066,7 @@ def qualification_candidate_contract(artifact: TSHCALOCandidateArtifact) -> dict
     if provenance.get("source_kind") == "independent_policy_training_ensemble":
         members = list(provenance.get("members", []) or [])
         training_designs = sorted(
-            str(
-                dict(item.get("training_provenance", {}) or {}).get(
-                    "training_design_sha256", ""
-                )
-            )
+            str(dict(item.get("training_provenance", {}) or {}).get("training_design_sha256", ""))
             for item in members
         )
         source_candidates = sorted(
@@ -1271,20 +1259,13 @@ class TSHCALOQualificationCampaign:
         return len(self._terminal_cells)
 
     def _expected_cell_specs(self) -> tuple[dict, ...]:
-        paired_seeds = [
-            RunSeeds(**item) for item in self.plan.seed_manifest()["paired_runs"]
-        ]
+        paired_seeds = [RunSeeds(**item) for item in self.plan.seed_manifest()["paired_runs"]]
         plan_sha256 = self.plan.execution_plan_sha256()
         specs: list[dict] = []
         for case_index, case_name in enumerate(self.plan.development_cases):
             for run_index, seeds in enumerate(paired_seeds):
                 for label_index, label in enumerate(("baseline", "candidate")):
-                    cell_index = (
-                        case_index * self.plan.runs * 2
-                        + run_index * 2
-                        + label_index
-                        + 1
-                    )
+                    cell_index = case_index * self.plan.runs * 2 + run_index * 2 + label_index + 1
                     identity_payload = {
                         "qualification_run_id": self.plan.qualification_run_id,
                         "qualification_plan_sha256": plan_sha256,
@@ -1380,9 +1361,7 @@ class TSHCALOQualificationCampaign:
                     f"Qualification terminal cell {spec['artifact_name']} has an invalid "
                     f"{field_name} binding"
                 )
-        if success and int(payload.get("evaluations", -1)) != int(
-            self.plan.max_evaluations
-        ):
+        if success and int(payload.get("evaluations", -1)) != int(self.plan.max_evaluations):
             raise QualificationEvidenceIntegrityError(
                 f"Qualification terminal cell {spec['artifact_name']} violates exact FE accounting"
             )
@@ -1470,8 +1449,7 @@ class TSHCALOQualificationCampaign:
             if (
                 stored.get("schema_version") != TSH_CALO_QUALIFICATION_CELL_INDEX_SCHEMA
                 or stored.get("qualification_run_id") != self.plan.qualification_run_id
-                or stored.get("qualification_plan_sha256")
-                != self.plan.execution_plan_sha256()
+                or stored.get("qualification_plan_sha256") != self.plan.execution_plan_sha256()
                 or stored.get("source_policy_sha256") != self.plan.candidate_sha256
                 or int(stored.get("expected_cells", -1)) != self._expected_cells()
             ):
@@ -1511,11 +1489,7 @@ class TSHCALOQualificationCampaign:
         cell_identity = str(spec["cell_identity"])
         record_path = self.output_directory / "records" / str(spec["artifact_name"])
         failure_path = self.output_directory / "failures" / str(spec["artifact_name"])
-        if (
-            cell_identity in self._terminal_cells
-            or record_path.exists()
-            or failure_path.exists()
-        ):
+        if cell_identity in self._terminal_cells or record_path.exists() or failure_path.exists():
             raise QualificationEvidenceIntegrityError(
                 f"Qualification cell {spec['artifact_name']} already has a terminal disposition"
             )
@@ -1561,9 +1535,7 @@ class TSHCALOQualificationCampaign:
         try:
             self._write_cell_index()
         except Exception as exc:
-            self._abort_infrastructure(
-                operation="terminal-cell index commit", exc=exc, cell=spec
-            )
+            self._abort_infrastructure(operation="terminal-cell index commit", exc=exc, cell=spec)
         return target
 
     def _emit_event(self, event: str, **details) -> dict:
@@ -1617,7 +1589,9 @@ class TSHCALOQualificationCampaign:
                 pause=None,
                 current_cell=dict(cell or {}),
                 infrastructure_incident=(
-                    {**incident, "path": str(incident_path)} if incident_path is not None else incident
+                    {**incident, "path": str(incident_path)}
+                    if incident_path is not None
+                    else incident
                 ),
                 resumable=False,
                 fresh_run_required=True,
@@ -1681,8 +1655,7 @@ class TSHCALOQualificationCampaign:
         if (
             request.get("schema_version") != TSH_CALO_QUALIFICATION_CONTROL_SCHEMA
             or request.get("qualification_run_id") != self.plan.qualification_run_id
-            or request.get("qualification_plan_sha256")
-            != self.plan.execution_plan_sha256()
+            or request.get("qualification_plan_sha256") != self.plan.execution_plan_sha256()
         ):
             raise RuntimeError("Qualification pause request belongs to another frozen plan")
         return request
@@ -1869,9 +1842,7 @@ class TSHCALOQualificationCampaign:
             try:
                 _write_json(calibration_path, calibration_evidence)
             except Exception as exc:
-                self._abort_infrastructure(
-                    operation="OOD calibration evidence commit", exc=exc
-                )
+                self._abort_infrastructure(operation="OOD calibration evidence commit", exc=exc)
             self._emit_event_required(
                 "calibration_completed",
                 operation="OOD calibration completion event emission",
@@ -1922,7 +1893,9 @@ class TSHCALOQualificationCampaign:
                         self._acknowledge_pause(
                             boundary_request,
                             boundary="cell_record" if durable_records else "calibration",
-                            durable_path=(durable_records[-1] if durable_records else calibration_path),
+                            durable_path=(
+                                durable_records[-1] if durable_records else calibration_path
+                            ),
                             cell={
                                 "cell_index": cell_index,
                                 "case": case_name,
@@ -1931,8 +1904,7 @@ class TSHCALOQualificationCampaign:
                             },
                         )
                     checkpoint_path = (
-                        checkpoints_directory
-                        / f"{case_name}-{run_index:03d}-{label}.resume"
+                        checkpoints_directory / f"{case_name}-{run_index:03d}-{label}.resume"
                     )
                     resumed_checkpoint = checkpoint_path.is_file()
                     checkpoint_interval = self._checkpoint_interval()
@@ -1989,8 +1961,7 @@ class TSHCALOQualificationCampaign:
                                 ) * _checkpoint_interval
                         if (
                             first_resumed_sample
-                            or evaluations
-                            >= int(_progress_state["next_log_evaluation"] or 0)
+                            or evaluations >= int(_progress_state["next_log_evaluation"] or 0)
                             or evaluations >= self.plan.max_evaluations
                         ):
                             elapsed = max(time.perf_counter() - _cell_started, 1e-9)
@@ -2000,21 +1971,14 @@ class TSHCALOQualificationCampaign:
                                 else max(
                                     evaluations
                                     - (
-                                        int(
-                                            _progress_state[
-                                                "first_observed_evaluations"
-                                            ]
-                                            or 0
-                                        )
+                                        int(_progress_state["first_observed_evaluations"] or 0)
                                         if _resumed_checkpoint
                                         else 0
                                     ),
                                     self.plan.population_size,
                                 )
                             )
-                            evaluations_per_second = (
-                                observed / elapsed if observed > 0 else None
-                            )
+                            evaluations_per_second = observed / elapsed if observed > 0 else None
                             remaining = max(0, self.plan.max_evaluations - evaluations)
                             self._emit_event_required(
                                 "cell_progress",
@@ -2033,9 +1997,7 @@ class TSHCALOQualificationCampaign:
                                 best_constraint_violation=_finite_or_none(
                                     progress.get("best_constraint_violation", float("nan"))
                                 ),
-                                first_feasible_evaluation=progress.get(
-                                    "first_feasible_evaluation"
-                                ),
+                                first_feasible_evaluation=progress.get("first_feasible_evaluation"),
                                 evaluations_per_second=(
                                     round(evaluations_per_second, 3)
                                     if evaluations_per_second is not None
@@ -2180,9 +2142,7 @@ class TSHCALOQualificationCampaign:
                                 exc=exc,
                                 cell=cell,
                             )
-                        terminal_path = self._commit_terminal_cell(
-                            cell_spec, record, success=True
-                        )
+                        terminal_path = self._commit_terminal_cell(cell_spec, record, success=True)
                         self._remove_completed_cell_checkpoint(checkpoint_path)
                         self._emit_event_required(
                             "cell_completed",
@@ -2195,10 +2155,9 @@ class TSHCALOQualificationCampaign:
                             objective=_finite_or_none(result.best_objective),
                             violation=_finite_or_none(result.total_constraint_violation),
                         )
-                    request_after_cell = (
-                        pause_state["request"]
-                        or self._pending_pause_request_required(cell=cell)
-                    )
+                    request_after_cell = pause_state[
+                        "request"
+                    ] or self._pending_pause_request_required(cell=cell)
                     if request_after_cell is not None:
                         self._acknowledge_pause(
                             request_after_cell,
@@ -2209,12 +2168,8 @@ class TSHCALOQualificationCampaign:
                         )
         scanned_terminal_cells = self._scan_terminal_cells()
         if {
-            key: self._terminal_entry_core(value)
-            for key, value in scanned_terminal_cells.items()
-        } != {
-            key: self._terminal_entry_core(value)
-            for key, value in self._terminal_cells.items()
-        }:
+            key: self._terminal_entry_core(value) for key, value in scanned_terminal_cells.items()
+        } != {key: self._terminal_entry_core(value) for key, value in self._terminal_cells.items()}:
             raise QualificationEvidenceIntegrityError(
                 "Qualification terminal artifacts changed during the single-writer campaign"
             )
@@ -2308,9 +2263,7 @@ class TSHCALOQualificationCampaign:
             "terminal_cell_index": {
                 "schema_version": TSH_CALO_QUALIFICATION_CELL_INDEX_SCHEMA,
                 "path": str(self.output_directory / QUALIFICATION_CELL_INDEX_FILE),
-                "sha256": checkpoint_sha256(
-                    self.output_directory / QUALIFICATION_CELL_INDEX_FILE
-                ),
+                "sha256": checkpoint_sha256(self.output_directory / QUALIFICATION_CELL_INDEX_FILE),
                 "committed_unique_cells": len(self._terminal_cells),
             },
             "infrastructure_incidents": [],

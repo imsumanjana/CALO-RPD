@@ -312,15 +312,15 @@ class PolicyRegistry:
                 if bool(row.get("passed", False))
             ]
             if not rows:
-                raise ValueError("TSH-CALO activation requires a retained scientist/legacy decision")
+                raise ValueError(
+                    "TSH-CALO activation requires a retained scientist/legacy decision"
+                )
             qualification = rows[0]
             receipt = load_tsh_calo_qualification_receipt(
                 json.loads(str(qualification.get("config_json", "{}")) or "{}"),
                 expected_policy_sha256=policy.sha256,
             )
-            qualification_metrics = json.loads(
-                str(qualification.get("metrics_json", "{}")) or "{}"
-            )
+            qualification_metrics = json.loads(str(qualification.get("metrics_json", "{}")) or "{}")
             admission_schema = qualification_metrics.get("admission_schema_version")
             if admission_schema == "tsh-calo-policy-qualification-admission-v1":
                 verified = inspect_qualification_evidence(
@@ -357,10 +357,11 @@ class PolicyRegistry:
                 selection = dict(metadata.get("scientist_selection", {}) or {})
                 if (
                     selection.get("assessment_id") != str(qualification.get("id", ""))
-                    or str(selection.get("candidate_sha256", "")).lower()
-                    != policy.sha256.lower()
+                    or str(selection.get("candidate_sha256", "")).lower() != policy.sha256.lower()
                 ):
-                    raise ValueError("Scientist selection does not bind the assessment being activated")
+                    raise ValueError(
+                        "Scientist selection does not bind the assessment being activated"
+                    )
                 selection["activation_performed"] = True
                 selection["activated_at"] = _utcnow()
                 metadata["scientist_selection"] = selection
@@ -380,9 +381,7 @@ class PolicyRegistry:
             expected_policy_sha256=policy.sha256,
         )
 
-    def admit_qualification_evidence(
-        self, policy_id: str, directory: str | Path
-    ) -> PolicyRecord:
+    def admit_qualification_evidence(self, policy_id: str, directory: str | Path) -> PolicyRecord:
         """Explicitly admit independently produced evidence; never activate the policy."""
 
         verified = self.inspect_qualification_evidence(policy_id, directory)
@@ -409,9 +408,7 @@ class PolicyRegistry:
             expected_policy_sha256=policy.sha256,
         )
 
-    def admit_feasibility_assessment(
-        self, policy_id: str, directory: str | Path
-    ) -> PolicyRecord:
+    def admit_feasibility_assessment(self, policy_id: str, directory: str | Path) -> PolicyRecord:
         """Retain verified ratings while leaving scientist selection and activation undone."""
 
         verified = self.inspect_feasibility_assessment(policy_id, directory)
@@ -586,8 +583,7 @@ class PolicyRegistry:
                 candidate
                 for candidate in comparable
                 if all(
-                    candidate is other
-                    or pareto_dominates(candidate["summary"], other["summary"])
+                    candidate is other or pareto_dominates(candidate["summary"], other["summary"])
                     for other in comparable
                 )
             ]
@@ -595,9 +591,7 @@ class PolicyRegistry:
                 leaders[0]["recommendation"] = "Strongest comparable evidence"
                 for candidate in comparable:
                     if candidate is not leaders[0]:
-                        candidate["recommendation"] = (
-                            "Dominated by strongest comparable evidence"
-                        )
+                        candidate["recommendation"] = "Dominated by strongest comparable evidence"
             else:
                 for candidate in comparable:
                     candidate["recommendation"] = "Trade-off; scientist review required"
@@ -754,8 +748,7 @@ class PolicyRegistry:
                 selection = dict(policy.metadata.get("scientist_selection", {}) or {})
                 if (
                     selection.get("assessment_id") != activated.get("assessment_id")
-                    or str(selection.get("candidate_sha256", "")).lower()
-                    != policy.sha256.lower()
+                    or str(selection.get("candidate_sha256", "")).lower() != policy.sha256.lower()
                 ):
                     raise ValueError("Scientist selection no longer binds the activated assessment")
                 binding["policy_assessment_id"] = str(activated.get("assessment_id", ""))

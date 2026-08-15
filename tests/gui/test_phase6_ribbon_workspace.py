@@ -248,9 +248,7 @@ def test_main_preview_can_scroll_to_dynamic_governing_policy_bottom(qtbot, tmp_p
             },
             candidate,
         )
-        registered.append(
-            state.policy_registry.register(candidate, name=f"scroll-policy-{index}")
-        )
+        registered.append(state.policy_registry.register(candidate, name=f"scroll-policy-{index}"))
     intelligence.refresh_policy_library()
     window.stack.setCurrentWidget(intelligence)
     window.resize(1120, 720)
@@ -280,11 +278,13 @@ def test_main_preview_can_scroll_to_dynamic_governing_policy_bottom(qtbot, tmp_p
 
     scroll.verticalScrollBar().setValue(scroll.verticalScrollBar().maximum())
     qtbot.waitUntil(
-        lambda: intelligence.apply_policy_button.mapTo(
-            scroll.viewport(),
-            QPoint(0, intelligence.apply_policy_button.height()),
-        ).y()
-        <= scroll.viewport().height()
+        lambda: (
+            intelligence.apply_policy_button.mapTo(
+                scroll.viewport(),
+                QPoint(0, intelligence.apply_policy_button.height()),
+            ).y()
+            <= scroll.viewport().height()
+        )
     )
     assert scroll.verticalScrollBar().value() == scroll.verticalScrollBar().maximum()
 
@@ -665,13 +665,12 @@ def test_completed_training_is_visible_without_automatic_policy_registration(
         if policy_center.policy_table.item(row, 1).text() == "completed-campaign"
     ]
     assert len(matching_rows) == 1
-    assert policy_center.policy_table.horizontalHeaderItem(2).text() == (
-        "Training evaluations"
-    )
+    assert policy_center.policy_table.horizontalHeaderItem(2).text() == ("Training evaluations")
     assert policy_center.policy_table.item(matching_rows[0], 2).text() == "Not available"
-    assert "Completed extension segments are included" in policy_center.policy_table.item(
-        matching_rows[0], 2
-    ).toolTip()
+    assert (
+        "Completed extension segments are included"
+        in policy_center.policy_table.item(matching_rows[0], 2).toolTip()
+    )
     assert "qualification and experiment evaluations are excluded" in (
         policy_center.policy_table.item(matching_rows[0], 2).toolTip()
     )
@@ -694,9 +693,7 @@ def test_completed_training_is_visible_without_automatic_policy_registration(
         + policy_center.policy_table.frameWidth() * 2
     )
     assert policy_center.policy_table.height() == expected_table_height
-    assert policy_center.path.sizePolicy().horizontalPolicy() == (
-        QSizePolicy.Policy.Expanding
-    )
+    assert policy_center.path.sizePolicy().horizontalPolicy() == (QSizePolicy.Policy.Expanding)
     assert policy_center.policy_controller_group.sizePolicy().horizontalPolicy() == (
         QSizePolicy.Policy.Expanding
     )
@@ -704,7 +701,7 @@ def test_completed_training_is_visible_without_automatic_policy_registration(
     assert policy_center.policy_import_button.text() == "Import trained policy"
     assert policy_center.policy_import_button.isEnabled() is True
     assert policy_center.policy_activate_button.isEnabled() is False
-    assert policy_center.policy_activate_button.text() == "Import before activation"
+    assert policy_center.policy_activate_button.isHidden() is True
     assert policy_center.policy_delete_button.text() == "Delete model files"
     assert policy_center.policy_delete_button.isEnabled() is True
     assert not hasattr(policy_center, "policy_removal_review_button")
@@ -719,7 +716,7 @@ def test_completed_training_is_visible_without_automatic_policy_registration(
     assert campaign.exists() is False
 
 
-def test_qualify_action_explains_a_selected_policy_compatibility_blocker(
+def test_feasibility_action_explains_a_selected_policy_compatibility_blocker(
     qtbot, tmp_path, monkeypatch
 ):
     from types import SimpleNamespace
@@ -746,7 +743,7 @@ def test_qualify_action_explains_a_selected_policy_compatibility_blocker(
     policy_center.policy_table.selectRow(0)
     policy_center._policy_selection_changed()
 
-    assert policy_center.qualification_button.text() == "Qualify policy"
+    assert policy_center.qualification_button.text() == "Assess feasibility"
     assert policy_center.qualification_button.isEnabled() is True
     assert not hasattr(policy_center, "qualification_check_button")
     assert not hasattr(policy_center, "qualification_run_button")
@@ -763,10 +760,10 @@ def test_qualify_action_explains_a_selected_policy_compatibility_blocker(
     policy_center.qualification_button.click()
 
     assert shown
-    assert shown[0][0] == "Qualification unavailable"
+    assert shown[0][0] == "Feasibility assessment unavailable"
     assert blocker in shown[0][1]
-    assert "No plan, qualification evidence, registry state, or model file was changed" in (
-        shown[0][1]
+    assert (
+        "No plan, assessment evidence, registry state, or model file was changed" in (shown[0][1])
     )
 
 
@@ -849,9 +846,7 @@ def test_imported_unqualified_completed_campaign_can_be_removed_exactly(
         state.policy_registry.get(registered.id)
 
 
-def test_first_standalone_unqualified_model_can_be_deleted_exactly(
-    qtbot, tmp_path, monkeypatch
-):
+def test_first_standalone_unqualified_model_can_be_deleted_exactly(qtbot, tmp_path, monkeypatch):
     from PyQt6.QtWidgets import QMessageBox
     import torch
 
@@ -930,9 +925,7 @@ def test_authenticated_completed_training_exposes_explicit_finite_extension_acti
                 "receipt_count": 1,
             }
         )
-    (campaign / "training_plan.json").write_text(
-        json.dumps(plan_payload), encoding="utf-8"
-    )
+    (campaign / "training_plan.json").write_text(json.dumps(plan_payload), encoding="utf-8")
     (campaign / "training_status.json").write_text(
         json.dumps({"state": "completed"}), encoding="utf-8"
     )
@@ -1334,9 +1327,7 @@ def test_foreground_run_locks_workspace_but_keeps_activity_and_status_enabled(
     assert window.activity_center.isEnabled() is True
 
 
-def test_qualification_committed_cells_drive_bottom_bar_percentage(
-    qtbot, tmp_path, monkeypatch
-):
+def test_qualification_committed_cells_drive_bottom_bar_percentage(qtbot, tmp_path, monkeypatch):
     from calo_rpd_studio.algorithms.calo.tsh_calo_automatic_qualification import (
         AutomaticQualificationWorkspace,
     )
@@ -1390,9 +1381,7 @@ def test_qualification_micro_event_updates_live_detail_without_claiming_cell_com
         source_commit="d" * 40,
     )
     workspace.qualification_output.mkdir(parents=True)
-    assert state.task_status.begin(
-        "Independent policy qualification", progress=0, cancellable=True
-    )
+    assert state.task_status.begin("Independent policy qualification", progress=0, cancellable=True)
     panel._qualification_process = object()
     panel._qualification_workspace = workspace
     panel._qualification_expected_cells = 120
@@ -1467,9 +1456,10 @@ def test_policy_training_checkpoint_progress_uses_bottom_bar_activity_and_pause_
     assert state.task_status.state == "Paused"
     assert state.task_status.progress == 37
     assert window.global_status.progress.value() == 37
-    assert window.activity_center.jobs.item(
-        window.activity_center.jobs.rowCount() - 1, 1
-    ).text() == "Paused"
+    assert (
+        window.activity_center.jobs.item(window.activity_center.jobs.rowCount() - 1, 1).text()
+        == "Paused"
+    )
 
 
 def test_layout_reset_does_not_overwrite_foreground_task(qtbot, tmp_path, monkeypatch):

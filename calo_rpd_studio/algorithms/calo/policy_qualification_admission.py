@@ -209,7 +209,9 @@ def _verify_transactional_completion(
         try:
             artifact_path.relative_to(source)
         except ValueError as exc:
-            raise ValueError("Qualification terminal-cell artifact escaped its evidence root") from exc
+            raise ValueError(
+                "Qualification terminal-cell artifact escaped its evidence root"
+            ) from exc
         payload = _read_json_file(artifact_path)
         if _file_sha256(artifact_path) != entry.get("artifact_sha256"):
             raise ValueError("Qualification terminal-cell artifact checksum changed")
@@ -251,9 +253,7 @@ def _finite(value: Any, label: str) -> float:
 
 def _is_sha256(value: Any) -> bool:
     text = str(value).strip().lower()
-    return len(text) == 64 and all(
-        character in "0123456789abcdef" for character in text
-    )
+    return len(text) == 64 and all(character in "0123456789abcdef" for character in text)
 
 
 def _minimum(values: list[Any], label: str) -> float:
@@ -407,9 +407,7 @@ def inspect_qualification_evidence(
 
     expected_sha = str(expected_policy_sha256).strip().lower()
     if plan.mode != "formal" or plan.source_tracked_clean is not True:
-        raise ValueError(
-            "Only a formal qualification from a clean tracked source can be admitted"
-        )
+        raise ValueError("Only a formal qualification from a clean tracked source can be admitted")
     if plan.candidate_sha256.lower() != expected_sha:
         raise ValueError("Qualification plan belongs to a different policy checkpoint")
     if _canonical_sha256(seed_manifest) != plan.seed_manifest_sha256():
@@ -446,17 +444,13 @@ def inspect_qualification_evidence(
         raise ValueError("Qualification evidence did not retain a clean tracked source state")
     if str(evidence.get("source_policy_sha256", "")).lower() != expected_sha:
         raise ValueError("Qualification evidence belongs to a different policy checkpoint")
-    if str(evidence.get("qualification_plan_sha256", "")).lower() != (
-        plan.execution_plan_sha256()
-    ):
+    if str(evidence.get("qualification_plan_sha256", "")).lower() != (plan.execution_plan_sha256()):
         raise ValueError("Qualification evidence plan checksum is inconsistent")
     if str(evidence.get("scientific_design_sha256", "")).lower() != (
         plan.scientific_design_sha256()
     ):
         raise ValueError("Qualification evidence scientific design checksum is inconsistent")
-    if str(evidence.get("seed_manifest_sha256", "")).lower() != (
-        plan.seed_manifest_sha256()
-    ):
+    if str(evidence.get("seed_manifest_sha256", "")).lower() != (plan.seed_manifest_sha256()):
         raise ValueError("Qualification evidence seed identity is inconsistent")
     if tuple(evidence.get("development_cases", ())) != tuple(plan.development_cases):
         raise ValueError("Qualification evidence used a different development-case design")
@@ -485,9 +479,7 @@ def inspect_qualification_evidence(
             raise ValueError("Legacy qualification evidence lacks its accepted component records")
         for component, item in component_evidence.items():
             planned = dict(plan.component_evidence.get(component, {}) or {})
-            if str(item.get("sha256", "")).lower() != str(
-                planned.get("sha256", "")
-            ).lower():
+            if str(item.get("sha256", "")).lower() != str(planned.get("sha256", "")).lower():
                 raise ValueError(
                     f"Legacy qualification component {component} differs from the frozen plan"
                 )
@@ -532,9 +524,7 @@ def inspect_qualification_evidence(
         raise ValueError("Qualification receipt does not bind the retained evidence file")
     if tuple(receipt.development_cases) != tuple(plan.development_cases):
         raise ValueError("Qualification receipt development cases do not match its plan")
-    if str(evidence.get("ood_calibration_sha256", "")).lower() != (
-        receipt.ood_calibration_sha256
-    ):
+    if str(evidence.get("ood_calibration_sha256", "")).lower() != (receipt.ood_calibration_sha256):
         raise ValueError("Qualification evidence and receipt bind different OOD calibration")
 
     comparison_protocol = qualification_comparison_protocol(plan)
@@ -583,9 +573,7 @@ def inspect_feasibility_assessment(
     source = source.resolve(strict=True)
     if not source.is_dir():
         raise ValueError("Feasibility evidence location is not a directory")
-    plan = TSHCALOQualificationPlan.from_dict(
-        _read_json_file(source / "qualification_plan.json")
-    )
+    plan = TSHCALOQualificationPlan.from_dict(_read_json_file(source / "qualification_plan.json"))
     seed_manifest = _read_json_file(source / "seed_manifest.json")
     evidence_path = source / "qualification_evidence.json"
     receipt_path = source / "qualification_receipt.json"
@@ -676,8 +664,7 @@ def inspect_feasibility_assessment(
         or receipt.seed_manifest_sha256 != plan.seed_manifest_sha256()
         or receipt.evidence_artifact_sha256 != evidence_sha
         or tuple(receipt.development_cases) != tuple(plan.development_cases)
-        or str(evidence.get("ood_calibration_sha256", "")).lower()
-        != receipt.ood_calibration_sha256
+        or str(evidence.get("ood_calibration_sha256", "")).lower() != receipt.ood_calibration_sha256
     ):
         raise ValueError("Feasibility receipt does not bind the frozen assessment")
     protocol = qualification_comparison_protocol(plan)

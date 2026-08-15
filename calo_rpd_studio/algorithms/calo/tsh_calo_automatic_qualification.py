@@ -13,6 +13,7 @@ import json
 import os
 from pathlib import Path
 import shutil
+import stat
 import subprocess
 import tempfile
 
@@ -30,9 +31,7 @@ from .tsh_calo_qualification_campaign import (
 )
 
 
-TSH_CALO_AUTOMATIC_QUALIFICATION_PROTOCOL = (
-    "tsh-calo-one-action-feasibility-v1-transactional-cells"
-)
+TSH_CALO_AUTOMATIC_QUALIFICATION_PROTOCOL = "tsh-calo-one-action-feasibility-v1-transactional-cells"
 AUTOMATIC_QUALIFICATION_CASES = ("case30", "case57")
 AUTOMATIC_QUALIFICATION_RUNS = 30
 AUTOMATIC_QUALIFICATION_POPULATION_SIZE = 20
@@ -41,6 +40,16 @@ AUTOMATIC_ABLATION_MASTER_SEED = 2_026_081_401
 AUTOMATIC_QUALIFICATION_MASTER_SEED = 2_026_081_402
 AUTOMATIC_ABLATION_LABEL_COUNT = 8
 AUTOMATIC_SOURCE_SNAPSHOT_MANIFEST = "automatic_source_snapshot_manifest.json"
+
+
+def _remove_source_snapshot_staging(staging: Path) -> None:
+    """Remove one exact temporary snapshot, including read-only Windows Git objects."""
+
+    def make_writable_and_retry(function, path, _error_info) -> None:
+        os.chmod(path, stat.S_IWRITE)
+        function(path)
+
+    shutil.rmtree(staging, onerror=make_writable_and_retry)
 
 
 class AutomaticQualificationRejected(ValueError):
@@ -140,14 +149,18 @@ def _source_worktree_manifest(repository_root: str | Path) -> tuple[dict, list[t
             capture_output=True,
             env=git_environment,
         )
-        base_commit = subprocess.run(
-            ["git", "rev-parse", "HEAD"],
-            cwd=root,
-            check=True,
-            capture_output=True,
-            text=True,
-            env=git_environment,
-        ).stdout.strip().lower()
+        base_commit = (
+            subprocess.run(
+                ["git", "rev-parse", "HEAD"],
+                cwd=root,
+                check=True,
+                capture_output=True,
+                text=True,
+                env=git_environment,
+            )
+            .stdout.strip()
+            .lower()
+        )
     except (OSError, subprocess.CalledProcessError) as exc:
         raise RuntimeError(
             "Automatic qualification requires an inspectable Git source tree"
@@ -281,21 +294,22 @@ def prepare_automatic_source_snapshot(
                 raise RuntimeError(
                     "Existing automatic qualification source snapshot is incompatible"
                 )
-            shutil.rmtree(staging)
+            _remove_source_snapshot_staging(staging)
         else:
             os.replace(staging, destination)
         return AutomaticQualificationSourceSnapshot(
             root=destination,
             source_commit=source_commit,
             worktree_sha256=str(before["worktree_sha256"]),
-            manifest_sha256=checkpoint_sha256(
-                destination / AUTOMATIC_SOURCE_SNAPSHOT_MANIFEST
-            ),
+            manifest_sha256=checkpoint_sha256(destination / AUTOMATIC_SOURCE_SNAPSHOT_MANIFEST),
             file_count=len(before["files"]),
         )
     except BaseException:
         if staging.exists():
-            shutil.rmtree(staging, ignore_errors=True)
+            try:
+                _remove_source_snapshot_staging(staging)
+            except OSError:
+                pass
         raise
 
 
@@ -316,9 +330,7 @@ def accepted_component_references(
         raise ValueError("The A-E component campaign evidence must be a JSON object")
     if payload.get("schema_version") != TSH_CALO_COMPONENT_ABLATION_CAMPAIGN_SCHEMA:
         raise ValueError("The A-E component campaign evidence schema is incompatible")
-    if str(payload.get("execution_plan_sha256", "")).lower() != (
-        plan.execution_plan_sha256()
-    ):
+    if str(payload.get("execution_plan_sha256", "")).lower() != (plan.execution_plan_sha256()):
         raise ValueError("The A-E component evidence belongs to another frozen plan")
     if str(payload.get("source_policy_sha256", "")).lower() != plan.candidate_sha256:
         raise ValueError("The A-E component evidence belongs to another policy")
@@ -367,8 +379,7 @@ def build_automatic_formal_qualification_plan(
         raise ValueError("Automatic qualification restart ordinal cannot be negative")
     restart_suffix = f"-restart-{int(restart_ordinal):03d}" if restart_ordinal else ""
     identity = (
-        f"auto-formal-{candidate_sha256[:16].lower()}-{source_commit[:12].lower()}"
-        f"{restart_suffix}"
+        f"auto-formal-{candidate_sha256[:16].lower()}-{source_commit[:12].lower()}{restart_suffix}"
     )
     plan = TSHCALOQualificationPlan(
         qualification_run_id=identity,

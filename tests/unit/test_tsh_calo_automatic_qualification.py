@@ -153,9 +153,7 @@ def test_one_action_plans_are_deterministic_finite_and_source_bound(tmp_path):
     assert workflow["resume_count_limit"] is None
     assert workflow["automatic_activation"] is False
     assert workflow["automatic_suitability_decision"] is False
-    assert workflow["protocol_id"] == (
-        "tsh-calo-one-action-feasibility-v1-transactional-cells"
-    )
+    assert workflow["schema_version"] == ("tsh-calo-one-action-feasibility-v1-transactional-cells")
     assert automatic_qualification_workload() == {
         "cases": 2,
         "runs_per_case": 30,

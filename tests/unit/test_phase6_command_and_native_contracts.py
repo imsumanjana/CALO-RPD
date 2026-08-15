@@ -510,9 +510,9 @@ def test_policy_training_process_actions_are_visible_in_the_input_pane():
     campaign = (ROOT / "calo_rpd_studio/algorithms/calo/tsh_calo_training_campaign.py").read_text(
         encoding="utf-8"
     )
-    extension = (
-        ROOT / "calo_rpd_studio/algorithms/calo/tsh_calo_training_extension.py"
-    ).read_text(encoding="utf-8")
+    extension = (ROOT / "calo_rpd_studio/algorithms/calo/tsh_calo_training_extension.py").read_text(
+        encoding="utf-8"
+    )
     assert "checkpoint_sha256 = session.save_resume(checkpoint_path)" in campaign
     assert 'status["session_checkpoint"] = {' in campaign
     assert 'status["state"] = "interrupted"' in campaign
@@ -548,9 +548,7 @@ def test_policy_training_process_actions_are_visible_in_the_input_pane():
     )
     assert 'TRAINING_EVENT_PREFIX = "CALO_TRAINING_EVENT "' in training_command
     assert "compatible_extension=arguments.extend" in training_command
-    assert (
-        "load_plan(arguments.plan, compatible_extension=arguments.extend)" in training_command
-    )
+    assert "load_plan(arguments.plan, compatible_extension=arguments.extend)" in training_command
     assert "elif not arguments.extend and any(" in training_command
     assert "event_callback=emit_training_event" in training_command
     assert "TSH_CALO_TRAINING_PAUSE_EXIT_CODE" in training_command
@@ -572,9 +570,9 @@ def test_policy_training_process_actions_are_visible_in_the_input_pane():
     assert "self.model.load_plan(preserve_identity=preserve_identity)" in context
     assert "self._load_plan(preserve_identity=True)" in context
     assert "self.model_library.saved_campaigns()" in context
-    intelligence = (
-        ROOT / "calo_rpd_studio/gui/panels/calo_intelligence_panel.py"
-    ).read_text(encoding="utf-8")
+    intelligence = (ROOT / "calo_rpd_studio/gui/panels/calo_intelligence_panel.py").read_text(
+        encoding="utf-8"
+    )
     assert "Import trained policy" in intelligence
     assert "completed_campaigns()" in intelligence
     assert "Activate for experiments" in intelligence
@@ -582,8 +580,13 @@ def test_policy_training_process_actions_are_visible_in_the_input_pane():
     assert 'QPushButton("Check formal plan")' not in intelligence
     assert 'QPushButton("Run / resume qualification")' not in intelligence
     assert 'QPushButton("Admit passed evidence")' not in intelligence
-    assert 'QPushButton("Compare feasibility")' in intelligence
+    assert 'QPushButton("Compare feasibility")' not in intelligence
     assert 'QPushButton("Select for use")' in intelligence
+    assert 'QPushButton("Archive")' not in intelligence
+    assert '"Scientist selection required"' not in intelligence
+    assert "self.policy_activate_button.setVisible(eligible)" in intelligence
+    assert "lifecycle_buttons = QHBoxLayout()" not in intelligence
+    assert "qualification_buttons.addWidget(self.show_archived_policies)" in intelligence
     assert 'QGroupBox("Feasibility assessment")' in intelligence
     assert 'QGroupBox("Training-parameter influence analysis")' in intelligence
     assert "inspect_feasibility_assessment" in intelligence
@@ -612,24 +615,22 @@ def test_policy_training_process_actions_are_visible_in_the_input_pane():
     assert "new corrected-source run with the unchanged frozen design" in intelligence
     assert "qualification_candidate_contract" in intelligence
     assert "source-snapshots" in intelligence
-    assert 'progress=0' in intelligence
+    assert "progress=0" in intelligence
     assert "Model-quality checks" in intelligence
     assert "A-E optimizer cells" not in intelligence
-    assert "Qualification unavailable" in intelligence
-    assert "No plan, qualification evidence, registry state, or model file was changed" in (
-        intelligence
-    )
+    assert "Feasibility assessment unavailable" in intelligence
     assert "Delete model files" in intelligence
     assert "Review policy removal" not in intelligence
     assert (
-        "self.policy_delete_button.clicked.connect(self.delete_selected_model_files)" in intelligence
+        "self.policy_delete_button.clicked.connect(self.delete_selected_model_files)"
+        in intelligence
     )
     assert "unqualified_candidate_removal_blocker" in intelligence
     assert "remove_unqualified_candidate" in intelligence
     assert "ensureWidgetVisible(self.policy_controller_group" not in intelligence
     assert "_delete_standalone_policy_file" in intelligence
     assert "Permanently delete completed model files" in intelligence
-    assert "Qualification required" in intelligence
+    assert "Qualification required" not in intelligence
     assert "Apply governing policy and continue to Power System" in intelligence
     assert '"Training evaluations"' in intelligence
     assert "training_evaluation_count" in intelligence

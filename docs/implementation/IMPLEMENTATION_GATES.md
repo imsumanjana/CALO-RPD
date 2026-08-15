@@ -1215,3 +1215,29 @@ remain unavailable to influence analysis.
 Source and synthetic contracts are implemented but unexecuted. This gate remains open pending a
 fresh owner run of the ignored validator and review of its entire timestamped log directory. No new
 feasibility assessment, policy selection, activation, or release claim is authorized by source work.
+
+The Policy Library follow-up removes the feasibility-comparison and archive buttons, hides the
+activation control until scientist selection or retained legacy qualification makes activation
+eligible, and places all remaining controls in one row. This is presentation-only; the assessment,
+selection, activation, deletion protection, and frozen scientific gates remain unchanged and open
+pending the same owner validator.
+
+Owner attempt `feasibility-influence-20260815-203150` is infrastructure-incomplete: PowerShell 5.1
+terminated on Git's LF-to-CRLF stderr warning during `02-diff-check`, before Ruff or tests. The
+ignored validator now logs native stderr without treating it as failure when the native exit code is
+zero. This gate remains open pending a fresh complete run; the incomplete bundle is not a test pass
+or failure of production behavior.
+
+Owner attempt `feasibility-influence-20260815-203426` advanced through diff-check with exit code 0
+and stopped at Ruff on a missing checksum-helper import in synthetic lifecycle test source. That
+import is corrected; no production/scientific semantics changed. Later commands did not execute, so
+the gate remains open for a fresh complete run.
+
+Complete run `feasibility-influence-20260815-204719` passed Ruff, format, 60 focused unit and
+fault-injection contracts, 36 GUI contracts, and nonignored source stability. All six commands exited
+zero. Retained environment flags prove the validator used only deterministic synthetic fixtures and
+did not run a real feasibility/qualification campaign, train or mutate parameters, use a real policy,
+open protected cases, select/activate/bind a policy, run Docker, or establish release/scientific
+evidence. The transactional feasibility/influence implementation gate is satisfied subject to one
+source-stable replay after this required ledger closure; broader Phase 6, scientific-assessment, and
+release gates remain separate and are not closed by this focused evidence.

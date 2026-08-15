@@ -1545,6 +1545,19 @@ superseded by the stage-neutral compatibility and qualification boundary on 2026
   from the repository root and return the complete new timestamped log directory. Do not launch a
   new assessment, select/activate a policy, open protected cases, or make qualification/release claims
   until that evidence is reviewed.
+- The latest presentation-only follow-up removes **Compare feasibility**, **Archive**, and the
+  disabled `Scientist selection required` placeholder. The activation action is shown only when the
+  selected model is actually activation-eligible, and all remaining Policy Library controls share
+  one row. Lifecycle and scientific authority are unchanged; include this source state in the same
+  fresh validator run.
+- Returned validator bundle `feasibility-influence-20260815-203150` is incomplete rather than a
+  product-test failure. PowerShell 5.1 stopped at Git's informational line-ending warning, leaving
+  only the Python-version command complete. Native stderr handling is corrected in the ignored
+  recorder; run the same validator again and return its entire new directory.
+- Follow-up bundle `feasibility-influence-20260815-203426` proves diff-check exit 0, then stops at
+  Ruff because a synthetic lifecycle fixture used `checkpoint_sha256` without importing it. The
+  import is restored and native stderr display is simplified; format/tests still have no returned
+  evidence. Run the validator again and return the new complete directory.
 - This follow-up supersedes the component-development prerequisite for every newly created
   qualification plan. One stage-neutral candidate architecture/parameter contract now precedes the
   unchanged 120-cell paired quality campaign. Product/source version and development-stage labels
@@ -1593,3 +1606,21 @@ superseded by the stage-neutral compatibility and qualification boundary on 2026
   Docker, publication, or release command was executed during this correction. First run the ignored
   transactional qualification validator and return its complete newly timestamped log directory.
   Launch a new qualification only after that bundle is reviewed as passing.
+
+## 2026-08-15 feasibility/influence validator handoff
+
+- The prior `e266bd7598befa54` campaign remains an immutable infrastructure-aborted incident. No file
+  in that campaign was repaired, migrated, resumed, admitted, selected, activated, or deleted.
+- The authorized correction loop culminated in complete PASS bundle
+  `validation/logs/feasibility-influence-20260815-204719`: Ruff/format passed, 60 unit and
+  fault-injection contracts passed, 36 GUI contracts passed, and source status remained identical.
+- Corrections cover transactional cell identity, telemetry isolation, exact snapshot cleanup on
+  Windows, feasibility-only terminology, scientist-controlled selection, hidden-until-eligible
+  activation, connected influence presentation, and the requested single-row actions. They do not
+  change model training, candidate weights, the frozen scientific plan, CALO/TSH architecture, or
+  protected-case isolation.
+- This focused PASS is engineering evidence, not a feasibility result, policy recommendation,
+  scientific qualification, activation, release authorization, or superiority claim. The final
+  source-stable replay after this documentation update is the authority for launching one new
+  corrected-source feasibility assessment with the unchanged frozen plan; it must create a new run
+  identity and must not resume the retained incident.
