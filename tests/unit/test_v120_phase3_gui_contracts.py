@@ -486,12 +486,11 @@ def test_dashboard_moves_study_form_out_of_visible_tabs():
     assert "self.activity_drawer = DisclosurePanel(" in source
 
 
-def test_experiment_manager_uses_exact_seven_step_study_setup():
+def test_experiment_manager_uses_exact_six_step_inline_study_setup():
     source = _source("calo_rpd_studio/gui/panels/experiment_manager_panel.py")
     expected = (
         '"Case"',
         '"Formulation"',
-        '"Algorithms"',
         '"Budget + runs"',
         '"Scenarios"',
         '"Validate + outputs"',
@@ -499,6 +498,10 @@ def test_experiment_manager_uses_exact_seven_step_study_setup():
     )
     for title in expected:
         assert title in source
+    assert '("Algorithms",' not in source
+    assert "self.study_power_system = PowerSystemPanel(self.state)" in source
+    assert "self.study_formulation = ORPDFormulationPanel(self.state)" in source
+    assert "self.study_scenarios = RobustScenariosPanel(self.state)" in source
     assert "self.study_setup_workflow = StudySetupWorkflow(" in source
     assert "self.evolution_drawer = DisclosurePanel(" in source
     assert "self.queue_drawer = DisclosurePanel(" in source

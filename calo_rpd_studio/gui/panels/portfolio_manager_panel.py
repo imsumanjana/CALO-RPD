@@ -47,6 +47,7 @@ class PortfolioManagerPanel(ScrollablePage):
         self.state = state
         self._items: dict[str, QTreeWidgetItem] = {}
         self._algorithm_items: dict[str, QTreeWidgetItem] = {}
+        self._loaded_algorithm_stage_id = ""
 
         layout = QVBoxLayout(content)
         layout.setContentsMargins(24, 22, 24, 22)
@@ -270,6 +271,7 @@ class PortfolioManagerPanel(ScrollablePage):
         self._algorithm_items.clear()
         try:
             if stage is None:
+                self._loaded_algorithm_stage_id = ""
                 self.algorithm_stage_status.setText(
                     "No submitted algorithm stage is available. Return to Algorithms, select at least one optimizer, and submit it."
                 )
@@ -278,7 +280,23 @@ class PortfolioManagerPanel(ScrollablePage):
                 f"Submitted stage {stage.stage_id} · {len(stage.algorithm_names)} algorithm(s) · "
                 f"content SHA-256 {stage.content_sha256[:16]}…"
             )
-            selected = previous or set(stage.algorithm_names)
+            if self._loaded_algorithm_stage_id == stage.stage_id:
+                selected = previous
+            else:
+                selected = set(stage.algorithm_names)
+                workspace_plan = self.state.execution_control.active_plan("workspace")
+                if (
+                    workspace_plan is not None
+                    and str(workspace_plan.get("algorithm_stage_id", "")) == stage.stage_id
+                    and str(workspace_plan["design"].get("algorithm_stage_sha256", ""))
+                    == stage.content_sha256
+                ):
+                    retained = tuple(
+                        str(name)
+                        for name in workspace_plan["design"].get("study_algorithm_names", [])
+                    )
+                    if retained and set(retained).issubset(stage.algorithm_names):
+                        selected = set(retained)
             for name in stage.algorithm_names:
                 parameters = stage.algorithm_parameters.get(name, {})
                 item = QTreeWidgetItem(
@@ -291,6 +309,7 @@ class PortfolioManagerPanel(ScrollablePage):
                 )
                 self.algorithm_filter.addTopLevelItem(item)
                 self._algorithm_items[name] = item
+            self._loaded_algorithm_stage_id = stage.stage_id
         finally:
             self.algorithm_filter.blockSignals(False)
 

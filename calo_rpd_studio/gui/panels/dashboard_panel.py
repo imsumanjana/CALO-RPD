@@ -210,7 +210,7 @@ class DashboardPanel(WorkspacePage):
         study_tab_layout.addStretch(1)
         # Compatibility controls remain instantiated for historical saved-state restoration and
         # atomic protocol application tests, but the long form is no longer presented on the
-        # Dashboard. Study construction now lives in Experiment Manager's seven-step workflow.
+        # Dashboard. Study construction now lives in Experiment Manager's six-step workflow.
         self.legacy_study_setup = study_tab
 
         readiness = SectionCard(

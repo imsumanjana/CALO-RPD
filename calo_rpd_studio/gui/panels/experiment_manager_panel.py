@@ -54,9 +54,12 @@ from calo_rpd_studio.experiments.execution_plans import (
     frozen_config_payload,
 )
 from calo_rpd_studio.gui.user_feedback import log_technical_error, show_error
+from calo_rpd_studio.gui.panels.orpd_formulation_panel import ORPDFormulationPanel
+from calo_rpd_studio.gui.panels.power_system_panel import PowerSystemPanel
+from calo_rpd_studio.gui.panels.robust_scenarios_panel import RobustScenariosPanel
 from calo_rpd_studio.gui.widgets.disclosure import DisclosurePanel
 from calo_rpd_studio.gui.widgets.section_card import SectionCard
-from calo_rpd_studio.gui.widgets.study_setup import StudySetupWorkflow, linked_step_page
+from calo_rpd_studio.gui.widgets.study_setup import StudySetupWorkflow
 from calo_rpd_studio.gui.widgets.workspace_page import WorkspacePage
 from calo_rpd_studio.results.database import ResultDatabase
 
@@ -174,6 +177,9 @@ class ExperimentManagerPanel(WorkspacePage):
     """Guided experiment workflow with a scrollable body for compact screens."""
 
     workspace_requested = pyqtSignal(str)
+    power_system_completed = pyqtSignal()
+    formulation_completed = pyqtSignal()
+    scenarios_completed = pyqtSignal()
 
     def __init__(self, state, manager, parent=None, *, workspace_coordinator=None) -> None:
         super().__init__(
@@ -195,6 +201,8 @@ class ExperimentManagerPanel(WorkspacePage):
         self.backend_parity_passed = False
         self.backend_parity_report = None
         self.audit_worker: ScientificAuditWorker | None = None
+        self._study_setup_editable = True
+        self._study_prerequisites: dict[str, tuple[str, str]] = {}
 
         # This workspace is genuinely taller than a typical laptop viewport.  Keep the
         # page header fixed and scroll only the workflow body so controls retain their
@@ -717,8 +725,44 @@ class ExperimentManagerPanel(WorkspacePage):
         )
         self.refresh()
 
+    def set_study_prerequisite_states(self, states: dict[str, tuple[str, str]]) -> None:
+        """Apply the same workflow locks to inline panels as their ribbon workspaces."""
+
+        self._study_prerequisites = {
+            str(title): (str(state), str(reason)) for title, (state, reason) in dict(states).items()
+        }
+        self._apply_inline_study_states()
+
+    def _apply_inline_study_states(self) -> None:
+        if not hasattr(self, "study_setup_workflow"):
+            return
+        for title in ("Case", "Formulation", "Scenarios"):
+            state, reason = self._study_prerequisites.get(title, ("available", ""))
+            prerequisite_ready = state != "locked"
+            available = bool(self._study_setup_editable and prerequisite_ready)
+            if not prerequisite_ready:
+                message = reason
+            elif not self._study_setup_editable:
+                message = self.ownership_banner.text() or (
+                    "The current execution plan owns these immutable study inputs."
+                )
+            else:
+                message = ""
+            self.study_setup_workflow.set_step_available(title, available, message)
+
     def _active_controlled_plan(self) -> dict | None:
         return self.state.execution_control.active_plan(self.execution_mode)
+
+    def _display_algorithm_names(self) -> tuple[str, ...]:
+        """Return the algorithm authority for the currently displayed execution path."""
+
+        if self.execution_mode == ExecutionPlanKind.WORKSPACE.value:
+            plan = self.state.execution_control.active_plan(ExecutionPlanKind.WORKSPACE)
+            if plan is None:
+                return ()
+            return tuple(str(name) for name in plan["design"].get("study_algorithm_names", []))
+        stage = self.state.execution_control.active_stage()
+        return () if stage is None else tuple(str(name) for name in stage.algorithm_names)
 
     def _controller_matches_mode(self, controller: dict) -> bool:
         expected = (
@@ -818,6 +862,8 @@ class ExperimentManagerPanel(WorkspacePage):
             ExecutionLifecycle.AUDITED.value,
         }
         editable = controller_none and editable_state and not self.manager.running
+        self._study_setup_editable = bool(editable)
+        self._apply_inline_study_states()
         self.setup_card.setEnabled(editable)
         self.fairness_card.setEnabled(editable)
         self.stage_plan.setEnabled(
@@ -974,43 +1020,27 @@ class ExperimentManagerPanel(WorkspacePage):
             )
 
     def _organize_study_setup(self) -> None:
-        """Move existing authoritative controls into the seven-step Phase 3 presentation."""
-        case_page = linked_step_page(
-            "Choose and validate the case",
-            "Select the power-system case and complete its base power-flow checks in the authoritative Power System workspace.",
-            "Open Power System",
-            lambda: self.workspace_requested.emit("power_system"),
-        )
-        formulation_page = linked_step_page(
-            "Confirm the ORPD formulation",
-            "Review controls, limits, objective terms, constraints, and formulation provenance before configuring runs.",
-            "Open ORPD Formulation",
-            lambda: self.workspace_requested.emit("orpd"),
-        )
-        algorithms_page = linked_step_page(
-            "Select primary algorithms",
-            "Choose the comparison set in one place. Algorithms and governing policy remain shared application state.",
-            "Open Algorithms",
-            lambda: self.workspace_requested.emit("algorithms"),
-        )
-        scenarios_page = linked_step_page(
-            "Choose robust scenarios",
-            "Configure the declared robustness scenario family before auditing and launching the study.",
-            "Open Robust Scenarios",
-            lambda: self.workspace_requested.emit("scenarios"),
-        )
+        """Present authoritative shared-state panels inline without duplicating selection authority."""
+        self.study_power_system = PowerSystemPanel(self.state)
+        self.study_power_system.setObjectName("StudySetupPowerSystemPanel")
+        self.study_formulation = ORPDFormulationPanel(self.state)
+        self.study_formulation.setObjectName("StudySetupORPDFormulationPanel")
+        self.study_scenarios = RobustScenariosPanel(self.state)
+        self.study_scenarios.setObjectName("StudySetupRobustScenariosPanel")
+        self.study_power_system.stage_completed.connect(self.power_system_completed.emit)
+        self.study_formulation.stage_completed.connect(self.formulation_completed.emit)
+        self.study_scenarios.stage_completed.connect(self.scenarios_completed.emit)
         self.study_setup_workflow = StudySetupWorkflow(
             (
-                ("Case", "Choose and validate the power-system case.", case_page),
                 (
-                    "Formulation",
-                    "Confirm objective, controls, limits, and constraints.",
-                    formulation_page,
+                    "Case",
+                    "Choose and validate the power-system case here.",
+                    self.study_power_system,
                 ),
                 (
-                    "Algorithms",
-                    "Select the primary comparison algorithms.",
-                    algorithms_page,
+                    "Formulation",
+                    "Confirm objective, controls, limits, and constraints here.",
+                    self.study_formulation,
                 ),
                 (
                     "Budget + runs",
@@ -1019,8 +1049,8 @@ class ExperimentManagerPanel(WorkspacePage):
                 ),
                 (
                     "Scenarios",
-                    "Choose the declared robustness scenario family.",
-                    scenarios_page,
+                    "Choose the declared robustness scenario family here.",
+                    self.study_scenarios,
                 ),
                 (
                     "Validate + outputs",
@@ -1035,6 +1065,7 @@ class ExperimentManagerPanel(WorkspacePage):
             )
         )
         self.body_layout.insertWidget(0, self.study_setup_workflow)
+        self._apply_inline_study_states()
 
         self.evolution_drawer = DisclosurePanel(
             "Advanced: experiment continuation",
@@ -1081,16 +1112,28 @@ class ExperimentManagerPanel(WorkspacePage):
 
     def _update_plan_summary(self, *_args) -> None:
         runs = int(self.runs.value())
-        selected_count = len(self.state.config.algorithms)
+        algorithm_names = self._display_algorithm_names()
+        selected_count = len(algorithm_names)
         comparison_jobs = runs * selected_count
-        ablation_jobs = runs * len(labels_for_mode(self.state.config, ABLATION_MODE))
         portfolio = getattr(self.state.config, "portfolio", None)
         portfolio_name = getattr(portfolio, "name", "Experiment portfolio")
-        summary_text = (
-            f"{portfolio_name}: {selected_count} selected algorithms × {runs} paired runs = {comparison_jobs} jobs. "
-            f"CALO ablation study: {len(labels_for_mode(self.state.config, ABLATION_MODE))} fixed variants × {runs} runs = {ablation_jobs} jobs. "
-            f"Run count is controlled by Portfolio Manager; this page configures how the required jobs execute."
-        )
+        if self.execution_mode == ExecutionPlanKind.WORKSPACE.value and not algorithm_names:
+            summary_text = (
+                "No Workspace algorithm subset is bound yet. Choose the submitted algorithms in "
+                "Portfolio and apply that portfolio plan before audit or staging."
+            )
+        elif self.execution_mode == ExecutionPlanKind.WORKSPACE.value:
+            summary_text = (
+                f"{portfolio_name}: {selected_count} Portfolio-selected algorithms × {runs} paired "
+                f"runs = {comparison_jobs} jobs. Algorithm selection remains owned by Portfolio; "
+                "this page configures and audits the resulting study."
+            )
+        else:
+            summary_text = (
+                f"Individual experiment: {selected_count} submitted-stage algorithms × {runs} "
+                f"paired runs = {comparison_jobs} jobs. The complete submitted stage is used; "
+                "there is no second algorithm selector here."
+            )
         self.plan_summary.setText(summary_text)
         backend = str(self.execution_backend.currentData() or "cuda_preferred")
         if backend == "cpu_only":
@@ -1171,7 +1214,25 @@ class ExperimentManagerPanel(WorkspacePage):
         )
         self.seed.setValue(config.master_seed)
         self.output.setText(config.output_directory)
-        self.selected.setText(f"{len(config.algorithms)} selected: " + ", ".join(config.algorithms))
+        algorithm_names = self._display_algorithm_names()
+        if self.execution_mode == ExecutionPlanKind.WORKSPACE.value:
+            self.selected.setText(
+                (
+                    f"Portfolio subset · {len(algorithm_names)} algorithm(s): "
+                    + ", ".join(algorithm_names)
+                )
+                if algorithm_names
+                else "No Workspace subset is bound. Apply the selection in Portfolio first."
+            )
+        else:
+            self.selected.setText(
+                (
+                    f"Complete submitted stage · {len(algorithm_names)} algorithm(s): "
+                    + ", ".join(algorithm_names)
+                )
+                if algorithm_names
+                else "No submitted algorithm stage is available."
+            )
         self._controls()
         self._update_plan_summary()
         self.refresh_execution_state()

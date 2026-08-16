@@ -273,9 +273,20 @@ def test_experiment_manager_uses_guided_scrollable_order_without_compression(qtb
     assert panel.body_scroll.horizontalScrollBarPolicy().name == "ScrollBarAlwaysOff"
     workflow = panel.study_setup_workflow
     assert panel.body_layout.indexOf(workflow) == 0
-    assert workflow.stack.indexOf(panel.setup_card) == 3
-    assert workflow.stack.indexOf(panel.fairness_card) == 5
-    assert workflow.stack.indexOf(panel.execution_card) == 6
+    assert tuple(title for title, _description, _page in workflow.steps) == (
+        "Case",
+        "Formulation",
+        "Budget + runs",
+        "Scenarios",
+        "Validate + outputs",
+        "Review + launch",
+    )
+    assert workflow.page_widgets["Budget + runs"] is panel.setup_card
+    assert workflow.page_widgets["Validate + outputs"] is panel.fairness_card
+    assert workflow.page_widgets["Review + launch"] is panel.execution_card
+    assert workflow.stack.indexOf(panel.setup_card.parentWidget()) == 2
+    assert workflow.stack.indexOf(panel.fairness_card.parentWidget()) == 4
+    assert workflow.stack.indexOf(panel.execution_card.parentWidget()) == 5
     assert panel.body_layout.indexOf(panel.evolution_drawer) < panel.body_layout.indexOf(
         panel.queue_drawer
     )

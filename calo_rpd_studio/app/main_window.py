@@ -226,6 +226,15 @@ class MainWindow(QMainWindow):
         self.pages_by_key["scenarios"].stage_completed.connect(
             lambda: self.workflow.mark_completed("scenarios")
         )
+        self.pages_by_key["experiment"].power_system_completed.connect(
+            lambda: self.workflow.mark_completed("power_system")
+        )
+        self.pages_by_key["experiment"].formulation_completed.connect(
+            lambda: self.workflow.mark_completed("orpd")
+        )
+        self.pages_by_key["experiment"].scenarios_completed.connect(
+            lambda: self.workflow.mark_completed("scenarios")
+        )
         self.pages_by_key["dashboard"].workspace_requested.connect(self._set_workspace)
         self.pages_by_key["experiment"].workspace_requested.connect(self._set_workspace)
         self.pages_by_key["settings"].density_changed.connect(self._apply_interface_density)
@@ -234,9 +243,7 @@ class MainWindow(QMainWindow):
         self.workspace_campaign.finished.connect(
             lambda _: self.workflow.mark_experiment_completed()
         )
-        self.workspace_campaign.cancelled.connect(
-            lambda _: self.workflow.mark_experiment_stopped()
-        )
+        self.workspace_campaign.cancelled.connect(lambda _: self.workflow.mark_experiment_stopped())
         self.experiment_manager.paused.connect(lambda _: self.workflow.mark_experiment_stopped())
         self.experiment_manager.cancelled.connect(lambda _: self.workflow.mark_experiment_stopped())
         self.experiment_manager.failed.connect(lambda _: self.workflow.mark_experiment_stopped())
@@ -450,12 +457,23 @@ class MainWindow(QMainWindow):
                     f"Workspace plan {owner_plan!r} owns experiment execution.",
                 )
         elif controller_kind == "individual_experiment":
-            for command_id in ("experiment.power", "experiment.formulation", "experiment.scenarios"):
+            for command_id in (
+                "experiment.power",
+                "experiment.formulation",
+                "experiment.scenarios",
+            ):
                 self.command_registry.set_available(
                     command_id,
                     False,
                     f"Individual plan {owner_plan!r} owns the immutable experiment inputs.",
                 )
+        self.pages_by_key["experiment"].set_study_prerequisite_states(
+            {
+                "Case": self.workflow.workspace_state_key("power_system"),
+                "Formulation": self.workflow.workspace_state_key("orpd"),
+                "Scenarios": self.workflow.workspace_state_key("scenarios"),
+            }
+        )
         self.activity_center.refresh_context()
         self.global_status.apply_context(self.state)
 

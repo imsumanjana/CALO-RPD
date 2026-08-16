@@ -1,4 +1,4 @@
-"""Seven-step, single-scroll Study Setup presentation."""
+"""Inline, single-workspace Study Setup presentation."""
 
 from __future__ import annotations
 
@@ -11,6 +11,7 @@ from PyQt6.QtWidgets import (
     QHBoxLayout,
     QLabel,
     QPushButton,
+    QSizePolicy,
     QStackedWidget,
     QVBoxLayout,
     QWidget,
@@ -18,7 +19,7 @@ from PyQt6.QtWidgets import (
 
 
 class StudySetupWorkflow(QFrame):
-    """A compact seven-step shell; scientific state remains owned by existing panels."""
+    """A compact setup shell whose pages share authoritative application state."""
 
     step_changed = pyqtSignal(int)
 
@@ -28,8 +29,8 @@ class StudySetupWorkflow(QFrame):
         parent: QWidget | None = None,
     ) -> None:
         super().__init__(parent)
-        if len(steps) != 7:
-            raise ValueError("Study Setup requires exactly seven steps")
+        if len(steps) < 2:
+            raise ValueError("Study Setup requires at least two steps")
         self.setObjectName("StudySetupWorkflow")
         self.steps = tuple(steps)
 
@@ -39,7 +40,7 @@ class StudySetupWorkflow(QFrame):
 
         heading = QLabel("Study Setup")
         heading.setObjectName("StudySetupTitle")
-        heading.setAccessibleName("Study Setup, seven steps")
+        heading.setAccessibleName(f"Study Setup, {len(self.steps)} steps")
         root.addWidget(heading)
 
         step_row = QHBoxLayout()
@@ -62,9 +63,24 @@ class StudySetupWorkflow(QFrame):
 
         self.stack = QStackedWidget()
         self.stack.setObjectName("StudySetupStack")
-        self.stack.setMaximumWidth(900)
-        for _title, _description, page in self.steps:
-            self.stack.addWidget(page)
+        self.stack.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
+        self.page_widgets: dict[str, QWidget] = {}
+        self.prerequisite_labels: dict[str, QLabel] = {}
+        for title, _description, page in self.steps:
+            container = QFrame()
+            container.setObjectName("StudyStepPage")
+            page_layout = QVBoxLayout(container)
+            page_layout.setContentsMargins(0, 0, 0, 0)
+            page_layout.setSpacing(8)
+            prerequisite = QLabel()
+            prerequisite.setObjectName("BlockedWorkspaceSummary")
+            prerequisite.setWordWrap(True)
+            prerequisite.setVisible(False)
+            page_layout.addWidget(prerequisite)
+            page_layout.addWidget(page, 1)
+            self.page_widgets[title] = page
+            self.prerequisite_labels[title] = prerequisite
+            self.stack.addWidget(container)
         root.addWidget(self.stack)
 
         navigation = QHBoxLayout()
@@ -92,10 +108,28 @@ class StudySetupWorkflow(QFrame):
         self.step_buttons[index].setChecked(True)
         self.previous_button.setEnabled(index > 0)
         self.next_button.setEnabled(index < len(self.steps) - 1)
-        self.next_button.setText("Review + launch" if index == 5 else "Next")
+        self.next_button.setText("Review + launch" if index == len(self.steps) - 2 else "Next")
         self.progress.setText(f"Step {index + 1} of {len(self.steps)}")
         self.progress.setAccessibleName(self.progress.text())
         self.step_changed.emit(index)
+
+    def set_step_available(self, title: str, available: bool, reason: str = "") -> None:
+        """Keep a step inspectable while preventing edits behind a prerequisite/freeze gate."""
+
+        key = str(title)
+        if key not in self.page_widgets:
+            raise KeyError(f"Unknown Study Setup step: {key}")
+        page = self.page_widgets[key]
+        prerequisite = self.prerequisite_labels[key]
+        page.setEnabled(bool(available))
+        prerequisite.setText("" if available else str(reason or "This step is not available."))
+        prerequisite.setVisible(not available)
+        index = next(i for i, step in enumerate(self.steps) if step[0] == key)
+        description = str(self.steps[index][1])
+        self.step_buttons[index].setToolTip(
+            description if available else f"{description}\n\n{prerequisite.text()}"
+        )
+        self.step_buttons[index].setAccessibleDescription(self.step_buttons[index].toolTip())
 
 
 def linked_step_page(

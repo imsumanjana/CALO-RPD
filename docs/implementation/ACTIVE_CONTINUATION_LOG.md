@@ -3321,3 +3321,36 @@ Append timestamped entries below this line after each material action, validatio
   complete source-stable run. A complete schema-v23 PASS may be accepted without another tracked
   ledger edit. It cannot establish scientific qualification, policy authority, hardware/container
   evidence, human acceptance, publication authorization, or release readiness.
+
+## 2026-08-17 - Inline Study Setup and Portfolio-subset restoration
+
+- Native review showed that Study Setup still repeated an Algorithms step and its Case, Formulation,
+  and Scenarios steps navigated away instead of presenting their controls in the Study workspace.
+  The shell now has six steps and embeds new instances of the existing `PowerSystemPanel`,
+  `ORPDFormulationPanel`, and `RobustScenariosPanel` classes over the same `AppState`. Their original
+  completion signals feed the same workflow ledger, and workflow prerequisites/controller ownership
+  make the inline instances read-only under the same gates.
+- Algorithm authority is no longer duplicated. Workspace Study displays the exact non-empty subset
+  bound by the active Portfolio draft; Individual experiment displays the complete immutable
+  submitted stage. Audit, Stage, Run, Workspace cell configuration, and queue execution continue to
+  consume the existing persisted plan snapshots and shared `ExperimentManager`.
+- Portfolio reconstruction now restores a retained subset only when its plan is bound to the exact
+  active stage ID and content SHA-256. New drafts still default to all staged algorithms. Deliberate
+  empty drafts remain empty, and stage/current-config drift remains a fail-closed resubmission
+  prerequisite; no policy binding or algorithm selection is silently created or changed.
+- Five focused synthetic GUI/static contracts passed. The ignored validator advanced to schema v24
+  and requires a fresh complete source-stable run. No CALO/TSH-CALO optimizer, policy, training,
+  qualification, protected-case, or scientific execution workflow was changed or executed.
+
+## 2026-08-17 - Schema-v24 validation and six-step layout regression correction
+
+- `validation/logs/phase6-20260817-012535` passed commands 01 through 10, including 159 unit tests
+  and all 54 focused GUI tests. Command 11 passed 20 startup/visual tests and failed one stale
+  assertion that expected the old seven pages as direct `QStackedWidget` children.
+- The new prerequisite wrapper is intentional: it keeps a locked inline specialist panel visible
+  while showing the exact textual lock reason. The regression now verifies the six titles, the
+  Budget/Audit/Launch page identities, and wrapper positions 2, 4, and 5. No production behavior was
+  changed for this correction.
+- The ignored validator advanced to schema v25 and includes the corrected startup test in its Ruff
+  and scoped-format inputs. The schema-v24 bundle remains source-stable failed evidence; a fresh
+  complete source-stable v25 run is required.

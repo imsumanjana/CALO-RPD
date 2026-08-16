@@ -830,9 +830,12 @@ The repository is release-ready only when all of the following are simultaneousl
   Storage readiness, active context, recent experiments, resumable work, failures, evidence status,
   and a compact activity summary with a details drawer. The historical atomic protocol controls
   remain available for migration compatibility but are no longer displayed on the Dashboard.
-- Organized Experiment Manager into seven steps: case, formulation, algorithms, budget/runs,
-  scenarios, validation/outputs, and review/launch. It routes to authoritative shared panels rather
-  than copying scientific state. Continuation and queue details use progressive disclosure.
+- Organized Experiment Manager into six current steps: case, formulation, budget/runs, scenarios,
+  validation/outputs, and review/launch. Case, ORPD Formulation, and Robust Scenarios are rendered
+  inline through the existing specialist panel classes over shared application state. Algorithm
+  selection is not repeated: Workspace Study displays the Portfolio-bound subset and Individual
+  experiment displays the complete submitted stage. Continuation and queue details use progressive
+  disclosure.
 - Added application-wide bounded input widths, 40/44px compact/comfortable targets, form-label
   buddies, accessible names, compact long-text editors with explicit expansion, integer chips for
   structured outage lists, and named light/dark semantic tokens on an 8px spacing system.

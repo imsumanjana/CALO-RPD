@@ -459,8 +459,9 @@ The GUI must not use unnecessarily long input areas. Apply these rules to every 
   structured text. Default them to a compact 3-6 lines with an explicit expand dialog.
 - [x] Convert long read-only reports into a summary, status chips, tables, and a collapsible
   **View details** drawer. Logs may use a resizable dedicated viewer.
-- [x] Break complex configuration into a seven-step workflow: case, formulation, algorithms,
-  budget/runs, scenarios, validation/outputs, review/launch.
+- [x] Break complex configuration into a six-step inline workflow: case, formulation, budget/runs,
+  scenarios, validation/outputs, and review/launch. Algorithm authority remains in Algorithms for
+  the submitted pool and Portfolio for the Workspace subset; Study has no second selector.
 - [x] Put advanced or engineering-only fields behind an explicit Advanced/Diagnostics disclosure.
 - [x] Keep primary and destructive actions visually distinct and close to the content they affect.
 - [x] Show inline validation and concise corrective guidance; do not reserve large empty panels for

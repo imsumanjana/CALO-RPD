@@ -87,6 +87,92 @@ def test_portfolio_preview_treats_stage_config_drift_as_resubmission_prerequisit
     assert technical_errors == []
 
 
+def test_portfolio_restores_the_retained_workspace_subset_instead_of_all_algorithms(
+    qtbot, tmp_path
+) -> None:
+    state = AppState(tmp_path / "portfolio-retained-subset.sqlite")
+    _submit_stage(state)
+    state.execution_control.create_workspace_draft(state.config, ("CALO",))
+
+    panel = PortfolioManagerPanel(state)
+    qtbot.addWidget(panel)
+
+    assert panel._selected_study_algorithms() == ("CALO",)
+    assert panel._algorithm_items["CALO"].checkState(0).name == "Checked"
+    assert panel._algorithm_items["TLBO"].checkState(0).name == "Unchecked"
+
+
+def test_study_setup_embeds_shared_panels_without_a_second_algorithm_selector(
+    qtbot, tmp_path
+) -> None:
+    state = AppState(tmp_path / "workspace-inline-study.sqlite")
+    _submit_stage(state)
+    state.execution_control.create_workspace_draft(state.config, ("CALO",))
+    panel = ExperimentManagerPanel(state, ExperimentManager(state))
+    qtbot.addWidget(panel)
+
+    titles = tuple(title for title, _description, _page in panel.study_setup_workflow.steps)
+    assert titles == (
+        "Case",
+        "Formulation",
+        "Budget + runs",
+        "Scenarios",
+        "Validate + outputs",
+        "Review + launch",
+    )
+    assert "Algorithms" not in titles
+    assert panel.study_setup_workflow.page_widgets["Case"] is panel.study_power_system
+    assert panel.study_setup_workflow.page_widgets["Formulation"] is panel.study_formulation
+    assert panel.study_setup_workflow.page_widgets["Scenarios"] is panel.study_scenarios
+
+    requested = []
+    panel.workspace_requested.connect(requested.append)
+    for index in range(len(titles)):
+        panel.study_setup_workflow.set_step(index)
+    assert requested == []
+
+    panel.show_context("workspace_study")
+    assert "Portfolio subset · 1 algorithm(s): CALO" in panel.selected.text()
+    assert "TLBO" not in panel.selected.text()
+    assert "Portfolio-selected algorithms" in panel.plan_summary.text()
+
+    panel.show_context("individual_experiment")
+    assert "Complete submitted stage · 2 algorithm(s): CALO, TLBO" in panel.selected.text()
+    assert "no second algorithm selector" in panel.plan_summary.text()
+
+
+def test_inline_study_panels_preserve_prerequisites_and_completion_signals(qtbot, tmp_path) -> None:
+    state = AppState(tmp_path / "workspace-inline-prerequisites.sqlite")
+    _submit_stage(state)
+    panel = ExperimentManagerPanel(state, ExperimentManager(state))
+    qtbot.addWidget(panel)
+
+    panel.set_study_prerequisite_states(
+        {
+            "Case": ("locked", "Verified policy prerequisite."),
+            "Formulation": ("locked", "Power-system prerequisite."),
+            "Scenarios": ("locked", "Portfolio prerequisite."),
+        }
+    )
+    assert panel.study_power_system.isEnabled() is False
+    assert panel.study_formulation.isEnabled() is False
+    assert panel.study_scenarios.isEnabled() is False
+    assert panel.study_setup_workflow.prerequisite_labels["Case"].isHidden() is False
+    assert (
+        panel.study_setup_workflow.prerequisite_labels["Case"].text()
+        == "Verified policy prerequisite."
+    )
+
+    completed = []
+    panel.power_system_completed.connect(lambda: completed.append("power_system"))
+    panel.formulation_completed.connect(lambda: completed.append("orpd"))
+    panel.scenarios_completed.connect(lambda: completed.append("scenarios"))
+    panel.study_power_system.stage_completed.emit()
+    panel.study_formulation.stage_completed.emit()
+    panel.study_scenarios.stage_completed.emit()
+    assert completed == ["power_system", "orpd", "scenarios"]
+
+
 def test_workspace_staging_freezes_individual_and_portfolio_editing(qtbot, tmp_path) -> None:
     state = AppState(tmp_path / "workspace-freeze.sqlite")
     _submit_stage(state)
@@ -101,6 +187,9 @@ def test_workspace_staging_freezes_individual_and_portfolio_editing(qtbot, tmp_p
     portfolio.refresh()
 
     assert study.setup_card.isEnabled() is False
+    assert study.study_power_system.isEnabled() is False
+    assert study.study_formulation.isEnabled() is False
+    assert study.study_scenarios.isEnabled() is False
     assert study.stage_plan.isEnabled() is False
     assert study.compare.isEnabled() is False
     assert "controls experiment execution" in study.ownership_banner.text()
@@ -123,6 +212,9 @@ def test_durable_workspace_pause_enables_individual_setup_but_keeps_resume(qtbot
 
     panel.show_context("individual_experiment")
     assert panel.setup_card.isEnabled() is True
+    assert panel.study_power_system.isEnabled() is True
+    assert panel.study_formulation.isEnabled() is True
+    assert panel.study_scenarios.isEnabled() is True
     assert state.execution_control.controller()["controller"] == "none"
 
     panel.show_context("workspace_study")
@@ -144,6 +236,9 @@ def test_individual_staging_blocks_workspace_stage_and_resume(qtbot, tmp_path) -
 
     panel.show_context("workspace_study")
 
+    assert panel.study_power_system.isEnabled() is False
+    assert panel.study_formulation.isEnabled() is False
+    assert panel.study_scenarios.isEnabled() is False
     assert panel.stage_plan.isEnabled() is False
     assert panel.resume_plan.isEnabled() is False
     assert "controls execution" in panel.ownership_banner.text()

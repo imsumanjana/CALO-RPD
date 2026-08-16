@@ -360,6 +360,46 @@ def test_algorithm_staging_reset_and_calo_settings_are_separate_transactions(
     assert state.policy_training_active is False
 
 
+def test_workspace_study_and_individual_share_inline_setup_but_keep_algorithm_authority(
+    qtbot, tmp_path, monkeypatch
+):
+    from calo_rpd_studio.experiments.execution_plans import ExecutionPlanKind
+
+    state, window = _window(qtbot, tmp_path, monkeypatch)
+    state.config.algorithms = ["CALO", "TLBO"]
+    state.config.algorithm_parameters = {
+        "CALO": {
+            "use_ai": False,
+            "strict_policy_binding": False,
+            "allow_unqualified_policy": False,
+        },
+        "TLBO": {},
+    }
+    state.execution_control.submit_algorithm_stage(state.config)
+    state.execution_control.create_workspace_draft(state.config, ("CALO",))
+    window.workflow.mark_completed("algorithms")
+    window._refresh_workflow()
+
+    window.command_registry.action("workspace.study").trigger()
+    study = window.pages_by_key["experiment"]
+    assert window.stack.currentWidget() is study
+    assert study.execution_mode == ExecutionPlanKind.WORKSPACE.value
+    assert "Portfolio subset · 1 algorithm(s): CALO" in study.selected.text()
+    assert tuple(title for title, _description, _page in study.study_setup_workflow.steps) == (
+        "Case",
+        "Formulation",
+        "Budget + runs",
+        "Scenarios",
+        "Validate + outputs",
+        "Review + launch",
+    )
+
+    window.command_registry.action("experiment.individual").trigger()
+    assert window.stack.currentWidget() is study
+    assert study.execution_mode == ExecutionPlanKind.INDIVIDUAL_EXPERIMENT.value
+    assert "Complete submitted stage · 2 algorithm(s): CALO, TLBO" in study.selected.text()
+
+
 def test_document_header_only_appears_for_a_real_secondary_document(qtbot, tmp_path, monkeypatch):
     from PyQt6.QtWidgets import QLabel
 
