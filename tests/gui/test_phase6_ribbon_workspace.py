@@ -105,6 +105,7 @@ def test_ribbon_is_registry_generated_and_shell_regions_are_accessible(
     ) == (
         "Home",
         "Algorithms",
+        "Workspace",
         "Experiment",
         "Compute",
         "Results",
@@ -118,12 +119,30 @@ def test_ribbon_is_registry_generated_and_shell_regions_are_accessible(
     assert tuple(
         item.label for item in window.command_registry.specs if item.category == "Home"
     ) == ("Overview", "Open", "Save")
-    assert not any(
-        item.category == "Workspace" or item.command_id.startswith("workspace.")
-        for item in window.command_registry.specs
-    )
     labels = [item.label for item in window.command_registry.specs]
     assert len(labels) == len(set(labels))
+    assert tuple(
+        item.command_id
+        for item in window.command_registry.specs
+        if item.category == "Workspace"
+    ) == (
+        "workspace.portfolio",
+        "workspace.study",
+        "workspace.validation",
+        "workspace.benchmark",
+        "workspace.publication",
+        "workspace.settings",
+    )
+    assert tuple(
+        item.command_id
+        for item in window.command_registry.specs
+        if item.category == "Experiment"
+    ) == (
+        "experiment.power",
+        "experiment.formulation",
+        "experiment.scenarios",
+        "experiment.stop",
+    )
     assert "resume_center" not in window.pages_by_key
     assert all(item.workspace != "resume_center" for item in window.command_registry.specs)
     assert window.context_dock.accessibleName() == "Contextual input pane"
@@ -193,12 +212,12 @@ def test_ribbon_is_registry_generated_and_shell_regions_are_accessible(
         item.command_id
         for item in window.command_registry.specs
         if item.category == "Results"
-    ) == (
-        "results.explorer",
-        "results.validation",
-        "results.benchmark",
-        "results.publication",
-    )
+    ) == ("results.explorer",)
+    assert tuple(
+        item.command_id
+        for item in window.command_registry.specs
+        if item.category == "Help"
+    ) == ("help.guide", "help.about")
 
 
 def test_algorithms_ribbon_is_the_first_available_configuration_entry(

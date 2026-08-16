@@ -3062,19 +3062,19 @@ Append timestamped entries below this line after each material action, validatio
   tests, lint, formatting, compilation, Qt, the validator, Docker, policy/scientific workflows, or
   release checks. Fresh owner Phase 6 validation is pending.
 
-## 2026-08-16 - Duplicate-free ribbon ownership
+## 2026-08-16 - Focused duplicate-free Workspace ownership
 
-- The redundant Workspace ribbon category and all `workspace.*` commands were removed. Its stable
-  workspaces remain constructed and reachable through their single purpose-owned ribbon commands,
-  workflow guidance, and internal navigation.
+- Workspace remains as a focused utility/evidence category containing exactly Portfolio, Study,
+  Validate, Bench, Export, and Settings. Overview, CALO, Power, ORPD, Methods, Scenarios, Live,
+  Results, and Stats were removed from it as requested.
 - Home owns Overview/Open/Save; Algorithms owns Algorithms/CALO Intelligence/CALO Settings;
-  Experiment owns study setup, Power System, ORPD, Scenarios, Portfolio, run workspace, and cancel;
-  Compute owns compute mode, Device Status, Live Optimization, and Statistics; Results owns Results
-  Explorer, Validation, Benchmark, and Report & Export. Policies retains only Train Policy, while
-  Help remains the single Settings route.
+  Experiment owns Power System, ORPD, Scenarios, and cancellable-task stop; Compute owns compute
+  mode, Device Status, Live Optimization, and Statistics; Results owns Results Explorer. The former
+  Experiment Portfolio/Study routes, Results validation/benchmark/export routes, and Help Settings
+  route were removed so the six Workspace buttons have no ribbon duplicates.
 - Duplicate Policy Status and System Readiness routes were removed because CALO Intelligence and
   Device Status already expose the authoritative surfaces. Every visible ribbon command label is now
   unique; prerequisite and non-execution semantics are unchanged.
-- Unit/GUI/offscreen contracts and ignored Phase 6 validator schema v7 were updated. Codex did not
+- Unit/GUI/offscreen contracts and ignored Phase 6 validator schema v8 were updated. Codex did not
   execute tests, lint, formatting, compilation, Qt, the validator, Docker, policy/scientific work,
   or release checks. Fresh owner Phase 6 validation is pending.

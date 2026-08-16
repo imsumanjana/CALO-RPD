@@ -160,11 +160,12 @@ Publication Export includes verified runs only and produces CSV, LaTeX-compatibl
 
 CALO-RPD Studio uses prerequisite locking so that a new user follows the scientific workflow in the correct order. Locked sidebar entries explain their prerequisite in the tooltip. The workflow banner identifies the next required action and provides direct navigation.
 
-The ribbon has no duplicate Workspace index. Each function has one visible owner: Home for project
-overview/open/save; Algorithms for algorithm and CALO configuration; Experiment for study design,
-Power System, ORPD, Portfolio, Scenarios, and launch controls; Compute for device configuration,
-Live Optimization, and Statistics; Results for review, validation, benchmark, and export; Policies
-for policy training; View for layout/appearance; and Help for guidance, Settings, and About.
+The focused Workspace tab contains Portfolio, Study, Validate, Bench, Export, and Settings. Each
+function has one visible owner: Home for project overview/open/save; Algorithms for algorithm and
+CALO configuration; Experiment for Power System, ORPD, and Scenarios; Compute for device
+configuration, Live Optimization, and Statistics; Results for Results Explorer; Policies for policy
+training; View for layout/appearance; and Help for guidance and About. Workspace's six functions do
+not appear in those other tabs.
 
 ### Setup sequence
 

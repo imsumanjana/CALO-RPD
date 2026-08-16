@@ -1751,15 +1751,15 @@ superseded by the stage-neutral compatibility and qualification boundary on 2026
 - Tests and ignored validator schema v6 were updated but not run. Run the complete Phase 6 validator
   and return its entire new `validation\logs\phase6-*` directory for read-only review.
 
-## 2026-08-16 - Duplicate-free ribbon ownership follow-up
+## 2026-08-16 - Focused duplicate-free Workspace follow-up
 
-- Workspace is no longer a ribbon category. All stable workspaces remain in the application, but
-  each has one purpose-owned visible route instead of a second generic navigation copy.
-- Algorithms owns CALO Intelligence; Experiment owns Power/ORPD/Scenarios/Portfolio/study/run;
-  Compute owns device, Live Optimization, and Statistics; Results owns review/validation/benchmark/
-  export; Policies owns training; Help owns Settings. Duplicate Policy Status and System Readiness
-  buttons were removed.
-- Unit, GUI, and offscreen contracts require the exact eight-category ribbon, no `workspace.*`
-  commands, unique visible labels, and the intended Compute/Results ownership. Tests and validator
-  schema v7 were updated but not run. Run the complete Phase 6 validator and return its entire new
+- Workspace remains and contains exactly Portfolio, Study, Validate, Bench, Export, and Settings.
+  The user-identified Overview/CALO/Power/ORPD/Methods/Scenarios/Live/Results/Stats copies are absent.
+- Experiment owns Power/ORPD/Scenarios, Compute owns Live Optimization/Statistics, Algorithms owns
+  CALO Intelligence, and Results owns Results Explorer. The six Workspace tools were removed from
+  their former Experiment/Results/Help locations so no visible label is duplicated. Policy Status
+  and System Readiness duplicates remain removed.
+- Unit, GUI, and offscreen contracts require the exact nine-category ribbon, the exact six-command
+  Workspace, unique visible labels, and the intended ownership. Tests and validator schema v8 were
+  updated but not run. Run the complete Phase 6 validator and return its entire new
   `validation\logs\phase6-*` directory for read-only review.

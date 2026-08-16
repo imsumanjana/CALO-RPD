@@ -32,6 +32,7 @@ def test_phase6_command_registry_has_one_stable_authority():
     assert "view.ribbon" not in identifiers
     assert categories == {
         "Home",
+        "Workspace",
         "Experiment",
         "Algorithms",
         "Compute",
@@ -43,6 +44,7 @@ def test_phase6_command_registry_has_one_stable_authority():
     assert RIBBON_CATEGORY_ORDER == (
         "Home",
         "Algorithms",
+        "Workspace",
         "Experiment",
         "Compute",
         "Results",
@@ -64,10 +66,43 @@ def test_phase6_command_registry_has_one_stable_authority():
         "compute.refresh",
         "results.live",
         "results.statistics",
+        "workspace.dashboard",
+        "workspace.calo",
+        "workspace.power",
+        "workspace.orpd",
+        "workspace.algorithms",
+        "workspace.scenarios",
+        "workspace.live",
+        "workspace.results",
+        "workspace.statistics",
+        "experiment.setup",
+        "experiment.portfolio",
+        "experiment.run",
+        "results.validation",
+        "results.benchmark",
+        "results.publication",
+        "help.settings",
     }.intersection(identifiers)
-    assert not any(identifier.startswith("workspace.") for identifier in identifiers)
     labels = [item.label for item in COMMAND_SPECS]
     assert len(labels) == len(set(labels))
+    assert tuple(
+        item.command_id for item in COMMAND_SPECS if item.category == "Workspace"
+    ) == (
+        "workspace.portfolio",
+        "workspace.study",
+        "workspace.validation",
+        "workspace.benchmark",
+        "workspace.publication",
+        "workspace.settings",
+    )
+    assert tuple(
+        item.command_id for item in COMMAND_SPECS if item.category == "Experiment"
+    ) == (
+        "experiment.power",
+        "experiment.formulation",
+        "experiment.scenarios",
+        "experiment.stop",
+    )
     assert tuple(
         item.command_id for item in COMMAND_SPECS if item.category == "Compute"
     ) == (
@@ -78,15 +113,13 @@ def test_phase6_command_registry_has_one_stable_authority():
     )
     assert tuple(
         item.command_id for item in COMMAND_SPECS if item.category == "Results"
-    ) == (
-        "results.explorer",
-        "results.validation",
-        "results.benchmark",
-        "results.publication",
-    )
+    ) == ("results.explorer",)
     assert tuple(
         item.command_id for item in COMMAND_SPECS if item.category == "Policies"
     ) == ("policies.training",)
+    assert tuple(
+        item.command_id for item in COMMAND_SPECS if item.category == "Help"
+    ) == ("help.guide", "help.about")
     assert all(item.workspace != "resume_center" for item in COMMAND_SPECS)
     training = next(item for item in COMMAND_SPECS if item.command_id == "policies.training")
     assert training.handler == "training"

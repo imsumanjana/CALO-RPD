@@ -15,6 +15,7 @@ REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
 RIBBON_CATEGORIES = (
     "Home",
     "Algorithms",
+    "Workspace",
     "Experiment",
     "Compute",
     "Results",
@@ -204,14 +205,35 @@ def validate(output: Path, *, platform: str) -> dict:
     )
     if home_labels != ("Overview", "Open", "Save"):
         raise AssertionError(f"Home contains unexpected commands: {home_labels!r}")
-    if any(
-        item.category == "Workspace" or item.command_id.startswith("workspace.")
-        for item in window.command_registry.specs
-    ):
-        raise AssertionError("The duplicate Workspace ribbon category remains registered")
     command_labels = tuple(item.label for item in window.command_registry.specs)
     if len(command_labels) != len(set(command_labels)):
         raise AssertionError("The ribbon contains duplicate visible command labels")
+    workspace_commands = tuple(
+        item.command_id
+        for item in window.command_registry.specs
+        if item.category == "Workspace"
+    )
+    if workspace_commands != (
+        "workspace.portfolio",
+        "workspace.study",
+        "workspace.validation",
+        "workspace.benchmark",
+        "workspace.publication",
+        "workspace.settings",
+    ):
+        raise AssertionError(f"Workspace owns unexpected commands: {workspace_commands!r}")
+    experiment_commands = tuple(
+        item.command_id
+        for item in window.command_registry.specs
+        if item.category == "Experiment"
+    )
+    if experiment_commands != (
+        "experiment.power",
+        "experiment.formulation",
+        "experiment.scenarios",
+        "experiment.stop",
+    ):
+        raise AssertionError(f"Experiment owns unexpected commands: {experiment_commands!r}")
     compute_commands = tuple(
         item.command_id
         for item in window.command_registry.specs
@@ -231,11 +253,15 @@ def validate(output: Path, *, platform: str) -> dict:
     )
     if results_commands != (
         "results.explorer",
-        "results.validation",
-        "results.benchmark",
-        "results.publication",
     ):
         raise AssertionError(f"Results owns unexpected commands: {results_commands!r}")
+    help_commands = tuple(
+        item.command_id
+        for item in window.command_registry.specs
+        if item.category == "Help"
+    )
+    if help_commands != ("help.guide", "help.about"):
+        raise AssertionError(f"Help owns unexpected commands: {help_commands!r}")
     algorithm_commands = tuple(
         item for item in window.command_registry.specs if item.category == "Algorithms"
     )
@@ -414,9 +440,9 @@ def validate(output: Path, *, platform: str) -> dict:
         panel_renders.append(_save_image(window, output / f"panel-{key}.png"))
     window.stack.setCurrentWidget(window.pages_by_key["dashboard"])
     application.processEvents()
-    window.ribbon.select_category("Experiment")
+    window.ribbon.select_category("Workspace")
     application.processEvents()
-    experiment_ribbon = _save_image(window, output / "phase6-experiment-ribbon.png")
+    workspace_ribbon = _save_image(window, output / "phase6-focused-workspace.png")
     window.resize(1120, 720)
     application.processEvents()
     constrained = _save_image(window, output / "phase6-constrained.png")
@@ -717,7 +743,7 @@ def validate(output: Path, *, platform: str) -> dict:
         "activity_tabs": [
             window.activity_center.tabText(index) for index in range(window.activity_center.count())
         ],
-        "renders": [light, experiment_ribbon, constrained, dark],
+        "renders": [light, workspace_ribbon, constrained, dark],
         "checkbox_borders": {
             "light": light_checkbox_evidence,
             "dark": dark_checkbox_evidence,

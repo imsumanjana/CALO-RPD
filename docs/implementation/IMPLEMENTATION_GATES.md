@@ -1340,13 +1340,12 @@ offscreen contracts plus ignored validator schema v6 were updated but not execut
 engineering gate remains open pending a complete owner-run Phase 6 validator and changes no
 algorithm, configuration, policy, experiment, or scientific semantics.
 
-### 2026-08-16 - Duplicate-free ribbon ownership gate open
+### 2026-08-16 - Focused duplicate-free Workspace ownership gate open
 
-The redundant Workspace category and all `workspace.*` navigation commands are removed without
-removing any stable application workspace. Live Optimization and Statistics move to Compute;
-Results retains result review, validation, benchmark, and export; Algorithms retains CALO
-Intelligence; and Experiment retains the study/model/scenario/portfolio workflow. Duplicate Policy
-Status and System Readiness routes are removed. Synthetic contracts require unique visible command
-labels and exact category ownership. The ignored Phase 6 validator is schema v7 and remains
-unexecuted; this visual/navigation gate is open pending owner validation and changes no scientific
-or policy semantics.
+Workspace remains visible with exactly Portfolio, Study, Validate, Bench, Export, and Settings.
+Their copies are removed from Experiment, Results, and Help. The user-identified duplicates—Overview,
+CALO, Power, ORPD, Methods, Scenarios, Live, Results, and Stats—are absent from Workspace; Live and
+Statistics belong to Compute, while Power/ORPD/Scenarios belong to Experiment. Duplicate Policy
+Status and System Readiness routes remain removed. Synthetic contracts require unique visible
+labels and exact ownership. The ignored Phase 6 validator is schema v8 and remains unexecuted; this
+visual/navigation gate is open pending owner validation and changes no scientific or policy semantics.
