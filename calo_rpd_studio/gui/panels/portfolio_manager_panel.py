@@ -115,8 +115,12 @@ class PortfolioManagerPanel(ScrollablePage):
         self.algorithm_filter.setObjectName("WorkspaceStudyAlgorithmFilter")
         self.algorithm_filter.setAccessibleName("Algorithms included in this Workspace study")
         self.algorithm_filter.setHeaderLabels(["Include", "Submitted algorithm", "Parameters"])
-        self.algorithm_filter.header().setSectionResizeMode(0, QHeaderView.ResizeMode.ResizeToContents)
-        self.algorithm_filter.header().setSectionResizeMode(1, QHeaderView.ResizeMode.ResizeToContents)
+        self.algorithm_filter.header().setSectionResizeMode(
+            0, QHeaderView.ResizeMode.ResizeToContents
+        )
+        self.algorithm_filter.header().setSectionResizeMode(
+            1, QHeaderView.ResizeMode.ResizeToContents
+        )
         self.algorithm_filter.header().setSectionResizeMode(2, QHeaderView.ResizeMode.Stretch)
         algorithm_layout.addWidget(self.algorithm_filter, 1)
         algorithm_actions = QHBoxLayout()
@@ -297,6 +301,17 @@ class PortfolioManagerPanel(ScrollablePage):
             if item.checkState(0) == Qt.CheckState.Checked
         )
 
+    def _stage_matches_current_config(self, stage) -> bool:
+        payload = self.state.config.to_dict()
+        parameters = dict(payload.get("algorithm_parameters", {}) or {})
+        selected_parameters = {
+            name: dict(parameters.get(name, {}) or {}) for name in stage.algorithm_names
+        }
+        return (
+            tuple(str(name) for name in self.state.config.algorithms) == stage.algorithm_names
+            and selected_parameters == stage.algorithm_parameters
+        )
+
     def _use_all_staged_algorithms(self) -> None:
         self.algorithm_filter.blockSignals(True)
         try:
@@ -407,15 +422,47 @@ class PortfolioManagerPanel(ScrollablePage):
         )
 
     def refresh_plan(self) -> None:
+        stage = self.state.execution_control.active_stage()
+        if stage is None:
+            self.plan_summary.setText(
+                "Submit at least one algorithm for experiment use before previewing "
+                "a Workspace portfolio."
+            )
+            self.plan_detail.setText(
+                "Open Algorithms, choose the permitted pool, and select Submit "
+                "algorithms for experiment. No plan or execution has started."
+            )
+            return
+        if not self._stage_matches_current_config(stage):
+            retained_names = ", ".join(stage.algorithm_names)
+            current_names = ", ".join(str(name) for name in self.state.config.algorithms) or "none"
+            self.plan_summary.setText(
+                "The submitted algorithm stage does not match the current experiment configuration."
+            )
+            self.plan_detail.setText(
+                f"Retained submitted identities: {retained_names}. Current experiment "
+                f"selection: {current_names}. Identities and/or parameters differ. Open "
+                "Algorithms, review the current selection and parameters, and submit them "
+                "again before creating a Workspace draft. The retained stage was not changed, "
+                "and no plan or execution has started."
+            )
+            return
         portfolio = self._build_config()
         if not portfolio.requested_outputs:
             self.plan_summary.setText("Select at least one output to preview the portfolio plan.")
             self.plan_detail.clear()
             return
+        subset = self._selected_study_algorithms()
+        if not subset:
+            self.plan_summary.setText(
+                "Select at least one submitted algorithm for this Workspace study."
+            )
+            self.plan_detail.setText(
+                "The study filter changes only this Workspace draft. It does not "
+                "modify the submitted algorithm stage or start execution."
+            )
+            return
         try:
-            subset = self._selected_study_algorithms()
-            if not subset:
-                raise ValueError("Select at least one submitted algorithm for this Workspace study")
             _requirements, recommended_missing, recommended_omitted = self._resolve_preset(
                 portfolio, subset
             )
@@ -450,6 +497,9 @@ class PortfolioManagerPanel(ScrollablePage):
                 f"Unavailable selections:\n{disabled}\n"
                 f"Planner warnings:\n{warnings}"
             )
+        except ValueError as exc:
+            self.plan_summary.setText("The portfolio preview needs another selection.")
+            self.plan_detail.setText(str(exc))
         except Exception as exc:
             self.plan_summary.setText(
                 "The portfolio plan is incomplete. Review Activity > Logs for details."
@@ -488,14 +538,21 @@ class PortfolioManagerPanel(ScrollablePage):
                 else str(workspace_plan["id"])
             )
             self.algorithm_stage_status.setText(
-                self.algorithm_stage_status.text()
-                + f"\nLocked by retained execution plan {owner}."
+                self.algorithm_stage_status.text() + f"\nLocked by retained execution plan {owner}."
             )
 
     def apply(self) -> None:
         try:
             portfolio = self._build_config()
             portfolio.validate()
+            stage = self.state.execution_control.active_stage()
+            if stage is None:
+                raise ValueError("Submit at least one algorithm for experiment use first")
+            if not self._stage_matches_current_config(stage):
+                raise ValueError(
+                    "The submitted algorithm identities or parameters changed; return to "
+                    "Algorithms, review them, and submit the algorithm stage again"
+                )
             subset = self._selected_study_algorithms()
             if not subset:
                 raise ValueError("Select at least one submitted algorithm for this Workspace study")

@@ -748,9 +748,7 @@ class ExperimentManagerPanel(WorkspacePage):
             design = dict(plan["design"])
             names = tuple(
                 str(name)
-                for name in design.get(
-                    "study_algorithm_names", design.get("algorithm_names", [])
-                )
+                for name in design.get("study_algorithm_names", design.get("algorithm_names", []))
             )
             try:
                 audit_matches_current = canonical_sha256(
@@ -778,9 +776,7 @@ class ExperimentManagerPanel(WorkspacePage):
             "Stage Workspace campaign" if workspace else "Stage individual experiment"
         )
         self.compare.setText("Run campaign" if workspace else "Run individual experiment")
-        self.resume_plan.setText(
-            "Resume campaign" if workspace else "Resume individual experiment"
-        )
+        self.resume_plan.setText("Resume campaign" if workspace else "Resume individual experiment")
         self.cancel.setText(
             "Cancel remaining campaign" if workspace else "Cancel individual experiment"
         )
@@ -842,17 +838,13 @@ class ExperimentManagerPanel(WorkspacePage):
             and state
             in {ExecutionLifecycle.PAUSED.value, ExecutionLifecycle.INTERRUPTED_RESUMABLE.value}
             and not self.manager.running
-            and (
-                (workspace and controller_none)
-                or owner_matches
-            )
+            and ((workspace and controller_none) or owner_matches)
         )
         self.discard_plan.setEnabled(
             bool(plan)
             and (
                 (
-                    state
-                    in {ExecutionLifecycle.DRAFT.value, ExecutionLifecycle.AUDITED.value}
+                    state in {ExecutionLifecycle.DRAFT.value, ExecutionLifecycle.AUDITED.value}
                     and controller_none
                 )
                 or (state == ExecutionLifecycle.STAGED.value and owner_matches)
@@ -892,7 +884,9 @@ class ExperimentManagerPanel(WorkspacePage):
     def stage_current_plan(self) -> None:
         plan = self._active_controlled_plan()
         if plan is None:
-            QMessageBox.information(self, "No audited plan", "Create and audit the exact plan first.")
+            QMessageBox.information(
+                self, "No audited plan", "Create and audit the exact plan first."
+            )
             return
         try:
             self.state.execution_control.stage(str(plan["id"]), self.execution_mode)
@@ -956,7 +950,9 @@ class ExperimentManagerPanel(WorkspacePage):
             else:
                 campaign_id = str(plan.get("campaign_id", "") or "")
                 if not campaign_id:
-                    raise RuntimeError("The individual plan has no authenticated campaign to resume")
+                    raise RuntimeError(
+                        "The individual plan has no authenticated campaign to resume"
+                    )
                 self.state.execution_control.resume(str(plan["id"]), self.execution_mode)
                 if not self.manager.resume_campaign(campaign_id, update_workspace=False):
                     self.state.execution_control.transition(
@@ -1295,8 +1291,7 @@ class ExperimentManagerPanel(WorkspacePage):
                         "Apply a Workspace portfolio draft with a submitted algorithm subset first"
                     )
                 subset = tuple(
-                    str(name)
-                    for name in existing["design"].get("study_algorithm_names", [])
+                    str(name) for name in existing["design"].get("study_algorithm_names", [])
                 )
                 plan = self.state.execution_control.create_workspace_draft(
                     self.state.config, subset
@@ -1399,7 +1394,7 @@ class ExperimentManagerPanel(WorkspacePage):
             f"PRIMARY COMPARISON PLAN: {len(audited_config.algorithms)} selected algorithms × {audited_config.runs} runs = {total_jobs} jobs.",
             f"EXACT RESULT REUSE: {reusable} compatible job(s) can be reused; {total_jobs - reusable} new job(s) remain.",
             f"REQUIRED STORED EVIDENCE: {', '.join(portfolio_plan.required_fields)}.",
-            f"CALO ABLATION PLAN: unchanged legacy capability; it is outside this execution-plan implementation.",
+            "CALO ABLATION PLAN: unchanged legacy capability; it is outside this execution-plan implementation.",
         ]
         if audited_config.execution_backend == "cuda_preferred":
             lines.append(
@@ -1432,9 +1427,7 @@ class ExperimentManagerPanel(WorkspacePage):
                         "fair": True,
                         "errors": [str(value) for value in report.errors],
                         "warnings": [str(value) for value in report.warnings],
-                        "backend_parity_required": bool(
-                            audited_config.require_backend_parity
-                        ),
+                        "backend_parity_required": bool(audited_config.require_backend_parity),
                         "backend_parity_passed": bool(self.backend_parity_passed),
                         "reusable_jobs": reusable,
                         "planned_jobs": total_jobs,
@@ -1474,11 +1467,7 @@ class ExperimentManagerPanel(WorkspacePage):
             item.job_index: (
                 "CPU"
                 if config.execution_backend == "cpu_only"
-                else (
-                    "Automatic"
-                    if config.execution_backend == "cuda_preferred"
-                    else "Dynamic"
-                )
+                else ("Automatic" if config.execution_backend == "cuda_preferred" else "Dynamic")
             )
             for item in plan
         }
@@ -1759,9 +1748,7 @@ class ExperimentManagerPanel(WorkspacePage):
             self._mark_job(run_index, algorithm, status)
 
     def on_started(self, experiment_id: str) -> None:
-        plan = self.state.execution_control.active_plan(
-            ExecutionPlanKind.INDIVIDUAL_EXPERIMENT
-        )
+        plan = self.state.execution_control.active_plan(ExecutionPlanKind.INDIVIDUAL_EXPERIMENT)
         if (
             plan is not None
             and str(plan["lifecycle_state"]) == ExecutionLifecycle.RUNNING.value
@@ -1859,10 +1846,14 @@ class ExperimentManagerPanel(WorkspacePage):
                 if self.workspace_coordinator is not None and self.workspace_coordinator.active:
                     self.workspace_coordinator.cancel_remaining()
                 else:
-                    if str(plan["lifecycle_state"]) in {
-                        ExecutionLifecycle.PAUSED.value,
-                        ExecutionLifecycle.INTERRUPTED_RESUMABLE.value,
-                    } and str(self.state.execution_control.controller()["controller"]) == "none":
+                    if (
+                        str(plan["lifecycle_state"])
+                        in {
+                            ExecutionLifecycle.PAUSED.value,
+                            ExecutionLifecycle.INTERRUPTED_RESUMABLE.value,
+                        }
+                        and str(self.state.execution_control.controller()["controller"]) == "none"
+                    ):
                         self.state.execution_control.resume(
                             str(plan["id"]), ExecutionPlanKind.WORKSPACE
                         )
@@ -1912,9 +1903,7 @@ class ExperimentManagerPanel(WorkspacePage):
                 "Workspace campaign paused durably. Its immutable plan is retained and the controller is released for individual work."
             )
             return
-        plan = self.state.execution_control.active_plan(
-            ExecutionPlanKind.INDIVIDUAL_EXPERIMENT
-        )
+        plan = self.state.execution_control.active_plan(ExecutionPlanKind.INDIVIDUAL_EXPERIMENT)
         if plan is not None:
             try:
                 self.state.execution_control.commit_paused(
@@ -1939,10 +1928,11 @@ class ExperimentManagerPanel(WorkspacePage):
             )
             return
         if controller_kind == "individual_experiment":
-            plan = self.state.execution_control.active_plan(
-                ExecutionPlanKind.INDIVIDUAL_EXPERIMENT
-            )
-            if plan is not None and str(plan["lifecycle_state"]) == ExecutionLifecycle.RUNNING.value:
+            plan = self.state.execution_control.active_plan(ExecutionPlanKind.INDIVIDUAL_EXPERIMENT)
+            if (
+                plan is not None
+                and str(plan["lifecycle_state"]) == ExecutionLifecycle.RUNNING.value
+            ):
                 lifecycle = (
                     ExecutionLifecycle.COMPLETED_WITH_FAILURES
                     if self.failed_runs
@@ -1971,9 +1961,7 @@ class ExperimentManagerPanel(WorkspacePage):
 
     def on_cancelled(self, experiment_id: str) -> None:
         if str(self.state.execution_control.controller()["controller"]) == "individual_experiment":
-            plan = self.state.execution_control.active_plan(
-                ExecutionPlanKind.INDIVIDUAL_EXPERIMENT
-            )
+            plan = self.state.execution_control.active_plan(ExecutionPlanKind.INDIVIDUAL_EXPERIMENT)
             if plan is not None:
                 try:
                     self.state.execution_control.commit_terminal(
@@ -1994,9 +1982,7 @@ class ExperimentManagerPanel(WorkspacePage):
 
     def on_failed(self, message: str) -> None:
         if str(self.state.execution_control.controller()["controller"]) == "individual_experiment":
-            plan = self.state.execution_control.active_plan(
-                ExecutionPlanKind.INDIVIDUAL_EXPERIMENT
-            )
+            plan = self.state.execution_control.active_plan(ExecutionPlanKind.INDIVIDUAL_EXPERIMENT)
             if plan is not None and str(plan["lifecycle_state"]) in {
                 ExecutionLifecycle.RUNNING.value,
                 ExecutionLifecycle.PAUSING.value,

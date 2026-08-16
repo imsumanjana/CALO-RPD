@@ -192,10 +192,10 @@ def test_active_status_records_phase6_development_complete_after_combined_pass()
     assert payload["phase_5_final_release"] is False
     assert payload["phase_6_started"] is True
     assert payload["phase_6_goal"] == (
-        "scroll_preserving_policy_selection_guarded_standalone_model_deletion_and_architecture_schema_bound_cross_version_extension_implementation_complete_validation_pending"
+        "explicit_policy_library_qualification_admission_comparison_activation_workflow_plus_prior_scroll_deletion_and_cross_version_extension_corrections_implementation_complete_validation_pending"
     )
     assert payload["phase_6_coding"] == (
-        "implemented_no_selection_autoscroll_removed_review_ui_exact_first_row_candidate_deletion_and_software_revision_independent_compatible_extension_validation_pending"
+        "implemented_in_library_formal_plan_check_run_resume_integrity_bound_evidence_admission_comparable_policy_review_explicit_activation_no_selection_autoscroll_exact_candidate_deletion_and_software_revision_independent_compatible_extension_validation_pending"
     )
     assert payload["phase_6_training_interface"] == (
         "ribbon_navigation_only_tsh_calo_only_training_no_architecture_selector_optional_settings_template_per_user_default_model_directory_registered_resume_scan_locations_visible_scientific_inputs_protected_118_300_locked_visible_default_off_exact_resume_in_pane_readiness_then_explicit_confirmed_start_rule_based_calo_remains_in_algorithm_selection_no_redundant_document"
@@ -207,7 +207,7 @@ def test_active_status_records_phase6_development_complete_after_combined_pass()
         "validated_first_class_windows_non_docker_launch"
     )
     assert payload["phase_6_validation"] == (
-        "prior_pass_phase6-20260814-131637_superseded_by_progress_pause_extension_library_layout_path_removal_scroll_and_cross_version_compatibility_followups_validation_pending"
+        "prior_pass_phase6-20260814-132200_superseded_by_progress_pause_extension_library_layout_path_removal_scroll_and_cross_version_compatibility_followups_validation_pending"
     )
     assert payload["phase_6_checkbox_indicator_visibility"] == (
         "validated_global_palette_aware_borders_and_state_marks_light_dark_phase6-20260814-131637"
@@ -231,7 +231,7 @@ def test_active_status_records_phase6_development_complete_after_combined_pass()
         "implemented_explicit_authenticated_repeatable_finite_segments_exact_plan_values_frozen_architecture_complete_parameter_schema_software_revision_independent_validation_pending"
     )
     assert payload["phase_6_extension_compatibility"].startswith(
-        "source_commit_retained_as_origin_and_execution_provenance_not_admission_identity"
+        "source_commit_and_writer_metadata_retained_as_nonadmission_provenance"
     )
     assert payload["phase_6_training_progress_presentation"].startswith(
         "single_persistent_bottom_bar_progress"
@@ -266,9 +266,7 @@ def test_active_status_records_phase6_development_complete_after_combined_pass()
     assert payload["phase_6_extension_retained_state"] == (
         "model_optimizer_numpy_rng_torch_rng_ppo_updates_episode_receipts_device_memory_session_environment_rollout_collector_exact_accounting"
     )
-    assert payload["phase_6_extension_count_limit"] == (
-        "none_each_segment_explicit_and_finite"
-    )
+    assert payload["phase_6_extension_count_limit"] == ("none_each_segment_explicit_and_finite")
     assert payload["phase_6_extension_scientific_claim"] == (
         "no_improvement_superiority_qualification_registration_or_activation_inferred"
     )
@@ -672,7 +670,7 @@ def test_grouped_sidebar_hides_locked_children_and_persists_density(qt_applicati
     sidebar = NavigationSidebar(WORKSPACE_SPECS, settings)
     try:
         assert set(sidebar.group_headers) == {"Home", "Model", "Study", "Evidence", "System"}
-        assert len(sidebar.buttons) == 16
+        assert len(sidebar.buttons) == 15
         sidebar.set_workflow_state(10, "locked", "Complete result generation first")
         assert sidebar.buttons[10].isHidden()
         assert "hidden" in sidebar.blocked_summary.text()

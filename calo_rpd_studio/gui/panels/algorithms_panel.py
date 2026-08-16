@@ -192,12 +192,8 @@ class AlgorithmsPanel(WorkspacePage):
         self.table.horizontalHeader().setSectionResizeMode(
             1, QHeaderView.ResizeMode.ResizeToContents
         )
-        self.table.horizontalHeader().setSectionResizeMode(
-            2, QHeaderView.ResizeMode.Stretch
-        )
-        self.table.horizontalHeader().setSectionResizeMode(
-            3, QHeaderView.ResizeMode.Stretch
-        )
+        self.table.horizontalHeader().setSectionResizeMode(2, QHeaderView.ResizeMode.Stretch)
+        self.table.horizontalHeader().setSectionResizeMode(3, QHeaderView.ResizeMode.Stretch)
         for row, (name, spec) in enumerate(self.specs.items()):
             use = QTableWidgetItem()
             use.setFlags(use.flags() | Qt.ItemFlag.ItemIsUserCheckable)
@@ -243,9 +239,7 @@ class AlgorithmsPanel(WorkspacePage):
 
         header = self.table.horizontalHeader()
         header_height = max(header.height(), header.sizeHint().height())
-        body_height = sum(
-            self.table.rowHeight(row) for row in range(self.table.rowCount())
-        )
+        body_height = sum(self.table.rowHeight(row) for row in range(self.table.rowCount()))
         frame_height = self.table.frameWidth() * 2
         self.table.setFixedHeight(header_height + body_height + frame_height)
         self.table.updateGeometry()
@@ -297,9 +291,7 @@ class AlgorithmsPanel(WorkspacePage):
         return self._double_control(0.0, 1.0, 0.01, decimals=4)
 
     @staticmethod
-    def _add_form_card(
-        layout: QVBoxLayout, title: str, description: str
-    ) -> QFormLayout:
+    def _add_form_card(layout: QVBoxLayout, title: str, description: str) -> QFormLayout:
         card = SectionCard(title, description)
         form = QFormLayout()
         form.setRowWrapPolicy(QFormLayout.RowWrapPolicy.WrapLongRows)
@@ -443,9 +435,7 @@ class AlgorithmsPanel(WorkspacePage):
         self.tsh_deterministic = QCheckBox("Use deterministic policy inference")
         self.tsh_inference_device = QComboBox()
         self.tsh_inference_device.addItems(("auto", "cuda", "cpu"))
-        self.tsh_allow_cpu_fallback = QCheckBox(
-            "Allow policy-inference CPU fallback"
-        )
+        self.tsh_allow_cpu_fallback = QCheckBox("Allow policy-inference CPU fallback")
         self.tsh_baseline_fallback = QCheckBox("Permit rule-based baseline fallback")
         self.tsh_allow_cpu_fallback.setEnabled(False)
         self.tsh_baseline_fallback.setEnabled(False)
@@ -458,9 +448,7 @@ class AlgorithmsPanel(WorkspacePage):
         tsh.addRow("Inference device", self.tsh_inference_device)
         tsh.addRow("CPU fallback", self.tsh_allow_cpu_fallback)
         tsh.addRow("Baseline fallback", self.tsh_baseline_fallback)
-        tsh.addRow(
-            "Checkpoint interval (counted evaluations)", self.tsh_checkpoint_interval
-        )
+        tsh.addRow("Checkpoint interval (counted evaluations)", self.tsh_checkpoint_interval)
 
         tsh_search = self._add_form_card(
             layout,
@@ -573,11 +561,7 @@ class AlgorithmsPanel(WorkspacePage):
 
     @staticmethod
     def _numeric_value(control: QSpinBox | QDoubleSpinBox) -> int | float:
-        return (
-            int(control.value())
-            if isinstance(control, QSpinBox)
-            else float(control.value())
-        )
+        return int(control.value()) if isinstance(control, QSpinBox) else float(control.value())
 
     def _apply_calo_profile_mode(self, _index: int = -1) -> None:
         canonical = self.calo_profile.currentData() == "canonical"
@@ -596,9 +580,7 @@ class AlgorithmsPanel(WorkspacePage):
     def _calo_is_canonical(self, parameters: dict) -> bool:
         defaults = self._canonical_calo_values()
         keys = set(self.calo_component_controls) | set(self.calo_numeric_controls)
-        return all(
-            parameters.get(key, defaults[key]) == defaults[key] for key in keys
-        ) and not any(
+        return all(parameters.get(key, defaults[key]) == defaults[key] for key in keys) and not any(
             bool(parameters.get(key, False))
             for key in (
                 "use_historical_parameter_priors",
@@ -611,9 +593,7 @@ class AlgorithmsPanel(WorkspacePage):
         try:
             for row, (name, spec) in enumerate(self.specs.items()):
                 self.table.item(row, 0).setCheckState(
-                    Qt.CheckState.Checked
-                    if name in config.algorithms
-                    else Qt.CheckState.Unchecked
+                    Qt.CheckState.Checked if name in config.algorithms else Qt.CheckState.Unchecked
                 )
                 if name not in {"CALO", "TSH-CALO"}:
                     parameters = {
@@ -662,9 +642,7 @@ class AlgorithmsPanel(WorkspacePage):
             self._apply_policy_gate()
 
     def _update_policy_summary(self, parameters: dict | None = None) -> None:
-        values = dict(
-            parameters or self.state.config.algorithm_parameters.get("TSH-CALO", {})
-        )
+        values = dict(parameters or self.state.config.algorithm_parameters.get("TSH-CALO", {}))
         status = self.state.governing_policy_status()
         self.tsh_policy_status.setText(
             (
@@ -680,30 +658,37 @@ class AlgorithmsPanel(WorkspacePage):
         self.tsh_policy_checksum.setText(checksum if checksum else "Not bound")
         flags = dict(values.get("policy_feature_flags", {}) or {})
         self.tsh_feature_flags.setText(
-            json.dumps(flags, sort_keys=True)
-            if flags
-            else "Provided by the immutable bound policy"
+            json.dumps(flags, sort_keys=True) if flags else "Provided by the immutable bound policy"
         )
 
     def _apply_policy_gate(self) -> None:
         status = self.state.governing_policy_status()
         ready = bool(status.ready and status.algorithm_id == "TSH-CALO")
         reason = (
-            "TSH-CALO requires a verified compatible policy that has been selected for "
-            "experiments."
+            "TSH-CALO requires a verified compatible policy that has been selected for experiments."
         )
-        for row, name in enumerate(self.specs):
-            if name not in POLICY_GATED_SPECS:
-                continue
-            use = self.table.item(row, 0)
-            if ready:
-                use.setFlags(use.flags() | Qt.ItemFlag.ItemIsEnabled)
-                use.setToolTip("")
-            else:
-                use.setCheckState(Qt.CheckState.Unchecked)
-                use.setFlags(use.flags() & ~Qt.ItemFlag.ItemIsEnabled)
-                use.setToolTip(reason)
+        loading = self._loading
+        changed_item = None
+        self._loading = True
+        try:
+            for row, name in enumerate(self.specs):
+                if name not in POLICY_GATED_SPECS:
+                    continue
+                use = self.table.item(row, 0)
+                if ready:
+                    use.setFlags(use.flags() | Qt.ItemFlag.ItemIsEnabled)
+                    use.setToolTip("")
+                else:
+                    if use.checkState() != Qt.CheckState.Unchecked:
+                        changed_item = use
+                    use.setCheckState(Qt.CheckState.Unchecked)
+                    use.setFlags(use.flags() & ~Qt.ItemFlag.ItemIsEnabled)
+                    use.setToolTip(reason)
+        finally:
+            self._loading = loading
         self._update_policy_summary()
+        if changed_item is not None and not loading:
+            self._algorithm_draft_changed(changed_item)
 
     @staticmethod
     def _validate_numeric_values(values: dict, *, label: str) -> None:
@@ -725,12 +710,10 @@ class AlgorithmsPanel(WorkspacePage):
         for key in POLICY_BINDING_FIELDS:
             existing.pop(key, None)
         components = {
-            key: bool(control.isChecked())
-            for key, control in self.calo_component_controls.items()
+            key: bool(control.isChecked()) for key, control in self.calo_component_controls.items()
         }
         numeric = {
-            key: self._numeric_value(control)
-            for key, control in self.calo_numeric_controls.items()
+            key: self._numeric_value(control) for key, control in self.calo_numeric_controls.items()
         }
         self._validate_numeric_values(numeric, label="CALO")
         existing.update(components)
@@ -744,9 +727,7 @@ class AlgorithmsPanel(WorkspacePage):
                 "strict_benchmark_mode": True,
                 "use_historical_parameter_priors": False,
                 "use_cross_algorithm_warm_start": False,
-                "checkpoint_interval_evaluations": int(
-                    self.calo_checkpoint_interval.value()
-                ),
+                "checkpoint_interval_evaluations": int(self.calo_checkpoint_interval.value()),
             }
         )
         return existing
@@ -754,8 +735,7 @@ class AlgorithmsPanel(WorkspacePage):
     def _collect_tsh_settings(self) -> dict:
         existing = dict(self.state.config.algorithm_parameters.get("TSH-CALO", {}))
         numeric = {
-            key: self._numeric_value(control)
-            for key, control in self.tsh_numeric_controls.items()
+            key: self._numeric_value(control) for key, control in self.tsh_numeric_controls.items()
         }
         self._validate_numeric_values(numeric, label="TSH-CALO")
         existing.update(numeric)
@@ -767,9 +747,7 @@ class AlgorithmsPanel(WorkspacePage):
                 "allow_cpu_fallback": False,
                 "baseline_fallback_permitted": False,
                 "strict_policy_binding": True,
-                "checkpoint_interval_evaluations": int(
-                    self.tsh_checkpoint_interval.value()
-                ),
+                "checkpoint_interval_evaluations": int(self.tsh_checkpoint_interval.value()),
             }
         )
         status = self.state.governing_policy_status()
@@ -780,9 +758,7 @@ class AlgorithmsPanel(WorkspacePage):
         try:
             calo = self._collect_calo_settings()
             tsh = self._collect_tsh_settings()
-            if calo.get("calo_profile") == "canonical" and not self._calo_is_canonical(
-                calo
-            ):
+            if calo.get("calo_profile") == "canonical" and not self._calo_is_canonical(calo):
                 raise ValueError("Canonical CALO profile differs from its registered defaults")
         except Exception as exc:
             show_error(
@@ -854,7 +830,8 @@ class AlgorithmsPanel(WorkspacePage):
         stage = self.state.execution_control.active_stage()
         if stage is not None:
             self.algorithm_stage_status.setText(
-                f"Submitted stage {stage.stage_id}: {', '.join(stage.algorithm_names)} · "
+                f"Algorithms staged for experiment · submitted stage {stage.stage_id}: "
+                f"{', '.join(stage.algorithm_names)} · "
                 f"content SHA-256 {stage.content_sha256[:16]}…"
             )
         else:
@@ -880,8 +857,7 @@ class AlgorithmsPanel(WorkspacePage):
     def submit_algorithm_selection(self) -> None:
         selected: list[str] = []
         parameters = {
-            name: dict(values)
-            for name, values in self.state.config.algorithm_parameters.items()
+            name: dict(values) for name, values in self.state.config.algorithm_parameters.items()
         }
         try:
             for row in range(self.table.rowCount()):
@@ -971,9 +947,7 @@ class AlgorithmsPanel(WorkspacePage):
         self.state.update_config()
         self.state.notify_execution_state_changed()
         self.stage_discarded.emit()
-        self.saved.emit(
-            "Algorithm staging discarded; select and submit a fresh experiment set"
-        )
+        self.saved.emit("Algorithm staging discarded; select and submit a fresh experiment set")
 
     # Compatibility names retained for callers from the previous AlgorithmsPanel surface.
     apply = submit_algorithm_selection

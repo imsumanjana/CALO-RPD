@@ -122,9 +122,7 @@ def test_ribbon_is_registry_generated_and_shell_regions_are_accessible(
     labels = [item.label for item in window.command_registry.specs]
     assert len(labels) == len(set(labels))
     assert tuple(
-        item.command_id
-        for item in window.command_registry.specs
-        if item.category == "Workspace"
+        item.command_id for item in window.command_registry.specs if item.category == "Workspace"
     ) == (
         "workspace.portfolio",
         "workspace.study",
@@ -134,9 +132,7 @@ def test_ribbon_is_registry_generated_and_shell_regions_are_accessible(
         "workspace.settings",
     )
     assert tuple(
-        item.command_id
-        for item in window.command_registry.specs
-        if item.category == "Experiment"
+        item.command_id for item in window.command_registry.specs if item.category == "Experiment"
     ) == (
         "experiment.individual",
         "experiment.power",
@@ -195,13 +191,10 @@ def test_ribbon_is_registry_generated_and_shell_regions_are_accessible(
         "algorithms.flags",
     )
     assert all(
-        window.command_registry.action(item.command_id).isEnabled()
-        for item in algorithm_specs
+        window.command_registry.action(item.command_id).isEnabled() for item in algorithm_specs
     )
     assert tuple(
-        item.command_id
-        for item in window.command_registry.specs
-        if item.category == "Compute"
+        item.command_id for item in window.command_registry.specs if item.category == "Compute"
     ) == (
         "compute.settings",
         "compute.device",
@@ -209,20 +202,14 @@ def test_ribbon_is_registry_generated_and_shell_regions_are_accessible(
         "compute.statistics",
     )
     assert tuple(
-        item.command_id
-        for item in window.command_registry.specs
-        if item.category == "Results"
+        item.command_id for item in window.command_registry.specs if item.category == "Results"
     ) == ("results.explorer",)
     assert tuple(
-        item.command_id
-        for item in window.command_registry.specs
-        if item.category == "Help"
+        item.command_id for item in window.command_registry.specs if item.category == "Help"
     ) == ("help.guide", "help.about")
 
 
-def test_algorithms_ribbon_is_the_first_available_configuration_entry(
-    qtbot, tmp_path, monkeypatch
-):
+def test_algorithms_ribbon_is_the_first_available_configuration_entry(qtbot, tmp_path, monkeypatch):
     from PyQt6.QtCore import Qt
 
     state, window = _window(qtbot, tmp_path, monkeypatch)
@@ -266,9 +253,7 @@ def test_algorithm_staging_reset_and_calo_settings_are_separate_transactions(
 
     window.command_registry.action("algorithms.configure").trigger()
     pso_row = next(
-        row
-        for row in range(panel.table.rowCount())
-        if panel.table.item(row, 1).text() == "PSO"
+        row for row in range(panel.table.rowCount()) if panel.table.item(row, 1).text() == "PSO"
     )
     pso_parameters = json.loads(panel.table.item(pso_row, 3).text())
     pso_parameters["inertia"] = 0.71
@@ -342,16 +327,20 @@ def test_algorithm_staging_reset_and_calo_settings_are_separate_transactions(
 
     window.command_registry.action("algorithms.configure").trigger()
     tlbo_row = next(
-        row
-        for row in range(panel.table.rowCount())
-        if panel.table.item(row, 1).text() == "TLBO"
+        row for row in range(panel.table.rowCount()) if panel.table.item(row, 1).text() == "TLBO"
     )
     panel.table.item(tlbo_row, 0).setCheckState(Qt.CheckState.Checked)
     panel.submit_algorithms_button.click()
 
     assert state.config.algorithms == ["TLBO"]
     assert "algorithms" in window.workflow.completed
-    assert panel.algorithm_stage_status.text() == "Staged for experiment: TLBO"
+    stage = state.execution_control.active_stage()
+    assert stage is not None
+    stage_status = panel.algorithm_stage_status.text()
+    assert "staged for experiment" in stage_status.lower()
+    assert "TLBO" in stage_status
+    assert stage.stage_id in stage_status
+    assert "content SHA-256" in stage_status
     assert state.task_status.busy is False
     assert state.policy_training_active is False
 
@@ -407,9 +396,7 @@ def test_main_preview_owns_long_workspace_vertical_scrolling(qtbot, tmp_path, mo
         qtbot.waitUntil(lambda item=page: item.minimumHeight() >= item.widget().sizeHint().height())
 
 
-def test_main_preview_can_scroll_to_dynamic_policy_evidence_bottom(
-    qtbot, tmp_path, monkeypatch
-):
+def test_main_preview_can_scroll_to_dynamic_policy_evidence_bottom(qtbot, tmp_path, monkeypatch):
     from PyQt6.QtCore import QPoint
     from PyQt6.QtWidgets import QTableWidgetItem
     import torch

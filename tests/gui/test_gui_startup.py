@@ -1,5 +1,12 @@
 from __future__ import annotations
-import importlib.util, os, pytest
+
+import faulthandler
+import importlib.util
+import os
+import sys
+import threading
+
+import pytest
 
 pytestmark = pytest.mark.skipif(
     importlib.util.find_spec("PyQt6") is None, reason="PyQt6 is not installed"
@@ -7,17 +14,55 @@ pytestmark = pytest.mark.skipif(
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 
-def test_main_window_has_all_workspaces(qtbot, tmp_path):
+@pytest.fixture(autouse=True)
+def _startup_gui_test_deadline(request):
+    def abort_stuck_test():
+        sys.stderr.write(f"\nStartup GUI test exceeded 120 seconds: {request.node.nodeid}\n")
+        sys.stderr.flush()
+        faulthandler.dump_traceback(file=sys.stderr, all_threads=True)
+        os._exit(124)
+
+    watchdog = threading.Timer(120.0, abort_stuck_test)
+    watchdog.daemon = True
+    watchdog.start()
+    try:
+        yield
+    finally:
+        watchdog.cancel()
+
+
+def _isolate_main_window(qtbot, monkeypatch, window) -> None:
+    monkeypatch.setattr(type(window), "closeEvent", lambda self, event: event.accept())
+
+    def detach_logging(widget):
+        widget.activity_center.detach_logging()
+
+    qtbot.addWidget(window, before_close_func=detach_logging)
+
+
+def _disable_startup_side_effects(monkeypatch, main_window_class) -> None:
+    monkeypatch.setattr(main_window_class, "_initial_system_scan", lambda self: None)
+    monkeypatch.setattr(main_window_class, "_check_unfinished_work", lambda self: None)
+
+
+def _submit_minimal_algorithm_stage(state) -> None:
+    state.config.algorithms = ["TLBO"]
+    state.config.algorithm_parameters["TLBO"] = {}
+    state.execution_control.submit_algorithm_stage(state.config)
+
+
+def test_main_window_has_all_workspaces(qtbot, tmp_path, monkeypatch):
     from calo_rpd_studio.app.state_manager import AppState
     from calo_rpd_studio.app.experiment_manager import ExperimentManager
     from calo_rpd_studio.app.settings_manager import SettingsManager
     from calo_rpd_studio.app.main_window import MainWindow
 
+    _disable_startup_side_effects(monkeypatch, MainWindow)
     state = AppState(tmp_path / "gui.sqlite")
     window = MainWindow(state, ExperimentManager(state), SettingsManager())
-    qtbot.addWidget(window)
-    assert window.stack.count() == 16
-    assert len(window.sidebar.buttons) == 16
+    _isolate_main_window(qtbot, monkeypatch, window)
+    assert window.stack.count() == 15
+    assert len(window.sidebar.buttons) == 15
 
 
 def test_plot_toolbar_exposes_typography_controls(qtbot):
@@ -35,16 +80,17 @@ def test_plot_toolbar_exposes_typography_controls(qtbot):
     assert toolbar.legend_labels is not None
 
 
-def test_only_genuinely_long_workspaces_use_page_level_scrolling(qtbot, tmp_path):
+def test_only_genuinely_long_workspaces_use_page_level_scrolling(qtbot, tmp_path, monkeypatch):
     from calo_rpd_studio.app.experiment_manager import ExperimentManager
     from calo_rpd_studio.app.main_window import MainWindow
     from calo_rpd_studio.app.settings_manager import SettingsManager
     from calo_rpd_studio.app.state_manager import AppState
     from calo_rpd_studio.gui.widgets.scrollable_page import ScrollablePage
 
+    _disable_startup_side_effects(monkeypatch, MainWindow)
     state = AppState(tmp_path / "scroll-layout.sqlite")
     window = MainWindow(state, ExperimentManager(state), SettingsManager())
-    qtbot.addWidget(window)
+    _isolate_main_window(qtbot, monkeypatch, window)
     scrollable = [page for page in window.pages if isinstance(page, ScrollablePage)]
     assert len(scrollable) == 5
 
@@ -138,9 +184,11 @@ def test_result_review_opens_selected_run_in_validation(qtbot, tmp_path, monkeyp
     from calo_rpd_studio.app.settings_manager import SettingsManager
     from calo_rpd_studio.app.state_manager import AppState
 
+    _disable_startup_side_effects(monkeypatch, MainWindow)
     state = AppState(tmp_path / "review-navigation.sqlite")
+    _submit_minimal_algorithm_stage(state)
     window = MainWindow(state, ExperimentManager(state), SettingsManager())
-    qtbot.addWidget(window)
+    _isolate_main_window(qtbot, monkeypatch, window)
     for key in ("power_system", "orpd", "algorithms", "calo", "scenarios"):
         window.workflow.mark_completed(key)
     window.workflow.mark_experiment_completed()

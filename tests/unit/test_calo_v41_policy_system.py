@@ -83,7 +83,7 @@ def test_pre_freeze_policy_cannot_activate_bind_or_delete_directly(tmp_path):
     assert policy.qualification_status == "candidate"
     assert policy.grade == "U"
 
-    with pytest.raises(ValueError, match="Existing/pre-freeze"):
+    with pytest.raises(ValueError, match="compatible frozen TSH-CALO ensemble"):
         registry.activate(policy.id)
 
     database.add_policy_qualification(
@@ -98,12 +98,14 @@ def test_pre_freeze_policy_cannot_activate_bind_or_delete_directly(tmp_path):
     )
     config = ExperimentConfig()
     config.algorithms = ["CALO"]
-    with pytest.raises(ValueError, match="Existing/pre-freeze"):
+    with pytest.raises(ValueError, match="qualified TSH-CALO ensemble"):
         registry.bind_to_experiment_config(policy.id, config, deterministic=True)
     with pytest.raises(PermissionError, match="inventory"):
         registry.delete(policy.id, delete_artifact=True)
-    assert "qualification evidence" in registry.unqualified_candidate_removal_blocker(policy.id)
-    with pytest.raises(PermissionError, match="qualification evidence"):
+    assert "reviewed policy-retirement workflow" in registry.unqualified_candidate_removal_blocker(
+        policy.id
+    )
+    with pytest.raises(PermissionError, match="reviewed policy-retirement workflow"):
         registry.remove_unqualified_candidate(policy.id)
     assert registry.get(policy.id).active is False
     assert Path(policy.checkpoint_path).is_file()
@@ -183,5 +185,5 @@ def test_policy_activation_rejects_incompatible_legacy_policy(tmp_path):
         score=99.0,
         qualification_status="legacy_qualified",
     )
-    with pytest.raises(ValueError, match="Existing/pre-freeze"):
+    with pytest.raises(ValueError, match="compatible frozen TSH-CALO ensemble"):
         registry.activate(policy.id)

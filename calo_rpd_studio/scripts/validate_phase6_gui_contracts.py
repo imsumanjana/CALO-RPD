@@ -209,9 +209,7 @@ def validate(output: Path, *, platform: str) -> dict:
     if len(command_labels) != len(set(command_labels)):
         raise AssertionError("The ribbon contains duplicate visible command labels")
     workspace_commands = tuple(
-        item.command_id
-        for item in window.command_registry.specs
-        if item.category == "Workspace"
+        item.command_id for item in window.command_registry.specs if item.category == "Workspace"
     )
     if workspace_commands != (
         "workspace.portfolio",
@@ -223,9 +221,7 @@ def validate(output: Path, *, platform: str) -> dict:
     ):
         raise AssertionError(f"Workspace owns unexpected commands: {workspace_commands!r}")
     experiment_commands = tuple(
-        item.command_id
-        for item in window.command_registry.specs
-        if item.category == "Experiment"
+        item.command_id for item in window.command_registry.specs if item.category == "Experiment"
     )
     if experiment_commands != (
         "experiment.individual",
@@ -235,9 +231,7 @@ def validate(output: Path, *, platform: str) -> dict:
     ):
         raise AssertionError(f"Experiment owns unexpected commands: {experiment_commands!r}")
     compute_commands = tuple(
-        item.command_id
-        for item in window.command_registry.specs
-        if item.category == "Compute"
+        item.command_id for item in window.command_registry.specs if item.category == "Compute"
     )
     if compute_commands != (
         "compute.settings",
@@ -247,18 +241,12 @@ def validate(output: Path, *, platform: str) -> dict:
     ):
         raise AssertionError(f"Compute owns unexpected commands: {compute_commands!r}")
     results_commands = tuple(
-        item.command_id
-        for item in window.command_registry.specs
-        if item.category == "Results"
+        item.command_id for item in window.command_registry.specs if item.category == "Results"
     )
-    if results_commands != (
-        "results.explorer",
-    ):
+    if results_commands != ("results.explorer",):
         raise AssertionError(f"Results owns unexpected commands: {results_commands!r}")
     help_commands = tuple(
-        item.command_id
-        for item in window.command_registry.specs
-        if item.category == "Help"
+        item.command_id for item in window.command_registry.specs if item.category == "Help"
     )
     if help_commands != ("help.guide", "help.about"):
         raise AssertionError(f"Help owns unexpected commands: {help_commands!r}")
@@ -270,8 +258,7 @@ def validate(output: Path, *, platform: str) -> dict:
         "algorithms.calo",
         "algorithms.flags",
     ) or not all(
-        window.command_registry.action(item.command_id).isEnabled()
-        for item in algorithm_commands
+        window.command_registry.action(item.command_id).isEnabled() for item in algorithm_commands
     ):
         raise AssertionError("The first-use Algorithms ribbon commands are not all available")
     first_step = window.workflow.next_descriptor()
@@ -289,15 +276,12 @@ def validate(output: Path, *, platform: str) -> dict:
         raise AssertionError("The first-use Algorithms command did not open its workspace")
     if algorithms_panel.content_stack.currentWidget() is not algorithms_panel.algorithm_page:
         raise AssertionError("Algorithms did not open its dedicated selection surface")
-    if (
-        algorithms_panel.submit_algorithms_button.text()
-        != "Submit algorithms for experiment"
-    ):
+    if algorithms_panel.submit_algorithms_button.text() != "Submit algorithms for experiment":
         raise AssertionError("Algorithms has no explicit experiment-staging Submit action")
     if algorithms_panel.reset_algorithms_button.text() != "Reset selection":
         raise AssertionError("Algorithms has no explicit staging-discard Reset action")
-    if "staged for experiment" not in algorithms_panel.algorithm_stage_status.text().lower():
-        raise AssertionError("Algorithms does not report the currently staged selection")
+    if "no algorithms are staged" not in algorithms_panel.algorithm_stage_status.text().lower():
+        raise AssertionError("Algorithms does not report the first-use staging prerequisite")
     expected_algorithm_table_height = (
         max(
             algorithms_panel.table.horizontalHeader().height(),
@@ -315,10 +299,7 @@ def validate(output: Path, *, platform: str) -> dict:
         == expected_algorithm_table_height
     ):
         raise AssertionError("Algorithms table does not fit its registered row list")
-    if (
-        algorithms_panel.table.verticalScrollBarPolicy()
-        != Qt.ScrollBarPolicy.ScrollBarAlwaysOff
-    ):
+    if algorithms_panel.table.verticalScrollBarPolicy() != Qt.ScrollBarPolicy.ScrollBarAlwaysOff:
         raise AssertionError("Algorithms table retained a nested vertical scrollbar")
     if (
         state.task_status.busy,
@@ -330,10 +311,7 @@ def validate(output: Path, *, platform: str) -> dict:
     application.processEvents()
     if algorithms_panel.content_stack.currentWidget() is not algorithms_panel.settings_page:
         raise AssertionError("CALO settings did not open its dedicated settings surface")
-    if (
-        algorithms_panel.save_settings_button.text()
-        != "Save CALO and TSH-CALO settings"
-    ):
+    if algorithms_panel.save_settings_button.text() != "Save CALO and TSH-CALO settings":
         raise AssertionError("CALO/TSH-CALO settings have no explicit Save action")
     if algorithms_panel.tsh_allow_cpu_fallback.isEnabled():
         raise AssertionError("TSH-CALO policy fallback escaped its fail-closed runtime contract")
@@ -463,8 +441,7 @@ def validate(output: Path, *, platform: str) -> dict:
     if training_editor.action_bar.isHidden():
         raise AssertionError("Training action footer is not visible with the training inputs")
     if training_editor.status.text() != (
-        "Ready for validation · plan will be generated from these inputs · "
-        "automatic recovery is on"
+        "Ready for validation · plan will be generated from these inputs · automatic recovery is on"
     ):
         raise AssertionError("Training inputs were refreshed before their status control was ready")
     if training_editor.training_action_button.text() != "Check readiness":
@@ -547,8 +524,7 @@ def validate(output: Path, *, platform: str) -> dict:
         if token not in campaign_source:
             raise AssertionError(f"Checkpoint-safe finite training contract is absent: {token}")
     extension_source = (
-        REPOSITORY_ROOT
-        / "calo_rpd_studio/algorithms/calo/tsh_calo_training_extension.py"
+        REPOSITORY_ROOT / "calo_rpd_studio/algorithms/calo/tsh_calo_training_extension.py"
     ).read_text(encoding="utf-8")
     for token in (
         "IndependentTSHCALOTrainingExtension",
@@ -648,9 +624,7 @@ def validate(output: Path, *, platform: str) -> dict:
                 evidence_table.horizontalHeader().height(),
                 evidence_table.horizontalHeader().sizeHint().height(),
             )
-            + sum(
-                evidence_table.rowHeight(row) for row in range(evidence_table.rowCount())
-            )
+            + sum(evidence_table.rowHeight(row) for row in range(evidence_table.rowCount()))
             + evidence_table.frameWidth() * 2
         )
         if evidence_table.height() != expected_evidence_height:
@@ -678,7 +652,7 @@ def validate(output: Path, *, platform: str) -> dict:
         "completed_campaigns()",
         "Permanently delete completed model files",
         "Permanently delete model file",
-        "Qualification required",
+        "Training complete · import required",
         "_delete_standalone_policy_file",
     ):
         if token not in intelligence_source:
@@ -695,25 +669,27 @@ def validate(output: Path, *, platform: str) -> dict:
     application.processEvents()
     application.processEvents()
     if preview_scroll.verticalScrollBar().value() != 0:
-        raise AssertionError("Policy selection moved the main preview away from its scroll position")
+        raise AssertionError(
+            "Policy selection moved the main preview away from its scroll position"
+        )
     intelligence._reveal_influence_analysis()
     application.processEvents()
-    influence_top = intelligence.influence_group.mapTo(
-        preview_scroll.viewport(), QPoint(0, 0)
-    ).y()
+    influence_top = intelligence.influence_group.mapTo(preview_scroll.viewport(), QPoint(0, 0)).y()
     if influence_top >= preview_scroll.viewport().height():
-        raise AssertionError("Completed-assessment Influence reveal did not reach the evidence block")
+        raise AssertionError(
+            "Completed-assessment Influence reveal did not reach the evidence block"
+        )
     preview_scroll.verticalScrollBar().setValue(0)
-    preview_scroll.verticalScrollBar().setValue(
-        preview_scroll.verticalScrollBar().maximum()
-    )
+    preview_scroll.verticalScrollBar().setValue(preview_scroll.verticalScrollBar().maximum())
     application.processEvents()
     evidence_bottom = intelligence.influence_group.mapTo(
         preview_scroll.viewport(),
         QPoint(0, intelligence.influence_group.height()),
     ).y()
     if evidence_bottom > preview_scroll.viewport().height():
-        raise AssertionError("The bottom of policy Influence analysis is unreachable above Activity")
+        raise AssertionError(
+            "The bottom of policy Influence analysis is unreachable above Activity"
+        )
     if preview_scroll.verticalScrollBar().value() != preview_scroll.verticalScrollBar().maximum():
         raise AssertionError("The main preview could not reach the complete policy evidence page")
     preview_scroll.verticalScrollBar().setValue(0)

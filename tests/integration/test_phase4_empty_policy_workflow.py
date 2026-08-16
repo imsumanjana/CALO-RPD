@@ -22,6 +22,9 @@ def _complete_tsh_binding(*, policy_sha256: str = "b" * 64) -> dict:
             "training_provenance": {
                 "source_kind": "independent_policy_training",
                 "source_commit": freeze_commit,
+                "training_run_id": f"synthetic-member-{index + 1}",
+                "development_cases": ["synthetic-development-case"],
+                "training_episode_receipts": [{"receipt_sha256": str(index + 3) * 64}],
                 "development_freeze_commit": freeze_commit,
                 "development_freeze_sha256": "d" * 64,
                 "phase4_acceptance_sha256": "a" * 64,
@@ -160,7 +163,7 @@ def test_tsh_calo_is_executable_only_with_an_immutable_qualified_binding():
         "allow_unqualified_policy": False,
     }
 
-    with pytest.raises(ValueError, match="immutable qualified policy binding"):
+    with pytest.raises(ValueError, match="immutable scientist-selected policy binding"):
         config.validate()
 
 
@@ -232,6 +235,9 @@ def test_gui_exposes_exact_candidate_deletion_and_blocks_historical_training_sur
         encoding="utf-8"
     )
     algorithms = Path("calo_rpd_studio/gui/panels/algorithms_panel.py").read_text(encoding="utf-8")
+    experiment_config = Path("calo_rpd_studio/experiments/experiment_config.py").read_text(
+        encoding="utf-8"
+    )
 
     assert "discover_bundled" not in intelligence
     assert 'QPushButton("Delete model files")' in intelligence
@@ -247,4 +253,4 @@ def test_gui_exposes_exact_candidate_deletion_and_blocks_historical_training_sur
     assert "POLICY_GATED_SPECS" in algorithms
     assert "def _safe_defaults" in algorithms
     assert 'if name == "CALO"' in algorithms
-    assert "Primary CALO is rule-only in v12" in algorithms
+    assert "Primary CALO is rule-only in v12" in experiment_config

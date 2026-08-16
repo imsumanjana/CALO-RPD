@@ -26,6 +26,67 @@ def _audited_workspace(state):
     return state.execution_control.active_plan(ExecutionPlanKind.WORKSPACE)
 
 
+def test_portfolio_preview_treats_missing_stage_as_prerequisite(
+    qtbot, tmp_path, monkeypatch
+) -> None:
+    technical_errors = []
+    monkeypatch.setattr(
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.log_technical_error",
+        lambda *args, **kwargs: technical_errors.append((args, kwargs)),
+    )
+    state = AppState(tmp_path / "portfolio-missing-stage.sqlite")
+    panel = PortfolioManagerPanel(state)
+    qtbot.addWidget(panel)
+
+    panel.refresh_plan()
+
+    assert "Submit at least one algorithm" in panel.plan_summary.text()
+    assert "No plan or execution has started" in panel.plan_detail.text()
+    assert technical_errors == []
+
+
+def test_portfolio_preview_treats_empty_study_filter_as_prerequisite(
+    qtbot, tmp_path, monkeypatch
+) -> None:
+    technical_errors = []
+    monkeypatch.setattr(
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.log_technical_error",
+        lambda *args, **kwargs: technical_errors.append((args, kwargs)),
+    )
+    state = AppState(tmp_path / "portfolio-empty-filter.sqlite")
+    _submit_stage(state)
+    panel = PortfolioManagerPanel(state)
+    qtbot.addWidget(panel)
+
+    panel._clear_study_filter()
+
+    assert "Select at least one submitted algorithm" in panel.plan_summary.text()
+    assert "does not modify the submitted algorithm stage" in panel.plan_detail.text()
+    assert technical_errors == []
+
+
+def test_portfolio_preview_treats_stage_config_drift_as_resubmission_prerequisite(
+    qtbot, tmp_path, monkeypatch
+) -> None:
+    technical_errors = []
+    monkeypatch.setattr(
+        "calo_rpd_studio.gui.panels.portfolio_manager_panel.log_technical_error",
+        lambda *args, **kwargs: technical_errors.append((args, kwargs)),
+    )
+    state = AppState(tmp_path / "portfolio-stage-config-drift.sqlite")
+    _submit_stage(state)
+    state.config.algorithms = ["PSO"]
+    panel = PortfolioManagerPanel(state)
+    qtbot.addWidget(panel)
+
+    panel.refresh_plan()
+
+    assert "does not match the current experiment configuration" in panel.plan_summary.text()
+    assert "submit them again" in panel.plan_detail.text()
+    assert "retained stage was not changed" in panel.plan_detail.text()
+    assert technical_errors == []
+
+
 def test_workspace_staging_freezes_individual_and_portfolio_editing(qtbot, tmp_path) -> None:
     state = AppState(tmp_path / "workspace-freeze.sqlite")
     _submit_stage(state)

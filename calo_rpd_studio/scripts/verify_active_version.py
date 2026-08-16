@@ -113,9 +113,9 @@ def verify_active_version(root: Path = PROJECT_ROOT) -> dict:
         and status.get("phase_5_publication_authorized") is False
         and status.get("phase_6_started") is True
         and status.get("phase_6_goal")
-        == "scroll_preserving_policy_selection_guarded_standalone_model_deletion_and_architecture_schema_bound_cross_version_extension_implementation_complete_validation_pending"
+        == "explicit_policy_library_qualification_admission_comparison_activation_workflow_plus_prior_scroll_deletion_and_cross_version_extension_corrections_implementation_complete_validation_pending"
         and status.get("phase_6_coding")
-        == "implemented_no_selection_autoscroll_removed_review_ui_exact_first_row_candidate_deletion_and_software_revision_independent_compatible_extension_validation_pending"
+        == "implemented_in_library_formal_plan_check_run_resume_integrity_bound_evidence_admission_comparable_policy_review_explicit_activation_no_selection_autoscroll_exact_candidate_deletion_and_software_revision_independent_compatible_extension_validation_pending"
         and status.get("phase_6_training_interface")
         == "ribbon_navigation_only_tsh_calo_only_training_no_architecture_selector_optional_settings_template_per_user_default_model_directory_registered_resume_scan_locations_visible_scientific_inputs_protected_118_300_locked_visible_default_off_exact_resume_in_pane_readiness_then_explicit_confirmed_start_rule_based_calo_remains_in_algorithm_selection_no_redundant_document"
         and status.get("phase_6_training_input_help")
@@ -162,8 +162,7 @@ def verify_active_version(root: Path = PROJECT_ROOT) -> dict:
         == "full_width_expanding_policy_field_status_and_action_dynamic_page_height_bottom_clearance_manual_outer_scroll_reaches_complete_block_and_model_selection_preserves_scroll_position_validation_pending"
         and status.get("phase_6_extension_retained_state")
         == "model_optimizer_numpy_rng_torch_rng_ppo_updates_episode_receipts_device_memory_session_environment_rollout_collector_exact_accounting"
-        and status.get("phase_6_extension_count_limit")
-        == "none_each_segment_explicit_and_finite"
+        and status.get("phase_6_extension_count_limit") == "none_each_segment_explicit_and_finite"
         and status.get("phase_6_extension_scientific_claim")
         == "no_improvement_superiority_qualification_registration_or_activation_inferred"
         and status.get("phase_6_validation_policy_or_scientific_workflows_executed") is False

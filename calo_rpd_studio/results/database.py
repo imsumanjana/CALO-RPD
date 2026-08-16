@@ -560,18 +560,14 @@ class ResultDatabase:
         """Verify a campaign config against the exact immutable plan or Workspace cell."""
 
         design = cls._verified_plan_design(plan)
-        campaign = con.execute(
-            "SELECT * FROM campaigns WHERE id=?", (str(campaign_id),)
-        ).fetchone()
+        campaign = con.execute("SELECT * FROM campaigns WHERE id=?", (str(campaign_id),)).fetchone()
         if campaign is None:
             raise KeyError(f"Unknown campaign: {campaign_id}")
         stored = json.loads(str(campaign["config_json"]))
         if (
             str(stored.get("execution_plan_id", "")) != str(plan["id"])
-            or str(stored.get("execution_plan_design_sha256", ""))
-            != str(plan["design_sha256"])
-            or str(stored.get("algorithm_stage_id", ""))
-            != str(plan["algorithm_stage_id"])
+            or str(stored.get("execution_plan_design_sha256", "")) != str(plan["design_sha256"])
+            or str(stored.get("algorithm_stage_id", "")) != str(plan["algorithm_stage_id"])
         ):
             raise RuntimeError("The retained campaign identity does not match its execution plan")
         cell_id = str(stored.get("workspace_plan_cell_id", "") or "")
@@ -660,9 +656,7 @@ class ResultDatabase:
 
     def get_execution_controller(self) -> dict:
         with self.connect() as con:
-            row = con.execute(
-                "SELECT * FROM execution_controller WHERE singleton_id=1"
-            ).fetchone()
+            row = con.execute("SELECT * FROM execution_controller WHERE singleton_id=1").fetchone()
         return self._verified_controller_payload(row)
 
     def get_active_algorithm_stage(self) -> dict | None:
@@ -789,7 +783,9 @@ class ResultDatabase:
         now = self._utcnow()
         design = plan.design_payload()
         if _canonical_sha256(design) != str(plan.design_sha256):
-            raise RuntimeError("Execution-plan design checksum does not match its canonical payload")
+            raise RuntimeError(
+                "Execution-plan design checksum does not match its canonical payload"
+            )
         receipt = self._execution_state_receipt(
             plan_id=plan.plan_id,
             design_sha256=plan.design_sha256,
@@ -804,13 +800,17 @@ class ResultDatabase:
             ).fetchone()
             controller = self._verified_controller_payload(controller)
             if str(controller["controller"]) != "none":
-                raise RuntimeError("A new plan cannot be created while another execution controller is active")
+                raise RuntimeError(
+                    "A new plan cannot be created while another execution controller is active"
+                )
             stage = con.execute(
                 "SELECT content_sha256 FROM algorithm_stages WHERE id=? AND status='active'",
                 (str(plan.algorithm_stage_id),),
             ).fetchone()
             if stage is None or str(stage["content_sha256"]) != str(plan.algorithm_stage_sha256):
-                raise RuntimeError("The plan is not bound to the currently submitted algorithm stage")
+                raise RuntimeError(
+                    "The plan is not bound to the currently submitted algorithm stage"
+                )
             existing = con.execute(
                 "SELECT * FROM execution_plans WHERE plan_kind=? AND active_slot=1",
                 (kind,),
@@ -864,7 +864,9 @@ class ResultDatabase:
 
     def get_execution_plan(self, plan_id: str) -> dict | None:
         with self.connect() as con:
-            row = con.execute("SELECT * FROM execution_plans WHERE id=?", (str(plan_id),)).fetchone()
+            row = con.execute(
+                "SELECT * FROM execution_plans WHERE id=?", (str(plan_id),)
+            ).fetchone()
         payload = self._decoded_execution_plan(row)
         if payload is None:
             return None
@@ -917,13 +919,13 @@ class ResultDatabase:
         with self._lock, self.connect() as con:
             con.execute("BEGIN IMMEDIATE")
             controller = self._verified_controller_payload(
-                con.execute(
-                    "SELECT * FROM execution_controller WHERE singleton_id=1"
-                ).fetchone()
+                con.execute("SELECT * FROM execution_controller WHERE singleton_id=1").fetchone()
             )
             if str(controller["controller"]) != "none":
                 raise RuntimeError("An audit receipt cannot be committed while execution is owned")
-            row = con.execute("SELECT * FROM execution_plans WHERE id=?", (str(plan_id),)).fetchone()
+            row = con.execute(
+                "SELECT * FROM execution_plans WHERE id=?", (str(plan_id),)
+            ).fetchone()
             if row is None:
                 raise KeyError(f"Unknown execution plan: {plan_id}")
             self._verified_plan_design(row)
@@ -977,7 +979,9 @@ class ResultDatabase:
                 raise RuntimeError("Execution plan or controller record is missing")
             self._verified_plan_design(plan)
             if str(controller["controller"]) != "none":
-                raise RuntimeError("An unstarted draft cannot be discarded while a controller owns work")
+                raise RuntimeError(
+                    "An unstarted draft cannot be discarded while a controller owns work"
+                )
             if str(plan["lifecycle_state"]) not in {"draft", "audited"}:
                 raise RuntimeError("Only a draft or audited unstarted plan can use draft discard")
             revision = int(plan["state_revision"]) + 1
@@ -1041,9 +1045,13 @@ class ResultDatabase:
                     "Execution control is already owned by "
                     f"{str(controller['controller'])} plan {str(controller['owner_plan_id'])!r}"
                 )
-            plan = con.execute("SELECT * FROM execution_plans WHERE id=?", (str(plan_id),)).fetchone()
+            plan = con.execute(
+                "SELECT * FROM execution_plans WHERE id=?", (str(plan_id),)
+            ).fetchone()
             if plan is None or str(plan["plan_kind"]) != expected_plan_kind:
-                raise RuntimeError("The requested controller does not match the execution-plan kind")
+                raise RuntimeError(
+                    "The requested controller does not match the execution-plan kind"
+                )
             design = self._verified_plan_design(plan)
             expected_states = {"paused", "interrupted_resumable"} if resume else {"audited"}
             current_state = str(plan["lifecycle_state"])
@@ -1058,7 +1066,9 @@ class ResultDatabase:
             if stage is None or str(stage["content_sha256"]) != str(
                 design.get("algorithm_stage_sha256", "")
             ):
-                raise RuntimeError("The execution plan no longer matches the active algorithm stage")
+                raise RuntimeError(
+                    "The execution plan no longer matches the active algorithm stage"
+                )
             if not resume:
                 audit = json.loads(str(plan["audit_json"]))
                 audit_sha = str(plan["audit_sha256"])
@@ -1069,11 +1079,11 @@ class ResultDatabase:
                     or _canonical_sha256(canonical_audit) != audit_sha
                     or str(audit.get("design_sha256", "")) != str(plan["design_sha256"])
                 ):
-                    raise RuntimeError("The unchanged plan does not have a valid fairness-audit receipt")
+                    raise RuntimeError(
+                        "The unchanged plan does not have a valid fairness-audit receipt"
+                    )
             elif str(plan["campaign_id"] or ""):
-                self._verified_campaign_plan_binding(
-                    con, plan, str(plan["campaign_id"])
-                )
+                self._verified_campaign_plan_binding(con, plan, str(plan["campaign_id"]))
             epoch = int(controller["epoch"]) + 1
             controller_revision = int(controller["record_revision"]) + 1
             plan_revision = int(plan["state_revision"]) + 1
@@ -1174,7 +1184,9 @@ class ResultDatabase:
         }
         with self._lock, self.connect() as con:
             con.execute("BEGIN IMMEDIATE")
-            plan = con.execute("SELECT * FROM execution_plans WHERE id=?", (str(plan_id),)).fetchone()
+            plan = con.execute(
+                "SELECT * FROM execution_plans WHERE id=?", (str(plan_id),)
+            ).fetchone()
             controller = con.execute(
                 "SELECT * FROM execution_controller WHERE singleton_id=1"
             ).fetchone()
@@ -1239,7 +1251,9 @@ class ResultDatabase:
                 "campaign_id": "" if release_controller else effective_campaign_id,
                 "lifecycle_state": "" if release_controller else str(new_state),
                 "epoch": next_epoch,
-                "owner_instance_id": "" if release_controller else str(controller["owner_instance_id"]),
+                "owner_instance_id": ""
+                if release_controller
+                else str(controller["owner_instance_id"]),
                 "record_revision": controller_revision,
                 "acquired_at": "" if release_controller else str(controller["acquired_at"]),
             }
@@ -1298,9 +1312,7 @@ class ResultDatabase:
                 "SELECT * FROM execution_plans WHERE id=?", (str(plan_id),)
             ).fetchone()
             controller = self._verified_controller_payload(
-                con.execute(
-                    "SELECT * FROM execution_controller WHERE singleton_id=1"
-                ).fetchone()
+                con.execute("SELECT * FROM execution_controller WHERE singleton_id=1").fetchone()
             )
             if plan is None:
                 raise KeyError(f"Unknown execution plan: {plan_id}")
@@ -1410,9 +1422,7 @@ class ResultDatabase:
         with self._lock, self.connect() as con:
             con.execute("BEGIN IMMEDIATE")
             controller = self._verified_controller_payload(
-                con.execute(
-                    "SELECT * FROM execution_controller WHERE singleton_id=1"
-                ).fetchone()
+                con.execute("SELECT * FROM execution_controller WHERE singleton_id=1").fetchone()
             )
             cell = con.execute(
                 "SELECT workspace_plan_id FROM workspace_plan_cells WHERE id=?",
@@ -1420,10 +1430,9 @@ class ResultDatabase:
             ).fetchone()
             if cell is None:
                 raise KeyError(f"Unknown Workspace plan cell: {cell_id}")
-            if (
-                str(controller["controller"]) != "workspace"
-                or str(controller["owner_plan_id"]) != str(cell["workspace_plan_id"])
-            ):
+            if str(controller["controller"]) != "workspace" or str(
+                controller["owner_plan_id"]
+            ) != str(cell["workspace_plan_id"]):
                 raise RuntimeError("Only the controlling Workspace plan can update its cell ledger")
             con.execute(
                 """UPDATE workspace_plan_cells SET lifecycle_state=?,campaign_id=?,
@@ -1465,7 +1474,9 @@ class ResultDatabase:
             }:
                 raise RuntimeError("A terminal execution plan cannot retain controller ownership")
             if str(plan["plan_kind"]) == "workspace" and prior_state == "paused":
-                raise RuntimeError("A durably paused Workspace plan cannot retain controller ownership")
+                raise RuntimeError(
+                    "A durably paused Workspace plan cannot retain controller ownership"
+                )
             stage = con.execute(
                 "SELECT content_sha256 FROM algorithm_stages WHERE id=? AND status='active'",
                 (str(plan["algorithm_stage_id"]),),
@@ -1473,7 +1484,9 @@ class ResultDatabase:
             if stage is None or str(stage["content_sha256"]) != str(
                 design.get("algorithm_stage_sha256", "")
             ):
-                raise RuntimeError("The interrupted plan no longer matches the active algorithm stage")
+                raise RuntimeError(
+                    "The interrupted plan no longer matches the active algorithm stage"
+                )
             if str(plan["plan_kind"]) == "workspace" and prior_state in {
                 "running",
                 "pausing",
@@ -1503,9 +1516,7 @@ class ResultDatabase:
                         ),
                     )
             new_state = (
-                "interrupted_resumable"
-                if prior_state in {"running", "pausing"}
-                else prior_state
+                "interrupted_resumable" if prior_state in {"running", "pausing"} else prior_state
             )
             epoch = int(controller["epoch"]) + 1
             plan_revision = int(plan["state_revision"]) + 1
@@ -1853,17 +1864,23 @@ class ResultDatabase:
             ]
 
     def create_campaign(
-        self, experiment_id: str, portfolio_id: str, mode: str, config: dict, total_tasks: int
+        self,
+        experiment_id: str,
+        portfolio_id: str | None,
+        mode: str,
+        config: dict,
+        total_tasks: int,
     ) -> str:
         campaign_id = str(uuid.uuid4())
         now = self._utcnow()
+        portfolio_reference = str(portfolio_id or "").strip() or None
         with self._lock, self.connect() as con:
             con.execute(
                 "INSERT INTO campaigns VALUES(?,?,?,?,?,?,?,?,?,?,?)",
                 (
                     campaign_id,
                     experiment_id,
-                    portfolio_id,
+                    portfolio_reference,
                     now,
                     now,
                     str(mode),
@@ -1923,9 +1940,7 @@ class ResultDatabase:
                 )
 
     @staticmethod
-    def _commit_campaign_paused_rows(
-        con, campaign_id: str, *, now: str, message: str
-    ) -> None:
+    def _commit_campaign_paused_rows(con, campaign_id: str, *, now: str, message: str) -> None:
         """Commit the final campaign pause boundary inside the controller transaction."""
 
         campaign = con.execute(
@@ -1962,12 +1977,8 @@ class ResultDatabase:
         )
 
     @staticmethod
-    def _cancel_campaign_remaining_rows(
-        con, campaign_id: str, *, now: str, message: str
-    ) -> None:
-        campaign = con.execute(
-            "SELECT * FROM campaigns WHERE id=?", (str(campaign_id),)
-        ).fetchone()
+    def _cancel_campaign_remaining_rows(con, campaign_id: str, *, now: str, message: str) -> None:
+        campaign = con.execute("SELECT * FROM campaigns WHERE id=?", (str(campaign_id),)).fetchone()
         if campaign is None:
             raise KeyError(f"Unknown campaign: {campaign_id}")
         unfinished = con.execute(
