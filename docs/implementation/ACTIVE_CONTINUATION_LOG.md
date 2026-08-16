@@ -3078,3 +3078,24 @@ Append timestamped entries below this line after each material action, validatio
 - Unit/GUI/offscreen contracts and ignored Phase 6 validator schema v8 were updated. Codex did not
   execute tests, lint, formatting, compilation, Qt, the validator, Docker, policy/scientific work,
   or release checks. Fresh owner Phase 6 validation is pending.
+
+## 2026-08-16 - Workspace-managed and individual execution source implementation
+
+- A new immutable AlgorithmStage is persisted only by explicit Algorithms Submit. Workspace plans
+  bind a non-empty subset of that stage; individual plans bind the complete unchanged stage. The
+  records retain canonical design hashes, parameter hashes, provenance, explicit study cells, and
+  separate mutable lifecycle receipts. Legacy configuration is not silently promoted to a stage.
+- SQLite schema v2 adds rollback-backed migration, one fenced controller singleton, plan/cell/event
+  records, parent plan/cell campaign-task identity, and duplicate job-admission protection. Staging
+  acquires authority without starting numerical work. Workspace durable PAUSED releases authority;
+  individual PAUSED retains it. Safe pause and terminal cancellation are distinct.
+- Portfolio presets no longer mutate the authoritative algorithm list. Workspace multi-cell
+  orchestration feeds immutable per-cell clones to the existing ExperimentManager; no optimizer,
+  CALO/TSH-CALO architecture, policy lifecycle/training/qualification, FE accounting, seed, budget,
+  protected-case, or completed-evidence behavior was changed.
+- The Experiment ribbon now has a unique Individual experiment route and no duplicate global Stop.
+  Persisted ownership drives page/ribbon freeze, resume interlock, and truthful owner messages.
+- Production, unit/integration/GUI contract source, plan record, ledgers, and ignored Phase 6
+  validator schema v9 were updated. Codex executed no test, lint, format, compile, schema, GUI,
+  validator, Docker, experiment, policy, qualification, protected-case, or release command. All
+  prior validation evidence predates this source; a fresh full owner-run Phase 6 bundle is pending.

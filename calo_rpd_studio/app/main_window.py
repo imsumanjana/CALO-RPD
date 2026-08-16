@@ -54,6 +54,7 @@ from .experiment_workspace_restorer import ExperimentWorkspaceRestorer
 from .project_manager import ProjectManager
 from .session_recovery import SessionRecoveryJournal
 from .workflow_manager import WorkflowManager
+from .workspace_campaign import WorkspaceCampaignCoordinator
 from .workspaces import (
     WORKSPACE_KEYS,
     WORKSPACE_LAYOUT_ID,
@@ -77,6 +78,7 @@ class MainWindow(QMainWindow):
         self.experiment_manager = experiment_manager
         self.settings_manager = settings_manager
         self.workflow = WorkflowManager(state)
+        self.workspace_campaign = WorkspaceCampaignCoordinator(state, experiment_manager, self)
         self._close_when_paused = False
         self._training_exclusive_active = False
         self._task_interaction_locked = False
@@ -100,7 +102,11 @@ class MainWindow(QMainWindow):
             "algorithms": AlgorithmsPanel(state),
             "portfolio": PortfolioManagerPanel(state),
             "scenarios": RobustScenariosPanel(state),
-            "experiment": ExperimentManagerPanel(state, experiment_manager),
+            "experiment": ExperimentManagerPanel(
+                state,
+                experiment_manager,
+                workspace_coordinator=self.workspace_campaign,
+            ),
             "live_optimization": LiveOptimizationPanel(state, experiment_manager),
             "statistics": StatisticalAnalysisPanel(state),
             "results": ResultsExplorerPanel(state),
@@ -224,9 +230,14 @@ class MainWindow(QMainWindow):
         self.pages_by_key["experiment"].workspace_requested.connect(self._set_workspace)
         self.pages_by_key["settings"].density_changed.connect(self._apply_interface_density)
         self.experiment_manager.started.connect(lambda _: self.workflow.mark_experiment_started())
-        self.experiment_manager.completed.connect(
+        self.experiment_manager.completed.connect(self._manager_completion_workflow_event)
+        self.workspace_campaign.finished.connect(
             lambda _: self.workflow.mark_experiment_completed()
         )
+        self.workspace_campaign.cancelled.connect(
+            lambda _: self.workflow.mark_experiment_stopped()
+        )
+        self.experiment_manager.paused.connect(lambda _: self.workflow.mark_experiment_stopped())
         self.experiment_manager.cancelled.connect(lambda _: self.workflow.mark_experiment_stopped())
         self.experiment_manager.failed.connect(lambda _: self.workflow.mark_experiment_stopped())
         self.experiment_manager.completed.connect(lambda _: self._finish_deferred_close())
@@ -247,20 +258,31 @@ class MainWindow(QMainWindow):
             lambda _status: self.workflow.notify_governing_policy_changed()
         )
         self.state.compute_profile_changed.connect(lambda _profile: self._refresh_workflow())
+        self.state.execution_state_changed.connect(lambda _controller: self._refresh_workflow())
         self.state.policy_training_changed.connect(self._on_policy_training_changed)
         self.workflow.changed.connect(self._refresh_workflow)
         self.workflow.changed.connect(self._persist_workspace_state)
+
+    def _manager_completion_workflow_event(self, _experiment_id: str) -> None:
+        if self.workspace_campaign.active:
+            return
+        self.workflow.mark_experiment_completed()
 
     def _governing_policy_event(self) -> None:
         status = self.state.notify_policy_state_changed()
         self._refresh_workflow()
         if status.ready:
-            self._show_status_message(
-                "Governing policy applied · Power System is unlocked for experiment setup"
-            )
-            # Navigation changes no scientific state and starts no evaluation. It exposes the
-            # next explicit setup step only after the qualified immutable policy binding passes.
-            self._set_workspace("power_system")
+            if self.state.execution_control.active_stage() is None:
+                self._show_status_message(
+                    "Governing policy applied · submit algorithms before opening experiment setup"
+                )
+            else:
+                self._show_status_message(
+                    "Governing policy applied · Power System is unlocked for experiment setup"
+                )
+                # Navigation changes no scientific state and starts no evaluation. It exposes the
+                # next explicit setup step only after the qualified immutable policy binding passes.
+                self._set_workspace("power_system")
 
     def _apply_interface_density(self, density: str) -> None:
         self.interface_density = apply_compact_input_policy(self.stack, density)
@@ -301,11 +323,6 @@ class MainWindow(QMainWindow):
         state = str(snapshot.get("state", "Ready"))
         title = str(snapshot.get("title", "") or snapshot.get("detail", ""))
         self.ribbon.set_summary(f"{state} · {title}" if title else state)
-        self.command_registry.set_available(
-            "experiment.stop",
-            bool(snapshot.get("busy")) and bool(snapshot.get("cancellable")),
-            "The current task does not expose safe cancellation.",
-        )
         if not snapshot.get("busy") and snapshot.get("state") in {
             "Completed",
             "Failed",
@@ -321,7 +338,9 @@ class MainWindow(QMainWindow):
         if locked == self._task_interaction_locked:
             return
         self._task_interaction_locked = locked
-        enabled = not locked
+        controller = self.state.execution_control.controller()
+        controlled_execution = str(controller["controller"]) != "none"
+        enabled = not locked or controlled_execution
         self.ribbon.setEnabled(enabled)
         self.context_dock.setEnabled(enabled)
         self.documents.setEnabled(enabled)
@@ -381,12 +400,62 @@ class MainWindow(QMainWindow):
             "Configuration is locked while training owns runtime state.",
         )
         self.command_registry.set_available("policies.training", True)
-        task = self.state.task_status.snapshot()
-        self.command_registry.set_available(
-            "experiment.stop",
-            bool(task.get("busy")) and bool(task.get("cancellable")),
-            "The current task does not expose safe cancellation.",
+        controller = self.state.execution_control.controller()
+        controller_kind = str(controller["controller"])
+        owner_plan = str(controller["owner_plan_id"])
+        stage_ready = self.state.execution_control.active_stage() is not None
+        if not stage_ready:
+            for command_id in (
+                "workspace.portfolio",
+                "workspace.study",
+                "workspace.validation",
+                "workspace.publication",
+                "experiment.individual",
+                "experiment.power",
+                "experiment.formulation",
+                "experiment.scenarios",
+            ):
+                self.command_registry.set_available(
+                    command_id,
+                    False,
+                    "Submit at least one algorithm for experiment use first.",
+                )
+        for command_id in (
+            "project.open",
+            "algorithms.configure",
+            "algorithms.flags",
+            "compute.settings",
+        ):
+            if command_id in {spec.command_id for spec in self.command_registry.specs}:
+                self.command_registry.set_available(
+                    command_id,
+                    controller_kind == "none" and not training_active,
+                    (
+                        f"Execution plan {owner_plan!r} owns the immutable configuration."
+                        if controller_kind != "none"
+                        else "Configuration is locked while training owns runtime state."
+                    ),
+                )
+        experiment_commands = (
+            "experiment.individual",
+            "experiment.power",
+            "experiment.formulation",
+            "experiment.scenarios",
         )
+        if controller_kind == "workspace":
+            for command_id in experiment_commands:
+                self.command_registry.set_available(
+                    command_id,
+                    False,
+                    f"Workspace plan {owner_plan!r} owns experiment execution.",
+                )
+        elif controller_kind == "individual_experiment":
+            for command_id in ("experiment.power", "experiment.formulation", "experiment.scenarios"):
+                self.command_registry.set_available(
+                    command_id,
+                    False,
+                    f"Individual plan {owner_plan!r} owns the immutable experiment inputs.",
+                )
         self.activity_center.refresh_context()
         self.global_status.apply_context(self.state)
 
@@ -416,6 +485,35 @@ class MainWindow(QMainWindow):
     def _set_workspace(self, workspace: str | int, *, command_id: str = "") -> None:
         self._persist_workspace_state()
         key = self._workspace_key(workspace)
+        if self.state.execution_control.active_stage() is None and key in {
+            "power_system",
+            "orpd",
+            "portfolio",
+            "scenarios",
+            "experiment",
+            "validation",
+            "publication",
+        }:
+            QMessageBox.information(
+                self,
+                "Submitted algorithms required",
+                "Submit at least one algorithm for experiment use first.",
+            )
+            return
+        controller = self.state.execution_control.controller()
+        if str(controller["controller"]) != "none" and key in {
+            "power_system",
+            "orpd",
+            "scenarios",
+        }:
+            QMessageBox.information(
+                self,
+                "Immutable execution plan owns these inputs",
+                f"Execution plan {str(controller['owner_plan_id'])!r} owns the frozen case, "
+                "formulation, and scenario inputs. Finish, cancel, or safely hand off according "
+                "to its lifecycle before editing them.",
+            )
+            return
         if bool(getattr(self.state, "policy_training_active", False)) and key not in {
             "dashboard",
             "calo_intelligence",
@@ -627,12 +725,26 @@ class MainWindow(QMainWindow):
             panel = self.pages_by_key.get("algorithms")
             if panel is not None and hasattr(panel, "show_context"):
                 panel.show_context(spec.context)
+        if spec.workspace == "experiment":
+            panel = self.pages_by_key.get("experiment")
+            if panel is not None and hasattr(panel, "show_context"):
+                panel.show_context(spec.context)
         self.context_pane.show_command(spec)
         self.context_dock.show()
 
     def _execute_command(self, command_id: str) -> None:
         spec = self.command_registry.spec(command_id)
-        if self.state.task_status.busy and spec.handler not in {"cancel", "toggle_activity"}:
+        controller = self.state.execution_control.controller()
+        controlling_page = (
+            str(controller["controller"]) != "none"
+            and spec.handler == "workspace"
+            and spec.workspace == "experiment"
+        )
+        if (
+            self.state.task_status.busy
+            and spec.handler not in {"cancel", "toggle_activity"}
+            and not controlling_page
+        ):
             self._show_status_message(
                 "The workspace is locked while the foreground task runs; Activity remains usable."
             )

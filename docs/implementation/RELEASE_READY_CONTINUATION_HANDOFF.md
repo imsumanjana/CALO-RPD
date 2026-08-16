@@ -1763,3 +1763,21 @@ superseded by the stage-neutral compatibility and qualification boundary on 2026
   Workspace, unique visible labels, and the intended ownership. Tests and validator schema v8 were
   updated but not run. Run the complete Phase 6 validator and return its entire new
   `validation\logs\phase6-*` directory for read-only review.
+
+## 2026-08-16 - Workspace and individual execution-controller follow-up
+
+- Current source persists explicit immutable algorithm stages and separate Workspace/individual
+  execution plans. Workspace accepts only a non-empty submitted-stage subset; individual execution
+  uses the complete unchanged stage. Portfolio presets no longer mutate the stage.
+- A schema-v2 SQLite migration creates a verified pre-migration backup, then adds one fenced
+  controller singleton, plan/cell/lifecycle records, and exact parent plan/cell job identities.
+  Controller acquisition, transitions, Workspace safe-pause release, resume reacquisition, and
+  terminal release are transactional and fail closed on foreign/stale epochs or hash mismatch.
+- Workspace owns deterministic multi-cell coordination through the existing ExperimentManager.
+  Durable Workspace PAUSED permits an intervening individual plan without changing the retained
+  Workspace design; Workspace resume waits for controller NONE. Individual PAUSED retains ownership.
+- The source-only scope did not alter CALO or TSH-CALO architecture, policy architecture, training,
+  assessment, qualification, selection, activation, deletion, FE accounting, paired seeds,
+  protected cases, completed evidence, or release records.
+- No validation command was run. The only next engineering command is the complete noninteractive
+  `validation\Validate-Phase6.ps1`; return the entire new `validation\logs\phase6-*` directory.

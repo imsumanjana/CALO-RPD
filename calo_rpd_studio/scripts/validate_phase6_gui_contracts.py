@@ -228,10 +228,10 @@ def validate(output: Path, *, platform: str) -> dict:
         if item.category == "Experiment"
     )
     if experiment_commands != (
+        "experiment.individual",
         "experiment.power",
         "experiment.formulation",
         "experiment.scenarios",
-        "experiment.stop",
     ):
         raise AssertionError(f"Experiment owns unexpected commands: {experiment_commands!r}")
     compute_commands = tuple(

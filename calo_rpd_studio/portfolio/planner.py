@@ -33,24 +33,33 @@ class PortfolioPlan:
         return text
 
 
+@dataclass(frozen=True, slots=True)
+class ArticlePresetRequirements:
+    """Algorithm identities requested by a preset without changing the submitted stage."""
+
+    required_algorithms: tuple[str, ...] = ()
+    recommended_algorithms: tuple[str, ...] = ()
+
+
 class PortfolioPlanner:
     """Translate selected evidence into only the evaluations and stored fields it requires."""
 
     @staticmethod
-    def apply_article_preset(config, portfolio: PortfolioConfig) -> None:
+    def apply_article_preset(config, portfolio: PortfolioConfig) -> ArticlePresetRequirements:
+        """Apply output/evidence defaults and return algorithm requirements.
+
+        ``config`` is retained in the signature for caller compatibility, but presets no longer
+        write to ``config.algorithms``.  The Workspace UI resolves the returned identities against
+        the explicit submitted algorithm stage.
+        """
+
         preset = portfolio.article_preset
         if preset is ArticlePreset.NONE:
-            return
+            return ArticlePresetRequirements()
         portfolio.kind = PortfolioKind.OVERALL_EXPERIMENT
         portfolio.evidence_profile = EvidenceProfile.TRANSACTIONS
         portfolio.require_independent_validation = True
         if preset is ArticlePreset.TLBO_MTLBO:
-            from calo_rpd_studio.algorithms.registry import SPECS
-
-            # Legacy MTLBO is not one of the 20 primary baselines in every release. Select it only
-            # when the registry explicitly exposes it; otherwise retain TLBO and let the dedicated
-            # CALO-ablation/legacy workflow supply MTLBO evidence.
-            config.algorithms = [name for name in ("TLBO", "MTLBO") if name in SPECS]
             portfolio.requested_outputs = [
                 "median_convergence",
                 "convergence_uncertainty_band",
@@ -61,11 +70,11 @@ class PortfolioPlanner:
                 "best_validated_voltage_profile",
                 "control_changes",
             ]
+            return ArticlePresetRequirements(
+                required_algorithms=("TLBO",), recommended_algorithms=("MTLBO",)
+            )
         elif preset is ArticlePreset.CALO_DETERMINISTIC:
-            from calo_rpd_studio.algorithms.registry import SPECS
-
             preferred = ["CALO", "TLBO", "QODE", "CLPSO", "MTLA-DE", "GWO", "MVO", "PSO"]
-            config.algorithms = [name for name in preferred if name in SPECS]
             portfolio.requested_outputs = [
                 "median_convergence",
                 "convergence_uncertainty_band",
@@ -82,11 +91,11 @@ class PortfolioPlanner:
                 "calo_operator_usage",
                 "calo_operator_success",
             ]
+            return ArticlePresetRequirements(
+                required_algorithms=("CALO",), recommended_algorithms=tuple(preferred[1:])
+            )
         elif preset is ArticlePreset.CALO_ROBUST:
-            from calo_rpd_studio.algorithms.registry import SPECS
-
             preferred = ["CALO", "TLBO", "QODE", "CLPSO", "MTLA-DE", "GWO", "MVO", "PSO"]
-            config.algorithms = [name for name in preferred if name in SPECS]
             portfolio.requested_outputs = [
                 "scenario_loss_heatmap",
                 "scenario_feasibility_heatmap",
@@ -98,11 +107,11 @@ class PortfolioPlanner:
                 "critical_difference",
             ]
             portfolio.storage_profile = StorageProfile.ROBUST_FULL
+            return ArticlePresetRequirements(
+                required_algorithms=("CALO",), recommended_algorithms=tuple(preferred[1:])
+            )
         elif preset is ArticlePreset.CALO_TRANSFER_ACCELERATOR:
-            from calo_rpd_studio.algorithms.registry import SPECS
-
             preferred = ["CALO", "TLBO", "QODE", "CLPSO", "MTLA-DE", "GWO", "MVO", "PSO"]
-            config.algorithms = [name for name in preferred if name in SPECS]
             portfolio.requested_outputs = [
                 "median_convergence",
                 "feasible_run_probability",
@@ -111,11 +120,25 @@ class PortfolioPlanner:
                 "parity_scatter",
                 "calo_regime_timeline",
             ]
+            return ArticlePresetRequirements(
+                required_algorithms=("CALO",), recommended_algorithms=tuple(preferred[1:])
+            )
+        return ArticlePresetRequirements()
 
     @staticmethod
-    def plan(config, portfolio: PortfolioConfig, benchmark_blocks: int = 1) -> PortfolioPlan:
+    def plan(
+        config,
+        portfolio: PortfolioConfig,
+        benchmark_blocks: int = 1,
+        *,
+        algorithm_subset: tuple[str, ...] | list[str] | None = None,
+    ) -> PortfolioPlan:
         portfolio.validate()
-        algorithms = list(config.algorithms)
+        algorithms = list(config.algorithms if algorithm_subset is None else algorithm_subset)
+        if not algorithms or len(set(algorithms)) != len(algorithms):
+            raise ValueError("The portfolio algorithm subset must be non-empty and unique")
+        if not set(algorithms).issubset(set(config.algorithms)):
+            raise ValueError("The portfolio algorithm subset contains an algorithm outside the stage")
         runs = portfolio.required_runs()
         disabled: dict[str, str] = {}
         warnings: list[str] = []

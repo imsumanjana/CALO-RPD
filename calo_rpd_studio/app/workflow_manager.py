@@ -261,6 +261,8 @@ class WorkflowManager(QObject):
         key = self._normalise_completed_key(key)
         if key == "calo_intelligence":
             return self.governing_policy_ready()
+        if key == "algorithms":
+            return key in self.completed or self.state.execution_control.active_stage() is not None
         return key in self.completed
 
     def workspace_state_key(self, key: str) -> tuple[str, str]:

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import asdict
+import json
 
 from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtWidgets import (
@@ -45,6 +46,7 @@ class PortfolioManagerPanel(ScrollablePage):
         super().__init__(content, parent)
         self.state = state
         self._items: dict[str, QTreeWidgetItem] = {}
+        self._algorithm_items: dict[str, QTreeWidgetItem] = {}
 
         layout = QVBoxLayout(content)
         layout.setContentsMargins(24, 22, 24, 22)
@@ -100,6 +102,32 @@ class PortfolioManagerPanel(ScrollablePage):
         output_form.addRow("Storage profile", self.storage)
         definition_layout.addWidget(study_scope, 1)
         definition_layout.addWidget(output_scope, 1)
+
+        algorithm_box = QWidget()
+        algorithm_layout = QVBoxLayout(algorithm_box)
+        algorithm_layout.setContentsMargins(18, 18, 18, 18)
+        algorithm_layout.setSpacing(10)
+        self.algorithm_stage_status = QLabel()
+        self.algorithm_stage_status.setWordWrap(True)
+        self.algorithm_stage_status.setObjectName("InfoText")
+        algorithm_layout.addWidget(self.algorithm_stage_status)
+        self.algorithm_filter = QTreeWidget()
+        self.algorithm_filter.setObjectName("WorkspaceStudyAlgorithmFilter")
+        self.algorithm_filter.setAccessibleName("Algorithms included in this Workspace study")
+        self.algorithm_filter.setHeaderLabels(["Include", "Submitted algorithm", "Parameters"])
+        self.algorithm_filter.header().setSectionResizeMode(0, QHeaderView.ResizeMode.ResizeToContents)
+        self.algorithm_filter.header().setSectionResizeMode(1, QHeaderView.ResizeMode.ResizeToContents)
+        self.algorithm_filter.header().setSectionResizeMode(2, QHeaderView.ResizeMode.Stretch)
+        algorithm_layout.addWidget(self.algorithm_filter, 1)
+        algorithm_actions = QHBoxLayout()
+        use_all_algorithms = QPushButton("Use all staged algorithms")
+        clear_algorithms = QPushButton("Clear study filter")
+        use_all_algorithms.clicked.connect(self._use_all_staged_algorithms)
+        clear_algorithms.clicked.connect(self._clear_study_filter)
+        algorithm_actions.addWidget(use_all_algorithms)
+        algorithm_actions.addWidget(clear_algorithms)
+        algorithm_actions.addStretch(1)
+        algorithm_layout.addLayout(algorithm_actions)
 
         output_box = QWidget()
         output_layout = QVBoxLayout(output_box)
@@ -195,6 +223,11 @@ class PortfolioManagerPanel(ScrollablePage):
             "Choose the portfolio scope, evidence strength, output preset, and storage profile.",
         )
         self.section_tabs.add_section(
+            "Algorithms in study",
+            algorithm_box,
+            "Choose a non-empty subset of the submitted algorithm stage without changing it.",
+        )
+        self.section_tabs.add_section(
             "Requested outputs",
             output_box,
             "Select the figures, tables, and evidence required from the study.",
@@ -216,8 +249,96 @@ class PortfolioManagerPanel(ScrollablePage):
             widget.currentIndexChanged.connect(self._controls_changed)
         self.custom_runs.valueChanged.connect(self._controls_changed)
         self.outputs.itemChanged.connect(lambda *_: self.refresh_plan())
+        self.algorithm_filter.itemChanged.connect(lambda *_: self.refresh_plan())
         self.state.config_changed.connect(lambda _: self.refresh())
+        self.state.execution_state_changed.connect(lambda _: self.refresh())
         self.refresh()
+
+    def _refresh_algorithm_stage(self) -> None:
+        stage = self.state.execution_control.active_stage()
+        previous = {
+            name
+            for name, item in self._algorithm_items.items()
+            if item.checkState(0) == Qt.CheckState.Checked
+        }
+        self.algorithm_filter.blockSignals(True)
+        self.algorithm_filter.clear()
+        self._algorithm_items.clear()
+        try:
+            if stage is None:
+                self.algorithm_stage_status.setText(
+                    "No submitted algorithm stage is available. Return to Algorithms, select at least one optimizer, and submit it."
+                )
+                return
+            self.algorithm_stage_status.setText(
+                f"Submitted stage {stage.stage_id} · {len(stage.algorithm_names)} algorithm(s) · "
+                f"content SHA-256 {stage.content_sha256[:16]}…"
+            )
+            selected = previous or set(stage.algorithm_names)
+            for name in stage.algorithm_names:
+                parameters = stage.algorithm_parameters.get(name, {})
+                item = QTreeWidgetItem(
+                    ["", name, json.dumps(parameters, sort_keys=True, separators=(",", ":"))]
+                )
+                item.setFlags(item.flags() | Qt.ItemFlag.ItemIsUserCheckable)
+                item.setCheckState(
+                    0,
+                    Qt.CheckState.Checked if name in selected else Qt.CheckState.Unchecked,
+                )
+                self.algorithm_filter.addTopLevelItem(item)
+                self._algorithm_items[name] = item
+        finally:
+            self.algorithm_filter.blockSignals(False)
+
+    def _selected_study_algorithms(self) -> tuple[str, ...]:
+        return tuple(
+            name
+            for name, item in self._algorithm_items.items()
+            if item.checkState(0) == Qt.CheckState.Checked
+        )
+
+    def _use_all_staged_algorithms(self) -> None:
+        self.algorithm_filter.blockSignals(True)
+        try:
+            for item in self._algorithm_items.values():
+                item.setCheckState(0, Qt.CheckState.Checked)
+        finally:
+            self.algorithm_filter.blockSignals(False)
+        self.refresh_plan()
+
+    def _clear_study_filter(self) -> None:
+        self.algorithm_filter.blockSignals(True)
+        try:
+            for item in self._algorithm_items.values():
+                item.setCheckState(0, Qt.CheckState.Unchecked)
+        finally:
+            self.algorithm_filter.blockSignals(False)
+        self.refresh_plan()
+
+    def _resolve_preset(self, portfolio: PortfolioConfig, subset: tuple[str, ...]):
+        requirements = PortfolioPlanner.apply_article_preset(None, portfolio)
+        staged = set(self._algorithm_items)
+        missing_required = [name for name in requirements.required_algorithms if name not in staged]
+        if missing_required:
+            raise ValueError(
+                "This study requires "
+                + ", ".join(missing_required)
+                + ". Return to Algorithms and submit a broader staged pool first."
+            )
+        omitted_required = [name for name in requirements.required_algorithms if name not in subset]
+        if omitted_required:
+            raise ValueError(
+                "Include the preset-required submitted algorithm(s): " + ", ".join(omitted_required)
+            )
+        recommended_missing = [
+            name for name in requirements.recommended_algorithms if name not in staged
+        ]
+        recommended_omitted = [
+            name
+            for name in requirements.recommended_algorithms
+            if name in staged and name not in subset
+        ]
+        return requirements, recommended_missing, recommended_omitted
 
     def _selected_outputs(self) -> list[str]:
         return [
@@ -292,8 +413,16 @@ class PortfolioManagerPanel(ScrollablePage):
             self.plan_detail.clear()
             return
         try:
+            subset = self._selected_study_algorithms()
+            if not subset:
+                raise ValueError("Select at least one submitted algorithm for this Workspace study")
+            _requirements, recommended_missing, recommended_omitted = self._resolve_preset(
+                portfolio, subset
+            )
             temp_config = self.state.config
-            plan = PortfolioPlanner.plan(temp_config, portfolio, benchmark_blocks=1)
+            plan = PortfolioPlanner.plan(
+                temp_config, portfolio, benchmark_blocks=1, algorithm_subset=subset
+            )
             disabled = (
                 "\n".join(
                     f"• {OUTPUT_REQUIREMENTS[key].label if key in OUTPUT_REQUIREMENTS else key}: {reason}"
@@ -302,7 +431,18 @@ class PortfolioManagerPanel(ScrollablePage):
                 or "None"
             )
             fields = ", ".join(plan.required_fields)
-            warnings = "\n".join(f"• {item}" for item in plan.warnings) or "None"
+            warnings_list = list(plan.warnings)
+            if recommended_missing:
+                warnings_list.append(
+                    "Recommended algorithms are not in the submitted stage: "
+                    + ", ".join(recommended_missing)
+                )
+            if recommended_omitted:
+                warnings_list.append(
+                    "Recommended submitted algorithms are excluded from this study: "
+                    + ", ".join(recommended_omitted)
+                )
+            warnings = "\n".join(f"• {item}" for item in warnings_list) or "None"
             self.plan_summary.setText(plan.summary())
             self.plan_detail.setText(
                 f"Required stored evidence: {fields}\n"
@@ -318,6 +458,7 @@ class PortfolioManagerPanel(ScrollablePage):
             log_technical_error("portfolio planning", exc)
 
     def refresh(self) -> None:
+        self._refresh_algorithm_stage()
         portfolio = getattr(self.state.config, "portfolio", PortfolioConfig())
         self.kind.setCurrentIndex(max(0, self.kind.findData(portfolio.kind.value)))
         self.profile.setCurrentIndex(
@@ -331,13 +472,40 @@ class PortfolioManagerPanel(ScrollablePage):
         self.resume.setChecked(bool(portfolio.enable_resume))
         self._set_outputs(list(portfolio.requested_outputs))
         self._controls_changed()
+        controller = self.state.execution_control.controller()
+        workspace_plan = self.state.execution_control.active_plan("workspace")
+        retained_workspace = bool(
+            workspace_plan is not None
+            and str(workspace_plan["lifecycle_state"])
+            in {"staged", "running", "pausing", "paused", "interrupted_resumable"}
+        )
+        locked = str(controller["controller"]) != "none" or retained_workspace
+        self.section_tabs.setEnabled(not locked)
+        if locked:
+            owner = (
+                str(controller["owner_plan_id"])
+                if str(controller["owner_plan_id"])
+                else str(workspace_plan["id"])
+            )
+            self.algorithm_stage_status.setText(
+                self.algorithm_stage_status.text()
+                + f"\nLocked by retained execution plan {owner}."
+            )
 
     def apply(self) -> None:
         try:
             portfolio = self._build_config()
             portfolio.validate()
-            PortfolioPlanner.apply_article_preset(self.state.config, portfolio)
-            plan = PortfolioPlanner.plan(self.state.config, portfolio, benchmark_blocks=1)
+            subset = self._selected_study_algorithms()
+            if not subset:
+                raise ValueError("Select at least one submitted algorithm for this Workspace study")
+            self._resolve_preset(portfolio, subset)
+            plan = PortfolioPlanner.plan(
+                self.state.config,
+                portfolio,
+                benchmark_blocks=1,
+                algorithm_subset=subset,
+            )
             if not [key for key in portfolio.requested_outputs if key not in plan.disabled_outputs]:
                 raise ValueError(
                     "None of the selected outputs can be generated from the current formulation."
@@ -354,9 +522,18 @@ class PortfolioManagerPanel(ScrollablePage):
                 portfolio.name, portfolio.to_dict(), asdict(plan), fingerprint
             )
             self.state.config.portfolio_id = portfolio_id
+            workspace_plan = self.state.execution_control.create_workspace_draft(
+                self.state.config, subset
+            )
             self.state.update_config()
+            self.state.notify_execution_state_changed()
             self.refresh_plan()
             self.stage_completed.emit()
+            self.plan_detail.setText(
+                self.plan_detail.text()
+                + f"\nWorkspace draft: {workspace_plan['id']} · design SHA-256 "
+                + f"{str(workspace_plan['design_sha256'])[:16]}…"
+            )
         except Exception as exc:
             show_error(
                 self,

@@ -138,10 +138,10 @@ def test_ribbon_is_registry_generated_and_shell_regions_are_accessible(
         for item in window.command_registry.specs
         if item.category == "Experiment"
     ) == (
+        "experiment.individual",
         "experiment.power",
         "experiment.formulation",
         "experiment.scenarios",
-        "experiment.stop",
     )
     assert "resume_center" not in window.pages_by_key
     assert all(item.workspace != "resume_center" for item in window.command_registry.specs)

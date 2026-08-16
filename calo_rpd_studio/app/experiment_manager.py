@@ -46,6 +46,10 @@ from calo_rpd_studio.experiments.execution_plan import (
     PlannedItem,
     build_execution_plan,
 )
+from calo_rpd_studio.experiments.execution_plans import (
+    ExecutionLifecycle,
+    scientific_job_sha256,
+)
 from calo_rpd_studio.experiments.experiment_runner import failed_run_from_exception, run_single
 from calo_rpd_studio.experiments.provenance import collect_provenance
 from calo_rpd_studio.experiments.seed_manager import RunSeeds, SeedManager
@@ -184,6 +188,7 @@ class ExperimentWorker(QThread):
     run_failed = pyqtSignal(str, str, int)
     experiment_created = pyqtSignal(str)
     completed = pyqtSignal(str)
+    paused = pyqtSignal(str)
     cancelled = pyqtSignal(str)
     failed = pyqtSignal(str)
 
@@ -210,7 +215,7 @@ class ExperimentWorker(QThread):
         self._pause_event.set()
 
     def cancel(self) -> None:
-        """Emergency cancellation; active jobs may restart from their last committed boundary."""
+        """Request terminal cancellation while retaining already committed evidence."""
         self._cancel_event.set()
         event = self._process_cancel_event
         if event is not None:
@@ -1879,6 +1884,22 @@ class ExperimentWorker(QThread):
                 "scenario_seed": seed.scenario_seed,
                 "ai_inference_seed": seed.ai_inference_seed,
             }
+            execution_plan_id = str(getattr(self.config, "execution_plan_id", "") or "")
+            workspace_plan_cell_id = str(
+                getattr(self.config, "workspace_plan_cell_id", "") or ""
+            )
+            job_identity_sha256 = (
+                scientific_job_sha256(
+                    plan_id=execution_plan_id,
+                    cell_id=workspace_plan_cell_id,
+                    algorithm=item.label,
+                    run_index=item.run_index,
+                    seed_payload=seed_payload,
+                    config=self.config.to_dict(),
+                )
+                if execution_plan_id
+                else ""
+            )
             task_id = database.add_campaign_task(
                 self.campaign_id,
                 item.job_index,
@@ -1887,6 +1908,9 @@ class ExperimentWorker(QThread):
                 seed_payload,
                 fp,
                 required_outputs,
+                execution_plan_id=execution_plan_id,
+                workspace_plan_cell_id=workspace_plan_cell_id,
+                job_identity_sha256=job_identity_sha256,
             )
             row = next(
                 row
@@ -1958,6 +1982,44 @@ class ExperimentWorker(QThread):
             )
         self._sync_campaign_progress("Paused safely")
 
+    def _cancel_unfinished(self) -> None:
+        """Close unfinished work terminally while retaining completed evidence and audit files."""
+
+        if not self.campaign_id:
+            return
+        for row in self.state.database.list_campaign_tasks(self.campaign_id):
+            if row["status"] in {
+                "planned",
+                "queued",
+                "running",
+                "pausing",
+                "paused",
+                "interrupted",
+                "failed",
+            }:
+                self.state.database.update_campaign_task(row["id"], status="cancelled")
+                self.state.database.append_task_event(
+                    row["id"],
+                    "cancelled",
+                    {
+                        "checkpoint_retained_for_audit": bool(row.get("checkpoint_path")),
+                        "resume_eligible": False,
+                    },
+                )
+        self.state.database.update_campaign(
+            self.campaign_id,
+            status="cancelled",
+            message="Cancelled terminally; completed evidence retained",
+        )
+        revision_id = str(getattr(self.config, "experiment_revision_id", "") or "")
+        if revision_id:
+            self.state.database.update_experiment_revision(revision_id, status="cancelled")
+        if self.resume_task_id:
+            self.state.resume_service.update(
+                self.resume_task_id, status=ResumeStatus.CANCELLED, resumable=False
+            )
+        self._sync_campaign_progress("Cancelled terminally")
+
     def run(self) -> None:
         try:
             self.config.validate()
@@ -2024,8 +2086,11 @@ class ExperimentWorker(QThread):
                     resumable=bool(failures),
                 )
                 self.completed.emit(self.experiment_id)
-            else:
+            elif self._pause_requested():
                 self._pause_unfinished()
+                self.paused.emit(self.experiment_id)
+            else:
+                self._cancel_unfinished()
                 self.cancelled.emit(self.experiment_id)
         except Exception as exc:
             if self.campaign_id:
@@ -2048,9 +2113,11 @@ class ExperimentManager(QObject):
     run_failed = pyqtSignal(str, str, int)
     started = pyqtSignal(str)
     completed = pyqtSignal(str)
+    paused = pyqtSignal(str)
     cancelled = pyqtSignal(str)
     failed = pyqtSignal(str)
     busy = pyqtSignal(str)
+    idle = pyqtSignal()
 
     def __init__(self, state) -> None:
         super().__init__()
@@ -2058,11 +2125,20 @@ class ExperimentManager(QObject):
         self.worker: ExperimentWorker | None = None
         self._busy = False
         self._mode = COMPARISON_MODE
-        self.state.task_status.cancel_requested.connect(self.cancel)
+        self._active_config = None
+        # The persistent global action is cooperative Safe Stop. Terminal cancellation remains
+        # the mode-specific, explicitly confirmed page action.
+        self.state.task_status.cancel_requested.connect(self.pause)
 
     @property
     def running(self) -> bool:
         return self._busy
+
+    @property
+    def active_config(self):
+        """Return the immutable configuration currently owned by the worker, if any."""
+
+        return self._active_config
 
     def start_comparison(self, config) -> bool:
         return self._start(config, COMPARISON_MODE)
@@ -2070,7 +2146,7 @@ class ExperimentManager(QObject):
     def start_calo_analysis(self, config) -> bool:
         return self._start(config, ABLATION_MODE)
 
-    def resume_campaign(self, campaign_id: str) -> bool:
+    def resume_campaign(self, campaign_id: str, *, update_workspace: bool = True) -> bool:
         campaign = self.state.database.get_campaign(campaign_id)
         if campaign is None:
             self.failed.emit(f"Unknown resume campaign: {campaign_id}")
@@ -2079,9 +2155,10 @@ class ExperimentManager(QObject):
 
         config = ExperimentConfig.from_dict(json.loads(campaign["config_json"]))
         config.resume_campaign_id = str(campaign_id)
-        self.state.config = config
         self.state.current_experiment_id = str(campaign["experiment_id"] or "")
-        self.state.update_config()
+        if update_workspace:
+            self.state.config = config
+            self.state.update_config()
         return self._start(config, str(campaign["mode"]))
 
     def extend_run_count(self, experiment_id: str, new_total_runs: int) -> bool:
@@ -2145,6 +2222,24 @@ class ExperimentManager(QObject):
         """Request a safe pause. New jobs stop; active jobs finish and commit atomically."""
         worker = self.worker
         if worker is not None:
+            control = getattr(self.state, "execution_control", None)
+            if control is not None:
+                try:
+                    controller = control.controller()
+                    owner_plan_id = str(controller.get("owner_plan_id", "") or "")
+                    if owner_plan_id:
+                        plan = self.state.database.get_execution_plan(owner_plan_id)
+                        if (
+                            plan is not None
+                            and str(plan["lifecycle_state"])
+                            == ExecutionLifecycle.RUNNING.value
+                        ):
+                            control.request_pause(owner_plan_id)
+                            self.state.notify_execution_state_changed()
+                except Exception:
+                    _LOG.exception(
+                        "Safe-pause controller transition failed; worker pause remains latched"
+                    )
             self.state.task_status.update(
                 detail="Safe pause requested; waiting for active jobs to finish"
             )
@@ -2159,6 +2254,7 @@ class ExperimentManager(QObject):
 
         self._busy = True
         self._mode = mode
+        self._active_config = config
         if mode == COMPARISON_MODE:
             title = "Running primary algorithm comparison"
         else:
@@ -2194,6 +2290,7 @@ class ExperimentManager(QObject):
             worker.run_failed.connect(self._on_run_failed)
             worker.experiment_created.connect(self._created)
             worker.completed.connect(self._completed)
+            worker.paused.connect(self._paused)
             worker.cancelled.connect(self._cancelled)
             worker.failed.connect(self._failed)
             worker.finished.connect(self._worker_finished)
@@ -2201,6 +2298,7 @@ class ExperimentManager(QObject):
         except Exception:
             self._busy = False
             self.worker = None
+            self._active_config = None
             self.state.task_status.fail("Experiment could not be started")
             raise
         return True
@@ -2241,7 +2339,8 @@ class ExperimentManager(QObject):
         detail = algorithm
         if completed_items is not None and total is not None:
             detail += f" · {completed_items}/{total} jobs completed"
-        if active is not None and int(self.state.config.parallel_workers) > 1:
+        active_config = self._active_config or self.state.config
+        if active is not None and int(active_config.parallel_workers) > 1:
             detail += f" · {active} active"
         if compute_device:
             detail += f" · {compute_device}"
@@ -2266,6 +2365,13 @@ class ExperimentManager(QObject):
         self.state.task_status.finish("Experiment completed; results and provenance were stored")
         self.completed.emit(experiment_id)
 
+    def _paused(self, experiment_id: str) -> None:
+        self.state.runs_changed.emit()
+        self.state.task_status.paused(
+            "Experiment paused safely; completed jobs and authenticated restart state were retained"
+        )
+        self.paused.emit(experiment_id)
+
     def _cancelled(self, experiment_id: str) -> None:
         self.state.runs_changed.emit()
         self.state.task_status.cancelled(
@@ -2281,8 +2387,10 @@ class ExperimentManager(QObject):
         worker = self.worker
         self.worker = None
         self._busy = False
+        self._active_config = None
         if worker is not None:
             worker.deleteLater()
+        self.idle.emit()
 
     def cancel(self) -> None:
         if self.worker is not None:

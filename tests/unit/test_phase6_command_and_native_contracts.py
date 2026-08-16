@@ -98,10 +98,10 @@ def test_phase6_command_registry_has_one_stable_authority():
     assert tuple(
         item.command_id for item in COMMAND_SPECS if item.category == "Experiment"
     ) == (
+        "experiment.individual",
         "experiment.power",
         "experiment.formulation",
         "experiment.scenarios",
-        "experiment.stop",
     )
     assert tuple(
         item.command_id for item in COMMAND_SPECS if item.category == "Compute"

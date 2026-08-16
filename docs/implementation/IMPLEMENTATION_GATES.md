@@ -1349,3 +1349,17 @@ Statistics belong to Compute, while Power/ORPD/Scenarios belong to Experiment. D
 Status and System Readiness routes remain removed. Synthetic contracts require unique visible
 labels and exact ownership. The ignored Phase 6 validator is schema v8 and remains unexecuted; this
 visual/navigation gate is open pending owner validation and changes no scientific or policy semantics.
+
+### 2026-08-16 - Workspace/individual exclusive execution-controller gate open
+
+Source now implements immutable submitted algorithm stages, subset-bound Workspace plans,
+full-stage individual plans, canonical design and state receipts, rollback-safe schema-v2 migration,
+one transactional fenced controller, per-cell/job parent identities, and duplicate admission
+rejection. Workspace staging freezes individual execution before work starts; durable Workspace
+pause atomically releases authority while retaining its resumable plan; individual pause retains
+authority and blocks Workspace resume. Terminal cancellation is separate from safe pause. Workspace
+cells run sequentially through the existing ExperimentManager, so no second numerical engine or
+scientific semantics were introduced. Policy architecture/lifecycle/training/qualification and
+CALO/TSH-CALO architecture remain untouched. Tests and ignored validator schema v9 are written but
+unexecuted. This engineering gate remains open pending a fresh complete owner-run Phase 6 validator;
+it establishes no experimental, qualification, hardware, scientific, or release evidence.

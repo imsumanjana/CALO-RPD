@@ -14,11 +14,12 @@ import sqlite3
 import threading
 import uuid
 
+from calo_rpd_studio.experiments.execution_plans import resume_contract_sha256
 from calo_rpd_studio.version import VERSION
 
 
 _LOG = logging.getLogger(__name__)
-DATABASE_SCHEMA_VERSION = 1
+DATABASE_SCHEMA_VERSION = 2
 
 
 def _sha256_file(path: Path) -> str:
@@ -27,6 +28,18 @@ def _sha256_file(path: Path) -> str:
         for chunk in iter(lambda: stream.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def _canonical_sha256(payload: object) -> str:
+    return hashlib.sha256(
+        json.dumps(
+            payload,
+            sort_keys=True,
+            separators=(",", ":"),
+            ensure_ascii=False,
+            allow_nan=False,
+        ).encode("utf-8")
+    ).hexdigest()
 
 
 class ResultDatabase:
@@ -171,6 +184,9 @@ class ResultDatabase:
             status TEXT NOT NULL DEFAULT 'planned', attempts INTEGER NOT NULL DEFAULT 0,
             checkpoint_path TEXT NOT NULL DEFAULT '', checkpoint_sha256 TEXT NOT NULL DEFAULT '',
             run_id TEXT, failure_id TEXT, last_activity TEXT NOT NULL,
+            execution_plan_id TEXT NOT NULL DEFAULT '',
+            workspace_plan_cell_id TEXT NOT NULL DEFAULT '',
+            job_identity_sha256 TEXT NOT NULL DEFAULT '',
             UNIQUE(campaign_id, job_index),
             FOREIGN KEY(campaign_id) REFERENCES campaigns(id),
             FOREIGN KEY(run_id) REFERENCES runs(id)
@@ -185,6 +201,46 @@ class ResultDatabase:
             progress_total INTEGER NOT NULL DEFAULT 0, state_json TEXT NOT NULL DEFAULT '{}',
             resumable INTEGER NOT NULL DEFAULT 1, created_at TEXT NOT NULL,
             updated_at TEXT NOT NULL
+        );
+        CREATE TABLE IF NOT EXISTS algorithm_stages(
+            id TEXT PRIMARY KEY, schema_version TEXT NOT NULL, created_at TEXT NOT NULL,
+            status TEXT NOT NULL, content_json TEXT NOT NULL, content_sha256 TEXT NOT NULL,
+            record_sha256 TEXT NOT NULL, superseded_at TEXT NOT NULL DEFAULT ''
+        );
+        CREATE TABLE IF NOT EXISTS execution_plans(
+            id TEXT PRIMARY KEY, plan_kind TEXT NOT NULL, schema_version TEXT NOT NULL,
+            algorithm_stage_id TEXT NOT NULL, created_at TEXT NOT NULL,
+            design_json TEXT NOT NULL, design_sha256 TEXT NOT NULL,
+            audit_json TEXT NOT NULL DEFAULT '{}', audit_sha256 TEXT NOT NULL DEFAULT '',
+            lifecycle_state TEXT NOT NULL, state_revision INTEGER NOT NULL DEFAULT 0,
+            state_receipt_sha256 TEXT NOT NULL, campaign_id TEXT NOT NULL DEFAULT '',
+            controller_epoch INTEGER NOT NULL DEFAULT 0, active_slot INTEGER NOT NULL DEFAULT 1,
+            last_message TEXT NOT NULL DEFAULT '', updated_at TEXT NOT NULL,
+            FOREIGN KEY(algorithm_stage_id) REFERENCES algorithm_stages(id)
+        );
+        CREATE TABLE IF NOT EXISTS workspace_plan_cells(
+            id TEXT PRIMARY KEY, workspace_plan_id TEXT NOT NULL, ordinal INTEGER NOT NULL,
+            config_json TEXT NOT NULL, design_sha256 TEXT NOT NULL,
+            lifecycle_state TEXT NOT NULL DEFAULT 'planned', campaign_id TEXT NOT NULL DEFAULT '',
+            experiment_id TEXT NOT NULL DEFAULT '', last_message TEXT NOT NULL DEFAULT '',
+            UNIQUE(workspace_plan_id,ordinal), UNIQUE(workspace_plan_id,design_sha256),
+            FOREIGN KEY(workspace_plan_id) REFERENCES execution_plans(id)
+        );
+        CREATE TABLE IF NOT EXISTS execution_controller(
+            singleton_id INTEGER PRIMARY KEY CHECK(singleton_id=1),
+            schema_version TEXT NOT NULL, controller TEXT NOT NULL, owner_plan_id TEXT NOT NULL,
+            owner_design_sha256 TEXT NOT NULL, campaign_id TEXT NOT NULL,
+            lifecycle_state TEXT NOT NULL, epoch INTEGER NOT NULL, owner_instance_id TEXT NOT NULL,
+            record_revision INTEGER NOT NULL, acquired_at TEXT NOT NULL, updated_at TEXT NOT NULL,
+            state_receipt_sha256 TEXT NOT NULL
+        );
+        CREATE TABLE IF NOT EXISTS execution_lifecycle_events(
+            id INTEGER PRIMARY KEY AUTOINCREMENT, plan_id TEXT NOT NULL,
+            created_at TEXT NOT NULL, controller TEXT NOT NULL, controller_epoch INTEGER NOT NULL,
+            from_state TEXT NOT NULL, to_state TEXT NOT NULL,
+            state_revision INTEGER NOT NULL, receipt_sha256 TEXT NOT NULL,
+            message TEXT NOT NULL DEFAULT '', payload_json TEXT NOT NULL DEFAULT '{}',
+            FOREIGN KEY(plan_id) REFERENCES execution_plans(id)
         );
         CREATE TABLE IF NOT EXISTS policies(
             id TEXT PRIMARY KEY, name TEXT NOT NULL, checkpoint_path TEXT NOT NULL,
@@ -265,6 +321,16 @@ class ResultDatabase:
         CREATE INDEX IF NOT EXISTS idx_campaign_tasks_status ON campaign_tasks(campaign_id,status);
         CREATE INDEX IF NOT EXISTS idx_campaign_tasks_fingerprint ON campaign_tasks(fingerprint);
         CREATE INDEX IF NOT EXISTS idx_resumable_status ON resumable_tasks(status,resumable);
+        CREATE UNIQUE INDEX IF NOT EXISTS uq_algorithm_stage_active
+            ON algorithm_stages(status) WHERE status='active';
+        CREATE UNIQUE INDEX IF NOT EXISTS uq_execution_plan_active_kind
+            ON execution_plans(plan_kind) WHERE active_slot=1;
+        CREATE INDEX IF NOT EXISTS idx_execution_plan_state
+            ON execution_plans(plan_kind,lifecycle_state,updated_at);
+        CREATE INDEX IF NOT EXISTS idx_workspace_cells_plan
+            ON workspace_plan_cells(workspace_plan_id,ordinal);
+        CREATE INDEX IF NOT EXISTS idx_execution_events_plan
+            ON execution_lifecycle_events(plan_id,id);
         CREATE INDEX IF NOT EXISTS idx_policies_active ON policies(active,archived);
         CREATE INDEX IF NOT EXISTS idx_policy_qualifications_policy ON policy_qualifications(policy_id,created_at);
         CREATE INDEX IF NOT EXISTS idx_policy_bindings_sha ON experiment_policy_bindings(sha256);
@@ -313,6 +379,31 @@ class ResultDatabase:
                 con.execute(
                     "ALTER TABLE runs ADD COLUMN scientific_fingerprint TEXT NOT NULL DEFAULT ''"
                 )
+            task_columns = {
+                row["name"] for row in con.execute("PRAGMA table_info(campaign_tasks)").fetchall()
+            }
+            for name in (
+                "execution_plan_id",
+                "workspace_plan_cell_id",
+                "job_identity_sha256",
+            ):
+                if name not in task_columns:
+                    con.execute(
+                        f"ALTER TABLE campaign_tasks ADD COLUMN {name} TEXT NOT NULL DEFAULT ''"
+                    )
+            con.execute(
+                """CREATE UNIQUE INDEX IF NOT EXISTS uq_campaign_task_plan_job
+                   ON campaign_tasks(execution_plan_id,workspace_plan_cell_id,job_identity_sha256)
+                   WHERE execution_plan_id<>'' AND job_identity_sha256<>''"""
+            )
+            controller_columns = {
+                row["name"]
+                for row in con.execute("PRAGMA table_info(execution_controller)").fetchall()
+            }
+            if "acquired_at" not in controller_columns:
+                con.execute(
+                    "ALTER TABLE execution_controller ADD COLUMN acquired_at TEXT NOT NULL DEFAULT ''"
+                )
             validation_columns = {
                 row["name"] for row in con.execute("PRAGMA table_info(validations)").fetchall()
             }
@@ -353,12 +444,1136 @@ class ResultDatabase:
                     ),
                 )
                 con.execute(f"PRAGMA user_version={DATABASE_SCHEMA_VERSION}")
+            controller_payload = {
+                "schema_version": "calo-rpd-execution-controller-v1",
+                "controller": "none",
+                "owner_plan_id": "",
+                "owner_design_sha256": "",
+                "campaign_id": "",
+                "lifecycle_state": "",
+                "epoch": 0,
+                "owner_instance_id": "",
+                "record_revision": 0,
+                "acquired_at": "",
+            }
+            controller_receipt = hashlib.sha256(
+                json.dumps(
+                    controller_payload,
+                    sort_keys=True,
+                    separators=(",", ":"),
+                    allow_nan=False,
+                ).encode("utf-8")
+            ).hexdigest()
+            con.execute(
+                """INSERT OR IGNORE INTO execution_controller(
+                    singleton_id,schema_version,controller,owner_plan_id,owner_design_sha256,
+                    campaign_id,lifecycle_state,epoch,owner_instance_id,record_revision,
+                    acquired_at,updated_at,state_receipt_sha256
+                ) VALUES(1,?,?,?,?,?,?,?,?,?,?,?,?)""",
+                (
+                    controller_payload["schema_version"],
+                    controller_payload["controller"],
+                    "",
+                    "",
+                    "",
+                    "",
+                    0,
+                    "",
+                    0,
+                    "",
+                    datetime.now(timezone.utc).isoformat(),
+                    controller_receipt,
+                ),
+            )
 
     @property
     def schema_version(self) -> int:
         """Return the durable SQLite application schema version."""
         with self.connect() as con:
             return int(con.execute("PRAGMA user_version").fetchone()[0])
+
+    # ------------------------------------------------------------------
+    # Workspace/individual immutable plan and exclusive-controller state
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def _execution_state_receipt(
+        *,
+        plan_id: str,
+        design_sha256: str,
+        lifecycle_state: str,
+        state_revision: int,
+        controller_epoch: int,
+        campaign_id: str = "",
+        prior_receipt_sha256: str = "",
+    ) -> str:
+        return _canonical_sha256(
+            {
+                "schema_version": "calo-rpd-execution-state-receipt-v1",
+                "plan_id": str(plan_id),
+                "design_sha256": str(design_sha256),
+                "lifecycle_state": str(lifecycle_state),
+                "state_revision": int(state_revision),
+                "controller_epoch": int(controller_epoch),
+                "campaign_id": str(campaign_id),
+                "prior_receipt_sha256": str(prior_receipt_sha256),
+            }
+        )
+
+    @staticmethod
+    def _controller_receipt(payload: dict) -> str:
+        return _canonical_sha256(
+            {
+                "schema_version": str(payload["schema_version"]),
+                "controller": str(payload["controller"]),
+                "owner_plan_id": str(payload["owner_plan_id"]),
+                "owner_design_sha256": str(payload["owner_design_sha256"]),
+                "campaign_id": str(payload["campaign_id"]),
+                "lifecycle_state": str(payload["lifecycle_state"]),
+                "epoch": int(payload["epoch"]),
+                "owner_instance_id": str(payload["owner_instance_id"]),
+                "record_revision": int(payload["record_revision"]),
+                "acquired_at": str(payload.get("acquired_at", "")),
+            }
+        )
+
+    @classmethod
+    def _verified_controller_payload(cls, row) -> dict:
+        if row is None:
+            raise RuntimeError("The execution-controller singleton record is missing")
+        payload = dict(row)
+        if str(payload["state_receipt_sha256"]) != cls._controller_receipt(payload):
+            raise RuntimeError("The execution-controller integrity receipt does not match")
+        return payload
+
+    @staticmethod
+    def _verified_plan_design(row) -> dict:
+        if row is None:
+            raise RuntimeError("The execution-plan record is missing")
+        design = json.loads(str(row["design_json"]))
+        if _canonical_sha256(design) != str(row["design_sha256"]):
+            raise RuntimeError("The immutable execution-plan design checksum does not match")
+        return design
+
+    @classmethod
+    def _verified_campaign_plan_binding(cls, con, plan, campaign_id: str) -> dict:
+        """Verify a campaign config against the exact immutable plan or Workspace cell."""
+
+        design = cls._verified_plan_design(plan)
+        campaign = con.execute(
+            "SELECT * FROM campaigns WHERE id=?", (str(campaign_id),)
+        ).fetchone()
+        if campaign is None:
+            raise KeyError(f"Unknown campaign: {campaign_id}")
+        stored = json.loads(str(campaign["config_json"]))
+        if (
+            str(stored.get("execution_plan_id", "")) != str(plan["id"])
+            or str(stored.get("execution_plan_design_sha256", ""))
+            != str(plan["design_sha256"])
+            or str(stored.get("algorithm_stage_id", ""))
+            != str(plan["algorithm_stage_id"])
+        ):
+            raise RuntimeError("The retained campaign identity does not match its execution plan")
+        cell_id = str(stored.get("workspace_plan_cell_id", "") or "")
+        if str(plan["plan_kind"]) == "workspace":
+            if not cell_id:
+                raise RuntimeError("A Workspace campaign is missing its immutable cell identity")
+            cell = con.execute(
+                """SELECT config_json FROM workspace_plan_cells
+                   WHERE id=? AND workspace_plan_id=?""",
+                (cell_id, str(plan["id"])),
+            ).fetchone()
+            if cell is None:
+                raise RuntimeError("The retained campaign refers to a foreign Workspace cell")
+            expected = json.loads(str(cell["config_json"]))
+        else:
+            if cell_id:
+                raise RuntimeError("An individual campaign cannot claim a Workspace cell")
+            expected = dict(design["config"])
+        expected["execution_plan_id"] = str(plan["id"])
+        expected["execution_plan_design_sha256"] = str(plan["design_sha256"])
+        expected["algorithm_stage_id"] = str(plan["algorithm_stage_id"])
+        expected["workspace_plan_cell_id"] = cell_id
+        if resume_contract_sha256(stored) != resume_contract_sha256(expected):
+            raise RuntimeError("The retained campaign does not match the frozen resume contract")
+        return dict(campaign)
+
+    @classmethod
+    def _discard_unstarted_plans(
+        cls,
+        con,
+        rows,
+        *,
+        now: str,
+        message: str,
+        controller_epoch: int,
+    ) -> None:
+        """Close selected drafts while preserving the authenticated receipt chain."""
+
+        for plan in rows:
+            cls._verified_plan_design(plan)
+            prior_state = str(plan["lifecycle_state"])
+            if prior_state not in {"draft", "audited"}:
+                raise RuntimeError("Only an unstarted execution plan can be superseded")
+            revision = int(plan["state_revision"]) + 1
+            receipt = cls._execution_state_receipt(
+                plan_id=str(plan["id"]),
+                design_sha256=str(plan["design_sha256"]),
+                lifecycle_state="discarded_unstarted",
+                state_revision=revision,
+                controller_epoch=int(controller_epoch),
+                campaign_id=str(plan["campaign_id"]),
+                prior_receipt_sha256=str(plan["state_receipt_sha256"]),
+            )
+            con.execute(
+                """UPDATE execution_plans SET lifecycle_state='discarded_unstarted',
+                    active_slot=0,state_revision=?,state_receipt_sha256=?,updated_at=?,
+                    last_message=? WHERE id=?""",
+                (revision, receipt, now, str(message), str(plan["id"])),
+            )
+            con.execute(
+                """INSERT INTO execution_lifecycle_events(
+                    plan_id,created_at,controller,controller_epoch,from_state,to_state,
+                    state_revision,receipt_sha256,message
+                ) VALUES(?,?,?,?,?,?,?,?,?)""",
+                (
+                    str(plan["id"]),
+                    now,
+                    "none",
+                    int(controller_epoch),
+                    prior_state,
+                    "discarded_unstarted",
+                    revision,
+                    receipt,
+                    str(message),
+                ),
+            )
+
+    @staticmethod
+    def _decoded_execution_plan(row) -> dict | None:
+        if row is None:
+            return None
+        payload = dict(row)
+        payload["design"] = json.loads(str(payload.pop("design_json")))
+        payload["audit"] = json.loads(str(payload.pop("audit_json")))
+        return payload
+
+    def get_execution_controller(self) -> dict:
+        with self.connect() as con:
+            row = con.execute(
+                "SELECT * FROM execution_controller WHERE singleton_id=1"
+            ).fetchone()
+        return self._verified_controller_payload(row)
+
+    def get_active_algorithm_stage(self) -> dict | None:
+        with self.connect() as con:
+            row = con.execute(
+                "SELECT * FROM algorithm_stages WHERE status='active' ORDER BY created_at DESC LIMIT 1"
+            ).fetchone()
+        if row is None:
+            return None
+        payload = dict(row)
+        payload["content"] = json.loads(str(payload.pop("content_json")))
+        if _canonical_sha256(payload["content"]) != str(payload["content_sha256"]):
+            raise RuntimeError("The submitted algorithm-stage content checksum does not match")
+        record = {
+            "schema_version": str(payload["schema_version"]),
+            "stage_id": str(payload["id"]),
+            "created_at": str(payload["created_at"]),
+            "content_sha256": str(payload["content_sha256"]),
+        }
+        if _canonical_sha256(record) != str(payload["record_sha256"]):
+            raise RuntimeError("The submitted algorithm-stage record checksum does not match")
+        return payload
+
+    def replace_algorithm_stage(self, stage) -> None:
+        """Submit one explicit stage and invalidate only unstarted drafts from the prior stage."""
+
+        now = self._utcnow()
+        with self._lock, self.connect() as con:
+            con.execute("BEGIN IMMEDIATE")
+            controller = con.execute(
+                "SELECT * FROM execution_controller WHERE singleton_id=1"
+            ).fetchone()
+            controller = self._verified_controller_payload(controller)
+            if str(controller["controller"]) != "none":
+                owner = str(controller["owner_plan_id"])
+                raise RuntimeError(
+                    f"Algorithm submission is blocked while execution plan {owner!r} owns control"
+                )
+            resumable = con.execute(
+                """SELECT id FROM execution_plans
+                   WHERE active_slot=1 AND lifecycle_state IN ('paused','interrupted_resumable')
+                   LIMIT 1"""
+            ).fetchone()
+            if resumable is not None:
+                raise RuntimeError(
+                    "Algorithm submission is blocked while resumable plan "
+                    f"{str(resumable['id'])!r} remains bound to the current stage"
+                )
+            drafts = con.execute(
+                """SELECT * FROM execution_plans
+                   WHERE active_slot=1 AND lifecycle_state IN ('draft','audited')"""
+            ).fetchall()
+            self._discard_unstarted_plans(
+                con,
+                drafts,
+                now=now,
+                message="Superseded by an explicitly submitted algorithm stage",
+                controller_epoch=int(controller["epoch"]),
+            )
+            con.execute(
+                "UPDATE algorithm_stages SET status='superseded',superseded_at=? WHERE status='active'",
+                (now,),
+            )
+            con.execute(
+                """INSERT INTO algorithm_stages(
+                    id,schema_version,created_at,status,content_json,content_sha256,record_sha256
+                ) VALUES(?,?,?,?,?,?,?)""",
+                (
+                    stage.stage_id,
+                    stage.schema_version,
+                    stage.created_at,
+                    "active",
+                    json.dumps(stage.content_payload(), sort_keys=True, allow_nan=False),
+                    stage.content_sha256,
+                    stage.record_sha256,
+                ),
+            )
+
+    def discard_algorithm_stage(self) -> None:
+        now = self._utcnow()
+        with self._lock, self.connect() as con:
+            con.execute("BEGIN IMMEDIATE")
+            controller = con.execute(
+                "SELECT * FROM execution_controller WHERE singleton_id=1"
+            ).fetchone()
+            controller = self._verified_controller_payload(controller)
+            if str(controller["controller"]) != "none":
+                owner = str(controller["owner_plan_id"])
+                raise RuntimeError(
+                    f"Algorithm reset is blocked while execution plan {owner!r} owns control"
+                )
+            resumable = con.execute(
+                """SELECT id FROM execution_plans
+                   WHERE active_slot=1 AND lifecycle_state IN ('paused','interrupted_resumable')
+                   LIMIT 1"""
+            ).fetchone()
+            if resumable is not None:
+                raise RuntimeError(
+                    "Algorithm reset is blocked while resumable plan "
+                    f"{str(resumable['id'])!r} remains bound to the stage"
+                )
+            con.execute(
+                "UPDATE algorithm_stages SET status='discarded',superseded_at=? WHERE status='active'",
+                (now,),
+            )
+            drafts = con.execute(
+                """SELECT * FROM execution_plans
+                   WHERE active_slot=1 AND lifecycle_state IN ('draft','audited')"""
+            ).fetchall()
+            self._discard_unstarted_plans(
+                con,
+                drafts,
+                now=now,
+                message="Invalidated by explicit algorithm-stage reset",
+                controller_epoch=int(controller["epoch"]),
+            )
+
+    def create_execution_plan(self, plan, *, plan_kind: str) -> str:
+        """Persist one immutable design as a draft without acquiring execution authority."""
+
+        kind = str(plan_kind)
+        if kind not in {"workspace", "individual_experiment"}:
+            raise ValueError(f"Unsupported execution plan kind: {kind}")
+        now = self._utcnow()
+        design = plan.design_payload()
+        if _canonical_sha256(design) != str(plan.design_sha256):
+            raise RuntimeError("Execution-plan design checksum does not match its canonical payload")
+        receipt = self._execution_state_receipt(
+            plan_id=plan.plan_id,
+            design_sha256=plan.design_sha256,
+            lifecycle_state="draft",
+            state_revision=0,
+            controller_epoch=0,
+        )
+        with self._lock, self.connect() as con:
+            con.execute("BEGIN IMMEDIATE")
+            controller = con.execute(
+                "SELECT * FROM execution_controller WHERE singleton_id=1"
+            ).fetchone()
+            controller = self._verified_controller_payload(controller)
+            if str(controller["controller"]) != "none":
+                raise RuntimeError("A new plan cannot be created while another execution controller is active")
+            stage = con.execute(
+                "SELECT content_sha256 FROM algorithm_stages WHERE id=? AND status='active'",
+                (str(plan.algorithm_stage_id),),
+            ).fetchone()
+            if stage is None or str(stage["content_sha256"]) != str(plan.algorithm_stage_sha256):
+                raise RuntimeError("The plan is not bound to the currently submitted algorithm stage")
+            existing = con.execute(
+                "SELECT * FROM execution_plans WHERE plan_kind=? AND active_slot=1",
+                (kind,),
+            ).fetchone()
+            if existing is not None:
+                if str(existing["lifecycle_state"]) not in {"draft", "audited"}:
+                    raise RuntimeError(
+                        f"Plan {str(existing['id'])!r} must be resumed or closed before another {kind} plan is created"
+                    )
+                self._discard_unstarted_plans(
+                    con,
+                    (existing,),
+                    now=now,
+                    message="Superseded by a new unstarted draft",
+                    controller_epoch=int(controller["epoch"]),
+                )
+            con.execute(
+                """INSERT INTO execution_plans(
+                    id,plan_kind,schema_version,algorithm_stage_id,created_at,design_json,
+                    design_sha256,lifecycle_state,state_revision,state_receipt_sha256,
+                    active_slot,updated_at
+                ) VALUES(?,?,?,?,?,?,?,?,?,?,1,?)""",
+                (
+                    plan.plan_id,
+                    kind,
+                    plan.schema_version,
+                    plan.algorithm_stage_id,
+                    plan.created_at,
+                    json.dumps(design, sort_keys=True, allow_nan=False),
+                    plan.design_sha256,
+                    "draft",
+                    0,
+                    receipt,
+                    now,
+                ),
+            )
+            for cell in tuple(getattr(plan, "cells", ()) or ()):
+                con.execute(
+                    """INSERT INTO workspace_plan_cells(
+                        id,workspace_plan_id,ordinal,config_json,design_sha256
+                    ) VALUES(?,?,?,?,?)""",
+                    (
+                        str(cell["cell_id"]),
+                        plan.plan_id,
+                        int(cell["ordinal"]),
+                        json.dumps(cell["config"], sort_keys=True, allow_nan=False),
+                        str(cell["design_sha256"]),
+                    ),
+                )
+        return str(plan.plan_id)
+
+    def get_execution_plan(self, plan_id: str) -> dict | None:
+        with self.connect() as con:
+            row = con.execute("SELECT * FROM execution_plans WHERE id=?", (str(plan_id),)).fetchone()
+        payload = self._decoded_execution_plan(row)
+        if payload is None:
+            return None
+        if _canonical_sha256(payload["design"]) != str(payload["design_sha256"]):
+            raise RuntimeError("The immutable execution-plan design checksum does not match")
+        audit_sha = str(payload.get("audit_sha256", "") or "")
+        if audit_sha:
+            canonical_audit = dict(payload["audit"])
+            canonical_audit.pop("audit_sha256", None)
+            if _canonical_sha256(canonical_audit) != audit_sha:
+                raise RuntimeError("The execution-plan audit receipt checksum does not match")
+        elif str(payload["lifecycle_state"]) not in {"draft", "discarded_unstarted"}:
+            raise RuntimeError("A non-draft execution plan is missing its audit receipt")
+        return payload
+
+    def get_active_execution_plan(self, plan_kind: str) -> dict | None:
+        with self.connect() as con:
+            row = con.execute(
+                "SELECT id FROM execution_plans WHERE plan_kind=? AND active_slot=1",
+                (str(plan_kind),),
+            ).fetchone()
+        return None if row is None else self.get_execution_plan(str(row["id"]))
+
+    def list_workspace_plan_cells(self, plan_id: str) -> list[dict]:
+        with self.connect() as con:
+            rows = con.execute(
+                "SELECT * FROM workspace_plan_cells WHERE workspace_plan_id=? ORDER BY ordinal",
+                (str(plan_id),),
+            ).fetchall()
+        payloads = []
+        for row in rows:
+            payload = dict(row)
+            payload["config"] = json.loads(str(payload.pop("config_json")))
+            expected = _canonical_sha256(
+                {
+                    "plan_id": str(plan_id),
+                    "ordinal": int(payload["ordinal"]),
+                    "config": payload["config"],
+                }
+            )
+            if expected != str(payload["design_sha256"]):
+                raise RuntimeError(
+                    f"Workspace plan cell {str(payload['id'])!r} checksum does not match"
+                )
+            payloads.append(payload)
+        return payloads
+
+    def set_execution_plan_audited(self, plan_id: str, audit_receipt: dict) -> dict:
+        now = self._utcnow()
+        with self._lock, self.connect() as con:
+            con.execute("BEGIN IMMEDIATE")
+            controller = self._verified_controller_payload(
+                con.execute(
+                    "SELECT * FROM execution_controller WHERE singleton_id=1"
+                ).fetchone()
+            )
+            if str(controller["controller"]) != "none":
+                raise RuntimeError("An audit receipt cannot be committed while execution is owned")
+            row = con.execute("SELECT * FROM execution_plans WHERE id=?", (str(plan_id),)).fetchone()
+            if row is None:
+                raise KeyError(f"Unknown execution plan: {plan_id}")
+            self._verified_plan_design(row)
+            if str(row["lifecycle_state"]) not in {"draft", "audited"}:
+                raise RuntimeError("Only an unstarted draft can receive an audit receipt")
+            if str(audit_receipt.get("design_sha256", "")) != str(row["design_sha256"]):
+                raise RuntimeError("The fairness audit was produced for a different plan design")
+            audit_sha = str(audit_receipt.get("audit_sha256", ""))
+            canonical = dict(audit_receipt)
+            canonical.pop("audit_sha256", None)
+            if not audit_sha or _canonical_sha256(canonical) != audit_sha:
+                raise RuntimeError("The fairness-audit receipt checksum does not match")
+            revision = int(row["state_revision"]) + 1
+            receipt = self._execution_state_receipt(
+                plan_id=str(plan_id),
+                design_sha256=str(row["design_sha256"]),
+                lifecycle_state="audited",
+                state_revision=revision,
+                controller_epoch=0,
+                prior_receipt_sha256=str(row["state_receipt_sha256"]),
+            )
+            con.execute(
+                """UPDATE execution_plans SET audit_json=?,audit_sha256=?,lifecycle_state='audited',
+                    state_revision=?,state_receipt_sha256=?,updated_at=?,last_message=? WHERE id=?""",
+                (
+                    json.dumps(audit_receipt, sort_keys=True, allow_nan=False),
+                    audit_sha,
+                    revision,
+                    receipt,
+                    now,
+                    "Fairness audit bound to immutable plan",
+                    str(plan_id),
+                ),
+            )
+        return self.get_execution_plan(str(plan_id)) or {}
+
+    def discard_unstarted_execution_plan(self, plan_id: str, *, message: str) -> dict:
+        """Close a draft/audited plan without acquiring or fabricating execution ownership."""
+
+        now = self._utcnow()
+        with self._lock, self.connect() as con:
+            con.execute("BEGIN IMMEDIATE")
+            controller = con.execute(
+                "SELECT * FROM execution_controller WHERE singleton_id=1"
+            ).fetchone()
+            plan = con.execute(
+                "SELECT * FROM execution_plans WHERE id=?", (str(plan_id),)
+            ).fetchone()
+            controller = self._verified_controller_payload(controller)
+            if plan is None:
+                raise RuntimeError("Execution plan or controller record is missing")
+            self._verified_plan_design(plan)
+            if str(controller["controller"]) != "none":
+                raise RuntimeError("An unstarted draft cannot be discarded while a controller owns work")
+            if str(plan["lifecycle_state"]) not in {"draft", "audited"}:
+                raise RuntimeError("Only a draft or audited unstarted plan can use draft discard")
+            revision = int(plan["state_revision"]) + 1
+            receipt = self._execution_state_receipt(
+                plan_id=str(plan_id),
+                design_sha256=str(plan["design_sha256"]),
+                lifecycle_state="discarded_unstarted",
+                state_revision=revision,
+                controller_epoch=int(controller["epoch"]),
+                campaign_id=str(plan["campaign_id"]),
+                prior_receipt_sha256=str(plan["state_receipt_sha256"]),
+            )
+            con.execute(
+                """UPDATE execution_plans SET lifecycle_state='discarded_unstarted',
+                   state_revision=?,state_receipt_sha256=?,active_slot=0,updated_at=?,
+                   last_message=? WHERE id=?""",
+                (revision, receipt, now, str(message), str(plan_id)),
+            )
+            con.execute(
+                """INSERT INTO execution_lifecycle_events(
+                    plan_id,created_at,controller,controller_epoch,from_state,to_state,
+                    state_revision,receipt_sha256,message
+                ) VALUES(?,?,?,?,?,?,?,?,?)""",
+                (
+                    str(plan_id),
+                    now,
+                    "none",
+                    int(controller["epoch"]),
+                    str(plan["lifecycle_state"]),
+                    "discarded_unstarted",
+                    revision,
+                    receipt,
+                    str(message),
+                ),
+            )
+        return self.get_execution_plan(str(plan_id)) or {}
+
+    def acquire_execution_controller(
+        self,
+        plan_id: str,
+        *,
+        controller_kind: str,
+        owner_instance_id: str,
+        resume: bool = False,
+    ) -> dict:
+        """Atomically acquire the singleton controller and stage or resume the exact plan."""
+
+        kind = str(controller_kind)
+        if kind not in {"workspace", "individual_experiment"}:
+            raise ValueError(f"Unsupported execution controller: {kind}")
+        expected_plan_kind = "workspace" if kind == "workspace" else "individual_experiment"
+        now = self._utcnow()
+        with self._lock, self.connect() as con:
+            con.execute("BEGIN IMMEDIATE")
+            controller = con.execute(
+                "SELECT * FROM execution_controller WHERE singleton_id=1"
+            ).fetchone()
+            controller = self._verified_controller_payload(controller)
+            if str(controller["controller"]) != "none":
+                raise RuntimeError(
+                    "Execution control is already owned by "
+                    f"{str(controller['controller'])} plan {str(controller['owner_plan_id'])!r}"
+                )
+            plan = con.execute("SELECT * FROM execution_plans WHERE id=?", (str(plan_id),)).fetchone()
+            if plan is None or str(plan["plan_kind"]) != expected_plan_kind:
+                raise RuntimeError("The requested controller does not match the execution-plan kind")
+            design = self._verified_plan_design(plan)
+            expected_states = {"paused", "interrupted_resumable"} if resume else {"audited"}
+            current_state = str(plan["lifecycle_state"])
+            if current_state not in expected_states:
+                raise RuntimeError(
+                    f"Plan {plan_id!r} is {current_state!r}; expected one of {sorted(expected_states)}"
+                )
+            stage = con.execute(
+                "SELECT content_sha256 FROM algorithm_stages WHERE id=? AND status='active'",
+                (str(plan["algorithm_stage_id"]),),
+            ).fetchone()
+            if stage is None or str(stage["content_sha256"]) != str(
+                design.get("algorithm_stage_sha256", "")
+            ):
+                raise RuntimeError("The execution plan no longer matches the active algorithm stage")
+            if not resume:
+                audit = json.loads(str(plan["audit_json"]))
+                audit_sha = str(plan["audit_sha256"])
+                canonical_audit = dict(audit)
+                canonical_audit.pop("audit_sha256", None)
+                if (
+                    not audit_sha
+                    or _canonical_sha256(canonical_audit) != audit_sha
+                    or str(audit.get("design_sha256", "")) != str(plan["design_sha256"])
+                ):
+                    raise RuntimeError("The unchanged plan does not have a valid fairness-audit receipt")
+            elif str(plan["campaign_id"] or ""):
+                self._verified_campaign_plan_binding(
+                    con, plan, str(plan["campaign_id"])
+                )
+            epoch = int(controller["epoch"]) + 1
+            controller_revision = int(controller["record_revision"]) + 1
+            plan_revision = int(plan["state_revision"]) + 1
+            new_state = "running" if resume else "staged"
+            plan_receipt = self._execution_state_receipt(
+                plan_id=str(plan_id),
+                design_sha256=str(plan["design_sha256"]),
+                lifecycle_state=new_state,
+                state_revision=plan_revision,
+                controller_epoch=epoch,
+                campaign_id=str(plan["campaign_id"]),
+                prior_receipt_sha256=str(plan["state_receipt_sha256"]),
+            )
+            controller_payload = {
+                "schema_version": "calo-rpd-execution-controller-v1",
+                "controller": kind,
+                "owner_plan_id": str(plan_id),
+                "owner_design_sha256": str(plan["design_sha256"]),
+                "campaign_id": str(plan["campaign_id"]),
+                "lifecycle_state": new_state,
+                "epoch": epoch,
+                "owner_instance_id": str(owner_instance_id),
+                "record_revision": controller_revision,
+                "acquired_at": now,
+            }
+            controller_receipt = self._controller_receipt(controller_payload)
+            con.execute(
+                """UPDATE execution_plans SET lifecycle_state=?,state_revision=?,
+                    state_receipt_sha256=?,controller_epoch=?,updated_at=?,last_message=? WHERE id=?""",
+                (
+                    new_state,
+                    plan_revision,
+                    plan_receipt,
+                    epoch,
+                    now,
+                    "Execution controller reacquired" if resume else "Execution plan staged",
+                    str(plan_id),
+                ),
+            )
+            con.execute(
+                """UPDATE execution_controller SET schema_version=?,controller=?,owner_plan_id=?,
+                    owner_design_sha256=?,campaign_id=?,lifecycle_state=?,epoch=?,owner_instance_id=?,
+                    record_revision=?,acquired_at=?,updated_at=?,state_receipt_sha256=? WHERE singleton_id=1""",
+                (
+                    controller_payload["schema_version"],
+                    kind,
+                    str(plan_id),
+                    str(plan["design_sha256"]),
+                    str(plan["campaign_id"]),
+                    new_state,
+                    epoch,
+                    str(owner_instance_id),
+                    controller_revision,
+                    now,
+                    now,
+                    controller_receipt,
+                ),
+            )
+            con.execute(
+                """INSERT INTO execution_lifecycle_events(
+                    plan_id,created_at,controller,controller_epoch,from_state,to_state,
+                    state_revision,receipt_sha256,message
+                ) VALUES(?,?,?,?,?,?,?,?,?)""",
+                (
+                    str(plan_id),
+                    now,
+                    kind,
+                    epoch,
+                    current_state,
+                    new_state,
+                    plan_revision,
+                    plan_receipt,
+                    "Resumed exact frozen plan" if resume else "Staged without starting work",
+                ),
+            )
+        return self.get_execution_controller()
+
+    def transition_execution_plan(
+        self,
+        plan_id: str,
+        *,
+        controller_epoch: int,
+        expected_states: tuple[str, ...],
+        new_state: str,
+        message: str,
+        campaign_id: str = "",
+        release_controller: bool = False,
+    ) -> dict:
+        """Apply one fenced lifecycle transition and optionally release authority atomically."""
+
+        now = self._utcnow()
+        terminal = str(new_state) in {
+            "completed",
+            "completed_with_failures",
+            "cancelled",
+            "failed_non_resumable",
+            "discarded_unstarted",
+        }
+        with self._lock, self.connect() as con:
+            con.execute("BEGIN IMMEDIATE")
+            plan = con.execute("SELECT * FROM execution_plans WHERE id=?", (str(plan_id),)).fetchone()
+            controller = con.execute(
+                "SELECT * FROM execution_controller WHERE singleton_id=1"
+            ).fetchone()
+            controller = self._verified_controller_payload(controller)
+            if plan is None:
+                raise RuntimeError("Execution plan or controller record is missing")
+            self._verified_plan_design(plan)
+            if str(plan["lifecycle_state"]) not in {str(value) for value in expected_states}:
+                raise RuntimeError(
+                    f"Plan transition rejected from lifecycle {str(plan['lifecycle_state'])!r}"
+                )
+            if (
+                str(controller["owner_plan_id"]) != str(plan_id)
+                or str(controller["owner_design_sha256"]) != str(plan["design_sha256"])
+                or int(controller["epoch"]) != int(controller_epoch)
+            ):
+                raise RuntimeError("Stale or foreign execution-controller fencing token")
+            prior_state = str(plan["lifecycle_state"])
+            plan_revision = int(plan["state_revision"]) + 1
+            effective_campaign_id = str(campaign_id or plan["campaign_id"] or "")
+            if effective_campaign_id:
+                self._verified_campaign_plan_binding(con, plan, effective_campaign_id)
+            if str(new_state) == "paused" and effective_campaign_id:
+                self._commit_campaign_paused_rows(
+                    con,
+                    effective_campaign_id,
+                    now=now,
+                    message=str(message),
+                )
+            next_epoch = int(controller_epoch) + 1 if release_controller else int(controller_epoch)
+            plan_receipt = self._execution_state_receipt(
+                plan_id=str(plan_id),
+                design_sha256=str(plan["design_sha256"]),
+                lifecycle_state=str(new_state),
+                state_revision=plan_revision,
+                controller_epoch=next_epoch,
+                campaign_id=effective_campaign_id,
+                prior_receipt_sha256=str(plan["state_receipt_sha256"]),
+            )
+            con.execute(
+                """UPDATE execution_plans SET lifecycle_state=?,state_revision=?,
+                    state_receipt_sha256=?,campaign_id=?,controller_epoch=?,active_slot=?,
+                    updated_at=?,last_message=? WHERE id=?""",
+                (
+                    str(new_state),
+                    plan_revision,
+                    plan_receipt,
+                    effective_campaign_id,
+                    next_epoch,
+                    0 if terminal else 1,
+                    now,
+                    str(message),
+                    str(plan_id),
+                ),
+            )
+            controller_revision = int(controller["record_revision"]) + 1
+            controller_payload = {
+                "schema_version": str(controller["schema_version"]),
+                "controller": "none" if release_controller else str(controller["controller"]),
+                "owner_plan_id": "" if release_controller else str(plan_id),
+                "owner_design_sha256": "" if release_controller else str(plan["design_sha256"]),
+                "campaign_id": "" if release_controller else effective_campaign_id,
+                "lifecycle_state": "" if release_controller else str(new_state),
+                "epoch": next_epoch,
+                "owner_instance_id": "" if release_controller else str(controller["owner_instance_id"]),
+                "record_revision": controller_revision,
+                "acquired_at": "" if release_controller else str(controller["acquired_at"]),
+            }
+            controller_receipt = self._controller_receipt(controller_payload)
+            con.execute(
+                """UPDATE execution_controller SET controller=?,owner_plan_id=?,owner_design_sha256=?,
+                    campaign_id=?,lifecycle_state=?,epoch=?,owner_instance_id=?,record_revision=?,
+                    acquired_at=?,updated_at=?,state_receipt_sha256=? WHERE singleton_id=1""",
+                (
+                    controller_payload["controller"],
+                    controller_payload["owner_plan_id"],
+                    controller_payload["owner_design_sha256"],
+                    controller_payload["campaign_id"],
+                    controller_payload["lifecycle_state"],
+                    next_epoch,
+                    controller_payload["owner_instance_id"],
+                    controller_revision,
+                    controller_payload["acquired_at"],
+                    now,
+                    controller_receipt,
+                ),
+            )
+            con.execute(
+                """INSERT INTO execution_lifecycle_events(
+                    plan_id,created_at,controller,controller_epoch,from_state,to_state,
+                    state_revision,receipt_sha256,message
+                ) VALUES(?,?,?,?,?,?,?,?,?)""",
+                (
+                    str(plan_id),
+                    now,
+                    str(controller["controller"]),
+                    next_epoch,
+                    prior_state,
+                    str(new_state),
+                    plan_revision,
+                    plan_receipt,
+                    str(message),
+                ),
+            )
+        return self.get_execution_plan(str(plan_id)) or {}
+
+    def cancel_retained_execution_plan(
+        self,
+        plan_id: str,
+        *,
+        controller_epoch: int,
+        owner_instance_id: str,
+        message: str,
+    ) -> dict:
+        """Atomically cancel an idle retained plan, its unfinished ledgers, and ownership."""
+
+        now = self._utcnow()
+        with self._lock, self.connect() as con:
+            con.execute("BEGIN IMMEDIATE")
+            plan = con.execute(
+                "SELECT * FROM execution_plans WHERE id=?", (str(plan_id),)
+            ).fetchone()
+            controller = self._verified_controller_payload(
+                con.execute(
+                    "SELECT * FROM execution_controller WHERE singleton_id=1"
+                ).fetchone()
+            )
+            if plan is None:
+                raise KeyError(f"Unknown execution plan: {plan_id}")
+            self._verified_plan_design(plan)
+            prior_state = str(plan["lifecycle_state"])
+            if prior_state not in {
+                "staged",
+                "running",
+                "pausing",
+                "paused",
+                "interrupted_resumable",
+            }:
+                raise RuntimeError(f"Execution plan cannot be cancelled from {prior_state!r}")
+            if (
+                str(controller["owner_plan_id"]) != str(plan_id)
+                or str(controller["owner_design_sha256"]) != str(plan["design_sha256"])
+                or str(controller["owner_instance_id"]) != str(owner_instance_id)
+                or int(controller["epoch"]) != int(controller_epoch)
+            ):
+                raise RuntimeError("Stale or foreign execution-controller cancellation token")
+            campaign_id = str(plan["campaign_id"] or "")
+            if campaign_id:
+                self._verified_campaign_plan_binding(con, plan, campaign_id)
+                self._cancel_campaign_remaining_rows(
+                    con, campaign_id, now=now, message=str(message)
+                )
+            if str(plan["plan_kind"]) == "workspace":
+                con.execute(
+                    """UPDATE workspace_plan_cells SET lifecycle_state='cancelled',
+                       last_message=? WHERE workspace_plan_id=? AND lifecycle_state NOT IN
+                       ('completed','completed_with_failures','cancelled')""",
+                    (
+                        "Cancelled terminally; completed evidence retained",
+                        str(plan_id),
+                    ),
+                )
+            next_epoch = int(controller_epoch) + 1
+            revision = int(plan["state_revision"]) + 1
+            receipt = self._execution_state_receipt(
+                plan_id=str(plan_id),
+                design_sha256=str(plan["design_sha256"]),
+                lifecycle_state="cancelled",
+                state_revision=revision,
+                controller_epoch=next_epoch,
+                campaign_id=campaign_id,
+                prior_receipt_sha256=str(plan["state_receipt_sha256"]),
+            )
+            con.execute(
+                """UPDATE execution_plans SET lifecycle_state='cancelled',state_revision=?,
+                   state_receipt_sha256=?,controller_epoch=?,active_slot=0,updated_at=?,
+                   last_message=? WHERE id=?""",
+                (revision, receipt, next_epoch, now, str(message), str(plan_id)),
+            )
+            controller_revision = int(controller["record_revision"]) + 1
+            controller_payload = {
+                "schema_version": str(controller["schema_version"]),
+                "controller": "none",
+                "owner_plan_id": "",
+                "owner_design_sha256": "",
+                "campaign_id": "",
+                "lifecycle_state": "",
+                "epoch": next_epoch,
+                "owner_instance_id": "",
+                "record_revision": controller_revision,
+                "acquired_at": "",
+            }
+            con.execute(
+                """UPDATE execution_controller SET controller='none',owner_plan_id='',
+                   owner_design_sha256='',campaign_id='',lifecycle_state='',epoch=?,
+                   owner_instance_id='',record_revision=?,acquired_at='',updated_at=?,
+                   state_receipt_sha256=? WHERE singleton_id=1""",
+                (
+                    next_epoch,
+                    controller_revision,
+                    now,
+                    self._controller_receipt(controller_payload),
+                ),
+            )
+            con.execute(
+                """INSERT INTO execution_lifecycle_events(
+                    plan_id,created_at,controller,controller_epoch,from_state,to_state,
+                    state_revision,receipt_sha256,message
+                ) VALUES(?,?,?,?,?,?,?,?,?)""",
+                (
+                    str(plan_id),
+                    now,
+                    str(controller["controller"]),
+                    next_epoch,
+                    prior_state,
+                    "cancelled",
+                    revision,
+                    receipt,
+                    str(message),
+                ),
+            )
+        return self.get_execution_plan(str(plan_id)) or {}
+
+    def update_workspace_plan_cell(
+        self,
+        cell_id: str,
+        *,
+        lifecycle_state: str,
+        campaign_id: str = "",
+        experiment_id: str = "",
+        message: str = "",
+    ) -> None:
+        with self._lock, self.connect() as con:
+            con.execute("BEGIN IMMEDIATE")
+            controller = self._verified_controller_payload(
+                con.execute(
+                    "SELECT * FROM execution_controller WHERE singleton_id=1"
+                ).fetchone()
+            )
+            cell = con.execute(
+                "SELECT workspace_plan_id FROM workspace_plan_cells WHERE id=?",
+                (str(cell_id),),
+            ).fetchone()
+            if cell is None:
+                raise KeyError(f"Unknown Workspace plan cell: {cell_id}")
+            if (
+                str(controller["controller"]) != "workspace"
+                or str(controller["owner_plan_id"]) != str(cell["workspace_plan_id"])
+            ):
+                raise RuntimeError("Only the controlling Workspace plan can update its cell ledger")
+            con.execute(
+                """UPDATE workspace_plan_cells SET lifecycle_state=?,campaign_id=?,
+                    experiment_id=?,last_message=? WHERE id=?""",
+                (
+                    str(lifecycle_state),
+                    str(campaign_id),
+                    str(experiment_id),
+                    str(message),
+                    str(cell_id),
+                ),
+            )
+
+    def recover_execution_controller(self, *, owner_instance_id: str) -> dict:
+        """Fence an old process and restore truthful interrupted ownership after restart."""
+
+        now = self._utcnow()
+        with self._lock, self.connect() as con:
+            con.execute("BEGIN IMMEDIATE")
+            controller = con.execute(
+                "SELECT * FROM execution_controller WHERE singleton_id=1"
+            ).fetchone()
+            controller_payload = self._verified_controller_payload(controller)
+            if str(controller["controller"]) == "none":
+                return controller_payload
+            plan = con.execute(
+                "SELECT * FROM execution_plans WHERE id=?", (str(controller["owner_plan_id"]),)
+            ).fetchone()
+            if plan is None:
+                raise RuntimeError("Execution controller refers to a missing owner plan")
+            design = self._verified_plan_design(plan)
+            prior_state = str(plan["lifecycle_state"])
+            if prior_state in {
+                "completed",
+                "completed_with_failures",
+                "cancelled",
+                "failed_non_resumable",
+                "discarded_unstarted",
+            }:
+                raise RuntimeError("A terminal execution plan cannot retain controller ownership")
+            if str(plan["plan_kind"]) == "workspace" and prior_state == "paused":
+                raise RuntimeError("A durably paused Workspace plan cannot retain controller ownership")
+            stage = con.execute(
+                "SELECT content_sha256 FROM algorithm_stages WHERE id=? AND status='active'",
+                (str(plan["algorithm_stage_id"]),),
+            ).fetchone()
+            if stage is None or str(stage["content_sha256"]) != str(
+                design.get("algorithm_stage_sha256", "")
+            ):
+                raise RuntimeError("The interrupted plan no longer matches the active algorithm stage")
+            if str(plan["plan_kind"]) == "workspace" and prior_state in {
+                "running",
+                "pausing",
+            }:
+                active_cells = con.execute(
+                    """SELECT id,campaign_id FROM workspace_plan_cells
+                       WHERE workspace_plan_id=? AND lifecycle_state IN ('running','pausing')""",
+                    (str(plan["id"]),),
+                ).fetchall()
+                for cell in active_cells:
+                    campaign_id = str(cell["campaign_id"] or "")
+                    if not campaign_id:
+                        task = con.execute(
+                            """SELECT campaign_id FROM campaign_tasks
+                               WHERE execution_plan_id=? AND workspace_plan_cell_id=?
+                               ORDER BY last_activity DESC LIMIT 1""",
+                            (str(plan["id"]), str(cell["id"])),
+                        ).fetchone()
+                        campaign_id = "" if task is None else str(task["campaign_id"])
+                    con.execute(
+                        """UPDATE workspace_plan_cells SET lifecycle_state='interrupted_resumable',
+                           campaign_id=?,last_message=? WHERE id=?""",
+                        (
+                            campaign_id,
+                            "Application restart retained this in-flight Workspace cell",
+                            str(cell["id"]),
+                        ),
+                    )
+            new_state = (
+                "interrupted_resumable"
+                if prior_state in {"running", "pausing"}
+                else prior_state
+            )
+            epoch = int(controller["epoch"]) + 1
+            plan_revision = int(plan["state_revision"]) + 1
+            plan_receipt = self._execution_state_receipt(
+                plan_id=str(plan["id"]),
+                design_sha256=str(plan["design_sha256"]),
+                lifecycle_state=new_state,
+                state_revision=plan_revision,
+                controller_epoch=epoch,
+                campaign_id=str(plan["campaign_id"]),
+                prior_receipt_sha256=str(plan["state_receipt_sha256"]),
+            )
+            con.execute(
+                """UPDATE execution_plans SET lifecycle_state=?,state_revision=?,
+                    state_receipt_sha256=?,controller_epoch=?,updated_at=?,last_message=? WHERE id=?""",
+                (
+                    new_state,
+                    plan_revision,
+                    plan_receipt,
+                    epoch,
+                    now,
+                    "Application restart restored authenticated execution ownership",
+                    str(plan["id"]),
+                ),
+            )
+            controller_revision = int(controller["record_revision"]) + 1
+            controller_payload = {
+                "schema_version": str(controller["schema_version"]),
+                "controller": str(controller["controller"]),
+                "owner_plan_id": str(plan["id"]),
+                "owner_design_sha256": str(plan["design_sha256"]),
+                "campaign_id": str(plan["campaign_id"]),
+                "lifecycle_state": new_state,
+                "epoch": epoch,
+                "owner_instance_id": str(owner_instance_id),
+                "record_revision": controller_revision,
+                "acquired_at": str(controller["acquired_at"]),
+            }
+            con.execute(
+                """UPDATE execution_controller SET lifecycle_state=?,epoch=?,owner_instance_id=?,
+                    record_revision=?,updated_at=?,state_receipt_sha256=? WHERE singleton_id=1""",
+                (
+                    new_state,
+                    epoch,
+                    str(owner_instance_id),
+                    controller_revision,
+                    now,
+                    self._controller_receipt(controller_payload),
+                ),
+            )
+            con.execute(
+                """INSERT INTO execution_lifecycle_events(
+                    plan_id,created_at,controller,controller_epoch,from_state,to_state,
+                    state_revision,receipt_sha256,message
+                ) VALUES(?,?,?,?,?,?,?,?,?)""",
+                (
+                    str(plan["id"]),
+                    now,
+                    str(controller["controller"]),
+                    epoch,
+                    prior_state,
+                    new_state,
+                    plan_revision,
+                    plan_receipt,
+                    "Application restart fenced the prior process instance",
+                ),
+            )
+        return self.get_execution_controller()
 
     def create_experiment(
         self,
@@ -707,6 +1922,114 @@ class ResultDatabase:
                     (str(status), row["experiment_id"]),
                 )
 
+    @staticmethod
+    def _commit_campaign_paused_rows(
+        con, campaign_id: str, *, now: str, message: str
+    ) -> None:
+        """Commit the final campaign pause boundary inside the controller transaction."""
+
+        campaign = con.execute(
+            "SELECT experiment_id,config_json FROM campaigns WHERE id=?",
+            (str(campaign_id),),
+        ).fetchone()
+        if campaign is None:
+            raise KeyError(f"Unknown campaign: {campaign_id}")
+        con.execute(
+            """UPDATE campaign_tasks SET status='paused',last_activity=? WHERE campaign_id=?
+               AND status IN ('planned','queued','running','pausing','interrupted')""",
+            (now, str(campaign_id)),
+        )
+        con.execute(
+            """UPDATE campaigns SET status='paused',updated_at=?,last_message=? WHERE id=?""",
+            (now, str(message), str(campaign_id)),
+        )
+        if campaign["experiment_id"]:
+            con.execute(
+                "UPDATE experiments SET campaign_status='paused' WHERE id=?",
+                (str(campaign["experiment_id"]),),
+            )
+        config = json.loads(str(campaign["config_json"]))
+        revision_id = str(config.get("experiment_revision_id", "") or "")
+        if revision_id:
+            con.execute(
+                "UPDATE experiment_revisions SET status='paused' WHERE id=?",
+                (revision_id,),
+            )
+        con.execute(
+            """UPDATE resumable_tasks SET status='paused',resumable=1,updated_at=?
+               WHERE id=?""",
+            (now, str(campaign_id)),
+        )
+
+    @staticmethod
+    def _cancel_campaign_remaining_rows(
+        con, campaign_id: str, *, now: str, message: str
+    ) -> None:
+        campaign = con.execute(
+            "SELECT * FROM campaigns WHERE id=?", (str(campaign_id),)
+        ).fetchone()
+        if campaign is None:
+            raise KeyError(f"Unknown campaign: {campaign_id}")
+        unfinished = con.execute(
+            """SELECT id,checkpoint_path FROM campaign_tasks WHERE campaign_id=?
+               AND status IN ('planned','queued','running','pausing','paused',
+                              'interrupted','failed')""",
+            (str(campaign_id),),
+        ).fetchall()
+        for task in unfinished:
+            con.execute(
+                "UPDATE campaign_tasks SET status='cancelled',last_activity=? WHERE id=?",
+                (now, str(task["id"])),
+            )
+            con.execute(
+                """INSERT INTO task_events(task_id,created_at,event_type,payload_json)
+                   VALUES(?,?,?,?)""",
+                (
+                    str(task["id"]),
+                    now,
+                    "cancelled",
+                    json.dumps(
+                        {
+                            "checkpoint_retained_for_audit": bool(task["checkpoint_path"]),
+                            "resume_eligible": False,
+                        },
+                        sort_keys=True,
+                    ),
+                ),
+            )
+        con.execute(
+            """UPDATE campaigns SET status='cancelled',updated_at=?,last_message=?
+               WHERE id=?""",
+            (now, str(message), str(campaign_id)),
+        )
+        if campaign["experiment_id"]:
+            con.execute(
+                "UPDATE experiments SET campaign_status='cancelled' WHERE id=?",
+                (str(campaign["experiment_id"]),),
+            )
+        config = json.loads(str(campaign["config_json"]))
+        revision_id = str(config.get("experiment_revision_id", "") or "")
+        if revision_id:
+            con.execute(
+                "UPDATE experiment_revisions SET status='cancelled' WHERE id=?",
+                (revision_id,),
+            )
+        con.execute(
+            """UPDATE resumable_tasks SET status='cancelled',resumable=0,updated_at=?
+               WHERE id=?""",
+            (now, str(campaign_id)),
+        )
+
+    def cancel_campaign_remaining(self, campaign_id: str, *, message: str) -> None:
+        """Close one retained campaign ledger without altering its committed run evidence."""
+
+        now = self._utcnow()
+        with self._lock, self.connect() as con:
+            con.execute("BEGIN IMMEDIATE")
+            self._cancel_campaign_remaining_rows(
+                con, str(campaign_id), now=now, message=str(message)
+            )
+
     def add_campaign_task(
         self,
         campaign_id: str,
@@ -716,21 +2039,65 @@ class ResultDatabase:
         seeds: dict,
         fingerprint: str,
         required_outputs: list[str],
+        *,
+        execution_plan_id: str = "",
+        workspace_plan_cell_id: str = "",
+        job_identity_sha256: str = "",
     ) -> str:
         task_id = str(uuid.uuid4())
         with self._lock, self.connect() as con:
             existing = con.execute(
-                "SELECT id FROM campaign_tasks WHERE campaign_id=? AND job_index=?",
+                """SELECT id,execution_plan_id,workspace_plan_cell_id,job_identity_sha256,
+                          algorithm,run_index,fingerprint
+                   FROM campaign_tasks WHERE campaign_id=? AND job_index=?""",
                 (campaign_id, int(job_index)),
             ).fetchone()
             if existing:
+                expected_existing = (
+                    str(execution_plan_id),
+                    str(workspace_plan_cell_id),
+                    str(job_identity_sha256),
+                    str(algorithm),
+                    int(run_index),
+                    str(fingerprint),
+                )
+                observed_existing = (
+                    str(existing["execution_plan_id"]),
+                    str(existing["workspace_plan_cell_id"]),
+                    str(existing["job_identity_sha256"]),
+                    str(existing["algorithm"]),
+                    int(existing["run_index"]),
+                    str(existing["fingerprint"]),
+                )
+                if expected_existing != observed_existing:
+                    raise RuntimeError(
+                        "Campaign job index collision has a different plan, cell, scientific "
+                        "identity, algorithm, run index, or fingerprint"
+                    )
                 return str(existing["id"])
+            if execution_plan_id and job_identity_sha256:
+                duplicate = con.execute(
+                    """SELECT id,campaign_id FROM campaign_tasks
+                       WHERE execution_plan_id=? AND workspace_plan_cell_id=?
+                         AND job_identity_sha256=?""",
+                    (
+                        str(execution_plan_id),
+                        str(workspace_plan_cell_id),
+                        str(job_identity_sha256),
+                    ),
+                ).fetchone()
+                if duplicate is not None:
+                    raise RuntimeError(
+                        "Duplicate scientific job admission was blocked for execution plan "
+                        f"{execution_plan_id!r}; existing campaign {str(duplicate['campaign_id'])!r}"
+                    )
             con.execute(
                 """INSERT INTO campaign_tasks(
                     id,campaign_id,job_index,algorithm,run_index,seed_json,fingerprint,
                     required_outputs_json,status,attempts,checkpoint_path,checkpoint_sha256,
-                    run_id,failure_id,last_activity
-                ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+                    run_id,failure_id,last_activity,execution_plan_id,
+                    workspace_plan_cell_id,job_identity_sha256
+                ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
                 (
                     task_id,
                     campaign_id,
@@ -747,6 +2114,9 @@ class ResultDatabase:
                     None,
                     None,
                     self._utcnow(),
+                    str(execution_plan_id),
+                    str(workspace_plan_cell_id),
+                    str(job_identity_sha256),
                 ),
             )
         return task_id

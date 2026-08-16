@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from copy import deepcopy
 import hashlib
 import json
 import math
@@ -525,6 +526,27 @@ class AlgorithmsPanel(WorkspacePage):
     def refresh(self) -> None:
         """Reload the saved in-memory experiment configuration without applying form edits."""
         self.load_from_config(self.state.config)
+        controller = self.state.execution_control.controller()
+        unlocked = str(controller["controller"]) == "none"
+        resumable = False
+        for kind in ("workspace", "individual_experiment"):
+            plan = self.state.execution_control.active_plan(kind)
+            if plan is not None and str(plan["lifecycle_state"]) in {
+                "paused",
+                "interrupted_resumable",
+            }:
+                resumable = True
+                break
+        stage_mutable = unlocked and not resumable
+        self.submit_algorithms_button.setEnabled(stage_mutable)
+        self.reset_algorithms_button.setEnabled(stage_mutable)
+        reason = (
+            ""
+            if stage_mutable
+            else "The submitted stage is locked by an active or resumable execution plan."
+        )
+        self.submit_algorithms_button.setToolTip(reason)
+        self.reset_algorithms_button.setToolTip(reason)
 
     def _canonical_calo_values(self) -> dict:
         values = self._safe_defaults("CALO", SPECS["CALO"])
@@ -829,15 +851,11 @@ class AlgorithmsPanel(WorkspacePage):
             self._apply_calo_profile_mode()
 
     def _update_algorithm_stage_status(self, algorithms=None) -> None:
-        staged = tuple(
-            str(name)
-            for name in (
-                self.state.config.algorithms if algorithms is None else algorithms
-            )
-        )
-        if staged:
+        stage = self.state.execution_control.active_stage()
+        if stage is not None:
             self.algorithm_stage_status.setText(
-                f"Staged for experiment: {', '.join(staged)}"
+                f"Submitted stage {stage.stage_id}: {', '.join(stage.algorithm_names)} · "
+                f"content SHA-256 {stage.content_sha256[:16]}…"
             )
         else:
             self.algorithm_stage_status.setText(
@@ -847,11 +865,11 @@ class AlgorithmsPanel(WorkspacePage):
     def _algorithm_draft_changed(self, _item: QTableWidgetItem) -> None:
         if self._loading:
             return
-        staged = tuple(str(name) for name in self.state.config.algorithms)
-        if staged:
+        stage = self.state.execution_control.active_stage()
+        if stage is not None:
             self.algorithm_stage_status.setText(
                 "Draft selection changed. Currently staged: "
-                f"{', '.join(staged)}. Submit algorithms to replace the experiment staging."
+                f"{', '.join(stage.algorithm_names)}. Submit algorithms to replace the experiment staging."
             )
         else:
             self.algorithm_stage_status.setText(
@@ -895,15 +913,40 @@ class AlgorithmsPanel(WorkspacePage):
             **TSH_CALO_NUMERIC_DEFAULTS,
             **parameters.get("TSH-CALO", {}),
         }
-        self.state.config.algorithms = selected
-        self.state.config.algorithm_parameters = parameters
+        candidate = deepcopy(self.state.config)
+        candidate.algorithms = selected
+        candidate.algorithm_parameters = parameters
+        try:
+            stage = self.state.execution_control.submit_algorithm_stage(candidate)
+        except Exception as exc:
+            show_error(
+                self,
+                "Algorithm selection was not submitted",
+                "The current execution plan must release the submitted stage before it can change.",
+                exc,
+                source="algorithm staging",
+            )
+            return
+        self.state.config = candidate
         self.state.update_config()
+        self.state.notify_execution_state_changed()
         self.stage_completed.emit()
         self.saved.emit(
-            f"Algorithms staged for the current experiment: {', '.join(selected)}"
+            f"Algorithms submitted for experiment use: {', '.join(selected)} · {stage.stage_id}"
         )
 
     def reset_algorithm_selection(self) -> None:
+        try:
+            self.state.execution_control.discard_algorithm_stage()
+        except Exception as exc:
+            show_error(
+                self,
+                "Algorithm staging was not reset",
+                "Finish, cancel, or close the exact controlling plan before resetting algorithms.",
+                exc,
+                source="algorithm staging",
+            )
+            return
         existing = self.state.config.algorithm_parameters
         parameters = {
             "CALO": {
@@ -926,6 +969,7 @@ class AlgorithmsPanel(WorkspacePage):
         self.state.config.algorithms = []
         self.state.config.algorithm_parameters = parameters
         self.state.update_config()
+        self.state.notify_execution_state_changed()
         self.stage_discarded.emit()
         self.saved.emit(
             "Algorithm staging discarded; select and submit a fresh experiment set"

@@ -94,7 +94,7 @@ COMMAND_SPECS: tuple[CommandSpec, ...] = (
         "study",
         "Open the experiment configuration, fairness audit, run controls, and queue.",
         workspace="experiment",
-        context="experiment",
+        context="workspace_study",
         primary=True,
     ),
     CommandSpec(
@@ -138,6 +138,17 @@ COMMAND_SPECS: tuple[CommandSpec, ...] = (
         context="settings",
     ),
     CommandSpec(
+        "experiment.individual",
+        "Experiment",
+        "Execute",
+        "Individual experiment",
+        "experiment",
+        "Configure, audit, stage, and explicitly run one experiment using the complete submitted algorithm stage.",
+        workspace="experiment",
+        context="individual_experiment",
+        primary=True,
+    ),
+    CommandSpec(
         "experiment.power",
         "Experiment",
         "Model",
@@ -166,15 +177,6 @@ COMMAND_SPECS: tuple[CommandSpec, ...] = (
         "Configure deterministic or robust scenario inputs.",
         workspace="scenarios",
         context="scenarios",
-    ),
-    CommandSpec(
-        "experiment.stop",
-        "Experiment",
-        "Execute",
-        "Cancel task",
-        "stop",
-        "Request cancellation only when the active task declares itself cancellable.",
-        "cancel",
     ),
     CommandSpec(
         "algorithms.configure",

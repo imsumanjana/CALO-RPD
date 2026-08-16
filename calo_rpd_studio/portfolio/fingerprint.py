@@ -91,6 +91,10 @@ def experiment_fingerprint(config) -> str:
         "run_checkpoint_root",
         "extension_checkpoint_paths",
         "extension_existing_run_ids",
+        "execution_plan_id",
+        "execution_plan_design_sha256",
+        "algorithm_stage_id",
+        "workspace_plan_cell_id",
     ):
         data.pop(key, None)
     data.pop("algorithms", None)

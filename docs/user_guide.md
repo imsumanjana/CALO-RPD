@@ -10,10 +10,14 @@ Select active-power loss, voltage deviation, L-index, or multi-objective optimiz
 
 ## 3. Algorithms
 
-Select any subset of the registered primary methods. Method settings are saved with the experiment.
-All optimizers use the same normalized decision space, decoder, physical evaluator, constraints,
-scenarios, and budget policy. `TSH-CALO` is shown as a separate policy-gated row and remains disabled
-until a future completely new post-development ensemble satisfies every immutable activation gate.
+Select any non-empty subset of the registered primary methods, configure their permitted method
+settings, and choose **Submit algorithms for experiment**. Checkbox and parameter edits remain a
+draft until Submit succeeds. The resulting immutable algorithm stage is the upper bound for both
+Workspace studies and individual experiments; **Reset selection** discards it only when no active or
+resumable plan is bound to it. All optimizers use the same normalized decision space, decoder,
+physical evaluator, constraints, scenarios, and budget policy. `TSH-CALO` remains a separate
+policy-gated row and is available only through its existing independently qualified, selected,
+active, checksum-valid binding.
 
 ## 4. CALO Intelligence
 
@@ -92,14 +96,35 @@ Choose deterministic, load uncertainty, Monte Carlo, renewable uncertainty, bran
 
 ## 6. Experiment Manager
 
-The workspace is organized in the required scientific order:
+After Algorithms Submit, execution has two exclusive scientist-controlled paths:
+
+- **Workspace → Portfolio/Study** may select a non-empty subset of the submitted stage, freeze an
+  explicit multi-cell study, run it through the shared ExperimentManager, pause safely, resume its
+  exact retained campaign, or terminally cancel remaining work. Portfolio presets report required
+  and recommended identities but never change the submitted algorithm stage.
+- **Experiment → Individual experiment** always uses the complete unchanged submitted stage. It has
+  no second algorithm selector and runs one custom case/formulation/scenario/budget/seed design.
+
+Each path follows the same visible order:
 
 1. **Experiment configuration**
 2. **Fairness audit**
-3. **Run study**
-4. **Run queue**
+3. **Stage without running**
+4. **Run study or individual experiment**
+5. **Run queue**
 
-Choose run count, population size, budget policy, evaluation budget, worker preference, master seed, and result directory first. Run the fairness audit next. Primary comparison and CALO ablation controls remain locked until the current configuration passes the audit. Any later configuration change invalidates the previous audit and locks execution again.
+Choose run count, population size, budget policy, evaluation budget, worker preference, master seed,
+and result directory first. Run the fairness audit next, then explicitly Stage the unchanged audited
+plan. Staging acquires exclusive execution ownership but starts no numerical work. Any later editable
+configuration change requires a replacement draft and audit before staging.
+
+Workspace and individual execution never run concurrently. Workspace keeps ownership while staged,
+running, pausing, or interrupted. A durable Workspace pause commits retained progress before
+releasing ownership, allowing an individual experiment while the immutable paused Workspace plan
+waits. An individual paused plan retains ownership and blocks Workspace resume. **Pause safely** is
+resumable; **Cancel** is separately confirmed, terminal for that plan, and retains completed
+evidence. On relaunch, the persisted controller and plan identities restore the truthful freeze or
+paused-handoff state before editing is allowed.
 
 The workspace body scrolls vertically on shorter displays so controls retain their normal height rather than being compressed.
 

@@ -313,6 +313,12 @@ class ExperimentConfig:
     run_checkpoint_root: str = ""
     extension_checkpoint_paths: dict[str, str] = field(default_factory=dict)
     extension_existing_run_ids: dict[str, str] = field(default_factory=dict)
+    # Execution-controller provenance. These values bind orchestration records only; optimizer,
+    # policy, budget, seed, objective, and evaluation semantics do not consume them.
+    execution_plan_id: str = ""
+    execution_plan_design_sha256: str = ""
+    algorithm_stage_id: str = ""
+    workspace_plan_cell_id: str = ""
 
     def validate_policy_development(self) -> None:
         """Validate only the scientific formulation consumed by CALO Intelligence.
@@ -817,6 +823,12 @@ class ExperimentConfig:
             extension_existing_run_ids={
                 str(k): str(v) for k, v in dict(data.get("extension_existing_run_ids", {})).items()
             },
+            execution_plan_id=str(data.get("execution_plan_id", "")),
+            execution_plan_design_sha256=str(
+                data.get("execution_plan_design_sha256", "")
+            ),
+            algorithm_stage_id=str(data.get("algorithm_stage_id", "")),
+            workspace_plan_cell_id=str(data.get("workspace_plan_cell_id", "")),
         )
 
     @classmethod

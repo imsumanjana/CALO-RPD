@@ -1,6 +1,6 @@
 # Documentation status and precedence
 
-**Current as of 2026-08-14.** This index prevents historical release, audit, training, and validation
+**Current as of 2026-08-16.** This index prevents historical release, audit, training, and validation
 records from being mistaken for active v12 instructions. It changes document routing only; it does
 not claim that a development, scientific, hardware, container, release-candidate, or release gate
 has passed.
@@ -89,6 +89,11 @@ release proof.
 - `docs/implementation/PHASE_6_EXACT_CONTINUATION_PROMPT.md`: consumed dirty-worktree Phase 6
   continuation with a completion banner; it prevents restarting the original audit and routes the
   owner to the retained passing validator bundle and current ledgers.
+- `WORKSPACE_AND_INDIVIDUAL_EXPERIMENT_EXECUTION_PLAN.txt`: current source-implemented,
+  owner-validation-pending contract for explicit algorithm stages, immutable Workspace subsets,
+  full-stage individual plans, exclusive execution ownership, safe pause/resume, and terminal
+  cancellation. It does not modify or authorize CALO/TSH-CALO architecture, policy lifecycle,
+  training, qualification, scientific execution, or release activity.
 
 The current Phase 6 GUI follow-up restores complete frozen-plan training inputs to the single
 input-only dock without re-enabling the historical embedded trainer. Its focused validator has not

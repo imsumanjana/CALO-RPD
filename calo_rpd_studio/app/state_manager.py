@@ -11,6 +11,7 @@ from calo_rpd_studio.algorithms.calo.policy_readiness import evaluate_governing_
 from calo_rpd_studio.algorithms.calo.tsh_calo_schema import TSH_CALO_ALGORITHM_ID
 from calo_rpd_studio.compute.topology import ComputeTopologyService, SafeResourceBudgetEngine
 from calo_rpd_studio.compute.governor import AdaptiveComputeGovernor, GovernorConfig
+from .execution_control import ExecutionControlService
 from .task_status import TaskStatus
 
 
@@ -27,6 +28,7 @@ class AppState(QObject):
     policy_state_changed = pyqtSignal(object)
     policy_training_changed = pyqtSignal(bool, str)
     policy_training_plan_changed = pyqtSignal(object)
+    execution_state_changed = pyqtSignal(object)
 
     def __init__(self, database_path="calo_rpd_results.sqlite"):
         super().__init__()
@@ -35,6 +37,7 @@ class AppState(QObject):
         self.current_power_flow = None
         self.current_experiment_id = ""
         self.database = ResultDatabase(database_path)
+        self.execution_control = ExecutionControlService(self.database)
         self.resume_service = ResumeService(self.database)
         self.policy_registry = PolicyRegistry(self.database)
         self.synchronize_governing_policy_binding()
@@ -219,6 +222,11 @@ class AppState(QObject):
 
     def update_config(self):
         self.config_changed.emit(self.config)
+
+    def notify_execution_state_changed(self):
+        controller = self.execution_control.controller()
+        self.execution_state_changed.emit(controller)
+        return controller
 
     def set_case(self, case):
         self.current_case = case

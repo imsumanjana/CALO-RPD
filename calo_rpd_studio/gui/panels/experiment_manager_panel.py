@@ -47,6 +47,12 @@ from calo_rpd_studio.experiments.execution_plan import (
     planned_item_count,
 )
 from calo_rpd_studio.experiments.fairness_validator import validate_fairness
+from calo_rpd_studio.experiments.execution_plans import (
+    ExecutionLifecycle,
+    ExecutionPlanKind,
+    canonical_sha256,
+    frozen_config_payload,
+)
 from calo_rpd_studio.gui.user_feedback import log_technical_error, show_error
 from calo_rpd_studio.gui.widgets.disclosure import DisclosurePanel
 from calo_rpd_studio.gui.widgets.section_card import SectionCard
@@ -169,7 +175,7 @@ class ExperimentManagerPanel(WorkspacePage):
 
     workspace_requested = pyqtSignal(str)
 
-    def __init__(self, state, manager, parent=None) -> None:
+    def __init__(self, state, manager, parent=None, *, workspace_coordinator=None) -> None:
         super().__init__(
             "Experiment Manager",
             "Configure repeated seeded experiments, audit fairness, execute primary comparisons, and track queued, completed, failed, or cancelled runs.",
@@ -177,6 +183,10 @@ class ExperimentManagerPanel(WorkspacePage):
         )
         self.state = state
         self.manager = manager
+        self.workspace_coordinator = workspace_coordinator
+        self.execution_mode = ExecutionPlanKind.WORKSPACE.value
+        self._audit_plan_id = ""
+        self._audited_config = None
         self.resource_monitor = ResourceMonitor()
         self.completed_runs = 0
         self.failed_runs = 0
@@ -204,6 +214,26 @@ class ExperimentManagerPanel(WorkspacePage):
         self.body_layout.setSpacing(16)
         self.body_scroll.setWidget(self.body_content)
         self.layout_root.addWidget(self.body_scroll, 1)
+
+        self.ownership_banner = QLabel()
+        self.ownership_banner.setObjectName("ExecutionOwnershipBanner")
+        self.ownership_banner.setWordWrap(True)
+        self.body_layout.addWidget(self.ownership_banner)
+        self.ownership_actions = QWidget()
+        ownership_actions_layout = QHBoxLayout(self.ownership_actions)
+        ownership_actions_layout.setContentsMargins(0, 0, 0, 0)
+        self.view_workspace_plan = QPushButton("View Workspace plan")
+        self.view_workspace_job = QPushButton("View current Workspace job")
+        self.return_to_workspace = QPushButton("Return to Workspace Study")
+        self.view_workspace_plan.clicked.connect(self._show_workspace_owner)
+        self.view_workspace_job.clicked.connect(self._show_workspace_queue)
+        self.return_to_workspace.clicked.connect(self._show_workspace_owner)
+        ownership_actions_layout.addWidget(self.view_workspace_plan)
+        ownership_actions_layout.addWidget(self.view_workspace_job)
+        ownership_actions_layout.addWidget(self.return_to_workspace)
+        ownership_actions_layout.addStretch(1)
+        self.ownership_actions.setVisible(False)
+        self.body_layout.addWidget(self.ownership_actions)
 
         self.setup_card = SectionCard(
             "1. Experiment configuration",
@@ -430,7 +460,9 @@ class ExperimentManagerPanel(WorkspacePage):
             "Execution becomes available only after the fairness audit passes for the current configuration.",
         )
         buttons = QHBoxLayout()
-        self.compare = QPushButton("Run Primary Algorithm Comparison")
+        self.stage_plan = QPushButton("Stage Workspace campaign")
+        self.stage_plan.setObjectName("PrimaryButton")
+        self.compare = QPushButton("Run campaign")
         self.compare.setObjectName("PrimaryButton")
         self.calo = QPushButton("Run CALO Ablation Study")
         self.compare.setToolTip(
@@ -441,19 +473,37 @@ class ExperimentManagerPanel(WorkspacePage):
         )
         self.pause = QPushButton("Pause safely")
         self.pause.setEnabled(False)
-        self.cancel = QPushButton("Stop immediately")
+        self.cancel = QPushButton("Cancel remaining campaign")
         self.cancel.setEnabled(False)
+        self.resume_plan = QPushButton("Resume campaign")
+        self.resume_plan.setEnabled(False)
+        self.discard_plan = QPushButton("Discard unstarted staging")
+        self.discard_plan.setEnabled(False)
         self.compare.setEnabled(False)
         self.calo.setEnabled(False)
-        for button in (self.compare, self.calo, self.pause, self.cancel):
+        for button in (
+            self.stage_plan,
+            self.compare,
+            self.calo,
+            self.pause,
+            self.cancel,
+            self.resume_plan,
+            self.discard_plan,
+        ):
             button.setMinimumHeight(36)
+        self.stage_plan.clicked.connect(self.stage_current_plan)
         self.compare.clicked.connect(self.start_comparison)
         self.calo.clicked.connect(self.start_calo)
         self.pause.clicked.connect(self.pause_requested)
         self.cancel.clicked.connect(self.cancel_requested)
+        self.resume_plan.clicked.connect(self.resume_current_plan)
+        self.discard_plan.clicked.connect(self.discard_current_plan)
+        buttons.addWidget(self.stage_plan)
         buttons.addWidget(self.compare)
         buttons.addWidget(self.calo)
         buttons.addStretch(1)
+        buttons.addWidget(self.resume_plan)
+        buttons.addWidget(self.discard_plan)
         buttons.addWidget(self.pause)
         buttons.addWidget(self.cancel)
         self.execution_card.layout_root.addLayout(buttons)
@@ -594,8 +644,17 @@ class ExperimentManagerPanel(WorkspacePage):
         manager.run_completed.connect(self.on_run_completed)
         manager.run_failed.connect(self.on_run_failed)
         manager.completed.connect(self.on_completed)
+        manager.paused.connect(self.on_paused)
         manager.cancelled.connect(self.on_cancelled)
         manager.failed.connect(self.on_failed)
+        manager.idle.connect(self.refresh_execution_state)
+        self.state.execution_state_changed.connect(lambda _: self.refresh_execution_state())
+        if self.workspace_coordinator is not None:
+            self.workspace_coordinator.changed.connect(lambda _: self.refresh_execution_state())
+            self.workspace_coordinator.finished.connect(lambda _: self.refresh_execution_state())
+            self.workspace_coordinator.cancelled.connect(lambda _: self.refresh_execution_state())
+            self.workspace_coordinator.paused.connect(lambda _: self.refresh_execution_state())
+            self.workspace_coordinator.failed.connect(lambda _: self.refresh_execution_state())
         manager.busy.connect(self.on_busy)
         self.policy.currentIndexChanged.connect(self._controls)
         self.execution_backend.currentIndexChanged.connect(self._controls)
@@ -648,6 +707,275 @@ class ExperimentManagerPanel(WorkspacePage):
         self.resource_timer.timeout.connect(self._refresh_resource_status)
         self.resource_timer.start()
         self._set_running(manager.running)
+        self.refresh_execution_state()
+
+    def show_context(self, context: str) -> None:
+        self.execution_mode = (
+            ExecutionPlanKind.INDIVIDUAL_EXPERIMENT.value
+            if str(context) == "individual_experiment"
+            else ExecutionPlanKind.WORKSPACE.value
+        )
+        self.refresh()
+
+    def _active_controlled_plan(self) -> dict | None:
+        return self.state.execution_control.active_plan(self.execution_mode)
+
+    def _controller_matches_mode(self, controller: dict) -> bool:
+        expected = (
+            "workspace"
+            if self.execution_mode == ExecutionPlanKind.WORKSPACE.value
+            else "individual_experiment"
+        )
+        return str(controller["controller"]) == expected
+
+    def _show_workspace_owner(self) -> None:
+        self.show_context("workspace_study")
+        self.status.setText(
+            "Workspace execution ownership is shown here; its frozen plan and lifecycle controls remain authoritative."
+        )
+
+    def _show_workspace_queue(self) -> None:
+        self.show_context("workspace_study")
+        self.body_scroll.ensureWidgetVisible(self.queue_card)
+        self.status.setText("Showing the current Workspace campaign queue and retained job states.")
+
+    def refresh_execution_state(self) -> None:
+        controller = self.state.execution_control.controller()
+        plan = self._active_controlled_plan()
+        state = str(plan["lifecycle_state"]) if plan else ""
+        audit_matches_current = False
+        if plan is not None and state == ExecutionLifecycle.AUDITED.value:
+            design = dict(plan["design"])
+            names = tuple(
+                str(name)
+                for name in design.get(
+                    "study_algorithm_names", design.get("algorithm_names", [])
+                )
+            )
+            try:
+                audit_matches_current = canonical_sha256(
+                    frozen_config_payload(self.state.config, names)
+                ) == canonical_sha256(design["config"])
+            except Exception:
+                audit_matches_current = False
+        owner_matches = bool(
+            plan
+            and self._controller_matches_mode(controller)
+            and str(controller["owner_plan_id"]) == str(plan["id"])
+        )
+        controller_none = str(controller["controller"]) == "none"
+        workspace = self.execution_mode == ExecutionPlanKind.WORKSPACE.value
+        workspace_owns_individual_view = (
+            str(controller["controller"]) == "workspace" and not workspace
+        )
+        self.ownership_actions.setVisible(workspace_owns_individual_view)
+        self.calo.setVisible(False)
+        # Historical extension and CALO-ablation implementations remain intact, but they are not
+        # execution-controller paths authorized by this plan and therefore have no launch surface
+        # in Workspace Study or Individual experiment.
+        self.evolution_drawer.setVisible(False)
+        self.stage_plan.setText(
+            "Stage Workspace campaign" if workspace else "Stage individual experiment"
+        )
+        self.compare.setText("Run campaign" if workspace else "Run individual experiment")
+        self.resume_plan.setText(
+            "Resume campaign" if workspace else "Resume individual experiment"
+        )
+        self.cancel.setText(
+            "Cancel remaining campaign" if workspace else "Cancel individual experiment"
+        )
+        if str(controller["controller"]) == "workspace" and not workspace:
+            banner = (
+                f"Workspace campaign {str(controller['owner_plan_id'])} controls experiment execution. "
+                "Manage staging, run, pause, resume, and queue actions from Workspace > Study."
+            )
+        elif str(controller["controller"]) == "individual_experiment" and workspace:
+            banner = (
+                f"Individual plan {str(controller['owner_plan_id'])} controls execution. Workspace "
+                "planning remains inspectable, but Stage, Run, and Resume are unavailable."
+            )
+        elif plan:
+            banner = (
+                f"{'Workspace' if workspace else 'Individual'} plan {str(plan['id'])} · "
+                f"{state.replace('_', ' ')} · design SHA-256 {str(plan['design_sha256'])[:16]}…"
+            )
+            if workspace and state == ExecutionLifecycle.PAUSED.value and controller_none:
+                banner += (
+                    " The Workspace plan is retained and immutable; an individual experiment may "
+                    "run, and Workspace Resume will wait for its controller to release."
+                )
+            if state == ExecutionLifecycle.AUDITED.value and not audit_matches_current:
+                banner += (
+                    " The editable setup now differs from this audited design; run the fairness "
+                    "audit again to replace it before staging."
+                )
+        else:
+            banner = (
+                "Apply a Workspace portfolio draft before auditing."
+                if workspace
+                else "Configure and audit one individual experiment using the complete submitted algorithm stage."
+            )
+        self.ownership_banner.setText(banner)
+
+        editable_state = not plan or state in {
+            ExecutionLifecycle.DRAFT.value,
+            ExecutionLifecycle.AUDITED.value,
+        }
+        editable = controller_none and editable_state and not self.manager.running
+        self.setup_card.setEnabled(editable)
+        self.fairness_card.setEnabled(editable)
+        self.stage_plan.setEnabled(
+            bool(plan)
+            and state == ExecutionLifecycle.AUDITED.value
+            and audit_matches_current
+            and controller_none
+            and not self.manager.running
+        )
+        self.compare.setEnabled(
+            bool(plan)
+            and state == ExecutionLifecycle.STAGED.value
+            and owner_matches
+            and not self.manager.running
+        )
+        self.resume_plan.setEnabled(
+            bool(plan)
+            and state
+            in {ExecutionLifecycle.PAUSED.value, ExecutionLifecycle.INTERRUPTED_RESUMABLE.value}
+            and not self.manager.running
+            and (
+                (workspace and controller_none)
+                or owner_matches
+            )
+        )
+        self.discard_plan.setEnabled(
+            bool(plan)
+            and (
+                (
+                    state
+                    in {ExecutionLifecycle.DRAFT.value, ExecutionLifecycle.AUDITED.value}
+                    and controller_none
+                )
+                or (state == ExecutionLifecycle.STAGED.value and owner_matches)
+            )
+            and not self.manager.running
+        )
+        self.pause.setEnabled(
+            bool(plan)
+            and state == ExecutionLifecycle.RUNNING.value
+            and owner_matches
+            and self.manager.running
+        )
+        self.cancel.setEnabled(
+            bool(plan)
+            and (
+                owner_matches
+                or (
+                    workspace
+                    and controller_none
+                    and state
+                    in {
+                        ExecutionLifecycle.PAUSED.value,
+                        ExecutionLifecycle.INTERRUPTED_RESUMABLE.value,
+                    }
+                )
+            )
+            and state
+            in {
+                ExecutionLifecycle.STAGED.value,
+                ExecutionLifecycle.RUNNING.value,
+                ExecutionLifecycle.PAUSING.value,
+                ExecutionLifecycle.PAUSED.value,
+                ExecutionLifecycle.INTERRUPTED_RESUMABLE.value,
+            }
+        )
+
+    def stage_current_plan(self) -> None:
+        plan = self._active_controlled_plan()
+        if plan is None:
+            QMessageBox.information(self, "No audited plan", "Create and audit the exact plan first.")
+            return
+        try:
+            self.state.execution_control.stage(str(plan["id"]), self.execution_mode)
+            self.state.notify_execution_state_changed()
+            self.status.setText(
+                "Plan staged and execution ownership acquired. No numerical work has started."
+            )
+        except Exception as exc:
+            show_error(
+                self,
+                "Execution plan was not staged",
+                "Review the unchanged audit receipt, algorithm stage, and current controller.",
+                exc,
+                source="execution staging",
+            )
+
+    def discard_current_plan(self) -> None:
+        plan = self._active_controlled_plan()
+        if plan is None:
+            return
+        answer = QMessageBox.question(
+            self,
+            "Discard unstarted execution staging",
+            f"Discard unstarted plan {str(plan['id'])}? No completed evidence will be removed.",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+            QMessageBox.StandardButton.No,
+        )
+        if answer != QMessageBox.StandardButton.Yes:
+            return
+        try:
+            if str(plan["lifecycle_state"]) in {
+                ExecutionLifecycle.DRAFT.value,
+                ExecutionLifecycle.AUDITED.value,
+            }:
+                self.state.execution_control.discard_draft(str(plan["id"]))
+            else:
+                self.state.execution_control.commit_terminal(
+                    str(plan["id"]),
+                    lifecycle=ExecutionLifecycle.DISCARDED_UNSTARTED,
+                    message="Unstarted staging discarded by the scientist",
+                )
+            self.state.notify_execution_state_changed()
+        except Exception as exc:
+            show_error(
+                self,
+                "Staging was not discarded",
+                "Only the exact unstarted controlling plan can be discarded.",
+                exc,
+                source="execution staging",
+            )
+
+    def resume_current_plan(self) -> None:
+        plan = self._active_controlled_plan()
+        if plan is None:
+            return
+        try:
+            if self.execution_mode == ExecutionPlanKind.WORKSPACE.value:
+                if self.workspace_coordinator is None:
+                    raise RuntimeError("Workspace campaign orchestration is unavailable")
+                self.workspace_coordinator.run(str(plan["id"]), resume=True)
+            else:
+                campaign_id = str(plan.get("campaign_id", "") or "")
+                if not campaign_id:
+                    raise RuntimeError("The individual plan has no authenticated campaign to resume")
+                self.state.execution_control.resume(str(plan["id"]), self.execution_mode)
+                if not self.manager.resume_campaign(campaign_id, update_workspace=False):
+                    self.state.execution_control.transition(
+                        str(plan["id"]),
+                        expected=(ExecutionLifecycle.RUNNING.value,),
+                        new_state=ExecutionLifecycle.INTERRUPTED_RESUMABLE.value,
+                        message="The shared ExperimentManager rejected the individual resume",
+                        campaign_id=campaign_id,
+                    )
+                    raise RuntimeError("The shared ExperimentManager rejected the resume request")
+            self.state.notify_execution_state_changed()
+        except Exception as exc:
+            show_error(
+                self,
+                "Execution plan was not resumed",
+                "The exact stage, plan, controller, campaign, task ledger, and checkpoints must match.",
+                exc,
+                source="execution resume",
+            )
 
     def _organize_study_setup(self) -> None:
         """Move existing authoritative controls into the seven-step Phase 3 presentation."""
@@ -850,6 +1178,7 @@ class ExperimentManagerPanel(WorkspacePage):
         self.selected.setText(f"{len(config.algorithms)} selected: " + ", ".join(config.algorithms))
         self._controls()
         self._update_plan_summary()
+        self.refresh_execution_state()
 
     def _controls(self) -> None:
         policy = BudgetPolicy(self.policy.currentData())
@@ -930,10 +1259,9 @@ class ExperimentManagerPanel(WorkspacePage):
     def _set_audit_running(self, running: bool) -> None:
         self.audit_button.setEnabled(not running and not self.manager.running)
         self.parity_button.setEnabled(not running and not self.manager.running)
-        self.compare.setEnabled((not running) and self.fairness_passed and not self.manager.running)
-        self.calo.setEnabled((not running) and self.fairness_passed and not self.manager.running)
         if running:
             self.audit_state.setText("Audit running in background — GUI remains responsive")
+        self.refresh_execution_state()
 
     @staticmethod
     def _format_parity(report: dict | None) -> str:
@@ -960,6 +1288,26 @@ class ExperimentManagerPanel(WorkspacePage):
             return False
         try:
             self.apply()
+            if self.execution_mode == ExecutionPlanKind.WORKSPACE.value:
+                existing = self.state.execution_control.active_plan(ExecutionPlanKind.WORKSPACE)
+                if existing is None:
+                    raise RuntimeError(
+                        "Apply a Workspace portfolio draft with a submitted algorithm subset first"
+                    )
+                subset = tuple(
+                    str(name)
+                    for name in existing["design"].get("study_algorithm_names", [])
+                )
+                plan = self.state.execution_control.create_workspace_draft(
+                    self.state.config, subset
+                )
+            else:
+                plan = self.state.execution_control.create_individual_draft(self.state.config)
+            self._audit_plan_id = str(plan["id"])
+            self._audited_config = self.state.execution_control.plan_configuration(
+                self._audit_plan_id
+            )
+            self.state.notify_execution_state_changed()
         except Exception as exc:
             log_technical_error("experiment audit preparation", exc)
             self.audit.setPlainText("The audit could not be prepared. Review Activity > Logs.")
@@ -977,7 +1325,7 @@ class ExperimentManagerPanel(WorkspacePage):
             detail="Scientific checks are executing outside the GUI thread",
         )
         self.audit_worker = ScientificAuditWorker(
-            self.state.config,
+            self._audited_config,
             self.state.database.path,
             parity_only=parity_only,
             parent=self,
@@ -1011,6 +1359,7 @@ class ExperimentManagerPanel(WorkspacePage):
         self.audit_state.setText("Audit failed — correct the reported issue")
         self.status.setText("Fairness audit failed. Review the audit output before execution.")
         self.state.task_status.fail("Scientific audit could not be completed")
+        self.refresh_execution_state()
         show_error(
             self,
             "Scientific audit stopped",
@@ -1040,18 +1389,19 @@ class ExperimentManagerPanel(WorkspacePage):
         report = payload["fairness"]
         portfolio_plan = payload["portfolio_plan"]
         reusable = int(payload.get("reusable", 0))
-        total_jobs = planned_item_count(self.state.config, COMPARISON_MODE)
+        audited_config = self._audited_config or self.state.config
+        total_jobs = planned_item_count(audited_config, COMPARISON_MODE)
         lines = [
             "PASS: comparative protocol is internally consistent."
             if report.fair
             else "FAIL: comparative protocol requires correction.",
-            f"PORTFOLIO PLAN: {self.state.config.portfolio.kind.value} · {self.state.config.portfolio.evidence_profile.value} · {len(self.state.config.portfolio.requested_outputs)} requested outputs.",
-            f"PRIMARY COMPARISON PLAN: {len(self.state.config.algorithms)} selected algorithms × {self.state.config.runs} runs = {total_jobs} jobs.",
+            f"PORTFOLIO PLAN: {audited_config.portfolio.kind.value} · {audited_config.portfolio.evidence_profile.value} · {len(audited_config.portfolio.requested_outputs)} requested outputs.",
+            f"PRIMARY COMPARISON PLAN: {len(audited_config.algorithms)} selected algorithms × {audited_config.runs} runs = {total_jobs} jobs.",
             f"EXACT RESULT REUSE: {reusable} compatible job(s) can be reused; {total_jobs - reusable} new job(s) remain.",
             f"REQUIRED STORED EVIDENCE: {', '.join(portfolio_plan.required_fields)}.",
-            f"CALO ABLATION PLAN: {len(labels_for_mode(self.state.config, ABLATION_MODE))} fixed variants × {self.state.config.runs} runs = {planned_item_count(self.state.config, ABLATION_MODE)} jobs.",
+            f"CALO ABLATION PLAN: unchanged legacy capability; it is outside this execution-plan implementation.",
         ]
-        if self.state.config.execution_backend == "cuda_preferred":
+        if audited_config.execution_backend == "cuda_preferred":
             lines.append(
                 "ACCELERATED COMPUTE PLAN: eligible active numerical data stays in NVIDIA VRAM "
                 "when it fits within 80% of memory free at admission. Bounded system-memory "
@@ -1070,38 +1420,69 @@ class ExperimentManagerPanel(WorkspacePage):
         self.audit.setPlainText("\n".join(lines))
         self.fairness_passed = bool(
             report.fair
-            and (not self.state.config.require_backend_parity or self.backend_parity_passed)
+            and (not audited_config.require_backend_parity or self.backend_parity_passed)
         )
-        self.compare.setEnabled(self.fairness_passed and not self.manager.running)
-        self.calo.setEnabled(self.fairness_passed and not self.manager.running)
         if self.fairness_passed:
-            self.audit_state.setText("Passed — study execution unlocked")
-            self.status.setText(
-                "Fairness audit passed. Primary comparison and CALO ablation execution are unlocked."
-            )
-            self.state.task_status.finish("Fairness audit passed")
+            try:
+                if not self._audit_plan_id:
+                    raise RuntimeError("The completed audit is not bound to an execution plan")
+                self.state.execution_control.record_audit(
+                    self._audit_plan_id,
+                    {
+                        "fair": True,
+                        "errors": [str(value) for value in report.errors],
+                        "warnings": [str(value) for value in report.warnings],
+                        "backend_parity_required": bool(
+                            audited_config.require_backend_parity
+                        ),
+                        "backend_parity_passed": bool(self.backend_parity_passed),
+                        "reusable_jobs": reusable,
+                        "planned_jobs": total_jobs,
+                    },
+                )
+                self.audit_state.setText("Passed — exact plan may now be staged")
+                self.status.setText(
+                    "Fairness audit passed and was bound to the immutable plan. Stage it before running."
+                )
+                self.state.task_status.finish("Fairness audit passed and receipt stored")
+                self.state.notify_execution_state_changed()
+            except Exception as exc:
+                self.fairness_passed = False
+                self.audit_state.setText("Audit receipt could not be committed")
+                self.state.task_status.fail("Fairness audit receipt was not stored")
+                show_error(
+                    self,
+                    "Audit receipt was not stored",
+                    "The numerical work remains locked because its exact plan receipt was not committed.",
+                    exc,
+                    source="execution audit receipt",
+                )
         else:
             self.audit_state.setText("Failed — correct the reported issues")
             self.status.setText(
                 "Fairness audit failed. Correct the reported issues before execution."
             )
             self.state.task_status.fail("Fairness audit failed")
+        self.refresh_execution_state()
 
     def _populate_queue(self, labels: list[str], mode: str) -> None:
-        plan = build_execution_plan(self.state.config, mode)
+        self._populate_queue_for_config(self.state.config, labels, mode)
+
+    def _populate_queue_for_config(self, config, labels: list[str], mode: str) -> None:
+        plan = build_execution_plan(config, mode)
         lane_by_job = {
             item.job_index: (
                 "CPU"
-                if self.state.config.execution_backend == "cpu_only"
+                if config.execution_backend == "cpu_only"
                 else (
                     "Automatic"
-                    if self.state.config.execution_backend == "cuda_preferred"
+                    if config.execution_backend == "cuda_preferred"
                     else "Dynamic"
                 )
             )
             for item in plan
         }
-        if self.state.config.execution_backend == "cuda_preferred":
+        if config.execution_backend == "cuda_preferred":
             snapshot = self.resource_monitor.sample()
             weighted, _summary = build_weighted_lane_plan(
                 plan,
@@ -1129,35 +1510,51 @@ class ExperimentManagerPanel(WorkspacePage):
     def start_comparison(self) -> None:
         if not self._manager_available():
             return
-        # Always commit the latest visible widgets before constructing the execution plan.
-        # Widget edits already invalidate fairness, so a valid audit remains valid only when the
-        # applied values are exactly those that were audited.
-        try:
-            self.apply()
-        except Exception as exc:
-            show_error(
-                self,
-                "Experiment settings were not accepted",
-                "Review the study, algorithm, and compute inputs.",
-                exc,
-                source="experiment settings",
-            )
-            return
-        if not self.fairness_passed:
+        plan = self._active_controlled_plan()
+        if plan is None or str(plan["lifecycle_state"]) != ExecutionLifecycle.STAGED.value:
             QMessageBox.information(
                 self,
-                "Fairness audit required",
-                "Run the fairness audit and wait for its background checks to complete before starting the comparison.",
+                "Staged plan required",
+                "Audit and explicitly stage the exact immutable plan before running it.",
             )
             return
-        labels = list(labels_for_mode(self.state.config, COMPARISON_MODE))
-        self._populate_queue(labels, COMPARISON_MODE)
-        self.expected_runs = self.state.config.runs * len(labels)
+        config = self.state.execution_control.plan_configuration(str(plan["id"]))
+        labels = list(labels_for_mode(config, COMPARISON_MODE))
+        self._populate_queue_for_config(config, labels, COMPARISON_MODE)
+        cells = (
+            len(self.state.database.list_workspace_plan_cells(str(plan["id"])))
+            if self.execution_mode == ExecutionPlanKind.WORKSPACE.value
+            else 1
+        )
+        self.expected_runs = config.runs * len(labels) * max(cells, 1)
         self.completed_runs = 0
         self.failed_runs = 0
-        self._set_running(True)
-        if not self.manager.start_comparison(self.state.config):
+        try:
+            if self.execution_mode == ExecutionPlanKind.WORKSPACE.value:
+                if self.workspace_coordinator is None:
+                    raise RuntimeError("Workspace campaign orchestration is unavailable")
+                self.workspace_coordinator.run(str(plan["id"]))
+            else:
+                self.state.execution_control.begin_run(str(plan["id"]))
+                if not self.manager.start_comparison(config):
+                    self.state.execution_control.transition(
+                        str(plan["id"]),
+                        expected=(ExecutionLifecycle.RUNNING.value,),
+                        new_state=ExecutionLifecycle.INTERRUPTED_RESUMABLE.value,
+                        message="The shared ExperimentManager rejected the individual plan",
+                    )
+                    raise RuntimeError("The shared ExperimentManager rejected the individual plan")
+            self.state.notify_execution_state_changed()
+            self._set_running(True)
+        except Exception as exc:
             self._set_running(self.manager.running)
+            show_error(
+                self,
+                "Execution did not start",
+                "The immutable plan and current controller were left in a recoverable state.",
+                exc,
+                source="execution controller",
+            )
 
     def start_calo(self) -> None:
         if not self._manager_available():
@@ -1328,16 +1725,13 @@ class ExperimentManagerPanel(WorkspacePage):
             self.status.setText(f"Evaluation-horizon revision started toward {new_target} FE.")
 
     def _set_running(self, running: bool) -> None:
-        self.compare.setEnabled((not running) and self.fairness_passed)
-        self.calo.setEnabled((not running) and self.fairness_passed)
         self.audit_button.setEnabled(not running)
         self.parity_button.setEnabled(not running)
-        self.pause.setEnabled(running)
-        self.cancel.setEnabled(running)
         if running:
             self.audit_state.setText("Locked while experiment is running")
         elif self.fairness_passed:
-            self.audit_state.setText("Passed — study execution unlocked")
+            self.audit_state.setText("Passed — use the retained plan lifecycle controls")
+        self.refresh_execution_state()
 
     def _mark_job(self, run_index: int, algorithm: str, status: str) -> None:
         for row in range(self.queue.rowCount()):
@@ -1365,10 +1759,33 @@ class ExperimentManagerPanel(WorkspacePage):
             self._mark_job(run_index, algorithm, status)
 
     def on_started(self, experiment_id: str) -> None:
+        plan = self.state.execution_control.active_plan(
+            ExecutionPlanKind.INDIVIDUAL_EXPERIMENT
+        )
+        if (
+            plan is not None
+            and str(plan["lifecycle_state"]) == ExecutionLifecycle.RUNNING.value
+            and str(self.state.execution_control.controller()["controller"])
+            == "individual_experiment"
+        ):
+            try:
+                worker = self.manager.worker
+                campaign_id = str(getattr(worker, "campaign_id", "") or "")
+                self.state.execution_control.transition(
+                    str(plan["id"]),
+                    expected=(ExecutionLifecycle.RUNNING.value,),
+                    new_state=ExecutionLifecycle.RUNNING.value,
+                    message="Individual plan bound to its authenticated campaign",
+                    campaign_id=campaign_id,
+                )
+                self.state.notify_execution_state_changed()
+            except Exception as exc:
+                log_technical_error("individual campaign binding", exc)
         self._set_running(True)
+        active_config = self.manager.active_config or self.state.config
         compute_mode = (
             "CPU-only compute"
-            if self.state.config.execution_backend == "cpu_only"
+            if active_config.execution_backend == "cpu_only"
             else "accelerated compute with automatic fallback"
         )
         self.status.setText(
@@ -1394,7 +1811,27 @@ class ExperimentManagerPanel(WorkspacePage):
         )
 
     def pause_requested(self) -> None:
-        self.manager.pause()
+        plan = self._active_controlled_plan()
+        if plan is None:
+            return
+        try:
+            if self.execution_mode == ExecutionPlanKind.WORKSPACE.value:
+                if self.workspace_coordinator is None:
+                    raise RuntimeError("Workspace campaign orchestration is unavailable")
+                self.workspace_coordinator.pause_safely()
+            else:
+                self.state.execution_control.request_pause(str(plan["id"]))
+                self.state.notify_execution_state_changed()
+                self.manager.pause()
+        except Exception as exc:
+            show_error(
+                self,
+                "Safe pause was not accepted",
+                "The running owner and fenced plan state must still match.",
+                exc,
+                source="execution pause",
+            )
+            return
         self.pause.setEnabled(False)
         for row in range(self.queue.rowCount()):
             item = self.queue.item(row, 3)
@@ -1405,16 +1842,126 @@ class ExperimentManagerPanel(WorkspacePage):
         )
 
     def cancel_requested(self) -> None:
-        self.state.task_status.cancel()
+        plan = self._active_controlled_plan()
+        if plan is None:
+            return
+        answer = QMessageBox.question(
+            self,
+            "Cancel remaining execution",
+            "Cancel all unfinished work in this exact plan? Completed evidence remains retained, but this plan will become terminal and cannot be resumed.",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+            QMessageBox.StandardButton.No,
+        )
+        if answer != QMessageBox.StandardButton.Yes:
+            return
+        try:
+            if self.execution_mode == ExecutionPlanKind.WORKSPACE.value:
+                if self.workspace_coordinator is not None and self.workspace_coordinator.active:
+                    self.workspace_coordinator.cancel_remaining()
+                else:
+                    if str(plan["lifecycle_state"]) in {
+                        ExecutionLifecycle.PAUSED.value,
+                        ExecutionLifecycle.INTERRUPTED_RESUMABLE.value,
+                    } and str(self.state.execution_control.controller()["controller"]) == "none":
+                        self.state.execution_control.resume(
+                            str(plan["id"]), ExecutionPlanKind.WORKSPACE
+                        )
+                    self.state.execution_control.cancel_retained(
+                        str(plan["id"]),
+                        message="Workspace campaign cancelled before or between cells",
+                    )
+            elif self.manager.running:
+                self.manager.cancel()
+            else:
+                self.state.execution_control.cancel_retained(
+                    str(plan["id"]),
+                    message="Individual experiment cancelled before numerical admission",
+                )
+            self.state.notify_execution_state_changed()
+        except Exception as exc:
+            show_error(
+                self,
+                "Cancellation was not committed",
+                "The exact controlling plan remains unchanged.",
+                exc,
+                source="execution cancellation",
+            )
+            return
         for row in range(self.queue.rowCount()):
             item = self.queue.item(row, 3)
             if item is not None and item.text() == "Queued":
                 item.setText("Cancelled")
         self.status.setText(
-            "Immediate stop requested. Completed jobs remain committed. Interrupted CALO jobs resume from exact checkpoints when available; other interrupted algorithms restart from their original paired seeds."
+            "Terminal cancellation requested. Completed evidence remains committed; unfinished work will not be resumable under this plan."
+        )
+
+    def on_paused(self, experiment_id: str) -> None:
+        controller_kind = str(self.state.execution_control.controller()["controller"])
+        workspace_plan = self.state.execution_control.active_plan(ExecutionPlanKind.WORKSPACE)
+        workspace_pause_committed = bool(
+            workspace_plan is not None
+            and str(workspace_plan["lifecycle_state"]) == ExecutionLifecycle.PAUSED.value
+        )
+        if (
+            controller_kind == "workspace"
+            or bool(self.workspace_coordinator and self.workspace_coordinator.active)
+            or workspace_pause_committed
+        ):
+            self._set_running(False)
+            self.status.setText(
+                "Workspace campaign paused durably. Its immutable plan is retained and the controller is released for individual work."
+            )
+            return
+        plan = self.state.execution_control.active_plan(
+            ExecutionPlanKind.INDIVIDUAL_EXPERIMENT
+        )
+        if plan is not None:
+            try:
+                self.state.execution_control.commit_paused(
+                    str(plan["id"]), campaign_id=str(plan.get("campaign_id", "") or "")
+                )
+                self.state.notify_execution_state_changed()
+            except Exception as exc:
+                log_technical_error("individual durable pause", exc)
+        self._set_running(False)
+        self.status.setText(
+            "Individual experiment paused durably. It retains execution ownership until resumed or cancelled."
         )
 
     def on_completed(self, experiment_id: str) -> None:
+        controller_kind = str(self.state.execution_control.controller()["controller"])
+        if controller_kind == "workspace" or bool(
+            self.workspace_coordinator and self.workspace_coordinator.active
+        ):
+            self._set_running(False)
+            self.status.setText(
+                f"Workspace cell {experiment_id} finished and was committed. The campaign will advance only after the shared manager is idle."
+            )
+            return
+        if controller_kind == "individual_experiment":
+            plan = self.state.execution_control.active_plan(
+                ExecutionPlanKind.INDIVIDUAL_EXPERIMENT
+            )
+            if plan is not None and str(plan["lifecycle_state"]) == ExecutionLifecycle.RUNNING.value:
+                lifecycle = (
+                    ExecutionLifecycle.COMPLETED_WITH_FAILURES
+                    if self.failed_runs
+                    else ExecutionLifecycle.COMPLETED
+                )
+                try:
+                    self.state.execution_control.commit_terminal(
+                        str(plan["id"]),
+                        lifecycle=lifecycle,
+                        message=(
+                            "Individual experiment completed with retained failed jobs"
+                            if self.failed_runs
+                            else "Individual experiment completed"
+                        ),
+                        campaign_id=str(plan.get("campaign_id", "") or ""),
+                    )
+                    self.state.notify_execution_state_changed()
+                except Exception as exc:
+                    log_technical_error("individual terminal completion", exc)
         self._set_running(False)
         self._refresh_experiment_evolution()
         self.status.setText(
@@ -1423,14 +1970,51 @@ class ExperimentManagerPanel(WorkspacePage):
         )
 
     def on_cancelled(self, experiment_id: str) -> None:
+        if str(self.state.execution_control.controller()["controller"]) == "individual_experiment":
+            plan = self.state.execution_control.active_plan(
+                ExecutionPlanKind.INDIVIDUAL_EXPERIMENT
+            )
+            if plan is not None:
+                try:
+                    self.state.execution_control.commit_terminal(
+                        str(plan["id"]),
+                        lifecycle=ExecutionLifecycle.CANCELLED,
+                        message="Individual experiment cancelled terminally",
+                        campaign_id=str(plan.get("campaign_id", "") or ""),
+                    )
+                    self.state.notify_execution_state_changed()
+                except Exception as exc:
+                    log_technical_error("individual terminal cancellation", exc)
         self._set_running(False)
         self._refresh_experiment_evolution()
         self.status.setText(
-            f"Experiment {experiment_id} is paused. Completed runs remain stored; reopen its saved "
-            "experiment workspace to continue compatible unfinished jobs."
+            f"Experiment {experiment_id} was cancelled terminally. Completed runs remain stored; "
+            "unfinished work will not resume under this plan."
         )
 
     def on_failed(self, message: str) -> None:
+        if str(self.state.execution_control.controller()["controller"]) == "individual_experiment":
+            plan = self.state.execution_control.active_plan(
+                ExecutionPlanKind.INDIVIDUAL_EXPERIMENT
+            )
+            if plan is not None and str(plan["lifecycle_state"]) in {
+                ExecutionLifecycle.RUNNING.value,
+                ExecutionLifecycle.PAUSING.value,
+            }:
+                try:
+                    self.state.execution_control.transition(
+                        str(plan["id"]),
+                        expected=(
+                            ExecutionLifecycle.RUNNING.value,
+                            ExecutionLifecycle.PAUSING.value,
+                        ),
+                        new_state=ExecutionLifecycle.INTERRUPTED_RESUMABLE.value,
+                        message=f"Individual experiment interrupted: {message}",
+                        campaign_id=str(plan.get("campaign_id", "") or ""),
+                    )
+                    self.state.notify_execution_state_changed()
+                except Exception as exc:
+                    log_technical_error("individual resumable interruption", exc)
         self._set_running(False)
         self.status.setText(
             "Experiment stopped because an execution or configuration error occurred."

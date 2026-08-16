@@ -1,0 +1,958 @@
+CALO-RPD STUDIO
+WORKSPACE-MANAGED STUDY CAMPAIGNS AND INDIVIDUAL EXPERIMENT EXECUTION PLAN
+Planning date: 2026-08-16
+Status: IMPLEMENTED IN SOURCE - OWNER VALIDATION PENDING
+Revision: Immutable Workspace and individual plans with exclusive durable controller
+
+===============================================================================
+1. PURPOSE AND USER INTENT
+===============================================================================
+
+This plan defines two scientist-controlled experiment paths after the scientist
+submits an algorithm stage:
+
+1. Workspace-managed portfolio/study execution
+   - The scientist creates a portfolio or multi-experiment study.
+   - The study may use all staged algorithms or an explicit subset of them.
+   - The Workspace owns staging, queue construction, execution, safe pause,
+     exact resume, and completion of every experiment in that study.
+   - Once the Workspace campaign is staged, the Experiment tab is frozen while
+     Workspace work is staged, running, or still pausing.
+   - After the Workspace campaign reaches a durably committed safe PAUSED state,
+     or is durably closed in a terminal state, individual experiments are
+     enabled. Workspace and individual execution are never concurrent.
+
+2. Experiment-managed individual custom execution
+   - The scientist creates and runs one customized experiment directly from the
+     Experiment tab.
+   - By default, the individual experiment consumes the complete algorithm set
+     submitted on the Algorithms tab.
+   - It cannot silently add, replace, or remove staged algorithms.
+   - If active execution is being directed by a Workspace campaign, the
+     Experiment tab is read-only/frozen and the Workspace-supplied experiment
+     snapshot is used. A safely paused Workspace campaign is retained but does
+     not prevent a new individual experiment.
+
+Terminology used in this plan:
+
+- "Workspace" means the application's Workspace ribbon tab. The word
+  "workshop" in the request is treated as Workspace.
+- "Algorithm staged" means the scientist pressed "Submit algorithms for
+  experiment" and the stage was accepted. Merely checking a box is still a
+  draft and does not unlock these workflows.
+- "Staged algorithm pool" is the complete immutable set of algorithm identities
+  and parameter snapshots submitted on the Algorithms tab.
+- "Study filter" is a non-empty subset of the staged algorithm pool selected for
+  one Workspace portfolio/study. It is not a new algorithm stage.
+- "Execution controller" is the exclusive authority currently allowed to stage,
+  launch, pause, resume, or cancel experiment work: NONE, WORKSPACE, or
+  INDIVIDUAL_EXPERIMENT.
+
+The scientist authorized source implementation on 2026-08-16. Implementation was
+strictly limited to this plan. No test, validator, experiment, policy workflow,
+qualification, protected-case workflow, Docker operation, or release action was
+executed while implementing it.
+
+===============================================================================
+2. NON-NEGOTIABLE RULES
+===============================================================================
+
+2.1 Algorithm-stage authority
+
+- Workspace and Experiment navigation become available only after a valid,
+  non-empty algorithm stage has been submitted.
+- Draft checkbox changes do not alter an existing stage.
+- The staged algorithm pool is the upper bound for every study and experiment.
+- A Workspace study may select:
+    study_algorithms = any non-empty subset of staged_algorithms
+- It must always be true that:
+    set(study_algorithms) <= set(staged_algorithms)
+- An individual custom experiment uses the complete staged algorithm pool by
+  default. It does not expose a second algorithm selector.
+- A Workspace-generated experiment uses the exact subset bound into that
+  Workspace study item.
+- No portfolio/article preset may write directly to the authoritative staged
+  algorithm list.
+- If a preset requires an algorithm that is not staged, staging the Workspace
+  plan must fail closed and show the exact missing identities. The message must
+  direct the scientist back to Algorithms to reset/select/submit a broader pool.
+- No code may silently import algorithms from the executable registry, replace
+  the staged set with a preset, or interpret an unavailable algorithm as staged.
+
+2.2 Exclusive execution ownership
+
+- At most one execution controller may own mutable experiment state or execute
+  numerical work at a time.
+- When controller = WORKSPACE and the Workspace plan state is STAGED, RUNNING,
+  PAUSING, or INTERRUPTED_RESUMABLE:
+    - the complete Experiment ribbon category is disabled;
+    - direct individual staging and launch actions are disabled;
+    - an already visible Experiment page becomes read-only and displays the
+      Workspace campaign identity and a button to return to Workspace > Study;
+    - Experiment cannot alter case, formulation, scenarios, runs, budget,
+      algorithms, seeds, compute intent, or output location.
+- PAUSING is not PAUSED. Experiment remains frozen until active Workspace work
+  has reached its declared safe boundary and the PAUSED state, checkpoints,
+  task ledger, and controller release have been committed atomically.
+- When a Workspace campaign is durably PAUSED:
+    - controller = NONE unless an individual experiment subsequently acquires it;
+    - the Experiment tab is enabled for individual setup, staging, and execution;
+    - the paused Workspace plan, queue, completed evidence, and checkpoints stay
+      immutable and resumable;
+    - Algorithms Submit/Reset remains blocked so the stage bound to the paused
+      Workspace campaign cannot be invalidated;
+    - Workspace Resume is enabled only while controller = NONE, and is disabled
+      while an individual experiment is staged, running, pausing, paused, or
+      interrupted-resumable.
+- A "closed Workspace campaign" means a durably committed terminal campaign
+  state (COMPLETED, COMPLETED_WITH_FAILURES, CANCELLED, or
+  FAILED_NON_RESUMABLE), not merely closing a page or application window. A
+  running campaign cannot release authority because its page was closed.
+- When controller = INDIVIDUAL_EXPERIMENT and the individual plan is STAGED,
+  RUNNING, PAUSING, PAUSED, or INTERRUPTED_RESUMABLE:
+    - Workspace planning pages may remain inspectable;
+    - Workspace campaign Stage/Run/Resume controls are disabled;
+    - Workspace cannot replace the active individual configuration.
+- This symmetric safety rule prevents two pages from controlling the same
+  ExperimentConfig and ExperimentManager concurrently.
+- Completed evidence is never deleted or rewritten when controller ownership is
+  released.
+
+2.3 Policy and scientific boundaries
+
+- Rule-based CALO remains usable without policy training.
+- TSH-CALO is executable only when its separately qualified, explicitly
+  selected, activated, immutable, checksum-valid policy binding is ready.
+- A study filter cannot bypass TSH-CALO policy gating.
+- Workspace planning cannot train, qualify, select, activate, or modify a policy.
+- Every planned comparison preserves exact function-evaluation accounting,
+  paired seeds where required, common case/formulation/scenario semantics, and
+  the existing fairness audit.
+- Protected cases remain outside training, tuning, reward design, and checkpoint
+  selection.
+- Pause/resume changes operational state only; it cannot alter the frozen study
+  design, algorithm pool, filtered subset, seeds, budgets, or policy binding.
+
+===============================================================================
+3. PROPOSED RIBBON OWNERSHIP
+===============================================================================
+
+The ribbon remains duplicate-free. High-frequency actions belong inside the
+opened page rather than being repeated as ribbon buttons.
+
+3.1 Algorithms tab
+
+Ribbon buttons:
+
+1. Algorithms
+   - Opens algorithm selection and staging.
+   - Scientist selects the broad pool that may be used by later studies.
+
+2. CALO Intelligence
+   - Opens governing CALO/TSH-CALO readiness and policy lifecycle evidence.
+
+3. CALO Settings
+   - Opens rule-based CALO and permitted TSH-CALO runtime/search settings.
+
+Page actions retained:
+
+- Submit algorithms for experiment
+- Reset selection
+
+Additional planned stage display:
+
+- Stage identity/fingerprint
+- Staged algorithm count and names
+- "Used by Workspace campaign <id>" or "Used by individual plan <id>" when
+  ownership is active
+- Reset/Submit disabled while either controller owns work or a resumable paused
+  Workspace campaign remains bound to the stage; the scientist must first
+  discard an unstarted plan or finish/cancel/close the bound campaign according
+  to its lifecycle rules
+
+3.2 Workspace tab
+
+Workspace ribbon buttons remain:
+
+1. Portfolio
+2. Study
+3. Validate
+4. Bench
+5. Export
+6. Settings
+
+Their roles are:
+
+PORTFOLIO
+- Defines evidence intent, portfolio kind, requested outputs, minimum repeated
+  runs, storage, result reuse, validation needs, and study strength.
+- Provides the study-algorithm filter, but only over the staged algorithm pool.
+- Never launches work directly.
+
+STUDY
+- Owns Workspace campaign review, staging, multi-experiment queue generation,
+  execution, progress, safe pause, exact resume, and remaining-work management.
+- It is the only Workspace page that acquires/relinquishes WORKSPACE execution
+  authority.
+
+VALIDATE
+- Validates retained completed results selected by the Workspace campaign.
+- Does not stage or launch numerical optimization.
+
+BENCH
+- Configures/inspects benchmark blocks used by a Workspace study.
+- A benchmark plan may create multiple study cells but cannot expand the staged
+  algorithm pool.
+
+EXPORT
+- Generates only portfolio-requested artifacts from eligible retained evidence.
+- Does not change the campaign, algorithm subset, or scientific plan.
+
+SETTINGS
+- Controls application-level appearance, density, and paths.
+- It does not own scientific execution settings and cannot change a staged plan.
+
+3.3 Experiment tab
+
+Proposed Experiment ribbon buttons:
+
+1. Individual experiment (primary)
+   - Opens the complete direct custom-experiment surface.
+   - Uses the full submitted algorithm pool when Workspace is not controlling.
+   - Shows a frozen Workspace-owned explanation when controller = WORKSPACE.
+
+2. Power system
+   - Opens case selection, base power flow, and independent cross-check inputs.
+
+3. ORPD formulation
+   - Opens objectives, variables, decoding, constraints, and tolerances.
+
+4. Robust scenarios
+   - Opens deterministic/robust scenario and aggregation configuration.
+
+No Portfolio, Workspace Study, Validate, Bench, Export, Results, Live, Stats, or
+Settings buttons are added to Experiment. Cancel/pause/resume are page-local and
+mode-specific so ribbon tabs do not repeat the same commands.
+
+===============================================================================
+4. WORKSPACE PAGE BUTTON PLAN
+===============================================================================
+
+4.1 Workspace > Portfolio page
+
+Section A - Staged algorithm pool (read-only)
+
+- Displays stage ID, fingerprint, algorithm identities, parameter fingerprints,
+  and governing-policy binding summary where applicable.
+- Rows have "Include in this study" checkboxes.
+- Rows not in the staged pool do not appear as selectable options.
+- Registry algorithms outside the stage may be shown only in a separate
+  read-only "Not staged" information list, never as enabled checkboxes.
+
+Buttons:
+
+1. Use all staged algorithms
+   - Checks every algorithm in the staged pool for this study draft.
+   - Does not modify the Algorithms stage.
+
+2. Clear study filter
+   - Clears only the Workspace draft subset.
+   - Does not discard or alter the global staged pool.
+
+3. Apply selected study subset
+   - Saves the non-empty filtered subset into the Workspace draft.
+   - Validates subset containment and applicable policy readiness.
+
+4. Preview portfolio requirements
+   - Computes required runs, fields, validation, statistics, benchmark blocks,
+     storage, and disabled outputs without mutating the stage or launching work.
+
+5. Save Workspace draft
+   - Saves portfolio settings and the filtered subset as an editable draft.
+   - Does not acquire execution authority and does not freeze Experiment.
+
+Preset behavior:
+
+- Presets provide required/recommended algorithm identities.
+- Required identity missing from staged pool:
+    BLOCK: "This study requires <names>. Return to Algorithms and submit a
+    broader staged pool first."
+- Recommended identity missing:
+    show the missing identity and the evidence limitation;
+    never add it automatically.
+- The scientist may proceed without a recommendation only if all formal minimum
+  algorithm/evidence requirements remain satisfied and the limitation is
+  explicit.
+
+4.2 Workspace > Study page
+
+This is the Workspace execution authority surface.
+
+Summary blocks:
+
+- Staged algorithm pool
+- Applied study subset
+- Portfolio/study type
+- Case/formulation/scenario matrix
+- Runs, seeds, budgets, compute intent, output root
+- Total experiment cells and total algorithm-run jobs
+- Reusable/completed/new job counts
+- Frozen plan fingerprint
+- Current controller and lifecycle state
+
+Buttons before Workspace staging:
+
+1. Review study matrix
+   - Expands the draft into explicit experiment cells and job counts.
+   - No database campaign and no execution authority are created.
+
+2. Run Workspace fairness audit
+   - Audits subset containment, policy gates, cases, scenarios, paired seeds,
+     budgets, output requirements, reuse compatibility, and compute readiness.
+   - Scientific checks remain explicit and backgrounded as today.
+
+3. Stage Workspace campaign
+   - Available only after review and a passing audit for the unchanged draft.
+   - Atomically persists the frozen Workspace plan and its queue.
+   - Acquires controller = WORKSPACE.
+   - Changes Workspace lifecycle DRAFT -> STAGED.
+   - Freezes the Experiment tab immediately.
+   - Does not start numerical execution.
+
+4. Discard Workspace draft
+   - Clears only an un-staged draft.
+   - Does not affect the global staged algorithm pool.
+
+Buttons after Workspace staging:
+
+5. Run campaign
+   - Starts all unfinished experiment cells in the frozen Workspace queue.
+   - May run sequentially or with the permitted worker/resource schedule.
+   - Does not change the plan when execution begins.
+
+6. Pause campaign safely
+   - Stops admission of new jobs.
+   - Allows active jobs to reach the existing atomic safe boundary.
+   - Commits completed evidence and resumable checkpoints.
+   - Transitions RUNNING -> PAUSING -> PAUSED.
+   - Keeps Experiment frozen during PAUSING.
+   - Atomically releases WORKSPACE authority only after PAUSED is durably
+     committed, then enables individual Experiment work.
+
+7. Resume campaign
+   - Enabled only for one exact authenticated paused/interrupted Workspace
+     campaign.
+   - For PAUSED, requires controller = NONE and atomically reacquires WORKSPACE
+     authority before any queue or campaign state is mutated.
+   - Remains disabled while an individual experiment owns the controller.
+   - Re-verifies plan fingerprint, source/provenance, stage fingerprint,
+     algorithm subset, parameter snapshots, policy binding, task ledger, and
+     checkpoints.
+   - Executes unfinished work only.
+
+8. Cancel remaining campaign
+   - Explicit destructive-to-the-queue action with confirmation.
+   - Retains completed results and provenance.
+   - Marks unfinished queued items cancelled; it never rewrites completed data.
+   - Releases Workspace authority only after active work has stopped safely.
+
+9. Discard staged Workspace campaign
+   - Allowed only while STAGED and never started, with explicit confirmation.
+   - Removes the mutable staging/queue record, not completed evidence.
+   - Releases controller = WORKSPACE and unfreezes Experiment.
+
+10. Open campaign queue
+    - Shows each experiment cell, algorithm-run jobs, assigned/reused/completed/
+      paused/failed status, exact progress, and retained identifiers.
+
+11. Open Live Optimization
+    - Navigates to Compute > Live Optimization.
+    - Navigation does not change controller ownership or execution state.
+
+Multi-experiment behavior:
+
+- A Workspace study expands deterministically into experiment cells, for
+  example:
+    cases x formulations x scenario blocks x study subsets x independent runs
+- Each cell receives an immutable config snapshot and fingerprint.
+- All jobs retain the parent Workspace plan ID and algorithm-stage ID.
+- Scheduling may use sequential or safe parallel lanes, but fairness, exact FE
+  accounting, device admission, and deterministic seeds remain unchanged.
+- A completed cell is never recomputed unless the scientist explicitly creates
+  a new plan/revision; compatible result reuse remains fingerprint-gated.
+
+===============================================================================
+5. INDIVIDUAL EXPERIMENT PAGE BUTTON PLAN
+===============================================================================
+
+Experiment > Individual experiment is the direct customized path.
+
+Configuration behavior:
+
+- Scientist customizes one case/formulation/scenario/run/budget/seed/compute
+  configuration.
+- The algorithm list is read-only and equals the complete staged algorithm pool.
+- There is no second algorithm checkbox/filter list on this page.
+- If the scientist needs more or fewer algorithms for direct execution, they
+  must return to Algorithms and submit a new global stage before staging the
+  individual experiment.
+- When the page is opened by Workspace direction for an active study cell, it
+  displays the Workspace-supplied immutable subset/config snapshot read-only;
+  the Experiment tab itself remains frozen as an execution controller.
+
+Buttons when controller = NONE:
+
+1. Save individual setup
+   - Saves the custom draft only.
+   - Does not start work or acquire execution authority.
+
+2. Run individual fairness audit
+   - Audits the exact current custom draft and full staged algorithm pool.
+
+3. Stage individual experiment
+   - Requires a passing audit for the unchanged draft.
+   - Persists one immutable individual plan.
+   - Acquires controller = INDIVIDUAL_EXPERIMENT.
+   - Does not start execution.
+
+4. Run individual experiment
+   - Starts the staged individual plan using the shared ExperimentManager.
+
+5. Pause individual safely
+   - Uses the same atomic operational pause semantics as a Workspace campaign.
+
+6. Resume individual experiment
+   - Re-verifies the exact individual plan/stage/checkpoint bindings and resumes
+   unfinished jobs only.
+
+7. Cancel individual experiment
+   - Stops/cancels according to the existing safe task contract and retains
+   completed evidence.
+
+8. Discard individual staging
+   - Available only before execution begins, with confirmation.
+   - Releases INDIVIDUAL_EXPERIMENT authority.
+
+Behavior when controller = WORKSPACE:
+
+- Every editable control and action above is disabled.
+- Page banner:
+  "Workspace campaign <id> controls experiment execution. Manage staging, run,
+  pause, resume, and queue actions from Workspace > Study."
+- Available read-only buttons:
+    View Workspace plan
+    View current Workspace job
+    Return to Workspace Study
+- No hidden shortcut, keyboard action, context-pane action, or restored window
+  state may bypass the freeze.
+
+Behavior when a Workspace campaign is durably PAUSED and controller = NONE:
+
+- The individual Experiment controls are enabled.
+- A banner identifies the paused Workspace campaign and warns that staging an
+  individual experiment temporarily disables Workspace Resume.
+- The individual experiment still uses the complete unchanged staged algorithm
+  pool; it does not inherit the Workspace study subset.
+- Opening, staging, or running the individual experiment does not modify the
+  paused Workspace plan, queue, evidence, or checkpoints.
+
+===============================================================================
+6. EXECUTION-CONTROLLER STATE MACHINE
+===============================================================================
+
+Controller values:
+
+- NONE
+- WORKSPACE
+- INDIVIDUAL_EXPERIMENT
+
+Plan lifecycle values:
+
+- EMPTY
+- DRAFT
+- AUDITED
+- STAGED
+- RUNNING
+- PAUSING
+- PAUSED
+- INTERRUPTED_RESUMABLE
+- COMPLETED
+- COMPLETED_WITH_FAILURES
+- CANCELLED
+- FAILED_NON_RESUMABLE
+
+Key transitions:
+
+NONE + valid algorithm stage
+  -> Workspace and Experiment navigation enabled
+
+Workspace draft saved
+  -> controller remains NONE
+  -> Experiment remains enabled
+
+Workspace campaign staged
+  -> controller = WORKSPACE
+  -> Workspace lifecycle = STAGED
+  -> Experiment tab frozen
+
+Workspace Run campaign
+  -> STAGED -> RUNNING while controller remains WORKSPACE
+
+Workspace Pause safely
+  -> RUNNING -> PAUSING while controller remains WORKSPACE
+  -> Experiment remains frozen throughout PAUSING
+  -> after atomic safe-pause commit: PAUSING -> PAUSED and controller = NONE
+  -> Experiment becomes enabled for individual work
+
+Workspace Resume
+  -> PAUSED + controller NONE -> atomically acquire WORKSPACE
+  -> PAUSED -> RUNNING after exact verification
+  -> disabled while controller = INDIVIDUAL_EXPERIMENT
+
+Individual experiment staged while Workspace is PAUSED
+  -> paused Workspace lifecycle and artifacts remain unchanged
+  -> controller = INDIVIDUAL_EXPERIMENT
+  -> Workspace Resume freezes
+
+Individual terminal completion/cancellation or unstarted discard while a
+Workspace campaign is PAUSED
+  -> controller = NONE
+  -> Workspace Resume becomes available again
+
+Workspace terminal completion/cancellation
+  -> lifecycle terminal
+  -> controller = NONE after durable final status commit
+  -> Experiment unfreezes
+
+Workspace unstarted stage discarded
+  -> STAGED -> EMPTY or DRAFT
+  -> controller = NONE
+  -> Experiment unfreezes
+
+Individual experiment staged
+  -> controller = INDIVIDUAL_EXPERIMENT
+  -> Workspace Stage/Run controls freeze
+
+Individual terminal completion/cancellation or unstarted discard
+  -> controller = NONE
+  -> Workspace Stage/Run controls unfreeze
+
+Algorithm stage reset request while controller != NONE
+  -> blocked with exact controlling plan/campaign identity
+  -> no automatic cancellation or invalidation
+
+Application relaunch with retained STAGED/RUNNING/PAUSING/PAUSED state
+  -> restore WORKSPACE controller for authenticated STAGED/RUNNING/PAUSING or
+     resumable interrupted active work
+  -> restore controller NONE for a durably committed PAUSED Workspace campaign
+     unless an authenticated individual controller record is active
+  -> in-flight status becomes INTERRUPTED_RESUMABLE only when the existing
+     campaign/checkpoint contracts prove resumability
+  -> the correct freeze or paused handoff state is restored before edits
+
+===============================================================================
+7. DATA AND PERSISTENCE DESIGN
+===============================================================================
+
+7.1 Algorithm stage record
+
+Introduce a serializable immutable AlgorithmStage record:
+
+- schema_version
+- stage_id
+- algorithm_names (ordered, unique, non-empty)
+- algorithm_parameter_snapshots
+- algorithm_parameter_sha256_by_name
+- governing_policy_binding summary/hash when TSH-CALO is present
+- configuration/source provenance required for compatibility
+- staged_at
+- stage_sha256
+
+ExperimentConfig.algorithms remains the compatibility view of the submitted
+global stage. Portfolio code must no longer treat it as a mutable preset target.
+
+7.2 Workspace study plan
+
+- schema_version
+- workspace_plan_id
+- algorithm_stage_id
+- algorithm_stage_sha256
+- study_algorithm_names (ordered non-empty subset)
+- portfolio config and portfolio fingerprint
+- explicit case/formulation/scenario matrix
+- run/budget/seed design
+- compute intent (requested, not trusted runtime assignment)
+- policy binding fingerprint where applicable
+- required evidence/output design
+- experiment-cell snapshots and fingerprints
+- queue/task count
+- lifecycle state
+- created/staged timestamps
+- plan_sha256
+
+7.3 Individual experiment plan
+
+- schema_version
+- individual_plan_id
+- algorithm_stage_id and stage_sha256
+- algorithm_names copied exactly from the stage
+- one exact custom ExperimentConfig snapshot
+- fairness/audit fingerprint and receipt
+- lifecycle state
+- plan_sha256
+
+7.4 Execution controller record
+
+- schema_version
+- controller: none/workspace/individual_experiment
+- owner_plan_id
+- owner_plan_sha256
+- campaign_id
+- lifecycle state
+- acquired_at / updated_at
+- controller_record_sha256
+
+Controller acquisition and plan staging must be one database transaction.
+Workspace safe-pause commit and controller release must also be one transaction.
+A crash must never leave a staged/running/pausing campaign with controller NONE,
+release a controller before PAUSED is durable, or create two active controllers.
+A durably PAUSED Workspace campaign with controller NONE is valid by design.
+
+7.5 Campaign/task reuse
+
+- Reuse the existing campaigns, campaign_tasks, resumable_tasks, experiment
+  revisions, result fingerprinting, atomic completion, and checkpoint mechanisms.
+- Add parent Workspace plan/cell identity fields rather than building a second
+  execution engine.
+- Existing ExperimentManager remains the only numerical execution authority.
+- Workspace orchestration feeds immutable per-cell ExperimentConfig clones to
+  the shared manager.
+
+===============================================================================
+8. REQUIRED REFACTOR OF CURRENT PORTFOLIO BEHAVIOR
+===============================================================================
+
+Current PortfolioPlanner.apply_article_preset can directly assign preferred
+registry algorithms into config.algorithms. That behavior must be removed before
+Workspace study filtering is considered correct.
+
+Replacement contract:
+
+1. Presets return a requirement/recommendation object; they do not mutate the
+   global algorithm stage.
+2. Portfolio UI resolves the requirement against AlgorithmStage.algorithm_names.
+3. Required missing identities block plan staging with a precise list.
+4. Available recommended identities may be proposed as a draft study subset.
+5. The scientist explicitly applies the subset.
+6. The saved Workspace plan binds both the parent stage and selected subset.
+7. Planner.plan consumes an explicit algorithm subset argument or immutable
+   study-plan field, never an ambient mutable registry selection.
+
+This is a scientific-integrity requirement, not merely a GUI change.
+
+===============================================================================
+9. ENABLEMENT AND FREEZE MATRIX
+===============================================================================
+
+State: no algorithm stage
+- Workspace ribbon: disabled except Settings and optionally read-only Bench
+- Experiment ribbon: disabled
+- Algorithms: enabled
+- Message: "Submit at least one algorithm for experiment use first."
+
+State: valid algorithm stage, controller NONE
+- Workspace ribbon: enabled for navigation
+- Experiment ribbon: enabled for navigation
+- Button-level scientific prerequisites remain truthful
+- Both Workspace draft and individual custom draft may be edited
+- Neither may run before its own audit/staging gates pass
+
+State: Workspace draft only
+- Workspace: editable
+- Experiment: editable
+- No freeze because Workspace has not acquired execution authority
+
+State: Workspace STAGED/RUNNING/PAUSING/INTERRUPTED_RESUMABLE
+- Workspace: controlling actions enabled according to lifecycle
+- Experiment tab: frozen/read-only
+- Algorithms Submit/Reset: blocked
+- Compute Live: available once execution starts or resumes
+
+State: Workspace PAUSED, controller NONE
+- Workspace plan/queue/evidence: retained, immutable, and inspectable
+- Workspace Resume: enabled until another controller is acquired
+- Experiment tab: enabled for an individual custom experiment
+- Algorithms Submit/Reset: blocked to preserve the paused campaign binding
+- If an individual experiment is staged, Workspace Resume freezes until that
+  individual plan reaches a terminal state or its unstarted stage is discarded
+
+State: individual STAGED/RUNNING/PAUSING/PAUSED/INTERRUPTED_RESUMABLE
+- Experiment: controlling actions enabled according to lifecycle
+- Workspace plan inspection: allowed
+- Workspace Stage/Run/Resume: frozen
+- Algorithms Submit/Reset: blocked
+
+State: controller terminal and released
+- Workspace and Experiment: enabled again
+- Completed evidence remains retained and selectable
+- A new draft may be built from the still-valid global algorithm stage
+
+Important distinction:
+
+- "Tab enabled after algorithm staging" means the scientist can open and prepare
+  the path.
+- It does not mean execution prerequisites are bypassed. Case validation,
+  formulation, scenario, policy (when applicable), resource, fairness, and
+  evidence requirements remain button-level gates with exact reasons.
+
+===============================================================================
+10. FAILURE, PAUSE, RESUME, AND MULTI-EXPERIMENT RULES
+===============================================================================
+
+Safe pause:
+
+- No new job starts after pause is latched.
+- Active jobs stop only at their declared safe/atomic boundary.
+- Completed results commit once.
+- Exact optimizer checkpoint evidence is retained where supported.
+- Algorithms without exact in-run resume restart from their original paired seed
+  for that unfinished job; they are never presented as exact in-run continuation.
+- For Workspace campaigns, PAUSING retains WORKSPACE authority and keeps
+  Experiment frozen.
+- Only the atomic PAUSED commit releases WORKSPACE authority and enables an
+  individual experiment.
+
+Resume:
+
+- Resume the exact plan/campaign only.
+- Verify stage hash, subset, config/cell hashes, task ledger, policy binding,
+  source/provenance contract, result reuse, and checkpoints.
+- Never merge jobs from a different Workspace or individual plan.
+- Never regenerate seeds or budgets.
+- A paused Workspace campaign may resume only after any intervening individual
+  experiment has completed, been cancelled, or had its unstarted staging
+  discarded and controller = NONE.
+
+Multiple experiments:
+
+- Workspace may expand one plan into multiple experiment cells.
+- The queue records planned, reused, queued, running, pausing, paused,
+  interrupted, completed, failed, and cancelled states per cell/job.
+- Failure of one independent cell follows the declared campaign failure policy;
+  it does not rewrite successful cells.
+- Resume executes only unfinished eligible cells/jobs.
+- Queue order and parallel scheduling cannot change scientific identities.
+
+Controller/freeze failures:
+
+- Missing/corrupt controller record fails closed: no launch from either tab.
+- UI freeze is derived from persisted authority, not from which page is visible.
+- A disabled tab must show the exact owner plan/campaign and recovery action in
+  its tooltip/status rather than silently doing nothing.
+
+===============================================================================
+11. IMPLEMENTATION WORKSTREAMS (SOURCE IMPLEMENTED; VALIDATION PENDING)
+===============================================================================
+
+Workstream A - Schemas and migration
+- Add AlgorithmStage, WorkspaceStudyPlan, IndividualExperimentPlan, and
+  ExecutionController schemas.
+- Preserve old saved configurations and their current non-empty algorithm draft,
+  but require one explicit Submit action before creating the first immutable
+  algorithm stage. A legacy checkbox selection is not silently promoted into
+  execution authority during database migration.
+- Do not infer that a historical config was Workspace- or individual-staged.
+
+Workstream B - Controller service
+- Implement atomic acquire/release/restore and lifecycle transitions.
+- Make the persisted controller the only authority used by GUI enablement.
+
+Workstream C - Algorithm-stage boundary
+- Bind submitted algorithms and parameter hashes into AlgorithmStage.
+- Block reset/restage while active ownership exists.
+- Add exact status messages and provenance display.
+
+Workstream D - Portfolio subset correction
+- Remove every preset mutation of config.algorithms.
+- Add subset-only UI and required/missing algorithm diagnostics.
+- Bind portfolio drafts/plans to stage ID/hash.
+
+Workstream E - Workspace study orchestration
+- Add matrix preview, audit, stage, queue, run, pause, resume, cancel, and discard.
+- Reuse ExperimentManager and existing task/campaign durability.
+
+Workstream F - Individual experiment path
+- Add the direct custom surface and its audit/stage/run/pause/resume lifecycle.
+- Use the complete staged pool and no second algorithm selector.
+
+Workstream G - GUI ownership/freeze
+- Enable Workspace/Experiment navigation after algorithm submission.
+- Apply button-level prerequisite reasons.
+- Freeze/unfreeze the opposing controller path from persisted state.
+- Restore freezes correctly after relaunch.
+
+Workstream H - Contracts, validator, and documentation
+- Add unit, invariant, migration, GUI, persistence, crash/recovery, queue,
+  fairness, and falsification tests.
+- Update the ignored Phase 6 validator but do not execute it during development.
+- Update continuation, gate, handoff, traceability, protocol, and user guidance.
+
+Each future workstream remains coding-only until the owner explicitly authorizes
+named execution commands. No scientific campaign or real policy workflow belongs
+in engineering validation.
+
+===============================================================================
+12. REQUIRED TEST AND FALSIFICATION PLAN
+===============================================================================
+
+Algorithm subset invariants:
+
+- Workspace accepts a non-empty exact subset.
+- Workspace rejects an algorithm outside the stage.
+- Presets cannot mutate the stage.
+- Missing required preset algorithms produce exact names and no state change.
+- Direct individual plan always receives the full staged pool.
+- Workspace-generated per-cell configs receive only the bound study subset.
+
+Controller invariants:
+
+- Only one controller can be acquired.
+- Workspace STAGED freezes Experiment before execution begins.
+- Workspace PAUSING keeps Experiment frozen until safe-pause commit.
+- A durably PAUSED Workspace releases its controller and enables Experiment.
+- An individual experiment can run while Workspace remains durably PAUSED.
+- Workspace Resume is blocked throughout individual ownership and atomically
+  reacquires WORKSPACE authority after controller returns to NONE.
+- Terminal/released Workspace unfreezes Experiment.
+- Individual ownership blocks Workspace staging/run.
+- Relaunch restores active authority/freeze or the valid PAUSED handoff before
+  edits are possible.
+- Corrupt/ambiguous authority blocks both launch paths.
+
+Execution invariants:
+
+- Stage does not start work.
+- Run uses the exact audited immutable plan.
+- Pause admits no new work and retains completed evidence.
+- Resume executes unfinished work only.
+- Multiple experiment cells preserve distinct fingerprints and parent plan ID.
+- Duplicate terminal commits and job identity collisions fail closed.
+- Exact FE accounting, paired seeds, budgets, and policy binding survive resume.
+
+GUI contracts:
+
+- Before algorithm stage: correct disabled states/reasons.
+- After algorithm stage: Workspace and Experiment navigation enabled.
+- Workspace algorithm table contains only staged algorithms as enabled choices.
+- Broad-study missing algorithms direct the user back to Algorithms.
+- Workspace staging freezes the Experiment ribbon and any already-open surface.
+- Workspace safe-pause completion enables Experiment without altering the paused
+  Workspace plan; Workspace Resume disables during individual ownership.
+- Page-local buttons match the lifecycle tables in this plan.
+- No duplicate ribbon command label or hidden bypass exists.
+- No navigation/staging action starts scientific work.
+
+Policy boundary contracts:
+
+- Rule-based CALO remains policy-free.
+- TSH-CALO in pool/subset still requires exact qualified/selected/active binding.
+- Workspace filtering cannot qualify, activate, or alter a policy.
+- Reset/discard never deletes a policy or completed experiment evidence.
+
+===============================================================================
+13. ACCEPTANCE CRITERIA
+===============================================================================
+
+The source implementation is acceptable only when all of these are true:
+
+1. Submitting algorithms enables both Workspace and Experiment preparation.
+2. Workspace studies can filter only the staged pool.
+3. No preset or planner can add an unstaged algorithm.
+4. A broad study is blocked until the missing algorithms are staged explicitly.
+5. Direct individual experiments use the full staged pool.
+6. Workspace-generated experiments use their immutable study subset.
+7. Workspace Stage freezes Experiment before any run starts.
+8. Workspace manages multi-experiment queue, safe pause, exact resume, and
+   unfinished-work continuation.
+9. After safe PAUSED commit or terminal closure, an individual experiment can be
+   staged and run without changing the retained Workspace campaign.
+10. Individual and Workspace controllers cannot coexist; Workspace Resume waits
+    for the individual controller to release.
+11. Relaunch restores controller ownership, paused handoff, and UI state
+    truthfully.
+12. Completed evidence remains immutable and reusable only by exact fingerprint.
+13. Every execution remains behind policy, formulation, scenario, fairness,
+    resource, and evidence gates applicable to that exact plan.
+14. No navigation or staging action starts work.
+15. No duplicated ribbon option is introduced.
+16. Owner-run engineering validation is required after implementation; it does
+    not itself establish scientific qualification or release readiness.
+
+===============================================================================
+14. DECISIONS RECOMMENDED BY THIS PLAN
+===============================================================================
+
+Recommended defaults unless the scientist requests changes before implementation:
+
+- Workspace draft does not freeze Experiment; Workspace Stage does.
+- Workspace PAUSING retains ownership and keeps Experiment frozen.
+- A durably PAUSED Workspace campaign releases execution ownership and enables
+  individual Experiment; its immutable resumable campaign remains retained.
+- Workspace Resume waits for an intervening individual experiment to release
+  the controller, then reacquires WORKSPACE authority atomically.
+- Workspace terminal completion/cancellation releases ownership automatically
+  after the durable terminal commit.
+- Individual staging symmetrically blocks Workspace Stage/Run controls.
+- Direct individual experiments use all staged algorithms with no local filter.
+- Workspace is the only location allowed to select a per-study subset.
+- Preset-required missing algorithms block rather than silently shrink the study.
+- All execution paths reuse one ExperimentManager and one durable campaign/task
+  system; no second numerical runner is created.
+- Pause is safe and resumable; cancellation is a separate explicit action.
+
+===============================================================================
+15. SOURCE IMPLEMENTATION RECORD - 2026-08-16
+===============================================================================
+
+Implemented, without executing validation:
+
+- Immutable AlgorithmStage, WorkspaceStudyPlan, and IndividualExperimentPlan
+  records with canonical SHA-256 identities, parameter hashes, stage/source
+  provenance, exact subset/full-pool binding, explicit study cells, matrix and
+  queue counts, and separate mutable lifecycle receipts.
+- SQLite schema v2 with rollback-safe legacy backup, persisted stage/plans/cells,
+  a singleton execution controller, fencing epochs, lifecycle event records,
+  plan/cell job identity, and duplicate scientific-job admission protection.
+- Portfolio preset refactor so presets report required/recommended algorithms and
+  never write to ExperimentConfig.algorithms; the Workspace study filter can
+  select only a non-empty subset of the submitted stage.
+- Workspace sequential multi-cell coordination through the existing
+  ExperimentManager, with no second optimizer or numerical runner.
+- Explicit Audit -> Stage -> Run lifecycle controls; staging never starts work.
+- Workspace RUNNING -> PAUSING -> PAUSED safe handoff that releases authority
+  only after durable pause, plus exact Workspace resume after controller reacquire.
+- Individual staging/run/pause/resume/cancel using the complete unchanged stage;
+  individual PAUSED retains authority and blocks Workspace resume.
+- Terminal cancellation distinct from resumable safe pause; retained completed
+  evidence is not deleted or rewritten.
+- Persisted controller-derived GUI enablement, opposing-path freeze messages,
+  duplicate-free Experiment ribbon ownership, and restart recovery/fencing.
+- Unit, integration, migration, duplicate-admission, controller, and offscreen GUI
+  contract source plus Git-ignored Phase 6 validator schema v9.
+
+Explicitly unchanged and outside this implementation:
+
+- CALO and TSH-CALO optimizer architecture and numerical/search semantics.
+- Policy architecture, training, assessment, qualification, selection,
+  activation, binding authority, deletion, and completed policy evidence.
+- Function-evaluation accounting, objectives, constraints, scenarios, paired
+  seed generation, protected cases, hardware claims, qualification, release
+  freezes, manifests, packages, and release claims.
+
+Engineering status:
+
+- Source implementation is complete for the authorized plan.
+- No checks were executed by Codex. The owner must run the complete noninteractive
+  Phase 6 validator and return its full newly timestamped log directory.
+
+END OF PLAN
