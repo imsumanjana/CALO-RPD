@@ -1330,3 +1330,23 @@ TSH-CALO settings. Settings Save cannot restage algorithms or satisfy the Algori
 No action starts scientific work or changes policy authority. Synthetic GUI/offscreen contracts and
 ignored validator schema v5 were updated but not executed; this gate remains open pending a complete
 owner-run Phase 6 validator and establishes no scientific or release evidence.
+
+### 2026-08-16 - Algorithms registry fit-to-list layout gate open
+
+The Algorithms registry no longer stretches its table or card across unused workspace height. The
+table is fixed to the computed header-plus-registered-rows height and disables its nested vertical
+scrollbar; taller registries remain reachable through the main preview scrollbar. Synthetic GUI and
+offscreen contracts plus ignored validator schema v6 were updated but not executed. This visual
+engineering gate remains open pending a complete owner-run Phase 6 validator and changes no
+algorithm, configuration, policy, experiment, or scientific semantics.
+
+### 2026-08-16 - Duplicate-free ribbon ownership gate open
+
+The redundant Workspace category and all `workspace.*` navigation commands are removed without
+removing any stable application workspace. Live Optimization and Statistics move to Compute;
+Results retains result review, validation, benchmark, and export; Algorithms retains CALO
+Intelligence; and Experiment retains the study/model/scenario/portfolio workflow. Duplicate Policy
+Status and System Readiness routes are removed. Synthetic contracts require unique visible command
+labels and exact category ownership. The ignored Phase 6 validator is schema v7 and remains
+unexecuted; this visual/navigation gate is open pending owner validation and changes no scientific
+or policy semantics.

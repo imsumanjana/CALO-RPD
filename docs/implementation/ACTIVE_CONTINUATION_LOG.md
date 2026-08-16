@@ -3050,3 +3050,31 @@ Append timestamped entries below this line after each material action, validatio
 - GUI/offscreen contracts and the ignored Phase 6 validator schema v5 were updated. Codex did not
   run tests, lint, formatting, compilation, Qt, the validator, training, assessment, qualification,
   protected cases, Docker, or scientific execution. Fresh owner Phase 6 validation is pending.
+
+## 2026-08-16 - Algorithms registry content-fitted height
+
+- The Algorithms registry table now has content-driven height equal to its header, all registered
+  rows, and frame instead of stretching to fill the workspace. The surrounding registry card also
+  keeps its preferred height, with unused space placed below it.
+- The table has no nested vertical scrollbar. When the full registry exceeds the window height, the
+  existing main preview remains the single vertical scroll owner, so every algorithm stays reachable.
+- GUI/offscreen contracts and ignored Phase 6 validator schema v6 were updated. Codex did not run
+  tests, lint, formatting, compilation, Qt, the validator, Docker, policy/scientific workflows, or
+  release checks. Fresh owner Phase 6 validation is pending.
+
+## 2026-08-16 - Duplicate-free ribbon ownership
+
+- The redundant Workspace ribbon category and all `workspace.*` commands were removed. Its stable
+  workspaces remain constructed and reachable through their single purpose-owned ribbon commands,
+  workflow guidance, and internal navigation.
+- Home owns Overview/Open/Save; Algorithms owns Algorithms/CALO Intelligence/CALO Settings;
+  Experiment owns study setup, Power System, ORPD, Scenarios, Portfolio, run workspace, and cancel;
+  Compute owns compute mode, Device Status, Live Optimization, and Statistics; Results owns Results
+  Explorer, Validation, Benchmark, and Report & Export. Policies retains only Train Policy, while
+  Help remains the single Settings route.
+- Duplicate Policy Status and System Readiness routes were removed because CALO Intelligence and
+  Device Status already expose the authoritative surfaces. Every visible ribbon command label is now
+  unique; prerequisite and non-execution semantics are unchanged.
+- Unit/GUI/offscreen contracts and ignored Phase 6 validator schema v7 were updated. Codex did not
+  execute tests, lint, formatting, compilation, Qt, the validator, Docker, policy/scientific work,
+  or release checks. Fresh owner Phase 6 validation is pending.

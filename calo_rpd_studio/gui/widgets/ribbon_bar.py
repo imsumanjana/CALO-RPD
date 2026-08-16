@@ -205,27 +205,17 @@ class RibbonBar(QFrame):
                     button.setProperty("ribbonCommandId", spec.command_id)
                     button.setProperty("ribbonCategory", category)
                     button.setObjectName(
-                        "WorkspaceRibbonButton"
-                        if category == "Workspace"
-                        else ("RibbonPrimaryButton" if spec.primary else "RibbonButton")
+                        "RibbonPrimaryButton" if spec.primary else "RibbonButton"
                     )
                     button.setDefaultAction(registry.action(spec.command_id))
                     button.setAccessibleName(spec.label)
                     button.setAccessibleDescription(spec.tooltip)
-                    workspace_page = category == "Workspace"
-                    button.setToolButtonStyle(
-                        Qt.ToolButtonStyle.ToolButtonTextBesideIcon
-                        if workspace_page
-                        else Qt.ToolButtonStyle.ToolButtonTextUnderIcon
-                    )
+                    button.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
                     button.setIconSize(
                         QSize(24 if spec.primary else 20, 24 if spec.primary else 20)
                     )
                     button.setAutoRaise(False)
-                    if workspace_page:
-                        group_row.addWidget(button, item_index % 2, item_index // 2)
-                    else:
-                        group_row.addWidget(button, 0, item_index)
+                    group_row.addWidget(button, 0, item_index)
                 group_column.addWidget(command_area, 1)
                 caption = QLabel(group_name)
                 caption.setObjectName("RibbonGroupCaption")

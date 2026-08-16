@@ -32,7 +32,6 @@ def test_phase6_command_registry_has_one_stable_authority():
     assert "view.ribbon" not in identifiers
     assert categories == {
         "Home",
-        "Workspace",
         "Experiment",
         "Algorithms",
         "Compute",
@@ -44,7 +43,6 @@ def test_phase6_command_registry_has_one_stable_authority():
     assert RIBBON_CATEGORY_ORDER == (
         "Home",
         "Algorithms",
-        "Workspace",
         "Experiment",
         "Compute",
         "Results",
@@ -62,7 +60,33 @@ def test_phase6_command_registry_has_one_stable_authority():
         "home.find",
         "workspace.resume",
         "policies.resume",
+        "policies.status",
+        "compute.refresh",
+        "results.live",
+        "results.statistics",
     }.intersection(identifiers)
+    assert not any(identifier.startswith("workspace.") for identifier in identifiers)
+    labels = [item.label for item in COMMAND_SPECS]
+    assert len(labels) == len(set(labels))
+    assert tuple(
+        item.command_id for item in COMMAND_SPECS if item.category == "Compute"
+    ) == (
+        "compute.settings",
+        "compute.device",
+        "compute.live",
+        "compute.statistics",
+    )
+    assert tuple(
+        item.command_id for item in COMMAND_SPECS if item.category == "Results"
+    ) == (
+        "results.explorer",
+        "results.validation",
+        "results.benchmark",
+        "results.publication",
+    )
+    assert tuple(
+        item.command_id for item in COMMAND_SPECS if item.category == "Policies"
+    ) == ("policies.training",)
     assert all(item.workspace != "resume_center" for item in COMMAND_SPECS)
     training = next(item for item in COMMAND_SPECS if item.command_id == "policies.training")
     assert training.handler == "training"

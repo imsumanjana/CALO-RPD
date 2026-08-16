@@ -15,7 +15,6 @@ REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
 RIBBON_CATEGORIES = (
     "Home",
     "Algorithms",
-    "Workspace",
     "Experiment",
     "Compute",
     "Results",
@@ -205,6 +204,38 @@ def validate(output: Path, *, platform: str) -> dict:
     )
     if home_labels != ("Overview", "Open", "Save"):
         raise AssertionError(f"Home contains unexpected commands: {home_labels!r}")
+    if any(
+        item.category == "Workspace" or item.command_id.startswith("workspace.")
+        for item in window.command_registry.specs
+    ):
+        raise AssertionError("The duplicate Workspace ribbon category remains registered")
+    command_labels = tuple(item.label for item in window.command_registry.specs)
+    if len(command_labels) != len(set(command_labels)):
+        raise AssertionError("The ribbon contains duplicate visible command labels")
+    compute_commands = tuple(
+        item.command_id
+        for item in window.command_registry.specs
+        if item.category == "Compute"
+    )
+    if compute_commands != (
+        "compute.settings",
+        "compute.device",
+        "compute.live",
+        "compute.statistics",
+    ):
+        raise AssertionError(f"Compute owns unexpected commands: {compute_commands!r}")
+    results_commands = tuple(
+        item.command_id
+        for item in window.command_registry.specs
+        if item.category == "Results"
+    )
+    if results_commands != (
+        "results.explorer",
+        "results.validation",
+        "results.benchmark",
+        "results.publication",
+    ):
+        raise AssertionError(f"Results owns unexpected commands: {results_commands!r}")
     algorithm_commands = tuple(
         item for item in window.command_registry.specs if item.category == "Algorithms"
     )
@@ -241,6 +272,28 @@ def validate(output: Path, *, platform: str) -> dict:
         raise AssertionError("Algorithms has no explicit staging-discard Reset action")
     if "staged for experiment" not in algorithms_panel.algorithm_stage_status.text().lower():
         raise AssertionError("Algorithms does not report the currently staged selection")
+    expected_algorithm_table_height = (
+        max(
+            algorithms_panel.table.horizontalHeader().height(),
+            algorithms_panel.table.horizontalHeader().sizeHint().height(),
+        )
+        + sum(
+            algorithms_panel.table.rowHeight(row)
+            for row in range(algorithms_panel.table.rowCount())
+        )
+        + algorithms_panel.table.frameWidth() * 2
+    )
+    if not (
+        algorithms_panel.table.minimumHeight()
+        == algorithms_panel.table.maximumHeight()
+        == expected_algorithm_table_height
+    ):
+        raise AssertionError("Algorithms table does not fit its registered row list")
+    if (
+        algorithms_panel.table.verticalScrollBarPolicy()
+        != Qt.ScrollBarPolicy.ScrollBarAlwaysOff
+    ):
+        raise AssertionError("Algorithms table retained a nested vertical scrollbar")
     if (
         state.task_status.busy,
         state.task_status.state,
@@ -361,9 +414,9 @@ def validate(output: Path, *, platform: str) -> dict:
         panel_renders.append(_save_image(window, output / f"panel-{key}.png"))
     window.stack.setCurrentWidget(window.pages_by_key["dashboard"])
     application.processEvents()
-    window.ribbon.select_category("Workspace")
+    window.ribbon.select_category("Experiment")
     application.processEvents()
-    workspaces = _save_image(window, output / "phase6-workspaces.png")
+    experiment_ribbon = _save_image(window, output / "phase6-experiment-ribbon.png")
     window.resize(1120, 720)
     application.processEvents()
     constrained = _save_image(window, output / "phase6-constrained.png")
@@ -664,7 +717,7 @@ def validate(output: Path, *, platform: str) -> dict:
         "activity_tabs": [
             window.activity_center.tabText(index) for index in range(window.activity_center.count())
         ],
-        "renders": [light, workspaces, constrained, dark],
+        "renders": [light, experiment_ribbon, constrained, dark],
         "checkbox_borders": {
             "light": light_checkbox_evidence,
             "dark": dark_checkbox_evidence,

@@ -182,7 +182,9 @@ class AlgorithmsPanel(WorkspacePage):
             ["Use", "Algorithm", "Scientific description", "Parameters (JSON)"]
         )
         self.table.setAlternatingRowColors(True)
+        self.table.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.table.verticalHeader().setVisible(False)
+        self.table.verticalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Fixed)
         self.table.horizontalHeader().setSectionResizeMode(
             0, QHeaderView.ResizeMode.ResizeToContents
         )
@@ -210,7 +212,8 @@ class AlgorithmsPanel(WorkspacePage):
                 parameters.setFlags(parameters.flags() & ~Qt.ItemFlag.ItemIsEditable)
                 parameters.setText("Configure in CALO settings")
             self.table.setItem(row, 3, parameters)
-        card.layout_root.addWidget(self.table, 1)
+        self._fit_algorithm_table_to_entries()
+        card.layout_root.addWidget(self.table)
 
         self.algorithm_stage_status = QLabel()
         self.algorithm_stage_status.setObjectName("AlgorithmStageStatus")
@@ -229,8 +232,22 @@ class AlgorithmsPanel(WorkspacePage):
         buttons.addStretch(1)
         card.layout_root.addLayout(buttons)
         self.table.itemChanged.connect(self._algorithm_draft_changed)
-        layout.addWidget(card, 1)
+        self.algorithm_registry_card = card
+        layout.addWidget(card)
+        layout.addStretch(1)
         return page
+
+    def _fit_algorithm_table_to_entries(self) -> None:
+        """Show exactly the registered rows; the main preview owns any page overflow."""
+
+        header = self.table.horizontalHeader()
+        header_height = max(header.height(), header.sizeHint().height())
+        body_height = sum(
+            self.table.rowHeight(row) for row in range(self.table.rowCount())
+        )
+        frame_height = self.table.frameWidth() * 2
+        self.table.setFixedHeight(header_height + body_height + frame_height)
+        self.table.updateGeometry()
 
     @staticmethod
     def _readonly_value(text: str = "") -> QLabel:
@@ -582,6 +599,7 @@ class AlgorithmsPanel(WorkspacePage):
                         **config.algorithm_parameters.get(name, {}),
                     }
                     self.table.item(row, 3).setText(json.dumps(parameters, sort_keys=True))
+            self._fit_algorithm_table_to_entries()
             self._update_algorithm_stage_status(config.algorithms)
 
             calo = {

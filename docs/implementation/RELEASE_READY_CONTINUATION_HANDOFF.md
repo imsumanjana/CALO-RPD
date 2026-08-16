@@ -1740,3 +1740,26 @@ superseded by the stage-neutral compatibility and qualification boundary on 2026
   Policy gating, immutable identity/evidence authority, and unsafe-fallback restrictions are unchanged.
 - Tests and ignored validator schema v5 were updated but not run. Run the complete Phase 6 validator
   and return its entire new `validation\logs\phase6-*` directory for read-only review.
+
+## 2026-08-16 - Algorithms registry fit-to-list follow-up
+
+- The registry table and containing card now use their content height rather than filling all
+  available vertical space. The computed table height includes the header, every registered row,
+  and frame; empty page space stays below the card.
+- Nested table vertical scrolling is disabled. The main preview owns overflow if the complete list
+  is taller than the window, preserving access to every algorithm and the Submit/Reset controls.
+- Tests and ignored validator schema v6 were updated but not run. Run the complete Phase 6 validator
+  and return its entire new `validation\logs\phase6-*` directory for read-only review.
+
+## 2026-08-16 - Duplicate-free ribbon ownership follow-up
+
+- Workspace is no longer a ribbon category. All stable workspaces remain in the application, but
+  each has one purpose-owned visible route instead of a second generic navigation copy.
+- Algorithms owns CALO Intelligence; Experiment owns Power/ORPD/Scenarios/Portfolio/study/run;
+  Compute owns device, Live Optimization, and Statistics; Results owns review/validation/benchmark/
+  export; Policies owns training; Help owns Settings. Duplicate Policy Status and System Readiness
+  buttons were removed.
+- Unit, GUI, and offscreen contracts require the exact eight-category ribbon, no `workspace.*`
+  commands, unique visible labels, and the intended Compute/Results ownership. Tests and validator
+  schema v7 were updated but not run. Run the complete Phase 6 validator and return its entire new
+  `validation\logs\phase6-*` directory for read-only review.

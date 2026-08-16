@@ -105,7 +105,6 @@ def test_ribbon_is_registry_generated_and_shell_regions_are_accessible(
     ) == (
         "Home",
         "Algorithms",
-        "Workspace",
         "Experiment",
         "Compute",
         "Results",
@@ -119,6 +118,12 @@ def test_ribbon_is_registry_generated_and_shell_regions_are_accessible(
     assert tuple(
         item.label for item in window.command_registry.specs if item.category == "Home"
     ) == ("Overview", "Open", "Save")
+    assert not any(
+        item.category == "Workspace" or item.command_id.startswith("workspace.")
+        for item in window.command_registry.specs
+    )
+    labels = [item.label for item in window.command_registry.specs]
+    assert len(labels) == len(set(labels))
     assert "resume_center" not in window.pages_by_key
     assert all(item.workspace != "resume_center" for item in window.command_registry.specs)
     assert window.context_dock.accessibleName() == "Contextual input pane"
@@ -174,11 +179,33 @@ def test_ribbon_is_registry_generated_and_shell_regions_are_accessible(
         window.command_registry.action(item.command_id).isEnabled()
         for item in algorithm_specs
     )
+    assert tuple(
+        item.command_id
+        for item in window.command_registry.specs
+        if item.category == "Compute"
+    ) == (
+        "compute.settings",
+        "compute.device",
+        "compute.live",
+        "compute.statistics",
+    )
+    assert tuple(
+        item.command_id
+        for item in window.command_registry.specs
+        if item.category == "Results"
+    ) == (
+        "results.explorer",
+        "results.validation",
+        "results.benchmark",
+        "results.publication",
+    )
 
 
 def test_algorithms_ribbon_is_the_first_available_configuration_entry(
     qtbot, tmp_path, monkeypatch
 ):
+    from PyQt6.QtCore import Qt
+
     state, window = _window(qtbot, tmp_path, monkeypatch)
 
     window.ribbon.select_category("Algorithms")
@@ -193,6 +220,19 @@ def test_algorithms_ribbon_is_the_first_available_configuration_entry(
     assert panel.content_stack.currentWidget() is panel.algorithm_page
     assert panel.submit_algorithms_button.text() == "Submit algorithms for experiment"
     assert panel.reset_algorithms_button.text() == "Reset selection"
+    expected_table_height = (
+        max(
+            panel.table.horizontalHeader().height(),
+            panel.table.horizontalHeader().sizeHint().height(),
+        )
+        + sum(panel.table.rowHeight(row) for row in range(panel.table.rowCount()))
+        + panel.table.frameWidth() * 2
+    )
+    assert panel.table.minimumHeight() == expected_table_height
+    assert panel.table.maximumHeight() == expected_table_height
+    assert panel.table.verticalScrollBarPolicy() == Qt.ScrollBarPolicy.ScrollBarAlwaysOff
+    page_layout = panel.algorithm_page.layout()
+    assert page_layout.stretch(page_layout.indexOf(panel.algorithm_registry_card)) == 0
     assert state.task_status.busy is False
     assert state.policy_training_active is False
 
