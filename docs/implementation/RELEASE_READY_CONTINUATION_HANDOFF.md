@@ -1784,3 +1784,15 @@ superseded by the stage-neutral compatibility and qualification boundary on 2026
   protected cases, completed evidence, or release records.
 - No validation command was run. The only next engineering command is the complete noninteractive
   `validation\Validate-Phase6.ps1`; return the entire new `validation\logs\phase6-*` directory.
+
+## 2026-08-17 - Workspace draft/audit status correction
+
+- The final schema-v25 Phase 6 bundle passed all 17 commands with stable source identity. A later
+  native report was inspected read-only against `calo_rpd_results.sqlite`: its active Workspace
+  plan was a matching, controller-free `draft` with no audit receipt, so Stage and Run were correctly
+  locked even though the six setup pages were complete.
+- Programmatic GUI refresh had mislabeled that never-audited draft as `Configuration changed`.
+  Configuration controls are now hydrated with signals blocked. An unaudited draft names the
+  required fairness action; an actual post-audit scientist edit still disables Stage immediately.
+- Validator schema v26 includes focused draft/audited lifecycle regressions. No audit, experiment,
+  CALO/TSH-CALO, policy, training, qualification, or protected-case work was executed or weakened.

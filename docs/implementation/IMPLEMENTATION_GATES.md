@@ -1366,3 +1366,12 @@ scientific semantics were introduced. Policy architecture/lifecycle/training/qua
 CALO/TSH-CALO architecture remain untouched. Tests and ignored validator schema v9 are written but
 unexecuted. This engineering gate remains open pending a fresh complete owner-run Phase 6 validator;
 it establishes no experimental, qualification, hardware, scientific, or release evidence.
+
+### 2026-08-17 - Workspace draft/audit status follow-up gate
+
+Read-only live-database evidence showed that the reported Workspace plan was still an unaudited
+`draft`, with a matching submitted stage and no controller conflict. Stage and Run therefore remain
+correctly locked until a fairness receipt is committed. Programmatic control hydration no longer
+fabricates `Configuration changed`; a real post-audit edit still invalidates staging immediately.
+Two focused GUI regressions passed. Ignored validator schema v26 must complete source-stably before
+this follow-up engineering evidence is closed. No scientific or policy workflow is authorized.

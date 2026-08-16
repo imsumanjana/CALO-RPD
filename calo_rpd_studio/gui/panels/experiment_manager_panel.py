@@ -10,7 +10,7 @@ import os
 
 import psutil
 
-from PyQt6.QtCore import QThread, QTimer, Qt, pyqtSignal
+from PyQt6.QtCore import QSignalBlocker, QThread, QTimer, Qt, pyqtSignal
 from PyQt6.QtWidgets import (
     QCheckBox,
     QComboBox,
@@ -708,6 +708,35 @@ class ExperimentManagerPanel(WorkspacePage):
             checkbox.stateChanged.connect(self._invalidate_fairness)
             checkbox.stateChanged.connect(self._update_plan_summary)
         self.output.textChanged.connect(self._invalidate_fairness)
+        self._configuration_inputs = (
+            self.runs,
+            self.population,
+            self.policy,
+            self.budget,
+            self.wall,
+            self.maxit,
+            self.workers,
+            self.seed,
+            self.execution_backend,
+            self.execution_purpose,
+            self.scientific_backend,
+            self.tensor_batch_size,
+            self.batch_window,
+            self.max_cross_batch,
+            self.calibration_repetitions,
+            self.telemetry_interval,
+            self.cuda_vram_budget,
+            self.cuda_oom_retries,
+            self.parity_gate,
+            self.auto_batch_calibration,
+            self.persistent_workers,
+            self.cross_run_batching,
+            self.buffered_traces,
+            self.compile_kernels,
+            self.device_resident_execution,
+            self.cuda_resident_hot_loop,
+            self.output,
+        )
         state.config_changed.connect(lambda _: self.refresh())
         self.refresh()
         self.resource_timer = QTimer(self)
@@ -1160,14 +1189,27 @@ class ExperimentManagerPanel(WorkspacePage):
         self.backend_parity_report = None
         self.compare.setEnabled(False)
         self.calo.setEnabled(False)
-        self.audit_state.setText("Configuration changed — audit required")
-        self.status.setText(
-            "Configuration changed. Run the fairness audit before starting an experiment."
-        )
+        self.stage_plan.setEnabled(False)
+        plan = self._active_controlled_plan()
+        if plan is not None and str(plan["lifecycle_state"]) == ExecutionLifecycle.AUDITED.value:
+            self.audit_state.setText("Configuration changed — audit required")
+            self.status.setText(
+                "Configuration changed. Run the fairness audit before starting an experiment."
+            )
+        else:
+            self.audit_state.setText("Required — run fairness audit")
+            self.status.setText(
+                "Setup inputs are ready, but no fairness pass is recorded. Open Validate + "
+                "outputs and run the fairness audit before staging."
+            )
 
     def refresh(self) -> None:
         self._refresh_experiment_evolution()
         config = self.state.config
+        # Loading shared state into the widgets is not a scientist edit.  Blocking these signals
+        # prevents an ordinary refresh or context switch from falsely claiming that a never-audited
+        # draft changed and from erasing a truthful retained audit status.
+        signal_blockers = [QSignalBlocker(widget) for widget in self._configuration_inputs]
         self.runs.setValue(config.runs)
         self.population.setValue(config.population_size)
         index = self.policy.findData(config.budget.policy.value)
@@ -1214,6 +1256,7 @@ class ExperimentManagerPanel(WorkspacePage):
         )
         self.seed.setValue(config.master_seed)
         self.output.setText(config.output_directory)
+        del signal_blockers
         algorithm_names = self._display_algorithm_names()
         if self.execution_mode == ExecutionPlanKind.WORKSPACE.value:
             self.selected.setText(

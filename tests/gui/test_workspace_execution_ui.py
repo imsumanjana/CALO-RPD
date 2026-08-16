@@ -141,6 +141,48 @@ def test_study_setup_embeds_shared_panels_without_a_second_algorithm_selector(
     assert "no second algorithm selector" in panel.plan_summary.text()
 
 
+def test_programmatic_refresh_does_not_claim_that_an_unaudited_draft_changed(
+    qtbot, tmp_path
+) -> None:
+    state = AppState(tmp_path / "workspace-draft-refresh.sqlite")
+    _submit_stage(state)
+    state.execution_control.create_workspace_draft(state.config, ("CALO",))
+    panel = ExperimentManagerPanel(state, ExperimentManager(state))
+    qtbot.addWidget(panel)
+
+    panel.refresh()
+
+    assert panel.audit_state.text() == "Required before execution"
+    assert "Configuration changed" not in panel.status.text()
+    assert panel.stage_plan.isEnabled() is False
+
+    panel.population.setValue(panel.population.value() + 1)
+
+    assert panel.audit_state.text() == "Required — run fairness audit"
+    assert "no fairness pass is recorded" in panel.status.text()
+    assert panel.stage_plan.isEnabled() is False
+
+
+def test_user_edit_invalidates_an_audited_plan_but_programmatic_refresh_does_not(
+    qtbot, tmp_path
+) -> None:
+    state = AppState(tmp_path / "workspace-audited-refresh.sqlite")
+    _submit_stage(state)
+    _audited_workspace(state)
+    panel = ExperimentManagerPanel(state, ExperimentManager(state))
+    qtbot.addWidget(panel)
+
+    panel.refresh()
+
+    assert panel.stage_plan.isEnabled() is True
+    assert "Configuration changed" not in panel.audit_state.text()
+
+    panel.population.setValue(panel.population.value() + 1)
+
+    assert panel.audit_state.text() == "Configuration changed — audit required"
+    assert panel.stage_plan.isEnabled() is False
+
+
 def test_inline_study_panels_preserve_prerequisites_and_completion_signals(qtbot, tmp_path) -> None:
     state = AppState(tmp_path / "workspace-inline-prerequisites.sqlite")
     _submit_stage(state)

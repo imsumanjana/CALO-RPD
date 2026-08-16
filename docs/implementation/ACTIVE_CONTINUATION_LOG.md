@@ -3354,3 +3354,25 @@ Append timestamped entries below this line after each material action, validatio
 - The ignored validator advanced to schema v25 and includes the corrected startup test in its Ruff
   and scoped-format inputs. The schema-v24 bundle remains source-stable failed evidence; a fresh
   complete source-stable v25 run is required.
+
+## 2026-08-17 - Schema-v25 PASS and truthful draft/audit status follow-up
+
+- `validation/logs/phase6-20260817-012930` completed all 17 schema-v25 commands with PASS. It passed
+  159 unit, 54 focused GUI, 21 startup/visual, and 24 empty-policy/controller integration tests,
+  offscreen rendering, fresh wheel/sdist build, and both distribution checks. The nonignored source
+  state remained stable at SHA-256
+  `b85dcd20dc759cd8dafab17eb91677b3458c23760e8be05bda1c992860a53135`.
+- A later native screenshot showed Run locked after the setup pages were completed. Read-only live
+  database inspection found a matching active four-algorithm stage and Workspace subset, no active
+  execution controller, and a Workspace plan still in `draft` with empty audit JSON/SHA-256. The
+  execution lock was therefore correct: no fairness pass had been committed.
+- The displayed `Configuration changed` reason was not correct for that never-audited draft. Widget
+  hydration emitted the same signals as a scientist edit. Programmatic refresh is now signal-blocked;
+  an unaudited draft reports the exact required fairness action, while a real post-audit edit still
+  disables Stage immediately and reports that re-audit is required. Two focused regressions passed.
+- The ignored validator advanced to schema v26. Audit, Stage, singleton-controller, Run, CALO,
+  TSH-CALO, policy, policy-training, qualification, and scientific execution behavior are unchanged.
+- Schema-v26 bundle `validation/logs/phase6-20260817-014725` passed commands 01 through 07 and
+  stopped at command 08 because Ruff required mechanical formatting of the modified Experiment
+  Manager panel. The retained failure is not a behavioral failure. Ruff applied the formatting-only
+  correction, and the ignored validator advanced to schema v27 for a complete replay.
