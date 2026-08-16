@@ -275,7 +275,7 @@ class WorkflowManager(QObject):
                 "locked",
                 "Policy training is using the scientific workspace. Monitor it on the Dashboard or stop it safely before opening another workflow.",
             )
-        if key in {"dashboard", "resume_center", "settings", "benchmark"}:
+        if key in {"dashboard", "settings", "benchmark"}:
             return "available", "Always available."
         if key == "calo_intelligence":
             status = self.governing_policy_status()
@@ -388,7 +388,7 @@ class WorkflowManager(QObject):
                         "live",
                         "live_optimization",
                         "Monitor or resume the active portfolio",
-                        "Follow the active jobs in Live Optimization or use Resume Center after a safe pause/interruption.",
+                        "Follow active jobs in Live Optimization or reopen the retained experiment after a safe pause/interruption.",
                     )
                 if not self.experiment_completed:
                     return descriptor

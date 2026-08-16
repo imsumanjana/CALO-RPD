@@ -116,6 +116,11 @@ def test_ribbon_is_registry_generated_and_shell_regions_are_accessible(
     assert len(window.command_registry.specs) == len(
         {item.command_id for item in window.command_registry.specs}
     )
+    assert tuple(
+        item.label for item in window.command_registry.specs if item.category == "Home"
+    ) == ("Overview", "Open", "Save")
+    assert "resume_center" not in window.pages_by_key
+    assert all(item.workspace != "resume_center" for item in window.command_registry.specs)
     assert window.context_dock.accessibleName() == "Contextual input pane"
     assert window.context_dock.isHidden() is False
     assert window.context_dock.features() == QDockWidget.DockWidgetFeature.NoDockWidgetFeatures
@@ -384,58 +389,68 @@ def test_training_navigation_opens_independent_center_without_starting(
     assert state.task_status.busy is False
 
 
-def test_policy_training_resume_is_prepared_only_by_independent_state_machine(
+def test_policy_training_owns_saved_resume_and_extension_without_resume_center(
     qtbot, tmp_path, monkeypatch
 ):
     _state, window = _window(qtbot, tmp_path, monkeypatch)
-    record = {
-        "id": "independent-training-record",
-        "task_type": "policy_training",
-        "title": "Independent TSH-CALO campaign",
-        "state": {
-            "plan_path": str(tmp_path / "training-plan.json"),
-            "output_directory": str(tmp_path / "candidate-output"),
-        },
-    }
 
-    window.pages_by_key["resume_center"].policy_training_requested.emit(record)
+    window.command_registry.action("policies.training").trigger()
 
     assert window.context_pane.stack.currentWidget() is window.context_pane.training
-    assert window.training_launch_model.values["plan"] == record["state"]["plan_path"]
-    assert window.training_launch_model.values["output"] == record["state"]["output_directory"]
-    assert window.training_center.resume.isChecked() is True
+    assert window.context_pane.training.library_picker.itemText(0) == "New training"
+    assert "resume_center" not in window.pages_by_key
     assert window.training_center.process is None
-    assert window.training_center.start_button.isEnabled() is False
 
 
-def test_resume_inspection_keeps_record_state_out_of_the_summary(qtbot, tmp_path, monkeypatch):
-    from PyQt6.QtWidgets import QDialog, QPlainTextEdit
+def test_results_refresh_reloads_the_experiment_selector(qtbot, tmp_path, monkeypatch):
+    from PyQt6.QtWidgets import QPushButton
 
     _state, window = _window(qtbot, tmp_path, monkeypatch)
-    panel = window.pages_by_key["resume_center"]
-    record = {
-        "id": "task-1",
-        "task_type": "validation",
-        "title": "Validate retained runs",
-        "progress": "2/5",
-        "status": "paused",
-        "updated_at": "2026-08-13T00:00:00Z",
-        "resumable": True,
-        "state": {"private_backend_field": "must-not-be-shown"},
-    }
-    monkeypatch.setattr(panel, "_selected", lambda: record)
-    captured = {}
+    panel = window.pages_by_key["results"]
+    experiment_id = "externally-added-experiment"
+    monkeypatch.setattr(
+        panel.state.database,
+        "list_experiments",
+        lambda: [
+            {
+                "id": experiment_id,
+                "created_at": "2026-08-16T00:00:00Z",
+                "name": "External result",
+            }
+        ],
+    )
+    monkeypatch.setattr(panel.state.database, "list_runs", lambda *_args, **_kwargs: [])
+    refresh = next(
+        button for button in panel.findChildren(QPushButton) if button.text() == "Refresh"
+    )
 
-    def inspect_without_opening(dialog):
-        captured["dialog"] = dialog
-        return QDialog.DialogCode.Rejected
+    refresh.click()
 
-    monkeypatch.setattr(QDialog, "exec", inspect_without_opening, raising=False)
-    panel.inspect_selected()
+    assert panel.experiment.findData(experiment_id) >= 0
 
-    details = captured["dialog"].findChildren(QPlainTextEdit)[0]
-    assert "must-not-be-shown" not in details.toPlainText()
-    assert "Task ID: task-1" in details.toPlainText()
+
+def test_policy_and_saved_training_refresh_invalidates_shared_disk_cache(
+    qtbot, tmp_path, monkeypatch
+):
+    _state, window = _window(qtbot, tmp_path, monkeypatch)
+    library = window.training_model_library
+    library._candidate_integrity_cache[("stale",)] = ("candidate", "", None)
+
+    window.pages_by_key["calo_intelligence"].policy_refresh_button.click()
+
+    assert library._candidate_integrity_cache == {}
+
+
+def test_opening_workspace_reloads_its_live_source_state(qtbot, tmp_path, monkeypatch):
+    _state, window = _window(qtbot, tmp_path, monkeypatch)
+    calls = []
+    monkeypatch.setattr(
+        window.pages_by_key["dashboard"], "refresh", lambda: calls.append("dashboard")
+    )
+
+    window._set_workspace("dashboard")
+
+    assert calls == ["dashboard"]
 
 
 def _training_plan(tmp_path):

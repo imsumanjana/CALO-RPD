@@ -96,6 +96,12 @@ class TrainingModelLibrary(QObject):
         self.changed.emit()
         return location
 
+    def refresh(self) -> None:
+        """Invalidate file-integrity observations and ask every library view to rescan disk."""
+
+        self._candidate_integrity_cache.clear()
+        self.changed.emit()
+
     @classmethod
     def _candidate_directories(cls, root: Path) -> tuple[Path, ...]:
         if not root.is_dir():

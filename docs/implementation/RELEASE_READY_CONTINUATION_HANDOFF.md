@@ -1667,3 +1667,22 @@ superseded by the stage-neutral compatibility and qualification boundary on 2026
 - This focused engineering validation is not a feasibility result, policy recommendation,
   scientist selection, activation, scientific qualification, release authorization, or superiority
   evidence. The complete frozen plan and training/CALO/TSH architecture remain unchanged.
+
+### Live-refresh and simplified-navigation follow-up
+
+- Current GUI source refreshes external state without requiring a relaunch: Results reloads its
+  experiment selector, Policy and Saved training clear the shared file-integrity cache before a disk
+  rescan, and workspace activation reloads that page's applicable read-only state.
+- Resume Center is absent from the constructed workspace and every current command route. Policy
+  exact resume and compatible finite extension remain under **Policies > Train policy**, with the
+  existing readiness and explicit-start boundaries. Historical Resume Center workspace identities
+  migrate conservatively to Overview. Retained resume records and compatibility source were not
+  deleted or reinterpreted.
+- Home contains only **Overview**, **Open**, and **Save**. The startup unfinished-work dialog remains
+  informational and starts nothing automatically.
+- Tests and the Git-ignored Phase 6 validator were updated but not executed by Codex. All earlier
+  Phase 6 validation directories predate this follow-up. Run the complete validator below and return
+  its entire new `validation\logs\phase6-*` directory before treating this behavior as validated:
+  `& .\validation\Validate-Phase6.ps1 -PythonExecutable ".\.venv\Scripts\python.exe"`
+- This coding change and its future engineering validation cannot qualify, select, activate, bind,
+  resume, extend, or otherwise operate a real policy and cannot establish release readiness.

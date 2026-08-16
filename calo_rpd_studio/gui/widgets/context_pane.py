@@ -477,7 +477,7 @@ class TrainingPathEditor(QWidget):
         library_layout.addWidget(self.library_picker)
         library_buttons = QHBoxLayout()
         self.refresh_library_button = QPushButton("Refresh")
-        self.refresh_library_button.clicked.connect(self.refresh_model_library)
+        self.refresh_library_button.clicked.connect(self.model_library.refresh)
         library_buttons.addWidget(self.refresh_library_button)
         library_buttons.addStretch(1)
         library_layout.addLayout(library_buttons)

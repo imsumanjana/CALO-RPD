@@ -41,6 +41,18 @@ def test_phase6_command_registry_has_one_stable_authority():
         "View",
         "Help",
     }
+    assert tuple(item.label for item in COMMAND_SPECS if item.category == "Home") == (
+        "Overview",
+        "Open",
+        "Save",
+    )
+    assert not {
+        "home.resume",
+        "home.find",
+        "workspace.resume",
+        "policies.resume",
+    }.intersection(identifiers)
+    assert all(item.workspace != "resume_center" for item in COMMAND_SPECS)
     training = next(item for item in COMMAND_SPECS if item.command_id == "policies.training")
     assert training.handler == "training"
     assert "not selected for experiments automatically" in training.tooltip.lower()
@@ -54,6 +66,20 @@ def test_phase6_command_registry_has_one_stable_authority():
     assert "legacy" not in visible_command_text
     assert "phase 4" not in visible_command_text
     assert "source-bound" not in visible_command_text
+
+
+def test_training_model_library_refresh_invalidates_cached_file_observations(tmp_path):
+    from calo_rpd_studio.gui.panels.independent_training_panel import TrainingModelLibrary
+
+    library = TrainingModelLibrary(_MemorySettings(), default_directory=tmp_path)
+    notifications = []
+    library.changed.connect(lambda: notifications.append("changed"))
+    library._candidate_integrity_cache[("stale",)] = ("candidate", "", None)
+
+    library.refresh()
+
+    assert library._candidate_integrity_cache == {}
+    assert notifications == ["changed"]
 
 
 def test_product_version_hides_internal_build_stage_without_changing_build_identity():

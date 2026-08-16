@@ -1270,3 +1270,16 @@ activation, binding, Docker, or release workflow occurred. The focused engineeri
 fresh/resume and non-archived UI behavior is satisfied, subject to the source-stable complete replay
 produced after this ledger closure. Scientific assessment, activation, broader Phase 6, and release
 gates remain separate and open.
+
+### 2026-08-16 - Live-refresh and navigation simplification gate open
+
+The current GUI source makes refresh a fresh read boundary: Results reloads the experiment selector,
+Policy/Saved training invalidates cached file-integrity observations before rescanning, and each
+workspace activation reloads its applicable read-only source state. Resume Center is retired from
+construction and command metadata; authenticated policy resume and finite extension remain in the
+explicit Train policy workflow. Home contains only Overview, Open, and Save. Schema-4 workspace
+migration maps historical Resume Center identities to Overview and preserves the later historical
+index meanings. No resumable data or lifecycle authority is removed. Source and synthetic contracts
+are implemented but unexecuted, so this engineering gate remains open pending a fresh complete
+owner-run Phase 6 validator. Scientific, lifecycle, qualification, protected-case, release, and
+human-acceptance gates remain separate.

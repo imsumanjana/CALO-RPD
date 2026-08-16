@@ -38,7 +38,6 @@ from calo_rpd_studio.gui.panels.power_system_panel import PowerSystemPanel
 from calo_rpd_studio.gui.panels.publication_export_panel import PublicationExportPanel
 from calo_rpd_studio.gui.panels.results_explorer_panel import ResultsExplorerPanel
 from calo_rpd_studio.gui.panels.robust_scenarios_panel import RobustScenariosPanel
-from calo_rpd_studio.gui.panels.resume_center_panel import ResumeCenterPanel
 from calo_rpd_studio.gui.panels.statistical_analysis_panel import StatisticalAnalysisPanel
 from calo_rpd_studio.gui.panels.validation_audit_panel import ValidationAuditPanel
 from calo_rpd_studio.gui.user_feedback import show_error
@@ -107,7 +106,6 @@ class MainWindow(QMainWindow):
             "results": ResultsExplorerPanel(state),
             "validation": ValidationAuditPanel(state),
             "publication": PublicationExportPanel(state),
-            "resume_center": ResumeCenterPanel(state, experiment_manager),
             "settings": ApplicationSettingsPanel(state, settings_manager),
             "benchmark": ScrollablePage(BenchmarkCampaignPanel(state, experiment_manager)),
         }
@@ -239,19 +237,6 @@ class MainWindow(QMainWindow):
         )
         self.pages_by_key["results"].experiment_restore_requested.connect(
             self.restore_experiment_workspace
-        )
-        self.pages_by_key["resume_center"].workspace_requested.connect(self._set_workspace)
-        self.pages_by_key["resume_center"].experiment_restore_requested.connect(
-            self.restore_experiment_workspace
-        )
-        self.pages_by_key["resume_center"].policy_training_requested.connect(
-            self._prepare_independent_training_resume
-        )
-        self.pages_by_key["resume_center"].validation_resumed.connect(
-            lambda task_id: self.pages_by_key["validation"].resume_task_by_id(task_id)
-        )
-        self.pages_by_key["resume_center"].portfolio_export_resumed.connect(
-            lambda task_id: self.pages_by_key["publication"].resume_task_by_id(task_id)
         )
         self.state.runs_changed.connect(self._refresh_verified_count)
         self.state.policy_state_changed.connect(
@@ -392,7 +377,6 @@ class MainWindow(QMainWindow):
             "Configuration is locked while training owns runtime state.",
         )
         self.command_registry.set_available("policies.training", True)
-        self.command_registry.set_available("policies.resume", True)
         task = self.state.task_status.snapshot()
         self.command_registry.set_available(
             "experiment.stop",
@@ -446,6 +430,7 @@ class MainWindow(QMainWindow):
         self.stack.setCurrentIndex(index)
         self.sidebar.set_current(index)
         self.settings_manager.set_value("phase6/last_workspace_key", key)
+        self._refresh_workspace_from_source(key)
         self.documents.focus_scientific_workspace()
         related = next(
             (
@@ -457,6 +442,37 @@ class MainWindow(QMainWindow):
         )
         if related is not None:
             self.command_registry.select(related.command_id)
+
+    def _refresh_workspace_from_source(self, key: str) -> None:
+        """Reload a workspace's applicable read-only source state whenever it is opened."""
+
+        page = self.pages_by_key[str(key)]
+        refresh_name = {
+            "dashboard": "refresh",
+            "orpd": "refresh",
+            "portfolio": "refresh",
+            "scenarios": "refresh",
+            "experiment": "refresh",
+            "statistics": "refresh_experiments",
+            "results": "refresh_experiments",
+            "validation": "refresh_experiments",
+            "publication": "refresh",
+            "settings": "refresh_history_summary",
+        }.get(str(key), "")
+        try:
+            if key == "calo_intelligence":
+                # The shared signal refreshes both Policy Library and Saved training from disk.
+                self.training_model_library.refresh()
+            elif refresh_name:
+                refresh = getattr(page, refresh_name, None)
+                if callable(refresh):
+                    refresh()
+            self.activity_center.refresh_context()
+        except Exception:
+            _LOG.exception("Live workspace refresh failed for %s", key)
+            self._show_status_message(
+                "This workspace opened, but its latest external state could not be reloaded."
+            )
 
     def _check_unfinished_work(self) -> None:
         previous = dict(self._previous_unclean_session or {})
@@ -490,9 +506,6 @@ class MainWindow(QMainWindow):
             return
         dialog = UnfinishedWorkDialog(items, self)
         dialog.exec()
-        if dialog.open_resume_center:
-            self.pages_by_key["resume_center"].refresh()
-            self._set_workspace("resume_center")
 
     def _persist_workspace_state(self) -> None:
         experiment_id = str(self.state.current_experiment_id or "")
@@ -616,7 +629,6 @@ class MainWindow(QMainWindow):
         handlers = {
             "open": self.open_config,
             "save": self.save_config,
-            "find": self._find_workspace,
             "cancel": self.state.task_status.cancel,
             "training": self._open_training_center,
             "toggle_activity": lambda: self.activity_dock.setVisible(
@@ -643,31 +655,10 @@ class MainWindow(QMainWindow):
     def _show_status_message(self, message: str) -> None:
         self.statusBar().showMessage(str(message), 5000)
 
-    def _find_workspace(self) -> None:
-        self.context_dock.show()
-        self.ribbon.select_category("Workspace")
-        self.ribbon.tabs.setFocus(Qt.FocusReason.ShortcutFocusReason)
-
     def _open_training_center(self) -> None:
         self.context_dock.show()
         self.context_pane.show_command(self.command_registry.spec("policies.training"))
         self.context_pane.training.refresh()
-
-    def _prepare_independent_training_resume(self, record: dict) -> None:
-        """Open and prefill independent resume inputs without starting policy work."""
-
-        self.context_dock.show()
-        self.context_pane.show_command(self.command_registry.spec("policies.training"))
-        try:
-            self.context_pane.prepare_training_resume(record)
-        except Exception as exc:
-            show_error(
-                self,
-                "Training resume could not be prepared",
-                "This record is not compatible with independent policy training.",
-                exc,
-                source="independent training resume",
-            )
 
     def _open_user_guide(self) -> None:
         guide = getattr(self, "_guide_document", None)

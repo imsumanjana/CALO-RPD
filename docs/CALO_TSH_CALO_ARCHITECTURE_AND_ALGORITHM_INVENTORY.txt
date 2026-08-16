@@ -1,0 +1,634 @@
+CALO-RPD STUDIO
+CALO AND TSH-CALO ARCHITECTURE, EXECUTION FLOW, AND ALGORITHM INVENTORY
+Live-worktree review date: 2026-08-16
+
+===============================================================================
+1. EXECUTIVE ANSWER
+===============================================================================
+
+The software currently registers 23 executable optimizer identities for the
+power-system experiment workflow:
+
+  - 22 primary optimizer identities in the normal comparison registry.
+  - 1 separately policy-gated optimizer identity: TSH-CALO.
+
+The 22 primary identities consist of CALO plus 21 conventional comparison
+algorithms. Therefore:
+
+  - Standard primary algorithms available without a TSH-CALO policy: 22.
+  - Conventional comparison alternatives to CALO: 21.
+  - Additional TSH-CALO identity when its policy gate is satisfied: 1.
+  - Total registered executable algorithm identities: 23.
+  - Total possible opponents when CALO is compared with every other registered
+    identity, including an eligible TSH-CALO: 22.
+
+The default experiment configuration selects only CALO, TLBO, and PSO. That
+default selection of three is not the total software inventory. Scientists may
+select other registered algorithms in the Algorithms panel.
+
+TSH-CALO is not automatically usable merely because its code is installed. It
+requires a separately trained, immutable, integrity-valid policy ensemble that
+has passed the applicable assessment/evidence checks, has been explicitly
+selected by a scientist, has been separately activated, and is bound to the
+experiment with matching identities and receipts.
+
+
+===============================================================================
+2. COMMON POWER-SYSTEM EXECUTION ARCHITECTURE
+===============================================================================
+
+All registered optimizers are connected to a common Optimal Reactive Power
+Dispatch (ORPD) scientific layer. The optimizer proposes a normalized control
+vector; it does not define its own power-flow equations or quietly change the
+constraints.
+
+The main control families are:
+
+  1. Generator voltage set-points.
+  2. Transformer tap positions.
+  3. Shunt compensation controls.
+
+The common decoder maps normalized optimizer coordinates to the declared
+physical controls. Discrete transformer taps and shunts are placed on their
+declared physical lattices. The common trusted ORPD evaluator then runs the
+declared AC power-flow formulation and returns:
+
+  - the selected objective value or declared multi-objective aggregate;
+  - exact feasibility;
+  - total constraint violation;
+  - decomposed physical violations, including bus-voltage, generator reactive
+    power, generator active power, branch thermal/flow, angle, and power-flow
+    convergence conditions as applicable;
+  - robust-scenario information when a robust scenario plan is enabled.
+
+Scientific comparison is controlled above the individual algorithms. Selected
+algorithms receive the same declared case, decoder, objective, constraints,
+tolerances, scenarios, run plan, exact function-evaluation (FE) budget, and seed
+protocol. An algorithm can change how candidate solutions are proposed and
+selected, but it cannot redefine whether the final solution is physically
+feasible.
+
+The shared experiment runner constructs the requested optimizer from the live
+registry, runs it against the same ORPDProblem contract, and records exact FE
+accounting and result provenance. Feasibility-first comparison means that an
+infeasible low-loss point is not silently treated as scientifically better than
+an exact-feasible point.
+
+
+===============================================================================
+3. CALO ARCHITECTURE
+===============================================================================
+
+3.1 Identity and present lifecycle role
+---------------------------------------
+
+CALO means Cognitive Adaptive Learning Optimizer. The registered baseline is
+the frozen CALO v5.9 architecture. In the current v12 scientist-facing
+experiment workflow, the primary CALO identity is intentionally rule-only:
+
+  - use_ai is forced to false by the experiment configuration and GUI defaults;
+  - an old policy identity/checkpoint/checksum cannot be attached to CALO;
+  - policy-assisted experiments must use the separate TSH-CALO identity.
+
+Historical neural-controller support remains in the CALO implementation for
+provenance and compatibility boundaries, but it is not the permitted current
+primary CALO experiment path.
+
+3.2 High-level CALO data flow
+-----------------------------
+
+  ORPD case and scientific configuration
+      -> normalized mixed-variable population
+      -> trusted AC evaluation and decomposed constraints
+      -> cognitive diagnostics and search regime
+      -> six-operator candidate-generation portfolio
+      -> trusted counted offspring evaluation
+      -> feasibility-first environmental selection
+      -> memory/archive/credit updates
+      -> repeat until the exact FE budget is exhausted
+      -> final solution, histories, diagnostics, and provenance
+
+3.3 Initial population and exact accounting
+-------------------------------------------
+
+CALO begins with a population of normalized candidate control vectors. Each
+candidate is decoded and evaluated through the common ORPD evaluator. The
+requested maximum FE budget must be exactly divisible by population size, so a
+complete population transition never gives CALO a hidden partial-generation
+budget advantage over comparison methods.
+
+Every real evaluator request is counted. An exact-evaluation cache may avoid a
+duplicate physical solve for an identical request, but it retains explicit
+request/physical-solver accounting. Exact checkpoint/resume state is loaded
+before any new population evaluation so resume does not perform an uncounted
+warm-up solve.
+
+3.4 Feasibility representation
+------------------------------
+
+Final scientific feasibility always uses the strict common ORPD constraints.
+During search, CALO uses an adaptive epsilon boundary:
+
+  candidate is temporarily epsilon-feasible when total violation <= epsilon.
+
+Epsilon begins from the initial violation distribution and contracts toward
+zero according to consumed FE, feasibility progress, and stagnation. This
+allows CALO to learn near the constraint boundary early without changing the
+definition of final exact feasibility.
+
+CALO keeps objective progress and constraint progress separate. It also retains
+individual physical constraint components instead of compressing all power-
+system information into a single objective number.
+
+3.5 Population knowledge structures
+------------------------------------
+
+CALO maintains several complementary structures:
+
+  - Personal bests: the strongest retained state for each learner.
+  - Feasible Elite Archive: strong exact-feasible candidates, with duplicate
+    control vectors rejected.
+  - Constraint Boundary Archive: diverse low-violation infeasible candidates,
+    preserving different routes toward feasibility.
+  - Hierarchical Prefix Elite Memory (HPEM): elite summaries at multiple memory
+    depths rather than one global teacher.
+  - Success Memory: successful search directions indexed by operator/context
+    evidence and recency.
+  - Contextual Credit: online attempts and successes for operator and memory
+    choices.
+  - Variable-Group Intelligence: evidence about generator-voltage, transformer-
+    tap, shunt, or related variable groups.
+  - Dual-Lane Controller: balances discovery-oriented and memory-learning
+    learners according to readiness and diversity.
+  - Cognitive Precision Engine: activates bounded local refinement when the
+    feasibility/progress state supports it.
+
+These structures have distinct roles. For example, the feasible archive stores
+exact-feasible quality, while the boundary archive preserves promising paths
+that have not yet reached exact feasibility.
+
+3.6 Cognitive state and four search regimes
+-------------------------------------------
+
+The base cognitive state contains 24 normalized values describing:
+
+  - population diversity and elite spread;
+  - exact-feasible and epsilon-feasible ratios;
+  - mean and best constraint violation;
+  - decomposed physical constraint stress;
+  - recent feasibility and objective improvement;
+  - constraint and objective stagnation;
+  - remaining FE budget;
+  - archive fill levels;
+  - online operator credit.
+
+The current rule-only CALO path maps this evidence to four search regimes:
+
+  1. Feasibility: emphasize movement toward lower constraint violation.
+  2. Transition: balance feasibility and objective quality near the boundary.
+  3. Objective refinement: improve exact-feasible solutions.
+  4. Recovery: rebuild diversity after genuine stagnation/collapse.
+
+Recovery is a visible bounded intervention. It is not a hidden change to the
+power-system formulation or FE budget.
+
+3.7 Six CALO candidate-generation operators
+--------------------------------------------
+
+CALO contains a portfolio of six search operators:
+
+  1. Feasible-elite learning
+     Moves toward a feasible/HPEM teacher while retaining a differential
+     direction between population members.
+
+  2. Constraint-boundary differential learning
+     Learns from a low-violation boundary candidate and a differential
+     direction, emphasizing progress toward feasibility.
+
+  3. Cognitive teacher learning
+     Uses a regime-dependent teacher, population mean, and stochastic
+     attraction/exploration terms.
+
+  4. Success-distribution memory
+     Reuses sampled historically successful directions without averaging
+     opposing directions into cancellation.
+
+  5. Mixed-variable neighbourhood learning
+     Perturbs continuous generator-voltage controls continuously and moves
+     discrete taps/shunts on declared neighbouring physical levels.
+
+  6. Diversity recovery
+     Uses opposition/underexplored anchors and bounded perturbation to restore
+     exploration during stagnation.
+
+Contextual credit and the current regime influence operator assignment. HPEM,
+success memory, variable groups, dual lanes, precision, and forced recovery may
+adapt a learner's proposal, but the common transition authority remains the
+single owner of candidate generation and completion.
+
+3.8 Counted evaluation and environmental selection
+--------------------------------------------------
+
+All offspring are passed to the trusted evaluator. Parents and offspring are
+then combined. Environmental selection uses the current epsilon-feasibility
+ordering, preserves quality, and fills remaining population positions with a
+quality/diversity rule. The selected population updates personal bests,
+archives, HPEM, success memory, contextual credit, group statistics, precision
+state, stagnation counters, and diagnostic histories.
+
+The run ends only at the configured iteration/cancellation/FE boundary. Results
+retain objective and feasibility histories, first-feasible FE, operator use and
+success, archive/memory state, runtime components, exact cache evidence,
+checkpoint identity, and scientific-problem provenance.
+
+
+===============================================================================
+4. TSH-CALO ARCHITECTURE
+===============================================================================
+
+4.1 Identity and relationship to CALO
+-------------------------------------
+
+TSH-CALO means Topology-Aware Shielded Hierarchical CALO. It is a separate
+algorithm identity, not a checkbox that mutates baseline CALO. It preserves the
+canonical CALO search/memory/selection foundation and adds a new policy state,
+hierarchical action ABI, uncertainty shield, and optional counted domain
+operator.
+
+TSH-CALO is policy-first and fail-closed. Before optimization starts, it verifies
+the immutable policy ensemble, architecture and state/action schemas, feature
+flags, OOD calibration, scientist selection, activation, qualification/
+assessment evidence, and experiment binding. If the policy is unavailable or
+rejected, the run is blocked or requires an explicit separate relaunch as
+CALO-v5.9. Baseline fallback is never silently recorded as a TSH-CALO result.
+
+The registered candidate version is:
+
+  tsh-calo-v1.1.0-counted-physics-candidate
+
+Its frozen public action contract contains:
+
+  - 4 search regimes;
+  - 3 physical control groups;
+  - 4 learner contexts;
+  - 7 possible operators;
+  - 6 bounded adaptive parameters per physical group;
+  - a value estimate for actor-critic training.
+
+4.2 Change A: one canonical transition authority
+------------------------------------------------
+
+TSH-CALO uses the canonical CALO transition kernel for the preserved baseline
+semantics: candidate assignment, operator execution, exact FE accounting,
+personal-best updates, memory/archive updates, environmental selection, reward
+decomposition, and next-state diagnostics.
+
+Training and deployed optimization consume this same transition authority. This
+reduces the scientific risk that a policy is trained against one optimizer but
+deployed against subtly different transition equations.
+
+4.3 Change B: topology-aware graph context
+------------------------------------------
+
+TSH-CALO retains CALO's 32-value aggregate policy input (the 24-value cognitive
+state plus compact memory/lane/precision/group context) and adds a structured
+power-network graph built only from an already-counted converged power-flow
+result.
+
+The topology state contains:
+
+  - Bus/node features (12 values per bus): voltage/electrical/load/generation/
+    reactive-reserve/stress information.
+  - Directed branch/edge features (10 values per branch direction): electrical
+    descriptors, transformer information, loading, angle, thermal/stress data.
+  - Control features (9 values per control): physical group, normalized value,
+    movement availability, discreteness, and attachment information.
+  - Scenario features (7 values per scenario): load, renewable and contingency
+    stress, aggregation role, weight, OOD declaration, and observation state.
+  - Explicit attachments between controls and buses.
+
+The graph encoder performs message passing and produces:
+
+  - a grid-level embedding;
+  - three physical control-group embeddings;
+  - node and control embeddings used by the topology representation.
+
+State construction is forbidden from calling the power-flow solver. It may only
+consume the context from already-counted evaluations, preventing hidden FEs.
+Missing, failed, fabricated, or topology-incompatible context is rejected.
+
+4.4 Change C: hierarchical group-conditioned policy actions
+-----------------------------------------------------------
+
+The TSH-CALO actor-critic fuses the aggregate CALO embedding with the graph
+embedding. It produces:
+
+  - one probability distribution over four global search regimes;
+  - a seven-operator distribution for each of three physical groups:
+      * generator voltage,
+      * transformer tap,
+      * shunt compensation;
+  - context-specific operator logits for four learner contexts;
+  - Beta-distribution alpha/beta values for six bounded parameters per group;
+  - one state-value estimate.
+
+Each learner is associated with a physical control group and a learner context.
+The executed operator is sampled independently from the appropriate shielded
+group/context distribution. This avoids forcing every learner to execute one
+global operator when different physical controls require different search
+behavior.
+
+An explicit group-action mask prevents unavailable or incompatible operators
+from being sampled. Generator-voltage, transformer-tap, and shunt groups remain
+distinguishable through the complete decision and audit trail.
+
+4.5 Change D: uncertainty, OOD, bandit, and safety shield
+--------------------------------------------------------
+
+TSH-CALO requires an epistemic policy ensemble with at least two members. The
+inference controller aggregates their outputs and measures disagreement.
+
+The shield combines declared evidence sources:
+
+  - the neural ensemble policy prior;
+  - a transparent CALO regime prior;
+  - a sliding-window contextual-bandit residual learned from current-run
+    operator outcomes;
+  - a minimum exploration floor.
+
+A frozen OOD calibration scores the current topology/stress signature. High
+ensemble disagreement or an out-of-distribution graph attenuates neural weight;
+it does not grant the policy permission to invent an unverified action.
+
+The safety envelope enforces:
+
+  - the remaining exact FE budget;
+  - complete population-sized execution;
+  - valid mixed-variable lattices;
+  - available control groups and operator masks;
+  - finite action probabilities and bounded parameters;
+  - explicit intervention and mixture-weight recording.
+
+After each completed transition, per-learner rewards derived separately from
+objective gain, feasibility gain, successful replacement, and transition into
+feasibility update the sliding-window contextual bandit.
+
+4.6 Change E: optional counted physics-repair proposal
+-----------------------------------------------------
+
+TSH-CALO defines a seventh operator: a bounded physics-informed repair proposal.
+It is optional and disabled in the default TSH-CALO feature flags.
+
+When it is explicitly present in the immutable candidate feature contract, the
+operator may use an already-computed, finite, sufficiently conditioned AC
+control linearization/Jacobian to propose a trust-region control movement. It
+remains conservative:
+
+  - it cannot declare a solution feasible;
+  - it cannot bypass the trusted AC evaluator;
+  - every proposed candidate consumes the normal exact FE budget when evaluated;
+  - discrete controls are snapped only to their declared lattice;
+  - unavailable, non-finite, zero-direction, or ill-conditioned sensitivity
+    information masks the operator;
+  - linear-algebra time, failures, proposal count, and hidden solver calls are
+    recorded separately;
+  - hidden solver calls must remain zero.
+
+Physics repair therefore guides proposal generation only. The common evaluator
+retains sole authority over feasibility and objective measurement.
+
+4.7 Change F: experimental population schedule
+----------------------------------------------
+
+Change F is a bounded evidence-driven population-contraction design. It is
+experimental, separately feature-gated, and disabled by default. The present
+production TSH-CALO optimizer explicitly rejects population_schedule=true and
+uses a fixed population.
+
+Consequently, Change F is not part of the ordinary executable TSH-CALO
+scientific path and must not be counted as an additional algorithm.
+
+4.8 End-to-end TSH-CALO generation flow
+---------------------------------------
+
+  1. Verify the exact immutable policy/ensemble/calibration/feature binding.
+  2. Reject incompatible state or require an explicit separate CALO relaunch.
+  3. Create or exactly restore the population, RNG, policy RNG, archives,
+     memory, bandit, diagnostics, and evaluation contexts.
+  4. Calculate adaptive epsilon, feasibility/objective diagnostics, diversity,
+     memory readiness, dual-lane assignments, and precision eligibility.
+  5. Build the 32-value aggregate state.
+  6. Build topology/scenario/control context from an already-counted reference
+     evaluation.
+  7. Determine physical control groups and learner contexts.
+  8. Dynamically mask unavailable operators, including physics repair.
+  9. Run the immutable policy ensemble and measure disagreement.
+ 10. Apply OOD attenuation, rule prior, contextual bandit, exploration floor,
+     and safety constraints.
+ 11. Sample the global regime, group parameters, and independent learner
+     operators.
+ 12. Generate candidates through the TSH wrapper over the canonical CALO
+     transition authority.
+ 13. Evaluate every candidate through the common counted ORPD evaluator.
+ 14. Complete feasibility-first environmental selection and update all CALO
+     memory/archive/credit structures.
+ 15. Update the contextual bandit from observed learner outcomes.
+ 16. Record policy identity, topology/scenario identity, executed operators,
+     uncertainty, OOD score, mixture weights, masks, interventions, physics-
+     repair evidence, reward, FE counts, and runtime provenance.
+ 17. Save exact checkpoint state when configured and continue until the finite
+     budget is complete.
+
+Policy inference may use an admitted CUDA or CPU device according to the bound
+execution policy. The trusted ORPD evaluator remains the scientific evaluation
+authority; a faster inference device may change runtime but not objective,
+constraint, selection, or FE-accounting semantics.
+
+4.9 Training is separate from power-system experiments
+------------------------------------------------------
+
+The TSH-CALO policy network is trained independently with PPO and protected
+training receipts. Training does not occur inside a power-system comparison
+run. A completed training artifact is not automatically assessed, selected,
+activated, or used.
+
+The power-system experiment consumes only the exact immutable policy ensemble
+that satisfies the lifecycle gate. Experiment results cannot silently retrain
+or modify that policy. TSH-CALO and CALO remain separate result identities for
+scientific comparison.
+
+
+===============================================================================
+5. CALO VERSUS TSH-CALO: CONCISE DIFFERENCE
+===============================================================================
+
+CALO
+  - Frozen v5.9 baseline identity.
+  - Rule-only in current v12 scientist-facing experiments.
+  - Aggregate cognitive/search evidence, without the TSH topology graph.
+  - Four regimes and six candidate-generation operators.
+  - Global regime plus contextual learner adaptation.
+  - No qualified neural ensemble required.
+
+TSH-CALO
+  - Separate topology-aware, shielded, hierarchical candidate identity.
+  - Requires an immutable qualified/assessed, scientist-selected, activated,
+    experiment-bound policy ensemble.
+  - Retains the aggregate CALO state and adds bus/branch/control/scenario graph
+    context.
+  - Four regimes, three control groups, four learner contexts, seven possible
+    operators, and six bounded parameters per group.
+  - Uses ensemble disagreement, OOD attenuation, a contextual bandit, rule
+    prior, exploration floor, and explicit safety masks.
+  - Optional counted physics repair is Change E and is off by default.
+  - Experimental population schedule is Change F and is rejected by the
+    production fixed-population path.
+  - Cannot silently fall back and still call the result TSH-CALO.
+
+Neither name is a scientific conclusion. Superiority, non-inferiority, useful
+feasibility, or suitability must be inferred only from comparable evidence
+under the same frozen scientific design and exact FE budget.
+
+
+===============================================================================
+6. COMPLETE REGISTERED ALGORITHM INVENTORY
+===============================================================================
+
+PRIMARY REGISTRY: 22
+
+  1. CALO
+     Cognitive Adaptive Learning Optimizer; the frozen rule-only v5.9 baseline
+     described above.
+
+  2. TLBO
+     Teaching-Learning-Based Optimization.
+
+  3. PSO
+     Particle Swarm Optimization.
+
+  4. CLPSO
+     Comprehensive Learning Particle Swarm Optimization.
+
+  5. CMA-ES
+     Active Covariance Matrix Adaptation Evolution Strategy using the official
+     pycma engine.
+
+  6. MTLA-DE
+     Modified teaching-learning search with DE/rand/1/bin hybridization.
+
+  7. L-SHADE
+     Success-history adaptive differential evolution with linear population
+     reduction.
+
+  8. QODE
+     Quasi-Oppositional Differential Evolution.
+
+  9. DA
+     Dragonfly Algorithm.
+
+ 10. SA
+     Continuous Simulated Annealing.
+
+ 11. SSA
+     Salp Swarm Algorithm.
+
+ 12. ACO
+     ACOR continuous-domain Ant Colony Optimization.
+
+ 13. BA
+     Bat Algorithm.
+
+ 14. CSA
+     Crow Search Algorithm.
+
+ 15. FA
+     Firefly Algorithm.
+
+ 16. FPA
+     Flower Pollination Algorithm.
+
+ 17. GOA
+     Grasshopper Optimization Algorithm.
+
+ 18. GWO
+     Grey Wolf Optimizer.
+
+ 19. MFO
+     Moth-Flame Optimization.
+
+ 20. MVO
+     Multi-Verse Optimizer.
+
+ 21. WOA
+     Whale Optimization Algorithm.
+
+ 22. ICA
+     Imperialist Competitive Algorithm.
+
+POLICY-GATED REGISTRY: 1
+
+ 23. TSH-CALO
+     Topology-Aware Shielded Hierarchical CALO. It becomes selectable only when
+     the exact policy lifecycle and experiment-binding requirements are met.
+
+
+===============================================================================
+7. WHAT IS NOT COUNTED AS AN ADDITIONAL BUILT-IN ALGORITHM
+===============================================================================
+
+The following implementation details do not increase the registry total:
+
+  - CALO's six internal learning operators are components of CALO, not six
+    separately selectable experiment algorithms.
+  - TSH-CALO Changes A-E are components of one TSH-CALO algorithm identity.
+  - Experimental Change F remains disabled and is not a separate algorithm.
+  - The TorchCanonicalOptimizer is an execution-backend adapter for eligible
+    registered comparison names, not a separately selectable algorithm name.
+  - Source files such as legacy_mtlbo.py that are not present in SPECS or
+    POLICY_GATED_SPECS are not counted as live selectable algorithm identities.
+  - CALO ablation variants are development/scientific-analysis variants stored
+    separately from the primary comparison registry; they are not added to the
+    23 normal experiment identities.
+  - Mathematical/local reference solvers used for formulation checks are not
+    entries in the primary optimizer comparison registry.
+
+
+===============================================================================
+8. LIVE SOURCE AUTHORITIES USED FOR THIS INVENTORY
+===============================================================================
+
+Algorithm identities and construction:
+  calo_rpd_studio/algorithms/registry.py
+
+Scientist-facing selection and TSH-CALO gate:
+  calo_rpd_studio/gui/panels/algorithms_panel.py
+
+Shared experiment validation and default selection:
+  calo_rpd_studio/experiments/experiment_config.py
+  calo_rpd_studio/experiments/experiment_runner.py
+
+CALO execution and canonical transition:
+  calo_rpd_studio/algorithms/calo/optimizer.py
+  calo_rpd_studio/algorithms/calo/transition_kernel.py
+  calo_rpd_studio/algorithms/calo/learning_operators.py
+  calo_rpd_studio/algorithms/calo/cognitive_state.py
+
+TSH-CALO execution and contracts:
+  calo_rpd_studio/algorithms/calo/tsh_calo_optimizer.py
+  calo_rpd_studio/algorithms/calo/tsh_calo_schema.py
+  calo_rpd_studio/algorithms/calo/tsh_calo_transition_kernel.py
+  calo_rpd_studio/algorithms/calo/tsh_calo_policy.py
+  calo_rpd_studio/algorithms/calo/topology_context.py
+  calo_rpd_studio/algorithms/calo/tsh_calo_runtime_context.py
+  calo_rpd_studio/algorithms/calo/tsh_calo_shield.py
+  calo_rpd_studio/algorithms/calo/tsh_calo_physics_repair.py
+  calo_rpd_studio/algorithms/calo/tsh_calo_population_schedule.py
+
+Common ORPD formulation authority:
+  calo_rpd_studio/orpd/problem.py
+  calo_rpd_studio/orpd/variable_decoder.py
+  calo_rpd_studio/orpd/objectives.py
+  calo_rpd_studio/orpd/constraints.py
+  calo_rpd_studio/orpd/feasibility_rules.py
+
+End of document.

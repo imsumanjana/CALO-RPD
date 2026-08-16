@@ -351,7 +351,7 @@ class ValidationAuditPanel(WorkspacePage):
         )
 
     def resume_task_by_id(self, task_id: str) -> bool:
-        """Resume one specific bulk-validation record selected by Resume Center."""
+        """Resume one specifically identified retained bulk-validation record."""
         item = next(
             (
                 candidate

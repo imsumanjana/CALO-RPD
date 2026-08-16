@@ -172,7 +172,7 @@ class CALOIntelligencePanel(ScrollablePage):
         self.policy_select_button.clicked.connect(self.select_policy_for_use)
         self.policy_activate_button.clicked.connect(self.activate_selected_policy)
         self.policy_delete_button.clicked.connect(self.delete_selected_model_files)
-        self.policy_refresh_button.clicked.connect(self.refresh_policy_library)
+        self.policy_refresh_button.clicked.connect(self._request_policy_library_refresh)
         for button in (
             self.policy_import_button,
             self.qualification_button,
@@ -292,6 +292,14 @@ class CALOIntelligencePanel(ScrollablePage):
         if self.model_library is not None:
             self.model_library.changed.connect(self.refresh_policy_library)
         self.refresh_policy_library()
+
+    def _request_policy_library_refresh(self) -> None:
+        """Force a current disk/database read without changing policy lifecycle state."""
+
+        if self.model_library is not None:
+            self.model_library.refresh()
+        else:
+            self.refresh_policy_library()
 
     def resizeEvent(self, event) -> None:  # noqa: N802 - Qt API
         super().resizeEvent(event)

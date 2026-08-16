@@ -2957,3 +2957,25 @@ Append timestamped entries below this line after each material action, validatio
 - The newest complete PASS produced after this ledger entry is the source-bound launch-authority
   bundle for one new corrected-source assessment. It does not constitute scientific evidence,
   model suitability advice, activation authority, broader Phase 6 closure, or release evidence.
+
+### 2026-08-16 - Live GUI refresh, Resume Center retirement, and minimal Home, validation pending
+
+- Results Refresh now reloads the experiment selector before refreshing the selected result rows.
+  The shared Policy/Saved training refresh explicitly clears cached file-integrity observations and
+  rescans disk, and opening a workspace invokes its applicable read-only source refresh rather than
+  merely revealing widget state retained since startup. These changes are intended to make current external
+  state visible without relaunching CALO-RPD Studio.
+- Resume Center is no longer constructed and has no Home, Workspace, or Policies command route.
+  Policy-training exact resume and finite extension remain in **Policies > Train policy**, where
+  selecting a discovered saved campaign still requires readiness and an explicit start. Historical
+  workspace key/index migration maps the retired destination conservatively to Overview without
+  shifting later workspace identities. The resume service and dormant compatibility module remain;
+  no retained task, checkpoint, experiment, validation, export, or model data was deleted.
+- Home now contains exactly **Overview**, **Open**, and **Save**. Startup unfinished-work disclosure
+  remains non-executing and directs users to the relevant workflow controls instead of the retired
+  center. No training, resume, extension, assessment, qualification, selection, activation,
+  experiment, protected-case, Docker, publication, or release workflow was executed.
+- Production source, deterministic unit/GUI contracts, current ledgers, and the Git-ignored Phase 6
+  validator were updated. Codex did not run tests, lint, format, compile, GUI, build, packaging, or
+  the validator. All earlier validation bundles predate this source; a fresh complete owner-run
+  Phase 6 validator directory is required.

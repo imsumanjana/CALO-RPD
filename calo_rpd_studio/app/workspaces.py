@@ -1,7 +1,7 @@
 """Stable workspace identities and versioned migration for CALO-RPD Studio.
 
-v6.2 persists stable workspace keys under schema 3.  Numerical indexes are treated only as
-legacy presentation data and are never authoritative scientific/navigation identities.
+Current CALO-RPD persists stable workspace keys under schema 4. Numerical indexes are treated only
+as legacy presentation data and are never authoritative scientific/navigation identities.
 """
 
 from __future__ import annotations
@@ -10,8 +10,8 @@ from dataclasses import dataclass
 from typing import Any
 
 
-WORKSPACE_SCHEMA_VERSION = 3
-WORKSPACE_LAYOUT_ID = "calo_rpd_v620_policy_first_layout"
+WORKSPACE_SCHEMA_VERSION = 4
+WORKSPACE_LAYOUT_ID = "calo_rpd_v120_resume_center_retired_layout"
 
 
 @dataclass(frozen=True, slots=True)
@@ -70,14 +70,13 @@ WORKSPACE_SPECS: tuple[WorkspaceSpec, ...] = (
     WorkspaceSpec("results", "Results", group="Evidence", icon="results"),
     WorkspaceSpec("validation", "Validation", group="Evidence", icon="validation"),
     WorkspaceSpec("publication", "Publication", group="Evidence", icon="publication"),
-    WorkspaceSpec("resume_center", "Resume Center", group="Home", icon="resume"),
     WorkspaceSpec("settings", "Application Settings", group="System", icon="settings"),
     WorkspaceSpec("benchmark", "Benchmark", group="Evidence", icon="benchmark"),
 )
 
 WORKSPACE_GROUP_ORDER = ("Home", "Model", "Study", "Evidence", "System")
 WORKSPACE_GROUP_KEYS = {
-    "Home": ("dashboard", "resume_center"),
+    "Home": ("dashboard",),
     "Model": ("calo_intelligence", "power_system", "orpd", "algorithms", "scenarios"),
     "Study": ("portfolio", "experiment", "live_optimization"),
     "Evidence": ("results", "statistics", "validation", "benchmark", "publication"),
@@ -117,7 +116,28 @@ LEGACY_V59_INDEX_TO_KEY = {
     10: "results",
     11: "validation",
     12: "publication",
-    13: "resume_center",
+    13: "dashboard",
+    14: "settings",
+    15: "benchmark",
+}
+
+# v6.2/v12 schema-2 and schema-3 positional layout. Resume Center was retired from the current
+# shell; its historical index restores conservatively to Overview rather than shifting to Settings.
+LEGACY_V62_INDEX_TO_KEY = {
+    0: "dashboard",
+    1: "calo_intelligence",
+    2: "power_system",
+    3: "orpd",
+    4: "algorithms",
+    5: "portfolio",
+    6: "scenarios",
+    7: "experiment",
+    8: "live_optimization",
+    9: "statistics",
+    10: "results",
+    11: "validation",
+    12: "publication",
+    13: "dashboard",
     14: "settings",
     15: "benchmark",
 }
@@ -133,6 +153,7 @@ WORKSPACE_KEY_ALIASES = {
     "live": "live_optimization",
     "audit": "validation",
     "publication_export": "publication",
+    "resume_center": "dashboard",
 }
 
 
@@ -154,15 +175,21 @@ def workspace_index_for_key(key: str) -> int:
 def migrate_legacy_workspace_index(index: int, *, source_schema: int | None = None) -> str:
     """Translate a persisted positional workspace to a stable key.
 
-    Schema 2+ positional values refer to the reordered v6 presentation stack.  Schema 0/1 values
-    refer to the v5.9 positional layout.  Schema 3 never needs an index for authoritative restore.
+    Schema 2/3 positional values refer to the former 16-workspace v6 presentation stack. Schema 0/1
+    values refer to the v5.9 positional layout. Schema 4 never needs an index for authoritative
+    restore, but accepts one as compatibility-only data.
     """
     try:
         value = int(index)
     except (TypeError, ValueError) as exc:
         raise KeyError(f"Invalid legacy workspace index: {index!r}") from exc
-    if source_schema is not None and int(source_schema) >= 2:
+    if source_schema is not None and int(source_schema) >= WORKSPACE_SCHEMA_VERSION:
         return workspace_key_for_index(value)
+    if source_schema is not None and int(source_schema) >= 2:
+        try:
+            return LEGACY_V62_INDEX_TO_KEY[value]
+        except KeyError as exc:
+            raise KeyError(f"Unknown legacy v6.2 workspace index: {value}") from exc
     try:
         return LEGACY_V59_INDEX_TO_KEY[value]
     except KeyError as exc:

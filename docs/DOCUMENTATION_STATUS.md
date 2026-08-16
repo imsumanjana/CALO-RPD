@@ -110,11 +110,14 @@ resume/extension. The ordinary UI no longer exposes Add to path, the managed def
 template, or Import settings. This source addition awaits the same focused owner validator.
 
 The latest Phase 6 policy/GUI consolidation removes the dormant embedded training implementation,
-routes policy-training resume records only to the independent prefill/check/explicit-start state
-machine, keeps one policy import, replaces raw Resume Center JSON with a concise summary, and uses
-Activity Logs for technical exception details. Ribbon categories now use exclusive styled buttons
-instead of a native category tab painter. This source is unvalidated until the owner runs the
-current ignored Phase 6 validator; the earlier 19/19 bundle applies only to its recorded source.
+keeps policy-training resume and finite extension inside the independent Train policy
+check/explicit-start state machine, keeps one policy import, and uses Activity Logs for technical
+exception details. Resume Center is retired from the constructed workspace and command routes; Home
+contains only Overview, Open, and Save. Workspace entry now reloads applicable live read-only state,
+Results Refresh reloads its experiment selector, and the shared Policy/Saved training refresh invalidates its
+file-integrity cache. Ribbon categories use exclusive styled buttons instead of a native category tab
+painter. This source is unvalidated until the owner runs the current ignored Phase 6 validator; prior
+bundles apply only to their recorded source.
 
 Policy Library qualification is now one explicit `Qualify policy` transaction. It automatically
 preflights the candidate, freezes the current non-ignored worktree into a separate clean deterministic

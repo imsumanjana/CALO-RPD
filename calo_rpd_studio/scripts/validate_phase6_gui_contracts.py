@@ -38,7 +38,6 @@ PANEL_KEYS = (
     "results",
     "validation",
     "publication",
-    "resume_center",
     "settings",
     "benchmark",
 )
@@ -201,6 +200,15 @@ def validate(output: Path, *, platform: str) -> dict:
         raise AssertionError("Phase 6 command IDs are not unique")
     if {"view.context", "view.ribbon"}.intersection(command_ids):
         raise AssertionError("Input/ribbon hide commands remain exposed")
+    home_labels = tuple(
+        item.label for item in window.command_registry.specs if item.category == "Home"
+    )
+    if home_labels != ("Overview", "Open", "Save"):
+        raise AssertionError(f"Home contains unexpected commands: {home_labels!r}")
+    if "resume_center" in window.pages_by_key or any(
+        item.workspace == "resume_center" for item in window.command_registry.specs
+    ):
+        raise AssertionError("Resume Center remains reachable in the current GUI")
     if window.context_dock.accessibleName() != "Contextual input pane":
         raise AssertionError("Context dock accessible identity is missing")
     if window.context_dock.isHidden() or window.context_dock.toggleViewAction().isEnabled():
@@ -236,6 +244,50 @@ def validate(output: Path, *, platform: str) -> dict:
         raise AssertionError("Unexpected document opened during construction")
     if state.policy_training_active or state.task_status.busy:
         raise AssertionError("GUI construction performed policy or foreground work")
+
+    dashboard = window.pages_by_key["dashboard"]
+    original_dashboard_refresh = dashboard.refresh
+    dashboard_refreshes = []
+    try:
+        dashboard.refresh = lambda: dashboard_refreshes.append("dashboard")
+        window._set_workspace("dashboard")
+    finally:
+        dashboard.refresh = original_dashboard_refresh
+    if dashboard_refreshes != ["dashboard"]:
+        raise AssertionError("Opening a workspace did not reload its applicable live source state")
+
+    library = window.training_model_library
+    library._candidate_integrity_cache[("synthetic-stale-observation",)] = ("candidate", "", None)
+    window.pages_by_key["calo_intelligence"].policy_refresh_button.click()
+    application.processEvents()
+    if library._candidate_integrity_cache:
+        raise AssertionError("Policy/Saved training refresh retained stale integrity observations")
+
+    results_panel = window.pages_by_key["results"]
+    original_list_experiments = state.database.list_experiments
+    original_list_runs = state.database.list_runs
+    try:
+        state.database.list_experiments = lambda: [
+            {
+                "id": "synthetic-external-refresh",
+                "created_at": "2026-08-16T00:00:00Z",
+                "name": "Synthetic external result",
+            }
+        ]
+        state.database.list_runs = lambda *_args, **_kwargs: []
+        refresh_button = next(
+            button
+            for button in results_panel.findChildren(QPushButton)
+            if button.text() == "Refresh"
+        )
+        refresh_button.click()
+        application.processEvents()
+        if results_panel.experiment.findData("synthetic-external-refresh") < 0:
+            raise AssertionError("Results Refresh did not reload the experiment selector")
+    finally:
+        state.database.list_experiments = original_list_experiments
+        state.database.list_runs = original_list_runs
+        results_panel.refresh_experiments()
 
     light = _save_image(window, output / "phase6-light.png")
     light_checkbox_evidence = _checkbox_border_evidence(application, output, "light")

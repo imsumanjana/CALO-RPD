@@ -1426,7 +1426,8 @@ class ExperimentManagerPanel(WorkspacePage):
         self._set_running(False)
         self._refresh_experiment_evolution()
         self.status.setText(
-            f"Experiment {experiment_id} is paused. Completed runs remain stored; Resume Center will schedule only unfinished jobs."
+            f"Experiment {experiment_id} is paused. Completed runs remain stored; reopen its saved "
+            "experiment workspace to continue compatible unfinished jobs."
         )
 
     def on_failed(self, message: str) -> None:

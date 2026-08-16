@@ -485,7 +485,7 @@ class DashboardPanel(WorkspacePage):
         try:
             unfinished = tuple(self.state.resume_service.unfinished())
             self.recent_labels["Resumable work"].setText(
-                f"{len(unfinished)} item(s) available in Resume Center"
+                f"{len(unfinished)} unfinished item(s) retained for the relevant workflow"
             )
         except Exception:
             self.recent_labels["Resumable work"].setText("Resume summary unavailable")

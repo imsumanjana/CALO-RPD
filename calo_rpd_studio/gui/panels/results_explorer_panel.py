@@ -67,7 +67,7 @@ class ResultsExplorerPanel(WorkspacePage):
         self.validation.addItem("All validation states", "")
         self.validation.addItems(["unverified", "verified", "failed"])
         refresh = QPushButton("Refresh")
-        refresh.clicked.connect(self.refresh)
+        refresh.clicked.connect(self.refresh_experiments)
         manage_history = QPushButton("Manage history")
         manage_history.clicked.connect(self._manage_history)
         self.restore_workspace_button = QPushButton("Open experiment workspace")

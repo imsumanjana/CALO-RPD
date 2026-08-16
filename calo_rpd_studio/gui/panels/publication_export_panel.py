@@ -250,7 +250,7 @@ class PublicationExportPanel(WorkspacePage):
         return "", None
 
     def resume_task_by_id(self, task_id: str) -> bool:
-        """Resume the exact portfolio-export record selected by Resume Center."""
+        """Resume one specifically identified retained portfolio-export record."""
         item = next(
             (
                 candidate

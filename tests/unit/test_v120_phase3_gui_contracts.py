@@ -435,7 +435,6 @@ def test_phase3_grouping_preserves_all_stable_workspace_keys():
         "results",
         "validation",
         "publication",
-        "resume_center",
         "settings",
         "benchmark",
     )
@@ -445,7 +444,7 @@ def test_phase3_grouping_preserves_all_stable_workspace_keys():
         for group, members in grouped_workspace_specs()
     }
     assert groups == {
-        "Home": ("dashboard", "resume_center"),
+        "Home": ("dashboard",),
         "Model": (
             "calo_intelligence",
             "power_system",
@@ -465,7 +464,19 @@ def test_historical_workspace_restore_remains_key_authoritative():
     )
     assert migrated["workspace_key"] == "results"
     assert report.target_key == "results"
-    assert len(WORKSPACE_SPECS) == 16
+    assert len(WORKSPACE_SPECS) == 15
+
+    retired, retired_report = migrate_workspace_ui(
+        {"workspace_schema_version": 3, "workspace_key": "resume_center", "workspace_index": 13}
+    )
+    assert retired["workspace_key"] == "dashboard"
+    assert retired_report.target_key == "dashboard"
+
+    positional, positional_report = migrate_workspace_ui(
+        {"workspace_schema_version": 3, "workspace_index": 14}
+    )
+    assert positional["workspace_key"] == "settings"
+    assert positional_report.target_key == "settings"
 
 
 def test_dashboard_moves_study_form_out_of_visible_tabs():
