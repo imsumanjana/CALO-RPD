@@ -19,6 +19,7 @@ from PyQt6.QtWidgets import (
     QLineEdit,
     QMessageBox,
     QPushButton,
+    QScrollArea,
     QSizePolicy,
     QTableWidget,
     QTableWidgetItem,
@@ -239,6 +240,15 @@ class CALOIntelligencePanel(ScrollablePage):
         )
         self.feasibility_table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         self.feasibility_table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
+        self.feasibility_table.setHorizontalScrollBarPolicy(
+            Qt.ScrollBarPolicy.ScrollBarAlwaysOff
+        )
+        self.feasibility_table.setVerticalScrollBarPolicy(
+            Qt.ScrollBarPolicy.ScrollBarAlwaysOff
+        )
+        self.feasibility_table.setSizePolicy(
+            QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed
+        )
         self.feasibility_table.verticalHeader().setVisible(False)
         self.feasibility_table.horizontalHeader().setSectionResizeMode(
             0, QHeaderView.ResizeMode.ResizeToContents
@@ -276,6 +286,13 @@ class CALOIntelligencePanel(ScrollablePage):
         )
         self.influence_table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         self.influence_table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
+        self.influence_table.setHorizontalScrollBarPolicy(
+            Qt.ScrollBarPolicy.ScrollBarAlwaysOff
+        )
+        self.influence_table.setVerticalScrollBarPolicy(
+            Qt.ScrollBarPolicy.ScrollBarAlwaysOff
+        )
+        self.influence_table.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
         self.influence_table.verticalHeader().setVisible(False)
         for column in (0, 1, 2, 3):
             self.influence_table.horizontalHeader().setSectionResizeMode(
@@ -287,6 +304,8 @@ class CALOIntelligencePanel(ScrollablePage):
         influence_layout.addWidget(self.influence_table)
         layout.addWidget(influence)
         layout.addStretch(1)
+        self._resize_evidence_table_to_entries(self.feasibility_table)
+        self._resize_evidence_table_to_entries(self.influence_table)
 
         self.state.policy_state_changed.connect(lambda _status: self._update_policy_gate_state())
         if self.model_library is not None:
@@ -454,6 +473,10 @@ class CALOIntelligencePanel(ScrollablePage):
             self._select_row_key(selected_key)
         elif self._policy_rows:
             self.policy_table.selectRow(0)
+        # Rebuilding a QTableWidget can preserve the current row without emitting a
+        # selection change. Evidence is read from disk/database, so a refresh must
+        # recompute the detail blocks even when the same policy remains selected.
+        self._policy_selection_changed()
         self._update_policy_gate_state()
         self.state.notify_policy_state_changed()
 
@@ -473,6 +496,18 @@ class CALOIntelligencePanel(ScrollablePage):
         if self.widget() is not None:
             self.widget().updateGeometry()
         self.updateGeometry()
+        self._queue_external_height_sync()
+
+    def _resize_evidence_table_to_entries(self, table: QTableWidget) -> None:
+        """Expose every retained evidence row through the page's single scroll owner."""
+
+        table.resizeRowsToContents()
+        header = table.horizontalHeader()
+        header_height = max(header.height(), header.sizeHint().height())
+        body_height = sum(table.rowHeight(row) for row in range(table.rowCount()))
+        frame_height = table.frameWidth() * 2
+        table.setFixedHeight(header_height + body_height + frame_height)
+        table.updateGeometry()
         self._queue_external_height_sync()
 
     @staticmethod
@@ -514,6 +549,10 @@ class CALOIntelligencePanel(ScrollablePage):
             )
             if getattr(registered_policy, "id", "") == policy_id:
                 self.policy_table.selectRow(row)
+                # selectRow() is silent when the row is already current. Assessment
+                # admission commonly updates that same row, so refresh its evidence
+                # explicitly instead of waiting for a relaunch or a different click.
+                self._policy_selection_changed()
                 return
 
     def _policy_selection_changed(self) -> None:
@@ -643,21 +682,31 @@ class CALOIntelligencePanel(ScrollablePage):
         return None
 
     @staticmethod
-    def _parsed_training_plan(campaign: dict | None):
+    def _parsed_training_plan_result(
+        campaign: dict | None,
+    ) -> tuple[object | None, str]:
         if not campaign:
-            return None
+            return None, "no completed campaign matches the selected checkpoint"
         path = Path(str(campaign.get("plan", ""))).expanduser()
+        if not str(campaign.get("plan", "")).strip():
+            return None, "the completed campaign has no training-plan path"
         try:
             payload = json.loads(path.read_text(encoding="utf-8"))
             if not isinstance(payload, dict):
-                return None
-            return parse_tsh_calo_extension_plan(payload)
-        except (OSError, json.JSONDecodeError, KeyError, TypeError, ValueError):
-            return None
+                return None, "the authenticated training plan is not a JSON object"
+            return parse_tsh_calo_extension_plan(payload), ""
+        except (OSError, json.JSONDecodeError, KeyError, TypeError, ValueError) as exc:
+            return None, str(exc) or type(exc).__name__
+
+    @classmethod
+    def _parsed_training_plan(cls, campaign: dict | None):
+        return cls._parsed_training_plan_result(campaign)[0]
 
     def _refresh_feasibility_and_influence(self) -> None:
         self.feasibility_table.setRowCount(0)
         self.influence_table.setRowCount(0)
+        self._resize_evidence_table_to_entries(self.feasibility_table)
+        self._resize_evidence_table_to_entries(self.influence_table)
         policy = self._selected_policy()
         if policy is None:
             self.feasibility_status.setText(
@@ -748,12 +797,16 @@ class CALOIntelligencePanel(ScrollablePage):
                 f"{float(ratings.get('overall_feasibility_score', 0.0)):.1f}/100 · "
                 f"scientist decision: {'selected' if assessment.get('scientist_selected') else 'not decided'}."
             )
+            self._resize_evidence_table_to_entries(self.feasibility_table)
 
         selected_campaign = self._training_campaign_for_policy(policy)
-        selected_plan = self._parsed_training_plan(selected_campaign)
+        selected_plan, selected_plan_error = self._parsed_training_plan_result(
+            selected_campaign
+        )
         if selected_plan is None:
             self.influence_status.setText(
-                "The selected model's authenticated training plan is unavailable; parameter influence cannot be estimated."
+                "The selected model's authenticated training plan is unavailable; parameter "
+                f"influence cannot be estimated ({selected_plan_error})."
             )
             return
         cohort: list[dict] = []
@@ -793,11 +846,18 @@ class CALOIntelligencePanel(ScrollablePage):
                         "ratings": dict(retained.get("feasibility_assessment", {}) or {}),
                     }
                 )
-        influence = build_training_parameter_influence(
-            selected_candidate_sha256=policy.sha256,
-            selected_plan=selected_plan,
-            cohort=cohort,
-        )
+        try:
+            influence = build_training_parameter_influence(
+                selected_candidate_sha256=policy.sha256,
+                selected_plan=selected_plan,
+                cohort=cohort,
+            )
+        except (KeyError, TypeError, ValueError) as exc:
+            self.influence_status.setText(
+                "Training values were found, but the read-only influence report could not be "
+                f"constructed ({str(exc) or type(exc).__name__}). No parameter was changed."
+            )
+            return
         parameters = list(influence.get("parameters", []))
         self.influence_table.setRowCount(len(parameters))
         limitations = "\n".join(str(item) for item in influence.get("limitations", []))
@@ -828,12 +888,24 @@ class CALOIntelligencePanel(ScrollablePage):
                 cell = QTableWidgetItem(str(value))
                 cell.setToolTip(tooltip)
                 self.influence_table.setItem(row, column, cell)
+        self._resize_evidence_table_to_entries(self.influence_table)
         self.influence_status.setText(
             f"Selected-model training values are shown. Comparative evidence: "
             f"{influence.get('evidence_classification', 'unavailable').replace('_', ' ')} · "
             f"{influence.get('compatible_campaign_count', 0)} compatible assessed campaigns. "
             "No parameter is changed automatically."
         )
+
+    def _reveal_influence_analysis(self) -> None:
+        """Bring the completed assessment's decision-support block into the visible page."""
+
+        ancestor = self.parentWidget()
+        while ancestor is not None:
+            if isinstance(ancestor, QScrollArea) and ancestor is not self:
+                ancestor.ensureWidgetVisible(self.influence_group, 24, 24)
+                return
+            ancestor = ancestor.parentWidget()
+        self.ensureWidgetVisible(self.influence_group, 24, 24)
 
     def _qualification_candidate_blocker(self, policy) -> str:
         if policy is None:
@@ -1789,6 +1861,7 @@ class CALOIntelligencePanel(ScrollablePage):
             "No pass/fail recommendation was made. Review the two evidence blocks and explicitly "
             "select the model if you decide it should become eligible for activation.",
         )
+        QTimer.singleShot(0, self._reveal_influence_analysis)
 
     def _record_qualification_rejection(self, policy_name: str, reason: str) -> None:
         self.state.task_status.finish("Feasibility evidence was not admissible")

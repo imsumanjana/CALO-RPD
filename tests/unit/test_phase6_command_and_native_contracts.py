@@ -631,6 +631,10 @@ def test_policy_training_process_actions_are_visible_in_the_input_pane():
     assert "admit_feasibility_assessment" in intelligence
     assert "select_assessed_policy" in intelligence
     assert "build_training_parameter_influence" in intelligence
+    assert "self._policy_selection_changed()" in intelligence
+    assert "_parsed_training_plan_result" in intelligence
+    assert "_resize_evidence_table_to_entries" in intelligence
+    assert "_reveal_influence_analysis" in intelligence
     assert "build_automatic_component_ablation_plan" not in intelligence
     assert "build_automatic_formal_qualification_plan" in intelligence
     assert "automatic_qualification_workflow_payload" in intelligence

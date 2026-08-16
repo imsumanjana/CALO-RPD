@@ -215,7 +215,9 @@ def test_main_preview_owns_long_workspace_vertical_scrolling(qtbot, tmp_path, mo
         qtbot.waitUntil(lambda item=page: item.minimumHeight() >= item.widget().sizeHint().height())
 
 
-def test_main_preview_can_scroll_to_dynamic_governing_policy_bottom(qtbot, tmp_path, monkeypatch):
+def test_main_preview_can_scroll_to_dynamic_policy_evidence_bottom(
+    qtbot, tmp_path, monkeypatch
+):
     from PyQt6.QtCore import QPoint
     from PyQt6.QtWidgets import QTableWidgetItem
     import torch
@@ -281,12 +283,18 @@ def test_main_preview_can_scroll_to_dynamic_governing_policy_bottom(qtbot, tmp_p
     assert intelligence._selected_policy().id == registered[1].id
     assert scroll.verticalScrollBar().value() == 0
 
+    intelligence._reveal_influence_analysis()
+    qtbot.waitUntil(lambda: scroll.verticalScrollBar().value() > 0)
+    influence_top = intelligence.influence_group.mapTo(scroll.viewport(), QPoint(0, 0)).y()
+    assert influence_top < scroll.viewport().height()
+    scroll.verticalScrollBar().setValue(0)
+
     scroll.verticalScrollBar().setValue(scroll.verticalScrollBar().maximum())
     qtbot.waitUntil(
         lambda: (
-            intelligence.apply_policy_button.mapTo(
+            intelligence.influence_group.mapTo(
                 scroll.viewport(),
-                QPoint(0, intelligence.apply_policy_button.height()),
+                QPoint(0, intelligence.influence_group.height()),
             ).y()
             <= scroll.viewport().height()
         )
@@ -434,11 +442,102 @@ def test_policy_and_saved_training_refresh_invalidates_shared_disk_cache(
 ):
     _state, window = _window(qtbot, tmp_path, monkeypatch)
     library = window.training_model_library
+    policy_center = window.pages_by_key["calo_intelligence"]
     library._candidate_integrity_cache[("stale",)] = ("candidate", "", None)
+    evidence_refreshes = []
+    monkeypatch.setattr(
+        policy_center,
+        "_policy_selection_changed",
+        lambda: evidence_refreshes.append(policy_center.policy_table.currentRow()),
+    )
 
-    window.pages_by_key["calo_intelligence"].policy_refresh_button.click()
+    policy_center.policy_refresh_button.click()
 
     assert library._candidate_integrity_cache == {}
+    assert evidence_refreshes
+
+
+def test_assessed_policy_shows_immutable_training_values_without_comparative_claim(
+    qtbot, tmp_path, monkeypatch
+):
+    from types import SimpleNamespace
+
+    from PyQt6.QtCore import Qt
+
+    import calo_rpd_studio.gui.panels.calo_intelligence_panel as intelligence_module
+
+    state, window = _window(qtbot, tmp_path, monkeypatch)
+    policy_center = window.pages_by_key["calo_intelligence"]
+    policy = SimpleNamespace(
+        id="assessed-policy",
+        name="assessed-policy",
+        checkpoint_path=str(tmp_path / "ensemble.candidate.pt"),
+        sha256="a" * 64,
+    )
+    training_plan = _training_plan(tmp_path)
+    monkeypatch.setattr(policy_center, "_selected_policy", lambda: policy)
+    monkeypatch.setattr(
+        policy_center,
+        "_training_campaign_for_policy",
+        lambda _policy: {"plan": str(training_plan)},
+    )
+    monkeypatch.setattr(
+        state.policy_registry,
+        "feasibility_assessment_summaries",
+        lambda *_args, **_kwargs: [
+            {
+                "assessment_id": "assessment-1",
+                "scientist_selected": False,
+                "feasibility_assessment": {
+                    "overall_feasibility_score": 50.0,
+                    "candidate_cell_count": 1,
+                    "overall_ratings": {},
+                    "case_ratings": [],
+                },
+            }
+        ],
+    )
+    monkeypatch.setattr(
+        intelligence_module,
+        "build_training_parameter_influence",
+        lambda **_kwargs: {
+            "evidence_classification": "insufficient_comparative_evidence",
+            "compatible_campaign_count": 1,
+            "limitations": ["Observational evidence is not a causal effect."],
+            "parameters": [
+                {
+                    "parameter": "training.learning_rate",
+                    "selected_value": 0.0003,
+                    "standardized_effect": None,
+                    "direction": "not_estimated",
+                    "affected_rating": "not_estimated",
+                    "evidence_classification": "insufficient_comparative_evidence",
+                    "observations": 1,
+                    "distinct_values": [0.0003],
+                    "rating_effects": [],
+                }
+            ],
+        },
+    )
+
+    policy_center._refresh_feasibility_and_influence()
+
+    assert policy_center.influence_table.rowCount() == 1
+    assert policy_center.influence_table.item(0, 0).text() == "training.learning_rate"
+    assert policy_center.influence_table.item(0, 2).text() == "Not estimated"
+    assert "insufficient comparative evidence" in policy_center.influence_status.text()
+    assert policy_center.influence_table.verticalScrollBarPolicy() == (
+        Qt.ScrollBarPolicy.ScrollBarAlwaysOff
+    )
+    expected_height = (
+        max(
+            policy_center.influence_table.horizontalHeader().height(),
+            policy_center.influence_table.horizontalHeader().sizeHint().height(),
+        )
+        + policy_center.influence_table.rowHeight(0)
+        + policy_center.influence_table.frameWidth() * 2
+    )
+    assert policy_center.influence_table.height() == expected_height
 
 
 def test_opening_workspace_reloads_its_live_source_state(qtbot, tmp_path, monkeypatch):

@@ -1283,3 +1283,15 @@ index meanings. No resumable data or lifecycle authority is removed. Source and 
 are implemented but unexecuted, so this engineering gate remains open pending a fresh complete
 owner-run Phase 6 validator. Scientific, lifecycle, qualification, protected-case, release, and
 human-acceptance gates remain separate.
+
+### 2026-08-16 - Post-assessment Influence presentation gate open
+
+Live state inspection confirmed that the completed campaign, registered candidate, and admitted
+assessment identities are present and path-aligned. Current GUI source now forces evidence-detail
+recomputation after a Policy Library rebuild or same-row policy-id reselection, gives authenticated
+plan/report failures explicit non-mutating status, sizes evidence rows into the outer page scroll
+range, and reveals Influence after admission. Synthetic contracts cover the one-campaign
+insufficient-comparative-evidence case and full Influence-block reachability. No scientific or
+lifecycle semantics changed and no validation command was executed. This engineering gate remains
+open pending a fresh complete focused validator and the superseding Phase 6 validator; neither run
+would establish model suitability, qualification, activation authority, or release readiness.

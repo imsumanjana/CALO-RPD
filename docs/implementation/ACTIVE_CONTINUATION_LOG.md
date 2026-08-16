@@ -2979,3 +2979,23 @@ Append timestamped entries below this line after each material action, validatio
   validator were updated. Codex did not run tests, lint, format, compile, GUI, build, packaging, or
   the validator. All earlier validation bundles predate this source; a fresh complete owner-run
   Phase 6 validator directory is required.
+
+### 2026-08-16 - Completed-assessment Influence visibility correction, validation pending
+
+- Read-only inspection of the live application state found one completed training campaign whose
+  ensemble candidate path exactly matches the assessed, scientist-selected, active registry record.
+  The assessment admission exists; this was not diagnosed as missing training or failed admission.
+- Policy Library rebuilds now recompute the selected row's Feasibility and Influence details even
+  when Qt preserves the same current row and emits no selection-change signal. Explicit policy-id
+  reselection also refreshes those details, closing the completed-admission same-row handoff.
+- Feasibility and Influence tables expose all rows through the page's outer preview scrollbar and
+  update the external page height after row changes. After successful assessment admission, the GUI
+  reveals the Influence block. A rejected/missing authenticated training plan or report-construction
+  error is now stated in the Influence status instead of leaving an unexplained blank table.
+- Synthetic GUI/static/offscreen contracts now cover same-row refresh, one-campaign immutable
+  training-value display with truthful insufficient-comparative-evidence wording, evidence-table
+  height, and reachability of the final Influence block. No rating, assessment, training, policy
+  selection/activation, experiment, or scientific semantics changed.
+- Codex performed read-only live metadata/database inspection only. No test, lint, format, compile,
+  GUI, validator, training, assessment, qualification, protected-case, Docker, publication, or
+  release command was run. Fresh owner-run focused and Phase 6 validation are required.

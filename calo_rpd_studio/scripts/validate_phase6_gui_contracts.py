@@ -500,6 +500,19 @@ def validate(output: Path, *, platform: str) -> dict:
         raise AssertionError("The Policy library height does not match its visible entries")
     if intelligence.path.sizePolicy().horizontalPolicy() != QSizePolicy.Policy.Expanding:
         raise AssertionError("The governing-policy field does not use the full available width")
+    for evidence_table in (intelligence.feasibility_table, intelligence.influence_table):
+        expected_evidence_height = (
+            max(
+                evidence_table.horizontalHeader().height(),
+                evidence_table.horizontalHeader().sizeHint().height(),
+            )
+            + sum(
+                evidence_table.rowHeight(row) for row in range(evidence_table.rowCount())
+            )
+            + evidence_table.frameWidth() * 2
+        )
+        if evidence_table.height() != expected_evidence_height:
+            raise AssertionError("A policy evidence table is clipped outside the page scroll range")
     content = intelligence.widget()
     margins = content.layout().contentsMargins()
     usable_width = content.width() - margins.left() - margins.right()
@@ -541,18 +554,26 @@ def validate(output: Path, *, platform: str) -> dict:
     application.processEvents()
     if preview_scroll.verticalScrollBar().value() != 0:
         raise AssertionError("Policy selection moved the main preview away from its scroll position")
+    intelligence._reveal_influence_analysis()
+    application.processEvents()
+    influence_top = intelligence.influence_group.mapTo(
+        preview_scroll.viewport(), QPoint(0, 0)
+    ).y()
+    if influence_top >= preview_scroll.viewport().height():
+        raise AssertionError("Completed-assessment Influence reveal did not reach the evidence block")
+    preview_scroll.verticalScrollBar().setValue(0)
     preview_scroll.verticalScrollBar().setValue(
         preview_scroll.verticalScrollBar().maximum()
     )
     application.processEvents()
-    governing_bottom = intelligence.apply_policy_button.mapTo(
+    evidence_bottom = intelligence.influence_group.mapTo(
         preview_scroll.viewport(),
-        QPoint(0, intelligence.apply_policy_button.height()),
+        QPoint(0, intelligence.influence_group.height()),
     ).y()
-    if governing_bottom > preview_scroll.viewport().height():
-        raise AssertionError("The bottom of Governing policy is unreachable above Activity")
+    if evidence_bottom > preview_scroll.viewport().height():
+        raise AssertionError("The bottom of policy Influence analysis is unreachable above Activity")
     if preview_scroll.verticalScrollBar().value() != preview_scroll.verticalScrollBar().maximum():
-        raise AssertionError("The main preview could not reach the complete Governing policy block")
+        raise AssertionError("The main preview could not reach the complete policy evidence page")
     preview_scroll.verticalScrollBar().setValue(0)
 
     window.ribbon.set_compact(True)

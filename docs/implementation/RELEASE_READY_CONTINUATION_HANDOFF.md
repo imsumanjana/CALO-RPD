@@ -1686,3 +1686,19 @@ superseded by the stage-neutral compatibility and qualification boundary on 2026
   `& .\validation\Validate-Phase6.ps1 -PythonExecutable ".\.venv\Scripts\python.exe"`
 - This coding change and its future engineering validation cannot qualify, select, activate, bind,
   resume, extend, or otherwise operate a real policy and cannot establish release readiness.
+
+### Completed-assessment Influence visibility follow-up
+
+- Live read-only evidence shows that `tsh-calo-c12cd97b37dc` has a completed authenticated training
+  campaign and matching registered candidate, and that its feasibility assessment is admitted. The
+  correction therefore targets GUI refresh/visibility rather than changing or repeating assessment.
+- A Policy Library rebuild now refreshes the selected evidence blocks even when the current row does
+  not change. Successful admission reselects and refreshes the exact policy, then reveals the
+  Influence block. Feasibility/Influence row heights propagate into the single outer page scroll.
+- The selected campaign's immutable training values are shown even when there are too few comparable
+  assessed campaigns to estimate an association; that case remains explicitly classified as
+  insufficient comparative evidence. Plan/report errors are visible and perform no mutation.
+- Updated source and synthetic contracts are unexecuted. Run the focused validator first and return
+  its complete new `validation\logs\feasibility-influence-*` directory, then run the complete Phase 6
+  validator because the prior Phase 6 evidence also predates this source. Neither validator runs a
+  real assessment or establishes scientific/release evidence.
