@@ -1301,8 +1301,11 @@ would establish model suitability, qualification, activation authority, or relea
 The ribbon now begins Home then Algorithms, and Algorithms, CALO Intelligence, and CALO Settings are
 available before setup completion. Navigation and configuration remain non-executing. TSH-CALO
 experiment selection remains policy-gated, while Portfolio explicitly retains both algorithm and
-ORPD prerequisites so early access cannot bypass governing-policy or power-system setup. The guided
-setup sequence now also begins with Algorithms and retains that configuration through later setup.
+ORPD prerequisites for application/execution. After a later Workspace/individual implementation,
+the navigation gate was corrected so a submitted algorithm stage exposes the Portfolio, Study, and
+Individual preparation pages immediately; page-level Apply, Audit, Stage, controller, and Run gates
+still prevent bypass of governing-policy, power-system, ORPD, portfolio, and scenario requirements.
+The guided setup sequence now also begins with Algorithms and retains that configuration through later setup.
 Synthetic source, GUI, and offscreen contracts plus ignored Phase 6 validator schema v3 were
 updated. No check was executed; this engineering gate remains open pending a complete owner-run
 Phase 6 validator and does not establish scientific qualification, activation authority, or release

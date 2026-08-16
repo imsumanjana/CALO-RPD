@@ -319,12 +319,6 @@ class WorkflowManager(QObject):
         if key == "portfolio":
             if not self._setup_complete("algorithms"):
                 return "locked", "Submit the algorithm selection first."
-            if not self._setup_complete("orpd"):
-                return (
-                    "locked",
-                    "Complete the governing policy, power-system validation, and ORPD formulation "
-                    "before applying the evidence portfolio.",
-                )
             return (
                 ("completed", "Evidence portfolio intent planned.")
                 if self._setup_complete("portfolio")
@@ -339,8 +333,8 @@ class WorkflowManager(QObject):
                 else ("recommended", descriptors["scenarios"].instruction)
             )
         if key == "experiment":
-            if not self._setup_complete("scenarios"):
-                return "locked", "Apply the final operating/robust scenario configuration first."
+            if not self._setup_complete("algorithms"):
+                return "locked", "Submit the algorithm selection first."
             return (
                 ("completed", "The portfolio experiment is complete.")
                 if self.experiment_completed

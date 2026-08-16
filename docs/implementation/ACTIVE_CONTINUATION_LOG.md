@@ -3305,3 +3305,19 @@ Append timestamped entries below this line after each material action, validatio
 - The tracked plan and this continuation ledger were updated after the v21 bundle. The ignored
   validator advanced to schema v22 solely for a final source-bound confirmation of that status
   update; a complete source-stable v22 PASS may be accepted without another tracked ledger edit.
+
+## 2026-08-17 - Post-submission navigation correction and schema v23
+
+- A native launch showed a valid persisted algorithm stage while Portfolio, Workspace Study, and
+  Individual experiment remained disabled. The stage transaction was correct; the shared workflow
+  state still carried pre-plan locks that required ORPD for Portfolio navigation and scenarios for
+  Study/Individual navigation.
+- `WorkflowManager.workspace_state_key` now uses the submitted algorithm stage as the navigation
+  prerequisite for both preparation paths. Reset Selection removes the stage and locks all three
+  commands again. This changes page access only: governing-policy, power-system, ORPD, portfolio,
+  scenario, Apply, Audit, Stage, singleton-controller, and Run gates are unchanged.
+- Focused workflow and live-ribbon regressions passed two selected tests after the correction. The
+  ignored validator advanced to schema v23, includes both regression files, and requires a fresh
+  complete source-stable run. A complete schema-v23 PASS may be accepted without another tracked
+  ledger edit. It cannot establish scientific qualification, policy authority, hardware/container
+  evidence, human acceptance, publication authorization, or release readiness.

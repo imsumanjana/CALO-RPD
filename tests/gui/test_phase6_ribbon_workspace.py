@@ -267,6 +267,14 @@ def test_algorithm_staging_reset_and_calo_settings_are_separate_transactions(
     assert "algorithms" in window.workflow.completed
     assert "staged for experiment" in panel.algorithm_stage_status.text().lower()
     assert state.task_status.busy is False
+    assert window.workflow.workspace_state_key("portfolio")[0] != "locked"
+    assert window.workflow.workspace_state_key("experiment")[0] != "locked"
+    for command_id in (
+        "workspace.portfolio",
+        "workspace.study",
+        "experiment.individual",
+    ):
+        assert window.command_registry.action(command_id).isEnabled() is True
 
     window.command_registry.action("algorithms.flags").trigger()
     assert window.stack.currentWidget() is panel
@@ -319,6 +327,13 @@ def test_algorithm_staging_reset_and_calo_settings_are_separate_transactions(
     assert state.config.algorithm_parameters["PSO"]["inertia"] != 0.71
     assert "algorithms" not in window.workflow.completed
     assert window.workflow.workspace_state_key("portfolio")[0] == "locked"
+    assert window.workflow.workspace_state_key("experiment")[0] == "locked"
+    for command_id in (
+        "workspace.portfolio",
+        "workspace.study",
+        "experiment.individual",
+    ):
+        assert window.command_registry.action(command_id).isEnabled() is False
     assert "no algorithms are staged" in panel.algorithm_stage_status.text().lower()
 
     window.command_registry.action("algorithms.flags").trigger()

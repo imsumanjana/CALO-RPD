@@ -35,7 +35,9 @@ def test_workflow_locks_power_system_until_governing_policy_then_prerequisites(t
     assert workflow.is_workspace_enabled("algorithms")
     assert not workflow.is_workspace_enabled("power_system")
     workflow.mark_completed("algorithms")
-    assert not workflow.is_workspace_enabled("portfolio")
+    assert workflow.is_workspace_enabled("portfolio")
+    assert workflow.is_workspace_enabled("experiment")
+    assert not workflow.is_workspace_enabled("scenarios")
 
     ready["value"] = True
     workflow.notify_governing_policy_changed()
@@ -50,6 +52,7 @@ def test_workflow_locks_power_system_until_governing_policy_then_prerequisites(t
     workflow.mark_completed("orpd")
     workflow.mark_completed("algorithms")
     assert workflow.is_workspace_enabled("portfolio")
+    assert workflow.is_workspace_enabled("experiment")
     assert not workflow.is_workspace_enabled("scenarios")
 
     workflow.mark_completed("portfolio")
