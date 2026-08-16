@@ -44,6 +44,42 @@ def test_config_roundtrip_uses_automatic_compute_defaults(tmp_path):
     assert "cuda_task_share" not in saved
 
 
+def test_experiment_roundtrip_retains_saved_calo_and_tsh_calo_runtime_settings(tmp_path):
+    config = ExperimentConfig(
+        algorithms=["CALO", "PSO"],
+        algorithm_parameters={
+            "CALO": {
+                "calo_profile": "custom",
+                "use_ai": False,
+                "strict_policy_binding": False,
+                "epsilon_quantile": 0.8,
+                "memory_capacity": 300,
+                "checkpoint_interval_evaluations": 750,
+            },
+            "TSH-CALO": {
+                "deterministic_policy": True,
+                "inference_device": "cpu",
+                "bandit_exploration": 0.42,
+                "allow_cpu_fallback": False,
+                "baseline_fallback_permitted": False,
+            },
+            "PSO": {"inertia": 0.71, "c1": 1.49618, "c2": 1.49618},
+        },
+    )
+
+    path = config.save(tmp_path / "calo-settings.yaml")
+    loaded = ExperimentConfig.load(path)
+
+    assert loaded.algorithms == ["CALO", "PSO"]
+    assert loaded.algorithm_parameters["CALO"]["epsilon_quantile"] == 0.8
+    assert loaded.algorithm_parameters["CALO"]["memory_capacity"] == 300
+    assert loaded.algorithm_parameters["CALO"]["checkpoint_interval_evaluations"] == 750
+    assert loaded.algorithm_parameters["TSH-CALO"]["deterministic_policy"] is True
+    assert loaded.algorithm_parameters["TSH-CALO"]["inference_device"] == "cpu"
+    assert loaded.algorithm_parameters["TSH-CALO"]["bandit_exploration"] == 0.42
+    assert loaded.algorithm_parameters["PSO"]["inertia"] == 0.71
+
+
 @pytest.mark.parametrize(
     "legacy_mode",
     [

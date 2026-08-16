@@ -162,12 +162,14 @@ CALO-RPD Studio uses prerequisite locking so that a new user follows the scienti
 
 ### Setup sequence
 
-1. Load and independently validate the power-system case.
-2. Apply the ORPD formulation.
-3. Apply the algorithm selection.
-4. Validate and apply CALO Intelligence when CALO is selected.
-5. Apply robust scenario configuration.
-6. Open Experiment Manager, run the fairness audit, and start execution.
+1. Select algorithms and choose **Submit algorithms for experiment**. Use **Reset selection** to
+   discard the staged set before submitting a fresh selection.
+2. Choose the CALO policy mode; verified policy-guided use remains separately gated.
+3. Load and independently validate the power-system case.
+4. Apply the ORPD formulation.
+5. Apply the evidence portfolio.
+6. Apply robust scenario configuration.
+7. Open Experiment Manager, run the fairness audit, and start execution.
 
 ### Post-experiment sequence
 

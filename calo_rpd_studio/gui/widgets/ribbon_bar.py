@@ -19,7 +19,7 @@ from PyQt6.QtWidgets import (
     QWidget,
 )
 
-from calo_rpd_studio.gui.command_registry import CommandRegistry
+from calo_rpd_studio.gui.command_registry import CommandRegistry, RIBBON_CATEGORY_ORDER
 from calo_rpd_studio.version import PRODUCT_VERSION
 
 
@@ -167,7 +167,13 @@ class RibbonBar(QFrame):
             categories.setdefault(spec.category, OrderedDict()).setdefault(spec.group, []).append(
                 spec
             )
-        for category, groups in categories.items():
+        ordered_categories = [
+            (category, categories.pop(category))
+            for category in RIBBON_CATEGORY_ORDER
+            if category in categories
+        ]
+        ordered_categories.extend(categories.items())
+        for category, groups in ordered_categories:
             page = QWidget()
             page.setObjectName("RibbonPage")
             page.setProperty("ribbonCategory", category)

@@ -30,6 +30,19 @@ class CommandSpec:
     primary: bool = False
 
 
+RIBBON_CATEGORY_ORDER: tuple[str, ...] = (
+    "Home",
+    "Algorithms",
+    "Workspace",
+    "Experiment",
+    "Compute",
+    "Results",
+    "Policies",
+    "View",
+    "Help",
+)
+
+
 COMMAND_SPECS: tuple[CommandSpec, ...] = (
     CommandSpec(
         "home.overview",
@@ -275,7 +288,7 @@ COMMAND_SPECS: tuple[CommandSpec, ...] = (
         "Configuration",
         "Algorithms",
         "algorithm",
-        "Select approved algorithms and configure their parameters.",
+        "Select and submit the algorithms and comparator parameters staged for new experiments.",
         workspace="algorithms",
         context="algorithms",
         primary=True,
@@ -296,7 +309,7 @@ COMMAND_SPECS: tuple[CommandSpec, ...] = (
         "CALO",
         "CALO settings",
         "settings",
-        "Review the CALO optimization settings used by new experiments.",
+        "Configure and save the CALO and TSH-CALO settings used by new experiments.",
         workspace="algorithms",
         context="features",
     ),

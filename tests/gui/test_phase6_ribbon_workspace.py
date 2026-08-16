@@ -104,9 +104,9 @@ def test_ribbon_is_registry_generated_and_shell_regions_are_accessible(
         window.ribbon.tabs.tabText(index) for index in range(window.ribbon.tabs.count())
     ) == (
         "Home",
+        "Algorithms",
         "Workspace",
         "Experiment",
-        "Algorithms",
         "Compute",
         "Results",
         "Policies",
@@ -162,6 +162,139 @@ def test_ribbon_is_registry_generated_and_shell_regions_are_accessible(
     assert window.ribbon.version_label.text() == "v12.0.0"
     assert "dev" not in window.ribbon.version_label.text().lower()
     assert window.ribbon.state_label.accessibleName() == "Application state"
+    algorithm_specs = tuple(
+        item for item in window.command_registry.specs if item.category == "Algorithms"
+    )
+    assert tuple(item.command_id for item in algorithm_specs) == (
+        "algorithms.configure",
+        "algorithms.calo",
+        "algorithms.flags",
+    )
+    assert all(
+        window.command_registry.action(item.command_id).isEnabled()
+        for item in algorithm_specs
+    )
+
+
+def test_algorithms_ribbon_is_the_first_available_configuration_entry(
+    qtbot, tmp_path, monkeypatch
+):
+    state, window = _window(qtbot, tmp_path, monkeypatch)
+
+    window.ribbon.select_category("Algorithms")
+
+    assert window.ribbon.tabs.currentIndex() == 1
+    assert window.ribbon.tabs.tabText(1) == "Algorithms"
+    for command_id in ("algorithms.configure", "algorithms.calo", "algorithms.flags"):
+        assert window.command_registry.action(command_id).isEnabled() is True
+    window.command_registry.action("algorithms.configure").trigger()
+    panel = window.pages_by_key["algorithms"]
+    assert window.stack.currentWidget() is panel
+    assert panel.content_stack.currentWidget() is panel.algorithm_page
+    assert panel.submit_algorithms_button.text() == "Submit algorithms for experiment"
+    assert panel.reset_algorithms_button.text() == "Reset selection"
+    assert state.task_status.busy is False
+    assert state.policy_training_active is False
+
+
+def test_algorithm_staging_reset_and_calo_settings_are_separate_transactions(
+    qtbot, tmp_path, monkeypatch
+):
+    from PyQt6.QtCore import Qt
+
+    state, window = _window(qtbot, tmp_path, monkeypatch)
+    panel = window.pages_by_key["algorithms"]
+
+    window.command_registry.action("algorithms.configure").trigger()
+    pso_row = next(
+        row
+        for row in range(panel.table.rowCount())
+        if panel.table.item(row, 1).text() == "PSO"
+    )
+    pso_parameters = json.loads(panel.table.item(pso_row, 3).text())
+    pso_parameters["inertia"] = 0.71
+    panel.table.item(pso_row, 3).setText(json.dumps(pso_parameters))
+    panel.table.item(pso_row, 0).setCheckState(Qt.CheckState.Checked)
+    assert "draft selection changed" in panel.algorithm_stage_status.text().lower()
+    panel.submit_algorithms_button.click()
+
+    assert "PSO" in state.config.algorithms
+    assert state.config.algorithm_parameters["PSO"]["inertia"] == 0.71
+    assert "algorithms" in window.workflow.completed
+    assert "staged for experiment" in panel.algorithm_stage_status.text().lower()
+    assert state.task_status.busy is False
+
+    window.command_registry.action("algorithms.flags").trigger()
+    assert window.stack.currentWidget() is panel
+    assert panel.content_stack.currentWidget() is panel.settings_page
+    assert panel.save_settings_button.text() == "Save CALO and TSH-CALO settings"
+    assert panel.tsh_allow_cpu_fallback.isEnabled() is False
+    assert panel.tsh_baseline_fallback.isEnabled() is False
+    assert panel.tsh_feature_flags.text() == "Provided by the immutable bound policy"
+
+    panel.calo_profile.setCurrentIndex(1)
+    panel.calo_numeric_controls["epsilon_quantile"].setValue(0.80)
+    panel.calo_numeric_controls["memory_capacity"].setValue(300)
+    panel.calo_checkpoint_interval.setValue(750)
+    panel.tsh_deterministic.setChecked(True)
+    panel.tsh_inference_device.setCurrentText("cpu")
+    panel.tsh_numeric_controls["bandit_exploration"].setValue(0.42)
+    panel.tsh_checkpoint_interval.setValue(1000)
+    panel.save_settings_button.click()
+
+    calo = state.config.algorithm_parameters["CALO"]
+    tsh = state.config.algorithm_parameters["TSH-CALO"]
+    assert calo["calo_profile"] == "custom"
+    assert calo["epsilon_quantile"] == 0.80
+    assert calo["memory_capacity"] == 300
+    assert calo["checkpoint_interval_evaluations"] == 750
+    assert calo["use_ai"] is False
+    assert calo["strict_benchmark_mode"] is True
+    assert calo["use_historical_parameter_priors"] is False
+    assert tsh["deterministic_policy"] is True
+    assert tsh["inference_device"] == "cpu"
+    assert tsh["bandit_exploration"] == 0.42
+    assert tsh["checkpoint_interval_evaluations"] == 1000
+    assert tsh["allow_cpu_fallback"] is False
+    assert tsh["baseline_fallback_permitted"] is False
+    assert "no experiment was started" in panel.settings_status.text().lower()
+    saved_calo = dict(calo)
+    saved_tsh = dict(tsh)
+    assert "algorithms" in window.workflow.completed
+
+    window.command_registry.action("algorithms.configure").trigger()
+    panel.reset_algorithms_button.click()
+
+    assert state.config.algorithms == []
+    assert all(
+        panel.table.item(row, 0).checkState() == Qt.CheckState.Unchecked
+        for row in range(panel.table.rowCount())
+    )
+    assert state.config.algorithm_parameters["CALO"] == saved_calo
+    assert state.config.algorithm_parameters["TSH-CALO"] == saved_tsh
+    assert state.config.algorithm_parameters["PSO"]["inertia"] != 0.71
+    assert "algorithms" not in window.workflow.completed
+    assert window.workflow.workspace_state_key("portfolio")[0] == "locked"
+    assert "no algorithms are staged" in panel.algorithm_stage_status.text().lower()
+
+    window.command_registry.action("algorithms.flags").trigger()
+    panel.save_settings_button.click()
+    assert "algorithms" not in window.workflow.completed
+
+    window.command_registry.action("algorithms.configure").trigger()
+    tlbo_row = next(
+        row
+        for row in range(panel.table.rowCount())
+        if panel.table.item(row, 1).text() == "TLBO"
+    )
+    panel.table.item(tlbo_row, 0).setCheckState(Qt.CheckState.Checked)
+    panel.submit_algorithms_button.click()
+
+    assert state.config.algorithms == ["TLBO"]
+    assert "algorithms" in window.workflow.completed
+    assert panel.algorithm_stage_status.text() == "Staged for experiment: TLBO"
+    assert state.task_status.busy is False
+    assert state.policy_training_active is False
 
 
 def test_document_header_only_appears_for_a_real_secondary_document(qtbot, tmp_path, monkeypatch):

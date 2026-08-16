@@ -26,6 +26,12 @@ class WorkflowDescriptor:
 
 SETUP_STEPS = (
     WorkflowDescriptor(
+        "algorithms",
+        "algorithms",
+        "Select optimization algorithms",
+        "Choose the comparison algorithms and submit their declared parameter configuration.",
+    ),
+    WorkflowDescriptor(
         "calo_intelligence",
         "calo_intelligence",
         "Choose the CALO policy mode",
@@ -42,12 +48,6 @@ SETUP_STEPS = (
         "orpd",
         "Define the ORPD formulation",
         "Apply the common objective, decision variables, mixed-variable decoding, and constraint policy.",
-    ),
-    WorkflowDescriptor(
-        "algorithms",
-        "algorithms",
-        "Select optimization algorithms",
-        "Choose the comparison algorithms and apply their declared parameter configuration.",
     ),
     WorkflowDescriptor(
         "portfolio",
@@ -305,16 +305,24 @@ class WorkflowManager(QObject):
                 else ("recommended", descriptors["orpd"].instruction)
             )
         if key == "algorithms":
-            if not self._setup_complete("orpd"):
-                return "locked", "Apply the ORPD formulation first."
             return (
-                ("completed", "Algorithm configuration applied.")
+                ("completed", "Algorithms staged for the experiment.")
                 if self._setup_complete("algorithms")
-                else ("recommended", descriptors["algorithms"].instruction)
+                else (
+                    "recommended",
+                    "Algorithm selection is available as the first configuration step. "
+                    "Submitting it stages the experiment configuration without starting work.",
+                )
             )
         if key == "portfolio":
             if not self._setup_complete("algorithms"):
-                return "locked", "Apply the algorithm selection first."
+                return "locked", "Submit the algorithm selection first."
+            if not self._setup_complete("orpd"):
+                return (
+                    "locked",
+                    "Complete the governing policy, power-system validation, and ORPD formulation "
+                    "before applying the evidence portfolio.",
+                )
             return (
                 ("completed", "Evidence portfolio intent planned.")
                 if self._setup_complete("portfolio")
@@ -435,10 +443,10 @@ class WorkflowManager(QObject):
 
     def progress(self) -> tuple[int, int]:
         required = [
+            "algorithms",
             "calo_intelligence",
             "power_system",
             "orpd",
-            "algorithms",
             "portfolio",
             "scenarios",
             "experiment",

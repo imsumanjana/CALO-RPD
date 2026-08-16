@@ -29,9 +29,13 @@ def test_workflow_locks_power_system_until_governing_policy_then_prerequisites(t
     state.governing_policy_status = lambda: _policy_status(ready["value"])
     workflow = WorkflowManager(state)
 
+    assert workflow.next_descriptor().workspace_key == "algorithms"
     assert workflow.is_workspace_enabled("dashboard")
     assert workflow.is_workspace_enabled("calo_intelligence")
+    assert workflow.is_workspace_enabled("algorithms")
     assert not workflow.is_workspace_enabled("power_system")
+    workflow.mark_completed("algorithms")
+    assert not workflow.is_workspace_enabled("portfolio")
 
     ready["value"] = True
     workflow.notify_governing_policy_changed()
@@ -40,7 +44,8 @@ def test_workflow_locks_power_system_until_governing_policy_then_prerequisites(t
 
     workflow.mark_completed("power_system")
     assert workflow.is_workspace_enabled("orpd")
-    assert not workflow.is_workspace_enabled("algorithms")
+    assert workflow.is_workspace_enabled("algorithms")
+    assert "algorithms" in workflow.completed
 
     workflow.mark_completed("orpd")
     workflow.mark_completed("algorithms")

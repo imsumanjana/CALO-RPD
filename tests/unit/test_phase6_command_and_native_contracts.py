@@ -23,7 +23,7 @@ class _MemorySettings:
 
 
 def test_phase6_command_registry_has_one_stable_authority():
-    from calo_rpd_studio.gui.command_registry import COMMAND_SPECS
+    from calo_rpd_studio.gui.command_registry import COMMAND_SPECS, RIBBON_CATEGORY_ORDER
 
     identifiers = [item.command_id for item in COMMAND_SPECS]
     categories = {item.category for item in COMMAND_SPECS}
@@ -41,6 +41,17 @@ def test_phase6_command_registry_has_one_stable_authority():
         "View",
         "Help",
     }
+    assert RIBBON_CATEGORY_ORDER == (
+        "Home",
+        "Algorithms",
+        "Workspace",
+        "Experiment",
+        "Compute",
+        "Results",
+        "Policies",
+        "View",
+        "Help",
+    )
     assert tuple(item.label for item in COMMAND_SPECS if item.category == "Home") == (
         "Overview",
         "Open",

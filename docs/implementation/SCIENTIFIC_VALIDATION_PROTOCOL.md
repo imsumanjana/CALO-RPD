@@ -333,3 +333,25 @@ or retrain the governing CALO policy.
 
 These references motivate the protocol; repository implementations still require their own
 source-faithfulness and numerical-validation evidence.
+## Experiment-bound algorithm-configuration integrity
+
+Algorithm Submit/Reset and CALO Settings Save are configuration transactions, not execution or
+scientific evidence. Checkbox/JSON edits remain a draft until Submit atomically replaces the
+algorithm identity list and comparator parameter maps serialized in the experiment configuration
+and consumed by experiment planning. Reset clears that staged identity list, restores safe ordinary
+comparator defaults, invalidates downstream setup, and preserves the separate CALO/TSH-CALO maps.
+Settings Save cannot submit algorithms or satisfy the Algorithms workflow prerequisite. None of
+these actions may evaluate a candidate, start/resume an experiment, train/assess/qualify/activate a
+policy, or expand an evaluation budget.
+
+Rule-based CALO must remain policy-free. A custom CALO profile must retain its complete component
+and numeric parameter map and must not overwrite the canonical profile identity. Strict benchmark
+mode keeps historical priors and cross-algorithm warm starts disabled. TSH-CALO runtime/search
+settings may be saved before policy readiness, but its experiment selection remains unavailable
+until the separately verified governing policy is explicitly ready. Policy identity, checksum,
+architecture/schema, immutable approved A–E and F-off feature flags, qualification/assessment
+receipts, scientist
+selection, activation, and binding remain registry authority; settings cannot fabricate or mutate
+them. Unqualified use, policy-inference CPU fallback, and rule-based baseline fallback remain
+fail-closed. Any executed experiment must retain the exact saved algorithm/parameter configuration
+and, when TSH-CALO is selected, the exact verified immutable policy binding in its provenance.

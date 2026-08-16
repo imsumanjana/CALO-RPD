@@ -1702,3 +1702,41 @@ superseded by the stage-neutral compatibility and qualification boundary on 2026
   its complete new `validation\logs\feasibility-influence-*` directory, then run the complete Phase 6
   validator because the prior Phase 6 evidence also predates this source. Neither validator runs a
   real assessment or establishes scientific/release evidence.
+
+## 2026-08-16 - Algorithms-first ribbon follow-up
+
+- The exact leading ribbon order is now Home, Algorithms. The three Algorithms commands are
+  available before setup completion, the guided setup starts there, and opening Algorithms starts
+  no task or scientific workflow. Later setup does not invalidate the first-step configuration.
+- Portfolio retains an explicit ORPD prerequisite in addition to algorithm selection. The internal
+  TSH-CALO experiment control still requires a verified governing policy; no policy lifecycle or
+  scientific execution boundary was weakened.
+- The ignored Phase 6 validator is now schema v3 and contains synthetic first-use/non-execution
+  checks. No test or validator command was executed in this development pass. Run the complete
+  Phase 6 validator and return the entire new `validation\logs\phase6-*` directory.
+
+## 2026-08-16 - Algorithms and CALO/TSH-CALO Save follow-up
+
+- Algorithms and CALO settings now select different surfaces in the same stable workspace. Both
+  have explicit Save actions and write to the exact experiment configuration later consumed by
+  planning/execution; they never start execution themselves.
+- CALO has typed canonical/custom component and numeric controls. TSH-CALO has a separate typed
+  runtime/search block, while bound policy identity/checksum/feature flags and lifecycle authority
+  remain read-only and sourced from CALO Intelligence. TSH-CALO selection remains policy-gated and
+  unsafe fallbacks remain false.
+- Tests and validator schema v4 were updated but not run. The prior Phase 6 evidence predates these
+  sources. Run the complete validator and return the entire new `validation\logs\phase6-*`
+  directory for read-only review.
+
+## 2026-08-16 - Algorithm Submit/Reset staging follow-up
+
+- Algorithm row edits are drafts. **Submit algorithms for experiment** stages the selected identities
+  and comparator parameters in the authoritative experiment configuration and completes the
+  Algorithms workflow step without starting execution.
+- **Reset selection** immediately discards that staged identity list, clears the checkboxes, restores
+  safe ordinary-comparator defaults, and invalidates all downstream setup. It deliberately preserves
+  saved CALO and TSH-CALO settings so algorithm reselection does not erase their separate contract.
+- CALO/TSH-CALO Settings Save no longer emits Algorithms completion, so it cannot bypass a reset.
+  Policy gating, immutable identity/evidence authority, and unsafe-fallback restrictions are unchanged.
+- Tests and ignored validator schema v5 were updated but not run. Run the complete Phase 6 validator
+  and return its entire new `validation\logs\phase6-*` directory for read-only review.

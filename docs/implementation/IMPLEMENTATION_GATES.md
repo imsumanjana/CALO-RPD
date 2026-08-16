@@ -1295,3 +1295,38 @@ insufficient-comparative-evidence case and full Influence-block reachability. No
 lifecycle semantics changed and no validation command was executed. This engineering gate remains
 open pending a fresh complete focused validator and the superseding Phase 6 validator; neither run
 would establish model suitability, qualification, activation authority, or release readiness.
+
+### 2026-08-16 - Algorithms-first ribbon gate open
+
+The ribbon now begins Home then Algorithms, and Algorithms, CALO Intelligence, and CALO Settings are
+available before setup completion. Navigation and configuration remain non-executing. TSH-CALO
+experiment selection remains policy-gated, while Portfolio explicitly retains both algorithm and
+ORPD prerequisites so early access cannot bypass governing-policy or power-system setup. The guided
+setup sequence now also begins with Algorithms and retains that configuration through later setup.
+Synthetic source, GUI, and offscreen contracts plus ignored Phase 6 validator schema v3 were
+updated. No check was executed; this engineering gate remains open pending a complete owner-run
+Phase 6 validator and does not establish scientific qualification, activation authority, or release
+readiness.
+
+### 2026-08-16 - Experiment-bound Algorithms/CALO settings gate open
+
+Algorithms and CALO settings now open separate selection and typed-settings surfaces inside the
+stable Algorithms workspace. Explicit Save actions update the authoritative experiment algorithm
+identities and parameter maps without starting work. The CALO surface contains canonical/custom
+profile controls and registered rule-based runtime parameters; the TSH-CALO surface contains
+permitted runtime/search values while immutable policy and lifecycle evidence remains read-only.
+TSH-CALO selection still requires a verified governing policy, and unqualified/CPU/baseline
+fallback authority remains false. Synthetic contracts and ignored validator schema v4 were written
+but not executed. This engineering gate remains open and establishes no scientific qualification,
+activation, experiment result, or release claim.
+
+### 2026-08-16 - Algorithm staging/reset transaction gate open
+
+The Algorithms surface now distinguishes draft checkbox/parameter edits from the experiment-staged
+selection. Submit replaces the staged identities and comparator maps and completes only that setup
+step. Reset clears the staged identities and checkboxes, restores safe comparator defaults, and
+invalidates Algorithms and its downstream workflow state while preserving separately saved CALO and
+TSH-CALO settings. Settings Save cannot restage algorithms or satisfy the Algorithms prerequisite.
+No action starts scientific work or changes policy authority. Synthetic GUI/offscreen contracts and
+ignored validator schema v5 were updated but not executed; this gate remains open pending a complete
+owner-run Phase 6 validator and establishes no scientific or release evidence.

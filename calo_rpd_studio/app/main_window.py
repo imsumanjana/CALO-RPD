@@ -183,6 +183,7 @@ class MainWindow(QMainWindow):
         self.pages_by_key["calo_intelligence"].activity_message.connect(
             self.activity_center.append_external
         )
+        self.pages_by_key["algorithms"].saved.connect(self._show_status_message)
         self.pages_by_key["calo_intelligence"].independent_training_requested.connect(
             self.command_registry.action("policies.training").trigger
         )
@@ -208,6 +209,9 @@ class MainWindow(QMainWindow):
         )
         self.pages_by_key["algorithms"].stage_completed.connect(
             lambda: self.workflow.mark_completed("algorithms")
+        )
+        self.pages_by_key["algorithms"].stage_discarded.connect(
+            lambda: self.workflow.invalidate_from("algorithms")
         )
         self.pages_by_key["portfolio"].stage_completed.connect(
             lambda: self.workflow.mark_completed("portfolio")
@@ -409,7 +413,7 @@ class MainWindow(QMainWindow):
     def _workspace_key(self, workspace: str | int) -> str:
         return workspace_key_for_index(workspace) if isinstance(workspace, int) else str(workspace)
 
-    def _set_workspace(self, workspace: str | int) -> None:
+    def _set_workspace(self, workspace: str | int, *, command_id: str = "") -> None:
         self._persist_workspace_state()
         key = self._workspace_key(workspace)
         if bool(getattr(self.state, "policy_training_active", False)) and key not in {
@@ -436,7 +440,9 @@ class MainWindow(QMainWindow):
             (
                 spec
                 for spec in self.command_registry.specs
-                if spec.handler == "workspace" and spec.workspace == key
+                if spec.handler == "workspace"
+                and spec.workspace == key
+                and (not command_id or spec.command_id == command_id)
             ),
             None,
         )
@@ -450,6 +456,7 @@ class MainWindow(QMainWindow):
         refresh_name = {
             "dashboard": "refresh",
             "orpd": "refresh",
+            "algorithms": "refresh",
             "portfolio": "refresh",
             "scenarios": "refresh",
             "experiment": "refresh",
@@ -616,6 +623,10 @@ class MainWindow(QMainWindow):
         target.setFocus(Qt.FocusReason.ShortcutFocusReason)
 
     def _command_selected(self, spec: CommandSpec) -> None:
+        if spec.workspace == "algorithms":
+            panel = self.pages_by_key.get("algorithms")
+            if panel is not None and hasattr(panel, "show_context"):
+                panel.show_context(spec.context)
         self.context_pane.show_command(spec)
         self.context_dock.show()
 
@@ -640,7 +651,7 @@ class MainWindow(QMainWindow):
             "about": self.about,
         }
         if spec.handler == "workspace":
-            self._set_workspace(spec.workspace)
+            self._set_workspace(spec.workspace, command_id=spec.command_id)
             return
         handler = handlers.get(spec.handler)
         if handler is not None:

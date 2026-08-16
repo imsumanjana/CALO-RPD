@@ -2999,3 +2999,54 @@ Append timestamped entries below this line after each material action, validatio
 - Codex performed read-only live metadata/database inspection only. No test, lint, format, compile,
   GUI, validator, training, assessment, qualification, protected-case, Docker, publication, or
   release command was run. Fresh owner-run focused and Phase 6 validation are required.
+
+## 2026-08-16 - Algorithms-first ribbon entry
+
+- The permanent ribbon now begins **Home, Algorithms**. All three Algorithms commands—Algorithms,
+  CALO Intelligence, and CALO Settings—are enabled from initial launch.
+- Opening Algorithms is navigation/configuration only. It does not start a task, policy training,
+  an experiment, or any other scientific work.
+- Early algorithm configuration cannot bypass the scientific setup chain. Portfolio now explicitly
+  requires both applied algorithm selection and completed governing-policy, power-system, and ORPD
+  setup. The guided setup order also starts with Algorithms, so later Power System completion does
+  not discard that first-step configuration. The internal TSH-CALO experiment option remains
+  governed by its verified-policy gate.
+- Unit, GUI, offscreen, traceability, and ignored Phase 6 validator contracts were updated. Codex did
+  not run tests, lint, formatting, compilation, the GUI, or the validator; fresh owner-run Phase 6
+  evidence is pending.
+
+## 2026-08-16 - Experiment-bound Algorithms and CALO/TSH-CALO settings
+
+- The shared Algorithms workspace now has two command-selected surfaces. Algorithms shows the
+  optimizer registry and `Save algorithm selection`; CALO settings shows typed CALO and TSH-CALO
+  blocks with `Save CALO and TSH-CALO settings`.
+- Algorithm Save writes selected registry identities and comparator parameters to
+  `ExperimentConfig.algorithms` and `ExperimentConfig.algorithm_parameters`. Settings Save writes
+  rule-based CALO components/numerics and TSH-CALO runtime/search values to the same configuration
+  consumed by experiment planning and execution. Neither Save starts an experiment.
+- CALO settings include profile/fingerprint, canonical component flags, epsilon control, memory,
+  archives, contextual credit, diversity recovery, cognitive precision, exact-cache/checkpoint,
+  and strict historical-learning restrictions. Canonical values remain locked until an explicit
+  custom research profile is chosen.
+- The TSH-CALO block exposes permitted inference and optimizer-runtime values, but policy identity,
+  checksum, immutable feature flags, qualification, activation, and binding remain CALO Intelligence
+  authority. Unqualified use and both CPU/baseline fallbacks remain fail-closed; the TSH-CALO
+  selection row still requires a verified governing policy.
+- GUI/offscreen contracts and ignored Phase 6 validator schema v4 were updated. Codex did not run
+  tests, lint, formatting, compilation, Qt, the validator, training, assessment, qualification,
+  protected cases, Docker, or scientific execution. Fresh owner Phase 6 validation is pending.
+
+## 2026-08-16 - Explicit algorithm staging and reset transaction
+
+- Algorithm checkbox/JSON edits are now a draft until **Submit algorithms for experiment**. Submit
+  atomically replaces the experiment algorithm identities and comparator parameters, reports the
+  staged set, and alone completes the Algorithms workflow step; it starts no experiment.
+- **Reset selection** discards the staged identity list immediately, clears every selection, restores
+  fresh safe ordinary-comparator defaults, and invalidates Algorithms plus downstream unfinished
+  setup so a new selection must be submitted. Saved CALO and TSH-CALO settings remain unchanged.
+- CALO/TSH-CALO Settings Save remains a separate experiment-configuration transaction and can no
+  longer complete Algorithms after its staging was reset. Policy identity, lifecycle, qualification,
+  binding, and fail-closed fallback authority remain unchanged.
+- GUI/offscreen contracts and the ignored Phase 6 validator schema v5 were updated. Codex did not
+  run tests, lint, formatting, compilation, Qt, the validator, training, assessment, qualification,
+  protected cases, Docker, or scientific execution. Fresh owner Phase 6 validation is pending.

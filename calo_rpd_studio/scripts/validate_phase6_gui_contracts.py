@@ -14,9 +14,9 @@ REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
 
 RIBBON_CATEGORIES = (
     "Home",
+    "Algorithms",
     "Workspace",
     "Experiment",
-    "Algorithms",
     "Compute",
     "Results",
     "Policies",
@@ -205,6 +205,69 @@ def validate(output: Path, *, platform: str) -> dict:
     )
     if home_labels != ("Overview", "Open", "Save"):
         raise AssertionError(f"Home contains unexpected commands: {home_labels!r}")
+    algorithm_commands = tuple(
+        item for item in window.command_registry.specs if item.category == "Algorithms"
+    )
+    if tuple(item.command_id for item in algorithm_commands) != (
+        "algorithms.configure",
+        "algorithms.calo",
+        "algorithms.flags",
+    ) or not all(
+        window.command_registry.action(item.command_id).isEnabled()
+        for item in algorithm_commands
+    ):
+        raise AssertionError("The first-use Algorithms ribbon commands are not all available")
+    first_step = window.workflow.next_descriptor()
+    if first_step is None or first_step.workspace_key != "algorithms":
+        raise AssertionError("Algorithms is not the first guided configuration step")
+    initial_task_state = (
+        state.task_status.busy,
+        state.task_status.state,
+        state.policy_training_active,
+    )
+    window.command_registry.action("algorithms.configure").trigger()
+    application.processEvents()
+    algorithms_panel = window.pages_by_key["algorithms"]
+    if window.stack.currentWidget() is not algorithms_panel:
+        raise AssertionError("The first-use Algorithms command did not open its workspace")
+    if algorithms_panel.content_stack.currentWidget() is not algorithms_panel.algorithm_page:
+        raise AssertionError("Algorithms did not open its dedicated selection surface")
+    if (
+        algorithms_panel.submit_algorithms_button.text()
+        != "Submit algorithms for experiment"
+    ):
+        raise AssertionError("Algorithms has no explicit experiment-staging Submit action")
+    if algorithms_panel.reset_algorithms_button.text() != "Reset selection":
+        raise AssertionError("Algorithms has no explicit staging-discard Reset action")
+    if "staged for experiment" not in algorithms_panel.algorithm_stage_status.text().lower():
+        raise AssertionError("Algorithms does not report the currently staged selection")
+    if (
+        state.task_status.busy,
+        state.task_status.state,
+        state.policy_training_active,
+    ) != initial_task_state:
+        raise AssertionError("Opening Algorithms unexpectedly started scientific work")
+    window.command_registry.action("algorithms.flags").trigger()
+    application.processEvents()
+    if algorithms_panel.content_stack.currentWidget() is not algorithms_panel.settings_page:
+        raise AssertionError("CALO settings did not open its dedicated settings surface")
+    if (
+        algorithms_panel.save_settings_button.text()
+        != "Save CALO and TSH-CALO settings"
+    ):
+        raise AssertionError("CALO/TSH-CALO settings have no explicit Save action")
+    if algorithms_panel.tsh_allow_cpu_fallback.isEnabled():
+        raise AssertionError("TSH-CALO policy fallback escaped its fail-closed runtime contract")
+    if algorithms_panel.tsh_baseline_fallback.isEnabled():
+        raise AssertionError("TSH-CALO baseline fallback escaped its immutable policy contract")
+    if (
+        state.task_status.busy,
+        state.task_status.state,
+        state.policy_training_active,
+    ) != initial_task_state:
+        raise AssertionError("Opening CALO settings unexpectedly started scientific work")
+    window.command_registry.action("home.overview").trigger()
+    application.processEvents()
     if "resume_center" in window.pages_by_key or any(
         item.workspace == "resume_center" for item in window.command_registry.specs
     ):
