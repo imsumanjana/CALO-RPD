@@ -1838,3 +1838,31 @@ superseded by the stage-neutral compatibility and qualification boundary on 2026
 - No validation or scientific workflow ran. The last complete evidence remains schema-v27 and
   predates both the Individual correction and this one-way workflow. Run the ignored schema-v29
   validator and return the entire new `validation\logs\phase6-*` directory for read-only review.
+
+## 2026-08-17 - Individual setup navigation and execution-gate handoff
+
+- The live active Individual plan was inspected read-only and is `draft` with no audit JSON/SHA-256;
+  the controller is `none`. This is why neither Stage nor Run is enabled despite completion of the
+  setup sections. Do not bypass the required fairness receipt.
+- Individual setup no longer shows the redundant six-button page strip. The six Experiment ribbon
+  options still select the same shared pages. Workspace Study retains its inline strip.
+- Disabled Stage and Run actions explain the exact lifecycle prerequisite. No audit, experiment, or
+  controller action was executed, and no scientific or policy semantics changed.
+- The last complete PASS remains schema v27 and predates the current source. Run the ignored
+  noninteractive schema-v30 validator and return the complete new `validation\logs\phase6-*`
+  directory for read-only review.
+
+## 2026-08-17 - Individual/Workspace engineering validation closure
+
+- `validation\logs\phase6-20260817-221701` is a complete schema-v36 PASS: all 17 commands passed,
+  the expected sequence is complete, and nonignored source status remained exactly
+  `70a4eec3774e41728b65481e29d435417d0fb47387c330886d36c9de79a2bd7c`.
+- It validates the hidden redundant Individual step strip, all six ribbon-owned routes, truthful
+  Audit -> Stage -> Run prerequisites, separate direct and Workspace plans, fenced controller and
+  pause/handoff rules, migration/restore contracts, GUI rendering, build, and distribution checks.
+- Earlier failed bundles remain retained evidence of the corrections; none is presented as a PASS.
+  The schema-v37 final replay binds this ledger/status closure without requiring another tracked
+  edit afterward.
+- No live audit or experiment, policy lifecycle/scientific/qualification/protected-case workflow,
+  Docker/CUDA campaign, publication, or release action ran. Human usability, screen-reader, and
+  scientist acceptance remain separate.

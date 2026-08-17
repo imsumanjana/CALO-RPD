@@ -568,8 +568,7 @@ class ExperimentConfig:
             # Individual execution owns its direct result contract and scientist-selected run
             # count. Workspace Portfolio evidence minima are deliberately outside this path.
             plan_bound_individual = (
-                self.execution_plan_kind
-                == ExecutionPlanKind.INDIVIDUAL_EXPERIMENT.value
+                self.execution_plan_kind == ExecutionPlanKind.INDIVIDUAL_EXPERIMENT.value
             )
             if plan_bound_individual and not self.result_contract:
                 raise ValueError("A plan-bound individual experiment requires its result contract")
@@ -876,9 +875,7 @@ class ExperimentConfig:
                 str(k): str(v) for k, v in dict(data.get("extension_existing_run_ids", {})).items()
             },
             execution_plan_id=str(data.get("execution_plan_id", "")),
-            execution_plan_design_sha256=str(
-                data.get("execution_plan_design_sha256", "")
-            ),
+            execution_plan_design_sha256=str(data.get("execution_plan_design_sha256", "")),
             algorithm_stage_id=str(data.get("algorithm_stage_id", "")),
             workspace_plan_cell_id=str(data.get("workspace_plan_cell_id", "")),
             execution_plan_kind=str(data.get("execution_plan_kind", "")),

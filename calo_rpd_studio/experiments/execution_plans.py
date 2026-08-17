@@ -250,9 +250,7 @@ class AlgorithmStage:
             "schema_version": self.schema_version,
             "algorithm_names": list(self.algorithm_names),
             "algorithm_parameters": deepcopy(self.algorithm_parameters),
-            "algorithm_parameter_sha256_by_name": deepcopy(
-                self.algorithm_parameter_sha256_by_name
-            ),
+            "algorithm_parameter_sha256_by_name": deepcopy(self.algorithm_parameter_sha256_by_name),
             "policy_binding_summary": deepcopy(self.policy_binding_summary),
             "policy_binding_sha256": self.policy_binding_sha256,
             "source_provenance": deepcopy(self.source_provenance),
@@ -351,23 +349,22 @@ class WorkspaceStudyPlan:
             or applied_study_setup.portfolio_goal_id != portfolio_goal.portfolio_goal_id
             or applied_study_setup.portfolio_goal_sha256 != portfolio_goal.content_sha256
             or recommendation.recommendation_id != applied_study_setup.recommendation_id
-            or recommendation.recommendation_sha256
-            != applied_study_setup.recommendation_sha256
+            or recommendation.recommendation_sha256 != applied_study_setup.recommendation_sha256
         ):
             raise ValueError(
                 "Workspace Study must use the exact current Portfolio goal, recommendation, and selection"
             )
         config_names = tuple(str(name) for name in config.algorithms)
-        if config_names != stage.algorithm_names or _selected_parameters(
-            config.to_dict(), stage.algorithm_names
-        ) != stage.algorithm_parameters:
+        if (
+            config_names != stage.algorithm_names
+            or _selected_parameters(config.to_dict(), stage.algorithm_names)
+            != stage.algorithm_parameters
+        ):
             raise ValueError(
                 "The submitted algorithm identities or parameters changed; submit the algorithm stage again"
             )
         plan_id = f"workspace-plan-{uuid.uuid4().hex}"
-        config_payload = frozen_config_payload(
-            config, names, plan_kind=ExecutionPlanKind.WORKSPACE
-        )
+        config_payload = frozen_config_payload(config, names, plan_kind=ExecutionPlanKind.WORKSPACE)
         runtime_contract = dict(config_payload.get("workspace_study_contract", {}) or {})
         expected_contract = {
             "schema_version": "calo-rpd-workspace-study-runtime-contract-v1",
@@ -415,8 +412,7 @@ class WorkspaceStudyPlan:
             {"ordinal": int(item["ordinal"]), "case_name": str(item["case_name"])}
             for item in applied_study_setup.concrete_cells
         ) != tuple(
-            {"ordinal": int(cell["ordinal"]), "case_name": str(cell["case_name"])}
-            for cell in cells
+            {"ordinal": int(cell["ordinal"]), "case_name": str(cell["case_name"])} for cell in cells
         ):
             raise ValueError("Workspace cells do not match the exact applied Study selection")
         design = {

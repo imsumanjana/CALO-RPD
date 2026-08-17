@@ -161,9 +161,7 @@ class WorkflowManager(QObject):
     def _individual_stage_requires_policy(self) -> bool:
         from calo_rpd_studio.algorithms.registry import POLICY_GATED_SPECS
 
-        return any(
-            name in POLICY_GATED_SPECS for name in self._individual_stage_algorithm_names()
-        )
+        return any(name in POLICY_GATED_SPECS for name in self._individual_stage_algorithm_names())
 
     def notify_governing_policy_changed(self) -> None:
         """Re-evaluate the governing policy and invalidate downstream bindings on an identity change."""

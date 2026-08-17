@@ -1410,3 +1410,26 @@ qualification, protected-case, publication, or release semantics changed. Unit, 
 migration, and falsification regression source plus ignored noninteractive validator schema v29 are
 written but unexecuted. This engineering gate remains open pending a complete source-stable owner
 run and establishes no scientific, policy, human-acceptance, publication, or release evidence.
+
+### 2026-08-17 - Individual navigation deduplication and truthful action guidance gate open
+
+Live read-only state showed that the active Individual v2 plan is a controller-free `draft` with no
+audit receipt. Stage and Run are correctly locked: setup-section completion is navigation/progress
+state, not execution authority. Current source removes only the redundant Individual six-button
+strip; the Experiment ribbon continues to route to every shared setup page, while Workspace Study
+retains its inline step strip. Stage and Run tooltips/accessibility descriptions identify the exact
+missing Audit -> Stage -> Run transition without weakening any gate. Synthetic regression source and
+ignored validator schema v30 are written but unexecuted. This engineering gate remains open pending
+a complete source-stable owner run and establishes no experiment, scientific, policy, usability,
+publication, or release evidence.
+
+### 2026-08-17 - Individual/Workspace local engineering gate closed
+
+Schema-v36 bundle `validation/logs/phase6-20260817-221701` passed the complete 17-command sequence
+with stable nonignored source identity. It covers the Individual ribbon-only setup navigation,
+truthful disabled-action guidance, separate Individual setup and full-stage plan, one-way Portfolio
+goal to Workspace Study, immutable audit/stage/controller transitions, migration/restore behavior,
+GUI regressions and renders, packaging, and distribution safety checks. The schema-v37 replay binds
+this evidence-only ledger closure to the same gates. This closes local engineering validation only;
+it does not establish an experiment result, scientific conclusion, policy evidence, qualification,
+human acceptance, publication authority, release readiness, Docker evidence, or CUDA evidence.

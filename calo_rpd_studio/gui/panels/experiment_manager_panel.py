@@ -166,9 +166,7 @@ class ScientificAuditWorker(QThread):
             portfolio_plan = None
             result_contract = None
             if individual:
-                result_contract = validate_individual_result_contract(
-                    self.config.result_contract
-                )
+                result_contract = validate_individual_result_contract(self.config.result_contract)
             else:
                 portfolio_plan = PortfolioPlanner.plan(
                     self.config,
@@ -180,9 +178,7 @@ class ScientificAuditWorker(QThread):
                     # The legacy planner remains useful for fields/tasks but its profile run floor
                     # is a soft recommendation in the one-way workflow, not execution authority.
                     portfolio_plan.required_runs = int(self.config.runs)
-                    portfolio_plan.total_jobs = int(self.config.runs) * len(
-                        self.config.algorithms
-                    )
+                    portfolio_plan.total_jobs = int(self.config.runs) * len(self.config.algorithms)
             self.progress.emit("Checking reusable verified runs", 82)
             seeds = SeedManager(self.config.master_seed).generate(self.config.runs)
             reusable = 0
@@ -214,9 +210,7 @@ class ScientificAuditWorker(QThread):
                     "fairness": fairness,
                     "portfolio_plan": portfolio_plan,
                     "result_contract": result_contract,
-                    "execution_plan_kind": str(
-                        getattr(self.config, "execution_plan_kind", "")
-                    ),
+                    "execution_plan_kind": str(getattr(self.config, "execution_plan_kind", "")),
                     "reusable": reusable,
                 }
             )
@@ -583,7 +577,8 @@ class ExperimentManagerPanel(WorkspacePage):
         buttons.addWidget(self.cancel)
         self.execution_card.layout_root.addLayout(buttons)
         self.status = QLabel(
-            "Complete the fairness audit above before starting an experiment. Global task progress is shown in the bottom status bar."
+            "Open Validate + outputs and complete the fairness audit before staging. Global "
+            "task progress is shown in the bottom status bar."
         )
         self.status.setWordWrap(True)
         self.status.setObjectName("InfoText")
@@ -866,6 +861,9 @@ class ExperimentManagerPanel(WorkspacePage):
         self.study_setup_workflow.set_presentation(
             "Workspace Study Setup" if workspace else "Individual Experiment Setup"
         )
+        # Individual Experiment already exposes every setup step as a ribbon option. Keep the
+        # inline tab strip only for Workspace Study, whose ribbon has a single Study entry.
+        self.study_setup_workflow.set_step_tabs_visible(workspace)
         self.runs.setReadOnly(False)
         self.runs.setButtonSymbols(QSpinBox.ButtonSymbols.UpDownArrows)
         self.runs.setToolTip(
@@ -910,9 +908,7 @@ class ExperimentManagerPanel(WorkspacePage):
         if self.execution_mode == ExecutionPlanKind.WORKSPACE.value:
             plan = self.state.execution_control.active_plan(ExecutionPlanKind.WORKSPACE)
             if plan is not None:
-                return tuple(
-                    str(name) for name in plan["design"].get("study_algorithm_names", [])
-                )
+                return tuple(str(name) for name in plan["design"].get("study_algorithm_names", []))
             goal = self._active_portfolio_goal()
             return () if goal is None else tuple(goal.selected_algorithm_names)
         stage = self.state.execution_control.active_stage()
@@ -1043,10 +1039,7 @@ class ExperimentManagerPanel(WorkspacePage):
             not workspace or plan is not None or self._active_portfolio_goal() is not None
         )
         editable = (
-            controller_none
-            and editable_state
-            and workspace_goal_ready
-            and not self.manager.running
+            controller_none and editable_state and workspace_goal_ready and not self.manager.running
         )
         self._study_setup_editable = bool(editable)
         self._apply_inline_study_states()
@@ -1072,12 +1065,62 @@ class ExperimentManagerPanel(WorkspacePage):
             and controller_none
             and not self.manager.running
         )
+        if self.stage_plan.isEnabled():
+            stage_guidance = (
+                "Lock this exact audited setup for the individual experiment. No numerical work "
+                "starts until Run individual experiment is selected."
+                if not workspace
+                else "Lock this exact audited setup for the Workspace campaign."
+            )
+        elif plan is None:
+            stage_guidance = (
+                "Run the fairness audit for the exact Individual setup first."
+                if not workspace
+                else "Apply Study setup and run the fairness audit before staging."
+            )
+        elif state == ExecutionLifecycle.DRAFT.value:
+            stage_guidance = (
+                "The fairness audit has not been completed for this setup. Run it before staging. "
+                "Completing setup sections alone does not authorize execution."
+            )
+        elif state == ExecutionLifecycle.AUDITED.value and not audit_matches_current:
+            stage_guidance = (
+                "The editable setup differs from the audited design. Run the fairness audit again "
+                "before staging."
+            )
+        elif not controller_none:
+            stage_guidance = "Another experiment currently controls execution."
+        else:
+            stage_guidance = f"Staging is unavailable while the plan is {state.replace('_', ' ')}."
+        self.stage_plan.setToolTip(stage_guidance)
+        self.stage_plan.setAccessibleDescription(stage_guidance)
         self.compare.setEnabled(
             bool(plan)
             and state == ExecutionLifecycle.STAGED.value
             and owner_matches
             and not self.manager.running
         )
+        if self.compare.isEnabled():
+            run_guidance = (
+                "Start the staged Individual plan using the shared Experiment Manager."
+                if not workspace
+                else "Start the staged Workspace campaign using the shared Experiment Manager."
+            )
+        elif plan is None or state == ExecutionLifecycle.DRAFT.value:
+            run_guidance = (
+                "Run the fairness audit, then stage the exact plan. Run becomes available only "
+                "after both required actions succeed."
+            )
+        elif state == ExecutionLifecycle.AUDITED.value:
+            run_guidance = (
+                "Select Stage first. Staging locks the exact audited setup without starting work."
+            )
+        elif state == ExecutionLifecycle.STAGED.value and not owner_matches:
+            run_guidance = "This staged experiment does not currently control execution."
+        else:
+            run_guidance = f"Run is unavailable while the plan is {state.replace('_', ' ')}."
+        self.compare.setToolTip(run_guidance)
+        self.compare.setAccessibleDescription(run_guidance)
         self.resume_plan.setEnabled(
             bool(plan)
             and state
@@ -1230,9 +1273,7 @@ class ExperimentManagerPanel(WorkspacePage):
         self.study_power_system.stage_completed.connect(
             lambda: self._emit_setup_completion("power_system")
         )
-        self.study_formulation.stage_completed.connect(
-            lambda: self._emit_setup_completion("orpd")
-        )
+        self.study_formulation.stage_completed.connect(lambda: self._emit_setup_completion("orpd"))
         self.study_scenarios.stage_completed.connect(
             lambda: self._emit_setup_completion("scenarios")
         )
@@ -1375,7 +1416,9 @@ class ExperimentManagerPanel(WorkspacePage):
             and self._study_recommendation.portfolio_goal_sha256 == goal.content_sha256
         )
         if not compatible:
-            status = "Stale — the applied Portfolio goal does not match the current submitted stage."
+            status = (
+                "Stale — the applied Portfolio goal does not match the current submitted stage."
+            )
         elif recommendation_current:
             recommendation = self._study_recommendation
             delta = int(self.runs.value()) - int(recommendation.recommended_runs)
@@ -1524,9 +1567,7 @@ class ExperimentManagerPanel(WorkspacePage):
                 "output_directory": str(config.output_directory),
                 "reuse_compatible_results": bool(config.reuse_compatible_results),
                 "resume_enabled": bool(config.resume_enabled),
-                "checkpoint_interval_evaluations": int(
-                    config.checkpoint_interval_evaluations
-                ),
+                "checkpoint_interval_evaluations": int(config.checkpoint_interval_evaluations),
             }
             setup = WorkspaceStudyPlanner.apply_selection(
                 goal, stage, recommendation, selected_values

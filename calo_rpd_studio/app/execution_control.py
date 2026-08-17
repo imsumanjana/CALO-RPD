@@ -160,7 +160,9 @@ class ExecutionControlService:
                 or str(stage["content_sha256"])
                 != str(plan["design"].get("algorithm_stage_sha256", ""))
             ):
-                raise RuntimeError("The resumable plan no longer matches the active algorithm stage")
+                raise RuntimeError(
+                    "The resumable plan no longer matches the active algorithm stage"
+                )
             return self.transition(
                 plan_id,
                 expected=(

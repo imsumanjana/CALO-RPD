@@ -217,12 +217,8 @@ class MainWindow(QMainWindow):
         self.pages_by_key["orpd"].stage_completed.connect(
             lambda: self._mark_routed_setup_completed("orpd")
         )
-        self.pages_by_key["algorithms"].stage_completed.connect(
-            self._algorithm_stage_completed
-        )
-        self.pages_by_key["algorithms"].stage_discarded.connect(
-            self._algorithm_stage_discarded
-        )
+        self.pages_by_key["algorithms"].stage_completed.connect(self._algorithm_stage_completed)
+        self.pages_by_key["algorithms"].stage_discarded.connect(self._algorithm_stage_discarded)
         self.pages_by_key["portfolio"].stage_completed.connect(
             lambda: self.workflow.mark_completed("portfolio")
         )
