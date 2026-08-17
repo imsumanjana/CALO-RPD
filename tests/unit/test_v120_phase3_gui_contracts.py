@@ -207,7 +207,7 @@ def test_active_status_records_phase6_development_complete_after_combined_pass()
         "validated_first_class_windows_non_docker_launch"
     )
     assert payload["phase_6_validation"] == (
-        "passed_phase6-20260817-221701_schema_v36_17_of_17_current_behavior_source_stable_engineering_validation"
+        "passed_phase6-20260817-224630_schema_v38_17_of_17_parity_fairness_presentation_source_stable_engineering_validation"
     )
     assert payload["phase_6_checkbox_indicator_visibility"] == (
         "validated_global_palette_aware_borders_and_state_marks_light_dark_phase6-20260814-131637"

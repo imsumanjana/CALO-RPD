@@ -147,7 +147,9 @@ class ScientificAuditWorker(QThread):
                 if bool(self.config.require_backend_parity) and not bool(parity.get("passed")):
                     raise RuntimeError("CPU/accelerator numerical parity gate did not pass")
             if self.parity_only:
-                self.progress.emit("Parity audit complete", 100)
+                self.progress.emit(
+                    "Numerical agreement complete — fairness audit still required", 100
+                )
                 self.completed.emit({"parity_only": True, "parity": parity})
                 return
 
@@ -507,8 +509,13 @@ class ExperimentManagerPanel(WorkspacePage):
         self.audit_button.setObjectName("PrimaryButton")
         self.audit_button.setMinimumHeight(36)
         self.audit_button.clicked.connect(self.run_fairness_audit)
-        self.parity_button = QPushButton("Run numerical agreement check")
+        self.parity_button = QPushButton("Optional numerical check")
         self.parity_button.setMinimumHeight(36)
+        self.parity_button.setToolTip(
+            "Check CPU/accelerator numerical agreement only. This does not replace the fairness "
+            "audit and does not unlock staging."
+        )
+        self.parity_button.setAccessibleDescription(self.parity_button.toolTip())
         self.parity_button.clicked.connect(self.run_backend_parity_audit)
         self.audit_state = QLabel("Required before execution")
         self.audit_state.setObjectName("InfoText")
@@ -576,6 +583,13 @@ class ExperimentManagerPanel(WorkspacePage):
         buttons.addWidget(self.pause)
         buttons.addWidget(self.cancel)
         self.execution_card.layout_root.addLayout(buttons)
+        self.execution_gate_state = QLabel(
+            "Required sequence: Run fairness audit, then Stage, then Run."
+        )
+        self.execution_gate_state.setWordWrap(True)
+        self.execution_gate_state.setObjectName("InfoText")
+        self.execution_gate_state.setAccessibleName("Experiment execution requirement")
+        self.execution_card.layout_root.addWidget(self.execution_gate_state)
         self.status = QLabel(
             "Open Validate + outputs and complete the fairness audit before staging. Global "
             "task progress is shown in the bottom status bar."
@@ -1121,6 +1135,39 @@ class ExperimentManagerPanel(WorkspacePage):
             run_guidance = f"Run is unavailable while the plan is {state.replace('_', ' ')}."
         self.compare.setToolTip(run_guidance)
         self.compare.setAccessibleDescription(run_guidance)
+        if plan is None:
+            execution_gate_guidance = (
+                "Create the exact Individual plan and run its fairness audit before staging."
+                if not workspace
+                else "Apply the Study setup and run its fairness audit before staging."
+            )
+        elif state == ExecutionLifecycle.DRAFT.value:
+            execution_gate_guidance = (
+                "Numerical agreement passed, but that optional check is not the fairness audit. "
+                "Run fairness audit next; Stage remains locked until its receipt is stored."
+                if self.backend_parity_passed
+                else "Fairness audit required. Numerical agreement alone does not unlock Stage."
+            )
+        elif state == ExecutionLifecycle.AUDITED.value and audit_matches_current:
+            execution_gate_guidance = (
+                "Fairness audit receipt stored for this exact plan. Select Stage next; Run remains "
+                "locked until staging succeeds."
+            )
+        elif state == ExecutionLifecycle.AUDITED.value:
+            execution_gate_guidance = (
+                "The setup differs from its stored fairness receipt. Run the fairness audit again "
+                "before staging."
+            )
+        elif state == ExecutionLifecycle.STAGED.value and owner_matches:
+            execution_gate_guidance = "Staging complete. Run is now available for this exact plan."
+        elif not controller_none and not owner_matches:
+            execution_gate_guidance = "Another experiment currently controls execution."
+        else:
+            execution_gate_guidance = (
+                f"Current plan state: {state.replace('_', ' ')}. Use the available lifecycle "
+                "action shown below."
+            )
+        self.execution_gate_state.setText(execution_gate_guidance)
         self.resume_plan.setEnabled(
             bool(plan)
             and state
@@ -1908,7 +1955,8 @@ class ExperimentManagerPanel(WorkspacePage):
             f"Maximum objective error: {report.get('max_objective_error'):.6g} (tol {tolerances.get('objective', float('nan')):.3g})\n"
             f"Maximum violation error: {report.get('max_violation_error'):.6g} (tol {tolerances.get('violation', float('nan')):.3g})\n"
             f"Maximum voltage error: {report.get('max_voltage_error'):.6g} p.u. (tol {tolerances.get('voltage_pu', float('nan')):.3g})\n"
-            f"Feasibility mismatches: {report.get('feasibility_mismatches')}\n\n"
+            f"Feasibility mismatches: {report.get('feasibility_mismatches')}\n"
+            "This optional check does not replace the fairness audit or unlock staging.\n\n"
             + json.dumps(report.get("details", []), indent=2)
         )
 
@@ -2033,14 +2081,20 @@ class ExperimentManagerPanel(WorkspacePage):
         if payload.get("parity_only"):
             self.audit.setPlainText(self._format_parity(parity))
             self.audit_state.setText(
-                "Numerical agreement passed — run fairness audit"
+                "Numerical agreement passed — fairness audit still required"
                 if self.backend_parity_passed
                 else "Numerical agreement failed"
             )
             if self.backend_parity_passed:
-                self.state.task_status.finish("Numerical agreement check passed")
+                self.status.setText(
+                    "Numerical agreement passed. Run the separate fairness audit to unlock Stage."
+                )
+                self.state.task_status.finish(
+                    "Numerical agreement passed — fairness audit still required"
+                )
             else:
                 self.state.task_status.fail("Numerical agreement check failed")
+            self.refresh_execution_state()
             return
 
         report = payload["fairness"]

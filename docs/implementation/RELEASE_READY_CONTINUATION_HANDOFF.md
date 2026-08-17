@@ -1866,3 +1866,15 @@ superseded by the stage-neutral compatibility and qualification boundary on 2026
 - No live audit or experiment, policy lifecycle/scientific/qualification/protected-case workflow,
   Docker/CUDA campaign, publication, or release action ran. Human usability, screen-reader, and
   scientist acceptance remain separate.
+
+## 2026-08-17 - Optional numerical check distinguished from fairness audit
+
+- The screenshot text `Parity audit complete` did not represent a fairness receipt. Live plan
+  `individual-plan-6e91f7ed163d4d8c847a54dda690100f` was read-only verified as `draft`, with
+  blank audit SHA-256 and no controller owner. Stage and Run were therefore correctly locked.
+- GUI wording now identifies the numerical check as optional and explicitly says fairness is still
+  required. A visible execution message reports the exact persisted step: fairness receipt, Stage,
+  then Run. No gate or lifecycle transition was weakened.
+- `validation\logs\phase6-20260817-224630` is a complete source-stable schema-v38 PASS with 169
+  unit, 65 focused GUI, 21 startup/visual, and 32 integration tests. Schema v39 is the final tracked
+  status/ledger replay; no post-PASS tracked edit is required.

@@ -216,6 +216,53 @@ def test_individual_draft_explains_audit_then_stage_then_run(qtbot, tmp_path) ->
     assert "Completing setup sections alone" in panel.stage_plan.toolTip()
     assert panel.compare.isEnabled() is False
     assert "fairness audit, then stage" in panel.compare.toolTip()
+    assert "Numerical agreement alone does not unlock Stage" in panel.execution_gate_state.text()
+
+
+def test_numerical_agreement_pass_does_not_masquerade_as_fairness_receipt(qtbot, tmp_path) -> None:
+    state = AppState(tmp_path / "individual-parity-only.sqlite")
+    _submit_stage(state)
+    plan = state.execution_control.create_individual_draft(state.config)
+    panel = ExperimentManagerPanel(state, ExperimentManager(state))
+    qtbot.addWidget(panel)
+    panel.show_context("individual_experiment.review")
+
+    panel._on_audit_completed(
+        {
+            "parity_only": True,
+            "parity": {
+                "passed": True,
+                "device": "cpu",
+                "device_name": "Synthetic CPU",
+                "case": "synthetic",
+                "scenario_count": 1,
+                "candidate_count": 1,
+                "max_objective_error": 0.0,
+                "max_violation_error": 0.0,
+                "max_voltage_error": 0.0,
+                "feasibility_mismatches": 0,
+                "tolerances": {
+                    "objective": 1e-9,
+                    "violation": 1e-9,
+                    "voltage_pu": 1e-9,
+                },
+                "details": [],
+            },
+        }
+    )
+
+    retained = state.execution_control.active_plan("individual_experiment")
+    assert retained is not None
+    assert retained["id"] == plan["id"]
+    assert retained["lifecycle_state"] == "draft"
+    assert retained["audit_sha256"] == ""
+    assert panel.audit_state.text() == (
+        "Numerical agreement passed — fairness audit still required"
+    )
+    assert "does not replace the fairness audit" in panel.audit.toPlainText()
+    assert "optional check is not the fairness audit" in panel.execution_gate_state.text()
+    assert panel.stage_plan.isEnabled() is False
+    assert panel.compare.isEnabled() is False
 
 
 def test_programmatic_refresh_does_not_claim_that_an_unaudited_draft_changed(

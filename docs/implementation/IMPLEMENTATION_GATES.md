@@ -1433,3 +1433,15 @@ GUI regressions and renders, packaging, and distribution safety checks. The sche
 this evidence-only ledger closure to the same gates. This closes local engineering validation only;
 it does not establish an experiment result, scientific conclusion, policy evidence, qualification,
 human acceptance, publication authority, release readiness, Docker evidence, or CUDA evidence.
+
+### 2026-08-17 - Parity/fairness presentation engineering gate closed
+
+Read-only live state proved the screenshot's `Parity audit complete` was an optional numerical-
+agreement result, not a persisted fairness receipt: the active Individual plan remained a matching,
+controller-free `draft` with blank audit SHA-256. Current GUI source labels that action optional and
+states at every completion surface that fairness remains required. The execution card shows the
+persisted Draft -> Audited -> Staged -> Run sequence. Schema-v38 bundle
+`validation/logs/phase6-20260817-224630` passed all 17 commands with stable source identity,
+including the parity-only non-receipt regression; schema v39 binds the ledger closure. This evidence
+does not authorize or infer a live audit, experiment, policy operation, scientific conclusion,
+human acceptance, publication, or release.

@@ -3528,3 +3528,24 @@ Append timestamped entries below this line after each material action, validatio
   does not infer human screen-reader, usability, scientist acceptance, or scientific conclusions.
 - The ignored validator advances to schema v37 solely to bind this tracked ledger/status closure to
   one final source-stable evidence replay; no post-PASS tracked edit is required.
+
+## 2026-08-17 - Parity-versus-fairness activation diagnosis and schema-v38 PASS
+
+- The reported disabled Stage/Run screenshot displayed `Parity audit complete`. Read-only live
+  SQLite inspection showed Individual plan `individual-plan-6e91f7ed163d4d8c847a54dda690100f`
+  remained `draft`, with `{}` audit JSON, blank audit SHA-256, the matching active stage, and
+  controller `none`. The separate optional numerical-agreement check had passed; the mandatory
+  fairness audit had not produced or committed a receipt.
+- The optional action is now labeled `Optional numerical check`. Its progress, result, tooltip,
+  accessibility description, Activity status, audit report, and visible execution-gate guidance
+  all state that it neither replaces the fairness audit nor unlocks staging. The Run card displays
+  the persisted Draft -> Audited -> Staged -> Run requirement.
+- A synthetic regression proves that parity-only success retains `draft`, leaves `audit_sha256`
+  blank, and keeps Stage and Run disabled. Receipt persistence, controller ownership, execution,
+  fairness semantics, and numerical algorithms were not changed or bypassed.
+- Bundle `validation/logs/phase6-20260817-224630` passed all 17 schema-v38 commands with complete
+  sequence and stable source status
+  `e528cc62e3b462defe261043a552894bb616aee43bbeb44e7ed6f9fc86a64631`: 169 unit, 65 focused GUI,
+  21 startup/visual, and 32 integration tests plus render, build, distribution, and stability gates.
+- No live audit, stage, run, policy/scientific/qualification/protected-case workflow, Docker/CUDA
+  campaign, publication, or release action ran. Schema v39 binds this tracked closure.
