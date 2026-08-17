@@ -16,7 +16,11 @@ from PyQt6.QtWidgets import (
     QTextBrowser,
 )
 
-from calo_rpd_studio.gui.command_registry import CommandRegistry, CommandSpec
+from calo_rpd_studio.gui.command_registry import (
+    INDIVIDUAL_EXPERIMENT_COMMAND_IDS,
+    CommandRegistry,
+    CommandSpec,
+)
 from calo_rpd_studio.gui.dialogs.unfinished_work_dialog import UnfinishedWorkDialog
 from calo_rpd_studio.gui.icons.workspace_icons import application_icon
 from calo_rpd_studio.gui.navigation.sidebar import NavigationSidebar
@@ -222,6 +226,9 @@ class MainWindow(QMainWindow):
         self.pages_by_key["portfolio"].stage_completed.connect(
             lambda: self.workflow.mark_completed("portfolio")
         )
+        self.pages_by_key["portfolio"].study_requested.connect(
+            lambda: self._set_workspace("experiment", command_id="workspace.study")
+        )
         self.pages_by_key["calo_intelligence"].stage_completed.connect(self._governing_policy_event)
         self.pages_by_key["scenarios"].stage_completed.connect(
             lambda: self._mark_routed_setup_completed("scenarios")
@@ -229,6 +236,7 @@ class MainWindow(QMainWindow):
         self.pages_by_key["experiment"].setup_completed.connect(
             self._mark_experiment_setup_completed
         )
+        self.pages_by_key["experiment"].study_setup_applied.connect(self._refresh_workflow)
         self.pages_by_key["dashboard"].workspace_requested.connect(self._set_workspace)
         self.pages_by_key["experiment"].workspace_requested.connect(self._set_workspace)
         self.pages_by_key["settings"].density_changed.connect(self._apply_interface_density)
@@ -428,7 +436,28 @@ class MainWindow(QMainWindow):
         controller_kind = str(controller["controller"])
         owner_plan = str(controller["owner_plan_id"])
         stage_ready = self.state.execution_control.active_stage() is not None
-        if stage_ready:
+        if not stage_ready:
+            for command_id in (
+                "workspace.portfolio",
+                "workspace.study",
+                "workspace.validation",
+                "workspace.publication",
+                *INDIVIDUAL_EXPERIMENT_COMMAND_IDS,
+            ):
+                self.command_registry.set_available(
+                    command_id,
+                    False,
+                    "Submit at least one algorithm for experiment use first.",
+                )
+        elif controller_kind != "workspace" and not training_active:
+            # Direct Individual setup depends only on the submitted stage. It does not consume
+            # the Workspace Portfolio or Study completion ledgers.
+            for command_id in INDIVIDUAL_EXPERIMENT_COMMAND_IDS:
+                self.command_registry.set_available(
+                    command_id,
+                    True,
+                    "Configure an independent experiment using the complete submitted stage.",
+                )
             for command_id, setup_key in (
                 ("experiment.power", "power_system"),
                 ("experiment.formulation", "orpd"),
@@ -436,22 +465,6 @@ class MainWindow(QMainWindow):
             ):
                 state, reason = self.workflow.individual_setup_state_key(setup_key)
                 self.command_registry.set_available(command_id, state != "locked", reason)
-        if not stage_ready:
-            for command_id in (
-                "workspace.portfolio",
-                "workspace.study",
-                "workspace.validation",
-                "workspace.publication",
-                "experiment.individual",
-                "experiment.power",
-                "experiment.formulation",
-                "experiment.scenarios",
-            ):
-                self.command_registry.set_available(
-                    command_id,
-                    False,
-                    "Submit at least one algorithm for experiment use first.",
-                )
         for command_id in (
             "project.open",
             "algorithms.configure",
@@ -468,29 +481,12 @@ class MainWindow(QMainWindow):
                         else "Configuration is locked while training owns runtime state."
                     ),
                 )
-        experiment_commands = (
-            "experiment.individual",
-            "experiment.power",
-            "experiment.formulation",
-            "experiment.scenarios",
-        )
         if controller_kind == "workspace":
-            for command_id in experiment_commands:
+            for command_id in INDIVIDUAL_EXPERIMENT_COMMAND_IDS:
                 self.command_registry.set_available(
                     command_id,
                     False,
                     f"Workspace plan {owner_plan!r} owns experiment execution.",
-                )
-        elif controller_kind == "individual_experiment":
-            for command_id in (
-                "experiment.power",
-                "experiment.formulation",
-                "experiment.scenarios",
-            ):
-                self.command_registry.set_available(
-                    command_id,
-                    False,
-                    f"Individual plan {owner_plan!r} owns the immutable experiment inputs.",
                 )
         experiment_page = self.pages_by_key["experiment"]
         experiment_page.set_study_prerequisite_states(
@@ -577,16 +573,23 @@ class MainWindow(QMainWindow):
                 "Policy training is running. All scientific/configuration panels are locked until training completes or Safe Stops.",
             )
             return
-        individual_setup_command = str(command_id).startswith("experiment.") and key in {
+        individual_command = str(command_id) in INDIVIDUAL_EXPERIMENT_COMMAND_IDS
+        individual_setup_command = individual_command and key in {
             "power_system",
             "orpd",
             "scenarios",
         }
-        state, reason = (
-            self.workflow.individual_setup_state_key(key)
-            if individual_setup_command
-            else self.workflow.workspace_state_key(key)
-        )
+        if individual_command and key == "experiment":
+            state, reason = (
+                "available",
+                "Configure an independent experiment using the complete submitted stage.",
+            )
+        else:
+            state, reason = (
+                self.workflow.individual_setup_state_key(key)
+                if individual_setup_command
+                else self.workflow.workspace_state_key(key)
+            )
         if state == "locked":
             QMessageBox.information(self, "Workflow step locked", reason)
             return

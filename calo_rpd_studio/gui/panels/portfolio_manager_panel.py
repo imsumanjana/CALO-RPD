@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-from dataclasses import asdict
 import json
 
 from PyQt6.QtCore import Qt, pyqtSignal
@@ -14,8 +13,8 @@ from PyQt6.QtWidgets import (
     QHeaderView,
     QHBoxLayout,
     QLabel,
+    QLineEdit,
     QPushButton,
-    QSpinBox,
     QTreeWidget,
     QTreeWidgetItem,
     QVBoxLayout,
@@ -26,8 +25,7 @@ from calo_rpd_studio.gui.user_feedback import log_technical_error, show_error
 from calo_rpd_studio.gui.widgets.page_header import PageHeader
 from calo_rpd_studio.gui.widgets.scrollable_page import ScrollablePage
 from calo_rpd_studio.gui.widgets.workspace_tabs import WorkspaceTabs
-from calo_rpd_studio.portfolio.catalog import OUTPUT_REQUIREMENTS, categories
-from calo_rpd_studio.portfolio.fingerprint import stable_sha256
+from calo_rpd_studio.portfolio.catalog import categories
 from calo_rpd_studio.portfolio.models import (
     ArticlePreset,
     EvidenceProfile,
@@ -35,11 +33,12 @@ from calo_rpd_studio.portfolio.models import (
     PortfolioKind,
     StorageProfile,
 )
-from calo_rpd_studio.portfolio.planner import PortfolioPlanner
+from calo_rpd_studio.portfolio.study_planning import PortfolioGoalPlanner
 
 
 class PortfolioManagerPanel(ScrollablePage):
     stage_completed = pyqtSignal()
+    study_requested = pyqtSignal()
 
     def __init__(self, state, parent=None) -> None:
         content = QWidget()
@@ -55,7 +54,7 @@ class PortfolioManagerPanel(ScrollablePage):
         layout.addWidget(
             PageHeader(
                 "Portfolio Manager",
-                "Choose the evidence portfolio before execution. The planner derives the minimum paired runs, stored fields, validation, statistics, and export tasks required for the selected scientific outputs.",
+                "Define the broad evidence and deliverable goal. Study will recommend the concrete cases, repetitions, scenarios, and execution setup after this goal is applied.",
             )
         )
 
@@ -63,7 +62,7 @@ class PortfolioManagerPanel(ScrollablePage):
         definition_layout = QHBoxLayout(definition)
         definition_layout.setContentsMargins(18, 18, 18, 18)
         definition_layout.setSpacing(16)
-        study_scope = QGroupBox("Study scope")
+        study_scope = QGroupBox("Goal")
         study_form = QFormLayout(study_scope)
         output_scope = QGroupBox("Output and storage")
         output_form = QFormLayout(output_scope)
@@ -78,9 +77,6 @@ class PortfolioManagerPanel(ScrollablePage):
         self.profile.addItem("Rigorous minimum", EvidenceProfile.JOURNAL.value)
         self.profile.addItem("Comprehensive minimum", EvidenceProfile.TRANSACTIONS.value)
         self.profile.addItem("Powered/custom run plan", EvidenceProfile.CUSTOM.value)
-        self.custom_runs = QSpinBox()
-        self.custom_runs.setRange(1, 1000)
-        self.custom_runs.setValue(30)
         self.preset = QComboBox()
         self.preset.addItem("No output preset", ArticlePreset.NONE.value)
         self.preset.addItem("TLBO/MTLBO comparison", ArticlePreset.TLBO_MTLBO.value)
@@ -96,9 +92,13 @@ class PortfolioManagerPanel(ScrollablePage):
             "Repeated-run statistical evidence", StorageProfile.REPEATED_STATISTICS.value
         )
         self.storage.addItem("Full robust scenario evidence", StorageProfile.ROBUST_FULL.value)
+        self.goal_summary = QLineEdit()
+        self.goal_summary.setPlaceholderText(
+            "Plain-language ultimate target, for example: compare feasible solution quality"
+        )
         study_form.addRow("Portfolio type", self.kind)
         study_form.addRow("Evidence strength", self.profile)
-        study_form.addRow("Custom repeated runs", self.custom_runs)
+        study_form.addRow("Ultimate target", self.goal_summary)
         output_form.addRow("Output preset", self.preset)
         output_form.addRow("Storage profile", self.storage)
         definition_layout.addWidget(study_scope, 1)
@@ -126,7 +126,7 @@ class PortfolioManagerPanel(ScrollablePage):
         algorithm_layout.addWidget(self.algorithm_filter, 1)
         algorithm_actions = QHBoxLayout()
         use_all_algorithms = QPushButton("Use all staged algorithms")
-        clear_algorithms = QPushButton("Clear study filter")
+        clear_algorithms = QPushButton("Clear comparison scope")
         use_all_algorithms.clicked.connect(self._use_all_staged_algorithms)
         clear_algorithms.clicked.connect(self._clear_study_filter)
         algorithm_actions.addWidget(use_all_algorithms)
@@ -142,6 +142,11 @@ class PortfolioManagerPanel(ScrollablePage):
         )
         explanation.setWordWrap(True)
         output_layout.addWidget(explanation)
+        self.require_validation = QCheckBox(
+            "Require independent validation for publication-facing deliverables"
+        )
+        self.require_validation.setChecked(True)
+        output_layout.addWidget(self.require_validation)
         self.outputs = QTreeWidget()
         self.outputs.setObjectName("PortfolioRequestedOutputs")
         self.outputs.setAccessibleName("Requested figures, tables, and evidence")
@@ -181,25 +186,6 @@ class PortfolioManagerPanel(ScrollablePage):
         select_row.addStretch(1)
         output_layout.addLayout(select_row)
 
-        execution = QWidget()
-        execution_layout = QVBoxLayout(execution)
-        execution_layout.setContentsMargins(18, 18, 18, 18)
-        execution_layout.setSpacing(12)
-        self.require_validation = QCheckBox(
-            "Require independent validation for publication-facing outputs"
-        )
-        self.reuse = QCheckBox(
-            "Reuse exact compatible completed results using scientific fingerprints"
-        )
-        self.resume = QCheckBox("Enable campaign and job resume")
-        self.require_validation.setChecked(True)
-        self.reuse.setChecked(True)
-        self.resume.setChecked(True)
-        execution_layout.addWidget(self.require_validation)
-        execution_layout.addWidget(self.reuse)
-        execution_layout.addWidget(self.resume)
-        execution_layout.addStretch(1)
-
         plan_box = QWidget()
         plan_layout = QVBoxLayout(plan_box)
         plan_layout.setContentsMargins(18, 18, 18, 18)
@@ -211,48 +197,47 @@ class PortfolioManagerPanel(ScrollablePage):
         plan_layout.addWidget(self.plan_summary)
         plan_layout.addWidget(self.plan_detail)
         buttons = QHBoxLayout()
-        preview = QPushButton("Preview required work")
-        apply_button = QPushButton("Apply portfolio plan")
+        preview = QPushButton("Preview portfolio goal")
+        apply_button = QPushButton("Apply portfolio goal")
         apply_button.setObjectName("PrimaryButton")
+        self.open_study = QPushButton("Open Workspace Study")
+        self.open_study.setEnabled(False)
         preview.clicked.connect(self.refresh_plan)
         apply_button.clicked.connect(self.apply)
+        self.open_study.clicked.connect(self.study_requested.emit)
         buttons.addWidget(preview)
         buttons.addWidget(apply_button)
+        buttons.addWidget(self.open_study)
         buttons.addStretch(1)
         plan_layout.addLayout(buttons)
 
         self.section_tabs = WorkspaceTabs("Portfolio planning sections")
         self.section_tabs.add_section(
-            "Definition",
+            "Goal",
             definition,
-            "Choose the portfolio scope, evidence strength, output preset, and storage profile.",
+            "Choose the broad ultimate evidence target, rigor, preset, and evidence class.",
         )
         self.section_tabs.add_section(
-            "Algorithms in study",
+            "Comparison scope",
             algorithm_box,
-            "Choose a non-empty subset of the submitted algorithm stage without changing it.",
+            "Choose a non-empty comparison subset of the submitted stage without changing it.",
         )
         self.section_tabs.add_section(
-            "Requested outputs",
+            "Deliverables and evidence",
             output_box,
             "Select the figures, tables, and evidence required from the study.",
         )
         self.section_tabs.add_section(
-            "Reuse and validation",
-            execution,
-            "Control independent validation, compatible-result reuse, and resumability.",
-        )
-        self.section_tabs.add_section(
-            "Derived plan",
+            "Goal summary",
             plan_box,
-            "Preview and apply the minimum experiment plan implied by the selected outputs.",
+            "Preview intrinsic constraints and apply only the immutable broad Portfolio goal.",
         )
         self.section_tabs.setMinimumHeight(520)
         layout.addWidget(self.section_tabs, 1)
 
         for widget in (self.kind, self.profile, self.preset, self.storage):
             widget.currentIndexChanged.connect(self._controls_changed)
-        self.custom_runs.valueChanged.connect(self._controls_changed)
+        self.goal_summary.textChanged.connect(self._controls_changed)
         self.outputs.itemChanged.connect(lambda *_: self.refresh_plan())
         self.algorithm_filter.itemChanged.connect(lambda *_: self.refresh_plan())
         self.state.config_changed.connect(lambda _: self.refresh())
@@ -297,6 +282,21 @@ class PortfolioManagerPanel(ScrollablePage):
                     )
                     if retained and set(retained).issubset(stage.algorithm_names):
                         selected = set(retained)
+                elif workspace_plan is None:
+                    active_goal = self.state.database.get_active_portfolio_goal()
+                    if (
+                        active_goal is not None
+                        and str(active_goal["algorithm_stage_id"]) == stage.stage_id
+                        and str(active_goal["algorithm_stage_sha256"]) == stage.content_sha256
+                    ):
+                        retained = tuple(
+                            str(name)
+                            for name in active_goal["content"].get(
+                                "selected_algorithm_names", []
+                            )
+                        )
+                        if retained and set(retained).issubset(stage.algorithm_names):
+                            selected = set(retained)
             for name in stage.algorithm_names:
                 parameters = stage.algorithm_parameters.get(name, {})
                 item = QTreeWidgetItem(
@@ -349,31 +349,6 @@ class PortfolioManagerPanel(ScrollablePage):
             self.algorithm_filter.blockSignals(False)
         self.refresh_plan()
 
-    def _resolve_preset(self, portfolio: PortfolioConfig, subset: tuple[str, ...]):
-        requirements = PortfolioPlanner.apply_article_preset(None, portfolio)
-        staged = set(self._algorithm_items)
-        missing_required = [name for name in requirements.required_algorithms if name not in staged]
-        if missing_required:
-            raise ValueError(
-                "This study requires "
-                + ", ".join(missing_required)
-                + ". Return to Algorithms and submit a broader staged pool first."
-            )
-        omitted_required = [name for name in requirements.required_algorithms if name not in subset]
-        if omitted_required:
-            raise ValueError(
-                "Include the preset-required submitted algorithm(s): " + ", ".join(omitted_required)
-            )
-        recommended_missing = [
-            name for name in requirements.recommended_algorithms if name not in staged
-        ]
-        recommended_omitted = [
-            name
-            for name in requirements.recommended_algorithms
-            if name in staged and name not in subset
-        ]
-        return requirements, recommended_missing, recommended_omitted
-
     def _selected_outputs(self) -> list[str]:
         return [
             key for key, item in self._items.items() if item.checkState(0) == Qt.CheckState.Checked
@@ -411,32 +386,35 @@ class PortfolioManagerPanel(ScrollablePage):
         if kind is PortfolioKind.SINGLE_RUN:
             self.profile.setCurrentIndex(self.profile.findData(EvidenceProfile.DIAGNOSTIC.value))
             self.profile.setEnabled(False)
-            self.custom_runs.setEnabled(False)
             self.storage.setCurrentIndex(
                 self.storage.findData(StorageProfile.FULL_SINGLE_RUN.value)
             )
         else:
             self.profile.setEnabled(True)
-            self.custom_runs.setEnabled(
-                str(self.profile.currentData()) == EvidenceProfile.CUSTOM.value
-            )
         self.refresh_plan()
 
     def _build_config(self) -> PortfolioConfig:
+        prior = getattr(self.state.config, "portfolio", PortfolioConfig())
         return PortfolioConfig(
             kind=PortfolioKind(str(self.kind.currentData())),
             evidence_profile=EvidenceProfile(str(self.profile.currentData())),
             article_preset=ArticlePreset(str(self.preset.currentData())),
             requested_outputs=self._selected_outputs(),
-            custom_runs=int(self.custom_runs.value()),
+            # Legacy execution-owned fields remain serializable for old records but are not
+            # Portfolio controls and are excluded from AppliedPortfolioGoal content.
+            custom_runs=int(prior.custom_runs),
             require_independent_validation=self.require_validation.isChecked(),
-            reuse_compatible_results=self.reuse.isChecked(),
-            enable_resume=self.resume.isChecked(),
+            reuse_compatible_results=bool(prior.reuse_compatible_results),
+            enable_resume=bool(prior.enable_resume),
+            checkpoint_interval_evaluations=int(prior.checkpoint_interval_evaluations),
             storage_profile=StorageProfile(str(self.storage.currentData())),
             name=(
-                "Single-run diagnostic portfolio"
-                if str(self.kind.currentData()) == PortfolioKind.SINGLE_RUN.value
-                else "Overall experiment portfolio"
+                self.goal_summary.text().strip()
+                or (
+                    "Single-run diagnostic portfolio"
+                    if str(self.kind.currentData()) == PortfolioKind.SINGLE_RUN.value
+                    else "Overall experiment portfolio"
+                )
             ),
         )
 
@@ -444,8 +422,8 @@ class PortfolioManagerPanel(ScrollablePage):
         stage = self.state.execution_control.active_stage()
         if stage is None:
             self.plan_summary.setText(
-                "Submit at least one algorithm for experiment use before previewing "
-                "a Workspace portfolio."
+                "Submit algorithms first. Portfolio can select a comparison scope only from "
+                "the immutable submitted stage. No goal or execution plan has started."
             )
             self.plan_detail.setText(
                 "Open Algorithms, choose the permitted pool, and select Submit "
@@ -462,8 +440,8 @@ class PortfolioManagerPanel(ScrollablePage):
                 f"Retained submitted identities: {retained_names}. Current experiment "
                 f"selection: {current_names}. Identities and/or parameters differ. Open "
                 "Algorithms, review the current selection and parameters, and submit them "
-                "again before creating a Workspace draft. The retained stage was not changed, "
-                "and no plan or execution has started."
+                "again before applying a Portfolio goal. The retained stage was not changed, "
+                "and no goal or execution plan has started."
             )
             return
         portfolio = self._build_config()
@@ -482,39 +460,21 @@ class PortfolioManagerPanel(ScrollablePage):
             )
             return
         try:
-            _requirements, recommended_missing, recommended_omitted = self._resolve_preset(
-                portfolio, subset
+            goal = PortfolioGoalPlanner.create(portfolio, stage, subset)
+            constraints = goal.intrinsic_requirements
+            warnings = "\n".join(f"• {item}" for item in goal.intrinsic_warnings) or "None"
+            self.plan_summary.setText(
+                "Portfolio goal is ready to apply. Study setup is not required here."
             )
-            temp_config = self.state.config
-            plan = PortfolioPlanner.plan(
-                temp_config, portfolio, benchmark_blocks=1, algorithm_subset=subset
-            )
-            disabled = (
-                "\n".join(
-                    f"• {OUTPUT_REQUIREMENTS[key].label if key in OUTPUT_REQUIREMENTS else key}: {reason}"
-                    for key, reason in plan.disabled_outputs.items()
-                )
-                or "None"
-            )
-            fields = ", ".join(plan.required_fields)
-            warnings_list = list(plan.warnings)
-            if recommended_missing:
-                warnings_list.append(
-                    "Recommended algorithms are not in the submitted stage: "
-                    + ", ".join(recommended_missing)
-                )
-            if recommended_omitted:
-                warnings_list.append(
-                    "Recommended submitted algorithms are excluded from this study: "
-                    + ", ".join(recommended_omitted)
-                )
-            warnings = "\n".join(f"• {item}" for item in warnings_list) or "None"
-            self.plan_summary.setText(plan.summary())
             self.plan_detail.setText(
-                f"Required stored evidence: {fields}\n"
-                f"Independent validation: {'required' if plan.require_validation else 'not mandatory'}\n"
-                f"Unavailable selections:\n{disabled}\n"
-                f"Planner warnings:\n{warnings}"
+                f"Comparison scope: {', '.join(goal.selected_algorithm_names)}\n"
+                f"Requested deliverables: {', '.join(goal.portfolio['requested_outputs'])}\n"
+                f"Study hard minimum: {constraints['hard_minimum_runs']} paired run(s), "
+                f"{constraints['minimum_benchmark_blocks']} benchmark block(s)\n"
+                f"Required stored evidence: {', '.join(constraints['required_storage_fields'])}\n"
+                f"Robust Study required: {'yes' if constraints['robust_scenario_required'] else 'no'}\n"
+                f"Intrinsic warnings:\n{warnings}\n"
+                "No Study plan, audit, controller, campaign, task, or numerical work has been created."
             )
         except ValueError as exc:
             self.plan_summary.setText("The portfolio preview needs another selection.")
@@ -528,6 +488,7 @@ class PortfolioManagerPanel(ScrollablePage):
 
     def refresh(self) -> None:
         self._refresh_algorithm_stage()
+        stage = self.state.execution_control.active_stage()
         portfolio = getattr(self.state.config, "portfolio", PortfolioConfig())
         self.kind.setCurrentIndex(max(0, self.kind.findData(portfolio.kind.value)))
         self.profile.setCurrentIndex(
@@ -535,10 +496,8 @@ class PortfolioManagerPanel(ScrollablePage):
         )
         self.preset.setCurrentIndex(max(0, self.preset.findData(portfolio.article_preset.value)))
         self.storage.setCurrentIndex(max(0, self.storage.findData(portfolio.storage_profile.value)))
-        self.custom_runs.setValue(int(portfolio.custom_runs))
+        self.goal_summary.setText(str(portfolio.name))
         self.require_validation.setChecked(bool(portfolio.require_independent_validation))
-        self.reuse.setChecked(bool(portfolio.reuse_compatible_results))
-        self.resume.setChecked(bool(portfolio.enable_resume))
         self._set_outputs(list(portfolio.requested_outputs))
         self._controls_changed()
         controller = self.state.execution_control.controller()
@@ -550,6 +509,15 @@ class PortfolioManagerPanel(ScrollablePage):
         )
         locked = str(controller["controller"]) != "none" or retained_workspace
         self.section_tabs.setEnabled(not locked)
+        active_goal = self.state.database.get_active_portfolio_goal()
+        goal_current = bool(
+            active_goal is not None
+            and stage is not None
+            and str(active_goal["algorithm_stage_id"]) == stage.stage_id
+            and str(active_goal["algorithm_stage_sha256"]) == stage.content_sha256
+        )
+        self.open_study.setEnabled(goal_current and not locked)
+        self.open_study.setVisible(goal_current)
         if locked:
             owner = (
                 str(controller["owner_plan_id"])
@@ -563,58 +531,59 @@ class PortfolioManagerPanel(ScrollablePage):
     def apply(self) -> None:
         try:
             portfolio = self._build_config()
-            portfolio.validate()
             stage = self.state.execution_control.active_stage()
             if stage is None:
-                raise ValueError("Submit at least one algorithm for experiment use first")
-            if not self._stage_matches_current_config(stage):
                 raise ValueError(
-                    "The submitted algorithm identities or parameters changed; return to "
-                    "Algorithms, review them, and submit the algorithm stage again"
+                    "Submit algorithms first. Portfolio can select a comparison scope only from "
+                    "the immutable submitted stage. No goal or execution plan has started."
+                )
+            if not self._stage_matches_current_config(stage):
+                retained_names = ", ".join(stage.algorithm_names)
+                current_names = (
+                    ", ".join(str(name) for name in self.state.config.algorithms) or "none"
+                )
+                raise ValueError(
+                    f"Submitted stage {stage.stage_id!r} ({stage.content_sha256[:16]}…) retains "
+                    f"[{retained_names}], while the current Algorithms draft contains "
+                    f"[{current_names}] and/or different parameters. Return to Algorithms, "
+                    "review the exact identities and parameters, and submit the stage again. "
+                    "No Portfolio goal or Study plan was changed."
                 )
             subset = self._selected_study_algorithms()
             if not subset:
                 raise ValueError("Select at least one submitted algorithm for this Workspace study")
-            self._resolve_preset(portfolio, subset)
-            plan = PortfolioPlanner.plan(
-                self.state.config,
-                portfolio,
-                benchmark_blocks=1,
-                algorithm_subset=subset,
+            goal = PortfolioGoalPlanner.create(portfolio, stage, subset)
+            self.state.database.replace_portfolio_goal(goal)
+            # Shared configuration retains broad display preferences only. Exact Study choices,
+            # including runs/reuse/resume/checkpoints, are intentionally untouched here.
+            portfolio.kind = PortfolioKind(str(goal.portfolio["portfolio_type"]))
+            portfolio.evidence_profile = EvidenceProfile(
+                str(goal.portfolio["evidence_profile"])
             )
-            if not [key for key in portfolio.requested_outputs if key not in plan.disabled_outputs]:
-                raise ValueError(
-                    "None of the selected outputs can be generated from the current formulation."
-                )
+            portfolio.requested_outputs = list(goal.portfolio["requested_outputs"])
+            portfolio.storage_profile = StorageProfile(
+                str(goal.portfolio["storage_or_evidence_class"])
+            )
+            portfolio.require_independent_validation = bool(
+                goal.portfolio["require_independent_validation"]
+            )
             self.state.config.portfolio = portfolio
-            self.state.config.runs = int(plan.required_runs)
-            self.state.config.resume_enabled = bool(portfolio.enable_resume)
-            self.state.config.reuse_compatible_results = bool(portfolio.reuse_compatible_results)
-            self.state.config.checkpoint_interval_evaluations = int(
-                portfolio.checkpoint_interval_evaluations
-            )
-            fingerprint = stable_sha256({"portfolio": portfolio.to_dict(), "plan": asdict(plan)})
-            portfolio_id = self.state.database.create_portfolio(
-                portfolio.name, portfolio.to_dict(), asdict(plan), fingerprint
-            )
-            self.state.config.portfolio_id = portfolio_id
-            workspace_plan = self.state.execution_control.create_workspace_draft(
-                self.state.config, subset
-            )
+            self.state.config.portfolio_id = ""
+            self.state.config.workspace_study_contract = {}
             self.state.update_config()
             self.state.notify_execution_state_changed()
             self.refresh_plan()
             self.stage_completed.emit()
             self.plan_detail.setText(
-                self.plan_detail.text()
-                + f"\nWorkspace draft: {workspace_plan['id']} · design SHA-256 "
-                + f"{str(workspace_plan['design_sha256'])[:16]}…"
+                f"Portfolio goal applied: {goal.portfolio_goal_id} · SHA-256 "
+                f"{goal.content_sha256[:16]}…\nOpen Workspace Study to review recommendations "
+                "and choose the concrete setup. No experiment has started."
             )
         except Exception as exc:
             show_error(
                 self,
-                "Portfolio plan was not applied",
-                "Review the selected evidence portfolio and study size.",
+                "Portfolio goal was not applied",
+                str(exc),
                 exc,
                 source="portfolio planning",
             )

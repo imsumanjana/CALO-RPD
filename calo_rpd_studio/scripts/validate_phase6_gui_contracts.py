@@ -227,7 +227,10 @@ def validate(output: Path, *, platform: str) -> dict:
         "experiment.individual",
         "experiment.power",
         "experiment.formulation",
+        "experiment.budget",
         "experiment.scenarios",
+        "experiment.validation",
+        "experiment.review",
     ):
         raise AssertionError(f"Experiment owns unexpected commands: {experiment_commands!r}")
     compute_commands = tuple(

@@ -322,6 +322,10 @@ class ExperimentConfig:
     # Plan-bound orchestration/result provenance. An empty kind preserves the historical
     # Portfolio-planned entrypoint; immutable plans set one of the two current execution kinds.
     execution_plan_kind: str = ""
+    # Plan-bound Workspace v3 compatibility contract. Broad Portfolio intent remains in the
+    # separately immutable AppliedPortfolioGoal; this snapshot carries only the exact hard minimum
+    # and identities required for ordinary runtime validation/resume.
+    workspace_study_contract: dict = field(default_factory=dict)
     result_contract: dict = field(default_factory=dict)
 
     def validate_policy_development(self) -> None:
@@ -576,7 +580,27 @@ class ExperimentConfig:
             # Validation is deliberately read-only. Portfolio repetition requirements must be
             # normalized explicitly by the caller or corrected by the user; validate() never
             # mutates the scientific configuration behind the GUI's back.
-            required_runs = int(self.portfolio.required_runs())
+            workspace_contract = dict(self.workspace_study_contract or {})
+            if workspace_contract:
+                if str(workspace_contract.get("schema_version", "")) != (
+                    "calo-rpd-workspace-study-runtime-contract-v1"
+                ):
+                    raise ValueError("Unsupported Workspace Study runtime contract")
+                for key in (
+                    "portfolio_goal_id",
+                    "portfolio_goal_sha256",
+                    "recommendation_id",
+                    "recommendation_sha256",
+                ):
+                    if not str(workspace_contract.get(key, "")):
+                        raise ValueError(f"Workspace Study runtime contract is missing {key}")
+                required_runs = int(workspace_contract.get("hard_minimum_runs", 0))
+                if required_runs <= 0:
+                    raise ValueError(
+                        "Workspace Study runtime contract requires a positive hard minimum"
+                    )
+            else:
+                required_runs = int(self.portfolio.required_runs())
             if int(self.runs) < required_runs:
                 raise ValueError(
                     f"runs={self.runs} is below the portfolio-required minimum of {required_runs}. "
@@ -858,6 +882,7 @@ class ExperimentConfig:
             algorithm_stage_id=str(data.get("algorithm_stage_id", "")),
             workspace_plan_cell_id=str(data.get("workspace_plan_cell_id", "")),
             execution_plan_kind=str(data.get("execution_plan_kind", "")),
+            workspace_study_contract=dict(data.get("workspace_study_contract", {}) or {}),
             result_contract=dict(data.get("result_contract", {}) or {}),
         )
 

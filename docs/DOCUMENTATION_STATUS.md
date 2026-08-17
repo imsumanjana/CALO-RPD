@@ -142,14 +142,16 @@ separate activation action, and governing-policy Apply remains the separate expe
 These source/test contracts have not been executed; the current ignored Phase 6 validator remains the
 owner command.
 
-The current experiment correction treats **Experiment > Individual experiment** as a direct,
+The current experiment workflow treats **Experiment > Individual experiment** as a direct,
 scientist-owned path: it has separate setup completion, editable repetitions and verified exact
 reuse, a direct result contract, and an immutable full-stage v2 plan with no applied Workspace
-Portfolio or Study prerequisite. **Workspace > Study** remains the automated path and freezes its
-Portfolio-selected subset, derived repetitions/outputs/evidence, case matrix, and cells into a
-Workspace v2 plan supplied to the same numerical ExperimentManager. Both paths retain explicit
-Audit, Stage, singleton-controller, and Run boundaries. The last schema-v27 bundle predates this
-correction; schema-v28 owner validation is pending.
+Portfolio or Study prerequisite. The automated Workspace path is one-way: **Portfolio** persists
+only a broad immutable `AppliedPortfolioGoal`; **Workspace > Study** consumes that exact goal,
+offers deterministic hard minima/recommendations, retains scientist overrides and their delta, and
+creates the Workspace v3 draft only through explicit Apply Study. Audit, Stage, singleton-controller,
+and Run remain separate. SQLite schema v3 adds goal/setup records while legacy combined Portfolio
+and Workspace v1/v2 records remain historical/readable. The last schema-v27 bundle predates both
+current corrections; schema-v29 owner validation is pending.
 
 ## Historical records
 

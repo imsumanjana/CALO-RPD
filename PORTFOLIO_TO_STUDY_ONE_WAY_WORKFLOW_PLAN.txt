@@ -1,0 +1,897 @@
+CALO-RPD STUDIO
+PORTFOLIO GOAL -> STUDY RECOMMENDATION -> WORKSPACE EXECUTION PLAN
+Planning date: 2026-08-17
+Status: IMPLEMENTED IN SOURCE - OWNER VALIDATION NOT RUN
+Implementation authorization: GRANTED BY PROJECT OWNER ON 2026-08-17
+
+Implementation note: the planning-only language retained below records the pre-approval boundary.
+The approved source pass implemented the one-way contracts, additive SQLite schema v3,
+WorkspaceStudyPlan v3 bindings, GUI ownership split, regression source, documentation, and ignored
+validator schema v29. No test, validator, audit, experiment, policy, qualification, protected-case,
+Docker/CUDA campaign, publication, or release command was executed during implementation.
+
+===============================================================================
+1. USER INTENT
+===============================================================================
+
+The Workspace planning sequence must be one-directional and easy to understand:
+
+    Submitted Algorithms
+            |
+            v
+    Portfolio: define the broad ultimate target
+            |
+            v
+    Study: receive recommendations, tune the exact setup, and apply it
+            |
+            v
+    Audit -> Stage -> Run
+
+Portfolio must never require a Study plan, Study size, case selection,
+formulation, scenario configuration, or execution draft before its broad goal
+can be applied.
+
+Study must require one current applied Portfolio goal. Study then translates
+that broad goal into a concrete recommendation. The scientist remains in
+control of the final Study values. For example, if the applied Portfolio leads
+to a recommendation of five paired runs, the scientist may choose six. The
+final selected value, the original recommendation, and their difference must
+all be visible and retained.
+
+This plan does not change the direct Experiment > Individual experiment
+contract. Individual execution remains independent of Workspace Portfolio and
+Workspace Study.
+
+===============================================================================
+2. PLANNING-ONLY AND EVIDENCE BOUNDARY
+===============================================================================
+
+This file is a design proposal only.
+
+- No production source is changed by this planning pass.
+- No test, validator, schema generator, GUI smoke test, audit, experiment,
+  policy, training, qualification, protected-case, Docker, CUDA campaign,
+  publication, or release workflow is authorized or executed.
+- The current source at commit eedd33f (12.2.4), including the unvalidated
+  schema-v28 Individual experiment independence correction, must be preserved.
+- The last complete schema-v27 validation bundle predates the current
+  Individual correction and also predates any future implementation of this
+  Portfolio/Study plan.
+- Implementation must not begin until the project owner explicitly approves
+  this plan in a later message.
+
+===============================================================================
+3. VERIFIED CURRENT PROBLEM
+===============================================================================
+
+3.1 Immediate failure shown in the supplied screenshot
+
+The detailed Portfolio status reports:
+
+- retained submitted stage: CALO, TLBO, PSO, TSH-CALO;
+- current editable experiment selection: CALO, TLBO, PSO.
+
+That is algorithm-stage drift. Failing closed is correct because a Portfolio
+cannot silently reinterpret an immutable submitted algorithm stage. The modal
+summary is not correct or useful: "Review the selected evidence portfolio and
+study size" hides the actual stage mismatch and incorrectly suggests that a
+Study size is a Portfolio prerequisite.
+
+Expected future presentation:
+
+    Title: Portfolio goal was not applied
+    Reason: Submitted algorithm stage no longer matches the Algorithms draft
+    Retained stage: CALO, TLBO, PSO, TSH-CALO
+    Current draft: CALO, TLBO, PSO
+    Next action: Return to Algorithms, review the selection, and explicitly
+                 Submit algorithms for experiment again.
+    Safety statement: No Portfolio goal, Study setup, or execution plan changed.
+
+Expected prerequisite or stage-drift states should be shown inline whenever
+possible. Unexpected technical exceptions may still be recorded in Activity >
+Logs, but expected prerequisite states must not be reduced to a generic error.
+
+3.2 Structural ownership defect
+
+Current Portfolio Apply performs responsibilities from two different layers:
+
+- builds and validates PortfolioConfig;
+- selects a Workspace algorithm subset;
+- calls PortfolioPlanner.plan with current experiment/study values;
+- derives required repetitions;
+- writes the derived repetition count into ExperimentConfig.runs;
+- writes reuse/resume execution values into ExperimentConfig;
+- persists a Portfolio record;
+- immediately creates a WorkspaceStudyPlan execution draft;
+- emits Portfolio workflow completion.
+
+The Study page then reads the Workspace draft that Portfolio created. This
+makes Portfolio depend on concrete Study inputs while Study depends on a
+Portfolio-created Study draft. The circular experience is therefore real even
+where the command registry does not express it as a literal A->B->A cycle.
+
+3.3 Duplicated study-planning authority
+
+Study-strength and power-planning logic also exists in the retained Dashboard
+compatibility implementation. The visible Workspace Study workflow separately
+contains Case, Formulation, Budget + runs, Scenarios, Validate + outputs, and
+Review + launch. A future implementation must establish one visible Study
+authority and must not restore a second Dashboard study planner.
+
+===============================================================================
+4. NON-NEGOTIABLE OWNERSHIP MODEL
+===============================================================================
+
+4.1 Algorithms authority
+
+- Algorithms > Submit algorithms for experiment remains the only action that
+  creates the immutable ordered algorithm stage.
+- Portfolio may choose a non-empty comparison subset only from that stage.
+- Portfolio never adds, removes, substitutes, qualifies, activates, or changes
+  the parameters of a staged algorithm.
+- A stage mismatch blocks Portfolio Apply with the exact identities and next
+  action. It must never be described as a Study-size problem.
+
+4.2 Portfolio authority: WHAT is the ultimate target?
+
+Portfolio owns only broad, durable intent:
+
+- Portfolio goal/type, such as diagnostic or repeated comparative evidence;
+- desired evidence rigor/profile;
+- intended article/output preset, if any;
+- non-empty comparison scope selected from the submitted algorithm stage;
+- requested figures, tables, and evidence outputs;
+- storage/evidence class required by those outputs;
+- independent-validation requirement;
+- other publication/evidence requirements that describe the target rather
+  than the experiment schedule.
+
+Portfolio does not own:
+
+- exact paired-run count;
+- exact cases or case matrix;
+- exact formulation cells;
+- exact scenario family or contingency set;
+- exact optimization budget, seed, workers, compute intent, result directory,
+  reuse choice, resume choice, or checkpoint interval;
+- a WorkspaceStudyPlan;
+- fairness/audit receipts;
+- execution-controller ownership.
+
+4.3 Study authority: HOW will the Portfolio target be achieved?
+
+Study consumes one exact applied Portfolio goal and owns:
+
+- selected case or case matrix;
+- ORPD formulation and variable/constraint setup;
+- scenario/robustness design;
+- paired runs selected by the scientist;
+- population and exact evaluation budget;
+- seed and deterministic pairing design;
+- compute intent and result directory;
+- exact-compatible-result reuse choice;
+- resume/checkpoint behavior;
+- concrete study cells and queue size;
+- the immutable WorkspaceStudyPlan draft created only after Apply study setup.
+
+4.4 Execution authority
+
+- Audit, Stage, and Run remain separate explicit scientist actions.
+- Applying a Portfolio goal or Study setup starts no numerical work.
+- Only Stage may acquire the singleton Workspace controller.
+- Workspace execution continues to use the existing shared ExperimentManager.
+- The safe-pause, PAUSING versus PAUSED, resume, controller fencing, immutable
+  evidence, exact FE accounting, and Individual handoff contracts remain
+  unchanged.
+
+===============================================================================
+5. PROPOSED PERSISTED ARTIFACTS
+===============================================================================
+
+5.1 AppliedPortfolioGoal
+
+Introduce a versioned immutable Portfolio goal snapshot, conceptually:
+
+    schema_version
+    portfolio_goal_id
+    created_at
+    algorithm_stage_id
+    algorithm_stage_sha256
+    selected_algorithm_names
+    selected_algorithm_parameter_sha256_by_name
+    portfolio_type
+    evidence_profile
+    article_or_output_preset
+    requested_outputs
+    storage_or_evidence_class
+    require_independent_validation
+    intrinsic_requirements
+    intrinsic_warnings
+    content_sha256
+
+Intrinsic requirements may include statements such as:
+
+- at least N algorithms are required;
+- CALO must be included for a requested CALO diagnostic;
+- robust scenario evidence will be required in Study;
+- at least N paired runs will be required;
+- at least N benchmark blocks/cases will be required;
+- particular stored result fields will be required.
+
+These are constraints and recommendation inputs, not a concrete Study plan.
+
+Applying a Portfolio goal persists this artifact and makes it the current
+Portfolio goal. It must not create any execution_plan or workspace_plan_cell
+record.
+
+5.2 StudyRecommendation
+
+Study computes a deterministic, read-only recommendation from:
+
+- exact AppliedPortfolioGoal identity and SHA-256;
+- exact submitted algorithm stage identity and SHA-256;
+- current case/formulation/scenario capabilities;
+- registered output requirements;
+- existing power/effect-size planning rules;
+- safe application defaults.
+
+The recommendation should contain, conceptually:
+
+    recommendation_schema_version
+    portfolio_goal_id and SHA-256
+    algorithm_stage_id and SHA-256
+    hard_minimum_runs
+    recommended_runs
+    recommended_case_or_case_matrix
+    minimum_benchmark_blocks
+    recommended_formulation
+    recommended_scenario_mode
+    recommended_budget
+    recommended_storage_fields
+    recommended_validation_tasks
+    default_reuse_and_resume_values
+    explanation_by_field
+    recommendation_sha256
+
+Generating or refreshing a recommendation is read-only. It does not modify
+ExperimentConfig, Portfolio, Study completion, audit state, or controller
+ownership.
+
+5.3 AppliedStudySetup and WorkspaceStudyPlan
+
+When the scientist presses Apply study setup, persist:
+
+- the exact recommendation identity and SHA-256;
+- the scientist-selected values;
+- a deterministic recommendation-versus-selection delta;
+- every satisfied hard constraint;
+- any permitted soft-recommendation deviation and its machine-generated
+  warning classification;
+- the exact Portfolio goal and algorithm-stage bindings;
+- the concrete cells and queue count.
+
+Only this action creates or replaces an unstarted WorkspaceStudyPlan draft.
+Audit then binds to that exact immutable Study design.
+
+===============================================================================
+6. PORTFOLIO MANAGER PAGE AND BUTTON CONTRACT
+===============================================================================
+
+6.1 Page purpose and heading
+
+Recommended heading:
+
+    Portfolio Manager
+    Define the broad evidence and deliverable goal. Study will recommend the
+    concrete cases, repetitions, scenarios, and execution setup after this goal
+    is applied.
+
+The page must never instruct the scientist to finish Study first.
+
+6.2 Recommended Portfolio sections
+
+Section A - Goal
+
+- Portfolio type;
+- evidence rigor/profile;
+- article/output preset;
+- short plain-language ultimate-target summary.
+
+Section B - Comparison scope
+
+- read-only submitted-stage identity and SHA summary;
+- non-empty checkable subset of staged algorithms;
+- Use all staged algorithms;
+- Clear comparison scope;
+- explicit missing-required/recommended algorithms.
+
+Rename the current "Algorithms in study" wording to "Comparison scope" or
+"Algorithms in portfolio" so the Portfolio page does not pretend that a
+concrete Study already exists.
+
+Section C - Deliverables and evidence
+
+- requested figures/tables/evidence;
+- storage/evidence class;
+- independent-validation target;
+- conditional requirements that Study must later satisfy.
+
+Move exact-compatible reuse, campaign resume, checkpoint interval, and exact
+run count to Study because those are execution-design choices, not the broad
+Portfolio goal.
+
+Section D - Goal summary
+
+- selected ultimate target;
+- selected algorithm scope;
+- requested outputs;
+- intrinsic hard constraints;
+- conditional Study recommendations;
+- exact stage-drift or intrinsic Portfolio blockers;
+- statement that no Study plan or execution work has been created.
+
+6.3 Portfolio buttons
+
+Button: Preview portfolio goal
+
+- Read-only.
+- Validates only intrinsic Portfolio properties and stage binding.
+- May derive conditional Study requirements.
+- Must not inspect or require current run count, case, formulation, scenario,
+  benchmark-block count, audit status, or WorkspaceStudyPlan.
+- Must not mutate shared configuration or database state.
+
+Button: Apply portfolio goal
+
+- Persists a new immutable AppliedPortfolioGoal revision.
+- Marks only the Portfolio workflow step complete.
+- Does not set ExperimentConfig.runs.
+- Does not create a WorkspaceStudyPlan.
+- Does not acquire the execution controller.
+- Does not start recommendation, audit, or numerical work.
+- Enables Workspace > Study when the applied goal matches the current stage.
+
+Button: Open Workspace Study
+
+- Visible/enabled only after the current Portfolio goal is applied.
+- Navigation only.
+- Opens Study with the exact applied goal identity.
+- Does not auto-apply recommendations or create a Study draft.
+
+Button: Use all staged algorithms
+
+- Selects every staged algorithm in the Portfolio working draft only.
+- Does not resubmit Algorithms or apply Portfolio.
+
+Button: Clear comparison scope
+
+- Clears only the Portfolio working selection.
+- Apply remains blocked until a non-empty scope is selected.
+
+6.4 Portfolio Apply blockers
+
+Portfolio Apply may be blocked only by Portfolio-owned or upstream facts:
+
+- no submitted algorithm stage;
+- current Algorithms draft differs from the submitted stage;
+- empty comparison scope;
+- selected algorithm outside the stage;
+- missing algorithm intrinsically required by a requested output;
+- empty requested deliverable set;
+- internally inconsistent Portfolio target;
+- retained staged/running/pausing/paused/interrupted Workspace plan that owns
+  the exact bound goal and must remain immutable.
+
+Portfolio Apply must not be blocked by:
+
+- Study not applied;
+- missing Study case/formulation/scenarios;
+- current Study run count;
+- missing fairness receipt;
+- missing WorkspaceStudyPlan;
+- Study recommendation not generated.
+
+===============================================================================
+7. WORKSPACE STUDY PAGE AND BUTTON CONTRACT
+===============================================================================
+
+7.1 Study entry gate
+
+Workspace > Study is enabled only when:
+
+- a non-empty algorithm stage is submitted;
+- an AppliedPortfolioGoal exists;
+- the goal is bound to the exact current stage identity and SHA-256;
+- no incompatible execution-controller lock applies.
+
+If no Portfolio goal is applied, the command and page state must say exactly:
+
+    Apply a Portfolio goal first. Portfolio defines what evidence is wanted;
+    Study will then recommend how to produce it.
+
+Study may depend on Portfolio. Portfolio must never depend on Study.
+
+7.2 Study source summary
+
+At the top of Study, show a read-only source card:
+
+- Portfolio goal name/type;
+- Portfolio goal ID and short SHA-256;
+- submitted stage ID and selected subset;
+- requested evidence/output summary;
+- recommendation status: Current, Stale, or Not generated.
+
+7.3 Study steps
+
+The existing six-step shell can be retained with corrected ownership:
+
+1. Case
+   - choose/validate case or case matrix;
+   - show Portfolio minimum block requirement;
+   - show recommended cases and reasons.
+
+2. Formulation
+   - objective, controls, limits, and constraints;
+   - show recommendation and compatibility notes.
+
+3. Design + runs
+   - hard minimum paired runs;
+   - recommended paired runs;
+   - scientist-selected paired runs in an editable control;
+   - population, exact FE budget, seed, compute intent, result directory;
+   - reuse, resume, and checkpoint choices;
+   - visible selected-versus-recommended delta.
+
+4. Scenarios
+   - deterministic or robust scenario design;
+   - any Portfolio-required robust evidence shown as a hard constraint;
+   - recommendation remains tuneable where scientifically valid.
+
+5. Validate + outputs
+   - verify that the concrete Study satisfies the Portfolio goal;
+   - run fairness/numerical audit only through the explicit existing action;
+   - show exact requested outputs and required stored fields.
+
+6. Review + launch
+   - review Portfolio goal, recommendation, scientist overrides, exact cells,
+     queue size, audit receipt, and controller status;
+   - Stage and Run remain separate explicit actions.
+
+7.4 Study buttons
+
+Button: Refresh recommendations
+
+- Recomputes the read-only recommendation from the current applied Portfolio
+  and compatible Study capabilities.
+- Does not apply values and does not invalidate a still-identical applied
+  Study design.
+- Clearly identifies any Portfolio change or stage drift.
+
+Button: Use portfolio recommendations
+
+- Copies recommended values into editable Study controls only.
+- Does not persist a Study plan.
+- Does not complete Study.
+- Does not run an audit or acquire the controller.
+
+Button: Restore last applied study setup
+
+- Restores the exact still-compatible applied Study draft into controls.
+- Disabled when the Portfolio goal or algorithm stage no longer matches.
+- Does not change audit or controller state.
+
+Button: Apply study setup
+
+- Validates hard constraints.
+- Persists selected values plus recommendation delta.
+- Creates/replaces only an unstarted WorkspaceStudyPlan draft.
+- Marks the Study setup complete.
+- Invalidates any older audit receipt when the design changes.
+- Starts no numerical work.
+
+Existing button: Run fairness audit
+
+- Available only for one exact applied Study draft.
+- Binds its receipt to the exact Study design SHA-256.
+- Never runs automatically after Study Apply.
+
+Existing button: Stage Workspace campaign
+
+- Available only after the exact audit passes.
+- Acquires Workspace controller ownership.
+- Persists/finalizes the frozen queue.
+- Starts no numerical work.
+
+Existing button: Run campaign
+
+- Available only for the staged controlling plan.
+- Uses the existing Workspace coordinator and shared ExperimentManager.
+
+===============================================================================
+8. RECOMMENDATION AND USER-OVERRIDE RULES
+===============================================================================
+
+Every tuneable recommended field should distinguish three concepts:
+
+1. Hard minimum or compatibility boundary
+   A value below this boundary cannot satisfy the applied Portfolio goal.
+
+2. Recommended value
+   The deterministic planner proposal based on the Portfolio target, study
+   design, registered requirements, power assumptions, and safe defaults.
+
+3. Scientist-selected value
+   The editable value that will be frozen into the Study plan.
+
+Example presentation:
+
+    Paired runs
+    Hard minimum: 3
+    Recommended: 5
+    Selected: 6
+    Effect: +1 run per algorithm/case; target remains satisfied.
+
+Rules:
+
+- Increasing 5 to 6 is allowed and recorded.
+- A selected value between a hard minimum and a higher soft recommendation is
+  allowed with a visible machine-generated risk/deviation warning.
+- A selected value below the hard minimum is blocked because the applied
+  Portfolio target would no longer be satisfied.
+- The UI must never silently increase or decrease the scientist-selected value
+  during Apply.
+- Recommendation hydration must use QSignalBlocker or equivalent so it cannot
+  masquerade as a scientist edit or invalidate an audit.
+- A user edit after an audit invalidates that audit immediately and truthfully.
+- No superiority, sufficiency, statistical-power, publication, or release
+  claim is inferred merely because a recommendation was accepted.
+
+===============================================================================
+9. ONE-WAY STATE MODEL
+===============================================================================
+
+9.1 Portfolio states
+
+PORTFOLIO_UNAPPLIED
+    Editable goal draft; Study locked.
+
+PORTFOLIO_APPLIED_CURRENT
+    Immutable applied goal matches the submitted stage; Study enabled.
+
+PORTFOLIO_EDITED_NOT_APPLIED
+    Applied goal remains authoritative; edits are only a new working draft.
+    Study continues to show which applied revision it uses.
+
+PORTFOLIO_STALE_STAGE
+    Submitted stage changed or no longer matches; Study locked for new work.
+
+PORTFOLIO_LOCKED_BY_RETAINED_PLAN
+    Bound Workspace plan is staged/running/pausing/paused/interrupted and must
+    remain immutable. Portfolio remains inspectable but not replaceable.
+
+9.2 Study states
+
+STUDY_NO_PORTFOLIO
+    Locked with the exact Apply Portfolio goal instruction.
+
+STUDY_RECOMMENDATION_READY
+    Recommendation is current; editable setup not yet applied.
+
+STUDY_EDITED_NOT_APPLIED
+    Controls differ from recommendation or last applied Study; no new plan.
+
+STUDY_APPLIED_DRAFT
+    Exact WorkspaceStudyPlan draft exists; audit required.
+
+STUDY_AUDITED
+    Exact draft has a passing audit receipt; Stage enabled.
+
+STUDY_STAGED / RUNNING / PAUSING / PAUSED / INTERRUPTED_RESUMABLE
+    Existing lifecycle/controller contracts apply.
+
+STUDY_TERMINAL
+    Completed, completed-with-failures, cancelled, failed-non-resumable, or
+    discarded-unstarted according to existing lifecycle rules.
+
+9.3 One-way invalidation
+
+- Algorithm stage change invalidates Portfolio goal compatibility and all
+  unstarted downstream Study recommendation/draft/audit state.
+- Applying a new Portfolio goal revision invalidates only downstream Study
+  recommendation/draft/audit state.
+- Editing Study never invalidates or edits the applied Portfolio goal.
+- Applying Study never rewrites Portfolio.
+- Audit changes no Portfolio or Study design values.
+- Stage freezes the exact applied Study and bound Portfolio identities.
+- A Study error must never send the user back to Portfolio unless the exact
+  applied Portfolio is missing, stale, or intrinsically incompatible.
+
+There is no transition from Portfolio Apply to "Study already complete" and
+no transition from Study Apply back into Portfolio mutation.
+
+===============================================================================
+10. PLANNER RESPONSIBILITY SPLIT
+===============================================================================
+
+The existing planning code should be separated conceptually into two pure
+layers while retaining legacy readers:
+
+10.1 PortfolioGoalPlanner
+
+Inputs:
+
+- submitted AlgorithmStage;
+- selected algorithm subset;
+- Portfolio type/profile/preset;
+- requested outputs and evidence requirements.
+
+Outputs:
+
+- intrinsic Portfolio validity;
+- conditional Study constraints;
+- requested result/evidence categories;
+- required algorithm capabilities;
+- warnings that do not depend on a concrete Study.
+
+It must not consume current cases, formulation, scenarios, runs, benchmark
+blocks, execution controller, or WorkspaceStudyPlan.
+
+10.2 WorkspaceStudyPlanner
+
+Inputs:
+
+- exact AppliedPortfolioGoal;
+- current compatible case/formulation/scenario design;
+- power/effect-size planning assumptions;
+- selected execution settings.
+
+Outputs:
+
+- hard minima;
+- recommendations and explanations;
+- validated scientist-selected Study setup;
+- concrete cells and queue count;
+- required storage fields and validation tasks;
+- immutable WorkspaceStudyPlan design.
+
+The existing numerical ExperimentManager remains unchanged as the execution
+engine. A second optimizer runner must not be introduced.
+
+===============================================================================
+11. LEGACY AND MIGRATION BOUNDARY
+===============================================================================
+
+- Existing persisted Portfolio records and Workspace plan v1/v2 records remain
+  readable and immutable.
+- A legacy Portfolio record that already embeds runs or a concrete plan must
+  not be silently relabeled as a new AppliedPortfolioGoal.
+- Legacy records may be displayed as "Legacy combined Portfolio/Study plan".
+- Resuming an existing retained Workspace campaign continues to use its exact
+  historical frozen design and controller contract.
+- Creating new work after this implementation uses the new one-way schemas.
+- A possible new WorkspaceStudyPlan schema version must include both exact
+  portfolio_goal_sha256 and recommendation/selection identities.
+- Migration must not fabricate recommendation evidence or claim that a prior
+  user value was planner-recommended.
+- Direct Individual v2 plans remain independent and must not be migrated into
+  Portfolio or Study records.
+
+===============================================================================
+12. EXPECTED USER-FACING MESSAGES
+===============================================================================
+
+Portfolio before Algorithms Submit:
+
+    Submit algorithms first. Portfolio can select a comparison scope only from
+    the immutable submitted stage. No goal or execution plan has started.
+
+Portfolio with valid goal but no Study:
+
+    Portfolio goal is ready to apply. Study setup is not required here.
+
+Portfolio after Apply:
+
+    Portfolio goal applied. Open Workspace Study to review recommendations and
+    choose the concrete setup. No experiment has started.
+
+Study before Portfolio Apply:
+
+    Apply a Portfolio goal first. Portfolio defines what evidence is wanted;
+    Study recommends how to produce it.
+
+Study recommendation:
+
+    Recommended 5 paired runs from the applied Portfolio goal. Selected value
+    is editable; hard minimum and consequences are shown below.
+
+Study after selected value becomes 6:
+
+    Selected 6 paired runs (+1 versus recommendation). Portfolio target remains
+    satisfied. Apply study setup to create the exact unstarted draft.
+
+Study after Apply:
+
+    Study setup applied to an immutable draft. Run the fairness audit next.
+    No numerical work has started.
+
+No expected state should say both "finish Study to apply Portfolio" and
+"finish Portfolio to enter Study".
+
+===============================================================================
+13. PROPOSED IMPLEMENTATION WORKSTREAMS AFTER APPROVAL
+===============================================================================
+
+Workstream A - Model and persistence
+
+- Add versioned AppliedPortfolioGoal contract.
+- Add recommendation/selection provenance contract.
+- Extend database persistence without rewriting legacy rows.
+- Bind new Workspace Study plans to goal and recommendation identities.
+
+Workstream B - Planner separation
+
+- Extract intrinsic Portfolio goal validation.
+- Refactor concrete run/block/scenario/cell planning into Study.
+- Preserve exact output requirements and scientific accounting.
+- Keep legacy PortfolioPlanner entrypoints for historical plan reading where
+  necessary, but prevent new Portfolio Apply from creating Study drafts.
+
+Workstream C - Portfolio GUI
+
+- Rename and reorganize sections around broad goal ownership.
+- Move runs/reuse/resume/checkpoint controls to Study.
+- Replace generic Apply failure text with exact prerequisite/stage-drift text.
+- Add Apply portfolio goal and navigation-only Open Workspace Study.
+
+Workstream D - Study GUI
+
+- Load exact applied Portfolio goal.
+- Add recommendation source/status and per-field rationale.
+- Make Workspace runs editable with hard-minimum/recommendation/selected views.
+- Add Refresh recommendations, Use portfolio recommendations, Restore last
+  applied study setup, and Apply study setup.
+- Move Workspace draft creation from Portfolio Apply to Study Apply.
+
+Workstream E - Workflow and invalidation
+
+- Make Portfolio depend only on submitted Algorithms and controller safety.
+- Make Workspace Study depend on current AppliedPortfolioGoal.
+- Add one-way downstream invalidation and persisted restore semantics.
+- Preserve Individual experiment independence and controller handoff behavior.
+
+Workstream F - Compatibility and documentation
+
+- Label legacy combined records truthfully.
+- Update configuration schemas, user guide, active status, continuation log,
+  implementation gates, release handoff, and requirement traceability.
+- Advance the ignored Phase 6 validator only during an authorized coding pass.
+
+===============================================================================
+14. REQUIRED TEST SOURCE AFTER APPROVAL
+===============================================================================
+
+Unit contracts
+
+- Portfolio goal validation does not consume case, formulation, scenario,
+  current runs, benchmark blocks, audit, or WorkspaceStudyPlan.
+- Portfolio Apply creates an AppliedPortfolioGoal and no execution plan/cell.
+- Study recommendation is deterministic for exact goal/stage/config identity.
+- Recommendation exposes hard minimum, recommended, and selected values.
+- Recommended 5 changed to selected 6 remains valid and produces six runs.
+- A value below a hard minimum fails with the exact violated Portfolio target.
+- Study selection changes do not mutate AppliedPortfolioGoal.
+- Applying a new Portfolio revision makes downstream unstarted Study state
+  stale without altering staged/running historical plans.
+- Legacy combined records remain readable and are never rewritten.
+
+GUI contracts
+
+- Portfolio is reachable after Algorithms Submit without Study completion.
+- Portfolio contains no exact run/reuse/resume/checkpoint controls.
+- Portfolio page contains no instruction to finish Study first.
+- Study is locked before Portfolio Apply with one exact one-way instruction.
+- Portfolio Apply enables Study but creates no Workspace execution draft.
+- Study shows goal ID, recommendation, selected value, and delta.
+- Use recommendations changes controls without applying or running anything.
+- Apply Study creates the exact draft; Audit remains a separate required action.
+- Expected stage drift is inline/actionable and not mislabeled as Study size.
+- Recommendation hydration does not emit user-edit invalidation.
+- A real post-audit edit invalidates the audit immediately.
+- Individual Experiment remains independent of both ledgers.
+
+Integration/controller contracts
+
+- Portfolio goal rows have no execution-controller side effect.
+- Workspace controller cannot be acquired before Study Apply and Audit/Stage.
+- Exact Portfolio goal, Study design, plan, cells, tasks, campaign, and results
+  remain identity-bound.
+- Workspace PAUSING/PAUSED and Individual handoff semantics remain unchanged.
+- Resume rejects goal/design/cell/checkpoint identity drift.
+
+Falsification contracts
+
+- Deliberately make Portfolio attempt to read Study completion: test must fail.
+- Deliberately make Portfolio Apply create WorkspaceStudyPlan: test must fail.
+- Deliberately make Study mutate Portfolio: test must fail.
+- Deliberately permit selected runs below hard minimum: test must fail.
+- Deliberately hydrate a recommendation through user-edit signals: test must
+  detect false audit invalidation.
+
+No test may launch a real optimizer, policy workflow, qualification campaign,
+protected case, Docker/CUDA campaign, publication, or release action.
+
+===============================================================================
+15. ACCEPTANCE CRITERIA
+===============================================================================
+
+AC-01 Portfolio opens after a submitted algorithm stage and never asks for a
+      completed Study.
+
+AC-02 Portfolio Apply persists only a broad AppliedPortfolioGoal.
+
+AC-03 Portfolio Apply does not set exact runs and creates no Workspace plan,
+      cell, queue, audit, controller, campaign, task, or numerical work.
+
+AC-04 Study opens only after a current Portfolio goal is applied and states
+      that one-way dependency clearly.
+
+AC-05 Study displays deterministic recommendations with reasons and hard
+      boundaries.
+
+AC-06 Scientist-selected Study values are editable. A recommendation of five
+      may be changed to six, and the immutable plan uses six.
+
+AC-07 Applying Study never changes the Portfolio goal.
+
+AC-08 Only Apply Study creates the unstarted WorkspaceStudyPlan draft.
+
+AC-09 Audit -> Stage -> Run remains mandatory and explicit.
+
+AC-10 The screenshot's algorithm-stage mismatch receives exact identities,
+      exact remediation, and no generic Study-size wording.
+
+AC-11 Portfolio changes invalidate only downstream unstarted Study state;
+      Study changes never invalidate or rewrite Portfolio.
+
+AC-12 Retained staged/running/pausing/paused/interrupted plans remain immutable
+      and resume under their exact historical bindings.
+
+AC-13 Direct Individual experiment setup, plans, results, and execution remain
+      independent of Workspace Portfolio and Study.
+
+AC-14 No navigation, preview, recommendation, Portfolio Apply, or Study Apply
+      action starts scientific work.
+
+AC-15 Current scientific semantics, exact FE accounting, policy isolation,
+      qualification boundaries, protected-case isolation, controller fencing,
+      safe pause, resume, and release boundaries remain unchanged.
+
+===============================================================================
+16. EXPLICIT NON-GOALS
+===============================================================================
+
+This change must not:
+
+- alter CALO or TSH-CALO scientific algorithms;
+- modify or train a policy;
+- qualify, activate, select, bind, or delete a policy;
+- change protected-case rules;
+- change exact function-evaluation accounting;
+- introduce automatic audit, staging, or execution;
+- create a second numerical runner;
+- infer scientific sufficiency, statistical power, superiority, publication
+  readiness, human acceptance, or release readiness;
+- replace or discard existing evidence;
+- change Individual experiment independence.
+
+===============================================================================
+17. APPROVAL GATE
+===============================================================================
+
+Planning is complete when this file has been reviewed by the project owner.
+
+Do not implement any workstream in this document until the owner explicitly
+authorizes implementation in a later message. After approval, create a new
+phase-specific goal before editing production source, follow the repository
+implementation gates, write proportional tests and the ignored Phase 6
+validator update, and do not execute validation unless separately authorized.

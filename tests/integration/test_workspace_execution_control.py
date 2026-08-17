@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import sqlite3
+from copy import deepcopy
 from types import SimpleNamespace
 
 import pytest
@@ -13,6 +14,7 @@ from calo_rpd_studio.app.workspace_campaign import WorkspaceCampaignCoordinator
 from calo_rpd_studio.experiments.execution_plans import ExecutionLifecycle, ExecutionPlanKind
 from calo_rpd_studio.experiments.experiment_config import ExperimentConfig
 from calo_rpd_studio.results.database import DATABASE_SCHEMA_VERSION, ResultDatabase
+from calo_rpd_studio.portfolio.study_planning import PortfolioGoalPlanner
 
 
 def prepared_service(tmp_path):
@@ -32,15 +34,73 @@ def prepared_service(tmp_path):
     return database, service, config, stage
 
 
-def audited_workspace(service, config):
-    plan = service.create_workspace_draft(config, ("CALO",))
+def audited_workspace(service, config, apply_workspace_study):
+    plan = apply_workspace_study(service, config, ("CALO",))
     service.record_audit(plan["id"], {"fair": True, "backend_parity_passed": True})
     return service.active_plan(ExecutionPlanKind.WORKSPACE)
 
 
-def test_workspace_pause_releases_controller_but_retains_plan(tmp_path) -> None:
+def test_portfolio_goal_persistence_has_no_plan_or_controller_side_effect(tmp_path) -> None:
+    database, service, config, stage = prepared_service(tmp_path)
+    portfolio = deepcopy(config.portfolio)
+    portfolio.requested_outputs = ["objective_convergence"]
+    original_runs = config.runs
+    goal = PortfolioGoalPlanner.create(portfolio, stage, ("CALO",))
+
+    database.replace_portfolio_goal(goal)
+
+    assert database.get_active_portfolio_goal()["id"] == goal.portfolio_goal_id
+    assert service.active_plan(ExecutionPlanKind.WORKSPACE) is None
+    assert service.controller()["controller"] == "none"
+    assert config.runs == original_runs
+    with database.connect() as con:
+        assert con.execute("SELECT COUNT(*) FROM execution_plans").fetchone()[0] == 0
+        assert con.execute("SELECT COUNT(*) FROM workspace_plan_cells").fetchone()[0] == 0
+        assert con.execute("SELECT COUNT(*) FROM applied_study_setups").fetchone()[0] == 0
+
+
+def test_new_portfolio_goal_invalidates_only_unstarted_workspace_state(
+    tmp_path, apply_workspace_study
+) -> None:
+    database, service, config, stage = prepared_service(tmp_path)
+    plan = apply_workspace_study(service, config, ("CALO",))
+    prior_setup = database.get_active_applied_study_setup()
+    portfolio = deepcopy(config.portfolio)
+    portfolio.requested_outputs = ["objective_convergence"]
+    replacement = PortfolioGoalPlanner.create(portfolio, stage, ("TLBO",))
+
+    database.replace_portfolio_goal(replacement)
+
+    assert database.get_execution_plan(plan["id"])["lifecycle_state"] == "discarded_unstarted"
+    assert database.get_active_applied_study_setup() is None
+    assert database.get_active_portfolio_goal()["id"] == replacement.portfolio_goal_id
+    with database.connect() as con:
+        assert con.execute(
+            "SELECT status FROM applied_study_setups WHERE id=?", (prior_setup["id"],)
+        ).fetchone()[0] == "superseded"
+
+
+def test_retained_workspace_plan_blocks_portfolio_goal_replacement(
+    tmp_path, apply_workspace_study
+) -> None:
+    database, service, config, stage = prepared_service(tmp_path)
+    plan = audited_workspace(service, config, apply_workspace_study)
+    service.stage(plan["id"], ExecutionPlanKind.WORKSPACE)
+    portfolio = deepcopy(config.portfolio)
+    portfolio.requested_outputs = ["objective_convergence"]
+    replacement = PortfolioGoalPlanner.create(portfolio, stage, ("TLBO",))
+
+    with pytest.raises(RuntimeError, match="retained Workspace plan"):
+        database.replace_portfolio_goal(replacement)
+
+    assert service.active_plan(ExecutionPlanKind.WORKSPACE)["id"] == plan["id"]
+
+
+def test_workspace_pause_releases_controller_but_retains_plan(
+    tmp_path, apply_workspace_study
+) -> None:
     _database, service, config, _stage = prepared_service(tmp_path)
-    plan = audited_workspace(service, config)
+    plan = audited_workspace(service, config, apply_workspace_study)
     service.stage(plan["id"], ExecutionPlanKind.WORKSPACE)
     service.begin_run(plan["id"])
     service.request_pause(plan["id"])
@@ -51,9 +111,11 @@ def test_workspace_pause_releases_controller_but_retains_plan(tmp_path) -> None:
     assert service.controller()["controller"] == "none"
 
 
-def test_paused_workspace_can_reacquire_only_to_commit_terminal_cancel(tmp_path) -> None:
+def test_paused_workspace_can_reacquire_only_to_commit_terminal_cancel(
+    tmp_path, apply_workspace_study
+) -> None:
     database, service, config, _stage = prepared_service(tmp_path)
-    plan = audited_workspace(service, config)
+    plan = audited_workspace(service, config, apply_workspace_study)
     service.stage(plan["id"], ExecutionPlanKind.WORKSPACE)
     cell = database.list_workspace_plan_cells(plan["id"])[0]
     frozen = service.plan_configuration(plan["id"], cell_id=cell["id"])
@@ -115,9 +177,11 @@ def test_individual_pause_retains_exclusive_controller(tmp_path) -> None:
     assert service.controller()["owner_plan_id"] == plan["id"]
 
 
-def test_plan_configuration_routes_workspace_and_individual_result_ownership(tmp_path) -> None:
+def test_plan_configuration_routes_workspace_and_individual_result_ownership(
+    tmp_path, apply_workspace_study
+) -> None:
     _database, service, config, _stage = prepared_service(tmp_path)
-    workspace = service.create_workspace_draft(config, ("CALO",))
+    workspace = apply_workspace_study(service, config, ("CALO",))
     workspace_config = service.plan_configuration(workspace["id"])
 
     individual = service.create_individual_draft(config)
@@ -125,6 +189,7 @@ def test_plan_configuration_routes_workspace_and_individual_result_ownership(tmp
 
     assert workspace_config.execution_plan_kind == ExecutionPlanKind.WORKSPACE.value
     assert workspace_config.result_contract == {}
+    assert workspace_config.workspace_study_contract["portfolio_goal_id"]
     assert workspace_config.portfolio.name == config.portfolio.name
     assert individual_config.execution_plan_kind == ExecutionPlanKind.INDIVIDUAL_EXPERIMENT.value
     assert individual_config.portfolio_id == ""
@@ -132,9 +197,34 @@ def test_plan_configuration_routes_workspace_and_individual_result_ownership(tmp
     assert individual_config.result_contract["reuse_verified_only"] is True
 
 
-def test_paused_workspace_resume_waits_for_individual_owner(tmp_path) -> None:
+def test_individual_draft_materializes_the_complete_stage_after_algorithm_draft_drift(
+    tmp_path,
+) -> None:
+    _database, service, config, stage = prepared_service(tmp_path)
+    config.algorithms = ["CALO"]
+    config.algorithm_parameters = {
+        "CALO": {
+            "use_ai": True,
+            "strict_policy_binding": True,
+            "allow_unqualified_policy": True,
+        }
+    }
+    config.runs = 6
+
+    plan = service.create_individual_draft(config)
+    frozen = service.plan_configuration(plan["id"])
+
+    assert tuple(frozen.algorithms) == stage.algorithm_names
+    assert frozen.algorithm_parameters == stage.algorithm_parameters
+    assert frozen.runs == 6
+    assert config.algorithms == ["CALO"]
+
+
+def test_paused_workspace_resume_waits_for_individual_owner(
+    tmp_path, apply_workspace_study
+) -> None:
     _database, service, config, _stage = prepared_service(tmp_path)
-    workspace = audited_workspace(service, config)
+    workspace = audited_workspace(service, config, apply_workspace_study)
     service.stage(workspace["id"], ExecutionPlanKind.WORKSPACE)
     service.begin_run(workspace["id"])
     service.commit_paused(workspace["id"])
@@ -156,9 +246,11 @@ def test_paused_workspace_resume_waits_for_individual_owner(tmp_path) -> None:
     assert resumed["owner_plan_id"] == workspace["id"]
 
 
-def test_controller_acquisition_is_singleton_and_fenced(tmp_path) -> None:
+def test_controller_acquisition_is_singleton_and_fenced(
+    tmp_path, apply_workspace_study
+) -> None:
     database, service, config, _stage = prepared_service(tmp_path)
-    plan = audited_workspace(service, config)
+    plan = audited_workspace(service, config, apply_workspace_study)
     service.stage(plan["id"], ExecutionPlanKind.WORKSPACE)
 
     with pytest.raises(RuntimeError, match="already owned"):
@@ -180,9 +272,11 @@ def test_controller_acquisition_is_singleton_and_fenced(tmp_path) -> None:
         )
 
 
-def test_restart_fences_prior_instance_and_restores_staged_owner(tmp_path) -> None:
+def test_restart_fences_prior_instance_and_restores_staged_owner(
+    tmp_path, apply_workspace_study
+) -> None:
     database, first, config, _stage = prepared_service(tmp_path)
-    plan = audited_workspace(first, config)
+    plan = audited_workspace(first, config, apply_workspace_study)
     first.stage(plan["id"], ExecutionPlanKind.WORKSPACE)
 
     recovered = ExecutionControlService(database)
@@ -202,9 +296,11 @@ def test_restart_fences_prior_instance_and_restores_staged_owner(tmp_path) -> No
     )
 
 
-def test_workspace_interruption_resumes_with_retained_owner(tmp_path) -> None:
+def test_workspace_interruption_resumes_with_retained_owner(
+    tmp_path, apply_workspace_study
+) -> None:
     _database, service, config, _stage = prepared_service(tmp_path)
-    plan = audited_workspace(service, config)
+    plan = audited_workspace(service, config, apply_workspace_study)
     service.stage(plan["id"], ExecutionPlanKind.WORKSPACE)
     service.begin_run(plan["id"])
     service.transition(
@@ -220,9 +316,11 @@ def test_workspace_interruption_resumes_with_retained_owner(tmp_path) -> None:
     assert service.controller()["controller"] == "workspace"
 
 
-def test_restart_marks_inflight_workspace_cell_resumable(tmp_path) -> None:
+def test_restart_marks_inflight_workspace_cell_resumable(
+    tmp_path, apply_workspace_study
+) -> None:
     database, service, config, _stage = prepared_service(tmp_path)
-    plan = audited_workspace(service, config)
+    plan = audited_workspace(service, config, apply_workspace_study)
     service.stage(plan["id"], ExecutionPlanKind.WORKSPACE)
     service.begin_run(plan["id"])
     cell = database.list_workspace_plan_cells(plan["id"])[0]
@@ -404,7 +502,9 @@ class FakeExperimentManager(QObject):
         return None
 
 
-def test_workspace_advances_to_next_cell_only_after_manager_idle(tmp_path) -> None:
+def test_workspace_advances_to_next_cell_only_after_manager_idle(
+    tmp_path, apply_workspace_study
+) -> None:
     state = AppState(tmp_path / "workspace-sequence.sqlite")
     state.config.algorithms = ["CALO"]
     state.config.algorithm_parameters = {
@@ -416,7 +516,7 @@ def test_workspace_advances_to_next_cell_only_after_manager_idle(tmp_path) -> No
     }
     state.config.study_case_plan = ["case30", "case57"]
     state.execution_control.submit_algorithm_stage(state.config)
-    plan = state.execution_control.create_workspace_draft(state.config, ("CALO",))
+    plan = apply_workspace_study(state.execution_control, state.config, ("CALO",))
     state.execution_control.record_audit(plan["id"], {"fair": True})
     state.execution_control.stage(plan["id"], ExecutionPlanKind.WORKSPACE)
     manager = FakeExperimentManager()

@@ -101,7 +101,23 @@ def test_phase6_command_registry_has_one_stable_authority():
         "experiment.individual",
         "experiment.power",
         "experiment.formulation",
+        "experiment.budget",
         "experiment.scenarios",
+        "experiment.validation",
+        "experiment.review",
+    )
+    experiment_step_specs = tuple(
+        item for item in COMMAND_SPECS if item.command_id.startswith("experiment.")
+    )[1:]
+    assert tuple(
+        (item.label, item.icon, item.workspace, item.context) for item in experiment_step_specs
+    ) == (
+        ("Case", "network", "experiment", "individual_experiment.case"),
+        ("Formulation", "formulation", "experiment", "individual_experiment.formulation"),
+        ("Budget + runs", "compute", "experiment", "individual_experiment.budget"),
+        ("Scenarios", "scenario", "experiment", "individual_experiment.scenarios"),
+        ("Validate + outputs", "validation", "experiment", "individual_experiment.validation"),
+        ("Review + launch", "run", "experiment", "individual_experiment.review"),
     )
     assert tuple(
         item.command_id for item in COMMAND_SPECS if item.category == "Compute"
@@ -547,7 +563,7 @@ def test_empty_portfolio_selection_is_an_input_prompt_not_a_logged_failure():
         encoding="utf-8"
     )
     empty_guard = source.index("if not portfolio.requested_outputs:")
-    planner_call = source.index("PortfolioPlanner.plan(", empty_guard)
+    planner_call = source.index("PortfolioGoalPlanner.create(", empty_guard)
     technical_log = source.index('log_technical_error("portfolio planning", exc)', planner_call)
 
     assert empty_guard < planner_call < technical_log

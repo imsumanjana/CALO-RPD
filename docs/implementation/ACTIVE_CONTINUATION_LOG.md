@@ -3410,3 +3410,29 @@ Append timestamped entries below this line after each material action, validatio
   was added. No check or scientific workflow was executed in this coding pass. The Git-ignored
   noninteractive validator advanced to schema v28 and includes every changed source/test/document;
   a fresh complete owner-run bundle is required before this correction has engineering evidence.
+
+## 2026-08-17 - Approved one-way Portfolio goal to Workspace Study implementation
+
+- The project owner explicitly authorized `PORTFOLIO_TO_STUDY_ONE_WAY_WORKFLOW_PLAN.txt`. Portfolio
+  now owns only broad evidence intent and comparison scope. Its preview is pure, and Apply persists
+  one checksum-bound `AppliedPortfolioGoal`; it does not change runs/reuse/resume/checkpoint values,
+  create a Workspace draft/cell/queue, acquire control, audit, stage, or run work.
+- Workspace Study now requires that exact current goal. It shows the goal/stage/source identity,
+  deterministic hard minima and recommendations, editable scientist values, and the selected-versus-
+  recommended delta. Refresh is read-only; Use recommendations and Restore last applied setup use
+  `QSignalBlocker`; explicit Apply Study persists `AppliedStudySetup` and creates the immutable
+  Workspace v3 draft. Audit -> Stage -> Run remains mandatory and separate.
+- SQLite schema v3 adds additive `portfolio_goals` and `applied_study_setups` tables with canonical
+  hashes and exact goal/stage/recommendation/setup/plan bindings. A new goal or stage closes only
+  unstarted downstream Workspace state. Retained staged/running/pausing/paused/interrupted plans
+  remain immutable and block goal replacement. Legacy combined Portfolio and Workspace v1/v2 rows
+  remain readable and are not relabeled or rewritten.
+- Experiment > Individual experiment is explicitly routed from the submitted stage without a
+  Portfolio/Study gate and retains the earlier complete-stage correction. No numerical runner,
+  scientific algorithm, exact FE accounting, policy lifecycle, qualification, protected-case,
+  publication, or release behavior changed.
+- Focused unit, GUI, integration, migration, lifecycle, and source-falsification test code was
+  updated. No test, compile, lint, format, validator, GUI smoke, audit, experiment, policy,
+  qualification, protected-case, Docker/CUDA campaign, publication, or release command ran in this
+  coding pass. The ignored noninteractive validator is schema v29; a fresh complete owner-run bundle
+  is required before this source has engineering validation evidence.

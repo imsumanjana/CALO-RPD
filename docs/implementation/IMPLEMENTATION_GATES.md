@@ -1389,3 +1389,24 @@ controller and existing ExperimentManager. Focused source/test contracts and ign
 schema v28 are written but unexecuted. This gate remains open pending a complete source-stable
 owner run and establishes no experiment result, scientific conclusion, policy evidence, human
 acceptance, publication authority, or release readiness.
+
+### 2026-08-17 - One-way Portfolio goal to Workspace Study gate open
+
+The project owner approved `PORTFOLIO_TO_STUDY_ONE_WAY_WORKFLOW_PLAN.txt`. Source now separates the
+broad immutable `AppliedPortfolioGoal` from the deterministic `StudyRecommendation` and exact
+`AppliedStudySetup`. Portfolio Apply persists only the goal: it does not read Study completion,
+change `ExperimentConfig.runs`, create a Workspace plan/cell/queue, acquire the controller, or start
+an audit or experiment. Workspace Study is enabled only for a goal bound to the exact active stage;
+it displays hard minima, recommendations, scientist selections, and deltas. Recommendation refresh
+is read-only, signal-blocked hydration changes controls only, and explicit Apply Study alone creates
+or replaces an unstarted Workspace v3 draft. Fairness Audit, Stage, and Run remain separate actions.
+
+SQLite schema v3 adds checksum-bound goal and applied-Study records while preserving legacy
+Portfolio and Workspace v1/v2 rows without reinterpretation. New goals and algorithm stages
+invalidate only unstarted downstream Workspace state; staged/running/pausing/paused/interrupted
+plans remain immutable and block goal replacement. Individual v2 remains independent and continues
+to bind the complete submitted stage. No optimizer, FE accounting, CALO/TSH-CALO, policy, training,
+qualification, protected-case, publication, or release semantics changed. Unit, GUI, integration,
+migration, and falsification regression source plus ignored noninteractive validator schema v29 are
+written but unexecuted. This engineering gate remains open pending a complete source-stable owner
+run and establishes no scientific, policy, human-acceptance, publication, or release evidence.

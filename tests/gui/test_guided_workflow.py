@@ -6,6 +6,7 @@ pytest.importorskip("PyQt6")
 
 from calo_rpd_studio.app.state_manager import AppState
 from calo_rpd_studio.app.workflow_manager import WorkflowManager
+from calo_rpd_studio.portfolio.study_planning import PortfolioGoalPlanner
 
 
 def _policy_status(ready: bool):
@@ -34,9 +35,9 @@ def test_workflow_locks_power_system_until_governing_policy_then_prerequisites(t
     assert workflow.is_workspace_enabled("calo_intelligence")
     assert workflow.is_workspace_enabled("algorithms")
     assert not workflow.is_workspace_enabled("power_system")
-    workflow.mark_completed("algorithms")
+    stage = state.execution_control.submit_algorithm_stage(state.config)
     assert workflow.is_workspace_enabled("portfolio")
-    assert workflow.is_workspace_enabled("experiment")
+    assert not workflow.is_workspace_enabled("experiment")
     assert not workflow.is_workspace_enabled("scenarios")
 
     ready["value"] = True
@@ -50,12 +51,14 @@ def test_workflow_locks_power_system_until_governing_policy_then_prerequisites(t
     assert "algorithms" in workflow.completed
 
     workflow.mark_completed("orpd")
-    workflow.mark_completed("algorithms")
     assert workflow.is_workspace_enabled("portfolio")
-    assert workflow.is_workspace_enabled("experiment")
+    assert not workflow.is_workspace_enabled("experiment")
     assert not workflow.is_workspace_enabled("scenarios")
 
-    workflow.mark_completed("portfolio")
+    state.config.portfolio.requested_outputs = ["objective_convergence"]
+    goal = PortfolioGoalPlanner.create(state.config.portfolio, stage, ("CALO",))
+    state.database.replace_portfolio_goal(goal)
+    assert workflow.is_workspace_enabled("experiment")
     assert workflow.is_workspace_enabled("scenarios")
 
 
@@ -65,7 +68,11 @@ def test_post_experiment_sequence_uses_keyed_workspace_gates(tmp_path):
     state.governing_policy_status = lambda: _policy_status(True)
     workflow = WorkflowManager(state)
     workflow.notify_governing_policy_changed()
-    for key in ("power_system", "orpd", "algorithms", "portfolio", "scenarios"):
+    stage = state.execution_control.submit_algorithm_stage(state.config)
+    state.config.portfolio.requested_outputs = ["objective_convergence"]
+    goal = PortfolioGoalPlanner.create(state.config.portfolio, stage, ("CALO",))
+    state.database.replace_portfolio_goal(goal)
+    for key in ("power_system", "orpd", "scenarios"):
         workflow.mark_completed(key)
 
     workflow.mark_experiment_started()
@@ -92,7 +99,8 @@ def test_individual_setup_completion_is_separate_from_workspace_portfolio_sequen
     assert workflow.individual_setup_state_key("scenarios")[0] == "recommended"
     assert workflow.workspace_state_key("scenarios") == (
         "locked",
-        "Apply the evidence portfolio plan first.",
+        "Apply a Portfolio goal first. Portfolio defines what evidence is wanted; Study will "
+        "then recommend how to produce it.",
     )
 
     workflow.mark_individual_completed("scenarios")
@@ -101,7 +109,13 @@ def test_individual_setup_completion_is_separate_from_workspace_portfolio_sequen
 
     workflow.mark_completed("power_system")
     workflow.mark_completed("orpd")
-    workflow.mark_completed("portfolio")
+    state.config.algorithms = ["TLBO"]
+    state.config.algorithm_parameters = {"TLBO": {}}
+    stage = state.execution_control.submit_algorithm_stage(state.config)
+    portfolio = state.config.portfolio
+    portfolio.requested_outputs = ["objective_convergence"]
+    goal = PortfolioGoalPlanner.create(portfolio, stage, ("TLBO",))
+    state.database.replace_portfolio_goal(goal)
     assert workflow.workspace_state_key("scenarios")[0] == "recommended"
     assert "scenarios" in workflow.individual_completed
 

@@ -98,17 +98,31 @@ Choose deterministic, load uncertainty, Monte Carlo, renewable uncertainty, bran
 
 After Algorithms Submit, execution has two exclusive scientist-controlled paths:
 
-- **Workspace → Portfolio/Study** may select a non-empty subset of the submitted stage, freeze an
-  explicit multi-cell study, run it through the shared ExperimentManager, pause safely, resume its
-  exact retained campaign, or terminally cancel remaining work. Portfolio presets report required
-  and recommended identities but never change the submitted algorithm stage.
+- **Workspace → Portfolio → Study** is one-way. Portfolio selects a non-empty comparison subset and
+  broad evidence/deliverable goal from the submitted stage. **Apply portfolio goal** stores only
+  that immutable intent; it does not choose runs or create a Study plan. Workspace Study then shows
+  the exact goal, hard minima, deterministic recommendations, editable scientist selections, and
+  their differences. **Apply study setup** alone freezes the exact multi-cell draft supplied to the
+  shared ExperimentManager. Portfolio presets never change the submitted algorithm stage.
 - **Experiment → Individual experiment** always uses the complete unchanged submitted stage. It has
   no second algorithm selector and runs one custom case/formulation/scenario/budget/seed design.
   Its setup completion, editable run count, direct full-run result capture, fairness audit, staging,
   and immutable plan are independent of Workspace Portfolio and Workspace Study. Changing or
   applying a Workspace evidence plan cannot become an Individual execution prerequisite.
 
-Each path follows the same visible order:
+The Workspace path is explicitly:
+
+1. **Apply Portfolio goal**
+2. **Refresh or use Study recommendations and tune values**
+3. **Apply Study setup**
+4. **Run fairness audit**
+5. **Stage without running**
+6. **Run campaign**
+
+The direct Individual path begins at its own six-step setup and then follows Audit, Stage, and Run.
+No navigation or Apply action runs numerical work.
+
+The execution controls retain this visible order:
 
 1. **Experiment configuration**
 2. **Fairness audit**
@@ -118,10 +132,13 @@ Each path follows the same visible order:
 
 For an Individual experiment, choose the run count, population size, budget policy, evaluation
 budget, master seed, compute intent, exact verified-result reuse choice, and result directory
-directly. Workspace Study instead displays the Portfolio-derived run count and consumes the exact
-Portfolio subset/evidence contract. Run the fairness audit next, then explicitly Stage the unchanged
-audited plan. Staging acquires exclusive execution ownership but starts no numerical work. Any later
-editable configuration change requires a replacement draft and audit before staging.
+directly. Workspace Study owns the editable selected paired-run count, cases, formulation, scenarios,
+budget, seed, compute/result choices, reuse, resume, and checkpoint interval. Portfolio supplies a
+hard minimum and recommendation, not an exact run value; a scientist may choose another value that
+still satisfies every hard constraint, and the delta is retained. Run the fairness audit next, then
+explicitly Stage the unchanged audited plan. Staging acquires exclusive execution ownership but
+starts no numerical work. Any later applied Study change creates a replacement draft and requires a
+new audit before staging.
 
 Workspace and individual execution never run concurrently. Workspace keeps ownership while staged,
 running, pausing, or interrupted. A durable Workspace pause commits retained progress before

@@ -322,7 +322,16 @@ class WorkflowManager(QObject):
         if key == "calo_intelligence":
             return self.governing_policy_ready()
         if key == "algorithms":
-            return key in self.completed or self.state.execution_control.active_stage() is not None
+            return self.state.execution_control.active_stage() is not None
+        if key == "portfolio":
+            stage = self.state.execution_control.active_stage()
+            goal = self.state.database.get_active_portfolio_goal()
+            return bool(
+                stage is not None
+                and goal is not None
+                and str(goal["algorithm_stage_id"]) == stage.stage_id
+                and str(goal["algorithm_stage_sha256"]) == stage.content_sha256
+            )
         return key in self.completed
 
     def workspace_state_key(self, key: str) -> tuple[str, str]:
@@ -379,14 +388,26 @@ class WorkflowManager(QObject):
         if key == "portfolio":
             if not self._setup_complete("algorithms"):
                 return "locked", "Submit the algorithm selection first."
+            stage = self.state.execution_control.active_stage()
+            goal = self.state.database.get_active_portfolio_goal()
+            goal_current = bool(
+                goal is not None
+                and stage is not None
+                and str(goal["algorithm_stage_id"]) == stage.stage_id
+                and str(goal["algorithm_stage_sha256"]) == stage.content_sha256
+            )
             return (
                 ("completed", "Evidence portfolio intent planned.")
-                if self._setup_complete("portfolio")
+                if goal_current
                 else ("recommended", descriptors["portfolio"].instruction)
             )
         if key == "scenarios":
             if not self._setup_complete("portfolio"):
-                return "locked", "Apply the evidence portfolio plan first."
+                return (
+                    "locked",
+                    "Apply a Portfolio goal first. Portfolio defines what evidence is wanted; "
+                    "Study will then recommend how to produce it.",
+                )
             return (
                 ("completed", "Scenario configuration applied.")
                 if self._setup_complete("scenarios")
@@ -395,6 +416,31 @@ class WorkflowManager(QObject):
         if key == "experiment":
             if not self._setup_complete("algorithms"):
                 return "locked", "Submit the algorithm selection first."
+            stage = self.state.execution_control.active_stage()
+            goal = self.state.database.get_active_portfolio_goal()
+            if goal is None:
+                latest = self.state.database.get_latest_portfolio_goal()
+                if latest is not None and str(latest.get("status", "")) == "stale_stage":
+                    return (
+                        "locked",
+                        f"Portfolio goal {str(latest['id'])!r} is stale for the current submitted "
+                        "algorithm stage. Apply a new Portfolio goal before creating new Study work.",
+                    )
+                return (
+                    "locked",
+                    "Apply a Portfolio goal first. Portfolio defines what evidence is wanted; "
+                    "Study will then recommend how to produce it.",
+                )
+            if (
+                stage is None
+                or str(goal["algorithm_stage_id"]) != stage.stage_id
+                or str(goal["algorithm_stage_sha256"]) != stage.content_sha256
+            ):
+                return (
+                    "locked",
+                    "The applied Portfolio goal is stale for the current submitted algorithm "
+                    "stage. Apply a new Portfolio goal before creating new Study work.",
+                )
             return (
                 ("completed", "The experiment execution is complete.")
                 if self.experiment_completed

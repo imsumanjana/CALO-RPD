@@ -19,7 +19,7 @@ from calo_rpd_studio.version import VERSION
 
 
 _LOG = logging.getLogger(__name__)
-DATABASE_SCHEMA_VERSION = 2
+DATABASE_SCHEMA_VERSION = 3
 
 
 def _sha256_file(path: Path) -> str:
@@ -207,6 +207,13 @@ class ResultDatabase:
             status TEXT NOT NULL, content_json TEXT NOT NULL, content_sha256 TEXT NOT NULL,
             record_sha256 TEXT NOT NULL, superseded_at TEXT NOT NULL DEFAULT ''
         );
+        CREATE TABLE IF NOT EXISTS portfolio_goals(
+            id TEXT PRIMARY KEY, schema_version TEXT NOT NULL, created_at TEXT NOT NULL,
+            status TEXT NOT NULL, algorithm_stage_id TEXT NOT NULL,
+            algorithm_stage_sha256 TEXT NOT NULL, content_json TEXT NOT NULL,
+            content_sha256 TEXT NOT NULL, superseded_at TEXT NOT NULL DEFAULT '',
+            FOREIGN KEY(algorithm_stage_id) REFERENCES algorithm_stages(id)
+        );
         CREATE TABLE IF NOT EXISTS execution_plans(
             id TEXT PRIMARY KEY, plan_kind TEXT NOT NULL, schema_version TEXT NOT NULL,
             algorithm_stage_id TEXT NOT NULL, created_at TEXT NOT NULL,
@@ -224,6 +231,18 @@ class ResultDatabase:
             lifecycle_state TEXT NOT NULL DEFAULT 'planned', campaign_id TEXT NOT NULL DEFAULT '',
             experiment_id TEXT NOT NULL DEFAULT '', last_message TEXT NOT NULL DEFAULT '',
             UNIQUE(workspace_plan_id,ordinal), UNIQUE(workspace_plan_id,design_sha256),
+            FOREIGN KEY(workspace_plan_id) REFERENCES execution_plans(id)
+        );
+        CREATE TABLE IF NOT EXISTS applied_study_setups(
+            id TEXT PRIMARY KEY, schema_version TEXT NOT NULL, created_at TEXT NOT NULL,
+            status TEXT NOT NULL, portfolio_goal_id TEXT NOT NULL,
+            portfolio_goal_sha256 TEXT NOT NULL, algorithm_stage_id TEXT NOT NULL,
+            algorithm_stage_sha256 TEXT NOT NULL, recommendation_id TEXT NOT NULL,
+            recommendation_sha256 TEXT NOT NULL, recommendation_json TEXT NOT NULL,
+            content_json TEXT NOT NULL, content_sha256 TEXT NOT NULL,
+            workspace_plan_id TEXT NOT NULL, superseded_at TEXT NOT NULL DEFAULT '',
+            FOREIGN KEY(portfolio_goal_id) REFERENCES portfolio_goals(id),
+            FOREIGN KEY(algorithm_stage_id) REFERENCES algorithm_stages(id),
             FOREIGN KEY(workspace_plan_id) REFERENCES execution_plans(id)
         );
         CREATE TABLE IF NOT EXISTS execution_controller(
@@ -323,12 +342,20 @@ class ResultDatabase:
         CREATE INDEX IF NOT EXISTS idx_resumable_status ON resumable_tasks(status,resumable);
         CREATE UNIQUE INDEX IF NOT EXISTS uq_algorithm_stage_active
             ON algorithm_stages(status) WHERE status='active';
+        CREATE UNIQUE INDEX IF NOT EXISTS uq_portfolio_goal_current
+            ON portfolio_goals(status) WHERE status='current';
+        CREATE INDEX IF NOT EXISTS idx_portfolio_goal_stage
+            ON portfolio_goals(algorithm_stage_id,status,created_at);
         CREATE UNIQUE INDEX IF NOT EXISTS uq_execution_plan_active_kind
             ON execution_plans(plan_kind) WHERE active_slot=1;
         CREATE INDEX IF NOT EXISTS idx_execution_plan_state
             ON execution_plans(plan_kind,lifecycle_state,updated_at);
         CREATE INDEX IF NOT EXISTS idx_workspace_cells_plan
             ON workspace_plan_cells(workspace_plan_id,ordinal);
+        CREATE UNIQUE INDEX IF NOT EXISTS uq_applied_study_setup_current
+            ON applied_study_setups(status) WHERE status='current';
+        CREATE INDEX IF NOT EXISTS idx_applied_study_setup_goal
+            ON applied_study_setups(portfolio_goal_id,status,created_at);
         CREATE INDEX IF NOT EXISTS idx_execution_events_plan
             ON execution_lifecycle_events(plan_id,id);
         CREATE INDEX IF NOT EXISTS idx_policies_active ON policies(active,archived);
@@ -644,6 +671,11 @@ class ResultDatabase:
                     str(message),
                 ),
             )
+            con.execute(
+                """UPDATE applied_study_setups SET status='superseded',superseded_at=?
+                   WHERE workspace_plan_id=? AND status='current'""",
+                (now, str(plan["id"])),
+            )
 
     @staticmethod
     def _decoded_execution_plan(row) -> dict | None:
@@ -717,6 +749,14 @@ class ResultDatabase:
                 controller_epoch=int(controller["epoch"]),
             )
             con.execute(
+                "UPDATE portfolio_goals SET status='stale_stage',superseded_at=? WHERE status='current'",
+                (now,),
+            )
+            con.execute(
+                "UPDATE applied_study_setups SET status='stale_stage',superseded_at=? WHERE status='current'",
+                (now,),
+            )
+            con.execute(
                 "UPDATE algorithm_stages SET status='superseded',superseded_at=? WHERE status='active'",
                 (now,),
             )
@@ -762,6 +802,14 @@ class ResultDatabase:
                 "UPDATE algorithm_stages SET status='discarded',superseded_at=? WHERE status='active'",
                 (now,),
             )
+            con.execute(
+                "UPDATE portfolio_goals SET status='stale_stage',superseded_at=? WHERE status='current'",
+                (now,),
+            )
+            con.execute(
+                "UPDATE applied_study_setups SET status='stale_stage',superseded_at=? WHERE status='current'",
+                (now,),
+            )
             drafts = con.execute(
                 """SELECT * FROM execution_plans
                    WHERE active_slot=1 AND lifecycle_state IN ('draft','audited')"""
@@ -774,7 +822,121 @@ class ResultDatabase:
                 controller_epoch=int(controller["epoch"]),
             )
 
-    def create_execution_plan(self, plan, *, plan_kind: str) -> str:
+    @staticmethod
+    def _decoded_portfolio_goal(row) -> dict | None:
+        if row is None:
+            return None
+        payload = dict(row)
+        payload["content"] = json.loads(str(payload.pop("content_json")))
+        if _canonical_sha256(payload["content"]) != str(payload["content_sha256"]):
+            raise RuntimeError("The immutable Portfolio goal checksum does not match")
+        return payload
+
+    def get_active_portfolio_goal(self) -> dict | None:
+        with self.connect() as con:
+            row = con.execute(
+                "SELECT * FROM portfolio_goals WHERE status='current' ORDER BY created_at DESC LIMIT 1"
+            ).fetchone()
+        return self._decoded_portfolio_goal(row)
+
+    def get_latest_portfolio_goal(self) -> dict | None:
+        with self.connect() as con:
+            row = con.execute(
+                "SELECT * FROM portfolio_goals ORDER BY created_at DESC LIMIT 1"
+            ).fetchone()
+        return self._decoded_portfolio_goal(row)
+
+    def replace_portfolio_goal(self, goal) -> str:
+        """Persist only a broad goal and invalidate only unstarted downstream Study state."""
+
+        content = goal.content_payload()
+        if _canonical_sha256(content) != str(goal.content_sha256):
+            raise RuntimeError("Portfolio goal checksum does not match its canonical content")
+        now = self._utcnow()
+        with self._lock, self.connect() as con:
+            con.execute("BEGIN IMMEDIATE")
+            controller = self._verified_controller_payload(
+                con.execute("SELECT * FROM execution_controller WHERE singleton_id=1").fetchone()
+            )
+            if str(controller["controller"]) != "none":
+                raise RuntimeError(
+                    f"Portfolio goal replacement is blocked while execution plan "
+                    f"{str(controller['owner_plan_id'])!r} owns control"
+                )
+            retained = con.execute(
+                """SELECT id,lifecycle_state FROM execution_plans
+                   WHERE plan_kind='workspace' AND active_slot=1 AND lifecycle_state IN
+                   ('staged','running','pausing','paused','interrupted_resumable') LIMIT 1"""
+            ).fetchone()
+            if retained is not None:
+                raise RuntimeError(
+                    f"Portfolio goal replacement is blocked by retained Workspace plan "
+                    f"{str(retained['id'])!r} in {str(retained['lifecycle_state'])!r} state"
+                )
+            stage = con.execute(
+                "SELECT content_sha256 FROM algorithm_stages WHERE id=? AND status='active'",
+                (str(goal.algorithm_stage_id),),
+            ).fetchone()
+            if stage is None or str(stage["content_sha256"]) != str(goal.algorithm_stage_sha256):
+                raise RuntimeError("The Portfolio goal is not bound to the current submitted stage")
+            drafts = con.execute(
+                """SELECT * FROM execution_plans WHERE plan_kind='workspace' AND active_slot=1
+                   AND lifecycle_state IN ('draft','audited')"""
+            ).fetchall()
+            self._discard_unstarted_plans(
+                con,
+                drafts,
+                now=now,
+                message="Invalidated by a newly applied Portfolio goal",
+                controller_epoch=int(controller["epoch"]),
+            )
+            con.execute(
+                "UPDATE portfolio_goals SET status='superseded',superseded_at=? WHERE status='current'",
+                (now,),
+            )
+            con.execute(
+                "UPDATE applied_study_setups SET status='superseded',superseded_at=? WHERE status='current'",
+                (now,),
+            )
+            con.execute(
+                """INSERT INTO portfolio_goals(
+                    id,schema_version,created_at,status,algorithm_stage_id,
+                    algorithm_stage_sha256,content_json,content_sha256
+                ) VALUES(?,?,?,'current',?,?,?,?)""",
+                (
+                    goal.portfolio_goal_id,
+                    goal.schema_version,
+                    goal.created_at,
+                    goal.algorithm_stage_id,
+                    goal.algorithm_stage_sha256,
+                    json.dumps(content, sort_keys=True, allow_nan=False),
+                    goal.content_sha256,
+                ),
+            )
+        return str(goal.portfolio_goal_id)
+
+    def get_active_applied_study_setup(self) -> dict | None:
+        with self.connect() as con:
+            row = con.execute(
+                """SELECT * FROM applied_study_setups
+                   WHERE status='current' ORDER BY created_at DESC LIMIT 1"""
+            ).fetchone()
+        if row is None:
+            return None
+        payload = dict(row)
+        payload["content"] = json.loads(str(payload.pop("content_json")))
+        payload["recommendation"] = json.loads(str(payload.pop("recommendation_json")))
+        if _canonical_sha256(payload["content"]) != str(payload["content_sha256"]):
+            raise RuntimeError("The immutable applied Study setup checksum does not match")
+        if _canonical_sha256(payload["recommendation"]) != str(
+            payload["recommendation_sha256"]
+        ):
+            raise RuntimeError("The immutable Study recommendation checksum does not match")
+        return payload
+
+    def create_execution_plan(
+        self, plan, *, plan_kind: str, applied_study_setup=None, recommendation=None
+    ) -> str:
         """Persist one immutable design as a draft without acquiring execution authority."""
 
         kind = str(plan_kind)
@@ -811,6 +973,34 @@ class ResultDatabase:
                 raise RuntimeError(
                     "The plan is not bound to the currently submitted algorithm stage"
                 )
+            if applied_study_setup is not None:
+                if kind != "workspace" or recommendation is None:
+                    raise RuntimeError(
+                        "An applied Study setup can be persisted only with a Workspace recommendation"
+                    )
+                setup_content = applied_study_setup.content_payload()
+                recommendation_content = recommendation.payload()
+                if _canonical_sha256(setup_content) != str(applied_study_setup.content_sha256):
+                    raise RuntimeError("Applied Study setup checksum does not match")
+                if _canonical_sha256(recommendation_content) != str(
+                    recommendation.recommendation_sha256
+                ):
+                    raise RuntimeError("Study recommendation checksum does not match")
+                goal = con.execute(
+                    """SELECT content_sha256,algorithm_stage_id,algorithm_stage_sha256
+                       FROM portfolio_goals WHERE id=? AND status='current'""",
+                    (str(applied_study_setup.portfolio_goal_id),),
+                ).fetchone()
+                if (
+                    goal is None
+                    or str(goal["content_sha256"])
+                    != str(applied_study_setup.portfolio_goal_sha256)
+                    or str(goal["algorithm_stage_id"]) != str(plan.algorithm_stage_id)
+                    or str(goal["algorithm_stage_sha256"]) != str(plan.algorithm_stage_sha256)
+                ):
+                    raise RuntimeError(
+                        "The Study setup is not bound to the exact current Portfolio goal and stage"
+                    )
             existing = con.execute(
                 "SELECT * FROM execution_plans WHERE plan_kind=? AND active_slot=1",
                 (kind,),
@@ -827,6 +1017,12 @@ class ResultDatabase:
                     message="Superseded by a new unstarted draft",
                     controller_epoch=int(controller["epoch"]),
                 )
+                if kind == "workspace":
+                    con.execute(
+                        """UPDATE applied_study_setups SET status='superseded',superseded_at=?
+                           WHERE status='current'""",
+                        (now,),
+                    )
             con.execute(
                 """INSERT INTO execution_plans(
                     id,plan_kind,schema_version,algorithm_stage_id,created_at,design_json,
@@ -858,6 +1054,37 @@ class ResultDatabase:
                         int(cell["ordinal"]),
                         json.dumps(cell["config"], sort_keys=True, allow_nan=False),
                         str(cell["design_sha256"]),
+                    ),
+                )
+            if applied_study_setup is not None:
+                con.execute(
+                    """UPDATE applied_study_setups SET status='superseded',superseded_at=?
+                       WHERE status='current'""",
+                    (now,),
+                )
+                con.execute(
+                    """INSERT INTO applied_study_setups(
+                        id,schema_version,created_at,status,portfolio_goal_id,
+                        portfolio_goal_sha256,algorithm_stage_id,algorithm_stage_sha256,
+                        recommendation_id,recommendation_sha256,recommendation_json,
+                        content_json,content_sha256,workspace_plan_id
+                    ) VALUES(?,?,?,'current',?,?,?,?,?,?,?,?,?,?)""",
+                    (
+                        applied_study_setup.study_setup_id,
+                        applied_study_setup.schema_version,
+                        applied_study_setup.created_at,
+                        applied_study_setup.portfolio_goal_id,
+                        applied_study_setup.portfolio_goal_sha256,
+                        applied_study_setup.algorithm_stage_id,
+                        applied_study_setup.algorithm_stage_sha256,
+                        applied_study_setup.recommendation_id,
+                        applied_study_setup.recommendation_sha256,
+                        json.dumps(recommendation.payload(), sort_keys=True, allow_nan=False),
+                        json.dumps(
+                            applied_study_setup.content_payload(), sort_keys=True, allow_nan=False
+                        ),
+                        applied_study_setup.content_sha256,
+                        plan.plan_id,
                     ),
                 )
         return str(plan.plan_id)

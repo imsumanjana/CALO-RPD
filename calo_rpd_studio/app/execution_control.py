@@ -63,13 +63,31 @@ class ExecutionControlService:
         self.database.discard_algorithm_stage()
 
     def create_workspace_draft(
-        self, config, study_algorithm_names: tuple[str, ...]
+        self,
+        config,
+        study_algorithm_names: tuple[str, ...],
+        *,
+        portfolio_goal,
+        recommendation,
+        applied_study_setup,
     ) -> dict:
         stage = self.active_stage()
         if stage is None:
             raise RuntimeError("Submit at least one algorithm for experiment use first")
-        plan = WorkspaceStudyPlan.create(config, stage, study_algorithm_names)
-        self.database.create_execution_plan(plan, plan_kind=ExecutionPlanKind.WORKSPACE.value)
+        plan = WorkspaceStudyPlan.create(
+            config,
+            stage,
+            study_algorithm_names,
+            portfolio_goal=portfolio_goal,
+            recommendation=recommendation,
+            applied_study_setup=applied_study_setup,
+        )
+        self.database.create_execution_plan(
+            plan,
+            plan_kind=ExecutionPlanKind.WORKSPACE.value,
+            applied_study_setup=applied_study_setup,
+            recommendation=recommendation,
+        )
         return self.database.get_execution_plan(plan.plan_id) or {}
 
     def create_individual_draft(self, config) -> dict:

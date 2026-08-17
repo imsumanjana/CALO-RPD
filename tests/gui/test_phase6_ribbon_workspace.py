@@ -137,7 +137,10 @@ def test_ribbon_is_registry_generated_and_shell_regions_are_accessible(
         "experiment.individual",
         "experiment.power",
         "experiment.formulation",
+        "experiment.budget",
         "experiment.scenarios",
+        "experiment.validation",
+        "experiment.review",
     )
     assert "resume_center" not in window.pages_by_key
     assert all(item.workspace != "resume_center" for item in window.command_registry.specs)
@@ -268,13 +271,10 @@ def test_algorithm_staging_reset_and_calo_settings_are_separate_transactions(
     assert "staged for experiment" in panel.algorithm_stage_status.text().lower()
     assert state.task_status.busy is False
     assert window.workflow.workspace_state_key("portfolio")[0] != "locked"
-    assert window.workflow.workspace_state_key("experiment")[0] != "locked"
-    for command_id in (
-        "workspace.portfolio",
-        "workspace.study",
-        "experiment.individual",
-    ):
-        assert window.command_registry.action(command_id).isEnabled() is True
+    assert window.workflow.workspace_state_key("experiment")[0] == "locked"
+    assert window.command_registry.action("workspace.portfolio").isEnabled() is True
+    assert window.command_registry.action("workspace.study").isEnabled() is False
+    assert window.command_registry.action("experiment.individual").isEnabled() is True
 
     window.command_registry.action("algorithms.flags").trigger()
     assert window.stack.currentWidget() is panel
@@ -361,7 +361,7 @@ def test_algorithm_staging_reset_and_calo_settings_are_separate_transactions(
 
 
 def test_workspace_study_and_individual_share_inline_setup_but_keep_algorithm_authority(
-    qtbot, tmp_path, monkeypatch
+    qtbot, tmp_path, monkeypatch, apply_workspace_study
 ):
     from calo_rpd_studio.experiments.execution_plans import ExecutionPlanKind
 
@@ -376,7 +376,7 @@ def test_workspace_study_and_individual_share_inline_setup_but_keep_algorithm_au
         "TLBO": {},
     }
     state.execution_control.submit_algorithm_stage(state.config)
-    state.execution_control.create_workspace_draft(state.config, ("CALO",))
+    apply_workspace_study(state.execution_control, state.config, ("CALO",))
     window.workflow.mark_completed("algorithms")
     window._refresh_workflow()
 
@@ -398,6 +398,24 @@ def test_workspace_study_and_individual_share_inline_setup_but_keep_algorithm_au
     assert window.stack.currentWidget() is study
     assert study.execution_mode == ExecutionPlanKind.INDIVIDUAL_EXPERIMENT.value
     assert "Complete submitted stage · 2 algorithm(s): CALO, TLBO" in study.selected.text()
+
+    for expected_step, command_id in enumerate(
+        (
+            "experiment.power",
+            "experiment.formulation",
+            "experiment.budget",
+            "experiment.scenarios",
+            "experiment.validation",
+            "experiment.review",
+        )
+    ):
+        window.command_registry.action(command_id).trigger()
+        assert window.stack.currentWidget() is study
+        assert study.execution_mode == ExecutionPlanKind.INDIVIDUAL_EXPERIMENT.value
+        assert study.study_setup_workflow.current_step() == expected_step
+    assert (
+        state.execution_control.active_plan(ExecutionPlanKind.INDIVIDUAL_EXPERIMENT) is None
+    )
 
 
 def test_document_header_only_appears_for_a_real_secondary_document(qtbot, tmp_path, monkeypatch):

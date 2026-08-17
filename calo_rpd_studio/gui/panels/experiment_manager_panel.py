@@ -38,6 +38,12 @@ from calo_rpd_studio.compute.resource_scheduler import ResourceMonitor, build_we
 from calo_rpd_studio.experiments.evaluation_budget import BudgetPolicy
 from calo_rpd_studio.portfolio.planner import PortfolioPlanner
 from calo_rpd_studio.portfolio.fingerprint import run_fingerprint
+from calo_rpd_studio.portfolio.study_planning import (
+    AppliedPortfolioGoal,
+    AppliedStudySetup,
+    StudyRecommendation,
+    WorkspaceStudyPlanner,
+)
 from calo_rpd_studio.experiments.seed_manager import SeedManager
 from calo_rpd_studio.experiments.execution_plan import (
     ABLATION_MODE,
@@ -53,6 +59,7 @@ from calo_rpd_studio.experiments.execution_plans import (
     canonical_sha256,
     frozen_config_payload,
     frozen_individual_config_payload,
+    stage_bound_individual_config,
 )
 from calo_rpd_studio.experiments.result_contracts import (
     validate_individual_result_contract,
@@ -164,15 +171,25 @@ class ScientificAuditWorker(QThread):
                 )
             else:
                 portfolio_plan = PortfolioPlanner.plan(
-                    self.config, self.config.portfolio, benchmark_blocks=1
+                    self.config,
+                    self.config.portfolio,
+                    benchmark_blocks=max(1, len(self.config.study_case_plan)),
                 )
+                if self.config.workspace_study_contract:
+                    # Workspace v3 freezes the scientist's hard-minimum-satisfying selection.
+                    # The legacy planner remains useful for fields/tasks but its profile run floor
+                    # is a soft recommendation in the one-way workflow, not execution authority.
+                    portfolio_plan.required_runs = int(self.config.runs)
+                    portfolio_plan.total_jobs = int(self.config.runs) * len(
+                        self.config.algorithms
+                    )
             self.progress.emit("Checking reusable verified runs", 82)
             seeds = SeedManager(self.config.master_seed).generate(self.config.runs)
             reusable = 0
             reuse_enabled = (
                 bool(result_contract["reuse_compatible_results"])
                 if result_contract is not None
-                else bool(self.config.portfolio.reuse_compatible_results)
+                else bool(self.config.reuse_compatible_results)
             )
             if reuse_enabled:
                 database = ResultDatabase(self.database_path)
@@ -215,6 +232,7 @@ class ExperimentManagerPanel(WorkspacePage):
     formulation_completed = pyqtSignal()
     scenarios_completed = pyqtSignal()
     setup_completed = pyqtSignal(str, str)
+    study_setup_applied = pyqtSignal()
 
     def __init__(self, state, manager, parent=None, *, workspace_coordinator=None) -> None:
         super().__init__(
@@ -238,6 +256,7 @@ class ExperimentManagerPanel(WorkspacePage):
         self.audit_worker: ScientificAuditWorker | None = None
         self._study_setup_editable = True
         self._study_prerequisites: dict[str, dict[str, tuple[str, str]]] = {}
+        self._study_recommendation: StudyRecommendation | None = None
 
         # This workspace is genuinely taller than a typical laptop viewport.  Keep the
         # page header fixed and scroll only the workflow body so controls retain their
@@ -414,9 +433,13 @@ class ExperimentManagerPanel(WorkspacePage):
         self.output = QLineEdit()
         self.reuse_results = QCheckBox("Reuse independently verified exact compatible runs")
         self.reuse_results.setToolTip(
-            "Individual experiments may reuse only an exact compatible run that already passed "
-            "independent validation. Workspace reuse remains controlled by Portfolio Manager."
+            "Reuse is an exact Study or Individual execution choice. Only independently verified, "
+            "scientifically compatible results may be reused."
         )
+        self.resume_enabled = QCheckBox("Enable resumable campaign checkpoints")
+        self.checkpoint_interval = QSpinBox()
+        self.checkpoint_interval.setRange(1, 2_000_000_000)
+        self.checkpoint_interval.setSuffix(" evaluations")
         choose = QPushButton("Choose")
         choose.clicked.connect(self.choose_output)
         output_widget = QWidget()
@@ -465,11 +488,14 @@ class ExperimentManagerPanel(WorkspacePage):
         grid.addWidget(QLabel("Result directory"), base_row, 0)
         grid.addWidget(output_widget, base_row, 1, 1, 3)
         grid.addWidget(self.reuse_results, base_row + 1, 0, 1, 4)
-        grid.addWidget(QLabel("Primary algorithms"), base_row + 2, 0)
-        grid.addWidget(self.selected, base_row + 2, 1, 1, 3)
-        grid.addWidget(self.plan_summary, base_row + 3, 0, 1, 4)
-        grid.addWidget(self.device_inventory, base_row + 4, 0, 1, 4)
-        grid.addWidget(self.execution_note, base_row + 5, 0, 1, 4)
+        grid.addWidget(self.resume_enabled, base_row + 2, 0, 1, 2)
+        grid.addWidget(QLabel("Checkpoint interval"), base_row + 2, 2)
+        grid.addWidget(self.checkpoint_interval, base_row + 2, 3)
+        grid.addWidget(QLabel("Primary algorithms"), base_row + 3, 0)
+        grid.addWidget(self.selected, base_row + 3, 1, 1, 3)
+        grid.addWidget(self.plan_summary, base_row + 4, 0, 1, 4)
+        grid.addWidget(self.device_inventory, base_row + 5, 0, 1, 4)
+        grid.addWidget(self.execution_note, base_row + 6, 0, 1, 4)
         grid.setColumnMinimumWidth(0, 130)
         grid.setColumnMinimumWidth(2, 150)
         grid.setColumnStretch(1, 1)
@@ -729,6 +755,7 @@ class ExperimentManagerPanel(WorkspacePage):
             self.telemetry_interval,
             self.cuda_vram_budget,
             self.cuda_oom_retries,
+            self.checkpoint_interval,
         ):
             if hasattr(widget, "valueChanged"):
                 widget.valueChanged.connect(self._invalidate_fairness)
@@ -746,10 +773,12 @@ class ExperimentManagerPanel(WorkspacePage):
             self.device_resident_execution,
             self.cuda_resident_hot_loop,
             self.reuse_results,
+            self.resume_enabled,
         ):
             checkbox.stateChanged.connect(self._invalidate_fairness)
             checkbox.stateChanged.connect(self._update_plan_summary)
         self.output.textChanged.connect(self._invalidate_fairness)
+        self.runs.valueChanged.connect(lambda *_: self._refresh_study_source_card())
         self._configuration_inputs = (
             self.runs,
             self.population,
@@ -778,6 +807,8 @@ class ExperimentManagerPanel(WorkspacePage):
             self.device_resident_execution,
             self.cuda_resident_hot_loop,
             self.reuse_results,
+            self.resume_enabled,
+            self.checkpoint_interval,
             self.output,
         )
         state.config_changed.connect(lambda _: self.refresh())
@@ -790,13 +821,24 @@ class ExperimentManagerPanel(WorkspacePage):
         self.refresh_execution_state()
 
     def show_context(self, context: str) -> None:
+        individual_steps = {
+            "individual_experiment.case": 0,
+            "individual_experiment.formulation": 1,
+            "individual_experiment.budget": 2,
+            "individual_experiment.scenarios": 3,
+            "individual_experiment.validation": 4,
+            "individual_experiment.review": 5,
+        }
+        context_key = str(context)
         self.execution_mode = (
             ExecutionPlanKind.INDIVIDUAL_EXPERIMENT.value
-            if str(context) == "individual_experiment"
+            if context_key == "individual_experiment" or context_key in individual_steps
             else ExecutionPlanKind.WORKSPACE.value
         )
         self._apply_mode_presentation()
         self.refresh()
+        if context_key in individual_steps:
+            self.study_setup_workflow.set_step(individual_steps[context_key])
 
     def set_study_prerequisite_states(
         self,
@@ -824,21 +866,21 @@ class ExperimentManagerPanel(WorkspacePage):
         self.study_setup_workflow.set_presentation(
             "Workspace Study Setup" if workspace else "Individual Experiment Setup"
         )
-        self.runs.setReadOnly(workspace)
-        self.runs.setButtonSymbols(
-            QSpinBox.ButtonSymbols.NoButtons
-            if workspace
-            else QSpinBox.ButtonSymbols.UpDownArrows
-        )
+        self.runs.setReadOnly(False)
+        self.runs.setButtonSymbols(QSpinBox.ButtonSymbols.UpDownArrows)
         self.runs.setToolTip(
             (
-                "Derived by Portfolio Manager from the selected Workspace evidence and output dependencies."
+                "Scientist-selected paired runs. The applied Portfolio supplies a hard minimum "
+                "and a recommendation; Apply study setup freezes the selected value."
                 if workspace
                 else "Scientist-selected independent run count for this individual experiment."
             )
         )
-        self.reuse_results.setVisible(not workspace)
-        self.reuse_results.setEnabled(not workspace and self._study_setup_editable)
+        self.reuse_results.setVisible(True)
+        self.reuse_results.setEnabled(self._study_setup_editable)
+        self.resume_enabled.setVisible(True)
+        self.checkpoint_interval.setVisible(True)
+        self._refresh_study_source_card()
 
     def _apply_inline_study_states(self) -> None:
         if not hasattr(self, "study_setup_workflow"):
@@ -867,9 +909,12 @@ class ExperimentManagerPanel(WorkspacePage):
 
         if self.execution_mode == ExecutionPlanKind.WORKSPACE.value:
             plan = self.state.execution_control.active_plan(ExecutionPlanKind.WORKSPACE)
-            if plan is None:
-                return ()
-            return tuple(str(name) for name in plan["design"].get("study_algorithm_names", []))
+            if plan is not None:
+                return tuple(
+                    str(name) for name in plan["design"].get("study_algorithm_names", [])
+                )
+            goal = self._active_portfolio_goal()
+            return () if goal is None else tuple(goal.selected_algorithm_names)
         stage = self.state.execution_control.active_stage()
         return () if stage is None else tuple(str(name) for name in stage.algorithm_names)
 
@@ -897,26 +942,41 @@ class ExperimentManagerPanel(WorkspacePage):
         plan = self._active_controlled_plan()
         state = str(plan["lifecycle_state"]) if plan else ""
         audit_matches_current = False
-        if plan is not None and state == ExecutionLifecycle.AUDITED.value:
+        design_matches_current = False
+        if plan is not None:
             design = dict(plan["design"])
             names = tuple(
                 str(name)
                 for name in design.get("study_algorithm_names", design.get("algorithm_names", []))
             )
             try:
-                current_payload = (
-                    frozen_config_payload(
+                if self.execution_mode == ExecutionPlanKind.WORKSPACE.value:
+                    current_payload = frozen_config_payload(
                         self.state.config,
                         names,
                         plan_kind=ExecutionPlanKind.WORKSPACE,
                     )
-                    if self.execution_mode == ExecutionPlanKind.WORKSPACE.value
-                    else frozen_individual_config_payload(self.state.config, names)
-                )
-                audit_matches_current = canonical_sha256(current_payload) == canonical_sha256(
+                else:
+                    stage = self.state.execution_control.active_stage()
+                    if stage is None or stage.stage_id != str(plan["algorithm_stage_id"]):
+                        raise RuntimeError(
+                            "The Individual plan is not bound to the active algorithm stage"
+                        )
+                    current_payload = frozen_individual_config_payload(
+                        stage_bound_individual_config(
+                            self.state.config,
+                            stage,
+                        ),
+                        names,
+                    )
+                design_matches_current = canonical_sha256(current_payload) == canonical_sha256(
                     design["config"]
                 )
+                audit_matches_current = bool(
+                    state == ExecutionLifecycle.AUDITED.value and design_matches_current
+                )
             except Exception:
+                design_matches_current = False
                 audit_matches_current = False
         owner_matches = bool(
             plan
@@ -969,7 +1029,7 @@ class ExperimentManagerPanel(WorkspacePage):
                 )
         else:
             banner = (
-                "Apply a Workspace portfolio draft before auditing."
+                "Apply study setup to create the exact unstarted Workspace draft before auditing."
                 if workspace
                 else "Configure and audit one individual experiment using the complete submitted algorithm stage."
             )
@@ -979,11 +1039,32 @@ class ExperimentManagerPanel(WorkspacePage):
             ExecutionLifecycle.DRAFT.value,
             ExecutionLifecycle.AUDITED.value,
         }
-        editable = controller_none and editable_state and not self.manager.running
+        workspace_goal_ready = bool(
+            not workspace or plan is not None or self._active_portfolio_goal() is not None
+        )
+        editable = (
+            controller_none
+            and editable_state
+            and workspace_goal_ready
+            and not self.manager.running
+        )
         self._study_setup_editable = bool(editable)
         self._apply_inline_study_states()
         self.setup_card.setEnabled(editable)
         self.fairness_card.setEnabled(editable)
+        audit_ready = bool(
+            editable
+            and (
+                not workspace
+                or (
+                    plan
+                    and state in {ExecutionLifecycle.DRAFT.value, ExecutionLifecycle.AUDITED.value}
+                    and design_matches_current
+                )
+            )
+        )
+        self.audit_button.setEnabled(audit_ready)
+        self.parity_button.setEnabled(audit_ready)
         self.stage_plan.setEnabled(
             bool(plan)
             and state == ExecutionLifecycle.AUDITED.value
@@ -1044,6 +1125,7 @@ class ExperimentManagerPanel(WorkspacePage):
                 ExecutionLifecycle.INTERRUPTED_RESUMABLE.value,
             }
         )
+        self._refresh_study_source_card()
 
     def stage_current_plan(self) -> None:
         plan = self._active_controlled_plan()
@@ -1189,6 +1271,39 @@ class ExperimentManagerPanel(WorkspacePage):
             )
         )
         self.body_layout.insertWidget(0, self.study_setup_workflow)
+        self.study_source_card = SectionCard(
+            "Applied Portfolio source",
+            "Workspace Study consumes one exact applied Portfolio goal. Recommendations are "
+            "read-only until the scientist explicitly applies the Study setup.",
+        )
+        self.study_source_summary = QLabel()
+        self.study_source_summary.setObjectName("InfoText")
+        self.study_source_summary.setWordWrap(True)
+        self.study_recommendation_summary = QLabel()
+        self.study_recommendation_summary.setObjectName("HelpText")
+        self.study_recommendation_summary.setWordWrap(True)
+        self.study_source_card.layout_root.addWidget(self.study_source_summary)
+        self.study_source_card.layout_root.addWidget(self.study_recommendation_summary)
+        recommendation_buttons = QHBoxLayout()
+        self.refresh_recommendation_button = QPushButton("Refresh recommendations")
+        self.use_recommendation_button = QPushButton("Use portfolio recommendations")
+        self.restore_study_button = QPushButton("Restore last applied study setup")
+        self.apply_study_button = QPushButton("Apply study setup")
+        self.apply_study_button.setObjectName("PrimaryButton")
+        self.refresh_recommendation_button.clicked.connect(self.refresh_study_recommendation)
+        self.use_recommendation_button.clicked.connect(self.use_study_recommendation)
+        self.restore_study_button.clicked.connect(self.restore_applied_study_setup)
+        self.apply_study_button.clicked.connect(self.apply_workspace_study_setup)
+        for button in (
+            self.refresh_recommendation_button,
+            self.use_recommendation_button,
+            self.restore_study_button,
+            self.apply_study_button,
+        ):
+            recommendation_buttons.addWidget(button)
+        recommendation_buttons.addStretch(1)
+        self.study_source_card.layout_root.addLayout(recommendation_buttons)
+        self.body_layout.insertWidget(1, self.study_source_card)
         self._apply_inline_study_states()
 
         self.evolution_drawer = DisclosurePanel(
@@ -1204,6 +1319,257 @@ class ExperimentManagerPanel(WorkspacePage):
         insert_at = max(1, self.body_layout.count() - 1)
         self.body_layout.insertWidget(insert_at, self.evolution_drawer)
         self.body_layout.insertWidget(insert_at + 1, self.queue_drawer)
+
+    def _active_portfolio_goal(self) -> AppliedPortfolioGoal | None:
+        record = self.state.database.get_active_portfolio_goal()
+        if record is None:
+            return None
+        return AppliedPortfolioGoal.from_record(record)
+
+    def _refresh_study_source_card(self) -> None:
+        if not hasattr(self, "study_source_card"):
+            return
+        workspace = self.execution_mode == ExecutionPlanKind.WORKSPACE.value
+        self.study_source_card.setVisible(workspace)
+        if not workspace:
+            return
+        goal = self._active_portfolio_goal()
+        stage = self.state.execution_control.active_stage()
+        if goal is None:
+            latest = self.state.database.get_latest_portfolio_goal()
+            if latest is not None and str(latest.get("status", "")) == "stale_stage":
+                message = (
+                    f"Portfolio goal {str(latest['id'])!r} is stale for the current submitted "
+                    "algorithm stage. Apply a new Portfolio goal before creating new Study work."
+                )
+            else:
+                message = (
+                    "Apply a Portfolio goal first. Portfolio defines what evidence is wanted; "
+                    "Study will then recommend how to produce it."
+                )
+            self.study_source_summary.setText(message)
+            self.study_recommendation_summary.setText("Recommendation status: Not generated")
+            for button in (
+                self.refresh_recommendation_button,
+                self.use_recommendation_button,
+                self.restore_study_button,
+                self.apply_study_button,
+            ):
+                button.setEnabled(False)
+            return
+        compatible = bool(
+            stage is not None
+            and goal.algorithm_stage_id == stage.stage_id
+            and goal.algorithm_stage_sha256 == stage.content_sha256
+        )
+        self.study_source_summary.setText(
+            f"{goal.portfolio['name']} · goal {goal.portfolio_goal_id} · SHA-256 "
+            f"{goal.content_sha256[:16]}…\nSubmitted stage: {goal.algorithm_stage_id} · "
+            f"comparison scope: {', '.join(goal.selected_algorithm_names)}\n"
+            f"Requested evidence: {', '.join(goal.portfolio['requested_outputs'])}"
+        )
+        recommendation_current = bool(
+            compatible
+            and self._study_recommendation is not None
+            and self._study_recommendation.portfolio_goal_id == goal.portfolio_goal_id
+            and self._study_recommendation.portfolio_goal_sha256 == goal.content_sha256
+        )
+        if not compatible:
+            status = "Stale — the applied Portfolio goal does not match the current submitted stage."
+        elif recommendation_current:
+            recommendation = self._study_recommendation
+            delta = int(self.runs.value()) - int(recommendation.recommended_runs)
+            status = (
+                f"Current · hard minimum {recommendation.hard_minimum_runs} · recommended "
+                f"{recommendation.recommended_runs} paired runs · selected {self.runs.value()} "
+                f"({delta:+d} versus recommendation)."
+            )
+        else:
+            status = "Not generated"
+        self.study_recommendation_summary.setText("Recommendation status: " + status)
+        controller_none = str(self.state.execution_control.controller()["controller"]) == "none"
+        editable = compatible and controller_none and self._study_setup_editable
+        self.refresh_recommendation_button.setEnabled(editable)
+        self.use_recommendation_button.setEnabled(editable and recommendation_current)
+        last_setup = self.state.database.get_active_applied_study_setup()
+        restorable = bool(
+            last_setup is not None
+            and str(last_setup["portfolio_goal_id"]) == goal.portfolio_goal_id
+            and str(last_setup["portfolio_goal_sha256"]) == goal.content_sha256
+            and stage is not None
+            and str(last_setup["algorithm_stage_id"]) == stage.stage_id
+            and str(last_setup["algorithm_stage_sha256"]) == stage.content_sha256
+        )
+        self.restore_study_button.setEnabled(editable and restorable)
+        self.apply_study_button.setEnabled(editable and recommendation_current)
+
+    def refresh_study_recommendation(self) -> None:
+        if self.execution_mode != ExecutionPlanKind.WORKSPACE.value:
+            return
+        try:
+            goal = self._active_portfolio_goal()
+            if goal is None:
+                raise RuntimeError(
+                    "Apply a Portfolio goal first. Portfolio defines what evidence is wanted; "
+                    "Study will then recommend how to produce it."
+                )
+            self._study_recommendation = WorkspaceStudyPlanner.recommend(
+                goal, self.state.execution_control.active_stage(), self.state.config
+            )
+            self._refresh_study_source_card()
+        except Exception as exc:
+            self._study_recommendation = None
+            self.study_recommendation_summary.setText(str(exc))
+            log_technical_error("Workspace Study recommendation", exc)
+
+    def use_study_recommendation(self) -> None:
+        recommendation = self._study_recommendation
+        if recommendation is None:
+            return
+        controls = (
+            self.runs,
+            self.population,
+            self.budget,
+            self.seed,
+            self.reuse_results,
+            self.resume_enabled,
+            self.checkpoint_interval,
+        )
+        blockers = [QSignalBlocker(control) for control in controls]
+        self.runs.setValue(int(recommendation.recommended_runs))
+        self.population.setValue(int(recommendation.recommended_budget["population_size"]))
+        self.budget.setValue(int(recommendation.recommended_budget["max_evaluations"]))
+        self.seed.setValue(int(recommendation.recommended_budget["master_seed"]))
+        defaults = recommendation.default_reuse_and_resume_values
+        self.reuse_results.setChecked(bool(defaults["reuse_compatible_results"]))
+        self.resume_enabled.setChecked(bool(defaults["resume_enabled"]))
+        self.checkpoint_interval.setValue(int(defaults["checkpoint_interval_evaluations"]))
+        del blockers
+        self._update_plan_summary()
+        self._refresh_study_source_card()
+
+    def restore_applied_study_setup(self) -> None:
+        record = self.state.database.get_active_applied_study_setup()
+        goal = self._active_portfolio_goal()
+        stage = self.state.execution_control.active_stage()
+        if record is None or goal is None or stage is None:
+            return
+        setup = AppliedStudySetup.from_record(record)
+        if (
+            setup.portfolio_goal_id != goal.portfolio_goal_id
+            or setup.portfolio_goal_sha256 != goal.content_sha256
+            or setup.algorithm_stage_id != stage.stage_id
+            or setup.algorithm_stage_sha256 != stage.content_sha256
+        ):
+            return
+        selected = setup.selected_values
+        controls = (
+            self.runs,
+            self.population,
+            self.budget,
+            self.seed,
+            self.reuse_results,
+            self.resume_enabled,
+            self.checkpoint_interval,
+        )
+        blockers = [QSignalBlocker(control) for control in controls]
+        self.runs.setValue(int(selected["runs"]))
+        self.population.setValue(int(selected["population_size"]))
+        self.budget.setValue(int(selected["max_evaluations"]))
+        self.seed.setValue(int(selected["master_seed"]))
+        self.reuse_results.setChecked(bool(selected["reuse_compatible_results"]))
+        self.resume_enabled.setChecked(bool(selected["resume_enabled"]))
+        self.checkpoint_interval.setValue(int(selected["checkpoint_interval_evaluations"]))
+        del blockers
+        self._update_plan_summary()
+        self._refresh_study_source_card()
+
+    def apply_workspace_study_setup(self) -> None:
+        prior_workspace_contract = deepcopy(
+            getattr(self.state.config, "workspace_study_contract", {})
+        )
+        try:
+            if self.execution_mode != ExecutionPlanKind.WORKSPACE.value:
+                raise RuntimeError("Apply Study setup is available only in Workspace Study")
+            goal = self._active_portfolio_goal()
+            stage = self.state.execution_control.active_stage()
+            if goal is None:
+                raise RuntimeError(
+                    "Apply a Portfolio goal first. Portfolio defines what evidence is wanted; "
+                    "Study will then recommend how to produce it."
+                )
+            recommendation = self._study_recommendation
+            if recommendation is None:
+                recommendation = WorkspaceStudyPlanner.recommend(goal, stage, self.state.config)
+                self._study_recommendation = recommendation
+            self.state.config.workspace_study_contract = {
+                "schema_version": "calo-rpd-workspace-study-runtime-contract-v1",
+                "portfolio_goal_id": goal.portfolio_goal_id,
+                "portfolio_goal_sha256": goal.content_sha256,
+                "recommendation_id": recommendation.recommendation_id,
+                "recommendation_sha256": recommendation.recommendation_sha256,
+                "hard_minimum_runs": int(recommendation.hard_minimum_runs),
+            }
+            self.apply()
+            config = self.state.config
+            selected_values = {
+                "runs": int(config.runs),
+                "study_case_plan": list(config.study_case_plan),
+                "scenario_mode": str(getattr(config.scenarios, "mode", "deterministic")),
+                "population_size": int(config.population_size),
+                "max_evaluations": int(config.budget.max_evaluations),
+                "master_seed": int(config.master_seed),
+                "execution_backend": str(config.execution_backend),
+                "execution_purpose": str(config.execution_purpose),
+                "output_directory": str(config.output_directory),
+                "reuse_compatible_results": bool(config.reuse_compatible_results),
+                "resume_enabled": bool(config.resume_enabled),
+                "checkpoint_interval_evaluations": int(
+                    config.checkpoint_interval_evaluations
+                ),
+            }
+            setup = WorkspaceStudyPlanner.apply_selection(
+                goal, stage, recommendation, selected_values
+            )
+            config.workspace_study_contract = {
+                **config.workspace_study_contract,
+                "study_setup_id": setup.study_setup_id,
+                "study_setup_sha256": setup.content_sha256,
+            }
+            self.state.update_config()
+            plan = self.state.execution_control.create_workspace_draft(
+                config,
+                goal.selected_algorithm_names,
+                portfolio_goal=goal,
+                recommendation=recommendation,
+                applied_study_setup=setup,
+            )
+            self._audit_plan_id = ""
+            self._audited_config = None
+            self.fairness_passed = False
+            self.backend_parity_passed = False
+            self.state.notify_execution_state_changed()
+            self.study_setup_applied.emit()
+            self.status.setText(
+                "Study setup applied to an immutable draft. Run the fairness audit next. "
+                "No numerical work has started."
+            )
+            self.audit_state.setText("Required — run fairness audit")
+            self.study_recommendation_summary.setText(
+                f"Applied draft {plan['id']} · selected {config.runs} paired runs · "
+                f"design SHA-256 {str(plan['design_sha256'])[:16]}…"
+            )
+            self.refresh_execution_state()
+        except Exception as exc:
+            self.state.config.workspace_study_contract = prior_workspace_contract
+            self.state.update_config()
+            show_error(
+                self,
+                "Study setup was not applied",
+                str(exc),
+                exc,
+                source="Workspace Study setup",
+            )
 
     def _emit_setup_completion(self, key: str) -> None:
         value = str(key)
@@ -1253,14 +1619,21 @@ class ExperimentManagerPanel(WorkspacePage):
         portfolio_name = getattr(portfolio, "name", "Experiment portfolio")
         if self.execution_mode == ExecutionPlanKind.WORKSPACE.value and not algorithm_names:
             summary_text = (
-                "No Workspace algorithm subset is bound yet. Choose the submitted algorithms in "
-                "Portfolio and apply that portfolio plan before audit or staging."
+                "Apply a Portfolio goal first. Portfolio defines what evidence is wanted; "
+                "Study will then recommend how to produce it."
             )
         elif self.execution_mode == ExecutionPlanKind.WORKSPACE.value:
+            recommendation = self._study_recommendation
+            run_detail = (
+                f"hard minimum {recommendation.hard_minimum_runs}, recommended "
+                f"{recommendation.recommended_runs}, selected {runs}"
+                if recommendation is not None
+                else f"selected {runs}; refresh recommendations to see the hard minimum"
+            )
             summary_text = (
-                f"{portfolio_name}: {selected_count} Portfolio-selected algorithms × {runs} paired "
-                f"runs = {comparison_jobs} jobs. Algorithm selection remains owned by Portfolio; "
-                "this page configures and audits the resulting study."
+                f"{portfolio_name}: {selected_count} Portfolio-scoped algorithms × {runs} paired "
+                f"runs = {comparison_jobs} jobs ({run_detail}). This page owns the concrete Study "
+                "selection; Portfolio remains unchanged until a new goal is explicitly applied."
             )
         else:
             summary_text = (
@@ -1362,6 +1735,8 @@ class ExperimentManagerPanel(WorkspacePage):
         self.seed.setValue(config.master_seed)
         self.output.setText(config.output_directory)
         self.reuse_results.setChecked(bool(config.reuse_compatible_results))
+        self.resume_enabled.setChecked(bool(config.resume_enabled))
+        self.checkpoint_interval.setValue(int(config.checkpoint_interval_evaluations))
         del signal_blockers
         algorithm_names = self._display_algorithm_names()
         if self.execution_mode == ExecutionPlanKind.WORKSPACE.value:
@@ -1384,6 +1759,7 @@ class ExperimentManagerPanel(WorkspacePage):
             )
         self._controls()
         self._update_plan_summary()
+        self._refresh_study_source_card()
         self.refresh_execution_state()
 
     def _controls(self) -> None:
@@ -1450,9 +1826,16 @@ class ExperimentManagerPanel(WorkspacePage):
         config.require_backend_parity = True
         config.master_seed = self.seed.value()
         config.output_directory = self.output.text().strip() or "results_data"
+        config.reuse_compatible_results = self.reuse_results.isChecked()
+        config.resume_enabled = self.resume_enabled.isChecked()
+        config.checkpoint_interval_evaluations = self.checkpoint_interval.value()
+        validation_config = config
         if self.execution_mode == ExecutionPlanKind.INDIVIDUAL_EXPERIMENT.value:
-            config.reuse_compatible_results = self.reuse_results.isChecked()
-        config.validate(execution_plan_kind=self.execution_mode)
+            stage = self.state.execution_control.active_stage()
+            if stage is None:
+                raise RuntimeError("Submit at least one algorithm for experiment use first")
+            validation_config = stage_bound_individual_config(config, stage)
+        validation_config.validate(execution_plan_kind=self.execution_mode)
         self.state.update_config()
 
     def choose_output(self) -> None:
@@ -1500,14 +1883,35 @@ class ExperimentManagerPanel(WorkspacePage):
                 existing = self.state.execution_control.active_plan(ExecutionPlanKind.WORKSPACE)
                 if existing is None:
                     raise RuntimeError(
-                        "Apply a Workspace portfolio draft with a submitted algorithm subset first"
+                        "Apply study setup to create the exact unstarted Workspace draft first"
                     )
                 subset = tuple(
                     str(name) for name in existing["design"].get("study_algorithm_names", [])
                 )
-                plan = self.state.execution_control.create_workspace_draft(
-                    self.state.config, subset
+                current_payload = frozen_config_payload(
+                    self.state.config,
+                    subset,
+                    plan_kind=ExecutionPlanKind.WORKSPACE,
                 )
+                if canonical_sha256(current_payload) != canonical_sha256(
+                    existing["design"]["config"]
+                ):
+                    raise RuntimeError(
+                        "The editable Study controls differ from the applied draft. Apply study "
+                        "setup again before running the fairness audit."
+                    )
+                goal = self._active_portfolio_goal()
+                if (
+                    goal is None
+                    or str(existing["design"].get("portfolio_goal_id", ""))
+                    != goal.portfolio_goal_id
+                    or str(existing["design"].get("portfolio_goal_sha256", ""))
+                    != goal.content_sha256
+                ):
+                    raise RuntimeError(
+                        "The Workspace draft is not bound to the exact current Portfolio goal"
+                    )
+                plan = existing
             else:
                 plan = self.state.execution_control.create_individual_draft(self.state.config)
             self._audit_plan_id = str(plan["id"])

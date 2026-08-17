@@ -43,6 +43,28 @@ def test_plan_bound_result_contract_round_trip() -> None:
     restored.validate()
 
 
+def test_workspace_study_runtime_contract_replaces_legacy_profile_run_floor() -> None:
+    config = ExperimentConfig(runs=6, execution_plan_kind="workspace")
+    config.workspace_study_contract = {
+        "schema_version": "calo-rpd-workspace-study-runtime-contract-v1",
+        "portfolio_goal_id": "portfolio-goal-1",
+        "portfolio_goal_sha256": "a" * 64,
+        "recommendation_id": "study-recommendation-1",
+        "recommendation_sha256": "b" * 64,
+        "study_setup_id": "study-setup-1",
+        "study_setup_sha256": "c" * 64,
+        "hard_minimum_runs": 5,
+    }
+
+    restored = ExperimentConfig.from_dict(config.to_dict())
+
+    assert restored.workspace_study_contract == config.workspace_study_contract
+    restored.validate()
+    restored.runs = 4
+    with pytest.raises(ValueError, match="portfolio-required minimum of 5"):
+        restored.validate()
+
+
 def test_config_roundtrip_uses_automatic_compute_defaults(tmp_path):
     config = ExperimentConfig.from_dict(
         {

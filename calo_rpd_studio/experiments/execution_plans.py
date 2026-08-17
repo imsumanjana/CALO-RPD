@@ -21,7 +21,7 @@ from calo_rpd_studio.version import VERSION
 
 
 ALGORITHM_STAGE_SCHEMA = "calo-rpd-algorithm-stage-v1"
-WORKSPACE_PLAN_SCHEMA = "calo-rpd-workspace-study-plan-v2"
+WORKSPACE_PLAN_SCHEMA = "calo-rpd-workspace-study-plan-v3-one-way-study"
 INDIVIDUAL_PLAN_SCHEMA = "calo-rpd-individual-experiment-plan-v2"
 EXECUTION_CONTROLLER_SCHEMA = "calo-rpd-execution-controller-v1"
 
@@ -164,6 +164,7 @@ def frozen_individual_config_payload(config, algorithm_names: tuple[str, ...]) -
     payload["study_run_planning_method"] = "custom"
     payload.pop("portfolio", None)
     payload["portfolio_id"] = ""
+    payload["workspace_study_contract"] = {}
     from calo_rpd_studio.experiments.experiment_config import ExperimentConfig
     from calo_rpd_studio.experiments.result_contracts import build_individual_result_contract
 
@@ -258,6 +259,15 @@ class AlgorithmStage:
         }
 
 
+def stage_bound_individual_config(config, stage: AlgorithmStage):
+    """Apply the immutable submitted algorithm snapshot to direct experiment inputs."""
+
+    bound = deepcopy(config)
+    bound.algorithms = list(stage.algorithm_names)
+    bound.algorithm_parameters = deepcopy(stage.algorithm_parameters)
+    return bound
+
+
 def _cell_payloads(plan_id: str, config_payload: dict) -> tuple[dict, ...]:
     case_names = tuple(
         dict.fromkeys(
@@ -299,6 +309,13 @@ class WorkspaceStudyPlan:
     config_payload: dict
     policy_binding: dict
     portfolio_fingerprint: str
+    portfolio_goal_id: str
+    portfolio_goal_sha256: str
+    study_recommendation_id: str
+    study_recommendation_sha256: str
+    study_setup_id: str
+    study_setup_sha256: str
+    recommendation_delta: dict
     explicit_matrix: tuple[dict, ...]
     queue_task_count: int
     cells: tuple[dict, ...]
@@ -307,7 +324,14 @@ class WorkspaceStudyPlan:
 
     @classmethod
     def create(
-        cls, config, stage: AlgorithmStage, study_algorithm_names: tuple[str, ...]
+        cls,
+        config,
+        stage: AlgorithmStage,
+        study_algorithm_names: tuple[str, ...],
+        *,
+        portfolio_goal,
+        recommendation,
+        applied_study_setup,
     ) -> "WorkspaceStudyPlan":
         names = tuple(str(name) for name in study_algorithm_names)
         if not names or len(set(names)) != len(names):
@@ -316,6 +340,22 @@ class WorkspaceStudyPlan:
         if missing:
             raise ValueError(
                 "Workspace study algorithms are outside the submitted stage: " + ", ".join(missing)
+            )
+        if names != tuple(portfolio_goal.selected_algorithm_names):
+            raise ValueError("Workspace Study algorithms must match the applied Portfolio scope")
+        if (
+            portfolio_goal.algorithm_stage_id != stage.stage_id
+            or portfolio_goal.algorithm_stage_sha256 != stage.content_sha256
+            or recommendation.portfolio_goal_id != portfolio_goal.portfolio_goal_id
+            or recommendation.portfolio_goal_sha256 != portfolio_goal.content_sha256
+            or applied_study_setup.portfolio_goal_id != portfolio_goal.portfolio_goal_id
+            or applied_study_setup.portfolio_goal_sha256 != portfolio_goal.content_sha256
+            or recommendation.recommendation_id != applied_study_setup.recommendation_id
+            or recommendation.recommendation_sha256
+            != applied_study_setup.recommendation_sha256
+        ):
+            raise ValueError(
+                "Workspace Study must use the exact current Portfolio goal, recommendation, and selection"
             )
         config_names = tuple(str(name) for name in config.algorithms)
         if config_names != stage.algorithm_names or _selected_parameters(
@@ -328,6 +368,21 @@ class WorkspaceStudyPlan:
         config_payload = frozen_config_payload(
             config, names, plan_kind=ExecutionPlanKind.WORKSPACE
         )
+        runtime_contract = dict(config_payload.get("workspace_study_contract", {}) or {})
+        expected_contract = {
+            "schema_version": "calo-rpd-workspace-study-runtime-contract-v1",
+            "portfolio_goal_id": portfolio_goal.portfolio_goal_id,
+            "portfolio_goal_sha256": portfolio_goal.content_sha256,
+            "recommendation_id": recommendation.recommendation_id,
+            "recommendation_sha256": recommendation.recommendation_sha256,
+            "study_setup_id": applied_study_setup.study_setup_id,
+            "study_setup_sha256": applied_study_setup.content_sha256,
+            "hard_minimum_runs": int(recommendation.hard_minimum_runs),
+        }
+        if runtime_contract != expected_contract:
+            raise ValueError(
+                "Workspace runtime configuration is not bound to the exact applied Study contract"
+            )
         policy_binding = _policy_binding_summary(config_payload, names)
         cells = _cell_payloads(plan_id, config_payload)
         formulation_payload = {
@@ -350,8 +405,20 @@ class WorkspaceStudyPlan:
             }
             for cell in cells
         )
-        portfolio_fingerprint = canonical_sha256(config_payload.get("portfolio", {}))
+        portfolio_fingerprint = str(portfolio_goal.content_sha256)
         queue_task_count = len(cells) * int(config_payload.get("runs", 0)) * len(names)
+        if queue_task_count != int(applied_study_setup.queue_task_count):
+            raise ValueError(
+                "Workspace queue count does not match the exact applied Study selection"
+            )
+        if tuple(
+            {"ordinal": int(item["ordinal"]), "case_name": str(item["case_name"])}
+            for item in applied_study_setup.concrete_cells
+        ) != tuple(
+            {"ordinal": int(cell["ordinal"]), "case_name": str(cell["case_name"])}
+            for cell in cells
+        ):
+            raise ValueError("Workspace cells do not match the exact applied Study selection")
         design = {
             "schema_version": WORKSPACE_PLAN_SCHEMA,
             "algorithm_stage_id": stage.stage_id,
@@ -360,6 +427,13 @@ class WorkspaceStudyPlan:
             "config": config_payload,
             "policy_binding": policy_binding,
             "portfolio_fingerprint": portfolio_fingerprint,
+            "portfolio_goal_id": portfolio_goal.portfolio_goal_id,
+            "portfolio_goal_sha256": portfolio_goal.content_sha256,
+            "study_recommendation_id": recommendation.recommendation_id,
+            "study_recommendation_sha256": recommendation.recommendation_sha256,
+            "study_setup_id": applied_study_setup.study_setup_id,
+            "study_setup_sha256": applied_study_setup.content_sha256,
+            "recommendation_delta": deepcopy(applied_study_setup.recommendation_delta),
             "explicit_matrix": list(explicit_matrix),
             "queue_task_count": queue_task_count,
             "cells": list(cells),
@@ -373,6 +447,13 @@ class WorkspaceStudyPlan:
             config_payload=config_payload,
             policy_binding=policy_binding,
             portfolio_fingerprint=portfolio_fingerprint,
+            portfolio_goal_id=portfolio_goal.portfolio_goal_id,
+            portfolio_goal_sha256=portfolio_goal.content_sha256,
+            study_recommendation_id=recommendation.recommendation_id,
+            study_recommendation_sha256=recommendation.recommendation_sha256,
+            study_setup_id=applied_study_setup.study_setup_id,
+            study_setup_sha256=applied_study_setup.content_sha256,
+            recommendation_delta=deepcopy(applied_study_setup.recommendation_delta),
             explicit_matrix=explicit_matrix,
             queue_task_count=queue_task_count,
             cells=cells,
@@ -388,6 +469,13 @@ class WorkspaceStudyPlan:
             "config": deepcopy(self.config_payload),
             "policy_binding": deepcopy(self.policy_binding),
             "portfolio_fingerprint": self.portfolio_fingerprint,
+            "portfolio_goal_id": self.portfolio_goal_id,
+            "portfolio_goal_sha256": self.portfolio_goal_sha256,
+            "study_recommendation_id": self.study_recommendation_id,
+            "study_recommendation_sha256": self.study_recommendation_sha256,
+            "study_setup_id": self.study_setup_id,
+            "study_setup_sha256": self.study_setup_sha256,
+            "recommendation_delta": deepcopy(self.recommendation_delta),
             "explicit_matrix": deepcopy(list(self.explicit_matrix)),
             "queue_task_count": self.queue_task_count,
             "cells": deepcopy(list(self.cells)),
@@ -409,16 +497,15 @@ class IndividualExperimentPlan:
     @classmethod
     def create(cls, config, stage: AlgorithmStage) -> "IndividualExperimentPlan":
         names = stage.algorithm_names
-        if tuple(str(name) for name in config.algorithms) != names:
-            raise ValueError(
-                "The individual experiment must use the complete unchanged submitted algorithm stage"
-            )
-        config_payload = frozen_individual_config_payload(config, names)
-        if _selected_parameters(config.to_dict(), names) != stage.algorithm_parameters:
-            raise ValueError(
-                "Algorithm parameters changed after submission; submit the algorithm stage again"
-            )
+        bound_config = stage_bound_individual_config(config, stage)
+        config_payload = frozen_individual_config_payload(bound_config, names)
         policy_binding = _policy_binding_summary(config_payload, names)
+        if stage.policy_binding_sha256 and (
+            canonical_sha256(policy_binding) != stage.policy_binding_sha256
+        ):
+            raise ValueError(
+                "The submitted algorithm stage contains an inconsistent policy-binding snapshot"
+            )
         design = {
             "schema_version": INDIVIDUAL_PLAN_SCHEMA,
             "algorithm_stage_id": stage.stage_id,
@@ -519,5 +606,5 @@ def resume_contract_sha256(config_payload: dict) -> str:
     if str(config_payload.get("execution_plan_kind", "")) != (
         ExecutionPlanKind.INDIVIDUAL_EXPERIMENT.value
     ):
-        keys.extend(("portfolio", "portfolio_id"))
+        keys.extend(("portfolio", "portfolio_id", "workspace_study_contract"))
     return canonical_sha256({key: deepcopy(config_payload.get(key)) for key in keys})

@@ -23,8 +23,8 @@ def _submit_stage(state) -> None:
     state.execution_control.submit_algorithm_stage(state.config)
 
 
-def _audited_workspace(state):
-    plan = state.execution_control.create_workspace_draft(state.config, ("CALO",))
+def _audited_workspace(state, apply_workspace_study):
+    plan = apply_workspace_study(state.execution_control, state.config, ("CALO",))
     state.execution_control.record_audit(plan["id"], {"fair": True})
     return state.execution_control.active_plan(ExecutionPlanKind.WORKSPACE)
 
@@ -43,9 +43,65 @@ def test_portfolio_preview_treats_missing_stage_as_prerequisite(
 
     panel.refresh_plan()
 
-    assert "Submit at least one algorithm" in panel.plan_summary.text()
+    assert "Submit algorithms first" in panel.plan_summary.text()
     assert "No plan or execution has started" in panel.plan_detail.text()
     assert technical_errors == []
+
+
+def test_portfolio_apply_persists_only_goal_and_leaves_exact_runs_unchanged(
+    qtbot, tmp_path
+) -> None:
+    state = AppState(tmp_path / "portfolio-one-way-apply.sqlite")
+    _submit_stage(state)
+    state.config.runs = 7
+    panel = PortfolioManagerPanel(state)
+    qtbot.addWidget(panel)
+    panel._set_outputs(["objective_convergence"])
+
+    panel.apply()
+
+    goal = state.database.get_active_portfolio_goal()
+    assert goal is not None
+    assert state.config.runs == 7
+    assert state.execution_control.active_plan(ExecutionPlanKind.WORKSPACE) is None
+    assert state.database.get_active_applied_study_setup() is None
+    assert "No experiment has started" in panel.plan_detail.text()
+    assert panel.open_study.isEnabled() is True
+    assert not hasattr(panel, "custom_runs")
+    assert not hasattr(panel, "reuse")
+    assert not hasattr(panel, "resume")
+
+
+def test_study_recommendation_hydration_is_non_persistent_until_apply(
+    qtbot, tmp_path
+) -> None:
+    state = AppState(tmp_path / "study-one-way-apply.sqlite")
+    _submit_stage(state)
+    portfolio = PortfolioManagerPanel(state)
+    qtbot.addWidget(portfolio)
+    portfolio._set_outputs(["objective_convergence"])
+    portfolio.apply()
+    panel = ExperimentManagerPanel(state, ExperimentManager(state))
+    qtbot.addWidget(panel)
+    panel.show_context("workspace_study")
+
+    panel.refresh_study_recommendation()
+    recommendation = panel._study_recommendation
+    assert recommendation is not None
+    assert state.execution_control.active_plan(ExecutionPlanKind.WORKSPACE) is None
+
+    panel.use_study_recommendation()
+    assert panel.runs.value() == recommendation.recommended_runs
+    assert state.execution_control.active_plan(ExecutionPlanKind.WORKSPACE) is None
+
+    panel.runs.setValue(recommendation.recommended_runs + 1)
+    panel.apply_workspace_study_setup()
+    plan = state.execution_control.active_plan(ExecutionPlanKind.WORKSPACE)
+    assert plan is not None
+    assert plan["design"]["config"]["runs"] == recommendation.recommended_runs + 1
+    assert plan["lifecycle_state"] == "draft"
+    assert plan["audit"] == {}
+    assert state.execution_control.controller()["controller"] == "none"
 
 
 def test_portfolio_preview_treats_empty_study_filter_as_prerequisite(
@@ -91,11 +147,11 @@ def test_portfolio_preview_treats_stage_config_drift_as_resubmission_prerequisit
 
 
 def test_portfolio_restores_the_retained_workspace_subset_instead_of_all_algorithms(
-    qtbot, tmp_path
+    qtbot, tmp_path, apply_workspace_study
 ) -> None:
     state = AppState(tmp_path / "portfolio-retained-subset.sqlite")
     _submit_stage(state)
-    state.execution_control.create_workspace_draft(state.config, ("CALO",))
+    apply_workspace_study(state.execution_control, state.config, ("CALO",))
 
     panel = PortfolioManagerPanel(state)
     qtbot.addWidget(panel)
@@ -106,11 +162,11 @@ def test_portfolio_restores_the_retained_workspace_subset_instead_of_all_algorit
 
 
 def test_study_setup_embeds_shared_panels_without_a_second_algorithm_selector(
-    qtbot, tmp_path
+    qtbot, tmp_path, apply_workspace_study
 ) -> None:
     state = AppState(tmp_path / "workspace-inline-study.sqlite")
     _submit_stage(state)
-    state.execution_control.create_workspace_draft(state.config, ("CALO",))
+    apply_workspace_study(state.execution_control, state.config, ("CALO",))
     panel = ExperimentManagerPanel(state, ExperimentManager(state))
     qtbot.addWidget(panel)
 
@@ -137,7 +193,7 @@ def test_study_setup_embeds_shared_panels_without_a_second_algorithm_selector(
     panel.show_context("workspace_study")
     assert "Portfolio subset · 1 algorithm(s): CALO" in panel.selected.text()
     assert "TLBO" not in panel.selected.text()
-    assert "Portfolio-selected algorithms" in panel.plan_summary.text()
+    assert "Portfolio-scoped algorithms" in panel.plan_summary.text()
 
     panel.show_context("individual_experiment")
     assert "Complete submitted stage · 2 algorithm(s): CALO, TLBO" in panel.selected.text()
@@ -145,11 +201,11 @@ def test_study_setup_embeds_shared_panels_without_a_second_algorithm_selector(
 
 
 def test_programmatic_refresh_does_not_claim_that_an_unaudited_draft_changed(
-    qtbot, tmp_path
+    qtbot, tmp_path, apply_workspace_study
 ) -> None:
     state = AppState(tmp_path / "workspace-draft-refresh.sqlite")
     _submit_stage(state)
-    state.execution_control.create_workspace_draft(state.config, ("CALO",))
+    apply_workspace_study(state.execution_control, state.config, ("CALO",))
     panel = ExperimentManagerPanel(state, ExperimentManager(state))
     qtbot.addWidget(panel)
 
@@ -167,11 +223,11 @@ def test_programmatic_refresh_does_not_claim_that_an_unaudited_draft_changed(
 
 
 def test_user_edit_invalidates_an_audited_plan_but_programmatic_refresh_does_not(
-    qtbot, tmp_path
+    qtbot, tmp_path, apply_workspace_study
 ) -> None:
     state = AppState(tmp_path / "workspace-audited-refresh.sqlite")
     _submit_stage(state)
-    _audited_workspace(state)
+    _audited_workspace(state, apply_workspace_study)
     panel = ExperimentManagerPanel(state, ExperimentManager(state))
     qtbot.addWidget(panel)
 
@@ -245,7 +301,8 @@ def test_individual_setup_is_editable_without_workspace_portfolio_prerequisite(
 
     panel.show_context("workspace_study")
     assert panel.study_scenarios.isEnabled() is False
-    assert panel.runs.isReadOnly() is True
+    assert panel.runs.isReadOnly() is False
+    assert "hard minimum" in panel.runs.toolTip()
     assert panel.study_setup_workflow.heading.text() == "Workspace Study Setup"
 
     panel.show_context("individual_experiment")
@@ -295,10 +352,39 @@ def test_individual_audit_uses_direct_result_contract_without_portfolio_planner(
     assert completed[0]["reusable"] == 0
 
 
-def test_workspace_staging_freezes_individual_and_portfolio_editing(qtbot, tmp_path) -> None:
+def test_individual_audited_plan_ignores_mutable_algorithm_draft_drift(
+    qtbot, tmp_path
+) -> None:
+    state = AppState(tmp_path / "individual-stage-authority.sqlite")
+    _submit_stage(state)
+    state.config.algorithms = ["CALO"]
+    state.config.algorithm_parameters = {
+        "CALO": {
+            "use_ai": True,
+            "strict_policy_binding": True,
+            "allow_unqualified_policy": True,
+        }
+    }
+    plan = state.execution_control.create_individual_draft(state.config)
+    state.execution_control.record_audit(plan["id"], {"fair": True})
+    panel = ExperimentManagerPanel(state, ExperimentManager(state))
+    qtbot.addWidget(panel)
+
+    panel.show_context("individual_experiment")
+
+    frozen = state.execution_control.plan_configuration(plan["id"])
+    assert frozen.algorithms == ["CALO", "TLBO"]
+    assert state.config.algorithms == ["CALO"]
+    assert panel.stage_plan.isEnabled() is True
+    assert "editable setup now differs" not in panel.ownership_banner.text()
+
+
+def test_workspace_staging_freezes_individual_and_portfolio_editing(
+    qtbot, tmp_path, apply_workspace_study
+) -> None:
     state = AppState(tmp_path / "workspace-freeze.sqlite")
     _submit_stage(state)
-    plan = _audited_workspace(state)
+    plan = _audited_workspace(state, apply_workspace_study)
     state.execution_control.stage(plan["id"], ExecutionPlanKind.WORKSPACE)
     study = ExperimentManagerPanel(state, ExperimentManager(state))
     portfolio = PortfolioManagerPanel(state)
@@ -321,10 +407,12 @@ def test_workspace_staging_freezes_individual_and_portfolio_editing(qtbot, tmp_p
     assert portfolio.section_tabs.isEnabled() is False
 
 
-def test_durable_workspace_pause_enables_individual_setup_but_keeps_resume(qtbot, tmp_path) -> None:
+def test_durable_workspace_pause_enables_individual_setup_but_keeps_resume(
+    qtbot, tmp_path, apply_workspace_study
+) -> None:
     state = AppState(tmp_path / "workspace-paused-handoff.sqlite")
     _submit_stage(state)
-    plan = _audited_workspace(state)
+    plan = _audited_workspace(state, apply_workspace_study)
     state.execution_control.stage(plan["id"], ExecutionPlanKind.WORKSPACE)
     state.execution_control.begin_run(plan["id"])
     state.execution_control.request_pause(plan["id"])
@@ -343,10 +431,12 @@ def test_durable_workspace_pause_enables_individual_setup_but_keeps_resume(qtbot
     assert panel.resume_plan.isEnabled() is True
 
 
-def test_individual_staging_blocks_workspace_stage_and_resume(qtbot, tmp_path) -> None:
+def test_individual_staging_blocks_workspace_stage_and_resume(
+    qtbot, tmp_path, apply_workspace_study
+) -> None:
     state = AppState(tmp_path / "individual-freeze.sqlite")
     _submit_stage(state)
-    workspace = _audited_workspace(state)
+    workspace = _audited_workspace(state, apply_workspace_study)
     state.execution_control.stage(workspace["id"], ExecutionPlanKind.WORKSPACE)
     state.execution_control.begin_run(workspace["id"])
     state.execution_control.commit_paused(workspace["id"])

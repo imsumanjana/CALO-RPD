@@ -1818,3 +1818,23 @@ superseded by the stage-neutral compatibility and qualification boundary on 2026
 - No test, validator, experiment, audit, policy, training, qualification, protected-case, Docker,
   CUDA campaign, publication, or release command ran in this coding pass. Run the complete ignored
   schema-v28 validator and return its entire new `validation\logs\phase6-*` directory.
+
+## 2026-08-17 - One-way Portfolio goal to Workspace Study implementation handoff
+
+- `PORTFOLIO_TO_STUDY_ONE_WAY_WORKFLOW_PLAN.txt` is owner-approved and implemented in source.
+  Portfolio Apply now persists only an immutable broad goal. Workspace Study alone owns concrete
+  cases, runs, scenarios, budget, seed, compute/output choices, reuse, resume, checkpoints, and the
+  unstarted draft. Recommendation hydration is non-persistent and signal-blocked; Apply Study is
+  explicit, and Audit -> Stage -> Run remains unchanged.
+- New Workspace plans use `calo-rpd-workspace-study-plan-v3-one-way-study` and bind the exact
+  Portfolio goal SHA-256, recommendation identity/SHA-256, applied Study setup SHA-256, selection
+  delta, cells, and queue count. SQLite schema v3 stores additive immutable goal/setup artifacts.
+  Legacy combined Portfolio and Workspace v1/v2 rows remain historical/readable and are never
+  silently converted.
+- Algorithm-stage changes and newly applied goals invalidate only unstarted downstream Study
+  state. Retained staged/running/pausing/paused/interrupted Workspace plans retain their exact
+  historical bindings. Individual v2 remains Portfolio/Study-independent and uses the complete
+  submitted stage through the shared numerical ExperimentManager.
+- No validation or scientific workflow ran. The last complete evidence remains schema-v27 and
+  predates both the Individual correction and this one-way workflow. Run the ignored schema-v29
+  validator and return the entire new `validation\logs\phase6-*` directory for read-only review.
