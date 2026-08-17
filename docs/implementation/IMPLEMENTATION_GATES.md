@@ -1375,3 +1375,17 @@ correctly locked until a fairness receipt is committed. Programmatic control hyd
 fabricates `Configuration changed`; a real post-audit edit still invalidates staging immediately.
 Two focused GUI regressions passed. Ignored validator schema v26 must complete source-stably before
 this follow-up engineering evidence is closed. No scientific or policy workflow is authorized.
+
+### 2026-08-17 - Individual experiment independence gate open
+
+The returned schema-v27 Phase 6 bundle passed all 17 commands with a stable source-status SHA-256,
+but it predates this correction. Current source separates direct Individual setup completion from
+Workspace completion, removes Portfolio and Workspace Study metadata from current Individual v2
+plan/resume identity, gives the scientist direct ownership of repetitions and verified exact reuse,
+and carries a versioned direct full-run result contract. Workspace v2 plans continue to freeze the
+applied Portfolio subset, repetition/output/evidence requirements, study matrix, and cells. Audit
+and execution select the contract from the immutable plan kind; both paths still use the singleton
+controller and existing ExperimentManager. Focused source/test contracts and ignored validator
+schema v28 are written but unexecuted. This gate remains open pending a complete source-stable
+owner run and establishes no experiment result, scientific conclusion, policy evidence, human
+acceptance, publication authority, or release readiness.

@@ -80,6 +80,7 @@ class WorkflowManager(QObject):
         super().__init__()
         self.state = state
         self.completed: set[str] = set()
+        self.individual_completed: set[str] = set()
         self.experiment_started = False
         self.experiment_completed = False
         self.statistics_completed = False
@@ -93,6 +94,7 @@ class WorkflowManager(QObject):
 
     def reset(self) -> None:
         self.completed.clear()
+        self.individual_completed.clear()
         self.experiment_started = False
         self.experiment_completed = False
         self.statistics_completed = False
@@ -126,6 +128,43 @@ class WorkflowManager(QObject):
         self.completed.add(key)
         self.changed.emit()
 
+    def invalidate_individual_from(self, key: str) -> None:
+        """Invalidate only the direct Individual setup sequence."""
+
+        value = self._normalise_completed_key(key)
+        order = ("power_system", "orpd", "scenarios")
+        if value not in order:
+            return
+        position = order.index(value)
+        self.individual_completed.difference_update(order[position:])
+        self.changed.emit()
+
+    def mark_individual_completed(self, key: str) -> None:
+        """Complete one direct Individual setup step without satisfying Workspace gates."""
+
+        value = self._normalise_completed_key(key)
+        order = ("power_system", "orpd", "scenarios")
+        if value not in order:
+            raise KeyError(f"Unsupported Individual setup completion: {value}")
+        position = order.index(value)
+        self.individual_completed.difference_update(order[position + 1 :])
+        self.individual_completed.add(value)
+        self.changed.emit()
+
+    def _individual_stage_algorithm_names(self) -> tuple[str, ...]:
+        control = getattr(self.state, "execution_control", None)
+        if control is None:
+            return tuple(str(name) for name in getattr(self.state.config, "algorithms", []))
+        stage = control.active_stage()
+        return tuple(str(name) for name in stage.algorithm_names) if stage else ()
+
+    def _individual_stage_requires_policy(self) -> bool:
+        from calo_rpd_studio.algorithms.registry import POLICY_GATED_SPECS
+
+        return any(
+            name in POLICY_GATED_SPECS for name in self._individual_stage_algorithm_names()
+        )
+
     def notify_governing_policy_changed(self) -> None:
         """Re-evaluate the governing policy and invalidate downstream bindings on an identity change."""
         status = self.governing_policy_status()
@@ -134,12 +173,19 @@ class WorkflowManager(QObject):
         if not status.ready:
             self.completed.discard("calo_intelligence")
             self._invalidate_after("calo_intelligence")
+            if (
+                not self._individual_stage_algorithm_names()
+                or self._individual_stage_requires_policy()
+            ):
+                self.individual_completed.clear()
             self.governing_policy_sha = ""
         else:
             # A different active governing policy changes the scientific controller binding.  Preserve
             # immutable completed experiments in storage, but invalidate the unfinished in-memory setup.
             if previous_sha and current_sha and previous_sha.lower() != current_sha.lower():
                 self._invalidate_after("calo_intelligence")
+                if self._individual_stage_requires_policy():
+                    self.individual_completed.clear()
             self.completed.add("calo_intelligence")
             self.governing_policy_sha = current_sha
         self.changed.emit()
@@ -195,8 +241,9 @@ class WorkflowManager(QObject):
         if self.governing_policy_ready():
             completed.add("calo_intelligence")
         return {
-            "schema_version": 2,
+            "schema_version": 3,
             "completed": sorted(completed),
+            "individual_completed": sorted(self.individual_completed),
             "experiment_started": bool(self.experiment_started),
             "experiment_completed": bool(self.experiment_completed),
             "statistics_completed": bool(self.statistics_completed),
@@ -223,6 +270,11 @@ class WorkflowManager(QObject):
                 self._normalise_completed_key(str(key)) for key in data.get("completed", [])
             }
             self.completed = {key for key in restored if key in valid}
+            self.individual_completed = {
+                str(key)
+                for key in data.get("individual_completed", [])
+                if str(key) in {"power_system", "orpd", "scenarios"}
+            }
             self.experiment_started = bool(data.get("experiment_started", infer_experiment))
             self.experiment_completed = bool(data.get("experiment_completed", experiment_completed))
             self.statistics_completed = bool(data.get("statistics_completed", False))
@@ -235,6 +287,7 @@ class WorkflowManager(QObject):
                 self._normalise_completed_key(str(key)) for key in (inferred_completed or set())
             }
             self.completed = {key for key in restored if key in valid}
+            self.individual_completed = set()
             self.experiment_started = bool(infer_experiment)
             self.experiment_completed = bool(experiment_completed)
             self.statistics_completed = False
@@ -250,10 +303,17 @@ class WorkflowManager(QObject):
             self.completed.add("calo_intelligence")
             if saved_sha and current_sha and saved_sha.lower() != current_sha.lower():
                 self._invalidate_after("calo_intelligence")
+                if self._individual_stage_requires_policy():
+                    self.individual_completed.clear()
             self.governing_policy_sha = current_sha
         else:
             self.completed.discard("calo_intelligence")
             self._invalidate_after("calo_intelligence")
+            if (
+                not self._individual_stage_algorithm_names()
+                or self._individual_stage_requires_policy()
+            ):
+                self.individual_completed.clear()
             self.governing_policy_sha = ""
         self.changed.emit()
 
@@ -336,7 +396,7 @@ class WorkflowManager(QObject):
             if not self._setup_complete("algorithms"):
                 return "locked", "Submit the algorithm selection first."
             return (
-                ("completed", "The portfolio experiment is complete.")
+                ("completed", "The experiment execution is complete.")
                 if self.experiment_completed
                 else ("recommended", descriptors["experiment"].instruction)
             )
@@ -348,13 +408,13 @@ class WorkflowManager(QObject):
             )
         if key == "statistics":
             if not self.experiment_completed:
-                return "locked", "Complete the numerical portfolio tasks first."
+                return "locked", "Complete the numerical experiment tasks first."
             return (
                 ("completed", "Statistical analysis completed for the selected experiment.")
                 if self.statistics_completed
                 else (
                     "recommended",
-                    "Compute only the statistics requested by the applied portfolio.",
+                    "Compute only the statistics required by the experiment's frozen output contract.",
                 )
             )
         if key == "results":
@@ -380,6 +440,43 @@ class WorkflowManager(QObject):
     def workspace_state(self, workspace: str | int) -> tuple[str, str]:
         key = workspace_key_for_index(workspace) if isinstance(workspace, int) else str(workspace)
         return self.workspace_state_key(key)
+
+    def individual_setup_state_key(self, key: str) -> tuple[str, str]:
+        """Return direct Individual setup prerequisites without Workspace Portfolio coupling."""
+
+        value = str(key)
+        if value in {"power_system", "orpd"}:
+            if value == "power_system":
+                stage = self.state.execution_control.active_stage()
+                if stage is None:
+                    return "locked", "Submit at least one algorithm for experiment use first."
+                requires_policy = self._individual_stage_requires_policy()
+                if requires_policy and not self._setup_complete("calo_intelligence"):
+                    return "locked", "Select a verified, compatible TSH-CALO policy first."
+                return (
+                    ("completed", "Individual power system validated.")
+                    if value in self.individual_completed
+                    else ("recommended", "Validate the individual experiment power system.")
+                )
+            if "power_system" not in self.individual_completed:
+                return "locked", "Validate the individual experiment power system first."
+            return (
+                ("completed", "Individual ORPD formulation applied.")
+                if value in self.individual_completed
+                else ("recommended", "Apply the individual experiment ORPD formulation.")
+            )
+        if value != "scenarios":
+            raise KeyError(f"Unsupported Individual setup key: {value}")
+        if "orpd" not in self.individual_completed:
+            return "locked", "Complete the individual ORPD formulation first."
+        return (
+            ("completed", "Individual scenario configuration applied.")
+            if "scenarios" in self.individual_completed
+            else (
+                "recommended",
+                "Choose and apply the scenario configuration for this individual experiment.",
+            )
+        )
 
     def is_workspace_enabled(self, workspace: str | int) -> bool:
         return self.workspace_state(workspace)[0] != "locked"

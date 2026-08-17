@@ -17,6 +17,32 @@ def test_config_enum_roundtrip(tmp_path):
     assert loaded.budget.wall_clock_seconds == 2.5
 
 
+def test_plan_bound_result_contract_round_trip() -> None:
+    config = ExperimentConfig(
+        execution_plan_kind="individual_experiment",
+        result_contract={
+            "schema_version": "calo-rpd-individual-result-contract-v1",
+            "owner": "individual_experiment",
+            "requested_outputs": ["objective_convergence"],
+            "required_fields": [
+                "convergence",
+                "decoded_controls",
+                "final_metrics",
+                "seed_provenance",
+            ],
+            "storage_profile": "full_single_run",
+            "reuse_compatible_results": True,
+            "reuse_verified_only": True,
+        },
+    )
+
+    restored = ExperimentConfig.from_dict(config.to_dict())
+
+    assert restored.execution_plan_kind == "individual_experiment"
+    assert restored.result_contract == config.result_contract
+    restored.validate()
+
+
 def test_config_roundtrip_uses_automatic_compute_defaults(tmp_path):
     config = ExperimentConfig.from_dict(
         {

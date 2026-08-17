@@ -104,6 +104,9 @@ After Algorithms Submit, execution has two exclusive scientist-controlled paths:
   and recommended identities but never change the submitted algorithm stage.
 - **Experiment → Individual experiment** always uses the complete unchanged submitted stage. It has
   no second algorithm selector and runs one custom case/formulation/scenario/budget/seed design.
+  Its setup completion, editable run count, direct full-run result capture, fairness audit, staging,
+  and immutable plan are independent of Workspace Portfolio and Workspace Study. Changing or
+  applying a Workspace evidence plan cannot become an Individual execution prerequisite.
 
 Each path follows the same visible order:
 
@@ -113,10 +116,12 @@ Each path follows the same visible order:
 4. **Run study or individual experiment**
 5. **Run queue**
 
-Choose run count, population size, budget policy, evaluation budget, worker preference, master seed,
-and result directory first. Run the fairness audit next, then explicitly Stage the unchanged audited
-plan. Staging acquires exclusive execution ownership but starts no numerical work. Any later editable
-configuration change requires a replacement draft and audit before staging.
+For an Individual experiment, choose the run count, population size, budget policy, evaluation
+budget, master seed, compute intent, exact verified-result reuse choice, and result directory
+directly. Workspace Study instead displays the Portfolio-derived run count and consumes the exact
+Portfolio subset/evidence contract. Run the fairness audit next, then explicitly Stage the unchanged
+audited plan. Staging acquires exclusive execution ownership but starts no numerical work. Any later
+editable configuration change requires a replacement draft and audit before staging.
 
 Workspace and individual execution never run concurrently. Workspace keeps ownership while staged,
 running, pausing, or interrupted. A durable Workspace pause commits retained progress before
@@ -192,7 +197,7 @@ configuration, Live Optimization, and Statistics; Results for Results Explorer; 
 training; View for layout/appearance; and Help for guidance and About. Workspace's six functions do
 not appear in those other tabs.
 
-### Setup sequence
+### Workspace automated-study sequence
 
 1. Select algorithms and choose **Submit algorithms for experiment**. Use **Reset selection** to
    discard the staged set before submitting a fresh selection.
@@ -202,6 +207,16 @@ not appear in those other tabs.
 5. Apply the evidence portfolio.
 6. Apply robust scenario configuration.
 7. Open Experiment Manager, run the fairness audit, and start execution.
+
+### Independent experiment sequence
+
+1. Select algorithms and choose **Submit algorithms for experiment**.
+2. Open **Experiment → Individual experiment**.
+3. Complete its Case, Formulation, Budget + runs, and Scenarios steps using direct scientist choices.
+4. Run the fairness/numerical audit, explicitly stage the immutable Individual plan, and then run it.
+
+This path does not require Portfolio or Workspace Study. It shares the numerical ExperimentManager
+and singleton execution controller, so it cannot run concurrently with an active Workspace campaign.
 
 ### Post-experiment sequence
 

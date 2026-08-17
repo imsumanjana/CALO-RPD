@@ -38,10 +38,10 @@ class StudySetupWorkflow(QFrame):
         root.setContentsMargins(0, 0, 0, 0)
         root.setSpacing(16)
 
-        heading = QLabel("Study Setup")
-        heading.setObjectName("StudySetupTitle")
-        heading.setAccessibleName(f"Study Setup, {len(self.steps)} steps")
-        root.addWidget(heading)
+        self.heading = QLabel("Study Setup")
+        self.heading.setObjectName("StudySetupTitle")
+        self.heading.setAccessibleName(f"Study Setup, {len(self.steps)} steps")
+        root.addWidget(self.heading)
 
         step_row = QHBoxLayout()
         step_row.setSpacing(8)
@@ -98,6 +98,13 @@ class StudySetupWorkflow(QFrame):
         navigation.addWidget(self.next_button)
         root.addLayout(navigation)
         self.set_step(0)
+
+    def set_presentation(self, title: str) -> None:
+        """Use mode-correct language without changing the shared setup pages."""
+
+        text = str(title).strip() or "Study Setup"
+        self.heading.setText(text)
+        self.heading.setAccessibleName(f"{text}, {len(self.steps)} steps")
 
     def current_step(self) -> int:
         return self.stack.currentIndex()

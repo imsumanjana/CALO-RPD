@@ -206,34 +206,28 @@ class MainWindow(QMainWindow):
         QTimer.singleShot(350, self._check_unfinished_work)
 
     def _connect_workflow(self) -> None:
-        self.state.case_changed.connect(lambda _: self.workflow.invalidate_from("power_system"))
+        self.state.case_changed.connect(lambda _: self._invalidate_case_workflows())
         self.pages_by_key["power_system"].stage_completed.connect(
-            lambda: self.workflow.mark_completed("power_system")
+            lambda: self._mark_routed_setup_completed("power_system")
         )
         self.pages_by_key["orpd"].stage_completed.connect(
-            lambda: self.workflow.mark_completed("orpd")
+            lambda: self._mark_routed_setup_completed("orpd")
         )
         self.pages_by_key["algorithms"].stage_completed.connect(
-            lambda: self.workflow.mark_completed("algorithms")
+            self._algorithm_stage_completed
         )
         self.pages_by_key["algorithms"].stage_discarded.connect(
-            lambda: self.workflow.invalidate_from("algorithms")
+            self._algorithm_stage_discarded
         )
         self.pages_by_key["portfolio"].stage_completed.connect(
             lambda: self.workflow.mark_completed("portfolio")
         )
         self.pages_by_key["calo_intelligence"].stage_completed.connect(self._governing_policy_event)
         self.pages_by_key["scenarios"].stage_completed.connect(
-            lambda: self.workflow.mark_completed("scenarios")
+            lambda: self._mark_routed_setup_completed("scenarios")
         )
-        self.pages_by_key["experiment"].power_system_completed.connect(
-            lambda: self.workflow.mark_completed("power_system")
-        )
-        self.pages_by_key["experiment"].formulation_completed.connect(
-            lambda: self.workflow.mark_completed("orpd")
-        )
-        self.pages_by_key["experiment"].scenarios_completed.connect(
-            lambda: self.workflow.mark_completed("scenarios")
+        self.pages_by_key["experiment"].setup_completed.connect(
+            self._mark_experiment_setup_completed
         )
         self.pages_by_key["dashboard"].workspace_requested.connect(self._set_workspace)
         self.pages_by_key["experiment"].workspace_requested.connect(self._set_workspace)
@@ -269,6 +263,29 @@ class MainWindow(QMainWindow):
         self.state.policy_training_changed.connect(self._on_policy_training_changed)
         self.workflow.changed.connect(self._refresh_workflow)
         self.workflow.changed.connect(self._persist_workspace_state)
+
+    def _invalidate_case_workflows(self) -> None:
+        self.workflow.invalidate_from("power_system")
+        self.workflow.invalidate_individual_from("power_system")
+
+    def _algorithm_stage_completed(self) -> None:
+        self.workflow.mark_completed("algorithms")
+        self.workflow.invalidate_individual_from("power_system")
+
+    def _algorithm_stage_discarded(self) -> None:
+        self.workflow.invalidate_from("algorithms")
+        self.workflow.invalidate_individual_from("power_system")
+
+    def _mark_experiment_setup_completed(self, execution_mode: str, key: str) -> None:
+        if str(execution_mode) == "workspace":
+            self.workflow.mark_completed(str(key))
+        else:
+            self.workflow.mark_individual_completed(str(key))
+
+    def _mark_routed_setup_completed(self, key: str) -> None:
+        self._mark_experiment_setup_completed(
+            str(getattr(self, "_standalone_setup_mode", "workspace")), str(key)
+        )
 
     def _manager_completion_workflow_event(self, _experiment_id: str) -> None:
         if self.workspace_campaign.active:
@@ -411,6 +428,14 @@ class MainWindow(QMainWindow):
         controller_kind = str(controller["controller"])
         owner_plan = str(controller["owner_plan_id"])
         stage_ready = self.state.execution_control.active_stage() is not None
+        if stage_ready:
+            for command_id, setup_key in (
+                ("experiment.power", "power_system"),
+                ("experiment.formulation", "orpd"),
+                ("experiment.scenarios", "scenarios"),
+            ):
+                state, reason = self.workflow.individual_setup_state_key(setup_key)
+                self.command_registry.set_available(command_id, state != "locked", reason)
         if not stage_ready:
             for command_id in (
                 "workspace.portfolio",
@@ -467,12 +492,22 @@ class MainWindow(QMainWindow):
                     False,
                     f"Individual plan {owner_plan!r} owns the immutable experiment inputs.",
                 )
-        self.pages_by_key["experiment"].set_study_prerequisite_states(
+        experiment_page = self.pages_by_key["experiment"]
+        experiment_page.set_study_prerequisite_states(
+            "workspace",
             {
                 "Case": self.workflow.workspace_state_key("power_system"),
                 "Formulation": self.workflow.workspace_state_key("orpd"),
                 "Scenarios": self.workflow.workspace_state_key("scenarios"),
-            }
+            },
+        )
+        experiment_page.set_study_prerequisite_states(
+            "individual_experiment",
+            {
+                "Case": self.workflow.individual_setup_state_key("power_system"),
+                "Formulation": self.workflow.individual_setup_state_key("orpd"),
+                "Scenarios": self.workflow.individual_setup_state_key("scenarios"),
+            },
         )
         self.activity_center.refresh_context()
         self.global_status.apply_context(self.state)
@@ -542,10 +577,23 @@ class MainWindow(QMainWindow):
                 "Policy training is running. All scientific/configuration panels are locked until training completes or Safe Stops.",
             )
             return
-        if not self.workflow.is_workspace_enabled(key):
-            _, reason = self.workflow.workspace_state_key(key)
+        individual_setup_command = str(command_id).startswith("experiment.") and key in {
+            "power_system",
+            "orpd",
+            "scenarios",
+        }
+        state, reason = (
+            self.workflow.individual_setup_state_key(key)
+            if individual_setup_command
+            else self.workflow.workspace_state_key(key)
+        )
+        if state == "locked":
             QMessageBox.information(self, "Workflow step locked", reason)
             return
+        if key in {"power_system", "orpd", "scenarios"}:
+            self._standalone_setup_mode = (
+                "individual_experiment" if individual_setup_command else "workspace"
+            )
         index = workspace_index_for_key(key)
         self.stack.setCurrentIndex(index)
         self.sidebar.set_current(index)

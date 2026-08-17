@@ -3,7 +3,10 @@ from __future__ import annotations
 from calo_rpd_studio.app.experiment_manager import ExperimentManager
 from calo_rpd_studio.app.state_manager import AppState
 from calo_rpd_studio.experiments.execution_plans import ExecutionPlanKind
-from calo_rpd_studio.gui.panels.experiment_manager_panel import ExperimentManagerPanel
+from calo_rpd_studio.gui.panels.experiment_manager_panel import (
+    ExperimentManagerPanel,
+    ScientificAuditWorker,
+)
 from calo_rpd_studio.gui.panels.portfolio_manager_panel import PortfolioManagerPanel
 
 
@@ -190,6 +193,7 @@ def test_inline_study_panels_preserve_prerequisites_and_completion_signals(qtbot
     qtbot.addWidget(panel)
 
     panel.set_study_prerequisite_states(
+        "workspace",
         {
             "Case": ("locked", "Verified policy prerequisite."),
             "Formulation": ("locked", "Power-system prerequisite."),
@@ -213,6 +217,82 @@ def test_inline_study_panels_preserve_prerequisites_and_completion_signals(qtbot
     panel.study_formulation.stage_completed.emit()
     panel.study_scenarios.stage_completed.emit()
     assert completed == ["power_system", "orpd", "scenarios"]
+
+
+def test_individual_setup_is_editable_without_workspace_portfolio_prerequisite(
+    qtbot, tmp_path
+) -> None:
+    state = AppState(tmp_path / "individual-independent-setup.sqlite")
+    _submit_stage(state)
+    panel = ExperimentManagerPanel(state, ExperimentManager(state))
+    qtbot.addWidget(panel)
+    panel.set_study_prerequisite_states(
+        "workspace",
+        {
+            "Case": ("completed", ""),
+            "Formulation": ("completed", ""),
+            "Scenarios": ("locked", "Apply the evidence portfolio plan first."),
+        },
+    )
+    panel.set_study_prerequisite_states(
+        "individual_experiment",
+        {
+            "Case": ("completed", ""),
+            "Formulation": ("completed", ""),
+            "Scenarios": ("recommended", ""),
+        },
+    )
+
+    panel.show_context("workspace_study")
+    assert panel.study_scenarios.isEnabled() is False
+    assert panel.runs.isReadOnly() is True
+    assert panel.study_setup_workflow.heading.text() == "Workspace Study Setup"
+
+    panel.show_context("individual_experiment")
+    assert panel.study_scenarios.isEnabled() is True
+    assert panel.runs.isReadOnly() is False
+    assert panel.reuse_results.isHidden() is False
+    assert panel.study_setup_workflow.heading.text() == "Individual Experiment Setup"
+    assert "Portfolio" not in panel.runs.toolTip()
+
+
+def test_individual_audit_uses_direct_result_contract_without_portfolio_planner(
+    tmp_path, monkeypatch
+) -> None:
+    state = AppState(tmp_path / "individual-direct-audit.sqlite")
+    _submit_stage(state)
+    state.config.runs = 1
+    state.config.require_backend_parity = False
+    state.config.reuse_compatible_results = False
+    plan = state.execution_control.create_individual_draft(state.config)
+    config = state.execution_control.plan_configuration(plan["id"])
+
+    def unexpected_portfolio_plan(*_args, **_kwargs):
+        raise AssertionError("Individual audit called PortfolioPlanner")
+
+    def unexpected_reuse_lookup(*_args, **_kwargs):
+        raise AssertionError("Disabled Individual reuse queried stored runs")
+
+    monkeypatch.setattr(
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.PortfolioPlanner.plan",
+        unexpected_portfolio_plan,
+    )
+    monkeypatch.setattr(
+        "calo_rpd_studio.gui.panels.experiment_manager_panel.ResultDatabase.find_reusable_run",
+        unexpected_reuse_lookup,
+    )
+    worker = ScientificAuditWorker(config, str(state.database.path))
+    completed = []
+    failures = []
+    worker.completed.connect(completed.append)
+    worker.failed.connect(failures.append)
+
+    worker.run()
+
+    assert failures == []
+    assert completed[0]["portfolio_plan"] is None
+    assert completed[0]["result_contract"]["owner"] == "individual_experiment"
+    assert completed[0]["reusable"] == 0
 
 
 def test_workspace_staging_freezes_individual_and_portfolio_editing(qtbot, tmp_path) -> None:

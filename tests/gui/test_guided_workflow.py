@@ -78,3 +78,51 @@ def test_post_experiment_sequence_uses_keyed_workspace_gates(tmp_path):
     assert workflow.is_workspace_enabled("results")
     assert workflow.is_workspace_enabled("validation")
     assert workflow.is_workspace_enabled("publication")
+
+
+def test_individual_setup_completion_is_separate_from_workspace_portfolio_sequence(tmp_path):
+    state = AppState(str(tmp_path / "individual-workflow.sqlite"))
+    state.governing_policy_status = lambda: _policy_status(True)
+    workflow = WorkflowManager(state)
+    workflow.notify_governing_policy_changed()
+
+    workflow.mark_individual_completed("power_system")
+    workflow.mark_individual_completed("orpd")
+
+    assert workflow.individual_setup_state_key("scenarios")[0] == "recommended"
+    assert workflow.workspace_state_key("scenarios") == (
+        "locked",
+        "Apply the evidence portfolio plan first.",
+    )
+
+    workflow.mark_individual_completed("scenarios")
+    assert workflow.individual_setup_state_key("scenarios")[0] == "completed"
+    assert "scenarios" not in workflow.completed
+
+    workflow.mark_completed("power_system")
+    workflow.mark_completed("orpd")
+    workflow.mark_completed("portfolio")
+    assert workflow.workspace_state_key("scenarios")[0] == "recommended"
+    assert "scenarios" in workflow.individual_completed
+
+    workflow.invalidate_individual_from("power_system")
+    assert workflow.individual_completed == set()
+    assert "power_system" in workflow.completed
+
+
+def test_policy_free_submitted_stage_keeps_individual_case_setup_available(tmp_path):
+    state = AppState(str(tmp_path / "policy-free-individual.sqlite"))
+    state.config.algorithms = ["CALO", "TLBO"]
+    state.config.algorithm_parameters = {
+        "CALO": {
+            "use_ai": False,
+            "strict_policy_binding": False,
+            "allow_unqualified_policy": False,
+        },
+        "TLBO": {},
+    }
+    state.execution_control.submit_algorithm_stage(state.config)
+    state.governing_policy_status = lambda: _policy_status(False)
+    workflow = WorkflowManager(state)
+
+    assert workflow.individual_setup_state_key("power_system")[0] == "recommended"

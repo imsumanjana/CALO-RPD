@@ -2,7 +2,7 @@ CALO-RPD STUDIO
 WORKSPACE-MANAGED STUDY CAMPAIGNS AND INDIVIDUAL EXPERIMENT EXECUTION PLAN
 Planning date: 2026-08-16
 Status: IMPLEMENTED IN SOURCE - OWNER VALIDATION PENDING
-Revision: Immutable Workspace and individual plans with exclusive durable controller
+Revision: Mode-independent individual v2 plans plus automated Workspace v2 studies
 
 ===============================================================================
 1. PURPOSE AND USER INTENT
@@ -28,6 +28,10 @@ submits an algorithm stage:
    - By default, the individual experiment consumes the complete algorithm set
      submitted on the Algorithms tab.
    - It cannot silently add, replace, or remove staged algorithms.
+   - It has its own Case/Formulation/Scenarios completion ledger, editable run
+     count, direct result-capture contract, audit, and immutable plan identity.
+   - It never requires or consumes an applied Workspace Portfolio or Workspace
+     Study plan when launched from Experiment > Individual experiment.
    - If active execution is being directed by a Workspace campaign, the
      Experiment tab is read-only/frozen and the Workspace-supplied experiment
      snapshot is used. A safely paused Workspace campaign is retained but does
@@ -69,6 +73,14 @@ executed while implementing it.
     set(study_algorithms) <= set(staged_algorithms)
 - An individual custom experiment uses the complete staged algorithm pool by
   default. It does not expose a second algorithm selector.
+- An individual custom experiment freezes only its directly selected case,
+  formulation, scenario, budget, runs, seed, compute intent, result directory,
+  verified exact-reuse choice, and complete submitted algorithm stage.
+- Workspace Portfolio identity, evidence profile, article preset, study-strength
+  metadata, case matrix, requested publication outputs, and Workspace portfolio
+  ID are excluded from the individual v2 design hash and resume contract.
+- The individual plan carries a versioned direct result-capture contract. This
+  is not an implicit or automatically applied Workspace Portfolio.
 - A Workspace-generated experiment uses the exact subset bound into that
   Workspace study item.
 - No portfolio/article preset may write directly to the authoritative staged

@@ -3376,3 +3376,37 @@ Append timestamped entries below this line after each material action, validatio
   stopped at command 08 because Ruff required mechanical formatting of the modified Experiment
   Manager panel. The retained failure is not a behavioral failure. Ruff applied the formatting-only
   correction, and the ignored validator advanced to schema v27 for a complete replay.
+
+## 2026-08-17 - Schema-v27 PASS and complete Individual experiment independence correction
+
+- Returned bundle `validation/logs/phase6-20260817-014809` completed the exact 17-command schema-v27
+  sequence with PASS. Its before/after nonignored source status SHA-256 was
+  `316db1885a899ee5f5d140af3c1c33960f4486a5f7d286751d2f799f95e17807`; no policy, protected-case,
+  Docker, CUDA campaign, publication, or release workflow ran. It validates the pre-correction
+  source only and is now superseded for the Individual/Workspace behavior below.
+- User review identified that Experiment > Individual experiment still inherited the Workspace
+  Portfolio prerequisite for Scenarios. The root cause was broader than the visible banner: inline
+  completion state, run-count ownership, audit planning, configuration validation, result storage,
+  reuse filtering, and frozen configuration still consumed shared Portfolio assumptions.
+- Source now gives direct Individual setup its own persisted completion ledger and mode-correct
+  `Individual Experiment Setup` presentation. Its run count and verified exact-result reuse choice
+  are scientist-editable. Case/Formulation/Scenarios completion through the Individual route cannot
+  satisfy Workspace gates, and Workspace completion cannot satisfy the Individual route. A
+  policy-free submitted algorithm stage can enter Individual case setup; TSH-CALO remains protected
+  by its existing verified immutable policy prerequisite.
+- Workspace study plan schema and Individual plan schema advance to v2. Workspace continues to
+  freeze its Portfolio subset, evidence requirements, run minimum, study matrix, and automated
+  cells. Individual freezes the complete submitted stage plus only its direct case, formulation,
+  budget, runs, scenarios, seed, compute intent, output path, and a versioned direct full-run result
+  contract. Workspace Portfolio/study metadata and portfolio ID are excluded from the Individual
+  design and resume identity. Explicit legacy migration preserves old v1 campaign readability and
+  exact resume behavior without reinterpreting old evidence as a v2 Individual plan.
+- The shared `ExperimentManager` remains the only numerical executor. It now selects Portfolio
+  storage/reuse rules only for Workspace plans and the direct result contract only for current
+  Individual plans. The singleton fenced controller, Stage-before-Run, audit receipt, safe pause,
+  resume interlock, exact FE accounting, paired seeds, CALO/TSH-CALO policy boundaries, and protected
+  scientific semantics are unchanged.
+- Focused unit, GUI, integration, workflow-restore, schema-round-trip, and audit-worker test source
+  was added. No check or scientific workflow was executed in this coding pass. The Git-ignored
+  noninteractive validator advanced to schema v28 and includes every changed source/test/document;
+  a fresh complete owner-run bundle is required before this correction has engineering evidence.

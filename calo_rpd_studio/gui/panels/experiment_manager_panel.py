@@ -52,6 +52,10 @@ from calo_rpd_studio.experiments.execution_plans import (
     ExecutionPlanKind,
     canonical_sha256,
     frozen_config_payload,
+    frozen_individual_config_payload,
+)
+from calo_rpd_studio.experiments.result_contracts import (
+    validate_individual_result_contract,
 )
 from calo_rpd_studio.gui.user_feedback import log_technical_error, show_error
 from calo_rpd_studio.gui.panels.orpd_formulation_panel import ORPDFormulationPanel
@@ -140,15 +144,37 @@ class ScientificAuditWorker(QThread):
                 self.completed.emit({"parity_only": True, "parity": parity})
                 return
 
-            self.progress.emit("Checking comparative fairness and portfolio dependencies", 70)
-            fairness = validate_fairness(self.config)
-            portfolio_plan = PortfolioPlanner.plan(
-                self.config, self.config.portfolio, benchmark_blocks=1
+            individual = str(getattr(self.config, "execution_plan_kind", "")) == (
+                ExecutionPlanKind.INDIVIDUAL_EXPERIMENT.value
             )
+            self.progress.emit(
+                (
+                    "Checking individual experiment fairness and direct result capture"
+                    if individual
+                    else "Checking comparative fairness and portfolio dependencies"
+                ),
+                70,
+            )
+            fairness = validate_fairness(self.config)
+            portfolio_plan = None
+            result_contract = None
+            if individual:
+                result_contract = validate_individual_result_contract(
+                    self.config.result_contract
+                )
+            else:
+                portfolio_plan = PortfolioPlanner.plan(
+                    self.config, self.config.portfolio, benchmark_blocks=1
+                )
             self.progress.emit("Checking reusable verified runs", 82)
             seeds = SeedManager(self.config.master_seed).generate(self.config.runs)
             reusable = 0
-            if self.config.reuse_compatible_results:
+            reuse_enabled = (
+                bool(result_contract["reuse_compatible_results"])
+                if result_contract is not None
+                else bool(self.config.portfolio.reuse_compatible_results)
+            )
+            if reuse_enabled:
                 database = ResultDatabase(self.database_path)
                 for item in build_execution_plan(self.config, COMPARISON_MODE):
                     fingerprint = run_fingerprint(
@@ -156,7 +182,11 @@ class ScientificAuditWorker(QThread):
                     )
                     if database.find_reusable_run(
                         fingerprint,
-                        verified_only=bool(self.config.portfolio.require_independent_validation),
+                        verified_only=(
+                            bool(result_contract["reuse_verified_only"])
+                            if result_contract is not None
+                            else bool(self.config.portfolio.require_independent_validation)
+                        ),
                     ):
                         reusable += 1
             self.progress.emit("Scientific audit complete", 100)
@@ -166,6 +196,10 @@ class ScientificAuditWorker(QThread):
                     "parity": parity,
                     "fairness": fairness,
                     "portfolio_plan": portfolio_plan,
+                    "result_contract": result_contract,
+                    "execution_plan_kind": str(
+                        getattr(self.config, "execution_plan_kind", "")
+                    ),
                     "reusable": reusable,
                 }
             )
@@ -180,6 +214,7 @@ class ExperimentManagerPanel(WorkspacePage):
     power_system_completed = pyqtSignal()
     formulation_completed = pyqtSignal()
     scenarios_completed = pyqtSignal()
+    setup_completed = pyqtSignal(str, str)
 
     def __init__(self, state, manager, parent=None, *, workspace_coordinator=None) -> None:
         super().__init__(
@@ -202,7 +237,7 @@ class ExperimentManagerPanel(WorkspacePage):
         self.backend_parity_report = None
         self.audit_worker: ScientificAuditWorker | None = None
         self._study_setup_editable = True
-        self._study_prerequisites: dict[str, tuple[str, str]] = {}
+        self._study_prerequisites: dict[str, dict[str, tuple[str, str]]] = {}
 
         # This workspace is genuinely taller than a typical laptop viewport.  Keep the
         # page header fixed and scroll only the workflow body so controls retain their
@@ -377,6 +412,11 @@ class ExperimentManagerPanel(WorkspacePage):
         self.seed = QSpinBox()
         self.seed.setRange(0, 2_147_483_647)
         self.output = QLineEdit()
+        self.reuse_results = QCheckBox("Reuse independently verified exact compatible runs")
+        self.reuse_results.setToolTip(
+            "Individual experiments may reuse only an exact compatible run that already passed "
+            "independent validation. Workspace reuse remains controlled by Portfolio Manager."
+        )
         choose = QPushButton("Choose")
         choose.clicked.connect(self.choose_output)
         output_widget = QWidget()
@@ -424,11 +464,12 @@ class ExperimentManagerPanel(WorkspacePage):
         base_row = (len(fields) + 1) // 2
         grid.addWidget(QLabel("Result directory"), base_row, 0)
         grid.addWidget(output_widget, base_row, 1, 1, 3)
-        grid.addWidget(QLabel("Primary algorithms"), base_row + 1, 0)
-        grid.addWidget(self.selected, base_row + 1, 1, 1, 3)
-        grid.addWidget(self.plan_summary, base_row + 2, 0, 1, 4)
-        grid.addWidget(self.device_inventory, base_row + 3, 0, 1, 4)
-        grid.addWidget(self.execution_note, base_row + 4, 0, 1, 4)
+        grid.addWidget(self.reuse_results, base_row + 1, 0, 1, 4)
+        grid.addWidget(QLabel("Primary algorithms"), base_row + 2, 0)
+        grid.addWidget(self.selected, base_row + 2, 1, 1, 3)
+        grid.addWidget(self.plan_summary, base_row + 3, 0, 1, 4)
+        grid.addWidget(self.device_inventory, base_row + 4, 0, 1, 4)
+        grid.addWidget(self.execution_note, base_row + 5, 0, 1, 4)
         grid.setColumnMinimumWidth(0, 130)
         grid.setColumnMinimumWidth(2, 150)
         grid.setColumnStretch(1, 1)
@@ -704,6 +745,7 @@ class ExperimentManagerPanel(WorkspacePage):
             self.compile_kernels,
             self.device_resident_execution,
             self.cuda_resident_hot_loop,
+            self.reuse_results,
         ):
             checkbox.stateChanged.connect(self._invalidate_fairness)
             checkbox.stateChanged.connect(self._update_plan_summary)
@@ -735,6 +777,7 @@ class ExperimentManagerPanel(WorkspacePage):
             self.compile_kernels,
             self.device_resident_execution,
             self.cuda_resident_hot_loop,
+            self.reuse_results,
             self.output,
         )
         state.config_changed.connect(lambda _: self.refresh())
@@ -752,21 +795,57 @@ class ExperimentManagerPanel(WorkspacePage):
             if str(context) == "individual_experiment"
             else ExecutionPlanKind.WORKSPACE.value
         )
+        self._apply_mode_presentation()
         self.refresh()
 
-    def set_study_prerequisite_states(self, states: dict[str, tuple[str, str]]) -> None:
-        """Apply the same workflow locks to inline panels as their ribbon workspaces."""
+    def set_study_prerequisite_states(
+        self,
+        execution_mode: ExecutionPlanKind | str,
+        states: dict[str, tuple[str, str]],
+    ) -> None:
+        """Retain separate Workspace and Individual inline prerequisite contracts."""
 
-        self._study_prerequisites = {
+        mode = (
+            execution_mode.value
+            if isinstance(execution_mode, ExecutionPlanKind)
+            else str(execution_mode)
+        )
+        if mode not in {item.value for item in ExecutionPlanKind}:
+            raise ValueError(f"Unsupported inline setup mode: {mode}")
+        self._study_prerequisites[mode] = {
             str(title): (str(state), str(reason)) for title, (state, reason) in dict(states).items()
         }
         self._apply_inline_study_states()
 
+    def _apply_mode_presentation(self) -> None:
+        if not hasattr(self, "study_setup_workflow"):
+            return
+        workspace = self.execution_mode == ExecutionPlanKind.WORKSPACE.value
+        self.study_setup_workflow.set_presentation(
+            "Workspace Study Setup" if workspace else "Individual Experiment Setup"
+        )
+        self.runs.setReadOnly(workspace)
+        self.runs.setButtonSymbols(
+            QSpinBox.ButtonSymbols.NoButtons
+            if workspace
+            else QSpinBox.ButtonSymbols.UpDownArrows
+        )
+        self.runs.setToolTip(
+            (
+                "Derived by Portfolio Manager from the selected Workspace evidence and output dependencies."
+                if workspace
+                else "Scientist-selected independent run count for this individual experiment."
+            )
+        )
+        self.reuse_results.setVisible(not workspace)
+        self.reuse_results.setEnabled(not workspace and self._study_setup_editable)
+
     def _apply_inline_study_states(self) -> None:
         if not hasattr(self, "study_setup_workflow"):
             return
+        prerequisites = self._study_prerequisites.get(self.execution_mode, {})
         for title in ("Case", "Formulation", "Scenarios"):
-            state, reason = self._study_prerequisites.get(title, ("available", ""))
+            state, reason = prerequisites.get(title, ("available", ""))
             prerequisite_ready = state != "locked"
             available = bool(self._study_setup_editable and prerequisite_ready)
             if not prerequisite_ready:
@@ -778,6 +857,7 @@ class ExperimentManagerPanel(WorkspacePage):
             else:
                 message = ""
             self.study_setup_workflow.set_step_available(title, available, message)
+        self._apply_mode_presentation()
 
     def _active_controlled_plan(self) -> dict | None:
         return self.state.execution_control.active_plan(self.execution_mode)
@@ -824,9 +904,18 @@ class ExperimentManagerPanel(WorkspacePage):
                 for name in design.get("study_algorithm_names", design.get("algorithm_names", []))
             )
             try:
-                audit_matches_current = canonical_sha256(
-                    frozen_config_payload(self.state.config, names)
-                ) == canonical_sha256(design["config"])
+                current_payload = (
+                    frozen_config_payload(
+                        self.state.config,
+                        names,
+                        plan_kind=ExecutionPlanKind.WORKSPACE,
+                    )
+                    if self.execution_mode == ExecutionPlanKind.WORKSPACE.value
+                    else frozen_individual_config_payload(self.state.config, names)
+                )
+                audit_matches_current = canonical_sha256(current_payload) == canonical_sha256(
+                    design["config"]
+                )
             except Exception:
                 audit_matches_current = False
         owner_matches = bool(
@@ -1056,9 +1145,15 @@ class ExperimentManagerPanel(WorkspacePage):
         self.study_formulation.setObjectName("StudySetupORPDFormulationPanel")
         self.study_scenarios = RobustScenariosPanel(self.state)
         self.study_scenarios.setObjectName("StudySetupRobustScenariosPanel")
-        self.study_power_system.stage_completed.connect(self.power_system_completed.emit)
-        self.study_formulation.stage_completed.connect(self.formulation_completed.emit)
-        self.study_scenarios.stage_completed.connect(self.scenarios_completed.emit)
+        self.study_power_system.stage_completed.connect(
+            lambda: self._emit_setup_completion("power_system")
+        )
+        self.study_formulation.stage_completed.connect(
+            lambda: self._emit_setup_completion("orpd")
+        )
+        self.study_scenarios.stage_completed.connect(
+            lambda: self._emit_setup_completion("scenarios")
+        )
         self.study_setup_workflow = StudySetupWorkflow(
             (
                 (
@@ -1109,6 +1204,16 @@ class ExperimentManagerPanel(WorkspacePage):
         insert_at = max(1, self.body_layout.count() - 1)
         self.body_layout.insertWidget(insert_at, self.evolution_drawer)
         self.body_layout.insertWidget(insert_at + 1, self.queue_drawer)
+
+    def _emit_setup_completion(self, key: str) -> None:
+        value = str(key)
+        self.setup_completed.emit(self.execution_mode, value)
+        compatibility_signal = {
+            "power_system": self.power_system_completed,
+            "orpd": self.formulation_completed,
+            "scenarios": self.scenarios_completed,
+        }[value]
+        compatibility_signal.emit()
 
     @staticmethod
     def _recommended_worker_count() -> int:
@@ -1256,6 +1361,7 @@ class ExperimentManagerPanel(WorkspacePage):
         )
         self.seed.setValue(config.master_seed)
         self.output.setText(config.output_directory)
+        self.reuse_results.setChecked(bool(config.reuse_compatible_results))
         del signal_blockers
         algorithm_names = self._display_algorithm_names()
         if self.execution_mode == ExecutionPlanKind.WORKSPACE.value:
@@ -1344,7 +1450,9 @@ class ExperimentManagerPanel(WorkspacePage):
         config.require_backend_parity = True
         config.master_seed = self.seed.value()
         config.output_directory = self.output.text().strip() or "results_data"
-        config.validate()
+        if self.execution_mode == ExecutionPlanKind.INDIVIDUAL_EXPERIMENT.value:
+            config.reuse_compatible_results = self.reuse_results.isChecked()
+        config.validate(execution_plan_kind=self.execution_mode)
         self.state.update_config()
 
     def choose_output(self) -> None:
@@ -1417,7 +1525,12 @@ class ExperimentManagerPanel(WorkspacePage):
         self.audit.setPlainText(
             "Running CPU/accelerator parity audit in a background worker…"
             if parity_only
-            else "Running parity, fairness, portfolio, and reusable-result checks in a background worker…"
+            else (
+                "Running parity, fairness, direct-result, and reusable-result checks for the "
+                "individual experiment in a background worker…"
+                if self.execution_mode == ExecutionPlanKind.INDIVIDUAL_EXPERIMENT.value
+                else "Running parity, fairness, portfolio, and reusable-result checks in a background worker…"
+            )
         )
         self.state.task_status.begin(
             "Checking numerical agreement" if parity_only else "Auditing experiment fairness",
@@ -1487,6 +1600,7 @@ class ExperimentManagerPanel(WorkspacePage):
 
         report = payload["fairness"]
         portfolio_plan = payload["portfolio_plan"]
+        result_contract = payload.get("result_contract")
         reusable = int(payload.get("reusable", 0))
         audited_config = self._audited_config or self.state.config
         total_jobs = planned_item_count(audited_config, COMPARISON_MODE)
@@ -1494,12 +1608,28 @@ class ExperimentManagerPanel(WorkspacePage):
             "PASS: comparative protocol is internally consistent."
             if report.fair
             else "FAIL: comparative protocol requires correction.",
-            f"PORTFOLIO PLAN: {audited_config.portfolio.kind.value} · {audited_config.portfolio.evidence_profile.value} · {len(audited_config.portfolio.requested_outputs)} requested outputs.",
-            f"PRIMARY COMPARISON PLAN: {len(audited_config.algorithms)} selected algorithms × {audited_config.runs} runs = {total_jobs} jobs.",
-            f"EXACT RESULT REUSE: {reusable} compatible job(s) can be reused; {total_jobs - reusable} new job(s) remain.",
-            f"REQUIRED STORED EVIDENCE: {', '.join(portfolio_plan.required_fields)}.",
-            "CALO ABLATION PLAN: unchanged legacy capability; it is outside this execution-plan implementation.",
         ]
+        if result_contract is not None:
+            lines.append(
+                "INDIVIDUAL RESULT CONTRACT: direct full-run capture · "
+                f"{len(result_contract['requested_outputs'])} outputs · no Workspace Portfolio dependency."
+            )
+            required_fields = list(result_contract["required_fields"])
+        else:
+            lines.append(
+                f"WORKSPACE PORTFOLIO PLAN: {audited_config.portfolio.kind.value} · "
+                f"{audited_config.portfolio.evidence_profile.value} · "
+                f"{len(audited_config.portfolio.requested_outputs)} requested outputs."
+            )
+            required_fields = list(portfolio_plan.required_fields)
+        lines.extend(
+            (
+                f"PRIMARY COMPARISON PLAN: {len(audited_config.algorithms)} selected algorithms × {audited_config.runs} runs = {total_jobs} jobs.",
+                f"EXACT RESULT REUSE: {reusable} compatible job(s) can be reused; {total_jobs - reusable} new job(s) remain.",
+                f"REQUIRED STORED EVIDENCE: {', '.join(required_fields)}.",
+                "CALO ABLATION PLAN: unchanged legacy capability; it is outside this execution-plan implementation.",
+            )
+        )
         if audited_config.execution_backend == "cuda_preferred":
             lines.append(
                 "ACCELERATED COMPUTE PLAN: eligible active numerical data stays in NVIDIA VRAM "
@@ -1535,6 +1665,12 @@ class ExperimentManagerPanel(WorkspacePage):
                         "backend_parity_passed": bool(self.backend_parity_passed),
                         "reusable_jobs": reusable,
                         "planned_jobs": total_jobs,
+                        "execution_plan_kind": str(
+                            getattr(audited_config, "execution_plan_kind", "")
+                        ),
+                        "result_contract_schema": str(
+                            dict(result_contract or {}).get("schema_version", "")
+                        ),
                     },
                 )
                 self.audit_state.setText("Passed — exact plan may now be staged")

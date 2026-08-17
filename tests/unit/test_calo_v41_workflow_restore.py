@@ -29,6 +29,7 @@ def test_workflow_snapshot_round_trip_restores_unlocked_experiment_state():
     first.notify_governing_policy_changed()
     for key in ("power_system", "orpd", "algorithms", "portfolio", "scenarios"):
         first.completed.add(key)
+    first.individual_completed.update(("power_system", "orpd", "scenarios"))
     first.experiment_started = True
     first.experiment_completed = True
     first.statistics_completed = True
@@ -39,6 +40,7 @@ def test_workflow_snapshot_round_trip_restores_unlocked_experiment_state():
     restored = WorkflowManager(state)
     restored.restore(payload)
     assert restored.completed == first.completed
+    assert restored.individual_completed == first.individual_completed
     assert restored.experiment_started is True
     assert restored.experiment_completed is True
     assert restored.statistics_completed is True
@@ -89,3 +91,16 @@ def test_restored_downstream_setup_is_invalidated_when_governing_policy_sha_chan
     assert workflow.completed == {"calo_intelligence"}
     assert workflow.is_workspace_enabled("power_system") is True
     assert workflow.is_workspace_enabled("orpd") is False
+
+
+def test_policy_free_individual_completion_survives_restore_without_governing_policy():
+    config = ExperimentConfig()
+    config.algorithms = ["CALO", "TLBO"]
+    state = _state(config, ready=False, sha="")
+    workflow = WorkflowManager(state)
+    workflow.individual_completed.update(("power_system", "orpd", "scenarios"))
+
+    restored = WorkflowManager(state)
+    restored.restore(workflow.snapshot())
+
+    assert restored.individual_completed == {"power_system", "orpd", "scenarios"}

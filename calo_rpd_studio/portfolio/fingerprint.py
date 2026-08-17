@@ -95,6 +95,8 @@ def experiment_fingerprint(config) -> str:
         "execution_plan_design_sha256",
         "algorithm_stage_id",
         "workspace_plan_cell_id",
+        "execution_plan_kind",
+        "result_contract",
     ):
         data.pop(key, None)
     data.pop("algorithms", None)

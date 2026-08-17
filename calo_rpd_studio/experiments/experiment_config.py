@@ -319,6 +319,10 @@ class ExperimentConfig:
     execution_plan_design_sha256: str = ""
     algorithm_stage_id: str = ""
     workspace_plan_cell_id: str = ""
+    # Plan-bound orchestration/result provenance. An empty kind preserves the historical
+    # Portfolio-planned entrypoint; immutable plans set one of the two current execution kinds.
+    execution_plan_kind: str = ""
+    result_contract: dict = field(default_factory=dict)
 
     def validate_policy_development(self) -> None:
         """Validate only the scientific formulation consumed by CALO Intelligence.
@@ -342,35 +346,47 @@ class ExperimentConfig:
         if float(self.robust_objective.risk_lambda) < 0.0:
             raise ValueError("risk_lambda must be non-negative")
 
-    def validate(self) -> None:
+    def validate(self, *, execution_plan_kind: str = "") -> None:
         from calo_rpd_studio.algorithms.registry import POLICY_GATED_SPECS, SPECS
+        from calo_rpd_studio.experiments.execution_plans import ExecutionPlanKind
+        from calo_rpd_studio.experiments.result_contracts import (
+            validate_individual_result_contract,
+        )
+
+        plan_kind = str(execution_plan_kind or self.execution_plan_kind or "")
+        if plan_kind and plan_kind not in {item.value for item in ExecutionPlanKind}:
+            raise ValueError(f"Unsupported execution_plan_kind: {plan_kind}")
+        individual = plan_kind == ExecutionPlanKind.INDIVIDUAL_EXPERIMENT.value
 
         if self.runs <= 0:
             raise ValueError("runs must be positive")
-        if self.study_strength not in {"custom", "low", "moderate", "good", "strong"}:
-            raise ValueError("study_strength must be custom, low, moderate, good, or strong")
-        if not self.study_case_plan or any(not str(name).strip() for name in self.study_case_plan):
-            raise ValueError("study_case_plan must contain at least one non-empty case name")
-        if self.study_standardized_effect is not None and not (
-            math.isfinite(float(self.study_standardized_effect))
-            and 0.0 < float(self.study_standardized_effect) <= 3.0
-        ):
-            raise ValueError("study_standardized_effect must lie in (0, 3] when provided")
-        if self.study_target_power is not None and not (
-            math.isfinite(float(self.study_target_power))
-            and 0.50 <= float(self.study_target_power) < 1.0
-        ):
-            raise ValueError("study_target_power must lie in [0.50, 1) when provided")
-        if not 0.0 < float(self.study_family_alpha) < 1.0:
-            raise ValueError("study_family_alpha must lie in (0, 1)")
-        if not 0.0 <= float(self.study_failure_allowance) < 0.50:
-            raise ValueError("study_failure_allowance must lie in [0, 0.50)")
-        if self.study_run_planning_method not in {
-            "custom",
-            "screening_floor",
-            "paired_normal_holm_approximation",
-        }:
-            raise ValueError("Unsupported study_run_planning_method")
+        if not individual:
+            if self.study_strength not in {"custom", "low", "moderate", "good", "strong"}:
+                raise ValueError("study_strength must be custom, low, moderate, good, or strong")
+            if not self.study_case_plan or any(
+                not str(name).strip() for name in self.study_case_plan
+            ):
+                raise ValueError("study_case_plan must contain at least one non-empty case name")
+            if self.study_standardized_effect is not None and not (
+                math.isfinite(float(self.study_standardized_effect))
+                and 0.0 < float(self.study_standardized_effect) <= 3.0
+            ):
+                raise ValueError("study_standardized_effect must lie in (0, 3] when provided")
+            if self.study_target_power is not None and not (
+                math.isfinite(float(self.study_target_power))
+                and 0.50 <= float(self.study_target_power) < 1.0
+            ):
+                raise ValueError("study_target_power must lie in [0.50, 1) when provided")
+            if not 0.0 < float(self.study_family_alpha) < 1.0:
+                raise ValueError("study_family_alpha must lie in (0, 1)")
+            if not 0.0 <= float(self.study_failure_allowance) < 0.50:
+                raise ValueError("study_failure_allowance must lie in [0, 0.50)")
+            if self.study_run_planning_method not in {
+                "custom",
+                "screening_floor",
+                "paired_normal_holm_approximation",
+            }:
+                raise ValueError("Unsupported study_run_planning_method")
         if self.population_size < 2:
             raise ValueError("population_size must be at least 2")
         if not self.algorithms:
@@ -544,16 +560,28 @@ class ExperimentConfig:
         ):
             if not 0.0 < float(value) < 1.0:
                 raise ValueError(f"{label} must be positive and below 1")
-        self.portfolio.validate()
-        # Validation is deliberately read-only. Portfolio repetition requirements must be
-        # normalized explicitly by the caller or corrected by the user; validate() never mutates
-        # the scientific configuration behind the GUI's back.
-        required_runs = int(self.portfolio.required_runs())
-        if int(self.runs) < required_runs:
-            raise ValueError(
-                f"runs={self.runs} is below the portfolio-required minimum of {required_runs}. "
-                "Apply explicit portfolio normalization before execution."
+        if individual:
+            # Individual execution owns its direct result contract and scientist-selected run
+            # count. Workspace Portfolio evidence minima are deliberately outside this path.
+            plan_bound_individual = (
+                self.execution_plan_kind
+                == ExecutionPlanKind.INDIVIDUAL_EXPERIMENT.value
             )
+            if plan_bound_individual and not self.result_contract:
+                raise ValueError("A plan-bound individual experiment requires its result contract")
+            if plan_bound_individual:
+                validate_individual_result_contract(self.result_contract)
+        else:
+            self.portfolio.validate()
+            # Validation is deliberately read-only. Portfolio repetition requirements must be
+            # normalized explicitly by the caller or corrected by the user; validate() never
+            # mutates the scientific configuration behind the GUI's back.
+            required_runs = int(self.portfolio.required_runs())
+            if int(self.runs) < required_runs:
+                raise ValueError(
+                    f"runs={self.runs} is below the portfolio-required minimum of {required_runs}. "
+                    "Apply explicit portfolio normalization before execution."
+                )
         self.budget.validate()
         if (
             self.budget.policy is BudgetPolicy.EQUAL_EVALUATIONS
@@ -829,6 +857,8 @@ class ExperimentConfig:
             ),
             algorithm_stage_id=str(data.get("algorithm_stage_id", "")),
             workspace_plan_cell_id=str(data.get("workspace_plan_cell_id", "")),
+            execution_plan_kind=str(data.get("execution_plan_kind", "")),
+            result_contract=dict(data.get("result_contract", {}) or {}),
         )
 
     @classmethod

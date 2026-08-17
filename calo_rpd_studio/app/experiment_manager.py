@@ -48,7 +48,11 @@ from calo_rpd_studio.experiments.execution_plan import (
 )
 from calo_rpd_studio.experiments.execution_plans import (
     ExecutionLifecycle,
+    ExecutionPlanKind,
     scientific_job_sha256,
+)
+from calo_rpd_studio.experiments.result_contracts import (
+    validate_individual_result_contract,
 )
 from calo_rpd_studio.experiments.experiment_runner import failed_run_from_exception, run_single
 from calo_rpd_studio.experiments.provenance import collect_provenance
@@ -1873,7 +1877,19 @@ class ExperimentWorker(QThread):
             task_id=self.resume_task_id,
             status=ResumeStatus.RUNNING,
         )
-        required_outputs = list(getattr(self.config.portfolio, "requested_outputs", []))
+        individual = str(getattr(self.config, "execution_plan_kind", "")) == (
+            ExecutionPlanKind.INDIVIDUAL_EXPERIMENT.value
+        )
+        individual_contract = (
+            validate_individual_result_contract(self.config.result_contract)
+            if individual
+            else {}
+        )
+        required_outputs = (
+            list(individual_contract["requested_outputs"])
+            if individual
+            else list(getattr(self.config.portfolio, "requested_outputs", []))
+        )
         plan = []
         reused = 0
         for item in candidate_plan:
@@ -1937,11 +1953,24 @@ class ExperimentWorker(QThread):
                 reused += 1
                 continue
             reusable = None
-            if bool(getattr(self.config, "reuse_compatible_results", True)) and not is_extension:
+            reuse_compatible = (
+                bool(individual_contract["reuse_compatible_results"])
+                if individual
+                else bool(getattr(self.config.portfolio, "reuse_compatible_results", True))
+            )
+            if reuse_compatible and not is_extension:
                 reusable = database.find_reusable_run(
                     fp,
-                    verified_only=bool(
-                        getattr(self.config.portfolio, "require_independent_validation", False)
+                    verified_only=(
+                        bool(individual_contract["reuse_verified_only"])
+                        if individual
+                        else bool(
+                            getattr(
+                                self.config.portfolio,
+                                "require_independent_validation",
+                                False,
+                            )
+                        )
                     ),
                 )
             if reusable is not None:
@@ -2026,13 +2055,25 @@ class ExperimentWorker(QThread):
             # Resolve before any campaign/task/database rows are created. Formal requests therefore
             # fail closed with no partial campaign state when concrete CUDA cannot be identified.
             self.config = resolve_config_for_entrypoint(self.config)
-            from calo_rpd_studio.portfolio.planner import PortfolioPlanner
+            individual = str(getattr(self.config, "execution_plan_kind", "")) == (
+                ExecutionPlanKind.INDIVIDUAL_EXPERIMENT.value
+            )
+            if individual:
+                result_contract = validate_individual_result_contract(
+                    self.config.result_contract
+                )
+                storage_profile = str(result_contract["storage_profile"])
+                required_fields = list(result_contract["required_fields"])
+            else:
+                from calo_rpd_studio.portfolio.planner import PortfolioPlanner
 
-            portfolio_plan = PortfolioPlanner.plan(self.config, self.config.portfolio)
+                portfolio_plan = PortfolioPlanner.plan(self.config, self.config.portfolio)
+                storage_profile = portfolio_plan.storage_profile
+                required_fields = portfolio_plan.required_fields
             store = ResultStore(
                 self.config.output_directory,
-                storage_profile=portfolio_plan.storage_profile,
-                required_fields=portfolio_plan.required_fields,
+                storage_profile=storage_profile,
+                required_fields=required_fields,
             )
             full_plan = build_execution_plan(self.config, self.mode)
             seeds = SeedManager(self.config.master_seed).generate(self.config.runs)

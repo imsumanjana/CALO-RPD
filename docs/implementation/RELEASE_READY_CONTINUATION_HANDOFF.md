@@ -1796,3 +1796,25 @@ superseded by the stage-neutral compatibility and qualification boundary on 2026
   required fairness action; an actual post-audit scientist edit still disables Stage immediately.
 - Validator schema v26 includes focused draft/audited lifecycle regressions. No audit, experiment,
   CALO/TSH-CALO, policy, training, qualification, or protected-case work was executed or weakened.
+
+## 2026-08-17 - Complete Individual experiment independence correction
+
+- `validation\logs\phase6-20260817-014809` is the last complete PASS: all 17 schema-v27 commands
+  completed with stable nonignored source status
+  `316db1885a899ee5f5d140af3c1c33960f4486a5f7d286751d2f799f95e17807`. It validates the source
+  before this correction and must not be presented as evidence for the behavior below.
+- Experiment > Individual experiment now owns a separate persisted Case/Formulation/Scenarios
+  completion ledger, direct editable run count, verified exact-reuse choice, audit presentation,
+  immutable v2 configuration, and full-run result contract. It requires a submitted algorithm stage
+  and the existing TSH-CALO policy gate only when a staged algorithm actually requires that policy;
+  it never requires an applied Workspace Portfolio or Workspace Study.
+- Workspace completion cannot unlock Individual setup and Individual completion cannot unlock
+  Workspace setup. Workspace v2 retains Portfolio-derived subsets, repetitions, publication/output
+  evidence, study matrices, and automated cells. When Workspace supplies an experiment cell, that
+  frozen cell continues to use those Workspace-owned parameters through the same ExperimentManager.
+- Current Individual v2 configuration and resume identity exclude Portfolio ID/configuration and
+  Workspace study-strength/case-matrix metadata. Explicit compatibility logic keeps old v1 campaign
+  records readable without relabeling their historical evidence as a current independent plan.
+- No test, validator, experiment, audit, policy, training, qualification, protected-case, Docker,
+  CUDA campaign, publication, or release command ran in this coding pass. Run the complete ignored
+  schema-v28 validator and return its entire new `validation\logs\phase6-*` directory.

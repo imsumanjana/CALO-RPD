@@ -11,6 +11,7 @@ from calo_rpd_studio.experiments.execution_plans import (
     ControllerKind,
     ExecutionLifecycle,
     ExecutionPlanKind,
+    INDIVIDUAL_PLAN_SCHEMA,
     IndividualExperimentPlan,
     WorkspaceStudyPlan,
     audit_receipt_payload,
@@ -299,6 +300,11 @@ class ExecutionControlService:
         config.execution_plan_design_sha256 = str(plan["design_sha256"])
         config.algorithm_stage_id = str(plan["algorithm_stage_id"])
         config.workspace_plan_cell_id = str(cell_id)
+        current_plan_contract = (
+            str(plan["plan_kind"]) != ExecutionPlanKind.INDIVIDUAL_EXPERIMENT.value
+            or str(plan.get("schema_version", "")) == INDIVIDUAL_PLAN_SCHEMA
+        )
+        config.execution_plan_kind = str(plan["plan_kind"]) if current_plan_contract else ""
         return config
 
     def verify_campaign_binding(self, plan_id: str, campaign_id: str) -> None:
@@ -313,6 +319,14 @@ class ExecutionControlService:
             raise RuntimeError("The retained campaign belongs to a different execution plan")
         cell_id = str(stored_payload.get("workspace_plan_cell_id", "") or "")
         expected_payload = self.plan_configuration(str(plan_id), cell_id=cell_id).to_dict()
+        # Explicit migration for campaigns created before plan-kind/result-contract provenance was
+        # serialized. Old evidence remains readable; current v2 individual plans must carry both.
+        if "execution_plan_kind" not in stored_payload:
+            stored_payload["execution_plan_kind"] = str(
+                expected_payload.get("execution_plan_kind", "")
+            )
+        if "result_contract" not in stored_payload:
+            stored_payload["result_contract"] = {}
         if resume_contract_sha256(stored_payload) != resume_contract_sha256(expected_payload):
             raise RuntimeError(
                 "The retained campaign does not match the frozen plan subset, seed, budget, "

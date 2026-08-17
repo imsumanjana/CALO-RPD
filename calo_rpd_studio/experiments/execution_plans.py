@@ -21,8 +21,8 @@ from calo_rpd_studio.version import VERSION
 
 
 ALGORITHM_STAGE_SCHEMA = "calo-rpd-algorithm-stage-v1"
-WORKSPACE_PLAN_SCHEMA = "calo-rpd-workspace-study-plan-v1"
-INDIVIDUAL_PLAN_SCHEMA = "calo-rpd-individual-experiment-plan-v1"
+WORKSPACE_PLAN_SCHEMA = "calo-rpd-workspace-study-plan-v2"
+INDIVIDUAL_PLAN_SCHEMA = "calo-rpd-individual-experiment-plan-v2"
 EXECUTION_CONTROLLER_SCHEMA = "calo-rpd-execution-controller-v1"
 
 
@@ -115,9 +115,17 @@ def _policy_binding_summary(config_payload: dict, algorithm_names: tuple[str, ..
     return permitted
 
 
-def frozen_config_payload(config, algorithm_names: tuple[str, ...]) -> dict:
+def frozen_config_payload(
+    config,
+    algorithm_names: tuple[str, ...],
+    *,
+    plan_kind: ExecutionPlanKind | str,
+) -> dict:
     """Clone a config into an execution-plan payload without trusting old runtime assignment."""
 
+    kind = plan_kind.value if isinstance(plan_kind, ExecutionPlanKind) else str(plan_kind)
+    if kind not in {item.value for item in ExecutionPlanKind}:
+        raise ValueError(f"Unsupported execution-plan kind: {kind}")
     payload = deepcopy(config.to_dict())
     payload["algorithms"] = list(algorithm_names)
     payload["algorithm_parameters"] = _selected_parameters(payload, algorithm_names)
@@ -134,6 +142,35 @@ def frozen_config_payload(config, algorithm_names: tuple[str, ...]) -> dict:
     payload["execution_plan_design_sha256"] = ""
     payload["algorithm_stage_id"] = ""
     payload["workspace_plan_cell_id"] = ""
+    payload["execution_plan_kind"] = kind
+    payload["result_contract"] = {}
+    return payload
+
+
+def frozen_individual_config_payload(config, algorithm_names: tuple[str, ...]) -> dict:
+    """Freeze only scientist-selected individual inputs, excluding Workspace planning state."""
+
+    payload = frozen_config_payload(
+        config,
+        algorithm_names,
+        plan_kind=ExecutionPlanKind.INDIVIDUAL_EXPERIMENT,
+    )
+    payload["study_strength"] = "custom"
+    payload["study_case_plan"] = [str(payload.get("case_name", "case30"))]
+    payload["study_standardized_effect"] = None
+    payload["study_target_power"] = None
+    payload["study_family_alpha"] = 0.05
+    payload["study_failure_allowance"] = 0.10
+    payload["study_run_planning_method"] = "custom"
+    payload.pop("portfolio", None)
+    payload["portfolio_id"] = ""
+    from calo_rpd_studio.experiments.experiment_config import ExperimentConfig
+    from calo_rpd_studio.experiments.result_contracts import build_individual_result_contract
+
+    individual_config = ExperimentConfig.from_dict(payload)
+    payload["result_contract"] = build_individual_result_contract(
+        individual_config, algorithm_names
+    )
     return payload
 
 
@@ -288,7 +325,9 @@ class WorkspaceStudyPlan:
                 "The submitted algorithm identities or parameters changed; submit the algorithm stage again"
             )
         plan_id = f"workspace-plan-{uuid.uuid4().hex}"
-        config_payload = frozen_config_payload(config, names)
+        config_payload = frozen_config_payload(
+            config, names, plan_kind=ExecutionPlanKind.WORKSPACE
+        )
         policy_binding = _policy_binding_summary(config_payload, names)
         cells = _cell_payloads(plan_id, config_payload)
         formulation_payload = {
@@ -374,7 +413,7 @@ class IndividualExperimentPlan:
             raise ValueError(
                 "The individual experiment must use the complete unchanged submitted algorithm stage"
             )
-        config_payload = frozen_config_payload(config, names)
+        config_payload = frozen_individual_config_payload(config, names)
         if _selected_parameters(config.to_dict(), names) != stage.algorithm_parameters:
             raise ValueError(
                 "Algorithm parameters changed after submission; submit the algorithm stage again"
@@ -446,7 +485,7 @@ def scientific_job_sha256(
 def resume_contract_sha256(config_payload: dict) -> str:
     """Hash every frozen design field that may affect resumed scientific work."""
 
-    keys = (
+    keys = [
         "case_name",
         "study_case_plan",
         "algorithms",
@@ -470,11 +509,15 @@ def resume_contract_sha256(config_payload: dict) -> str:
         "parity_violation_tolerance",
         "parity_voltage_tolerance",
         "parity_angle_tolerance_deg",
-        "portfolio",
-        "portfolio_id",
         "execution_plan_id",
         "execution_plan_design_sha256",
         "algorithm_stage_id",
         "workspace_plan_cell_id",
-    )
+        "execution_plan_kind",
+        "result_contract",
+    ]
+    if str(config_payload.get("execution_plan_kind", "")) != (
+        ExecutionPlanKind.INDIVIDUAL_EXPERIMENT.value
+    ):
+        keys.extend(("portfolio", "portfolio_id"))
     return canonical_sha256({key: deepcopy(config_payload.get(key)) for key in keys})

@@ -1,6 +1,6 @@
 # Documentation status and precedence
 
-**Current as of 2026-08-16.** This index prevents historical release, audit, training, and validation
+**Current as of 2026-08-17.** This index prevents historical release, audit, training, and validation
 records from being mistaken for active v12 instructions. It changes document routing only; it does
 not claim that a development, scientific, hardware, container, release-candidate, or release gate
 has passed.
@@ -141,6 +141,15 @@ admission buttons are obsolete. Qualification never activates or binds: a pass o
 separate activation action, and governing-policy Apply remains the separate experiment handoff.
 These source/test contracts have not been executed; the current ignored Phase 6 validator remains the
 owner command.
+
+The current experiment correction treats **Experiment > Individual experiment** as a direct,
+scientist-owned path: it has separate setup completion, editable repetitions and verified exact
+reuse, a direct result contract, and an immutable full-stage v2 plan with no applied Workspace
+Portfolio or Study prerequisite. **Workspace > Study** remains the automated path and freezes its
+Portfolio-selected subset, derived repetitions/outputs/evidence, case matrix, and cells into a
+Workspace v2 plan supplied to the same numerical ExperimentManager. Both paths retain explicit
+Audit, Stage, singleton-controller, and Run boundaries. The last schema-v27 bundle predates this
+correction; schema-v28 owner validation is pending.
 
 ## Historical records
 

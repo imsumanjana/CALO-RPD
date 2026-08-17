@@ -115,6 +115,23 @@ def test_individual_pause_retains_exclusive_controller(tmp_path) -> None:
     assert service.controller()["owner_plan_id"] == plan["id"]
 
 
+def test_plan_configuration_routes_workspace_and_individual_result_ownership(tmp_path) -> None:
+    _database, service, config, _stage = prepared_service(tmp_path)
+    workspace = service.create_workspace_draft(config, ("CALO",))
+    workspace_config = service.plan_configuration(workspace["id"])
+
+    individual = service.create_individual_draft(config)
+    individual_config = service.plan_configuration(individual["id"])
+
+    assert workspace_config.execution_plan_kind == ExecutionPlanKind.WORKSPACE.value
+    assert workspace_config.result_contract == {}
+    assert workspace_config.portfolio.name == config.portfolio.name
+    assert individual_config.execution_plan_kind == ExecutionPlanKind.INDIVIDUAL_EXPERIMENT.value
+    assert individual_config.portfolio_id == ""
+    assert individual_config.result_contract["owner"] == "individual_experiment"
+    assert individual_config.result_contract["reuse_verified_only"] is True
+
+
 def test_paused_workspace_resume_waits_for_individual_owner(tmp_path) -> None:
     _database, service, config, _stage = prepared_service(tmp_path)
     workspace = audited_workspace(service, config)
