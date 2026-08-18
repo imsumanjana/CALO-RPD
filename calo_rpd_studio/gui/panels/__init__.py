@@ -13,12 +13,14 @@ from .obsolete_model_management import (
     SavedTrainingManagementEditor,
 )
 from .calo_intelligence_obsolete_models import ObsoleteAwareCALOIntelligencePanel
+from .calo_intelligence_obsolete_registered import CompleteObsoleteAwareCALOIntelligencePanel
 
 _independent_training_panel.TrainingModelLibrary = ObsoleteAwareTrainingModelLibrary
 _context_pane.TrainingPathEditor = SavedTrainingManagementEditor
-_calo_intelligence_panel.CALOIntelligencePanel = ObsoleteAwareCALOIntelligencePanel
+_calo_intelligence_panel.CALOIntelligencePanel = CompleteObsoleteAwareCALOIntelligencePanel
 
 __all__ = [
+    "CompleteObsoleteAwareCALOIntelligencePanel",
     "ObsoleteAwareCALOIntelligencePanel",
     "ObsoleteAwareTrainingModelLibrary",
     "SavedTrainingManagementEditor",

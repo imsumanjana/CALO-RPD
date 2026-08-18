@@ -23,7 +23,7 @@ pytestmark = pytest.mark.skipif(
 )
 
 
-def test_stale_active_assessed_model_is_not_presented_as_governing_and_can_be_deleted(
+def test_stale_active_assessed_model_is_hidden_as_obsolete_then_can_be_deleted(
     qtbot, tmp_path, monkeypatch
 ):
     from PyQt6.QtWidgets import QMessageBox
@@ -78,6 +78,13 @@ def test_stale_active_assessed_model_is_not_presented_as_governing_and_can_be_de
     )
     state.database.set_active_policy(registered.id)
     window.training_model_library.changed.emit()
+
+    assert panel.show_obsolete_models.isChecked() is False
+    assert all(
+        panel.policy_table.item(row, 1).text() != "old-incompatible-policy"
+        for row in range(panel.policy_table.rowCount())
+    )
+    panel.show_obsolete_models.setChecked(True)
 
     row = next(
         index

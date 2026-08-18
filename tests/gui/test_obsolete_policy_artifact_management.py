@@ -137,7 +137,7 @@ def test_corrupt_saved_training_is_hidden_by_default_and_deletable_when_obsolete
     assert campaign.exists() is False
 
 
-def test_registered_model_with_changed_file_integrity_can_be_permanently_deleted(
+def test_registered_model_with_changed_file_integrity_is_obsolete_and_can_be_deleted(
     qtbot, tmp_path, monkeypatch
 ):
     import torch
@@ -176,9 +176,16 @@ def test_registered_model_with_changed_file_integrity_can_be_permanently_deleted
         stream.write(b"changed-after-registration")
     panel.refresh_policy_library()
 
+    assert all(
+        panel.policy_table.item(row, 1).text() != "registered-corrupt-model"
+        for row in range(panel.policy_table.rowCount())
+    )
+    panel.show_obsolete_models.setChecked(True)
     row = _policy_row(panel, "registered-corrupt-model")
     panel.policy_table.selectRow(row)
     panel._policy_selection_changed()
+    assert panel.policy_table.item(row, 4).text() == "Model integrity failed"
+    assert panel.policy_table.item(row, 6).text() == "Not usable"
     assert panel.policy_delete_button.isEnabled() is True
 
     warnings = []
