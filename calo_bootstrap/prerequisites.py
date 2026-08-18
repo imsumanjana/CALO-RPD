@@ -17,6 +17,7 @@ import shutil
 import subprocess
 import sys
 import time
+import tomllib
 from collections import deque
 from typing import Callable, Iterable
 
@@ -39,6 +40,7 @@ CORE_REQUIREMENTS: tuple[str, ...] = (
     "PyYAML>=6,<7",
     "psutil>=5.9,<8",
     "nvidia-ml-py>=13,<14",
+    "cma>=4.4.4,<5",
 )
 
 CORE_DISTRIBUTIONS: tuple[tuple[str, str], ...] = (
@@ -51,6 +53,20 @@ CORE_DISTRIBUTIONS: tuple[tuple[str, str], ...] = (
     ("PyYAML", "PyYAML"),
     ("psutil", "psutil"),
     ("nvidia-ml-py", "NVIDIA NVML Python telemetry"),
+    ("cma", "CMA-ES"),
+)
+
+CORE_IMPORTS: tuple[tuple[str, str], ...] = (
+    ("NumPy", "numpy"),
+    ("SciPy", "scipy"),
+    ("pandas", "pandas"),
+    ("Matplotlib", "matplotlib"),
+    ("PyQt6", "PyQt6"),
+    ("PYPOWER", "pypower"),
+    ("PyYAML", "yaml"),
+    ("psutil", "psutil"),
+    ("NVIDIA NVML Python telemetry", "pynvml"),
+    ("CMA-ES", "cma"),
 )
 
 # Candidate official PyTorch wheel channels.  The installer chooses the newest channel that does
@@ -66,6 +82,7 @@ CUDA_CHANNELS: tuple[tuple[float, str], ...] = (
     (11.8, "cu118"),
 )
 PYTORCH_INDEX_ROOT = "https://download.pytorch.org/whl"
+DEFAULT_TORCH_REQUIREMENT = "torch>=2.10,<2.11"
 COMPUTE_REQUIREMENTS: tuple[str, ...] = (
     "numpy>=1.26,<2.4",
     "scipy>=1.12,<2",
@@ -73,6 +90,7 @@ COMPUTE_REQUIREMENTS: tuple[str, ...] = (
     "PyYAML>=6,<7",
     "psutil>=5.9,<8",
     "nvidia-ml-py>=13,<14",
+    "cma>=4.4.4,<5",
 )
 
 
@@ -93,6 +111,7 @@ class TorchInfo:
     cuda_runtime: str = ""
     device_name: str = ""
     gpu_test_passed: bool = False
+    error_stage: str = ""
     error: str = ""
 
 
@@ -104,8 +123,11 @@ class EnvironmentReport:
     virtual_environment: bool
     core_packages: dict[str, str]
     missing_core_packages: list[str]
+    core_import_errors: dict[str, str]
     nvidia: NvidiaInfo
     torch: TorchInfo
+    torch_requirement: str
+    torch_version_compatible: bool
     mandatory_ready: bool
     gpu_ready: bool
     recommended_backend: str
@@ -159,6 +181,40 @@ def _distribution_version(name: str) -> str:
         return ""
 
 
+def _last_json_dict(text: str) -> dict | None:
+    for line in reversed(text.splitlines()):
+        try:
+            payload = json.loads(line.strip())
+        except Exception:
+            continue
+        if isinstance(payload, dict):
+            return payload
+    return None
+
+
+def _core_requirement_by_label(root: Path) -> dict[str, str]:
+    core_file = root / CORE_REQUIREMENTS_FILE
+    requirements: list[str] = []
+    if core_file.exists():
+        requirements = [
+            line.strip()
+            for line in core_file.read_text(encoding="utf-8").splitlines()
+            if line.strip() and not line.lstrip().startswith("#")
+        ]
+    if not requirements:
+        requirements = list(CORE_REQUIREMENTS)
+
+    by_distribution: dict[str, str] = {}
+    for requirement in requirements:
+        match = re.match(r"^\s*([A-Za-z0-9_.-]+)", requirement)
+        if match:
+            by_distribution[match.group(1).lower().replace("_", "-")] = requirement
+    return {
+        label: by_distribution.get(distribution.lower().replace("_", "-"), distribution)
+        for distribution, label in CORE_DISTRIBUTIONS
+    }
+
+
 def detect_nvidia() -> NvidiaInfo:
     executable = shutil.which("nvidia-smi")
     if not executable:
@@ -183,40 +239,194 @@ def detect_nvidia() -> NvidiaInfo:
     return NvidiaInfo(True, name, driver, cuda, "")
 
 
+def detect_core_import_errors() -> dict[str, str]:
+    """Return import failures for installed scientific prerequisites.
+
+    Distribution metadata alone cannot prove that compiled extension modules are usable. Running
+    the imports in a child interpreter catches broken or cross-interpreter wheels before PyTorch is
+    changed, which prevents an unrelated scientific-package failure from being misdiagnosed as a
+    CUDA problem.
+    """
+    imports = json.dumps(CORE_IMPORTS)
+    script = f"""
+import importlib
+import json
+errors = {{}}
+for label, module_name in {imports}:
+    try:
+        importlib.import_module(module_name)
+    except Exception as exc:
+        errors[label] = f"{{type(exc).__name__}}: {{exc}}"
+print(json.dumps(errors))
+"""
+    result = _run([sys.executable, "-c", script], timeout=90)
+    payload = _last_json_dict(result.stdout)
+    if payload is not None:
+        return {str(key): str(value) for key, value in payload.items()}
+    detail = (result.stderr or result.stdout or "Unable to verify scientific packages").strip()
+    return {"Scientific environment": detail}
+
+
+def _repair_core_import_errors(
+    errors: dict[str, str],
+    root: Path,
+    callback: Callable[[str], None] | None,
+    progress_callback: Callable[[InstallProgress], None] | None,
+    progress_template: InstallProgress | None,
+) -> dict[str, str]:
+    """Repair only scientific packages whose imports are demonstrably broken."""
+    remaining = dict(errors)
+    requirements = _core_requirement_by_label(root)
+    for _distribution, label in CORE_DISTRIBUTIONS:
+        if label not in remaining:
+            continue
+        requirement = requirements.get(label)
+        if not requirement:
+            continue
+        _emit(callback, f"Repairing scientific package that could not load: {label}")
+        code = _pip(
+            ["install", "--force-reinstall", "--no-cache-dir", requirement],
+            callback,
+            root,
+            progress_callback=progress_callback,
+            progress_template=progress_template,
+        )
+        if code != 0:
+            return remaining
+        remaining = detect_core_import_errors()
+        if not remaining:
+            break
+    return remaining
+
+
+def project_torch_requirement(root: Path | None = None) -> str:
+    """Read the application's PyTorch requirement from project metadata.
+
+    The source-tree requirement is authoritative when available. Installed-package metadata is the
+    fallback so the bootstrap cannot silently drift to a broader, incompatible PyTorch range.
+    """
+    root = root or project_root()
+    pyproject = root / "pyproject.toml"
+    if pyproject.exists():
+        try:
+            data = tomllib.loads(pyproject.read_text(encoding="utf-8"))
+            dependencies = data.get("project", {}).get("dependencies", ())
+            for requirement in dependencies:
+                text = str(requirement).strip()
+                if re.match(r"^torch(?:\s|[<>=!~])", text, re.I):
+                    return text
+        except Exception:
+            pass
+    try:
+        for requirement in metadata.requires("calo-rpd-studio") or ():
+            text = str(requirement).strip()
+            if re.match(r"^torch(?:\s|[<>=!~])", text, re.I):
+                return text
+    except Exception:
+        pass
+    return DEFAULT_TORCH_REQUIREMENT
+
+
+def _numeric_version_tuple(value: str) -> tuple[int, int, int] | None:
+    match = re.match(r"^\s*(\d+)\.(\d+)(?:\.(\d+))?", value)
+    if not match:
+        return None
+    return int(match.group(1)), int(match.group(2)), int(match.group(3) or 0)
+
+
+def torch_version_satisfies_requirement(version: str, requirement: str) -> bool:
+    """Evaluate the simple numeric bounds used by CALO's PyTorch requirement without packaging."""
+    current = _numeric_version_tuple(version)
+    if current is None:
+        return False
+    spec_text = re.sub(r"^\s*torch\s*", "", requirement, flags=re.I).strip()
+    if not spec_text:
+        return True
+    for raw_spec in spec_text.split(","):
+        spec = raw_spec.strip()
+        match = re.fullmatch(r"(>=|<=|==|!=|>|<)\s*(\d+(?:\.\d+){0,2})", spec)
+        if not match:
+            return False
+        operator, bound_text = match.groups()
+        pieces = [int(piece) for piece in bound_text.split(".")]
+        bound = tuple((pieces + [0, 0])[:3])
+        ok = {
+            ">=": current >= bound,
+            "<=": current <= bound,
+            "==": current == bound,
+            "!=": current != bound,
+            ">": current > bound,
+            "<": current < bound,
+        }[operator]
+        if not ok:
+            return False
+    return True
+
+
 def detect_torch() -> TorchInfo:
+    installed_version = _distribution_version("torch")
+    if not installed_version:
+        return TorchInfo()
     script = r"""
 import json
+from importlib import metadata
+version = metadata.version("torch")
+data = {
+    "installed": True,
+    "version": version,
+    "cuda_available": False,
+    "cuda_runtime": "",
+    "device_name": "",
+    "gpu_test_passed": False,
+    "error_stage": "",
+    "error": "",
+}
 try:
     import torch
-    data = {
-        "installed": True,
-        "version": str(torch.__version__),
-        "cuda_available": bool(torch.cuda.is_available()),
-        "cuda_runtime": str(torch.version.cuda or ""),
-        "device_name": "",
-        "gpu_test_passed": False,
-        "error": "",
-    }
-    if data["cuda_available"]:
+except Exception as exc:
+    data["error_stage"] = "import"
+    data["error"] = f"{type(exc).__name__}: {exc}"
+    print(json.dumps(data))
+    raise SystemExit(0)
+
+data["version"] = str(torch.__version__)
+data["cuda_runtime"] = str(torch.version.cuda or "")
+try:
+    data["cuda_available"] = bool(torch.cuda.is_available())
+except Exception as exc:
+    data["error_stage"] = "cuda_probe"
+    data["error"] = f"{type(exc).__name__}: {exc}"
+    print(json.dumps(data))
+    raise SystemExit(0)
+
+if data["cuda_available"]:
+    try:
         data["device_name"] = str(torch.cuda.get_device_name(0))
         x = torch.randn((256, 256), device="cuda:0")
         y = x @ x
         torch.cuda.synchronize()
         data["gpu_test_passed"] = bool(y.is_cuda and torch.isfinite(y).all().item())
-    print(json.dumps(data))
-except Exception as exc:
-    print(json.dumps({"installed": False, "version": "", "cuda_available": False,
-                      "cuda_runtime": "", "device_name": "", "gpu_test_passed": False,
-                      "error": f"{type(exc).__name__}: {exc}"}))
+        if not data["gpu_test_passed"]:
+            data["error_stage"] = "cuda_compute"
+            data["error"] = "CUDA computation did not produce a finite CUDA result."
+    except Exception as exc:
+        data["error_stage"] = "cuda_compute"
+        data["error"] = f"{type(exc).__name__}: {exc}"
+print(json.dumps(data))
 """
     result = _run([sys.executable, "-c", script], timeout=90)
-    try:
-        payload = json.loads(result.stdout.strip().splitlines()[-1])
-        return TorchInfo(**payload)
-    except Exception:
-        return TorchInfo(
-            error=(result.stderr or result.stdout or "Unable to inspect PyTorch").strip()
-        )
+    payload = _last_json_dict(result.stdout)
+    if payload is not None:
+        try:
+            return TorchInfo(**payload)
+        except Exception:
+            pass
+    return TorchInfo(
+        installed=True,
+        version=installed_version,
+        error_stage="inspection",
+        error=(result.stderr or result.stdout or "Unable to inspect PyTorch").strip(),
+    )
 
 
 def scan_environment() -> EnvironmentReport:
@@ -229,12 +439,18 @@ def scan_environment() -> EnvironmentReport:
         if not version:
             missing.append(label)
 
+    core_import_errors = detect_core_import_errors() if not missing else {}
     nvidia = detect_nvidia()
     torch = detect_torch()
+    torch_requirement = project_torch_requirement()
+    torch_version_compatible = bool(
+        torch.installed and torch_version_satisfies_requirement(torch.version, torch_requirement)
+    )
 
     cuda_ready = bool(torch.cuda_available and torch.gpu_test_passed)
     gpu_ready = bool(cuda_ready)
-    mandatory_ready = bool(python_ok and not missing and torch.installed)
+    torch_usable = bool(torch.installed and not torch.error_stage and torch_version_compatible)
+    mandatory_ready = bool(python_ok and not missing and not core_import_errors and torch_usable)
 
     if cuda_ready:
         recommended_backend = "cuda:0"
@@ -243,14 +459,23 @@ def scan_environment() -> EnvironmentReport:
 
     notes: list[str] = []
     if mandatory_ready:
-        notes.append("Core prerequisites are ready.")
+        notes.append("Scientific prerequisites are ready.")
+    elif core_import_errors:
+        notes.append("One or more scientific libraries are installed but could not be loaded.")
+    elif torch.error_stage:
+        notes.append("The computation engine is installed but could not be verified.")
+    elif torch.installed and not torch_version_compatible:
+        notes.append(
+            f"The computation engine version does not satisfy the application requirement "
+            f"({torch_requirement})."
+        )
     else:
         notes.append("Prerequisites are missing or incomplete.")
     if nvidia.detected:
         notes.append(
-            "NVIDIA CUDA is ready."
+            "NVIDIA acceleration is ready."
             if cuda_ready
-            else "NVIDIA hardware was detected, but CUDA-enabled PyTorch has not passed verification."
+            else "NVIDIA hardware was detected, but GPU acceleration is not ready."
         )
     if not nvidia.detected:
         notes.append("No supported GPU accelerator was detected; CPU execution is available.")
@@ -262,8 +487,11 @@ def scan_environment() -> EnvironmentReport:
         virtual_environment=(getattr(sys, "base_prefix", sys.prefix) != sys.prefix),
         core_packages=versions,
         missing_core_packages=missing,
+        core_import_errors=core_import_errors,
         nvidia=nvidia,
         torch=torch,
+        torch_requirement=torch_requirement,
+        torch_version_compatible=torch_version_compatible,
         mandatory_ready=mandatory_ready,
         gpu_ready=gpu_ready,
         recommended_backend=recommended_backend,
@@ -536,6 +764,29 @@ def install_or_repair(
     ):
         raise RuntimeError("Core prerequisite installation failed.")
 
+    core_import_errors = detect_core_import_errors()
+    if core_import_errors:
+        _emit(
+            callback,
+            "One or more scientific packages could not be loaded; repairing only the affected "
+            "packages before GPU setup.",
+        )
+        core_import_errors = _repair_core_import_errors(
+            core_import_errors,
+            root,
+            callback,
+            progress_callback,
+            phase,
+        )
+    if core_import_errors:
+        detail = "; ".join(f"{name}: {error}" for name, error in core_import_errors.items())
+        _emit(callback, "Scientific environment repair did not complete; PyTorch was not changed.")
+        _emit(callback, detail)
+        raise RuntimeError(
+            "Scientific prerequisites are installed but could not be loaded after targeted repair. "
+            "PyTorch was not changed. " + detail
+        )
+
     _phase_progress(
         progress_callback,
         "Detect accelerators",
@@ -545,13 +796,24 @@ def install_or_repair(
     )
     nvidia = detect_nvidia()
     current_torch = detect_torch()
+    torch_requirement = project_torch_requirement(root)
+
+    if current_torch.error_stage:
+        raise RuntimeError(
+            "The installed computation engine could not be loaded or verified, so no replacement "
+            "was attempted. " + (current_torch.error or current_torch.error_stage)
+        )
 
     desired_primary = "cpu"
     if prefer_gpu and nvidia.detected:
         desired_primary = "cuda"
 
-    compatible_primary = bool(
+    current_version_ok = bool(
         current_torch.installed
+        and torch_version_satisfies_requirement(current_torch.version, torch_requirement)
+    )
+    compatible_primary = bool(
+        current_version_ok
         and (
             (
                 desired_primary == "cuda"
@@ -563,12 +825,13 @@ def install_or_repair(
     )
 
     if not compatible_primary:
+        force_compute_reinstall = bool(current_torch.installed and current_version_ok)
         if current_torch.installed:
             _emit(
                 callback,
-                "Preparing the compatible PyTorch installation for the selected compute mode...",
+                "Preparing a compatible PyTorch installation for the selected compute mode; "
+                "the current package will be kept until a replacement installation succeeds.",
             )
-            _pip(["uninstall", "-y", "torch"], callback, root)
 
         installed = False
         if desired_primary == "cuda":
@@ -581,14 +844,18 @@ def install_or_repair(
             attempt_base = 40.0 + min(20.0, (attempt - 1) * 4.0)
             phase = _phase_progress(
                 progress_callback,
-                f"Primary PyTorch ({channel})",
+                f"Computation engine ({channel})",
                 4,
                 attempt_base,
-                f"Installing and verifying PyTorch compute support ({channel})...",
+                f"Installing and verifying computation support ({channel})...",
             )
             _emit(callback, f"Trying official PyTorch compute package: {channel}")
+            install_args = ["install", "--upgrade"]
+            if force_compute_reinstall:
+                install_args.extend(["--force-reinstall", "--no-deps"])
+            install_args.extend([torch_requirement, "--index-url", index_url])
             code = _pip(
-                ["install", "--upgrade", "torch>=2.5,<3", "--index-url", index_url],
+                install_args,
                 callback,
                 root,
                 progress_callback=progress_callback,
@@ -597,18 +864,37 @@ def install_or_repair(
             if code != 0:
                 continue
             info = detect_torch()
+            version_ok = torch_version_satisfies_requirement(info.version, torch_requirement)
+            if info.error_stage:
+                _emit(callback, f"PyTorch verification stopped at {info.error_stage}: {info.error}")
+                raise RuntimeError(
+                    "PyTorch was installed but its verification raised an error. "
+                    "No additional multi-gigabyte wheel channels were attempted and the installed "
+                    "package was left in place for diagnosis. "
+                    + (info.error or info.error_stage)
+                )
             passed = bool(
-                (channel == "cpu" and info.installed)
-                or (channel.startswith("cu") and info.cuda_available and info.gpu_test_passed)
+                version_ok
+                and (
+                    (channel == "cpu" and info.installed)
+                    or (channel.startswith("cu") and info.cuda_available and info.gpu_test_passed)
+                )
             )
             if passed:
                 installed = True
                 break
+            if info.installed and not version_ok:
+                raise RuntimeError(
+                    f"Installed PyTorch {info.version} does not satisfy {torch_requirement}; "
+                    "stopping instead of cycling compute packages."
+                )
             _emit(
                 callback,
-                f"PyTorch channel {channel} installed but did not pass the requested compute test.",
+                f"PyTorch channel {channel} installed but did not expose the requested compute mode; "
+                "trying the next compatible official channel.",
             )
             _pip(["uninstall", "-y", "torch"], callback, root)
+            force_compute_reinstall = False
         if not installed:
             raise RuntimeError(
                 "PyTorch installation failed for all compatible accelerator and CPU modes."
@@ -617,10 +903,10 @@ def install_or_repair(
         _emit(callback, "The existing PyTorch installation is compatible; keeping it.")
         _phase_progress(
             progress_callback,
-            "Primary PyTorch",
+            "Computation engine",
             4,
             60.0,
-            "The existing PyTorch installation is compatible; no replacement is required.",
+            "The existing computation engine is compatible; no replacement is required.",
             indeterminate=False,
         )
 
@@ -646,13 +932,28 @@ def install_or_repair(
     else:
         _emit(callback, "Installed-package mode detected; project package is already present.")
 
-    _phase_progress(
+    verify_phase = _phase_progress(
         progress_callback,
         "Verify environment",
         7,
         97.0,
-        "Verifying CUDA, CPU, package dependencies, and real accelerator computations...",
+        "Verifying scientific packages, GPU acceleration, and dependency consistency...",
     )
+    _emit(callback, "Checking installed package dependency consistency...")
+    if (
+        _pip(
+            ["check"],
+            callback,
+            root,
+            progress_callback=progress_callback,
+            progress_template=verify_phase,
+        )
+        != 0
+    ):
+        raise RuntimeError(
+            "Installed package dependency verification failed. Review the package check details "
+            "above before starting CALO-RPD Studio."
+        )
     report = scan_environment()
     if not report.mandatory_ready:
         raise RuntimeError("Environment verification failed after installation.")

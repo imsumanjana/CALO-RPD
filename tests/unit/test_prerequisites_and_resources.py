@@ -1,6 +1,15 @@
 from __future__ import annotations
 
-from calo_bootstrap.prerequisites import NvidiaInfo, candidate_torch_channels
+import pytest
+
+import calo_bootstrap.prerequisites as prerequisites
+from calo_bootstrap.prerequisites import (
+    NvidiaInfo,
+    TorchInfo,
+    candidate_torch_channels,
+    project_torch_requirement,
+    torch_version_satisfies_requirement,
+)
 from calo_rpd_studio.compute.resource_scheduler import (
     DeviceSnapshot,
     ResourceSnapshot,
@@ -23,6 +32,208 @@ def test_cuda_channel_selection_respects_driver_capability():
 def test_no_nvidia_selects_cpu_pytorch_channel():
     assert candidate_torch_channels(NvidiaInfo()) == ["cpu"]
 
+
+def test_project_torch_requirement_is_read_from_project_metadata(tmp_path):
+    (tmp_path / "pyproject.toml").write_text(
+        '[project]\nname = "example"\ndependencies = ["torch>=2.10,<2.11", "numpy>=1.26"]\n',
+        encoding="utf-8",
+    )
+    assert project_torch_requirement(tmp_path) == "torch>=2.10,<2.11"
+
+
+def test_torch_version_contract_accepts_cuda_local_version_and_rejects_drift():
+    requirement = "torch>=2.10,<2.11"
+    assert torch_version_satisfies_requirement("2.10.0+cu128", requirement)
+    assert torch_version_satisfies_requirement("2.10.1+cpu", requirement)
+    assert not torch_version_satisfies_requirement("2.11.0+cu128", requirement)
+    assert not torch_version_satisfies_requirement("2.9.1+cu128", requirement)
+
+
+def test_scan_environment_rejects_pytorch_outside_project_contract(monkeypatch):
+    monkeypatch.setattr(prerequisites, "_distribution_version", lambda unused: "1.0")
+    monkeypatch.setattr(prerequisites, "detect_core_import_errors", lambda: {})
+    monkeypatch.setattr(prerequisites, "detect_nvidia", lambda: NvidiaInfo())
+    monkeypatch.setattr(
+        prerequisites,
+        "detect_torch",
+        lambda: TorchInfo(installed=True, version="2.11.0+cu128"),
+    )
+    monkeypatch.setattr(
+        prerequisites, "project_torch_requirement", lambda unused=None: "torch>=2.10,<2.11"
+    )
+
+    report = prerequisites.scan_environment()
+
+    assert not report.torch_version_compatible
+    assert not report.mandatory_ready
+    assert "does not satisfy" in report.message
+
+
+def test_installer_repairs_broken_scientific_import_before_pytorch(
+    monkeypatch, tmp_path
+):
+    calls: list[list[str]] = []
+    reports = iter(
+        [
+            {"NumPy": "ImportError: missing _multiarray_umath"},
+            {},
+        ]
+    )
+    monkeypatch.setattr(prerequisites, "project_root", lambda: tmp_path)
+    monkeypatch.setattr(
+        prerequisites,
+        "_pip",
+        lambda args, *unused_args, **unused_kwargs: calls.append(list(args)) or 0,
+    )
+    monkeypatch.setattr(prerequisites, "detect_core_import_errors", lambda: next(reports))
+    monkeypatch.setattr(
+        prerequisites,
+        "detect_torch",
+        lambda: (_ for _ in ()).throw(AssertionError("stop after scientific repair test")),
+    )
+
+    with pytest.raises(AssertionError, match="scientific repair test"):
+        prerequisites.install_or_repair()
+
+    repair_calls = [call for call in calls if "--force-reinstall" in call]
+    assert len(repair_calls) == 1
+    assert any("numpy" in item.lower() for item in repair_calls[0])
+    assert not any("torch" in " ".join(call).lower() for call in calls)
+
+
+def test_installer_stops_before_pytorch_when_targeted_scientific_repair_fails(
+    monkeypatch, tmp_path
+):
+    calls: list[list[str]] = []
+    monkeypatch.setattr(prerequisites, "project_root", lambda: tmp_path)
+    monkeypatch.setattr(
+        prerequisites,
+        "_pip",
+        lambda args, *unused_args, **unused_kwargs: calls.append(list(args)) or 0,
+    )
+    monkeypatch.setattr(
+        prerequisites,
+        "detect_core_import_errors",
+        lambda: {"NumPy": "ImportError: missing _multiarray_umath"},
+    )
+    monkeypatch.setattr(
+        prerequisites,
+        "detect_torch",
+        lambda: (_ for _ in ()).throw(AssertionError("PyTorch inspection must not run")),
+    )
+
+    with pytest.raises(RuntimeError, match="PyTorch was not changed"):
+        prerequisites.install_or_repair()
+
+    assert not any("torch" in " ".join(call).lower() for call in calls)
+
+
+def test_installer_keeps_existing_torch_until_replacement_install_succeeds(
+    monkeypatch, tmp_path
+):
+    calls: list[list[str]] = []
+    reports = iter(
+        [
+            TorchInfo(installed=True, version="2.11.0+cu128", cuda_available=True, gpu_test_passed=True),
+            TorchInfo(installed=True, version="2.10.0+cu128", cuda_available=True, gpu_test_passed=True),
+        ]
+    )
+    monkeypatch.setattr(prerequisites, "project_root", lambda: tmp_path)
+    monkeypatch.setattr(
+        prerequisites,
+        "_pip",
+        lambda args, *unused_args, **unused_kwargs: calls.append(list(args)) or 0,
+    )
+    monkeypatch.setattr(prerequisites, "detect_core_import_errors", lambda: {})
+    monkeypatch.setattr(
+        prerequisites,
+        "detect_nvidia",
+        lambda: NvidiaInfo(True, "GPU", "999", "12.8", ""),
+    )
+    monkeypatch.setattr(prerequisites, "detect_torch", lambda: next(reports))
+    monkeypatch.setattr(prerequisites, "candidate_torch_channels", lambda unused: ["cu128"])
+    monkeypatch.setattr(
+        prerequisites, "project_torch_requirement", lambda unused=None: "torch>=2.10,<2.11"
+    )
+    monkeypatch.setattr(
+        prerequisites,
+        "scan_environment",
+        lambda: prerequisites.EnvironmentReport(
+            python_ok=True,
+            python_version="3.11",
+            interpreter="python",
+            virtual_environment=True,
+            core_packages={},
+            missing_core_packages=[],
+            core_import_errors={},
+            nvidia=NvidiaInfo(True, "GPU", "999", "12.8", ""),
+            torch=TorchInfo(
+                installed=True,
+                version="2.10.0+cu128",
+                cuda_available=True,
+                gpu_test_passed=True,
+            ),
+            torch_requirement="torch>=2.10,<2.11",
+            torch_version_compatible=True,
+            mandatory_ready=True,
+            gpu_ready=True,
+            recommended_backend="cuda:0",
+            message="ready",
+        ),
+    )
+    monkeypatch.setattr(prerequisites, "save_environment_state", lambda unused: None)
+
+    prerequisites.install_or_repair()
+
+    first_torch_action = next(
+        call for call in calls if any("torch" in item.lower() for item in call)
+    )
+    assert first_torch_action[0] == "install"
+    assert ["uninstall", "-y", "torch"] not in calls
+
+
+def test_installer_does_not_cycle_wheels_after_pytorch_verification_exception(
+    monkeypatch, tmp_path
+):
+    calls: list[list[str]] = []
+    reports = iter(
+        [
+            TorchInfo(),
+            TorchInfo(
+                installed=True,
+                version="2.10.0+cu128",
+                error_stage="import",
+                error="ImportError: dependent DLL could not be loaded",
+            ),
+        ]
+    )
+    monkeypatch.setattr(prerequisites, "project_root", lambda: tmp_path)
+    monkeypatch.setattr(
+        prerequisites,
+        "_pip",
+        lambda args, *unused_args, **unused_kwargs: calls.append(list(args)) or 0,
+    )
+    monkeypatch.setattr(prerequisites, "detect_core_import_errors", lambda: {})
+    monkeypatch.setattr(
+        prerequisites,
+        "detect_nvidia",
+        lambda: NvidiaInfo(True, "GPU", "999", "12.8", ""),
+    )
+    monkeypatch.setattr(prerequisites, "detect_torch", lambda: next(reports))
+    monkeypatch.setattr(prerequisites, "candidate_torch_channels", lambda unused: ["cu128", "cu126"])
+    monkeypatch.setattr(
+        prerequisites, "project_torch_requirement", lambda unused=None: "torch>=2.10,<2.11"
+    )
+
+    with pytest.raises(RuntimeError, match="No additional multi-gigabyte wheel channels"):
+        prerequisites.install_or_repair()
+
+    torch_installs = [
+        call for call in calls if call and call[0] == "install" and any("torch" in item for item in call)
+    ]
+    torch_uninstalls = [call for call in calls if call[:3] == ["uninstall", "-y", "torch"]]
+    assert len(torch_installs) == 1
+    assert torch_uninstalls == []
 
 def test_gpu_capability_classification_covers_comparison_and_ablation():
     comparison = PlannedItem(0, 0, "CALO", None)

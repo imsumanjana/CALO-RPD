@@ -23,7 +23,7 @@ from .prerequisites import (
 class PrerequisiteWizard:
     def __init__(self) -> None:
         self.root = tk.Tk()
-        self.root.title("CALO-RPD Studio — Prerequisite Setup")
+        self.root.title("CALO-RPD Studio — System Setup")
         self.root.geometry("980x820")
         self.root.minsize(820, 720)
         self.root.protocol("WM_DELETE_WINDOW", self._close)
@@ -37,15 +37,15 @@ class PrerequisiteWizard:
         outer.pack(fill="both", expand=True)
         ttk.Label(
             outer,
-            text="CALO-RPD Studio Prerequisite Setup",
+            text="CALO-RPD Studio System Setup",
             font=("Segoe UI", 16, "bold"),
         ).pack(anchor="w")
         ttk.Label(
             outer,
             text=(
                 "This first-launch wizard checks the scientific Python environment, detects NVIDIA "
-                "graphics hardware, provisions CUDA when supported, and verifies "
-                "real accelerator computations before the main application starts."
+                "graphics hardware, prepares GPU acceleration when supported, and verifies "
+                "a real computation before the main application starts."
             ),
             wraplength=850,
         ).pack(anchor="w", pady=(4, 12))
@@ -95,7 +95,7 @@ class PrerequisiteWizard:
         buttons.pack(fill="x")
         self.scan_button = ttk.Button(buttons, text="Scan System", command=self.scan)
         self.install_button = ttk.Button(
-            buttons, text="Install / Repair Prerequisites", command=self.install
+            buttons, text="Install / Repair Environment", command=self.install
         )
         self.verify_button = ttk.Button(buttons, text="Verify Environment", command=self.scan)
         self.start_button = ttk.Button(buttons, text="Start CALO-RPD Studio", command=self.start)
@@ -155,10 +155,18 @@ class PrerequisiteWizard:
             ),
         )
         for name, version in report.core_packages.items():
+            import_error = report.core_import_errors.get(name, "")
+            detail = f"{name}: {version or 'not installed'}"
+            if import_error:
+                detail += " · installed but could not load (see log)"
+                self._log(f"System scan · {name}: {import_error}")
             self.tree.insert(
                 "",
                 "end",
-                values=(self._mark(bool(version)), f"{name}: {version or 'not installed'}"),
+                values=(
+                    self._mark(bool(version) and not import_error, warning=bool(version)),
+                    detail,
+                ),
             )
 
         nvidia_detail = (
@@ -174,24 +182,35 @@ class PrerequisiteWizard:
         )
 
         primary_cuda_ready = bool(report.torch.cuda_available and report.torch.gpu_test_passed)
-        torch_status = bool(report.torch.installed)
-        torch_detail = (
-            f"Primary PyTorch {report.torch.version or 'not installed'} · "
-            f"CUDA {'READY' if primary_cuda_ready else 'inactive'}"
-            f"{f' ({report.torch.device_name})' if report.torch.device_name else ''}"
+        torch_status = bool(
+            report.torch.installed
+            and not report.torch.error_stage
+            and report.torch_version_compatible
         )
+        torch_detail = f"Computation engine: {report.torch.version or 'not installed'}"
+        if report.torch.error_stage:
+            torch_detail += " · could not be verified (see log)"
+            self._log(
+                "System scan · computation engine "
+                f"({report.torch.error_stage}): {report.torch.error or 'verification failed'}"
+            )
+        elif report.torch.installed and not report.torch_version_compatible:
+            torch_detail += f" · application requires {report.torch_requirement}"
+        else:
+            torch_detail += f" · GPU acceleration {'READY' if primary_cuda_ready else 'inactive'}"
+            if report.torch.device_name:
+                torch_detail += f" ({report.torch.device_name})"
         self.tree.insert(
             "",
             "end",
-            values=(self._mark(torch_status, warning=not torch_status), torch_detail),
+            values=(self._mark(torch_status, warning=bool(report.torch.installed)), torch_detail),
         )
 
         self.summary.configure(
             text=(
                 f"{report.message} Recommended compute mode: "
                 f"{'NVIDIA acceleration' if report.recommended_backend.startswith('cuda') else 'CPU only'}. "
-                "Scheduler priority: NVIDIA CUDA → CPU. "
-                "Displayed device identifiers may differ from Windows Task Manager GPU numbers."
+                "Technical package and device details are shown above."
             )
         )
         if report.mandatory_ready:
@@ -299,7 +318,7 @@ class PrerequisiteWizard:
         self._set_busy(True)
         self.install_started_at = time.monotonic()
         self.overall_progress["value"] = 0
-        self._log("Starting prerequisite installation/repair...")
+        self._log("Starting scientific environment installation/repair...")
 
         def work() -> None:
             try:
@@ -328,7 +347,7 @@ class PrerequisiteWizard:
                     self._render_progress(payload)  # type: ignore[arg-type]
                 elif kind == "error":
                     self._log(str(payload))
-                    messagebox.showerror("Prerequisite setup", str(payload))
+                    messagebox.showerror("System setup", str(payload))
                 elif kind == "busy":
                     self._set_busy(bool(payload))
         except queue.Empty:
@@ -337,15 +356,15 @@ class PrerequisiteWizard:
 
     def start(self) -> None:
         if not self.report or not self.report.mandatory_ready:
-            messagebox.showwarning("Prerequisite setup", "Verify the environment before starting.")
+            messagebox.showwarning("System setup", "Verify the environment before starting.")
             return
         accepted_cpu_fallback = False
         accelerator_detected = bool(self.report.nvidia.detected)
         if accelerator_detected and not self.report.gpu_ready:
             accepted_cpu_fallback = messagebox.askyesno(
                 "Start with CPU fallback?",
-                "NVIDIA hardware was detected, but CUDA did not pass a real computation test. "
-                "Start CALO-RPD Studio with CPU fallback and remember this choice for this environment?",
+                "NVIDIA hardware was detected, but GPU acceleration is not ready. "
+                "Start CALO-RPD Studio in CPU-only mode and remember this choice for this environment?",
             )
             if not accepted_cpu_fallback:
                 return
