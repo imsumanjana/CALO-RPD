@@ -192,8 +192,8 @@ class ScientistCALOIntelligencePanel(_BaseCALOIntelligencePanel):
         retained = []
         if policy.active:
             retained.append(
-                "This model is currently marked active. Deletion immediately removes it from "
-                "governing new experiments."
+                "This model is recorded as active. Deletion immediately deactivates it; if it is "
+                "currently governing, new experiments return to the policy-free safe path."
             )
         if policy.qualification_status in {"assessed", "scientist_selected", "qualified"} or (
             self.state.database.list_policy_qualifications(policy.id)
@@ -207,6 +207,11 @@ class ScientistCALOIntelligencePanel(_BaseCALOIntelligencePanel):
             retained.append(
                 f"{reference_count} retained experiment binding(s) keep the policy identity and "
                 "checksum for historical provenance."
+            )
+        if self.state.database.get_policy_checkpoint_by_sha256(policy.sha256) is not None:
+            retained.append(
+                "A retained training-lineage checkpoint references this checksum. The lineage "
+                "record remains historical but cannot load the deleted model artifact."
             )
         retained_text = "\n".join(retained)
         if retained_text:
@@ -345,9 +350,9 @@ class ScientistCALOIntelligencePanel(_BaseCALOIntelligencePanel):
             )
         else:
             confirmation_scope = (
-                "The selected policy will no longer govern new experiments. Its retained "
-                "assessment/qualification and prior experiment records remain as non-executable "
-                "historical provenance."
+                "The selected policy will be deactivated and cannot govern new experiments. Its retained "
+                "lineage, assessment/qualification, and prior experiment records remain as "
+                "non-executable historical provenance."
             )
         answer = QMessageBox.warning(
             self,
