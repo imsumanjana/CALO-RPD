@@ -27,8 +27,11 @@ These instructions apply to the entire repository unless a deeper `AGENTS.md` na
   isolation, feasibility, objective, effect-size, significance, anytime, stability, and OOD evidence.
 - A qualification pass never activates a policy. Experiment use still requires a separately qualified,
   explicitly activated, immutable, checksum-valid policy and exact qualification receipt binding.
-- Policy deletion requires an exact reviewed target and explicit confirmation. Active, qualified, or
-  experiment-referenced policies remain protected by the retirement workflow.
+- Policy artifact deletion requires an exact reviewed target and explicit irreversible confirmation.
+  A scientist may permanently delete an active, assessed, selected, qualified, lineage-referenced,
+  or experiment-referenced model artifact. The live policy must be deactivated and archived, its
+  SHA-256 suppressed from automatic rediscovery, and retained assessment/experiment provenance kept
+  immutable as non-executable history.
 - Preserve explicit safe fallback for unavailable, incompatible, or rejected policies.
 - Intel XPU must not be executable. Current modes are CUDA-preferred and CPU-only.
 - Admission ceilings use at most 80% of currently free VRAM or currently available RAM. CUDA computes on NVIDIA GPUs; CPU fallback computes on CPUs.
