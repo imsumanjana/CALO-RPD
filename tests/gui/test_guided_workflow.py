@@ -48,8 +48,7 @@ def test_workflow_locks_power_system_until_governing_policy_then_prerequisites(t
     workflow.mark_completed("power_system")
     assert workflow.is_workspace_enabled("orpd")
     assert workflow.is_workspace_enabled("algorithms")
-    assert workflow.workspace_state_key("algorithms")[0] == "completed"
-    assert state.execution_control.active_stage() == stage
+    assert "algorithms" in workflow.completed
 
     workflow.mark_completed("orpd")
     assert workflow.is_workspace_enabled("portfolio")

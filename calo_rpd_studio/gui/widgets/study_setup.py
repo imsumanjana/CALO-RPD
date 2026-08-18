@@ -43,10 +43,7 @@ class StudySetupWorkflow(QFrame):
         self.heading.setAccessibleName(f"Study Setup, {len(self.steps)} steps")
         root.addWidget(self.heading)
 
-        self.step_tabs = QWidget()
-        self.step_tabs.setObjectName("StudyStepTabs")
-        step_row = QHBoxLayout(self.step_tabs)
-        step_row.setContentsMargins(0, 0, 0, 0)
+        step_row = QHBoxLayout()
         step_row.setSpacing(8)
         self.step_group = QButtonGroup(self)
         self.step_group.setExclusive(True)
@@ -62,7 +59,7 @@ class StudySetupWorkflow(QFrame):
             self.step_group.addButton(button)
             self.step_buttons.append(button)
             step_row.addWidget(button, 1)
-        root.addWidget(self.step_tabs)
+        root.addLayout(step_row)
 
         self.stack = QStackedWidget()
         self.stack.setObjectName("StudySetupStack")
@@ -108,11 +105,6 @@ class StudySetupWorkflow(QFrame):
         text = str(title).strip() or "Study Setup"
         self.heading.setText(text)
         self.heading.setAccessibleName(f"{text}, {len(self.steps)} steps")
-
-    def set_step_tabs_visible(self, visible: bool) -> None:
-        """Hide redundant tabs when the ribbon already owns step navigation."""
-
-        self.step_tabs.setVisible(bool(visible))
 
     def current_step(self) -> int:
         return self.stack.currentIndex()

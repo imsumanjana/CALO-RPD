@@ -52,7 +52,12 @@ from .tsh_calo_shield import (
     SafetyEnvelope,
     SlidingWindowContextualBandit,
 )
-from .tsh_calo_transition_kernel import complete_tsh_transition, generate_tsh_offspring
+from .tsh_calo_transition_kernel import (
+    complete_tsh_transition,
+    effective_group_parameter_values,
+    effective_recovery_fraction,
+    generate_tsh_offspring,
+)
 from .variable_intelligence import VariableGroupIntelligence
 
 
@@ -585,11 +590,21 @@ class TSHCALOOptimizer(BaseOptimizer):
             assert decision.learner_operators is not None
             assert decision.group_parameters is not None
 
+            raw_group_parameters = decision.group_parameters.detach().cpu().numpy()
+            effective_group_parameters = effective_group_parameter_values(raw_group_parameters)
+            recovery_fraction_ceiling = float(parameters.get("recovery_fraction", 0.18))
+            selected_recovery_fraction = effective_recovery_fraction(
+                raw_group_parameters,
+                learner_groups,
+                maximum_fraction=recovery_fraction_ceiling,
+            )
             forced_recovery: set[int] = set()
-            if severe_stagnation and diversity < float(
-                parameters.get("recovery_diversity_threshold", 0.06)
-            ):
-                recovery_fraction = float(parameters.get("recovery_fraction", 0.18))
+            recovery_triggered = bool(
+                severe_stagnation
+                and diversity < float(parameters.get("recovery_diversity_threshold", 0.06))
+            )
+            if recovery_triggered:
+                recovery_fraction = selected_recovery_fraction
                 count = max(
                     1,
                     min(population_size - 1, int(round(population_size * recovery_fraction))),
@@ -727,14 +742,19 @@ class TSHCALOOptimizer(BaseOptimizer):
             previous_best_objective = new_diagnostics.best_feasible_objective
             trajectory.append(
                 {
-                    "schema_version": "tsh-calo-runtime-generation-v1",
+                    "schema_version": "tsh-calo-runtime-generation-v2-parameter-evidence",
                     "evaluations": int(self.evaluations),
                     "policy_id": str(controller.binding.get("policy_id", "")),
                     "policy_sha256": str(controller.binding.get("policy_sha256", "")),
                     "reference_scenario": runtime_context.reference_scenario,
                     "scenario_names": list(runtime_context.scenario_names),
                     "regime": int(decision.regime),
-                    "group_parameters": decision.group_parameters.detach().cpu().tolist(),
+                    "group_parameter_names": list(PARAMETER_NAMES),
+                    "group_parameters_raw": raw_group_parameters.tolist(),
+                    "group_parameter_values": effective_group_parameters.tolist(),
+                    "recovery_fraction_ceiling": recovery_fraction_ceiling,
+                    "selected_recovery_fraction": selected_recovery_fraction,
+                    "recovery_triggered": recovery_triggered,
                     "learner_groups": learner_groups.astype(int).tolist(),
                     "learner_contexts": learner_contexts.astype(int).tolist(),
                     "executed_operators": batch.assigned_operators.astype(int).tolist(),
@@ -756,7 +776,32 @@ class TSHCALOOptimizer(BaseOptimizer):
                     "ood_score": float(decision.shield_trace.ood_score),
                     "ood_attenuation": float(decision.shield_trace.ood_attenuation),
                     "value_estimate": float(decision.value_estimate),
+                    "reward_components": {
+                        "objective_improvement": float(transition.reward.objective_improvement),
+                        "constraint_improvement": float(transition.reward.constraint_improvement),
+                        "feasible_ratio_improvement": float(
+                            transition.reward.feasible_ratio_improvement
+                        ),
+                        "diversity_recovery": float(transition.reward.diversity_recovery),
+                        "overhead_penalty": float(transition.reward.overhead_penalty),
+                    },
                     "reward": float(transition.reward.total),
+                    "feasible_ratio_before": float(diagnostics.feasible_ratio),
+                    "feasible_ratio_after": float(new_diagnostics.feasible_ratio),
+                    "best_violation_before": float(diagnostics.best_violation),
+                    "best_violation_after": float(new_diagnostics.best_violation),
+                    "best_feasible_objective_before": (
+                        float(diagnostics.best_feasible_objective)
+                        if np.isfinite(diagnostics.best_feasible_objective)
+                        else None
+                    ),
+                    "best_feasible_objective_after": (
+                        float(new_diagnostics.best_feasible_objective)
+                        if np.isfinite(new_diagnostics.best_feasible_objective)
+                        else None
+                    ),
+                    "diversity_before": float(diversity),
+                    "diversity_after": float(transition.new_diversity),
                 }
             )
             self.record(

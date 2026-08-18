@@ -99,7 +99,7 @@ class MainWindow(QMainWindow):
         self.pages_by_key = {
             "dashboard": DashboardPanel(state),
             "calo_intelligence": CALOIntelligencePanel(
-                state, experiment_manager, self.training_model_library
+                state, experiment_manager, self.training_model_library, settings_manager=settings_manager
             ),
             "power_system": PowerSystemPanel(state),
             "orpd": ORPDFormulationPanel(state),
@@ -217,8 +217,12 @@ class MainWindow(QMainWindow):
         self.pages_by_key["orpd"].stage_completed.connect(
             lambda: self._mark_routed_setup_completed("orpd")
         )
-        self.pages_by_key["algorithms"].stage_completed.connect(self._algorithm_stage_completed)
-        self.pages_by_key["algorithms"].stage_discarded.connect(self._algorithm_stage_discarded)
+        self.pages_by_key["algorithms"].stage_completed.connect(
+            self._algorithm_stage_completed
+        )
+        self.pages_by_key["algorithms"].stage_discarded.connect(
+            self._algorithm_stage_discarded
+        )
         self.pages_by_key["portfolio"].stage_completed.connect(
             lambda: self.workflow.mark_completed("portfolio")
         )

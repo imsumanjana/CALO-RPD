@@ -18,26 +18,7 @@ def _state(config: ExperimentConfig, *, ready: bool = True, sha: str = "policy-s
         grade="A" if ready else "",
         reason="ready" if ready else "not ready",
     )
-    stage = SimpleNamespace(
-        stage_id="synthetic-stage",
-        content_sha256="synthetic-stage-sha",
-        algorithm_names=tuple(config.algorithms),
-    )
-    goal = {
-        "id": "synthetic-goal",
-        "status": "active",
-        "algorithm_stage_id": stage.stage_id,
-        "algorithm_stage_sha256": stage.content_sha256,
-    }
-    return SimpleNamespace(
-        config=config,
-        governing_policy_status=lambda: status,
-        execution_control=SimpleNamespace(active_stage=lambda: stage),
-        database=SimpleNamespace(
-            get_active_portfolio_goal=lambda: goal,
-            get_latest_portfolio_goal=lambda: goal,
-        ),
-    )
+    return SimpleNamespace(config=config, governing_policy_status=lambda: status)
 
 
 def test_workflow_snapshot_round_trip_restores_unlocked_experiment_state():
@@ -90,7 +71,7 @@ def test_legacy_restore_never_infers_governing_policy_but_accepts_explicit_setup
     assert workflow.is_workspace_enabled("live_optimization") is True
 
 
-def test_policy_sha_change_invalidates_downstream_but_preserves_submitted_algorithm_stage():
+def test_restored_downstream_setup_is_invalidated_when_governing_policy_sha_changed():
     config = ExperimentConfig()
     state = _state(config, ready=True, sha="new-sha")
     workflow = WorkflowManager(state)
@@ -107,7 +88,7 @@ def test_policy_sha_change_invalidates_downstream_but_preserves_submitted_algori
         "governing_policy_sha": "old-sha",
     }
     workflow.restore(payload)
-    assert workflow.completed == {"algorithms", "calo_intelligence"}
+    assert workflow.completed == {"calo_intelligence"}
     assert workflow.is_workspace_enabled("power_system") is True
     assert workflow.is_workspace_enabled("orpd") is False
 

@@ -84,9 +84,7 @@ def validate_individual_result_contract(payload: dict) -> dict:
     if len(required_fields) != len(set(required_fields)) or not expected_fields.issubset(
         required_fields
     ):
-        raise ValueError(
-            "Individual experiment required result fields are incomplete or duplicated"
-        )
+        raise ValueError("Individual experiment required result fields are incomplete or duplicated")
     if str(contract.get("storage_profile", "")) not in {
         StorageProfile.FULL_SINGLE_RUN.value,
         StorageProfile.ROBUST_FULL.value,

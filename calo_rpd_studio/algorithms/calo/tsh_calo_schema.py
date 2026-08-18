@@ -7,10 +7,10 @@ from enum import IntEnum
 
 
 TSH_CALO_ALGORITHM_ID = "TSH-CALO"
-TSH_CALO_ALGORITHM_VERSION = "tsh-calo-v1.1.0-counted-physics-candidate"
+TSH_CALO_ALGORITHM_VERSION = "tsh-calo-v1.2.0-policy-directed-recovery"
 TSH_CALO_POLICY_ARCHITECTURE = "tsh-calo-policy-v1"
 TSH_CALO_STATE_SCHEMA = "tsh-calo-state-v1-aggregate32-topology"
-TSH_CALO_ACTION_SCHEMA = "tsh-calo-action-v1-hierarchical-4r-3g-4c-7o-6p"
+TSH_CALO_ACTION_SCHEMA = "tsh-calo-action-v2-hierarchical-4r-3g-4c-7o-6p-effective-recovery"
 TSH_CALO_TRAINING_ENVIRONMENT = "tsh-calo-training-v5-batched-device-context-safe80"
 
 

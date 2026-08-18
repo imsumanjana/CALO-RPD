@@ -399,8 +399,6 @@ def test_workspace_study_and_individual_share_inline_setup_but_keep_algorithm_au
     assert study.execution_mode == ExecutionPlanKind.INDIVIDUAL_EXPERIMENT.value
     assert "Complete submitted stage · 2 algorithm(s): CALO, TLBO" in study.selected.text()
 
-    window.workflow.individual_completed.update(("power_system", "orpd", "scenarios"))
-    window._refresh_workflow()
     for expected_step, command_id in enumerate(
         (
             "experiment.power",
@@ -415,7 +413,9 @@ def test_workspace_study_and_individual_share_inline_setup_but_keep_algorithm_au
         assert window.stack.currentWidget() is study
         assert study.execution_mode == ExecutionPlanKind.INDIVIDUAL_EXPERIMENT.value
         assert study.study_setup_workflow.current_step() == expected_step
-    assert state.execution_control.active_plan(ExecutionPlanKind.INDIVIDUAL_EXPERIMENT) is None
+    assert (
+        state.execution_control.active_plan(ExecutionPlanKind.INDIVIDUAL_EXPERIMENT) is None
+    )
 
 
 def test_document_header_only_appears_for_a_real_secondary_document(qtbot, tmp_path, monkeypatch):

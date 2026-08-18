@@ -17,7 +17,7 @@ import json
 import uuid
 
 from .catalog import OUTPUT_REQUIREMENTS
-from .models import EvidenceProfile, PortfolioConfig, PortfolioKind
+from .models import ArticlePreset, EvidenceProfile, PortfolioConfig, PortfolioKind
 from .planner import PortfolioPlanner
 
 
@@ -131,9 +131,7 @@ class PortfolioGoalPlanner:
             )
         names = tuple(str(name) for name in selected_algorithm_names)
         if not names or len(set(names)) != len(names):
-            raise ValueError(
-                "Select at least one submitted algorithm for the Portfolio comparison scope"
-            )
+            raise ValueError("Select at least one submitted algorithm for the Portfolio comparison scope")
         outside = [name for name in names if name not in stage.algorithm_names]
         if outside:
             raise ValueError(
@@ -194,9 +192,7 @@ class PortfolioGoalPlanner:
                 + ", ".join(recommended_omitted)
             )
         recommended_missing = [
-            name
-            for name in preset_requirements.recommended_algorithms
-            if name not in stage.algorithm_names
+            name for name in preset_requirements.recommended_algorithms if name not in stage.algorithm_names
         ]
         if recommended_missing:
             warnings.append(
@@ -217,9 +213,7 @@ class PortfolioGoalPlanner:
             "required_storage_fields": sorted(required_fields),
             "independent_validation_required": bool(
                 broad.require_independent_validation
-                or any(
-                    OUTPUT_REQUIREMENTS[key].requires_validation for key in broad.requested_outputs
-                )
+                or any(OUTPUT_REQUIREMENTS[key].requires_validation for key in broad.requested_outputs)
             ),
         }
         goal_id = f"portfolio-goal-{uuid.uuid4().hex}"
@@ -492,9 +486,7 @@ class WorkspaceStudyPlanner:
             or recommendation.algorithm_stage_id != stage.stage_id
             or recommendation.algorithm_stage_sha256 != stage.content_sha256
         ):
-            raise ValueError(
-                "Refresh recommendations for the exact current Portfolio goal and stage"
-            )
+            raise ValueError("Refresh recommendations for the exact current Portfolio goal and stage")
         selected = deepcopy(dict(selected_values))
         runs = int(selected.get("runs", 0))
         if runs < recommendation.hard_minimum_runs:
@@ -533,7 +525,8 @@ class WorkspaceStudyPlanner:
                 for key in ("population_size", "max_evaluations", "master_seed")
             },
             "reuse_and_resume_changed": {
-                key: selected.get(key) != recommendation.default_reuse_and_resume_values.get(key)
+                key: selected.get(key)
+                != recommendation.default_reuse_and_resume_values.get(key)
                 for key in (
                     "reuse_compatible_results",
                     "resume_enabled",
@@ -561,7 +554,8 @@ class WorkspaceStudyPlanner:
         setup_id = f"study-setup-{uuid.uuid4().hex}"
         created_at = _utc_now()
         concrete_cells = tuple(
-            {"ordinal": ordinal, "case_name": case_name} for ordinal, case_name in enumerate(cases)
+            {"ordinal": ordinal, "case_name": case_name}
+            for ordinal, case_name in enumerate(cases)
         )
         queue_task_count = len(concrete_cells) * runs * len(goal.selected_algorithm_names)
         content = {

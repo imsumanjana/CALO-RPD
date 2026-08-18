@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from PyQt6.QtCore import pyqtSignal
-from PyQt6.QtWidgets import QComboBox, QGridLayout, QLabel, QLineEdit, QPushButton, QWidget
+from PyQt6.QtWidgets import QCheckBox, QComboBox, QGridLayout, QLabel, QLineEdit, QPushButton, QWidget
 
 from calo_rpd_studio.version import PRODUCT_VERSION
 
@@ -80,6 +80,45 @@ class ApplicationSettingsPanel(WorkspacePage):
         storage_layout.setColumnStretch(1, 1)
         storage_layout.setRowStretch(2, 1)
 
+        research_assistant = QWidget()
+        assistant_layout = QGridLayout(research_assistant)
+        assistant_layout.setContentsMargins(18, 18, 18, 18)
+        assistant_layout.setHorizontalSpacing(16)
+        assistant_layout.setVerticalSpacing(10)
+        assistant_note = QLabel(
+            "Optional local explanations can use an Ollama model on this computer. The assistant "
+            "reads retained parameter evidence only; it cannot change experiments, training, "
+            "policies, parameters, or results. It is unavailable while scientific work is active."
+        )
+        assistant_note.setWordWrap(True)
+        self.local_assistant_enabled = QCheckBox("Enable local parameter explanations")
+        self.local_assistant_enabled.setChecked(
+            str(self.settings.value("local_parameter_assistant_enabled", "false")).lower()
+            in {"1", "true", "yes"}
+        )
+        self.local_assistant_endpoint = QLineEdit(
+            str(self.settings.value("local_parameter_assistant_endpoint", "http://127.0.0.1:11434"))
+        )
+        self.local_assistant_model = QLineEdit(
+            str(self.settings.value("local_parameter_assistant_model", "qwen3.5:9b"))
+        )
+        self.local_assistant_endpoint.setAccessibleName("Local Ollama address")
+        self.local_assistant_model.setAccessibleName("Local explanation model")
+        save_assistant = QPushButton("Save local assistant settings")
+        save_assistant.clicked.connect(self.save_local_assistant_settings)
+        self.local_assistant_status = QLabel("")
+        self.local_assistant_status.setWordWrap(True)
+        assistant_layout.addWidget(assistant_note, 0, 0, 1, 2)
+        assistant_layout.addWidget(self.local_assistant_enabled, 1, 0, 1, 2)
+        assistant_layout.addWidget(QLabel("Ollama address"), 2, 0)
+        assistant_layout.addWidget(self.local_assistant_endpoint, 2, 1)
+        assistant_layout.addWidget(QLabel("Model"), 3, 0)
+        assistant_layout.addWidget(self.local_assistant_model, 3, 1)
+        assistant_layout.addWidget(save_assistant, 4, 0, 1, 2)
+        assistant_layout.addWidget(self.local_assistant_status, 5, 0, 1, 2)
+        assistant_layout.setColumnStretch(1, 1)
+        assistant_layout.setRowStretch(6, 1)
+
         information = QWidget()
         information_layout = QGridLayout(information)
         information_layout.setContentsMargins(18, 18, 18, 18)
@@ -118,6 +157,11 @@ class ApplicationSettingsPanel(WorkspacePage):
             "Review locally stored experiments, runs, validations, and trace storage.",
         )
         self.section_tabs.add_section(
+            "Research assistant",
+            research_assistant,
+            "Configure optional local explanations of retained parameter evidence.",
+        )
+        self.section_tabs.add_section(
             "Application",
             information,
             "Review the active version and result database location.",
@@ -134,6 +178,27 @@ class ApplicationSettingsPanel(WorkspacePage):
         self.settings.set_value("interface_density", density)
         self.state.set_theme(theme)
         self.density_changed.emit(density)
+
+    def save_local_assistant_settings(self) -> None:
+        from calo_rpd_studio.assistant import LocalAssistantConfig
+
+        config = LocalAssistantConfig(
+            enabled=bool(self.local_assistant_enabled.isChecked()),
+            endpoint=self.local_assistant_endpoint.text().strip(),
+            model=self.local_assistant_model.text().strip(),
+        )
+        try:
+            config.validate()
+        except ValueError as exc:
+            self.local_assistant_status.setText(f"Settings were not saved: {exc}")
+            return
+        self.settings.set_value("local_parameter_assistant_enabled", config.enabled)
+        self.settings.set_value("local_parameter_assistant_endpoint", config.endpoint)
+        self.settings.set_value("local_parameter_assistant_model", config.model)
+        self.settings.sync()
+        self.local_assistant_status.setText(
+            "Local explanation settings saved. No scientific configuration was changed."
+        )
 
     def refresh_history_summary(self) -> None:
         summary = self.state.database.history_storage_summary()

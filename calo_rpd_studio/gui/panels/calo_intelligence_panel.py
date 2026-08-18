@@ -6,7 +6,7 @@ import json
 import sys
 from pathlib import Path
 
-from PyQt6.QtCore import QProcess, QProcessEnvironment, QStandardPaths, Qt, QTimer, pyqtSignal
+from PyQt6.QtCore import QObject, QProcess, QProcessEnvironment, QStandardPaths, QThread, Qt, QTimer, pyqtSignal
 from PyQt6.QtWidgets import (
     QAbstractItemView,
     QCheckBox,
@@ -19,6 +19,7 @@ from PyQt6.QtWidgets import (
     QLineEdit,
     QMessageBox,
     QPushButton,
+    QPlainTextEdit,
     QScrollArea,
     QSizePolicy,
     QTableWidget,
@@ -28,6 +29,7 @@ from PyQt6.QtWidgets import (
 )
 
 from calo_rpd_studio.ai.model_io import checkpoint_sha256
+from calo_rpd_studio.assistant import LocalAssistantConfig, OllamaParameterAdvisor
 from calo_rpd_studio.algorithms.calo.policy_readiness import policy_record_user_status
 from calo_rpd_studio.algorithms.calo.tsh_calo_automatic_qualification import (
     AutomaticQualificationRejected,
@@ -58,6 +60,9 @@ from calo_rpd_studio.algorithms.calo.tsh_calo_training_campaign import (
 from calo_rpd_studio.algorithms.calo.tsh_calo_training_influence import (
     build_training_parameter_influence,
 )
+from calo_rpd_studio.algorithms.calo.tsh_calo_parameter_evidence import (
+    verify_training_influence_campaign,
+)
 from calo_rpd_studio.algorithms.calo.tsh_calo_schema import TSH_CALO_ALGORITHM_ID
 from calo_rpd_studio.gui.user_feedback import show_error
 from calo_rpd_studio.gui.widgets.page_header import PageHeader
@@ -71,6 +76,27 @@ from calo_rpd_studio.scripts.qualify_tsh_calo import (
 )
 
 
+class _ParameterExplanationWorker(QObject):
+    completed = pyqtSignal(object)
+    failed = pyqtSignal(str)
+
+    def __init__(self, config: LocalAssistantConfig, evidence: dict, question: str) -> None:
+        super().__init__()
+        self.config = config
+        self.evidence = evidence
+        self.question = question
+
+    def run(self) -> None:
+        try:
+            response = OllamaParameterAdvisor(self.config).explain(
+                evidence=self.evidence, question=self.question
+            )
+        except Exception as exc:  # network/model failures are surfaced without changing CALO state
+            self.failed.emit(str(exc) or type(exc).__name__)
+            return
+        self.completed.emit(response.to_dict())
+
+
 class CALOIntelligencePanel(ScrollablePage):
     """Manage policies without embedding or retaining a second training implementation."""
 
@@ -78,12 +104,18 @@ class CALOIntelligencePanel(ScrollablePage):
     independent_training_requested = pyqtSignal()
     activity_message = pyqtSignal(str, str)
 
-    def __init__(self, state, experiment_manager, model_library=None, parent=None) -> None:
+    def __init__(
+        self, state, experiment_manager, model_library=None, parent=None, *, settings_manager=None
+    ) -> None:
         del experiment_manager
         content = QWidget()
         super().__init__(content, parent)
         self.state = state
         self.model_library = model_library
+        self.settings_manager = settings_manager
+        self._current_influence_evidence: dict = {}
+        self._assistant_thread: QThread | None = None
+        self._assistant_worker: _ParameterExplanationWorker | None = None
         self._policy_rows = []
         self._qualification_process: QProcess | None = None
         self._qualification_process_output = ""
@@ -265,7 +297,7 @@ class CALOIntelligencePanel(ScrollablePage):
         feasibility_layout.addWidget(self.feasibility_table)
         layout.addWidget(feasibility)
 
-        influence = QGroupBox("Training-parameter influence analysis")
+        influence = QGroupBox("Training parameter influence")
         self.influence_group = influence
         influence_layout = QVBoxLayout(influence)
         self.influence_status = QLabel(
@@ -279,7 +311,7 @@ class CALOIntelligencePanel(ScrollablePage):
             (
                 "Training parameter",
                 "Selected value",
-                "Strongest effect",
+                "Association",
                 "Direction",
                 "Most associated rating / evidence",
             )
@@ -302,6 +334,25 @@ class CALOIntelligencePanel(ScrollablePage):
             4, QHeaderView.ResizeMode.Stretch
         )
         influence_layout.addWidget(self.influence_table)
+        explanation_row = QHBoxLayout()
+        self.parameter_question = QLineEdit()
+        self.parameter_question.setPlaceholderText(
+            "Ask about the selected parameter evidence, for example: Which findings are only exploratory?"
+        )
+        self.parameter_question.setAccessibleName("Question about parameter evidence")
+        self.explain_parameter_button = QPushButton("Explain parameter evidence")
+        self.explain_parameter_button.setEnabled(False)
+        self.explain_parameter_button.clicked.connect(self.explain_parameter_evidence)
+        explanation_row.addWidget(self.parameter_question, 1)
+        explanation_row.addWidget(self.explain_parameter_button)
+        influence_layout.addLayout(explanation_row)
+        self.parameter_explanation = QPlainTextEdit()
+        self.parameter_explanation.setReadOnly(True)
+        self.parameter_explanation.setPlaceholderText(
+            "Optional local explanations appear here. They are interpretations, not scientific evidence."
+        )
+        self.parameter_explanation.setMaximumHeight(180)
+        influence_layout.addWidget(self.parameter_explanation)
         layout.addWidget(influence)
         layout.addStretch(1)
         self._resize_evidence_table_to_entries(self.feasibility_table)
@@ -705,6 +756,8 @@ class CALOIntelligencePanel(ScrollablePage):
     def _refresh_feasibility_and_influence(self) -> None:
         self.feasibility_table.setRowCount(0)
         self.influence_table.setRowCount(0)
+        self._current_influence_evidence = {}
+        self.explain_parameter_button.setEnabled(False)
         self._resize_evidence_table_to_entries(self.feasibility_table)
         self._resize_evidence_table_to_entries(self.influence_table)
         policy = self._selected_policy()
@@ -800,13 +853,22 @@ class CALOIntelligencePanel(ScrollablePage):
             self._resize_evidence_table_to_entries(self.feasibility_table)
 
         selected_campaign = self._training_campaign_for_policy(policy)
-        selected_plan, selected_plan_error = self._parsed_training_plan_result(
-            selected_campaign
-        )
-        if selected_plan is None:
+        if selected_campaign is None or assessment is None:
             self.influence_status.setText(
-                "The selected model's authenticated training plan is unavailable; parameter "
-                f"influence cannot be estimated ({selected_plan_error})."
+                "The selected model does not have both authenticated training and assessment "
+                "evidence, so parameter associations are unavailable."
+            )
+            return
+        try:
+            selected_verified = verify_training_influence_campaign(
+                selected_campaign,
+                assessment,
+                expected_candidate_sha256=policy.sha256,
+            )
+        except (OSError, RuntimeError, TypeError, ValueError) as exc:
+            self.influence_status.setText(
+                "The selected model's training values could not be bound to its assessment "
+                f"evidence ({str(exc) or type(exc).__name__})."
             )
             return
         cohort: list[dict] = []
@@ -816,9 +878,8 @@ class CALOIntelligencePanel(ScrollablePage):
                 for item in self.state.policy_registry.list(include_archived=False)
             }
             for campaign in self.model_library.completed_campaigns():
-                plan = self._parsed_training_plan(campaign)
                 candidate_path = str(campaign.get("policy_candidate", ""))
-                if plan is None or not candidate_path:
+                if not candidate_path:
                     continue
                 try:
                     candidate_key = str(Path(candidate_path).expanduser().resolve()).casefold()
@@ -839,18 +900,36 @@ class CALOIntelligencePanel(ScrollablePage):
                 )
                 if retained is None:
                     continue
+                try:
+                    verified = verify_training_influence_campaign(
+                        campaign,
+                        retained,
+                        expected_candidate_sha256=cohort_policy.sha256,
+                    )
+                except (OSError, RuntimeError, TypeError, ValueError):
+                    continue
                 cohort.append(
                     {
-                        "candidate_sha256": cohort_policy.sha256,
-                        "plan": plan,
-                        "ratings": dict(retained.get("feasibility_assessment", {}) or {}),
+                        "candidate_sha256": verified.candidate_sha256,
+                        "plan": verified.plan,
+                        "ratings": verified.ratings,
+                        "assessment_comparison_protocol_sha256": (
+                            verified.assessment_comparison_protocol_sha256
+                        ),
+                        "training_compatibility_sha256": verified.training_compatibility_sha256,
                     }
                 )
         try:
             influence = build_training_parameter_influence(
                 selected_candidate_sha256=policy.sha256,
-                selected_plan=selected_plan,
+                selected_plan=selected_verified.plan,
                 cohort=cohort,
+                selected_assessment_comparison_protocol_sha256=(
+                    selected_verified.assessment_comparison_protocol_sha256
+                ),
+                selected_training_compatibility_sha256=(
+                    selected_verified.training_compatibility_sha256
+                ),
             )
         except (KeyError, TypeError, ValueError) as exc:
             self.influence_status.setText(
@@ -862,9 +941,9 @@ class CALOIntelligencePanel(ScrollablePage):
         self.influence_table.setRowCount(len(parameters))
         limitations = "\n".join(str(item) for item in influence.get("limitations", []))
         for row, item in enumerate(parameters):
-            effect = item.get("standardized_effect")
+            effect = item.get("association")
             values = (
-                item.get("parameter", ""),
+                item.get("label") or item.get("parameter", ""),
                 item.get("selected_value", ""),
                 f"{float(effect):+.3f}" if effect is not None else "Not estimated",
                 item.get("direction", "not_estimated"),
@@ -874,27 +953,111 @@ class CALOIntelligencePanel(ScrollablePage):
                 ),
             )
             rating_effects = "\n".join(
-                f"{entry.get('rating', '')}: {float(entry.get('standardized_effect', 0.0)):+.3f} "
+                f"{entry.get('rating', '')}: {float(entry.get('association', 0.0)):+.3f} "
                 f"({entry.get('direction', '')})"
                 for entry in item.get("rating_effects", [])
             )
             tooltip = (
                 f"Observed campaigns: {item.get('observations', 0)}\n"
                 f"Distinct values: {item.get('distinct_values', [])}\n"
+                f"Association measure: {item.get('association_measure', 'not_estimated')}\n"
                 f"Most associated rating: {item.get('affected_rating', '')}\n"
-                f"All rating associations:\n{rating_effects or 'Not estimated'}\n\n{limitations}"
+                f"All rating associations:\n{rating_effects or 'Not estimated'}\n"
+                f"Evidence suitable for ranking: {bool(item.get('rankable', False))}\n\n{limitations}"
             )
             for column, value in enumerate(values):
                 cell = QTableWidgetItem(str(value))
                 cell.setToolTip(tooltip)
                 self.influence_table.setItem(row, column, cell)
         self._resize_evidence_table_to_entries(self.influence_table)
+        self._current_influence_evidence = dict(influence)
+        self.explain_parameter_button.setEnabled(True)
         self.influence_status.setText(
             f"Selected-model training values are shown. Comparative evidence: "
             f"{influence.get('evidence_classification', 'unavailable').replace('_', ' ')} · "
             f"{influence.get('compatible_campaign_count', 0)} compatible assessed campaigns. "
             "No parameter is changed automatically."
         )
+
+    def _local_assistant_config(self) -> LocalAssistantConfig:
+        if self.settings_manager is None:
+            return LocalAssistantConfig(enabled=False)
+        enabled = str(
+            self.settings_manager.value("local_parameter_assistant_enabled", "false")
+        ).lower() in {"1", "true", "yes"}
+        return LocalAssistantConfig(
+            enabled=enabled,
+            endpoint=str(
+                self.settings_manager.value(
+                    "local_parameter_assistant_endpoint", "http://127.0.0.1:11434"
+                )
+            ),
+            model=str(
+                self.settings_manager.value("local_parameter_assistant_model", "qwen3.5:9b")
+            ),
+        )
+
+    def explain_parameter_evidence(self) -> None:
+        if not self._current_influence_evidence:
+            self.parameter_explanation.setPlainText("No parameter evidence is selected.")
+            return
+        if self.state.task_status.busy:
+            self.parameter_explanation.setPlainText(
+                "Local explanations are unavailable while scientific work is active."
+            )
+            return
+        try:
+            config = self._local_assistant_config()
+            config.validate()
+            if not config.enabled:
+                raise RuntimeError(
+                    "Enable the local research assistant in Application Settings first."
+                )
+        except (RuntimeError, ValueError) as exc:
+            self.parameter_explanation.setPlainText(str(exc))
+            return
+        if self._assistant_thread is not None and self._assistant_thread.isRunning():
+            return
+        question = self.parameter_question.text().strip() or (
+            "Explain the strongest supported parameter findings, their limitations, and what "
+            "controlled evidence should be collected next."
+        )
+        self.explain_parameter_button.setEnabled(False)
+        self.parameter_explanation.setPlainText("Requesting a local explanation…")
+        thread = QThread(self)
+        worker = _ParameterExplanationWorker(
+            config, dict(self._current_influence_evidence), question
+        )
+        worker.moveToThread(thread)
+        thread.started.connect(worker.run)
+        worker.completed.connect(self._parameter_explanation_completed)
+        worker.failed.connect(self._parameter_explanation_failed)
+        worker.completed.connect(worker.deleteLater)
+        worker.failed.connect(worker.deleteLater)
+        worker.completed.connect(thread.quit)
+        worker.failed.connect(thread.quit)
+        thread.finished.connect(thread.deleteLater)
+        thread.finished.connect(self._parameter_explanation_thread_finished)
+        self._assistant_thread = thread
+        self._assistant_worker = worker
+        thread.start()
+
+    def _parameter_explanation_completed(self, payload: dict) -> None:
+        text = str(payload.get("text", "")).strip()
+        model = str(payload.get("model", "local model")).strip()
+        self.parameter_explanation.setPlainText(
+            f"{text}\n\nLocal explanation: {model}. This text is not scientific evidence."
+        )
+
+    def _parameter_explanation_failed(self, message: str) -> None:
+        self.parameter_explanation.setPlainText(
+            f"Local explanation was unavailable: {message}. No CALO state was changed."
+        )
+
+    def _parameter_explanation_thread_finished(self) -> None:
+        self._assistant_thread = None
+        self._assistant_worker = None
+        self.explain_parameter_button.setEnabled(bool(self._current_influence_evidence))
 
     def _reveal_influence_analysis(self) -> None:
         """Bring the completed assessment's decision-support block into the visible page."""

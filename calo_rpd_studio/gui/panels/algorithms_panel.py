@@ -472,7 +472,7 @@ class AlgorithmsPanel(WorkspacePage):
                 ("boundary_archive_capacity", "Boundary archive capacity"),
                 ("stagnation_window", "Stagnation window"),
                 ("recovery_diversity_threshold", "Recovery-diversity threshold"),
-                ("recovery_fraction", "Recovery fraction"),
+                ("recovery_fraction", "Recovery fraction ceiling"),
                 ("precision_start_radius", "Precision starting radius"),
                 ("precision_min_radius", "Precision minimum radius"),
                 ("precision_max_radius", "Precision maximum radius"),

@@ -1,0 +1,310 @@
+CALO-RPD INDIVIDUAL EXPERIMENT STEP-BY-STEP PANEL PLAN
+======================================================
+
+Status
+------
+Approved by the owner and implemented in source on 2026-08-17. Source tests and the ignored
+schema-v40 validator were updated but not executed. No audit, staging, experiment, policy workflow,
+qualification, protected-case workflow, publication, or release action was authorized or run.
+
+Owner request
+-------------
+Present each Individual Experiment setup step in its own focused panel, give that panel
+the proper scientist-controlled action, and allow the scientist to proceed with Next only
+after the current step has been explicitly completed.
+
+Problem being corrected
+-----------------------
+The current source has six ribbon routes and a six-page stacked widget, but it embeds large
+specialist workspaces and several general cards into one Experiment Manager surface. Generic
+Previous/Next navigation is based mainly on page position rather than the current step's
+persisted completion. The final page can also show duplicated, vertically stretched status
+labels. A separate optional numerical-agreement result has previously been mistaken for the
+mandatory fairness-audit receipt.
+
+Scope
+-----
+1. Redesign only the Individual Experiment preparation and launch presentation.
+2. Keep the six existing Experiment ribbon commands as direct routes.
+3. Retain one authoritative ExperimentConfig, one submitted AlgorithmStage, one Individual
+   execution plan, one audit receipt, and the existing singleton execution controller.
+4. Keep Workspace Study behavior and its applied Portfolio/Study contracts unchanged.
+5. Preserve the mandatory Fairness Audit -> Stage -> Run lifecycle without automatic actions.
+
+Non-goals and protected boundaries
+----------------------------------
+- Do not change CALO, TSH-CALO, comparator, ORPD, scenario, fairness, parity, function-
+  evaluation, seed, budget, result, resume, or checkpoint semantics.
+- Do not create a second algorithm selector or a second numerical runner.
+- Do not auto-apply, auto-audit, auto-stage, auto-run, auto-resume, or auto-discard anything.
+- Do not train, qualify, activate, bind, modify, or delete any policy.
+- Do not reinterpret historical plans or evidence.
+- Do not change Workspace Study navigation in this correction.
+
+Navigation model
+----------------
+The Experiment ribbon retains these six direct routes:
+
+1. Case
+2. Formulation
+3. Budget + runs
+4. Scenarios
+5. Validate + outputs
+6. Review + launch
+
+Each route opens exactly one compact Individual Experiment panel. The redundant inline tab
+strip remains absent. Every panel shows:
+
+- Individual Experiment / Step N of 6
+- one short purpose statement;
+- one compact prerequisite/completion banner;
+- only the controls owned by that step;
+- a fixed-height footer containing Previous, the step's explicit action, and Next;
+- no duplicated status boxes and no vertically stretched empty label areas.
+
+Previous is always navigation-only and never changes state. Next is navigation-only and never
+performs the current step's action. Next becomes enabled only after the current step's exact
+persisted completion condition is satisfied. A scientist may open a later ribbon route for
+inspection, but its editable controls and Next action remain locked with a precise explanation
+until prior required steps are complete.
+
+Button and state ownership
+--------------------------
+
+STEP 1 - CASE
+
+Purpose:
+Choose, load, solve, and independently cross-check the exact power-system case.
+
+Owned controls:
+- case source and case selection;
+- Load case;
+- Run base AC power flow;
+- Cross-check with PYPOWER;
+- compact validation/result summary.
+
+Completion action and condition:
+- The existing three scientist actions remain explicit.
+- Step completion is emitted only after the existing case-validation sequence succeeds.
+- Next: Formulation is disabled until the exact case identity and successful validation are
+  recorded through the existing PowerSystemPanel completion signal.
+
+No automatic behavior:
+Opening Case or selecting a case does not run power flow or mark completion.
+
+STEP 2 - FORMULATION
+
+Purpose:
+Confirm the objective, variables, limits, and constraints for the validated case.
+
+Owned controls:
+- objective;
+- ORPD decision-variable and constraint choices;
+- formulation validation summary.
+
+Primary action:
+- Apply formulation and continue.
+
+Completion condition:
+- The existing ORPD formulation validation succeeds and its completion signal is persisted for
+  Individual mode.
+- Next: Budget + runs is enabled only after that completion.
+
+No automatic behavior:
+Opening the panel or changing a field does not save it or advance the workflow.
+
+STEP 3 - BUDGET + RUNS
+
+Purpose:
+Set the exact independent-run count, evaluation budget, population, seed, compute intent,
+resource limits, checkpoint interval, and result directory.
+
+Owned controls:
+- all current execution/setup controls now hosted by the general setup card;
+- a compact plan summary and resource-admission summary.
+
+Primary action:
+- Apply budget and runs.
+
+Completion condition:
+- ExperimentConfig validation succeeds;
+- the exact configuration fingerprint is retained as the completion identity;
+- no execution plan, fairness receipt, controller, or numerical work is created by this action;
+- Next: Scenarios is enabled only for that retained current fingerprint.
+
+STEP 4 - SCENARIOS
+
+Purpose:
+Apply the declared robustness scenario configuration.
+
+Owned controls:
+- existing scenario family, uncertainty, contingency, and scenario-count controls;
+- compact scenario summary.
+
+Primary action:
+- Apply scenario configuration and continue.
+
+Completion condition:
+- existing scenario validation succeeds and its Individual completion identity is persisted;
+- Next: Validate + outputs is enabled only after completion.
+
+STEP 5 - VALIDATE + OUTPUTS
+
+Purpose:
+Confirm output/reuse choices and create the exact fairness receipt required for staging.
+
+Owned controls:
+- requested direct-result outputs;
+- exact verified-result reuse choice;
+- output directory and evidence summary;
+- full fairness report;
+- optional CPU/accelerator numerical-agreement report.
+
+Actions:
+- Apply output settings: saves only the output/reuse configuration for the current fingerprint.
+- Run fairness audit: the only primary action that may create or replace the unstarted
+  Individual draft and commit its checksum-bound fairness receipt.
+- Optional numerical check: a secondary action that never creates a fairness receipt and never
+  unlocks Next or Stage.
+
+Completion condition:
+- the active Individual plan is lifecycle `audited`;
+- its audit receipt checksum is valid;
+- the receipt design SHA-256 matches the exact active plan design;
+- its AlgorithmStage identity/SHA-256 matches the active submitted stage;
+- the current editable configuration still matches the audited frozen configuration;
+- the execution controller is `none`.
+
+Next: Review + launch is enabled only while all of those persisted conditions remain true.
+The success text must be exactly clear that the fairness receipt is stored. Numerical-agreement
+success must continue to say that fairness is still required.
+
+STEP 6 - REVIEW + LAUNCH
+
+Purpose:
+Review one compact immutable plan summary and perform the two deliberate execution transitions.
+
+Owned presentation:
+- algorithms in the complete submitted stage;
+- case, formulation, scenarios, runs, budget, seed, output/reuse, compute, plan ID, design
+  SHA-256, audit receipt status, and controller status;
+- one compact lifecycle banner; no duplicated large status panels.
+
+Actions and gates:
+- Stage individual experiment: enabled only for the exact unchanged audited plan while the
+  controller is `none`. Staging locks the plan and acquires Individual controller ownership but
+  starts no numerical work.
+- Run individual experiment: enabled only after the exact plan is `staged` and owns the
+  Individual execution controller.
+- Resume individual experiment: visible/enabled only for the existing authenticated resumable
+  lifecycle states.
+- Discard unstarted plan: replaces the misleading label `Discard unstarted staging`; enabled only
+  for an exact draft/audited unstarted plan with controller `none`, or the exact staged owner under
+  the existing safe terminal transition.
+- Pause safely and Cancel: retain their existing lifecycle and ownership gates.
+
+There is no Next button after Step 6. The footer shows Previous plus only the lifecycle actions
+valid for the persisted state.
+
+Completion ledger and invalidation
+----------------------------------
+Individual setup completion should become an ordered six-step navigation ledger rather than the
+current three-key Case/Formulation/Scenarios subset. The ledger is navigation evidence only and
+must never be treated as scientific or execution authority.
+
+Proposed ordered keys:
+1. power_system
+2. orpd
+3. budget_runs
+4. scenarios
+5. outputs
+6. fairness_receipt (derived from the live verified plan, never trusted from saved GUI JSON alone)
+
+Invalidation rules:
+- A scientist edit to an earlier applied step invalidates that step's downstream navigation
+  completions.
+- Any change affecting the frozen plan invalidates the unstarted fairness receipt and returns the
+  presentation to the required re-audit state.
+- Programmatic hydration uses QSignalBlocker and never masquerades as a scientist edit.
+- A staged/running/pausing/paused/interrupted plan remains immutable and is never silently replaced
+  or invalidated by navigation.
+- Restored GUI completion strings never manufacture an audit receipt; receipt authority is always
+  re-derived from the database plan, checksum, active stage, configuration, and controller.
+
+Layout requirements
+-------------------
+- Only the active step panel is visible.
+- The panel and its footer size to content inside the existing outer workspace scroll area.
+- Status labels use compact/fixed vertical size policies and sensible wrapping limits.
+- No nested blank cards, duplicated lifecycle messages, or large empty vertical areas.
+- Light, dark, and 1120x720 constrained layouts must keep the action/footer reachable.
+- Keyboard focus order follows controls -> primary action -> Previous/Next.
+- Every disabled action has a scientist-facing reason in visible text and accessible description.
+
+Implementation map
+------------------
+Expected source areas, subject to implementation-time verification:
+
+- calo_rpd_studio/gui/widgets/study_setup.py
+  Add per-step completion-aware footer/action ownership and compact size behavior. Keep Previous/
+  Next navigation non-mutating.
+
+- calo_rpd_studio/gui/panels/experiment_manager_panel.py
+  Build the six focused Individual panels, derive their completion/gate state from live authority,
+  remove duplicate status presentation, rename the discard action, and retain the existing audit,
+  stage, run, pause, resume, cancel, and manager/controller implementations.
+
+- calo_rpd_studio/app/workflow_manager.py
+  Extend the Individual ordered setup ledger for budget/output navigation while continuing to
+  derive fairness completion from the authenticated live execution plan.
+
+- calo_rpd_studio/app/main_window.py
+  Route completion signals and refresh ribbon availability without starting work.
+
+- calo_rpd_studio/gui/command_registry.py
+  Retain all six ribbon commands and clarify that each opens one step panel.
+
+- tests/gui/test_workspace_execution_ui.py
+- tests/gui/test_phase6_ribbon_workspace.py
+- tests/gui/test_guided_workflow.py
+- tests/integration/test_workspace_execution_control.py
+- calo_rpd_studio/scripts/validate_phase6_gui_contracts.py
+  Add proportional navigation, persistence, invalidation, lifecycle, accessibility, and render
+  contracts.
+
+Required engineering tests
+--------------------------
+1. Every ribbon route opens exactly one correct Individual panel.
+2. Individual has no duplicate inline step tabs.
+3. Each step exposes its specified action and one compact footer.
+4. Next is disabled before current-step persisted completion and enabled after it.
+5. Previous and ribbon navigation never complete, audit, stage, or run anything.
+6. A later direct ribbon route remains inspectable but locked when prerequisites are incomplete.
+7. Earlier scientist edits invalidate downstream Individual navigation state.
+8. Programmatic refresh/hydration does not invalidate retained completion or audit state.
+9. Parity-only success stores no receipt and unlocks neither Next nor Stage.
+10. A valid exact fairness receipt unlocks Review + launch and Stage only.
+11. Stage acquires the Individual controller but does not start numerical work.
+12. Run enables only for the exact staged controller owner.
+13. Workspace Study presentation and its Portfolio/Study plan contracts remain unchanged.
+14. Safe Workspace PAUSED handoff and Individual ownership exclusions remain unchanged.
+15. Legacy/restored navigation state cannot fabricate live audit authority.
+16. Light/dark/constrained renders show no oversized blank or duplicated status panels.
+17. Build/distribution exclusions and native entry-point contracts remain unchanged.
+
+Validation and evidence boundary
+--------------------------------
+After explicit implementation approval:
+
+- update the Git-ignored noninteractive Phase 6 validator and validation instructions;
+- add source and synthetic regressions only;
+- do not run the validator during coding unless the owner separately authorizes the named command;
+- the validator must retain exact source before/after identity, command logs, exit codes, hashes,
+  summaries, and explicit exclusions;
+- no automated result may infer a live fairness pass, experiment result, scientific conclusion,
+  policy qualification, usability acceptance, publication authority, or release readiness.
+
+Approval checkpoint
+-------------------
+Satisfied on 2026-08-17 by the owner's explicit `implement now` instruction. Implementation remains
+limited to Individual Experiment; Workspace Study navigation and execution ownership are unchanged.

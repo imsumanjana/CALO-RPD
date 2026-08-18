@@ -48,7 +48,11 @@ from .tsh_calo_physics_repair import (
 from .tsh_calo_runtime_context import build_runtime_topology_policy_context
 from .tsh_calo_schema import N_OPERATORS, TSH_CALO_TRAINING_ENVIRONMENT
 from .tsh_calo_training import TSHCALOTrainingAction, TSHCALOTrainingConfig
-from .tsh_calo_transition_kernel import complete_tsh_transition, generate_tsh_offspring
+from .tsh_calo_transition_kernel import (
+    complete_tsh_transition,
+    effective_recovery_fraction,
+    generate_tsh_offspring,
+)
 from .variable_intelligence import VariableGroupIntelligence
 
 
@@ -224,7 +228,7 @@ class _PreparedGeneration:
     learned_lanes: np.ndarray
     precision_active: bool
     precision_fraction: float
-    forced_recovery: set[int]
+    recovery_required: bool
     consensus: float
     physics_contexts: tuple[object | None, ...]
 
@@ -617,21 +621,9 @@ class IndependentTSHCALOTrainingEnvironment:
             diversity_recovery_enabled=True,
             physics_repair_enabled=physics_repair_available,
         )
-        forced_recovery: set[int] = set()
-        if severe_stagnation and diversity < cfg.recovery_diversity_threshold:
-            count = max(
-                1,
-                min(
-                    cfg.population_size - 1,
-                    int(round(cfg.population_size * cfg.recovery_fraction)),
-                ),
-            )
-            weakest = sorted(
-                range(cfg.population_size),
-                key=lambda index: epsilon_sort_key(state.evaluations[index], epsilon),
-                reverse=True,
-            )
-            forced_recovery = set(weakest[:count])
+        recovery_required = bool(
+            severe_stagnation and diversity < cfg.recovery_diversity_threshold
+        )
         observation = TSHCALOTrainingObservation(
             runtime_context.policy_state,
             action_mask,
@@ -661,7 +653,7 @@ class IndependentTSHCALOTrainingEnvironment:
             learned_lanes,
             precision_active,
             precision_fraction,
-            forced_recovery,
+            recovery_required,
             consensus,
             physics_contexts,
         )
@@ -699,6 +691,26 @@ class IndependentTSHCALOTrainingEnvironment:
         assert self._prepared is not None
         prepared = self._prepared
         state = self.state
+        forced_recovery: set[int] = set()
+        if prepared.recovery_required:
+            recovery_fraction = effective_recovery_fraction(
+                np.asarray(action.group_parameters, dtype=float),
+                prepared.observation.learner_groups,
+                maximum_fraction=float(self.config.recovery_fraction),
+            )
+            count = max(
+                1,
+                min(
+                    self.config.population_size - 1,
+                    int(round(self.config.population_size * recovery_fraction)),
+                ),
+            )
+            weakest = sorted(
+                range(self.config.population_size),
+                key=lambda index: epsilon_sort_key(state.evaluations[index], prepared.epsilon),
+                reverse=True,
+            )
+            forced_recovery = set(weakest[:count])
         batch = generate_tsh_offspring(
             population=state.population,
             evaluations=state.evaluations,
@@ -722,7 +734,7 @@ class IndependentTSHCALOTrainingEnvironment:
             precision=self.precision,
             precision_active=prepared.precision_active,
             precision_fraction=prepared.precision_fraction,
-            forced_recovery=prepared.forced_recovery,
+            forced_recovery=forced_recovery,
             consensus=prepared.consensus,
             environment_deterministic=self.config.environment_deterministic,
             physics_repair_operator=(

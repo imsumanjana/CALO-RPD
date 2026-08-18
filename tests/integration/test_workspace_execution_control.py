@@ -75,12 +75,9 @@ def test_new_portfolio_goal_invalidates_only_unstarted_workspace_state(
     assert database.get_active_applied_study_setup() is None
     assert database.get_active_portfolio_goal()["id"] == replacement.portfolio_goal_id
     with database.connect() as con:
-        assert (
-            con.execute(
-                "SELECT status FROM applied_study_setups WHERE id=?", (prior_setup["id"],)
-            ).fetchone()[0]
-            == "superseded"
-        )
+        assert con.execute(
+            "SELECT status FROM applied_study_setups WHERE id=?", (prior_setup["id"],)
+        ).fetchone()[0] == "superseded"
 
 
 def test_retained_workspace_plan_blocks_portfolio_goal_replacement(
@@ -93,7 +90,7 @@ def test_retained_workspace_plan_blocks_portfolio_goal_replacement(
     portfolio.requested_outputs = ["objective_convergence"]
     replacement = PortfolioGoalPlanner.create(portfolio, stage, ("TLBO",))
 
-    with pytest.raises(RuntimeError, match="owns control"):
+    with pytest.raises(RuntimeError, match="retained Workspace plan"):
         database.replace_portfolio_goal(replacement)
 
     assert service.active_plan(ExecutionPlanKind.WORKSPACE)["id"] == plan["id"]
@@ -123,7 +120,9 @@ def test_paused_workspace_can_reacquire_only_to_commit_terminal_cancel(
     cell = database.list_workspace_plan_cells(plan["id"])[0]
     frozen = service.plan_configuration(plan["id"], cell_id=cell["id"])
     experiment_id = database.create_experiment(frozen, {})
-    campaign_id = database.create_campaign(experiment_id, "", "comparison", frozen.to_dict(), 1)
+    campaign_id = database.create_campaign(
+        experiment_id, "", "comparison", frozen.to_dict(), 1
+    )
     database.add_campaign_task(
         campaign_id,
         0,
@@ -247,7 +246,9 @@ def test_paused_workspace_resume_waits_for_individual_owner(
     assert resumed["owner_plan_id"] == workspace["id"]
 
 
-def test_controller_acquisition_is_singleton_and_fenced(tmp_path, apply_workspace_study) -> None:
+def test_controller_acquisition_is_singleton_and_fenced(
+    tmp_path, apply_workspace_study
+) -> None:
     database, service, config, _stage = prepared_service(tmp_path)
     plan = audited_workspace(service, config, apply_workspace_study)
     service.stage(plan["id"], ExecutionPlanKind.WORKSPACE)
@@ -315,7 +316,9 @@ def test_workspace_interruption_resumes_with_retained_owner(
     assert service.controller()["controller"] == "workspace"
 
 
-def test_restart_marks_inflight_workspace_cell_resumable(tmp_path, apply_workspace_study) -> None:
+def test_restart_marks_inflight_workspace_cell_resumable(
+    tmp_path, apply_workspace_study
+) -> None:
     database, service, config, _stage = prepared_service(tmp_path)
     plan = audited_workspace(service, config, apply_workspace_study)
     service.stage(plan["id"], ExecutionPlanKind.WORKSPACE)
@@ -454,9 +457,9 @@ def test_resume_rejects_campaign_with_changed_frozen_budget(tmp_path) -> None:
     service.commit_paused(plan["id"], campaign_id=campaign_id)
     with database.connect() as con:
         stored = json.loads(
-            con.execute("SELECT config_json FROM campaigns WHERE id=?", (campaign_id,)).fetchone()[
-                0
-            ]
+            con.execute(
+                "SELECT config_json FROM campaigns WHERE id=?", (campaign_id,)
+            ).fetchone()[0]
         )
         stored["budget"]["max_evaluations"] += 1
         con.execute(

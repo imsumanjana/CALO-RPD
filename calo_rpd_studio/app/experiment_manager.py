@@ -1881,7 +1881,9 @@ class ExperimentWorker(QThread):
             ExecutionPlanKind.INDIVIDUAL_EXPERIMENT.value
         )
         individual_contract = (
-            validate_individual_result_contract(self.config.result_contract) if individual else {}
+            validate_individual_result_contract(self.config.result_contract)
+            if individual
+            else {}
         )
         required_outputs = (
             list(individual_contract["requested_outputs"])
@@ -1899,7 +1901,9 @@ class ExperimentWorker(QThread):
                 "ai_inference_seed": seed.ai_inference_seed,
             }
             execution_plan_id = str(getattr(self.config, "execution_plan_id", "") or "")
-            workspace_plan_cell_id = str(getattr(self.config, "workspace_plan_cell_id", "") or "")
+            workspace_plan_cell_id = str(
+                getattr(self.config, "workspace_plan_cell_id", "") or ""
+            )
             job_identity_sha256 = (
                 scientific_job_sha256(
                     plan_id=execution_plan_id,
@@ -2055,7 +2059,9 @@ class ExperimentWorker(QThread):
                 ExecutionPlanKind.INDIVIDUAL_EXPERIMENT.value
             )
             if individual:
-                result_contract = validate_individual_result_contract(self.config.result_contract)
+                result_contract = validate_individual_result_contract(
+                    self.config.result_contract
+                )
                 storage_profile = str(result_contract["storage_profile"])
                 required_fields = list(result_contract["required_fields"])
             else:
@@ -2266,7 +2272,8 @@ class ExperimentManager(QObject):
                         plan = self.state.database.get_execution_plan(owner_plan_id)
                         if (
                             plan is not None
-                            and str(plan["lifecycle_state"]) == ExecutionLifecycle.RUNNING.value
+                            and str(plan["lifecycle_state"])
+                            == ExecutionLifecycle.RUNNING.value
                         ):
                             control.request_pause(owner_plan_id)
                             self.state.notify_execution_state_changed()

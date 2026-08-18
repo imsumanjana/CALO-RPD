@@ -171,3 +171,57 @@ def test_duplicate_candidate_cannot_inflate_the_comparative_influence_cohort():
     assert report["compatible_campaign_count"] == 1
     assert len(report["excluded_campaigns"]) == 2
     assert all("duplicated" in item["reason"] for item in report["excluded_campaigns"])
+
+
+def test_training_influence_rejects_different_assessment_design_when_identity_is_supplied():
+    plans = [
+        _training_plan(campaign="campaign-a", learning_rate=1e-4),
+        _training_plan(campaign="campaign-b", learning_rate=3e-4),
+        _training_plan(campaign="campaign-c", learning_rate=5e-4),
+    ]
+    cohort = [
+        {
+            "candidate_sha256": f"{index + 1}" * 64,
+            "plan": plan,
+            "ratings": _ratings(0.5, 0.5),
+            "assessment_comparison_protocol_sha256": ("a" * 64 if index != 2 else "b" * 64),
+            "training_compatibility_sha256": "c" * 64,
+        }
+        for index, plan in enumerate(plans)
+    ]
+
+    report = build_training_parameter_influence(
+        selected_candidate_sha256="2" * 64,
+        selected_plan=plans[1],
+        cohort=cohort,
+        selected_assessment_comparison_protocol_sha256="a" * 64,
+        selected_training_compatibility_sha256="c" * 64,
+    )
+
+    assert report["compatible_campaign_count"] == 2
+    assert any(
+        "assessment comparison protocol differs" in row["reason"]
+        for row in report["excluded_campaigns"]
+    )
+
+
+def test_parameter_registry_classifies_training_and_environment_controls() -> None:
+    from calo_rpd_studio.algorithms.calo.tsh_calo_parameter_registry import (
+        TSH_CALO_PARAMETER_REGISTRY,
+    )
+
+    assert TSH_CALO_PARAMETER_REGISTRY["training.learning_rate"].domain == "training_dynamics"
+    assert TSH_CALO_PARAMETER_REGISTRY["training.hidden_dim"].changes_policy_contract is True
+    assert TSH_CALO_PARAMETER_REGISTRY["environment.memory_evidence_batches"].scientist_tunable
+    assert TSH_CALO_PARAMETER_REGISTRY["reward.constraint_weight"].changes_learning_objective
+    assert not TSH_CALO_PARAMETER_REGISTRY["reward.constraint_weight"].scientist_tunable
+
+
+def test_binary_parameter_influence_uses_group_contrast() -> None:
+    from calo_rpd_studio.algorithms.calo.tsh_calo_training_influence import _binary_contrast
+
+    value = _binary_contrast(
+        [False, False, False, True, True, True],
+        [10.0, 11.0, 9.0, 20.0, 21.0, 19.0],
+    )
+    assert value > 1.0

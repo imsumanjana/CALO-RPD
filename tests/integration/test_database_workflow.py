@@ -60,7 +60,9 @@ def test_version_zero_database_migrates_with_verified_backup_and_no_data_loss(tm
 
     database = ResultDatabase(path)
 
-    backups = list(tmp_path.glob(f"legacy.pre-schema-v0-to-v{DATABASE_SCHEMA_VERSION}-*.sqlite"))
+    backups = list(
+        tmp_path.glob(f"legacy.pre-schema-v0-to-v{DATABASE_SCHEMA_VERSION}-*.sqlite")
+    )
     assert backups == [tmp_path / database.migration_backup_path]
     with sqlite3.connect(backups[0]) as backup:
         assert backup.execute("PRAGMA integrity_check").fetchone()[0] == "ok"

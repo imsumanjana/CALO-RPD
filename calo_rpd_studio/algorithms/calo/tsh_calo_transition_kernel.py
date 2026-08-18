@@ -42,6 +42,42 @@ def _group_parameters(raw_parameters) -> np.ndarray:
     return PARAMETER_LOW[None, :] + raw * (PARAMETER_HIGH - PARAMETER_LOW)[None, :]
 
 
+
+
+def effective_group_parameter_values(group_parameter_actions) -> np.ndarray:
+    """Return physical/scaled policy parameter values without changing the action."""
+
+    return _group_parameters(group_parameter_actions).copy()
+
+
+def effective_recovery_fraction(
+    group_parameter_actions,
+    learner_groups,
+    *,
+    maximum_fraction: float,
+) -> float:
+    """Return the policy-selected recovery fraction bounded by the scientist-set ceiling.
+
+    Recovery is a population-wide action while TSH-CALO emits group-conditioned parameters.
+    Weighting by the learners assigned to each physical control group preserves the hierarchical
+    action meaning without giving an unavailable group influence over recovery.
+    """
+
+    scaled = _group_parameters(group_parameter_actions)
+    groups = np.asarray(learner_groups, dtype=int).reshape(-1)
+    if groups.size == 0 or np.any(groups < 0) or np.any(groups >= scaled.shape[0]):
+        raise ValueError("TSH-CALO recovery groups are invalid")
+    recovery_index = PARAMETER_NAMES.index("recovery_fraction")
+    counts = np.bincount(groups, minlength=scaled.shape[0]).astype(float)
+    active = counts > 0.0
+    if not bool(active.any()):
+        raise ValueError("TSH-CALO recovery requires at least one active control group")
+    selected = float(np.average(scaled[active, recovery_index], weights=counts[active]))
+    ceiling = float(maximum_fraction)
+    if not np.isfinite(ceiling) or ceiling < 0.0 or ceiling > 1.0:
+        raise ValueError("TSH-CALO recovery fraction ceiling must be within [0, 1]")
+    return float(np.clip(min(selected, ceiling), 0.0, 1.0))
+
 def generate_tsh_offspring(
     *,
     population: np.ndarray,
