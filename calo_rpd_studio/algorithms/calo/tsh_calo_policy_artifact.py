@@ -47,6 +47,8 @@ class IndependentTrainingProvenance:
     development_freeze_sha256: str = ""
     phase4_acceptance_sha256: str = ""
     initialization_policy_sha256: str = ""
+    generalization_guard_sha256: str = ""
+    generalization_guard: dict | None = None
 
     def validate(self) -> None:
         if self.source_kind != "independent_policy_training":
@@ -105,6 +107,28 @@ class IndependentTrainingProvenance:
         validate_tsh_calo_training_device_provenance(self.training_device_provenance)
         if not self.training_episode_receipts:
             raise ValueError("TSH-CALO candidate requires a completed counted training episode")
+        guard_payload = dict(self.generalization_guard or {})
+        if self.generalization_guard_sha256:
+            if not _is_sha256(self.generalization_guard_sha256):
+                raise ValueError("TSH-CALO candidate generalization-guard SHA-256 is invalid")
+            if not guard_payload:
+                raise ValueError("TSH-CALO candidate lacks required generalization-guard evidence")
+        elif guard_payload:
+            raise ValueError("TSH-CALO candidate contains undeclared generalization-guard evidence")
+        if guard_payload:
+            from .tsh_calo_generalization_guard import validate_generalization_guard_provenance
+
+            validate_generalization_guard_provenance(
+                guard_payload,
+                training_episode_receipts=self.training_episode_receipts,
+                expected_training_design_sha256=self.training_design_sha256,
+            )
+            if guard_payload.get("guard_design_sha256") != self.generalization_guard_sha256:
+                raise ValueError("TSH-CALO candidate generalization-guard design changed")
+            if guard_payload.get("promotion_allowed") is not True:
+                raise ValueError(
+                    "TSH-CALO candidate cannot retain rejected generalization-guard evidence"
+                )
         receipts = [
             load_tsh_calo_training_episode_receipt(item) for item in self.training_episode_receipts
         ]
@@ -120,6 +144,16 @@ class IndependentTrainingProvenance:
         session_ids = [item.session_id for item in receipts]
         if len(set(session_ids)) != len(session_ids):
             raise ValueError("TSH-CALO candidate contains duplicate training session IDs")
+
+
+def _training_provenance_payload(provenance: IndependentTrainingProvenance) -> dict:
+    """Serialize provenance without changing the legacy shape when no guard was declared."""
+
+    payload = asdict(provenance)
+    if not provenance.generalization_guard_sha256 and provenance.generalization_guard is None:
+        payload.pop("generalization_guard_sha256", None)
+        payload.pop("generalization_guard", None)
+    return payload
 
 
 @dataclass(frozen=True, slots=True)
@@ -246,7 +280,7 @@ def build_tsh_calo_candidate_payload(
             "artifact_kind": "single_policy_member",
             "ensemble_size": 1,
             "feature_flags": asdict(flags),
-            "training_provenance": asdict(provenance),
+            "training_provenance": _training_provenance_payload(provenance),
         },
     }
 
@@ -288,7 +322,7 @@ def inspect_tsh_calo_candidate(
             **dict(metadata.get("training_provenance", {}) or {})
         )
         provenance.validate()
-        training_provenance = asdict(provenance)
+        training_provenance = _training_provenance_payload(provenance)
     elif artifact_kind == "ensemble_policy":
         members = list(metadata.get("ensemble_members", []) or [])
         state_dicts = list(payload.get("ensemble_model_state_dicts", []) or [])

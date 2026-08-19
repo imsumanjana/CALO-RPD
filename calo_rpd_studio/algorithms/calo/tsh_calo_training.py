@@ -110,6 +110,7 @@ class TSHCALOTrainingConfig:
     gae_lambda: float = 0.95
     device: str = "auto"
     allow_cpu_fallback: bool = True
+    generalization_guard_sha256: str = ""
     feature_flags: TSHCALOFeatureFlags = field(default_factory=TSHCALOFeatureFlags)
 
     def validate(self) -> None:
@@ -154,6 +155,10 @@ class TSHCALOTrainingConfig:
             self.device
         ).lower().startswith("cuda:"):
             raise ValueError("TSH-CALO training device must be auto, cpu, cuda, or cuda:<index>")
+        if self.generalization_guard_sha256 and not _valid_sha256(
+            self.generalization_guard_sha256
+        ):
+            raise ValueError("TSH-CALO generalization-guard configuration SHA-256 is invalid")
         self.resource_envelope.validate()
         self.feature_flags.validate()
 
@@ -162,6 +167,10 @@ class TSHCALOTrainingConfig:
         payload = asdict(self)
         payload.pop("device", None)
         payload.pop("allow_cpu_fallback", None)
+        # Preserve pre-guard exact-resume hashes when no guard was declared. A configured guard is
+        # scientific training authority and therefore participates in the design identity.
+        if not self.generalization_guard_sha256:
+            payload.pop("generalization_guard_sha256", None)
         encoded = json.dumps(payload, sort_keys=True, separators=(",", ":"))
         return hashlib.sha256(encoded.encode("utf-8")).hexdigest()
 
@@ -785,6 +794,9 @@ class IndependentTSHCALOTrainer:
 
     def resume_state_dict(self) -> dict:
         self._assert_open()
+        training_config = asdict(self.config)
+        if not self.config.generalization_guard_sha256:
+            training_config.pop("generalization_guard_sha256", None)
         return {
             "format": self.RESUME_FORMAT,
             "algorithm_id": TSH_CALO_ALGORITHM_ID,
@@ -793,7 +805,7 @@ class IndependentTSHCALOTrainer:
             "action_schema_version": TSH_CALO_ACTION_SCHEMA,
             "training_environment_version": TSH_CALO_TRAINING_ENVIRONMENT,
             "scientific_design_hash": self.config.scientific_design_hash(),
-            "training_config": asdict(self.config),
+            "training_config": training_config,
             "training_device_provenance": self.device_provenance(),
             "model_state_dict": {
                 name: tensor.detach().cpu() for name, tensor in self.network.state_dict().items()
@@ -885,6 +897,7 @@ class IndependentTSHCALOTrainer:
         *,
         source_commit: str,
         execution_source_commit: str | None = None,
+        generalization_guard: dict | None = None,
     ) -> TSHCALOCandidateArtifact:
         self._assert_open()
         normalized_source = str(source_commit).strip().lower()
@@ -908,6 +921,34 @@ class IndependentTSHCALOTrainer:
             raise ValueError(
                 "TSH-CALO candidate export requires a completed counted training episode receipt"
             )
+        guard_payload = dict(generalization_guard or {})
+        if self.config.generalization_guard_sha256:
+            if not guard_payload:
+                raise ValueError(
+                    "TSH-CALO candidate export requires the configured generalization-guard evidence"
+                )
+            from .tsh_calo_generalization_guard import validate_generalization_guard_provenance
+
+            validate_generalization_guard_provenance(
+                guard_payload,
+                training_episode_receipts=tuple(self.training_episode_receipts),
+                expected_training_design_sha256=self.config.scientific_design_hash(),
+            )
+            if (
+                guard_payload.get("guard_design_sha256")
+                != self.config.generalization_guard_sha256
+            ):
+                raise ValueError(
+                    "TSH-CALO candidate generalization evidence uses another guard configuration"
+                )
+            if guard_payload.get("promotion_allowed") is not True:
+                raise ValueError(
+                    "TSH-CALO candidate export is blocked by the generalization guard"
+                )
+        elif guard_payload:
+            raise ValueError(
+                "TSH-CALO candidate cannot attach undeclared generalization-guard evidence"
+            )
         provenance = IndependentTrainingProvenance(
             training_run_id=self.config.training_run_id,
             training_design_sha256=self.config.scientific_design_hash(),
@@ -917,10 +958,12 @@ class IndependentTSHCALOTrainer:
             development_freeze_sha256=str(self.config.development_freeze_sha256),
             phase4_acceptance_sha256=str(self.config.phase4_acceptance_sha256),
             initialization_policy_sha256="",
+            generalization_guard_sha256=self.config.generalization_guard_sha256,
             development_cases=tuple(self.config.development_cases),
             seed_manifest_sha256=self.config.seed_manifest_sha256,
             training_device_provenance=self.device_provenance(),
             training_episode_receipts=tuple(self.training_episode_receipts),
+            generalization_guard=guard_payload or None,
         )
         return save_tsh_calo_candidate(
             path,
