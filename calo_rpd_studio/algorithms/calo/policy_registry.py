@@ -1,819 +1,180 @@
-"""Database-backed CALO policy library and immutable experiment bindings."""
+"""Policy-registry boundary for exact training plus learning-health accounting.
+
+The established lifecycle registry remains in ``_policy_registry_core``.  This public boundary keeps
+its legacy training-only count intact and adds a separately named cumulative counted-work contract.
+Exact cumulative guard work is persisted when a completed campaign manifest is available; a root
+candidate can be reconstructed from its authenticated artifact, while an extended artifact without
+its predecessor manifests fails closed instead of under-reporting prior guard work.
+"""
 
 from __future__ import annotations
 
-from dataclasses import dataclass
-from datetime import datetime, timezone
-import json
-import logging
 from pathlib import Path
-import uuid
 
-from calo_rpd_studio.ai.model_io import checkpoint_sha256, load_checkpoint
-from .policy_lineage import PolicyLineageManager
-from .policy_qualification_admission import (
-    VerifiedFeasibilityAssessment,
-    VerifiedQualificationEvidence,
-    inspect_feasibility_assessment,
-    inspect_qualification_evidence,
-    pareto_dominates,
-)
-from .policy_schema import (
-    CALO_ALGORITHM_ID,
-    CALO_RUNTIME_ARCHITECTURE,
-    POLICY_ACTION_SCHEMA,
-    POLICY_STATE_SCHEMA,
-    TRAINING_ENVIRONMENT_VERSION,
-    infer_checkpoint_schema,
-)
-from .tsh_calo_schema import (
-    TSH_CALO_ACTION_SCHEMA,
-    TSH_CALO_ALGORITHM_ID,
-    TSH_CALO_ALGORITHM_VERSION,
-    TSH_CALO_POLICY_ARCHITECTURE,
-    TSH_CALO_STATE_SCHEMA,
-    TSH_CALO_TRAINING_ENVIRONMENT,
-)
-from .tsh_calo_qualification import load_tsh_calo_qualification_receipt
-from .tsh_calo_policy_artifact import (
-    count_tsh_calo_candidate_training_evaluations,
-    inspect_tsh_calo_candidate,
-)
-
-_LOG = logging.getLogger(__name__)
+from . import _policy_registry_core as _core
 
 
-def _utcnow() -> str:
-    return datetime.now(timezone.utc).isoformat()
+for _name in dir(_core):
+    if not _name.startswith("__"):
+        globals()[_name] = getattr(_core, _name)
 
 
-@dataclass(frozen=True, slots=True)
-class PolicyRecord:
-    id: str
-    name: str
-    checkpoint_path: str
-    sha256: str
-    architecture_version: str
-    state_schema_version: str
-    action_schema_version: str
-    training_environment_version: str
-    algorithm_id: str
-    qualification_status: str
-    grade: str
-    active: bool
-    archived: bool
-    metadata: dict
-
-    @property
-    def usable(self) -> bool:
-        return not self.archived and Path(self.checkpoint_path).is_file()
-
-    @property
-    def runtime_compatible(self) -> bool:
-        """Backward-compatible alias for the frozen CALO v5.9 runtime."""
-        return self.compatible_with(CALO_ALGORITHM_ID)
-
-    def compatible_with(self, algorithm_id: str) -> bool:
-        if str(algorithm_id) == TSH_CALO_ALGORITHM_ID:
-            return bool(
-                self.algorithm_id == TSH_CALO_ALGORITHM_ID
-                and self.architecture_version == TSH_CALO_ALGORITHM_VERSION
-                and self.state_schema_version == TSH_CALO_STATE_SCHEMA
-                and self.action_schema_version == TSH_CALO_ACTION_SCHEMA
-                and self.training_environment_version == TSH_CALO_TRAINING_ENVIRONMENT
-                and str(self.metadata.get("policy_architecture_version", ""))
-                == TSH_CALO_POLICY_ARCHITECTURE
-            )
-        return bool(
-            str(algorithm_id) == CALO_ALGORITHM_ID
-            and self.algorithm_id == CALO_ALGORITHM_ID
-            and self.architecture_version == CALO_RUNTIME_ARCHITECTURE
-            and self.state_schema_version == POLICY_STATE_SCHEMA
-            and self.action_schema_version == POLICY_ACTION_SCHEMA
-            and self.training_environment_version == TRAINING_ENVIRONMENT_VERSION
-        )
+def _valid_count(value) -> bool:
+    return isinstance(value, int) and not isinstance(value, bool) and value >= 0
 
 
-class PolicyRegistry:
-    """Manage policy artifacts without silently changing experiment provenance."""
+def _candidate_evaluation_accounting(artifact) -> dict | None:
+    training = _core.count_tsh_calo_candidate_training_evaluations(artifact)
+    provenance = dict(getattr(artifact, "training_provenance", {}) or {})
+    if provenance.get("source_kind") == "independent_policy_training_ensemble":
+        members = list(provenance.get("members", []) or [])
+        rows = []
+        for member in members:
+            if not isinstance(member, dict):
+                return None
+            rows.append(dict(member.get("training_provenance", {}) or {}))
+    else:
+        rows = [provenance]
 
-    def __init__(self, database) -> None:
-        self.database = database
-        self.lineages = PolicyLineageManager(database)
+    guard_total = 0
+    for row in rows:
+        guard = row.get("generalization_guard")
+        if guard is None:
+            continue
+        if not isinstance(guard, dict):
+            return None
+        offset = guard.get("segment_receipt_offset", 0)
+        additional = guard.get("additional_candidate_evaluations", 0)
+        if not _valid_count(offset) or not _valid_count(additional):
+            return None
+        # An extended candidate retains the current segment's guard evidence and cumulative policy
+        # receipts, but not every predecessor segment's guard bundles.  Its manifest is required.
+        if int(offset) != 0:
+            return None
+        guard_total += int(additional)
+    return {
+        "training_candidate_evaluations": int(training),
+        "generalization_guard_candidate_evaluations": int(guard_total),
+        "total_counted_candidate_evaluations": int(training + guard_total),
+    }
 
-    def suppress(self, sha256: str, *, reason: str = "user_deleted") -> None:
-        self.database.suppress_policy_sha256(str(sha256), reason=reason)
 
-    def is_suppressed(self, sha256: str) -> bool:
-        return str(sha256).lower() in self.database.list_suppressed_policy_sha256()
+def _metadata_evaluation_accounting(metadata: dict) -> dict | None:
+    training = metadata.get("training_candidate_evaluations")
+    guard = metadata.get("generalization_guard_candidate_evaluations")
+    total = metadata.get("total_counted_candidate_evaluations")
+    if not all(_valid_count(value) for value in (training, guard, total)):
+        return None
+    if int(total) != int(training) + int(guard):
+        return None
+    return {
+        "training_candidate_evaluations": int(training),
+        "generalization_guard_candidate_evaluations": int(guard),
+        "total_counted_candidate_evaluations": int(total),
+    }
 
-    @staticmethod
-    def inspect_checkpoint(path: str | Path) -> dict:
-        source = Path(path).expanduser().resolve()
-        if not source.is_file():
-            raise FileNotFoundError(f"CALO policy checkpoint not found: {source}")
-        payload = load_checkpoint(source, map_location="cpu")
-        schema = infer_checkpoint_schema(payload)
-        metadata = dict(payload.get("metadata", {}) or {})
-        checksum = checkpoint_sha256(source)
-        return {
-            "checkpoint_path": str(source),
-            "sha256": checksum,
-            "schema": schema,
-            "metadata": metadata,
+
+class PolicyRegistry(_core.PolicyRegistry):
+    """Retain exact counted-work metadata without changing lifecycle or activation authority."""
+
+    def bind_training_evaluation_accounting(
+        self,
+        policy_id: str,
+        accounting: dict,
+    ):
+        if not isinstance(accounting, dict):
+            raise ValueError("Policy counted-evaluation accounting must be an object")
+        values = {
+            "training_candidate_evaluations": accounting.get(
+                "training_candidate_evaluations"
+            ),
+            "generalization_guard_candidate_evaluations": accounting.get(
+                "generalization_guard_candidate_evaluations"
+            ),
+            "total_counted_candidate_evaluations": accounting.get(
+                "total_counted_candidate_evaluations"
+            ),
         }
-
-    def register(
-        self, path: str | Path, *, name: str | None = None, status: str | None = None
-    ) -> PolicyRecord:
-        inspected = self.inspect_checkpoint(path)
-        source = Path(inspected["checkpoint_path"])
-        schema = inspected["schema"]
-        metadata = inspected["metadata"]
-        existing = self.database.get_policy_by_sha256(inspected["sha256"])
-        if existing is not None:
-            return self._from_row(existing)
-        metadata.setdefault("algorithm_id", str(schema["algorithm_id"]))
-        metadata.setdefault(
-            "policy_architecture_version", str(schema["policy_architecture_version"])
-        )
-        native = bool(schema.get("native_supported", False))
-        if bool(schema.get("native_tsh_calo", False)):
-            artifact = inspect_tsh_calo_candidate(
-                source,
-                expected_sha256=inspected["sha256"],
-            )
-            metadata["training_candidate_evaluations"] = (
-                count_tsh_calo_candidate_training_evaluations(artifact)
-            )
-            metadata["training_evaluation_count_scope"] = (
-                "cumulative_exact_training_candidate_evaluations"
-            )
-        if bool(schema.get("native_tsh_calo", False)) and status not in {None, "candidate"}:
-            raise ValueError(
-                "TSH-CALO registration creates candidates only; qualification is a separate lifecycle action"
-            )
-        policy_id = str(uuid.uuid4())
-        qualification_status = status or ("candidate" if native else "legacy_unqualified")
-        grade = "U" if native else "C"
-        self.database.upsert_policy(
-            policy_id=policy_id,
-            name=name or source.stem,
-            checkpoint_path=str(source),
-            sha256=inspected["sha256"],
-            architecture_version=str(schema["runtime_architecture_version"]),
-            state_schema_version=str(schema["state_schema_version"]),
-            action_schema_version=str(schema["action_schema_version"]),
-            training_environment_version=str(schema["training_environment_version"]),
-            qualification_status=qualification_status,
-            grade=grade,
-            active=False,
-            archived=False,
-            metadata=metadata,
-        )
-        return self.get(policy_id)
-
-    def discover_bundled(self, directory: str | Path) -> list[PolicyRecord]:
-        output: list[PolicyRecord] = []
-        for path in sorted(Path(directory).glob("*.pt")):
-            stem = str(path.stem)
-            if stem.endswith(".resume"):
-                continue
-            if "_lineage" in str(path):
-                continue
-            try:
-                inspected = self.inspect_checkpoint(path)
-                if self.is_suppressed(inspected["sha256"]):
-                    continue
-                output.append(self.register(path, name=path.stem))
-            except Exception as exc:
-                _LOG.warning(
-                    "Skipping malformed/incompatible bundled policy %s: %s: %s",
-                    path,
-                    type(exc).__name__,
-                    exc,
-                )
-                continue
-        return output
-
-    def list(self, *, include_archived: bool = False) -> list[PolicyRecord]:
-        records = [
-            self._from_row(row)
-            for row in self.database.list_policies(include_archived=include_archived)
-        ]
-        grade_rank = {"A+": 0, "A": 1, "A-": 2, "B+": 3, "B": 4, "B-": 5, "C": 6, "U": 7, "F": 8}
-        records.sort(
-            key=lambda item: (
-                not item.active,
-                item.archived,
-                grade_rank.get(item.grade.upper(), 9),
-                item.name.lower(),
-            )
-        )
-        return records
-
-    def get(self, policy_id: str) -> PolicyRecord:
-        row = self.database.get_policy(policy_id)
-        if row is None:
-            raise KeyError(f"Unknown CALO policy: {policy_id}")
-        return self._from_row(row)
-
-    def training_evaluation_count(self, policy_id: str) -> int | None:
-        """Return exact cumulative training evaluations, excluding qualification/experiments."""
-
+        if not all(_valid_count(value) for value in values.values()):
+            raise ValueError("Policy counted-evaluation accounting is invalid")
+        if values["total_counted_candidate_evaluations"] != (
+            values["training_candidate_evaluations"]
+            + values["generalization_guard_candidate_evaluations"]
+        ):
+            raise ValueError("Policy counted-evaluation accounting is inconsistent")
         policy = self.get(policy_id)
-        retained = policy.metadata.get("training_candidate_evaluations")
-        if isinstance(retained, int) and not isinstance(retained, bool) and retained > 0:
+        training = _core.PolicyRegistry.training_evaluation_count(self, policy_id)
+        if training is None or int(training) != values["training_candidate_evaluations"]:
+            raise ValueError(
+                "Policy counted-evaluation accounting does not match its authenticated receipts"
+            )
+        metadata = dict(policy.metadata)
+        retained = _metadata_evaluation_accounting(metadata)
+        if retained is not None and retained != values:
+            raise ValueError("Registered policy counted-evaluation accounting changed")
+        metadata.update(values)
+        metadata.update(
+            {
+                "training_evaluation_count_scope": (
+                    "cumulative_exact_training_candidate_evaluations"
+                ),
+                "counted_evaluation_count_scope": (
+                    "cumulative_exact_training_and_learning_health_candidate_evaluations"
+                ),
+                "legacy_candidate_evaluation_fields_are_training_only": True,
+            }
+        )
+        self.database.update_policy(policy.id, metadata_json=metadata)
+        return self.get(policy.id)
+
+    def training_evaluation_accounting(self, policy_id: str) -> dict | None:
+        policy = self.get(policy_id)
+        retained = _metadata_evaluation_accounting(dict(policy.metadata))
+        if retained is not None:
             return retained
-        if policy.algorithm_id != TSH_CALO_ALGORITHM_ID or not policy.usable:
+        if policy.algorithm_id != _core.TSH_CALO_ALGORITHM_ID or not policy.usable:
             return None
         try:
-            artifact = inspect_tsh_calo_candidate(
+            artifact = _core.inspect_tsh_calo_candidate(
                 policy.checkpoint_path,
                 expected_sha256=policy.sha256,
             )
-            return count_tsh_calo_candidate_training_evaluations(artifact)
+            return _candidate_evaluation_accounting(artifact)
         except (OSError, RuntimeError, TypeError, ValueError):
             return None
 
-    def inspect_qualification_candidate(self, policy_id: str):
-        """Verify the stage-neutral immutable contract for formal qualification.
-
-        Source revision and historical development receipts remain provenance. Eligibility is
-        instead bound to the current frozen runtime ABI, an exact checksum, an epistemic ensemble,
-        validated member architectures, authenticated training receipts, and protected-case
-        isolation enforced by ``inspect_tsh_calo_candidate``.
-        """
-
-        policy = self.get(policy_id)
-        if policy.archived:
-            raise ValueError("The selected policy is archived")
-        if not policy.usable:
-            raise ValueError("The selected policy model file is unavailable")
-        if not policy.compatible_with(TSH_CALO_ALGORITHM_ID):
-            raise ValueError(
-                "The selected policy is incompatible with the frozen TSH-CALO runtime ABI"
-            )
-        artifact = inspect_tsh_calo_candidate(
-            policy.checkpoint_path,
-            expected_sha256=policy.sha256,
-        )
-        if artifact.artifact_kind != "ensemble_policy" or artifact.ensemble_size < 2:
-            raise ValueError("Formal qualification requires an epistemic ensemble policy")
-        if artifact.ensemble_size != int(policy.metadata.get("ensemble_size", 1)):
-            raise ValueError("The registered ensemble size differs from the immutable artifact")
-        if artifact.feature_flags != dict(policy.metadata.get("feature_flags", {}) or {}):
-            raise ValueError("The registered feature flags differ from the immutable artifact")
-        if artifact.feature_flags.get("population_schedule") or artifact.feature_flags.get(
-            "allow_experimental_components"
-        ):
-            raise ValueError(
-                "Formal qualification requires the frozen production architecture; this "
-                "candidate enables unsupported experimental architecture options"
-            )
-        return artifact
-
-    def activate(
-        self,
-        policy_id: str,
-        *,
-        allow_unqualified: bool = False,
-        algorithm_id: str = CALO_ALGORITHM_ID,
-    ) -> PolicyRecord:
-        policy = self.get(policy_id)
-        if algorithm_id != TSH_CALO_ALGORITHM_ID:
-            raise ValueError("Activation accepts only a compatible frozen TSH-CALO ensemble")
-        if algorithm_id == TSH_CALO_ALGORITHM_ID and allow_unqualified:
-            raise ValueError("TSH-CALO policies cannot be activated before qualification")
-        if (
-            algorithm_id == TSH_CALO_ALGORITHM_ID
-            and int(policy.metadata.get("ensemble_size", 1)) < 2
-        ):
-            raise ValueError("TSH-CALO activation requires a qualified epistemic ensemble artifact")
-        if not policy.usable:
-            raise ValueError(
-                f"Policy {policy.name!r} is archived or its checkpoint file is unavailable"
-            )
-        if not policy.compatible_with(algorithm_id):
-            raise ValueError(
-                f"Policy {policy.name!r} is not compatible with the {algorithm_id} runtime schema. "
-                "Import/train a native compatible policy before activation."
-            )
-        if policy.qualification_status not in {"qualified", "scientist_selected"}:
-            raise ValueError(
-                f"Policy {policy.name!r} is {policy.qualification_status!r}. "
-                "A policy requires legacy qualification or an explicit scientist selection before activation."
-            )
-        self.inspect_qualification_candidate(policy.id)
-        if algorithm_id == TSH_CALO_ALGORITHM_ID:
-            rows = [
-                row
-                for row in self.database.list_policy_qualifications(policy.id)
-                if bool(row.get("passed", False))
-            ]
-            if not rows:
-                raise ValueError(
-                    "TSH-CALO activation requires a retained scientist/legacy decision"
-                )
-            qualification = rows[0]
-            receipt = load_tsh_calo_qualification_receipt(
-                json.loads(str(qualification.get("config_json", "{}")) or "{}"),
-                expected_policy_sha256=policy.sha256,
-            )
-            qualification_metrics = json.loads(str(qualification.get("metrics_json", "{}")) or "{}")
-            admission_schema = qualification_metrics.get("admission_schema_version")
-            if admission_schema == "tsh-calo-policy-qualification-admission-v1":
-                verified = inspect_qualification_evidence(
-                    str(qualification_metrics.get("evidence_directory", "")),
-                    expected_policy_sha256=policy.sha256,
-                )
-                if verified.qualification_id != str(qualification.get("id", "")):
-                    raise ValueError(
-                        "Retained qualification evidence identity changed before activation"
-                    )
-            elif admission_schema == "tsh-calo-policy-feasibility-admission-v1":
-                verified_assessment = inspect_feasibility_assessment(
-                    str(qualification_metrics.get("evidence_directory", "")),
-                    expected_policy_sha256=policy.sha256,
-                )
-                if verified_assessment.assessment_id != str(qualification.get("id", "")):
-                    raise ValueError("Retained feasibility assessment identity changed")
-            elif admission_schema:
-                raise ValueError("Retained policy decision evidence schema is incompatible")
-            metadata = dict(policy.metadata)
-            activated_key = (
-                "activated_assessment"
-                if admission_schema == "tsh-calo-policy-feasibility-admission-v1"
-                else "activated_qualification"
-            )
-            metadata[activated_key] = {
-                "assessment_id": str(qualification.get("id", "")),
-                "qualification_id": str(qualification.get("id", "")),
-                "created_at": str(qualification.get("created_at", "")),
-                "grade": str(qualification.get("grade", "")),
-                "receipt": receipt.as_dict(),
-            }
-            if activated_key == "activated_assessment":
-                selection = dict(metadata.get("scientist_selection", {}) or {})
-                if (
-                    selection.get("assessment_id") != str(qualification.get("id", ""))
-                    or str(selection.get("candidate_sha256", "")).lower() != policy.sha256.lower()
-                ):
-                    raise ValueError(
-                        "Scientist selection does not bind the assessment being activated"
-                    )
-                selection["activation_performed"] = True
-                selection["activated_at"] = _utcnow()
-                metadata["scientist_selection"] = selection
-            self.database.update_policy(policy.id, metadata_json=metadata)
-        self.database.set_active_policy(policy_id)
-        return self.get(policy_id)
-
-    def inspect_qualification_evidence(
-        self, policy_id: str, directory: str | Path
-    ) -> VerifiedQualificationEvidence:
-        """Verify passed formal evidence for one exact registered policy without mutating it."""
-
-        policy = self.get(policy_id)
-        self.inspect_qualification_candidate(policy.id)
-        return inspect_qualification_evidence(
-            directory,
-            expected_policy_sha256=policy.sha256,
+    def counted_evaluation_count(self, policy_id: str) -> int | None:
+        accounting = self.training_evaluation_accounting(policy_id)
+        return (
+            int(accounting["total_counted_candidate_evaluations"])
+            if accounting is not None
+            else None
         )
 
-    def admit_qualification_evidence(self, policy_id: str, directory: str | Path) -> PolicyRecord:
-        """Explicitly admit independently produced evidence; never activate the policy."""
+    def register(
+        self, path: str | Path, *, name: str | None = None, status: str | None = None
+    ):
+        policy = super().register(path, name=name, status=status)
+        if _metadata_evaluation_accounting(dict(policy.metadata)) is not None:
+            return policy
+        accounting = self.training_evaluation_accounting(policy.id)
+        if accounting is None:
+            return policy
+        try:
+            return self.bind_training_evaluation_accounting(policy.id, accounting)
+        except ValueError:
+            # Registration integrity remains governed by the core registry.  A missing cumulative
+            # extension manifest affects presentation only and must not fabricate a lower total.
+            return self.get(policy.id)
 
-        verified = self.inspect_qualification_evidence(policy_id, directory)
-        self.database.admit_verified_policy_qualification(
-            qualification_id=verified.qualification_id,
-            policy_id=policy_id,
-            expected_sha256=verified.policy_sha256,
-            config=verified.config,
-            metrics=verified.metrics,
-            grade=verified.grade,
-            score=verified.score,
-        )
-        return self.get(policy_id)
 
-    def inspect_feasibility_assessment(
-        self, policy_id: str, directory: str | Path
-    ) -> VerifiedFeasibilityAssessment:
-        """Verify a complete measurement dossier without changing candidate state."""
+_core.PolicyRegistry = PolicyRegistry
 
-        policy = self.get(policy_id)
-        self.inspect_qualification_candidate(policy.id)
-        return inspect_feasibility_assessment(
-            directory,
-            expected_policy_sha256=policy.sha256,
-        )
 
-    def admit_feasibility_assessment(self, policy_id: str, directory: str | Path) -> PolicyRecord:
-        """Retain verified ratings while leaving scientist selection and activation undone."""
-
-        verified = self.inspect_feasibility_assessment(policy_id, directory)
-        self.database.admit_verified_policy_assessment(
-            assessment_id=verified.assessment_id,
-            policy_id=policy_id,
-            expected_sha256=verified.policy_sha256,
-            config=verified.config,
-            metrics=verified.metrics,
-            score=verified.score,
-        )
-        return self.get(policy_id)
-
-    def feasibility_assessment_summaries(self, policy_id: str | None = None) -> list[dict]:
-        """Return current checksum-verified dossiers, including unselected candidates."""
-
-        policies = self.list(include_archived=True)
-        if policy_id is not None:
-            policies = [item for item in policies if item.id == str(policy_id)]
-        rows: list[dict] = []
-        for policy in policies:
-            for retained in self.database.list_policy_qualifications(policy.id):
-                try:
-                    metrics = json.loads(str(retained.get("metrics_json", "{}")) or "{}")
-                    if metrics.get("admission_schema_version") != (
-                        "tsh-calo-policy-feasibility-admission-v1"
-                    ):
-                        continue
-                    verified = inspect_feasibility_assessment(
-                        str(metrics.get("evidence_directory", "")),
-                        expected_policy_sha256=policy.sha256,
-                    )
-                    if verified.assessment_id != str(retained.get("id", "")):
-                        raise ValueError("retained feasibility assessment identity changed")
-                    rows.append(
-                        {
-                            "policy_id": policy.id,
-                            "policy_name": policy.name,
-                            "candidate_sha256": policy.sha256,
-                            "assessment_id": verified.assessment_id,
-                            "assessed_at": str(retained.get("created_at", "")),
-                            "scientist_selected": bool(retained.get("passed", False)),
-                            "active": bool(policy.active),
-                            "usable": bool(policy.usable),
-                            "compatible": bool(policy.compatible_with(TSH_CALO_ALGORITHM_ID)),
-                            **verified.metrics,
-                        }
-                    )
-                except (OSError, RuntimeError, TypeError, ValueError, json.JSONDecodeError) as exc:
-                    rows.append(
-                        {
-                            "policy_id": policy.id,
-                            "policy_name": policy.name,
-                            "candidate_sha256": policy.sha256,
-                            "assessment_id": str(retained.get("id", "")),
-                            "scientist_selected": False,
-                            "active": bool(policy.active),
-                            "usable": False,
-                            "compatible": False,
-                            "verification_error": str(exc),
-                        }
-                    )
-        return rows
-
-    def select_assessed_policy(self, policy_id: str) -> PolicyRecord:
-        """Record a scientist's explicit choice of one measured candidate; never activate it."""
-
-        policy = self.get(policy_id)
-        if policy.active or policy.archived:
-            raise ValueError("Only an inactive, unarchived assessed policy can be selected")
-        assessments = [
-            item
-            for item in self.feasibility_assessment_summaries(policy.id)
-            if not item.get("verification_error")
-        ]
-        if not assessments:
-            raise ValueError("The selected policy has no integrity-valid feasibility assessment")
-        assessment = assessments[0]
-        self.database.record_scientist_policy_selection(
-            policy_id=policy.id,
-            assessment_id=str(assessment["assessment_id"]),
-            expected_sha256=policy.sha256,
-            evidence_sha256=str(assessment["evidence_artifact_sha256"]),
-        )
-        return self.get(policy.id)
-
-    def qualification_evidence_summaries(self) -> list[dict]:
-        """Return checksum-verified, directly comparable summaries for qualified policies."""
-
-        rows: list[dict] = []
-        for policy in self.list(include_archived=False):
-            if policy.qualification_status != "qualified":
-                continue
-            qualifications = [
-                row
-                for row in self.database.list_policy_qualifications(policy.id)
-                if bool(row.get("passed", False))
-            ]
-            if not qualifications:
-                continue
-            qualification = qualifications[0]
-            try:
-                receipt = load_tsh_calo_qualification_receipt(
-                    json.loads(str(qualification.get("config_json", "{}")) or "{}"),
-                    expected_policy_sha256=policy.sha256,
-                )
-                metrics = json.loads(str(qualification.get("metrics_json", "{}")) or "{}")
-                evidence_directory = str(metrics.get("evidence_directory", ""))
-                verified = inspect_qualification_evidence(
-                    evidence_directory,
-                    expected_policy_sha256=policy.sha256,
-                )
-                if verified.qualification_id != str(qualification.get("id", "")):
-                    raise ValueError("retained evidence identity changed after admission")
-                metrics = verified.metrics
-                summary = dict(metrics.get("summary", {}) or {})
-                protocol = str(metrics.get("comparison_protocol_sha256", ""))
-                self.inspect_qualification_candidate(policy.id)
-                if not protocol or not summary:
-                    raise ValueError("retained evidence summary is incomplete")
-                rows.append(
-                    {
-                        "policy_id": policy.id,
-                        "policy_name": policy.name,
-                        "active": bool(policy.active),
-                        "grade": policy.grade,
-                        "usable": bool(policy.usable),
-                        "compatible": bool(policy.compatible_with(TSH_CALO_ALGORITHM_ID)),
-                        "qualification_contract_compatible": True,
-                        "qualification_id": str(qualification.get("id", "")),
-                        "qualified_at": str(qualification.get("created_at", "")),
-                        "receipt_sha256": receipt.receipt_sha256,
-                        "comparison_protocol_sha256": protocol,
-                        "development_cases": list(metrics.get("development_cases", [])),
-                        "runs_per_case": int(metrics.get("runs_per_case", 0)),
-                        "max_evaluations": int(metrics.get("max_evaluations", 0)),
-                        "summary": summary,
-                        "recommendation": "Scientist review required",
-                    }
-                )
-            except (OSError, RuntimeError, TypeError, ValueError, json.JSONDecodeError):
-                rows.append(
-                    {
-                        "policy_id": policy.id,
-                        "policy_name": policy.name,
-                        "active": bool(policy.active),
-                        "grade": policy.grade,
-                        "usable": False,
-                        "compatible": False,
-                        "qualification_contract_compatible": False,
-                        "qualification_id": str(qualification.get("id", "")),
-                        "qualified_at": str(qualification.get("created_at", "")),
-                        "receipt_sha256": "",
-                        "comparison_protocol_sha256": "",
-                        "development_cases": [],
-                        "runs_per_case": 0,
-                        "max_evaluations": 0,
-                        "summary": {},
-                        "recommendation": "Evidence verification failed",
-                    }
-                )
-        groups: dict[str, list[dict]] = {}
-        for row in rows:
-            protocol = str(row.get("comparison_protocol_sha256", ""))
-            if protocol and row.get("summary"):
-                groups.setdefault(protocol, []).append(row)
-        for comparable in groups.values():
-            if len(comparable) == 1:
-                comparable[0]["recommendation"] = "Only policy in this evidence design"
-                continue
-            leaders = [
-                candidate
-                for candidate in comparable
-                if all(
-                    candidate is other or pareto_dominates(candidate["summary"], other["summary"])
-                    for other in comparable
-                )
-            ]
-            if len(leaders) == 1:
-                leaders[0]["recommendation"] = "Strongest comparable evidence"
-                for candidate in comparable:
-                    if candidate is not leaders[0]:
-                        candidate["recommendation"] = "Dominated by strongest comparable evidence"
-            else:
-                for candidate in comparable:
-                    candidate["recommendation"] = "Trade-off; scientist review required"
-        return rows
-
-    def archive(self, policy_id: str) -> None:
-        policy = self.get(policy_id)
-        if policy.active:
-            raise ValueError("The active policy cannot be archived. Activate another policy first.")
-        self.database.update_policy(policy_id, archived=True)
-
-    def unarchive(self, policy_id: str) -> None:
-        policy = self.get(policy_id)
-        if not policy.archived:
-            return
-        self.database.update_policy(policy_id, archived=False)
-
-    def delete(self, policy_id: str, *, delete_artifact: bool = False) -> None:
-        del policy_id, delete_artifact
-        raise PermissionError(
-            "Direct policy deletion is disabled. Export an exact policy-retirement inventory and "
-            "dry-run plan; protected removal requires separate authorization and an immutable receipt."
-        )
-
-    def unqualified_candidate_removal_blocker(self, policy_id: str) -> str:
-        """Explain why one registered unqualified candidate cannot use direct removal."""
-
-        policy = self.get(policy_id)
-        if policy.active:
-            return "The active governing policy cannot be removed. Activate another policy first."
-        if not Path(policy.checkpoint_path).expanduser().is_file():
-            return "The registered model file is unavailable and cannot pass removal verification."
-        if policy.qualification_status in {"qualified", "scientist_selected", "assessed"}:
-            return "Assessed or selected policies require the reviewed policy-retirement workflow."
-        if self.database.list_policy_qualifications(policy.id):
-            return "Policies with qualification evidence require the reviewed retirement workflow."
-        if self.database.policy_reference_count(policy.id, policy.sha256):
-            return "This policy is referenced by a retained experiment."
-        if self.database.get_policy_checkpoint_by_sha256(policy.sha256) is not None:
-            return "This policy is referenced by a retained lineage checkpoint."
-        return ""
-
-    def remove_unqualified_candidate(
-        self,
-        policy_id: str,
-        *,
-        reason: str = "user_deleted_completed_campaign",
-    ) -> PolicyRecord:
-        """Remove one exact inactive unqualified unreferenced registration, but not its file."""
-
-        policy = self.get(policy_id)
-        blocker = self.unqualified_candidate_removal_blocker(policy.id)
-        if blocker:
-            raise PermissionError(blocker)
-        inspected = self.inspect_checkpoint(policy.checkpoint_path)
-        if inspected["sha256"] != policy.sha256:
-            raise RuntimeError("Policy checkpoint checksum changed after registration")
-        self.database.remove_unreferenced_unqualified_policy(
-            policy.id,
-            expected_sha256=policy.sha256,
-            reason=reason,
-        )
-        return policy
-
-    def bind_to_experiment_config(
-        self,
-        policy_id: str,
-        config,
-        *,
-        deterministic: bool,
-        allow_unqualified: bool = False,
-        algorithm_id: str = CALO_ALGORITHM_ID,
-    ) -> dict:
-        policy = self.get(policy_id)
-        if algorithm_id != TSH_CALO_ALGORITHM_ID:
-            raise ValueError("Experiments may bind only a qualified TSH-CALO ensemble")
-        if algorithm_id == TSH_CALO_ALGORITHM_ID and allow_unqualified:
-            raise ValueError("TSH-CALO experiments cannot consume an unqualified policy")
-        if (
-            algorithm_id == TSH_CALO_ALGORITHM_ID
-            and int(policy.metadata.get("ensemble_size", 1)) < 2
-        ):
-            raise ValueError("TSH-CALO experiments require an activated epistemic ensemble")
-        if algorithm_id == TSH_CALO_ALGORITHM_ID and not policy.active:
-            raise ValueError("TSH-CALO experiments require the explicitly activated ensemble")
-        if not policy.usable:
-            raise ValueError(
-                f"Policy {policy.name!r} is archived or its checkpoint file is unavailable"
-            )
-        if not policy.compatible_with(algorithm_id):
-            raise ValueError(
-                f"Policy {policy.name!r} is incompatible with the {algorithm_id} runtime; experiment binding refused"
-            )
-        if policy.qualification_status not in {"qualified", "scientist_selected"}:
-            raise ValueError(
-                f"Policy {policy.name!r} is {policy.qualification_status!r}. "
-                "A policy must be explicitly scientist-selected or retain legacy qualification."
-            )
-        artifact = self.inspect_qualification_candidate(policy.id)
-        parameters = dict(config.algorithm_parameters.get(algorithm_id, {}))
-        binding = {
-            "policy_algorithm_id": policy.algorithm_id,
-            "policy_id": policy.id,
-            "policy_name": policy.name,
-            "policy_checkpoint": policy.checkpoint_path,
-            "policy_sha256": policy.sha256,
-            "policy_architecture_version": policy.architecture_version,
-            "policy_state_schema_version": policy.state_schema_version,
-            "policy_action_schema_version": policy.action_schema_version,
-            "policy_training_environment_version": policy.training_environment_version,
-            "policy_qualification_status": policy.qualification_status,
-            "policy_grade": policy.grade,
-            "policy_active_at_binding": bool(policy.active),
-            "deterministic_policy": bool(deterministic),
-            "strict_policy_binding": True,
-            "allow_unqualified_policy": bool(allow_unqualified),
-            "allow_cpu_fallback": False,
-            "baseline_fallback_permitted": False,
-        }
-        if policy.algorithm_id == TSH_CALO_ALGORITHM_ID:
-            binding["policy_feature_flags"] = dict(artifact.feature_flags)
-            binding["policy_artifact_kind"] = artifact.artifact_kind
-            binding["policy_ensemble_size"] = artifact.ensemble_size
-            binding["policy_ensemble_members"] = list(
-                artifact.training_provenance.get("members", []) or []
-            )
-            binding["policy_training_provenance"] = (
-                {
-                    "source_kind": "independent_policy_training_ensemble",
-                    "members": list(artifact.training_provenance.get("members", []) or []),
-                }
-                if binding["policy_artifact_kind"] == "ensemble_policy"
-                else dict(policy.metadata.get("training_provenance", {}))
-            )
-            activated = dict(
-                policy.metadata.get(
-                    "activated_assessment"
-                    if policy.qualification_status == "scientist_selected"
-                    else "activated_qualification",
-                    {},
-                )
-                or {}
-            )
-            receipt = load_tsh_calo_qualification_receipt(
-                {"tsh_calo_qualification_receipt": activated.get("receipt", {})},
-                expected_policy_sha256=policy.sha256,
-            )
-            binding["policy_qualification_id"] = str(activated.get("qualification_id", ""))
-            binding["policy_qualification_receipt_sha256"] = receipt.receipt_sha256
-            binding["policy_qualification_receipt"] = receipt.as_dict()
-            binding["policy_ood_calibration_sha256"] = receipt.ood_calibration_sha256
-            binding["ood_calibration"] = dict(receipt.ood_calibration)
-            if policy.qualification_status == "scientist_selected":
-                selection = dict(policy.metadata.get("scientist_selection", {}) or {})
-                if (
-                    selection.get("assessment_id") != activated.get("assessment_id")
-                    or str(selection.get("candidate_sha256", "")).lower() != policy.sha256.lower()
-                ):
-                    raise ValueError("Scientist selection no longer binds the activated assessment")
-                binding["policy_assessment_id"] = str(activated.get("assessment_id", ""))
-                binding["policy_assessment_receipt_sha256"] = receipt.receipt_sha256
-                binding["policy_assessment_receipt"] = receipt.as_dict()
-                binding["policy_scientist_selection"] = selection
-        parameters.update(binding)
-        config.algorithm_parameters[algorithm_id] = parameters
-        return binding
-
-    def register_lineage_snapshot(
-        self,
-        path: str | Path,
-        *,
-        lineage_id: str,
-        cumulative_epoch: int,
-        phase_index: int = 1,
-        resume_path: str | Path = "",
-        name: str | None = None,
-    ) -> tuple[PolicyRecord, object]:
-        """Register one immutable usable checkpoint in both the policy library and lineage history."""
-        policy = self.register(path, name=name or Path(path).stem)
-        checkpoint = self.lineages.register_checkpoint(
-            lineage_id,
-            path,
-            cumulative_epoch=int(cumulative_epoch),
-            phase_index=int(phase_index),
-            resume_path=resume_path,
-            metadata={"policy_id": policy.id, "policy_name": policy.name},
-        )
-        return policy, checkpoint
-
-    def create_lineage(
-        self,
-        name: str,
-        *,
-        parent_lineage_id: str = "",
-        forked_from_checkpoint_id: str = "",
-        notes: str = "",
-    ) -> str:
-        return str(
-            self.lineages.create(
-                name,
-                parent_lineage_id=parent_lineage_id,
-                forked_from_checkpoint_id=forked_from_checkpoint_id,
-                notes=notes,
-            )
-        )
-
-    @staticmethod
-    def _from_row(row: dict) -> PolicyRecord:
-        metadata = json.loads(row.get("metadata_json") or "{}")
-        return PolicyRecord(
-            id=str(row["id"]),
-            name=str(row["name"]),
-            checkpoint_path=str(row["checkpoint_path"]),
-            sha256=str(row["sha256"]),
-            architecture_version=str(row["architecture_version"]),
-            state_schema_version=str(row["state_schema_version"]),
-            action_schema_version=str(row["action_schema_version"]),
-            training_environment_version=str(row["training_environment_version"]),
-            algorithm_id=str(metadata.get("algorithm_id", CALO_ALGORITHM_ID)),
-            qualification_status=str(row["qualification_status"]),
-            grade=str(row["grade"]),
-            active=bool(row["active"]),
-            archived=bool(row["archived"]),
-            metadata=metadata,
-        )
+__all__ = tuple(
+    sorted(
+        name
+        for name in globals()
+        if not name.startswith("_") and name not in {"Path", "annotations"}
+    )
+)
