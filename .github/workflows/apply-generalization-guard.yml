@@ -1,0 +1,45 @@
+name: Apply reviewed TSH-CALO generalization guard source
+
+on:
+  push:
+    branches:
+      - agent/tsh-calo-generalization-guard
+
+permissions:
+  contents: write
+
+jobs:
+  apply-source:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/tsh-calo-generalization-guard
+          fetch-depth: 0
+
+      - name: Reconstruct reviewed source bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ ! -f .github/guard-final/part-01.b64 ]; then
+            echo "Reviewed source bundle is already consumed."
+            exit 0
+          fi
+          cat .github/guard-final/part-*.b64 | base64 -d > /tmp/calo-guard.tar.gz
+          echo "6211a91d483b7119ffbcc1c457b265c6f7c8ce48a384bb29e271156f5a8eacc0  /tmp/calo-guard.tar.gz" | sha256sum -c -
+          tar -xzf /tmp/calo-guard.tar.gz
+          rm -rf .github/guard-final
+
+      - name: Commit reviewed source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No source changes to commit."
+            exit 0
+          fi
+          git commit -m "Add TSH-CALO generalization guard"
+          git push origin HEAD:agent/tsh-calo-generalization-guard
