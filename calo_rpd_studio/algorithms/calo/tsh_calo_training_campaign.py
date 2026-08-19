@@ -29,6 +29,15 @@ from calo_rpd_studio.orpd.problem import ORPDProblem
 from calo_rpd_studio.power_system.case_identity import protected_holdout_matches
 from calo_rpd_studio.power_system.case_loader import CaseLoader
 
+from .tsh_calo_generalization_guard import (
+    TSH_CALO_GENERALIZATION_GUARD_SCHEMA,
+    TSHCALOGeneralizationGuardConfig,
+    build_generalization_guard_provenance,
+    evaluate_generalization_bundle,
+    generalization_guard_design_sha256,
+    validate_generalization_evidence,
+    validate_generalization_guard_provenance,
+)
 from .tsh_calo_policy import TSHCALOPolicyNetwork
 from .tsh_calo_policy_artifact import (
     TSHCALOCandidateArtifact,
@@ -167,7 +176,10 @@ def tsh_calo_training_compatibility_contract(
     """
 
     field_paths = _field_schema_paths(_training_parameter_schema_payload(plan.to_dict()))
-    training_fields = tuple(sorted(asdict(plan.training_config(plan.members[0])).keys()))
+    training_payload = asdict(plan.training_config(plan.members[0]))
+    if not training_payload.get("generalization_guard_sha256"):
+        training_payload.pop("generalization_guard_sha256", None)
+    training_fields = tuple(sorted(training_payload.keys()))
     episode = plan.members[0].episodes[0]
     environment = plan.environment_config(plan.training_config(plan.members[0]), episode)
     environment_fields = tuple(sorted(asdict(environment).keys()))
@@ -427,6 +439,9 @@ class TSHCALOTrainingCampaignPlan:
     requested_device: str = "auto"
     allow_cpu_fallback: bool = True
     feature_flags: TSHCALOFeatureFlags = field(default_factory=TSHCALOFeatureFlags)
+    # Missing/None preserves pre-guard campaign hashes. New callers may explicitly enable the
+    # guard and thereby bind it into the frozen training design.
+    generalization_guard: TSHCALOGeneralizationGuardConfig | None = None
     schema_version: str = TSH_CALO_TRAINING_CAMPAIGN_SCHEMA
 
     def validate(self) -> None:
@@ -489,6 +504,9 @@ class TSHCALOTrainingCampaignPlan:
         all_session_ids = [
             episode.session_id for member in self.members for episode in member.episodes
         ]
+        all_episode_seeds = tuple(
+            int(episode.seed) for member in self.members for episode in member.episodes
+        )
         if len(set(all_session_ids)) != len(all_session_ids):
             raise ValueError("TSH-CALO campaign session IDs must be globally unique")
         expected_cases = set(self.development_cases)
@@ -513,6 +531,12 @@ class TSHCALOTrainingCampaignPlan:
             raise ValueError("TSH-CALO campaign CPU-fallback control must be Boolean")
         self.resource_envelope.validate()
         self.feature_flags.validate()
+        if self.generalization_guard is not None:
+            self.generalization_guard.validate(
+                development_cases=self.development_cases,
+                population_size=self.population_size,
+                training_episode_seeds=all_episode_seeds,
+            )
         if (
             self.feature_flags.population_schedule
             or self.feature_flags.allow_experimental_components
@@ -554,6 +578,8 @@ class TSHCALOTrainingCampaignPlan:
     def to_dict(self) -> dict:
         payload = asdict(self)
         payload["development_cases"] = list(self.development_cases)
+        if self.generalization_guard is None:
+            payload.pop("generalization_guard", None)
         payload["members"] = [
             {
                 "member_id": member.member_id,
@@ -588,6 +614,12 @@ class TSHCALOTrainingCampaignPlan:
                 **dict(values.get("environment", {}))
             )
             values["feature_flags"] = TSHCALOFeatureFlags(**dict(values.get("feature_flags", {})))
+            if "generalization_guard" in values:
+                values["generalization_guard"] = TSHCALOGeneralizationGuardConfig.from_dict(
+                    values.get("generalization_guard")
+                )
+            else:
+                values["generalization_guard"] = None
             plan = cls(**values)
         except (KeyError, TypeError) as exc:
             raise ValueError("TSH-CALO campaign plan fields are incomplete") from exc
@@ -606,6 +638,16 @@ class TSHCALOTrainingCampaignPlan:
             "seed": member.training_seed,
             "device": self.requested_device,
             "allow_cpu_fallback": self.allow_cpu_fallback,
+            "generalization_guard_sha256": (
+                generalization_guard_design_sha256(
+                    self.generalization_guard,
+                    development_cases=self.development_cases,
+                    population_size=self.population_size,
+                    environment_template=asdict(self.environment),
+                )
+                if self.generalization_guard is not None and self.generalization_guard.enabled
+                else ""
+            ),
             "feature_flags": self.feature_flags,
         }
         self.training.apply(values)
@@ -720,6 +762,222 @@ class IndependentTSHCALOTrainingCampaign:
 
     def _candidate_path(self, member_index: int) -> Path:
         return self.output_directory / f"member-{member_index + 1:03d}.candidate.pt"
+
+    def _generalization_guard_config(self) -> TSHCALOGeneralizationGuardConfig | None:
+        config = self.plan.generalization_guard
+        return config if config is not None and config.enabled else None
+
+    def _generalization_member_state(self, status: dict, member_index: int) -> dict:
+        root = status.setdefault(
+            "generalization_guard",
+            {"schema_version": TSH_CALO_GENERALIZATION_GUARD_SCHEMA, "members": {}},
+        )
+        if root.get("schema_version") != TSH_CALO_GENERALIZATION_GUARD_SCHEMA:
+            raise ValueError("TSH-CALO campaign generalization-guard status is incompatible")
+        members = root.setdefault("members", {})
+        if not isinstance(members, dict):
+            raise ValueError("TSH-CALO campaign generalization member status is invalid")
+        return members.setdefault(
+            str(int(member_index)),
+            {
+                "baseline_monitor_evidence": None,
+                "baseline_final_evidence": None,
+                "monitor_evidence": [],
+                "result": None,
+            },
+        )
+
+    def _evaluate_generalization(
+        self,
+        trainer: IndependentTSHCALOTrainer,
+        training: TSHCALOTrainingConfig,
+        *,
+        final: bool,
+        observation_index: int,
+    ) -> dict:
+        config = self._generalization_guard_config()
+        if config is None:
+            raise RuntimeError("TSH-CALO generalization guard is not enabled for this plan")
+        return evaluate_generalization_bundle(
+            trainer,
+            training,
+            config,
+            development_cases=self.plan.development_cases,
+            population_size=self.plan.population_size,
+            environment_template=asdict(self.plan.environment),
+            problem_factory=lambda identity: self._build_problem(
+                identity, device_hint=str(trainer.device)
+            ),
+            final=final,
+            observation_index=observation_index,
+            evaluation_backend="campaign_problem_factory",
+        )
+
+    def _validate_generalization_evidence_record(
+        self,
+        evidence: dict,
+        training: TSHCALOTrainingConfig,
+        *,
+        final: bool,
+    ) -> None:
+        config = self._generalization_guard_config()
+        if config is None:
+            raise RuntimeError("TSH-CALO generalization guard is not enabled for this plan")
+        validate_generalization_evidence(
+            evidence,
+            config=config,
+            training_design_sha256=training.scientific_design_hash(),
+            development_cases=self.plan.development_cases,
+            population_size=self.plan.population_size,
+            final=final,
+            expected_guard_design_sha256=training.generalization_guard_sha256,
+            expected_environment_template=asdict(self.plan.environment),
+        )
+
+    def _ensure_generalization_baseline(
+        self,
+        status: dict,
+        member_index: int,
+        trainer: IndependentTSHCALOTrainer,
+        training: TSHCALOTrainingConfig,
+        *,
+        receipt_offset: int,
+    ) -> None:
+        if self._generalization_guard_config() is None:
+            return
+        slot = self._generalization_member_state(status, member_index)
+        monitor = slot.get("baseline_monitor_evidence")
+        final = slot.get("baseline_final_evidence")
+        if isinstance(monitor, dict) and isinstance(final, dict):
+            self._validate_generalization_evidence_record(monitor, training, final=False)
+            self._validate_generalization_evidence_record(final, training, final=True)
+            baseline_updates = (
+                int(trainer.training_episode_receipts[int(receipt_offset) - 1]["ppo_update_count"])
+                if int(receipt_offset) > 0
+                else 0
+            )
+            if int(monitor.get("observation_index", -1)) != 0 or int(
+                final.get("observation_index", -1)
+            ) != 0:
+                raise ValueError("TSH-CALO generalization baseline observation index changed")
+            if int(monitor.get("ppo_update_steps_observed", -1)) != baseline_updates or int(
+                final.get("ppo_update_steps_observed", -1)
+            ) != baseline_updates:
+                raise ValueError("TSH-CALO generalization baseline PPO boundary changed")
+            return
+        if monitor is not None or final is not None:
+            raise ValueError("TSH-CALO generalization baseline status is incomplete")
+        if len(trainer.training_episode_receipts) != int(receipt_offset):
+            raise RuntimeError(
+                "TSH-CALO generalization baseline cannot be created after segment training began"
+            )
+        slot["baseline_monitor_evidence"] = self._evaluate_generalization(
+            trainer, training, final=False, observation_index=0
+        )
+        slot["baseline_final_evidence"] = self._evaluate_generalization(
+            trainer, training, final=True, observation_index=0
+        )
+        self._write_status(status)
+
+    def _record_generalization_monitor(
+        self,
+        status: dict,
+        member_index: int,
+        trainer: IndependentTSHCALOTrainer,
+        training: TSHCALOTrainingConfig,
+        *,
+        receipt_offset: int,
+    ) -> None:
+        if self._generalization_guard_config() is None:
+            return
+        slot = self._generalization_member_state(status, member_index)
+        evidence = slot.setdefault("monitor_evidence", [])
+        if not isinstance(evidence, list):
+            raise ValueError("TSH-CALO generalization monitor status is invalid")
+        for observation_index, item in enumerate(evidence, start=1):
+            if not isinstance(item, dict):
+                raise ValueError("TSH-CALO generalization monitor evidence is invalid")
+            self._validate_generalization_evidence_record(item, training, final=False)
+            receipt_index = int(receipt_offset) + observation_index - 1
+            if receipt_index >= len(trainer.training_episode_receipts):
+                raise ValueError("TSH-CALO generalization monitor precedes its training receipt")
+            expected_update = int(
+                trainer.training_episode_receipts[receipt_index]["ppo_update_count"]
+            )
+            if int(item.get("observation_index", -1)) != observation_index or int(
+                item.get("ppo_update_steps_observed", -1)
+            ) != expected_update:
+                raise ValueError("TSH-CALO generalization monitor PPO boundary changed")
+        completed = len(trainer.training_episode_receipts) - int(receipt_offset)
+        if completed < 0 or len(evidence) > completed:
+            raise ValueError("TSH-CALO generalization monitor/receipt accounting is inconsistent")
+        if len(evidence) == completed:
+            return
+        if len(evidence) != completed - 1:
+            raise RuntimeError(
+                "TSH-CALO generalization monitor evidence cannot be reconstructed after later training"
+            )
+        evidence.append(
+            self._evaluate_generalization(
+                trainer, training, final=False, observation_index=completed
+            )
+        )
+        self._write_status(status)
+
+    def _finalize_generalization_guard(
+        self,
+        status: dict,
+        member_index: int,
+        trainer: IndependentTSHCALOTrainer,
+        training: TSHCALOTrainingConfig,
+        *,
+        receipt_offset: int,
+    ) -> dict | None:
+        config = self._generalization_guard_config()
+        if config is None:
+            return None
+        self._ensure_generalization_baseline(
+            status, member_index, trainer, training, receipt_offset=receipt_offset
+        )
+        self._record_generalization_monitor(
+            status, member_index, trainer, training, receipt_offset=receipt_offset
+        )
+        slot = self._generalization_member_state(status, member_index)
+        result = slot.get("result")
+        if isinstance(result, dict):
+            validate_generalization_guard_provenance(
+                result,
+                training_episode_receipts=tuple(trainer.training_episode_receipts),
+                expected_training_design_sha256=training.scientific_design_hash(),
+            )
+        elif result is not None:
+            raise ValueError("TSH-CALO generalization final status is invalid")
+        else:
+            completed = len(trainer.training_episode_receipts) - int(receipt_offset)
+            final_evidence = self._evaluate_generalization(
+                trainer, training, final=True, observation_index=completed
+            )
+            result = build_generalization_guard_provenance(
+                config=config,
+                training_config=training,
+                development_cases=self.plan.development_cases,
+                population_size=self.plan.population_size,
+                environment_template=asdict(self.plan.environment),
+                training_episode_receipts=tuple(trainer.training_episode_receipts),
+                segment_receipt_offset=int(receipt_offset),
+                baseline_monitor_evidence=dict(slot["baseline_monitor_evidence"]),
+                baseline_final_evidence=dict(slot["baseline_final_evidence"]),
+                monitor_evidence=list(slot.get("monitor_evidence", []) or []),
+                final_evidence=final_evidence,
+            )
+            slot["result"] = result
+            self._write_status(status)
+        if result.get("promotion_allowed") is not True:
+            raise RuntimeError(
+                "TSH-CALO generalization guard blocked candidate export: "
+                + str(result.get("reason", "learning-health evidence did not pass"))
+            )
+        return dict(result)
 
     def _write_status(self, status: dict) -> None:
         status["schema_version"] = TSH_CALO_TRAINING_CAMPAIGN_STATUS_SCHEMA
@@ -1094,6 +1352,21 @@ class IndependentTSHCALOTrainingCampaign:
             raise ValueError(
                 "Existing TSH-CALO member candidate does not match the frozen campaign"
             )
+        guard_payload = dict(provenance.get("generalization_guard", {}) or {})
+        if training.generalization_guard_sha256:
+            if not guard_payload:
+                raise ValueError("Existing TSH-CALO member candidate lacks required generalization evidence")
+            validate_generalization_guard_provenance(
+                guard_payload,
+                training_episode_receipts=tuple(provenance.get("training_episode_receipts", ()) or ()),
+                expected_training_design_sha256=training.scientific_design_hash(),
+            )
+            if guard_payload.get("guard_design_sha256") != training.generalization_guard_sha256:
+                raise ValueError("Existing TSH-CALO member candidate guard design changed")
+            if guard_payload.get("promotion_allowed") is not True:
+                raise ValueError("Existing TSH-CALO member candidate was rejected by the generalization guard")
+        elif guard_payload:
+            raise ValueError("Existing TSH-CALO member candidate contains undeclared generalization evidence")
 
     def _existing_member_candidate(
         self,
@@ -1115,30 +1388,53 @@ class IndependentTSHCALOTrainingCampaign:
         episode_index = int(status.get("current_episode_index", 0))
         checkpoint = status.get("session_checkpoint")
         session: IndependentTSHCALOTrainingSession | None = None
-        trainer: IndependentTSHCALOTrainer | None = None
+        checkpoint_episode: int | None = None
+        trainer: IndependentTSHCALOTrainer
         if isinstance(checkpoint, dict) and int(checkpoint.get("member_index", -1)) == member_index:
             session, checkpoint_episode = self._restore_checkpoint_session(
                 checkpoint, member_index, training
             )
             trainer = session.trainer
-            if checkpoint_episode == episode_index:
-                self._active_session = session
-                self._advance_session(session, status, member_index, episode_index)
-                episode_index += 1
-                status["current_episode_index"] = episode_index
-                self._write_status(status)
-            elif checkpoint_episode != episode_index - 1 or not session.completed:
-                raise ValueError("TSH-CALO campaign checkpoint/status progression is inconsistent")
         else:
             trainer = IndependentTSHCALOTrainer(training)
-        assert trainer is not None
         try:
+            # Fail closed before any resumed PPO work if a guarded segment lost its pre-training
+            # baseline. This also keeps all trainer/device cleanup inside the same finally block.
+            self._ensure_generalization_baseline(
+                status, member_index, trainer, training, receipt_offset=0
+            )
+            if session is not None and checkpoint_episode is not None:
+                if checkpoint_episode == episode_index:
+                    self._active_session = session
+                    self._advance_session(session, status, member_index, episode_index)
+                    self._record_generalization_monitor(
+                        status, member_index, trainer, training, receipt_offset=0
+                    )
+                    episode_index += 1
+                    status["current_episode_index"] = episode_index
+                    self._write_status(status)
+                elif checkpoint_episode != episode_index - 1 or not session.completed:
+                    raise ValueError(
+                        "TSH-CALO campaign checkpoint/status progression is inconsistent"
+                    )
+            # A restored completed checkpoint may have one monitor observation pending because the
+            # process stopped after the authenticated episode checkpoint but before guard evidence
+            # was durably recorded. Recreate only that exact post-episode observation.
+            self._record_generalization_monitor(
+                status, member_index, trainer, training, receipt_offset=0
+            )
             for episode_index in range(episode_index, len(member.episodes)):
                 session = self._new_session(trainer, training, member.episodes[episode_index])
                 self._active_session = session
                 self._advance_session(session, status, member_index, episode_index)
+                self._record_generalization_monitor(
+                    status, member_index, trainer, training, receipt_offset=0
+                )
                 status["current_episode_index"] = episode_index + 1
                 self._write_status(status)
+            guard_result = self._finalize_generalization_guard(
+                status, member_index, trainer, training, receipt_offset=0
+            )
             candidate_path = self._candidate_path(member_index)
             candidate = self._existing_member_candidate(
                 candidate_path, training, len(member.episodes)
@@ -1147,6 +1443,7 @@ class IndependentTSHCALOTrainingCampaign:
                 candidate = trainer.export_unqualified_candidate(
                     candidate_path,
                     source_commit=self.plan.source_commit,
+                    generalization_guard=guard_result,
                 )
             return candidate
         except Exception as exc:

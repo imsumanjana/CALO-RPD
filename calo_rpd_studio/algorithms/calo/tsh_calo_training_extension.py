@@ -470,38 +470,58 @@ class IndependentTSHCALOTrainingExtension:
         training = self.plan.training_config(member)
         episode_index = int(status.get("current_episode_index", 0))
         checkpoint = status.get("session_checkpoint")
+        session: IndependentTSHCALOTrainingSession | None = None
+        restored_episode: int | None = None
         trainer: IndependentTSHCALOTrainer
         if isinstance(checkpoint, dict) and int(checkpoint.get("member_index", -1)) == member_index:
             session, restored_episode = self._restore_segment_session(status, member_index)
             trainer = session.trainer
-            if restored_episode == episode_index:
-                self.runner._active_session = session
-                self.runner._advance_session(session, status, member_index, episode_index)
-                episode_index += 1
-                status["current_episode_index"] = episode_index
-                self.runner._write_status(status)
-            elif restored_episode != episode_index - 1 or not session.completed:
-                raise ValueError("Extension checkpoint/status progression is inconsistent")
         else:
             trainer = self._parent_trainer(member_index)
         try:
+            receipt_offset = int(self.parent.checkpoints[member_index]["receipt_count"])
+            # A finite extension is a new learning segment. Its baseline must exist before any
+            # resumed segment PPO update, otherwise the guard cannot make a valid comparison.
+            self.runner._ensure_generalization_baseline(
+                status, member_index, trainer, training, receipt_offset=receipt_offset
+            )
+            if session is not None and restored_episode is not None:
+                if restored_episode == episode_index:
+                    self.runner._active_session = session
+                    self.runner._advance_session(session, status, member_index, episode_index)
+                    self.runner._record_generalization_monitor(
+                        status, member_index, trainer, training, receipt_offset=receipt_offset
+                    )
+                    episode_index += 1
+                    status["current_episode_index"] = episode_index
+                    self.runner._write_status(status)
+                elif restored_episode != episode_index - 1 or not session.completed:
+                    raise ValueError("Extension checkpoint/status progression is inconsistent")
+            self.runner._record_generalization_monitor(
+                status, member_index, trainer, training, receipt_offset=receipt_offset
+            )
             segment_number = int(status["extension"]["segment_number"])
             for episode_index in range(episode_index, len(member.episodes)):
                 episode = self._extension_episode(member.episodes[episode_index], segment_number)
                 session = self.runner._new_session(trainer, training, episode)
                 self.runner._active_session = session
                 self.runner._advance_session(session, status, member_index, episode_index)
+                self.runner._record_generalization_monitor(
+                    status, member_index, trainer, training, receipt_offset=receipt_offset
+                )
                 status["current_episode_index"] = episode_index + 1
                 self.runner._write_status(status)
+            guard_result = self.runner._finalize_generalization_guard(
+                status, member_index, trainer, training, receipt_offset=receipt_offset
+            )
             candidate_path = self.runner._candidate_path(member_index)
             candidate = trainer.export_unqualified_candidate(
                 candidate_path,
                 source_commit=self.plan.source_commit,
                 execution_source_commit=self.execution_source_commit,
+                generalization_guard=guard_result,
             )
-            expected_receipts = int(self.parent.checkpoints[member_index]["receipt_count"]) + len(
-                member.episodes
-            )
+            expected_receipts = receipt_offset + len(member.episodes)
             if len(candidate.training_provenance["training_episode_receipts"]) != expected_receipts:
                 raise ValueError("Extension candidate receipt accounting is incomplete")
             return candidate
