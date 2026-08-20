@@ -1,0 +1,48 @@
+name: AI repository intelligence
+
+on:
+  push:
+    paths:
+      - "calo_bootstrap/**"
+      - "calo_rpd_studio/**"
+      - "tests/**"
+      - "tools/**"
+      - "scripts/ai-index*"
+      - "pyproject.toml"
+      - "Dockerfile"
+      - "compose.yaml"
+      - ".github/workflows/**"
+      - ".ai/**"
+  pull_request:
+    paths:
+      - "calo_bootstrap/**"
+      - "calo_rpd_studio/**"
+      - "tests/**"
+      - "tools/**"
+      - "scripts/ai-index*"
+      - "pyproject.toml"
+      - "Dockerfile"
+      - "compose.yaml"
+      - ".github/workflows/**"
+      - ".ai/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ai-index-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Verify committed AI index
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out exact revision
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Verify source hashes and index integrity
+        run: python tools/ai_repo_intelligence.py check
