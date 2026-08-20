@@ -33,7 +33,7 @@ IGNORE_PREFIXES = (
     "publication_export/", "calo_rpd_studio/data/pglib/",
     "calo_rpd_studio/data/trained_models/", "calo_rpd_studio/data/frozen/",
 )
-IGNORE_NAMES = {"MANIFEST.sha256"}
+IGNORE_NAMES = {"MANIFEST.sha256", "ai-index.yml", "ai-index-bootstrap.yml"}
 HISTORICAL_PATTERNS = (
     re.compile(r"^CALO-RPD-v.*(?:AUDIT|REPORT|SUMMARY).*$", re.I),
     re.compile(r"^FINDINGS_CLOSURE_.*\.csv$", re.I),
