@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "provider": "concept",
+  "queries": [
+    {
+      "id": "authoritative-app-state",
+      "question": "Where is authoritative shared application state for experiments, policy binding, compute profile, and task status?",
+      "expected_files": ["calo_rpd_studio/app/state_manager.py"],
+      "expected_symbols": ["AppState"],
+      "preferred_edit_target": "calo_rpd_studio/app/state_manager.py"
+    },
+    {
+      "id": "policy-registry-public-surface",
+      "question": "Where should policy registry counted evaluation accounting normally be modified instead of editing the deep core directly?",
+      "expected_files": ["calo_rpd_studio/algorithms/calo/policy_registry.py"],
+      "expected_symbols": ["PolicyRegistry"],
+      "preferred_edit_target": "calo_rpd_studio/algorithms/calo/policy_registry.py"
+    },
+    {
+      "id": "orpd-evaluation-authority",
+      "question": "Where is a normalized ORPD candidate evaluated through power flow objectives constraints and retained counted context?",
+      "expected_files": ["calo_rpd_studio/orpd/problem.py"],
+      "expected_symbols": ["ORPDProblem"],
+      "preferred_edit_target": "calo_rpd_studio/orpd/problem.py"
+    },
+    {
+      "id": "persistence-authority",
+      "question": "Where is durable experiment result provenance failure trace and schema migration persistence owned?",
+      "expected_files": ["calo_rpd_studio/results/database.py"],
+      "expected_symbols": ["ResultDatabase"],
+      "preferred_edit_target": "calo_rpd_studio/results/database.py"
+    },
+    {
+      "id": "training-campaign-public-wrapper",
+      "question": "Where is the supported public training campaign integration layer rather than its private core implementation?",
+      "expected_files": ["calo_rpd_studio/algorithms/calo/tsh_calo_training_campaign.py"],
+      "preferred_edit_target": "calo_rpd_studio/algorithms/calo/tsh_calo_training_campaign.py"
+    }
+  ]
+}
