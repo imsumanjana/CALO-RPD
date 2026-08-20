@@ -10,9 +10,11 @@ TOOLS_DIR = Path(__file__).resolve().parent
 if str(TOOLS_DIR) not in sys.path:
     sys.path.insert(0, str(TOOLS_DIR))
 
+from ai_intelligence.audit_seed import apply_audit_seed
 from ai_intelligence.common import canonical_json, repo_root
 from ai_intelligence.context import build_context
 from ai_intelligence.indexer import current_status, update_index, validate_indexes
+
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
@@ -31,7 +33,9 @@ def main(argv: list[str] | None = None) -> int:
     root = repo_root(args.root)
 
     if args.command in {"init", "update"}:
-        print(canonical_json(update_index(root, initialize=args.command == "init")), end="")
+        result = update_index(root, initialize=args.command == "init")
+        apply_audit_seed(root)
+        print(canonical_json(result), end="")
         return 0
     if args.command == "status":
         result = current_status(root)
@@ -67,6 +71,7 @@ def main(argv: list[str] | None = None) -> int:
         print(build_context(root, args.question, max(1, min(args.limit, 12))), end="")
         return 0
     return 2
+
 
 if __name__ == "__main__":
     raise SystemExit(main())
