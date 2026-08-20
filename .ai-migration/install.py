@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import base64
 import hashlib
+import shutil
 import subprocess
 import sys
 import tarfile
@@ -79,6 +80,10 @@ def main() -> int:
             safe_extract(tf, root)
     finally:
         archive_path.unlink(missing_ok=True)
+
+    # The transport bundle is intentionally temporary. Remove it before indexing so
+    # migration machinery never becomes repository intelligence or long-term source.
+    shutil.rmtree(here)
 
     gitignore = root / '.gitignore'
     current = gitignore.read_text(encoding='utf-8') if gitignore.exists() else ''
