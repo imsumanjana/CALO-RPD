@@ -1,7 +1,7 @@
 # AI index status
 
 - Schema: 1
-- Indexed commit: `c1975dd8382e70655b3cd631a840459971f6f326`
+- Indexed commit: `edf1a5d3aac49cd72195bd8cc8dd6fe6d45750a0`
 - Indexed branch: `agent/ai-repository-intelligence`
 - Source fingerprint: `6fa7e53ca5516dcf37106a4cd8fa33ff11bd246fba0f801b3e9d68f53701201d`
 - Indexed files: 640
