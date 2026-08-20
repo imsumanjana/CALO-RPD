@@ -26,6 +26,12 @@ def apply_audit_seed(root: Path) -> int:
     units: dict[str, Any] = audit.get("units", {})
     applied = 0
 
+    for path, unit in units.items():
+        previous = unit.get("previous_review") or {}
+        if unit.get("re_audit_required") and not previous.get("reviewed"):
+            unit["re_audit_required"] = False
+            unit["changed_at_index_commit"] = None
+
     for path, evidence in sorted(seed.get("units", {}).items()):
         current = files.get(path)
         unit = units.get(path)
