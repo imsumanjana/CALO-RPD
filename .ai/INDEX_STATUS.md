@@ -1,9 +1,9 @@
 # AI index status
 
 - Schema: 1
-- Indexed commit: `f08f4eb1c825b34f9848bf91c28684778c64bfeb`
+- Indexed commit: `992d22daf3894d7a03e904ac4c610fe5469c188e`
 - Indexed branch: `agent/ai-repository-intelligence`
-- Source fingerprint: `130d0cc88b2bfa0be7fa01296a520536fbd30963b1d3f2ebc898b4aae1fefc82`
+- Source fingerprint: `cac7c1ccbad5ea7a49b46170cfb10980dd77bc43a18d592c4f725a68b3fd9f34`
 - Indexed files: 641
 - Indexed symbols: 5337
 - File dependency edges: 1599
@@ -11,7 +11,7 @@
 - Implementation files with mapped tests: 200
 - Parse errors: 0
 - Audited units retained: 9
-- Units requiring re-audit: 1
+- Units requiring re-audit: 0
 - Files changed in this update: 0
 - Files removed since previous index: 0
 
