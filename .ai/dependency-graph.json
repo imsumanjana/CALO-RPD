@@ -9561,6 +9561,12 @@
     {
       "confidence": "confirmed",
       "relationship": "imports",
+      "source": "tools/ai_intelligence/audit_seed.py",
+      "target": "tools/ai_intelligence/common.py"
+    },
+    {
+      "confidence": "confirmed",
+      "relationship": "imports",
       "source": "tools/ai_intelligence/context.py",
       "target": "tools/ai_intelligence/common.py"
     },
@@ -61224,6 +61230,30 @@
       "target": "tests.unit.test_workspace_execution_plans:study_contracts"
     },
     {
+      "confidence": "inferred",
+      "relationship": "calls",
+      "source": "tools.ai_intelligence.audit_seed:apply_audit_seed",
+      "target": "calo_rpd_studio.gui.widgets.chip_editor:IntegerChipEditor.values"
+    },
+    {
+      "confidence": "confirmed",
+      "relationship": "calls",
+      "source": "tools.ai_intelligence.audit_seed:apply_audit_seed",
+      "target": "tools.ai_intelligence.common:canonical_json"
+    },
+    {
+      "confidence": "confirmed",
+      "relationship": "calls",
+      "source": "tools.ai_intelligence.audit_seed:apply_audit_seed",
+      "target": "tools.ai_intelligence.common:read_json"
+    },
+    {
+      "confidence": "confirmed",
+      "relationship": "calls",
+      "source": "tools.ai_intelligence.audit_seed:apply_audit_seed",
+      "target": "tools.ai_intelligence.common:write_if_changed"
+    },
+    {
       "confidence": "confirmed",
       "relationship": "calls",
       "source": "tools.ai_intelligence.common:git_state",
@@ -61552,6 +61582,12 @@
       "relationship": "calls",
       "source": "tools.ai_intelligence.python_index:internal_module_map",
       "target": "tools.ai_intelligence.python_index:module_name_from_path"
+    },
+    {
+      "confidence": "confirmed",
+      "relationship": "calls",
+      "source": "tools.ai_repo_intelligence:main",
+      "target": "tools.ai_intelligence.audit_seed:apply_audit_seed"
     },
     {
       "confidence": "confirmed",
