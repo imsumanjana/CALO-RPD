@@ -27,11 +27,21 @@ jobs:
         with:
           persist-credentials: true
           fetch-depth: 0
-      - name: Install migration candidate
+      - name: Reconstruct and verify migration candidate
         shell: bash
         run: |
           set -euo pipefail
-          base64 --decode .ai-migration/calo-ai-v2-migration.b64 > /tmp/calo-ai-v2-migration.tar.gz
+          cat \
+            .ai-migration/calo-ai-v2-part-00 \
+            .ai-migration/calo-ai-v2-part-01 \
+            .ai-migration/calo-ai-v2-part-02a \
+            .ai-migration/calo-ai-v2-part-02b \
+            .ai-migration/calo-ai-v2-part-02c \
+            .ai-migration/calo-ai-v2-part-03 \
+            > /tmp/calo-ai-v2-migration.b64
+          printf '%s  %s\n' 'd2dbe063035935b11152b408ed704a397399ced643ea8213a5934f60ce63f681' /tmp/calo-ai-v2-migration.b64 | sha256sum -c -
+          base64 --decode /tmp/calo-ai-v2-migration.b64 > /tmp/calo-ai-v2-migration.tar.gz
+          printf '%s  %s\n' '3e20be96f8b7e1baedba4101303724f2f6b6ab86eecea6d0de64302be1194deb' /tmp/calo-ai-v2-migration.tar.gz | sha256sum -c -
           tar -xzf /tmp/calo-ai-v2-migration.tar.gz
           chmod +x scripts/ai-index scripts/ai-agent-guard.py || true
           rm -rf .ai-migration
