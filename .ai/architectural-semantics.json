@@ -1,0 +1,179 @@
+{
+  "schema_version": 2,
+  "repository": "CALO-RPD",
+  "evidence_policy": "Only source-supported routing metadata is curated here. Unspecified fields remain unknown/false rather than invented.",
+  "module_rules": [
+    {
+      "pattern": "desktop",
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "semantic_tags": ["PyQt", "shared-state", "workflow", "scientist-ui"],
+      "important_invariants": ["Panels must not maintain divergent scientific state from AppState."]
+    },
+    {
+      "pattern": "experiments",
+      "architectural_boundary": "deterministic experiment planning, budgets, seeds, fairness and execution orchestration",
+      "semantic_tags": ["experiments", "determinism", "evaluation-accounting", "fairness"],
+      "important_invariants": ["Function-evaluation accounting is exact and scientific budgets remain fair across algorithms."]
+    },
+    {
+      "pattern": "power-system",
+      "architectural_boundary": "ORPD formulation, AC power-flow semantics, objectives, constraints and robust scenarios",
+      "semantic_tags": ["ORPD", "power-flow", "constraints", "robustness"],
+      "important_invariants": ["Protected cases remain outside training/tuning/checkpoint selection."]
+    },
+    {
+      "pattern": "compute",
+      "architectural_boundary": "resource admission, device binding and CUDA/CPU execution",
+      "semantic_tags": ["CUDA", "CPU", "resource-admission", "Safe-80"],
+      "important_invariants": ["Supported execution is CUDA-preferred or CPU-only; Intel XPU is non-executable.", "Resource admission is bounded by Safe-80 rules."]
+    },
+    {
+      "pattern": "calo-policy",
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "semantic_tags": ["TSH-CALO", "policy-lifecycle", "qualification", "activation", "provenance"],
+      "important_invariants": ["Training is independent of experiments.", "Qualification does not activate; activation is explicit.", "A-E are production components; F remains experimental/off."]
+    },
+    {
+      "pattern": "persistence",
+      "architectural_boundary": "durable SQLite results/provenance plus resume and continuation contracts",
+      "semantic_tags": ["SQLite", "persistence", "resume", "provenance"],
+      "important_invariants": ["Exact resume/extension depends on frozen compatibility, not source revision alone."]
+    }
+  ],
+  "file_rules": [
+    {
+      "pattern": "calo_rpd_studio/app/state_manager.py",
+      "public_surface": true,
+      "preferred_edit_target": true,
+      "state_owner": "AppState",
+      "authoritative_source": "shared desktop/application workflow state",
+      "integration_layer": "application state services and scientist-facing UI",
+      "semantic_tags": ["authoritative-state", "AppState"]
+    },
+    {
+      "pattern": "calo_rpd_studio/experiments/experiment_runner.py",
+      "preferred_edit_target": true,
+      "integration_layer": "optimizer + ORPD + robust-scenario + device execution orchestration",
+      "architectural_boundary": "experiment execution",
+      "semantic_tags": ["run-orchestration", "failure-evidence", "evaluation-count"]
+    },
+    {
+      "pattern": "calo_rpd_studio/orpd/problem.py",
+      "public_surface": true,
+      "preferred_edit_target": true,
+      "authoritative_source": "shared ORPD evaluation semantics",
+      "state_owner": "ORPDProblem",
+      "architectural_boundary": "scientific ORPD evaluation",
+      "semantic_tags": ["ORPDProblem", "counted-evaluation-context", "power-flow"]
+    },
+    {
+      "pattern": "calo_rpd_studio/results/database.py",
+      "public_surface": true,
+      "preferred_edit_target": true,
+      "state_owner": "ResultDatabase",
+      "authoritative_source": "durable experiment/result/provenance persistence",
+      "architectural_boundary": "SQLite persistence",
+      "semantic_tags": ["ResultDatabase", "schema", "migration", "integrity"]
+    },
+    {
+      "pattern": "calo_rpd_studio/compute/resource_scheduler.py",
+      "public_surface": true,
+      "preferred_edit_target": true,
+      "authoritative_source": "compute discovery and soft admission scheduling",
+      "architectural_boundary": "compute admission and device scheduling",
+      "semantic_tags": ["CUDA", "CPU", "resource-scheduler"]
+    },
+    {
+      "pattern": "calo_rpd_studio/algorithms/calo/policy_registry.py",
+      "public_surface": true,
+      "preferred_edit_target": true,
+      "integration_layer": "public policy-registry boundary over lifecycle core",
+      "architectural_boundary": "policy registry and exact counted-work accounting",
+      "semantic_tags": ["PolicyRegistry", "public-wrapper", "evaluation-accounting"]
+    },
+    {
+      "pattern": "calo_rpd_studio/algorithms/calo/_policy_registry_core.py",
+      "implementation_core": true,
+      "internal_only": true,
+      "preferred_edit_target": false,
+      "architectural_boundary": "deep policy-registry lifecycle implementation",
+      "semantic_tags": ["deep-implementation", "policy-registry-core"]
+    },
+    {
+      "pattern": "calo_rpd_studio/algorithms/calo/tsh_calo_training_campaign.py",
+      "public_surface": true,
+      "preferred_edit_target": true,
+      "integration_layer": "public training-campaign boundary",
+      "semantic_tags": ["training-campaign", "public-wrapper"]
+    },
+    {
+      "pattern": "calo_rpd_studio/algorithms/calo/_tsh_calo_training_campaign_core.py",
+      "implementation_core": true,
+      "internal_only": true,
+      "preferred_edit_target": false,
+      "semantic_tags": ["training-campaign", "deep-implementation"]
+    },
+    {
+      "pattern": "calo_rpd_studio/algorithms/calo/tsh_calo_generalization_guard.py",
+      "public_surface": true,
+      "preferred_edit_target": true,
+      "architectural_boundary": "generalization-guard public/integration surface",
+      "semantic_tags": ["generalization-guard", "protected-cases"]
+    },
+    {
+      "pattern": "calo_rpd_studio/algorithms/calo/tsh_calo_policy_artifact.py",
+      "public_surface": true,
+      "preferred_edit_target": true,
+      "architectural_boundary": "candidate/ensemble artifact integrity surface",
+      "semantic_tags": ["policy-artifact", "provenance", "integrity"]
+    },
+    {
+      "pattern": "calo_rpd_studio/algorithms/calo/tsh_calo_training_extension.py",
+      "public_surface": true,
+      "preferred_edit_target": true,
+      "architectural_boundary": "training extension/cumulative-accounting surface",
+      "semantic_tags": ["training-extension", "resume", "evaluation-accounting"]
+    },
+    {
+      "pattern": "calo_bootstrap/launcher.py",
+      "public_surface": true,
+      "entry_point": true,
+      "integration_layer": "native application launch",
+      "semantic_tags": ["bootstrap", "launcher"]
+    },
+    {
+      "pattern": "calo_rpd_studio/app/application.py",
+      "public_surface": true,
+      "entry_point": true,
+      "integration_layer": "PyQt application startup",
+      "semantic_tags": ["application", "entry-point"]
+    }
+  ],
+  "symbol_rules": [
+    {
+      "pattern": "AppState",
+      "public_surface": true,
+      "preferred_edit_target": true,
+      "state_owner": "AppState",
+      "authoritative_source": "shared desktop/application workflow state"
+    },
+    {
+      "pattern": "PolicyRegistry",
+      "semantic_tags": ["policy-registry"]
+    },
+    {
+      "pattern": "ORPDProblem",
+      "public_surface": true,
+      "preferred_edit_target": true,
+      "state_owner": "ORPDProblem",
+      "authoritative_source": "shared ORPD evaluation semantics"
+    },
+    {
+      "pattern": "ResultDatabase",
+      "public_surface": true,
+      "preferred_edit_target": true,
+      "state_owner": "ResultDatabase",
+      "authoritative_source": "durable persistence"
+    }
+  ]
+}
