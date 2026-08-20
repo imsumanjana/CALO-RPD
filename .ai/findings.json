@@ -1,0 +1,54 @@
+{
+  "findings": [
+    {
+      "affected": [
+        "calo_rpd_studio/algorithms/calo/tsh_calo_generalization_guard.py",
+        "calo_rpd_studio/algorithms/calo/tsh_calo_policy_artifact.py"
+      ],
+      "component": "TSH-CALO generalization guard",
+      "description": "Mixed guarded and unguarded ensemble members could be accepted instead of failing closed.",
+      "evidence": "Resolved by homogeneous guard presence/design checks at candidate inspection and ensemble assembly boundaries.",
+      "id": "CALO-AI-0001",
+      "observed_commit": null,
+      "reopen_conditions": "Guard homogeneity validation or candidate assembly semantics change.",
+      "resolution_commit": "3f8cbb620ccb74bc8e13dc8d62938ccea949f1e6",
+      "severity": "critical",
+      "status": "resolved",
+      "validation_performed": "Source-level revalidation; runtime evidence was not inferred."
+    },
+    {
+      "affected": [
+        "calo_rpd_studio/algorithms/calo/tsh_calo_training_campaign.py",
+        "calo_rpd_studio/algorithms/calo/tsh_calo_training_extension.py"
+      ],
+      "component": "TSH-CALO evaluation accounting",
+      "description": "Generalization-guard evaluations were omitted from exact campaign/extension candidate-evaluation totals.",
+      "evidence": "Canonical accounting separates training, development-only learning-health, and total counted candidate evaluations.",
+      "id": "CALO-AI-0002",
+      "observed_commit": null,
+      "reopen_conditions": "Campaign/extension evidence topology or evaluation-accounting semantics change.",
+      "resolution_commit": "3f8cbb620ccb74bc8e13dc8d62938ccea949f1e6",
+      "severity": "critical",
+      "status": "resolved",
+      "validation_performed": "Source-level accounting revalidation; runtime evidence was not inferred."
+    },
+    {
+      "affected": [
+        "calo_rpd_studio/gui/panels/independent_training_panel.py",
+        "calo_rpd_studio/gui/panels/calo_intelligence_panel.py",
+        "calo_rpd_studio/scripts/train_tsh_calo.py"
+      ],
+      "component": "GUI/CLI TSH-CALO integration",
+      "description": "New GUI plans could omit the generalization guard and GUI/CLI surfaces exposed training-only counts as exact totals.",
+      "evidence": "New plans enable the guard by default while exact legacy identity remains preservable; GUI/CLI expose counted totals.",
+      "id": "CALO-AI-0003",
+      "observed_commit": "3f8cbb620ccb74bc8e13dc8d62938ccea949f1e6",
+      "reopen_conditions": "Training-plan creation, policy-library presentation, or CLI result formatting changes.",
+      "resolution_commit": "6128ca6c932b597ae193f8ea0523e8092a3fc909",
+      "severity": "high",
+      "status": "resolved",
+      "validation_performed": "Source-level UI/logic integration revalidation; runtime evidence was not inferred."
+    }
+  ],
+  "schema_version": 1
+}

@@ -1,0 +1,45 @@
+name: AI repository intelligence bootstrap
+
+on:
+  push:
+    branches:
+      - agent/ai-repository-intelligence
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out exact revision
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Generate stable repository intelligence
+        run: |
+          python tools/ai_repo_intelligence.py init
+          python tools/ai_repo_intelligence.py update
+          cp -a .ai /tmp/ai-index-stable
+          python tools/ai_repo_intelligence.py update
+          diff -ru /tmp/ai-index-stable .ai
+          python tools/ai_repo_intelligence.py validate
+      - name: Exercise change detection and malformed-source tolerance in an isolated copy
+        run: |
+          cp -a . /tmp/ai-index-fixture
+          cd /tmp/ai-index-fixture
+          printf '\n# temporary validation change\n' >> tools/ai_intelligence/context.py
+          if python tools/ai_repo_intelligence.py status; then exit 1; fi
+          python tools/ai_repo_intelligence.py update
+          printf 'def broken(:\n' > tools/ai_intelligence/_malformed_fixture.py
+          python tools/ai_repo_intelligence.py update
+          grep -q 'SyntaxError:' .ai/file-index.json
+      - name: Upload generated AI metadata
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: ai-repository-intelligence
+          path: .ai
+          if-no-files-found: error
+          retention-days: 7
