@@ -1,10 +1,10 @@
 # AI index status
 
 - Schema: 1
-- Indexed commit: `992d22daf3894d7a03e904ac4c610fe5469c188e`
+- Indexed commit: `1be4ffce19883675b880d4a940cdc06c73090ef2`
 - Indexed branch: `agent/ai-repository-intelligence`
-- Source fingerprint: `cac7c1ccbad5ea7a49b46170cfb10980dd77bc43a18d592c4f725a68b3fd9f34`
-- Indexed files: 641
+- Source fingerprint: `823c2270ff8df513a33428569c28f3bc6e91c7a0969604e231134e54a2265173`
+- Indexed files: 642
 - Indexed symbols: 5337
 - File dependency edges: 1599
 - Symbol call edges: 8611
