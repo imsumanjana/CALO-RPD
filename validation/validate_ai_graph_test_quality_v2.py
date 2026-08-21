@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import ast
 import json
 import subprocess
 import sys
@@ -91,6 +92,69 @@ def receiver_is_architecturally_proven(symbol: dict[str, Any], raw: str) -> bool
     return False
 
 
+def attribute_parts(node: ast.AST) -> list[str] | None:
+    parts: list[str] = []
+    current = node
+    while isinstance(current, ast.Attribute):
+        parts.append(current.attr)
+        current = current.value
+    if not isinstance(current, ast.Name):
+        return None
+    parts.append(current.id)
+    parts.reverse()
+    return parts
+
+
+def python_exact_symbol_imports(root: Path, test_file: str) -> set[str]:
+    """Return exact repository symbol paths structurally imported/referenced by a Python test.
+
+    Direct ``from package.module import NAME`` is strong symbol-level evidence even
+    when NAME is a constant, callable passed as a value, or otherwise never appears
+    as a call edge. Module imports are also resolved when the test references an
+    attribute through the imported alias.
+    """
+    path = root / test_file
+    if path.suffix.lower() != ".py" or not path.is_file():
+        return set()
+    try:
+        tree = ast.parse(path.read_text(encoding="utf-8", errors="replace"), filename=test_file)
+    except SyntaxError:
+        return set()
+
+    exact: set[str] = set()
+    module_aliases: dict[str, str] = {}
+    for node in ast.walk(tree):
+        if isinstance(node, ast.ImportFrom) and node.module:
+            for alias in node.names:
+                if alias.name == "*":
+                    continue
+                qualified = f"{node.module}.{alias.name}"
+                exact.add(qualified)
+                local = alias.asname or alias.name
+                # Imported names can themselves be modules/classes used as receivers.
+                module_aliases[local] = qualified
+        elif isinstance(node, ast.Import):
+            for alias in node.names:
+                if alias.asname:
+                    module_aliases[alias.asname] = alias.name
+                else:
+                    # ``import a.b`` binds ``a`` locally; retain that root so an AST
+                    # attribute chain ``a.b.Symbol`` reconstructs the exact path.
+                    root_name = alias.name.split(".", 1)[0]
+                    module_aliases[root_name] = root_name
+
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Attribute):
+            continue
+        parts = attribute_parts(node)
+        if not parts or parts[0] not in module_aliases:
+            continue
+        base = module_aliases[parts[0]]
+        qualified = ".".join([base, *parts[1:]])
+        exact.add(qualified)
+    return exact
+
+
 def main() -> int:
     root = Path(__file__).resolve().parents[1]
     index_root = root / ".ai" / "index"
@@ -179,10 +243,11 @@ def main() -> int:
                     if not target_is_repo_symbol:
                         issues["dangling_resolved_repository_targets"].append(record)
 
-                if "." in raw and target_is_repo_symbol and not receiver_is_architecturally_proven(symbol, raw):
-                    if resolved:
+                unproven_receiver = "." in raw and not receiver_is_architecturally_proven(symbol, raw)
+                if unproven_receiver:
+                    if resolved and target_is_repo_symbol:
                         issues["resolved_unproven_receiver_edges"].append(record)
-                    elif len(unresolved_receiver_samples) < 25:
+                    elif not resolved and len(unresolved_receiver_samples) < 25:
                         unresolved_receiver_samples.append(record)
 
     # The synthetic regression established this exact failure class. On the real
@@ -194,11 +259,13 @@ def main() -> int:
             if record not in issues["resolved_unproven_receiver_edges"]:
                 issues["resolved_unproven_receiver_edges"].append(record)
 
-    # Precompute direct resolved symbol-call evidence by test file.
+    # Precompute direct resolved symbol-call and exact structural-import evidence by test file.
     direct_test_calls: dict[str, set[str]] = defaultdict(set)
+    direct_test_imports: dict[str, set[str]] = {}
     for test_file, symbols in symbols_by_file.items():
         if not is_test_path(test_file):
             continue
+        direct_test_imports[test_file] = python_exact_symbol_imports(root, test_file)
         for symbol in symbols:
             for edge in symbol.get("call_edges", []) or []:
                 if not isinstance(edge, dict):
@@ -210,6 +277,7 @@ def main() -> int:
     mapped_test_paths: set[str] = set()
     file_to_tests_global: dict[str, set[str]] = defaultdict(set)
     symbol_mapping_count = 0
+    evidence_counts: Counter[str] = Counter()
 
     for shard_owner, doc in test_docs.items():
         file_to_tests = doc.get("file_to_tests", []) or []
@@ -251,13 +319,20 @@ def main() -> int:
                 test = str(test)
                 symbol_mapping_count += 1
                 mapped_test_paths.add(test)
-                direct = q in direct_test_calls.get(test, set())
+                direct_call = q in direct_test_calls.get(test, set())
+                exact_import = q in direct_test_imports.get(test, set())
                 structural_class = (
                     leaf not in GENERIC_TEST_NAMES
                     and kind in CLASS_KINDS
                     and test in file_to_tests_global.get(target_file, set())
                 )
-                if not direct and not structural_class:
+                if direct_call:
+                    evidence_counts["direct_resolved_call"] += 1
+                elif exact_import:
+                    evidence_counts["exact_import_or_module_reference"] += 1
+                elif structural_class:
+                    evidence_counts["structural_class_file_mapping"] += 1
+                else:
                     issues["unexplained_symbol_test_mappings"].append(
                         {
                             "symbol": q,
@@ -265,6 +340,7 @@ def main() -> int:
                             "test": test,
                             "generic_leaf": leaf in GENERIC_TEST_NAMES,
                             "direct_resolved_call": False,
+                            "exact_import_or_module_reference": False,
                             "structural_class_mapping": False,
                         }
                     )
@@ -288,7 +364,7 @@ def main() -> int:
 
     nonempty = {name: values for name, values in issues.items() if values}
     report = {
-        "schema": "calo-graph-test-quality-v2",
+        "schema": "calo-graph-test-quality-v2.1",
         "passed": not nonempty,
         "manifest_files": len(files),
         "indexed_symbols_loaded": len(symbols_by_q),
@@ -298,10 +374,12 @@ def main() -> int:
         "experiment_runner_problem_receiver_edges": known_problem_edges,
         "mapped_test_paths": len(mapped_test_paths),
         "symbol_test_mapping_pairs": symbol_mapping_count,
+        "symbol_test_evidence_counts": dict(sorted(evidence_counts.items())),
         "issues": issues,
         "notes": {
             "call_policy": "Arbitrary lowercase local receiver calls must remain unresolved; imported aliases, self/cls/super, and explicit class/type receivers are allowed proof surfaces.",
-            "test_policy": "Mapped tests must be executable test sources. Generic symbol names require direct resolved-call evidence; non-generic class/type mappings may also use structural file/import evidence.",
+            "test_policy": "Mapped tests must be executable test sources. Symbol mappings require a direct resolved call, an exact import/module-reference, or non-generic class/type structural file evidence.",
+            "validator_change": "v2.1 recognizes exact structural import/reference evidence for constants and other non-call symbols; index data is not modified.",
             "scientific_runtime_executed": False,
         },
     }
@@ -317,6 +395,7 @@ def main() -> int:
     print(f"Resolved repository call edges: {resolved_repository_edges}")
     print(f"Mapped executable test paths inspected: {len(mapped_test_paths)}")
     print(f"Symbol-to-test mapping pairs inspected: {symbol_mapping_count}")
+    print(f"Symbol/test evidence counts: {dict(sorted(evidence_counts.items()))}")
     print(f"Unresolved arbitrary receiver samples retained: {len(unresolved_receiver_samples)}")
     print(f"Report: {report_path}")
 
