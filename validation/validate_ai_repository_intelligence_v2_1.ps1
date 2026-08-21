@@ -227,7 +227,26 @@ try {
     Invoke-Step "Legacy tooling regression suite" {
         if (Test-Path "tests/tooling/test_ai_repo_intelligence.py") {
             Write-Host "Legacy v1 tooling tests are retained as historical implementation tests, but their monolithic-storage assertions are not part of the v2 storage contract."
-            python -m pytest -q tests/tooling/test_ai_repo_intelligence.py -k "not init_is_deterministic_and_maps_dependencies and not incremental_change_marks_prior_audit_for_reaudit and not malformed_python_is_recorded_not_fatal and not update_reparses_only_changed_python_files and not context_is_targeted"
+            $legacyOutput = @(
+                python -m pytest -q tests/tooling/test_ai_repo_intelligence.py -k "not init_is_deterministic_and_maps_dependencies and not incremental_change_marks_prior_audit_for_reaudit and not malformed_python_is_recorded_not_fatal and not update_reparses_only_changed_python_files and not context_is_targeted" 2>&1
+            )
+            $legacyCode = $LASTEXITCODE
+            $legacyOutput | ForEach-Object { Write-Host $_ }
+            $legacyOutput | Set-Content -Encoding utf8 (Join-Path $logRoot "legacy-tooling-regression.txt")
+            if ($legacyCode -eq 5) {
+                $legacyText = ($legacyOutput -join "`n")
+                if ($legacyText -notmatch '5 deselected') {
+                    throw "Legacy pytest returned no-tests-collected without the expected five explicit v1 deselections"
+                }
+                Write-Host "All 5 legacy v1 monolithic-storage tests were intentionally deselected; no compatible legacy test remains to execute."
+                $global:LASTEXITCODE = 0
+            }
+            elseif ($legacyCode -ne 0) {
+                $global:LASTEXITCODE = $legacyCode
+            }
+            else {
+                $global:LASTEXITCODE = 0
+            }
         }
     }
 
@@ -251,7 +270,8 @@ try {
             "agent-policy-scope", "freshness", "sharded-storage", "legacy-index-absence",
             "migration-recent-change-separation", "audit-preservation", "byte-stable-init",
             "deterministic-context", "sharded-query-api", "conservative-test-mapping",
-            "semantic-cache", "semantic-benchmark", "v2-tooling-tests", "read-only-ci"
+            "semantic-cache", "semantic-benchmark", "v2-tooling-tests",
+            "legacy-v1-tests-intentionally-deselected", "read-only-ci"
         )
         repository_wide_diff_check_skipped_for_dirty_windows_migration = $true
         scientific_runtime_validation_inferred = $false
