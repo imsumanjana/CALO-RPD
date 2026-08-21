@@ -68,13 +68,34 @@ def main() -> int:
     matches = list(re.finditer(classifier_pattern, text, flags=re.S))
     if len(matches) != 1:
         raise SystemExit(f"Unable to identify the test classifier uniquely; found {len(matches)} matches.")
-    text = re.sub(classifier_pattern, TEST_CLASSIFIER + "\n\n", text, count=1, flags=re.S)
+
+    # IMPORTANT: use a callable replacement. Passing TEST_CLASSIFIER directly as a
+    # re.sub replacement interprets backslashes and can turn '\\' into an invalid
+    # source literal. The callable returns the replacement bytes verbatim.
+    text = re.sub(
+        classifier_pattern,
+        lambda _match: TEST_CLASSIFIER + "\n\n",
+        text,
+        count=1,
+        flags=re.S,
+    )
 
     old_sources = "sources = [p for p in idx if not is_test_path(p)]"
+    new_sources = "sources = [p for p in idx if not is_test_support_path(p)]"
     source_count = text.count(old_sources)
-    if source_count < 1:
-        raise SystemExit("Unable to find test-map source classification.")
-    text = text.replace(old_sources, "sources = [p for p in idx if not is_test_support_path(p)]")
+    if source_count:
+        text = text.replace(old_sources, new_sources)
+    elif new_sources not in text:
+        raise SystemExit("Unable to find either old or already-remediated test-map source classification.")
+
+    # Fail before touching the engine if the generated candidate is not valid Python.
+    try:
+        compile(text, str(engine), "exec")
+    except SyntaxError as exc:
+        raise SystemExit(
+            f"Refusing to write invalid scripts/ai-index candidate: line {exc.lineno}: {exc.msg}"
+        ) from exc
+
     engine.write_text(text, encoding="utf-8", newline="\n")
 
     test_text = tests.read_text(encoding="utf-8")
@@ -128,6 +149,7 @@ def test_module_test_mapping_excludes_support_and_instruction_files(tmp_path: Pa
         "source_classification_replacements": source_count,
         "mapped_test_count": len(mapped),
         "false_positive_support_files": false_positives,
+        "candidate_compile_check": "passed",
     }
     out = root / ".ai-tmp" / "test-mapping-remediation.json"
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -135,6 +157,7 @@ def test_module_test_mapping_excludes_support_and_instruction_files(tmp_path: Pa
     print("\nTest-mapping remediation completed.")
     print(f"calo-policy mapped test count: {len(mapped)}")
     print("Mapped AGENTS/__init__/conftest support files: none")
+    print("Generated engine compile check: passed")
     print(f"Report: {out}")
     print("No scientific workload or pytest suite was run by this remediation.")
     return 0
