@@ -11,7 +11,7 @@ CALO-RPD Studio is a Python 3.11+ scientific desktop application for robust opti
 - `calo_rpd_studio/experiments/` + `benchmarking/` — experiment plans/configuration, budgets, seeds, runners, fairness and benchmark orchestration.
 - `calo_rpd_studio/results/`, `resume/`, `continuation/` — SQLite results, integrity/publication surfaces, restart/resume/extension state.
 - `calo_rpd_studio/scripts/`, `.github/workflows/`, `containers/` — validation/release tooling, CI and packaging/container harnesses.
-- `tests/` — pytest unit/integration/regression/scientific/GUI coverage. Use `.ai/test-map.json` before choosing tests.
+- `tests/` — pytest unit/integration/regression/scientific/GUI coverage. Use `python scripts/ai-index query get_tests <file|symbol|module>` before choosing tests; canonical test mappings live in `.ai/index/tests/` and `.ai/index/modules/`, not a root monolithic test map.
 
 ## Main entry points
 - Native app: `calo_bootstrap.launcher:main` / `calo_rpd_studio.app.application:main`.
