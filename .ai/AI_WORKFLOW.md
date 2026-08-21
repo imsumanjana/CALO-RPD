@@ -43,6 +43,12 @@ python scripts/ai-index embeddings update
 python scripts/ai-index embeddings benchmark --check
 ```
 
-## Architecture freeze contract
+## Frozen v2 compatibility contract
 
-After the migration regression suite and fresh-session benchmark pass on the full repository checkout, freeze schema v2, the sharding model, architectural-routing contract, call-confidence policy, symbol/test mapping policy, freshness model, audit semantics, deterministic query surface, semantic/hybrid ranking contract, and agent guard policy. Generated `.ai/index/**`, module intelligence, recent-change state, and `INDEX_STATUS.md` remain live and incremental.
+Repository intelligence v2 was frozen on 2026-08-21 after the full migration regression suite, fresh-agent benchmark, independent source verification, and repository-wide graph/test quality audit passed.
+
+The following are compatibility contracts and must not drift silently: schema v2, sharded physical storage, architectural-routing metadata and precedence, conservative call-confidence rules, conservative symbol/test mapping rules, freshness/recent-change semantics, audit preservation/invalidation semantics, deterministic query operations and response intent, semantic/hybrid authority ordering, and protected `AGENT.md` / `AGENTS.md` policy behavior.
+
+The following remain live and incremental and are **not** frozen snapshots: generated `.ai/index/**`, generated and curated module intelligence, `INDEX_STATUS.md`, recent-change state, findings lifecycle, and audit coverage/content identity as source files evolve.
+
+Any future compatibility-contract change requires an explicit versioned migration with regression, fresh-agent, and graph/test-quality validation. Do not reintroduce v1 root monolithic indexes as compatibility artifacts.
