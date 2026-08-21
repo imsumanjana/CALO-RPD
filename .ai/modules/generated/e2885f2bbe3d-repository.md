@@ -17,16 +17,15 @@
 - None confirmed.
 
 ## Dependents
-- `tests`
+- None confirmed.
 
 ## Related tests
-- `tests/tooling/test_ai_repo_intelligence.py`
+- None mapped.
 
 ## Files
 - `ACTIVE_DEVELOPMENT_STATUS.json`
 - `AUDIT_REPORT.md`
 - `CHANGELOG.md`
-- `Docker_Build.txt`
 - `FINDINGS_CLOSURE_v3.4.0.csv`
 - `FINDINGS_CLOSURE_v3.4.1.csv`
 - `FINDINGS_CLOSURE_v3.4.2.csv`
@@ -59,24 +58,13 @@
 - `STAGE_B_ACCELERATOR_QUALIFICATION_STATUS.json`
 - `STATUS_RECORD_INDEX.json`
 - `WORKSPACE_AND_INDIVIDUAL_EXPERIMENT_EXECUTION_PLAN.txt`
-- `historical_experience_v1.3.json`
-- `policy-retirement.inventory.json`
-- `policy-retirement.plan.json`
 - `pyproject.toml`
 - `requirements-core.txt`
 - `requirements-lock-ci-py311-linux.txt`
 - `requirements-lock-cpu-py311-linux.txt`
-- `requirements-lock-cpu.txt`
 - `requirements-lock-cuda128-py311-linux.txt`
 - `requirements.txt`
 - `scripts/ai-agent-guard.py`
 - `scripts/ai-index.ps1`
-- `tools/ai_intelligence/__init__.py`
-- `tools/ai_intelligence/audit_seed.py`
-- `tools/ai_intelligence/common.py`
-- `tools/ai_intelligence/context.py`
-- `tools/ai_intelligence/indexer.py`
-- `tools/ai_intelligence/python_index.py`
-- `tools/ai_repo_intelligence.py`
 
 > Generated routing is evidence, not auditing. Curated `.ai/modules/*.md` guidance remains authoritative when more specific.

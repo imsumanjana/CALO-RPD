@@ -23,7 +23,6 @@
 - `optimization`
 - `persistence`
 - `power-system`
-- `repository`
 - `validation-release`
 
 ## Dependents
@@ -66,7 +65,6 @@
 - `tests/scientific/__init__.py`
 - `tests/scientific/test_ieee_cases.py`
 - `tests/scientific/test_v34_scientific_integrity.py`
-- `tests/tooling/test_ai_repo_intelligence.py`
 - `tests/tooling/test_ai_repo_intelligence_v2.py`
 - `tests/unit/AGENTS.md`
 - `tests/unit/__init__.py`
@@ -133,5 +131,6 @@
 - `tests/unit/test_tsh_calo_runtime_transition.py`
 - `tests/unit/test_tsh_calo_topology_context.py`
 - `tests/unit/test_tsh_calo_training_campaign.py`
+- `tests/unit/test_tsh_calo_training_environment.py`
 
 > Generated routing is evidence, not auditing. Curated `.ai/modules/*.md` guidance remains authoritative when more specific.

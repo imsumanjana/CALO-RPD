@@ -55,9 +55,5 @@
 - `calo_rpd_studio/scripts/run_benchmark.py`
 - `calo_rpd_studio/scripts/run_final_benchmark.py`
 - `calo_rpd_studio/scripts/run_mathematical_reference.py`
-- `run_linux.sh`
-- `run_windows.bat`
-- `start_calo.bat`
-- `start_calo.ps1`
 
 > Generated routing is evidence, not auditing. Curated `.ai/modules/*.md` guidance remains authoritative when more specific.
