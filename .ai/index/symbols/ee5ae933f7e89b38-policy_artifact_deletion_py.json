@@ -1,0 +1,350 @@
+{
+  "path": "calo_rpd_studio/algorithms/calo/policy_artifact_deletion.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 11,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_artifact_deletion.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PolicyRecord": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRecord",
+        "PolicyRegistry": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry",
+        "annotations": "__future__.annotations",
+        "datetime": "datetime.datetime",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_registry",
+        "__future__",
+        "datetime",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "constant",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_artifact_deletion",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_artifact_deletion",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_artifact_deletion.ARTIFACT_DELETION_SCHEMA",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "",
+      "start_line": 11,
+      "state_owner": "",
+      "symbol": "ARTIFACT_DELETION_SCHEMA",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expanduser",
+          "target": "expanduser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.is_file",
+          "target": "source.is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.is_symlink",
+          "target": "source.is_symlink"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "expanduser": "attribute",
+        "source.is_file": "attribute",
+        "source.is_symlink": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.calo_intelligence_policy_controls.ScientistCALOIntelligencePanel._delete_completed_training",
+        "calo_rpd_studio.gui.panels.calo_intelligence_policy_controls.ScientistCALOIntelligencePanel._delete_standalone_policy_file",
+        "calo_rpd_studio.gui.panels.calo_intelligence_policy_controls.ScientistCALOIntelligencePanel._policy_selection_changed",
+        "calo_rpd_studio.gui.panels.calo_intelligence_policy_controls.ScientistCALOIntelligencePanel._registered_completed_deletion_blocker",
+        "tests.unit.test_scientist_policy_artifact_deletion.test_permanent_artifact_deletion_requires_a_real_exact_model_target",
+        "tests.unit.test_scientist_policy_artifact_deletion.test_permanent_artifact_deletion_tombstones_protected_policy_and_retains_history"
+      ],
+      "calls": [
+        "Path",
+        "expanduser",
+        "source.is_file",
+        "source.is_symlink"
+      ],
+      "calls_resolved": [],
+      "doc": "Return only exact-target blockers; scientific lifecycle state is not a deletion veto.",
+      "end_line": 26,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_artifact_deletion.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PolicyRecord": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRecord",
+        "PolicyRegistry": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry",
+        "annotations": "__future__.annotations",
+        "datetime": "datetime.datetime",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_registry",
+        "__future__",
+        "datetime",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_artifact_deletion",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_artifact_deletion",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_artifact_deletion.permanent_artifact_deletion_blocker",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(policy)",
+      "start_line": 14,
+      "state_owner": "",
+      "symbol": "permanent_artifact_deletion_blocker",
+      "tests": [
+        "tests/unit/test_scientist_policy_artifact_deletion.py"
+      ]
+    },
+    {
+      "architectural_boundary": "TSH-CALO policy artifact, training, qualification, activation and inference lifecycle",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "RuntimeError",
+          "target": "RuntimeError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "datetime.now",
+          "target": "datetime.now"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isoformat",
+          "target": "isoformat"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "policy.sha256.lower",
+          "target": "policy.sha256.lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "registry.database.get_policy_checkpoint_by_sha256",
+          "target": "registry.database.get_policy_checkpoint_by_sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "registry.database.list_policy_qualifications",
+          "target": "registry.database.list_policy_qualifications"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "registry.database.policy_reference_count",
+          "target": "registry.database.policy_reference_count"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "registry.database.update_policy",
+          "target": "registry.database.update_policy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "registry.get",
+          "target": "registry.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "registry.suppress",
+          "target": "registry.suppress"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        }
+      ],
+      "call_forms": {
+        "RuntimeError": "name",
+        "bool": "name",
+        "datetime.now": "attribute",
+        "dict": "name",
+        "isoformat": "attribute",
+        "len": "name",
+        "lower": "attribute",
+        "policy.sha256.lower": "attribute",
+        "registry.database.get_policy_checkpoint_by_sha256": "attribute",
+        "registry.database.list_policy_qualifications": "attribute",
+        "registry.database.policy_reference_count": "attribute",
+        "registry.database.update_policy": "attribute",
+        "registry.get": "attribute",
+        "registry.suppress": "attribute",
+        "str": "name",
+        "strip": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.calo_intelligence_obsolete_models.ObsoleteAwareCALOIntelligencePanel._delete_obsolete_training",
+        "calo_rpd_studio.gui.panels.calo_intelligence_obsolete_models.ObsoleteAwareCALOIntelligencePanel._delete_standalone_policy_file",
+        "calo_rpd_studio.gui.panels.calo_intelligence_policy_controls.ScientistCALOIntelligencePanel._delete_completed_training",
+        "calo_rpd_studio.gui.panels.calo_intelligence_policy_controls.ScientistCALOIntelligencePanel._delete_standalone_policy_file",
+        "tests.unit.test_scientist_policy_artifact_deletion.test_permanent_artifact_deletion_rejects_identity_drift_without_changing_policy",
+        "tests.unit.test_scientist_policy_artifact_deletion.test_permanent_artifact_deletion_tombstones_protected_policy_and_retains_history"
+      ],
+      "calls": [
+        "RuntimeError",
+        "bool",
+        "datetime.now",
+        "dict",
+        "isoformat",
+        "len",
+        "lower",
+        "policy.sha256.lower",
+        "registry.database.get_policy_checkpoint_by_sha256",
+        "registry.database.list_policy_qualifications",
+        "registry.database.policy_reference_count",
+        "registry.database.update_policy",
+        "registry.get",
+        "registry.suppress",
+        "str",
+        "strip"
+      ],
+      "calls_resolved": [],
+      "doc": "Deactivate/archive a deleted artifact while retaining historical scientific provenance.",
+      "end_line": 75,
+      "entry_point": false,
+      "file": "calo_rpd_studio/algorithms/calo/policy_artifact_deletion.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "PolicyRecord": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRecord",
+        "PolicyRegistry": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry",
+        "annotations": "__future__.annotations",
+        "datetime": "datetime.datetime",
+        "timezone": "datetime.timezone"
+      },
+      "important_invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "imports": [
+        ".policy_registry",
+        "__future__",
+        "datetime",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "A-E are production components; F remains experimental/off.",
+        "Qualification does not activate; activation is explicit.",
+        "Training is independent of experiments."
+      ],
+      "kind": "function",
+      "module": "calo-policy",
+      "parent_qualname": "calo_rpd_studio.algorithms.calo.policy_artifact_deletion",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.algorithms.calo.policy_artifact_deletion",
+      "qualname": "calo_rpd_studio.algorithms.calo.policy_artifact_deletion.record_permanent_artifact_deletion",
+      "semantic_tags": [
+        "TSH-CALO",
+        "activation",
+        "policy-lifecycle",
+        "provenance",
+        "qualification"
+      ],
+      "signature": "(registry, policy_id, expected_sha256, reason, deleted_scope)",
+      "start_line": 29,
+      "state_owner": "",
+      "symbol": "record_permanent_artifact_deletion",
+      "tests": [
+        "tests/unit/test_scientist_policy_artifact_deletion.py"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "file": {
+    "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+    "authoritative_source": "",
+    "content_hash": "git-sha1:39ce7daca3f69a8e769fc5fb06fdca9f3d0099bf",
+    "content_sha256": "438efd9c387ab4c59ffc23225499ca63b76c0c368992819af72b92c5d03c62cc",
+    "entry_point": false,
+    "hash_algorithm": "git-blob-sha1",
+    "implementation_core": false,
+    "import_bindings": {
+      "Path": "pathlib.Path",
+      "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+      "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+      "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+      "_BaseCALOIntelligencePanel": "calo_rpd_studio.gui.panels.calo_intelligence_panel.CALOIntelligencePanel",
+      "annotations": "__future__.annotations",
+      "governing_policy_user_message": "calo_rpd_studio.algorithms.calo.policy_readiness.governing_policy_user_message",
+      "permanent_artifact_deletion_blocker": "calo_rpd_studio.algorithms.calo.policy_artifact_deletion.permanent_artifact_deletion_blocker",
+      "record_permanent_artifact_deletion": "calo_rpd_studio.algorithms.calo.policy_artifact_deletion.record_permanent_artifact_deletion",
+      "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+    },
+    "important_invariants": [
+      "Panels must not maintain divergent scientific state from AppState."
+    ],
+    "imports": [
+      ".calo_intelligence_panel",
+      "PyQt6.QtWidgets",
+      "__future__",
+      "calo_rpd_studio.algorithms.calo.policy_artifact_deletion",
+      "calo_rpd_studio.algorithms.calo.policy_readiness",
+      "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+      "calo_rpd_studio.gui.user_feedback",
+      "pathlib"
+    ],
+    "integration_layer": "",
+    "internal_only": false,
+    "invariants": [
+      "Panels must not maintain divergent scientific state from AppState."
+    ],
+    "language": "python",
+    "last_indexed_commit": "e7d65ab453484316a847a46225ae4eb2560daf40",
+    "module": "desktop",
+    "parse_error": "",
+    "path": "calo_rpd_studio/gui/panels/calo_intelligence_policy_controls.py",
+    "preferred_edit_target": false,
+    "public_surface": false,
+    "semantic_tags": [
+      "PyQt",
+      "scientist-ui",
+      "shared-state",
+      "workflow"
+    ],
+    "size_bytes": 21388,
+    "state_owner": "",
+    "symbol_count": 10
+  },
+  "path": "calo_rpd_studio/gui/panels/calo_intelligence_policy_controls.py",
+  "schema_version": 2
+}

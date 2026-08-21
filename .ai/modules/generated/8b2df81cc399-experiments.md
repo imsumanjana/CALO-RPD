@@ -58,6 +58,7 @@
 - `tests/unit/test_execution_plan.py`
 - `tests/unit/test_mathematical_reference.py`
 - `tests/unit/test_prerequisites_and_resources.py`
+- `tests/unit/test_scientist_policy_artifact_deletion.py`
 - `tests/unit/test_study_strength.py`
 - `tests/unit/test_tsh_calo_inference.py`
 - `tests/unit/test_tsh_calo_optimizer.py`
@@ -80,7 +81,6 @@
 - `tests/unit/test_v610_release_integrity.py`
 - `tests/unit/test_v620_release_integrity.py`
 - `tests/unit/test_v621_release_integrity.py`
-- `tests/unit/test_v630_release_integrity.py`
 
 ## Files
 - `calo_rpd_studio/benchmarking/AGENTS.md`

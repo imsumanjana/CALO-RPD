@@ -2,23 +2,39 @@
   "file": {
     "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
     "authoritative_source": "",
-    "content_hash": "git-sha1:e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
-    "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "content_hash": "git-sha1:8cc544b3f5a6c0a38190d1fcf585c831f28f11c5",
+    "content_sha256": "e14d0b5af461bc31b4e2c9e4bba6480116fa36fa86703f4ec3836d617f4a54de",
     "entry_point": false,
     "hash_algorithm": "git-blob-sha1",
     "implementation_core": false,
-    "import_bindings": {},
+    "import_bindings": {
+      "CompleteObsoleteAwareCALOIntelligencePanel": "calo_rpd_studio.gui.calo_intelligence_obsolete_registered.CompleteObsoleteAwareCALOIntelligencePanel",
+      "ObsoleteAwareCALOIntelligencePanel": "calo_rpd_studio.gui.calo_intelligence_obsolete_models.ObsoleteAwareCALOIntelligencePanel",
+      "ObsoleteAwareTrainingModelLibrary": "calo_rpd_studio.gui.obsolete_model_management.ObsoleteAwareTrainingModelLibrary",
+      "SavedTrainingManagementEditor": "calo_rpd_studio.gui.obsolete_model_management.SavedTrainingManagementEditor",
+      "ScientistCALOIntelligencePanel": "calo_rpd_studio.gui.calo_intelligence_policy_controls.ScientistCALOIntelligencePanel",
+      "_calo_intelligence_panel": "calo_rpd_studio.gui.calo_intelligence_panel",
+      "_context_pane": "calo_rpd_studio.gui.widgets.context_pane",
+      "_independent_training_panel": "calo_rpd_studio.gui.independent_training_panel"
+    },
     "important_invariants": [
       "Panels must not maintain divergent scientific state from AppState."
     ],
-    "imports": [],
+    "imports": [
+      ".",
+      ".calo_intelligence_obsolete_models",
+      ".calo_intelligence_obsolete_registered",
+      ".calo_intelligence_policy_controls",
+      ".obsolete_model_management",
+      "calo_rpd_studio.gui.widgets"
+    ],
     "integration_layer": "",
     "internal_only": false,
     "invariants": [
       "Panels must not maintain divergent scientific state from AppState."
     ],
     "language": "python",
-    "last_indexed_commit": "5941ff87d045e503f5d50e4353c5a1d42e4c65ce",
+    "last_indexed_commit": "e7d65ab453484316a847a46225ae4eb2560daf40",
     "module": "desktop",
     "parse_error": "",
     "path": "calo_rpd_studio/gui/panels/__init__.py",
@@ -30,7 +46,7 @@
       "shared-state",
       "workflow"
     ],
-    "size_bytes": 0,
+    "size_bytes": 1437,
     "state_owner": "",
     "symbol_count": 0
   },

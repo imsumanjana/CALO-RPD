@@ -1,0 +1,1943 @@
+{
+  "path": "calo_rpd_studio/gui/panels/obsolete_model_management.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [
+        "tests.unit.test_obsolete_training_artifacts.test_obsolete_campaigns_separate_interrupted_failed_and_corrupt_from_running",
+        "tests.unit.test_obsolete_training_artifacts.test_obsolete_deletion_requires_exact_managed_child_and_removes_only_selected_directory",
+        "tests.unit.test_obsolete_training_artifacts.test_saved_training_can_request_exact_policy_library_focus"
+      ],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Extend saved-training discovery without changing resume/extension semantics.",
+      "end_line": 306,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/obsolete_model_management.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "_BaseTrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "_BaseTrainingPathEditor": "calo_rpd_studio.gui.widgets.context_pane.TrainingPathEditor",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "shutil": "shutil"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".independent_training_panel",
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.context_pane",
+        "json",
+        "pathlib",
+        "shutil"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.obsolete_model_management",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.obsolete_model_management",
+      "qualname": "calo_rpd_studio.gui.panels.obsolete_model_management.ObsoleteAwareTrainingModelLibrary",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 17,
+      "state_owner": "",
+      "symbol": "ObsoleteAwareTrainingModelLibrary",
+      "tests": [
+        "tests/unit/test_obsolete_training_artifacts.py"
+      ]
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "__init__",
+          "target": "__init__"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "__init__": "attribute",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "__init__",
+        "super"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 22,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/obsolete_model_management.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "_BaseTrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "_BaseTrainingPathEditor": "calo_rpd_studio.gui.widgets.context_pane.TrainingPathEditor",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "shutil": "shutil"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".independent_training_panel",
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.context_pane",
+        "json",
+        "pathlib",
+        "shutil"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.obsolete_model_management.ObsoleteAwareTrainingModelLibrary",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.obsolete_model_management",
+      "qualname": "calo_rpd_studio.gui.panels.obsolete_model_management.ObsoleteAwareTrainingModelLibrary.__init__",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, *args, **kwargs)",
+      "start_line": 20,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.is_file",
+          "target": "path.is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.is_symlink",
+          "target": "path.is_symlink"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.read_text",
+          "target": "path.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        }
+      ],
+      "call_forms": {
+        "isinstance": "name",
+        "json.loads": "attribute",
+        "path.is_file": "attribute",
+        "path.is_symlink": "attribute",
+        "path.read_text": "attribute",
+        "type": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.obsolete_model_management.ObsoleteAwareTrainingModelLibrary.obsolete_campaigns"
+      ],
+      "calls": [
+        "isinstance",
+        "json.loads",
+        "path.is_file",
+        "path.is_symlink",
+        "path.read_text",
+        "type"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 36,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/obsolete_model_management.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "_BaseTrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "_BaseTrainingPathEditor": "calo_rpd_studio.gui.widgets.context_pane.TrainingPathEditor",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "shutil": "shutil"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".independent_training_panel",
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.context_pane",
+        "json",
+        "pathlib",
+        "shutil"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.obsolete_model_management.ObsoleteAwareTrainingModelLibrary",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.obsolete_model_management",
+      "qualname": "calo_rpd_studio.gui.panels.obsolete_model_management.ObsoleteAwareTrainingModelLibrary._saved_json_object",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(path)",
+      "start_line": 25,
+      "state_owner": "",
+      "symbol": "_saved_json_object",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "max",
+          "target": "max"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.lstat",
+          "target": "path.lstat"
+        }
+      ],
+      "call_forms": {
+        "max": "name",
+        "path.lstat": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.obsolete_model_management.ObsoleteAwareTrainingModelLibrary.obsolete_campaigns"
+      ],
+      "calls": [
+        "max",
+        "path.lstat"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 46,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/obsolete_model_management.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "_BaseTrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "_BaseTrainingPathEditor": "calo_rpd_studio.gui.widgets.context_pane.TrainingPathEditor",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "shutil": "shutil"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".independent_training_panel",
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.context_pane",
+        "json",
+        "pathlib",
+        "shutil"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.obsolete_model_management.ObsoleteAwareTrainingModelLibrary",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.obsolete_model_management",
+      "qualname": "calo_rpd_studio.gui.panels.obsolete_model_management.ObsoleteAwareTrainingModelLibrary._saved_modified_ns",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(paths)",
+      "start_line": 39,
+      "state_owner": "",
+      "symbol": "_saved_modified_ns",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "casefold",
+          "target": "casefold"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "casefold": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.obsolete_model_management.ObsoleteAwareTrainingModelLibrary.obsolete_campaigns"
+      ],
+      "calls": [
+        "casefold",
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 59,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/obsolete_model_management.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "_BaseTrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "_BaseTrainingPathEditor": "calo_rpd_studio.gui.widgets.context_pane.TrainingPathEditor",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "shutil": "shutil"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".independent_training_panel",
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.context_pane",
+        "json",
+        "pathlib",
+        "shutil"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.obsolete_model_management.ObsoleteAwareTrainingModelLibrary",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.obsolete_model_management",
+      "qualname": "calo_rpd_studio.gui.panels.obsolete_model_management.ObsoleteAwareTrainingModelLibrary._completed_obsolete_status",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(candidate_error)",
+      "start_line": 49,
+      "state_owner": "",
+      "symbol": "_completed_obsolete_status",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._completed_obsolete_status",
+          "target": "calo_rpd_studio.gui.panels.obsolete_model_management.ObsoleteAwareTrainingModelLibrary._completed_obsolete_status"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._saved_json_object",
+          "target": "calo_rpd_studio.gui.panels.obsolete_model_management.ObsoleteAwareTrainingModelLibrary._saved_json_object"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._saved_modified_ns",
+          "target": "calo_rpd_studio.gui.panels.obsolete_model_management.ObsoleteAwareTrainingModelLibrary._saved_modified_ns"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "candidate.is_symlink",
+          "target": "candidate.is_symlink"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "candidate.resolve",
+          "target": "candidate.resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "casefold",
+          "target": "casefold"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "dict",
+          "target": "dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expanduser",
+          "target": "expanduser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "failure.get",
+          "target": "failure.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.get",
+          "target": "item.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.exists",
+          "target": "path.exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "path.is_symlink",
+          "target": "path.is_symlink"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "plan.get",
+          "target": "plan.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "plan_path.exists",
+          "target": "plan_path.exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "plan_path.resolve",
+          "target": "plan_path.resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "record.get",
+          "target": "record.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "records.values",
+          "target": "records.values"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "root.resolve",
+          "target": "root.resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "saved.get",
+          "target": "saved.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "saved_campaigns",
+          "target": "saved_campaigns"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "saved_record.get",
+          "target": "saved_record.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._candidate_directories",
+          "target": "self._candidate_directories"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.scan_locations",
+          "target": "self.scan_locations"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "sorted",
+          "target": "sorted"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "status.get",
+          "target": "status.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "any": "name",
+        "bool": "name",
+        "candidate.is_symlink": "attribute",
+        "candidate.resolve": "attribute",
+        "casefold": "attribute",
+        "dict": "name",
+        "expanduser": "attribute",
+        "failure.get": "attribute",
+        "int": "name",
+        "isinstance": "name",
+        "item.get": "attribute",
+        "lower": "attribute",
+        "path.exists": "attribute",
+        "path.is_symlink": "attribute",
+        "plan.get": "attribute",
+        "plan_path.exists": "attribute",
+        "plan_path.resolve": "attribute",
+        "record.get": "attribute",
+        "records.values": "attribute",
+        "resolve": "attribute",
+        "root.resolve": "attribute",
+        "saved.get": "attribute",
+        "saved_campaigns": "attribute",
+        "saved_record.get": "attribute",
+        "self._candidate_directories": "attribute",
+        "self._completed_obsolete_status": "attribute",
+        "self._saved_json_object": "attribute",
+        "self._saved_modified_ns": "attribute",
+        "self.scan_locations": "attribute",
+        "sorted": "name",
+        "status.get": "attribute",
+        "str": "name",
+        "strip": "attribute",
+        "super": "name",
+        "tuple": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.obsolete_model_management.ObsoleteAwareTrainingModelLibrary.request_policy_library_focus",
+        "calo_rpd_studio.gui.panels.obsolete_model_management.ObsoleteAwareTrainingModelLibrary.validate_obsolete_campaign_deletion"
+      ],
+      "calls": [
+        "Path",
+        "any",
+        "bool",
+        "candidate.is_symlink",
+        "candidate.resolve",
+        "casefold",
+        "dict",
+        "expanduser",
+        "failure.get",
+        "int",
+        "isinstance",
+        "item.get",
+        "lower",
+        "path.exists",
+        "path.is_symlink",
+        "plan.get",
+        "plan_path.exists",
+        "plan_path.resolve",
+        "record.get",
+        "records.values",
+        "resolve",
+        "root.resolve",
+        "saved.get",
+        "saved_campaigns",
+        "saved_record.get",
+        "self._candidate_directories",
+        "self._completed_obsolete_status",
+        "self._saved_json_object",
+        "self._saved_modified_ns",
+        "self.scan_locations",
+        "sorted",
+        "status.get",
+        "str",
+        "strip",
+        "super",
+        "tuple"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.obsolete_model_management.ObsoleteAwareTrainingModelLibrary._completed_obsolete_status",
+        "calo_rpd_studio.gui.panels.obsolete_model_management.ObsoleteAwareTrainingModelLibrary._saved_json_object",
+        "calo_rpd_studio.gui.panels.obsolete_model_management.ObsoleteAwareTrainingModelLibrary._saved_modified_ns"
+      ],
+      "doc": "Return interrupted or mechanically unusable managed training directories.",
+      "end_line": 243,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/obsolete_model_management.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "_BaseTrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "_BaseTrainingPathEditor": "calo_rpd_studio.gui.widgets.context_pane.TrainingPathEditor",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "shutil": "shutil"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".independent_training_panel",
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.context_pane",
+        "json",
+        "pathlib",
+        "shutil"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.obsolete_model_management.ObsoleteAwareTrainingModelLibrary",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.obsolete_model_management",
+      "qualname": "calo_rpd_studio.gui.panels.obsolete_model_management.ObsoleteAwareTrainingModelLibrary.obsolete_campaigns",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 61,
+      "state_owner": "",
+      "symbol": "obsolete_campaigns",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "any",
+          "target": "any"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.obsolete_campaigns",
+          "target": "calo_rpd_studio.gui.panels.obsolete_model_management.ObsoleteAwareTrainingModelLibrary.obsolete_campaigns"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "casefold",
+          "target": "casefold"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "exists",
+          "target": "exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expanduser",
+          "target": "expanduser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "is_symlink",
+          "target": "is_symlink"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "known.get",
+          "target": "known.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "record.get",
+          "target": "record.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "requested.is_symlink",
+          "target": "requested.is_symlink"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "requested.resolve",
+          "target": "requested.resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "root.resolve",
+          "target": "root.resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.scan_locations",
+          "target": "self.scan_locations"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "strip",
+          "target": "strip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "target.is_dir",
+          "target": "target.is_dir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "ValueError": "name",
+        "any": "name",
+        "casefold": "attribute",
+        "exists": "attribute",
+        "expanduser": "attribute",
+        "is_symlink": "attribute",
+        "known.get": "attribute",
+        "lower": "attribute",
+        "record.get": "attribute",
+        "requested.is_symlink": "attribute",
+        "requested.resolve": "attribute",
+        "resolve": "attribute",
+        "root.resolve": "attribute",
+        "self.obsolete_campaigns": "attribute",
+        "self.scan_locations": "attribute",
+        "str": "name",
+        "strip": "attribute",
+        "target.is_dir": "attribute",
+        "tuple": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.obsolete_model_management.ObsoleteAwareTrainingModelLibrary.delete_obsolete_campaign"
+      ],
+      "calls": [
+        "Path",
+        "ValueError",
+        "any",
+        "casefold",
+        "exists",
+        "expanduser",
+        "is_symlink",
+        "known.get",
+        "lower",
+        "record.get",
+        "requested.is_symlink",
+        "requested.resolve",
+        "resolve",
+        "root.resolve",
+        "self.obsolete_campaigns",
+        "self.scan_locations",
+        "str",
+        "strip",
+        "target.is_dir",
+        "tuple"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.obsolete_model_management.ObsoleteAwareTrainingModelLibrary.obsolete_campaigns"
+      ],
+      "doc": "Return one exact obsolete managed campaign target without changing it.",
+      "end_line": 278,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/obsolete_model_management.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "_BaseTrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "_BaseTrainingPathEditor": "calo_rpd_studio.gui.widgets.context_pane.TrainingPathEditor",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "shutil": "shutil"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".independent_training_panel",
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.context_pane",
+        "json",
+        "pathlib",
+        "shutil"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.obsolete_model_management.ObsoleteAwareTrainingModelLibrary",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.obsolete_model_management",
+      "qualname": "calo_rpd_studio.gui.panels.obsolete_model_management.ObsoleteAwareTrainingModelLibrary.validate_obsolete_campaign_deletion",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, directory)",
+      "start_line": 245,
+      "state_owner": "",
+      "symbol": "validate_obsolete_campaign_deletion",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self.validate_obsolete_campaign_deletion",
+          "target": "calo_rpd_studio.gui.panels.obsolete_model_management.ObsoleteAwareTrainingModelLibrary.validate_obsolete_campaign_deletion"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._candidate_integrity_cache.clear",
+          "target": "self._candidate_integrity_cache.clear"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.changed.emit",
+          "target": "self.changed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "shutil.rmtree",
+          "target": "shutil.rmtree"
+        }
+      ],
+      "call_forms": {
+        "self._candidate_integrity_cache.clear": "attribute",
+        "self.changed.emit": "attribute",
+        "self.validate_obsolete_campaign_deletion": "attribute",
+        "shutil.rmtree": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "self._candidate_integrity_cache.clear",
+        "self.changed.emit",
+        "self.validate_obsolete_campaign_deletion",
+        "shutil.rmtree"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.obsolete_model_management.ObsoleteAwareTrainingModelLibrary.validate_obsolete_campaign_deletion"
+      ],
+      "doc": "Permanently remove one exact, revalidated obsolete training directory.",
+      "end_line": 287,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/obsolete_model_management.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "_BaseTrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "_BaseTrainingPathEditor": "calo_rpd_studio.gui.widgets.context_pane.TrainingPathEditor",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "shutil": "shutil"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".independent_training_panel",
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.context_pane",
+        "json",
+        "pathlib",
+        "shutil"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.obsolete_model_management.ObsoleteAwareTrainingModelLibrary",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.obsolete_model_management",
+      "qualname": "calo_rpd_studio.gui.panels.obsolete_model_management.ObsoleteAwareTrainingModelLibrary.delete_obsolete_campaign",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, directory)",
+      "start_line": 280,
+      "state_owner": "",
+      "symbol": "delete_obsolete_campaign",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "ValueError",
+          "target": "ValueError"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self.obsolete_campaigns",
+          "target": "calo_rpd_studio.gui.panels.obsolete_model_management.ObsoleteAwareTrainingModelLibrary.obsolete_campaigns"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "casefold",
+          "target": "casefold"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expanduser",
+          "target": "expanduser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolve",
+          "target": "resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "saved_campaigns",
+          "target": "saved_campaigns"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "ValueError": "name",
+        "casefold": "attribute",
+        "expanduser": "attribute",
+        "resolve": "attribute",
+        "saved_campaigns": "attribute",
+        "self.obsolete_campaigns": "attribute",
+        "str": "name",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "Path",
+        "ValueError",
+        "casefold",
+        "expanduser",
+        "resolve",
+        "saved_campaigns",
+        "self.obsolete_campaigns",
+        "str",
+        "super"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.obsolete_model_management.ObsoleteAwareTrainingModelLibrary.obsolete_campaigns"
+      ],
+      "doc": "Retain one exact saved campaign for the next Policy-library navigation.",
+      "end_line": 300,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/obsolete_model_management.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "_BaseTrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "_BaseTrainingPathEditor": "calo_rpd_studio.gui.widgets.context_pane.TrainingPathEditor",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "shutil": "shutil"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".independent_training_panel",
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.context_pane",
+        "json",
+        "pathlib",
+        "shutil"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.obsolete_model_management.ObsoleteAwareTrainingModelLibrary",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.obsolete_model_management",
+      "qualname": "calo_rpd_studio.gui.panels.obsolete_model_management.ObsoleteAwareTrainingModelLibrary.request_policy_library_focus",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, directory)",
+      "start_line": 289,
+      "state_owner": "",
+      "symbol": "request_policy_library_focus",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "str"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 303,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/obsolete_model_management.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "_BaseTrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "_BaseTrainingPathEditor": "calo_rpd_studio.gui.widgets.context_pane.TrainingPathEditor",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "shutil": "shutil"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".independent_training_panel",
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.context_pane",
+        "json",
+        "pathlib",
+        "shutil"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.obsolete_model_management.ObsoleteAwareTrainingModelLibrary",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.obsolete_model_management",
+      "qualname": "calo_rpd_studio.gui.panels.obsolete_model_management.ObsoleteAwareTrainingModelLibrary.policy_library_focus_request",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 302,
+      "state_owner": "",
+      "symbol": "policy_library_focus_request",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 306,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/obsolete_model_management.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "_BaseTrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "_BaseTrainingPathEditor": "calo_rpd_studio.gui.widgets.context_pane.TrainingPathEditor",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "shutil": "shutil"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".independent_training_panel",
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.context_pane",
+        "json",
+        "pathlib",
+        "shutil"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.obsolete_model_management.ObsoleteAwareTrainingModelLibrary",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.obsolete_model_management",
+      "qualname": "calo_rpd_studio.gui.panels.obsolete_model_management.ObsoleteAwareTrainingModelLibrary.clear_policy_library_focus_request",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 305,
+      "state_owner": "",
+      "symbol": "clear_policy_library_focus_request",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Route saved-training file management to the central Policy library.",
+      "end_line": 359,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/obsolete_model_management.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "_BaseTrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "_BaseTrainingPathEditor": "calo_rpd_studio.gui.widgets.context_pane.TrainingPathEditor",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "shutil": "shutil"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".independent_training_panel",
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.context_pane",
+        "json",
+        "pathlib",
+        "shutil"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.obsolete_model_management",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.obsolete_model_management",
+      "qualname": "calo_rpd_studio.gui.panels.obsolete_model_management.SavedTrainingManagementEditor",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 309,
+      "state_owner": "",
+      "symbol": "SavedTrainingManagementEditor",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QPushButton",
+          "target": "QPushButton"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "__init__",
+          "target": "__init__"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "button_row.insertWidget",
+          "target": "button_row.insertWidget"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._update_saved_management_button",
+          "target": "calo_rpd_studio.gui.panels.obsolete_model_management.SavedTrainingManagementEditor._update_saved_management_button"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "host.layout",
+          "target": "host.layout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "host_layout.addWidget",
+          "target": "host_layout.addWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "host_layout.itemAt",
+          "target": "host_layout.itemAt"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "layout",
+          "target": "layout"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.manage_saved_button.clicked.connect",
+          "target": "self.manage_saved_button.clicked.connect"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.manage_saved_button.setAccessibleName",
+          "target": "self.manage_saved_button.setAccessibleName"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.manage_saved_button.setEnabled",
+          "target": "self.manage_saved_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.manage_saved_button.setToolTip",
+          "target": "self.manage_saved_button.setToolTip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.refresh_library_button.parentWidget",
+          "target": "self.refresh_library_button.parentWidget"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "QPushButton": "name",
+        "__init__": "attribute",
+        "button_row.insertWidget": "attribute",
+        "host.layout": "attribute",
+        "host_layout.addWidget": "attribute",
+        "host_layout.itemAt": "attribute",
+        "layout": "attribute",
+        "self._update_saved_management_button": "attribute",
+        "self.manage_saved_button.clicked.connect": "attribute",
+        "self.manage_saved_button.setAccessibleName": "attribute",
+        "self.manage_saved_button.setEnabled": "attribute",
+        "self.manage_saved_button.setToolTip": "attribute",
+        "self.refresh_library_button.parentWidget": "attribute",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "QPushButton",
+        "__init__",
+        "button_row.insertWidget",
+        "host.layout",
+        "host_layout.addWidget",
+        "host_layout.itemAt",
+        "layout",
+        "self._update_saved_management_button",
+        "self.manage_saved_button.clicked.connect",
+        "self.manage_saved_button.setAccessibleName",
+        "self.manage_saved_button.setEnabled",
+        "self.manage_saved_button.setToolTip",
+        "self.refresh_library_button.parentWidget",
+        "super"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.obsolete_model_management.SavedTrainingManagementEditor._update_saved_management_button"
+      ],
+      "doc": "",
+      "end_line": 328,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/obsolete_model_management.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "_BaseTrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "_BaseTrainingPathEditor": "calo_rpd_studio.gui.widgets.context_pane.TrainingPathEditor",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "shutil": "shutil"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".independent_training_panel",
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.context_pane",
+        "json",
+        "pathlib",
+        "shutil"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.obsolete_model_management.SavedTrainingManagementEditor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.obsolete_model_management",
+      "qualname": "calo_rpd_studio.gui.panels.obsolete_model_management.SavedTrainingManagementEditor.__init__",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, *args, **kwargs)",
+      "start_line": 314,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "self._update_saved_management_button",
+          "target": "calo_rpd_studio.gui.panels.obsolete_model_management.SavedTrainingManagementEditor._update_saved_management_button"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "refresh_model_library",
+          "target": "refresh_model_library"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "refresh_model_library": "attribute",
+        "self._update_saved_management_button": "attribute",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "refresh_model_library",
+        "self._update_saved_management_button",
+        "super"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.obsolete_model_management.SavedTrainingManagementEditor._update_saved_management_button"
+      ],
+      "doc": "",
+      "end_line": 332,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/obsolete_model_management.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "_BaseTrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "_BaseTrainingPathEditor": "calo_rpd_studio.gui.widgets.context_pane.TrainingPathEditor",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "shutil": "shutil"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".independent_training_panel",
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.context_pane",
+        "json",
+        "pathlib",
+        "shutil"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.obsolete_model_management.SavedTrainingManagementEditor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.obsolete_model_management",
+      "qualname": "calo_rpd_studio.gui.panels.obsolete_model_management.SavedTrainingManagementEditor.refresh_model_library",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, preferred_root)",
+      "start_line": 330,
+      "state_owner": "",
+      "symbol": "refresh_model_library",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "_library_selection_changed",
+          "target": "_library_selection_changed"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._update_saved_management_button",
+          "target": "calo_rpd_studio.gui.panels.obsolete_model_management.SavedTrainingManagementEditor._update_saved_management_button"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "_library_selection_changed": "attribute",
+        "self._update_saved_management_button": "attribute",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "_library_selection_changed",
+        "self._update_saved_management_button",
+        "super"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.obsolete_model_management.SavedTrainingManagementEditor._update_saved_management_button"
+      ],
+      "doc": "",
+      "end_line": 336,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/obsolete_model_management.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "_BaseTrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "_BaseTrainingPathEditor": "calo_rpd_studio.gui.widgets.context_pane.TrainingPathEditor",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "shutil": "shutil"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".independent_training_panel",
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.context_pane",
+        "json",
+        "pathlib",
+        "shutil"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.obsolete_model_management.SavedTrainingManagementEditor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.obsolete_model_management",
+      "qualname": "calo_rpd_studio.gui.panels.obsolete_model_management.SavedTrainingManagementEditor._library_selection_changed",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, index)",
+      "start_line": 334,
+      "state_owner": "",
+      "symbol": "_library_selection_changed",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "bool",
+          "target": "bool"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hasattr",
+          "target": "hasattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "record.get",
+          "target": "record.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.library_picker.currentData",
+          "target": "self.library_picker.currentData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.manage_saved_button.setEnabled",
+          "target": "self.manage_saved_button.setEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.manage_saved_button.setToolTip",
+          "target": "self.manage_saved_button.setToolTip"
+        }
+      ],
+      "call_forms": {
+        "bool": "name",
+        "hasattr": "name",
+        "isinstance": "name",
+        "record.get": "attribute",
+        "self.library_picker.currentData": "attribute",
+        "self.manage_saved_button.setEnabled": "attribute",
+        "self.manage_saved_button.setToolTip": "attribute"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.obsolete_model_management.SavedTrainingManagementEditor.__init__",
+        "calo_rpd_studio.gui.panels.obsolete_model_management.SavedTrainingManagementEditor._library_selection_changed",
+        "calo_rpd_studio.gui.panels.obsolete_model_management.SavedTrainingManagementEditor.refresh_model_library"
+      ],
+      "calls": [
+        "bool",
+        "hasattr",
+        "isinstance",
+        "record.get",
+        "self.library_picker.currentData",
+        "self.manage_saved_button.setEnabled",
+        "self.manage_saved_button.setToolTip"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 349,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/obsolete_model_management.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "_BaseTrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "_BaseTrainingPathEditor": "calo_rpd_studio.gui.widgets.context_pane.TrainingPathEditor",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "shutil": "shutil"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".independent_training_panel",
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.context_pane",
+        "json",
+        "pathlib",
+        "shutil"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.obsolete_model_management.SavedTrainingManagementEditor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.obsolete_model_management",
+      "qualname": "calo_rpd_studio.gui.panels.obsolete_model_management.SavedTrainingManagementEditor._update_saved_management_button",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 338,
+      "state_owner": "",
+      "symbol": "_update_saved_management_button",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "callable",
+          "target": "callable"
+        },
+        {
+          "confidence": "inferred",
+          "raw": "request",
+          "target": "calo_rpd_studio.compute.persistent_training_actor.PersistentTrainingActorClient.request"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "record.get",
+          "target": "record.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.library_picker.currentData",
+          "target": "self.library_picker.currentData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.open_requested.emit",
+          "target": "self.open_requested.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        }
+      ],
+      "call_forms": {
+        "callable": "name",
+        "getattr": "name",
+        "isinstance": "name",
+        "record.get": "attribute",
+        "request": "name",
+        "self.library_picker.currentData": "attribute",
+        "self.open_requested.emit": "attribute",
+        "str": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "callable",
+        "getattr",
+        "isinstance",
+        "record.get",
+        "request",
+        "self.library_picker.currentData",
+        "self.open_requested.emit",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.compute.persistent_training_actor.PersistentTrainingActorClient.request"
+      ],
+      "doc": "",
+      "end_line": 359,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/obsolete_model_management.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "Path": "pathlib.Path",
+        "QPushButton": "PyQt6.QtWidgets.QPushButton",
+        "_BaseTrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+        "_BaseTrainingPathEditor": "calo_rpd_studio.gui.widgets.context_pane.TrainingPathEditor",
+        "annotations": "__future__.annotations",
+        "json": "json",
+        "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+        "shutil": "shutil"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".independent_training_panel",
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.gui.widgets.context_pane",
+        "json",
+        "pathlib",
+        "shutil"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.obsolete_model_management.SavedTrainingManagementEditor",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.obsolete_model_management",
+      "qualname": "calo_rpd_studio.gui.panels.obsolete_model_management.SavedTrainingManagementEditor._open_selected_saved_artifact",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 351,
+      "state_owner": "",
+      "symbol": "_open_selected_saved_artifact",
+      "tests": []
+    }
+  ]
+}

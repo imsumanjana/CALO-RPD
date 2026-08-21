@@ -1,0 +1,187 @@
+{
+  "file_imports": [
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/policy_artifact_deletion.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/algorithms/calo/policy_registry.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/experiment_config.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/experiments/provenance.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "calo_rpd_studio/results/database.py"
+    },
+    {
+      "confidence": "confirmed",
+      "target": "tests/unit/test_calo_v41_policy_system.py"
+    }
+  ],
+  "path": "tests/unit/test_scientist_policy_artifact_deletion.py",
+  "schema_version": 2,
+  "symbol_calls": [
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_scientist_policy_artifact_deletion._protected_active_policy",
+      "to": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_scientist_policy_artifact_deletion._protected_active_policy",
+      "to": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_scientist_policy_artifact_deletion._protected_active_policy",
+      "to": "calo_rpd_studio.experiments.provenance.collect_provenance"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_scientist_policy_artifact_deletion._protected_active_policy",
+      "to": "calo_rpd_studio.results.database.ResultDatabase"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_scientist_policy_artifact_deletion._protected_active_policy",
+      "to": "database.add_policy_qualification"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_scientist_policy_artifact_deletion._protected_active_policy",
+      "to": "database.bind_policy_to_experiment"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_scientist_policy_artifact_deletion._protected_active_policy",
+      "to": "database.create_experiment"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_scientist_policy_artifact_deletion._protected_active_policy",
+      "to": "database.set_active_policy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_scientist_policy_artifact_deletion._protected_active_policy",
+      "to": "registry.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_scientist_policy_artifact_deletion._protected_active_policy",
+      "to": "registry.register"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_scientist_policy_artifact_deletion._protected_active_policy",
+      "to": "str"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_scientist_policy_artifact_deletion._protected_active_policy",
+      "to": "tests.unit.test_calo_v41_policy_system._write_native_policy"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_scientist_policy_artifact_deletion.test_permanent_artifact_deletion_rejects_identity_drift_without_changing_policy",
+      "to": "calo_rpd_studio.algorithms.calo.policy_artifact_deletion.record_permanent_artifact_deletion"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_scientist_policy_artifact_deletion.test_permanent_artifact_deletion_rejects_identity_drift_without_changing_policy",
+      "to": "pytest.raises"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_scientist_policy_artifact_deletion.test_permanent_artifact_deletion_rejects_identity_drift_without_changing_policy",
+      "to": "registry.get"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_scientist_policy_artifact_deletion.test_permanent_artifact_deletion_rejects_identity_drift_without_changing_policy",
+      "to": "registry.is_suppressed"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_scientist_policy_artifact_deletion.test_permanent_artifact_deletion_rejects_identity_drift_without_changing_policy",
+      "to": "tests.unit.test_scientist_policy_artifact_deletion._protected_active_policy"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_scientist_policy_artifact_deletion.test_permanent_artifact_deletion_requires_a_real_exact_model_target",
+      "to": "blocker.lower"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_scientist_policy_artifact_deletion.test_permanent_artifact_deletion_requires_a_real_exact_model_target",
+      "to": "calo_rpd_studio.algorithms.calo.policy_artifact_deletion.permanent_artifact_deletion_blocker"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_scientist_policy_artifact_deletion.test_permanent_artifact_deletion_requires_a_real_exact_model_target",
+      "to": "checkpoint.unlink"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_scientist_policy_artifact_deletion.test_permanent_artifact_deletion_requires_a_real_exact_model_target",
+      "to": "registry.get"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_scientist_policy_artifact_deletion.test_permanent_artifact_deletion_requires_a_real_exact_model_target",
+      "to": "tests.unit.test_scientist_policy_artifact_deletion._protected_active_policy"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_scientist_policy_artifact_deletion.test_permanent_artifact_deletion_tombstones_protected_policy_and_retains_history",
+      "to": "calo_rpd_studio.algorithms.calo.policy_artifact_deletion.permanent_artifact_deletion_blocker"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_scientist_policy_artifact_deletion.test_permanent_artifact_deletion_tombstones_protected_policy_and_retains_history",
+      "to": "calo_rpd_studio.algorithms.calo.policy_artifact_deletion.record_permanent_artifact_deletion"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_scientist_policy_artifact_deletion.test_permanent_artifact_deletion_tombstones_protected_policy_and_retains_history",
+      "to": "checkpoint.unlink"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_scientist_policy_artifact_deletion.test_permanent_artifact_deletion_tombstones_protected_policy_and_retains_history",
+      "to": "database.get_experiment_policy_binding"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_scientist_policy_artifact_deletion.test_permanent_artifact_deletion_tombstones_protected_policy_and_retains_history",
+      "to": "database.list_policy_qualifications"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_scientist_policy_artifact_deletion.test_permanent_artifact_deletion_tombstones_protected_policy_and_retains_history",
+      "to": "len"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_scientist_policy_artifact_deletion.test_permanent_artifact_deletion_tombstones_protected_policy_and_retains_history",
+      "to": "registry.is_suppressed"
+    },
+    {
+      "confidence": "unresolved",
+      "from": "tests.unit.test_scientist_policy_artifact_deletion.test_permanent_artifact_deletion_tombstones_protected_policy_and_retains_history",
+      "to": "registry.unqualified_candidate_removal_blocker"
+    },
+    {
+      "confidence": "confirmed",
+      "from": "tests.unit.test_scientist_policy_artifact_deletion.test_permanent_artifact_deletion_tombstones_protected_policy_and_retains_history",
+      "to": "tests.unit.test_scientist_policy_artifact_deletion._protected_active_policy"
+    }
+  ]
+}

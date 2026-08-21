@@ -1,0 +1,57 @@
+{
+  "file": {
+    "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+    "authoritative_source": "",
+    "content_hash": "git-sha1:dcb7d1519cc8107236113bc659075c7fbd4f40c5",
+    "content_sha256": "4dab5f310eb648bd5fb34ea4fc8a3f99b7df56aca3fca4a34a6d794cfdc7ee4f",
+    "entry_point": false,
+    "hash_algorithm": "git-blob-sha1",
+    "implementation_core": false,
+    "import_bindings": {
+      "Path": "pathlib.Path",
+      "QCheckBox": "PyQt6.QtWidgets.QCheckBox",
+      "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+      "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+      "ScientistCALOIntelligencePanel": "calo_rpd_studio.gui.panels.calo_intelligence_policy_controls.ScientistCALOIntelligencePanel",
+      "annotations": "__future__.annotations",
+      "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256",
+      "record_permanent_artifact_deletion": "calo_rpd_studio.algorithms.calo.policy_artifact_deletion.record_permanent_artifact_deletion",
+      "show_error": "calo_rpd_studio.gui.user_feedback.show_error"
+    },
+    "important_invariants": [
+      "Panels must not maintain divergent scientific state from AppState."
+    ],
+    "imports": [
+      ".calo_intelligence_policy_controls",
+      "PyQt6.QtWidgets",
+      "__future__",
+      "calo_rpd_studio.ai.model_io",
+      "calo_rpd_studio.algorithms.calo.policy_artifact_deletion",
+      "calo_rpd_studio.gui.user_feedback",
+      "pathlib"
+    ],
+    "integration_layer": "",
+    "internal_only": false,
+    "invariants": [
+      "Panels must not maintain divergent scientific state from AppState."
+    ],
+    "language": "python",
+    "last_indexed_commit": "e7d65ab453484316a847a46225ae4eb2560daf40",
+    "module": "desktop",
+    "parse_error": "",
+    "path": "calo_rpd_studio/gui/panels/calo_intelligence_obsolete_models.py",
+    "preferred_edit_target": false,
+    "public_surface": false,
+    "semantic_tags": [
+      "PyQt",
+      "scientist-ui",
+      "shared-state",
+      "workflow"
+    ],
+    "size_bytes": 19233,
+    "state_owner": "",
+    "symbol_count": 12
+  },
+  "path": "calo_rpd_studio/gui/panels/calo_intelligence_obsolete_models.py",
+  "schema_version": 2
+}

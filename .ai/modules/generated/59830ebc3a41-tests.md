@@ -39,10 +39,12 @@
 - `tests/data/v4_optimizer_seed_snapshots.json`
 - `tests/gui/AGENTS.md`
 - `tests/gui/__init__.py`
+- `tests/gui/test_calo_intelligence_permanent_deletion.py`
 - `tests/gui/test_ci_visual_smoke.py`
 - `tests/gui/test_gui_startup.py`
 - `tests/gui/test_guided_workflow.py`
 - `tests/gui/test_history_manager.py`
+- `tests/gui/test_obsolete_policy_artifact_management.py`
 - `tests/gui/test_phase6_ribbon_workspace.py`
 - `tests/gui/test_results_review_navigation.py`
 - `tests/gui/test_task_status.py`
@@ -93,6 +95,7 @@
 - `tests/unit/test_local_parameter_assistant.py`
 - `tests/unit/test_lshade.py`
 - `tests/unit/test_mathematical_reference.py`
+- `tests/unit/test_obsolete_training_artifacts.py`
 - `tests/unit/test_orpd.py`
 - `tests/unit/test_orpd_counted_evaluation_context.py`
 - `tests/unit/test_packaged_gui_validator.py`
@@ -105,6 +108,7 @@
 - `tests/unit/test_resource_recovery_evidence.py`
 - `tests/unit/test_robustness.py`
 - `tests/unit/test_scientist_gui_contract.py`
+- `tests/unit/test_scientist_policy_artifact_deletion.py`
 - `tests/unit/test_source_identity.py`
 - `tests/unit/test_statistics.py`
 - `tests/unit/test_study_strength.py`
@@ -128,9 +132,5 @@
 - `tests/unit/test_tsh_calo_qualification.py`
 - `tests/unit/test_tsh_calo_qualification_campaign.py`
 - `tests/unit/test_tsh_calo_runtime_context.py`
-- `tests/unit/test_tsh_calo_runtime_transition.py`
-- `tests/unit/test_tsh_calo_topology_context.py`
-- `tests/unit/test_tsh_calo_training_campaign.py`
-- `tests/unit/test_tsh_calo_training_environment.py`
 
 > Generated routing is evidence, not auditing. Curated `.ai/modules/*.md` guidance remains authoritative when more specific.

@@ -56,6 +56,7 @@
 - `tests/integration/test_phase4_empty_policy_workflow.py`
 - `tests/integration/test_workspace_execution_control.py`
 - `tests/unit/test_calo_v41_workflow_restore.py`
+- `tests/unit/test_obsolete_training_artifacts.py`
 - `tests/unit/test_phase6_command_and_native_contracts.py`
 - `tests/unit/test_scientist_gui_contract.py`
 - `tests/unit/test_v120_phase3_gui_contracts.py`
@@ -101,11 +102,15 @@
 - `calo_rpd_studio/gui/panels/algorithms_panel.py`
 - `calo_rpd_studio/gui/panels/application_settings_panel.py`
 - `calo_rpd_studio/gui/panels/benchmark_campaign_panel.py`
+- `calo_rpd_studio/gui/panels/calo_intelligence_obsolete_models.py`
+- `calo_rpd_studio/gui/panels/calo_intelligence_obsolete_registered.py`
 - `calo_rpd_studio/gui/panels/calo_intelligence_panel.py`
+- `calo_rpd_studio/gui/panels/calo_intelligence_policy_controls.py`
 - `calo_rpd_studio/gui/panels/dashboard_panel.py`
 - `calo_rpd_studio/gui/panels/experiment_manager_panel.py`
 - `calo_rpd_studio/gui/panels/independent_training_panel.py`
 - `calo_rpd_studio/gui/panels/live_optimization_panel.py`
+- `calo_rpd_studio/gui/panels/obsolete_model_management.py`
 - `calo_rpd_studio/gui/panels/orpd_formulation_panel.py`
 - `calo_rpd_studio/gui/panels/portfolio_manager_panel.py`
 - `calo_rpd_studio/gui/panels/power_system_panel.py`

@@ -1,0 +1,1077 @@
+{
+  "path": "tests/gui/test_obsolete_policy_artifact_management.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "directory.mkdir",
+          "target": "directory.mkdir"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.loads",
+          "target": "json.loads"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "plan_source.read_text",
+          "target": "plan_source.read_text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "write_text",
+          "target": "write_text"
+        }
+      ],
+      "call_forms": {
+        "directory.mkdir": "attribute",
+        "json.dumps": "attribute",
+        "json.loads": "attribute",
+        "plan_source.read_text": "attribute",
+        "write_text": "attribute"
+      },
+      "called_by": [
+        "tests.gui.test_obsolete_policy_artifact_management.test_corrupt_saved_training_is_hidden_by_default_and_deletable_when_obsolete_is_shown",
+        "tests.gui.test_obsolete_policy_artifact_management.test_interrupted_saved_training_opens_central_obsolete_library_and_can_be_deleted"
+      ],
+      "calls": [
+        "directory.mkdir",
+        "json.dumps",
+        "json.loads",
+        "plan_source.read_text",
+        "write_text"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 21,
+      "entry_point": false,
+      "file": "tests/gui/test_obsolete_policy_artifact_management.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "CALO_RUNTIME_ARCHITECTURE": "calo_rpd_studio.algorithms.calo.policy_schema.CALO_RUNTIME_ARCHITECTURE",
+        "POLICY_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_ACTION_SCHEMA",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "POLICY_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_SCHEMA",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "Qt": "PyQt6.QtCore.Qt",
+        "TRAINING_ENVIRONMENT_VERSION": "calo_rpd_studio.algorithms.calo.policy_schema.TRAINING_ENVIRONMENT_VERSION",
+        "_training_plan": "tests.gui.test_phase6_ribbon_workspace._training_plan",
+        "_window": "tests.gui.test_phase6_ribbon_workspace._window",
+        "annotations": "__future__.annotations",
+        "importlib": "importlib.util",
+        "json": "json",
+        "pytest": "pytest",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "importlib.util",
+        "json",
+        "pytest",
+        "tests.gui.test_phase6_ribbon_workspace",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_obsolete_policy_artifact_management",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_obsolete_policy_artifact_management",
+      "qualname": "tests.gui.test_obsolete_policy_artifact_management._write_campaign",
+      "semantic_tags": [],
+      "signature": "(directory, plan_source, campaign_id, status_text)",
+      "start_line": 16,
+      "state_owner": "",
+      "symbol": "_write_campaign",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "next",
+          "target": "next"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.policy_table.item",
+          "target": "panel.policy_table.item"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.policy_table.rowCount",
+          "target": "panel.policy_table.rowCount"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "text",
+          "target": "text"
+        }
+      ],
+      "call_forms": {
+        "next": "name",
+        "panel.policy_table.item": "attribute",
+        "panel.policy_table.rowCount": "attribute",
+        "range": "name",
+        "text": "attribute"
+      },
+      "called_by": [
+        "tests.gui.test_obsolete_policy_artifact_management.test_corrupt_saved_training_is_hidden_by_default_and_deletable_when_obsolete_is_shown",
+        "tests.gui.test_obsolete_policy_artifact_management.test_interrupted_saved_training_opens_central_obsolete_library_and_can_be_deleted",
+        "tests.gui.test_obsolete_policy_artifact_management.test_registered_model_with_changed_file_integrity_is_obsolete_and_can_be_deleted"
+      ],
+      "calls": [
+        "next",
+        "panel.policy_table.item",
+        "panel.policy_table.rowCount",
+        "range",
+        "text"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 29,
+      "entry_point": false,
+      "file": "tests/gui/test_obsolete_policy_artifact_management.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "CALO_RUNTIME_ARCHITECTURE": "calo_rpd_studio.algorithms.calo.policy_schema.CALO_RUNTIME_ARCHITECTURE",
+        "POLICY_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_ACTION_SCHEMA",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "POLICY_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_SCHEMA",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "Qt": "PyQt6.QtCore.Qt",
+        "TRAINING_ENVIRONMENT_VERSION": "calo_rpd_studio.algorithms.calo.policy_schema.TRAINING_ENVIRONMENT_VERSION",
+        "_training_plan": "tests.gui.test_phase6_ribbon_workspace._training_plan",
+        "_window": "tests.gui.test_phase6_ribbon_workspace._window",
+        "annotations": "__future__.annotations",
+        "importlib": "importlib.util",
+        "json": "json",
+        "pytest": "pytest",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "importlib.util",
+        "json",
+        "pytest",
+        "tests.gui.test_phase6_ribbon_workspace",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_obsolete_policy_artifact_management",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_obsolete_policy_artifact_management",
+      "qualname": "tests.gui.test_obsolete_policy_artifact_management._policy_row",
+      "semantic_tags": [],
+      "signature": "(panel, name)",
+      "start_line": 24,
+      "state_owner": "",
+      "symbol": "_policy_row",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "campaign.exists",
+          "target": "campaign.exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "campaign.resolve",
+          "target": "campaign.resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "editor.library_picker.count",
+          "target": "editor.library_picker.count"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "editor.library_picker.itemData",
+          "target": "editor.library_picker.itemData"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "editor.library_picker.setCurrentIndex",
+          "target": "editor.library_picker.setCurrentIndex"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "editor.manage_saved_button.isEnabled",
+          "target": "editor.manage_saved_button.isEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "editor.manage_saved_button.text",
+          "target": "editor.manage_saved_button.text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "get",
+          "target": "get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "json.dumps",
+          "target": "json.dumps"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "next",
+          "target": "next"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.delete_selected_model_files",
+          "target": "panel.delete_selected_model_files"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.policy_activate_button.isVisible",
+          "target": "panel.policy_activate_button.isVisible"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.policy_delete_button.isEnabled",
+          "target": "panel.policy_delete_button.isEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.policy_import_button.isEnabled",
+          "target": "panel.policy_import_button.isEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.policy_select_button.isEnabled",
+          "target": "panel.policy_select_button.isEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.policy_table.currentRow",
+          "target": "panel.policy_table.currentRow"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.policy_table.item",
+          "target": "panel.policy_table.item"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.policy_table.rowCount",
+          "target": "panel.policy_table.rowCount"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.qualification_button.isEnabled",
+          "target": "panel.qualification_button.isEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.show_obsolete_models.isChecked",
+          "target": "panel.show_obsolete_models.isChecked"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "qtbot.mouseClick",
+          "target": "qtbot.mouseClick"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_policy_row",
+          "target": "tests.gui.test_obsolete_policy_artifact_management._policy_row"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_write_campaign",
+          "target": "tests.gui.test_obsolete_policy_artifact_management._write_campaign"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_training_plan",
+          "target": "tests.gui.test_phase6_ribbon_workspace._training_plan"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_window",
+          "target": "tests.gui.test_phase6_ribbon_workspace._window"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "text",
+          "target": "text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "window.training_model_library.changed.emit",
+          "target": "window.training_model_library.changed.emit"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "window.training_model_library.refresh",
+          "target": "window.training_model_library.refresh"
+        }
+      ],
+      "call_forms": {
+        "_policy_row": "name",
+        "_training_plan": "name",
+        "_window": "name",
+        "_write_campaign": "name",
+        "all": "name",
+        "campaign.exists": "attribute",
+        "campaign.resolve": "attribute",
+        "editor.library_picker.count": "attribute",
+        "editor.library_picker.itemData": "attribute",
+        "editor.library_picker.setCurrentIndex": "attribute",
+        "editor.manage_saved_button.isEnabled": "attribute",
+        "editor.manage_saved_button.text": "attribute",
+        "get": "attribute",
+        "isinstance": "name",
+        "json.dumps": "attribute",
+        "lower": "attribute",
+        "monkeypatch.setattr": "attribute",
+        "next": "name",
+        "panel.delete_selected_model_files": "attribute",
+        "panel.policy_activate_button.isVisible": "attribute",
+        "panel.policy_delete_button.isEnabled": "attribute",
+        "panel.policy_import_button.isEnabled": "attribute",
+        "panel.policy_select_button.isEnabled": "attribute",
+        "panel.policy_table.currentRow": "attribute",
+        "panel.policy_table.item": "attribute",
+        "panel.policy_table.rowCount": "attribute",
+        "panel.qualification_button.isEnabled": "attribute",
+        "panel.show_obsolete_models.isChecked": "attribute",
+        "qtbot.mouseClick": "attribute",
+        "range": "name",
+        "str": "name",
+        "text": "attribute",
+        "window.training_model_library.changed.emit": "attribute",
+        "window.training_model_library.refresh": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_policy_row",
+        "_training_plan",
+        "_window",
+        "_write_campaign",
+        "all",
+        "campaign.exists",
+        "campaign.resolve",
+        "editor.library_picker.count",
+        "editor.library_picker.itemData",
+        "editor.library_picker.setCurrentIndex",
+        "editor.manage_saved_button.isEnabled",
+        "editor.manage_saved_button.text",
+        "get",
+        "isinstance",
+        "json.dumps",
+        "lower",
+        "monkeypatch.setattr",
+        "next",
+        "panel.delete_selected_model_files",
+        "panel.policy_activate_button.isVisible",
+        "panel.policy_delete_button.isEnabled",
+        "panel.policy_import_button.isEnabled",
+        "panel.policy_select_button.isEnabled",
+        "panel.policy_table.currentRow",
+        "panel.policy_table.item",
+        "panel.policy_table.rowCount",
+        "panel.qualification_button.isEnabled",
+        "panel.show_obsolete_models.isChecked",
+        "qtbot.mouseClick",
+        "range",
+        "str",
+        "text",
+        "window.training_model_library.changed.emit",
+        "window.training_model_library.refresh"
+      ],
+      "calls_resolved": [
+        "tests.gui.test_obsolete_policy_artifact_management._policy_row",
+        "tests.gui.test_obsolete_policy_artifact_management._write_campaign",
+        "tests.gui.test_phase6_ribbon_workspace._training_plan",
+        "tests.gui.test_phase6_ribbon_workspace._window"
+      ],
+      "doc": "",
+      "end_line": 98,
+      "entry_point": false,
+      "file": "tests/gui/test_obsolete_policy_artifact_management.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "CALO_RUNTIME_ARCHITECTURE": "calo_rpd_studio.algorithms.calo.policy_schema.CALO_RUNTIME_ARCHITECTURE",
+        "POLICY_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_ACTION_SCHEMA",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "POLICY_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_SCHEMA",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "Qt": "PyQt6.QtCore.Qt",
+        "TRAINING_ENVIRONMENT_VERSION": "calo_rpd_studio.algorithms.calo.policy_schema.TRAINING_ENVIRONMENT_VERSION",
+        "_training_plan": "tests.gui.test_phase6_ribbon_workspace._training_plan",
+        "_window": "tests.gui.test_phase6_ribbon_workspace._window",
+        "annotations": "__future__.annotations",
+        "importlib": "importlib.util",
+        "json": "json",
+        "pytest": "pytest",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "importlib.util",
+        "json",
+        "pytest",
+        "tests.gui.test_phase6_ribbon_workspace",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_obsolete_policy_artifact_management",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_obsolete_policy_artifact_management",
+      "qualname": "tests.gui.test_obsolete_policy_artifact_management.test_interrupted_saved_training_opens_central_obsolete_library_and_can_be_deleted",
+      "semantic_tags": [],
+      "signature": "(qtbot, tmp_path, monkeypatch)",
+      "start_line": 32,
+      "state_owner": "",
+      "symbol": "test_interrupted_saved_training_opens_central_obsolete_library_and_can_be_deleted",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "warnings.append",
+          "target": "warnings.append"
+        }
+      ],
+      "call_forms": {
+        "warnings.append": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "warnings.append"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 83,
+      "entry_point": false,
+      "file": "tests/gui/test_obsolete_policy_artifact_management.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "CALO_RUNTIME_ARCHITECTURE": "calo_rpd_studio.algorithms.calo.policy_schema.CALO_RUNTIME_ARCHITECTURE",
+        "POLICY_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_ACTION_SCHEMA",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "POLICY_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_SCHEMA",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "Qt": "PyQt6.QtCore.Qt",
+        "TRAINING_ENVIRONMENT_VERSION": "calo_rpd_studio.algorithms.calo.policy_schema.TRAINING_ENVIRONMENT_VERSION",
+        "_training_plan": "tests.gui.test_phase6_ribbon_workspace._training_plan",
+        "_window": "tests.gui.test_phase6_ribbon_workspace._window",
+        "annotations": "__future__.annotations",
+        "importlib": "importlib.util",
+        "json": "json",
+        "pytest": "pytest",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "importlib.util",
+        "json",
+        "pytest",
+        "tests.gui.test_phase6_ribbon_workspace",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_obsolete_policy_artifact_management.test_interrupted_saved_training_opens_central_obsolete_library_and_can_be_deleted",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_obsolete_policy_artifact_management",
+      "qualname": "tests.gui.test_obsolete_policy_artifact_management.test_interrupted_saved_training_opens_central_obsolete_library_and_can_be_deleted.confirm",
+      "semantic_tags": [],
+      "signature": "(_parent, title, text, *_args, **_kwargs)",
+      "start_line": 81,
+      "state_owner": "",
+      "symbol": "confirm",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "campaign.exists",
+          "target": "campaign.exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel._policy_selection_changed",
+          "target": "panel._policy_selection_changed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.delete_selected_model_files",
+          "target": "panel.delete_selected_model_files"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.policy_delete_button.isEnabled",
+          "target": "panel.policy_delete_button.isEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.policy_table.item",
+          "target": "panel.policy_table.item"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.policy_table.rowCount",
+          "target": "panel.policy_table.rowCount"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.policy_table.selectRow",
+          "target": "panel.policy_table.selectRow"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.show_obsolete_models.setChecked",
+          "target": "panel.show_obsolete_models.setChecked"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_policy_row",
+          "target": "tests.gui.test_obsolete_policy_artifact_management._policy_row"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_write_campaign",
+          "target": "tests.gui.test_obsolete_policy_artifact_management._write_campaign"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_training_plan",
+          "target": "tests.gui.test_phase6_ribbon_workspace._training_plan"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_window",
+          "target": "tests.gui.test_phase6_ribbon_workspace._window"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "text",
+          "target": "text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "window.training_model_library.changed.emit",
+          "target": "window.training_model_library.changed.emit"
+        }
+      ],
+      "call_forms": {
+        "_policy_row": "name",
+        "_training_plan": "name",
+        "_window": "name",
+        "_write_campaign": "name",
+        "all": "name",
+        "campaign.exists": "attribute",
+        "monkeypatch.setattr": "attribute",
+        "panel._policy_selection_changed": "attribute",
+        "panel.delete_selected_model_files": "attribute",
+        "panel.policy_delete_button.isEnabled": "attribute",
+        "panel.policy_table.item": "attribute",
+        "panel.policy_table.rowCount": "attribute",
+        "panel.policy_table.selectRow": "attribute",
+        "panel.show_obsolete_models.setChecked": "attribute",
+        "range": "name",
+        "text": "attribute",
+        "window.training_model_library.changed.emit": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_policy_row",
+        "_training_plan",
+        "_window",
+        "_write_campaign",
+        "all",
+        "campaign.exists",
+        "monkeypatch.setattr",
+        "panel._policy_selection_changed",
+        "panel.delete_selected_model_files",
+        "panel.policy_delete_button.isEnabled",
+        "panel.policy_table.item",
+        "panel.policy_table.rowCount",
+        "panel.policy_table.selectRow",
+        "panel.show_obsolete_models.setChecked",
+        "range",
+        "text",
+        "window.training_model_library.changed.emit"
+      ],
+      "calls_resolved": [
+        "tests.gui.test_obsolete_policy_artifact_management._policy_row",
+        "tests.gui.test_obsolete_policy_artifact_management._write_campaign",
+        "tests.gui.test_phase6_ribbon_workspace._training_plan",
+        "tests.gui.test_phase6_ribbon_workspace._window"
+      ],
+      "doc": "",
+      "end_line": 137,
+      "entry_point": false,
+      "file": "tests/gui/test_obsolete_policy_artifact_management.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "CALO_RUNTIME_ARCHITECTURE": "calo_rpd_studio.algorithms.calo.policy_schema.CALO_RUNTIME_ARCHITECTURE",
+        "POLICY_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_ACTION_SCHEMA",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "POLICY_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_SCHEMA",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "Qt": "PyQt6.QtCore.Qt",
+        "TRAINING_ENVIRONMENT_VERSION": "calo_rpd_studio.algorithms.calo.policy_schema.TRAINING_ENVIRONMENT_VERSION",
+        "_training_plan": "tests.gui.test_phase6_ribbon_workspace._training_plan",
+        "_window": "tests.gui.test_phase6_ribbon_workspace._window",
+        "annotations": "__future__.annotations",
+        "importlib": "importlib.util",
+        "json": "json",
+        "pytest": "pytest",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "importlib.util",
+        "json",
+        "pytest",
+        "tests.gui.test_phase6_ribbon_workspace",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_obsolete_policy_artifact_management",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_obsolete_policy_artifact_management",
+      "qualname": "tests.gui.test_obsolete_policy_artifact_management.test_corrupt_saved_training_is_hidden_by_default_and_deletable_when_obsolete_is_shown",
+      "semantic_tags": [],
+      "signature": "(qtbot, tmp_path, monkeypatch)",
+      "start_line": 101,
+      "state_owner": "",
+      "symbol": "test_corrupt_saved_training_is_hidden_by_default_and_deletable_when_obsolete_is_shown",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "all",
+          "target": "all"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "CALOPolicyNetwork",
+          "target": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "candidate.exists",
+          "target": "candidate.exists"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "candidate.open",
+          "target": "candidate.open"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "monkeypatch.setattr",
+          "target": "monkeypatch.setattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "network.state_dict",
+          "target": "network.state_dict"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel._policy_selection_changed",
+          "target": "panel._policy_selection_changed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.delete_selected_model_files",
+          "target": "panel.delete_selected_model_files"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.policy_delete_button.isEnabled",
+          "target": "panel.policy_delete_button.isEnabled"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.policy_table.item",
+          "target": "panel.policy_table.item"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.policy_table.rowCount",
+          "target": "panel.policy_table.rowCount"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.policy_table.selectRow",
+          "target": "panel.policy_table.selectRow"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.refresh_policy_library",
+          "target": "panel.refresh_policy_library"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "panel.show_obsolete_models.setChecked",
+          "target": "panel.show_obsolete_models.setChecked"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.policy_registry.get",
+          "target": "state.policy_registry.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "state.policy_registry.register",
+          "target": "state.policy_registry.register"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "stream.write",
+          "target": "stream.write"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_policy_row",
+          "target": "tests.gui.test_obsolete_policy_artifact_management._policy_row"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_window",
+          "target": "tests.gui.test_phase6_ribbon_workspace._window"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "text",
+          "target": "text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "torch.save",
+          "target": "torch.save"
+        }
+      ],
+      "call_forms": {
+        "CALOPolicyNetwork": "name",
+        "_policy_row": "name",
+        "_window": "name",
+        "all": "name",
+        "candidate.exists": "attribute",
+        "candidate.open": "attribute",
+        "lower": "attribute",
+        "monkeypatch.setattr": "attribute",
+        "network.state_dict": "attribute",
+        "panel._policy_selection_changed": "attribute",
+        "panel.delete_selected_model_files": "attribute",
+        "panel.policy_delete_button.isEnabled": "attribute",
+        "panel.policy_table.item": "attribute",
+        "panel.policy_table.rowCount": "attribute",
+        "panel.policy_table.selectRow": "attribute",
+        "panel.refresh_policy_library": "attribute",
+        "panel.show_obsolete_models.setChecked": "attribute",
+        "range": "name",
+        "state.policy_registry.get": "attribute",
+        "state.policy_registry.register": "attribute",
+        "stream.write": "attribute",
+        "text": "attribute",
+        "torch.save": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "CALOPolicyNetwork",
+        "_policy_row",
+        "_window",
+        "all",
+        "candidate.exists",
+        "candidate.open",
+        "lower",
+        "monkeypatch.setattr",
+        "network.state_dict",
+        "panel._policy_selection_changed",
+        "panel.delete_selected_model_files",
+        "panel.policy_delete_button.isEnabled",
+        "panel.policy_table.item",
+        "panel.policy_table.rowCount",
+        "panel.policy_table.selectRow",
+        "panel.refresh_policy_library",
+        "panel.show_obsolete_models.setChecked",
+        "range",
+        "state.policy_registry.get",
+        "state.policy_registry.register",
+        "stream.write",
+        "text",
+        "torch.save"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "tests.gui.test_obsolete_policy_artifact_management._policy_row",
+        "tests.gui.test_phase6_ribbon_workspace._window"
+      ],
+      "doc": "",
+      "end_line": 207,
+      "entry_point": false,
+      "file": "tests/gui/test_obsolete_policy_artifact_management.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "CALO_RUNTIME_ARCHITECTURE": "calo_rpd_studio.algorithms.calo.policy_schema.CALO_RUNTIME_ARCHITECTURE",
+        "POLICY_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_ACTION_SCHEMA",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "POLICY_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_SCHEMA",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "Qt": "PyQt6.QtCore.Qt",
+        "TRAINING_ENVIRONMENT_VERSION": "calo_rpd_studio.algorithms.calo.policy_schema.TRAINING_ENVIRONMENT_VERSION",
+        "_training_plan": "tests.gui.test_phase6_ribbon_workspace._training_plan",
+        "_window": "tests.gui.test_phase6_ribbon_workspace._window",
+        "annotations": "__future__.annotations",
+        "importlib": "importlib.util",
+        "json": "json",
+        "pytest": "pytest",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "importlib.util",
+        "json",
+        "pytest",
+        "tests.gui.test_phase6_ribbon_workspace",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_obsolete_policy_artifact_management",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_obsolete_policy_artifact_management",
+      "qualname": "tests.gui.test_obsolete_policy_artifact_management.test_registered_model_with_changed_file_integrity_is_obsolete_and_can_be_deleted",
+      "semantic_tags": [],
+      "signature": "(qtbot, tmp_path, monkeypatch)",
+      "start_line": 140,
+      "state_owner": "",
+      "symbol": "test_registered_model_with_changed_file_integrity_is_obsolete_and_can_be_deleted",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "warnings.append",
+          "target": "warnings.append"
+        }
+      ],
+      "call_forms": {
+        "warnings.append": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "warnings.append"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 195,
+      "entry_point": false,
+      "file": "tests/gui/test_obsolete_policy_artifact_management.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "CALOPolicyNetwork": "calo_rpd_studio.algorithms.calo.policy_network.CALOPolicyNetwork",
+        "CALO_RUNTIME_ARCHITECTURE": "calo_rpd_studio.algorithms.calo.policy_schema.CALO_RUNTIME_ARCHITECTURE",
+        "POLICY_ACTION_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_ACTION_SCHEMA",
+        "POLICY_STATE_DIM": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_DIM",
+        "POLICY_STATE_SCHEMA": "calo_rpd_studio.algorithms.calo.policy_schema.POLICY_STATE_SCHEMA",
+        "QMessageBox": "PyQt6.QtWidgets.QMessageBox",
+        "Qt": "PyQt6.QtCore.Qt",
+        "TRAINING_ENVIRONMENT_VERSION": "calo_rpd_studio.algorithms.calo.policy_schema.TRAINING_ENVIRONMENT_VERSION",
+        "_training_plan": "tests.gui.test_phase6_ribbon_workspace._training_plan",
+        "_window": "tests.gui.test_phase6_ribbon_workspace._window",
+        "annotations": "__future__.annotations",
+        "importlib": "importlib.util",
+        "json": "json",
+        "pytest": "pytest",
+        "torch": "torch"
+      },
+      "important_invariants": [],
+      "imports": [
+        "PyQt6.QtCore",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_network",
+        "calo_rpd_studio.algorithms.calo.policy_schema",
+        "importlib.util",
+        "json",
+        "pytest",
+        "tests.gui.test_phase6_ribbon_workspace",
+        "torch"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.gui.test_obsolete_policy_artifact_management.test_registered_model_with_changed_file_integrity_is_obsolete_and_can_be_deleted",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.gui.test_obsolete_policy_artifact_management",
+      "qualname": "tests.gui.test_obsolete_policy_artifact_management.test_registered_model_with_changed_file_integrity_is_obsolete_and_can_be_deleted.confirm",
+      "semantic_tags": [],
+      "signature": "(_parent, title, text, *_args, **_kwargs)",
+      "start_line": 193,
+      "state_owner": "",
+      "symbol": "confirm",
+      "tests": []
+    }
+  ]
+}

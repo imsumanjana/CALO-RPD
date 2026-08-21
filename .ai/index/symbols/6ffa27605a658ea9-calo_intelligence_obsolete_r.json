@@ -1,0 +1,662 @@
+{
+  "path": "calo_rpd_studio/gui/panels/calo_intelligence_obsolete_registered.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [],
+      "call_forms": {},
+      "called_by": [],
+      "calls": [],
+      "calls_resolved": [],
+      "doc": "Classify both managed training folders and registered unusable models as obsolete.",
+      "end_line": 151,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/calo_intelligence_obsolete_registered.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ObsoleteAwareCALOIntelligencePanel": "calo_rpd_studio.gui.panels.calo_intelligence_obsolete_models.ObsoleteAwareCALOIntelligencePanel",
+        "Path": "pathlib.Path",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "annotations": "__future__.annotations",
+        "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".calo_intelligence_obsolete_models",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "class",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.calo_intelligence_obsolete_registered",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.calo_intelligence_obsolete_registered",
+      "qualname": "calo_rpd_studio.gui.panels.calo_intelligence_obsolete_registered.CompleteObsoleteAwareCALOIntelligencePanel",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "",
+      "start_line": 15,
+      "state_owner": "",
+      "symbol": "CompleteObsoleteAwareCALOIntelligencePanel",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "__init__",
+          "target": "__init__"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        }
+      ],
+      "call_forms": {
+        "__init__": "attribute",
+        "super": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "__init__",
+        "super"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 20,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/calo_intelligence_obsolete_registered.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ObsoleteAwareCALOIntelligencePanel": "calo_rpd_studio.gui.panels.calo_intelligence_obsolete_models.ObsoleteAwareCALOIntelligencePanel",
+        "Path": "pathlib.Path",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "annotations": "__future__.annotations",
+        "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".calo_intelligence_obsolete_models",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.calo_intelligence_obsolete_registered.CompleteObsoleteAwareCALOIntelligencePanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.calo_intelligence_obsolete_registered",
+      "qualname": "calo_rpd_studio.gui.panels.calo_intelligence_obsolete_registered.CompleteObsoleteAwareCALOIntelligencePanel.__init__",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, *args, **kwargs)",
+      "start_line": 18,
+      "state_owner": "",
+      "symbol": "__init__",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "Path",
+          "target": "Path"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "checkpoint_sha256",
+          "target": "calo_rpd_studio.ai.model_io.checkpoint_sha256"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "casefold",
+          "target": "casefold"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "expanduser",
+          "target": "expanduser"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "int",
+          "target": "int"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "lower",
+          "target": "lower"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "policy.compatible_with",
+          "target": "policy.compatible_with"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "resolved.stat",
+          "target": "resolved.stat"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._registered_obsolete_cache.get",
+          "target": "self._registered_obsolete_cache.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.is_file",
+          "target": "source.is_file"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.is_symlink",
+          "target": "source.is_symlink"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "source.resolve",
+          "target": "source.resolve"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "type",
+          "target": "type"
+        }
+      ],
+      "call_forms": {
+        "Path": "name",
+        "casefold": "attribute",
+        "checkpoint_sha256": "name",
+        "expanduser": "attribute",
+        "int": "name",
+        "len": "name",
+        "lower": "attribute",
+        "policy.compatible_with": "attribute",
+        "resolved.stat": "attribute",
+        "self._registered_obsolete_cache.get": "attribute",
+        "source.is_file": "attribute",
+        "source.is_symlink": "attribute",
+        "source.resolve": "attribute",
+        "str": "name",
+        "type": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.calo_intelligence_obsolete_registered.CompleteObsoleteAwareCALOIntelligencePanel.refresh_policy_library"
+      ],
+      "calls": [
+        "Path",
+        "casefold",
+        "checkpoint_sha256",
+        "expanduser",
+        "int",
+        "len",
+        "lower",
+        "policy.compatible_with",
+        "resolved.stat",
+        "self._registered_obsolete_cache.get",
+        "source.is_file",
+        "source.is_symlink",
+        "source.resolve",
+        "str",
+        "type"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.ai.model_io.checkpoint_sha256"
+      ],
+      "doc": "",
+      "end_line": 80,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/calo_intelligence_obsolete_registered.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ObsoleteAwareCALOIntelligencePanel": "calo_rpd_studio.gui.panels.calo_intelligence_obsolete_models.ObsoleteAwareCALOIntelligencePanel",
+        "Path": "pathlib.Path",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "annotations": "__future__.annotations",
+        "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".calo_intelligence_obsolete_models",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.calo_intelligence_obsolete_registered.CompleteObsoleteAwareCALOIntelligencePanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.calo_intelligence_obsolete_registered",
+      "qualname": "calo_rpd_studio.gui.panels.calo_intelligence_obsolete_registered.CompleteObsoleteAwareCALOIntelligencePanel._registered_obsolete_issue",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self, policy)",
+      "start_line": 22,
+      "state_owner": "",
+      "symbol": "_registered_obsolete_issue",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "entry.get",
+          "target": "entry.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        }
+      ],
+      "call_forms": {
+        "entry.get": "attribute",
+        "isinstance": "name"
+      },
+      "called_by": [
+        "calo_rpd_studio.gui.panels.calo_intelligence_obsolete_registered.CompleteObsoleteAwareCALOIntelligencePanel.refresh_policy_library"
+      ],
+      "calls": [
+        "entry.get",
+        "isinstance"
+      ],
+      "calls_resolved": [],
+      "doc": "",
+      "end_line": 84,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/calo_intelligence_obsolete_registered.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ObsoleteAwareCALOIntelligencePanel": "calo_rpd_studio.gui.panels.calo_intelligence_obsolete_models.ObsoleteAwareCALOIntelligencePanel",
+        "Path": "pathlib.Path",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "annotations": "__future__.annotations",
+        "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".calo_intelligence_obsolete_models",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.calo_intelligence_obsolete_registered.CompleteObsoleteAwareCALOIntelligencePanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.calo_intelligence_obsolete_registered",
+      "qualname": "calo_rpd_studio.gui.panels.calo_intelligence_obsolete_registered.CompleteObsoleteAwareCALOIntelligencePanel._entry_policy",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(entry)",
+      "start_line": 83,
+      "state_owner": "",
+      "symbol": "_entry_policy",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "QTableWidgetItem",
+          "target": "QTableWidgetItem"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._entry_policy",
+          "target": "calo_rpd_studio.gui.panels.calo_intelligence_obsolete_registered.CompleteObsoleteAwareCALOIntelligencePanel._entry_policy"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "self._registered_obsolete_issue",
+          "target": "calo_rpd_studio.gui.panels.calo_intelligence_obsolete_registered.CompleteObsoleteAwareCALOIntelligencePanel._registered_obsolete_issue"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "entry.get",
+          "target": "entry.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "enumerate",
+          "target": "enumerate"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "filtered.append",
+          "target": "filtered.append"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "getattr",
+          "target": "getattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "hasattr",
+          "target": "hasattr"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "isinstance",
+          "target": "isinstance"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "issues.get",
+          "target": "issues.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "item.setToolTip",
+          "target": "item.setToolTip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "range",
+          "target": "range"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "refresh_policy_library",
+          "target": "refresh_policy_library"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._policy_selection_changed",
+          "target": "self._policy_selection_changed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._resize_policy_table_to_entries",
+          "target": "self._resize_policy_table_to_entries"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._row_key",
+          "target": "self._row_key"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._select_row_key",
+          "target": "self._select_row_key"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self._selected_row",
+          "target": "self._selected_row"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.policy_table.columnCount",
+          "target": "self.policy_table.columnCount"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.policy_table.item",
+          "target": "self.policy_table.item"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.policy_table.selectRow",
+          "target": "self.policy_table.selectRow"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.policy_table.setItem",
+          "target": "self.policy_table.setItem"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.policy_table.setRowCount",
+          "target": "self.policy_table.setRowCount"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "self.show_obsolete_models.isChecked",
+          "target": "self.show_obsolete_models.isChecked"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "setToolTip",
+          "target": "setToolTip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "snapshots.get",
+          "target": "snapshots.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "super",
+          "target": "super"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "text",
+          "target": "text"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "toolTip",
+          "target": "toolTip"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "tuple",
+          "target": "tuple"
+        }
+      ],
+      "call_forms": {
+        "QTableWidgetItem": "name",
+        "entry.get": "attribute",
+        "enumerate": "name",
+        "filtered.append": "attribute",
+        "getattr": "name",
+        "hasattr": "name",
+        "isinstance": "name",
+        "issues.get": "attribute",
+        "item.setToolTip": "attribute",
+        "len": "name",
+        "range": "name",
+        "refresh_policy_library": "attribute",
+        "self._entry_policy": "attribute",
+        "self._policy_selection_changed": "attribute",
+        "self._registered_obsolete_issue": "attribute",
+        "self._resize_policy_table_to_entries": "attribute",
+        "self._row_key": "attribute",
+        "self._select_row_key": "attribute",
+        "self._selected_row": "attribute",
+        "self.policy_table.columnCount": "attribute",
+        "self.policy_table.item": "attribute",
+        "self.policy_table.selectRow": "attribute",
+        "self.policy_table.setItem": "attribute",
+        "self.policy_table.setRowCount": "attribute",
+        "self.show_obsolete_models.isChecked": "attribute",
+        "setToolTip": "attribute",
+        "snapshots.get": "attribute",
+        "super": "name",
+        "text": "attribute",
+        "toolTip": "attribute",
+        "tuple": "name"
+      },
+      "called_by": [],
+      "calls": [
+        "QTableWidgetItem",
+        "entry.get",
+        "enumerate",
+        "filtered.append",
+        "getattr",
+        "hasattr",
+        "isinstance",
+        "issues.get",
+        "item.setToolTip",
+        "len",
+        "range",
+        "refresh_policy_library",
+        "self._entry_policy",
+        "self._policy_selection_changed",
+        "self._registered_obsolete_issue",
+        "self._resize_policy_table_to_entries",
+        "self._row_key",
+        "self._select_row_key",
+        "self._selected_row",
+        "self.policy_table.columnCount",
+        "self.policy_table.item",
+        "self.policy_table.selectRow",
+        "self.policy_table.setItem",
+        "self.policy_table.setRowCount",
+        "self.show_obsolete_models.isChecked",
+        "setToolTip",
+        "snapshots.get",
+        "super",
+        "text",
+        "toolTip",
+        "tuple"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.gui.panels.calo_intelligence_obsolete_registered.CompleteObsoleteAwareCALOIntelligencePanel._entry_policy",
+        "calo_rpd_studio.gui.panels.calo_intelligence_obsolete_registered.CompleteObsoleteAwareCALOIntelligencePanel._registered_obsolete_issue"
+      ],
+      "doc": "",
+      "end_line": 151,
+      "entry_point": false,
+      "file": "calo_rpd_studio/gui/panels/calo_intelligence_obsolete_registered.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ObsoleteAwareCALOIntelligencePanel": "calo_rpd_studio.gui.panels.calo_intelligence_obsolete_models.ObsoleteAwareCALOIntelligencePanel",
+        "Path": "pathlib.Path",
+        "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+        "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+        "annotations": "__future__.annotations",
+        "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256"
+      },
+      "important_invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "imports": [
+        ".calo_intelligence_obsolete_models",
+        "PyQt6.QtWidgets",
+        "__future__",
+        "calo_rpd_studio.ai.model_io",
+        "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+        "pathlib"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [
+        "Panels must not maintain divergent scientific state from AppState."
+      ],
+      "kind": "method",
+      "module": "desktop",
+      "parent_qualname": "calo_rpd_studio.gui.panels.calo_intelligence_obsolete_registered.CompleteObsoleteAwareCALOIntelligencePanel",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "calo_rpd_studio.gui.panels.calo_intelligence_obsolete_registered",
+      "qualname": "calo_rpd_studio.gui.panels.calo_intelligence_obsolete_registered.CompleteObsoleteAwareCALOIntelligencePanel.refresh_policy_library",
+      "semantic_tags": [
+        "PyQt",
+        "scientist-ui",
+        "shared-state",
+        "workflow"
+      ],
+      "signature": "(self)",
+      "start_line": 86,
+      "state_owner": "",
+      "symbol": "refresh_policy_library",
+      "tests": []
+    }
+  ]
+}

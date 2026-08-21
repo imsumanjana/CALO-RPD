@@ -1,0 +1,467 @@
+{
+  "path": "tests/unit/test_scientist_policy_artifact_deletion.py",
+  "schema_version": 2,
+  "symbols": [
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "PolicyRegistry",
+          "target": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ExperimentConfig",
+          "target": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "collect_provenance",
+          "target": "calo_rpd_studio.experiments.provenance.collect_provenance"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "ResultDatabase",
+          "target": "calo_rpd_studio.results.database.ResultDatabase"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.add_policy_qualification",
+          "target": "database.add_policy_qualification"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.bind_policy_to_experiment",
+          "target": "database.bind_policy_to_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.create_experiment",
+          "target": "database.create_experiment"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.set_active_policy",
+          "target": "database.set_active_policy"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "registry.get",
+          "target": "registry.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "registry.register",
+          "target": "registry.register"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "str",
+          "target": "str"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_write_native_policy",
+          "target": "tests.unit.test_calo_v41_policy_system._write_native_policy"
+        }
+      ],
+      "call_forms": {
+        "ExperimentConfig": "name",
+        "PolicyRegistry": "name",
+        "ResultDatabase": "name",
+        "_write_native_policy": "name",
+        "collect_provenance": "name",
+        "database.add_policy_qualification": "attribute",
+        "database.bind_policy_to_experiment": "attribute",
+        "database.create_experiment": "attribute",
+        "database.set_active_policy": "attribute",
+        "registry.get": "attribute",
+        "registry.register": "attribute",
+        "str": "name"
+      },
+      "called_by": [
+        "tests.unit.test_scientist_policy_artifact_deletion.test_permanent_artifact_deletion_rejects_identity_drift_without_changing_policy",
+        "tests.unit.test_scientist_policy_artifact_deletion.test_permanent_artifact_deletion_requires_a_real_exact_model_target",
+        "tests.unit.test_scientist_policy_artifact_deletion.test_permanent_artifact_deletion_tombstones_protected_policy_and_retains_history"
+      ],
+      "calls": [
+        "ExperimentConfig",
+        "PolicyRegistry",
+        "ResultDatabase",
+        "_write_native_policy",
+        "collect_provenance",
+        "database.add_policy_qualification",
+        "database.bind_policy_to_experiment",
+        "database.create_experiment",
+        "database.set_active_policy",
+        "registry.get",
+        "registry.register",
+        "str"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry",
+        "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "calo_rpd_studio.experiments.provenance.collect_provenance",
+        "calo_rpd_studio.results.database.ResultDatabase",
+        "tests.unit.test_calo_v41_policy_system._write_native_policy"
+      ],
+      "doc": "",
+      "end_line": 42,
+      "entry_point": false,
+      "file": "tests/unit/test_scientist_policy_artifact_deletion.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PolicyRegistry": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "_write_native_policy": "tests.unit.test_calo_v41_policy_system._write_native_policy",
+        "annotations": "__future__.annotations",
+        "collect_provenance": "calo_rpd_studio.experiments.provenance.collect_provenance",
+        "permanent_artifact_deletion_blocker": "calo_rpd_studio.algorithms.calo.policy_artifact_deletion.permanent_artifact_deletion_blocker",
+        "pytest": "pytest",
+        "record_permanent_artifact_deletion": "calo_rpd_studio.algorithms.calo.policy_artifact_deletion.record_permanent_artifact_deletion"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_artifact_deletion",
+        "calo_rpd_studio.algorithms.calo.policy_registry",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.provenance",
+        "calo_rpd_studio.results.database",
+        "pytest",
+        "tests.unit.test_calo_v41_policy_system"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_scientist_policy_artifact_deletion",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_scientist_policy_artifact_deletion",
+      "qualname": "tests.unit.test_scientist_policy_artifact_deletion._protected_active_policy",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 16,
+      "state_owner": "",
+      "symbol": "_protected_active_policy",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "permanent_artifact_deletion_blocker",
+          "target": "calo_rpd_studio.algorithms.calo.policy_artifact_deletion.permanent_artifact_deletion_blocker"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "record_permanent_artifact_deletion",
+          "target": "calo_rpd_studio.algorithms.calo.policy_artifact_deletion.record_permanent_artifact_deletion"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "checkpoint.unlink",
+          "target": "checkpoint.unlink"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.get_experiment_policy_binding",
+          "target": "database.get_experiment_policy_binding"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "database.list_policy_qualifications",
+          "target": "database.list_policy_qualifications"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "len",
+          "target": "len"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "registry.is_suppressed",
+          "target": "registry.is_suppressed"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "registry.unqualified_candidate_removal_blocker",
+          "target": "registry.unqualified_candidate_removal_blocker"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_protected_active_policy",
+          "target": "tests.unit.test_scientist_policy_artifact_deletion._protected_active_policy"
+        }
+      ],
+      "call_forms": {
+        "_protected_active_policy": "name",
+        "checkpoint.unlink": "attribute",
+        "database.get_experiment_policy_binding": "attribute",
+        "database.list_policy_qualifications": "attribute",
+        "len": "name",
+        "permanent_artifact_deletion_blocker": "name",
+        "record_permanent_artifact_deletion": "name",
+        "registry.is_suppressed": "attribute",
+        "registry.unqualified_candidate_removal_blocker": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_protected_active_policy",
+        "checkpoint.unlink",
+        "database.get_experiment_policy_binding",
+        "database.list_policy_qualifications",
+        "len",
+        "permanent_artifact_deletion_blocker",
+        "record_permanent_artifact_deletion",
+        "registry.is_suppressed",
+        "registry.unqualified_candidate_removal_blocker"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_artifact_deletion.permanent_artifact_deletion_blocker",
+        "calo_rpd_studio.algorithms.calo.policy_artifact_deletion.record_permanent_artifact_deletion",
+        "tests.unit.test_scientist_policy_artifact_deletion._protected_active_policy"
+      ],
+      "doc": "",
+      "end_line": 74,
+      "entry_point": false,
+      "file": "tests/unit/test_scientist_policy_artifact_deletion.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PolicyRegistry": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "_write_native_policy": "tests.unit.test_calo_v41_policy_system._write_native_policy",
+        "annotations": "__future__.annotations",
+        "collect_provenance": "calo_rpd_studio.experiments.provenance.collect_provenance",
+        "permanent_artifact_deletion_blocker": "calo_rpd_studio.algorithms.calo.policy_artifact_deletion.permanent_artifact_deletion_blocker",
+        "pytest": "pytest",
+        "record_permanent_artifact_deletion": "calo_rpd_studio.algorithms.calo.policy_artifact_deletion.record_permanent_artifact_deletion"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_artifact_deletion",
+        "calo_rpd_studio.algorithms.calo.policy_registry",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.provenance",
+        "calo_rpd_studio.results.database",
+        "pytest",
+        "tests.unit.test_calo_v41_policy_system"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_scientist_policy_artifact_deletion",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_scientist_policy_artifact_deletion",
+      "qualname": "tests.unit.test_scientist_policy_artifact_deletion.test_permanent_artifact_deletion_tombstones_protected_policy_and_retains_history",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 45,
+      "state_owner": "",
+      "symbol": "test_permanent_artifact_deletion_tombstones_protected_policy_and_retains_history",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "confirmed",
+          "raw": "record_permanent_artifact_deletion",
+          "target": "calo_rpd_studio.algorithms.calo.policy_artifact_deletion.record_permanent_artifact_deletion"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "pytest.raises",
+          "target": "pytest.raises"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "registry.get",
+          "target": "registry.get"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "registry.is_suppressed",
+          "target": "registry.is_suppressed"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_protected_active_policy",
+          "target": "tests.unit.test_scientist_policy_artifact_deletion._protected_active_policy"
+        }
+      ],
+      "call_forms": {
+        "_protected_active_policy": "name",
+        "pytest.raises": "attribute",
+        "record_permanent_artifact_deletion": "name",
+        "registry.get": "attribute",
+        "registry.is_suppressed": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_protected_active_policy",
+        "pytest.raises",
+        "record_permanent_artifact_deletion",
+        "registry.get",
+        "registry.is_suppressed"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_artifact_deletion.record_permanent_artifact_deletion",
+        "tests.unit.test_scientist_policy_artifact_deletion._protected_active_policy"
+      ],
+      "doc": "",
+      "end_line": 91,
+      "entry_point": false,
+      "file": "tests/unit/test_scientist_policy_artifact_deletion.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PolicyRegistry": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "_write_native_policy": "tests.unit.test_calo_v41_policy_system._write_native_policy",
+        "annotations": "__future__.annotations",
+        "collect_provenance": "calo_rpd_studio.experiments.provenance.collect_provenance",
+        "permanent_artifact_deletion_blocker": "calo_rpd_studio.algorithms.calo.policy_artifact_deletion.permanent_artifact_deletion_blocker",
+        "pytest": "pytest",
+        "record_permanent_artifact_deletion": "calo_rpd_studio.algorithms.calo.policy_artifact_deletion.record_permanent_artifact_deletion"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_artifact_deletion",
+        "calo_rpd_studio.algorithms.calo.policy_registry",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.provenance",
+        "calo_rpd_studio.results.database",
+        "pytest",
+        "tests.unit.test_calo_v41_policy_system"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_scientist_policy_artifact_deletion",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_scientist_policy_artifact_deletion",
+      "qualname": "tests.unit.test_scientist_policy_artifact_deletion.test_permanent_artifact_deletion_rejects_identity_drift_without_changing_policy",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 77,
+      "state_owner": "",
+      "symbol": "test_permanent_artifact_deletion_rejects_identity_drift_without_changing_policy",
+      "tests": []
+    },
+    {
+      "architectural_boundary": "",
+      "authoritative_source": "",
+      "call_edges": [
+        {
+          "confidence": "unresolved",
+          "raw": "blocker.lower",
+          "target": "blocker.lower"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "permanent_artifact_deletion_blocker",
+          "target": "calo_rpd_studio.algorithms.calo.policy_artifact_deletion.permanent_artifact_deletion_blocker"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "checkpoint.unlink",
+          "target": "checkpoint.unlink"
+        },
+        {
+          "confidence": "unresolved",
+          "raw": "registry.get",
+          "target": "registry.get"
+        },
+        {
+          "confidence": "confirmed",
+          "raw": "_protected_active_policy",
+          "target": "tests.unit.test_scientist_policy_artifact_deletion._protected_active_policy"
+        }
+      ],
+      "call_forms": {
+        "_protected_active_policy": "name",
+        "blocker.lower": "attribute",
+        "checkpoint.unlink": "attribute",
+        "permanent_artifact_deletion_blocker": "name",
+        "registry.get": "attribute"
+      },
+      "called_by": [],
+      "calls": [
+        "_protected_active_policy",
+        "blocker.lower",
+        "checkpoint.unlink",
+        "permanent_artifact_deletion_blocker",
+        "registry.get"
+      ],
+      "calls_resolved": [
+        "calo_rpd_studio.algorithms.calo.policy_artifact_deletion.permanent_artifact_deletion_blocker",
+        "tests.unit.test_scientist_policy_artifact_deletion._protected_active_policy"
+      ],
+      "doc": "",
+      "end_line": 100,
+      "entry_point": false,
+      "file": "tests/unit/test_scientist_policy_artifact_deletion.py",
+      "implementation_core": false,
+      "import_bindings": {
+        "ExperimentConfig": "calo_rpd_studio.experiments.experiment_config.ExperimentConfig",
+        "PolicyRegistry": "calo_rpd_studio.algorithms.calo.policy_registry.PolicyRegistry",
+        "ResultDatabase": "calo_rpd_studio.results.database.ResultDatabase",
+        "_write_native_policy": "tests.unit.test_calo_v41_policy_system._write_native_policy",
+        "annotations": "__future__.annotations",
+        "collect_provenance": "calo_rpd_studio.experiments.provenance.collect_provenance",
+        "permanent_artifact_deletion_blocker": "calo_rpd_studio.algorithms.calo.policy_artifact_deletion.permanent_artifact_deletion_blocker",
+        "pytest": "pytest",
+        "record_permanent_artifact_deletion": "calo_rpd_studio.algorithms.calo.policy_artifact_deletion.record_permanent_artifact_deletion"
+      },
+      "important_invariants": [],
+      "imports": [
+        "__future__",
+        "calo_rpd_studio.algorithms.calo.policy_artifact_deletion",
+        "calo_rpd_studio.algorithms.calo.policy_registry",
+        "calo_rpd_studio.experiments.experiment_config",
+        "calo_rpd_studio.experiments.provenance",
+        "calo_rpd_studio.results.database",
+        "pytest",
+        "tests.unit.test_calo_v41_policy_system"
+      ],
+      "integration_layer": "",
+      "internal_only": false,
+      "invariants": [],
+      "kind": "function",
+      "module": "tests",
+      "parent_qualname": "tests.unit.test_scientist_policy_artifact_deletion",
+      "parse_confidence": "confirmed",
+      "preferred_edit_target": false,
+      "public_surface": false,
+      "python_module": "tests.unit.test_scientist_policy_artifact_deletion",
+      "qualname": "tests.unit.test_scientist_policy_artifact_deletion.test_permanent_artifact_deletion_requires_a_real_exact_model_target",
+      "semantic_tags": [],
+      "signature": "(tmp_path)",
+      "start_line": 94,
+      "state_owner": "",
+      "symbol": "test_permanent_artifact_deletion_requires_a_real_exact_model_target",
+      "tests": []
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "file": {
+    "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+    "authoritative_source": "",
+    "content_hash": "git-sha1:4d16f83454ef2b982d91f281f0c6349c3c3536f1",
+    "content_sha256": "98ce3e719b13e10a508a09815b7075d42bf54ce2fc87d06b8a5ee7d1eaa2f46c",
+    "entry_point": false,
+    "hash_algorithm": "git-blob-sha1",
+    "implementation_core": false,
+    "import_bindings": {
+      "Path": "pathlib.Path",
+      "QPushButton": "PyQt6.QtWidgets.QPushButton",
+      "_BaseTrainingModelLibrary": "calo_rpd_studio.gui.panels.independent_training_panel.TrainingModelLibrary",
+      "_BaseTrainingPathEditor": "calo_rpd_studio.gui.widgets.context_pane.TrainingPathEditor",
+      "annotations": "__future__.annotations",
+      "json": "json",
+      "pyqtSignal": "PyQt6.QtCore.pyqtSignal",
+      "shutil": "shutil"
+    },
+    "important_invariants": [
+      "Panels must not maintain divergent scientific state from AppState."
+    ],
+    "imports": [
+      ".independent_training_panel",
+      "PyQt6.QtCore",
+      "PyQt6.QtWidgets",
+      "__future__",
+      "calo_rpd_studio.gui.widgets.context_pane",
+      "json",
+      "pathlib",
+      "shutil"
+    ],
+    "integration_layer": "",
+    "internal_only": false,
+    "invariants": [
+      "Panels must not maintain divergent scientific state from AppState."
+    ],
+    "language": "python",
+    "last_indexed_commit": "e7d65ab453484316a847a46225ae4eb2560daf40",
+    "module": "desktop",
+    "parse_error": "",
+    "path": "calo_rpd_studio/gui/panels/obsolete_model_management.py",
+    "preferred_edit_target": false,
+    "public_surface": false,
+    "semantic_tags": [
+      "PyQt",
+      "scientist-ui",
+      "shared-state",
+      "workflow"
+    ],
+    "size_bytes": 17122,
+    "state_owner": "",
+    "symbol_count": 17
+  },
+  "path": "calo_rpd_studio/gui/panels/obsolete_model_management.py",
+  "schema_version": 2
+}

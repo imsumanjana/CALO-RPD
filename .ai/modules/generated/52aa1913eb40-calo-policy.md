@@ -54,6 +54,8 @@
 - `validation-release`
 
 ## Related tests
+- `tests/gui/test_calo_intelligence_permanent_deletion.py`
+- `tests/gui/test_obsolete_policy_artifact_management.py`
 - `tests/gui/test_phase6_ribbon_workspace.py`
 - `tests/gui/test_tsh_calo_generalization_integration.py`
 - `tests/gui/test_tsh_calo_policy_library_accounting.py`
@@ -69,6 +71,7 @@
 - `tests/unit/test_heterogeneous_policy_training.py`
 - `tests/unit/test_historical_policy_pretraining.py`
 - `tests/unit/test_phase6_command_and_native_contracts.py`
+- `tests/unit/test_scientist_policy_artifact_deletion.py`
 - `tests/unit/test_tsh_calo_automatic_qualification.py`
 - `tests/unit/test_tsh_calo_component_ablation.py`
 - `tests/unit/test_tsh_calo_device_equivalence.py`
@@ -91,9 +94,6 @@
 - `tests/unit/test_tsh_calo_runtime_context.py`
 - `tests/unit/test_tsh_calo_runtime_transition.py`
 - `tests/unit/test_tsh_calo_topology_context.py`
-- `tests/unit/test_tsh_calo_training_campaign.py`
-- `tests/unit/test_tsh_calo_training_environment.py`
-- `tests/unit/test_tsh_calo_training_resources.py`
 
 ## Files
 - `calo_rpd_studio/ai/AGENTS.md`
@@ -128,6 +128,7 @@
 - `calo_rpd_studio/algorithms/calo/learning_operators.py`
 - `calo_rpd_studio/algorithms/calo/operator_credit.py`
 - `calo_rpd_studio/algorithms/calo/optimizer.py`
+- `calo_rpd_studio/algorithms/calo/policy_artifact_deletion.py`
 - `calo_rpd_studio/algorithms/calo/policy_lineage.py`
 - `calo_rpd_studio/algorithms/calo/policy_network.py`
 - `calo_rpd_studio/algorithms/calo/policy_qualification.py`

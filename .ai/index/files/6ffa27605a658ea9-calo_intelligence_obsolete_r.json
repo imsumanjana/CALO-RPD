@@ -1,0 +1,53 @@
+{
+  "file": {
+    "architectural_boundary": "scientist-facing desktop and shared application/workflow state",
+    "authoritative_source": "",
+    "content_hash": "git-sha1:83f85448ea6fc741e2ba82d4130cee096144f0f9",
+    "content_sha256": "82d956741774ddac32865eb03e0de28e58bf908a3a06a3380206a5db4a7258a4",
+    "entry_point": false,
+    "hash_algorithm": "git-blob-sha1",
+    "implementation_core": false,
+    "import_bindings": {
+      "ObsoleteAwareCALOIntelligencePanel": "calo_rpd_studio.gui.panels.calo_intelligence_obsolete_models.ObsoleteAwareCALOIntelligencePanel",
+      "Path": "pathlib.Path",
+      "QTableWidgetItem": "PyQt6.QtWidgets.QTableWidgetItem",
+      "TSH_CALO_ALGORITHM_ID": "calo_rpd_studio.algorithms.calo.tsh_calo_schema.TSH_CALO_ALGORITHM_ID",
+      "annotations": "__future__.annotations",
+      "checkpoint_sha256": "calo_rpd_studio.ai.model_io.checkpoint_sha256"
+    },
+    "important_invariants": [
+      "Panels must not maintain divergent scientific state from AppState."
+    ],
+    "imports": [
+      ".calo_intelligence_obsolete_models",
+      "PyQt6.QtWidgets",
+      "__future__",
+      "calo_rpd_studio.ai.model_io",
+      "calo_rpd_studio.algorithms.calo.tsh_calo_schema",
+      "pathlib"
+    ],
+    "integration_layer": "",
+    "internal_only": false,
+    "invariants": [
+      "Panels must not maintain divergent scientific state from AppState."
+    ],
+    "language": "python",
+    "last_indexed_commit": "e7d65ab453484316a847a46225ae4eb2560daf40",
+    "module": "desktop",
+    "parse_error": "",
+    "path": "calo_rpd_studio/gui/panels/calo_intelligence_obsolete_registered.py",
+    "preferred_edit_target": false,
+    "public_surface": false,
+    "semantic_tags": [
+      "PyQt",
+      "scientist-ui",
+      "shared-state",
+      "workflow"
+    ],
+    "size_bytes": 6338,
+    "state_owner": "",
+    "symbol_count": 5
+  },
+  "path": "calo_rpd_studio/gui/panels/calo_intelligence_obsolete_registered.py",
+  "schema_version": 2
+}
