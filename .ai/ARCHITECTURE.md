@@ -39,4 +39,4 @@ flowchart LR
 6. GUI scientific state is shared/validated; ordinary scientist workflows must not expose backend-only engineering controls as scientific choices.
 7. Historical release evidence does not automatically qualify the active v12 development tree.
 
-Use `dependency-graph.json` for confirmed imports and confidence-labelled call relationships; do not infer a runtime call graph from this document alone.
+Use the v2 query surface (`get_callers`, `get_callees`, `get_dependencies`, `get_dependents`) and canonical `.ai/index/dependencies/` shards for confidence-labelled machine relationships. Do not infer a runtime call graph from this document alone, and do not rely on deleted v1 root monolithic graph files.
