@@ -83,22 +83,43 @@ def patch_semantic_concepts(root: Path) -> bool:
 def patch_regression_test(path: Path) -> bool:
     text = path.read_text(encoding="utf-8")
     changed = False
-    fixture_line = '        "calo_bootstrap/launcher.py": "def main():\\n    return 0\\n",\n'
-    if '"calo_bootstrap/launcher.py": "def main():' not in text:
-        anchor = '        "calo_rpd_studio/app/state_manager.py": state,\n'
-        if anchor not in text:
-            raise SystemExit("Unable to add launcher fixture to v2 tooling tests.")
-        text = text.replace(anchor, fixture_line + anchor, 1)
+
+    # Do not contaminate the shared synthetic repository with a permanent bootstrap
+    # file. The stale-module cleanup regression intentionally deletes the last
+    # bootstrap fixture and must remain able to prove that its module shard disappears.
+    global_fixture = '        "calo_bootstrap/launcher.py": "def main():\\n    return 0\\n",\n'
+    if global_fixture in text:
+        text = text.replace(global_fixture, "", 1)
         changed = True
 
     test_name = "test_entry_point_routing_understands_natural_launch_language"
     if f"def {test_name}" not in text:
-        regression = f'''\n\ndef {test_name}(tmp_path: Path):\n    repo = make_repo(tmp_path); run(repo, "scripts/ai-index", "init")\n    ctx = run(\n        repo,\n        "scripts/ai-index",\n        "context",\n        "{QUESTION}",\n        "--no-semantic",\n    ).stdout\n    assert "{EXPECTED}" in ctx\n    assert "entry_point" in ctx\n'''
+        regression = f'''\n\ndef {test_name}(tmp_path: Path):\n    repo = make_repo(tmp_path)\n    write(repo, "{EXPECTED}", "def main():\\n    return 0\\n")\n    run(repo, "scripts/ai-index", "init")\n    ctx = run(\n        repo,\n        "scripts/ai-index",\n        "context",\n        "{QUESTION}",\n        "--no-semantic",\n    ).stdout\n    assert "{EXPECTED}" in ctx\n    assert "entry_point" in ctx\n'''
         anchor = "\ndef test_semantic_cache_reuse_config_invalidation_and_corrupt_fallback"
         if anchor not in text:
             raise SystemExit("Unable to place entry-point routing regression test.")
         text = text.replace(anchor, regression + anchor, 1)
         changed = True
+    else:
+        # Self-heal the first remediation's one-line setup by localizing the launcher
+        # fixture to this test only.
+        start = text.index(f"def {test_name}")
+        next_def = text.find("\ndef ", start + 4)
+        if next_def < 0:
+            next_def = len(text)
+        block = text[start:next_def]
+        if f'write(repo, "{EXPECTED}"' not in block:
+            old_setup = '    repo = make_repo(tmp_path); run(repo, "scripts/ai-index", "init")\n'
+            new_setup = (
+                '    repo = make_repo(tmp_path)\n'
+                f'    write(repo, "{EXPECTED}", "def main():\\n    return 0\\n")\n'
+                '    run(repo, "scripts/ai-index", "init")\n'
+            )
+            if old_setup not in block:
+                raise SystemExit("Unable to localize the existing entry-point regression fixture.")
+            block = block.replace(old_setup, new_setup, 1)
+            text = text[:start] + block + text[next_def:]
+            changed = True
 
     if changed:
         path.write_text(text, encoding="utf-8", newline="\n")
@@ -175,6 +196,7 @@ def main() -> int:
         "deterministic_expected_file_present": True,
         "entry_point_marker_present": True,
         "recent_changed_files": len(change.get("changed_files", [])),
+        "shared_fixture_contamination_removed": True,
     }
     out = root / ".ai-tmp" / "entry-point-routing-remediation.json"
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -183,6 +205,7 @@ def main() -> int:
     print("\nEntry-point routing remediation completed.")
     print(f"Deterministic query routed to: {EXPECTED}")
     print("Natural entry-point terms: start/entry/bootstrap/main/launch/begin/startup")
+    print("Entry-point regression fixture is isolated from shared synthetic repositories.")
     print("Generated engine compile check: passed")
     print(f"Recent changed files after normalization: {len(change.get('changed_files', []))}")
     print(f"Report: {out}")
